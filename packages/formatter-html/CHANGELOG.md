@@ -1,3 +1,10 @@
+# 3.0.1 (January 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`56e18b8097`](https://github.com/webhintio/hint/commit/56e18b8097aa391652ff77138cc4f62c9115b73d)] - Fix: Ignore `Interoperability` explicitely (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 3.0.0 (January 15, 2019)
 
 ## Breaking Changes
