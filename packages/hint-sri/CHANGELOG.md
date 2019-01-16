@@ -1,3 +1,10 @@
+# 3.0.1 (January 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`87ff07583f`](https://github.com/webhintio/hint/commit/87ff07583fe53cf30d8f4902fd5d08fc53983dfa)] - Fix: Update schema (by [`Christoph Guttandin`](https://github.com/chrisguttandin) / see also: [`#1690`](https://github.com/webhintio/hint/issues/1690)).
+
+
 # 3.0.0 (January 15, 2019)
 
 ## Breaking Changes
