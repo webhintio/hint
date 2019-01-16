@@ -1,3 +1,10 @@
+# 4.0.0 (January 15, 2019)
+
+## Breaking Changes
+
+* [[`d56e4a512f`](https://github.com/webhintio/hint/commit/d56e4a512f679f19c92fd9731cb4a04a3469f522)] - Breaking: Update `formatter-html` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 3.0.0 (January 15, 2019)
 
 ## Breaking Changes
