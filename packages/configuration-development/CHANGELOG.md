@@ -1,3 +1,11 @@
+# 5.0.0 (January 16, 2019)
+
+## Breaking Changes
+
+* [[`468426d9c2`](https://github.com/webhintio/hint/commit/468426d9c27787f2dda33efdf3babc20dc5b7330)] - Breaking: Update `configuration-progressive-web-apps` to `v4.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`d56e4a512f`](https://github.com/webhintio/hint/commit/d56e4a512f679f19c92fd9731cb4a04a3469f522)] - Breaking: Update `formatter-html` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 4.0.0 (January 15, 2019)
 
 ## Breaking Changes
