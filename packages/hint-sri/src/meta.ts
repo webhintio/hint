@@ -15,11 +15,11 @@ const meta: HintMetadata = {
         additionalProperties: false,
         properties: {
             baseline: {
-                oneOf: [Object.keys(Algorithms)],
+                oneOf: Object.keys(Algorithms),
                 type: 'string'
             },
             originCriteria: {
-                oneOf: [Object.keys(OriginCriteria)],
+                oneOf: Object.keys(OriginCriteria),
                 type: 'string'
             }
         }
