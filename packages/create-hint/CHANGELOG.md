@@ -1,3 +1,10 @@
+# 3.0.1 (January 17, 2019)
+
+## Bug fixes / Improvements
+
+* [[`49eeac4450`](https://github.com/webhintio/hint/commit/49eeac44500601b46f542a488dae1840b3dbd371)] - Fix: Update templates to new structure (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1407`](https://github.com/webhintio/hint/issues/1407)).
+
+
 # 3.0.0 (January 15, 2019)
 
 ## Breaking Changes
