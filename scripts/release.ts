@@ -801,7 +801,7 @@ const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx: TaskContext
         commitPrefix = 'Breaking:';
     }
 
-    await gitCommitChanges(`${commitPrefix} Update \\\`${ctx.packageName}\\\` to \\\`v${ctx.newPackageVersion}\\\``, true);
+    await gitCommitChanges(`${commitPrefix} Update '${ctx.packageName}' to 'v${ctx.newPackageVersion}'`, true);
 };
 
 const updatePackageVersionNumberInOtherPackages = (ctx: TaskContext) => {
@@ -848,7 +848,7 @@ const updatePackageVersionNumberInOtherPackages = (ctx: TaskContext) => {
 
 const updateYarnLockFile = async () => {
     await exec('yarn');
-    await gitCommitChanges(`Chore: Update \\\`yarn.lock\\\` file`);
+    await gitCommitChanges(`Chore: Update 'yarn.lock' file`);
 };
 
 const waitForUser = async () => {
