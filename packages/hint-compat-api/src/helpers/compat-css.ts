@@ -41,7 +41,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements IC
         await this.searchFeatures(parse);
     }
 
-    private async testFeature(strategyName: string, featureNameWithPrefix: string, location?: ProblemLocation, subfeatureNameWithPrefix?: string): Promise<void> {
+    private testFeature(strategyName: string, featureNameWithPrefix: string, location?: ProblemLocation, subfeatureNameWithPrefix?: string): void {
         const collection: CompatStatement | undefined = this.MDNData[strategyName];
 
         if (!collection) {
@@ -61,7 +61,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements IC
             feature.displayableName = name;
         }
 
-        await this.checkFeatureCompatibility(feature, collection);
+        this.checkFeatureCompatibility(feature, collection);
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
