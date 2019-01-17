@@ -1,3 +1,10 @@
+# 2.0.1 (January 17, 2019)
+
+## Bug fixes / Improvements
+
+* [[`3fc86067f3`](https://github.com/webhintio/hint/commit/3fc86067f3c65193bd9c52f614d3da3d7ef68fa8)] - Fix: Ignore duplicate reports for vendor prefixed properties (by [`Borja Ruiz Torres`](https://github.com/borgitas21) / see also: [`#1598`](https://github.com/webhintio/hint/issues/1598)).
+
+
 # 2.0.0 (January 15, 2019)
 
 ## Breaking Changes
