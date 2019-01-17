@@ -30,16 +30,6 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "greenkeeper": {
-    "commitMessages": {
-      "dependencyUpdate": "Chore: Update '${dependency}' to 'v${version}`'",
-      "devDependencyUpdate": "Chore: Update '${dependency}' to 'v${version}'",
-      "lockfileUpdate": "Chore: Update lockfile '${lockfilePath}'"
-    },
-    "ignore": [
-      "@types/node"
-    ]
-  },
   "husky": {
     "hooks": {
       "commit-msg": "node scripts/check-commit-message.js",

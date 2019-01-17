@@ -122,24 +122,6 @@ jobs:
 
     #   script: ./.travis/trigger-site-update.sh
 
-    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    # Stage used for automatically merging Greenkeeper's commits
-    # that pass the tests.
-    #
-    # [!] Runs: Only for branches created by Greenkeeper.
-
-    - stage: greenkeeper-merge
-      if: |
-        branch =~ ^greenkeeper\/.*-.*$ and \
-        type = push
-
-      node_js: lts/*
-      os: linux
-
-      script:
-      - ./.travis/set-up-ssh.sh && node ./.travis/greenkeeper-merge.js
-
 language: node_js
 
 node_js:
