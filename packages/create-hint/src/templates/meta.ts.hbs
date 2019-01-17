@@ -1,0 +1,21 @@
+import { Category } from 'hint/dist/src/lib/enums/category';
+import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { HintMetadata } from 'hint/dist/src/lib/types';
+
+const meta: HintMetadata = {
+    docs: {
+        category: Category.{{category}},
+        description: `{{description}}`
+    },
+    id: '{{#if parentName}}{{parentName}}/{{/if}}{{normalizedName}}',
+    schema: [
+        /*
+         * If you want to allow the user to configure your hint
+         * you should use a valid JSON schema. More info in:
+         * https://webhint.io/docs/contributor-guide/hints/#themetaproperty
+         */
+    ],
+    scope: HintScope.{{scope}}
+};
+
+export default meta;

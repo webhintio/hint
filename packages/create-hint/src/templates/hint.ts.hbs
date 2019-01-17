@@ -2,12 +2,12 @@
  * @fileoverview {{description}}
  */
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 // The list of types depends on the events you want to capture.
-import { IHint, {{events}}, HintMetadata } from 'hint/dist/src/lib/types';
+import { IHint, {{events}} } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+
+import meta from './meta{{#if parentName}}/{{normalizedName}}{{/if}}';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -19,21 +19,7 @@ const debug: debug.IDebugger = d(__filename);
 
 export default class {{className}} implements IHint {
 
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.{{category}},
-            description: `{{description}}`
-        },
-        id: '{{#if parentName}}{{parentName}}/{{/if}}{{normalizedName}}',
-        schema: [
-            /*
-             * If you want to allow the user to configure your hint
-             * you should use a valid JSON schema. More info in:
-             * https://webhint.io/docs/contributor-guide/hints/#themetaproperty
-             */
-        ],
-        scope: HintScope.{{scope}}
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext) {
 

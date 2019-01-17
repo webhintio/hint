@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "bin": {
-    "create-hint": "./dist/src/new-hint.js"
+    "create-hint": "./dist/src/create-hint.js"
   },
   "description": "webhint's hint initializer package",
   "devDependencies": {

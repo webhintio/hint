@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "bin": {
-    "create-parser": "./dist/src/new-parser.js"
+    "create-parser": "./dist/src/create-parser.js"
   },
   "description": "webhint's parser initializer package",
   "devDependencies": {

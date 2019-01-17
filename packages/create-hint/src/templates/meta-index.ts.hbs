@@ -1,0 +1,5 @@
+module.exports = {
+{{#each hints}}
+    '{{normalizedName}}': require('meta/{{normalizedName}}'){{#unless @last}},{{/unless}}
+{{/each}}
+};
