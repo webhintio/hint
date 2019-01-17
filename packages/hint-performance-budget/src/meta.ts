@@ -15,7 +15,7 @@ const meta: HintMetadata = {
         additionalProperties: false,
         properties: {
             connectionType: {
-                oneOf: [{ enum: Connections.ids }],
+                enum: Connections.ids,
                 type: 'string'
             },
             loadTime: {
