@@ -1,20 +1,20 @@
 declare const browser: typeof chrome;
 
 // Normalize access to extension APIs across browsers.
-const b: typeof chrome = typeof browser !== 'undefined' ? browser : chrome;
+const _browser: typeof chrome = typeof browser !== 'undefined' ? browser : chrome;
 
 // Include references to web browser globals to facilitate mocks during testing.
-const d = document;
-const e = eval; // eslint-disable-line
-const f = fetch;
-const l = location;
-const w = window;
+const _document = document;
+const _eval = eval; // eslint-disable-line no-eval
+const _fetch = fetch;
+const _location = location;
+const _window = window;
 
 export {
-    b as browser,
-    d as document,
-    e as eval,
-    f as fetch,
-    l as location,
-    w as window
+    _browser as browser,
+    _document as document,
+    _eval as eval,
+    _fetch as fetch,
+    _location as location,
+    _window as window
 };
