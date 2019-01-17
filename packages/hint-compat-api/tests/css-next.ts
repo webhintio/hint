@@ -232,19 +232,28 @@ hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDepre
  * hintRunner.testHint(hintPath, childPrefixedFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 17 - 19'], parsers: ['css']});
  */
 
-const notSupportedFeaturesShouldNotSeparatelyLog: HintTest[] = [
+const notSupportedPropertiesAndValuesShouldNotSeparatelyLog: HintTest[] = [
     {
         name: 'Features not supported and not deprecated should not separately log the feature and value.',
-        reports: [
-            { message: 'appearance prefixed with -webkit- is not supported by ie.', position: { column: 4, line: 1 }},
-            { message: 'appearance prefixed with -moz- is not supported by ie.', position: { column: 4, line: 2 }},
-            { message: 'appearance is not supported by ie.', position: { column: 4, line: 3 }}
-        ],
+        reports: [{ message: 'appearance is not supported by ie.', position: { column: 4, line: 3 }}],
         serverConfig: generateCSSConfig('appearance')
     }
 ];
 
-hintRunner.testHint(hintPath, notSupportedFeaturesShouldNotSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
+hintRunner.testHint(hintPath, notSupportedPropertiesAndValuesShouldNotSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
+
+const notSupportedFeaturesWithoutFallbackShouldSeparatelyLog: HintTest[] = [
+    {
+        name: 'Features not supported and not deprecated should separately log vendor prefixes if fallback is not defined.',
+        reports: [
+            { message: 'appearance prefixed with -webkit- is not supported by ie.', position: { column: 4, line: 1 }},
+            { message: 'appearance prefixed with -moz- is not supported by ie.', position: { column: 4, line: 2 }}
+        ],
+        serverConfig: generateCSSConfig('appearance-only-prefixes')
+    }
+];
+
+hintRunner.testHint(hintPath, notSupportedFeaturesWithoutFallbackShouldSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
 
 const notSupportedAndNotDeprecatedFeature: HintTest[] = [
     {
@@ -255,3 +264,27 @@ const notSupportedAndNotDeprecatedFeature: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, { browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'], parsers: ['css']});
+
+const notSupportedFeaturesSplittedByCSSRuleBlock: HintTest[] = [
+    {
+        name: 'Should handle reports separately by CSS blocks.',
+        reports: [
+            { message: 'appearance prefixed with -webkit- is not supported by ie.', position: { column: 4, line: 1 }},
+            { message: 'appearance prefixed with -moz- is not supported by ie.', position: { column: 4, line: 2 }},
+            { message: 'appearance is not supported by ie.', position: { column: 4, line: 6 }}
+        ],
+        serverConfig: generateCSSConfig('appearance-splitted')
+    }
+];
+
+hintRunner.testHint(hintPath, notSupportedFeaturesSplittedByCSSRuleBlock, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
+
+const disorderedNotSupportedFeatures: HintTest[] = [
+    {
+        name: 'Should handle disordered vendor prefixes',
+        reports: [{ message: 'appearance is not supported by ie.', position: { column: 4, line: 1 }}],
+        serverConfig: generateCSSConfig('appearance-disordered-prefixes')
+    }
+];
+
+hintRunner.testHint(hintPath, disorderedNotSupportedFeatures, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
