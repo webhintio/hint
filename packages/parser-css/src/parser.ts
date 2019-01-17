@@ -1,4 +1,6 @@
+const parser = require('postcss-safe-parser');
 import * as postcss from 'postcss';
+import { Root } from 'postcss';
 
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
@@ -23,7 +25,8 @@ export default class CSSParser extends Parser<StyleEvents> {
         try {
             await this.engine.emitAsync(`parse::start::css`, { resource });
 
-            const ast = postcss.parse(code, { from: resource });
+            const result = await postcss().process(code, { from: resource, parser });
+            const ast = result.root as Root;
 
             await this.engine.emitAsync(`parse::end::css`, {
                 ast,
