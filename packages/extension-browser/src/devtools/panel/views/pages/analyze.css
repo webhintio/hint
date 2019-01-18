@@ -2,6 +2,14 @@
     background-color: var(--bg-alt-color);
 }
 
+.analyze__image {
+    max-width: 25rem;
+}
+
+.analyze__message {
+    margin-top: -0.5rem;
+}
+
 .analyze__status {
     padding: 2em;
     text-align: center;
