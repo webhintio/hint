@@ -1,16 +1,25 @@
 .analyze {
+    composes: page from '../partials/page.css';
     background-color: var(--bg-alt-color);
 }
 
-.analyze__image {
+.header {
+    composes: header from '../partials/page.css';
+}
+
+.image {
     max-width: 25rem;
 }
 
-.analyze__message {
+.message {
     margin-top: -0.5rem;
 }
 
-.analyze__status {
+.status {
     padding: 2em;
     text-align: center;
+}
+
+.cancelButton {
+    composes: primaryButton from '../partials/page.css';
 }

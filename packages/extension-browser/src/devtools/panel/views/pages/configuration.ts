@@ -47,7 +47,7 @@ export default function view({ onAnalyzeClick }: Props) {
     });
     /* eslint-enable no-use-before-define, typescript/no-use-before-define */
 
-    const configRoot = fragment.querySelector('.configuration')!;
+    const configRoot = fragment.firstElementChild!;
 
     const findInput = (s: string): HTMLInputElement => {
         return configRoot.querySelector(s) as HTMLInputElement;
@@ -107,7 +107,7 @@ export default function view({ onAnalyzeClick }: Props) {
 
     /** Extract selected categories from the form and convert to the `Config` format. */
     const getCategories = (): string[] => {
-        return findAllInputs('.configuration__category:checked').map((input) => {
+        return findAllInputs('[name^="category-"]:checked').map((input) => {
             return input.value;
         });
     };
@@ -160,7 +160,7 @@ export default function view({ onAnalyzeClick }: Props) {
     };
 
     const readConfiguration = () => {
-        return findAllInputs('.configuration input').reduce((o, input) => {
+        return findAllInputs('input').reduce((o, input) => {
             if (!o[input.name] || input.checked) {
                 o[input.name] = input.type === 'checkbox' ? input.checked : input.value;
             }
@@ -176,7 +176,7 @@ export default function view({ onAnalyzeClick }: Props) {
             const config: SavedConfiguration = configStr ? JSON.parse(configStr) : defaultConfig; // eslint-disable-line
 
             Object.keys(config).forEach((name) => {
-                const inputs = findAllInputs(`.configuration input[name='${name}']`);
+                const inputs = findAllInputs(`input[name='${name}']`);
                 const value = config[name];
 
                 if (inputs.length > 1) {

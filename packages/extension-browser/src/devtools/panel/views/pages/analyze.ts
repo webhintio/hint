@@ -6,8 +6,7 @@ import { addMessageListener, removeMessageListener } from '../../utils/messaging
 
 import headerView from '../partials/header';
 
-import '../partials/page.css';
-import './analyze.css';
+import * as styles from './analyze.css';
 
 type Props = {
     onCancelClick: Function;
@@ -38,22 +37,22 @@ const rotateMessages = (element: Element, onMessageChange: Function) => {
 
 export default function view({ onCancelClick, onMessageChange }: Props) {
     const fragment = html`
-        <form class="analyze page" onsubmit=${onSubmit}>
+        <form class="${styles.analyze}" onsubmit=${onSubmit}>
             ${headerView({analyzeDisabled: true, analyzeText: 'Analyze website'})}
-            <h1 class="page__header">
+            <h1 class="${styles.header}">
                 Analyzing...
             </h1>
-            <section class="analyze__status">
-                <img class="analyze__image" src="/nellie-working.svg" />
-                <p class="analyze__message">Analyzing...</p>
-                <button class="page__button page__button--primary analyze__cancel-button" onclick=${onCancelClick}>
+            <section class="${styles.status}">
+                <img class="${styles.image}" src="/nellie-working.svg" />
+                <p class="${styles.message}">Analyzing...</p>
+                <button class="${styles.cancelButton}" onclick=${onCancelClick}>
                     Cancel analysis
                 </button>
             </section>
         </form>
     `;
 
-    rotateMessages(fragment.querySelector('.analyze__message')!, onMessageChange);
+    rotateMessages(fragment.querySelector(`.${styles.message}`)!, onMessageChange);
 
     return fragment;
 }

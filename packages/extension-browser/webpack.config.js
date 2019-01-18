@@ -21,7 +21,17 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     'style-loader',
-                    'css-loader'
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            /*
+                             * Generate scoped class names using the same format as `create-react-app` (unique, but readable).
+                             * https://facebook.github.io/create-react-app/docs/adding-a-css-modules-stylesheet
+                             */
+                            localIdentName: '[name]_[local]_[hash:base64:5]',
+                            modules: true
+                        }
+                    }
                 ]
             },
             // Bundle highlight.js styles with `Useable` so they can be turned on/off.

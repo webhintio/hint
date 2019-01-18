@@ -3,7 +3,7 @@ import { HintResults } from '../../../../shared/types';
 
 import problemView from './problem';
 
-import './hint.css';
+import * as styles from './hint.css';
 
 export default function view({ name, problems, helpURL }: HintResults) {
 
@@ -12,16 +12,16 @@ export default function view({ name, problems, helpURL }: HintResults) {
         `${problems.length} hint${problems.length !== 1 ? 's' : ''}`;
 
     return html`
-        <details class="hint">
-            <summary class="hint__summary">
-                <span class="hint__name">
+        <details class="${styles.hint}">
+            <summary class="${styles.summary}">
+                <span>
                     ${name}:
                 </span>
-                <span class="hint__status ${!problems.length ? 'hint__status--passed' : ''}">
+                <span class="${styles.status} ${!problems.length ? styles.passed : ''}">
                     ${hintStatus}
                 </span>
             </summary>
-            <div class="hint__results">
+            <div class="${styles.results}">
                 <a href="${helpURL}" target="_blank">
                     Learn why this is important${problems.length ? ' and how to fix it' : ''}
                 </a>

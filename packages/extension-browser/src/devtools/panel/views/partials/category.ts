@@ -3,20 +3,20 @@ import { CategoryResults } from '../../../../shared/types';
 
 import hintView from './hint';
 
-import './category.css';
+import * as styles from './category.css';
 
 export default function view({ name, hints, passed }: CategoryResults) {
     return html`
-        <details class="category" open>
-            <summary class="category__summary">
-                <span class="category__name">
+        <details class="${styles.category}" open>
+            <summary class="${styles.summary}">
+                <span class="${styles.name}">
                     ${name}
                 </span>
-                <span class="category__status">
+                <span class="${styles.status}">
                     PASSED: ${passed}/${hints.length}
                 </span>
             </summary>
-            <div class="category__results">
+            <div class="${styles.results}">
                 ${hints.map(hintView)}
             </div>
         </details>

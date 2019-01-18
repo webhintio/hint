@@ -3,7 +3,7 @@ import { Problem } from 'hint/dist/src/lib/types/problems';
 import { browser } from '../../../../shared/globals';
 import html from '../../../../shared/html-literal';
 
-import './problem.css';
+import * as styles from './problem.css';
 
 /*
  * Import highlight.js/styles such that they can be turned on/off.
@@ -59,7 +59,7 @@ export default function view(problem: Problem, index: number) {
     };
 
     const codeBlock = problem.sourceCode ?
-        html`<pre class="problem__code">${problem.sourceCode}</pre>` :
+        html`<pre class="${styles.code}">${problem.sourceCode}</pre>` :
         '';
 
     if (codeBlock && codeBlock.firstElementChild) {
@@ -67,12 +67,12 @@ export default function view(problem: Problem, index: number) {
     }
 
     return html`
-        <div class="problem">
-            <div class="problem__message">
-                <span class="problem__number">hint ${(index + 1)}:</span>
+        <div class="${styles.problem}">
+            <div>
+                <span class="${styles.number}">hint ${(index + 1)}:</span>
                 ${problem.message}
             </div>
-            <a class="problem__resource" href="view-source:${problem.resource}" target="_blank" onclick=${onViewSourceClick}>
+            <a href="view-source:${problem.resource}" target="_blank" onclick=${onViewSourceClick}>
                 ${url}
             </a>
             ${codeBlock}
