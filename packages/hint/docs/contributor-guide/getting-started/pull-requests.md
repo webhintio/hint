@@ -197,10 +197,10 @@ send a pull request.
 Once your pull request is sent, it’s time for the team to review it.
 As such, please make sure to:
 
-1. Monitor the [status of the Travis CI build for your pull
-   request][travis pr status].
+1. Monitor the [status of the Azure Pipelines build for your pull
+   request][ap pr status].
    If it fails, please investigate why. We cannot merge pull requests
-   that fail Travis for any reason.
+   that fail Azure Pipelines for any reason.
 2. Respond to comments left on the pull request from team members.
    Remember, we want to help you land your code, so please be receptive
    to our feedback.
@@ -272,4 +272,4 @@ git push -f origin fix-1234
 [cla]: https://cla.js.foundation/webhintio/hint
 [github pr docs]: https://help.github.com/articles/creating-a-pull-request
 [github resolve conflicts docs]: https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/
-[travis pr status]: https://travis-ci.org/webhintio/hint/pull_requests
+[ap pr status]: https://dev.azure.com/webhint/webhint/_build?definitionId=3&_a=summary

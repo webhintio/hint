@@ -2,10 +2,3 @@
 # https://git-scm.com/docs/gitattributes#_end_of_line_conversion
 
 * text=auto eol=lf
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# Exclude the following files from GitHub's language statistics
-# https://github.com/github/linguist#using-gitattributes
-
-.travis/* linguist-vendored

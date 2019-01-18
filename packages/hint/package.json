@@ -120,7 +120,6 @@
     "test": "npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
     "test-release": "npm run lint && npm run clean && npm run build:assets && tsc && npm run test-only",
-    "test-on-travis": "npm run lint && npm run commitmsg && npm run build && nyc ava \"dist/tests/**/*.js\" --concurrency=2 --timeout=2m",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",
     "watch:resources": "npm run build:assets -- -w --no-initial",

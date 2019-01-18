@@ -85,7 +85,6 @@ ones). The following is the list of all the available ones:
 | --------| ----------- | ------------ |
 | `ava`   | Shortcut to the `ava` binary. Useful if you want to test one file and/or skip some of the steps of the `test` task | everywhere |
 | `build` | This will build the current package or all the packages from scratch | everywhere |
-| `build:connector-edge` | This builds the `connector-edge` package that is only possible on Windows. This separation is needed because we test on Travis | root |
 | `build:hint` | This builds the main `webhint` package | root |
 | `build:assets` | Copies the static files to the `dist` folder | package |
 | `build:ts` | Compiles the TypeScript files and outputs to the `dist` folder | package |
@@ -97,7 +96,6 @@ ones). The following is the list of all the available ones:
 | `release` | Publishes the package in `npm` after running the tests and validate everything is fine | package |
 | `webhint` | Runs `webhint` from `packages/hint` | package (hint) |
 | `test` | Builds the package or all packages and runs the tests with code coverage | everywhere |
-| `test-on-travis` | This modifies some of the configurations to make sure we don’t run into issues when testing on Travis | everywhere |
 | `watch` | Launches all the other `watch` tasks in parallel, useful when developing | package |
 | `watch:resources` | Copies all the static assets to `dist` and any new ones added | package |
 | `watch:test` | Runs the tests as soon as there is a test in the tests or in the code to test | package |
