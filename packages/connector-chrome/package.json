@@ -31,7 +31,7 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.2.2",
     "typescript": "^3.2.2",
-    "typescript-eslint-parser": "21.0.2"
+    "typescript-eslint-parser": "22.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
