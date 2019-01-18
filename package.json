@@ -8,7 +8,7 @@
     "@types/yargs": "^12.0.5",
     "chalk": "^2.4.2",
     "cpx": "^1.5.0",
-    "eslint": "^5.12.0",
+    "eslint": "^5.12.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
