@@ -10,13 +10,23 @@ import * as path from 'path';
 import { URL } from 'url';
 
 import { map, reduce, groupBy, every } from 'lodash';
-
 import * as sinon from 'sinon';
-import test from 'ava';
-
+import anyTest, { TestInterface } from 'ava';
 import { createServer, Server } from '@hint/utils-create-server';
-import { IConnector } from 'hint/dist/src/lib/types';
+import { IConnector, Events } from 'hint/dist/src/lib/types';
+import { Engine } from 'hint';
+
 import ChromeConnector from '../src/connector';
+
+type EventsContext = {
+    connector?: IConnector;
+    engine: Engine<Events>;
+    engineEmitSpy: sinon.SinonSpy;
+    engineEmitAsyncSpy: sinon.SinonSpy;
+    server: Server;
+};
+
+const test = anyTest as TestInterface<EventsContext>;
 
 const name: string = 'chrome';
 
@@ -192,31 +202,30 @@ const validEvent = (eventsToSearch: any[], expectedEvent: any) => {
     return originalSize !== eventsToSearch.length;
 };
 
-
 test.beforeEach(async (t) => {
-    const engine = {
-        emit() { },
-        emitAsync() { }
-    };
+    const engine: Engine<Events> = {
+        emit(): boolean {
+            return false;
+        },
+        async emitAsync(): Promise<any> { }
+    } as any;
 
-    sinon.spy(engine, 'emitAsync');
-    sinon.spy(engine, 'emit');
+    t.context.engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
+    t.context.engineEmitSpy = sinon.spy(engine, 'emit');
 
     const server: Server = createServer();
 
     await server.start();
 
-    t.context = {
-        engine,
-        server
-    };
+    t.context.engine = engine;
+    t.context.server = server;
 });
 
 test.afterEach.always(async (t) => {
-    t.context.engine.emitAsync.restore();
-    t.context.engine.emit.restore();
+    t.context.engineEmitAsyncSpy.restore();
+    t.context.engineEmitSpy.restore();
     t.context.server.stop();
-    await t.context.connector.close();
+    await t.context.connector!.close();
 });
 
 /**
@@ -283,15 +292,15 @@ test(`[${name}] Events`, async (t) => {
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
 
-    const { emit, emitAsync } = t.context.engine;
+    const { engineEmitSpy, engineEmitAsyncSpy } = t.context;
     const invokes: any[] = [];
 
-    for (let i = 0; i < emitAsync.callCount; i++) {
-        invokes.push(emitAsync.getCall(i).args);
+    for (let i = 0; i < engineEmitAsyncSpy.callCount; i++) {
+        invokes.push(engineEmitAsyncSpy.getCall(i).args);
     }
 
-    for (let i = 0; i < emit.callCount; i++) {
-        invokes.push(emit.getCall(i).args);
+    for (let i = 0; i < engineEmitSpy.callCount; i++) {
+        invokes.push(engineEmitSpy.getCall(i).args);
     }
 
     // List of events that only have to be called once per execution

@@ -25,7 +25,7 @@ const defaults: HintTest[] = [
 
 const configOriginAllTestsHttps: HintTest[] = [
     {
-        name: 'Page with no resources passes',
+        name: `Page with no resources passes and origin criteria 'all'`,
         serverConfig: generateHTMLPage()
     },
     {
@@ -258,7 +258,7 @@ const configTestsLow: HintTest[] = [
         }
     },
     {
-        name: `Page with a same-origin resource and SRI sha256 passes if baseline is 256`,
+        name: `Page with a same-origin resource and SRI sha512 passes if baseline is 256`,
         serverConfig: {
             '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css" integrity="sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaASFg1VeCzTKs1QIMkWaL1ewsA==">'),
             '/styles.css': styles

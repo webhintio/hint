@@ -3,13 +3,23 @@ import * as url from 'url';
 
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 
 import delay from '../../src/lib/utils/misc/delay';
 import { HintScope } from '../../src/lib/enums/hintscope';
 import { Configuration } from '../../src/lib/config';
 
-const eventEmitter = { EventEmitter2: function EventEmitter2() { } };
+type EventEmitter2 = {
+    EventEmitter2: () => void;
+};
+
+type EngineContext = {
+    eventemitter: () => void;
+};
+
+const test = anyTest as TestInterface<EngineContext>;
+
+const eventEmitter: EventEmitter2 = { EventEmitter2: function EventEmitter2() { } };
 
 eventEmitter.EventEmitter2.prototype.on = () => { };
 eventEmitter.EventEmitter2.prototype.emitAsync = () => {

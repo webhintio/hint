@@ -1,13 +1,24 @@
 /* eslint-disable */
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import * as InquirerTypes from 'inquirer';
 
 import * as handlebarsUtils from '../src/handlebars-utils';
 
+type NewParserContext = {
+    sandbox: sinon.SinonSandbox;
+    fsExtraCopyStub: sinon.SinonStub;
+    normalizeStringByDelimiterDefaultStub: sinon.SinonStub;
+    readFileAsyncDefaultStub: sinon.SinonStub;
+    writeFileAsyncDefaultStub: sinon.SinonStub;
+    handlebarsUtilsCompoileTemplateStub: sinon.SinonStub;
+};
+
+const test = anyTest as TestInterface<NewParserContext>;
+
 const fsExtra = { copy() { } };
-const inquirer = { prompt() { } };
+const inquirer = { prompt(questions: InquirerTypes.Question[]) { } };
 const isOfficial = { default() { } };
 const normalizeStringByDelimiter = {
     default(): string {
@@ -35,27 +46,19 @@ proxyquire('../src/new-parser', {
 import newParser from '../src/new-parser';
 
 test.beforeEach((t) => {
-    sinon.stub(fsExtra, 'copy').resolves();
-    sinon.stub(writeFileAsync, 'default').resolves();
-    sinon.stub(normalizeStringByDelimiter, 'default').returns('');
-    sinon.stub(readFileAsync, 'default').resolves('');
-    sinon.stub(handlebarsUtils, 'compileTemplate').resolves('');
+    const sandbox = sinon.createSandbox();
 
-    t.context.fs = fsExtra;
-    t.context.misc = {
-        normalizeStringByDelimiter,
-        readFileAsync,
-        writeFileAsync
-    };
-    t.context.handlebars = handlebarsUtils;
+    t.context.fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
+    t.context.writeFileAsyncDefaultStub = sandbox.stub(writeFileAsync, 'default').resolves();
+    t.context.normalizeStringByDelimiterDefaultStub = sandbox.stub(normalizeStringByDelimiter, 'default').returns('');
+    t.context.readFileAsyncDefaultStub = sandbox.stub(readFileAsync, 'default').resolves('');
+    t.context.handlebarsUtilsCompoileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').resolves('');
+
+    t.context.sandbox = sandbox;
 });
 
 test.afterEach.always((t) => {
-    t.context.fs.copy.restore();
-    t.context.misc.writeFileAsync.default.restore();
-    t.context.misc.normalizeStringByDelimiter.default.restore();
-    t.context.misc.readFileAsync.default.restore();
-    t.context.handlebars.compileTemplate.restore();
+    t.context.sandbox.restore();
 });
 
 test.serial('It should create a new official parser.', async (t) => {
@@ -67,7 +70,7 @@ test.serial('It should create a new official parser.', async (t) => {
         again: false,
         event: 'fetch::end::*'
     };
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
 
     sandbox.stub(isOfficial, 'default').resolves(true);
     sandbox.stub(inquirer, 'prompt')
@@ -79,14 +82,12 @@ test.serial('It should create a new official parser.', async (t) => {
     const result = await newParser();
 
     // 6 files (2 code + test + doc + tsconfig.json + package.json)
-    t.is(t.context.handlebars.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.handlebarsUtilsCompoileTemplateStub.callCount, 6, `Handlebars doesn't complile the right number of files`);
     // 6 files (2 code + test + doc + tsconfig.json + package.json)
-    t.is(t.context.misc.writeFileAsync.default.callCount, 6, 'Invalid number of files created');
+    t.is(t.context.writeFileAsyncDefaultStub.callCount, 6, 'Invalid number of files created');
 
     t.true(result);
-    t.true(t.context.fs.copy.calledOnce);
-
-    sandbox.restore();
+    t.true(t.context.fsExtraCopyStub.calledOnce);
 });
 
 test.serial('It should create a new official parser with no duplicate events.', async (t) => {
@@ -108,10 +109,10 @@ test.serial('It should create a new official parser with no duplicate events.', 
         element: 'script',
         event: 'element::'
     };
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
 
     sandbox.stub(isOfficial, 'default').resolves(true);
-    sandbox.stub(inquirer, 'prompt')
+    const inquirerPromptStub = sandbox.stub(inquirer, 'prompt')
         .onCall(0)
         .resolves(parserInfoResult)
         .onCall(1)
@@ -121,26 +122,25 @@ test.serial('It should create a new official parser with no duplicate events.', 
         .onCall(3)
         .resolves(parserEventsResult3);
 
-    t.context.inquirer = inquirer;
-
     const result = await newParser();
-    const questions = t.context.inquirer.prompt.args[3][0];
+    const questions = inquirerPromptStub.args[3][0];
+
     const eventQuestion = questions.find((question: InquirerTypes.Question) => {
         return question.name === 'event';
     });
-    const eventList = eventQuestion.choices;
-    const containFetchEnd = eventList.includes('fetch::end::*');
-    const containElement = eventList.includes('element::');
-    const data = t.context.handlebars.compileTemplate.args[0][1];
+    const eventList = eventQuestion!.choices as Array<string>;
+    const containFetchEnd = eventList!.includes('fetch::end::*');
+    const containElement = eventList!.includes('element::');
+    const data = t.context.handlebarsUtilsCompoileTemplateStub.args[0][1];
     const events = data.events.map((event: { event: string }) => {
         return event.event;
     });
     const eventsSet = new Set(events);
 
     // 6 files (2 code + test + doc + tsconfig.json + package.json)
-    t.is(t.context.handlebars.compileTemplate.callCount, 6, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.handlebarsUtilsCompoileTemplateStub.callCount, 6, `Handlebars doesn't complile the right number of files`);
     // 6 files (2 code + test + doc + tsconfig.json + package.json)
-    t.is(t.context.misc.writeFileAsync.default.callCount, 6, 'Invalid number of files created');
+    t.is(t.context.writeFileAsyncDefaultStub.callCount, 6, 'Invalid number of files created');
 
     t.false(containFetchEnd);
     t.true(containElement);
@@ -148,9 +148,7 @@ test.serial('It should create a new official parser with no duplicate events.', 
     t.is(events.length, eventsSet.size);
 
     t.true(result);
-    t.true(t.context.fs.copy.calledOnce);
-
-    sandbox.restore();
+    t.true(t.context.fsExtraCopyStub.calledOnce);
 });
 
 test.serial('It should create a new non-official parser.', async (t) => {
@@ -162,7 +160,7 @@ test.serial('It should create a new non-official parser.', async (t) => {
         again: false,
         event: 'fetch::end::*'
     };
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
 
     sandbox.stub(isOfficial, 'default').resolves(false);
     sandbox.stub(inquirer, 'prompt')
@@ -174,12 +172,10 @@ test.serial('It should create a new non-official parser.', async (t) => {
     const result = await newParser();
 
     // 7 files (2 code + test + doc + tsconfig.json + package.json + .hintrc)
-    t.is(t.context.handlebars.compileTemplate.callCount, 7, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.handlebarsUtilsCompoileTemplateStub.callCount, 7, `Handlebars doesn't complile the right number of files`);
     // 7 files (2 code + test + doc + tsconfig.json + package.json + .hintrc)
-    t.is(t.context.misc.writeFileAsync.default.callCount, 7, 'Invalid number of files created');
+    t.is(t.context.writeFileAsyncDefaultStub.callCount, 7, 'Invalid number of files created');
 
     t.true(result);
-    t.true(t.context.fs.copy.calledTwice);
-
-    sandbox.restore();
+    t.true(t.context.fsExtraCopyStub.calledTwice);
 });

@@ -3,7 +3,7 @@ import { URL } from 'url';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { AssertContext, Context, RegisterContextual } from 'ava';
+import anyTest, { TestInterface } from 'ava';
 
 import { CLIOptions, Severity, IFormatter, Problem, HintResources, IConnector, UserConfig } from '../../../src/lib/types';
 const actions = { _: ['http://localhost/'] } as CLIOptions;
@@ -110,7 +110,7 @@ type ConfigTestContext = {
     askQuestion: AskQuestion;
 };
 
-type TestContext = Context<ConfigTestContext> & AssertContext;
+const test = anyTest as TestInterface<ConfigTestContext>;
 
 proxyquire('../../../src/lib/cli/analyze', {
     '../config': config,
@@ -124,9 +124,7 @@ proxyquire('../../../src/lib/cli/analyze', {
 
 import { default as analyze, engine } from '../../../src/lib/cli/analyze';
 
-const test = anyTest as RegisterContextual<ConfigTestContext>;
-
-test.beforeEach((t: TestContext) => {
+test.beforeEach((t) => {
     t.context.logSpy = sinon.spy(logger, 'log');
     t.context.errorSpy = sinon.spy(logger, 'error');
     t.context.startSpy = sinon.spy(spinner, 'start');
@@ -137,7 +135,7 @@ test.beforeEach((t: TestContext) => {
     t.context.resourceLoader = resourceLoader;
 });
 
-test.afterEach.always((t: TestContext) => {
+test.afterEach.always((t) => {
     t.context.logSpy.restore();
     t.context.errorSpy.restore();
     t.context.startSpy.restore();
@@ -145,7 +143,7 @@ test.afterEach.always((t: TestContext) => {
     t.context.succeedSpy.restore();
 });
 
-test.serial('If config is not defined, it should get the config file from the directory process.cwd()', async (t: TestContext) => {
+test.serial('If config is not defined, it should get the config file from the directory process.cwd()', async (t) => {
     const sandbox = sinon.createSandbox();
 
     const engineObj = new engineContainer.Engine();
@@ -174,7 +172,7 @@ test.serial('If config is not defined, it should get the config file from the di
     sandbox.restore();
 });
 
-test.serial('If config file does not exist, it should use `web-recommended` as default configuration', async (t: TestContext) => {
+test.serial('If config file does not exist, it should use `web-recommended` as default configuration', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -195,7 +193,10 @@ test.serial('If config file does not exist, it should use `web-recommended` as d
     sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     sandbox.stub(askQuestion, 'default').resolves(false);
-    await t.notThrows(analyze(actions));
+
+    t.plan(2);
+
+    await analyze(actions);
 
     t.true(fromConfigStub.calledOnce);
     t.deepEqual(fromConfigStub.args[0][0], { extends: ['web-recommended'] });
@@ -203,7 +204,7 @@ test.serial('If config file does not exist, it should use `web-recommended` as d
     sandbox.restore();
 });
 
-test.serial('If config file is an invalid JSON, it should ask to use the default configuration', async (t: TestContext) => {
+test.serial('If config file is an invalid JSON, it should ask to use the default configuration', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -223,7 +224,9 @@ test.serial('If config file is an invalid JSON, it should ask to use the default
     sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
     sandbox.stub(askQuestion, 'default').resolves(true);
 
-    await t.notThrows(analyze(actions));
+    t.plan(3);
+
+    await analyze(actions);
 
     t.true((config.Configuration.fromConfig as any).calledOnce);
     t.deepEqual((config.Configuration.fromConfig as any).args[0][0], { extends: ['web-recommended'] });
@@ -232,7 +235,7 @@ test.serial('If config file is an invalid JSON, it should ask to use the default
     sandbox.restore();
 });
 
-test.serial('If config file has an invalid configuration, it should ask to use the default configuration', async (t: TestContext) => {
+test.serial('If config file has an invalid configuration, it should ask to use the default configuration', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -260,7 +263,7 @@ test.serial('If config file has an invalid configuration, it should ask to use t
     sandbox.restore();
 });
 
-test.serial('If config file is invalid and user refuses to use the default or to create a configuration file, it should exit with code 1', async (t: TestContext) => {
+test.serial('If config file is invalid and user refuses to use the default or to create a configuration file, it should exit with code 1', async (t) => {
     const error = { message: `Couldn't find any valid configuration` };
     const sandbox = sinon.createSandbox();
 
@@ -285,7 +288,7 @@ test.serial('If config file is invalid and user refuses to use the default or to
     sandbox.restore();
 });
 
-test.serial('If configuration file exists, it should use it', async (t: TestContext) => {
+test.serial('If configuration file exists, it should use it', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -311,7 +314,7 @@ test.serial('If configuration file exists, it should use it', async (t: TestCont
     sandbox.restore();
 });
 
-test.serial('If executeOn returns an error, it should exit with code 1 and call formatter.format', async (t: TestContext) => {
+test.serial('If executeOn returns an error, it should exit with code 1 and call formatter.format', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -355,7 +358,7 @@ test.serial('If executeOn returns an error, it should exit with code 1 and call 
     sandbox.restore();
 });
 
-test.serial('If executeOn returns an error, it should call to spinner.fail()', async (t: TestContext) => {
+test.serial('If executeOn returns an error, it should call to spinner.fail()', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -379,7 +382,7 @@ test.serial('If executeOn returns an error, it should call to spinner.fail()', a
     sandbox.restore();
 });
 
-test.serial('If executeOn throws an exception, it should exit with code 1', async (t: TestContext) => {
+test.serial('If executeOn throws an exception, it should exit with code 1', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -403,7 +406,7 @@ test.serial('If executeOn throws an exception, it should exit with code 1', asyn
     sandbox.restore();
 });
 
-test.serial('If executeOn throws an exception, it should call to spinner.fail()', async (t: TestContext) => {
+test.serial('If executeOn throws an exception, it should call to spinner.fail()', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -427,7 +430,7 @@ test.serial('If executeOn throws an exception, it should call to spinner.fail()'
     sandbox.restore();
 });
 
-test.serial('If executeOn returns no errors, it should exit with code 0 and call formatter.format', async (t: TestContext) => {
+test.serial('If executeOn returns no errors, it should exit with code 0 and call formatter.format', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -470,7 +473,7 @@ test.serial('If executeOn returns no errors, it should exit with code 0 and call
     sandbox.restore();
 });
 
-test.serial('If executeOn returns no errors, it should call to spinner.succeed()', async (t: TestContext) => {
+test.serial('If executeOn returns no errors, it should call to spinner.succeed()', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -512,7 +515,7 @@ test.serial('If executeOn returns no errors, it should call to spinner.succeed()
     sandbox.restore();
 });
 
-test.serial('Event fetch::start should write a message in the spinner', async (t: TestContext) => {
+test.serial('Event fetch::start should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -555,7 +558,7 @@ test.serial('Event fetch::start should write a message in the spinner', async (t
     sandbox.restore();
 });
 
-test.serial('Event fetch::end should write a message in the spinner', async (t: TestContext) => {
+test.serial('Event fetch::end should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -603,7 +606,7 @@ test.serial('Event fetch::end should write a message in the spinner', async (t: 
     sandbox.restore();
 });
 
-test.serial('Event fetch::end::html should write a message in the spinner', async (t: TestContext) => {
+test.serial('Event fetch::end::html should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -651,7 +654,7 @@ test.serial('Event fetch::end::html should write a message in the spinner', asyn
     sandbox.restore();
 });
 
-test.serial('Event traverse::up should write a message in the spinner', async (t: TestContext) => {
+test.serial('Event traverse::up should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -697,7 +700,7 @@ test.serial('Event traverse::up should write a message in the spinner', async (t
     sandbox.restore();
 });
 
-test.serial('Event traverse::end should write a message in the spinner', async (t: TestContext) => {
+test.serial('Event traverse::end should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -740,7 +743,7 @@ test.serial('Event traverse::end should write a message in the spinner', async (
     sandbox.restore();
 });
 
-test.serial('Event scan::end should write a message in the spinner', async (t: TestContext) => {
+test.serial('Event scan::end should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -783,7 +786,7 @@ test.serial('Event scan::end should write a message in the spinner', async (t: T
     sandbox.restore();
 });
 
-test.serial('If no sites are defined, it should return false', async (t: TestContext) => {
+test.serial('If no sites are defined, it should return false', async (t) => {
     const result = await analyze({ _: [] } as any);
 
     t.false(result);

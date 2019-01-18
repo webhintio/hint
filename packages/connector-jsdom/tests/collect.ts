@@ -5,44 +5,54 @@ import * as path from 'path';
 import { URL } from 'url';
 
 import * as sinon from 'sinon';
-import test, { GenericTestContext, Context } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
-import { createServer, ServerConfiguration } from '@hint/utils-create-server';
-import { IConnector, IConnectorConstructor } from 'hint/dist/src/lib/types';
+import { createServer, ServerConfiguration, Server } from '@hint/utils-create-server';
+import { IConnector, IConnectorConstructor, Events } from 'hint/dist/src/lib/types';
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
+import { Engine } from 'hint';
+
 import JSDOMConnector from '../src/connector';
 
 const name: string = 'jsdom';
 
+type CollectContext = {
+    engine: Engine<Events>;
+    engineEmitSpy: sinon.SinonSpy;
+    engineEmitAsyncSpy: sinon.SinonSpy;
+    server: Server;
+};
+
+const test = anyTest as TestInterface<CollectContext>;
+
 test.beforeEach(async (t) => {
-    const engine = {
-        emit() { },
-        emitAsync() { }
-    };
+    const engine: Engine<Events> = {
+        emit(): boolean {
+            return false;
+        },
+        async emitAsync(): Promise<any> { }
+    } as any;
 
     const server = createServer();
 
     await server.start();
 
-    sinon.spy(engine, 'emit');
-    sinon.spy(engine, 'emitAsync');
-
-    t.context = {
-        engine,
-        server
-    };
+    t.context.engineEmitSpy = sinon.spy(engine, 'emit');
+    t.context.engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
+    t.context.server = server;
+    t.context.engine = engine;
 });
 
 test.afterEach.always((t) => {
     t.context.server.stop();
-    t.context.engine.emit.restore();
-    t.context.engine.emitAsync.restore();
+    t.context.engineEmitSpy.restore();
+    t.context.engineEmitAsyncSpy.restore();
 });
 
 const pathToFaviconInDir = path.join(__dirname, './fixtures/common/favicon.ico');
 const pathToFaviconInLinkElement = path.join(__dirname, './fixtures/common/favicon-32x32.png');
 
-const runTest = async (t: GenericTestContext<Context<any>>, ConnectorConstructor: IConnectorConstructor, serverConfig?: ServerConfiguration) => {
+const runTest = async (t: ExecutionContext<CollectContext>, ConnectorConstructor: IConnectorConstructor, serverConfig?: ServerConfiguration) => {
     const { engine } = t.context;
     const connector: IConnector = new ConnectorConstructor(engine, {});
     const server = t.context.server;
@@ -64,8 +74,8 @@ test(`[${name}] Favicon is present in a 'link' element with 'rel' attribute set 
 
     await runTest(t, JSDOMConnector, serverConfig);
 
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInLinkElementDir);
+    t.is(t.context.engineEmitAsyncSpy.withArgs('fetch::end::image').callCount, 1);
+    t.is(t.context.engineEmitAsyncSpy.withArgs('fetch::end::image').args[0][1].request.url, faviconInLinkElementDir);
 
 });
 
@@ -75,8 +85,8 @@ test(`[${name}] Favicon is present in the root directory`, async (t) => {
 
     await runTest(t, JSDOMConnector, serverConfig);
 
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
+    t.is(t.context.engineEmitAsyncSpy.withArgs('fetch::end::image').callCount, 1);
+    t.is(t.context.engineEmitAsyncSpy.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
 });
 
 test(`[${name}] Favicon is present in both the root directory and the 'link' element`, async (t) => {
@@ -89,9 +99,9 @@ test(`[${name}] Favicon is present in both the root directory and the 'link' ele
 
     await runTest(t, JSDOMConnector, serverConfig);
 
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
+    t.is(t.context.engineEmitAsyncSpy.withArgs('fetch::end::image').callCount, 1);
     // Should load favicon from the link element if it exists
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInLinkElementDir);
+    t.is(t.context.engineEmitAsyncSpy.withArgs('fetch::end::image').args[0][1].request.url, faviconInLinkElementDir);
 });
 
 test(`[${name}] Favicon is present in both the root directory and the 'link' element, but the 'link' element has empty 'href'`, async (t) => {
@@ -103,9 +113,9 @@ test(`[${name}] Favicon is present in both the root directory and the 'link' ele
 
     await runTest(t, JSDOMConnector, serverConfig);
 
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
+    t.is(t.context.engineEmitAsyncSpy.withArgs('fetch::end::image').callCount, 1);
     // Should load favicon from the root even though the link element exists because 'href' is empty.
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
+    t.is(t.context.engineEmitAsyncSpy.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
 });
 
 test(`[${name}] Favicon is not present in either the root directory or the 'link' element`, async (t) => {
@@ -114,6 +124,6 @@ test(`[${name}] Favicon is not present in either the root directory or the 'link
     await runTest(t, JSDOMConnector);
 
     // Requests to `/favicon.ico` are always sent when favicon doesn't exist as a `link` tag in the html.
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').callCount, 1);
-    t.is(t.context.engine.emitAsync.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
+    t.is(t.context.engineEmitAsyncSpy.withArgs('fetch::end::image').callCount, 1);
+    t.is(t.context.engineEmitAsyncSpy.withArgs('fetch::end::image').args[0][1].request.url, faviconInRootDir);
 });

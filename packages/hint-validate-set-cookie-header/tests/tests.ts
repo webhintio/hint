@@ -138,27 +138,27 @@ const defaultTests: HintTest[] = [
 
 const olderBrowserOnlyTests = [
     {
-        name: `'Max-Age' only in old browsers`,
+        name: `'Max-Age' only in old browsers (older browsers only)`,
         serverConfig: { '/': { headers: maxAgeOnlyHeader } },
         reports: [{ message: messages().maxAgeNoExpireWarning }]
     },
     {
-        name: `Both 'Max-Age' and 'Expires' exist in new browsers`,
+        name: `Both 'Max-Age' and 'Expires' exist in new browsers (older browsers only)`,
         serverConfig: { '/': { headers: bothMaxAgeAndExpireHeader } }
     },
     {
-        name: `'Expires' only in new browsers`,
+        name: `'Expires' only in new browsers (older browsers only)`,
         serverConfig: { '/': { headers: expiresOnlyHeader } }
     },
     {
-        name: `No 'Max-Age' or 'Expires' in new browsers`,
+        name: `No 'Max-Age' or 'Expires' in new browsers (older browsers only)`,
         serverConfig: { '/': { headers: standardHeader } }
     }
 ];
 
 const newBrowserOnlyTests = [
     {
-        name: `Both 'Max-Age' and 'Expires' exist in new browsers`,
+        name: `Both 'Max-Age' and 'Expires' exist in new browsers (new browsers only)`,
         serverConfig: { '/': { headers: bothMaxAgeAndExpireHeader } },
         reports: [{ message: messages().maxAgePrecedenceWarning }]
     },
@@ -167,31 +167,31 @@ const newBrowserOnlyTests = [
         serverConfig: { '/': { headers: maxAgeOnlyHeader } }
     },
     {
-        name: `'Expires' only in new browsers`,
+        name: `'Expires' only in new browsers (new browsers only)`,
         serverConfig: { '/': { headers: expiresOnlyHeader } }
     },
     {
-        name: `No 'Max-Age' or 'Expires' in new browsers`,
+        name: `No 'Max-Age' or 'Expires' in new browsers (new browsers only)`,
         serverConfig: { '/': { headers: standardHeader } }
     }
 ];
 
 const oldAndNewBrowsersTest = [
     {
-        name: `'Max-Age' only in old browsers`,
+        name: `'Max-Age' only in old browsers (old and new browsers)`,
         serverConfig: { '/': { headers: maxAgeOnlyHeader } },
         reports: [{ message: messages().maxAgeNoExpireWarning }]
     },
     {
-        name: `Both 'Max-Age' and 'Expires' exist in new browsers`,
+        name: `Both 'Max-Age' and 'Expires' exist in new browsers (old and new browsers)`,
         serverConfig: { '/': { headers: bothMaxAgeAndExpireHeader } }
     },
     {
-        name: `'Expires' only in new browsers`,
+        name: `'Expires' only in new browsers (old and new browsers)`,
         serverConfig: { '/': { headers: expiresOnlyHeader } }
     },
     {
-        name: `No 'Max-Age' or 'Expires' in new browsers`,
+        name: `No 'Max-Age' or 'Expires' in new browsers (old and new browsers)`,
         serverConfig: { '/': { headers: standardHeader } }
     }
 ];

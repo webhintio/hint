@@ -4,8 +4,8 @@
 
 import { URL } from 'url';
 
-import { test, GenericTestContext, Context } from 'ava';
-import { createServer } from '@hint/utils-create-server';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import { createServer, Server } from '@hint/utils-create-server';
 
 import { ids as connectors } from './connectors';
 import { IHintConstructor, HintsConfigObject, Problem } from 'hint/dist/src/lib/types';
@@ -14,6 +14,12 @@ import { HintTest, HintLocalTest, Report } from './hint-test-type';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { Configuration } from 'hint/dist/src/lib/config';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
+
+type HintRunnerContext = {
+    server: Server;
+};
+
+const test = anyTest as TestInterface<HintRunnerContext>;
 
 // Regex to replace all scenarios: `http(s)://localhost/`, `http(s)://localhost:3000/`
 const localhostRegex = /(http|https):\/\/localhost[:]*[0-9]*\//g;
@@ -60,7 +66,7 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
 };
 
 /** Validates that the results from the execution match the expected ones. */
-const validateResults = (t: GenericTestContext<Context<any>>, results: Problem[], reports: Report[] | undefined) => {
+const validateResults = (t: ExecutionContext<HintRunnerContext>, results: Problem[], reports: Report[] | undefined) => {
     const server = t.context.server || {};
 
     if (!reports) {
@@ -139,7 +145,7 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
      * Creates a new connector with only the hint to be tested and
      * executing any required `before` task as indicated by `hintTest`.
      */
-    const createConnector = async (t: GenericTestContext<Context<any>>, hintTest: HintTest, connector: string): Promise<Engine> => {
+    const createConnector = async (t: ExecutionContext<HintRunnerContext>, hintTest: HintTest, connector: string): Promise<Engine> => {
         const { server } = t.context;
         const { serverConfig } = hintTest;
 
@@ -169,7 +175,7 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
     };
 
     /** Runs a test for the hint being tested */
-    const runHint = async (t: GenericTestContext<Context<any>>, hintTest: HintTest, connector: string) => {
+    const runHint = async (t: ExecutionContext<HintRunnerContext>, hintTest: HintTest, connector: string) => {
         try {
 
             const { server } = t.context;
@@ -239,7 +245,7 @@ export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], config
     }
 
     /** Runs a test for the hint being tested */
-    const runHint = async (t: GenericTestContext<Context<any>>, hintTest: HintLocalTest) => {
+    const runHint = async (t: ExecutionContext<HintRunnerContext>, hintTest: HintLocalTest) => {
 
         try {
             if (hintTest.before) {

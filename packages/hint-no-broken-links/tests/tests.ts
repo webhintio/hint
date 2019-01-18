@@ -125,7 +125,7 @@ const tests: HintTest[] = [
         serverConfig: generateHTMLPage('', bodyWithBrokenImageSource)
     },
     {
-        name: `This test should fail as it has a link with 404 href value(absolute)`,
+        name: `This test should fail as it has a valid link but it has also a link with 404 href value(absolute)`,
         reports: [{ message: `Broken link found (404 response).` }],
         serverConfig: generateHTMLPage('', bodyWithValidLinksAndBrokenLinks)
     },

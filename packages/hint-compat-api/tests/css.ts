@@ -149,7 +149,7 @@ const prefixedFeaturesThatBecameStandardButStillAreValid: HintTest[] = [
     'transform-prefix'
 ].map((featureName: string) => {
     return {
-        name: 'Prefixed feature that became standard before the targeted browser but prefix still is accepted should pass.',
+        name: `Prefixed feature that became standard before the targeted browser but prefix still is accepted should pass. Feature: ${featureName}`,
         serverConfig: generateCSSConfig(featureName)
     };
 });

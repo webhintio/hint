@@ -94,9 +94,11 @@ test('loadHint calls loadResource with the right parameters', (t) => {
 
     loadResourceStub.throws({});
 
-    t.throws(() => {
+    try {
         resourceLoader.loadHint('fake-hint');
-    });
+    } catch (e) {
+        // Empty
+    }
 
     t.is(loadResourceStub.firstCall.args[0], 'fake-hint', `The name of the hint isn't correctly passed`);
     t.is(loadResourceStub.firstCall.args[1], 'hint', `The type "hint" isn't used`);
@@ -113,9 +115,11 @@ test('loadConfiguration calls loadResource with the right parameters', async (t)
 
     loadResourceStub.throws({});
 
-    t.throws(() => {
+    try {
         resourceLoader.loadConfiguration('fake-configuration');
-    });
+    } catch (e) {
+        // Empty
+    }
 
     t.is(loadResourceStub.firstCall.args[0], 'fake-configuration', `The name of the configuration isn't correctly passed`);
     t.is(loadResourceStub.firstCall.args[1], 'configuration', `The type "configuration" isn't used`);

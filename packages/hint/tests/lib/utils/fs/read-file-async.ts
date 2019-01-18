@@ -2,8 +2,7 @@
 
 import * as path from 'path';
 
-import test from 'ava';
-import { Context, GenericTestContext, Macros } from 'ava';
+import anyTest, { Macro, TestInterface, ExecutionContext } from 'ava';
 
 import readFileAsync from '../../../../src/lib/utils/fs/read-file-async';
 
@@ -24,9 +23,16 @@ const testContext = [
         content: 'dummy'
     }];
 
+type ReadFileAsyncContext = {
+    name: string;
+    file: string;
+    content: string;
+};
+
+const test = anyTest as TestInterface<ReadFileAsyncContext>;
 
 /** AVA macro for readFileAsync regular tests */
-const readFileAsyncMacro: Macros<GenericTestContext<Context<any>>> = async (t, context) => {
+const readFileAsyncMacro: Macro<[ReadFileAsyncContext], ReadFileAsyncContext> = async (t: ExecutionContext<ReadFileAsyncContext>, context: ReadFileAsyncContext) => {
     const location = path.join(__dirname, `../fixtures/${context.file}`);
     const content = await readFileAsync(location);
 
@@ -38,5 +44,5 @@ testContext.forEach((context) => {
 });
 
 test('readFileAsync throws exception if not found', async (t) => {
-    await t.throws(readFileAsync('idontexist'));
+    await t.throwsAsync(readFileAsync('idontexist'));
 });

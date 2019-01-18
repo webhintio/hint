@@ -1,10 +1,13 @@
-import test, { Context, GenericTestContext } from 'ava';
+import * as url from 'url';
+
+import test, { ExecutionContext } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 import * as sinon from 'sinon';
 
 import Parser from '../src/parser';
-import { Manifest, ManifestInvalidJSON, ManifestInvalidSchema, ManifestParsed } from '../src/types';
-import { ProblemLocation, ISchemaValidationError } from 'hint/dist/src/lib/types';
+import { Manifest, ManifestInvalidJSON, ManifestInvalidSchema, ManifestParsed, ManifestEvents } from '../src/types';
+import { ProblemLocation, ISchemaValidationError, NetworkData, ElementFound } from 'hint/dist/src/lib/types';
+import { Engine } from 'hint';
 
 const elementLinkEventName = 'element::link';
 const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribute: string = 'site.webmanifest') => {
@@ -23,6 +26,20 @@ const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribu
     };
 };
 
+const getEngine = (): Engine<ManifestEvents> => {
+    const engine = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<ManifestEvents>;
+
+    engine.fetchContent = (target: string | url.URL, headers?: object): Promise<NetworkData> => {
+        return {} as Promise<NetworkData>;
+    };
+
+    return engine;
+};
+
 const fetchEndEventName: string = 'fetch::end::manifest';
 const fetchErrorEventName: string = 'fetch::error::manifest';
 const fetchStartEventName: string = 'fetch::start::manifest';
@@ -32,10 +49,10 @@ const parseEndEventName: string = 'parse::end::manifest';
 const parseErrorSchemaEventName: string = 'parse::error::manifest::schema';
 const parseJSONErrorEventName: string = 'parse::error::manifest::json';
 
-const scanEndEventName: string = 'scan::end';
+const scanEndEventName = 'scan::end';
 const scanEndEventValue = { resource: 'https://example.com' };
 
-const createNetworkDataObject = (manifestContent: string = '', statusCode: number = 200) => {
+const createNetworkDataObject = (manifestContent: string = '', statusCode: number = 200): NetworkData => {
     return {
         request: {
             headers: null,
@@ -54,80 +71,71 @@ const createNetworkDataObject = (manifestContent: string = '', statusCode: numbe
             statusCode,
             url: ''
         }
-    };
+    } as any;
 };
 
-const createMissingTest = async (t: GenericTestContext<Context<any>>, relAttribute: string = 'manifest', hrefAttribute: string = '') => {
+const createMissingTest = async (t: ExecutionContext, relAttribute: string = 'manifest', hrefAttribute: string = '') => {
     const elementLinkEventValue = getElementLinkEventValue(relAttribute, hrefAttribute);
     const sandbox = sinon.createSandbox();
-    const engine = t.context.engine;
+    const engine = getEngine();
 
-    sandbox.spy(engine, 'emitAsync');
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     new Parser(engine); // eslint-disable-line no-new
 
-    await engine.emitAsync(elementLinkEventName, elementLinkEventValue);
+    await engine.emitAsync(elementLinkEventName, elementLinkEventValue as ElementFound);
     await engine.emitAsync(scanEndEventName, scanEndEventValue);
 
-    t.is(engine.emitAsync.callCount, 2);
-    t.is(engine.emitAsync.args[0][0], elementLinkEventName);
-    t.is(engine.emitAsync.args[1][0], scanEndEventName);
-    t.is(engine.emitAsync.args[1][1], scanEndEventValue);
+    t.is(engineEmitAsyncSpy.callCount, 2);
+    t.is(engineEmitAsyncSpy.args[0][0], elementLinkEventName);
+    t.is(engineEmitAsyncSpy.args[1][0], scanEndEventName);
+    t.is(engineEmitAsyncSpy.args[1][1], scanEndEventValue);
 
     sandbox.restore();
 };
 
-const createParseTest = async (t: GenericTestContext<Context<any>>, manifestContent: string, expectedStartEventName: string, expectedEndEventName: string, verifyResult: Function) => {
+const createParseTest = async (t: ExecutionContext, manifestContent: string, expectedStartEventName: string, expectedEndEventName: string, verifyResult: Function) => {
     const elementEventValue = getElementLinkEventValue();
     const sandbox = sinon.createSandbox();
-    const engine = t.context.engine;
+    const engine = getEngine();
 
-    sandbox.spy(engine, 'emitAsync');
-    sandbox.stub(engine, 'fetchContent');
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
+    const engineFetchContentStub = sandbox.stub(engine, 'fetchContent');
 
-    t.context.engine.fetchContent.onCall(0)
-        .returns(createNetworkDataObject(manifestContent));
+    engineFetchContentStub.onCall(0)
+        .resolves(createNetworkDataObject(manifestContent));
 
     new Parser(engine); // eslint-disable-line no-new
 
-    await engine.emitAsync(elementLinkEventName, elementEventValue);
+    await engine.emitAsync(elementLinkEventName, elementEventValue as ElementFound);
 
-    t.is(engine.emitAsync.callCount, 5);
-    t.is(engine.emitAsync.args[0][0], elementLinkEventName);
-    t.is(engine.emitAsync.args[1][0], fetchStartEventName);
-    t.is(engine.emitAsync.args[2][0], fetchEndEventName);
-    t.is(engine.emitAsync.args[3][0], expectedStartEventName);
-    t.is(engine.emitAsync.args[4][0], expectedEndEventName);
+    t.is(engineEmitAsyncSpy.callCount, 5);
+    t.is(engineEmitAsyncSpy.args[0][0], elementLinkEventName);
+    t.is(engineEmitAsyncSpy.args[1][0], fetchStartEventName);
+    t.is(engineEmitAsyncSpy.args[2][0], fetchEndEventName);
+    t.is(engineEmitAsyncSpy.args[3][0], expectedStartEventName);
+    t.is(engineEmitAsyncSpy.args[4][0], expectedEndEventName);
 
-    verifyResult(t, engine.emitAsync.args[4][1]);
+    verifyResult(t, engineEmitAsyncSpy.args[4][1]);
 
     sandbox.restore();
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-test.beforeEach((t) => {
-    t.context.engine = new EventEmitter2({
-        delimiter: '::',
-        maxListeners: 0,
-        wildcard: true
-    });
-    t.context.engine.fetchContent = () => {};
-});
-
 test(`No event is emitted when no web app manifest file is specified`, async (t) => {
     const sandbox = sinon.createSandbox();
-    const engine = t.context.engine;
+    const engine = getEngine();
 
-    sandbox.spy(engine, 'emitAsync');
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     new Parser(engine); // eslint-disable-line no-new
 
     await engine.emitAsync(scanEndEventName, scanEndEventValue);
 
-    t.is(engine.emitAsync.callCount, 1);
-    t.is(engine.emitAsync.args[0][0], scanEndEventName);
-    t.is(engine.emitAsync.args[0][1], scanEndEventValue);
+    t.is(engineEmitAsyncSpy.callCount, 1);
+    t.is(engineEmitAsyncSpy.args[0][0], scanEndEventName);
+    t.is(engineEmitAsyncSpy.args[0][1], scanEndEventValue);
 
     sandbox.restore();
 });
@@ -143,24 +151,24 @@ test(`No event is emitted when only a '<link rel="stylesheet"...>' is specified`
 test(`'${fetchErrorEventName}' event is emitted when the manifest cannot be fetched`, async (t) => {
     const elementEventValue = getElementLinkEventValue();
     const sandbox = sinon.createSandbox();
-    const engine = t.context.engine;
+    const engine = getEngine();
 
-    sandbox.spy(engine, 'emitAsync');
-    sandbox.stub(engine, 'fetchContent');
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
+    const engineFetchContentStub = sandbox.stub(engine, 'fetchContent');
 
-    engine.fetchContent.onCall(0).throws(createNetworkDataObject());
+    engineFetchContentStub.onCall(0).throws(createNetworkDataObject());
 
     new Parser(engine); // eslint-disable-line no-new
 
-    await engine.emitAsync(elementLinkEventName, elementEventValue);
+    await engine.emitAsync(elementLinkEventName, elementEventValue as ElementFound);
     await engine.emitAsync(scanEndEventName, scanEndEventValue);
 
-    t.is(engine.emitAsync.callCount, 4);
-    t.is(engine.emitAsync.args[0][0], elementLinkEventName);
-    t.is(engine.emitAsync.args[1][0], fetchStartEventName);
-    t.is(engine.emitAsync.args[2][0], fetchErrorEventName);
-    t.not(typeof engine.emitAsync.args[2][1].error, 'undefined');
-    t.is(engine.emitAsync.args[3][0], scanEndEventName);
+    t.is(engineEmitAsyncSpy.callCount, 4);
+    t.is(engineEmitAsyncSpy.args[0][0], elementLinkEventName);
+    t.is(engineEmitAsyncSpy.args[1][0], fetchStartEventName);
+    t.is(engineEmitAsyncSpy.args[2][0], fetchErrorEventName);
+    t.not(typeof (engineEmitAsyncSpy.args[2][1] as any).error, 'undefined');
+    t.is(engineEmitAsyncSpy.args[3][0], scanEndEventName);
 
     sandbox.restore();
 });
@@ -169,25 +177,25 @@ test(`'${fetchErrorEventName}' event is emitted when the response for the web ap
     const elementEventValue = getElementLinkEventValue();
     const manifestContent = '500 Internal Server Error';
     const sandbox = sinon.createSandbox();
-    const engine = t.context.engine;
+    const engine = getEngine();
 
-    sandbox.spy(engine, 'emitAsync');
-    sandbox.stub(engine, 'fetchContent');
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
+    const engineFetchContentStub = sandbox.stub(engine, 'fetchContent');
 
-    t.context.engine.fetchContent.onCall(0)
-        .returns(createNetworkDataObject(manifestContent, 500));
+    engineFetchContentStub.onCall(0)
+        .resolves(createNetworkDataObject(manifestContent, 500));
 
     new Parser(engine); // eslint-disable-line no-new
 
-    await engine.emitAsync(elementLinkEventName, elementEventValue);
+    await engine.emitAsync(elementLinkEventName, elementEventValue as ElementFound);
     await engine.emitAsync(scanEndEventName, scanEndEventValue);
 
-    t.is(engine.emitAsync.callCount, 4);
-    t.is(engine.emitAsync.args[0][0], elementLinkEventName);
-    t.is(engine.emitAsync.args[1][0], fetchStartEventName);
-    t.is(engine.emitAsync.args[2][0], fetchErrorEventName);
-    t.not(typeof engine.emitAsync.args[2][1].error, 'undefined');
-    t.is(engine.emitAsync.args[3][0], scanEndEventName);
+    t.is(engineEmitAsyncSpy.callCount, 4);
+    t.is(engineEmitAsyncSpy.args[0][0], elementLinkEventName);
+    t.is(engineEmitAsyncSpy.args[1][0], fetchStartEventName);
+    t.is(engineEmitAsyncSpy.args[2][0], fetchErrorEventName);
+    t.not(typeof (engineEmitAsyncSpy.args[2][1] as any).error, 'undefined');
+    t.is(engineEmitAsyncSpy.args[3][0], scanEndEventName);
 
     sandbox.restore();
 });
@@ -201,18 +209,18 @@ test(`'${parseEndEventName}' event is emitted when manifest content is valid`, a
         prefer_related_applications: false // eslint-disable-line camelcase
     } as Manifest;
 
-    await createParseTest(t, JSON.stringify(manifestContent), parseStartEventName, parseEndEventName, (tt: GenericTestContext<Context<any>>, result: ManifestParsed) => {
+    await createParseTest(t, JSON.stringify(manifestContent), parseStartEventName, parseEndEventName, (tt: ExecutionContext, result: ManifestParsed) => {
         tt.deepEqual(result.parsedContent, manifestContentParsed);
     });
 });
 
 test(`'${parseEndEventName}' event includes location information`, async (t) => {
     const manifestContent =
-`{
+        `{
     "name": "5"
 };`;
 
-    await createParseTest(t, manifestContent, parseStartEventName, parseEndEventName, (tt: GenericTestContext<Context<any>>, result: ManifestParsed) => {
+    await createParseTest(t, manifestContent, parseStartEventName, parseEndEventName, (tt: ExecutionContext, result: ManifestParsed) => {
         const nameLocation = result.getLocation('name');
         const valueLocation = result.getLocation('name', { at: 'value' });
 
@@ -226,7 +234,7 @@ test(`'${parseEndEventName}' event includes location information`, async (t) => 
 test(`'${parseJSONErrorEventName}' event is emitted when manifest content is not valid JSON`, async (t) => {
     const manifestContent = 'invalid';
 
-    await createParseTest(t, manifestContent, parseStartEventName, parseJSONErrorEventName, (tt: GenericTestContext<Context<any>>, result: ManifestInvalidJSON) => {
+    await createParseTest(t, manifestContent, parseStartEventName, parseJSONErrorEventName, (tt: ExecutionContext, result: ManifestInvalidJSON) => {
         tt.not(typeof result.error, 'undefined');
     });
 });
@@ -258,7 +266,7 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
     };
     /* eslint-enable camelcase */
 
-    await createParseTest(t, JSON.stringify(manifestContent), parseStartEventName, parseErrorSchemaEventName, (tt: GenericTestContext<Context<any>>, result: ManifestInvalidSchema) => {
+    await createParseTest(t, JSON.stringify(manifestContent), parseStartEventName, parseErrorSchemaEventName, (tt: ExecutionContext, result: ManifestInvalidSchema) => {
         tt.is(result.prettifiedErrors.length, expectedPrettifiedErrors.length);
         tt.true(result.prettifiedErrors.every((e: any) => {
             return expectedPrettifiedErrors.includes(e);
@@ -267,7 +275,7 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
 });
 
 test(`'${parseErrorSchemaEventName}' event includes location information`, async (t) => {
-    const expectedLocations: {[message: string]: ProblemLocation } = {
+    const expectedLocations: { [message: string]: ProblemLocation } = {
         [`'icons[0]' should NOT have additional properties. Additional property found 'density'.`]: {
             column: 9,
             line: 4
@@ -283,7 +291,7 @@ test(`'${parseErrorSchemaEventName}' event includes location information`, async
     };
 
     const manifestContent =
-`{
+        `{
     "additionalProperty": "x",
     "gcm_sender_id": { "a": 5 },
     "icons": [{
@@ -293,7 +301,7 @@ test(`'${parseErrorSchemaEventName}' event includes location information`, async
     "unknown_proprietary_extension": 5
 }`;
 
-    await createParseTest(t, manifestContent, parseStartEventName, parseErrorSchemaEventName, (tt: GenericTestContext<Context<any>>, result: ManifestInvalidSchema) => {
+    await createParseTest(t, manifestContent, parseStartEventName, parseErrorSchemaEventName, (tt: ExecutionContext, result: ManifestInvalidSchema) => {
 
         result.errors.forEach((error: ISchemaValidationError, i: number) => {
             const message = result.prettifiedErrors[i];

@@ -20,5 +20,10 @@ test('compile template uses the `dependencyVersion` helper', async (t) => {
 });
 
 test('compile throws an error if template is not found', async (t) => {
-    await t.throws(handlebars.compileTemplate(path.join(__dirname, 'idontexist.hbs'), {}));
+    t.plan(1);
+    try {
+        await handlebars.compileTemplate(path.join(__dirname, 'idontexist.hbs'), {});
+    } catch (e) {
+        t.true(true);
+    }
 });

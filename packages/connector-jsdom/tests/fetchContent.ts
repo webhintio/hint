@@ -4,19 +4,30 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { URL } from 'url';
 
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
+import { createServer, Server } from '@hint/utils-create-server';
+import { IConnector, NetworkData, Events } from 'hint/dist/src/lib/types';
+import { Engine } from 'hint';
 
-import { createServer } from '@hint/utils-create-server';
-import { IConnector, NetworkData } from 'hint/dist/src/lib/types';
 import JSDOMConnector from '../src/connector';
+
+type FetchContentContext = {
+    connector?: IConnector;
+    engine: Engine<Events>;
+    server: Server;
+};
+
+const test = anyTest as TestInterface<FetchContentContext>;
 
 const name: string = 'jsdom';
 
 test.beforeEach(async (t) => {
-    const engine = {
-        emit() { },
-        emitAsync() { }
-    };
+    const engine: Engine<Events> = {
+        emit(): boolean {
+            return false;
+        },
+        async emitAsync(): Promise<any> { }
+    } as any;
 
     const server = createServer();
 
@@ -30,7 +41,7 @@ test.beforeEach(async (t) => {
 
 test.afterEach.always(async (t) => {
     t.context.server.stop();
-    await t.context.connector.close();
+    await t.context.connector!.close();
 });
 
 test(`[${name}] Fetch Content`, async (t) => {
