@@ -25,7 +25,7 @@ related to this new hint. A complete list of the questions is shown below:
 * What’s the name of this new hint?
 * Please select the category of this new hint:
   * accessibility
-  * interoperability
+  * compatibility
   * performance
   * pwa
   * security

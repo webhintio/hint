@@ -1,0 +1,20 @@
+# Changes in master
+# Run on all platforms latest versions
+jobs:
+  - template: latest-version.yml
+    parameters:
+        name: Linux_master
+        vmImage: 'ubuntu 16.04'
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+
+  - template: latest-version.yml
+    parameters:
+        name: macOS_master
+        vmImage: 'macOS-10.13'
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+
+  - template: latest-version.yml
+    parameters:
+        name: Windows_master
+        vmImage: 'vs2017-win2016'
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')

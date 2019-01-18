@@ -1,3 +1,10 @@
+# 2.0.2 (January 15, 2019)
+
+## Bug fixes / Improvements
+
+* [[`f2f957b8c1`](https://github.com/webhintio/hint/commit/f2f957b8c158ccdc34abe7a7fac4a79b65dce176)] - Fix: Add mechanism to close subprocesses in Linux (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 2.0.1 (December 31, 2018)
 
 ## Bug fixes / Improvements

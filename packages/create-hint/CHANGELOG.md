@@ -1,3 +1,17 @@
+# 3.0.1 (January 17, 2019)
+
+## Bug fixes / Improvements
+
+* [[`49eeac4450`](https://github.com/webhintio/hint/commit/49eeac44500601b46f542a488dae1840b3dbd371)] - Fix: Update templates to new structure (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1407`](https://github.com/webhintio/hint/issues/1407)).
+
+
+# 3.0.0 (January 15, 2019)
+
+## Breaking Changes
+
+* [[`690ca34631`](https://github.com/webhintio/hint/commit/690ca3463188169da32c2f5f7959ca014117765c)] - Breaking: Rename `Interoperability` with `Compatibility` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1507`](https://github.com/webhintio/hint/issues/1507)).
+
+
 # 2.0.3 (December 31, 2018)
 
 ## Bug fixes / Improvements

@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "bin": {
-    "create-hint": "./dist/src/new-hint.js"
+    "create-hint": "./dist/src/create-hint.js"
   },
   "description": "webhint's hint initializer package",
   "devDependencies": {
@@ -21,7 +21,7 @@
     "fork-ts-checker-webpack-plugin": "^0.5.2",
     "fs-extra": "^7.0.0",
     "handlebars": "^4.0.11",
-    "hint": "^4.1.2",
+    "hint": "^4.3.1",
     "inquirer": "^6.2.1",
     "mkdirp": "^0.5.1",
     "npm-link-check": "^3.0.0",
@@ -29,11 +29,11 @@
     "nyc": "^13.1.0",
     "rimraf": "^2.6.3",
     "sinon": "^7.2.2",
-    "ts-loader": "^5.3.2",
+    "ts-loader": "^5.3.3",
     "typescript": "^3.2.2",
     "typescript-eslint-parser": "21.0.2",
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.2.0"
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -71,5 +71,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "2.0.3"
+  "version": "3.0.1"
 }

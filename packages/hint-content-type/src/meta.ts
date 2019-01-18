@@ -4,7 +4,7 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 
 const meta: HintMetadata = {
     docs: {
-        category: Category.interoperability,
+        category: Category.compatibility,
         description: 'Require `Content-Type` header with appropriate value',
         name: 'Correct `Content-Type` header'
     },

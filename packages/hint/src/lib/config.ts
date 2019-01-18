@@ -28,6 +28,7 @@ import loadJSONFile from './utils/fs/load-json-file';
 import { validateConfig } from './config/config-validator';
 import normalizeHints from './config/normalize-hints';
 import { validate as validateHint, getSeverity } from './config/config-hints';
+import * as logger from './utils/logging';
 import * as resourceLoader from './utils/resource-loader';
 
 const debug: debug.IDebugger = d(__filename);
@@ -213,10 +214,13 @@ export class Configuration {
     }
 
     /**
+     * @deprecated
      * Generates the list of browsers to target using the `browserslist` property
      * of the `hint` configuration or `package.json` or uses the default one
      */
     public static loadBrowsersList(config: UserConfig) {
+        logger.warn('`Configuration.loadBrowsersList` is deprecated. Use `Configuration.fromConfig` instead.');
+
         const directory: string = process.cwd();
         const files: string[] = CONFIG_FILES.reduce((total, configFile) => {
             const filename: string = path.join(directory, configFile);
@@ -428,10 +432,13 @@ export class Configuration {
     }
 
     /**
+     * @deprecated
      * Loads a configuration file regardless of the source. Inspects the file path
      * to determine the correctly way to load the config file.
      */
     public static fromFilePath(filePath: string, actions: CLIOptions): Configuration {
+        logger.warn('`Configuration.fromFilePath` is deprecated. Use `Configuration.loadConfigFile` with `Configuration.fromConfig` instead.');
+
         /**
          * 1. Load the file from the HD
          * 2. Validate it's OK

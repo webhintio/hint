@@ -1,4 +1,4 @@
-import { FetchEnd, FetchError, FetchStart, ISchemaValidationError, IJSONLocationFunction, Event, ErrorEvent, Events } from 'hint/dist/src/lib/types';
+import { FetchEnd, FetchError, FetchStart, ISchemaValidationError, IJSONLocationFunction, Event, ErrorEvent, Events, GroupedError } from 'hint/dist/src/lib/types';
 
 /* eslint-disable camelcase */
 
@@ -147,6 +147,8 @@ export type ManifestInvalidJSON = ErrorEvent;
 export type ManifestInvalidSchema = ErrorEvent & {
     /** The parse errors as returned by ajv. */
     errors: ISchemaValidationError[];
+    /** The errors grouped for a better readability. */
+    groupedErrors: GroupedError[];
     /** The errors in a more human readable format. */
     prettifiedErrors: string[];
 };

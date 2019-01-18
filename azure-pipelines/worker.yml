@@ -1,0 +1,15 @@
+steps:
+  - script: brew update && brew cask install google-chrome
+    condition: eq(variables['Agent.OS'], 'Darwin')
+    displayName: 'Install Chrome'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: $(node_version)
+  - task: geeklearningio.gl-vsts-tasks-yarn.yarn-installer-task.YarnInstaller@2
+    displayName: 'Use Yarn 1.x'
+    inputs:
+      checkLatest: true
+  - script: yarn
+    displayName: 'Install dependencies'
+  - script: yarn test
+    displayName: 'Test'

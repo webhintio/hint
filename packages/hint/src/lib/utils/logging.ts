@@ -15,3 +15,8 @@ export const error = (message: any, ...optionalParams: any[]) => {
 export const log = (message: any, ...optionalParams: any[]) => {
     console.log(message, ...optionalParams);
 };
+
+/** Cover for console.warn */
+export const warn = (message: any, ...optionalParams: any[]) => {
+    console.warn(message, ...optionalParams);
+};

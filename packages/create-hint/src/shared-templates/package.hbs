@@ -8,22 +8,22 @@
   },
   "description": "{{description}}",
   "devDependencies": {
-    {{{dependencyVersion "@hint/utils-tests-helpers" "^1.0.0"}}},
-    {{{dependencyVersion "@types/debug" "0.0.30"}}},
-    "@types/node": "10.9.1",
+    {{{dependencyVersion "@hint/utils-tests-helpers" "^2.0.3"}}},
+    {{{dependencyVersion "@types/debug" "0.0.31"}}},
+    "@types/node": "10.12.18",
     {{{dependencyVersion "ava" "^0.25.0"}}},
     {{{dependencyVersion "cpx" "^1.5.0"}}},
-    {{{dependencyVersion "eslint" "^5.0.1"}}},
-    {{{dependencyVersion "eslint-plugin-markdown" "^1.0.0-beta.7"}}},
-    {{{dependencyVersion "eslint-plugin-typescript" "^0.12.0"}}},{{#unless official}}
+    {{{dependencyVersion "eslint" "^5.12.0"}}},
+    {{{dependencyVersion "eslint-plugin-markdown" "^1.0.0"}}},
+    {{{dependencyVersion "eslint-plugin-typescript" "^0.14.0"}}},{{#unless official}}
     {{{dependencyVersion "markdownlint-cli" "^0.13.0"}}},{{/unless}}
-    {{{dependencyVersion "npm-link-check" "^2.0.0"}}},
-    {{{dependencyVersion "npm-run-all" "^4.1.2"}}},
-    {{{dependencyVersion "nyc" "^12.0.2"}}},
-    {{{dependencyVersion "rimraf" "^2.6.2"}}},
+    {{{dependencyVersion "npm-link-check" "^3.0.0"}}},
+    {{{dependencyVersion "npm-run-all" "^4.1.5"}}},
+    {{{dependencyVersion "nyc" "^13.1.0"}}},
+    {{{dependencyVersion "rimraf" "^2.6.3"}}},
     {{{dependencyVersion "hint"}}},
-    {{{dependencyVersion "typescript" "^2.9.2"}}},
-    {{{dependencyVersion "typescript-eslint-parser" "^16.0.1"}}}
+    {{{dependencyVersion "typescript" "^3.2.2"}}},
+    {{{dependencyVersion "typescript-eslint-parser" "^21.0.2"}}}
   },
   "engines": {
     "node": ">=8.0.0"
@@ -78,7 +78,8 @@
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",{{/if}}
     "test": "npm run lint && npm run build && npm run test-only",
-    "test-only": "nyc ava",
+    "test-only": "nyc ava",{{#if official}}
+    "test-release": "npm run lint && npm run clean && npm run build:assets && tsc && npm run test-only",{{/if}}
     "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",

@@ -3,7 +3,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = () => {
     return {
-        entry: { 'new-hint': './src/index' },
+        entry: { 'create-hint': './src/index' },
         mode: 'production',
         module: {
             rules: [

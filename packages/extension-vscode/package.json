@@ -17,7 +17,6 @@
     "Linters"
   ],
   "dependencies": {
-    "vscode": "^1.1.22",
     "vscode-languageclient": "^5.1.1",
     "vscode-languageserver": "^5.0.3"
   },
@@ -29,7 +28,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
-    "hint": "^4.1.2",
+    "hint": "^4.3.1",
     "npm-link-check": "^3.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^13.1.0",
@@ -37,12 +36,13 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.2.2",
     "typescript": "^3.2.2",
-    "typescript-eslint-parser": "21.0.2"
+    "typescript-eslint-parser": "21.0.2",
+    "vscode": "^1.1.26"
   },
   "displayName": "webhint",
   "engines": {
     "node": ">=8.0.0",
-    "vscode": "^1.26.0"
+    "vscode": "^1.30.0"
   },
   "homepage": "https://webhint.io/",
   "icon": "icon.png",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.4"
+  "version": "1.0.5"
 }

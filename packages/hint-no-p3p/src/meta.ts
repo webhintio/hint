@@ -4,7 +4,7 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 
 const meta: HintMetadata = {
     docs: {
-        category: Category.interoperability,
+        category: Category.compatibility,
         description: `Don't use P3P related headers or meta tags`,
         name: 'No `P3P` headers'
     },

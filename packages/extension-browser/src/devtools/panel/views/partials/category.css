@@ -1,3 +1,8 @@
+.configuration {
+    background-color: var(--bg-alt-color);
+    position: relative;
+}
+
 .category__summary {
     background-color: var(--bg-alt-color);
     border: 1px solid var(--border-alt-color);

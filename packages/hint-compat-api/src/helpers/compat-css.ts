@@ -65,7 +65,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements IC
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
-        const start = node.source.start;
+        const start = node.source && node.source.start;
 
         if (!start) {
             return undefined;

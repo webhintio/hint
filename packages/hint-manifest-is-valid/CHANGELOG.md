@@ -1,3 +1,15 @@
+# 3.0.0 (January 15, 2019)
+
+## Breaking Changes
+
+* [[`690ca34631`](https://github.com/webhintio/hint/commit/690ca3463188169da32c2f5f7959ca014117765c)] - Breaking: Rename `Interoperability` with `Compatibility` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1507`](https://github.com/webhintio/hint/issues/1507)).
+
+## Bug fixes / Improvements
+
+* [[`e90f410556`](https://github.com/webhintio/hint/commit/e90f410556c817012e7667c8f4f0e27b14d91bd2)] - Fix: Improve feedback when config is invalid (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1526`](https://github.com/webhintio/hint/issues/1526)).
+* [[`c412f9aa7b`](https://github.com/webhintio/hint/commit/c412f9aa7ba99eb7ef6c20b7c496d629530f3ecf)] - Docs: Fix reference links and remove `markdownlint-cli` dependency (#1566) (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 2.1.0 (November 27, 2018)
 
 ## New features

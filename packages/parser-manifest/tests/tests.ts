@@ -4,7 +4,7 @@ import * as sinon from 'sinon';
 
 import Parser from '../src/parser';
 import { Manifest, ManifestInvalidJSON, ManifestInvalidSchema, ManifestParsed } from '../src/types';
-import { ProblemLocation } from 'hint/dist/src/lib/types';
+import { ProblemLocation, ISchemaValidationError } from 'hint/dist/src/lib/types';
 
 const elementLinkEventName = 'element::link';
 const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribute: string = 'site.webmanifest') => {
@@ -233,9 +233,9 @@ test(`'${parseJSONErrorEventName}' event is emitted when manifest content is not
 
 test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is not valid because of an additional property`, async (t) => {
     const expectedPrettifiedErrors = [
-        'Should NOT have additional properties. Additional property found \'additionalProperty\'.',
-        'Should NOT have additional properties. Additional property found \'unknown_proprietary_extension\'.',
-        '\'icons[0]\' should NOT have additional properties. Additional property found \'density\'.'
+        `'root' should NOT have additional properties. Additional property found 'additionalProperty'.`,
+        `'root' should NOT have additional properties. Additional property found 'unknown_proprietary_extension'.`,
+        `'icons[0]' should NOT have additional properties. Additional property found 'density'.`
     ];
 
     /* eslint-disable camelcase */
@@ -260,7 +260,7 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
 
     await createParseTest(t, JSON.stringify(manifestContent), parseStartEventName, parseErrorSchemaEventName, (tt: GenericTestContext<Context<any>>, result: ManifestInvalidSchema) => {
         tt.is(result.prettifiedErrors.length, expectedPrettifiedErrors.length);
-        tt.true(result.prettifiedErrors.every((e) => {
+        tt.true(result.prettifiedErrors.every((e: any) => {
             return expectedPrettifiedErrors.includes(e);
         }));
     });
@@ -268,15 +268,15 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
 
 test(`'${parseErrorSchemaEventName}' event includes location information`, async (t) => {
     const expectedLocations: {[message: string]: ProblemLocation } = {
-        '\'icons[0]\' should NOT have additional properties. Additional property found \'density\'.': {
+        [`'icons[0]' should NOT have additional properties. Additional property found 'density'.`]: {
             column: 9,
             line: 4
         },
-        'Should NOT have additional properties. Additional property found \'additionalProperty\'.': {
+        [`'root' should NOT have additional properties. Additional property found 'additionalProperty'.`]: {
             column: 5,
             line: 1
         },
-        'Should NOT have additional properties. Additional property found \'unknown_proprietary_extension\'.': {
+        [`'root' should NOT have additional properties. Additional property found 'unknown_proprietary_extension'.`]: {
             column: 5,
             line: 7
         }
@@ -295,7 +295,7 @@ test(`'${parseErrorSchemaEventName}' event includes location information`, async
 
     await createParseTest(t, manifestContent, parseStartEventName, parseErrorSchemaEventName, (tt: GenericTestContext<Context<any>>, result: ManifestInvalidSchema) => {
 
-        result.errors.forEach((error, i) => {
+        result.errors.forEach((error: ISchemaValidationError, i: number) => {
             const message = result.prettifiedErrors[i];
             const expectedLocation = expectedLocations[message];
 

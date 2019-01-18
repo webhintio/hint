@@ -8,13 +8,13 @@
   },
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
-    "ajv": "^6.6.2",
+    "ajv": "^6.7.0",
     "applicationinsights": "^1.0.8",
     "async": "^2.6.1",
     "boxen": "^2.1.0",
-    "browserslist": "^4.3.7",
+    "browserslist": "^4.4.0",
     "caniuse-api": "^3.0.0",
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "content-type": "^1.0.4",
     "debug": "^4.1.1",
     "eventemitter2": "^5.0.1",
@@ -87,7 +87,7 @@
     "a11y",
     "accessibility",
     "best-practices",
-    "interoperability",
+    "compatibility",
     "lint",
     "performance",
     "security"
@@ -103,7 +103,7 @@
     ]
   },
   "optionalDependencies": {
-    "@hint/configuration-web-recommended": "^3.0.0"
+    "@hint/configuration-web-recommended": "^5.0.0"
   },
   "repository": "https://github.com/webhintio/hint",
   "scripts": {
@@ -127,5 +127,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.2"
+  "version": "4.3.1"
 }

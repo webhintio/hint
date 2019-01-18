@@ -54,6 +54,10 @@ const getCategoryList = (resources?: HintResources): string[] => {
     const result: string[] = [];
 
     for (let [, value] of Object.entries(Category)) {
+        // TODO: Category has been deprecated, will remove in the near future
+        if (value === 'interoperability') {
+            continue;
+        }
         if (value === 'pwa') {
             value = value.toUpperCase();
         } else {
@@ -128,6 +132,7 @@ export default class HTMLFormatter implements IFormatter {
                     .replace(/:/g, '-')
                     .replace(/\./g, '-')
                     .replace(/\//g, '-')
+                    .replace(/[?=]/g, '-query-')
                     .replace(/-$/, '');
                 const destDir = path.join(process.cwd(), 'hint-report', name);
                 const currentDir = path.join(__dirname);

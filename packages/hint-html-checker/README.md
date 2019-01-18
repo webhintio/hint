@@ -27,7 +27,7 @@ According to the Nu Html checker [documentation][nu html checker docs],
 the positive cases contain two sections:
 
 * Markup cases that are potential problems for accessibility,
-  usability, interoperability, security, or maintainability—or because
+  usability, compatibility, security, or maintainability—or because
   they can result in poor performance, or that might cause your scripts
   to fail in ways that are hard to troubleshoot.
 

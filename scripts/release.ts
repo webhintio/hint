@@ -4,6 +4,7 @@ import { argv } from 'yargs';
 import * as inquirer from 'inquirer';
 import * as Listr from 'listr';
 import * as listrInput from 'listr-input';
+import * as pRetry from 'p-retry';
 import { promisify } from 'util';
 import * as req from 'request';
 import * as shell from 'shelljs';
@@ -102,6 +103,19 @@ const exec = (cmd: string): Promise<ExecResult> => {
 
             return reject(result);
         });
+    });
+};
+
+const execWithRetry = (cmd: string, retries: number = 2): Promise<ExecResult> => {
+    const fn = () => {
+        return exec(cmd);
+    };
+
+    return pRetry(fn, {
+        onFailedAttempt: (error) => {
+            console.error(`Failed executing "${cmd}". Retries left: ${(error as any).retriesLeft}.`);
+        },
+        retries
     });
 };
 
@@ -241,6 +255,10 @@ const extractDataFromCommit = async (sha: string): Promise<Commit> => {
     };
 };
 
+const gitHasUncommittedChanges = async (): Promise<boolean> => {
+    return (await exec('git status -s')).stdout !== '';
+};
+
 const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false) => {
     // Add all changes to the staging aread.
     await exec(`git add packages yarn.lock`);
@@ -249,13 +267,13 @@ const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false) 
      * If there aren't any changes in the staging area,
      * skip the following.
      */
-    if (!(await exec('git status --porcelain')).stdout) {
+    if (!await gitHasUncommittedChanges()) {
 
         return;
     }
 
     // Otherwise commit the changes.
-    await exec(`git commit -m "${commitMessage}${skipCI ? ' [skip ci]' : ''}"`);
+    await exec(`git commit -m "${commitMessage}${skipCI ? ' ***NO_CI***' : ''}"`);
 };
 
 const gitCommitBuildChanges = async (ctx: TaskContext) => {
@@ -512,15 +530,41 @@ const getVersionNumber = (ctx: TaskContext) => {
     ctx.newPackageVersion = ctx.packageJSONFileContent.version;
 };
 
+const shouldTriggerRelease = (commits: Commit[] = []): boolean => {
+
+    /*
+     * Some tags, even though they are user-facing will only trigger
+     * a release if there are seen with other user-facing tags.
+     *
+     * (e.g.: `Docs`, see: https://github.com/webhintio/hint/issues/1510)
+     */
+
+    const tagsThatTriggerRelease = [
+        'Breaking',
+        'Fix',
+        'New',
+        'Update'
+    ];
+
+    for (const commit of commits) {
+        if (tagsThatTriggerRelease.includes(commit.tag)) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
 const getReleaseData = async (ctx: TaskContext) => {
+    if (!ctx.isPrerelease &&
+        !shouldTriggerRelease(ctx.commitSHAsSinceLastRelease)) {
+        ctx.skipRemainingTasks = true;
+    }
+
     ({
         semverIncrement: ctx.packageSemverIncrement,
         releaseNotes: ctx.packageReleaseNotes
     } = await getChangelogData(ctx.commitSHAsSinceLastRelease));
-
-    if (!ctx.isPrerelease && !ctx.packageReleaseNotes) {
-        ctx.skipRemainingTasks = true;
-    }
 };
 
 const getReleaseNotes = (changelogFilePath: string): string => {
@@ -561,6 +605,10 @@ const gitDeleteTag = async (tag: string) => {
 
 const gitFetchTags = async () => {
     await exec('git fetch --tags');
+};
+
+const gitGetCurrentBranch = async (): Promise<string> => {
+    return (await exec(`git symbolic-ref --short HEAD`)).stdout;
 };
 
 const gitGetLastTaggedRelease = async (ctx: TaskContext) => {
@@ -626,7 +674,7 @@ const npmRunBuildForRelease = async (ctx: TaskContext) => {
 };
 
 const npmRunTests = async (ctx: TaskContext) => {
-    await exec(`cd ${ctx.packagePath} && npm run test-release`);
+    await execWithRetry(`cd ${ctx.packagePath} && npm run test-release`);
 };
 
 const npmUpdateVersion = async (ctx: TaskContext) => {
@@ -646,6 +694,57 @@ const npmUpdateVersionForPrerelease = (ctx: TaskContext) => {
     ctx.newPackageVersion = newPrereleaseVersion;
 
     updateFile(`${ctx.packageJSONFilePath}`, `${JSON.stringify(ctx.packageJSONFileContent, null, 2)}\n`);
+};
+
+const releaseScriptCanBeRun = async (): Promise<boolean> => {
+
+    // Check if on `master`.
+
+    if (await gitGetCurrentBranch() !== 'master') {
+        console.error('Release cannot be run as the branch is not `master`.');
+
+        return false;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Check if there are uncommited changes.
+
+    if (await gitHasUncommittedChanges()) {
+        console.error('Release cannot be run as there are uncommitted changes.');
+
+        return false;
+    }
+
+    const remoteForMaster = (await exec(`git config --get branch.master.remote`)).stdout;
+
+    // Check if no remote was found for `master`.
+
+    if (!remoteForMaster) {
+        console.error('Release cannot be run as no remote was found for `master`.');
+
+        return false;
+    }
+
+    // Check if the remote for `master` is not set to the main repository.
+
+    /*
+     * The following regex checks if the remote URL is either:
+     *
+     *   * git@github.com:webhintio/hint.git
+     *   * https://github.com/webhintio/hint.git
+     */
+
+    const remoteRegex = new RegExp('^(https://|git@)github.com[:/]webhintio/hint.git$', 'i');
+    const remoteURLForMaster = (await exec(`git config --get remote.${remoteForMaster}.url`)).stdout;
+
+    if (!remoteRegex.test(remoteURLForMaster)) {
+        console.error('Release cannot be run as the remote for `master` does not point to the official webhint repository.');
+
+        return false;
+    }
+
+    return true;
 };
 
 const updateChangelog = (ctx: TaskContext) => {
@@ -702,7 +801,7 @@ const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx: TaskContext
         commitPrefix = 'Breaking:';
     }
 
-    await gitCommitChanges(`${commitPrefix} Update \\\`${ctx.packageName}\\\` to \\\`v${ctx.newPackageVersion}\\\``, true);
+    await gitCommitChanges(`${commitPrefix} Update '${ctx.packageName}' to 'v${ctx.newPackageVersion}'`, true);
 };
 
 const updatePackageVersionNumberInOtherPackages = (ctx: TaskContext) => {
@@ -749,7 +848,7 @@ const updatePackageVersionNumberInOtherPackages = (ctx: TaskContext) => {
 
 const updateYarnLockFile = async () => {
     await exec('yarn');
-    await gitCommitChanges(`Chore: Update \\\`yarn.lock\\\` file`);
+    await gitCommitChanges(`Chore: Update 'yarn.lock' file`);
 };
 
 const waitForUser = async () => {
@@ -917,6 +1016,10 @@ const getTasks = (packagePath: string) => {
 
 const main = async () => {
 
+    if (!await releaseScriptCanBeRun()) {
+        return;
+    }
+
     const isPrerelease = argv.prerelease;
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -961,15 +1064,15 @@ const main = async () => {
         return !exceptions.includes(name);
     });
 
-    const tasks: Task[] = [];
+    const tasks: Task[][] = [];
 
     for (const pkg of packages) {
-        tasks.push({
+        tasks.push([{
             task: () => {
                 return getTasks(pkg);
             },
             title: `${pkg}`
-        });
+        }]);
     }
 
     /*
@@ -979,25 +1082,32 @@ const main = async () => {
 
     if (isPrerelease) {
         tasks.push(
-            newTask('Commit changes.', gitCommitPrerelease),
-            newTask(`Push changes upstream.`, gitPush)
+            [newTask('Commit changes.', gitCommitPrerelease)],
+            [newTask(`Push changes upstream.`, gitPush)]
         );
     }
 
-    tasks.push(newTask('Update `yarn.lock`', updateYarnLockFile));
+    tasks.push([newTask('Update `yarn.lock`', updateYarnLockFile)]);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    await new Listr(tasks).run()
-        .catch(async (err) => {
-            console.error(typeof err === 'object' ? JSON.stringify(err, null, 4) : err);
+    for (const task of tasks) {
+        const skipRemainingTasks = await new Listr(task)
+            .run()
+            .catch(async (err: any) => {
+                console.error(typeof err === 'object' ? JSON.stringify(err, null, 4) : err);
 
-            // Try to revert things to their previous state.
+                await gitReset();
+                await gitDeleteTag(err.context.packageNewTag);
+                await removePackageFiles();
 
-            await gitReset();
-            await gitDeleteTag(err.context.packageNewTag);
-            await removePackageFiles();
-        });
+                return true;
+            });
+
+        if (skipRemainingTasks === true) {
+            break;
+        }
+    }
 
     if (!isPrerelease) {
         await deleteGitHubToken();

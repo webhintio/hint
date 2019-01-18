@@ -1,3 +1,33 @@
+# 4.3.1 (January 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`6b01be9287`](https://github.com/webhintio/hint/commit/6b01be9287179e9bcda02f65f6e4c0475f47f249)] - Fix: Update `configuration-web-recommended` to `v5.0.0` (by [`Antón Molleda`](https://github.com/molant)).
+
+
+# 4.3.0 (January 15, 2019)
+
+## Bug fixes / Improvements
+
+* [[`e90f410556`](https://github.com/webhintio/hint/commit/e90f410556c817012e7667c8f4f0e27b14d91bd2)] - Fix: Improve feedback when config is invalid (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1526`](https://github.com/webhintio/hint/issues/1526)).
+
+## New features
+
+* [[`5e898c84fd`](https://github.com/webhintio/hint/commit/5e898c84fd8f7a3cda152c57eea9b0dc683dfceb)] - New: Add `Compatibility` category (by [`Antón Molleda`](https://github.com/molant)).
+
+
+# 4.2.0 (January 10, 2019)
+
+## Bug fixes / Improvements
+
+* [[`39b5c18b4b`](https://github.com/webhintio/hint/commit/39b5c18b4b8b3ec150aac0a221a0a1072c730210)] - Fix: JSON schema issue with `ignoredUrls` (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`ccb6731bb2`](https://github.com/webhintio/hint/commit/ccb6731bb2ed548360b7cba57a3b020de64b20b8)] - Docs: Clarify browserslist configuration precedence (by [`Tony Ross`](https://github.com/antross) / see also: [`#1611`](https://github.com/webhintio/hint/issues/1611)).
+
+## New features
+
+* [[`4516544660`](https://github.com/webhintio/hint/commit/4516544660ad534e3bd19e3ea186b9fa9edd97c1)] - New: Deprecate unused `Configuration` methods (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 4.1.2 (December 31, 2018)
 
 ## Bug fixes / Improvements

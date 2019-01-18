@@ -4,9 +4,10 @@
     "@types/fs-extra": "5.0.4",
     "@types/listr": "^0.13.0",
     "@types/node": "10.12.18",
+    "@types/p-retry": "^2.0.0",
     "@types/shelljs": "^0.8.1",
     "@types/yargs": "^12.0.5",
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "cpx": "^1.5.0",
     "eslint": "^5.12.0",
     "eslint-plugin-import": "^2.14.0",
@@ -16,8 +17,10 @@
     "listr": "^0.14.2",
     "listr-input": "^0.1.2",
     "loop": "^3.1.1",
+    "markdown-link-validator": "^1.0.0",
     "markdownlint": "^0.11.0",
     "npm-run-all": "^4.1.5",
+    "p-retry": "^3.0.1",
     "rimraf": "^2.6.3",
     "shelljs": "^0.8.3",
     "typescript": "^3.2.2",
@@ -29,9 +32,9 @@
   },
   "greenkeeper": {
     "commitMessages": {
-      "dependencyUpdate": "Chore: Update `${dependency}` to `v${version}`",
-      "devDependencyUpdate": "Chore: Update `${dependency}` to `v${version}`",
-      "lockfileUpdate": "Chore: Update lockfile ${lockfilePath}"
+      "dependencyUpdate": "Chore: Update '${dependency}' to 'v${version}`'",
+      "devDependencyUpdate": "Chore: Update '${dependency}' to 'v${version}'",
+      "lockfileUpdate": "Chore: Update lockfile '${lockfilePath}'"
     },
     "ignore": [
       "@types/node"
@@ -56,7 +59,7 @@
     "clean:packages": "rimraf \"packages/!(connector-edge|extension-vscode)/{dist,node_modules,npm-shrinkwrap.json,package-lock.json,yarn.lock}\"",
     "clean:root": "rimraf dist",
     "lint": "npm-run-all lint:*",
-    "lint:md": "node scripts/lint-markdown",
+    "lint:md": "node scripts/lint-markdown && markdown-link-validator .",
     "lint:packages": "loop \"yarn lint\" --cwd packages --exclude configuration-development,configuration-progressive-web-apps,configuration-web-recommended",
     "lint:scripts": "eslint scripts .travis --cache --ext js --ext ts --report-unused-disable-directives",
     "pre-release": "npm run clean:packages && npm run build:scripts && npm run release -- --prerelease",

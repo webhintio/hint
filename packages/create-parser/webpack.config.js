@@ -3,7 +3,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = () => {
     return {
-        entry: { 'new-parser': './src/index' },
+        entry: { 'create-parser': './src/index' },
         mode: 'production',
         module: {
             rules: [

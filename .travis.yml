@@ -112,15 +112,15 @@ jobs:
     # [!] Runs: Only if the build was was triggered because a push
     #           to the `master` branch.
 
-    - stage: deploy
-      if: |
-        branch = master and \
-        type = push
+    # - stage: deploy
+    #   if: |
+    #     branch = master and \
+    #     type = push
 
-      node_js: lts/*
-      os: linux
+    #   node_js: lts/*
+    #   os: linux
 
-      script: ./.travis/trigger-site-update.sh
+    #   script: ./.travis/trigger-site-update.sh
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

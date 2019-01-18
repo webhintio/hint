@@ -65,6 +65,7 @@ export default class JSDOMConnector implements IConnector {
     private _document!: JSDOMAsyncHTMLDocument;
     private _timeout: number;
     private _resourceLoader: ResourceLoader;
+    private _subprocesses: Set<ChildProcess>;
 
     public request: Requester;
     public server: Engine;
@@ -77,6 +78,7 @@ export default class JSDOMConnector implements IConnector {
         this.server = server;
         this._timeout = server.timeout;
         this._resourceLoader = new CustomResourceLoader(this);
+        this._subprocesses = new Set();
     }
 
     /*
@@ -324,6 +326,9 @@ export default class JSDOMConnector implements IConnector {
     public close() {
         try {
             this._window.close();
+
+            // Kill any subprocess that is still alive.
+            this.killAllSubprocesses();
         } catch (e) {
             /*
              * We could have some pending network requests and this could fail.
@@ -362,20 +367,30 @@ export default class JSDOMConnector implements IConnector {
         return this._fetchUrl(parsedTarget, customHeaders);
     }
 
-    private killProcess = (runner: ChildProcess) => {
+    private killProcess(runner: ChildProcess) {
         try {
             runner.kill('SIGKILL');
         } catch (err) {
             /* istanbul ignore next */
             debug('Error closing evaluate process');
+        } finally {
+            this._subprocesses.delete(runner);
         }
-    };
+    }
+
+    private killAllSubprocesses() {
+        this._subprocesses.forEach((subprocess) => {
+            this.killProcess(subprocess);
+        });
+    }
 
     public evaluate(source: string): Promise<any> {
         return new Promise((resolve, reject) => {
             /* istanbul ignore next */
             const runner: ChildProcess = fork(path.join(__dirname, 'evaluate-runner'), [this.finalHref || this._href, this._options.waitFor], { execArgv: [] });
             let timeoutId: NodeJS.Timer | null = null;
+
+            this._subprocesses.add(runner);
 
             runner.on('message', (result) => {
                 /* istanbul ignore if */

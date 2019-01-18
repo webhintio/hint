@@ -13,11 +13,16 @@ type Props = {
 };
 
 export default function view({ onRestartClick, results }: Props) {
+    const onSubmit = (event: Event) => {
+        event.preventDefault();
+        onRestartClick();
+    };
+
     return html`
-        ${headerView({ analyzeText: 'Analyze again', onAnalyzeClick: onRestartClick })}
-        <section class="results page">
+        <form class="results page" onsubmit=${onSubmit}>
+            ${headerView({ analyzeText: 'Analyze again' })}
             <h1 class="page__header">Hints</h1>
             ${results.categories.map(categoryView)}
-        </section>
+        </form>
     `;
 }

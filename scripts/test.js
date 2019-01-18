@@ -1,6 +1,7 @@
 const spawn = require('child_process').spawn;
 
 const chalk = require('chalk');
+const pRetry = require('p-retry');
 const shell = require('shelljs');
 const yargs = require('yargs');
 
@@ -19,6 +20,7 @@ const TEST_SCRIPT_NAMES = {
     testOnly: 'test-only',
     testRoot: 'build:scripts'
 };
+const TEST_RETRIES = 2; // Will retry 2 times on top of the regular one
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -53,7 +55,7 @@ const exec = (cmd) => {
 
         command.on('exit', (code) => {
             if (code !== 0) {
-                return reject();
+                return reject(new Error('NoExitCodeZero'));
             }
 
             return resolve(true);
@@ -563,19 +565,32 @@ const includeDeepDependencies = (projectData) => {
     return projectData;
 };
 
+const execWithRetry = (command) => {
+    const fn = () => {
+        return exec(command);
+    };
+
+    return pRetry(fn, {
+        onFailedAttempt: (error) => {
+            console.error(`Failed executing "${command}". Retries left: ${error.retriesLeft}.`);
+        },
+        retries: TEST_RETRIES
+    });
+};
+
 const runTests = async (projectData) => {
     for (const [packagePath, packageData] of Object.entries(projectData)) {
         log(packagePath);
 
         if (!ALREADY_BUILD_DEPENDENCIES.has(packagePath)) {
             await buildDependencies(packageData.dependencies);
-            await exec(`cd ${packagePath} && yarn ${packageData.testScript}`);
+            await execWithRetry(`cd ${packagePath} && yarn ${packageData.testScript}`);
 
             continue;
         }
 
         // If the package was already build, just execute the tests.
-        await exec(`cd ${packagePath} && yarn ${TEST_SCRIPT_NAMES.testOnly}`);
+        await execWithRetry(`cd ${packagePath} && yarn ${TEST_SCRIPT_NAMES.testOnly}`);
     }
 };
 

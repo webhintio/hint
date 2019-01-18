@@ -6,6 +6,9 @@ Once you have [`Node.js`](https://nodejs.org/en/download/current/)
 v8.x on your machine, you can use `npx` or install `hint` globally
 to use it.
 
+**Note**: Only the latest 2 LTS versions of node and the current
+one are supported.
+
 ### Using `npx`
 
 Run the following command:

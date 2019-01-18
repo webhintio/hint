@@ -41,6 +41,7 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
             await this.engine.emitAsync(`parse::error::typescript-config::schema`, {
                 error: new Error('Invalid TypeScript configuration'),
                 errors: validationResult.errors,
+                groupedErrors: validationResult.groupedErrors,
                 prettifiedErrors: validationResult.prettifiedErrors,
                 resource
             });

@@ -1,3 +1,25 @@
+# 3.0.1 (January 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`56e18b8097`](https://github.com/webhintio/hint/commit/56e18b8097aa391652ff77138cc4f62c9115b73d)] - Fix: Ignore `Interoperability` explicitely (by [`Antón Molleda`](https://github.com/molant)).
+
+
+# 3.0.0 (January 15, 2019)
+
+## Breaking Changes
+
+* [[`690ca34631`](https://github.com/webhintio/hint/commit/690ca3463188169da32c2f5f7959ca014117765c)] - Breaking: Rename `Interoperability` with `Compatibility` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1507`](https://github.com/webhintio/hint/issues/1507)).
+
+
+# 2.0.2 (January 10, 2019)
+
+## Bug fixes / Improvements
+
+* [[`5e02927b32`](https://github.com/webhintio/hint/commit/5e02927b3262f25d948e6f9f0ea1c940c7c5f3c0)] - Fix: Visual error in Firefox (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1648`](https://github.com/webhintio/hint/issues/1648)).
+* [[`04718ece44`](https://github.com/webhintio/hint/commit/04718ece443a846a9a816a5ee587cb6107a4528d)] - Fix: Replace query parameters in file name with `-query-`.
+
+
 # 2.0.1 (December 31, 2018)
 
 ## Bug fixes / Improvements

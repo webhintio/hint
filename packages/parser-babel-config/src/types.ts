@@ -1,5 +1,5 @@
 import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
-import { IJSONLocationFunction, ISchemaValidationError } from 'hint/dist/src/lib/types';
+import { IJSONLocationFunction, ISchemaValidationError, GroupedError } from 'hint/dist/src/lib/types';
 
 export type BabelConfig = {
     ast: boolean;
@@ -47,6 +47,7 @@ export type BabelConfigParsed = Event & {
 export type BabelConfigInvalidSchema = ErrorEvent & {
     errors: ISchemaValidationError[];
     prettifiedErrors: string[];
+    groupedErrors: GroupedError[];
 };
 
 export type BabelConfigEvents = Events & {

@@ -1,0 +1,16 @@
+parameters:
+  name: ''
+  vmImage: ''
+  condition: ''
+
+jobs:
+- job: ${{ parameters.name }}
+  pool:
+    vmImage: ${{ parameters.vmImage }}
+  strategy:
+    matrix:
+      node_11_x:
+        node_version: 11.x
+  steps:
+  - template: worker.yml
+  condition: ${{ parameters.condition }}

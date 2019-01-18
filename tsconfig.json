@@ -49,6 +49,7 @@
         { "path": "packages/hint-apple-touch-icons" },
         { "path": "packages/hint-axe" },
         { "path": "packages/hint-babel-config" },
+        { "path": "packages/hint-button-type" },
         { "path": "packages/hint-compat-api" },
         { "path": "packages/hint-content-type" },
         { "path": "packages/hint-disown-opener" },

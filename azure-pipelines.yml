@@ -1,0 +1,18 @@
+# Scope the validations to master and PRs to master
+trigger:
+  - master
+pr:
+  - master
+
+# Changes in master
+jobs:
+  - template: azure-pipelines/master.yml
+
+# PRs
+  - template: azure-pipelines/pr.yml
+
+# Dependabot PRs
+  - template: azure-pipelines/dependabot.yml
+
+# Daily full run (configured via dashboard)
+  - template: azure-pipelines/scheduled.yml
