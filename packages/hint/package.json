@@ -20,7 +20,7 @@
     "eventemitter2": "^5.0.1",
     "file-type": "^10.7.0",
     "file-url": "^2.0.2",
-    "globby": "^8.0.1",
+    "globby": "^9.0.0",
     "handlebars": "^4.0.11",
     "is-ci": "^2.0.0",
     "is-svg": "^3.0.0",
