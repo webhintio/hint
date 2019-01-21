@@ -48,7 +48,7 @@
     "@types/handlebars": "^4.0.40",
     "@types/is-svg": "^3.0.0",
     "@types/jsdom": "^12.2.1",
-    "@types/lodash": "^4.14.119",
+    "@types/lodash": "^4.14.120",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "10.12.18",
