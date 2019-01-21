@@ -223,3 +223,13 @@ const notSupportedAndNotDeprecatedFeature: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, { browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'], parsers: ['css']});
+
+const notSupportedFeaturesShouldNotSeparatelyLog: HintTest[] = [
+    {
+        name: 'Features not supported and not deprecated should not separately log the feature and value.',
+        reports: [{ message: 'box-flex is not supported by ie.', position: { column: 4, line: 3 }}],
+        serverConfig: generateCSSConfig('box-flex-prefixes')
+    }
+];
+
+hintRunner.testHint(hintPath, notSupportedFeaturesShouldNotSeparatelyLog, { browserslist: ['ie 10'], parsers: ['css']});

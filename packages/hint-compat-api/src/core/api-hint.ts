@@ -15,6 +15,8 @@ const classesMapping: {[key: string]: any} = {
 export abstract class APIHint<T extends Events, K extends Event> implements IHint {
     private compatApi: CompatAPI;
     private compatLibrary: ICompatLibrary<K>;
+    private pendingReports: [FeatureInfo, SupportStatementResult][] = [];
+    private reports: [FeatureInfo, SupportStatementResult][] = [];
 
     abstract getFeatureVersionValueToAnalyze(browserFeatureSupport: SimpleSupportStatement, status: StatusBlock): VersionValue;
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
@@ -25,10 +27,21 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
 
         this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
-        this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeatureIsSupported.bind(this));
+        this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeature.bind(this));
+
+        (context as HintContext<Events>).on('scan::end', () => {
+            this.generateReports();
+            this.consumeReports();
+        });
     }
 
-    private async testFeatureIsSupported(feature: FeatureInfo, collection: CompatStatement): Promise<void> {
+    private testFeature(feature: FeatureInfo, collection: CompatStatement): boolean {
+        if (this.mustPackPendingReports(feature) && this.pendingReports.length > 0) {
+            this.generateReports();
+
+            return false;
+        }
+
         // Check for each browser the support block
         const { support, status } = this.compatApi.getFeatureCompatStatement(collection, feature);
 
@@ -36,18 +49,16 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
             return this.compatApi.isBrowserIncludedInCollection(browserName);
         });
 
-        const groupedSupportByBrowser: { [key: string]: string[] } = browsersToSupport
-            .reduce((group, browserSupportStatement) => {
-                const [name, supportStatement] = browserSupportStatement;
-                const browserInfo: BrowsersInfo = { name, supportStatement };
-                const browserSupport = this.getSupportStatementByBrowser(feature, status, browserInfo);
+        const groupedSupportByBrowser = browsersToSupport.reduce((group, [name, supportStatement]) => {
+            const browserInfo: BrowsersInfo = { name, supportStatement };
+            const browserSupport = this.getSupportStatementByBrowser(browserInfo, feature, status);
 
-                if (!browserSupport) {
-                    return group;
-                }
+            if (!browserSupport) {
+                return group;
+            }
 
-                return { ...group, [name]: browserSupport };
-            }, {});
+            return { ...group, [name]: browserSupport };
+        }, {});
 
         const supportStatementResult: SupportStatementResult = {
             browsersToSupportCount: browsersToSupport.length,
@@ -57,20 +68,22 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
 
         const hasIncompatibleBrowsers = supportStatementResult.notSupportedBrowsersCount > 0;
 
-        if (!hasIncompatibleBrowsers) {
-            return;
+        if (hasIncompatibleBrowsers) {
+            this.pendingReports.push([feature, supportStatementResult]);
         }
 
-        const message = this.generateReportErrorMessage(feature, supportStatementResult);
-
-        await this.compatLibrary.reportError(feature, message);
+        return !hasIncompatibleBrowsers;
     }
 
-    private getSupportStatementByBrowser(feature: FeatureInfo, status: StatusBlock, browserInfo: BrowsersInfo): string[] | null {
+    private getSupportStatementByBrowser(browser: BrowsersInfo, feature: FeatureInfo, status: StatusBlock): string[] | null {
         const prefix = feature.subFeature ? feature.subFeature.prefix : feature.prefix;
-        const browserFeature = this.compatApi.getSupportStatementFromInfo(browserInfo.supportStatement, prefix);
+        const browserFeature = this.compatApi.getSupportStatementFromInfo(browser.supportStatement, prefix);
 
-        return browserFeature && this.getBrowserSupport(browserInfo, feature, browserFeature, status);
+        if (!browserFeature) {
+            return null;
+        }
+
+        return this.getBrowserSupport(browser, feature, browserFeature, status);
     }
 
     /**
@@ -149,5 +162,43 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
 
     private getNotSupportedFeatureMessage(featureName: string, browserList: string): string {
         return `${featureName} is not supported by ${browserList}.`;
+    }
+
+    private generateReports(): void {
+        const reports = this.pendingReports.filter(([feature]) => {
+            return !this.hasFallback(feature);
+        });
+
+        this.reports = this.reports.concat(reports);
+
+        this.pendingReports = [];
+    }
+
+    private async consumeReports(): Promise<void> {
+        while (this.reports.length > 0) {
+            const [feature, supportStatementResult] = this.reports.shift() as [FeatureInfo, SupportStatementResult];
+            const message = this.generateReportErrorMessage(feature, supportStatementResult);
+
+            await this.compatLibrary.reportError(feature, message);
+        }
+    }
+
+    private hasFallback(feature: FeatureInfo): boolean {
+        if (!feature.prefix) {
+            return false;
+        }
+
+        return this.pendingReports.some(([nextFeature]) => {
+            if (nextFeature === feature) {
+                return false;
+            }
+
+            return !nextFeature.prefix &&
+                nextFeature.name === feature.name;
+        });
+    }
+
+    private mustPackPendingReports(feature: FeatureInfo) {
+        return feature.name.startsWith('.');
     }
 }

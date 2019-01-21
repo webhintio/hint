@@ -14,7 +14,7 @@ export type FeatureStrategy<T extends ChildNode> = {
     testFeature: (node: T, location?: ProblemLocation) => void;
 };
 
-export type TestFeatureFunction = (feature: FeatureInfo, collection: CompatStatement | undefined) => void;
+export type TestFeatureFunction = (feature: FeatureInfo, collection: CompatStatement | undefined) => boolean;
 
 export type BrowserVersions = {
     [key: string]: string[];

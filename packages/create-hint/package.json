@@ -14,7 +14,7 @@
     "@types/node": "10.12.18",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.12.0",
+    "eslint": "^5.12.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
@@ -28,11 +28,11 @@
     "npm-run-all": "^4.1.5",
     "nyc": "^13.1.0",
     "rimraf": "^2.6.3",
-    "sinon": "^7.2.2",
+    "sinon": "^7.2.3",
     "ts-loader": "^5.3.3",
-    "typescript": "^3.2.2",
-    "typescript-eslint-parser": "21.0.2",
-    "webpack": "^4.28.4",
+    "typescript": "^3.2.4",
+    "typescript-eslint-parser": "22.0.0",
+    "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1"
   },
   "engines": {
@@ -71,5 +71,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "3.0.0"
+  "version": "3.0.1"
 }

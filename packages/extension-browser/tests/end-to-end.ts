@@ -98,10 +98,7 @@ test.serial('It runs end-to-end in a page', async (t) => {
     server.stop();
 });
 
-/*
- * TODO: Get this working in CI (at least for Linux).
- * https://docs.travis-ci.com/user/gui-and-headless-browsers/#using-xvfb-to-run-tests-that-require-a-gui
- */
+// TODO: Get this working in CI (at least for Linux).
 if (!isCI) {
     test.serial('It runs end-to-end as an extension', async (t) => {
         const server = createServer();

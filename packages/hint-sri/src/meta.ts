@@ -15,13 +15,13 @@ const meta: HintMetadata = {
         additionalProperties: false,
         properties: {
             baseline: {
-                oneOf: Object.keys(Algorithms).filter((key) => {
+                enum: Object.keys(Algorithms).filter((key) => {
                     return isNaN(parseInt(key, 10));
                 }),
                 type: 'string'
             },
             originCriteria: {
-                oneOf: Object.keys(OriginCriteria).filter((key) => {
+                enum: Object.keys(OriginCriteria).filter((key) => {
                     return isNaN(parseInt(key, 10));
                 }),
                 type: 'string'

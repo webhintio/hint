@@ -3,12 +3,13 @@ import { Events, Event } from 'hint/dist/src/lib/types';
 
 import { CompatFeaturesCache } from './compat-features-cache';
 import { TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers } from '../types';
+import { CompatStatement } from '../types-mdn.temp';
 
 export abstract class CompatBase<T extends Events, K extends Event> {
-    protected testFunction: TestFeatureFunction;
-    protected hintContext: HintContext<T>;
     protected hintResource: string = 'unknown';
     protected MDNData: MDNTreeFilteredByBrowsers;
+    protected hintContext: HintContext<T>;
+    protected testFunction: TestFeatureFunction;
     private cachedFeatures: CompatFeaturesCache;
 
     public abstract async searchFeatures(parser?: K): Promise<void>
@@ -36,11 +37,22 @@ export abstract class CompatBase<T extends Events, K extends Event> {
     public async reportError(feature: FeatureInfo, message: string): Promise<void> {
         const { location } = feature;
 
-        this.cachedFeatures.add(feature);
         await this.hintContext.report(this.hintResource, message, { location });
     }
 
-    public isFeatureAlreadyReported(feature: FeatureInfo): boolean {
+    private isFeatureAlreadyReported(feature: FeatureInfo): boolean {
         return this.cachedFeatures.has(feature);
+    }
+
+    protected checkFeatureCompatibility(feature: FeatureInfo, collection: CompatStatement| undefined): void {
+        if (this.isFeatureAlreadyReported(feature)) {
+            return;
+        }
+
+        const isFeatureSupported = this.testFunction(feature, collection);
+
+        if (!isFeatureSupported) {
+            this.cachedFeatures.add(feature);
+        }
     }
 }
