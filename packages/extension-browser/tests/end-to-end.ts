@@ -2,7 +2,7 @@ import * as isCI from 'is-ci';
 import { launch, Browser, Page } from 'puppeteer';
 import test from 'ava';
 
-import { createServer } from '@hint/utils-create-server';
+import { Server } from '@hint/utils-create-server';
 
 import { Events, Results } from '../src/shared/types';
 
@@ -43,11 +43,7 @@ const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
 };
 
 test.serial('It runs end-to-end in a page', async (t) => {
-    const server = createServer();
-
-    server.configure(await readFixture('missing-lang.html'));
-
-    await server.start();
+    const server = await Server.create({ configuration: await readFixture('missing-lang.html') });
 
     const url = `http://localhost:${server.port}/`;
 
@@ -58,7 +54,7 @@ test.serial('It runs end-to-end in a page', async (t) => {
 
     const resultsPromise: Promise<Results> = page.evaluate(() => {
         return new Promise<Results>((resolve) => {
-            let onMessage: ((events: Events) => void) = () => {};
+            let onMessage: ((events: Events) => void) = () => { };
 
             window.chrome = {
                 runtime: {
@@ -66,7 +62,7 @@ test.serial('It runs end-to-end in a page', async (t) => {
                         addListener: (fn: () => void) => {
                             onMessage = fn;
                         },
-                        removeListener: () => {}
+                        removeListener: () => { }
                     },
                     sendMessage: (event: Events) => {
                         if (event.requestConfig) {
@@ -101,11 +97,7 @@ test.serial('It runs end-to-end in a page', async (t) => {
 // TODO: Get this working in CI (at least for Linux).
 if (!isCI) {
     test.serial('It runs end-to-end as an extension', async (t) => {
-        const server = createServer();
-
-        server.configure(await readFixture('missing-lang.html'));
-
-        await server.start();
+        const server = await Server.create({ configuration: await readFixture('missing-lang.html') });
 
         const url = `http://localhost:${server.port}/`;
 

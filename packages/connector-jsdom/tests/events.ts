@@ -9,24 +9,14 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { URL } from 'url';
 
-import { map, reduce, groupBy, every } from 'lodash';
+import { groupBy, every } from 'lodash';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
-import { createServer, Server } from '@hint/utils-create-server';
+import test from 'ava';
+import { Server } from '@hint/utils-create-server';
 import { IConnector, Events } from 'hint/dist/src/lib/types';
 
 import JSDOMConnector from '../src/connector';
 import { Engine } from 'hint';
-
-type EventsContext = {
-    connector?: IConnector;
-    engine: Engine<Events>;
-    engineEmitSpy: sinon.SinonSpy;
-    engineEmitAsyncSpy: sinon.SinonSpy;
-    server: Server;
-};
-
-const test = anyTest as TestInterface<EventsContext>;
 
 const name: string = 'jsdom';
 
@@ -202,8 +192,7 @@ const validEvent = (eventsToSearch: any[], expectedEvent: any) => {
     return originalSize !== eventsToSearch.length;
 };
 
-
-test.beforeEach(async (t) => {
+test(`[${name}] Events`, async (t) => {
     const engine: Engine<Events> = {
         emit(): boolean {
             return false;
@@ -211,89 +200,38 @@ test.beforeEach(async (t) => {
         async emitAsync(): Promise<any> { }
     } as any;
 
-    t.context.engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
-    t.context.engineEmitSpy = sinon.spy(engine, 'emit');
+    const engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
+    const engineEmitSpy = sinon.spy(engine, 'emit');
 
-    const server: Server = createServer();
-
-    await server.start();
-
-    t.context.engine = engine;
-    t.context.server = server;
-});
-
-test.afterEach.always(async (t) => {
-    t.context.engineEmitAsyncSpy.restore();
-    t.context.engineEmitSpy.restore();
-    t.context.server.stop();
-    await t.context.connector!.close();
-});
-
-/**
- * Updates all references to localhost to use the right port for the current instance.
- *
- * This does a deep search in all the object properties.
- */
-const updateLocalhost = (content: any, port: any): any => {
-    if (typeof content === 'string') {
-        return content.replace(/localhost\//g, `localhost:${port}/`);
-    }
-
-    if (typeof content === 'number' || !content) {
-        return content;
-    }
-
-    if (Array.isArray(content)) {
-        const transformed = map(content, (value) => {
-            return updateLocalhost(value, port);
-        });
-
-        return transformed;
-    }
-
-    const transformed = reduce(content, (obj: any, value, key) => {
-        obj[key] = updateLocalhost(value, port);
-
-        return obj;
-    }, {});
-
-    return transformed;
-};
-
-test(`[${name}] Events`, async (t) => {
-    const { engine } = t.context;
     const connector: IConnector = new JSDOMConnector(engine, {});
-    const server = t.context.server;
-
-    t.context.connector = connector;
-
-    server.configure({
-        '/': updateLocalhost(fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'), server.port),
-        '/nellie.png': { content: fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png')) },
-        '/script.js': { content: '' },
-        '/script2.js': {
-            content: 'script.js',
-            status: 302
-        },
-        '/script3.js': {
-            content: 'script2.js',
-            status: 302
-        },
-        '/script4.js': {
-            content: 'script4.js',
-            status: 404
-        },
-        '/script5.js': null,
-        '/style.css': { content: '' }
+    const server = await Server.create({
+        configuration: {
+            '/': fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8'),
+            '/nellie.png': { content: fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png')) },
+            '/script.js': { content: '' },
+            '/script2.js': {
+                content: 'script.js',
+                status: 302
+            },
+            '/script3.js': {
+                content: 'script2.js',
+                status: 302
+            },
+            '/script4.js': {
+                content: 'script4.js',
+                status: 404
+            },
+            '/script5.js': null,
+            '/style.css': { content: '' }
+        }
     });
 
     const pendingEvents: any[] = events.map((event) => {
-        return updateLocalhost(event, server.port);
+        return Server.updateLocalhost(event, server.port);
     });
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
 
-    const { engineEmitSpy, engineEmitAsyncSpy } = t.context;
     const invokes: any[] = [];
 
     for (let i = 0; i < engineEmitAsyncSpy.callCount; i++) {
@@ -317,4 +255,6 @@ test(`[${name}] Events`, async (t) => {
     pendingEvents.forEach((event) => {
         t.true(validEvent(invokes, event), `Event ${event[0]}/${event[1].resource} has the same properties`);
     });
+
+    await Promise.all([connector.close(), server.stop()]);
 });

@@ -4,13 +4,12 @@ import * as zlib from 'zlib';
 import * as iconv from 'iconv-lite';
 import * as brotli from 'iltorb';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
-import { createServer, Server } from '@hint/utils-create-server';
+import { Server } from '@hint/utils-create-server';
 import { NetworkData } from 'hint/dist/src/lib/types';
 
 import { Requester } from '../src/requester';
 
 type RequesterContext = {
-    server: Server;
     requester: Requester;
 };
 
@@ -27,20 +26,10 @@ const text = `This is a text
     with several characters <> "'
     áéíóúàèìòùâêîôûäëïöü`;
 
-test.beforeEach(async (t) => {
-    const server = createServer();
+test.beforeEach((t) => {
     const requester = new Requester();
 
-    await server.start();
-
-    t.context.server = server;
     t.context.requester = requester;
-});
-
-test.afterEach.always((t) => {
-    const { server } = t.context;
-
-    server.stop();
 });
 
 /*
@@ -79,19 +68,22 @@ const contentTypes = [
  *
  */
 const testTextDecoding = async (t: ExecutionContext<RequesterContext>, encoding: string, contentType: string, compression?: 'gzip' | 'br') => {
-    const { requester, server } = t.context;
+    const { requester } = t.context;
+
     const originalBytes = iconv.encode(text, encoding);
     const transformedText = iconv.decode(originalBytes, encoding);
     const content: Buffer = compression ?
         await compress[compression](originalBytes) :
         originalBytes;
 
-    server.configure({
-        '/': {
-            content,
-            headers: {
-                'Content-Encoding': compression ? compression : 'identity',
-                'Content-Type': `${contentType}; charset=${encoding}`
+    const server = await Server.create({
+        configuration: {
+            '/': {
+                content,
+                headers: {
+                    'Content-Encoding': compression ? compression : 'identity',
+                    'Content-Type': `${contentType}; charset=${encoding}`
+                }
             }
         }
     });
@@ -107,6 +99,8 @@ const testTextDecoding = async (t: ExecutionContext<RequesterContext>, encoding:
 
     // rawBodyResponse is a `Buffer` with the original bytes of the response
     t.true(content.equals(rawResponse));
+
+    await server.stop();
 };
 
 supportedEncodings.forEach((encoding) => {
@@ -130,14 +124,16 @@ const binTypes = [
 
 /** This function verifies that no decoding is done if `Content-Type` doesn't expect it. */
 const testBinaries = async (t: ExecutionContext<RequesterContext>, binType: string) => {
-    const { requester, server } = t.context;
+    const { requester } = t.context;
 
     const content = iconv.encode(text, 'iso-8859-1');
 
-    server.configure({
-        '/': {
-            content,
-            headers: { 'Content-Type': `${binType}; charset=iso-8859-1` }
+    const server = await Server.create({
+        configuration: {
+            '/': {
+                content,
+                headers: { 'Content-Type': `${binType}; charset=iso-8859-1` }
+            }
         }
     });
 
@@ -147,6 +143,8 @@ const testBinaries = async (t: ExecutionContext<RequesterContext>, binType: stri
 
     // Body should be null
     t.is(body.content, null);
+
+    await server.stop();
 };
 
 binTypes.forEach((binType) => {
@@ -206,21 +204,21 @@ const loopServerMultiSteps = {
 };
 
 test(`Requester follows all hops, reports the right number and returns the final string content`, async (t) => {
-    const { requester, server } = t.context;
+    const { requester } = t.context;
 
-    server.configure(hopsServerConfig);
+    const server = await Server.create({ configuration: hopsServerConfig });
 
     const { response } = await requester.get(`http://localhost:${server.port}/hop301`) as NetworkData;
 
     t.is(response.hops.length, Object.keys(hopsServerConfig).length - 1);
     t.is(response.body.content, hopsServerConfig['/']);
+
+    await server.stop();
 });
 
 test(`Throws an error if number of hops exceeds the redirect limit`, async (t) => {
     const maxRedirectsRequester = new Requester({ maxRedirects: 4 });
-    const server = t.context.server;
-
-    server.configure(hopsServerConfig);
+    const server = await Server.create({ configuration: hopsServerConfig });
 
     t.plan(1);
 
@@ -229,14 +227,15 @@ test(`Throws an error if number of hops exceeds the redirect limit`, async (t) =
     } catch (e) {
         t.is(e, 'The number of redirects(5) exceeds the limit(4).');
     }
+
+    await server.stop();
 });
 
 test(`Aborts the request if it exceeds the time limit to get response`, async (t) => {
     const timeoutRequester = new Requester({ timeout: 3000 });
-    const server = t.context.server;
     const timeOutServerConfig = { '/timeout': { content: 'timeout' } };
 
-    server.configure(timeOutServerConfig);
+    const server = await Server.create({ configuration: timeOutServerConfig });
 
     t.plan(2);
 
@@ -246,12 +245,14 @@ test(`Aborts the request if it exceeds the time limit to get response`, async (t
         t.is(e.error.code, 'ESOCKETTIMEDOUT');
         t.is(e.uri, `http://localhost:${server.port}/timeout`);
     }
+
+    await server.stop();
 });
 
 test(`Requester returns and exception if a loop is detected`, async (t) => {
-    const { requester, server } = t.context;
+    const { requester } = t.context;
 
-    server.configure(loopServerConfig);
+    const server = await Server.create({ configuration: loopServerConfig });
 
     t.plan(1);
 
@@ -260,12 +261,14 @@ test(`Requester returns and exception if a loop is detected`, async (t) => {
     } catch (e) {
         t.is(e, `'http://localhost:${server.port}/hop301' could not be fetched using GET method (redirect loop detected).`);
     }
+
+    await server.stop();
 });
 
 test(`Requester returns and exception if a loop is detected after few redirects`, async (t) => {
-    const { requester, server } = t.context;
+    const { requester } = t.context;
 
-    server.configure(loopServerMultiSteps);
+    const server = await Server.create({ configuration: loopServerMultiSteps });
 
     t.plan(1);
 
@@ -274,4 +277,6 @@ test(`Requester returns and exception if a loop is detected after few redirects`
     } catch (e) {
         t.is(e, `'http://localhost:${server.port}/hop303' could not be fetched using GET method (redirect loop detected).`);
     }
+
+    await server.stop();
 });
