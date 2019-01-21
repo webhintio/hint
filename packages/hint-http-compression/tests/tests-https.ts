@@ -20,7 +20,7 @@ const hintPath = getHintPath(__filename);
 
 /*
  * TODO: Remove `ignoredConnectors` part once headless
- *       Chrome on Travis CI doesn't fail miserably. :(
+ *       Chrome on CI doesn't fail. :(
  */
 const testConfigs = {
     https: true,

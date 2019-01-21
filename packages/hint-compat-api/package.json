@@ -14,7 +14,7 @@
     "@types/node": "8.0.14",
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.12.0",
+    "eslint": "^5.12.1",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "^0.14.0",
     "hint": "^4.3.1",
@@ -25,8 +25,8 @@
     "nyc": "^13.1.0",
     "postcss": "^7.0.13",
     "rimraf": "^2.6.3",
-    "typescript": "^3.2.2",
-    "typescript-eslint-parser": "^21.0.2"
+    "typescript": "^3.2.4",
+    "typescript-eslint-parser": "^22.0.0"
   },
   "engines": {
     "node": ">=8.0.0"

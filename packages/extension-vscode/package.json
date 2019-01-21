@@ -18,13 +18,13 @@
   ],
   "dependencies": {
     "vscode-languageclient": "^5.1.1",
-    "vscode-languageserver": "^5.0.3"
+    "vscode-languageserver": "^5.2.1"
   },
   "description": "Run webhint in Visual Studio Code.",
   "devDependencies": {
     "ava": "^0.25.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.12.0",
+    "eslint": "^5.12.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
@@ -34,9 +34,9 @@
     "nyc": "^13.1.0",
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.3",
-    "sinon": "^7.2.2",
-    "typescript": "^3.2.2",
-    "typescript-eslint-parser": "21.0.2",
+    "sinon": "^7.2.3",
+    "typescript": "^3.2.4",
+    "typescript-eslint-parser": "22.0.0",
     "vscode": "^1.1.26"
   },
   "displayName": "webhint",
