@@ -395,10 +395,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/image-size@^0.0.29":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@types/image-size/-/image-size-0.0.29.tgz#0924d4ec95edc82f615b7f634cba31534b81c351"
-  integrity sha512-d47SGzTnoUXSLRn3Kej43FZXLduZjHJqkb26BmxKp9fQveCvjfirtpk7a5iLCGkJ/rur9kxUf7DwD2eKlPxjMg==
+"@types/image-size@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@types/image-size/-/image-size-0.7.0.tgz#a785302cdaedad7dfd985c5f2f6f721467b95de9"
+  integrity sha512-WkmNFWsC7NggeNC+2LxFJc6we3PiPf72NJUpezGNPbSe5zZ9sBcscQnSqQjYAyax3QNCyT42kNdAeT2tTvQMcQ==
   dependencies:
     "@types/node" "*"
 
@@ -499,12 +499,7 @@
   dependencies:
     moment "*"
 
-"@types/node@*":
-  version "10.12.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.10.tgz#4fa76e6598b7de3f0cb6ec3abacc4f59e5b3a2ce"
-  integrity sha512-8xZEYckCbUVgK8Eg7lf5Iy4COKJ5uXlnIOnePN0WUwSQggy9tolM+tDJf7wMOnT/JT/W9xDYIaYggt3mRV2O5w==
-
-"@types/node@10.12.18":
+"@types/node@*", "@types/node@10.12.18":
   version "10.12.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
   integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
