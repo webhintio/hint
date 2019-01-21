@@ -9,7 +9,7 @@
   "dependencies": {
     "@hint/utils-connector-tools": "^2.0.2",
     "jsdom": "^13.1.0",
-    "mutationobserver-shim": "^0.3.2",
+    "mutationobserver-shim": "^0.3.3",
     "node-pre-gyp": "^0.12.0",
     "whatwg-fetch": "^3.0.0"
   },
