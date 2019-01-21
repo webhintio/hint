@@ -10365,10 +10365,10 @@ vscode-uri@^1.0.6:
   resolved "https://registry.yarnpkg.com/vscode-uri/-/vscode-uri-1.0.6.tgz#6b8f141b0bbc44ad7b07e94f82f168ac7608ad4d"
   integrity sha512-sLI2L0uGov3wKVb9EB+vIQBl9tVP90nqRvxSoJ35vI3NjxE8jfsE5DSOhWgSunHSZmKS4OCi2jrtfxK7uyp2ww==
 
-vscode@^1.1.26:
-  version "1.1.26"
-  resolved "https://registry.yarnpkg.com/vscode/-/vscode-1.1.26.tgz#33d0feacd8ab5f78a0c4672235376c70cdea494b"
-  integrity sha512-z1Nf5J38gjUFbuDCbJHPN6OJ//5EG+e/yHlh6ERxj/U9B2Qc3aiHaFr38/fee/GGnxvRw/XegLMOG+UJwKi/Qg==
+vscode@^1.1.27:
+  version "1.1.27"
+  resolved "https://registry.yarnpkg.com/vscode/-/vscode-1.1.27.tgz#98867b78208f97e7e331583df9e6956189be0c82"
+  integrity sha512-czmqqiuvQLqkZLt1zJgQWgFHlGBkvQzR4xsXfA/U1hZaaWlIB8+kg4gMbl7IW0TRvkGG/WEuAEKgrrVI237ymA==
   dependencies:
     glob "^7.1.2"
     gulp-chmod "^2.0.0"
