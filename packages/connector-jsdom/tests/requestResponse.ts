@@ -10,90 +10,15 @@ import * as path from 'path';
 import { URL } from 'url';
 import * as zlib from 'zlib';
 
-import { map, reduce } from 'lodash';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
-import { createServer, Server } from '@hint/utils-create-server';
+import test from 'ava';
+import { Server } from '@hint/utils-create-server';
 import { IConnector, Events } from 'hint/dist/src/lib/types';
 
 import JSDOMConnector from '../src/connector';
 import { Engine } from 'hint';
 
-type RequestResponseContext = {
-    connector?: IConnector;
-    engine: Engine<Events>;
-    engineEmitSpy: sinon.SinonSpy;
-    engineEmitAsyncSpy: sinon.SinonSpy;
-    gzipHtml: Buffer;
-    html: any;
-    server: Server;
-};
-
-const test = anyTest as TestInterface<RequestResponseContext>;
-
 const name: string = 'jsdom';
-
-const sourceHtml = fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8');
-
-/**
- * Updates all references to localhost to use the right port for the current instance.
- *
- * This does a deep search in all the object properties.
- */
-const updateLocalhost = (content: any, port: any): any => {
-    if (typeof content === 'string') {
-        return content.replace(/localhost\//g, `localhost:${port}/`);
-    }
-
-    if (typeof content === 'number' || !content) {
-        return content;
-    }
-
-    if (Array.isArray(content)) {
-        const transformed = map(content, (value) => {
-            return updateLocalhost(value, port);
-        });
-
-        return transformed;
-    }
-
-    const transformed = reduce(content, (obj: any, value, key) => {
-        obj[key] = updateLocalhost(value, port);
-
-        return obj;
-    }, {});
-
-    return transformed;
-};
-
-test.beforeEach(async (t) => {
-    const engine: Engine<Events> = {
-        emit(): boolean {
-            return false;
-        },
-        async emitAsync(): Promise<any> { }
-    } as any;
-
-    t.context.engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
-    t.context.engineEmitSpy = sinon.spy(engine, 'emit');
-
-    const server = createServer();
-
-    await server.start();
-
-    t.context.html = updateLocalhost(sourceHtml, server.port);
-    t.context.gzipHtml = zlib.gzipSync(Buffer.from(t.context.html));
-
-    t.context.engine = engine;
-    t.context.server = server;
-});
-
-test.afterEach.always(async (t) => {
-    t.context.engineEmitAsyncSpy.restore();
-    t.context.engineEmitSpy.restore();
-    t.context.server.stop();
-    await t.context.connector!.close();
-});
 
 const findEvent = (func: sinon.SinonSpy, eventName: string) => {
     for (let i = 0; i < func.callCount; i++) {
@@ -108,15 +33,27 @@ const findEvent = (func: sinon.SinonSpy, eventName: string) => {
 };
 
 test(`[${name}] requestResponse`, async (t) => {
-    const { engine, engineEmitSpy, engineEmitAsyncSpy } = t.context;
+    const sourceHtml = fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf8');
+
+    const engine: Engine<Events> = {
+        emit(): boolean {
+            return false;
+        },
+        async emitAsync(): Promise<any> { }
+    } as any;
+
+    const engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
+    const engineEmitSpy = sinon.spy(engine, 'emit');
+
     const connector: IConnector = new JSDOMConnector(engine, {});
-    const server = t.context.server;
+    const server = await Server.create();
 
-    t.context.connector = connector;
+    const html = Server.updateLocalhost(sourceHtml, server.port);
+    const gzipHtml = zlib.gzipSync(Buffer.from(html));
 
-    server.configure({
+    await server.configure({
         '/': {
-            content: t.context.gzipHtml,
+            content: gzipHtml,
             headers: {
                 'content-encoding': 'gzip',
                 'content-type': 'text/html'
@@ -133,10 +70,10 @@ test(`[${name}] requestResponse`, async (t) => {
         request: { url: `http://localhost:${server.port}/` },
         response: {
             body: {
-                content: t.context.html,
-                rawContent: Buffer.from(t.context.html),
+                content: html,
+                rawContent: Buffer.from(html),
                 rawResponse() {
-                    return Promise.resolve(t.context.gzipHtml);
+                    return Promise.resolve(gzipHtml);
                 }
             },
             charset: 'utf-8',
@@ -161,4 +98,6 @@ test(`[${name}] requestResponse`, async (t) => {
     t.true(expectedRawResponse.equals(invokedRawResponse), 'rawResponses are different');
     t.true(expectedBody.content === invokedBody.content, 'content is different');
     t.true(expectedBody.rawContent.equals(invokedBody.rawContent), 'rawContent is different');
+
+    await Promise.all([connector.close(), server.stop()]);
 });

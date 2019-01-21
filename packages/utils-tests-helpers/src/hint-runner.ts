@@ -5,7 +5,7 @@
 import { URL } from 'url';
 
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
-import { createServer, Server } from '@hint/utils-create-server';
+import { Server } from '@hint/utils-create-server';
 
 import { ids as connectors } from './connectors';
 import { IHintConstructor, HintsConfigObject, Problem } from 'hint/dist/src/lib/types';
@@ -108,7 +108,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, results: Proble
 
             if (report.position && result.location) {
                 return report.position.column === result.location.column &&
-                       report.position.line === result.location.line;
+                    report.position.line === result.location.line;
             }
 
             return true;
@@ -124,31 +124,12 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, results: Proble
 
 /** Executes all the tests from `hintTests` in the hint whose id is `hintId` */
 export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key: string]: any } = {}) => {
-    /**
-     * Because tests are executed asynchronously in ava, we need
-     * a different server and hint object for each one
-     */
-    test.beforeEach(async (t) => {
-        // When running serial tests, the server is shared
-        if (typeof t.context.server !== 'undefined') {
-            return;
-        }
-        t.context.server = createServer(configs.https);
-        await t.context.server.start();
-    });
-
-    test.afterEach.always(async (t) => {
-        await t.context.server.stop();
-    });
 
     /**
      * Creates a new connector with only the hint to be tested and
      * executing any required `before` task as indicated by `hintTest`.
      */
     const createConnector = async (t: ExecutionContext<HintRunnerContext>, hintTest: HintTest, connector: string): Promise<Engine> => {
-        const { server } = t.context;
-        const { serverConfig } = hintTest;
-
         if (hintTest.before) {
             await hintTest.before();
         }
@@ -156,8 +137,6 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
         const config = createConfig(hintId, connector, configs);
         const resources = resourceLoader.loadResources(config);
         const engine: Engine = new Engine(config, resources);
-
-        server.configure(serverConfig);
 
         return engine;
     };
@@ -177,16 +156,16 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
     /** Runs a test for the hint being tested */
     const runHint = async (t: ExecutionContext<HintRunnerContext>, hintTest: HintTest, connector: string) => {
         try {
-
-            const { server } = t.context;
+            const server = await Server.create({ configuration: hintTest.serverConfig, isHTTPS: configs.https });
             const { serverUrl, reports } = hintTest;
             const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
             const engine = await createConnector(t, hintTest, connector);
             const results = await engine.executeOn(new URL(target));
 
             await stopConnector(hintTest, engine);
+            await server.stop();
 
-            return validateResults(t, results, reports);
+            return validateResults(t, results, Server.updateLocalhost(reports, server.port));
         } catch (e) {
             console.error(e);
 
