@@ -82,6 +82,44 @@ This property follows the same convention as [browserslist][browserslist].
 }
 ```
 
+`ignore` can be used to specify a list of HTML features to be ignored. The
+default value is `['integrity']`.
+
+In the `.hintrc` file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "hints": {
+        "compat-api/html": ["error", {
+            "ignore": ["blink"],
+        }],
+        ...
+    },
+    ...
+}
+```
+
+`enable` can be used to specify a list of HTML features to be checked even if
+they are included in the ignore list. The default value is `[]`.
+
+In the `.hintrc` file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "hints": {
+        "compat-api/html": ["error", {
+            "enable": ["integrity"],
+        }],
+        ...
+    },
+    ...
+}
+```
+
 ## Further Reading
 
 * [CSS: Cascading Style Sheets (MDN)][docmdn]
