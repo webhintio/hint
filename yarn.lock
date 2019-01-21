@@ -499,12 +499,7 @@
   dependencies:
     moment "*"
 
-"@types/node@*":
-  version "10.12.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.10.tgz#4fa76e6598b7de3f0cb6ec3abacc4f59e5b3a2ce"
-  integrity sha512-8xZEYckCbUVgK8Eg7lf5Iy4COKJ5uXlnIOnePN0WUwSQggy9tolM+tDJf7wMOnT/JT/W9xDYIaYggt3mRV2O5w==
-
-"@types/node@10.12.18":
+"@types/node@*", "@types/node@10.12.18":
   version "10.12.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
   integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
@@ -3868,10 +3863,10 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
-exceljs@^1.6.2:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.6.3.tgz#ccd0da1638252f2c0d496f0a661a72af4611e277"
-  integrity sha512-GUAGrh9eWN75Nh+qubb+oP2gltoWM+hfExdY8ItRfpOCZraThjBA+yeZh2HpGN+MJnhpjV1jQoFqe6EajuyVBA==
+exceljs@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-1.7.0.tgz#582aa0b209e7d77bf3eb3dcbc67b615dadab825e"
+  integrity sha512-3Q0tCRPJscnr5R1m/w5l81dh5rVSUsYnGFadEinGG1qq0//YwDfyC9SPcOG4HFY941XdPolxipkWc+KWZctpNw==
   dependencies:
     "@types/node" "*"
     archiver "^1.3.0"
@@ -6857,12 +6852,7 @@ module-not-found-error@^1.0.0:
   resolved "https://registry.yarnpkg.com/module-not-found-error/-/module-not-found-error-1.0.1.tgz#cf8b4ff4f29640674d6cdd02b0e3bc523c2bbdc0"
   integrity sha1-z4tP9PKWQGdNbN0CsOO8UjwrvcA=
 
-moment@*, moment@>=2.19.3:
-  version "2.22.2"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
-  integrity sha1-PCV/mDn8DpP/UxSWMiOeuQeD/2Y=
-
-moment@2.23.0, moment@^2.23.0:
+moment@*, moment@2.23.0, moment@>=2.19.3, moment@^2.23.0:
   version "2.23.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
   integrity sha512-3IE39bHVqFbWWaPOMHZF98Q9c3LDKGTmypMiTM2QygGXXElkFWIH7GxfmlwmY2vwa+wmNsoYZmG2iusf1ZjJoA==
