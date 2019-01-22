@@ -215,8 +215,7 @@ test(`'${parseEndEventName}' event is emitted when manifest content is valid`, a
 });
 
 test(`'${parseEndEventName}' event includes location information`, async (t) => {
-    const manifestContent =
-        `{
+    const manifestContent = `{
     "name": "5"
 };`;
 
@@ -290,8 +289,7 @@ test(`'${parseErrorSchemaEventName}' event includes location information`, async
         }
     };
 
-    const manifestContent =
-        `{
+    const manifestContent = `{
     "additionalProperty": "x",
     "gcm_sender_id": { "a": 5 },
     "icons": [{

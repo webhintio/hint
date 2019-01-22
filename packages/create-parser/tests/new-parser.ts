@@ -12,7 +12,7 @@ type NewParserContext = {
     normalizeStringByDelimiterDefaultStub: sinon.SinonStub;
     readFileAsyncDefaultStub: sinon.SinonStub;
     writeFileAsyncDefaultStub: sinon.SinonStub;
-    handlebarsUtilsCompoileTemplateStub: sinon.SinonStub;
+    handlebarsUtilsCompileTemplateStub: sinon.SinonStub;
 };
 
 const test = anyTest as TestInterface<NewParserContext>;
@@ -52,7 +52,7 @@ test.beforeEach((t) => {
     t.context.writeFileAsyncDefaultStub = sandbox.stub(writeFileAsync, 'default').resolves();
     t.context.normalizeStringByDelimiterDefaultStub = sandbox.stub(normalizeStringByDelimiter, 'default').returns('');
     t.context.readFileAsyncDefaultStub = sandbox.stub(readFileAsync, 'default').resolves('');
-    t.context.handlebarsUtilsCompoileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').resolves('');
+    t.context.handlebarsUtilsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').resolves('');
 
     t.context.sandbox = sandbox;
 });
@@ -82,7 +82,7 @@ test.serial('It should create a new official parser.', async (t) => {
     const result = await newParser();
 
     // 6 files (2 code + test + doc + tsconfig.json + package.json)
-    t.is(t.context.handlebarsUtilsCompoileTemplateStub.callCount, 6, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.handlebarsUtilsCompileTemplateStub.callCount, 6, `Handlebars doesn't complile the right number of files`);
     // 6 files (2 code + test + doc + tsconfig.json + package.json)
     t.is(t.context.writeFileAsyncDefaultStub.callCount, 6, 'Invalid number of files created');
 
@@ -131,14 +131,14 @@ test.serial('It should create a new official parser with no duplicate events.', 
     const eventList = eventQuestion!.choices as Array<string>;
     const containFetchEnd = eventList!.includes('fetch::end::*');
     const containElement = eventList!.includes('element::');
-    const data = t.context.handlebarsUtilsCompoileTemplateStub.args[0][1];
+    const data = t.context.handlebarsUtilsCompileTemplateStub.args[0][1];
     const events = data.events.map((event: { event: string }) => {
         return event.event;
     });
     const eventsSet = new Set(events);
 
     // 6 files (2 code + test + doc + tsconfig.json + package.json)
-    t.is(t.context.handlebarsUtilsCompoileTemplateStub.callCount, 6, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.handlebarsUtilsCompileTemplateStub.callCount, 6, `Handlebars doesn't complile the right number of files`);
     // 6 files (2 code + test + doc + tsconfig.json + package.json)
     t.is(t.context.writeFileAsyncDefaultStub.callCount, 6, 'Invalid number of files created');
 
@@ -172,7 +172,7 @@ test.serial('It should create a new non-official parser.', async (t) => {
     const result = await newParser();
 
     // 7 files (2 code + test + doc + tsconfig.json + package.json + .hintrc)
-    t.is(t.context.handlebarsUtilsCompoileTemplateStub.callCount, 7, `Handlebars doesn't complile the right number of files`);
+    t.is(t.context.handlebarsUtilsCompileTemplateStub.callCount, 7, `Handlebars doesn't complile the right number of files`);
     // 7 files (2 code + test + doc + tsconfig.json + package.json + .hintrc)
     t.is(t.context.writeFileAsyncDefaultStub.callCount, 7, 'Invalid number of files created');
 

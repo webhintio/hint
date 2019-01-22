@@ -10,7 +10,7 @@ import { Engine } from 'hint';
 import ChromeConnector from '../src/connector';
 
 type EvaluateContext = {
-    connector?: IConnector;
+    connector: IConnector;
     engine: Engine<Events>;
     server: Server;
 };
@@ -68,15 +68,13 @@ test.beforeEach(async (t) => {
 
     await server.start();
 
-    t.context = {
-        engine,
-        server
-    };
+    t.context.engine = engine;
+    t.context.server = server;
 });
 
 test.afterEach.always(async (t) => {
     t.context.server.stop();
-    await t.context.connector!.close();
+    await t.context.connector.close();
 });
 
 test(`[${name}] Evaluate JavaScript`, async (t) => {
