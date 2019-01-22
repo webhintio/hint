@@ -194,8 +194,6 @@ test.serial('If config file does not exist, it should use `web-recommended` as d
 
     sandbox.stub(askQuestion, 'default').resolves(false);
 
-    t.plan(2);
-
     await analyze(actions);
 
     t.true(fromConfigStub.calledOnce);
@@ -223,8 +221,6 @@ test.serial('If config file is an invalid JSON, it should ask to use the default
     sandbox.stub(config.Configuration, 'fromConfig').returns({});
     sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
     sandbox.stub(askQuestion, 'default').resolves(true);
-
-    t.plan(3);
 
     await analyze(actions);
 

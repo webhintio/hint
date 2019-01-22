@@ -8,7 +8,7 @@ import JSDOMConnector from '../src/connector';
 
 type InvalidUrlContext = {
     engine: Engine<Events>;
-    connector?: IConnector;
+    connector: IConnector;
 };
 
 const test = anyTest as TestInterface<InvalidUrlContext>;
@@ -23,11 +23,11 @@ test.beforeEach((t) => {
         async emitAsync(): Promise<any> { }
     } as any;
 
-    t.context = { engine };
+    t.context.engine = engine;
 });
 
 test.afterEach.always(async (t) => {
-    await t.context.connector!.close();
+    await t.context.connector.close();
 });
 
 test(`[${name}] Load an invalid url throws an error`, async (t) => {

@@ -35,7 +35,7 @@ test('We should provide a correct AST when parsing CSS.', async (t) => {
     const style = `<style>  ${code}  </style>`;
     new CSSParser.default(engine); // eslint-disable-line
 
-    const engineEmitASync = sandbox.spy(engine, 'emitAsync');
+    const engineEmitAsync = sandbox.spy(engine, 'emitAsync');
 
     sandbox.stub(postcss, 'parse').returns(parseObject);
 
@@ -46,9 +46,9 @@ test('We should provide a correct AST when parsing CSS.', async (t) => {
 
     await engine.emitAsync('element::style', { element } as ElementFound);
 
-    t.is(engineEmitASync.args[1][0], 'parse::start::css');
+    t.is(engineEmitAsync.args[1][0], 'parse::start::css');
 
-    const args = engineEmitASync.args[2];
+    const args = engineEmitAsync.args[2];
     const data = args[1] as StyleParse;
     const root = data.ast;
     const rule = root.first as Rule;

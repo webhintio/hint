@@ -6,6 +6,8 @@ import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
 import { Configuration } from '../../../src/lib/config';
 import { ResourceType } from '../../../src/lib/enums/resourcetype';
+import { ResourceError } from '../../../src/lib/types/resourceerror';
+import { ResourceErrorStatus } from '../../../src/lib/enums/errorstatus';
 
 const cacheKey = path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js');
 
@@ -92,13 +94,11 @@ test('loadHint calls loadResource with the right parameters', (t) => {
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
     const loadResourceStub = sinon.stub(resourceLoader, 'loadResource');
 
-    loadResourceStub.throws({});
+    loadResourceStub.throws(new ResourceError('message', ResourceErrorStatus.NotFound));
 
-    try {
+    t.throws(() => {
         resourceLoader.loadHint('fake-hint');
-    } catch (e) {
-        // Empty
-    }
+    });
 
     t.is(loadResourceStub.firstCall.args[0], 'fake-hint', `The name of the hint isn't correctly passed`);
     t.is(loadResourceStub.firstCall.args[1], 'hint', `The type "hint" isn't used`);
@@ -113,13 +113,11 @@ test('loadConfiguration calls loadResource with the right parameters', async (t)
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const loadResourceStub = sinon.stub(resourceLoader, 'loadResource');
 
-    loadResourceStub.throws({});
+    loadResourceStub.throws(new ResourceError('message', ResourceErrorStatus.NotFound));
 
-    try {
+    t.throws(() => {
         resourceLoader.loadConfiguration('fake-configuration');
-    } catch (e) {
-        // Empty
-    }
+    });
 
     t.is(loadResourceStub.firstCall.args[0], 'fake-configuration', `The name of the configuration isn't correctly passed`);
     t.is(loadResourceStub.firstCall.args[1], 'configuration', `The type "configuration" isn't used`);
