@@ -748,16 +748,21 @@
   resolved "https://registry.yarnpkg.com/@types/update-notifier/-/update-notifier-2.5.0.tgz#63cfcee92cc915f9a6eea4d1442ec6efd012e118"
   integrity sha512-YV+ZcSIiv30GhLM7WwxI+bsbcW34d3Yhl2JSFBNFL6qtfsoI9++hogxz+jTqeS86ynKcMUE0AsnLWQynfJnsfA==
 
-"@types/webpack@^4.4.22":
-  version "4.4.22"
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.4.22.tgz#c4a5ea8b74a31b579537515bcfe86d2b2a34382c"
-  integrity sha512-PxAAzli3krZX9rCeONSR5Z9v4CR/2HPsKsiVRFNDo9OZefN+dTemteMHZnYkddOu4bqoYqJTJ724gLy0ZySXOw==
+"@types/webpack@^4.4.23":
+  version "4.4.23"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.4.23.tgz#059d6f4598cfd65ddee0e2db38317ef989696712"
+  integrity sha512-WswyG+2mRg0ul/ytPpCSWo+kOlVVPW/fKCBEVwqmPVC/2ffWEwhsCEQgnFbWDf8EWId2qGcpL623EjLfNTRk9A==
   dependencies:
     "@types/anymatch" "*"
     "@types/node" "*"
     "@types/tapable" "*"
     "@types/uglify-js" "*"
     source-map "^0.6.0"
+
+"@types/yargs@^12.0.6":
+  version "12.0.6"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-12.0.6.tgz#579f95b303d135f0c16928acfbb3550c8a78d4c2"
+  integrity sha512-lppGO3m316B4dY4AcbOVOjyOy3EH1M/Y4gMYNvJxricIJ9B72i5ntGJ8s5DJiSiW4t6J2yEByrGOGDEbBBLlVw==
 
 "@types/yargs@^12.0.6":
   version "12.0.6"
@@ -7123,13 +7128,6 @@ npm-bundled@^1.0.1:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/npm-bundled/-/npm-bundled-1.0.5.tgz#3c1732b7ba936b3a10325aef616467c0ccbcc979"
   integrity sha512-m/e6jgWu8/v5niCUKQi9qQl8QdeEduFA96xHDDzFGqly0OOjI7c+60KM/2sppfnUU9JJagf+zs+yGhqSOFj71g==
-
-npm-link-check@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/npm-link-check/-/npm-link-check-2.0.0.tgz#04e55dfed1bbdecd9bc7990f587af537108c79c7"
-  integrity sha1-BOVd/tG73s2bx5kPWHr1NxCMecc=
-  dependencies:
-    glob "^7.1.1"
 
 npm-link-check@^3.0.0:
   version "3.0.0"
