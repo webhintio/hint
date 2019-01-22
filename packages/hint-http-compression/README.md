@@ -88,6 +88,20 @@ resources:
   Sending a resource encoded with a different encoding than one of the
   ones accepted can lead to problems.
 
+  Here are some examples:
+
+  * If the user agent makes a request containing the [`Accept-Encoding:
+    identity`][identity] header, that means it wants the response to
+    not be transformed in any way, so the server should send the data
+    uncompress.
+
+  * If the user agent makes a request containing the `Accept-Encoding:
+    gzip, br` header, that means it wants the response to either be
+    uncompress or compress with one of the specified encodings, namely:
+    gzip (or the gzip compatible Zopfli) or Brotli. In the optimal case,
+    the server sends the data compress with Zopfli over HTTP, and Brotli
+    over HTTPS.
+
 * Dealing with special cases.
 
   One such special case is `SVGZ` files that are `SVG` files
@@ -1064,17 +1078,18 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 <!-- Link labels: -->
 
+[brotli]: https://github.com/google/brotli
 [brotli blog post]: https://opensource.googleblog.com/2015/09/introducing-brotli-new-compression.html
 [brotli over https]: https://medium.com/@yoavweiss/well-the-technical-reason-for-brotli-being-https-only-is-that-otherwise-there-s-a-very-high-508f15f0ad95
-[brotli]: https://github.com/google/brotli
 [deflate issues]: https://stackoverflow.com/questions/9170338/why-are-major-web-sites-using-GZIP/9186091#9186091
 [gzip is not enough]: https://www.youtube.com/watch?v=whGwm0Lky2s
 [gzip ratio]: https://www.youtube.com/watch?v=Mjab_aZsdxw&t=24s
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[identity]: https://tools.ietf.org/html/rfc2616#page-24
 [unship sdch]: https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/nQl0ORHy7sw
 [wdmsc]: https://whatdoesmysitecost.com/
-[zopfli blog post]: https://developers.googleblog.com/2013/02/compress-data-more-densely-with-zopfli.html
 [zopfli]: https://github.com/google/zopfli
+[zopfli blog post]: https://developers.googleblog.com/2013/02/compress-data-more-densely-with-zopfli.html
 
 <!-- Apache links -->
 
