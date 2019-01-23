@@ -1,6 +1,12 @@
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
+
+type BrowserslistContext = {
+    sandbox: sinon.SinonSandbox;
+};
+
+const test = anyTest as TestInterface<BrowserslistContext>;
 
 const inquirer = { prompt() { } };
 const logger = { log() { } };

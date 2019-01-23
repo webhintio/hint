@@ -12,11 +12,24 @@ import * as zlib from 'zlib';
 
 import { map, reduce } from 'lodash';
 import * as sinon from 'sinon';
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
+import { createServer, Server } from '@hint/utils-create-server';
+import { IConnector, Events } from 'hint/dist/src/lib/types';
 
-import { createServer } from '@hint/utils-create-server';
-import { IConnector } from 'hint/dist/src/lib/types';
 import JSDOMConnector from '../src/connector';
+import { Engine } from 'hint';
+
+type RequestResponseContext = {
+    connector?: IConnector;
+    engine: Engine<Events>;
+    engineEmitSpy: sinon.SinonSpy;
+    engineEmitAsyncSpy: sinon.SinonSpy;
+    gzipHtml: Buffer;
+    html: any;
+    server: Server;
+};
+
+const test = anyTest as TestInterface<RequestResponseContext>;
 
 const name: string = 'jsdom';
 
@@ -53,36 +66,33 @@ const updateLocalhost = (content: any, port: any): any => {
     return transformed;
 };
 
-
 test.beforeEach(async (t) => {
-    const engine = {
-        emit() { },
-        emitAsync() { }
-    };
+    const engine: Engine<Events> = {
+        emit(): boolean {
+            return false;
+        },
+        async emitAsync(): Promise<any> { }
+    } as any;
 
-    sinon.spy(engine, 'emitAsync');
-    sinon.spy(engine, 'emit');
+    t.context.engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
+    t.context.engineEmitSpy = sinon.spy(engine, 'emit');
 
     const server = createServer();
 
     await server.start();
 
-    const html = updateLocalhost(sourceHtml, server.port);
-    const gzipHtml = zlib.gzipSync(Buffer.from(html));
+    t.context.html = updateLocalhost(sourceHtml, server.port);
+    t.context.gzipHtml = zlib.gzipSync(Buffer.from(t.context.html));
 
-    t.context = {
-        engine,
-        gzipHtml,
-        html,
-        server
-    };
+    t.context.engine = engine;
+    t.context.server = server;
 });
 
 test.afterEach.always(async (t) => {
-    t.context.engine.emitAsync.restore();
-    t.context.engine.emit.restore();
+    t.context.engineEmitAsyncSpy.restore();
+    t.context.engineEmitSpy.restore();
     t.context.server.stop();
-    await t.context.connector.close();
+    await t.context.connector!.close();
 });
 
 const findEvent = (func: sinon.SinonSpy, eventName: string) => {
@@ -98,8 +108,7 @@ const findEvent = (func: sinon.SinonSpy, eventName: string) => {
 };
 
 test(`[${name}] requestResponse`, async (t) => {
-    const { engine } = t.context;
-    const { emit, emitAsync } = engine;
+    const { engine, engineEmitSpy, engineEmitAsyncSpy } = t.context;
     const connector: IConnector = new JSDOMConnector(engine, {});
     const server = t.context.server;
 
@@ -117,7 +126,7 @@ test(`[${name}] requestResponse`, async (t) => {
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
 
-    const invokedFetchEnd = findEvent(emitAsync, 'fetch::end::html') || findEvent(emit, 'fetch::end::html');
+    const invokedFetchEnd = findEvent(engineEmitAsyncSpy, 'fetch::end::html') || findEvent(engineEmitSpy, 'fetch::end::html');
     /* eslint-disable sort-keys */
     const expectedFetchEnd = {
         resource: `http://localhost:${server.port}/`,

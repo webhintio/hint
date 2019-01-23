@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { GenericTestContext, Context } from 'ava';
+import { ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 
 import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
@@ -15,16 +15,20 @@ type LoadPackage = {
     default: () => Package;
 };
 
+type ImportHelpersContext = {
+    sandbox: sinon.SinonSandbox;
+};
+
 const loadPackage: LoadPackage = require('hint/dist/src/lib/utils/packages/load-package');
 
 const hintPath = getHintPath(__filename, true);
 
 const tests: HintLocalTest[] = [
     {
-        after: (t: GenericTestContext<Context<any>>) => {
+        after: (t: ExecutionContext<ImportHelpersContext>) => {
             t.context.sandbox.restore();
         },
-        before: (t: GenericTestContext<Context<any>>) => {
+        before: (t: ExecutionContext<ImportHelpersContext>) => {
             const sandbox = sinon.createSandbox();
 
             sandbox.stub(loadPackage, 'default').returns({ exists: true });
@@ -35,10 +39,10 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'import')
     },
     {
-        after: (t: GenericTestContext<Context<any>>) => {
+        after: (t: ExecutionContext<ImportHelpersContext>) => {
             t.context.sandbox.restore();
         },
-        before: (t: GenericTestContext<Context<any>>) => {
+        before: (t: ExecutionContext<ImportHelpersContext>) => {
             const sandbox = sinon.createSandbox();
 
             sandbox.stub(loadPackage, 'default').throws(new Error('Not found'));
@@ -50,10 +54,10 @@ const tests: HintLocalTest[] = [
         reports: [{ message: `Couldn't find package "tslib".` }]
     },
     {
-        after: (t: GenericTestContext<Context<any>>) => {
+        after: (t: ExecutionContext<ImportHelpersContext>) => {
             t.context.sandbox.restore();
         },
-        before: (t: GenericTestContext<Context<any>>) => {
+        before: (t: ExecutionContext<ImportHelpersContext>) => {
             const sandbox = sinon.createSandbox();
 
             sandbox.stub(loadPackage, 'default').returns({ exists: true });
@@ -65,10 +69,10 @@ const tests: HintLocalTest[] = [
         reports: [{ message: 'The compiler option "importHelpers" should be enabled to reduce the output size.' }]
     },
     {
-        after: (t: GenericTestContext<Context<any>>) => {
+        after: (t: ExecutionContext<ImportHelpersContext>) => {
             t.context.sandbox.restore();
         },
-        before: (t: GenericTestContext<Context<any>>) => {
+        before: (t: ExecutionContext<ImportHelpersContext>) => {
             const sandbox = sinon.createSandbox();
 
             sandbox.stub(loadPackage, 'default').returns({ exists: true });
@@ -80,10 +84,10 @@ const tests: HintLocalTest[] = [
         reports: [{ message: 'The compiler option "importHelpers" should be enabled to reduce the output size.' }]
     },
     {
-        after: (t: GenericTestContext<Context<any>>) => {
+        after: (t: ExecutionContext<ImportHelpersContext>) => {
             t.context.sandbox.restore();
         },
-        before: (t: GenericTestContext<Context<any>>) => {
+        before: (t: ExecutionContext<ImportHelpersContext>) => {
             const sandbox = sinon.createSandbox();
 
             sandbox.stub(loadPackage, 'default').throws(new Error('Not found'));

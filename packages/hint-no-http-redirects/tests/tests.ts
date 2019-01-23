@@ -41,7 +41,7 @@ const tests: HintTest[] = [
 
 const testsWithCustomConfiguration: HintTest[] = [
     {
-        name: 'No redirects pass the hint',
+        name: 'No redirects pass the hint (with custom configuration)',
         serverConfig: generateHTMLPage()
     },
     {

@@ -1,10 +1,55 @@
+import * as url from 'url';
+
 import {
     InitializeParams,
     InitializeResult,
     TextDocument,
-    TextDocumentChangeEvent
+    TextDocumentChangeEvent,
+    PublishDiagnosticsParams
 } from 'vscode-languageserver';
-import { Problem } from 'hint/dist/src/lib/types';
+import { Problem, IFetchOptions } from 'hint/dist/src/lib/types';
+
+export type Message = {
+    title: string;
+};
+
+export type Window = {
+    showErrorMessage: () => Message;
+    showInformationMessage: () => Message;
+    showWarningMessage: () => Message;
+};
+
+export type Connection = {
+    listen: () => void;
+    onDidChangeWatchedFiles: (fn: typeof fileWatcher) => void;
+    onInitialize: (fn: typeof initializer) => void;
+    sendDiagnostics: (params: PublishDiagnosticsParams) => void;
+    sendNotification: () => void;
+    window: Window;
+}
+
+export type EngineType = {
+    clear: () => void;
+    executeOn: (target: url.URL, options?: IFetchOptions) => Partial<Problem>[];
+}
+
+export type Std = {
+    pipe: () => void;
+};
+
+export type Child = {
+    on: (event: string, listener: () => void) => void;
+    stderr: Std;
+    stdout: Std;
+}
+
+export type ChildProcess = {
+    spawn: (cmd: string) => Child;
+};
+
+export type FilesType = {
+    resolveModule2: (_context: string, name: string) => any;
+}
 
 export const child = {
     on(event: string, listener: () => void) {
@@ -19,8 +64,8 @@ export const child = {
 };
 
 // eslint-disable-next-line
-export const child_process = {
-    spawn() {
+export const child_process: ChildProcess = {
+    spawn(cmd: string) {
         return child;
     }
 };
@@ -39,18 +84,12 @@ export const fs = {
     }
 };
 
-export const engine = {
+export const engine: EngineType = {
     clear() { },
-    executeOn(): Partial<Problem>[] {
+    executeOn(target: url.URL, options?: IFetchOptions): Partial<Problem>[] {
         return [];
     }
 };
-
-export class Engine {
-    public constructor() {
-        return engine;
-    }
-}
 
 export const Configuration = {
     fromConfig() { },
@@ -65,7 +104,7 @@ export const loadResources = () => { };
 export let fileWatcher: () => any;
 export let initializer: (params: Partial<InitializeParams>) => Promise<InitializeResult>;
 
-export const connection = {
+export const connection: Connection = {
     listen() { },
     onDidChangeWatchedFiles(fn: typeof fileWatcher) {
         fileWatcher = fn;
@@ -73,7 +112,7 @@ export const connection = {
     onInitialize(fn: typeof initializer) {
         initializer = fn;
     },
-    sendDiagnostics() { },
+    sendDiagnostics(params: PublishDiagnosticsParams) { },
     sendNotification() { },
     window: {
         showErrorMessage() {
@@ -92,13 +131,19 @@ export const createConnection = () => {
     return connection;
 };
 
+export class Engine {
+    public constructor() {
+        return engine;
+    }
+}
+
 const modules: { [name: string]: any } = {
     hint: { Engine },
     'hint/dist/src/lib/config': { Configuration },
     'hint/dist/src/lib/utils/resource-loader': { loadResources }
 };
 
-export const Files = {
+export const Files: FilesType = {
     resolveModule2(_context: string, name: string) {
         return modules[name];
     }

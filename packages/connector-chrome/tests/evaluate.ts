@@ -1,11 +1,21 @@
 import { URL } from 'url';
 
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 
-import { createServer } from '@hint/utils-create-server';
+import { createServer, Server } from '@hint/utils-create-server';
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { IConnector } from 'hint/dist/src/lib/types';
+import { IConnector, Events } from 'hint/dist/src/lib/types';
+import { Engine } from 'hint';
+
 import ChromeConnector from '../src/connector';
+
+type EvaluateContext = {
+    connector: IConnector;
+    engine: Engine<Events>;
+    server: Server;
+};
+
+const test = anyTest as TestInterface<EvaluateContext>;
 
 const name: string = 'chrome';
 
@@ -46,20 +56,20 @@ const scripts = [
 ];
 
 test.beforeEach(async (t) => {
-    const engine = {
-        emit() { },
-        emitAsync() { },
+    const engine: Engine<Events> = {
+        emit(): boolean {
+            return false;
+        },
+        async emitAsync(): Promise<any> { },
         timeout: 10000
-    };
+    } as any;
 
     const server = createServer();
 
     await server.start();
 
-    t.context = {
-        engine,
-        server
-    };
+    t.context.engine = engine;
+    t.context.server = server;
 });
 
 test.afterEach.always(async (t) => {
@@ -72,8 +82,9 @@ test(`[${name}] Evaluate JavaScript`, async (t) => {
     const connector: IConnector = new ChromeConnector(engine, {});
     const server = t.context.server;
 
-    t.plan(scripts.length);
     t.context.connector = connector;
+
+    t.plan(scripts.length);
 
     server.configure(generateHTMLPage('', ''));
 

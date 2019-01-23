@@ -1,7 +1,13 @@
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import chalk from 'chalk';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
+
+type CodeframeContext = {
+    loggingLogSpy: sinon.SinonSpy;
+};
+
+const test = anyTest as TestInterface<CodeframeContext>;
 
 const logging = { log() { } };
 
@@ -11,29 +17,27 @@ import CodeframeFormatter from '../src/formatter';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
-    sinon.spy(logging, 'log');
-
-    t.context.logger = logging;
+    t.context.loggingLogSpy = sinon.spy(logging, 'log');
 });
 
 test.afterEach.always((t) => {
-    t.context.logger.log.restore();
+    t.context.loggingLogSpy.restore();
 });
 
-test(`Codeframe formatter doesn't print anything if no values`, (t) => {
+test.serial(`Codeframe formatter doesn't print anything if no values`, (t) => {
     const formatter = new CodeframeFormatter();
 
     formatter.format(problems.noproblems);
 
-    t.is(t.context.logger.log.callCount, 0);
+    t.is(t.context.loggingLogSpy.callCount, 0);
 });
 
-test(`Codeframe formatter prints a table and a summary for each resource`, (t) => {
+test.serial(`Codeframe formatter prints a table and a summary for each resource`, (t) => {
     const formatter = new CodeframeFormatter();
 
     formatter.format(problems.codeframeproblems);
 
-    const log = t.context.logger.log;
+    const log = t.context.loggingLogSpy;
     let problem = problems.codeframeproblems[0];
 
     t.is(log.args[0][0], `${chalk.yellow('Warning')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}`);

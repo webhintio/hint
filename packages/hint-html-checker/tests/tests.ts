@@ -113,7 +113,7 @@ const testsForDefaults: HintTest[] = [
         serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
     },
     {
-        name: 'Reports warnings/errors if the HTML checker returns messages',
+        name: 'Reports warnings/errors if the HTML checker returns messages (default)',
         serverUrl: exampleUrl,
         reports: [{
             message: defaultCheckerMessages.messages[0].message,
@@ -187,7 +187,7 @@ const testsForDetailsConfig: HintTest[] = [
         }
     },
     {
-        name: 'Reports warnings/errors if the HTML checker returns messages',
+        name: 'Reports warnings/errors if the HTML checker returns messages (details config)',
         serverUrl: exampleUrl,
         reports: [{
             message: defaultCheckerMessages.messages[0].message,

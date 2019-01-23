@@ -1,9 +1,16 @@
 import { isEqual } from 'lodash';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 
 import { NpmPackage } from 'hint/dist/src/lib/types';
+
+type CreateHintRCContext = {
+    promisifyObjectPromisifyStub: sinon.SinonStub;
+    sandbox: sinon.SinonSandbox;
+};
+
+const test = anyTest as TestInterface<CreateHintRCContext>;
 
 const inquirer = { prompt() { } };
 const stubBrowserslistObject = { generateBrowserslistConfig() { } };
@@ -56,19 +63,17 @@ proxyquire('../src/create-hintrc', {
 import initHintrc from '../src/create-hintrc';
 
 test.beforeEach((t) => {
-    sinon.stub(promisifyObject, 'promisify').resolves();
-    sinon.stub(stubBrowserslistObject, 'generateBrowserslistConfig').resolves([]);
-    sinon.spy(stubUtilObject, 'promisify');
+    const sandbox = sinon.createSandbox();
 
-    t.context.util = stubUtilObject.promisify;
-    t.context.promisify = promisifyObject.promisify;
-    t.context.browserslistGenerator = stubBrowserslistObject.generateBrowserslistConfig;
+    sandbox.stub(stubBrowserslistObject, 'generateBrowserslistConfig').resolves([]);
+    sandbox.spy(stubUtilObject, 'promisify');
+
+    t.context.promisifyObjectPromisifyStub = sandbox.stub(promisifyObject, 'promisify').resolves();
+    t.context.sandbox = sandbox;
 });
 
 test.afterEach.always((t) => {
-    t.context.util.restore();
-    t.context.promisify.restore();
-    t.context.browserslistGenerator.restore();
+    t.context.sandbox.restore();
 });
 
 const formatters = [
@@ -89,7 +94,7 @@ const installedConnectors = [
 const installedParsers: string[] = [];
 
 test.serial(`initHintrc should install the configuration package if user chooses a recommended configuration and the configuration doesn't exists`, async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
     const initAnswers = { configType: 'predefined' };
     const configAnswer = { configuration: '@hint/configuration-recommended' };
 
@@ -114,16 +119,14 @@ test.serial(`initHintrc should install the configuration package if user chooses
 
     await initHintrc();
 
-    const fileData = JSON.parse(t.context.promisify.args[0][1]);
+    const fileData = JSON.parse(t.context.promisifyObjectPromisifyStub.args[0][1]);
 
     t.true(stub.called, `npm hasn't tried to install any package`);
     t.true(isEqual(fileData, { extends: ['recommended'] }));
-
-    sandbox.restore();
 });
 
 test.serial(`initHintrc shouldn't install the configuration package if user chooses a recommended configuration and the configuration already exists`, async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
     const initAnswers = { configType: 'predefined' };
     const configAnswer = { configuration: '@hint/configuration-recommended' };
 
@@ -148,16 +151,14 @@ test.serial(`initHintrc shouldn't install the configuration package if user choo
 
     await initHintrc();
 
-    const fileData = JSON.parse(t.context.promisify.args[0][1]);
+    const fileData = JSON.parse(t.context.promisifyObjectPromisifyStub.args[0][1]);
 
     t.false(stub.called, `npm has tried to install any package`);
     t.true(isEqual(fileData, { extends: ['recommended'] }));
-
-    sandbox.restore();
 });
 
 test.serial(`"inquirer.prompt" should use the installed resources if the user doesn't want a predefined configuration`, async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
     const answers = {
         connector: 'jsdom',
         default: '',
@@ -195,7 +196,7 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
     t.is(questions[1].choices.length, formatters.length);
     t.is(questions[2].choices.length, installedHints.length);
 
-    const fileData = JSON.parse(t.context.promisify.args[0][1]);
+    const fileData = JSON.parse(t.context.promisifyObjectPromisifyStub.args[0][1]);
 
     t.is(fileData.connector.name, answers.connector);
     t.deepEqual(fileData.hints, {
@@ -203,12 +204,10 @@ test.serial(`"inquirer.prompt" should use the installed resources if the user do
         hint2: 'error'
     });
     t.deepEqual(fileData.formatters, answers.formatters);
-
-    sandbox.restore();
 });
 
 test.serial(`if instalation of a config package fails, "initHintrc" returns true`, async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
     const initAnswers = { configType: 'predefined' };
     const configAnswer = { configuration: '@hint/configuration-recommended' };
 
@@ -233,6 +232,4 @@ test.serial(`if instalation of a config package fails, "initHintrc" returns true
     const result = await initHintrc();
 
     t.true(result, `initHintrc doesn't return true if installation of resources fails`);
-
-    sandbox.restore();
 });

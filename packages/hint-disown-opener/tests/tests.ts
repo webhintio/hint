@@ -61,10 +61,6 @@ const testsForOldBrowsers: HintTest[] = [
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="" target="_blank">test</a>`) }
     },
     {
-        name: `'a' with 'href="/"' has 'target="_blank"'`,
-        serverConfig: { '/': generateHTMLPage(undefined, `<a href="/" target="_blank">test</a>`) }
-    },
-    {
         name: `'a' with 'href="test.html"' has 'target="_blank"' and rel="nofollow"`,
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="test.html" target="_blank" rel="nofollow">test</a>`) }
     },
@@ -176,7 +172,7 @@ const testsWithFullSupportBrowsers: HintTest[] = [
 
 const testsForIncludeSameOriginURLsConfig: HintTest[] = [
     {
-        name: `'a' with 'href=""' has 'target="_blank"'`,
+        name: `'a' with 'href=""' has 'target="_blank"' in when including same origin urls`,
         reports: [{ message: generateMissingMessage('<a href="" target="_blank">test</a>', ['noopener', 'noreferrer']) }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="" target="_blank">test</a>`) }
     },
