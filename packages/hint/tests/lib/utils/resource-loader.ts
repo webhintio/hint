@@ -6,6 +6,8 @@ import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
 import { Configuration } from '../../../src/lib/config';
 import { ResourceType } from '../../../src/lib/enums/resourcetype';
+import { ResourceError } from '../../../src/lib/types/resourceerror';
+import { ResourceErrorStatus } from '../../../src/lib/enums/errorstatus';
 
 const cacheKey = path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js');
 
@@ -92,7 +94,7 @@ test('loadHint calls loadResource with the right parameters', (t) => {
     const resourceLoader = require('../../../src/lib/utils/resource-loader');
     const loadResourceStub = sinon.stub(resourceLoader, 'loadResource');
 
-    loadResourceStub.throws({});
+    loadResourceStub.throws(new ResourceError('message', ResourceErrorStatus.NotFound));
 
     t.throws(() => {
         resourceLoader.loadHint('fake-hint');
@@ -111,7 +113,7 @@ test('loadConfiguration calls loadResource with the right parameters', async (t)
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const loadResourceStub = sinon.stub(resourceLoader, 'loadResource');
 
-    loadResourceStub.throws({});
+    loadResourceStub.throws(new ResourceError('message', ResourceErrorStatus.NotFound));
 
     t.throws(() => {
         resourceLoader.loadConfiguration('fake-configuration');

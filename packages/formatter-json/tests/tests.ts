@@ -1,6 +1,12 @@
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
+
+type JSONContext = {
+    loggingLogSpy: sinon.SinonSpy;
+};
+
+const test = anyTest as TestInterface<JSONContext>;
 
 const logging = { log() { } };
 
@@ -11,24 +17,22 @@ import * as problems from './fixtures/list-of-problems';
 import { Severity } from 'hint/dist/src/lib/types';
 
 test.beforeEach((t) => {
-    sinon.spy(logging, 'log');
-
-    t.context.logger = logging;
+    t.context.loggingLogSpy = sinon.spy(logging, 'log');
 });
 
 test.afterEach.always((t) => {
-    t.context.logger.log.restore();
+    t.context.loggingLogSpy.restore();
 });
 
-test(`JSON formatter doesn't print anything if no values`, (t) => {
+test.serial(`JSON formatter doesn't print anything if no values`, (t) => {
     const formatter = new JsonFormatter();
 
     formatter.format(problems.noproblems);
 
-    t.is(t.context.logger.log.callCount, 0);
+    t.is(t.context.loggingLogSpy.callCount, 0);
 });
 
-test(`JSON formatter is called twice per resource with problems and with sorted problems`, (t) => {
+test.serial(`JSON formatter is called twice per resource with problems and with sorted problems`, (t) => {
     const formatter = new JsonFormatter();
 
     formatter.format(problems.multipleproblems);
@@ -84,7 +88,7 @@ test(`JSON formatter is called twice per resource with problems and with sorted 
         }
     ];
 
-    const log = t.context.logger.log;
+    const log = t.context.loggingLogSpy;
     const firstCall = log.firstCall;
     const secondCall = log.secondCall;
 

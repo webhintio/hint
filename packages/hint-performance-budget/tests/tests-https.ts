@@ -67,7 +67,7 @@ const tests: HintTest[] = [
 
 const loadTimeTests: HintTest[] = [
     {
-        name: 'Plain page loads fast enough',
+        name: 'Plain page loads under 1s',
         serverConfig: generateHTMLPage()
     },
     {
@@ -79,7 +79,7 @@ const loadTimeTests: HintTest[] = [
 
 const connectionTypeTests: HintTest[] = [
     {
-        name: 'Plain page loads fast enough',
+        name: 'Plain page loads fast enough on Dial',
         serverConfig: generateHTMLPage()
     },
 

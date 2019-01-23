@@ -4,56 +4,64 @@ import * as url from 'url';
 import * as sinon from 'sinon';
 import { EventEmitter2 } from 'eventemitter2';
 import test from 'ava';
-
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import readFile from 'hint/dist/src/lib/utils/fs/read-file';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
+import { Engine } from 'hint';
 
-import BabelConfigParser from '../src/parser';
-
-test.beforeEach((t) => {
-    t.context.engine = new EventEmitter2({
-        delimiter: '::',
-        maxListeners: 0,
-        wildcard: true
-    });
-});
+import BabelConfigParser, { BabelConfigEvents, BabelConfigParsed } from '../src/parser';
+import { FetchEnd } from 'hint/dist/src/lib/types';
 
 test(`If the resource doesn't match the target file names, nothing should happen`, async (t) => {
     const sandbox = sinon.createSandbox();
+    const engine: Engine<BabelConfigEvents> = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<BabelConfigEvents>;
 
-    new BabelConfigParser(t.context.engine); // eslint-disable-line no-new
-    sandbox.spy(t.context.engine, 'emitAsync');
+    new BabelConfigParser(engine); // eslint-disable-line no-new
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    await t.context.engine.emitAsync('fetch::end::json', { resource: '.babelrcconfig' });
+    await engine.emitAsync('fetch::end::json', { resource: '.babelrcconfig' } as FetchEnd);
 
-    t.true(t.context.engine.emitAsync.calledOnce);
+    t.true(engineEmitAsyncSpy.calledOnce);
 
     sandbox.restore();
 });
 
 test('If the file contains an invalid json, it should fail', async (t) => {
     const sandbox = sinon.createSandbox();
+    const engine: Engine<BabelConfigEvents> = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<BabelConfigEvents>;
 
-    new BabelConfigParser(t.context.engine); // eslint-disable-line no-new
-    sandbox.spy(t.context.engine, 'emitAsync');
+    new BabelConfigParser(engine); // eslint-disable-line no-new
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    await t.context.engine.emitAsync('fetch::end::json', {
+    await engine.emitAsync('fetch::end::json', {
         resource: '.babelrc',
         response: { body: { content: 'invalidJson' } }
-    });
+    } as FetchEnd);
 
     // 2 times, the previous call and the error
-    t.is(t.context.engine.emitAsync.callCount, 2);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::error::babel-config::json');
+    t.is(engineEmitAsyncSpy.callCount, 2);
+    t.is(engineEmitAsyncSpy.args[1][0], 'parse::error::babel-config::json');
 
     sandbox.restore();
 });
 
 test(`If .babelrc contains an invalid schema, it should emit the 'parse::error::babel-config::schema' event`, async (t) => {
     const sandbox = sinon.createSandbox();
+    const engine: Engine<BabelConfigEvents> = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<BabelConfigEvents>;
 
-    new BabelConfigParser(t.context.engine); // eslint-disable-line no-new
+    new BabelConfigParser(engine); // eslint-disable-line no-new
     const invalidSchemaContent = `{
         "plugins": ["transform-react-jsx"],
         "moduleId": 1,
@@ -63,23 +71,29 @@ test(`If .babelrc contains an invalid schema, it should emit the 'parse::error::
         ]
       }`;
 
-    sandbox.spy(t.context.engine, 'emitAsync');
+    const engineEmitASyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    await t.context.engine.emitAsync('fetch::end::json', {
+    await engine.emitAsync('fetch::end::json', {
         resource: '.babelrc',
         response: { body: { content: invalidSchemaContent } }
-    });
+    } as FetchEnd);
 
     // 3 times, the previous call, the start parse and the error
-    t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::start::babel-config');
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::babel-config::schema');
+    t.is(engineEmitASyncSpy.callCount, 3);
+    t.is(engineEmitASyncSpy.args[1][0], 'parse::start::babel-config');
+    t.is(engineEmitASyncSpy.args[2][0], 'parse::error::babel-config::schema');
 
     sandbox.restore();
 });
 
 test(`If 'package.json' contains an invalid 'babel' property, it should emit the 'parse::error::babel-config::schema' event`, async (t) => {
     const sandbox = sinon.createSandbox();
+    const engine: Engine<BabelConfigEvents> = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<BabelConfigEvents>;
+
     const invalidSchemaContent = `{
         "babel": {
           "plugins": ["transform-react-jsx"],
@@ -92,25 +106,30 @@ test(`If 'package.json' contains an invalid 'babel' property, it should emit the
         "version": "0.0.1"
       }`;
 
-    new BabelConfigParser(t.context.engine); // eslint-disable-line no-new
-    sandbox.spy(t.context.engine, 'emitAsync');
+    new BabelConfigParser(engine); // eslint-disable-line no-new
+    const engineEmitASyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    await t.context.engine.emitAsync('fetch::end::json', {
+    await engine.emitAsync('fetch::end::json', {
         resource: 'package.json',
         response: { body: { content: invalidSchemaContent } }
-    });
+    } as FetchEnd);
 
     // 3 times, the previous call, the start parse and the error
-    t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::babel-config::schema');
+    t.is(engineEmitASyncSpy.callCount, 3);
+    t.is(engineEmitASyncSpy.args[2][0], 'parse::error::babel-config::schema');
 
     sandbox.restore();
 });
 
 test('If the content type is unknown, it should still validate if the file name is a match', async (t) => {
     const sandbox = sinon.createSandbox();
+    const engine: Engine<BabelConfigEvents> = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<BabelConfigEvents>;
 
-    new BabelConfigParser(t.context.engine); // eslint-disable-line no-new
+    new BabelConfigParser(engine); // eslint-disable-line no-new
     const invalidSchemaContent = `{
         "plugins": ["transform-react-jsx"],
         "moduleId": 1,
@@ -120,26 +139,31 @@ test('If the content type is unknown, it should still validate if the file name 
         ]
       }`;
 
-    sandbox.spy(t.context.engine, 'emitAsync');
+    const engineEmitASyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    await t.context.engine.emitAsync('fetch::end::json', {
+    await engine.emitAsync('fetch::end::json', {
         resource: '.babelrc',
         response: { body: { content: invalidSchemaContent } }
-    });
+    } as FetchEnd);
 
     // 3 times, the previous call, the start parse and the error
-    t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::babel-config::schema');
+    t.is(engineEmitASyncSpy.callCount, 3);
+    t.is(engineEmitASyncSpy.args[2][0], 'parse::error::babel-config::schema');
 
     sandbox.restore();
 });
 
 test('If we receive a valid json with a valid name, it should emit the event parse::end::babel-config', async (t) => {
     const sandbox = sinon.createSandbox();
+    const engine: Engine<BabelConfigEvents> = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<BabelConfigEvents>;
 
-    sandbox.spy(t.context.engine, 'emitAsync');
+    const engineEmitASyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    new BabelConfigParser(t.context.engine); // eslint-disable-line no-new
+    new BabelConfigParser(engine); // eslint-disable-line no-new
 
     const configPath = path.join(__dirname, 'fixtures', 'valid', '.babelrc');
     const validJSON = loadJSONFile(configPath);
@@ -170,86 +194,105 @@ test('If we receive a valid json with a valid name, it should emit the event par
         }]],
         retainLines: false,
         sourceMaps: false
-    };
+    } as any;
 
-    await t.context.engine.emitAsync('fetch::end::json', {
+    await engine.emitAsync('fetch::end::json', {
         resource: url.format(getAsUri(configPath)!),
         response: { body: { content: JSON.stringify(validJSON) } }
-    });
+    } as FetchEnd);
+
+    const eventInfo: BabelConfigParsed = engineEmitASyncSpy.args[2][1] as BabelConfigParsed;
 
     // 3 times, the previous call, the start parse and the end
-    t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::end::babel-config');
-    t.deepEqual(t.context.engine.emitAsync.args[2][1].originalConfig, validJSON);
-    t.deepEqual(t.context.engine.emitAsync.args[2][1].config, parsedJSON);
+    t.is(engineEmitASyncSpy.callCount, 3);
+    t.is(engineEmitASyncSpy.args[2][0], 'parse::end::babel-config');
+    t.deepEqual(eventInfo.originalConfig, validJSON);
+    t.deepEqual(eventInfo.config, parsedJSON);
 
     sandbox.restore();
 });
 
 test('If we receive a valid json with an extends, it should emit the event parse::end::babel-config with the right data', async (t) => {
     const sandbox = sinon.createSandbox();
+    const engine: Engine<BabelConfigEvents> = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<BabelConfigEvents>;
 
-    sandbox.spy(t.context.engine, 'emitAsync');
+    const engineEmitASyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    new BabelConfigParser(t.context.engine); // eslint-disable-line no-new
+    new BabelConfigParser(engine); // eslint-disable-line no-new
 
     const configPath = path.join(__dirname, 'fixtures', 'valid-with-extends', '.babelrc');
     const validJSON = loadJSONFile(configPath);
 
-    await t.context.engine.emitAsync('fetch::end::json', {
+    await engine.emitAsync('fetch::end::json', {
         resource: url.format(getAsUri(configPath)!),
         response: { body: { content: JSON.stringify(validJSON) } }
-    });
+    } as FetchEnd);
+
+    const eventInfo: BabelConfigParsed = engineEmitASyncSpy.args[2][1] as BabelConfigParsed;
 
     // 3 times, the previous call, the start parse and the end
-    t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::end::babel-config');
-    t.deepEqual(t.context.engine.emitAsync.args[2][1].originalConfig, validJSON);
-    t.is(t.context.engine.emitAsync.args[2][1].config.presets[0][1].targets.uglify, false);
+    t.is(engineEmitASyncSpy.callCount, 3);
+    t.is(engineEmitASyncSpy.args[2][0], 'parse::end::babel-config');
+    t.deepEqual(eventInfo.originalConfig, validJSON);
+    t.is(((eventInfo.config.presets[0] as any)[1].targets).uglify, false);
 
     sandbox.restore();
 });
 
 test('If we receive a json with an extends with a loop, it should emit the event parse::error::babel-config::circular', async (t) => {
     const sandbox = sinon.createSandbox();
+    const engine: Engine<BabelConfigEvents> = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<BabelConfigEvents>;
 
-    sandbox.spy(t.context.engine, 'emitAsync');
+    const engineEmitASyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    new BabelConfigParser(t.context.engine); // eslint-disable-line no-new
+    new BabelConfigParser(engine); // eslint-disable-line no-new
 
     const configPath = path.join(__dirname, 'fixtures', 'valid-with-extends-loop', '.babelrc');
     const configuration = readFile(configPath);
 
-    await t.context.engine.emitAsync('fetch::end::json', {
+    await engine.emitAsync('fetch::end::json', {
         resource: url.format(getAsUri(configPath)!),
         response: { body: { content: configuration } }
-    });
+    } as FetchEnd);
 
     // 3 times, the previous call, the start parse and the error
-    t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::babel-config::circular');
+    t.is(engineEmitASyncSpy.callCount, 3);
+    t.is(engineEmitASyncSpy.args[2][0], 'parse::error::babel-config::circular');
 
     sandbox.restore();
 });
 
 test('If we receive a json with an extends with an invalid json, it should emit the event parse::error::typescript-config::extends', async (t) => {
     const sandbox = sinon.createSandbox();
+    const engine: Engine<BabelConfigEvents> = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<BabelConfigEvents>;
 
-    sandbox.spy(t.context.engine, 'emitAsync');
+    const engineEmitASyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    new BabelConfigParser(t.context.engine); // eslint-disable-line no-new
+    new BabelConfigParser(engine); // eslint-disable-line no-new
 
     const configPath = path.join(__dirname, 'fixtures', 'valid-with-extends-invalid', '.babelrc');
     const configuration = readFile(configPath);
 
-    await t.context.engine.emitAsync('fetch::end::json', {
+    await engine.emitAsync('fetch::end::json', {
         resource: url.format(getAsUri(configPath)!),
         response: { body: { content: configuration } }
-    });
+    } as FetchEnd);
 
     // 3 times, the previous call, the start parse and the error
-    t.is(t.context.engine.emitAsync.callCount, 3);
-    t.is(t.context.engine.emitAsync.args[2][0], 'parse::error::babel-config::extends');
+    t.is(engineEmitASyncSpy.callCount, 3);
+    t.is(engineEmitASyncSpy.args[2][0], 'parse::error::babel-config::extends');
 
     sandbox.restore();
 });

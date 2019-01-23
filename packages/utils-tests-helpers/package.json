@@ -4,14 +4,14 @@
     "@hint/connector-jsdom": "^2.0.2",
     "@hint/connector-local": "^2.0.2",
     "@hint/utils-create-server": "^2.0.1",
-    "ava": "^0.25.0",
+    "ava": "^1.1.0",
     "hint": "^4.3.1"
   },
   "description": "hint tests helpers",
   "devDependencies": {
     "cpx": "^1.5.0",
     "eslint": "^5.12.1",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
     "npm-run-all": "^4.1.5",

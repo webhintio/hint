@@ -135,7 +135,7 @@ test('validate should generate the right message for required fields', (t) => {
     t.is(resultRequiredFields.errors[1].keyword, 'required');
 });
 
-test('validate should generate the right message for required fields', (t) => {
+test('validate should generate the right message for duplicate items', (t) => {
     const dataDuplicateItems: TestData = {
         d: [{
             domain: 'www.example.com',

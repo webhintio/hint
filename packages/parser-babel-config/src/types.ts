@@ -17,7 +17,7 @@ export type BabelConfig = {
     inputSourceMap: object;
     keepModuleIdExtensions: boolean;
     moduleId: string;
-    moduleIds: string;
+    moduleIds: string | boolean;
     moduleRoot: string;
     only: string[] | string;
     plugins: string | string[] | object[];

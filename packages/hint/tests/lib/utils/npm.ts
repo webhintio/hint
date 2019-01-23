@@ -1,4 +1,4 @@
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
@@ -6,10 +6,14 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import delay from '../../../src/lib/utils/misc/delay';
 import readFile from '../../../src/lib/utils/fs/read-file';
 
-const npmRegistryFetch = { json() { } };
+type NPMRegistryFetch = {
+    json: (url: string) => void;
+};
+
+const npmRegistryFetch: NPMRegistryFetch = { json(url: string) { } };
 
 const child = {
-    spawn(): EventEmitter | null {
+    spawn(command: string, args: string[]): EventEmitter | null {
         return null;
     }
 };
@@ -53,9 +57,7 @@ proxyquire('../../../src/lib/utils/npm', {
     'npm-registry-fetch': npmRegistryFetch
 });
 
-test.beforeEach((t) => {
-    t.context.npmRegistryFetch = npmRegistryFetch;
-});
+const test = anyTest as TestInterface<{}>;
 
 test.serial('installPackages should run the right command `hint` is installed locally, and has `hint` as a devDependency', async (t) => {
     const emitter = getEmitter();
@@ -63,7 +65,8 @@ test.serial('installPackages should run the right command `hint` is installed lo
     const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(fs, 'existsSync').returns(true);
-    sandbox.stub(child, 'spawn').returns(emitter);
+    const childSpawnStub = sandbox.stub(child, 'spawn').returns(emitter);
+
     sandbox.stub(findPackageRootModule, 'default').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(loadJSONFileModule, 'default').returns(devDependencyJson);
@@ -75,9 +78,7 @@ test.serial('installPackages should run the right command `hint` is installed lo
 
     await promise;
 
-    t.context.child = child;
-
-    t.is(t.context.child.spawn.args[0][0], 'npm install hint1 @hint/formatter-formatter1 --save-dev');
+    t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1 --save-dev');
 
     sandbox.restore();
 });
@@ -88,7 +89,8 @@ test.serial('installPackages should run the right command if `hint` is installed
     const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(fs, 'existsSync').returns(true);
-    sandbox.stub(child, 'spawn').returns(emitter);
+    const childSpawnStub = sandbox.stub(child, 'spawn').returns(emitter);
+
     sandbox.stub(findPackageRootModule, 'default').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(loadJSONFileModule, 'default').returns(dependencyJson);
@@ -100,9 +102,7 @@ test.serial('installPackages should run the right command if `hint` is installed
 
     await promise;
 
-    t.context.child = child;
-
-    t.is(t.context.child.spawn.args[0][0], 'npm install hint1 @hint/formatter-formatter1');
+    t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1');
 
     sandbox.restore();
 });
@@ -113,7 +113,8 @@ test.serial('installPackages should run the right command if `hint` is installed
     const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(fs, 'existsSync').returns(true);
-    sandbox.stub(child, 'spawn').returns(emitter);
+    const childSpawnStub = sandbox.stub(child, 'spawn').returns(emitter);
+
     sandbox.stub(findPackageRootModule, 'default').throws(new Error(`Path doesn't exist.`));
 
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
@@ -124,9 +125,7 @@ test.serial('installPackages should run the right command if `hint` is installed
 
     await promise;
 
-    t.context.child = child;
-
-    t.is(t.context.child.spawn.args[0][0], 'npm install hint1 @hint/formatter-formatter1');
+    t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1');
 
     sandbox.restore();
 });
@@ -137,7 +136,8 @@ test.serial('installPackages should run the right command if `hint` is installed
     const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(fs, 'existsSync').returns(true);
-    sandbox.stub(child, 'spawn').returns(emitter);
+    const childSpawnStub = sandbox.stub(child, 'spawn').returns(emitter);
+
     sandbox.stub(findPackageRootModule, 'default').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(loadJSONFileModule, 'default').throws(new Error('Invalid JSON.'));
@@ -150,9 +150,8 @@ test.serial('installPackages should run the right command if `hint` is installed
 
     await promise;
 
-    t.context.child = child;
-    t.true(t.context.child.spawn.called);
-    t.is(t.context.child.spawn.args[0][0], 'npm install hint1 @hint/formatter-formatter1');
+    t.true(childSpawnStub.called);
+    t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1');
 
     sandbox.restore();
 });
@@ -163,7 +162,7 @@ test.serial('installPackages should run the right command if `hint` is installed
     const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(fs, 'existsSync').returns(false);
-    sandbox.stub(child, 'spawn').returns(emitter);
+    const childSpawnStub = sandbox.stub(child, 'spawn').returns(emitter);
 
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
@@ -173,9 +172,7 @@ test.serial('installPackages should run the right command if `hint` is installed
 
     await promise;
 
-    t.context.child = child;
-
-    t.is(t.context.child.spawn.args[0][0], 'npm install hint1 @hint/formatter-formatter1 -g');
+    t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1 -g');
 
     sandbox.restore();
 });
@@ -186,7 +183,8 @@ test.serial('installPackages should show the command to run if the installation 
     const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(fs, 'existsSync').returns(true);
-    sandbox.stub(child, 'spawn').returns(emitter);
+    const childSpawnStub = sandbox.stub(child, 'spawn').returns(emitter);
+
     sandbox.stub(findPackageRootModule, 'default').returns('/example/path');
     sandbox.stub(process, 'cwd').returns('/example/path');
     sandbox.stub(loadJSONFileModule, 'default').returns(devDependencyJson);
@@ -200,10 +198,8 @@ test.serial('installPackages should show the command to run if the installation 
 
     await promise;
 
-    t.context.child = child;
-
-    t.true(t.context.child.spawn.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 --save-dev'));
-    t.false(t.context.child.spawn.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 -g'));
+    t.true(childSpawnStub.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 --save-dev'));
+    t.false(childSpawnStub.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 -g'));
 
     sandbox.restore();
 });
@@ -214,7 +210,8 @@ test.serial('installPackages should show the command to run if the installation 
     const npmUtils = await import('../../../src/lib/utils/npm');
 
     sandbox.stub(fs, 'existsSync').returns(false);
-    sandbox.stub(child, 'spawn').returns(emitter);
+    const childSpawnStub = sandbox.stub(child, 'spawn').returns(emitter);
+
     sandbox.spy(logger, 'log');
 
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
@@ -225,9 +222,7 @@ test.serial('installPackages should show the command to run if the installation 
 
     await promise;
 
-    t.context.child = child;
-
-    t.true(t.context.child.spawn.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 -g'));
+    t.true(childSpawnStub.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 -g'));
 
     sandbox.restore();
 });
@@ -235,7 +230,7 @@ test.serial('installPackages should show the command to run if the installation 
 test.serial('search should search the right query', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(npmRegistryFetch, 'json').resolves({
+    const NPMRegistryFetchJsonStub = sandbox.stub(npmRegistryFetch, 'json').resolves({
         objects: [],
         total: 0
     });
@@ -244,8 +239,8 @@ test.serial('search should search the right query', async (t) => {
 
     await npmUtils.search('hint-');
 
-    t.true(t.context.npmRegistryFetch.json.calledOnce);
-    t.is(t.context.npmRegistryFetch.json.args[0][0], '/-/v1/search?text=hint-&size=100');
+    t.true(NPMRegistryFetchJsonStub.calledOnce);
+    t.is(NPMRegistryFetchJsonStub.args[0][0], '/-/v1/search?text=hint-&size=100');
 
     sandbox.restore();
 });
@@ -253,7 +248,7 @@ test.serial('search should search the right query', async (t) => {
 test.serial('search should get all the results', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.stub(npmRegistryFetch, 'json')
+    const NPMRegistryFetchJsonStub = sandbox.stub(npmRegistryFetch, 'json')
         .onFirstCall()
         .resolves({
             objects: [{}, {}, {}, {}, {}],
@@ -275,9 +270,9 @@ test.serial('search should get all the results', async (t) => {
 
     await npmUtils.search('hint-');
 
-    t.is(t.context.npmRegistryFetch.json.callCount, 3);
+    t.is(NPMRegistryFetchJsonStub.callCount, 3);
 
-    const args = t.context.npmRegistryFetch.json.args;
+    const args = NPMRegistryFetchJsonStub.args;
 
     t.true(args[0][0].includes('text=hint-'));
     t.false(args[0][0].includes('&from='));
