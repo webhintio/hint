@@ -8,12 +8,10 @@ import { ElementFound, FetchEnd } from 'hint/dist/src/lib/types';
 
 import { PostCss, StyleEvents, InterfaceTestContext, StyleParse, Element } from '../src/parser';
 
-const postcssProcessStub : sinon.SinonStub = sinon.stub().resolves(Promise.resolve({}));
+const postcssProcessStub: sinon.SinonStub = sinon.stub().resolves(Promise.resolve({}));
 
 const postcss: PostCss = () => {
-    return {
-        process: postcssProcessStub
-    };
+    return { process: postcssProcessStub };
 };
 
 const element: Element = {

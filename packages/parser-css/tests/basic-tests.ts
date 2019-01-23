@@ -15,10 +15,8 @@ const postcssProcessStub: sinon.SinonStub = sinon.stub().resolves(Promise.resolv
 let sandbox: sinon.SinonSandbox;
 
 const postcss: PostCss = () => {
-    return {
-        process: postcssProcessStub
-    };
-}
+    return { process: postcssProcessStub };
+};
 
 const element: Element = {
     getAttribute(): string | null {

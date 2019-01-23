@@ -29,7 +29,7 @@ const fireAndWaitForEmitAsync = async (t: any, code: string) => {
     } as FetchEnd);
 
     return t.context.engine.emitAsync.args[2];
-}
+};
 
 const test = anyTest as TestInterface<InterfaceTestContext>;
 
