@@ -50,7 +50,7 @@ const testsForDefaults: HintTest[] = [
         }
     },
     {
-        name: `Domain without HTTPS fails`,
+        name: `Domain without HTTPS fails with default configuration`,
         reports: [{ message: `'http://example.com/' does not support HTTPS.` }],
         serverUrl: 'http://example.com',
         before() {
@@ -83,7 +83,7 @@ const testsForConfigs: HintTest[] = [
         }
     },
     {
-        name: `Domain without HTTPS fails`,
+        name: `Domain without HTTPS fails with a custom configuration`,
         reports: [{ message: `'http://example.com/' does not support HTTPS.` }],
         serverUrl: 'http://example.com',
         before() {

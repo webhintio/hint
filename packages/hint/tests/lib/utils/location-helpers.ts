@@ -1,13 +1,12 @@
 /* eslint sort-keys: 0 */
 import * as path from 'path';
 
-import test from 'ava';
-import { Context, GenericTestContext, Macros } from 'ava';
+import test, { Macro, ExecutionContext } from 'ava';
 import { JSDOM } from 'jsdom';
 
 import readFileAsync from '../../../src/lib/utils/fs/read-file-async';
 
-import { IAsyncHTMLElement } from '../../../src/lib/types';
+import { IAsyncHTMLElement, ProblemLocation } from '../../../src/lib/types';
 import { findInElement, findProblemLocation, findElementLocation } from '../../../src/lib/utils/location-helpers';
 import { JSDOMAsyncHTMLElement } from '../../../src/lib/types/jsdom-async-html';
 
@@ -16,6 +15,13 @@ import { JSDOMAsyncHTMLElement } from '../../../src/lib/types/jsdom-async-html';
  * findInElement tests
  * ------------------------------------------------------------------------------
  */
+
+type FindInElementEntry = {
+    content?: string;
+    markup: string;
+    name: string;
+    position: ProblemLocation;
+};
 
 /** Returns an object that simulates an AsyncHTMLElement */
 const getElement = (markup: string): IAsyncHTMLElement => {
@@ -46,14 +52,14 @@ const getElement = (markup: string): IAsyncHTMLElement => {
 };
 
 /** AVA Macro for findInElement */
-const findInElementMacro: Macros<GenericTestContext<Context<any>>> = async (t, info, expectedPosition) => {
-    const element = getElement(info.markup);
-    const position = await findInElement(element, info.content);
+const findInElementMacro: Macro<[FindInElementEntry], {}> = async (t: ExecutionContext, entry: FindInElementEntry) => {
+    const element = getElement(entry.markup);
+    const position = await findInElement(element, entry.content!);
 
-    t.deepEqual(position, expectedPosition);
+    t.deepEqual(position, entry.position);
 };
 
-const findInElementEntries = [
+const findInElementEntries: FindInElementEntry[] = [
     {
         name: 'missing content',
         markup: `<a href="https://www.wikipedia.org">wikipedia</a>`,
@@ -83,9 +89,8 @@ const findInElementEntries = [
 ];
 
 findInElementEntries.forEach((entry) => {
-    test(`findInElement - ${entry.name}`, findInElementMacro, entry, entry.position);
+    test(`findInElement - ${entry.name}`, findInElementMacro, entry);
 });
-
 
 /*
  * ------------------------------------------------------------------------------
@@ -110,7 +115,6 @@ const loadHTML = async (route: string) => {
 
     return querySelectorAll;
 };
-
 
 const findElementLocationEntries = [
     {
@@ -161,7 +165,6 @@ test('findElementLocation tests', async (t) => {
         t.deepEqual(position, entry.position, `findElementLocation - ${entry.name}`);
     }
 });
-
 
 /*
  * ------------------------------------------------------------------------------

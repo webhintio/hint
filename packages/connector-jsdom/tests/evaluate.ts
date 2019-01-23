@@ -1,11 +1,21 @@
 import { URL } from 'url';
 
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 
-import { createServer } from '@hint/utils-create-server';
+import { createServer, Server } from '@hint/utils-create-server';
 import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { IConnector } from 'hint/dist/src/lib/types';
+import { IConnector, Events } from 'hint/dist/src/lib/types';
+import { Engine } from 'hint';
+
 import JSDOMConnector from '../src/connector';
+
+type EvaluateContext = {
+    connector?: IConnector;
+    engine: Engine<Events>;
+    server: Server;
+};
+
+const test = anyTest as TestInterface<EvaluateContext>;
 
 const name: string = 'jsdom';
 
@@ -46,11 +56,13 @@ const scripts = [
 ];
 
 test.beforeEach(async (t) => {
-    const engine = {
-        emit() { },
-        emitAsync() { },
+    const engine: Engine<Events> = {
+        emit(): boolean {
+            return false;
+        },
+        async emitAsync(): Promise<any> { },
         timeout: 10000
-    };
+    } as any;
 
     const server = createServer();
 
@@ -64,7 +76,7 @@ test.beforeEach(async (t) => {
 
 test.afterEach.always(async (t) => {
     t.context.server.stop();
-    await t.context.connector.close();
+    await t.context.connector!.close();
 });
 
 test(`[${name}] Evaluate JavaScript`, async (t) => {

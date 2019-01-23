@@ -1,12 +1,20 @@
 import * as path from 'path';
 
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import * as Excel from 'exceljs';
 import * as fs from 'fs-extra';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
 import * as problems from './fixtures/list-of-problems';
+import ExcelFormatter from '../src/formatter';
+
+type ExcelContext = {
+    ExcelFormatter: typeof ExcelFormatter;
+    spy: sinon.SinonSpy;
+};
+
+const test = anyTest as TestInterface<ExcelContext>;
 
 test.beforeEach(async (t) => {
     delete require.cache[require.resolve('lodash')];
@@ -17,9 +25,9 @@ test.beforeEach(async (t) => {
 
     proxyquire('../src/formatter', { lodash: spy });
 
-    const ExcelFormatter = (await import('../src/formatter')).default;
+    const ExcelFormat: typeof ExcelFormatter = (await import('../src/formatter')).default;
 
-    t.context.ExcelFormatter = ExcelFormatter;
+    t.context.ExcelFormatter = ExcelFormat;
     t.context.spy = spy;
 });
 

@@ -3,11 +3,18 @@ import * as zlib from 'zlib';
 
 import * as iconv from 'iconv-lite';
 import * as brotli from 'iltorb';
-import test, { Context, GenericTestContext } from 'ava';
-
-import { createServer } from '@hint/utils-create-server';
-import { Requester } from '../src/requester';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import { createServer, Server } from '@hint/utils-create-server';
 import { NetworkData } from 'hint/dist/src/lib/types';
+
+import { Requester } from '../src/requester';
+
+type RequesterContext = {
+    server: Server;
+    requester: Requester;
+};
+
+const test = anyTest as TestInterface<RequesterContext>;
 
 const compressGzip: Function = promisify(zlib.gzip) as any;
 const compressBrotli: Function = promisify(brotli.compress) as any;
@@ -71,7 +78,7 @@ const contentTypes = [
  * and the supported `charset`s, even when the server response is compressed.
  *
  */
-const testTextDecoding = async (t: GenericTestContext<Context<any>>, encoding: string, contentType: string, compression?: 'gzip' | 'br') => {
+const testTextDecoding = async (t: ExecutionContext<RequesterContext>, encoding: string, contentType: string, compression?: 'gzip' | 'br') => {
     const { requester, server } = t.context;
     const originalBytes = iconv.encode(text, encoding);
     const transformedText = iconv.decode(originalBytes, encoding);
@@ -104,9 +111,9 @@ const testTextDecoding = async (t: GenericTestContext<Context<any>>, encoding: s
 
 supportedEncodings.forEach((encoding) => {
     contentTypes.forEach((contentType) => {
-        test(`requester handles ${encoding} uncompressed`, testTextDecoding, encoding, contentType);
-        test(`requester handles ${encoding} compressed with gzip`, testTextDecoding, encoding, contentType, 'gzip');
-        test(`requester handles ${encoding} compressed with brotli`, testTextDecoding, encoding, contentType, 'br');
+        test(`requester handles ${encoding} uncompressed for content type ${contentType}`, testTextDecoding, encoding, contentType);
+        test(`requester handles ${encoding} compressed with gzip for content type ${contentType}`, testTextDecoding, encoding, contentType, 'gzip');
+        test(`requester handles ${encoding} compressed with brotli for content type ${contentType}`, testTextDecoding, encoding, contentType, 'br');
     });
 });
 
@@ -122,7 +129,7 @@ const binTypes = [
 ];
 
 /** This function verifies that no decoding is done if `Content-Type` doesn't expect it. */
-const testBinaries = async (t: GenericTestContext<Context<any>>, binType: string) => {
+const testBinaries = async (t: ExecutionContext<RequesterContext>, binType: string) => {
     const { requester, server } = t.context;
 
     const content = iconv.encode(text, 'iso-8859-1');
@@ -215,9 +222,13 @@ test(`Throws an error if number of hops exceeds the redirect limit`, async (t) =
 
     server.configure(hopsServerConfig);
 
-    const maxRedirectsRequesterError = await t.throws(maxRedirectsRequester.get(`http://localhost:${server.port}/hop301`));
+    t.plan(1);
 
-    t.is(maxRedirectsRequesterError, 'The number of redirects(5) exceeds the limit(4).');
+    try {
+        await maxRedirectsRequester.get(`http://localhost:${server.port}/hop301`);
+    } catch (e) {
+        t.is(e, 'The number of redirects(5) exceeds the limit(4).');
+    }
 });
 
 test(`Aborts the request if it exceeds the time limit to get response`, async (t) => {
@@ -227,10 +238,14 @@ test(`Aborts the request if it exceeds the time limit to get response`, async (t
 
     server.configure(timeOutServerConfig);
 
-    const { error, uri } = await t.throws(timeoutRequester.get(`http://localhost:${server.port}/timeout`));
+    t.plan(2);
 
-    t.is(error.code, 'ESOCKETTIMEDOUT');
-    t.is(uri, `http://localhost:${server.port}/timeout`);
+    try {
+        await timeoutRequester.get(`http://localhost:${server.port}/timeout`);
+    } catch (e) {
+        t.is(e.error.code, 'ESOCKETTIMEDOUT');
+        t.is(e.uri, `http://localhost:${server.port}/timeout`);
+    }
 });
 
 test(`Requester returns and exception if a loop is detected`, async (t) => {

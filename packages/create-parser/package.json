@@ -13,10 +13,10 @@
   "devDependencies": {
     "@types/inquirer": "^0.0.43",
     "@types/node": "10.12.18",
-    "ava": "^0.25.0",
+    "ava": "^1.1.0",
     "cpx": "^1.5.0",
     "eslint": "^5.12.1",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
     "fork-ts-checker-webpack-plugin": "^0.5.2",

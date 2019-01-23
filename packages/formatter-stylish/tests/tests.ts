@@ -1,9 +1,15 @@
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import chalk from 'chalk';
 import * as logSymbols from 'log-symbols';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import * as table from 'text-table';
+
+type StylishContext = {
+    loggingLogSpy: sinon.SinonSpy;
+};
+
+const test = anyTest as TestInterface<StylishContext>;
 
 const logging = { log() { } };
 
@@ -13,29 +19,27 @@ import StylishFormatter from '../src/formatter';
 import * as problems from './fixtures/list-of-problems';
 
 test.beforeEach((t) => {
-    sinon.spy(logging, 'log');
-
-    t.context.logger = logging;
+    t.context.loggingLogSpy = sinon.spy(logging, 'log');
 });
 
 test.afterEach.always((t) => {
-    t.context.logger.log.restore();
+    t.context.loggingLogSpy.restore();
 });
 
-test(`Stylish formatter doesn't print anything if no values`, (t) => {
+test.serial(`Stylish formatter doesn't print anything if no values`, (t) => {
     const formatter = new StylishFormatter();
 
     formatter.format(problems.noproblems);
 
-    t.is(t.context.logger.log.callCount, 0);
+    t.is(t.context.loggingLogSpy.callCount, 0);
 });
 
-test(`Stylish formatter prints a table and a summary for each resource`, (t) => {
+test.serial(`Stylish formatter prints a table and a summary for each resource`, (t) => {
     const formatter = new StylishFormatter();
 
     formatter.format(problems.multipleproblemsandresources);
 
-    const log = t.context.logger.log;
+    const log = t.context.loggingLogSpy;
     let problem = problems.multipleproblemsandresources[1];
     let tableData = [];
 

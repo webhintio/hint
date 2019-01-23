@@ -1,13 +1,15 @@
 import * as sinon from 'sinon';
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
-
 import * as postcss from 'postcss';
 import { Rule, Declaration } from 'postcss';
 
-import CSSParser from '../src/parser';
+import { Engine } from 'hint';
 
-const element = {
+import CSSParser, { StyleEvents } from '../src/parser';
+import { InterfaceTestContext, Element } from '../src/types';
+
+const element: Element = {
     getAttribute(): string | null {
         return null;
     },
@@ -28,6 +30,8 @@ const fireAndWaitForEmitAsync = async (t: any, code: string) => {
     return t.context.engine.emitAsync.args[2];
 }
 
+const test = anyTest as TestInterface<InterfaceTestContext>;
+
 let sandbox: sinon.SinonSandbox;
 
 test.beforeEach((t) => {
@@ -37,7 +41,7 @@ test.beforeEach((t) => {
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
-    });
+    }) as Engine<StyleEvents>;
 
     sandbox = sinon.createSandbox();
     sandbox.spy(t.context.engine, 'emitAsync');

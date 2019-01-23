@@ -50,7 +50,7 @@ const tests: HintTest[] = [
 
 const testsWithCustomConfiguration: HintTest[] = [
     {
-        name: `Page doesn't have any a11y problems and passes`,
+        name: `Page doesn't have any a11y problems and passes with custom configuration`,
         serverConfig: html.noProblems
     },
     {

@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { AssertContext, Context, RegisterContextual } from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import { NotifyOptions, UpdateInfo } from 'update-notifier';
 
 const loadHintPackage = {
@@ -18,8 +18,6 @@ type ConfigTestContext = {
     errorStub: sinon.SinonSpy<[string]>;
 };
 
-type TestContext = Context<ConfigTestContext> & AssertContext;
-
 const notifier = {
     notify(customMessage?: NotifyOptions) { },
     update: {} as UpdateInfo | null
@@ -31,7 +29,7 @@ const updateNotifier = () => {
 
 const cliActions = [] as any;
 
-const test = anyTest as RegisterContextual<ConfigTestContext>;
+const test = anyTest as TestInterface<ConfigTestContext>;
 
 proxyquire('../../src/lib/cli', {
     './cli/actions': cliActions,
@@ -40,7 +38,7 @@ proxyquire('../../src/lib/cli', {
     'update-notifier': updateNotifier
 });
 
-test.beforeEach((t: TestContext) => {
+test.beforeEach((t) => {
     const notifyStub = sinon.stub(notifier, 'notify');
 
     notifyStub.resolves();
@@ -48,12 +46,12 @@ test.beforeEach((t: TestContext) => {
     t.context.notifyStub = notifyStub;
 });
 
-test.afterEach.always((t: TestContext) => {
+test.afterEach.always((t) => {
     t.context.notifyStub.restore();
     t.context.errorStub.restore();
 });
 
-test.serial('Users should be notified if there is a new version of hint', async (t: TestContext) => {
+test.serial('Users should be notified if there is a new version of hint', async (t) => {
     const newUpdate = {
         current: '0.2.0',
         latest: '0.3.0',
@@ -77,7 +75,7 @@ See ${chalk.cyan('https://webhint.io/about/changelog/')} for details`;
     loadHintPackageStub.restore();
 });
 
-test.serial(`Users shouldn't be notified if the current version is up to date`, async (t: TestContext) => {
+test.serial(`Users shouldn't be notified if the current version is up to date`, async (t) => {
     notifier.update = null;
     const cli = await import('../../src/lib/cli');
 
@@ -86,7 +84,7 @@ test.serial(`Users shouldn't be notified if the current version is up to date`, 
     t.is(t.context.notifyStub.callCount, 0);
 });
 
-test.serial(`Users shouldn't be notified if they just updated to the latest version and the data is still cached`, async (t: TestContext) => {
+test.serial(`Users shouldn't be notified if they just updated to the latest version and the data is still cached`, async (t) => {
     const newUpdate = {
         current: '0.2.0',
         latest: '0.3.0',
@@ -106,12 +104,12 @@ test.serial(`Users shouldn't be notified if they just updated to the latest vers
     loadHintPackageStub.restore();
 });
 
-test.serial(`The process should exit if non-existing arguments are passed in to 'execute'`, async (t: TestContext) => {
+test.serial(`The process should exit if non-existing arguments are passed in to 'execute'`, async (t) => {
     notifier.update = null;
 
     const cli = await import('../../src/lib/cli');
 
-    await t.notThrows(cli.execute(['', '', '--inti']));
+    await t.notThrowsAsync(cli.execute(['', '', '--inti']));
 
     t.true(t.context.errorStub.calledOnce);
     t.is(t.context.errorStub.args[0][0], `Invalid option '--inti' - perhaps you meant '--hints'?`);

@@ -1,6 +1,12 @@
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 
 import { RedirectManager } from '../src/redirects';
+
+type RedirectsContext = {
+    redirects: RedirectManager;
+};
+
+const test = anyTest as TestInterface<RedirectsContext>;
 
 test.beforeEach((t) => {
     t.context.redirects = new RedirectManager();
@@ -33,7 +39,7 @@ test(`redirectManager returns the expected number of hops for a single redirect`
     t.deepEqual(hops, ['http://redirect.com']);
 });
 
-test(`redirectManager returns the expected number of hops for a single redirect`, (t) => {
+test(`redirectManager returns the expected number of hops for multiple redirects`, (t) => {
     const redirects = t.context.redirects;
 
     redirects.add('http://hop2.com', 'http://hop1.com');

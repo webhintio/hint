@@ -1,16 +1,26 @@
+import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 import { Rule, Declaration } from 'postcss';
-import * as CSSParser from '../src/parser';
-import { StyleParse } from '../src/types';
 
-const postcss = {
-    parse() {
-        return {};
-    }
-};
-const element = {
+import { Engine } from 'hint';
+
+import * as CSSParser from '../src/parser';
+import { StyleParse, StyleEvents } from '../src/types';
+import { Element, PostCss } from '../src/types';
+import { ElementFound } from 'hint/dist/src/lib/types';
+
+const postcssProcessStub: sinon.SinonStub = sinon.stub().resolves(Promise.resolve({}));
+let sandbox: sinon.SinonSandbox;
+
+const postcss: PostCss = () => {
+    return {
+        process: postcssProcessStub
+    };
+}
+
+const element: Element = {
     getAttribute(): string | null {
         return null;
     },
@@ -19,35 +29,39 @@ const element = {
     }
 };
 
+proxyquire('../src/parser', { postcss });
+
 test.beforeEach((t) => {
-    t.context.element = element;
-    t.context.engine = new EventEmitter2({
+    sandbox = sinon.createSandbox();
+});
+
+test.afterEach(() => {
+    sandbox.restore();
+});
+
+test('We should provide a correct AST when parsing CSS.', async (t) => {
+    const engine = new EventEmitter2({
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
-    });
-});
+    }) as Engine<StyleEvents>;
 
-test.serial('We should provide a correct AST when parsing CSS.', async (t) => {
-    const sandbox = sinon.createSandbox();
-    const parseObject = {};
     const code = '.foo { color: #fff }';
     const style = `<style>  ${code}  </style>`;
-    new CSSParser.default(t.context.engine); // eslint-disable-line
+    new CSSParser.default(engine); // eslint-disable-line
 
-    sandbox.spy(t.context.engine, 'emitAsync');
-    sandbox.stub(postcss, 'parse').returns(parseObject);
+    const engineEmitAsync = sandbox.spy(engine, 'emitAsync');
 
     sandbox.stub(element, 'outerHTML').resolves(style);
     sandbox.stub(element, 'getAttribute')
         .onFirstCall()
         .returns('text/css');
 
-    await t.context.engine.emitAsync('element::style', { element });
+    await engine.emitAsync('element::style', { element } as ElementFound);
 
-    t.is(t.context.engine.emitAsync.args[1][0], 'parse::start::css');
+    t.is(engineEmitAsync.args[1][0], 'parse::start::css');
 
-    const args = t.context.engine.emitAsync.args[2];
+    const args = engineEmitAsync.args[2];
     const data = args[1] as StyleParse;
     const root = data.ast;
     const rule = root.first as Rule;
@@ -57,8 +71,6 @@ test.serial('We should provide a correct AST when parsing CSS.', async (t) => {
     t.is(rule.selector, '.foo');
     t.is(declaration.prop, 'color');
     t.is(declaration.value, '#fff');
-    t.is(args[1].code, code);
-    t.is(args[1].resource, 'Inline CSS');
-
-    sandbox.restore();
+    t.is(data.code, code);
+    t.is(data.resource, 'Inline CSS');
 });

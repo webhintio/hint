@@ -1,4 +1,4 @@
-import { AnyContext } from 'ava';
+import { ExecutionContext } from 'ava';
 
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 
@@ -25,9 +25,9 @@ export type HintTest = {
 
 export type HintLocalTest = {
     /** The code to execute before `closing` the connector. */
-    after?(context?: AnyContext): void | Promise<void>;
+    after?(context?: ExecutionContext<any>): void | Promise<void>;
     /** The code to execute before creating the connector. */
-    before?(context?: AnyContext): void | Promise<void>;
+    before?(context?: ExecutionContext<any>): void | Promise<void>;
     /** Path to send to the local connector. */
     path: string;
     /** The name of the test. */

@@ -21,10 +21,6 @@ import { Category } from 'hint/dist/src/lib/enums/category';
 
 const utils = require('../src/utils');
 
-test.beforeEach((t) => {
-    t.context.fsExtra = fsExtra;
-});
-
 test(`HTML formatter returns the right object`, async (t) => {
     const formatter = new HTMLFormatter();
 
@@ -129,19 +125,19 @@ test(`HTML formatter return the right third party logo url`, async (t) => {
 test.serial(`HTML formatter create copy and generate the right files`, async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.spy(fsExtra, 'copy');
-    sandbox.spy(fsExtra, 'remove');
-    sandbox.spy(fsExtra, 'mkdirp');
-    sandbox.spy(fsExtra, 'outputFile');
+    const fsExtraCopySpy = sandbox.spy(fsExtra, 'copy');
+    const fsExtraRemoveSpy = sandbox.spy(fsExtra, 'remove');
+    const fsExtraMkDirpSpy = sandbox.spy(fsExtra, 'mkdirp');
+    const fsExtraOutputFileSpy = sandbox.spy(fsExtra, 'outputFile');
 
     const formatter = new HTMLFormatter();
 
     await formatter.format(problems.noproblems, 'http://example.com', { config: {} });
 
-    t.true(t.context.fsExtra.copy.calledOnce);
-    t.true(t.context.fsExtra.remove.calledOnce);
-    t.true(t.context.fsExtra.mkdirp.calledOnce);
-    t.is(t.context.fsExtra.outputFile.callCount, 4);
+    t.true(fsExtraCopySpy.calledOnce);
+    t.true(fsExtraRemoveSpy.calledOnce);
+    t.true(fsExtraMkDirpSpy.calledOnce);
+    t.is(fsExtraOutputFileSpy.callCount, 4);
 
     sandbox.restore();
 });
@@ -149,19 +145,19 @@ test.serial(`HTML formatter create copy and generate the right files`, async (t)
 test.serial(`HTML formatter shoudn't copy and generate any file if option noGenerateFiles is passed`, async (t) => {
     const sandbox = sinon.createSandbox();
 
-    sandbox.spy(fsExtra, 'copy');
-    sandbox.spy(fsExtra, 'remove');
-    sandbox.spy(fsExtra, 'mkdirp');
-    sandbox.spy(fsExtra, 'outputFile');
+    const fsExtraCopySpy = sandbox.spy(fsExtra, 'copy');
+    const fsExtraRemoveSpy = sandbox.spy(fsExtra, 'remove');
+    const fsExtraMkDirpSpy = sandbox.spy(fsExtra, 'mkdirp');
+    const fsExtraOutputFileSpy = sandbox.spy(fsExtra, 'outputFile');
 
     const formatter = new HTMLFormatter();
 
     await formatter.format(problems.noproblems, 'http://example.com', { noGenerateFiles: true });
 
-    t.false(t.context.fsExtra.copy.called);
-    t.false(t.context.fsExtra.remove.called);
-    t.false(t.context.fsExtra.mkdirp.called);
-    t.false(t.context.fsExtra.outputFile.called);
+    t.false(fsExtraCopySpy.called);
+    t.false(fsExtraRemoveSpy.called);
+    t.false(fsExtraMkDirpSpy.called);
+    t.false(fsExtraOutputFileSpy.called);
 
     sandbox.restore();
 });

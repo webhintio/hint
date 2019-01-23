@@ -1,36 +1,35 @@
 import * as sinon from 'sinon';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
+import { IAsyncHTMLDocument, FetchEnd } from 'hint/dist/src/lib/types';
+import { Engine } from 'hint';
 
 import * as HTMLParser from '../src/parser';
-import { IAsyncHTMLDocument } from 'hint/dist/src/lib/types';
+import { HTMLEvents, HTMLParse } from '../src/parser';
 
-test.beforeEach((t) => {
-    t.context.engine = new EventEmitter2({
+test('If `fetch::end::html` is received, then the code should be parsed and the `parse::end::html` event emitted', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const engine: Engine<HTMLEvents> = new EventEmitter2({
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
-    });
-});
-
-test.serial('If `fetch::end::html` is received, then the code should be parsed and the `parse::end::html` event emitted', async (t) => {
-    const sandbox = sinon.createSandbox();
+    }) as Engine<HTMLEvents>;
     const code = '<!DOCTYPE html><div id="test">Test</div>';
-    new HTMLParser.default(t.context.engine); // eslint-disable-line
+    new HTMLParser.default(engine); // eslint-disable-line
 
-    sandbox.spy(t.context.engine, 'emitAsync');
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    await t.context.engine.emitAsync('fetch::end::html', {
+    await engine.emitAsync('fetch::end::html', {
         resource: 'test.html',
         response: {
             body: { content: code },
             mediaType: 'text/html',
             url: 'test.html'
         }
-    });
+    } as FetchEnd);
 
-    const args = t.context.engine.emitAsync.args;
-    const document = args[2][1].window.document as IAsyncHTMLDocument;
+    const args = engineEmitAsyncSpy.args;
+    const document = (args[2][1] as HTMLParse).window.document as IAsyncHTMLDocument;
     const div = (await document.querySelectorAll('div'))[0];
     const div2 = (await document.querySelectorAll('body > div'))[0];
     const location = div.getLocation();
@@ -46,8 +45,8 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
 
     t.is(args[1][0], 'parse::start::html');
     t.is(args[2][0], 'parse::end::html');
-    t.is(args[2][1].resource, 'test.html');
-    t.is(args[2][1].html, code);
+    t.is((args[2][1] as HTMLParse).resource, 'test.html');
+    t.is((args[2][1] as HTMLParse).html, code);
     t.is(await document.pageHTML(), '<html><head></head><body><div id="test">Test</div></body></html>');
     t.is(await div.outerHTML(), '<div id="test">Test</div>');
     t.is(div.nodeName.toLowerCase(), 'div');
@@ -75,25 +74,30 @@ test.serial('If `fetch::end::html` is received, then the code should be parsed a
     sandbox.restore();
 });
 
-test.serial('The `parse::end::html` event should include a window with support for evaluating script', async (t) => {
+test('The `parse::end::html` event should include a window with support for evaluating script', async (t) => {
     const sandbox = sinon.createSandbox();
+    const engine: Engine<HTMLEvents> = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<HTMLEvents>;
     const code = '<!DOCTYPE html><div id="test">Test</div>';
-    new HTMLParser.default(t.context.engine); // eslint-disable-line
+    new HTMLParser.default(engine); // eslint-disable-line
 
-    sandbox.spy(t.context.engine, 'emitAsync');
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    await t.context.engine.emitAsync('fetch::end::html', {
+    await engine.emitAsync('fetch::end::html', {
         resource: 'test.html',
         response: {
             body: { content: code },
             mediaType: 'text/html',
             url: 'test.html'
         }
-    });
+    } as FetchEnd);
 
-    const args = t.context.engine.emitAsync.args;
+    const args = engineEmitAsyncSpy.args;
 
-    const window = args[2][1].window;
+    const window = (args[2][1] as HTMLParse).window;
 
     const result1 = await window.evaluate(`
         (function(){
