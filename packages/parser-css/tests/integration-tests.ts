@@ -5,6 +5,7 @@ import * as postcss from 'postcss';
 import { Rule, Declaration } from 'postcss';
 
 import { Engine } from 'hint';
+import { FetchEnd } from 'hint/dist/src/lib/types';
 
 import CSSParser, { StyleEvents } from '../src/parser';
 import { InterfaceTestContext, Element } from '../src/types';
@@ -25,7 +26,7 @@ const fireAndWaitForEmitAsync = async (t: any, code: string) => {
             body: { content: code },
             mediaType: 'text/css'
         }
-    });
+    } as FetchEnd);
 
     return t.context.engine.emitAsync.args[2];
 }
