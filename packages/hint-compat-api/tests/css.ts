@@ -82,20 +82,6 @@ const removedInEarlierVersionsAndAddedLater: HintTest[] = [
 
 hintRunner.testHint(hintPath, removedInEarlierVersionsAndAddedLater, { browserslist: ['opera 32'], parsers: ['css']});
 
-const removedForBrowser: HintTest[] = [
-    {
-        name: 'Features that were removed in a version equal to the targeted browser should fail.',
-        reports: [
-            { message: 'keyframes is not supported by opera 15.', position: { column: 0, line: 0 }},
-            { message: 'keyframes is not supported by opera 15.', position: { column: 0, line: 6 }},
-            { message: 'keyframes is not supported by opera 15.', position: { column: 0, line: 12 }}
-        ],
-        serverConfig: generateCSSConfig('keyframes')
-    }
-];
-
-hintRunner.testHint(hintPath, removedForBrowser, { browserslist: ['opera 15'], parsers: ['css']});
-
 const removedForPrefixEqualToTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version equal to the targeted browser should fail.',
