@@ -1,97 +1,75 @@
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
+import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 import { Engine } from 'hint';
+import { ElementFound, FetchEnd } from 'hint/dist/src/lib/types';
 
 import { StyleEvents, StyleParse } from '../src/parser';
 
-type PostCss = {
-    parse: (input: string) => {};
-};
+import { mockStyleElement } from './helpers/mocks';
 
-type Element = {
-    getAttribute: () => string | null;
-    outerHTML: () => Promise<string>;
-};
+const mockContext = () => {
 
-type InterfaceTestContext = {
-    postcss: PostCss;
-    element: Element;
-    engine: Engine<StyleEvents>;
-};
-
-const test = anyTest as TestInterface<InterfaceTestContext>;
-
-const postcss: PostCss = {
-    parse(input: string) {
-        return {};
-    }
-};
-
-const element = {
-    getAttribute(): string | null {
-        return null;
-    },
-    outerHTML(): Promise<string> {
-        return Promise.resolve('');
-    }
-} as any;
-
-proxyquire('../src/parser', { postcss });
-
-import * as CSSParser from '../src/parser';
-import { ElementFound, FetchEnd } from 'hint/dist/src/lib/types';
-
-test.beforeEach((t) => {
-    t.context.postcss = postcss;
-    t.context.element = element;
-    t.context.engine = new EventEmitter2({
+    const engine = new EventEmitter2({
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
     }) as Engine<StyleEvents>;
-});
 
-test.serial('If a style tag is not CSS, then nothing should happen', async (t) => {
+    const processor = {
+        process: (code: string) => {
+            return Promise.resolve({ root: { } });
+        }
+    };
+
+    const CSSParser = proxyquire('../src/parser', {
+        postcss: () => {
+            return processor;
+        }
+    }).default;
+
+    new CSSParser(engine); // eslint-disable-line
+
+    return {
+        engine,
+        processor
+    };
+};
+
+test('If a style tag is not CSS, then nothing should happen', async (t) => {
     const sandbox = sinon.createSandbox();
-    new CSSParser.default(t.context.engine); // eslint-disable-line
+    const element = mockStyleElement('text/less', '');
+    const { engine, processor } = mockContext();
 
-    const postcssParseSpy = sandbox.spy(postcss, 'parse');
-    const elementGetAttributeStub = sandbox.stub(element, 'getAttribute')
-        .onFirstCall()
-        .returns('text/less');
+    const postcssProcessSpy = sandbox.spy(processor, 'process');
+    const elementGetAttributeSpy = sandbox.spy(element, 'getAttribute');
 
-    await t.context.engine.emitAsync('element::style', { element } as ElementFound);
+    await engine.emitAsync('element::style', { element } as ElementFound);
 
-    t.true(elementGetAttributeStub.calledOnce);
-    t.is(elementGetAttributeStub.args[0][0], 'type');
-    t.false(postcssParseSpy.called);
+    t.true(elementGetAttributeSpy.calledOnce);
+    t.is(elementGetAttributeSpy.firstCall.args[0], 'type');
+    t.false(postcssProcessSpy.called);
 
     sandbox.restore();
 });
 
-test.serial('If a style tag is inline CSS, then we should parse the stylesheet and emit a parse::end::css event', async (t) => {
+test('If a style tag is inline CSS, then we should parse the stylesheet and emit a parse::end::css event', async (t) => {
     const sandbox = sinon.createSandbox();
-    const parseObject = {};
     const code = '.foo { color: #fff }';
-    const style = `<style>  ${code}  </style>`;
-    new CSSParser.default(t.context.engine); // eslint-disable-line
+    const element = mockStyleElement('text/css', code);
+    const { engine, processor } = mockContext();
 
-    const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
-    const postcssParseStub = sandbox.stub(postcss, 'parse').returns(parseObject);
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
+    const postcssProcessSpy = sandbox.spy(processor, 'process');
+    const elementGetAttributeSpy = sandbox.spy(element, 'getAttribute');
 
-    sandbox.stub(element, 'outerHTML').resolves(style);
-    const elementGetAttributeStub = sandbox.stub(element, 'getAttribute')
-        .onFirstCall()
-        .returns('text/css');
+    await engine.emitAsync('element::style', { element } as ElementFound);
 
-    await t.context.engine.emitAsync('element::style', { element } as ElementFound);
-
-    t.true(elementGetAttributeStub.calledOnce);
-    t.is(elementGetAttributeStub.args[0][0], 'type');
-    t.true(postcssParseStub.calledOnce);
-    t.is(postcssParseStub.args[0][0], code);
+    t.true(elementGetAttributeSpy.calledOnce);
+    t.is(elementGetAttributeSpy.firstCall.args[0], 'type');
+    t.true(postcssProcessSpy.calledOnce);
+    t.is(postcssProcessSpy.firstCall.args[0], code);
     t.true(engineEmitAsyncSpy.calledThrice);
 
     const args = engineEmitAsyncSpy.args[2];
@@ -104,16 +82,15 @@ test.serial('If a style tag is inline CSS, then we should parse the stylesheet a
     sandbox.restore();
 });
 
-test.serial('If fetch::end::css is received, then we should parse the stylesheet and emit a parse::end::css event', async (t) => {
+test('If fetch::end::css is received, then we should parse the stylesheet and emit a parse::end::css event', async (t) => {
     const sandbox = sinon.createSandbox();
-    const parseObject = {};
+    const { engine, processor } = mockContext();
     const code = '.foo { color: #fff }';
-    new CSSParser.default(t.context.engine); // eslint-disable-line
 
-    const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
-    const postcssParseStub = sandbox.stub(postcss, 'parse').returns(parseObject);
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
+    const postcssProcessSpy = sandbox.spy(processor, 'process');
 
-    await t.context.engine.emitAsync('fetch::end::css', {
+    await engine.emitAsync('fetch::end::css', {
         resource: 'styles.css',
         response: {
             body: { content: code },
@@ -121,11 +98,11 @@ test.serial('If fetch::end::css is received, then we should parse the stylesheet
         }
     } as FetchEnd);
 
-    t.true(postcssParseStub.calledOnce);
-    t.is(postcssParseStub.args[0][0], code);
+    t.true(postcssProcessSpy.calledOnce);
+    t.is(postcssProcessSpy.firstCall.args[0], code);
     t.true(engineEmitAsyncSpy.calledThrice);
 
-    const args = engineEmitAsyncSpy.args[2];
+    const args = engineEmitAsyncSpy.thirdCall.args;
     const data = args[1] as StyleParse;
 
     t.is(args[0], 'parse::end::css');

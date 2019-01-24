@@ -1,3 +1,5 @@
+const safe = require('postcss-safe-parser');
+
 import * as postcss from 'postcss';
 
 import * as logger from 'hint/dist/src/lib/utils/logging';
@@ -23,7 +25,8 @@ export default class CSSParser extends Parser<StyleEvents> {
         try {
             await this.engine.emitAsync(`parse::start::css`, { resource });
 
-            const ast = postcss.parse(code, { from: resource });
+            const result = await postcss().process(code, { from: resource, parser: safe });
+            const ast = result.root!; // always defined even for '' (typings error?)
 
             await this.engine.emitAsync(`parse::end::css`, {
                 ast,
