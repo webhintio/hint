@@ -16,29 +16,7 @@ import { Config, Events } from '../shared/types';
 import WebExtensionConnector from './connector';
 import WebExtensionFormatter from './formatter';
 
-const hints: IHintConstructor[] = [
-    require('@hint/hint-axe').default,
-    require('@hint/hint-content-type').default,
-    require('@hint/hint-disown-opener').default,
-    require('@hint/hint-highest-available-document-mode').default,
-    require('@hint/hint-http-cache').default,
-    require('@hint/hint-manifest-app-name').default,
-    require('@hint/hint-manifest-file-extension').default,
-    require('@hint/hint-manifest-is-valid').default,
-    require('@hint/hint-meta-charset-utf-8').default,
-    require('@hint/hint-meta-viewport').default,
-    require('@hint/hint-minified-js').default,
-    require('@hint/hint-no-disallowed-headers').default,
-    require('@hint/hint-no-html-only-headers').default,
-    require('@hint/hint-no-http-redirects').default,
-    require('@hint/hint-no-protocol-relative-urls').default,
-    // require('@hint/hint-no-vulnerable-javascript-libraries').default,
-    require('@hint/hint-sri').default,
-    // require('@hint/hint-strict-transport-security').default,
-    require('@hint/hint-stylesheet-limits').default,
-    require('@hint/hint-validate-set-cookie-header').default,
-    require('@hint/hint-x-content-type-options').default
-];
+import hints from '../shared/hints.import';
 
 /** Use the provided `browserslist` query if valid; `defaults` otherwise. */
 const determineBrowserslist = (list?: string) => {
