@@ -937,10 +937,10 @@
     "@types/uglify-js" "*"
     source-map "^0.6.0"
 
-"@types/yargs@^12.0.6":
-  version "12.0.6"
-  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-12.0.6.tgz#579f95b303d135f0c16928acfbb3550c8a78d4c2"
-  integrity sha512-lppGO3m316B4dY4AcbOVOjyOy3EH1M/Y4gMYNvJxricIJ9B72i5ntGJ8s5DJiSiW4t6J2yEByrGOGDEbBBLlVw==
+"@types/yargs@^12.0.7":
+  version "12.0.7"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-12.0.7.tgz#a9dc9b6db5f585396d05c1f07f08020a3a768db1"
+  integrity sha512-lVPWmPTzmjvYKQ1BONzcu+DdunbVWn72/x5RZYeES03/6gLsRHEv3nPIjuLG1lbmeXUqUuQ3iJDMj6oy5MFNfQ==
 
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
