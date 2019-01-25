@@ -22,11 +22,13 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
     abstract isSupportedVersion(browser: BrowsersInfo, feature: FeatureInfo, currentVersion: number, version: number): boolean;
     abstract isVersionValueSupported(version: VersionValue): boolean;
     abstract isVersionValueTestable(version: VersionValue): boolean;
+    abstract getDefaultHintOptions(): any;
 
     public constructor(namespaceName: CompatNamespace, context: HintContext<T>, isCheckingNotBroadlySupported: boolean) {
         const mdnBrowsersCollection = userBrowsers.convert(context.targetedBrowsers);
+        const hintOptions = this.prepareHintOptions(context.hintOptions);
 
-        this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported);
+        this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported, hintOptions.ignore);
         this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeature.bind(this));
 
         (context as HintContext<Events>).on('scan::end', () => {
@@ -200,5 +202,18 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
 
     private mustPackPendingReports(feature: FeatureInfo) {
         return feature.name.startsWith('.');
+    }
+
+    private prepareHintOptions(options: any): any {
+        const defaultHintOptions = this.getDefaultHintOptions();
+        const mergedOptions = Object.assign({}, defaultHintOptions, options);
+
+        if (Array.isArray(mergedOptions.enable) && mergedOptions.enable.length > 0) {
+            mergedOptions.ignore = mergedOptions.ignore.filter((featureName: string) => {
+                return !mergedOptions.enable.includes(featureName);
+            });
+        }
+
+        return mergedOptions;
     }
 }

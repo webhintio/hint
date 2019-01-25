@@ -8,6 +8,7 @@ import { Events, Event } from 'hint/dist/src/lib/types';
 import meta from './meta/html';
 import { CompatNamespace } from './enums';
 import { DeprecatedAPIHint } from './core/deprecated-hint';
+import { DEFAULT_HTML_IGNORE } from './helpers';
 
 /*
  * ------------------------------------------------------------------------------
@@ -20,5 +21,9 @@ export default class HTMLDeprecatedAPIHint extends DeprecatedAPIHint<Events, Eve
 
     public constructor(context: HintContext<Events>) {
         super(CompatNamespace.HTML, context);
+    }
+
+    public getDefaultHintOptions(): any {
+        return { ignore: DEFAULT_HTML_IGNORE };
     }
 }

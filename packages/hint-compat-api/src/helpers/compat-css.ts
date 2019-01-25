@@ -15,6 +15,8 @@ import { CompatBase } from './compat-base';
 
 const debug: debug.IDebugger = d(__filename);
 
+export const DEFAULT_CSS_IGNORE = ['cursor'];
+
 export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements ICompatLibrary<StyleParse> {
     public constructor(hintContext: HintContext<StyleEvents>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
         super(hintContext, MDNData, testFunction);

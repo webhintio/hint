@@ -7,10 +7,12 @@ import { CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo } from '../types';
 import { SimpleSupportStatement, VersionValue } from '../types-mdn.temp';
 
-export class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K> {
+export abstract class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K> {
     public static readonly meta = meta;
 
     private userPrefixes = new Set<string>();
+
+    abstract getDefaultHintOptions(): any;
 
     public constructor(namespaceName: CompatNamespace, context: HintContext<T>) {
         super(namespaceName, context, true);

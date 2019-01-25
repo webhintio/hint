@@ -113,6 +113,44 @@ This property follows the same convention as [browserslist][browserslist].
 }
 ```
 
+`ignore` can be used to specify a list of CSS features to be ignored. The
+default value is `['cursor']`.
+
+In the `.hintrc` file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "hints": {
+        "compat-api/css-next": ["error", {
+            "ignore": ["border-radius", "box-lines"],
+        }],
+        ...
+    },
+    ...
+}
+```
+
+`enable` can be used to specify a list of CSS features to be checked even if
+they are included in the ignore list. The default value is `[]`.
+
+In the `.hintrc` file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "hints": {
+        "compat-api/css-next": ["error", {
+            "enable": ["cursor"],
+        }],
+        ...
+    },
+    ...
+}
+```
+
 ## Further Reading
 
 * [CSS: Cascading Style Sheets (MDN)][docmdn]

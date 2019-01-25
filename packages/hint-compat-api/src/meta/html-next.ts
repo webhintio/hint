@@ -2,6 +2,8 @@ import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
 import { HintMetadata } from 'hint/dist/src/lib/types';
 
+const schema = require('./compat-hint-schema.json');
+
 const meta: HintMetadata = {
     docs: {
         category: Category.compatibility,
@@ -9,7 +11,7 @@ const meta: HintMetadata = {
         name: 'Compatibility HTML not broadly supported features'
     },
     id: 'compat-api/html-next',
-    schema: [],
+    schema: [schema],
     scope: HintScope.any
 };
 

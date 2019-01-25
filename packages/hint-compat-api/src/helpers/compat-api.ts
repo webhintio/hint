@@ -14,10 +14,13 @@ import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, 
 
 export class CompatAPI {
     public compatDataApi: MDNTreeFilteredByBrowsers;
+
+    public readonly excludedFeatures: string[];
     private readonly isCheckingNotBroadlySupported: boolean;
     private readonly mdnBrowsersCollection: BrowserSupportCollection;
 
-    public constructor(namespaceName: CompatNamespace, mdnBrowsersCollection: BrowserSupportCollection, isCheckingNotBroadlySupported = false) {
+    public constructor(namespaceName: CompatNamespace, mdnBrowsersCollection: BrowserSupportCollection, isCheckingNotBroadlySupported: boolean = false, excludeFeatures: string[]) {
+        this.excludedFeatures = excludeFeatures;
         this.mdnBrowsersCollection = mdnBrowsersCollection;
         this.isCheckingNotBroadlySupported = isCheckingNotBroadlySupported;
         this.compatDataApi = this.filterCompatDataByBrowsers(mdnAPI[namespaceName]);
@@ -25,7 +28,6 @@ export class CompatAPI {
 
     private filterCompatDataByBrowsers(namespaceFeature: {[namespaceFeaturesKey: string]: CompatStatement | undefined}): MDNTreeFilteredByBrowsers {
         const compatDataApi: MDNTreeFilteredByBrowsers = {};
-
 
         Object.entries(namespaceFeature).forEach(([namespaceFeaturesKey, namespaceFeaturesValues]) => {
             compatDataApi[namespaceFeaturesKey] = this.filterNamespacesDataByBrowsers(namespaceFeaturesValues);
@@ -38,7 +40,7 @@ export class CompatAPI {
         const namespaceFeatures = {} as CompatStatement & MDNTreeFilteredByBrowsers;
 
         Object.entries(namespaceFeaturesValues as object).forEach(([featureKey, featureValue]) => {
-            const filteredFeature = this.getFeatureByBrowsers(featureValue);
+            const filteredFeature = this.getFeatureByBrowsers(featureKey, featureValue);
 
             if (!filteredFeature) {
                 return;
@@ -50,12 +52,17 @@ export class CompatAPI {
         return namespaceFeatures;
     }
 
-    private getFeatureByBrowsers(featureValue: CompatStatement & MDNTreeFilteredByBrowsers): CompatStatement | null {
+    private getFeatureByBrowsers(featureKey: string, featureValue: CompatStatement & MDNTreeFilteredByBrowsers): CompatStatement | null {
+        if (this.isExcludedFeature(featureKey)) {
+            return null;
+        }
+
         const childrenFeatures = this.getFeaturesAndChildrenRequiredToTest(featureValue);
         const hasChildrenFeatures = Object.keys(childrenFeatures).length > 0;
         const typedFeatures = { ...childrenFeatures, __compat: featureValue.__compat } as CompatStatement & MDNTreeFilteredByBrowsers;
 
-        if (!hasChildrenFeatures && !this.isFeatureRequiredToTest(featureValue)) {
+
+        if (!hasChildrenFeatures && !this.isFeatureRequiredToTest(featureKey, featureValue)) {
             return null;
         }
 
@@ -67,7 +74,7 @@ export class CompatAPI {
 
         if (typeof featureValue === 'object') {
             Object.entries(featureValue as object).forEach(([childKey, childValue]) => {
-                if (this.isFeatureRequiredToTest(childValue)) {
+                if (!this.isExcludedFeature(childKey) && this.isFeatureRequiredToTest(childKey, childValue)) {
                     typedFeatures[childKey] = childValue;
                 }
             });
@@ -167,12 +174,12 @@ export class CompatAPI {
     }
     /* eslint-enable camelcase */
 
-    private isFeatureRequiredToTest(typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers): boolean {
-        if (!typedFeatureValue.__compat || !typedFeatureValue.__compat.support) {
+    private isFeatureRequiredToTest(featureName: string, typedFeatureValue: CompatStatement & MDNTreeFilteredByBrowsers): boolean {
+        if (!this.hasValidCompatibilityInfo(typedFeatureValue)) {
             return false;
         }
 
-        const { support, status } = typedFeatureValue.__compat;
+        const { support, status } = typedFeatureValue.__compat as CompatStatement;
 
         return Object.entries(this.mdnBrowsersCollection).some(([browser, browserVersionsList]: [string, number[]]): boolean => {
             const browserFeatureSupported = this.getWorstCaseSupportStatementFromInfo((support as any)[browser]);
@@ -209,6 +216,16 @@ export class CompatAPI {
 
             return false;
         });
+    }
+
+    private isExcludedFeature(featureName: string): boolean {
+        return this.excludedFeatures.includes(featureName);
+    }
+
+    private hasValidCompatibilityInfo(featureValue: MDNTreeFilteredByBrowsers): boolean {
+        return featureValue &&
+            !!featureValue.__compat &&
+            !!featureValue.__compat.support;
     }
 
     /**
@@ -289,11 +306,11 @@ export class CompatAPI {
 
             const identifier: Identifier = get(collection, accessor);
 
-            if (!identifier || !identifier.__compat || !identifier.__compat.support) {
+            if (!this.hasValidCompatibilityInfo(identifier)) {
                 throw new Error('Missing compatibility information');
             }
 
-            return identifier.__compat;
+            return identifier.__compat as CompatStatement;
         } catch (error) {
             return { status: {}, support: {} } as CompatStatement;
         }

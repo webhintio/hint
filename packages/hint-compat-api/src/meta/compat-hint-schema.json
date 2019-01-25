@@ -1,0 +1,15 @@
+{
+    "additionalProperties": false,
+    "definitions": {
+        "features": {
+            "type": "array",
+            "items": { "type": "string" },
+            "uniqueItems": true
+        }
+    },
+    "properties": {
+        "enable": { "$ref": "#/definitions/features" },
+        "ignore": { "$ref": "#/definitions/features" }
+    },
+    "type": ["object", "null"]
+}

@@ -263,7 +263,11 @@ const notSupportedAndNotDeprecatedFeature: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, { browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'], parsers: ['css']});
+hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, {
+    browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'],
+    hintOptions: { enable: ['cursor'] },
+    parsers: ['css']
+});
 
 const notSupportedFeaturesSplittedByCSSRuleBlock: HintTest[] = [
     {
@@ -288,3 +292,19 @@ const disorderedNotSupportedFeatures: HintTest[] = [
 ];
 
 hintRunner.testHint(hintPath, disorderedNotSupportedFeatures, { browserslist: ['firefox 60', 'ie 10'], parsers: ['css']});
+
+/*
+ * IGNORE HINT OPTION
+ */
+
+const defaultIgnoredFeaturesShouldNotFail: HintTest[] = [
+    {
+        name: 'Ignored features by default should pass.',
+        serverConfig: generateCSSConfig('cursor')
+    }
+];
+
+hintRunner.testHint(hintPath, defaultIgnoredFeaturesShouldNotFail, {
+    browserslist: ['android 4.4.3-4.4.4'],
+    parsers: ['css']
+});
