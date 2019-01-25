@@ -205,7 +205,7 @@ hintRunner.testHint(hintPath, mixedFeaturedCompatibility, {
 
 const defaultIgnoredFeaturesShould: HintTest[] = ['link-integrity', 'script-integrity'].map((filename: string) => {
     return {
-        name: 'Ignored features by default should pass.',
+        name: `Ignored features by default should pass (${filename}).`,
         serverConfig: generateHTMLConfig(filename)
     };
 });
