@@ -9,6 +9,7 @@ import { debug as d } from './debug';
 import * as logger from './logging';
 import loadJSONFile from './fs/load-json-file';
 import findPackageRoot from './packages/find-package-root';
+import cwd from './fs/cwd';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -34,7 +35,7 @@ export const installPackages = async (packages: string[]): Promise<boolean> => {
     /** Whether or not the package should be installed as devDependencies. */
     let isDev: boolean = false;
     /** Current working directory. */
-    const currentWorkingDir = process.cwd();
+    const currentWorkingDir = cwd();
     /** Wheter or not the process is running in windows */
     const isWindows = process.platform === 'win32';
 

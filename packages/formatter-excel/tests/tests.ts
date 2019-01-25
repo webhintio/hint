@@ -17,21 +17,15 @@ type ExcelContext = {
 const test = anyTest as TestInterface<ExcelContext>;
 
 test.beforeEach(async (t) => {
-    delete require.cache[require.resolve('lodash')];
-    delete require.cache[path.resolve(__dirname, '../src/formatter.js')];
-
     const { groupBy } = await import('lodash');
     const spy = sinon.spy(groupBy);
-
-    proxyquire('../src/formatter', { lodash: spy });
-
-    const ExcelFormat: typeof ExcelFormatter = (await import('../src/formatter')).default;
+    const ExcelFormat: typeof ExcelFormatter = proxyquire('../src/formatter', { lodash: spy }).default;
 
     t.context.ExcelFormatter = ExcelFormat;
     t.context.spy = spy;
 });
 
-test.serial(`Excel formatter doesn't print anything if no values`, async (t) => {
+test(`Excel formatter doesn't print anything if no values`, async (t) => {
     const formatter = new t.context.ExcelFormatter();
     const spy = t.context.spy;
 
@@ -40,7 +34,7 @@ test.serial(`Excel formatter doesn't print anything if no values`, async (t) => 
     t.is(spy.callCount, 0);
 });
 
-test.serial(`Excel formatter generates the right number of sheets with the good content`, async (t) => {
+test(`Excel formatter generates the right number of sheets with the good content`, async (t) => {
     const formatter = new t.context.ExcelFormatter();
 
     await formatter.format(problems.multipleproblems, 'http://myresource.com:8080/');

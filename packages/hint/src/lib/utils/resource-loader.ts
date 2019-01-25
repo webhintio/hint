@@ -33,6 +33,7 @@ import { ResourceType } from '../enums/resourcetype';
 import { ResourceErrorStatus } from '../enums/errorstatus';
 import { ResourceError } from '../types/resourceerror';
 import { IConnectorConstructor } from '../types/connector';
+import cwd from './fs/cwd';
 
 const debug: debug.IDebugger = d(__filename);
 const HINT_ROOT: string = findPackageRoot();
@@ -328,7 +329,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
     }
 
     const configPathsToResources = generateConfigPathsToResources(configurations, packageName, type);
-    const currentProcessDir = process.cwd();
+    const currentProcessDir = cwd();
 
     /*
      * We can't use the key for the Official packages neither for the Third party ones because

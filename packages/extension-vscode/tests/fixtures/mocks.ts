@@ -19,10 +19,13 @@ export type Window = {
     showWarningMessage: () => Message;
 };
 
+type Initializer = (params: Partial<InitializeParams>) => Promise<InitializeResult>;
+type FileWatcher = () => any;
+
 export type Connection = {
     listen: () => void;
-    onDidChangeWatchedFiles: (fn: typeof fileWatcher) => void;
-    onInitialize: (fn: typeof initializer) => void;
+    onDidChangeWatchedFiles: (fn: FileWatcher) => void;
+    onInitialize: (fn: Initializer) => void;
     sendDiagnostics: (params: PublishDiagnosticsParams) => void;
     sendNotification: () => void;
     window: Window;
@@ -49,131 +52,157 @@ export type ChildProcess = {
 
 export type FilesType = {
     resolveModule2: (_context: string, name: string) => any;
-}
+};
 
-export const child = {
-    on(event: string, listener: () => void) {
-        if (event === 'exit') {
+export const mocks = () => {
+    const child = {
+        on(event: string, listener: () => void) {
+            if (event === 'exit') {
+                setTimeout(() => {
+                    listener();
+                }, 0);
+            }
+        },
+        stderr: { pipe() { } },
+        stdout: { pipe() { } }
+    };
+
+    // eslint-disable-next-line
+    const child_process = {
+        spawn(cmd: string) {
+            return child;
+        }
+    };
+
+    const access = {
+        error(): Error | null {
+            return new Error('ENOENT');
+        }
+    };
+
+    const fs = {
+        access(path: string, callback: (err: Error | null) => void) {
             setTimeout(() => {
-                listener();
+                callback(access.error());
             }, 0);
         }
-    },
-    stderr: { pipe() { } },
-    stdout: { pipe() { } }
-};
+    };
 
-// eslint-disable-next-line
-export const child_process: ChildProcess = {
-    spawn(cmd: string) {
-        return child;
-    }
-};
+    const engine = {
+        clear() { },
+        executeOn(target: url.URL, options?: IFetchOptions): Partial<Problem>[] {
+            return [];
+        }
+    };
 
-export const access = {
-    error(): Error | null {
-        return new Error('ENOENT');
-    }
-};
-
-export const fs = {
-    access(path: string, callback: (err: Error | null) => void) {
-        setTimeout(() => {
-            callback(access.error());
-        }, 0);
-    }
-};
-
-export const engine: EngineType = {
-    clear() { },
-    executeOn(target: url.URL, options?: IFetchOptions): Partial<Problem>[] {
-        return [];
-    }
-};
-
-export const Configuration = {
-    fromConfig() { },
-    getFilenameForDirectory() {
-        return '';
-    },
-    loadConfigFile() { }
-};
-
-export const loadResources = () => { };
-
-export let fileWatcher: () => any;
-export let initializer: (params: Partial<InitializeParams>) => Promise<InitializeResult>;
-
-export const connection: Connection = {
-    listen() { },
-    onDidChangeWatchedFiles(fn: typeof fileWatcher) {
-        fileWatcher = fn;
-    },
-    onInitialize(fn: typeof initializer) {
-        initializer = fn;
-    },
-    sendDiagnostics(params: PublishDiagnosticsParams) { },
-    sendNotification() { },
-    window: {
-        showErrorMessage() {
-            return { title: '' }
+    const Configuration = {
+        fromConfig() { },
+        getFilenameForDirectory() {
+            return '';
         },
-        showInformationMessage() {
-            return { title: '' }
+        loadConfigFile() { }
+    };
+
+    const loadResources = () => { };
+
+    let fileWatcher: () => any;
+    let initializer: (params: Partial<InitializeParams>) => Promise<InitializeResult>;
+
+    const connection: Connection = {
+        listen() { },
+        onDidChangeWatchedFiles(fn: typeof fileWatcher) {
+            fileWatcher = fn;
         },
-        showWarningMessage() {
-            return { title: '' }
+        onInitialize(fn: typeof initializer) {
+            initializer = fn;
+        },
+        sendDiagnostics(params: PublishDiagnosticsParams) { },
+        sendNotification() { },
+        window: {
+            showErrorMessage() {
+                return { title: '' }
+            },
+            showInformationMessage() {
+                return { title: '' }
+            },
+            showWarningMessage() {
+                return { title: '' }
+            }
+        }
+    };
+
+    const createConnection = () => {
+        return connection;
+    };
+
+    class Engine {
+        public constructor() {
+            return engine;
         }
     }
+
+    const modules: { [name: string]: any } = {
+        hint: { Engine },
+        'hint/dist/src/lib/config': { Configuration },
+        'hint/dist/src/lib/utils/resource-loader': { loadResources }
+    };
+
+    const Files = {
+        resolveModule2(_context: string, name: string) {
+            return modules[name];
+        }
+    };
+
+    const ProposedFeatures = { all: {} };
+
+    const document = {
+        getText() {
+            return '';
+        },
+        get uri() {
+            return '';
+        }
+    } as TextDocument;
+
+    let contentWatcher: (change: Partial<TextDocumentChangeEvent>) => any;
+
+    const documents = {
+        all(): TextDocument[] {
+            return [];
+        },
+        listen() { },
+        onDidChangeContent(fn: typeof contentWatcher) {
+            contentWatcher = fn;
+        }
+    };
+
+
+
+    return {
+        access,
+        child_process,
+        Configuration,
+        connection,
+        createConnection,
+        document,
+        documents,
+        engine,
+        Files,
+        fs,
+        getContentWatcher: () => {
+            return contentWatcher;
+        },
+        getFileWatcher: () => {
+            return fileWatcher;
+        },
+        getInitializer: () => {
+            return initializer;
+        },
+        ProposedFeatures,
+        TextDocuments: class TextDocuments {
+            public constructor() {
+                return documents;
+            }
+        }
+    };
 };
-
-export const createConnection = () => {
-    return connection;
-};
-
-export class Engine {
-    public constructor() {
-        return engine;
-    }
-}
-
-const modules: { [name: string]: any } = {
-    hint: { Engine },
-    'hint/dist/src/lib/config': { Configuration },
-    'hint/dist/src/lib/utils/resource-loader': { loadResources }
-};
-
-export const Files: FilesType = {
-    resolveModule2(_context: string, name: string) {
-        return modules[name];
-    }
-};
-
-export const ProposedFeatures = { all: {} };
-
-export const document = {
-    getText() {
-        return '';
-    },
-    get uri() {
-        return '';
-    }
-} as TextDocument;
-
-export let contentWatcher: (change: Partial<TextDocumentChangeEvent>) => any;
-
-export const documents = {
-    all(): TextDocument[] {
-        return [];
-    },
-    listen() { },
-    onDidChangeContent(fn: typeof contentWatcher) {
-        contentWatcher = fn;
-    }
-};
-
-export class TextDocuments {
-    public constructor() {
-        return documents;
-    }
-}

@@ -1,3 +1,7 @@
+/*
+ * This tests has to run serially because we are stubbing require to simulate
+ * missing packages.
+ */
 import * as path from 'path';
 
 import test from 'ava';

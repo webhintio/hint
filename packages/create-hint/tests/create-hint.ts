@@ -2,33 +2,93 @@ import * as path from 'path';
 
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import test from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import * as handlebarsUtils from '../src/handlebars-utils';
 
-const inquirer = { prompt() { } };
-const writeFileAsyncModule = { default() { } };
-const isOfficialModule = { default() { } };
-
-const fsExtra = { copy(orig: string, dest: string) { } };
-const mkdirp = (dir: string, callback: Function) => {
-    callback();
+type Inquirer = {
+    prompt: () => void;
 };
 
-const dependencies = {
-    '../src/handlebars-utils': handlebarsUtils,
-    'fs-extra': fsExtra,
-    'hint/dist/src/lib/utils/fs/write-file-async': writeFileAsyncModule,
-    'hint/dist/src/lib/utils/packages/is-official': isOfficialModule,
-    inquirer,
-    mkdirp
+type FsExtra = {
+    copy: (orig: string, dest: string) => void;
 };
 
-proxyquire('../src/create-hint', dependencies);
+type Mkdirp = (dir: string, callback: Function) => void;
 
-import newHint from '../src/create-hint';
+type WriteFileAsyncModule = {
+    default: () => void;
+};
 
-test.serial('It creates a hint if the option multiple hints is false', async (t) => {
+type IsOfficialModule = {
+    default: () => void;
+};
+
+type CWD = {
+    default: () => string;
+};
+
+type HandlebarsUtils = {
+    escapeSafeString: (str: string) => hbs.SafeString;
+    compileTemplate: (filePath: string, data: any) => Promise<string>;
+};
+
+type CreateHintContext = {
+    cwd: CWD;
+    inquirer: Inquirer;
+    isOfficialModule: IsOfficialModule;
+    fsExtra: FsExtra;
+    handlebarsUtils: HandlebarsUtils;
+    mkdirp: Mkdirp;
+    sandbox: sinon.SinonSandbox;
+    writeFileAsyncModule: WriteFileAsyncModule;
+}
+
+const test = anyTest as TestInterface<CreateHintContext>;
+
+const initContext = (t: ExecutionContext<CreateHintContext>) => {
+    t.context.cwd = {
+        default(): string {
+            return '';
+        }
+    };
+    t.context.fsExtra = { copy(orig: string, dest: string) { } };
+    t.context.handlebarsUtils = {
+        compileTemplate(filePath: string, data: any) {
+            return Promise.resolve('');
+        },
+        escapeSafeString: handlebarsUtils.escapeSafeString
+    };
+    t.context.inquirer = { prompt() { } };
+    t.context.isOfficialModule = { default() { } };
+    t.context.mkdirp = (dir: string, callback: Function) => {
+        callback();
+    };
+    t.context.sandbox = sinon.createSandbox();
+    t.context.writeFileAsyncModule = { default() { } };
+};
+
+const loadScript = (context: CreateHintContext) => {
+    const script = proxyquire('../src/create-hint', {
+        '../src/handlebars-utils': context.handlebarsUtils,
+        'fs-extra': context.fsExtra,
+        'hint/dist/src/lib/utils/fs/cwd': context.cwd,
+        'hint/dist/src/lib/utils/fs/write-file-async': context.writeFileAsyncModule,
+        'hint/dist/src/lib/utils/packages/is-official': context.isOfficialModule,
+        inquirer: context.inquirer,
+        mkdirp: context.mkdirp
+    });
+
+    return script.default;
+};
+
+test.beforeEach(initContext);
+
+test.afterEach.always((t) => {
+    t.context.sandbox.restore();
+});
+
+test('It creates a hint if the option multiple hints is false', async (t) => {
     const results = {
         category: 'pwa',
         description: 'An awesome new hint',
@@ -39,14 +99,15 @@ test.serial('It creates a hint if the option multiple hints is false', async (t)
     const root = '/tests/';
     const sandbox = sinon.createSandbox();
 
-    const fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
-    const miscWriteFileAsyncStub = sandbox.stub(writeFileAsyncModule, 'default').resolves();
-    const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').resolves('');
+    const fsExtraCopyStub = sandbox.stub(t.context.fsExtra, 'copy').resolves();
+    const miscWriteFileAsyncStub = sandbox.stub(t.context.writeFileAsyncModule, 'default').resolves();
+    const handlebarsCompileTemplateStub = sandbox.stub(t.context.handlebarsUtils, 'compileTemplate').resolves('');
 
-    sandbox.stub(isOfficialModule, 'default').resolves(true);
-    sandbox.stub(process, 'cwd').returns(root);
-    sandbox.stub(inquirer, 'prompt').resolves(results);
+    sandbox.stub(t.context.isOfficialModule, 'default').resolves(true);
+    sandbox.stub(t.context.cwd, 'default').returns(root);
+    sandbox.stub(t.context.inquirer, 'prompt').resolves(results);
 
+    const newHint = loadScript(t.context);
     const result = await newHint();
 
     t.true(fsExtraCopyStub.args[0][0].endsWith('files'), 'Unexpected path for official files');
@@ -61,7 +122,7 @@ test.serial('It creates a hint if the option multiple hints is false', async (t)
     sandbox.restore();
 });
 
-test.serial('It creates a package with multiple hints', async (t) => {
+test('It creates a package with multiple hints', async (t) => {
     const packageResults = {
         description: 'An awesome new package',
         multi: true,
@@ -84,13 +145,13 @@ test.serial('It creates a package with multiple hints', async (t) => {
     const root = '/tests/';
     const sandbox = sinon.createSandbox();
 
-    const fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
-    const miscWriteFileAsyncStub = sandbox.stub(writeFileAsyncModule, 'default').resolves();
-    const handlebarsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').resolves('');
+    const fsExtraCopyStub = sandbox.stub(t.context.fsExtra, 'copy').resolves();
+    const miscWriteFileAsyncStub = sandbox.stub(t.context.writeFileAsyncModule, 'default').resolves();
+    const handlebarsCompileTemplateStub = sandbox.stub(t.context.handlebarsUtils, 'compileTemplate').resolves('');
 
-    sandbox.stub(isOfficialModule, 'default').resolves(false);
-    sandbox.stub(process, 'cwd').returns(root);
-    sandbox.stub(inquirer, 'prompt')
+    sandbox.stub(t.context.isOfficialModule, 'default').resolves(false);
+    sandbox.stub(t.context.cwd, 'default').returns(root);
+    sandbox.stub(t.context.inquirer, 'prompt')
         .onFirstCall()
         .resolves(packageResults)
         .onSecondCall()
@@ -98,6 +159,7 @@ test.serial('It creates a package with multiple hints', async (t) => {
         .onThirdCall()
         .resolves(hint2Results);
 
+    const newHint = loadScript(t.context);
     const result = await newHint();
 
     t.true(fsExtraCopyStub.args[0][0].endsWith('no-official-files'), 'Unexpected path for non official files');

@@ -1,76 +1,106 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import { EventEmitter2 } from 'eventemitter2';
 
+import { ExtendableConfiguration } from '../../../src/lib/types/parser';
+import { Events, ErrorEvent } from '../../../src/lib/types';
 import { Engine } from '../../../src/lib/engine';
-
-type ParserContext = {
-    engine: Engine<Events>;
-};
-
-const test = anyTest as TestInterface<ParserContext>;
-
-const asPathString = {
-    default(): string {
-        return '';
-    }
-};
-const asUri = { getAsUri() { } };
-const path = {
-    dirname(): string {
-        return '';
-    },
-    resolve(): string {
-        return '';
-    }
-};
 
 type FileModule = {
     extends: string | null;
     name: string;
 };
 
-const loadJSONFileModule = {
-    default(): FileModule | null {
-        return null;
-    }
+type LoadJSONFileModule = {
+    default: () => FileModule | null;
 };
 
-proxyquire('../../../src/lib/types/parser', {
-    '../utils/fs/load-json-file': loadJSONFileModule,
-    '../utils/network/as-path-string': asPathString,
-    '../utils/network/as-uri': asUri,
-    path
-});
+type AsPathString = {
+    default: () => string;
+};
 
-import { ExtendableConfiguration, Parser } from '../../../src/lib/types/parser';
-import { Events, ErrorEvent } from '../../../src/lib/types';
+type Path = {
+    dirname: () => string;
+    resolve: () => string;
+};
+
+type ParserContext = {
+    asPathString: AsPathString;
+    engine: Engine<Events>;
+    loadJSONFileModule: LoadJSONFileModule;
+    path: Path;
+    sandbox: sinon.SinonSandbox;
+};
+
+const test = anyTest as TestInterface<ParserContext>;
+
+const asUri = { getAsUri() { } };
 
 interface ITestConfig extends ExtendableConfiguration {
     name?: string;
 }
 
-class TestParser extends Parser {
-    public constructor(engine: Engine) {
-        super(engine, 'test');
-    }
-
-    public config(config: ITestConfig, resource: string) {
-        return this.finalConfig(config, resource);
-    }
-}
-
-test.beforeEach((t) => {
+const initContext = (t: ExecutionContext<ParserContext>) => {
     t.context.engine = new EventEmitter2({
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
     }) as Engine<Events>;
+
+    t.context.loadJSONFileModule = {
+        default(): FileModule | null {
+            return null;
+        }
+    };
+
+    t.context.asPathString = {
+        default(): string {
+            return '';
+        }
+    };
+
+    t.context.path = {
+        dirname(): string {
+            return '';
+        },
+        resolve(): string {
+            return '';
+        }
+    };
+    t.context.sandbox = sinon.createSandbox();
+};
+
+const loadScript = (context: ParserContext) => {
+    const script = proxyquire('../../../src/lib/types/parser', {
+        '../utils/fs/load-json-file': context.loadJSONFileModule,
+        '../utils/network/as-path-string': context.asPathString,
+        '../utils/network/as-uri': asUri,
+        path: context.path
+    });
+
+    return script.Parser;
+};
+
+test.beforeEach(initContext);
+
+test.afterEach.always((t) => {
+    t.context.sandbox.restore();
 });
 
 test(`If config doesn't have an extends property, it should return the same object`, async (t) => {
+    const Parser = loadScript(t.context);
     const config = { extends: '' };
+
+    class TestParser extends Parser {
+        public constructor(engine: Engine) {
+            super(engine, 'test');
+        }
+
+        public config(config: ITestConfig, resource: string) {
+            return this.finalConfig(config, resource);
+        }
+    }
 
     const testParser = new TestParser(t.context.engine);
 
@@ -79,13 +109,24 @@ test(`If config doesn't have an extends property, it should return the same obje
     t.true(config === result);
 });
 
-test.serial('If there is a circular reference, it should throw an exception', async (t) => {
-    const sandbox = sinon.createSandbox();
+test('If there is a circular reference, it should throw an exception', async (t) => {
+    const sandbox = t.context.sandbox;
+    const Parser = loadScript(t.context);
+
+    class TestParser extends Parser {
+        public constructor(engine: Engine) {
+            super(engine, 'test');
+        }
+
+        public config(config: ITestConfig, resource: string) {
+            return this.finalConfig(config, resource);
+        }
+    }
 
     const config = { extends: 'circularReference' };
 
-    sandbox.stub(asPathString, 'default').returns('circularReference');
-    sandbox.stub(path, 'resolve').returns('circularReference');
+    sandbox.stub(t.context.asPathString, 'default').returns('circularReference');
+    sandbox.stub(t.context.path, 'resolve').returns('circularReference');
     const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
 
     const testParser = new TestParser(t.context.engine);
@@ -95,19 +136,27 @@ test.serial('If there is a circular reference, it should throw an exception', as
     t.is(result, null);
     t.true(engineEmitAsyncSpy.calledOnce);
     t.is((engineEmitAsyncSpy.args[0][1] as ErrorEvent).error.message, 'Circular reference found in file circularReference');
-
-
-    sandbox.restore();
 });
 
-test.serial('If one of the extended files is no a valid JSON, it should throw an exception', async (t) => {
-    const sandbox = sinon.createSandbox();
+test('If one of the extended files is no a valid JSON, it should throw an exception', async (t) => {
+    const sandbox = t.context.sandbox;
+    const Parser = loadScript(t.context);
+
+    class TestParser extends Parser {
+        public constructor(engine: Engine) {
+            super(engine, 'test');
+        }
+
+        public config(config: ITestConfig, resource: string) {
+            return this.finalConfig(config, resource);
+        }
+    }
 
     const config = { extends: 'invalid-extends' };
 
-    sandbox.stub(asPathString, 'default').returns('valid-with-invalid-extends');
-    sandbox.stub(path, 'resolve').returns('invalid-extends');
-    sandbox.stub(loadJSONFileModule, 'default').throws(new Error('InvalidJSON'));
+    sandbox.stub(t.context.asPathString, 'default').returns('valid-with-invalid-extends');
+    sandbox.stub(t.context.path, 'resolve').returns('invalid-extends');
+    sandbox.stub(t.context.loadJSONFileModule, 'default').throws(new Error('InvalidJSON'));
     const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
 
     const testParser = new TestParser(t.context.engine);
@@ -116,26 +165,35 @@ test.serial('If one of the extended files is no a valid JSON, it should throw an
 
     t.true(engineEmitAsyncSpy.calledOnce);
     t.is(result, null);
-
-    sandbox.restore();
 });
 
-test.serial('If everything is ok, it should merge all the extended configurations', async (t) => {
-    const sandbox = sinon.createSandbox();
+test('If everything is ok, it should merge all the extended configurations', async (t) => {
+    const sandbox = t.context.sandbox;
+    const Parser = loadScript(t.context);
+
+    class TestParser extends Parser {
+        public constructor(engine: Engine) {
+            super(engine, 'test');
+        }
+
+        public config(config: ITestConfig, resource: string) {
+            return this.finalConfig(config, resource);
+        }
+    }
 
     const config = {
         extends: 'valid-extends',
         name: 'valid'
     };
 
-    sandbox.stub(asPathString, 'default').returns('valid-with-extends');
-    sandbox.stub(path, 'resolve')
+    sandbox.stub(t.context.asPathString, 'default').returns('valid-with-extends');
+    sandbox.stub(t.context.path, 'resolve')
         .onFirstCall()
         .returns('valid-extends')
         .onSecondCall()
         .returns('valid-extends-2');
 
-    const miscStub = sandbox.stub(loadJSONFileModule, 'default')
+    const miscStub = sandbox.stub(t.context.loadJSONFileModule, 'default')
         .onFirstCall()
         .returns({
             extends: 'valid-extends-2',
@@ -155,6 +213,4 @@ test.serial('If everything is ok, it should merge all the extended configuration
 
     t.true(miscStub.calledTwice);
     t.is(result && result.name, 'valid');
-
-    sandbox.restore();
 });

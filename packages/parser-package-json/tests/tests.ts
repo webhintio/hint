@@ -66,7 +66,7 @@ test('If we receive a valid package.json, it should emit the event parse::end::p
     t.is(t.context.engineEmitAsyncSpy.args[2][0], 'parse::end::package-json');
 });
 
-test.serial('If we receive a valid package.json, it should emit exactly the contents of the file', async (t) => {
+test('If we receive a valid package.json, it should emit exactly the contents of the file', async (t) => {
     await t.context.engine.emitAsync('fetch::end::json', {
         resource: url.format(getAsUri(validPath)!),
         response: { body: { content: JSON.stringify(validJSON) } }
@@ -75,7 +75,7 @@ test.serial('If we receive a valid package.json, it should emit exactly the cont
     t.deepEqual(t.context.engineEmitAsyncSpy.args[2][1].config, validJSON);
 });
 
-test.serial('If the .json file being fetched is not package.json, the only event emitted should be fetch::end::json.', async (t) => {
+test('If the .json file being fetched is not package.json, the only event emitted should be fetch::end::json.', async (t) => {
     t.context.sandbox.stub(path, 'basename').returns('foo.json');
 
     await t.context.engine.emitAsync('fetch::end::json', {
@@ -87,7 +87,7 @@ test.serial('If the .json file being fetched is not package.json, the only event
     t.is(t.context.engineEmitAsyncSpy.args[0][0], 'fetch::end::json');
 });
 
-test.serial(`Even if package.json contains an invalid schema, it should still emit the 'parse::start::package-json' event`, async (t) => {
+test(`Even if package.json contains an invalid schema, it should still emit the 'parse::start::package-json' event`, async (t) => {
     await t.context.engine.emitAsync('fetch::end::json', {
         resource: 'package.json',
         response: { body: { content: invalidJSON } }
@@ -96,7 +96,7 @@ test.serial(`Even if package.json contains an invalid schema, it should still em
     t.is(t.context.engineEmitAsyncSpy.args[1][0], 'parse::start::package-json');
 });
 
-test.serial(`If package.json contains an invalid schema, it should emit an error related to the schema of the package.json`, async (t) => {
+test(`If package.json contains an invalid schema, it should emit an error related to the schema of the package.json`, async (t) => {
     await t.context.engine.emitAsync('fetch::end::json', {
         resource: 'package.json',
         response: { body: { content: invalidJSON } }
@@ -105,7 +105,7 @@ test.serial(`If package.json contains an invalid schema, it should emit an error
     t.is(t.context.engineEmitAsyncSpy.args[2][0], 'parse::error::package-json::schema');
 });
 
-test.serial(`If package.json contains an invalid schema, it should emit an array containing the errors `, async (t) => {
+test(`If package.json contains an invalid schema, it should emit an array containing the errors `, async (t) => {
     await t.context.engine.emitAsync('fetch::end::json', {
         resource: 'package.json',
         response: { body: { content: invalidJSON } }
@@ -116,7 +116,7 @@ test.serial(`If package.json contains an invalid schema, it should emit an array
     t.is(t.context.engineEmitAsyncSpy.args[2][1].errors.length, 1);
 });
 
-test.serial(`If package.json contains an invalid schema, it should emit an array of errors that is easily understandable `, async (t) => {
+test(`If package.json contains an invalid schema, it should emit an array of errors that is easily understandable `, async (t) => {
     await t.context.engine.emitAsync('fetch::end::json', {
         resource: 'package.json',
         response: { body: { content: invalidJSON } }
@@ -127,7 +127,7 @@ test.serial(`If package.json contains an invalid schema, it should emit an array
     t.is(t.context.engineEmitAsyncSpy.args[2][1].prettifiedErrors.length, 1);
 });
 
-test.serial(`If the file contains an invalid json, it should emit an error related to the json format of the package.json`, async (t) => {
+test(`If the file contains an invalid json, it should emit an error related to the json format of the package.json`, async (t) => {
     await t.context.engine.emitAsync('fetch::end::json', {
         resource: 'package.json',
         response: { body: { content: 'invalidJson' } }
@@ -138,7 +138,7 @@ test.serial(`If the file contains an invalid json, it should emit an error relat
     t.is(t.context.engineEmitAsyncSpy.args[1][0], 'parse::error::package-json::json');
 });
 
-test.serial(`If 'package.json' contains a custom property (e.g. 'browserslist'), it should still emit the event parse::end::package-json`, async (t) => {
+test(`If 'package.json' contains a custom property (e.g. 'browserslist'), it should still emit the event parse::end::package-json`, async (t) => {
     const nonStandardJSON = `{
         "name": "app",
         "scripts": {

@@ -1,29 +1,43 @@
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-proxyquire('../src/{{normalizedName}}', {
-    // Dependecies you need to stub/spy/mock.
-});
+type SandboxContext = {
+    sandbox: sinon.SinonSandbox;
+};
 
-import * as {{capitalizedName}} from '../src/{{normalizedName}}';
+const test = anyTest as TestInterface<SandboxContext>;
 
-test.beforeEach((t) => {
-    t.context.engine = new EventEmitter2({
+const mockContext = () => {
+    const engine = new EventEmitter2({
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
+    }) as Engine<{{capitalizedName}}Events>;
+
+    const script = proxyquire('../src/{{normalizedName}}', {
+        // Dependecies you need to stub/spy/mock.
     });
+
+    return { 
+        engine
+        {{capitalizedName}}: script.default
+    };
+};
+
+test.beforeEach((t) => {
+    t.context.sandbox = sinon.sandbox;
 });
 
 test.afterEach.always((t) => {
-    // Things you need to clean after each tests.
+    t.context.sandbox.restore();
 });
 
 {{#each events}}
-test.serial('Test for event {{event}}', async (t) => {
-    const parser = new {{../capitalizedName}}.default(t.context.engine); // eslint-disable-line new-cap
+test('Test for event {{event}}', async (t) => {
+    const { {{../capitalizedName}} } = mockContext();
+    const parser = new {{../capitalizedName}}(t.context.engine); // eslint-disable-line new-cap
     // Code to prepare your test.
 
     await t.context.engine.emitAsync('{{event}}', { /* testing data */ });

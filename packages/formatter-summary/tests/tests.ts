@@ -1,31 +1,42 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import chalk from 'chalk';
 import * as logSymbols from 'log-symbols';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import * as table from 'text-table';
 
+import * as problems from './fixtures/list-of-problems';
+
+type Logging = {
+    log: () => void;
+};
+
 type SummaryContext = {
+    logging: Logging;
     loggingLogSpy: sinon.SinonSpy;
 };
 
 const test = anyTest as TestInterface<SummaryContext>;
-const logging = { log() { } };
 
-proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': logging });
+const initContext = (t: ExecutionContext<SummaryContext>) => {
+    t.context.logging = { log() { } };
+    t.context.loggingLogSpy = sinon.spy(t.context.logging, 'log');
+};
 
-import SummaryFormatter from '../src/formatter';
-import * as problems from './fixtures/list-of-problems';
+const loadScript = (context: SummaryContext) => {
+    const script = proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': context.logging });
 
-test.beforeEach((t) => {
-    t.context.loggingLogSpy = sinon.spy(logging, 'log');
-});
+    return script.default;
+};
+
+test.beforeEach(initContext);
 
 test.afterEach.always((t) => {
     t.context.loggingLogSpy.restore();
 });
 
-test.serial(`Summary formatter doesn't print anything if no values`, (t) => {
+test(`Summary formatter doesn't print anything if no values`, (t) => {
+    const SummaryFormatter = loadScript(t.context);
     const formatter = new SummaryFormatter();
 
     formatter.format(problems.noproblems);
@@ -33,10 +44,11 @@ test.serial(`Summary formatter doesn't print anything if no values`, (t) => {
     t.is(t.context.loggingLogSpy.callCount, 0);
 });
 
-test.serial(`Summary formatter prints in yellow if only warnings found`, (t) => {
+test(`Summary formatter prints in yellow if only warnings found`, (t) => {
     const log = t.context.loggingLogSpy;
     const tableData = [];
 
+    const SummaryFormatter = loadScript(t.context);
     const formatter = new SummaryFormatter();
 
     formatter.format(problems.summaryWarnings);
@@ -49,10 +61,11 @@ test.serial(`Summary formatter prints in yellow if only warnings found`, (t) => 
     t.is(log.args[1][0], chalk.yellow.bold(`${logSymbols.error.trim()} Found a total of 0 errors and 2 warnings`));
 });
 
-test.serial(`Summary formatter prints a table and a summary for all resources combined`, (t) => {
+test(`Summary formatter prints a table and a summary for all resources combined`, (t) => {
     const log = t.context.loggingLogSpy;
     const tableData = [];
 
+    const SummaryFormatter = loadScript(t.context);
     const formatter = new SummaryFormatter();
 
     formatter.format(problems.summaryProblems);
@@ -66,10 +79,11 @@ test.serial(`Summary formatter prints a table and a summary for all resources co
     t.is(log.args[1][0], chalk.red.bold(`${logSymbols.error.trim()} Found a total of 1 error and 4 warnings`));
 });
 
-test.serial(`Summary formatter sorts by name if same number of errors`, (t) => {
+test(`Summary formatter sorts by name if same number of errors`, (t) => {
     const log = t.context.loggingLogSpy;
     const tableData = [];
 
+    const SummaryFormatter = loadScript(t.context);
     const formatter = new SummaryFormatter();
 
     formatter.format(problems.summarySameNumberOfErrors);
@@ -83,10 +97,11 @@ test.serial(`Summary formatter sorts by name if same number of errors`, (t) => {
     t.is(log.args[1][0], chalk.red.bold(`${logSymbols.error.trim()} Found a total of 2 errors and 0 warnings`));
 });
 
-test.serial(`Summary formatter prints errors and warnings for a hint that reports both`, (t) => {
+test(`Summary formatter prints errors and warnings for a hint that reports both`, (t) => {
     const log = t.context.loggingLogSpy;
     const tableData = [];
 
+    const SummaryFormatter = loadScript(t.context);
     const formatter = new SummaryFormatter();
 
     formatter.format(problems.summaryErrorWarnings);

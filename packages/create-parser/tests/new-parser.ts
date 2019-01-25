@@ -1,67 +1,116 @@
 /* eslint-disable */
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as InquirerTypes from 'inquirer';
 
 import * as handlebarsUtils from '../src/handlebars-utils';
 
+type Inquirer = {
+    prompt: (questions: InquirerTypes.Question[]) => void;
+};
+
+type FsExtra = {
+    copy: (orig: string, dest: string) => void;
+};
+
+type Mkdirp = (dir: string, callback: Function) => void;
+
+type ReadFileAsync = {
+    default: () => void;
+};
+
+type WriteFileAsync = {
+    default: () => void;
+};
+
+type IsOfficial = {
+    default: () => void;
+};
+
+type NormalizeStringByDelimiter = {
+    default: () => string;
+};
+
+type HandlebarsUtils = {
+    escapeSafeString: (str: string) => hbs.SafeString;
+    compileTemplate: (filePath: string, data: any) => Promise<string>;
+};
+
 type NewParserContext = {
     sandbox: sinon.SinonSandbox;
+    fsExtra: FsExtra;
     fsExtraCopyStub: sinon.SinonStub;
-    normalizeStringByDelimiterDefaultStub: sinon.SinonStub;
-    readFileAsyncDefaultStub: sinon.SinonStub;
-    writeFileAsyncDefaultStub: sinon.SinonStub;
+    handlebarsUtils: HandlebarsUtils
     handlebarsUtilsCompileTemplateStub: sinon.SinonStub;
+    inquirer: Inquirer;
+    isOfficial: IsOfficial;
+    mkdirp: Mkdirp;
+    normalizeStringByDelimiter: NormalizeStringByDelimiter;
+    normalizeStringByDelimiterDefaultStub: sinon.SinonStub;
+    readFileAsync: ReadFileAsync;
+    readFileAsyncDefaultStub: sinon.SinonStub;
+    writeFileAsync: WriteFileAsync;
+    writeFileAsyncDefaultStub: sinon.SinonStub;
 };
 
 const test = anyTest as TestInterface<NewParserContext>;
 
-const fsExtra = { copy() { } };
-const inquirer = { prompt(questions: InquirerTypes.Question[]) { } };
-const isOfficial = { default() { } };
-const normalizeStringByDelimiter = {
-    default(): string {
-        return '';
-    }
-};
-const readFileAsync = { default() { } };
-const writeFileAsync = { default() { } };
+// import newParser from '../src/new-parser';
+// import { runInThisContext } from 'vm';
 
-const mkdirp = (dir: string, callback: Function) => {
-    callback();
-};
-
-proxyquire('../src/new-parser', {
-    '../src/handlebars-utils': handlebarsUtils,
-    'hint/dist/src/lib/utils/fs/read-file-async': readFileAsync,
-    'hint/dist/src/lib/utils/fs/write-file-async': writeFileAsync,
-    'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter': normalizeStringByDelimiter,
-    'hint/dist/src/lib/utils/packages/is-official': isOfficial,
-    'fs-extra': fsExtra,
-    inquirer,
-    mkdirp
-});
-
-import newParser from '../src/new-parser';
-
-test.beforeEach((t) => {
+const initContext = (t: ExecutionContext<NewParserContext>) => {
     const sandbox = sinon.createSandbox();
 
-    t.context.fsExtraCopyStub = sandbox.stub(fsExtra, 'copy').resolves();
-    t.context.writeFileAsyncDefaultStub = sandbox.stub(writeFileAsync, 'default').resolves();
-    t.context.normalizeStringByDelimiterDefaultStub = sandbox.stub(normalizeStringByDelimiter, 'default').returns('');
-    t.context.readFileAsyncDefaultStub = sandbox.stub(readFileAsync, 'default').resolves('');
-    t.context.handlebarsUtilsCompileTemplateStub = sandbox.stub(handlebarsUtils, 'compileTemplate').resolves('');
-
+    t.context.fsExtra = { copy() { } };
+    t.context.fsExtraCopyStub = sandbox.stub(t.context.fsExtra, 'copy').resolves();
+    t.context.handlebarsUtils = {
+        compileTemplate(filePath: string, data: any) {
+            return Promise.resolve('');
+        },
+        escapeSafeString: handlebarsUtils.escapeSafeString
+    };
+    t.context.handlebarsUtilsCompileTemplateStub = sandbox.stub(t.context.handlebarsUtils, 'compileTemplate').resolves('');
+    t.context.inquirer = { prompt(questions: InquirerTypes.Question[]) { } };
+    t.context.isOfficial = { default() { } };
+    t.context.mkdirp = (dir: string, callback: Function) => {
+        callback();
+    };
+    t.context.normalizeStringByDelimiter = {
+        default(): string {
+            return '';
+        }
+    };
+    t.context.normalizeStringByDelimiterDefaultStub = sandbox.stub(t.context.normalizeStringByDelimiter, 'default').returns('');
+    t.context.readFileAsync = { default() { } };
+    t.context.readFileAsyncDefaultStub = sandbox.stub(t.context.readFileAsync, 'default').resolves('');
     t.context.sandbox = sandbox;
-});
+    t.context.writeFileAsync = { default() { } };
+    t.context.writeFileAsyncDefaultStub = sandbox.stub(t.context.writeFileAsync, 'default').resolves();
+};
+
+const loadScript = (context: NewParserContext) => {
+    const script = proxyquire('../src/new-parser', {
+        '../src/handlebars-utils': context.handlebarsUtils,
+        'hint/dist/src/lib/utils/fs/read-file-async': context.readFileAsync,
+        'hint/dist/src/lib/utils/fs/write-file-async': context.writeFileAsync,
+        'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter': context.normalizeStringByDelimiter,
+        'hint/dist/src/lib/utils/packages/is-official': context.isOfficial,
+        'fs-extra': context.fsExtra,
+        inquirer: context.inquirer,
+        mkdirp: context.mkdirp
+    });
+
+    return script.default;
+};
+
+test.beforeEach(initContext);
 
 test.afterEach.always((t) => {
     t.context.sandbox.restore();
 });
 
-test.serial('It should create a new official parser.', async (t) => {
+test('It should create a new official parser.', async (t) => {
     const parserInfoResult = {
         description: 'description',
         name: 'name'
@@ -72,13 +121,14 @@ test.serial('It should create a new official parser.', async (t) => {
     };
     const sandbox = t.context.sandbox;
 
-    sandbox.stub(isOfficial, 'default').resolves(true);
-    sandbox.stub(inquirer, 'prompt')
+    sandbox.stub(t.context.isOfficial, 'default').resolves(true);
+    sandbox.stub(t.context.inquirer, 'prompt')
         .onFirstCall()
         .resolves(parserInfoResult)
         .onSecondCall()
         .resolves(parserEventsResult);
 
+    const newParser = loadScript(t.context);
     const result = await newParser();
 
     // 6 files (2 code + test + doc + tsconfig.json + package.json)
@@ -90,7 +140,7 @@ test.serial('It should create a new official parser.', async (t) => {
     t.true(t.context.fsExtraCopyStub.calledOnce);
 });
 
-test.serial('It should create a new official parser with no duplicate events.', async (t) => {
+test('It should create a new official parser with no duplicate events.', async (t) => {
     const parserInfoResult = {
         description: 'description',
         name: 'name'
@@ -111,8 +161,8 @@ test.serial('It should create a new official parser with no duplicate events.', 
     };
     const sandbox = t.context.sandbox;
 
-    sandbox.stub(isOfficial, 'default').resolves(true);
-    const inquirerPromptStub = sandbox.stub(inquirer, 'prompt')
+    sandbox.stub(t.context.isOfficial, 'default').resolves(true);
+    const inquirerPromptStub = sandbox.stub(t.context.inquirer, 'prompt')
         .onCall(0)
         .resolves(parserInfoResult)
         .onCall(1)
@@ -122,6 +172,7 @@ test.serial('It should create a new official parser with no duplicate events.', 
         .onCall(3)
         .resolves(parserEventsResult3);
 
+    const newParser = loadScript(t.context);
     const result = await newParser();
     const questions = inquirerPromptStub.args[3][0];
 
@@ -151,7 +202,7 @@ test.serial('It should create a new official parser with no duplicate events.', 
     t.true(t.context.fsExtraCopyStub.calledOnce);
 });
 
-test.serial('It should create a new non-official parser.', async (t) => {
+test('It should create a new non-official parser.', async (t) => {
     const parserInfoResult = {
         description: 'description',
         name: 'name'
@@ -162,13 +213,14 @@ test.serial('It should create a new non-official parser.', async (t) => {
     };
     const sandbox = t.context.sandbox;
 
-    sandbox.stub(isOfficial, 'default').resolves(false);
-    sandbox.stub(inquirer, 'prompt')
+    sandbox.stub(t.context.isOfficial, 'default').resolves(false);
+    sandbox.stub(t.context.inquirer, 'prompt')
         .onFirstCall()
         .resolves(parserInfoResult)
         .onSecondCall()
         .resolves(parserEventsResult);
-
+    
+    const newParser = loadScript(t.context);
     const result = await newParser();
 
     // 7 files (2 code + test + doc + tsconfig.json + package.json + .hintrc)

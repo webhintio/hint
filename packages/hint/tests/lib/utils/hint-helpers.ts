@@ -90,7 +90,7 @@ ${hintPath}
 ${expected}`);
 });
 
-test.serial('getHintPath - constructs a path using "../src/{$currentFileName}" if the package is supposed to be multihint', (t) => {
+test('getHintPath - constructs a path using "../src/{$currentFileName}" if the package is supposed to be multihint', (t) => {
     const expected = normalize('dist/tests/lib/src/hint-helpers.js');
     const hintPath = hintHelpers.getHintPath(__filename, true);
 

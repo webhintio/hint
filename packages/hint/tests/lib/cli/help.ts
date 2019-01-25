@@ -1,4 +1,4 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
@@ -10,32 +10,40 @@ type Logger = {
 };
 
 type HelpContext = {
+    logger: Logger;
     loggerLogSpy: sinon.SinonSpy;
     loggerErrorSpy: sinon.SinonSpy;
+    sandbox: sinon.SinonSandbox;
 };
 
 const test = anyTest as TestInterface<HelpContext>;
 
-const logger: Logger = {
-    error(error: string) { },
-    log(log: string) { }
+const initContext = (t: ExecutionContext<HelpContext>) => {
+    const sandbox = sinon.createSandbox();
+
+    t.context.logger = {
+        error(error: string) { },
+        log(log: string) { }
+    };
+    t.context.loggerLogSpy = sandbox.spy(t.context.logger, 'log');
+    t.context.loggerErrorSpy = sandbox.spy(t.context.logger, 'error');
+    t.context.sandbox = sandbox;
 };
 
-proxyquire('../../../src/lib/cli/help', { '../utils/logging': logger });
+const loadScript = (context: HelpContext) => {
+    const script = proxyquire('../../../src/lib/cli/help', { '../utils/logging': context.logger });
 
-import printHelp from '../../../src/lib/cli/help';
+    return script.default;
+};
 
-test.beforeEach((t) => {
-    t.context.loggerLogSpy = sinon.spy(logger, 'log');
-    t.context.loggerErrorSpy = sinon.spy(logger, 'error');
-});
+test.beforeEach(initContext);
 
 test.afterEach.always((t) => {
-    t.context.loggerLogSpy.restore();
-    t.context.loggerErrorSpy.restore();
+    t.context.sandbox.restore();
 });
 
-test.serial('Help should print if it is an option and return true', async (t) => {
+test('Help should print if it is an option and return true', async (t) => {
+    const printHelp = loadScript(t.context);
     const result = await printHelp({ help: true } as CLIOptions);
 
     t.true(result);
@@ -43,7 +51,8 @@ test.serial('Help should print if it is an option and return true', async (t) =>
     t.true(t.context.loggerLogSpy.args[0][0].includes('Basic configuration'));
 });
 
-test.serial(`Help should if there isn't any other option and return true`, async (t) => {
+test(`Help should if there isn't any other option and return true`, async (t) => {
+    const printHelp = loadScript(t.context);
     const result = await printHelp({} as CLIOptions);
 
     t.true(result);
@@ -51,7 +60,8 @@ test.serial(`Help should if there isn't any other option and return true`, async
     t.true(t.context.loggerLogSpy.args[0][0].includes('Basic configuration'));
 });
 
-test.serial(`Help shouldn't print if there is another option and return false`, async (t) => {
+test(`Help shouldn't print if there is another option and return false`, async (t) => {
+    const printHelp = loadScript(t.context);
     const result = await printHelp({ version: true } as CLIOptions);
 
     t.false(result);

@@ -18,6 +18,7 @@ import { NpmPackage, UserConfig } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 
+import cwd from 'hint/dist/src/lib/utils/fs/cwd';
 import { getInstalledResources, getCoreResources } from 'hint/dist/src/lib/utils/resource-loader';
 import { ResourceType } from 'hint/dist/src/lib/enums/resourcetype';
 import { generateBrowserslistConfig } from './browserslist';
@@ -190,7 +191,7 @@ export default async (): Promise<boolean> => {
         return false;
     }
 
-    const filePath: string = path.join(process.cwd(), '.hintrc');
+    const filePath: string = path.join(cwd(), '.hintrc');
 
     await promisify(fs.writeFile)(filePath, JSON.stringify(result.config, null, 4), 'utf8');
 
