@@ -3,6 +3,7 @@ import { FormatterOptions, HintResources, IFormatter, IHintConstructor, Problem 
 
 import { browser } from '../shared/globals';
 import { CategoryResults, HintResults } from '../shared/types';
+import metas from '../shared/metas.import';
 
 export default class WebExtensionFormatter implements IFormatter {
 
@@ -26,10 +27,16 @@ export default class WebExtensionFormatter implements IFormatter {
 
     private buildHintResults(resources: HintResources, problems: Problem[], category: string): HintResults[] {
         return this.getHints(resources, category).map((id) => {
+            const meta = metas.filter((meta) => {
+                return meta.id === id;
+            })[0];
+
+            const name = meta && meta.docs && meta.docs.name || id;
+
             return {
                 helpURL: `https://webhint.io/docs/user-guide/hints/hint-${id}/`,
                 id,
-                name: id, // TODO: Map to a user-friendly name.
+                name,
                 problems: problems.filter((problem) => {
                     return id === problem.hintId;
                 })

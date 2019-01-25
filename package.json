@@ -5,7 +5,7 @@
     "@types/node": "10.12.18",
     "@types/p-retry": "^2.0.0",
     "@types/shelljs": "^0.8.1",
-    "@types/yargs": "^12.0.6",
+    "@types/yargs": "^12.0.8",
     "chalk": "^2.4.2",
     "cpx": "^1.5.0",
     "eslint": "^5.12.1",

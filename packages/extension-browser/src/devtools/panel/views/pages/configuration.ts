@@ -3,6 +3,7 @@ import browserslist = require('browserslist');
 
 import { browser } from '../../../../shared/globals';
 import { Config } from '../../../../shared/types';
+import metas from '../../../../shared/metas.import';
 
 import configurationHtmlView from './configuration.html';
 
@@ -16,14 +17,15 @@ type SavedConfiguration = {
 
 const configKey = 'config';
 
-// TODO: Read from packaged hint metadata.
-const categories = [
-    'Accessibility',
-    'Compatibility',
-    'PWA',
-    'Performance',
-    'Security'
-];
+// Generate uppercase category names from bundled hint metadata.
+const categories = [...new Set(metas.map((meta) => {
+    // TODO: Create a helper in `hint` to get uppercased category names.
+    return (meta.docs && meta.docs.category || 'other')
+        .replace(/^pwa$/, 'PWA')
+        .replace(/^(.)/, (char) => {
+            return char.toUpperCase();
+        });
+}))].sort();
 
 export default function view({ onAnalyzeClick }: Props) {
     /* eslint-disable no-use-before-define, typescript/no-use-before-define */

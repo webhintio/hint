@@ -3,6 +3,7 @@
         "alwaysStrict": true,
         "composite": true,
         "declaration": true,
+        "declarationMap": true,
         "inlineSourceMap": true,
         "lib": [
             "dom",
