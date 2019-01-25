@@ -9,7 +9,9 @@ import { addMessageListener, removeMessageListener, sendMessage } from './utils/
 import { addNetworkListeners, removeNetworkListeners } from './utils/network';
 import { syncTheme } from './utils/themes';
 
-import './panel.css';
+import * as styles from './panel.css';
+
+document.body.classList.add(styles.root);
 
 /** Display the provided view in the panel. */
 const render = (fragment: DocumentFragment) => {

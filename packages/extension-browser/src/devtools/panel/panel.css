@@ -1,6 +1,6 @@
 @import url('scrollbars.css');
 
-html {
+.root {
     --bg-color: #fff;
     --bg-alt-color: #f2f2f2;
     --bg-inverse-color: #4046dd;
@@ -16,7 +16,7 @@ html {
     --text-passed-color: #00864b;
 }
 
-html[data-theme='dark'] {
+.root[data-theme='dark'] {
     --bg-color: #000;
     --bg-alt-color: #242424;
     --bg-inverse-color: #4046dd;
@@ -31,43 +31,43 @@ html[data-theme='dark'] {
     --text-passed-color: #00ca71;
 }
 
-html,
-body {
-    height: 100%;
-}
-
-body {
+.root {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: "Segoe UI", Tahoma, sans-serif; /* Match default overrides in Chrome */
     font-size: 12px; /* Match default overrides in Chrome */
     margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
-a[href] {
+.root a[href] {
     color: var(--link-color);
     text-decoration: none;
 }
 
-a[href]:hover {
+.root a[href]:hover {
     text-decoration: underline;
 }
 
-input,
-select {
+.root input,
+.root select {
     background-color: var(--bg-alt-color);
     border: 1px solid var(--border-alt-color);
     border-radius: 2px;
     color: var(--text-color);
 }
 
-input:focus,
-select:focus {
+.root input:focus,
+.root select:focus {
     background-color: var(--bg-color);
     border-color: var(--text-color);
 }
 
-html[data-theme="dark"] input[type="checkbox"],
-html[data-theme="dark"] input[type="radio"] {
+.root[data-theme="dark"] input[type="checkbox"],
+.root[data-theme="dark"] input[type="radio"] {
     filter: invert(80%);
 }

@@ -1,9 +1,4 @@
-.configuration {
-    background-color: var(--bg-alt-color);
-    position: relative;
-}
-
-.category__summary {
+.summary {
     background-color: var(--bg-alt-color);
     border: 1px solid var(--border-alt-color);
     border-bottom-style: none;
@@ -14,20 +9,20 @@
     padding: 0 2rem;
 }
 
-.category[open] > .category__summary,
-.category:last-child > .category__summary {
+.category[open] > .summary,
+.category:last-child > .summary {
     border-bottom-style: solid;
 }
 
-.category__name {
+.name {
     font-weight: bold;
     text-transform: uppercase;
 }
 
-.category__status {
+.status {
     float: right;
 }
 
-.category__results {
+.results {
     padding: 0 2rem;
 }

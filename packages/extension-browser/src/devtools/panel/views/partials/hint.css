@@ -2,16 +2,16 @@
     margin: 1rem 0;
 }
 
-.hint__summary {
+.summary {
     cursor: pointer;
     line-height: 2em;
     padding: 0 1rem;
 }
 
-.hint__results {
+.results {
     padding: 0 2rem;
 }
 
-.hint__status--passed {
+.status.passed {
     color: var(--text-passed-color);
 }

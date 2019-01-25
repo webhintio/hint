@@ -1,36 +1,47 @@
-.configuration__section {
+.configuration {
+    composes: page from '../partials/page.css';
+    background-color: var(--bg-alt-color);
+    position: relative;
+}
+
+.header {
+    composes: header from '../partials/page.css';
+}
+
+.section {
     margin: 1.5rem 2rem;
 }
 
 @media (min-width: 1000px) {
-    .configuration__section {
+    .section {
         float: left;
         margin-right: 0;
         width: 25%;
     }
 }
 
-.configuration__header {
+.sectionHeader {
     font-weight: normal;
     margin: 0;
 }
 
-.configuration__label {
+.label {
     display: block;
     margin: 0.75rem 1.25rem;
 }
 
-.configuration__input:invalid {
+.input:invalid {
     outline: 1px solid var(--invalid-outline-color);
 }
 
-.configuration__example {
+.example {
     color: var(--text-highlight-color);
     font-size: 0.85em;
     margin-left: 1.5rem;
 }
 
-.configuration__restore-button {
+.restoreButton {
+    composes: button from '../partials/page.css';
     float: right;
     margin-right: 2rem;
     margin-top: 1.5rem;

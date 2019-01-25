@@ -3,7 +3,7 @@
  * Dark scrollbar styles for Firefox.
  * https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color
  */
-html[data-theme='dark'] {
+.root[data-theme='dark'] {
     scrollbar-color: #737373 #3c3c3d;
 }
 
@@ -11,18 +11,18 @@ html[data-theme='dark'] {
  * Dark scrollbar styles for Chrome.
  * https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
  */
-html[data-theme='dark']::-webkit-scrollbar {
+.root[data-theme='dark']::-webkit-scrollbar {
     height: 14px;
     width: 14px;
 }
-html[data-theme='dark']::-webkit-scrollbar-corner {
+.root[data-theme='dark']::-webkit-scrollbar-corner {
     background-color: var(--bg-alt-color);
 }
-html[data-theme='dark']::-webkit-scrollbar-thumb {
+.root[data-theme='dark']::-webkit-scrollbar-thumb {
     border-radius: 2px;
     background-color: var(--bg-inverse-alt-color);
     -webkit-box-shadow: inset 0 0 1px var(--shadow-color);
 }
-html[data-theme='dark']::-webkit-scrollbar-track {
+.root[data-theme='dark']::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 1px var(--shadow-color);
 }

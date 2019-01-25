@@ -57,6 +57,7 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.2.3",
     "style-loader": "^0.23.1",
+    "typed-css-modules": "^0.3.7",
     "typescript": "^3.2.4",
     "typescript-eslint-parser": "^22.0.0",
     "util.promisify": "^1.0.0",
@@ -87,9 +88,10 @@
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run clean && npm-run-all build:*",
+    "build-css": "tcm src",
     "build-hints": "node ./scripts/import-hints.js",
     "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
-    "build:assets": "npm run build-hints && cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:assets": "npm run build-css && npm run build-hints && cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "build:webpack": "webpack && cpx \"./src/**/*.{html,json,png,svg}\" dist/bundle",
     "clean": "rimraf dist",
@@ -99,6 +101,7 @@
     "test": "npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:css": "tcm src -w",
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
