@@ -15,6 +15,8 @@ import { URL } from 'url';
 import { promisify } from 'util';
 
 import * as cdp from 'chrome-remote-interface';
+
+import * as lockfile from 'lockfile';
 import { compact, filter } from 'lodash';
 
 import { Crdp } from 'chrome-remote-debug-protocol';
@@ -40,6 +42,8 @@ import { Engine } from 'hint/dist/src/lib/engine';
 import { RequestResponse } from './RequestResponse';
 
 const debug: debug.IDebugger = d(__filename);
+const lock = promisify(lockfile.lock) as (path: string, options: lockfile.Options) => Promise<void>;
+const unlock = promisify(lockfile.unlock);
 
 export class Connector implements IConnector {
     /** The final set of options resulting of merging the users, and default ones. */
@@ -493,6 +497,25 @@ export class Connector implements IConnector {
 
     /** Initiates Chrome if needed and a new tab to start the collection. */
     private async initiateComms() {
+        const cdpLock = 'cdp.lock';
+
+        try {
+            await lock(cdpLock, {
+                pollPeriod: 500,
+                retries: 20,
+                retryWait: 1000,
+                stale: 50000,
+                wait: 50000
+            });
+        } catch (e) {
+            /* istanbul ignore next */
+            { // eslint-disable-line
+                debug('Error while locking', e);
+
+                throw e;
+            }
+        }
+
         const launcher: BrowserInfo = await this._launcher.launch(this._options.useTabUrl ? this._options.tabUrl : 'about:blank');
         let client;
 
@@ -538,6 +561,8 @@ export class Connector implements IConnector {
                 }
             });
         }
+
+        await unlock(cdpLock);
 
         return client;
     }

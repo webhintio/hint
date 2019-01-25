@@ -2,23 +2,17 @@
  * @fileoverview Launches the given browser with the right configuration to be used via the Chrome Debugging Protocol
  *
  */
-import { promisify } from 'util';
-
 import * as chromeLauncher from 'chrome-launcher';
 import * as isCI from 'is-ci';
-import * as lockfile from 'lockfile';
 
 import { Launcher } from '@hint/utils-debugging-protocol-common/dist/src/launcher';
 import { BrowserInfo, LauncherOptions } from 'hint/dist/src/lib/types';
-import * as logger from 'hint/dist/src/lib/utils/logging';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import delay from 'hint/dist/src/lib/utils/misc/delay';
 import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
 import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 
 const debug: debug.IDebugger = d(__filename);
-const lock = promisify(lockfile.lock) as (path: string, options: lockfile.Options) => Promise<void>;
-const unlock = promisify(lockfile.unlock);
 
 export class CDPLauncher extends Launcher {
     /** Indicates if the default profile should be used by Chrome or not */
@@ -111,29 +105,11 @@ export class CDPLauncher extends Launcher {
     }
 
     public async launch(url: string): Promise<BrowserInfo> {
-        const cdpLock = 'cdp.lock';
 
-        try {
-            await lock(cdpLock, {
-                pollPeriod: 500,
-                retries: 20,
-                retryWait: 1000,
-                stale: 50000,
-                wait: 50000
-            });
-        } catch (e) {
-            /* istanbul ignore next */
-            { // eslint-disable-line
-                logger.error('Error while locking', e);
-                throw e;
-            }
-        }
         // If a browser is already launched using `launcher` then we return its PID.
         const currentInfo = await this.getBrowserInfo();
 
         if (currentInfo.pid !== -1) {
-            await unlock(cdpLock);
-
             currentInfo.isNew = false;
 
             return currentInfo;
@@ -163,16 +139,12 @@ export class CDPLauncher extends Launcher {
 
             debug('Browser launched correctly');
 
-            await unlock(cdpLock);
-
             return browserInfo;
         } catch (e) {
             /* istanbul ignore next */
             { // eslint-disable-line
                 debug('Error launching browser');
                 debug(e);
-
-                await unlock(cdpLock);
 
                 throw e;
             }
