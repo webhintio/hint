@@ -29,5 +29,5 @@ export abstract class Launcher implements ILauncher {
     /**
      * Launches browser with the given url and ready to be used with the Chrome Debugging Protocol.
      */
-    public abstract async launch(url: string): Promise<BrowserInfo>;
+    public abstract async launch(url: string, callback?: Function): Promise<BrowserInfo>;
 }

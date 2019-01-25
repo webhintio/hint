@@ -3,6 +3,7 @@
     "@hint/utils-connector-tools": "^2.0.2",
     "abab": "^2.0.0",
     "chrome-remote-interface": "^0.27.0",
+    "is-ci": "^2.0.0",
     "lodash": "^4.17.11"
   },
   "description": "hint debugging protocol common functionality",
