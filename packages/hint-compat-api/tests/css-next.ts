@@ -208,29 +208,25 @@ const prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget: HintTe
 
 hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget, { browserslist: ['firefox 4'], parsers: ['css']});
 
-/*
- * const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
- *     {
- *         name: 'Child features that were added later than targeted browsers should fail.',
- *         reports: [{ message: 'flex is not supported by chrome 26, chrome 27, chrome 28.' }],
- *         serverConfig: generateCSSConfig('display-flex')
- *     }
- * ];
- *
- * hintRunner.testHint(hintPath, childFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 26 - 29'], parsers: ['css']});
- */
+const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
+    {
+        name: 'Child features that were added later than targeted browsers should fail.',
+        reports: [{ message: 'flex is not supported by chrome 26-28.', position: { column: 4, line: 1 } }],
+        serverConfig: generateCSSConfig('display-flex')
+    }
+];
 
-/*
- * const childPrefixedFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
- *     {
- *         name: 'Child prefixed features that were added later than targeted browsers should fail.',
- *         reports: [{ message: 'flex prefixed with -webkit- is not supported by chrome 17, chrome 18, chrome 19.' }],
- *         serverConfig: generateCSSConfig('display-flex-prefix')
- *     }
- * ];
- *
- * hintRunner.testHint(hintPath, childPrefixedFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 17 - 19'], parsers: ['css']});
- */
+hintRunner.testHint(hintPath, childFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 26 - 29'], parsers: ['css']});
+
+const childPrefixedFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
+    {
+        name: 'Child prefixed features that were added later than targeted browsers should fail.',
+        reports: [{ message: 'flex prefixed with -webkit- is not supported by chrome 17-19.', position: { column: 4, line: 1 } }],
+        serverConfig: generateCSSConfig('display-flex-prefix')
+    }
+];
+
+hintRunner.testHint(hintPath, childPrefixedFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 17 - 19'], parsers: ['css']});
 
 const notSupportedPropertiesAndValuesShouldNotSeparatelyLog: HintTest[] = [
     {

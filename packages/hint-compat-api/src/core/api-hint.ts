@@ -135,10 +135,11 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
     private generateReportErrorMessage(feature: FeatureInfo, supportStatementResult: SupportStatementResult): string {
         const { notSupportedBrowsers, browsersToSupportCount, notSupportedBrowsersCount } = supportStatementResult;
         const isNotSupportedInAnyTargetBrowser = notSupportedBrowsersCount > 1 && notSupportedBrowsersCount === browsersToSupportCount;
+        const resolveFeature = feature.subFeature || feature;
 
         return isNotSupportedInAnyTargetBrowser ?
-            this.getNotSupportedBrowserMessage(feature) :
-            this.getNotSupportedMessage(feature, notSupportedBrowsers);
+            this.getNotSupportedBrowserMessage(resolveFeature) :
+            this.getNotSupportedMessage(resolveFeature, notSupportedBrowsers);
     }
 
     private getNotSupportedMessage(feature: FeatureInfo, groupedBrowserSupport: {[browserName: string]: string[]}): string {
