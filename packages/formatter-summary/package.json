@@ -29,7 +29,7 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.2.3",
     "typescript": "^3.2.4",
-    "typescript-eslint-parser": "22.0.0"
+    "@typescript-eslint/parser": "1.1.0"
   },
   "engines": {
     "node": ">=8.0.0"
