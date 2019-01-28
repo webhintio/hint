@@ -259,9 +259,9 @@ const gitHasUncommittedChanges = async (): Promise<boolean> => {
     return (await exec('git status -s')).stdout !== '';
 };
 
-const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false) => {
+const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false, files: string[] = ['packages', 'yarn.lock']) => {
     // Add all changes to the staging aread.
-    await exec(`git add packages yarn.lock`);
+    await exec(`git add ${files.join(' ')}`);
 
     /*
      * If there aren't any changes in the staging area,
@@ -716,7 +716,16 @@ const releaseScriptCanBeRun = async (): Promise<boolean> => {
         return false;
     }
 
-    const remoteForMaster = (await exec(`git config --get branch.master.remote`)).stdout;
+    let remoteForMaster;
+
+    try {
+        remoteForMaster = (await exec(`git config --get branch.master.remote`)).stdout;
+    } catch (e) {
+        /*
+         * If there is no remote the above will return
+         * with a status code 1 so, ignore this block.
+         */
+    }
 
     // Check if no remote was found for `master`.
 
@@ -784,28 +793,33 @@ const updateAmpValidator = async () => {
     );
 };
 
-const commitUpdatedPackageVersionNumberInOtherPackages = async (ctx: TaskContext) => {
+const updatePackageVersionNumberInOtherPackages = async (ctx: TaskContext) => {
+    /*
+     * Types of dependencies that trigger breaking
+     * changes in packages that depend on them.
+     */
 
-    const semverIncrement = semver.diff(ctx.packageVersion!, ctx.newPackageVersion!);
+    const breakingDependencyTypes = [
+        'dependencies'
+    ];
 
-    // `semver.diff` returns `null` if the versions are the same.
+    const dependencyTypes = [
+        'dependencies',
+        'devDependencies',
+        'optionalDependencies',
+        'peerDependencies'
+    ];
 
-    if (!semverIncrement) {
-        return;
-    }
-
-    // patch, prepatch, or prerelease
-    let commitPrefix = 'Chore:';
-
-    if (['major', 'premajor'].includes(semverIncrement)) {
-        commitPrefix = 'Breaking:';
-    }
-
-    await gitCommitChanges(`${commitPrefix} Update '${ctx.packageName}' to 'v${ctx.newPackageVersion}'`, true);
-};
-
-const updatePackageVersionNumberInOtherPackages = (ctx: TaskContext) => {
     const packages = [...shell.ls('-d', `packages/!(${ctx.packageName})`)];
+    const packagesThatRequireMajorRelease = [];
+
+    const semverIncrement = semver.diff(ctx.packageVersion as string, ctx.newPackageVersion as string);
+    const isBreakingChange = [
+        'major',
+        'premajor'
+    ].includes(semverIncrement as string);
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     for (const pkg of packages) {
 
@@ -826,24 +840,48 @@ const updatePackageVersionNumberInOtherPackages = (ctx: TaskContext) => {
         const dependencyName = ctx.packageName === 'hint' ? ctx.packageName : `@hint/${ctx.packageName}`;
         let packageJSONFileHasBeenUpdated = false;
 
-        [
-            'dependencies',
-            'devDependencies',
-            'optionalDependencies',
-            'peerDependencies'
-        ].forEach((dependencyType) => {
+        for (const dependencyType of dependencyTypes) {
             const dependencyRange = packageJSONFileContent[dependencyType] && packageJSONFileContent[dependencyType][dependencyName];
 
-            if (dependencyRange) {
-                packageJSONFileContent[dependencyType][dependencyName] = `^${ctx.newPackageVersion}`;
-                packageJSONFileHasBeenUpdated = true;
+            if (!dependencyRange) {
+                continue;
             }
-        });
+
+            packageJSONFileHasBeenUpdated = true;
+            packageJSONFileContent[dependencyType][dependencyName] = `^${ctx.newPackageVersion}`;
+
+            /*
+             * In order to avoid release loops, only trigger
+             * a breaking change if the package is dependent
+             * upon one of the breaking dependency types.
+             */
+
+            if (isBreakingChange &&
+                breakingDependencyTypes.includes(dependencyType)) {
+                packagesThatRequireMajorRelease.push(pkg);
+            }
+        }
 
         if (packageJSONFileHasBeenUpdated) {
             updateFile(`${packageJSONFilePath}`, `${JSON.stringify(packageJSONFileContent, null, 2)}\n`);
         }
     }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Commit the changes, unless it's a prerelease.
+
+    if (ctx.isPrerelease) {
+        return;
+    }
+
+    // Commit changes separately depending on the type.
+
+    if (breakingDependencyTypes.length !== 0) {
+        await gitCommitChanges(`Breaking: Update '${ctx.packageName}' to 'v${ctx.newPackageVersion}'`, true, packagesThatRequireMajorRelease);
+    }
+
+    await gitCommitChanges(`Chore: Update '${ctx.packageName}' to 'v${ctx.newPackageVersion}'`, true);
 };
 
 const updateYarnLockFile = async () => {
@@ -932,7 +970,6 @@ const getTasksForRelease = (packageName: string, packageJSONFileContent: any) =>
          */
 
         newTask(`Update \`${packageName}\` version numbers in other packages.`, updatePackageVersionNumberInOtherPackages),
-        newTask(`Commit updated \`${packageName}\` version numbers.`, commitUpdatedPackageVersionNumberInOtherPackages),
         newTask(`Push changes upstream.`, gitPush)
     );
 
