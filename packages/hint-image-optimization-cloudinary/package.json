@@ -14,6 +14,7 @@
   "description": "hint that that checks using Cloudinary's API if images are optimized",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^2.0.3",
+    "@types/mock-require": "^2.0.0",
     "ava": "^1.2.0",
     "cpx": "^1.5.0",
     "eslint": "^5.12.1",
