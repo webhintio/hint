@@ -13,4 +13,5 @@ jobs:
         node_version: 11.x
   steps:
   - template: worker.yml
+  timeoutInMinutes: 90
   condition: ${{ parameters.condition }}
