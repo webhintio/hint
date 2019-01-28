@@ -19,6 +19,8 @@ Every single hint takes the provided browserlist by the user (or the default
 one) and the hint context to filter the list of features to test. 
 
 Once the previous step is done, the parser exposes sequentially all the features
-included in the resource (CSS or HTML) and it proceeds to test the feature if
+included in the resource (CSS or HTML) and it proceeds testing the feature if
 needed and not included in the `ignore` built-in list. All the errors reported 
 are temporary stored and consumed once the `scan::end` event is obtained.
+
+[![Compat API hint's architecture](images/architecture.png)](images/architecture.png)
