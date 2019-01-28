@@ -17,7 +17,7 @@
   "devDependencies": {
     "@types/inquirer": "^0.0.43",
     "@types/node": "10.12.18",
-    "ava": "^1.1.0",
+    "ava": "^1.2.0",
     "cpx": "^1.5.0",
     "eslint": "^5.12.1",
     "eslint-plugin-import": "^2.15.0",

@@ -36,7 +36,7 @@
     "@types/highlight.js": "^9.12.3",
     "@types/is-ci": "^1.1.0",
     "@types/puppeteer": "^1.11.2",
-    "ava": "^1.1.0",
+    "ava": "^1.2.0",
     "browserslist": "^4.4.1",
     "cpx": "^1.5.0",
     "css-loader": "^2.1.0",

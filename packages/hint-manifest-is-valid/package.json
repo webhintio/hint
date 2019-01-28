@@ -15,7 +15,7 @@
     "@hint/parser-manifest": "^2.0.2",
     "@hint/utils-tests-helpers": "^2.0.3",
     "@types/color-string": "^1.5.0",
-    "ava": "^1.1.0",
+    "ava": "^1.2.0",
     "cpx": "^1.5.0",
     "eslint": "^5.12.1",
     "eslint-plugin-import": "^2.15.0",

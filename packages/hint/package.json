@@ -59,7 +59,7 @@
     "@types/strip-bom": "^3.0.0",
     "@types/strip-json-comments": "^0.0.30",
     "@types/update-notifier": "^2.5.0",
-    "ava": "^1.1.0",
+    "ava": "^1.2.0",
     "cpx": "^1.5.0",
     "eslint": "^5.12.1",
     "eslint-plugin-import": "^2.15.0",
