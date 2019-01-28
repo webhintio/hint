@@ -225,7 +225,7 @@ const downloadFile = async (downloadURL: string, downloadLocation: string) => {
     await exec(`git add ${downloadLocation}`);
 
     if ((await exec(`git diff --cached "${downloadLocation}"`)).stdout) {
-        await exec(`git commit -m "Update: \\\`${path.basename(downloadLocation)}\\\`"`);
+        await exec(`git commit -m "Update: '${path.basename(downloadLocation)}'"`);
     }
 };
 
