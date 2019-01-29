@@ -2,6 +2,7 @@ parameters:
   name: ''
   vmImage: ''
   condition: ''
+  worker: ''
 
 jobs:
 - job: ${{ parameters.name }}
@@ -16,6 +17,6 @@ jobs:
      node_11_x:
        node_version: 11.x
   steps:
-  - template: worker.yml
+  - template: ${{ parameters.worker }}
   timeoutInMinutes: 90
   condition: ${{ parameters.condition }}
