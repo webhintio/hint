@@ -6,15 +6,18 @@ jobs:
         name: Linux_master
         vmImage: 'ubuntu 16.04'
         condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), not(eq(variables['Build.Reason'], 'Schedule')))
+        worker: 'standard.yml'
 
   - template: latest-version.yml
     parameters:
         name: macOS_master
         vmImage: 'macOS-10.13'
         condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), not(eq(variables['Build.Reason'], 'Schedule')))
+        worker: 'standard.yml'
 
   - template: latest-version.yml
     parameters:
         name: Windows_master
         vmImage: 'vs2017-win2016'
         condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/master'), not(eq(variables['Build.Reason'], 'Schedule')))
+        worker: 'standard.yml'

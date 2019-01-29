@@ -56,6 +56,7 @@ xMV8++vDR/e5RfJDHmqCmSv7DG5Q1cLBjvb09Kn9mSqAi9iuZvbMx+mxkocEFC31
 w4C7/uFcTns/5rYjv+vp+EGv5cupxJjXpd1O/buT/Tt/Ur5maySbu4vDYVgmPuXU
 7avEZJTeYgih
 -----END CERTIFICATE-----`
+
     private static readonly _key: string =
 `-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEA5iJUAL+mQBqxIN3Bz/jaX6kFfi0tFsUnMzwHGZg1yXmuXlAL
@@ -363,7 +364,7 @@ IsW9AGST1xe4XVCLy+FIoo1RVpfJyp8h9zSzDASh/F1+5DY1PUJQ
     /** Starts listening on the given port. */
     public start(): Promise<null> {
 
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             let options;
 
             if (this._isHTTPS) {

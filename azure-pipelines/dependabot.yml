@@ -6,3 +6,4 @@ jobs:
         name: Linux_Dependabot
         vmImage: 'vs2017-win2016'
         condition: and(eq(variables['Build.Reason'], 'PullRequest'), startsWith(variables['System.PullRequest.SourceBranch'], 'dependabot/'))
+        worker: 'standard.yml'

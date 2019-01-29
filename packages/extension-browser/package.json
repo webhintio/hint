@@ -88,7 +88,7 @@
   "private": true,
   "repository": "webhintio/hint",
   "scripts": {
-    "build": "npm run clean && npm-run-all build:*",
+    "build": "npm-run-all build:*",
     "build-css": "tcm src",
     "build-hints": "node ./scripts/import-hints.js",
     "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",

@@ -6,15 +6,18 @@ jobs:
         name: Linux_PR
         vmImage: 'ubuntu 16.04'
         condition: and(eq(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['System.PullRequest.SourceBranch'], 'dependabot/')))
+        worker: 'standard.yml'
 
   - template: latest-version.yml
     parameters:
         name: macOS_PR
         vmImage: 'macOS-10.13'
         condition: and(eq(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['System.PullRequest.SourceBranch'], 'dependabot/')))
+        worker: 'standard.yml'
 
   - template: latest-version.yml
     parameters:
         name: Windows_PR
         vmImage: 'vs2017-win2016'
         condition: and(eq(variables['Build.Reason'], 'PullRequest'), not(startsWith(variables['System.PullRequest.SourceBranch'], 'dependabot/')))
+        worker: 'standard.yml'
