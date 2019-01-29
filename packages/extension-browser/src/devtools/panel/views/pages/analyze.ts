@@ -8,6 +8,8 @@ import headerView from '../partials/header';
 
 import * as styles from './analyze.css';
 
+import * as nellieWorkingSvg from '../../../../nellie-working.svg';
+
 type Props = {
     onCancelClick: Function;
     onMessageChange: Function;
@@ -43,7 +45,7 @@ export default function view({ onCancelClick, onMessageChange }: Props) {
                 Analyzing...
             </h1>
             <section class="${styles.status}">
-                <img class="${styles.image}" src="/nellie-working.svg" />
+                <img class="${styles.image}" src="${nellieWorkingSvg}" />
                 <p class="${styles.message}">Analyzing...</p>
                 <button class="${styles.cancelButton}" onclick=${onCancelClick}>
                     Cancel analysis
