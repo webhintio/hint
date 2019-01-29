@@ -75,7 +75,7 @@ browser.runtime.onConnect.addListener((port) => {
 
 // Watch for messages from content scripts and devtools panels (listed roughly in the order they will occur).
 browser.runtime.onMessage.addListener((message: Events, sender) => {
-    const tabId = sender.tab && sender.tab.id || message.tabId;
+    const tabId = message.tabId || sender.tab && sender.tab.id;
 
     /* istanbul ignore if */
     // Aid debugging by ensuring a tabId is always found.
