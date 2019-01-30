@@ -95,7 +95,8 @@ ones). The following is the list of all the available ones:
 | `new:hint`| Starts the wizard to create a new hint under `/packages/` | root |
 | `release` | Publishes the package in `npm` after running the tests and validate everything is fine | package |
 | `webhint` | Runs `webhint` from `packages/hint` | package (hint) |
-| `test` | Builds the package or all packages and runs the tests with code coverage | everywhere |
+| `test` | Builds the package or the most recent modified packages and runs the tests with code coverage | everywhere |
+| `test-all` | Builds the whole project and run the tests of all the packages | root |
 | `watch` | Launches all the other `watch` tasks in parallel, useful when developing | package |
 | `watch:resources` | Copies all the static assets to `dist` and any new ones added | package |
 | `watch:test` | Runs the tests as soon as there is a test in the tests or in the code to test | package |
