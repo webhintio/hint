@@ -7,7 +7,6 @@ import { Category } from 'hint/dist/src/lib/enums/category';
 
 const utils = require('../src/utils');
 
-
 type FsExtra = {
     copy: () => void;
     mkdirp: () => void;
@@ -21,11 +20,6 @@ type HTMLContext = {
 };
 
 const test = anyTest as TestInterface<HTMLContext>;
-
-// proxyquire('../src/formatter', { 'fs-extra': fsExtra });
-
-// import HTMLFormatter from '../src/formatter';
-
 
 const initContext = (t: ExecutionContext<HTMLContext>) => {
     t.context.fsExtra = {
