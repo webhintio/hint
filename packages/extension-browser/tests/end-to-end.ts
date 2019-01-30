@@ -66,7 +66,7 @@ test('It runs end-to-end in a page', async (t) => {
                     },
                     sendMessage: (event: Events) => {
                         if (event.requestConfig) {
-                            onMessage({ enable: {} });
+                            onMessage({ config: {} });
                         }
                         if (event.results) {
                             resolve(event.results);

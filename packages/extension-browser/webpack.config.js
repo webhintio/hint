@@ -37,7 +37,6 @@ const baseConfig = {
                     'css-loader'
                 ]
             },
-            // Inline svgs as urls, see https://github.com/bhovhannes/svg-url-loader
             {
                 test: /\.svg$/,
                 use: {
@@ -55,7 +54,10 @@ const baseConfig = {
     resolve: { alias: { url$: path.resolve(__dirname, 'dist/src/shims/url.js') } }
 };
 
-const contentScriptConfig = merge.smart(baseConfig, { entry: { 'content-script/webhint': './dist/src/content-script/webhint.js' } });
+const contentScriptConfig = merge.smart(baseConfig, {
+    entry: { webhint: './dist/src/content-script/webhint.js' },
+    output: { path: path.resolve(__dirname, 'dist') }
+});
 const extensionConfig = merge.smart(baseConfig, {
     entry: {
         'background-script': './dist/src/background-script.js',

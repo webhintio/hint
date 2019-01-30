@@ -94,8 +94,8 @@ const main = async (userConfig: Config) => {
 };
 
 const onMessage = (events: Events) => {
-    if (events.enable) {
-        main(events.enable);
+    if (events.config) {
+        main(events.config);
         browser.runtime.onMessage.removeListener(onMessage);
     }
 };

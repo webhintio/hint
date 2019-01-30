@@ -81,7 +81,7 @@ const mockContext = () => {
             browser.runtime.sendMessage = (event: Events) => {
                 if (event.requestConfig) {
                     setTimeout(() => {
-                        sendMessage({ enable: config });
+                        sendMessage({ config });
                     }, 0);
                 }
                 if (event.ready) {
