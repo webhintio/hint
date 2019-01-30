@@ -3,38 +3,30 @@ import * as url from 'url';
 
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import delay from '../../src/lib/utils/misc/delay';
 import { HintScope } from '../../src/lib/enums/hintscope';
 import { Configuration } from '../../src/lib/config';
+import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata, Problem } from '../../src/lib/types';
+import { Category } from '../../src/lib/enums/category';
+import { HintContext } from '../../src/lib/hint-context';
 
 type EventEmitter2 = {
     EventEmitter2: () => void;
 };
 
 type EngineContext = {
-    eventemitter: () => void;
+    eventemitter: EventEmitter2;
 };
 
 const test = anyTest as TestInterface<EngineContext>;
 
-const eventEmitter: EventEmitter2 = { EventEmitter2: function EventEmitter2() { } };
 
-eventEmitter.EventEmitter2.prototype.on = () => { };
-eventEmitter.EventEmitter2.prototype.emitAsync = () => {
-    return Promise.resolve([]);
-};
+// import { Engine } from '../../src/lib/engine';
 
-proxyquire('../../src/lib/engine', { eventemitter2: eventEmitter });
-
-import { Engine } from '../../src/lib/engine';
-import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata, Problem } from '../../src/lib/types';
-import { Category } from '../../src/lib/enums/category';
-import { HintContext } from '../../src/lib/hint-context';
 
 class FakeConnector implements IConnector {
-
     public collect(target: url.URL) {
         return Promise.resolve(target);
     }
@@ -50,18 +42,37 @@ class FakeConnector implements IConnector {
     public querySelectorAll(): any { }
 }
 
-test.beforeEach((t) => {
-    t.context.eventemitter = eventEmitter.EventEmitter2;
-});
+const initContext = (t: ExecutionContext<EngineContext>) => {
+    const eventEmitter: EventEmitter2 = { EventEmitter2: function EventEmitter2() { } };
 
-test.serial(`If config is an empty object, we should throw an error`, (t) => {
+    eventEmitter.EventEmitter2.prototype.on = () => { };
+    eventEmitter.EventEmitter2.prototype.emitAsync = () => {
+        return Promise.resolve([]);
+    };
+
+    t.context.eventemitter = eventEmitter;
+};
+
+const loadScript = (context: EngineContext) => {
+    const script = proxyquire('../../src/lib/engine', { eventemitter2: context.eventemitter });
+
+    return script.Engine;
+};
+
+test.beforeEach(initContext);
+
+test(`If config is an empty object, we should throw an error`, (t) => {
+    const Engine = loadScript(t.context);
+
     t.throws(() => {
         // <any>{} to avoid the type checking if not is not possible to use {}
         new Engine({} as Configuration, {} as HintResources);
     }, Error);
 });
 
-test.serial(`If the config object is invalid, we should throw an error`, (t) => {
+test(`If the config object is invalid, we should throw an error`, (t) => {
+    const Engine = loadScript(t.context);
+
     t.throws(() => {
         new Engine({
             invalidProperty: 'invalid',
@@ -70,7 +81,8 @@ test.serial(`If the config object is invalid, we should throw an error`, (t) => 
     }, Error);
 });
 
-test.serial(`If config.browserslist is an array of strings, we should initilize the property targetedBrowsers`, (t) => {
+test(`If config.browserslist is an array of strings, we should initilize the property targetedBrowsers`, (t) => {
+    const Engine = loadScript(t.context);
     const engineObject = new Engine({
         browserslist: ['> 5%'],
         connector: { name: 'connector' }
@@ -86,7 +98,7 @@ test.serial(`If config.browserslist is an array of strings, we should initilize 
     t.true(engineObject.targetedBrowsers.length > 0);
 });
 
-test.serial(`If config.hints has some hints "off", we shouldn't create those hints`, (t) => {
+test(`If config.hints has some hints "off", we shouldn't create those hints`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         public constructor() {
@@ -113,6 +125,8 @@ test.serial(`If config.hints has some hints "off", we shouldn't create those hin
         }
     }
 
+    const Engine = loadScript(t.context);
+
     new Engine({
         browserslist: [] as string[],
         connector: { name: 'connector' },
@@ -138,7 +152,7 @@ test.serial(`If config.hints has some hints "off", we shouldn't create those hin
     t.false(FakeManifestHint.called);
 });
 
-test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't ignore those hints if the connector isn't in that property`, (t) => {
+test(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't ignore those hints if the connector isn't in that property`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         public constructor(context: HintContext) {
@@ -169,7 +183,9 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't
         }
     }
 
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    sinon.spy(t.context.eventemitter.EventEmitter2.prototype, 'on');
+
+    const Engine = loadScript(t.context);
 
     new Engine({
         browserslist: [],
@@ -194,14 +210,14 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't
 
     t.true(FakeDisallowedHint.called);
     t.true(FakeManifestHint.called);
-    t.true(t.context.eventemitter.prototype.on.calledTwice);
-    t.is(t.context.eventemitter.prototype.on.args[0][0], 'fetch::end::*');
-    t.is(t.context.eventemitter.prototype.on.args[1][0], 'fetch::error');
+    t.true(t.context.eventemitter.EventEmitter2.prototype.on.calledTwice);
+    t.is(t.context.eventemitter.EventEmitter2.prototype.on.args[0][0], 'fetch::end::*');
+    t.is(t.context.eventemitter.EventEmitter2.prototype.on.args[1][0], 'fetch::error');
 
-    t.context.eventemitter.prototype.on.restore();
+    t.context.eventemitter.EventEmitter2.prototype.on.restore();
 });
 
-test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ignore those hints if the connector is in that property`, (t) => {
+test(`If a hint has the metadata "ignoredConnectors" set up, we should ignore those hints if the connector is in that property`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         public constructor(context: HintContext) {
@@ -233,6 +249,8 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ig
         }
     }
 
+    const Engine = loadScript(t.context);
+
     new Engine({
         browserslist: [],
         connector: { name: 'chrome' },
@@ -258,7 +276,7 @@ test.serial(`If a hint has the metadata "ignoredConnectors" set up, we should ig
     t.true(FakeManifestHint.called);
 });
 
-test.serial(`If the hint scope is 'local' and the connector isn't local the hint should be ignored`, (t) => {
+test(`If the hint scope is 'local' and the connector isn't local the hint should be ignored`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         public constructor() {
@@ -287,6 +305,8 @@ test.serial(`If the hint scope is 'local' and the connector isn't local the hint
         }
     }
 
+    const Engine = loadScript(t.context);
+
     new Engine({
         browserslist: [],
         connector: { name: 'chrome' },
@@ -312,7 +332,7 @@ test.serial(`If the hint scope is 'local' and the connector isn't local the hint
     t.false(FakeManifestHint.called);
 });
 
-test.serial(`If the hint scope is 'site' and the connector is local the hint should be ignored`, (t) => {
+test(`If the hint scope is 'site' and the connector is local the hint should be ignored`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         public constructor() {
@@ -341,6 +361,8 @@ test.serial(`If the hint scope is 'site' and the connector is local the hint sho
         }
     }
 
+    const Engine = loadScript(t.context);
+
     new Engine({
         browserslist: [],
         connector: { name: 'local' },
@@ -366,7 +388,7 @@ test.serial(`If the hint scope is 'site' and the connector is local the hint sho
     t.true(FakeManifestHint.called);
 });
 
-test.serial(`If the hint scope is 'any' and the connector is local the hint should be used`, (t) => {
+test(`If the hint scope is 'any' and the connector is local the hint should be used`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         public constructor() {
@@ -395,6 +417,8 @@ test.serial(`If the hint scope is 'any' and the connector is local the hint shou
         }
     }
 
+    const Engine = loadScript(t.context);
+
     new Engine({
         browserslist: [],
         connector: { name: 'local' },
@@ -420,7 +444,7 @@ test.serial(`If the hint scope is 'any' and the connector is local the hint shou
     t.true(FakeManifestHint.called);
 });
 
-test.serial(`If the hint scope is 'any' and the connector isn't local the hint should be used`, (t) => {
+test(`If the hint scope is 'any' and the connector isn't local the hint should be used`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         public constructor(context: HintContext) {
@@ -450,6 +474,8 @@ test.serial(`If the hint scope is 'any' and the connector isn't local the hint s
             scope: HintScope.any
         }
     }
+
+    const Engine = loadScript(t.context);
 
     new Engine({
         browserslist: [],
@@ -476,9 +502,10 @@ test.serial(`If the hint scope is 'any' and the connector isn't local the hint s
     t.true(FakeManifestHint.called);
 });
 
-test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`, async (t) => {
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'emitAsync');
+test(`If an event is emitted for an ignored url, it shouldn't propagate`, async (t) => {
+    sinon.spy(t.context.eventemitter.EventEmitter2.prototype, 'emitAsync');
 
+    const Engine = loadScript(t.context);
     const engineObject = new Engine({
         browserslist: [],
         connector: { name: 'connector' },
@@ -499,12 +526,12 @@ test.serial(`If an event is emitted for an ignored url, it shouldn't propagate`,
 
     await engineObject.emitAsync('traverse::start', { resource: 'http://www.domain1.com/test' });
 
-    t.false(t.context.eventemitter.prototype.emitAsync.called);
+    t.false(t.context.eventemitter.EventEmitter2.prototype.emitAsync.called);
 
-    t.context.eventemitter.prototype.emitAsync.restore();
+    t.context.eventemitter.EventEmitter2.prototype.emitAsync.restore();
 });
 
-test.serial(`If a hint is ignoring some url, it shouldn't run the event`, (t) => {
+test(`If a hint is ignoring some url, it shouldn't run the event`, (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         public constructor(context: HintContext) {
@@ -520,7 +547,9 @@ test.serial(`If a hint is ignoring some url, it shouldn't run the event`, (t) =>
         }
     }
 
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    sinon.spy(t.context.eventemitter.EventEmitter2.prototype, 'on');
+
+    const Engine = loadScript(t.context);
 
     new Engine({
         browserslist: [],
@@ -540,14 +569,14 @@ test.serial(`If a hint is ignoring some url, it shouldn't run the event`, (t) =>
         parsers: []
     });
 
-    const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
+    const eventHandler = t.context.eventemitter.EventEmitter2.prototype.on.args[0][1];
 
     t.is(eventHandler({ resource: 'http://www.domain1.com/test' }), null);
 
-    t.context.eventemitter.prototype.on.restore();
+    t.context.eventemitter.EventEmitter2.prototype.on.restore();
 });
 
-test.serial(`If a hint is taking too much time, it should be ignored after the configured timeout`, async (t) => {
+test(`If a hint is taking too much time, it should be ignored after the configured timeout`, async (t) => {
     class FakeDisallowedHint implements IHint {
         public static called: boolean = false;
         public constructor(context: HintContext) {
@@ -567,7 +596,9 @@ test.serial(`If a hint is taking too much time, it should be ignored after the c
         }
     }
 
-    sinon.spy(eventEmitter.EventEmitter2.prototype, 'on');
+    sinon.spy(t.context.eventemitter.EventEmitter2.prototype, 'on');
+
+    const Engine = loadScript(t.context);
 
     new Engine({
         browserslist: [],
@@ -587,15 +618,17 @@ test.serial(`If a hint is taking too much time, it should be ignored after the c
         parsers: []
     });
 
-    const eventHandler = t.context.eventemitter.prototype.on.args[0][1];
+    const eventHandler = t.context.eventemitter.EventEmitter2.prototype.on.args[0][1];
 
     t.is(await eventHandler.bind({ event: 'fetch::end::html' })({ resource: 'http://www.test.com/' }), null);
 
-    t.context.eventemitter.prototype.on.restore();
+    t.context.eventemitter.EventEmitter2.prototype.on.restore();
 });
 
-test.serial(`If there is no connector, it should throw an error`, (t) => {
+test(`If there is no connector, it should throw an error`, (t) => {
     t.plan(1);
+
+    const Engine = loadScript(t.context);
 
     try {
         new Engine({ connector: { name: 'invalidConnector' } } as Configuration, { connector: null } as any);
@@ -604,7 +637,7 @@ test.serial(`If there is no connector, it should throw an error`, (t) => {
     }
 });
 
-test.serial('If connector is in the resources, we should init the connector', (t) => {
+test('If connector is in the resources, we should init the connector', (t) => {
     class FakeConnectorInit implements IConnector {
         public static called: boolean = false;
         public constructor() {
@@ -625,6 +658,8 @@ test.serial('If connector is in the resources, we should init the connector', (t
 
         public querySelectorAll(): any { }
     }
+
+    const Engine = loadScript(t.context);
 
     new Engine({ connector: { name: 'myconnector' } } as Configuration, {
         connector: FakeConnectorInit,
@@ -638,7 +673,7 @@ test.serial('If connector is in the resources, we should init the connector', (t
     t.true(FakeConnectorInit.called);
 });
 
-test.serial('If connector is an object with valid data, we should init the connector', (t) => {
+test('If connector is an object with valid data, we should init the connector', (t) => {
     class FakeConnectorInit implements IConnector {
         public static called: boolean = false;
         public constructor() {
@@ -659,6 +694,8 @@ test.serial('If connector is an object with valid data, we should init the conne
 
         public querySelectorAll(): any { }
     }
+
+    const Engine = loadScript(t.context);
 
     new Engine({
         connector: {
@@ -677,7 +714,7 @@ test.serial('If connector is an object with valid data, we should init the conne
     t.true(FakeConnectorInit.called);
 });
 
-test.serial('formatter should return the formatter configured', (t) => {
+test('formatter should return the formatter configured', (t) => {
     class FakeFormatter implements IFormatter {
         public constructor() { }
 
@@ -686,6 +723,7 @@ test.serial('formatter should return the formatter configured', (t) => {
         }
     }
 
+    const Engine = loadScript(t.context);
     const engineObject = new Engine({
         connector: { name: 'connector' },
         formatters: ['formatter']
@@ -701,7 +739,7 @@ test.serial('formatter should return the formatter configured', (t) => {
     t.true(engineObject.formatters[0] instanceof FakeFormatter);
 });
 
-test.serial('pageContent should return the HTML', async (t) => {
+test('pageContent should return the HTML', async (t) => {
     const html = '<html></html>';
 
     class FakeConnectorPageContent implements IConnector {
@@ -725,6 +763,7 @@ test.serial('pageContent should return the HTML', async (t) => {
         }
     }
 
+    const Engine = loadScript(t.context);
     const engineObject = new Engine({
         connector: {
             name: 'myconnector',
@@ -742,7 +781,7 @@ test.serial('pageContent should return the HTML', async (t) => {
     t.is(await engineObject.pageContent, html);
 });
 
-test.serial(`pageHeaders should return the page's response headers`, (t) => {
+test(`pageHeaders should return the page's response headers`, (t) => {
     const headers = { header1: 'value1' };
 
     class FakeConnectorPageContent implements IConnector {
@@ -766,6 +805,7 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
         }
     }
 
+    const Engine = loadScript(t.context);
     const engineObject = new Engine({
         connector: {
             name: 'myconnector',
@@ -783,7 +823,7 @@ test.serial(`pageHeaders should return the page's response headers`, (t) => {
     t.is(engineObject.pageHeaders, headers);
 });
 
-test.serial('If connector.collect fails, it should return an error', async (t) => {
+test('If connector.collect fails, it should return an error', async (t) => {
     class FakeConnectorCollectFail implements IConnector {
         private error: boolean = true;
 
@@ -806,6 +846,7 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
         public querySelectorAll(): any { }
     }
 
+    const Engine = loadScript(t.context);
     const engineObject = new Engine({
         connector: {
             name: 'myconnector',
@@ -830,7 +871,7 @@ test.serial('If connector.collect fails, it should return an error', async (t) =
     }
 });
 
-test.serial(`'executeOn' should return all messages`, async (t) => {
+test(`'executeOn' should return all messages`, async (t) => {
     class FakeConnectorCollect implements IConnector {
 
         public collect(target: url.URL) {
@@ -848,6 +889,7 @@ test.serial(`'executeOn' should return all messages`, async (t) => {
         public querySelectorAll(): any { }
     }
 
+    const Engine = loadScript(t.context);
     const engineObject = new Engine({
         connector: {
             name: 'myconnector',
@@ -872,10 +914,12 @@ test.serial(`'executeOn' should return all messages`, async (t) => {
     t.is(result.length, 2);
 });
 
-test.serial('executeOn should forward content if provided', async (t) => {
+test('executeOn should forward content if provided', async (t) => {
+    const Engine = loadScript(t.context);
+
     class FakeConnectorCollect implements IConnector {
-        private server: Engine;
-        public constructor(server: Engine) {
+        private server: typeof Engine;
+        public constructor(server: typeof Engine) {
             this.server = server;
         }
 

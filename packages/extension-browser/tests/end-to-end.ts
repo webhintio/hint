@@ -42,7 +42,7 @@ const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
     return await bgTarget.page();
 };
 
-test.serial('It runs end-to-end in a page', async (t) => {
+test('It runs end-to-end in a page', async (t) => {
     const server = await Server.create({ configuration: await readFixture('missing-lang.html') });
 
     const url = `http://localhost:${server.port}/`;
@@ -96,7 +96,7 @@ test.serial('It runs end-to-end in a page', async (t) => {
 
 // TODO: Get this working in CI (at least for Linux).
 if (!isCI) {
-    test.serial('It runs end-to-end as an extension', async (t) => {
+    test('It runs end-to-end as an extension', async (t) => {
         const server = await Server.create({ configuration: await readFixture('missing-lang.html') });
 
         const url = `http://localhost:${server.port}/`;

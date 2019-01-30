@@ -1,4 +1,4 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
@@ -8,32 +8,40 @@ type Logger = {
 };
 
 type VersionContext = {
+    logger: Logger;
     loggerLogSpy: sinon.SinonSpy;
     loggerErrorSpy: sinon.SinonSpy;
+    sandbox: sinon.SinonSandbox;
 };
 
 const test = anyTest as TestInterface<VersionContext>;
 
-const logger: Logger = {
-    error(error: string) { },
-    log(log: string) { }
+const initContext = (t: ExecutionContext<VersionContext>) => {
+    const sandbox = sinon.createSandbox();
+
+    t.context.logger = {
+        error(error: string) { },
+        log(log: string) { }
+    };
+    t.context.loggerLogSpy = sandbox.spy(t.context.logger, 'log');
+    t.context.loggerErrorSpy = sandbox.spy(t.context.logger, 'error');
+    t.context.sandbox = sandbox;
 };
 
-proxyquire('../../../src/lib/cli/version', { '../utils/logging': logger });
+const loadScript = (context: VersionContext) => {
+    const script = proxyquire('../../../src/lib/cli/version', { '../utils/logging': context.logger });
 
-import printVersion from '../../../src/lib/cli/version';
+    return script.default;
+};
 
-test.beforeEach((t) => {
-    t.context.loggerLogSpy = sinon.spy(logger, 'log');
-    t.context.loggerErrorSpy = sinon.spy(logger, 'error');
-});
+test.beforeEach(initContext);
 
 test.afterEach.always((t) => {
-    t.context.loggerLogSpy.restore();
-    t.context.loggerErrorSpy.restore();
+    t.context.sandbox.restore();
 });
 
-test.serial('If version option is defined, it should print the current version and return true', async (t) => {
+test('If version option is defined, it should print the current version and return true', async (t) => {
+    const printVersion = loadScript(t.context);
     const result = await printVersion();
 
     t.true(result);

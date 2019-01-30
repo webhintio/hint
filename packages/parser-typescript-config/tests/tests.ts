@@ -3,7 +3,7 @@ import * as url from 'url';
 
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import test from 'ava';
+import anyTest, { TestInterface } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
@@ -11,52 +11,70 @@ import readFile from 'hint/dist/src/lib/utils/fs/read-file';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 import { Engine } from 'hint';
 import { FetchEnd, ErrorEvent } from 'hint/dist/src/lib/types';
+import { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfigInvalidSchema } from '../src/parser';
 
-type StatObject = {
-    mtime: Date;
+type SandboxContext = {
+    sandbox: sinon.SinonSandbox;
 };
 
-const statObject: StatObject = { mtime: new Date() };
-
-const fs = {
-    stat(path: string, callback: Function): void {
-        return callback(null, statObject);
-    }
-};
+const test = anyTest as TestInterface<SandboxContext>;
 
 const schema = readFile(path.join(__dirname, 'fixtures', 'schema.json'));
 
-const requestAsync = {
-    default(url: string): Promise<string> {
-        return Promise.resolve(schema);
-    }
-};
+const mockContext = () => {
+    const statObject = { mtime: new Date() };
 
-const writeFileAsync = {
-    default(path: string, content: string): Promise<void> {
-        return Promise.resolve();
-    }
-};
+    const requestAsync = {
+        default(url: string): Promise<string> {
+            return Promise.resolve(schema);
+        }
+    };
 
-proxyquire('../src/parser', {
-    fs,
-    'hint/dist/src/lib/utils/fs/write-file-async': writeFileAsync,
-    'hint/dist/src/lib/utils/network/request-async': requestAsync
-});
+    const writeFileAsync = {
+        default(path: string, content: string): Promise<void> {
+            return Promise.resolve();
+        }
+    };
 
-import TypeScriptConfigParser, { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfigInvalidSchema } from '../src/parser';
+    const fs = {
+        stat(path: string, callback: Function): void {
+            return callback(null, statObject);
+        }
+    };
 
-const getEngine = (): Engine<TypeScriptConfigEvents> => {
-    return new EventEmitter2({
+    const engine = new EventEmitter2({
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
     }) as Engine<TypeScriptConfigEvents>;
+
+    const script = proxyquire('../src/parser', {
+        fs,
+        'hint/dist/src/lib/utils/fs/write-file-async': writeFileAsync,
+        'hint/dist/src/lib/utils/network/request-async': requestAsync
+    });
+
+    return {
+        engine,
+        fs,
+        requestAsync,
+        TypeScriptConfigParser: script.default,
+        writeFileAsync
+    };
 };
 
+
+test.beforeEach((t) => {
+    t.context.sandbox = sinon.createSandbox();
+});
+
+test.afterEach.always((t) => {
+    t.context.sandbox.restore();
+});
+
 test(`If the resource doesn't match the regex, nothing should happen`, async (t) => {
-    const sandbox = sinon.createSandbox();
-    const engine = getEngine();
+    const sandbox = t.context.sandbox;
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -66,13 +84,11 @@ test(`If the resource doesn't match the regex, nothing should happen`, async (t)
 
     // The previous call.
     t.true(engineEmitAsyncSpy.calledOnce);
-
-    sandbox.restore();
 });
 
 test('If the file contains an invalid json, it should fail', async (t) => {
-    const sandbox = sinon.createSandbox();
-    const engine = getEngine();
+    const sandbox = t.context.sandbox;
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -88,13 +104,11 @@ test('If the file contains an invalid json, it should fail', async (t) => {
     t.is(engineEmitAsyncSpy.args[1][0], 'parse::start::typescript-config');
     t.is(engineEmitAsyncSpy.args[2][0], 'parse::error::typescript-config::json');
     t.is((engineEmitAsyncSpy.args[2][1] as ErrorEvent).error.message, 'Unexpected token i in JSON at position 0');
-
-    sandbox.restore();
 });
 
 test('If the file contains a valid json with an invalid schema, it should fail', async (t) => {
-    const sandbox = sinon.createSandbox();
-    const engine = getEngine();
+    const sandbox = t.context.sandbox;
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -109,13 +123,11 @@ test('If the file contains a valid json with an invalid schema, it should fail',
     t.is(engineEmitAsyncSpy.callCount, 3);
     t.is(engineEmitAsyncSpy.args[2][0], 'parse::error::typescript-config::schema');
     t.is((engineEmitAsyncSpy.args[2][1] as TypeScriptConfigInvalidSchema).errors[0].message, 'should be boolean');
-
-    sandbox.restore();
 });
 
 test('If we receive a valid json with a valid name, it should emit the event parse::end::typescript-config', async (t) => {
-    const sandbox = sinon.createSandbox();
-    const engine = getEngine();
+    const sandbox = t.context.sandbox;
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -159,13 +171,11 @@ test('If we receive a valid json with a valid name, it should emit the event par
 
     t.deepEqual(data.originalConfig, validJSON);
     t.deepEqual(data.config, parsedJSON as any);
-
-    sandbox.restore();
 });
 
 test('If we receive a valid json with an extends, it should emit the event parse::end::typescript-config with the right data', async (t) => {
-    const sandbox = sinon.createSandbox();
-    const engine = getEngine();
+    const sandbox = t.context.sandbox;
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -214,8 +224,8 @@ test('If we receive a valid json with an extends, it should emit the event parse
 });
 
 test('If we receive a json with an extends with a loop, it should emit the event parse::error::typescript-config::circular', async (t) => {
-    const sandbox = sinon.createSandbox();
-    const engine = getEngine();
+    const sandbox = t.context.sandbox;
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -231,13 +241,11 @@ test('If we receive a json with an extends with a loop, it should emit the event
     // 3 times, the previous call, the start and the parse error.
     t.is(engineEmitAsyncSpy.callCount, 3);
     t.is(engineEmitAsyncSpy.args[2][0], 'parse::error::typescript-config::circular');
-
-    sandbox.restore();
 });
 
 test('If we receive a json with an extends with an invalid json, it should emit the event parse::error::typescript-config::extends', async (t) => {
-    const sandbox = sinon.createSandbox();
-    const engine = getEngine();
+    const sandbox = t.context.sandbox;
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -253,13 +261,11 @@ test('If we receive a json with an extends with an invalid json, it should emit 
     // 3 times, the previous call, the start and the parse error.
     t.is(engineEmitAsyncSpy.callCount, 3);
     t.is(engineEmitAsyncSpy.args[2][0], 'parse::error::typescript-config::extends');
-
-    sandbox.restore();
 });
 
-test.serial(`If the schema file was updated in less than 24 hours, it shouldn't update the current schema`, async (t) => {
-    const sandbox = sinon.createSandbox();
-    const engine = getEngine();
+test(`If the schema file was updated in less than 24 hours, it shouldn't update the current schema`, async (t) => {
+    const sandbox = t.context.sandbox;
+    const { engine, fs, requestAsync, TypeScriptConfigParser, writeFileAsync } = mockContext();
 
     const fsStatStub = sandbox.stub(fs, 'stat').callsFake((path: string, callback) => {
         callback(null, { mtime: new Date() });
@@ -279,13 +285,11 @@ test.serial(`If the schema file was updated in less than 24 hours, it shouldn't 
     t.true(fsStatStub.calledOnce);
     t.false(requestAsyncSpy.called);
     t.false(writeFileAsyncSpy.called);
-
-    sandbox.restore();
 });
 
-test.serial(`If the schema file wasn't updated in less than 24 hours, it should update the current schema`, async (t) => {
-    const sandbox = sinon.createSandbox();
-    const engine = getEngine();
+test(`If the schema file wasn't updated in less than 24 hours, it should update the current schema`, async (t) => {
+    const sandbox = t.context.sandbox;
+    const { engine, fs, requestAsync, TypeScriptConfigParser, writeFileAsync } = mockContext();
 
     const today = new Date();
     const dayBeforeYesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2);
@@ -317,6 +321,4 @@ test.serial(`If the schema file wasn't updated in less than 24 hours, it should 
     t.is(typeof oldSchema.definitions.typeAcquisitionDefinition.properties.typeAcquisition.additionalProperties, 'undefined');
     t.false(newSchema.definitions.compilerOptionsDefinition.properties.compilerOptions.additionalProperties);
     t.false(newSchema.definitions.typeAcquisitionDefinition.properties.typeAcquisition.additionalProperties);
-
-    sandbox.restore();
 });

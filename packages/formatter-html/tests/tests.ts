@@ -1,27 +1,48 @@
-import test from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-
-const fsExtra = {
-    copy() { },
-    mkdirp() { },
-    outputFile() { },
-    readFile() {
-        return '';
-    },
-    remove() { }
-};
-
-proxyquire('../src/formatter', { 'fs-extra': fsExtra });
-
-import HTMLFormatter from '../src/formatter';
 import Result from '../src/result';
 import * as problems from './fixtures/list-of-problems';
 import { Category } from 'hint/dist/src/lib/enums/category';
 
 const utils = require('../src/utils');
 
+type FsExtra = {
+    copy: () => void;
+    mkdirp: () => void;
+    outputFile: () => void;
+    readFile: () => string;
+    remove: () => void;
+};
+
+type HTMLContext = {
+    fsExtra: FsExtra;
+};
+
+const test = anyTest as TestInterface<HTMLContext>;
+
+const initContext = (t: ExecutionContext<HTMLContext>) => {
+    t.context.fsExtra = {
+        copy() { },
+        mkdirp() { },
+        outputFile() { },
+        readFile() {
+            return '';
+        },
+        remove() { }
+    };
+};
+
+const loadScript = (context: HTMLContext) => {
+    const script = proxyquire('../src/formatter', { 'fs-extra': context.fsExtra });
+
+    return script.default;
+};
+
+test.beforeEach(initContext);
+
 test(`HTML formatter returns the right object`, async (t) => {
+    const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
     const result: Result = await formatter.format(problems.noproblems, 'http://example.com');
@@ -38,6 +59,7 @@ test(`HTML formatter returns the right object`, async (t) => {
 });
 
 test(`HTML formatter returns the right number of erros and warnings`, async (t) => {
+    const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
     const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com');
@@ -82,6 +104,7 @@ test(`HTML formatter returns the right number of erros and warnings`, async (t) 
 });
 
 test(`HTML formatter return the right value for isFinish`, async (t) => {
+    const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
     const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com', { status: 'error' });
@@ -90,6 +113,7 @@ test(`HTML formatter return the right value for isFinish`, async (t) => {
 });
 
 test(`HTML formatter return the right scan time`, async (t) => {
+    const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
     const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com', { scanTime: 4500000 });
@@ -98,6 +122,7 @@ test(`HTML formatter return the right scan time`, async (t) => {
 });
 
 test(`HTML formatter return the right third party logo url`, async (t) => {
+    const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
     const result1: Result = await formatter.format(problems.multipleproblems, 'http://example.com', {});
@@ -122,14 +147,15 @@ test(`HTML formatter return the right third party logo url`, async (t) => {
     }
 });
 
-test.serial(`HTML formatter create copy and generate the right files`, async (t) => {
+test(`HTML formatter create copy and generate the right files`, async (t) => {
     const sandbox = sinon.createSandbox();
 
-    const fsExtraCopySpy = sandbox.spy(fsExtra, 'copy');
-    const fsExtraRemoveSpy = sandbox.spy(fsExtra, 'remove');
-    const fsExtraMkDirpSpy = sandbox.spy(fsExtra, 'mkdirp');
-    const fsExtraOutputFileSpy = sandbox.spy(fsExtra, 'outputFile');
+    const fsExtraCopySpy = sandbox.spy(t.context.fsExtra, 'copy');
+    const fsExtraRemoveSpy = sandbox.spy(t.context.fsExtra, 'remove');
+    const fsExtraMkDirpSpy = sandbox.spy(t.context.fsExtra, 'mkdirp');
+    const fsExtraOutputFileSpy = sandbox.spy(t.context.fsExtra, 'outputFile');
 
+    const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
     await formatter.format(problems.noproblems, 'http://example.com', { config: {} });
@@ -142,14 +168,15 @@ test.serial(`HTML formatter create copy and generate the right files`, async (t)
     sandbox.restore();
 });
 
-test.serial(`HTML formatter shoudn't copy and generate any file if option noGenerateFiles is passed`, async (t) => {
+test(`HTML formatter shoudn't copy and generate any file if option noGenerateFiles is passed`, async (t) => {
     const sandbox = sinon.createSandbox();
 
-    const fsExtraCopySpy = sandbox.spy(fsExtra, 'copy');
-    const fsExtraRemoveSpy = sandbox.spy(fsExtra, 'remove');
-    const fsExtraMkDirpSpy = sandbox.spy(fsExtra, 'mkdirp');
-    const fsExtraOutputFileSpy = sandbox.spy(fsExtra, 'outputFile');
+    const fsExtraCopySpy = sandbox.spy(t.context.fsExtra, 'copy');
+    const fsExtraRemoveSpy = sandbox.spy(t.context.fsExtra, 'remove');
+    const fsExtraMkDirpSpy = sandbox.spy(t.context.fsExtra, 'mkdirp');
+    const fsExtraOutputFileSpy = sandbox.spy(t.context.fsExtra, 'outputFile');
 
+    const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
     await formatter.format(problems.noproblems, 'http://example.com', { noGenerateFiles: true });

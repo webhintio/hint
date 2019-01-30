@@ -1,30 +1,41 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
+import { Severity } from 'hint/dist/src/lib/types';
+
+import * as problems from './fixtures/list-of-problems';
+
+type Logging = {
+    log: () => void;
+};
+
 type JSONContext = {
+    logging: Logging;
     loggingLogSpy: sinon.SinonSpy;
 };
 
 const test = anyTest as TestInterface<JSONContext>;
 
-const logging = { log() { } };
+const initContext = (t: ExecutionContext<JSONContext>) => {
+    t.context.logging = { log() { } };
+    t.context.loggingLogSpy = sinon.spy(t.context.logging, 'log');
+};
 
-proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': logging });
+const loadScript = (context: JSONContext) => {
+    const script = proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': context.logging });
 
-import JsonFormatter from '../src/formatter';
-import * as problems from './fixtures/list-of-problems';
-import { Severity } from 'hint/dist/src/lib/types';
+    return script.default;
+};
 
-test.beforeEach((t) => {
-    t.context.loggingLogSpy = sinon.spy(logging, 'log');
-});
+test.beforeEach(initContext);
 
 test.afterEach.always((t) => {
     t.context.loggingLogSpy.restore();
 });
 
-test.serial(`JSON formatter doesn't print anything if no values`, (t) => {
+test(`JSON formatter doesn't print anything if no values`, (t) => {
+    const JsonFormatter = loadScript(t.context);
     const formatter = new JsonFormatter();
 
     formatter.format(problems.noproblems);
@@ -32,7 +43,8 @@ test.serial(`JSON formatter doesn't print anything if no values`, (t) => {
     t.is(t.context.loggingLogSpy.callCount, 0);
 });
 
-test.serial(`JSON formatter is called twice per resource with problems and with sorted problems`, (t) => {
+test(`JSON formatter is called twice per resource with problems and with sorted problems`, (t) => {
+    const JsonFormatter = loadScript(t.context);
     const formatter = new JsonFormatter();
 
     formatter.format(problems.multipleproblems);

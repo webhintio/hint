@@ -26,6 +26,7 @@ import { getContentTypeData, isTextMediaType, getType } from 'hint/dist/src/lib/
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow } from 'hint/dist/src/lib/types/async-html';
 
 import isFile from 'hint/dist/src/lib/utils/fs/is-file';
+import cwd from 'hint/dist/src/lib/utils/fs/cwd';
 import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 
@@ -113,7 +114,7 @@ export default class LocalConnector implements IConnector {
 
     private getGitIgnore = async () => {
         try {
-            const rawList = await readFileAsync(path.join(process.cwd(), '.gitignore'));
+            const rawList = await readFileAsync(path.join(cwd(), '.gitignore'));
             const splitList = rawList.split('\n');
 
             const result = splitList.reduce((total: string[], ignore: string) => {
@@ -233,21 +234,24 @@ export default class LocalConnector implements IConnector {
                 reject(err);
             };
 
-            this.watcher
-                .on('add', onAdd.bind(this))
-                .on('change', onChange.bind(this))
-                .on('unlink', onUnlink.bind(this))
-                .on('error', onError)
-                .on('ready', onReady);
-
-            // Close the watcher after press Ctrl + C
-            process.once('SIGINT', () => {
+            const onClose = () => {
                 if (this.watcher) {
                     this.watcher.close();
                 }
                 this.engine.clear();
                 resolve();
-            });
+            };
+
+            this.watcher
+                .on('add', onAdd.bind(this))
+                .on('change', onChange.bind(this))
+                .on('unlink', onUnlink.bind(this))
+                .on('error', onError)
+                .on('ready', onReady)
+                .on('close', onClose);
+
+            // Close the watcher after press Ctrl + C
+            process.once('SIGINT', onClose);
         });
     }
 

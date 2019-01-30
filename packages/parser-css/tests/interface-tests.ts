@@ -78,8 +78,6 @@ test('If a style tag is inline CSS, then we should parse the stylesheet and emit
     t.is(args[0], 'parse::end::css');
     t.is(data.code, code);
     t.is(data.resource, 'Inline CSS');
-
-    sandbox.restore();
 });
 
 test('If fetch::end::css is received, then we should parse the stylesheet and emit a parse::end::css event', async (t) => {
@@ -108,6 +106,4 @@ test('If fetch::end::css is received, then we should parse the stylesheet and em
     t.is(args[0], 'parse::end::css');
     t.is(data.code, code);
     t.is(data.resource, 'styles.css');
-
-    sandbox.restore();
 });

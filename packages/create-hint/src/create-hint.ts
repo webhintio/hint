@@ -13,6 +13,7 @@ import isOfficial from 'hint/dist/src/lib/utils/packages/is-official';
 import Handlebars, { compileTemplate, escapeSafeString } from './handlebars-utils';
 import normalizeStringByDelimiter from 'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter';
 import readFile from 'hint/dist/src/lib/utils/fs/read-file';
+import cwd from 'hint/dist/src/lib/utils/fs/cwd';
 import toCamelCase from 'hint/dist/src/lib/utils/misc/to-camel-case';
 import toPascalCase from 'hint/dist/src/lib/utils/misc/to-pascal-case';
 import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
@@ -156,7 +157,7 @@ class HintPackage {
             this.hints.push(new NewHint(data));
         }
 
-        this.destination = join(process.cwd(), `hint-${this.normalizedName}`);
+        this.destination = join(cwd(), `hint-${this.normalizedName}`);
     }
 }
 

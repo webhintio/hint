@@ -1,32 +1,42 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import chalk from 'chalk';
 import * as logSymbols from 'log-symbols';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import * as table from 'text-table';
 
+import * as problems from './fixtures/list-of-problems';
+
+type Logging = {
+    log: () => void;
+};
+
 type StylishContext = {
+    logging: Logging;
     loggingLogSpy: sinon.SinonSpy;
 };
 
 const test = anyTest as TestInterface<StylishContext>;
 
-const logging = { log() { } };
+const initContext = (t: ExecutionContext<StylishContext>) => {
+    t.context.logging = { log() { } };
+    t.context.loggingLogSpy = sinon.spy(t.context.logging, 'log');
+};
 
-proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': logging });
+const loadScript = (context: StylishContext) => {
+    const script = proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': context.logging });
 
-import StylishFormatter from '../src/formatter';
-import * as problems from './fixtures/list-of-problems';
+    return script.default;
+};
 
-test.beforeEach((t) => {
-    t.context.loggingLogSpy = sinon.spy(logging, 'log');
-});
+test.beforeEach(initContext);
 
 test.afterEach.always((t) => {
     t.context.loggingLogSpy.restore();
 });
 
-test.serial(`Stylish formatter doesn't print anything if no values`, (t) => {
+test(`Stylish formatter doesn't print anything if no values`, (t) => {
+    const StylishFormatter = loadScript(t.context);
     const formatter = new StylishFormatter();
 
     formatter.format(problems.noproblems);
@@ -34,7 +44,8 @@ test.serial(`Stylish formatter doesn't print anything if no values`, (t) => {
     t.is(t.context.loggingLogSpy.callCount, 0);
 });
 
-test.serial(`Stylish formatter prints a table and a summary for each resource`, (t) => {
+test(`Stylish formatter prints a table and a summary for each resource`, (t) => {
+    const StylishFormatter = loadScript(t.context);
     const formatter = new StylishFormatter();
 
     formatter.format(problems.multipleproblemsandresources);

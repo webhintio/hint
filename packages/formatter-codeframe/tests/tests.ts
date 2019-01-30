@@ -1,30 +1,40 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import chalk from 'chalk';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
+import * as problems from './fixtures/list-of-problems';
+
+type Logging = {
+    log: () => void;
+};
+
 type CodeframeContext = {
+    logging: Logging;
     loggingLogSpy: sinon.SinonSpy;
 };
 
 const test = anyTest as TestInterface<CodeframeContext>;
 
-const logging = { log() { } };
+const initContext = (t: ExecutionContext<CodeframeContext>) => {
+    t.context.logging = { log() { } };
+    t.context.loggingLogSpy = sinon.spy(t.context.logging, 'log');
+};
 
-proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': logging });
+const loadScript = (context: CodeframeContext) => {
+    const script = proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': context.logging });
 
-import CodeframeFormatter from '../src/formatter';
-import * as problems from './fixtures/list-of-problems';
+    return script.default;
+};
 
-test.beforeEach((t) => {
-    t.context.loggingLogSpy = sinon.spy(logging, 'log');
-});
+test.beforeEach(initContext);
 
 test.afterEach.always((t) => {
     t.context.loggingLogSpy.restore();
 });
 
-test.serial(`Codeframe formatter doesn't print anything if no values`, (t) => {
+test(`Codeframe formatter doesn't print anything if no values`, (t) => {
+    const CodeframeFormatter = loadScript(t.context);
     const formatter = new CodeframeFormatter();
 
     formatter.format(problems.noproblems);
@@ -32,7 +42,8 @@ test.serial(`Codeframe formatter doesn't print anything if no values`, (t) => {
     t.is(t.context.loggingLogSpy.callCount, 0);
 });
 
-test.serial(`Codeframe formatter prints a table and a summary for each resource`, (t) => {
+test(`Codeframe formatter prints a table and a summary for each resource`, (t) => {
+    const CodeframeFormatter = loadScript(t.context);
     const formatter = new CodeframeFormatter();
 
     formatter.format(problems.codeframeproblems);

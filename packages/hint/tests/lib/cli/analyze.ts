@@ -3,9 +3,10 @@ import { URL } from 'url';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import { CLIOptions, Severity, IFormatter, Problem, HintResources, IConnector, UserConfig } from '../../../src/lib/types';
+
 const actions = { _: ['http://localhost/'] } as CLIOptions;
 
 class FakeConnector implements IConnector {
@@ -41,56 +42,47 @@ type Logger = {
     log: (text: string) => any;
 };
 
-class Engine extends EventEmitter {
-    public get formatters() {
-        return [];
-    }
+type Configuration = {
+    fromConfig: (config: UserConfig | null) => {};
+    getFilenameForDirectory: () => string | null;
+    loadConfigFile: (path: string) => {};
+    validateHintsConfig: () => ValidateHintsConfigResult | null;
+};
 
-    public close() { }
-    public executeOn() { }
+type Config = {
+    Configuration: Configuration;
+};
+
+type EngineContainer = {
+    Engine: any;
 }
 
-const engineContainer = { Engine };
-
-const resourceLoader: ResourceLoader = {
-    loadResources() {
-        return null;
-    }
-};
-const logger: Logger = {
-    error(text: string) { },
-    log(text: string) { }
+type Spinner = {
+    fail: () => void;
+    start: () => void;
+    succeed: () => void;
+    text: string;
 };
 
-const config = {
-    Configuration: {
-        fromConfig(config: UserConfig | null) {
-            return {};
-        },
-        getFilenameForDirectory(): string | null {
-            return '';
-        },
-        loadConfigFile() {
-            return {};
-        },
-        validateHintsConfig(): ValidateHintsConfigResult | null {
-            return null;
-        }
-    }
+type Ora = () => Spinner;
+
+type AnalyzeContext = {
+    askQuestion: AskQuestion;
+    config: Config;
+    engineContainer: EngineContainer;
+    errorSpy: sinon.SinonSpy<[string]>;
+    failSpy: sinon.SinonSpy<[]>;
+    logger: Logger;
+    logSpy: sinon.SinonSpy<[string]>;
+    ora: Ora;
+    resourceLoader: ResourceLoader;
+    sandbox: sinon.SinonSandbox;
+    spinner: Spinner;
+    startSpy: sinon.SinonSpy<[]>;
+    succeedSpy: sinon.SinonSpy<[]>;
 };
 
-const spinner = {
-    fail() { },
-    start() { },
-    succeed() { },
-    text: ''
-};
-
-const ora = () => {
-    return spinner;
-};
-
-const askQuestion: AskQuestion = { default() { } };
+const test = anyTest as TestInterface<AnalyzeContext>;
 const validateHintsConfigResult: ValidateHintsConfigResult = { invalid: [] };
 const appinsight = {
     disable() { },
@@ -100,56 +92,94 @@ const appinsight = {
     trackEvent() { }
 };
 
-type ConfigTestContext = {
-    logSpy: sinon.SinonSpy<[string]>;
-    errorSpy: sinon.SinonSpy<[string]>;
-    resourceLoader: ResourceLoader;
-    startSpy: sinon.SinonSpy<[]>;
-    failSpy: sinon.SinonSpy<[]>;
-    succeedSpy: sinon.SinonSpy<[]>;
-    askQuestion: AskQuestion;
+// import { default as analyze, engine } from '../../../src/lib/cli/analyze';
+
+const initContext = (t: ExecutionContext<AnalyzeContext>) => {
+    const sandbox = sinon.createSandbox();
+    const spinner = {
+        fail() { },
+        start() { },
+        succeed() { },
+        text: ''
+    };
+
+    t.context.config = {
+        Configuration: {
+            fromConfig(config: UserConfig | null) {
+                return {};
+            },
+            getFilenameForDirectory(): string | null {
+                return '';
+            },
+            loadConfigFile(path: string) {
+                return {};
+            },
+            validateHintsConfig(): ValidateHintsConfigResult | null {
+                return null;
+            }
+        }
+    };
+
+    t.context.logger = {
+        error(text: string) { },
+        log(text: string) { }
+    };
+    t.context.logSpy = sandbox.spy(t.context.logger, 'log');
+    t.context.errorSpy = sandbox.spy(t.context.logger, 'error');
+    t.context.spinner = spinner;
+    t.context.ora = () => {
+        return spinner;
+    };
+    t.context.startSpy = sandbox.spy(spinner, 'start');
+    t.context.failSpy = sandbox.spy(spinner, 'fail');
+    t.context.succeedSpy = sandbox.spy(spinner, 'succeed');
+    t.context.engineContainer = {
+        Engine: class Engine extends EventEmitter {
+            public get formatters() {
+                return [];
+            }
+
+            public close() { }
+            public executeOn() { }
+        }
+    };
+
+    t.context.askQuestion = { default() { } };
+    t.context.resourceLoader = {
+        loadResources() {
+            return null;
+        }
+    };
+    t.context.sandbox = sandbox;
 };
 
-const test = anyTest as TestInterface<ConfigTestContext>;
+const loadScript = (context: AnalyzeContext) => {
+    const script = proxyquire('../../../src/lib/cli/analyze', {
+        '../config': context.config,
+        '../engine': context.engineContainer,
+        '../utils/appinsights': appinsight,
+        '../utils/logging': context.logger,
+        '../utils/misc/ask-question': context.askQuestion,
+        '../utils/resource-loader': context.resourceLoader,
+        ora: context.ora
+    });
 
-proxyquire('../../../src/lib/cli/analyze', {
-    '../config': config,
-    '../engine': engineContainer,
-    '../utils/appinsights': appinsight,
-    '../utils/logging': logger,
-    '../utils/misc/ask-question': askQuestion,
-    '../utils/resource-loader': resourceLoader,
-    ora
-});
+    return script.default;
+};
 
-import { default as analyze, engine } from '../../../src/lib/cli/analyze';
-
-test.beforeEach((t) => {
-    t.context.logSpy = sinon.spy(logger, 'log');
-    t.context.errorSpy = sinon.spy(logger, 'error');
-    t.context.startSpy = sinon.spy(spinner, 'start');
-    t.context.failSpy = sinon.spy(spinner, 'fail');
-    t.context.succeedSpy = sinon.spy(spinner, 'succeed');
-
-    t.context.askQuestion = askQuestion;
-    t.context.resourceLoader = resourceLoader;
-});
+test.beforeEach(initContext);
 
 test.afterEach.always((t) => {
-    t.context.logSpy.restore();
-    t.context.errorSpy.restore();
-    t.context.startSpy.restore();
-    t.context.failSpy.restore();
-    t.context.succeedSpy.restore();
+    t.context.sandbox.restore();
 });
 
-test.serial('If config is not defined, it should get the config file from the directory process.cwd()', async (t) => {
+test('If config is not defined, it should get the config file from the directory process.cwd()', async (t) => {
     const sandbox = sinon.createSandbox();
 
-    const engineObj = new engineContainer.Engine();
+    const engineObj = new t.context.engineContainer.Engine();
 
     sandbox.stub(engineObj, 'executeOn').resolves([]);
-    sandbox.stub(engineContainer, 'Engine').returns(engineObj);
+    sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
         connector: FakeConnector,
         formatters: [],
@@ -158,21 +188,22 @@ test.serial('If config is not defined, it should get the config file from the di
         missing: [],
         parsers: []
     });
-    const getFilenameForDirectoryStub = sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    const getFilenameForDirectoryStub = sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
 
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'loadConfigFile')
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile')
         .onFirstCall()
         .returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+
+    const analyze = loadScript(t.context);
+
     await analyze(actions);
 
     t.true(getFilenameForDirectoryStub.called);
-
-    sandbox.restore();
 });
 
-test.serial('If config file does not exist, it should use `web-recommended` as default configuration', async (t) => {
+test('If config file does not exist, it should use `web-recommended` as default configuration', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -183,26 +214,26 @@ test.serial('If config file does not exist, it should use `web-recommended` as d
         missing: [],
         parsers: []
     });
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory')
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory')
         .onFirstCall()
         .returns(null);
 
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    const fromConfigStub = sandbox.stub(config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    const fromConfigStub = sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
 
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
-    sandbox.stub(askQuestion, 'default').resolves(false);
+    sandbox.stub(t.context.askQuestion, 'default').resolves(false);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
     t.true(fromConfigStub.calledOnce);
     t.deepEqual(fromConfigStub.args[0][0], { extends: ['web-recommended'] });
-
-    sandbox.restore();
 });
 
-test.serial('If config file is an invalid JSON, it should ask to use the default configuration', async (t) => {
+test('If config file is an invalid JSON, it should ask to use the default configuration', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -213,25 +244,26 @@ test.serial('If config file is an invalid JSON, it should ask to use the default
         missing: [],
         parsers: []
     });
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory')
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory')
         .onFirstCall()
         .returns('config/path');
 
-    sandbox.stub(config.Configuration, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
-    sandbox.stub(askQuestion, 'default').resolves(true);
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+
+    const configurationFromConfigStub = sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    const askQuestionDefaultStub = sandbox.stub(t.context.askQuestion, 'default').resolves(true);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
-    t.true((config.Configuration.fromConfig as any).calledOnce);
-    t.deepEqual((config.Configuration.fromConfig as any).args[0][0], { extends: ['web-recommended'] });
-    t.true((t.context.askQuestion.default as any).calledOnce);
-
-    sandbox.restore();
+    t.true(configurationFromConfigStub.calledOnce);
+    t.deepEqual(configurationFromConfigStub.args[0][0], { extends: ['web-recommended'] });
+    t.true(askQuestionDefaultStub.calledOnce);
 });
 
-test.serial('If config file has an invalid configuration, it should ask to use the default configuration', async (t) => {
+test('If config file has an invalid configuration, it should ask to use the default configuration', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -242,24 +274,24 @@ test.serial('If config file has an invalid configuration, it should ask to use t
         missing: [],
         parsers: []
     });
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
-    sandbox.stub(config.Configuration, 'fromConfig')
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').throws(new Error('Unexpected end of JSON input'));
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    const configurationFromConfigStub = sandbox.stub(t.context.config.Configuration, 'fromConfig')
         .onSecondCall()
         .returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
-    sandbox.stub(askQuestion, 'default').resolves(true);
+    const askQuestionDefaultStub = sandbox.stub(t.context.askQuestion, 'default').resolves(true);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
-    t.true((t.context.askQuestion.default as any).calledOnce);
-    t.true((config.Configuration.fromConfig as any).calledOnce);
-    t.deepEqual((config.Configuration.fromConfig as any).args[0][0], { extends: ['web-recommended'] });
-
-    sandbox.restore();
+    t.true(askQuestionDefaultStub.calledOnce);
+    t.true(configurationFromConfigStub.calledOnce);
+    t.deepEqual(configurationFromConfigStub.args[0][0], { extends: ['web-recommended'] });
 });
 
-test.serial('If config file is invalid and user refuses to use the default or to create a configuration file, it should exit with code 1', async (t) => {
+test('If config file is invalid and user refuses to use the default or to create a configuration file, it should exit with code 1', async (t) => {
     const error = { message: `Couldn't find any valid configuration` };
     const sandbox = sinon.createSandbox();
 
@@ -271,20 +303,20 @@ test.serial('If config file is invalid and user refuses to use the default or to
         missing: [],
         parsers: []
     });
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').throws(error);
-    sandbox.stub(askQuestion, 'default').resolves(false);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').throws(error);
+    const askQuestionDefaultStub = sandbox.stub(t.context.askQuestion, 'default').resolves(false);
+
+    const analyze = loadScript(t.context);
 
     const result = await analyze(actions);
 
-    t.true((t.context.askQuestion.default as any).calledOnce);
+    t.true(askQuestionDefaultStub.calledOnce);
     t.false(result);
-
-    sandbox.restore();
 });
 
-test.serial('If configuration file exists, it should use it', async (t) => {
+test('If configuration file exists, it should use it', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -295,22 +327,22 @@ test.serial('If configuration file exists, it should use it', async (t) => {
         missing: [],
         parsers: []
     });
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    const configurationGetFilenameForDirectoryStub = sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    const configurationLoadConfigFileStub = sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
 
     const customConfigOptions = ({ _: ['http://localhost'], config: 'configfile.cfg' } as CLIOptions);
 
+    const analyze = loadScript(t.context);
+
     await analyze(customConfigOptions);
 
-    t.true((config.Configuration.getFilenameForDirectory as any).notCalled);
-    t.true((config.Configuration.loadConfigFile as any).args[0][0].endsWith('configfile.cfg'));
-
-    sandbox.restore();
+    t.true(configurationGetFilenameForDirectoryStub.notCalled);
+    t.true(configurationLoadConfigFileStub.args[0][0].endsWith('configfile.cfg'));
 });
 
-test.serial('If executeOn returns an error, it should exit with code 1 and call formatter.format', async (t) => {
+test('If executeOn returns an error, it should exit with code 1 and call formatter.format', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -332,29 +364,28 @@ test.serial('If executeOn returns an error, it should exit with code 1 and call 
         parsers: []
     });
 
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
-    const engineObj = new engineContainer.Engine();
+    const engineObj = new t.context.engineContainer.Engine();
 
     sandbox.stub(engineObj, 'formatters').get(() => {
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: Severity.error }]);
-    sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(askQuestion, 'default').resolves(false);
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
+    sandbox.stub(t.context.askQuestion, 'default').resolves(false);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
 
+    const analyze = loadScript(t.context);
     const exitCode = await analyze(actions);
 
     t.true(FakeFormatter.called);
     t.false(exitCode);
-
-    sandbox.restore();
 });
 
-test.serial('If executeOn returns an error, it should call to spinner.fail()', async (t) => {
+test('If executeOn returns an error, it should call to spinner.fail()', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -365,20 +396,20 @@ test.serial('If executeOn returns an error, it should call to spinner.fail()', a
         missing: [],
         parsers: []
     });
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
-    sandbox.stub(engineContainer.Engine.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.engineContainer.Engine.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
     t.true(t.context.failSpy.calledOnce);
-
-    sandbox.restore();
 });
 
-test.serial('If executeOn throws an exception, it should exit with code 1', async (t) => {
+test('If executeOn throws an exception, it should exit with code 1', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -389,20 +420,19 @@ test.serial('If executeOn throws an exception, it should exit with code 1', asyn
         missing: [],
         parsers: []
     });
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(engineContainer.Engine.prototype, 'executeOn').throws(new Error());
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.engineContainer.Engine.prototype, 'executeOn').throws(new Error());
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
+    const analyze = loadScript(t.context);
     const result = await analyze(actions);
 
     t.false(result);
-
-    sandbox.restore();
 });
 
-test.serial('If executeOn throws an exception, it should call to spinner.fail()', async (t) => {
+test('If executeOn throws an exception, it should call to spinner.fail()', async (t) => {
     const sandbox = sinon.createSandbox();
 
     sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
@@ -413,20 +443,20 @@ test.serial('If executeOn throws an exception, it should call to spinner.fail()'
         missing: [],
         parsers: []
     });
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(engineContainer.Engine.prototype, 'executeOn').throws(new Error());
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.engineContainer.Engine.prototype, 'executeOn').throws(new Error());
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
     t.true(t.context.failSpy.calledOnce);
-
-    sandbox.restore();
 });
 
-test.serial('If executeOn returns no errors, it should exit with code 0 and call formatter.format', async (t) => {
+test('If executeOn returns no errors, it should exit with code 0 and call formatter.format', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -448,28 +478,27 @@ test.serial('If executeOn returns no errors, it should exit with code 0 and call
         parsers: []
     });
 
-    const engineObj = new engineContainer.Engine();
+    const engineObj = new t.context.engineContainer.Engine();
 
     sandbox.stub(engineObj, 'formatters').get(() => {
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: 0 }]);
-    sandbox.stub(engineContainer, 'Engine').returns(engineObj);
+    sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
 
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
+    const analyze = loadScript(t.context);
     const exitCode = await analyze(actions);
 
     t.true(FakeFormatter.called);
     t.true(exitCode);
-
-    sandbox.restore();
 });
 
-test.serial('If executeOn returns no errors, it should call to spinner.succeed()', async (t) => {
+test('If executeOn returns no errors, it should call to spinner.succeed()', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -491,27 +520,27 @@ test.serial('If executeOn returns no errors, it should call to spinner.succeed()
         parsers: []
     });
 
-    const engineObj = new engineContainer.Engine();
+    const engineObj = new t.context.engineContainer.Engine();
 
     sandbox.stub(engineObj, 'formatters').get(() => {
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: 0 }]);
-    sandbox.stub(engineContainer, 'Engine').returns(engineObj);
+    sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
 
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
     t.true(t.context.succeedSpy.calledOnce);
-
-    sandbox.restore();
 });
 
-test.serial('Event fetch::start should write a message in the spinner', async (t) => {
+test('Event fetch::start should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -533,28 +562,28 @@ test.serial('Event fetch::start should write a message in the spinner', async (t
         parsers: []
     });
 
-    const engineObj = new engineContainer.Engine();
+    const engineObj = new t.context.engineContainer.Engine();
 
     sandbox.stub(engineObj, 'formatters').get(() => {
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
-        await engine!.emitAsync('fetch::start', { resource: 'http://localhost/' });
+        await engineObj.emitAsync('fetch::start', { resource: 'http://localhost/' });
     });
-    sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
-    t.is(spinner.text, 'Downloading http://localhost/');
-
-    sandbox.restore();
+    t.is(t.context.spinner.text, 'Downloading http://localhost/');
 });
 
-test.serial('Event fetch::end should write a message in the spinner', async (t) => {
+test('Event fetch::end should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -576,33 +605,33 @@ test.serial('Event fetch::end should write a message in the spinner', async (t) 
         parsers: []
     });
 
-    const engineObj = new engineContainer.Engine();
+    const engineObj = new t.context.engineContainer.Engine();
 
     sandbox.stub(engineObj, 'formatters').get(() => {
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
-        await engine!.emitAsync('fetch::end::html', {
+        await engineObj.emitAsync('fetch::end::html', {
             element: null,
             request: {} as any,
             resource: 'http://localhost/',
             response: {} as any
         });
     });
-    sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
-    t.is(spinner.text, 'http://localhost/ downloaded');
-
-    sandbox.restore();
+    t.is(t.context.spinner.text, 'http://localhost/ downloaded');
 });
 
-test.serial('Event fetch::end::html should write a message in the spinner', async (t) => {
+test('Event fetch::end::html should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -624,33 +653,33 @@ test.serial('Event fetch::end::html should write a message in the spinner', asyn
         parsers: []
     });
 
-    const engineObj = new engineContainer.Engine();
+    const engineObj = new t.context.engineContainer.Engine();
 
     sandbox.stub(engineObj, 'formatters').get(() => {
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
-        await engine!.emitAsync('fetch::end::html', {
+        await engineObj.emitAsync('fetch::end::html', {
             element: null,
             request: {} as any,
             resource: 'http://localhost/',
             response: {} as any
         });
     });
-    sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
-    t.is(spinner.text, 'http://localhost/ downloaded');
-
-    sandbox.restore();
+    t.is(t.context.spinner.text, 'http://localhost/ downloaded');
 });
 
-test.serial('Event traverse::up should write a message in the spinner', async (t) => {
+test('Event traverse::up should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -672,31 +701,31 @@ test.serial('Event traverse::up should write a message in the spinner', async (t
         parsers: []
     });
 
-    const engineObj = new engineContainer.Engine();
+    const engineObj = new t.context.engineContainer.Engine();
 
     sandbox.stub(engineObj, 'formatters').get(() => {
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
-        await engine!.emitAsync('traverse::up', {
+        await engineObj.emitAsync('traverse::up', {
             element: {} as any,
             resource: 'http://localhost/'
         });
     });
-    sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
-    t.is(spinner.text, 'Traversing the DOM');
-
-    sandbox.restore();
+    t.is(t.context.spinner.text, 'Traversing the DOM');
 });
 
-test.serial('Event traverse::end should write a message in the spinner', async (t) => {
+test('Event traverse::end should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -718,28 +747,28 @@ test.serial('Event traverse::end should write a message in the spinner', async (
         parsers: []
     });
 
-    const engineObj = new engineContainer.Engine();
+    const engineObj = new t.context.engineContainer.Engine();
 
     sandbox.stub(engineObj, 'formatters').get(() => {
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
-        await engine!.emitAsync('traverse::end', { resource: 'http://localhost/' });
+        await engineObj.emitAsync('traverse::end', { resource: 'http://localhost/' });
     });
-    sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
-    t.is(spinner.text, 'Traversing finished');
-
-    sandbox.restore();
+    t.is(t.context.spinner.text, 'Traversing finished');
 });
 
-test.serial('Event scan::end should write a message in the spinner', async (t) => {
+test('Event scan::end should write a message in the spinner', async (t) => {
     const sandbox = sinon.createSandbox();
 
     class FakeFormatter implements IFormatter {
@@ -761,28 +790,29 @@ test.serial('Event scan::end should write a message in the spinner', async (t) =
         parsers: []
     });
 
-    const engineObj = new engineContainer.Engine();
+    const engineObj = new t.context.engineContainer.Engine();
 
     sandbox.stub(engineObj, 'formatters').get(() => {
         return [new FakeFormatter()];
     });
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
-        await engine!.emitAsync('scan::end', { resource: 'http://localhost/' });
+        await engineObj.emitAsync('scan::end', { resource: 'http://localhost/' });
     });
-    sandbox.stub(engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(config.Configuration, 'getFilenameForDirectory').returns('/config/path');
-    sandbox.stub(config.Configuration, 'loadConfigFile').returns({});
-    sandbox.stub(config.Configuration, 'fromConfig').returns({});
-    sandbox.stub(config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+    sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
+    sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
+    sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
+    sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
+    sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
+
+    const analyze = loadScript(t.context);
 
     await analyze(actions);
 
-    t.is(spinner.text, 'Finishing...');
-
-    sandbox.restore();
+    t.is(t.context.spinner.text, 'Finishing...');
 });
 
-test.serial('If no sites are defined, it should return false', async (t) => {
+test('If no sites are defined, it should return false', async (t) => {
+    const analyze = loadScript(t.context);
     const result = await analyze({ _: [] } as any);
 
     t.false(result);

@@ -24,110 +24,119 @@ const paths: { [name: string]: string } = {
     webhint: `${base}/webhint`
 };
 
-let listeners: Set<Function> = new Set();
+const mockContext = () => {
+    const listeners: Set<Function> = new Set();
 
-const browser = {
-    runtime: {
-        onMessage: {
-            addListener: (fn: Function) => {
-                listeners.add(fn);
+    const browser = {
+        runtime: {
+            onMessage: {
+                addListener: (fn: Function) => {
+                    listeners.add(fn);
+                },
+                removeListener: (fn: Function) => {
+                    listeners.delete(fn);
+                }
             },
-            removeListener: (fn: Function) => {
-                listeners.delete(fn);
-            }
-        },
-        sendMessage: (evt: Events) => {}
-    }
-};
-
-const sendMessage = (event: Events) => {
-    listeners.forEach((listener) => {
-        listener(event);
-    });
-};
-
-const stubFetchEnd = (url: string, content: string): FetchEnd => {
-    return {
-        element: null,
-        request: {
-            headers: {} as any,
-            url
-        },
-        resource: url,
-        response: {
-            body: {
-                content,
-                rawContent: null as any,
-                rawResponse: null as any
-            },
-            charset: '',
-            headers: {} as any,
-            hops: [],
-            mediaType: '',
-            statusCode: 200,
-            url
+            sendMessage: (evt: Events) => { }
         }
     };
-};
 
-const sendFetch = (url: string, content: string) => {
-    sendMessage({ fetchStart: { resource: url } });
-    sendMessage({ fetchEnd: stubFetchEnd(url, content) });
-};
+    const sendMessage = (event: Events) => {
+        listeners.forEach((listener) => {
+            listener(event);
+        });
+    };
 
-const stubEvents = (config: Config, onReady: () => void): Promise<Results> => {
-    return new Promise((resolve) => {
-        browser.runtime.sendMessage = (event: Events) => {
-            if (event.requestConfig) {
-                setTimeout(() => {
-                    sendMessage({ enable: config });
-                }, 0);
-            }
-            if (event.ready) {
-                setTimeout(onReady, 0);
-            }
-            if (event.results) {
-                resolve(event.results);
+    const stubFetchEnd = (url: string, content: string): FetchEnd => {
+        return {
+            element: null,
+            request: {
+                headers: {} as any,
+                url
+            },
+            resource: url,
+            response: {
+                body: {
+                    content,
+                    rawContent: null as any,
+                    rawResponse: null as any
+                },
+                charset: '',
+                headers: {} as any,
+                hops: [],
+                mediaType: '',
+                statusCode: 200,
+                url
             }
         };
-    });
-};
-
-const stubContext = (url: string, html: string) => {
-    const dom = new JSDOM(html, { runScripts: 'outside-only', url });
-
-    const stubs = {
-        '../shared/globals': {
-            '@noCallThru': true,
-            browser,
-            document: dom.window.document,
-            eval: dom.window.eval,
-            location: dom.window.location,
-            window: dom.window
-        }
     };
 
-    Object.keys(paths).forEach((name) => {
-        proxyquire(paths[name], stubs);
-    });
+    const sendFetch = (url: string, content: string) => {
+        sendMessage({ fetchStart: { resource: url } });
+        sendMessage({ fetchEnd: stubFetchEnd(url, content) });
+    };
+
+    const stubEvents = (config: Config, onReady: () => void): Promise<Results> => {
+        return new Promise((resolve) => {
+            browser.runtime.sendMessage = (event: Events) => {
+                if (event.requestConfig) {
+                    setTimeout(() => {
+                        sendMessage({ enable: config });
+                    }, 0);
+                }
+                if (event.ready) {
+                    setTimeout(onReady, 0);
+                }
+                if (event.results) {
+                    resolve(event.results);
+                }
+            };
+        });
+    };
+
+    const stubContext = (url: string, html: string) => {
+        const dom = new JSDOM(html, { runScripts: 'outside-only', url });
+
+        const stubs = {
+            '../shared/globals': {
+                '@noCallThru': true,
+                browser,
+                document: dom.window.document,
+                eval: dom.window.eval,
+                location: dom.window.location,
+                window: dom.window
+            }
+        };
+
+        const webAsyncHTML = proxyquire(paths['web-async-html'], stubs);
+        const connector = proxyquire(paths.connector, {
+            ...stubs,
+            webAsyncHTML
+        });
+        const formatter = proxyquire(paths.formatter, stubs);
+
+        proxyquire(paths.webhint, {
+            './connector': connector,
+            './formatter': formatter,
+            ...stubs
+        });
+    };
+
+    return {
+        browser,
+        sendFetch,
+        stubContext,
+        stubEvents
+    };
 };
 
-test.beforeEach(() => {
-    listeners = new Set();
-
-    Object.keys(paths).forEach((name) => {
-        delete require.cache[require.resolve(paths[name])];
-    });
-});
-
-test.serial('It requests a configuration', (t) => {
+test('It requests a configuration', (t) => {
     const sandbox = sinon.createSandbox();
+    const { browser, stubContext } = mockContext();
 
     const spy = sandbox.spy(browser.runtime, 'sendMessage');
 
     stubContext('http://localhost/', '<!doctype html>');
-
-    require(paths.webhint);
 
     t.true(spy.calledOnce);
     t.true(spy.args[0][0].requestConfig);
@@ -135,17 +144,16 @@ test.serial('It requests a configuration', (t) => {
     sandbox.restore();
 });
 
-test.serial('It analyzes a page', async (t) => {
+test('It analyzes a page', async (t) => {
     const url = 'http://localhost/';
     const html = await readFixture('missing-lang.html');
+    const { stubContext, stubEvents, sendFetch } = mockContext();
 
     const resultsPromise = stubEvents({}, () => {
         sendFetch(url, html);
     });
 
     stubContext(url, html);
-
-    require(paths.webhint);
 
     const results = await resultsPromise;
 
@@ -159,9 +167,10 @@ test.serial('It analyzes a page', async (t) => {
     }), 'Missing `lang` attribute was not reported');
 });
 
-test.serial('It configures categories', async (t) => {
+test('It configures categories', async (t) => {
     const url = 'http://localhost/test.html';
     const html = await readFixture('missing-lang.html');
+    const { stubContext, stubEvents, sendFetch } = mockContext();
 
     const resultsPromise = stubEvents({ categories: [Category.accessibility] }, () => {
         sendFetch(url, html);
@@ -169,18 +178,17 @@ test.serial('It configures categories', async (t) => {
 
     stubContext(url, html);
 
-    require(paths.webhint);
-
     const results = await resultsPromise;
 
     t.is(results.categories.length, 1);
     t.is(results.categories[0].name, Category.accessibility);
 });
 
-test.serial('It analyzes external resources', async (t) => {
+test('It analyzes external resources', async (t) => {
     const url = 'http://localhost/';
     const analyticsURL = 'https://www.google-analytics.com/analytics.js';
     const html = await readFixture('google-analytics.html');
+    const { stubContext, stubEvents, sendFetch } = mockContext();
 
     const resultsPromise = stubEvents({}, () => {
         sendFetch(url, html);
@@ -188,8 +196,6 @@ test.serial('It analyzes external resources', async (t) => {
     });
 
     stubContext(url, html);
-
-    require(paths.webhint);
 
     const results = await resultsPromise;
 
@@ -203,10 +209,11 @@ test.serial('It analyzes external resources', async (t) => {
     }), 'Issue in external resource was not reported');
 });
 
-test.serial('It configures ignored urls', async (t) => {
+test('It configures ignored urls', async (t) => {
     const url = 'http://localhost/';
     const analyticsURL = 'https://www.google-analytics.com/analytics.js';
     const html = await readFixture('google-analytics.html');
+    const { stubContext, stubEvents, sendFetch } = mockContext();
 
     const resultsPromise = stubEvents({ ignoredUrls: 'google-analytics.com' }, () => {
         sendFetch(url, html);
@@ -214,8 +221,6 @@ test.serial('It configures ignored urls', async (t) => {
     });
 
     stubContext(url, html);
-
-    require(paths.webhint);
 
     const results = await resultsPromise;
 
@@ -229,9 +234,10 @@ test.serial('It configures ignored urls', async (t) => {
     }), 'Issues in external resource were not ignored');
 });
 
-test.serial('It handles invalid ignored urls', async (t) => {
+test('It handles invalid ignored urls', async (t) => {
     const url = 'http://localhost/';
     const html = await readFixture('missing-lang.html');
+    const { stubContext, stubEvents, sendFetch } = mockContext();
 
     const resultsPromise = stubEvents({ ignoredUrls: '(foo' }, () => {
         sendFetch(url, html);
@@ -239,24 +245,20 @@ test.serial('It handles invalid ignored urls', async (t) => {
 
     stubContext(url, html);
 
-    require(paths.webhint);
-
     const results = await resultsPromise;
 
     t.not(results.categories.length, 0);
 });
 
-test.serial('It handles invalid browserslist queries', async (t) => {
+test('It handles invalid browserslist queries', async (t) => {
     const url = 'http://localhost/';
     const html = await readFixture('missing-lang.html');
-
+    const { stubContext, stubEvents, sendFetch } = mockContext();
     const resultsPromise = stubEvents({ browserslist: 'foo' }, () => {
         sendFetch(url, html);
     });
 
     stubContext(url, html);
-
-    require(paths.webhint);
 
     const results = await resultsPromise;
 

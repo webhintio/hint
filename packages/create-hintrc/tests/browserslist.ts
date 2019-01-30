@@ -2,21 +2,21 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 
+type Inquirer = {
+    prompt: () => void;
+};
+
+type Logger = {
+    log: () => void;
+};
+
 type BrowserslistContext = {
     sandbox: sinon.SinonSandbox;
+    inquirer: Inquirer;
+    logger: Logger;
 };
 
 const test = anyTest as TestInterface<BrowserslistContext>;
-
-const inquirer = { prompt() { } };
-const logger = { log() { } };
-
-proxyquire('../src/browserslist', {
-    'hint/dist/src/lib/utils/logging': logger,
-    inquirer
-});
-
-import { generateBrowserslistConfig } from '../src/browserslist';
 
 const defaultOption = { targetBy: 'default' };
 const multipleQueries = {
@@ -28,7 +28,19 @@ const invalidQueries = {
     targetBy: 'custom'
 };
 
+const loadScript = (context: BrowserslistContext): () => Promise<string> => {
+    const browserlist = proxyquire('../src/browserslist', {
+        'hint/dist/src/lib/utils/logging': context.logger,
+        inquirer: context.inquirer
+    });
+
+    return browserlist.generateBrowserslistConfig;
+};
+
 test.beforeEach((t) => {
+    t.context.inquirer = { prompt() { } };
+    t.context.logger = { log() { } };
+
     t.context.sandbox = sinon.createSandbox();
 });
 
@@ -36,18 +48,19 @@ test.afterEach((t) => {
     t.context.sandbox.restore();
 });
 
-test.serial('User selects to customize the queries, the format of the queries is wrong in the first trial', async (t) => {
+test('User selects to customize the queries, the format of the queries is wrong in the first trial', async (t) => {
     const sandbox = t.context.sandbox;
 
-    sandbox.stub(inquirer, 'prompt')
+    sandbox.stub(t.context.inquirer, 'prompt')
         .onFirstCall()
         .resolves(invalidQueries)
         .onSecondCall()
         .resolves(multipleQueries);
-    sandbox.spy(logger, 'log');
+    sandbox.spy(t.context.logger, 'log');
 
+    const generateBrowserslistConfig = loadScript(t.context);
     const config = await generateBrowserslistConfig();
-    const log = logger.log as sinon.SinonSpy;
+    const log = t.context.logger.log as sinon.SinonSpy;
 
     t.is(log.callCount, 2);
     t.is(log.args[0][0], 'Unknown browser query `invalid query`. Maybe you are using old Browserslist or made typo in query..');
@@ -58,11 +71,12 @@ test.serial('User selects to customize the queries, the format of the queries is
     t.is(config[1], 'Last 2 versions');
 });
 
-test.serial('User selects to customize the queries, and has multile queries', async (t) => {
+test('User selects to customize the queries, and has multile queries', async (t) => {
     const sandbox = t.context.sandbox;
 
-    sandbox.stub(inquirer, 'prompt').resolves(multipleQueries);
+    sandbox.stub(t.context.inquirer, 'prompt').resolves(multipleQueries);
 
+    const generateBrowserslistConfig = loadScript(t.context);
     const config = await generateBrowserslistConfig();
 
     t.is(config.length, 2);
@@ -70,11 +84,12 @@ test.serial('User selects to customize the queries, and has multile queries', as
     t.is(config[1], 'Last 2 versions');
 });
 
-test.serial(`User selects the default option`, async (t) => {
+test(`User selects the default option`, async (t) => {
     const sandbox = t.context.sandbox;
 
-    sandbox.stub(inquirer, 'prompt').resolves(defaultOption);
+    sandbox.stub(t.context.inquirer, 'prompt').resolves(defaultOption);
 
+    const generateBrowserslistConfig = loadScript(t.context);
     const config = await generateBrowserslistConfig();
 
     t.is(config.length, 0);
