@@ -1,20 +1,16 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, Events, Event } from 'hint/dist/src/lib/types';
+import { IHint, Events } from 'hint/dist/src/lib/types';
 
-import { CompatAPI, CompatCSS, CompatHTML, userBrowsers } from '../helpers';
+import { CompatAPI, userBrowsers } from '../helpers';
 import { FeatureInfo, BrowsersInfo, SupportStatementResult, ICompatLibrary } from '../types';
 import { SimpleSupportStatement, VersionValue, SupportStatement, CompatStatement, StatusBlock } from '../types-mdn.temp';
+import { CompatLibraryFactory } from '../helpers/compat-library-factory';
 import { browserVersions } from '../helpers/normalize-version';
 import { CompatNamespace } from '../enums';
 
-const classesMapping: {[key: string]: any} = {
-    css: CompatCSS,
-    html: CompatHTML
-};
-
-export abstract class APIHint<T extends Events, K extends Event> implements IHint {
+export abstract class APIHint<T extends Events> implements IHint {
     private compatApi: CompatAPI;
-    private compatLibrary: ICompatLibrary<K>;
+    private compatLibrary: ICompatLibrary;
     private pendingReports: [FeatureInfo, SupportStatementResult][] = [];
     private reports: [FeatureInfo, SupportStatementResult][] = [];
 
@@ -29,7 +25,7 @@ export abstract class APIHint<T extends Events, K extends Event> implements IHin
         const hintOptions = this.prepareHintOptions(context.hintOptions);
 
         this.compatApi = new CompatAPI(namespaceName, mdnBrowsersCollection, isCheckingNotBroadlySupported, hintOptions.ignore);
-        this.compatLibrary = new classesMapping[namespaceName](context, this.compatApi.compatDataApi, this.testFeature.bind(this));
+        this.compatLibrary = CompatLibraryFactory.create<T>(namespaceName, context, this.compatApi.compatDataApi, this.testFeature.bind(this));
 
         (context as HintContext<Events>).on('scan::end', () => {
             this.generateReports();
