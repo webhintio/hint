@@ -42,7 +42,6 @@ module.exports = {
                     'css-loader'
                 ]
             },
-            // Inline svgs as urls, see https://github.com/bhovhannes/svg-url-loader
             {
                 test: /\.svg$/,
                 use: {
