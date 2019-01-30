@@ -15,7 +15,7 @@
     "@types/sinon": "^7.0.5",
     "ava": "^1.2.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.12.1",
+    "eslint": "^5.13.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
@@ -32,8 +32,8 @@
     "sinon": "^7.2.3",
     "ts-loader": "^5.3.3",
     "typescript": "^3.3.1",
-    "@typescript-eslint/parser": "1.1.1",
-    "webpack": "^4.29.0",
+    "@typescript-eslint/parser": "1.2.0",
+    "webpack": "^4.29.1",
     "webpack-cli": "^3.2.1"
   },
   "engines": {

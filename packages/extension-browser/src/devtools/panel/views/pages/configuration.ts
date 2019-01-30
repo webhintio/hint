@@ -5,6 +5,8 @@ import { browser } from '../../../../shared/globals';
 import { Config } from '../../../../shared/types';
 import metas from '../../../../shared/metas.import';
 
+import { getItem, removeItem, setItem } from './utils/storage';
+
 import configurationHtmlView from './configuration.html';
 
 type Props = {
@@ -170,7 +172,7 @@ export default function view({ onAnalyzeClick }: Props) {
     };
 
     const restoreConfiguration = () => {
-        const configStr = localStorage.getItem(configKey);
+        const configStr = getItem(configKey);
 
         try {
             const config: SavedConfiguration = configStr ? JSON.parse(configStr) : defaultConfig; // eslint-disable-line
@@ -200,14 +202,14 @@ export default function view({ onAnalyzeClick }: Props) {
     };
 
     const resetConfiguration = () => {
-        localStorage.removeItem(configKey);
+        removeItem(configKey);
         restoreConfiguration();
     };
 
     const saveConfiguration = () => {
         const config = readConfiguration();
 
-        localStorage.setItem(configKey, JSON.stringify(config));
+        setItem(configKey, JSON.stringify(config));
     };
 
     const defaultConfig = readConfiguration();

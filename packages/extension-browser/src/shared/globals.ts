@@ -7,6 +7,7 @@ const _browser: typeof chrome = typeof browser !== 'undefined' ? browser : chrom
 const _document = document;
 const _eval = eval; // eslint-disable-line no-eval
 const _fetch = fetch;
+const _localStorage = localStorage;
 const _location = location;
 const _window = window;
 
@@ -15,6 +16,7 @@ export {
     _document as document,
     _eval as eval,
     _fetch as fetch,
+    _localStorage as localStorage,
     _location as location,
     _window as window
 };

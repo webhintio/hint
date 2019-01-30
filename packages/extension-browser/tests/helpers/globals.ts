@@ -60,6 +60,7 @@ export const stubGlobals = (dom?: JSDOM): Globals => {
         document: dom ? dom.window.document : null,
         eval: dom ? dom.window.eval : null,
         fetch: () => {},
+        localStorage: dom ? dom.window.localStorage : null,
         location: dom ? dom.window.location : null,
         window: dom ? dom.window : null
     } as any;

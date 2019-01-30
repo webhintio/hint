@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "eslint": "^5.12.1",
+    "eslint": "^5.13.0",
     "espree": "^5.0.0"
   },
   "description": "webhint parser needed to analyze JavaScript files",
@@ -27,7 +27,7 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.2.3",
     "typescript": "^3.3.1",
-    "@typescript-eslint/parser": "1.1.1"
+    "@typescript-eslint/parser": "1.2.0"
   },
   "engines": {
     "node": ">=8.0.0"

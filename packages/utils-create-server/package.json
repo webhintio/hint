@@ -11,7 +11,7 @@
     "@types/lodash": "^4.14.120",
     "@types/on-headers": "^1.0.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.12.1",
+    "eslint": "^5.13.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
@@ -19,7 +19,7 @@
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3",
     "typescript": "^3.3.1",
-    "@typescript-eslint/parser": "1.1.1"
+    "@typescript-eslint/parser": "1.2.0"
   },
   "engines": {
     "node": ">=8.0.0"

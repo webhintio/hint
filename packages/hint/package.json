@@ -8,7 +8,7 @@
   },
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
-    "ajv": "^6.7.0",
+    "ajv": "^6.8.1",
     "applicationinsights": "^1.1.0",
     "async": "^2.6.1",
     "boxen": "^2.1.0",
@@ -24,7 +24,7 @@
     "handlebars": "^4.0.11",
     "is-ci": "^2.0.0",
     "is-svg": "^3.0.0",
-    "jsonc-parser": "^2.0.2",
+    "jsonc-parser": "^2.0.3",
     "lodash": "^4.17.11",
     "mime-db": "1.35.0",
     "npm-registry-fetch": "^3.9.0",
@@ -61,7 +61,7 @@
     "@types/update-notifier": "^2.5.0",
     "ava": "^1.2.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.12.1",
+    "eslint": "^5.13.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
@@ -71,7 +71,7 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.2.3",
     "typescript": "^3.3.1",
-    "@typescript-eslint/parser": "1.1.1"
+    "@typescript-eslint/parser": "1.2.0"
   },
   "engines": {
     "node": ">=8.0.0"
