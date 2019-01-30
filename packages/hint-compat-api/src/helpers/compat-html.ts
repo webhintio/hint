@@ -8,7 +8,7 @@ import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../
 import { CompatStatement } from '../types-mdn.temp';
 import { CompatBase } from './compat-base';
 
-export const DEFAULT_HTML_IGNORE = ['integrity'];
+export const DEFAULT_HTML_IGNORE = ['integrity', 'crossorigin', 'spellcheck'];
 
 export class CompatHTML extends CompatBase<Events, Event> {
     public constructor(hintContext: HintContext<Events>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
