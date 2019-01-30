@@ -1,12 +1,12 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { Events, Event } from 'hint/dist/src/lib/types';
+import { Events } from 'hint/dist/src/lib/types';
 
 import { APIHint } from './api-hint';
 import { CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo } from '../types';
 import { SimpleSupportStatement, VersionValue } from '../types-mdn.temp';
 
-export abstract class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K> {
+export abstract class NextAPIHint<T extends Events> extends APIHint<T> {
     private userPrefixes = new Set<string>();
 
     abstract getDefaultHintOptions(): any;

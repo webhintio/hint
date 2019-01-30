@@ -3,7 +3,7 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { Events, Event } from 'hint/dist/src/lib/types';
+import { Events } from 'hint/dist/src/lib/types';
 
 import meta from './meta/html-next';
 import { CompatNamespace } from './enums';
@@ -16,7 +16,7 @@ import { DEFAULT_HTML_IGNORE } from './helpers';
  * ------------------------------------------------------------------------------
  */
 
-export default class HTMLNextAPIHint extends NextAPIHint<Events, Event> {
+export default class HTMLNextAPIHint extends NextAPIHint<Events> {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<Events>) {

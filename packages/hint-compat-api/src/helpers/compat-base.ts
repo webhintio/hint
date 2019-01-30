@@ -2,10 +2,10 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { Events, Event } from 'hint/dist/src/lib/types';
 
 import { CompatFeaturesCache } from './compat-features-cache';
-import { TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers } from '../types';
+import { TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, ICompatLibrary } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
 
-export abstract class CompatBase<T extends Events, K extends Event> {
+export abstract class CompatBase<T extends Events, K extends Event> implements ICompatLibrary {
     protected hintResource: string = 'unknown';
     protected MDNData: MDNTreeFilteredByBrowsers;
     protected hintContext: HintContext<T>;
@@ -44,8 +44,8 @@ export abstract class CompatBase<T extends Events, K extends Event> {
         return this.cachedFeatures.has(feature);
     }
 
-    protected checkFeatureCompatibility(feature: FeatureInfo, collection: CompatStatement| undefined): void {
-        if (this.isFeatureAlreadyReported(feature)) {
+    protected checkFeatureCompatibility(feature: FeatureInfo, collection: CompatStatement | undefined): void {
+        if (!collection || this.isFeatureAlreadyReported(feature)) {
             return;
         }
 

@@ -9,7 +9,7 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
 
-import { FeatureStrategy, TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, ICompatLibrary } from '../types';
+import { FeatureStrategy, TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
 import { CompatBase } from './compat-base';
 
@@ -17,7 +17,7 @@ const debug: debug.IDebugger = d(__filename);
 
 export const DEFAULT_CSS_IGNORE = ['cursor'];
 
-export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements ICompatLibrary<StyleParse> {
+export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
     public constructor(hintContext: HintContext<StyleEvents>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
         super(hintContext, MDNData, testFunction);
 

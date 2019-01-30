@@ -1,12 +1,12 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { Events, Event } from 'hint/dist/src/lib/types';
+import { Events } from 'hint/dist/src/lib/types';
 
 import { APIHint } from './api-hint';
 import { CompatNamespace } from '../enums';
 import { FeatureInfo, BrowsersInfo } from '../types';
 import { SimpleSupportStatement, VersionValue, StatusBlock } from '../types-mdn.temp';
 
-export abstract class NextAPIHint<T extends Events, K extends Event> extends APIHint<T, K> {
+export abstract class DeprecatedAPIHint<T extends Events> extends APIHint<T> {
     abstract getDefaultHintOptions(): any;
 
     public constructor(namespaceName: CompatNamespace, context: HintContext<T>) {

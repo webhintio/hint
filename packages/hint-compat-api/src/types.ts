@@ -1,5 +1,5 @@
 import { ChildNode } from 'postcss';
-import { ProblemLocation, Event } from 'hint/dist/src/lib/types';
+import { ProblemLocation } from 'hint/dist/src/lib/types';
 
 import { Identifier, SupportStatement, CompatStatement } from './types-mdn.temp'; // Temporal
 
@@ -14,7 +14,7 @@ export type FeatureStrategy<T extends ChildNode> = {
     testFeature: (node: T, location?: ProblemLocation) => void;
 };
 
-export type TestFeatureFunction = (feature: FeatureInfo, collection: CompatStatement | undefined) => boolean;
+export type TestFeatureFunction = (feature: FeatureInfo, collection: CompatStatement) => boolean;
 
 export type BrowserVersions = {
     [key: string]: string[];
@@ -39,8 +39,7 @@ export type SupportStatementResult = {
     notSupportedBrowsers: {[browserName: string]: string[]};
 };
 
-export interface ICompatLibrary<T extends Event> {
+export interface ICompatLibrary {
     setResource(resource: string): void;
-    searchFeatures(parse: T): void;
     reportError(feature: FeatureInfo, message: string): Promise<void>;
 }
