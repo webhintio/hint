@@ -57,16 +57,15 @@ export class CompatHTML extends CompatBase<Events, Event> {
         const TYPE_ATTR = 'type';
         const elements = this.MDNData.elements;
         const elementName = element.nodeName.toLowerCase();
-        const subFeature: FeatureInfo = { name: attribute.name };
-        let displayableName = `${attribute.name} attribute of the ${elementName} element`;
+        const displayableName = `${attribute.name} attribute of the ${elementName} element`;
+        const subFeature: FeatureInfo = { displayableName, name: attribute.name };
 
         if (elementName === INPUT_TAG && attribute.name === TYPE_ATTR) {
-            displayableName = `${INPUT_TAG} ${TYPE_ATTR} ${attribute.value}`;
+            subFeature.displayableName = `${INPUT_TAG} ${TYPE_ATTR} ${attribute.value}`;
             subFeature.name = `${elementName}-${attribute.value}`;
         }
 
         const feature: FeatureInfo = {
-            displayableName,
             location,
             name: elementName,
             subFeature

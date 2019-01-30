@@ -57,8 +57,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> implements IC
         if (subfeatureNameWithPrefix) {
             const [prefix, name] = this.getPrefix(subfeatureNameWithPrefix);
 
-            feature.subFeature = { name, prefix };
-            feature.displayableName = name;
+            feature.subFeature = { displayableName: name, name, prefix };
         }
 
         this.checkFeatureCompatibility(feature, collection);
