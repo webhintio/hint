@@ -1,6 +1,8 @@
 import { browser } from './shared/globals';
 import { Config, Events } from './shared/types';
 
+import * as contentScriptCode from 'raw-loader!./../bundle/content-script/webhint.js';
+
 const configs = new Map<number, Config>();
 const readyTabs = new Set<number>();
 const queuedEvents = new Map<number, Events[]>();
@@ -26,7 +28,7 @@ const sendEvent = (tabId: number, event: Events) => {
 
 /** Add the script to run webhint to the page. */
 const injectContentScript = (tabId: number, retries = 0) => {
-    browser.tabs.executeScript(tabId, { file: 'content-script/webhint.js', runAt: 'document_start' }, (result) => {
+    browser.tabs.executeScript(tabId, { code: contentScriptCode, runAt: 'document_start' }, (result) => {
         // We get an empty object `{}` back on success, or `undefined` if the script failed to execute.
         if (!result) {
             if (retries <= 2) {
