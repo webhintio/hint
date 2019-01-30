@@ -41,6 +41,13 @@ module.exports = {
                     'style-loader/useable',
                     'css-loader'
                 ]
+            },
+            {
+                test: /\.svg$/,
+                use: {
+                    loader: 'svg-url-loader',
+                    options: { noquotes: true }
+                }
             }
         ]
     },
