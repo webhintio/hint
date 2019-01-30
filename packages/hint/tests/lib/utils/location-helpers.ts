@@ -152,6 +152,15 @@ const findElementLocationEntries = [
             line: 17,
             column: 5
         }
+    },
+    {
+        name: 'element with newline in attribute',
+        selector: `div.newline`,
+        index: 0,
+        position: {
+            line: 21,
+            column: 5
+        }
     }
 ];
 

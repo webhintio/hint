@@ -18,6 +18,14 @@ const escapeNamespace = (text: string): string => {
 };
 
 /**
+ * Escape a newline within a CSS attribute selector.
+ * https://stackoverflow.com/questions/20338493/css-attribute-selectors-how-to-escape-newlines-within-attribute-value
+ */
+const escapeNewline = (text: string): string => {
+    return text.replace(/\n(\s)?/g, '\\a $1');
+};
+
+/**
  * Creates a CSS selector from a given element using its attributes and the type of node:
  *
  * Ex.: <a href="www.wikipedia.org"></a> --> 'a[href="www.wikipedia.org"]'
@@ -36,7 +44,7 @@ const selectorFromElement = (element: IAsyncHTMLElement): string => {
          * so we ignore that selector.
          */
         if (!attribute.name.includes('.')) {
-            selector += `[${escapeNamespace(attribute.name)}="${escapeQuotes(attribute.value)}"]`;
+            selector += `[${escapeNamespace(attribute.name)}="${escapeQuotes(escapeNewline(attribute.value))}"]`;
         }
     }
 
@@ -87,7 +95,19 @@ export const findElementLocation = async (element: IAsyncHTMLElement): Promise<P
     const elementHTML: string = await element.outerHTML();
     const indexOccurences: number[] = getIndicesOf(elementHTML, html);
     const selector: string = selectorFromElement(element);
-    const elements: IAsyncHTMLElement[] = await element.ownerDocument.querySelectorAll(selector);
+    let elements: IAsyncHTMLElement[];
+
+    try {
+        elements = await element.ownerDocument.querySelectorAll(selector);
+    } catch (e) {
+        // This can happen due to invalid attribute names created by the HTML parser (e.g. "%").
+        debug(`Invalid selector, falling back to start of document: '${selector}'.`);
+
+        return {
+            column: 0,
+            line: 0
+        };
+    }
 
     let similarItems: number = 0;
 
