@@ -56,9 +56,6 @@ type NewParserContext = {
 
 const test = anyTest as TestInterface<NewParserContext>;
 
-// import newParser from '../src/new-parser';
-// import { runInThisContext } from 'vm';
-
 const initContext = (t: ExecutionContext<NewParserContext>) => {
     const sandbox = sinon.createSandbox();
 
