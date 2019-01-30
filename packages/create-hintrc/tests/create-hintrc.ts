@@ -6,7 +6,7 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import { NpmPackage } from 'hint/dist/src/lib/types';
 
 type Inquirer = {
-    prompt: () => void;
+    prompt: () => Promise<any>;
 };
 
 type Logger = {
@@ -15,7 +15,7 @@ type Logger = {
 };
 
 type StubBrowserslistObject = {
-    generateBrowserslistConfig: () => void;
+    generateBrowserslistConfig: () => Promise<any>;
 };
 
 type ResourceLoader = {
@@ -33,7 +33,7 @@ type Fs = {
 };
 
 type Npm = {
-    getOfficialPackages: () => NpmPackage[] | null;
+    getOfficialPackages: () => Promise<NpmPackage[] | null>;
     installPackages: () => boolean;
 };
 
@@ -94,8 +94,16 @@ const loadScript = (context: CreateHintRCContext): () => Promise<boolean> => {
 };
 
 const initContext = (t: ExecutionContext<CreateHintRCContext>) => {
-    t.context.inquirer = { prompt() { } };
-    t.context.stubBrowserslistObject = { generateBrowserslistConfig() { } };
+    t.context.inquirer = {
+        prompt() {
+            return Promise.resolve();
+        }
+    };
+    t.context.stubBrowserslistObject = {
+        generateBrowserslistConfig() {
+            return Promise.resolve();
+        }
+    };
     t.context.resourceLoader = {
         getCoreResources(): [] | null {
             return null;
@@ -114,8 +122,8 @@ const initContext = (t: ExecutionContext<CreateHintRCContext>) => {
         log() { }
     };
     t.context.npm = {
-        getOfficialPackages(): NpmPackage[] | null {
-            return null;
+        getOfficialPackages() {
+            return Promise.resolve(null);
         },
         installPackages(): boolean {
             return false;
