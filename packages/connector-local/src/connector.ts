@@ -52,7 +52,7 @@ export default class LocalConnector implements IConnector {
     private engine: Engine<HTMLEvents>;
     private _href: string = '';
     private filesPattern: string[];
-    public watcher: chokidar.FSWatcher | null = null;
+    private watcher: chokidar.FSWatcher | null = null;
 
     public constructor(engine: Engine<HTMLEvents>, config: object) {
         this._options = Object.assign({}, defaultOptions, config);

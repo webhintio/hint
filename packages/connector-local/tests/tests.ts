@@ -273,7 +273,7 @@ test(`If watch is true, it should watch the right files`, async (t) => {
 
     await delay(1000);
 
-    connector.watcher.emit('close');
+    stream.emit('close');
 
     await promise;
 
@@ -319,7 +319,7 @@ test(`If watch is true, it should use the .gitignore`, async (t) => {
 
     await delay(1000);
 
-    connector.watcher.emit('close');
+    stream.emit('close');
 
     await promise;
 
@@ -360,7 +360,7 @@ test(`When the watcher is ready, it should emit the scan::end event`, async (t) 
 
     stream.emit('ready');
 
-    connector.watcher.emit('close');
+    stream.emit('close');
 
     await promise;
 
@@ -404,7 +404,7 @@ test(`When the watcher detects a new file, it should emit the fetch::end::{type}
 
     await delay(1000);
 
-    connector.watcher.emit('close');
+    stream.emit('close');
 
     await promise;
 
@@ -449,7 +449,7 @@ test(`When the watcher detects a change in a file, it should emit the fetch::end
 
     await delay(1000);
 
-    connector.watcher.emit('close');
+    stream.emit('close');
 
     await promise;
 
@@ -494,7 +494,7 @@ test(`When the watcher detects that a file was removed, it should emit the scan:
 
     await delay(1000);
 
-    connector.watcher.emit('close');
+    stream.emit('close');
 
     await promise;
 
