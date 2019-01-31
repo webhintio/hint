@@ -11,6 +11,7 @@
         "apple-touch-icons": "off",
         "axe": "error",
         "babel-config/is-valid": "error",
+        "css-prefix-order": "error",
         "disown-opener": "error",
         "highest-available-document-mode": "error",
         "manifest-exists": "off",
@@ -33,6 +34,7 @@
     "hintsTimeout": 10000,
     "parsers": [
         "babel-config",
+        "css",
         "html",
         "typescript-config",
         "webpack-config"

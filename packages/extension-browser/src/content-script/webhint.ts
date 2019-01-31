@@ -7,6 +7,7 @@ import { Engine } from 'hint';
 import { Configuration } from 'hint/dist/src/lib/config';
 import { HintResources, HintsConfigObject, IHintConstructor } from 'hint/dist/src/lib/types';
 
+import CSSParser from '@hint/parser-css';
 import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
@@ -80,6 +81,7 @@ const main = async (userConfig: Config) => {
         incompatible: [],
         missing: [],
         parsers: [
+            CSSParser as any,
             JavaScriptParser as any,
             ManifestParser as any
         ]

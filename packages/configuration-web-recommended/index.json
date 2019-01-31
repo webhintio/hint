@@ -12,6 +12,7 @@
     "hints": {
         "axe": "error",
         "content-type": "error",
+        "css-prefix-order": "error",
         "disown-opener": "error",
         "highest-available-document-mode": "error",
         "html-checker": "error",
@@ -33,5 +34,8 @@
         "validate-set-cookie-header": "error",
         "x-content-type-options": "error"
     },
-    "hintsTimeout": 120000
+    "hintsTimeout": 120000,
+    "parsers": [
+        "css"
+    ]
 }
