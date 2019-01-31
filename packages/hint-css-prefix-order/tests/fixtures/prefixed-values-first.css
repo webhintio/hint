@@ -1,0 +1,4 @@
+.example {
+    display: -ms-grid;
+    display: grid;
+}

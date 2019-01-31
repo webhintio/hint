@@ -1,0 +1,8 @@
+.example1 {
+    appearance: none;
+}
+
+.example2 {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
