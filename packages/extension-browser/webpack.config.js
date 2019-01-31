@@ -1,5 +1,4 @@
 const path = require('path');
-const merge = require('webpack-merge');
 
 const baseConfig = {
     mode: 'none',
@@ -54,17 +53,24 @@ const baseConfig = {
     resolve: { alias: { url$: path.resolve(__dirname, 'dist/src/shims/url.js') } }
 };
 
-const contentScriptConfig = merge.smart(baseConfig, {
-    entry: { webhint: './dist/src/content-script/webhint.js' },
-    output: { path: path.resolve(__dirname, 'dist') }
-});
-const extensionConfig = merge.smart(baseConfig, {
-    entry: {
-        'background-script': './dist/src/background-script.js',
-        'devtools/devtools': './dist/src/devtools/devtools.js',
-        'devtools/panel/panel': './dist/src/devtools/panel/panel.js'
+const contentScriptConfig = {
+    ...baseConfig,
+    ...{
+        entry: { webhint: './dist/src/content-script/webhint.js' },
+        output: { ...baseConfig.output, path: path.resolve(__dirname, 'dist') }
     }
-});
+};
+
+const extensionConfig = {
+    ...baseConfig,
+    ...{
+        entry: {
+            'background-script': './dist/src/background-script.js',
+            'devtools/devtools': './dist/src/devtools/devtools.js',
+            'devtools/panel/panel': './dist/src/devtools/panel/panel.js'
+        }
+    }
+};
 
 module.exports = (env) => {
     if (env && env['content-script']) {
