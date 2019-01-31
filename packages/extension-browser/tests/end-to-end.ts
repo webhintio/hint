@@ -1,6 +1,9 @@
 import * as isCI from 'is-ci';
 import { launch, Browser, Page } from 'puppeteer';
 import test from 'ava';
+import { resolve } from 'path';
+
+import readFile from 'hint/dist/src/lib/utils/fs/read-file';
 
 import { Server } from '@hint/utils-create-server';
 
@@ -9,6 +12,8 @@ import { Events, Results } from '../src/shared/types';
 import { readFixture } from './helpers/fixtures';
 
 const pathToExtension = `${__dirname}/../bundle`;
+
+const contentScript = readFile(resolve(`${__dirname}/../webhint.js`));
 
 /**
  * Find the Puppeteer `Page` associated with the background script
@@ -118,16 +123,25 @@ if (!isCI) {
             setTimeout(resolve, 500);
         });
 
-        const results: Results = await backgroundPage.evaluate(() => {
+        const results: Results = await backgroundPage.evaluate((code) => {
             return new Promise<Results>((resolve) => {
                 chrome.runtime.onMessage.addListener((message: Events) => {
                     if (message.results) {
                         resolve(message.results);
                     }
                 });
-                chrome.tabs.executeScript({ code: `chrome.runtime.sendMessage({enable: {}})` });
+
+                const event: Events = {
+                    enable: {
+                        code,
+                        config: {}
+                    }
+                };
+
+                // Simulate sending message from devtools panel to background script to start analyzing.
+                chrome.tabs.executeScript({ code: `chrome.runtime.sendMessage(${JSON.stringify(event)})` });
             });
-        });
+        }, contentScript);
 
         t.not(results.categories.length, 0);
         t.true(results.categories.some((category) => {
