@@ -7,6 +7,10 @@ const pRetry = require('p-retry');
 const ALREADY_BUILD_DEPENDENCIES = new Set();
 const TEST_RETRIES = 2; // Will retry 2 times on top of the regular one
 
+const action = process.argv[2] === 'build' ?
+    'build' :
+    'test';
+
 /** Loads all the references of a `tsconfig.json` file to resolve dependencies. */
 const loadReferences = (route) => {
     const tsconfig = require(path.resolve(process.cwd(), route));
@@ -73,7 +77,7 @@ const formatDuration = (duration) => {
  * scripts) in the given `route`
  */
 const testPackage = async (route) => {
-    await execWithRetry(`cd ${route} && yarn test`);
+    await execWithRetry(`cd ${route} && yarn ${action}`);
 
     ALREADY_BUILD_DEPENDENCIES.add(route);
 };
