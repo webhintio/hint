@@ -52,5 +52,5 @@ name are reported, discarding the prefixed ones.
 [browser-compat-data-html]: https://github.com/mdn/browser-compat-data/tree/master/html
 [browser-context]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context
 [mdn-box-lines]: https://developer.mozilla.org/en-US/docs/Web/CSS/box-lines
-[architecture]: images/architecture.png
-[class-inheritance-diagram]: images/uml.png
+[architecture]: images/architecture.svg
+[class-inheritance-diagram]: images/uml.svg
