@@ -7,6 +7,7 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 import {
     TypeScriptConfigEvents,
+    TypeScriptConfigExtendsError,
     TypeScriptConfigInvalidJSON,
     TypeScriptConfigInvalidSchema
 } from '@hint/parser-typescript-config';
@@ -34,6 +35,14 @@ export default class TypeScriptConfigIsValid implements IHint {
             await context.report(resource, error.message);
         };
 
+        const invalidExtends = async (typeScriptConfigInvalid: TypeScriptConfigExtendsError, event: string) => {
+            const { error, resource, getLocation } = typeScriptConfigInvalid;
+
+            debug(`${event} received`);
+
+            await context.report(resource, error.message, { location: getLocation('extends') });
+        };
+
         const invalidSchema = async (fetchEnd: TypeScriptConfigInvalidSchema) => {
             const { groupedErrors, resource } = fetchEnd;
 
@@ -42,13 +51,12 @@ export default class TypeScriptConfigIsValid implements IHint {
             for (let i = 0; i < groupedErrors.length; i++) {
                 const groupedError = groupedErrors[i];
 
-                await context.report(resource, groupedError.message, { location: groupedError.location});
+                await context.report(resource, groupedError.message, { location: groupedError.location });
             }
         };
 
         context.on('parse::error::typescript-config::json', invalidJSONFile);
-        context.on('parse::error::typescript-config::circular', invalidJSONFile);
-        context.on('parse::error::typescript-config::extends', invalidJSONFile);
+        context.on('parse::error::typescript-config::extends', invalidExtends);
         context.on('parse::error::typescript-config::schema', invalidSchema);
     }
 }

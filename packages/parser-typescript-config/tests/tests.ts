@@ -223,7 +223,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
     sandbox.restore();
 });
 
-test('If we receive a json with an extends with a loop, it should emit the event parse::error::typescript-config::circular', async (t) => {
+test('If we receive a json with an extends with a loop, it should emit the event parse::error::typescript-config::extends', async (t) => {
     const sandbox = t.context.sandbox;
     const { engine, TypeScriptConfigParser } = mockContext();
 
@@ -240,7 +240,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
 
     // 3 times, the previous call, the start and the parse error.
     t.is(engineEmitAsyncSpy.callCount, 3);
-    t.is(engineEmitAsyncSpy.args[2][0], 'parse::error::typescript-config::circular');
+    t.is(engineEmitAsyncSpy.args[2][0], 'parse::error::typescript-config::extends');
 });
 
 test('If we receive a json with an extends with an invalid json, it should emit the event parse::error::typescript-config::extends', async (t) => {

@@ -36,10 +36,13 @@ export type TypeScriptConfigParse = Event & {
     originalConfig: TypeScriptConfig;
 };
 
+export type TypeScriptConfigExtendsError = ErrorEvent & {
+    getLocation: IJSONLocationFunction;
+}
+
 export type TypeScriptConfigEvents = Events & {
     'parse::end::typescript-config': TypeScriptConfigParse;
-    'parse::error::typescript-config::circular': ErrorEvent;
-    'parse::error::typescript-config::extends': ErrorEvent;
+    'parse::error::typescript-config::extends': TypeScriptConfigExtendsError;
     'parse::error::typescript-config::json': TypeScriptConfigInvalidJSON;
     'parse::error::typescript-config::schema': TypeScriptConfigInvalidSchema;
     'parse::start::typescript-config': TypeScriptConfigParseStart;

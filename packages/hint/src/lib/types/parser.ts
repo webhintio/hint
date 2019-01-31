@@ -8,6 +8,10 @@ import getAsPathString from '../utils/network/as-path-string';
 import loadJSONFile from '../utils/fs/load-json-file';
 import { Events } from './events';
 
+export interface IParsingError extends Error {
+    resource: string;
+}
+
 export type ExtendableConfiguration = {
     extends: string;
 };
@@ -21,7 +25,7 @@ export abstract class Parser<E extends Events = Events> {
     protected engine: Engine<E>;
     protected name: string;
 
-    protected async finalConfig<T extends ExtendableConfiguration>(config: T, resource: string): Promise<T | null> {
+    protected finalConfig<T extends ExtendableConfiguration>(config: T, resource: string): T | IParsingError {
         if (!config.extends) {
             return config;
         }
@@ -49,12 +53,12 @@ export abstract class Parser<E extends Events = Events> {
 
             if (configIncludes.has(configPath)) {
 
-                await (this.engine as Engine<Events>).emitAsync(`parse::error::${this.name}::circular` as 'parse::error::*', {
-                    error: new Error(`Circular reference found in file ${lastPath}`),
-                    resource
-                });
+                const error = new Error(`Circular reference found in file ${lastPath}`) as IParsingError;
+                const lastPathUri = getAsUri(lastPath);
 
-                return null;
+                error.resource = lastPathUri && lastPathUri.toString() || lastPath;
+
+                return error;
             }
 
             delete finalConfigJSON.extends;
@@ -67,13 +71,11 @@ export abstract class Parser<E extends Events = Events> {
 
                 finalConfigJSON = merge({}, extendedConfig, finalConfigJSON);
             } catch (err) {
+                const lastPathUri = getAsUri(lastPath);
 
-                await (this.engine as Engine<Events>).emitAsync(`parse::error::${this.name}::extends` as 'parse::error::*', {
-                    error: err,
-                    resource
-                });
+                err.resource = lastPathUri && lastPathUri.toString() || lastPath;
 
-                return null;
+                return err;
             }
         }
 

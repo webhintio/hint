@@ -48,14 +48,26 @@ const tests: HintLocalTest[] = [
         name: 'If the configuration has a circular reference, it should fail',
         path: path.join(__dirname, 'fixtures', 'circular'),
         reports: [
-            { message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', 'tsconfig.circular.json')}` }
+            {
+                message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', 'tsconfig.circular.json')}`,
+                position: {
+                    column: 5,
+                    line: 4
+                }
+            }
         ]
     },
     {
         name: 'If the configuration has an invalid extends, it should fail',
         path: path.join(__dirname, 'fixtures', 'invalid-extends'),
         reports: [
-            { message: `Unexpected token i in JSON at position 0` }
+            {
+                message: `Unexpected token i in JSON at position 0`,
+                position: {
+                    column: 5,
+                    line: 4
+                }
+            }
         ]
     }
 ];

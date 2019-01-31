@@ -58,7 +58,7 @@ export default class BabelConfigParser extends Parser<BabelConfigEvents> {
         try {
             const response = fetchEnd.response;
             // When using local connector to read local files, 'content' is empty.
-            let result = parseJSON(response.body.content);
+            let result = parseJSON(response.body.content, 'extends');
 
             if (isPackageJson && !result.data.babel) {
                 return;
@@ -73,6 +73,17 @@ export default class BabelConfigParser extends Parser<BabelConfigEvents> {
             const originalConfig: BabelConfig = cloneDeep(config);
 
             const finalConfig = await this.finalConfig<BabelConfig>(config, resource);
+
+            if (finalConfig instanceof Error) {
+                await this.engine.emitAsync(`parse::error::babel-config::extends`,
+                    {
+                        error: finalConfig,
+                        getLocation: result.getLocation,
+                        resource
+                    });
+
+                return;
+            }
 
             if (!finalConfig) {
                 return;

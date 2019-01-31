@@ -50,10 +50,13 @@ export type BabelConfigInvalidSchema = ErrorEvent & {
     groupedErrors: GroupedError[];
 };
 
+export type BabelConfigExtendsError = ErrorEvent & {
+    getLocation: IJSONLocationFunction;
+}
+
 export type BabelConfigEvents = Events & {
     'parse::end::babel-config': BabelConfigParsed;
-    'parse::error::babel-config::circular': ErrorEvent;
-    'parse::error::babel-config::extends': ErrorEvent;
+    'parse::error::babel-config::extends': BabelConfigExtendsError;
     'parse::error::babel-config::json': BabelConfigInvalidJSON;
     'parse::error::babel-config::schema': BabelConfigInvalidSchema;
     'parse::start::babel-config': BabelConfigParseStart;

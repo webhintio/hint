@@ -8,11 +8,13 @@ class JSONResult implements IJSONResult {
     private _data: any;
     private _lines: string[];
     private _root: Node;
+    private _alternatePath: string | undefined;
 
-    public constructor(data: any, root: Node, lines: string[]) {
+    public constructor(data: any, root: Node, lines: string[], alternatePath?: string) {
         this._data = data;
         this._lines = lines;
         this._root = root;
+        this._alternatePath = alternatePath;
 
         // Ensure `getLocation` can be passed around without losing context
         this.getLocation = this.getLocation.bind(this);
@@ -25,6 +27,15 @@ class JSONResult implements IJSONResult {
     public getLocation(path: string, options?: IJSONLocationOptions): ProblemLocation | null {
         const segments = this.pathToSegments(path);
         const node = findNodeAtLocation(this._root, segments) || null;
+
+        /**
+         * The node isn't in the current file. Use alternative path if provided. This happens
+         * when extending configurations.
+         */
+        if (!node && this._alternatePath && path !== this._alternatePath) {
+
+            return this.getLocation(this._alternatePath, options);
+        }
 
         return this.offsetToLocation(this.getAdjustedOffset(node, path, options));
     }
@@ -129,8 +140,9 @@ class JSONResult implements IJSONResult {
 /**
  * Parse the provided JSON returning a `JSONResult` with location information.
  * @param json The JSON string to parse
+ * @param alternatePath The alternative `path` to use when one is not found
  */
-export const parseJSON = (json: string): IJSONResult => {
+export const parseJSON = (json: string, alternatePath?: string): IJSONResult => {
     const lines = json.split('\n');
     const data = parse(json);
     const root = parseTree(json);
@@ -141,5 +153,5 @@ export const parseJSON = (json: string): IJSONResult => {
         JSON.parse(json);
     }
 
-    return new JSONResult(data, root, lines);
+    return new JSONResult(data, root, lines, alternatePath);
 };

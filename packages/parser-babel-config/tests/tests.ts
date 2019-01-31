@@ -243,7 +243,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
     sandbox.restore();
 });
 
-test('If we receive a json with an extends with a loop, it should emit the event parse::error::babel-config::circular', async (t) => {
+test('If we receive a json with an extends with a loop, it should emit the event parse::error::babel-config::extends', async (t) => {
     const sandbox = sinon.createSandbox();
     const engine: Engine<BabelConfigEvents> = new EventEmitter2({
         delimiter: '::',
@@ -265,7 +265,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
 
     // 3 times, the previous call, the start parse and the error
     t.is(engineEmitASyncSpy.callCount, 3);
-    t.is(engineEmitASyncSpy.args[2][0], 'parse::error::babel-config::circular');
+    t.is(engineEmitASyncSpy.args[2][0], 'parse::error::babel-config::extends');
 
     sandbox.restore();
 });
