@@ -18,7 +18,7 @@ one)`][browser-context] and the hint context to filter the list of features to
 test.
 
 Once the previous step is done, the parser exposes sequentially all the features
-included in the resource (CSS or HTML). The hint then test each feature as it is
+included in the resource (CSS or HTML). The hint then tests each feature as it is
 exposed, as long as it is not in the `ignore` built-in list. All the errors
 reported are temporarily stored and consumed once the `scan::end` event is
 obtained.
