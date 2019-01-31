@@ -181,7 +181,9 @@ const defaultTests: HintTest[] = [
     },
     {
         name: 'JS with "Cache-Control: no-cache" fails',
-        reports: [{ message: 'Static resources should have a long cache value (31536000) and use the immutable directive:\nno-cache' }],
+        reports: [
+            { message: 'Static resources should have a long cache value (31536000):\nDirectives used: no-cache' },
+            { message: 'Static resources should use the "immutable" directive:\nDirectives used: no-cache' }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.123.js"></script>'),
             '/favicon.123.ico': {
@@ -196,7 +198,9 @@ const defaultTests: HintTest[] = [
     },
     {
         name: 'JS with short max-age fails',
-        reports: [{ message: 'Static resources should have a long cache value (31536000) and use the immutable directive:\nmax-age=100' }],
+        reports: [
+            { message: 'Static resources should have a long cache value (31536000):\nDirectives used: max-age=100' },
+            { message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=100' }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.123.js"></script>'),
             '/favicon.123.ico': {
@@ -211,7 +215,7 @@ const defaultTests: HintTest[] = [
     },
     {
         name: 'JS with long max-age but no immutable fails',
-        reports: [{ message: 'Static resources should have a long cache value (31536000) and use the immutable directive:\nmax-age=31536000' }],
+        reports: [{ message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000' }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.123.js"></script>'),
             '/favicon.123.ico': {
@@ -369,7 +373,7 @@ const defaultTests: HintTest[] = [
 
     {
         name: 'CSS with max-age but no immutable fails',
-        reports: [{ message: 'Static resources should have a long cache value (31536000) and use the immutable directive:\nmax-age=31536000' }],
+        reports: [{ message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000' }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.123.css">'),
             '/favicon.123.ico': {

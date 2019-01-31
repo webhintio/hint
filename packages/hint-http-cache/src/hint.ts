@@ -355,17 +355,26 @@ export default class HttpCacheHint implements IHint {
 
             const longCache = compareToMaxAge(usedDirectives, maxAgeResource) >= 0;
             const immutable = usedDirectives.has('immutable');
+            let validates = true;
 
             // We want long caches with "immutable" for static resources
-            if (usedDirectives.has('no-cache') || !(longCache && immutable)) {
-                const message: string = `Static resources should have a long cache value (${maxAgeResource}) and use the immutable directive:\n${header}`;
+            if (usedDirectives.has('no-cache') || !longCache) {
+                const message: string = `Static resources should have a long cache value (${maxAgeResource}):\nDirectives used: ${header}`;
 
                 await context.report(resource, message, { element });
 
-                return false;
+                validates = false;
             }
 
-            return true;
+            if (!immutable) {
+                const message: string = `Static resources should use the "immutable" directive:\nDirectives used: ${header}`;
+
+                await context.report(resource, message, { element });
+
+                validates = false;
+            }
+
+            return validates;
         };
 
         /**
