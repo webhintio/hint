@@ -77,7 +77,7 @@ test('It runs end-to-end in a page', async (t) => {
         });
     });
 
-    await page.addScriptTag({ path: `${__dirname}/../bundle/content-script/webhint.js` });
+    await page.addScriptTag({ path: `${__dirname}/../webhint.js` });
 
     const results = await resultsPromise;
 
