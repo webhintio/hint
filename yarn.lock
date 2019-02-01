@@ -941,19 +941,19 @@
   resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-12.0.8.tgz#0b45bf0607a5509b921335658d87489c12955176"
   integrity sha512-OMSKUmZ09gbzITzx4nxnJqhprWC7JqsmlrEsVtb+cv3GXHNpv0kktqxhboKX52FnMggkQvT5ezt8pxTWyKpJHA==
 
-"@typescript-eslint/parser@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-1.1.1.tgz#a979c5dc543ae4ae9b44df9def70e2a5892e7185"
-  integrity sha512-P6v+iYkI+ywp6MaFyAJ6NqU5W6fiAvMXWjCV63xTJbkQdtAngdjSCajlEEweqJqL4RNsgFCHBe5HbYyT6TmW4g==
+"@typescript-eslint/parser@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-1.2.0.tgz#256de163b7cb0d79d0388266a5bfb5585bccb1ff"
+  integrity sha512-IXXiXgs6ocKTmtbzJjGyUvRHZFLuk2mYXyk+ayEql1woh1+rYS/Uct8b4jGtfHG8ZRUBZ12zjzsrDKFYC2pbrQ==
   dependencies:
-    "@typescript-eslint/typescript-estree" "1.1.1"
+    "@typescript-eslint/typescript-estree" "1.2.0"
     eslint-scope "^4.0.0"
     eslint-visitor-keys "^1.0.0"
 
-"@typescript-eslint/typescript-estree@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-1.1.1.tgz#d5cccc227d2c8948799d127b6cc51ccb5378bf51"
-  integrity sha512-rERZSjNWb4WC425daCUktfh+0fFLy4WWlnu9bESdJv5l+t0ww0yUprRUbgzehag/dGd56Me+3uyXGV2O12qxrQ==
+"@typescript-eslint/typescript-estree@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-1.2.0.tgz#d9043a407d5e0f07db2b4a80d86852f7826c34f0"
+  integrity sha512-YGh4egbiCfUObvi6fnQNzJAMmScMGCjG5cRHaapW7GpwujWYQymLlids88imnhcTbOx8Mlz1OXFIuxyPBXK6Ig==
   dependencies:
     lodash.unescape "4.0.1"
     semver "5.5.0"
