@@ -6,6 +6,11 @@ export type Config = {
     ignoredUrls?: string;
 };
 
+export type InjectDetails = {
+    code: string;
+    config: Config;
+}
+
 export type HintResults = {
     helpURL: string;
     id: string;
@@ -24,7 +29,8 @@ export type Results = {
 };
 
 export type Events = {
-    enable?: Config;
+    config?: Config;
+    enable?: InjectDetails;
     fetchEnd?: FetchEnd;
     fetchStart?: FetchStart;
     done?: boolean;

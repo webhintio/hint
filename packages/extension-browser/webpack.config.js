@@ -1,12 +1,6 @@
 const path = require('path');
 
-module.exports = {
-    entry: {
-        'background-script': './dist/src/background-script.js',
-        'content-script/webhint': './dist/src/content-script/webhint.js',
-        'devtools/devtools': './dist/src/devtools/devtools.js',
-        'devtools/panel/panel': './dist/src/devtools/panel/panel.js'
-    },
+const baseConfig = {
     mode: 'none',
     module: {
         rules: [
@@ -57,4 +51,31 @@ module.exports = {
         path: path.resolve(__dirname, 'dist/bundle')
     },
     resolve: { alias: { url$: path.resolve(__dirname, 'dist/src/shims/url.js') } }
+};
+
+const contentScriptConfig = {
+    ...baseConfig,
+    ...{
+        entry: { webhint: './dist/src/content-script/webhint.js' },
+        output: { ...baseConfig.output, path: path.resolve(__dirname, 'dist') }
+    }
+};
+
+const extensionConfig = {
+    ...baseConfig,
+    ...{
+        entry: {
+            'background-script': './dist/src/background-script.js',
+            'devtools/devtools': './dist/src/devtools/devtools.js',
+            'devtools/panel/panel': './dist/src/devtools/panel/panel.js'
+        }
+    }
+};
+
+module.exports = (env) => {
+    if (env && env['content-script']) {
+        return contentScriptConfig;
+    }
+
+    return extensionConfig;
 };

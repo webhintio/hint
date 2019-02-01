@@ -11,6 +11,8 @@ import { syncTheme } from './utils/themes';
 
 import * as styles from './panel.css';
 
+import * as contentScript from 'raw-loader!../../../webhint.js';
+
 document.body.classList.add(styles.root);
 
 /** Display the provided view in the panel. */
@@ -81,7 +83,7 @@ const onCancel = () => {
 /** Handle the user request to start a scan. */
 const onStart = (config: Config) => {
     // Notify the background script to begin scanning with the chosen configuration.
-    sendMessage({ enable: config });
+    sendMessage({ enable: { code: contentScript, config } });
 
     // Listen for scan results and network requests (to create `fetch::end::*` events).
     addMessageListener(onMessage);
