@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 
 type Inquirer = {
-    prompt: () => void;
+    prompt: () => Promise<any>;
 };
 
 type Logger = {
@@ -38,7 +38,11 @@ const loadScript = (context: BrowserslistContext): () => Promise<string> => {
 };
 
 test.beforeEach((t) => {
-    t.context.inquirer = { prompt() { } };
+    t.context.inquirer = {
+        prompt() {
+            return Promise.resolve();
+        }
+    };
     t.context.logger = { log() { } };
 
     t.context.sandbox = sinon.createSandbox();

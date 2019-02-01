@@ -20,7 +20,7 @@ type Logger = {
 };
 
 type NPMRegistryFetch = {
-    json: (url: string) => void;
+    json: (url: string) => Promise<any>;
 };
 
 type LoadJSONFileModule = {
@@ -77,7 +77,11 @@ const initContext = (t: ExecutionContext<NPMContext>) => {
         error() { },
         log() { }
     };
-    t.context.npmRegistryFetch = { json(url: string) { } };
+    t.context.npmRegistryFetch = {
+        json(url: string) {
+            return Promise.resolve();
+        }
+    };
     t.context.child = {
         spawn(command: string, args: string[]): EventEmitter | null {
             return null;

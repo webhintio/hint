@@ -55,7 +55,7 @@
     "@types/ora": "^3.0.0",
     "@types/request": "^2.48.1",
     "@types/semver": "^5.4.0",
-    "@types/sinon": "^5.0.7",
+    "@types/sinon": "^7.0.5",
     "@types/strip-bom": "^3.0.0",
     "@types/strip-json-comments": "^0.0.30",
     "@types/update-notifier": "^2.5.0",

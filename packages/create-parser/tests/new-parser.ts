@@ -7,7 +7,7 @@ import * as InquirerTypes from 'inquirer';
 import * as handlebarsUtils from '../src/handlebars-utils';
 
 type Inquirer = {
-    prompt: (questions: InquirerTypes.Question[]) => void;
+    prompt: (questions: InquirerTypes.Question[]) => Promise<any>;
 };
 
 type FsExtra = {
@@ -17,7 +17,7 @@ type FsExtra = {
 type Mkdirp = (dir: string, callback: Function) => void;
 
 type ReadFileAsync = {
-    default: () => void;
+    default: () => Promise<string>;
 };
 
 type WriteFileAsync = {
@@ -25,7 +25,7 @@ type WriteFileAsync = {
 };
 
 type IsOfficial = {
-    default: () => void;
+    default: () => Promise<boolean>;
 };
 
 type NormalizeStringByDelimiter = {
@@ -68,8 +68,8 @@ const initContext = (t: ExecutionContext<NewParserContext>) => {
         escapeSafeString: handlebarsUtils.escapeSafeString
     };
     t.context.handlebarsUtilsCompileTemplateStub = sandbox.stub(t.context.handlebarsUtils, 'compileTemplate').resolves('');
-    t.context.inquirer = { prompt(questions: InquirerTypes.Question[]) { } };
-    t.context.isOfficial = { default() { } };
+    t.context.inquirer = { prompt(questions: InquirerTypes.Question[]) { return Promise.resolve(); } };
+    t.context.isOfficial = { default() { return Promise.resolve(false); } };
     t.context.mkdirp = (dir: string, callback: Function) => {
         callback();
     };
@@ -79,7 +79,7 @@ const initContext = (t: ExecutionContext<NewParserContext>) => {
         }
     };
     t.context.normalizeStringByDelimiterDefaultStub = sandbox.stub(t.context.normalizeStringByDelimiter, 'default').returns('');
-    t.context.readFileAsync = { default() { } };
+    t.context.readFileAsync = { default() { return Promise.resolve(''); } };
     t.context.readFileAsyncDefaultStub = sandbox.stub(t.context.readFileAsync, 'default').resolves('');
     t.context.sandbox = sandbox;
     t.context.writeFileAsync = { default() { } };
@@ -216,7 +216,7 @@ test('It should create a new non-official parser.', async (t) => {
         .resolves(parserInfoResult)
         .onSecondCall()
         .resolves(parserEventsResult);
-    
+
     const newParser = loadScript(t.context);
     const result = await newParser();
 

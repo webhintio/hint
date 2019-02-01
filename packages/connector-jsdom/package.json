@@ -18,6 +18,7 @@
     "@hint/utils-create-server": "^2.0.1",
     "@types/jsdom": "^12.2.1",
     "@types/lodash": "^4.14.120",
+    "@types/sinon": "^7.0.5",
     "ava": "^1.2.0",
     "cpx": "^1.5.0",
     "eslint": "^5.12.1",

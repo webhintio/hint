@@ -53,8 +53,19 @@ type Config = {
     Configuration: Configuration;
 };
 
+type IEnginePrototype = {
+    formatters: any[];
+    close(): void;
+    emitAsync(eventName: string, data: any): Promise<any>;
+    executeOn(): Promise<any>;
+};
+
+interface IEngine {
+    new(): IEnginePrototype;
+}
+
 type EngineContainer = {
-    Engine: any;
+    Engine: IEngine;
 }
 
 type Spinner = {
@@ -140,7 +151,9 @@ const initContext = (t: ExecutionContext<AnalyzeContext>) => {
             }
 
             public close() { }
-            public executeOn() { }
+            public executeOn() {
+                return Promise.resolve();
+            }
         }
     };
 
@@ -400,7 +413,7 @@ test('If executeOn returns an error, it should call to spinner.fail()', async (t
     sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
     sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
     sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
-    sandbox.stub(t.context.engineContainer.Engine.prototype, 'executeOn').resolves([{ severity: Severity.error }]);
+    sandbox.stub((t.context.engineContainer.Engine.prototype as IEnginePrototype), 'executeOn').resolves([{ severity: Severity.error }]);
 
     const analyze = loadScript(t.context);
 

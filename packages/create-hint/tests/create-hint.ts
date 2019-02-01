@@ -7,7 +7,7 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as handlebarsUtils from '../src/handlebars-utils';
 
 type Inquirer = {
-    prompt: () => void;
+    prompt: () => Promise<any>;
 };
 
 type FsExtra = {
@@ -21,7 +21,7 @@ type WriteFileAsyncModule = {
 };
 
 type IsOfficialModule = {
-    default: () => void;
+    default: () => Promise<boolean>;
 };
 
 type CWD = {
@@ -59,8 +59,16 @@ const initContext = (t: ExecutionContext<CreateHintContext>) => {
         },
         escapeSafeString: handlebarsUtils.escapeSafeString
     };
-    t.context.inquirer = { prompt() { } };
-    t.context.isOfficialModule = { default() { } };
+    t.context.inquirer = {
+        prompt() {
+            return Promise.resolve({});
+        }
+    };
+    t.context.isOfficialModule = {
+        default() {
+            return Promise.resolve(false);
+        }
+    };
     t.context.mkdirp = (dir: string, callback: Function) => {
         callback();
     };
