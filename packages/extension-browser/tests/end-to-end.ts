@@ -37,14 +37,16 @@ const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
         const page = await t.page();
 
         // TODO: Rename `background-script.js` to make the ID more unique.
-        return await page.$('script[src="background-script.js"]');
+        return await page!.$('script[src="background-script.js"]');
     }));
 
     const bgTarget = bgTargets.filter((t, i) => {
         return matches[i];
     })[0];
 
-    return await bgTarget.page();
+    const page = await bgTarget.page();
+
+    return page!;
 };
 
 test('It runs end-to-end in a page', async (t) => {
@@ -80,7 +82,7 @@ test('It runs end-to-end in a page', async (t) => {
                 }
             } as any;
         });
-    });
+    }) as Promise<Results>;
 
     await page.addScriptTag({ path: `${__dirname}/../webhint.js` });
 
@@ -123,7 +125,7 @@ if (!isCI) {
             setTimeout(resolve, 500);
         });
 
-        const results: Results = await backgroundPage.evaluate((code) => {
+        const results: Results = await backgroundPage.evaluate((code: string) => {
             return new Promise<Results>((resolve) => {
                 chrome.runtime.onMessage.addListener((message: Events) => {
                     if (message.results) {
@@ -141,7 +143,7 @@ if (!isCI) {
                 // Simulate sending message from devtools panel to background script to start analyzing.
                 chrome.tabs.executeScript({ code: `chrome.runtime.sendMessage(${JSON.stringify(event)})` });
             });
-        }, contentScript);
+        }, contentScript) as Results;
 
         t.not(results.categories.length, 0);
         t.true(results.categories.some((category) => {
