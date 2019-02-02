@@ -203,11 +203,18 @@ hintRunner.testHint(hintPath, mixedFeaturedCompatibility, {
     hintOptions: { enable: ['integrity'] }
 });
 
-const defaultIgnoredFeaturesShould: HintTest[] = ['link-integrity', 'script-integrity'].map((filename: string) => {
+const fixturesWithIgnoredFeatures = [
+    'link-integrity',
+    'script-integrity',
+    'link-crossorigin',
+    'spellcheck'
+];
+
+const defaultIgnoredFeatures: HintTest[] = fixturesWithIgnoredFeatures.map((filename: string) => {
     return {
         name: `Ignored features by default should pass (${filename}).`,
         serverConfig: generateHTMLConfig(filename)
     };
 });
 
-hintRunner.testHint(hintPath, defaultIgnoredFeaturesShould, { browserslist: ['ie 10'] });
+hintRunner.testHint(hintPath, defaultIgnoredFeatures, { browserslist: ['ie 10', 'chrome 24'] });
