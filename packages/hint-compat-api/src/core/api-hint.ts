@@ -68,6 +68,14 @@ export abstract class APIHint<T extends Events> implements IHint {
 
         if (hasIncompatibleBrowsers) {
             this.pendingReports.push([feature, supportStatementResult]);
+        } else {
+            const index = this.pendingReports.findIndex(([reportFeature]: [FeatureInfo, SupportStatementResult]) => {
+                return !!reportFeature.prefix && reportFeature.name === feature.name;
+            });
+
+            if (index !== -1) {
+                this.pendingReports.splice(index, 1);
+            }
         }
 
         return !hasIncompatibleBrowsers;

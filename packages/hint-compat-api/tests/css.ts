@@ -264,3 +264,27 @@ hintRunner.testHint(hintPath, enabledIgnoredHintOptionsFeaturesShouldFail, {
     hintOptions: { enable: ['box-flex'], ignore: ['box-flex'] },
     parsers: ['css']
 });
+
+const removedVendorPrefixWithSupportedFallback: HintTest[] = [
+    {
+        name: 'Deprecated vendor prefix with supported fallback should pass.',
+        serverConfig: generateCSSConfig('transition')
+    }
+];
+
+hintRunner.testHint(hintPath, removedVendorPrefixWithSupportedFallback, {
+    browserslist: ['> 1%', 'last 1 version'],
+    parsers: ['css']
+});
+
+const vendorPrefixWithNotSupportedFallback: HintTest[] = [
+    {
+        name: 'Ignored features by default should pass v3.',
+        serverConfig: generateCSSConfig('transition')
+    }
+];
+
+hintRunner.testHint(hintPath, vendorPrefixWithNotSupportedFallback, {
+    browserslist: ['opera 10.1'],
+    parsers: ['css']
+});
