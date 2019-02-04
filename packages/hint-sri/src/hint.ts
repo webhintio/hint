@@ -8,11 +8,11 @@ import { promisify } from 'util';
 
 import * as async from 'async';
 
-import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 import { HintContext, ReportOptions } from 'hint/dist/src/lib/hint-context';
-import { IHint, FetchEnd, ElementFound, NetworkData } from 'hint/dist/src/lib/types';
+import { IHint, FetchEnd, ElementFound, NetworkData, Request, Response } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
 
 import { Algorithms, OriginCriteria, ErrorData } from './types';
 import meta from './meta';
@@ -400,8 +400,27 @@ Actual:   ${integrities.join(', ')}`;
             return;
         }
 
+        /*
+         * Requester is not included in webpack bundle for `extension-browser`.
+         * This is ok because the browser will have already requested this via `fetch::end`
+         * events.
+         */
+        if (!requestAsync) {
+            return;
+        }
+
         try {
-            content = await new Requester().get(resource);
+            content = {
+                request: {} as Request,
+                response: {
+                    body: {
+                        content: await requestAsync({
+                            method: 'GET',
+                            url: resource
+                        })
+                    }
+                } as Response
+            };
         } catch (e) {
             debug(`Error accessing ${resource}. ${JSON.stringify(e)}`);
 
