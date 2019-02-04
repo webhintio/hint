@@ -8,12 +8,13 @@ import { promisify } from 'util';
 
 import * as async from 'async';
 
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
+import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
+import { HintContext, ReportOptions } from 'hint/dist/src/lib/hint-context';
+import { IHint, FetchEnd, ElementFound, NetworkData } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 
-import { Algorithms, OriginCriteria } from './types';
+import { Algorithms, OriginCriteria, ErrorData } from './types';
 import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
@@ -33,6 +34,8 @@ export default class SRIHint implements IHint {
     private origin: string = '';
     private baseline: keyof typeof Algorithms = 'sha384';
     private originCriteria: keyof typeof OriginCriteria = 'crossOrigin';
+    private cache: Map<string, ErrorData[]> = new Map();
+    private scanEnded: boolean = false;
 
     /**
      * Returns the hash of the content for the given `sha` strengh in a format
@@ -91,6 +94,18 @@ export default class SRIHint implements IHint {
         return Promise.resolve(false);
     }
 
+    private async report(resource: string, message: string, options: ReportOptions, cacheErrors: ErrorData[]) {
+        const errorData: ErrorData = {
+            message,
+            options,
+            resource
+        };
+
+        cacheErrors.push(errorData);
+
+        await this.context.report(errorData.resource, errorData.message, errorData.options);
+    }
+
     /**
      * Verifies if the response is eligible for integrity validation. I.E.:
      *
@@ -99,13 +114,13 @@ export default class SRIHint implements IHint {
      *
      * More info in https://w3c.github.io/webappsec-subresource-integrity/#is-response-eligible
      */
-    private async isEligibleForIntegrityValidation(evt: FetchEnd): Promise<boolean> {
+    private async isEligibleForIntegrityValidation(evt: FetchEnd, origin: string, cacheErrors: ErrorData[]): Promise<boolean> {
         debug('Is eligible for integrity validation?');
 
         const { element, resource } = evt;
         const resourceOrigin: string = new URL(resource).origin;
 
-        if (this.origin === resourceOrigin) {
+        if (origin === resourceOrigin) {
             return true;
         }
 
@@ -113,9 +128,9 @@ export default class SRIHint implements IHint {
         const crossorigin = normalizeString(element && element.getAttribute('crossorigin'));
 
         if (!crossorigin) {
-            const message = `Cross-origin scripts need a "crossorigin" attribute to be eligible for integrity validation`;
+            const message = `Cross-origin resource ${resource} needs a "crossorigin" attribute to be eligible for integrity validation`;
 
-            await this.context.report(resource, message, { element });
+            await this.report(origin, message, { element }, cacheErrors);
 
             return false;
         }
@@ -123,9 +138,9 @@ export default class SRIHint implements IHint {
         const validCrossorigin = crossorigin === 'anonymous' || crossorigin === 'use-credentials';
 
         if (!validCrossorigin) {
-            const message = `Attribute "crossorigin" doesn't have a valid value, should "anonymous" or "use-credentials": crossorigin="${crossorigin}"`;
+            const message = `Attribute "crossorigin" for resource ${resource} doesn't have a valid value, should "anonymous" or "use-credentials": crossorigin="${crossorigin}"`;
 
-            await this.context.report(resource, message, { element });
+            await this.report(origin, message, { element }, cacheErrors);
         }
 
         return validCrossorigin;
@@ -135,19 +150,19 @@ export default class SRIHint implements IHint {
      * Checks if the element that triggered the download has the `integrity`
      * attribute if required based on the selected origin criteria.
      */
-    private async hasIntegrityAttribute(evt: FetchEnd): Promise<boolean> {
+    private async hasIntegrityAttribute(evt: FetchEnd, origin: string, cacheErrors: ErrorData[]): Promise<boolean> {
         debug('has integrity attribute?');
         const { element, resource } = evt;
         const integrity = element && element.getAttribute('integrity');
         const resourceOrigin: string = new URL(resource).origin;
         const integrityRequired =
             OriginCriteria[this.originCriteria] === OriginCriteria.all ||
-            this.origin !== resourceOrigin;
+            origin !== resourceOrigin;
 
         if (integrityRequired && !integrity) {
             const message = `Resource ${resource} requested without the "integrity" attribute`;
 
-            await this.context.report(resource, message, { element });
+            await this.report(origin, message, { element }, cacheErrors);
         }
 
         return !!integrity;
@@ -168,7 +183,7 @@ export default class SRIHint implements IHint {
      *
      * https://w3c.github.io/webappsec-subresource-integrity/#agility
      */
-    private async isIntegrityFormatValid(evt: FetchEnd): Promise<boolean> {
+    private async isIntegrityFormatValid(evt: FetchEnd, origin: string, cacheErrors: ErrorData[]): Promise<boolean> {
         debug('Is integrity attribute valid?');
         const { element, resource } = evt;
         const integrity = element && element.getAttribute('integrity');
@@ -183,9 +198,9 @@ export default class SRIHint implements IHint {
 
             if (!isValid) {
                 // integrity must exist since we're iterating over integrityValues
-                const message = `The format of the "integrity" attribute should be "sha(256|384|512)-HASH": ${integrity!.substr(0, 10)}…`;
+                const message = `The format of the "integrity" attribute for resource ${resource} should be "sha(256|384|512)-HASH": ${integrity!.substr(0, 10)}…`;
 
-                await that.context.report(resource, message, { element });
+                await that.report(origin, message, { element }, cacheErrors);
 
                 return false;
             }
@@ -207,9 +222,9 @@ export default class SRIHint implements IHint {
         const meetsBaseline = highestAlgorithmPriority >= baseline;
 
         if (!meetsBaseline) {
-            const message = `The hash algorithm "${Algorithms[highestAlgorithmPriority]}" doesn't meet the baseline "${this.baseline}"`;
+            const message = `The hash algorithm "${Algorithms[highestAlgorithmPriority]}" doesn't meet the baseline "${this.baseline}" in resource ${resource}`;
 
-            await this.context.report(resource, message, { element });
+            await this.report(origin, message, { element }, cacheErrors);
         }
 
         return meetsBaseline;
@@ -220,14 +235,16 @@ export default class SRIHint implements IHint {
      *
      * More info: https://w3c.github.io/webappsec-subresource-integrity/#non-secure-contexts
      */
-    private async isSecureContext(evt: FetchEnd): Promise<boolean> {
+    private async isSecureContext(evt: FetchEnd, origin: string, cacheErrors: ErrorData[]): Promise<boolean> {
         debug('Is delivered on a secure context?');
         const { element, resource } = evt;
         const protocol = new URL(resource).protocol;
         const isSecure = protocol === 'https:';
 
         if (!isSecure) {
-            await this.context.report(resource, `The resource is not delivered via a secure context`, { element });
+            const message = `The resource ${resource} is not delivered via a secure context`;
+
+            await this.report(origin, message, { element }, cacheErrors);
         }
 
         return isSecure;
@@ -241,13 +258,12 @@ export default class SRIHint implements IHint {
      *
      * More info: https://w3c.github.io/webappsec-subresource-integrity/#does-response-match-metadatalist
      */
-    private async hasRightHash(evt: FetchEnd): Promise<boolean> {
+    private async hasRightHash(evt: FetchEnd, origin: string, cacheErrors: ErrorData[]): Promise<boolean> {
         debug('Does it have the right hash?');
         const { element, resource, response } = evt;
         const integrity = element && element.getAttribute('integrity');
         const integrities = integrity ? integrity.split(/\s+/) : [];
         const calculatedHashes: Map<string, string> = new Map();
-        // const that = this;
 
         const isOK = integrities.some((integrityValue) => {
             const integrityRegExp = /^sha(256|384|512)-(.*)$/;
@@ -268,18 +284,68 @@ export default class SRIHint implements IHint {
                 hashes.push(`sha${key}-${value}`);
             });
 
-            const message = `The hash in the "integrity" attribute doesn't match the received payload.
-Expected: ${integrities.join(', ')}
-Actual:   ${hashes.join(', ')}`;
+            const message = `The hash in the "integrity" attribute in resource ${resource} doesn't match the received payload.
+Expected: ${hashes.join(', ')}
+Actual:   ${integrities.join(', ')}`;
 
-            await this.context.report(resource, message, { element });
+            await this.report(origin, message, { element }, cacheErrors);
         }
 
         return isOK;
     }
 
+    private getCache(evt: ElementFound | FetchEnd): ErrorData[] {
+        const { element, resource } = evt;
+
+        /* istanbul ignore if */
+        if (!element) {
+            return [];
+        }
+
+        const integrity = element.getAttribute('integrity');
+
+        const key = `${resource}${integrity}`;
+
+        return this.cache.get(key) || [];
+    }
+
+    private isInCache(evt: ElementFound | FetchEnd): boolean {
+        const { element, resource } = evt;
+
+        /* istanbul ignore if */
+        if (!element) {
+            return false;
+        }
+
+        const integrity = element.getAttribute('integrity');
+
+        const key = `${resource}${integrity}`;
+
+        return this.cache.has(key);
+    }
+
+    private addToCache(evt: FetchEnd): ErrorData[] {
+        const { element, resource } = evt;
+
+        /* istanbul ignore if */
+        if (!element) {
+            return [];
+        }
+
+        const integrity = element.getAttribute('integrity');
+
+        const key = `${resource}${integrity}`;
+
+        if (!this.cache.has(key)) {
+            this.cache.set(key, []);
+        }
+
+        return this.cache.get(key)!;
+    }
+
     /** Validation entry point. */
-    private async validateResource(evt: FetchEnd) {
+    private async validateResource(evt: FetchEnd, origin: string) {
+        const cacheErrors = this.addToCache(evt);
 
         const validations = [
             this.isScriptOrLink,
@@ -296,8 +362,94 @@ Actual:   ${hashes.join(', ')}`;
         debug(`Validating integrity of: ${evt.resource}`);
 
         await everySeries(validations, async (validation: Function) => {
-            return await validation(evt);
+            return await validation(evt, origin, cacheErrors);
         });
+    }
+
+    private async validateElement(evt: ElementFound, origin: string) {
+        if (this.isInCache(evt)) {
+            /*
+             * The item is cached. For the VSCode extension and the
+             * local connector with option 'watch' activated we
+             * should report what we have in the cache after the
+             * first 'scan::end'.
+             */
+            if (this.scanEnded) {
+                const promises = this.getCache(evt).map((error) => {
+                    return this.context.report(error.resource, error.message, error.options);
+                });
+
+                await Promise.all(promises);
+            }
+
+            return;
+        }
+
+        const { resource, element } = evt;
+        let content: NetworkData;
+
+        /*
+         * If the resource is a local file, ignore the analysis.
+         * The sri usually is added on the building process before publish,
+         * so is going to be very common that the sri doesn't exists
+         * for local files.
+         */
+        if (resource.startsWith('file://')) {
+            debug(`Ignoring local resource: ${resource}`);
+
+            return;
+        }
+
+        try {
+            content = await new Requester().get(resource);
+        } catch (e) {
+            debug(`Error accessing ${resource}. ${JSON.stringify(e)}`);
+
+            await this.context.report(origin, `Can't get the resource ${resource}`, { element });
+
+            return;
+        }
+
+        await this.validateResource(Object.assign(evt, {
+            request: content.request,
+            response: content.response
+        }), origin);
+    }
+
+    /** Validation entry point for event element::script */
+    private async validateScriptElement(evt: ElementFound) {
+        const isScript = await this.isScriptOrLink(evt as FetchEnd);
+
+        if (!isScript) {
+            return;
+        }
+
+        const origin = evt.resource;
+
+        /*
+         * 'this.isScriptOrLink' has already checked
+         * that the src attribute exists, so it is safe to use !.
+         */
+        evt.resource = new URL(evt.element.getAttribute('src')!, evt.resource).href;
+        await this.validateElement(evt, origin);
+    }
+
+    /** Validation entry point for events element::link */
+    private async validateStyleElement(evt: ElementFound) {
+        const isLink = await this.isScriptOrLink(evt as FetchEnd);
+
+        if (!isLink) {
+            return;
+        }
+
+        const origin = evt.resource;
+
+        /*
+         * 'this.isScriptOrLink' has already checked
+         * that the href attribute exists, so it is safe to use !.
+         */
+        evt.resource = new URL(evt.element.getAttribute('href')!, evt.resource).href;
+        await this.validateElement(evt, origin);
     }
 
     /** Sets the `origin` property using the initial request. */
@@ -305,6 +457,10 @@ Actual:   ${hashes.join(', ')}`;
         const { resource } = evt;
 
         this.origin = new URL(resource).origin; // Our @types/node doesn't have it
+    }
+
+    private onScanEnd(): void {
+        this.scanEnded = true;
     }
 
     public constructor(context: HintContext) {
@@ -315,8 +471,15 @@ Actual:   ${hashes.join(', ')}`;
             this.originCriteria = context.hintOptions.originCriteria || this.originCriteria;
         }
 
-        context.on('fetch::end::script', this.validateResource.bind(this));
-        context.on('fetch::end::css', this.validateResource.bind(this));
+        context.on('fetch::end::script', (evt: FetchEnd) => {
+            this.validateResource(evt, this.origin);
+        });
+        context.on('fetch::end::css', (evt: FetchEnd) => {
+            this.validateResource(evt, this.origin);
+        });
+        context.on('element::script', this.validateScriptElement.bind(this));
+        context.on('element::link', this.validateStyleElement.bind(this));
         context.on('fetch::end::html', this.setOrigin.bind(this));
+        context.on('scan::end', this.onScanEnd.bind(this));
     }
 }

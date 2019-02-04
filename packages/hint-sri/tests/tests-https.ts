@@ -38,7 +38,7 @@ const configOriginAllTestsHttps: HintTest[] = [
     },
     {
         name: `Page with a same-origin resource and SRI sha256 fails`,
-        reports: [{ message: `The hash algorithm "sha256" doesn't meet the baseline "sha384"` }],
+        reports: [{ message: `The hash algorithm "sha256" doesn't meet the baseline "sha384" in resource https://localhost/styles.css` }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css" integrity="sha256-Co6dxAFGp9WWTjNjtVDW/Qmqyfk2qEbYzj6sFYvqogA">'),
             '/styles.css': styles
@@ -75,9 +75,9 @@ const configOriginAllTestsHttps: HintTest[] = [
     {
         name: `Page with a same-origin and invalid SRI sha384 fails`,
         reports: [{
-            message: `The hash in the "integrity" attribute doesn't match the received payload.
-Expected: sha384-thisIsAnInvalidHash
-Actual:   sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4`
+            message: `The hash in the "integrity" attribute in resource https://localhost/styles.css doesn't match the received payload.
+Expected: sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4
+Actual:   sha384-thisIsAnInvalidHash`
         }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css" integrity="sha384-thisIsAnInvalidHash">'),
@@ -87,9 +87,9 @@ Actual:   sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv
     {
         name: `Page with a same-origin and invalid SRI sha512 fails`,
         reports: [{
-            message: `The hash in the "integrity" attribute doesn't match the received payload.
-Expected: sha512-thisIsAnInvalidHash
-Actual:   sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaASFg1VeCzTKs1QIMkWaL1ewsA==`
+            message: `The hash in the "integrity" attribute in resource https://localhost/styles.css doesn't match the received payload.
+Expected: sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaASFg1VeCzTKs1QIMkWaL1ewsA==
+Actual:   sha512-thisIsAnInvalidHash`
         }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css" integrity="sha512-thisIsAnInvalidHash">'),
@@ -98,7 +98,7 @@ Actual:   sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaAS
     },
     {
         name: `Page with a same-origin and SRI md5 fails`,
-        reports: [{ message: `The format of the "integrity" attribute should be "sha(256|384|512)-HASH": md5-KN0EFM…` }],
+        reports: [{ message: `The format of the "integrity" attribute for resource https://localhost/styles.css should be "sha(256|384|512)-HASH": md5-KN0EFM…` }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css" integrity="md5-KN0EFMmDMGw+LloyF6rO5w==">'),
             '/styles.css': styles
@@ -125,7 +125,7 @@ Actual:   sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaAS
     },
     {
         name: `Page with cross-origin script with SRI and not "crossorigin" fails`,
-        reports: [{ message: 'Cross-origin scripts need a "crossorigin" attribute to be eligible for integrity validation' }],
+        reports: [{ message: 'Cross-origin resource https://code.jquery.com/jquery-3.3.1.slim.min.js needs a "crossorigin" attribute to be eligible for integrity validation' }],
         serverConfig: {
             '/': generateHTMLPage(`<link rel="stylesheet" href="/styles.css" integrity="sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4">
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>`),
@@ -150,7 +150,7 @@ Actual:   sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaAS
     },
     {
         name: `Page with cross-origin script with SRI and 'crossorigin="invalid"' fails`,
-        reports: [{ message: `Attribute "crossorigin" doesn't have a valid value, should "anonymous" or "use-credentials": crossorigin="invalid"` }],
+        reports: [{ message: `Attribute "crossorigin" for resource https://code.jquery.com/jquery-3.3.1.slim.min.js doesn't have a valid value, should "anonymous" or "use-credentials": crossorigin="invalid"` }],
         serverConfig: {
             '/': generateHTMLPage(`<link rel="stylesheet" href="/styles.css" integrity="sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4">
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="invalid"></script>`),
@@ -184,9 +184,9 @@ Actual:   sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaAS
     {
         name: `Page with same-origin resource and different hashes for the same algorithm fails if none match`,
         reports: [{
-            message: `The hash in the "integrity" attribute doesn't match the received payload.
-Expected: sha384-randomHash1, sha384-randomHash2
-Actual:   sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4`
+            message: `The hash in the "integrity" attribute in resource https://localhost/styles.css doesn't match the received payload.
+Expected: sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4
+Actual:   sha384-randomHash1, sha384-randomHash2`
         }],
         serverConfig: {
             '/': generateHTMLPage(`<link rel="stylesheet" href="/styles.css" integrity="sha384-randomHash1
@@ -206,7 +206,7 @@ Actual:   sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv
     /*
      *  {
      *      name: `Page with same-origin resource and multiple "integrity" attributes and the first one is invalid, fails`,
-     *      reports: [{ message: `The hash in the "integrity" attribute doesn't match the received payload` }],
+     *      reports: [{ message: `The hash in the "integrity" attribute in resource https://localhost/styles.css doesn't match the received payload` }],
      *      serverConfig: {
      *          '/': generateHTMLPage(`<link rel="stylesheet" href="/styles.css" integrity="sha384-thisIsInvalid"
      *          integrity="sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4">`),
@@ -219,7 +219,7 @@ Actual:   sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv
 const configTestsHigh: HintTest[] = [
     {
         name: `Page with a same-origin resource and SRI sha256 fails if baseline is 512`,
-        reports: [{ message: `The hash algorithm "sha256" doesn't meet the baseline "sha512"` }],
+        reports: [{ message: `The hash algorithm "sha256" doesn't meet the baseline "sha512" in resource https://localhost/styles.css` }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css" integrity="sha256-Co6dxAFGp9WWTjNjtVDW/Qmqyfk2qEbYzj6sFYvqogA">'),
             '/styles.css': styles
@@ -227,7 +227,7 @@ const configTestsHigh: HintTest[] = [
     },
     {
         name: `Page with a same-origin resource and SRI sha384 fails if baseline is 512`,
-        reports: [{ message: `The hash algorithm "sha384" doesn't meet the baseline "sha512"` }],
+        reports: [{ message: `The hash algorithm "sha384" doesn't meet the baseline "sha512" in resource https://localhost/styles.css` }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css" integrity="sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4">'),
             '/styles.css': styles
