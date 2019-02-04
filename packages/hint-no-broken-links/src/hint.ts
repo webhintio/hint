@@ -61,7 +61,7 @@ export default class NoBrokenLinksHint implements IHint {
          * When DNS resolution fails, it will be handled here (ex : https://thissitedoesnotexist.com/ )
          */
         const handleRejection = (error: any, url: string, element: IAsyncHTMLElement) => {
-            debug(`Error accessing {$absoluteURL}. ${JSON.stringify(error)}`);
+            debug(`Error accessing ${url}. ${JSON.stringify(error)}`);
 
             if (typeof error === 'string' && error.toLowerCase().includes('loop')) {
                 return context.report(url, error, { element });
