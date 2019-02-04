@@ -38,7 +38,7 @@
     "ts-loader": "^5.3.3",
     "typescript": "^3.3.1",
     "@typescript-eslint/parser": "1.2.0",
-    "webpack": "^4.29.0",
+    "webpack": "^4.29.1",
     "webpack-cli": "^3.2.1"
   },
   "engines": {
