@@ -401,9 +401,13 @@ Actual:   ${integrities.join(', ')}`;
         }
 
         /*
-         * Requester is not included in webpack bundle for `extension-browser`.
+         * `requestAsync` is not included in webpack bundle for `extension-browser`.
          * This is ok because the browser will have already requested this via `fetch::end`
          * events.
+         *
+         * Note: We are not using `Requester` becuase it depends on `iltorb` and it can
+         * cause problems with the vscode-extension because `iltorb` dependens on the
+         * node version for which it was compiled.
          */
         if (!requestAsync) {
             return;
