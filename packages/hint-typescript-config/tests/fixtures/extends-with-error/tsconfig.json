@@ -1,0 +1,6 @@
+{
+    "compilerOptions": {
+        "module": "esnext"
+    },
+    "extends": "../no-comments/invalid/tsconfig.json"
+}

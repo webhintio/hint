@@ -4,8 +4,9 @@ import { promisify } from 'util';
 
 import { cloneDeep } from 'lodash';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { Engine } from 'hint/dist/src/lib/engine';
+
 import { FetchEnd, IJSONResult, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
+import { Engine } from 'hint';
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
@@ -148,11 +149,22 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
                 await this.updateSchema();
             }
 
-            result = parseJSON(fetchEnd.response.body.content);
+            result = parseJSON(fetchEnd.response.body.content, 'extends');
 
             const originalConfig = cloneDeep(result.data);
 
             const config = await this.finalConfig<TypeScriptConfig>(result.data, resource);
+
+            if (config instanceof Error) {
+                await this.engine.emitAsync(`parse::error::typescript-config::extends`,
+                    {
+                        error: config,
+                        getLocation: result.getLocation,
+                        resource: config.resource
+                    });
+
+                return;
+            }
 
             if (!config) {
                 return;

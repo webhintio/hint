@@ -5,7 +5,7 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
-import { BabelConfigEvents, BabelConfigInvalidJSON, BabelConfigInvalidSchema } from '@hint/parser-babel-config';
+import { BabelConfigEvents, BabelConfigExtendsError, BabelConfigInvalidJSON, BabelConfigInvalidSchema } from '@hint/parser-babel-config';
 
 import meta from './meta/is-valid';
 
@@ -28,6 +28,14 @@ export default class BabelConfigIsValidHint implements IHint {
             await context.report(resource, error.message);
         };
 
+        const invalidExtends = async (babelConfigInvalid: BabelConfigExtendsError, event: string) => {
+            const { error, resource, getLocation } = babelConfigInvalid;
+
+            debug(`${event} received`);
+
+            await context.report(resource, error.message, { location: getLocation('extends') });
+        };
+
         const invalidSchema = async (fetchEnd: BabelConfigInvalidSchema) => {
             const { groupedErrors, resource } = fetchEnd;
 
@@ -41,8 +49,7 @@ export default class BabelConfigIsValidHint implements IHint {
         };
 
         context.on('parse::error::babel-config::json', invalidJSONFile);
-        context.on('parse::error::babel-config::circular', invalidJSONFile);
-        context.on('parse::error::babel-config::extends', invalidJSONFile);
+        context.on('parse::error::babel-config::extends', invalidExtends);
         context.on('parse::error::babel-config::schema', invalidSchema);
     }
 }

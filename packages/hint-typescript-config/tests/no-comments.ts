@@ -15,6 +15,17 @@ const tests: HintLocalTest[] = [
         name: 'Configuration with "compilerOptions.removeComments = false" should fail',
         path: path.join(__dirname, 'fixtures', 'no-comments', 'invalid'),
         reports: [{ message: 'The compiler option "removeComments" should be enabled to reduce the output size.' }]
+    },
+    {
+        name: 'Configuration with "compilerOptions.removeComments = false" in extends should fail',
+        path: path.join(__dirname, 'fixtures', 'extends-with-error'),
+        reports: [{
+            message: 'The compiler option "removeComments" should be enabled to reduce the output size.',
+            position: {
+                column: 5,
+                line: 4
+            }
+        }]
     }
 ];
 

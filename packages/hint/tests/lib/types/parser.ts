@@ -4,7 +4,7 @@ import * as proxyquire from 'proxyquire';
 import { EventEmitter2 } from 'eventemitter2';
 
 import { ExtendableConfiguration } from '../../../src/lib/types/parser';
-import { Events, ErrorEvent } from '../../../src/lib/types';
+import { Events } from '../../../src/lib/types';
 import { Engine } from '../../../src/lib/engine';
 
 type FileModule = {
@@ -109,7 +109,7 @@ test(`If config doesn't have an extends property, it should return the same obje
     t.true(config === result);
 });
 
-test('If there is a circular reference, it should throw an exception', async (t) => {
+test('If there is a circular reference, it should return an instance of an Error', async (t) => {
     const sandbox = t.context.sandbox;
     const Parser = loadScript(t.context);
 
@@ -127,18 +127,15 @@ test('If there is a circular reference, it should throw an exception', async (t)
 
     sandbox.stub(t.context.asPathString, 'default').returns('circularReference');
     sandbox.stub(t.context.path, 'resolve').returns('circularReference');
-    const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
 
     const testParser = new TestParser(t.context.engine);
-
     const result = await testParser.config(config, 'circularReference');
 
-    t.is(result, null);
-    t.true(engineEmitAsyncSpy.calledOnce);
-    t.is((engineEmitAsyncSpy.args[0][1] as ErrorEvent).error.message, 'Circular reference found in file circularReference');
+    t.true(result instanceof Error);
+    t.is(result.message, 'Circular reference found in file circularReference');
 });
 
-test('If one of the extended files is no a valid JSON, it should throw an exception', async (t) => {
+test('If one of the extended files is no a valid JSON, it should return an instance of an Error', async (t) => {
     const sandbox = t.context.sandbox;
     const Parser = loadScript(t.context);
 
@@ -157,14 +154,11 @@ test('If one of the extended files is no a valid JSON, it should throw an except
     sandbox.stub(t.context.asPathString, 'default').returns('valid-with-invalid-extends');
     sandbox.stub(t.context.path, 'resolve').returns('invalid-extends');
     sandbox.stub(t.context.loadJSONFileModule, 'default').throws(new Error('InvalidJSON'));
-    const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
 
     const testParser = new TestParser(t.context.engine);
-
     const result = await testParser.config(config, 'valid-with-invalid-extends');
 
-    t.true(engineEmitAsyncSpy.calledOnce);
-    t.is(result, null);
+    t.true(result instanceof Error);
 });
 
 test('If everything is ok, it should merge all the extended configurations', async (t) => {

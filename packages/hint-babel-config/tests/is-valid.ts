@@ -72,14 +72,26 @@ const tests: HintLocalTest[] = [
         name: 'If .babelrc contains a circular reference, it should fail',
         path: path.join(__dirname, 'fixtures', 'circular'),
         reports: [
-            { message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', '.babelrc')}` }
+            {
+                message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', '.babelrc')}`,
+                position: {
+                    column: 3,
+                    line: 1
+                }
+            }
         ]
     },
     {
         name: 'If .babelrc contains an invalid extends, it should fail',
         path: path.join(__dirname, 'fixtures', 'invalid-extends'),
         reports: [
-            { message: `Unexpected token ' in JSON at position 191` }
+            {
+                message: `Unexpected token ' in JSON at position 191`,
+                position: {
+                    column: 3,
+                    line: 1
+                }
+            }
         ]
     }
 ];
