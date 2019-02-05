@@ -34,7 +34,7 @@ export default class CSSParser extends Parser<StyleEvents> {
                 resource
             });
 
-        } catch (err) {
+        } catch (err) /* istanbul ignore next */ {
             logger.error(`Error parsing CSS code: ${code} - ${err}`);
         }
     }
@@ -62,7 +62,7 @@ export default class CSSParser extends Parser<StyleEvents> {
     private getStyleContent(styleTagText: string) {
         const match = styleTagText.match(styleContentRegex);
 
-        return match ? match[1].trim() : styleTagText;
+        return match ? match[1].trim() : /* istanbul ignore next */ styleTagText;
     }
 
     private async parseStyleTag(elementFound: ElementFound) {

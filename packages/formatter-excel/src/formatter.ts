@@ -34,7 +34,7 @@ const startRow = 5;
  */
 
 export default class ExcelFormatter implements IFormatter {
-    public async format(messages: Problem[], target = '') {
+    public async format(messages: Problem[], /* istanbul ignore next */ target = '') {
         if (messages.length === 0) {
             return;
         }

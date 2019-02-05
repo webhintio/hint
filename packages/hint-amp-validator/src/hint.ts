@@ -25,7 +25,7 @@ export default class AmpValidatorHint implements IHint {
 
     public constructor(context: HintContext) {
         let validPromise: Promise<amphtmlValidator.Validator>;
-        const errorsOnly = context.hintOptions && context.hintOptions['errors-only'] || false;
+        const errorsOnly = context.hintOptions && /* istanbul ignore next */ context.hintOptions['errors-only'] || false;
         let events: FetchEnd[] = [];
 
         const onFetchEndHTML = (fetchEnd: FetchEnd) => {
@@ -68,7 +68,7 @@ export default class AmpValidatorHint implements IHint {
                      * if user has configured the hint like that.
                      */
                     /* istanbul ignore if */
-                    if (errorsOnly && error.severity !== 'ERROR') {
+                    if (errorsOnly && /* istanbul ignore next */ error.severity !== 'ERROR') {
                         debug(`AMP error doesn't meet threshold for reporting`);
                     } else {
                         const location = {
