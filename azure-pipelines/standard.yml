@@ -1,7 +1,15 @@
 steps:
-  - script: brew update && brew cask install google-chrome
+  - script:
+      brew cask install google-chrome
     condition: eq(variables['Agent.OS'], 'Darwin')
     displayName: 'Install Chrome'
+  - script: |
+      /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version
+      /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome &
+      sleep 10
+      ps aux | grep conky | grep -v grep | awk '{print $2}' | xargs kill
+    condition: eq(variables['Agent.OS'], 'Darwin')
+    displayName: 'Print Chrome version'
   - task: NodeTool@0
     inputs:
       versionSpec: $(node_version)
