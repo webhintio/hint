@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "chokidar": "^2.0.4",
+    "chokidar": "^2.1.0",
     "globby": "^9.0.0"
   },
   "description": "hint local connector",
