@@ -294,7 +294,7 @@ Actual:   ${integrities.join(', ')}`;
         return isOK;
     }
 
-    private getCache(evt: ElementFound | FetchEnd): ErrorData[] {
+    private getCache(evt: FetchEnd): ErrorData[] {
         const { element, resource } = evt;
 
         /* istanbul ignore if */
@@ -309,7 +309,7 @@ Actual:   ${integrities.join(', ')}`;
         return this.cache.get(key) || [];
     }
 
-    private isInCache(evt: ElementFound | FetchEnd): boolean {
+    private isInCache(evt: FetchEnd): boolean {
         const { element, resource } = evt;
 
         /* istanbul ignore if */
@@ -324,12 +324,12 @@ Actual:   ${integrities.join(', ')}`;
         return this.cache.has(key);
     }
 
-    private addToCache(evt: FetchEnd): ErrorData[] {
+    private addToCache(evt: FetchEnd) {
         const { element, resource } = evt;
 
         /* istanbul ignore if */
         if (!element) {
-            return [];
+            return Promise.resolve(false);
         }
 
         const integrity = element.getAttribute('integrity');
@@ -340,24 +340,122 @@ Actual:   ${integrities.join(', ')}`;
             this.cache.set(key, []);
         }
 
-        return this.cache.get(key)!;
+        return Promise.resolve(true);
+    }
+
+    private isNotLocalResource(evt: FetchEnd) {
+        const { resource } = evt;
+
+        /*
+         * If the resource is a local file, ignore the analysis.
+         * The sri usually is added on the building process before publish,
+         * so is going to be very common that the sri doesn't exists
+         * for local files.
+         */
+        if (resource.startsWith('file://')) {
+            debug(`Ignoring local resource: ${resource}`);
+
+            return Promise.resolve(false);
+        }
+
+        return Promise.resolve(true);
+    }
+
+    private async isScanEnded(evt: FetchEnd) {
+        const isInCache = this.isInCache(evt);
+
+        if (this.scanEnded && isInCache) {
+            /*
+             * The item is cached. For the VSCode extension and the
+             * local connector with option 'watch' activated we
+             * should report what we have in the cache after the
+             * first 'scan::end'.
+             */
+            const promises = this.getCache(evt).map((error) => {
+                return this.context.report(error.resource, error.message, error.options);
+            });
+
+            await Promise.all(promises);
+
+            // Return false to stop the validations.
+            return false;
+        }
+
+        return !isInCache;
+    }
+
+    private async downloadContent(evt: FetchEnd) {
+        const { resource, response, element } = evt;
+
+        /*
+         * `requestAsync` is not included in webpack bundle for `extension-browser`.
+         * This is ok because the browser will have already requested this via `fetch::end`
+         * events.
+         *
+         * Note: We are not using `Requester` because it depends on `iltorb` and it can
+         * cause problems with the vscode-extension because `iltorb` dependens on the
+         * node version for which it was compiled.
+         *
+         * We can probably use Requester once https://github.com/webhintio/hint/issues/1604 is done,
+         * and vscode use the node version that support it.
+         *
+         * When the crossorigin="use-credentials" but the response contains
+         * the header `Access-Control-Allow-Origin` with value `*` Chrome block the access
+         * to the resource by CORS policy, so we will reach this point
+         * through the traverse of the dom and response.body.content will be ''. In this case,
+         * we have to prevent download any resource.
+         */
+        if (!requestAsync && !response.body.content) {
+            // Stop the validations.
+            return false;
+        }
+
+        if (!requestAsync) {
+            return true;
+        }
+
+        /*
+         * If the content already exists, we don't need to download it.
+         */
+        if (response.body.content) {
+            return true;
+        }
+
+        try {
+            response.body.content = await requestAsync({
+                method: 'GET',
+                url: resource
+            });
+
+            return true;
+        } catch (e) {
+            debug(`Error accessing ${resource}. ${JSON.stringify(e)}`);
+
+            await this.context.report(origin, `Can't get the resource ${resource}`, { element });
+
+            return false;
+        }
     }
 
     /** Validation entry point. */
     private async validateResource(evt: FetchEnd, origin: string) {
-        const cacheErrors = this.addToCache(evt);
-
         const validations = [
+            this.isScanEnded,
+            this.addToCache,
             this.isScriptOrLink,
+            this.isNotLocalResource,
             this.isEligibleForIntegrityValidation,
             this.hasIntegrityAttribute,
             this.isIntegrityFormatValid,
             this.isSecureContext,
+            this.downloadContent,
             this.hasRightHash
         ].map((fn) => {
             // Otherwise `this` will be undefined when we call to the fn inside `every`
             return fn.bind(this);
         });
+
+        const cacheErrors = this.getCache(evt);
 
         debug(`Validating integrity of: ${evt.resource}`);
 
@@ -381,78 +479,14 @@ Actual:   ${integrities.join(', ')}`;
 
         /*
          * 'this.isScriptOrLink' has already checked
-         * that the src attribute exists, so it is safe to use !.
+         * that the src or href attribute exists, so it is safe to use !.
          */
-        evt.resource = new URL(evt.element.getAttribute('src') || evt.element.getAttribute('href'), evt.resource).href;
+        evt.resource = new URL(evt.element.getAttribute('src')! || evt.element.getAttribute('href')!, evt.resource).href;
 
-        if (this.isInCache(evt)) {
-            /*
-             * The item is cached. For the VSCode extension and the
-             * local connector with option 'watch' activated we
-             * should report what we have in the cache after the
-             * first 'scan::end'.
-             */
-            if (this.scanEnded) {
-                const promises = this.getCache(evt).map((error) => {
-                    return this.context.report(error.resource, error.message, error.options);
-                });
-
-                await Promise.all(promises);
-            }
-
-            return;
-        }
-
-        const { resource, element } = evt;
-        let content: NetworkData;
-
-        /*
-         * If the resource is a local file, ignore the analysis.
-         * The sri usually is added on the building process before publish,
-         * so is going to be very common that the sri doesn't exists
-         * for local files.
-         */
-        if (resource.startsWith('file://')) {
-            debug(`Ignoring local resource: ${resource}`);
-
-            return;
-        }
-
-        /*
-         * `requestAsync` is not included in webpack bundle for `extension-browser`.
-         * This is ok because the browser will have already requested this via `fetch::end`
-         * events.
-         *
-         * Note: We are not using `Requester` because it depends on `iltorb` and it can
-         * cause problems with the vscode-extension because `iltorb` dependens on the
-         * node version for which it was compiled.
-         *
-         * We can probably use Requester once https://github.com/webhintio/hint/issues/1604 is done,
-         * and vscode use the node version that support it.
-         */
-        if (!requestAsync) {
-            return;
-        }
-
-        try {
-            content = {
-                request: {} as Request,
-                response: {
-                    body: {
-                        content: await requestAsync({
-                            method: 'GET',
-                            url: resource
-                        })
-                    }
-                } as Response
-            };
-        } catch (e) {
-            debug(`Error accessing ${resource}. ${JSON.stringify(e)}`);
-
-            await this.context.report(origin, `Can't get the resource ${resource}`, { element });
-
-            return;
-        }
+        const content: NetworkData = {
+            request: {} as Request,
+            response: { body: { content: '' } } as Response
+        };
 
         await this.validateResource(Object.assign(evt, {
             request: content.request,

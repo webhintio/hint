@@ -1,1 +1,1 @@
-export = null;
+export = { default: null };
