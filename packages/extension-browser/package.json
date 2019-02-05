@@ -63,7 +63,7 @@
     "typescript-eslint-parser": "^22.0.0",
     "util.promisify": "^1.0.0",
     "webpack": "^4.29.1",
-    "webpack-cli": "^3.2.1"
+    "webpack-cli": "^3.2.2"
   },
   "engines": {
     "node": ">=8.0.0"
