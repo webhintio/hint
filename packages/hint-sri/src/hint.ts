@@ -366,7 +366,25 @@ Actual:   ${integrities.join(', ')}`;
         });
     }
 
-    private async validateElement(evt: ElementFound, origin: string) {
+    /**
+     * Validation entry point for event element::script
+     * or element::link
+     */
+    private async validateElement(evt: ElementFound) {
+        const isScriptOrLink = await this.isScriptOrLink(evt as FetchEnd);
+
+        if (!isScriptOrLink) {
+            return;
+        }
+
+        const origin = evt.resource;
+
+        /*
+         * 'this.isScriptOrLink' has already checked
+         * that the src attribute exists, so it is safe to use !.
+         */
+        evt.resource = new URL(evt.element.getAttribute('src') || evt.element.getAttribute('href'), evt.resource).href;
+
         if (this.isInCache(evt)) {
             /*
              * The item is cached. For the VSCode extension and the
@@ -405,9 +423,12 @@ Actual:   ${integrities.join(', ')}`;
          * This is ok because the browser will have already requested this via `fetch::end`
          * events.
          *
-         * Note: We are not using `Requester` becuase it depends on `iltorb` and it can
+         * Note: We are not using `Requester` because it depends on `iltorb` and it can
          * cause problems with the vscode-extension because `iltorb` dependens on the
          * node version for which it was compiled.
+         *
+         * We can probably use Requester once https://github.com/webhintio/hint/issues/1604 is done,
+         * and vscode use the node version that support it.
          */
         if (!requestAsync) {
             return;
@@ -439,42 +460,6 @@ Actual:   ${integrities.join(', ')}`;
         }), origin);
     }
 
-    /** Validation entry point for event element::script */
-    private async validateScriptElement(evt: ElementFound) {
-        const isScript = await this.isScriptOrLink(evt as FetchEnd);
-
-        if (!isScript) {
-            return;
-        }
-
-        const origin = evt.resource;
-
-        /*
-         * 'this.isScriptOrLink' has already checked
-         * that the src attribute exists, so it is safe to use !.
-         */
-        evt.resource = new URL(evt.element.getAttribute('src')!, evt.resource).href;
-        await this.validateElement(evt, origin);
-    }
-
-    /** Validation entry point for events element::link */
-    private async validateStyleElement(evt: ElementFound) {
-        const isLink = await this.isScriptOrLink(evt as FetchEnd);
-
-        if (!isLink) {
-            return;
-        }
-
-        const origin = evt.resource;
-
-        /*
-         * 'this.isScriptOrLink' has already checked
-         * that the href attribute exists, so it is safe to use !.
-         */
-        evt.resource = new URL(evt.element.getAttribute('href')!, evt.resource).href;
-        await this.validateElement(evt, origin);
-    }
-
     /** Sets the `origin` property using the initial request. */
     private setOrigin(evt: FetchEnd): void {
         const { resource } = evt;
@@ -500,8 +485,8 @@ Actual:   ${integrities.join(', ')}`;
         context.on('fetch::end::css', (evt: FetchEnd) => {
             this.validateResource(evt, this.origin);
         });
-        context.on('element::script', this.validateScriptElement.bind(this));
-        context.on('element::link', this.validateStyleElement.bind(this));
+        context.on('element::script', this.validateElement.bind(this));
+        context.on('element::link', this.validateElement.bind(this));
         context.on('fetch::end::html', this.setOrigin.bind(this));
         context.on('scan::end', this.onScanEnd.bind(this));
     }
