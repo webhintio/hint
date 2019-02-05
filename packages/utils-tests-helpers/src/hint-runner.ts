@@ -102,6 +102,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, results: Proble
         const found = reportsCopy.some((report, i) => {
             index = i;
 
+
             if (report.message !== result.message) {
                 return false;
             }
