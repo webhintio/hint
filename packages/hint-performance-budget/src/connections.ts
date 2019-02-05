@@ -77,7 +77,7 @@ const ids = connections.map((connection) => {
 const getById = (id: string): NetworkConfig | null => {
     return connections.find((connection) => {
         return connection.id === id;
-    }) || null;
+    }) || /* istanbul ignore next */ null;
 };
 
 export {

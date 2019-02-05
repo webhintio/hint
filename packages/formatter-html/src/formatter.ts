@@ -90,7 +90,7 @@ export default class HTMLFormatter implements IFormatter {
     }
 
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public async format(problems: Problem[], target = '', options: FormatterOptions = {}) {
+    public async format(problems: Problem[], /* istanbul ignore next */ target = '', /* istanbul ignore next */ options: FormatterOptions = {}) {
 
         debug('Formatting results');
 

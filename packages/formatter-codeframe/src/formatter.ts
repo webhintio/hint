@@ -47,10 +47,12 @@ const safeTrim = (txt: string, charsToRemove: number): boolean => {
 };
 
 const codeFrame = (code: string, location: ProblemLocation) => {
+    /* istanbul ignore next */
+    const line: number = typeof location.elementLine === 'number' ? location.elementLine : -1;
+    /* istanbul ignore next */
+    const column: number = typeof location.elementColumn === 'number' ? location.elementColumn : -1;
     const codeInLines: string[] = `\n${code}`.split('\n');
     const whiteSpacesToRemove: number = countLeftWhiteSpaces(codeInLines[codeInLines.length - 1]);
-    const line: number = typeof location.elementLine === 'number' ? location.elementLine : -1;
-    const column: number = typeof location.elementColumn === 'number' ? location.elementColumn : -1;
     const offsetColumn: number = location.column;
     const extraLinesToShow: number = 2;
     const firstLine: number = line - extraLinesToShow > 0 ? line - extraLinesToShow : 0;
@@ -82,6 +84,7 @@ const codeFrame = (code: string, location: ProblemLocation) => {
             if (line !== 1 && canTrim) {
                 markPosition += offsetColumn;
             }
+
 
             if (markPosition < 0) {
                 markPosition = 0;

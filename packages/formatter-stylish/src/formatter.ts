@@ -108,8 +108,8 @@ export default class StylishFormatter implements IFormatter {
             logger.log('');
         });
 
-        const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
+        const color: typeof chalk = totalErrors > 0 ? chalk.red : /* istanbul ignore next */ chalk.yellow;
 
-        logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? 'warning' : 'warnings'}`));
+        logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? /* istanbul ignore next */ 'warning' : 'warnings'}`));
     }
 }
