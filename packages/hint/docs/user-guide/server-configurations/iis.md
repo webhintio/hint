@@ -47,6 +47,12 @@ related hint.
                 <remove name="X-Version"/>
                 <!-- Security headers ("strict-transport-security") -->
                 <add name="Strict-Transport-Security" value="max-age=31536000"/>
+                <!--
+                    Security headers ("x-content-type-options")
+                    All resources must serve with this response header set to "nosniff"
+                    https://webhint.io/docs/user-guide/hints/hint-x-content-type-options/
+                -->
+                <add name="X-Content-Type-Options" value="nosniff" />
             </customHeaders>
         </httpProtocol>
         <!--
@@ -141,15 +147,6 @@ related hint.
                         <add input="{CompressedExtensions:{C:1}}" pattern="(.+)" />
                     </conditions>
                     <action type="Rewrite" value="{C:3}" />
-                </rule>
-
-                <!-- Remove X-Content-Type from everywhere but JS and CSS ("x-content-type-options") -->
-                <rule name="X-Content-Type-Options" enabled="true">
-                    <match serverVariable="RESPONSE_X_Content_Type_Options" pattern=".*" />
-                    <conditions>
-                        <add input="{RESPONSE_Content_Type}" pattern="text/(javascript|css)" />
-                    </conditions>
-                    <action type="Rewrite" value="nosniff"/>
                 </rule>
 
                 <!--

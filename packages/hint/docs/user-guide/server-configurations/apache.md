@@ -529,6 +529,17 @@ AddDefaultCharset utf-8
 #     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 # </IfModule>
 
+# ----------------------------------------------------------------------
+# | X-Content-Type-Options                                             |
+# ----------------------------------------------------------------------
+
+# Serve resources with the x-content-type-options header set to `nosniff`.
+# https://webhint.io/docs/user-guide/hints/hint-x-content-type-options/
+
+# <IfModule mod_headers.c>
+#     Header always set X-Content-Type-Options nosniff
+# </IfModule>
+
 
 # ######################################################################
 # # Unnedded / Disallowed headers                                      #

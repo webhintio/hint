@@ -76,6 +76,69 @@ Content-Type: text/javascript; charset=utf-8
 X-Content-Type-Options: nosniff
 ```
 
+## How to configure the server to pass this hint
+
+<details><summary>How to configure Apache</summary>
+
+Apache can be configured to add headers using the [`Header`
+directive][header directive].
+
+```apache
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+</IfModule>
+```
+
+Note that:
+
+* The above snippet works with Apache `v2.2.0+`, but you need to have
+  [`mod_headers`][mod_headers] [enabled][how to enable apache modules]
+  for it to take effect.
+
+* If you have access to the [main Apache configuration file][main
+  apache conf file] (usually called `httpd.conf`), you should add
+  the logic in, for example, a [`<Directory>`][apache directory]
+  section in that file. This is usually the recommended way as
+  [using `.htaccess` files slows down][htaccess is slow] Apache!
+
+  If you don't have access to the main configuration file (quite
+  common with hosting services), add the snippets in a `.htaccess`
+  file in the root of the web site/app.
+
+For the complete set of configurations, not just for this rule, see
+the [Apache server configuration related documentation][apache config].
+
+</details>
+
+<details>
+
+<summary>How to configure IIS</summary>
+
+You can add this header unconditionally to all responses.
+
+```xml
+<configuration>
+     <system.webServer>
+        <httpProtocol>
+            <customHeaders>
+                <add name="X-Content-Type-Options" value="nosniff" />
+            </customHeaders>
+        </httpProtocol>
+    </system.webServer>
+</configuration>
+```
+
+Note that:
+
+* The above snippet works with IIS 7+.
+* You should use the above snippet in the `web.config` of your
+  application.
+
+For the complete set of configurations, not just for this rule,
+see the [IIS server configuration related documentation][iis config].
+
+</details>
+
 ## How to use this hint?
 
 To use it you will have to install it via `npm`:
@@ -127,11 +190,10 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
 [header directive]: https://httpd.apache.org/docs/current/mod/mod_headers.html#header
 [how to enable apache modules]: https://github.com/h5bp/server-configs-apache/tree/7eb30da6a06ec4fc24daf33c75b7bd86f9ad1f68#enable-apache-httpd-modules
-[htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
+[htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
-[mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html
 
 <!-- IIS links -->
 
-[url rewrite]: https://docs.microsoft.com/en-us/iis/extensions/url-rewrite-module/using-the-url-rewrite-module
+[iis config]: https://webhint.io/docs/user-guide/server-configurations/iis/
