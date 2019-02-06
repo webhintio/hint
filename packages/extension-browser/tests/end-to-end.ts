@@ -57,7 +57,7 @@ test('It runs end-to-end in a page', async (t) => {
 
     await page.goto(url);
 
-    const resultsPromise: Promise<Results> = page.evaluate(() => {
+    const resultsPromise = page.evaluate(() => {
         return new Promise<Results>((resolve) => {
             let onMessage: ((events: Events) => void) = () => { };
 
