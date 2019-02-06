@@ -6,5 +6,6 @@ export enum Category {
     other = 'other',
     pwa = 'pwa',
     performance = 'performance',
+    pitfalls = 'pitfalls',
     security = 'security'
 }

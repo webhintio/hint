@@ -49,7 +49,7 @@ test(`HTML formatter returns the right object`, async (t) => {
 
     t.plan((result.categories.length * 2) + 2);
 
-    t.is(result.categories.length, 7);
+    t.is(result.categories.length, 8);
     t.is(result.hintsCount, 0);
 
     result.categories.forEach((cat) => {
@@ -66,7 +66,7 @@ test(`HTML formatter returns the right number of erros and warnings`, async (t) 
 
     t.plan(13);
 
-    t.is(result.categories.length, 7);
+    t.is(result.categories.length, 8);
     t.is(result.hintsCount, 5);
 
     const otherCategory = result.getCategoryByName(Category.other);
@@ -99,7 +99,7 @@ test(`HTML formatter returns the right number of erros and warnings`, async (t) 
 
     result.removeCategory(Category.development);
 
-    t.is(result.categories.length, 6);
+    t.is(result.categories.length, 7);
     t.is(result.hintsCount, 4);
 });
 
