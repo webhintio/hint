@@ -343,15 +343,15 @@ Actual:   ${integrities.join(', ')}`;
         return Promise.resolve(true);
     }
 
+    /**
+     * If the resource is a local file, ignore the analysis.
+     * The sri usually is added on the building process before publish,
+     * so is going to be very common that the sri doesn't exists
+     * for local files.
+     */
     private isNotLocalResource(evt: FetchEnd) {
         const { resource } = evt;
 
-        /*
-         * If the resource is a local file, ignore the analysis.
-         * The sri usually is added on the building process before publish,
-         * so is going to be very common that the sri doesn't exists
-         * for local files.
-         */
         if (resource.startsWith('file://')) {
             debug(`Ignoring local resource: ${resource}`);
 
@@ -377,7 +377,6 @@ Actual:   ${integrities.join(', ')}`;
 
             await Promise.all(promises);
 
-            // Return false to stop the validations.
             return false;
         }
 
@@ -399,11 +398,11 @@ Actual:   ${integrities.join(', ')}`;
          * We can probably use Requester once https://github.com/webhintio/hint/issues/1604 is done,
          * and vscode use the node version that support it.
          *
-         * When the crossorigin="use-credentials" but the response contains
-         * the header `Access-Control-Allow-Origin` with value `*` Chrome block the access
+         * When using crossorigin="use-credentials" and the response contains
+         * the header `Access-Control-Allow-Origin` with value `*` Chrome blocks the access
          * to the resource by CORS policy, so we will reach this point
          * through the traverse of the dom and response.body.content will be ''. In this case,
-         * we have to prevent download any resource.
+         * we have to prevent the download of the resource.
          */
         if (!requestAsync && !response.body.content) {
             // Stop the validations.
@@ -414,9 +413,7 @@ Actual:   ${integrities.join(', ')}`;
             return true;
         }
 
-        /*
-         * If the content already exists, we don't need to download it.
-         */
+        /* If the content already exists, we don't need to download it. */
         if (response.body.content) {
             return true;
         }
