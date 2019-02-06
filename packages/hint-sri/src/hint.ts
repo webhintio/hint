@@ -14,7 +14,7 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
 
-import { Algorithms, OriginCriteria, ErrorData } from './types';
+import { Algorithms, OriginCriteria, ErrorData, URLs } from './types';
 import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
@@ -32,10 +32,12 @@ export default class SRIHint implements IHint {
 
     private context: HintContext;
     private origin: string = '';
+    private finalUrl: string = '';
     private baseline: keyof typeof Algorithms = 'sha384';
     private originCriteria: keyof typeof OriginCriteria = 'crossOrigin';
     private cache: Map<string, ErrorData[]> = new Map();
-    private scanEnded: boolean = false;
+    /** Contains the keys cache keys for the element already reported. */
+    private reportedKeys: Set<string> = new Set();
 
     /**
      * Returns the hash of the content for the given `sha` strengh in a format
@@ -94,14 +96,18 @@ export default class SRIHint implements IHint {
         return Promise.resolve(false);
     }
 
-    private async report(resource: string, message: string, options: ReportOptions, cacheErrors: ErrorData[]) {
+    private async report(resource: string, message: string, options: ReportOptions, evt: FetchEnd) {
         const errorData: ErrorData = {
             message,
             options,
             resource
         };
 
+        const cacheKey = this.getCacheKey(evt);
+        const cacheErrors = this.getCache(evt);
+
         cacheErrors.push(errorData);
+        this.reportedKeys.add(cacheKey);
 
         await this.context.report(errorData.resource, errorData.message, errorData.options);
     }
@@ -114,13 +120,13 @@ export default class SRIHint implements IHint {
      *
      * More info in https://w3c.github.io/webappsec-subresource-integrity/#is-response-eligible
      */
-    private async isEligibleForIntegrityValidation(evt: FetchEnd, origin: string, cacheErrors: ErrorData[]): Promise<boolean> {
+    private async isEligibleForIntegrityValidation(evt: FetchEnd, urls: URLs): Promise<boolean> {
         debug('Is eligible for integrity validation?');
 
         const { element, resource } = evt;
         const resourceOrigin: string = new URL(resource).origin;
 
-        if (origin === resourceOrigin) {
+        if (urls.origin === resourceOrigin) {
             return true;
         }
 
@@ -130,7 +136,7 @@ export default class SRIHint implements IHint {
         if (!crossorigin) {
             const message = `Cross-origin resource ${resource} needs a "crossorigin" attribute to be eligible for integrity validation`;
 
-            await this.report(origin, message, { element }, cacheErrors);
+            await this.report(urls.final, message, { element }, evt);
 
             return false;
         }
@@ -140,7 +146,7 @@ export default class SRIHint implements IHint {
         if (!validCrossorigin) {
             const message = `Attribute "crossorigin" for resource ${resource} doesn't have a valid value, should "anonymous" or "use-credentials": crossorigin="${crossorigin}"`;
 
-            await this.report(origin, message, { element }, cacheErrors);
+            await this.report(urls.final, message, { element }, evt);
         }
 
         return validCrossorigin;
@@ -150,19 +156,19 @@ export default class SRIHint implements IHint {
      * Checks if the element that triggered the download has the `integrity`
      * attribute if required based on the selected origin criteria.
      */
-    private async hasIntegrityAttribute(evt: FetchEnd, origin: string, cacheErrors: ErrorData[]): Promise<boolean> {
+    private async hasIntegrityAttribute(evt: FetchEnd, urls: URLs): Promise<boolean> {
         debug('has integrity attribute?');
         const { element, resource } = evt;
         const integrity = element && element.getAttribute('integrity');
         const resourceOrigin: string = new URL(resource).origin;
         const integrityRequired =
             OriginCriteria[this.originCriteria] === OriginCriteria.all ||
-            origin !== resourceOrigin;
+            urls.origin !== resourceOrigin;
 
         if (integrityRequired && !integrity) {
             const message = `Resource ${resource} requested without the "integrity" attribute`;
 
-            await this.report(origin, message, { element }, cacheErrors);
+            await this.report(urls.final, message, { element }, evt);
         }
 
         return !!integrity;
@@ -183,7 +189,7 @@ export default class SRIHint implements IHint {
      *
      * https://w3c.github.io/webappsec-subresource-integrity/#agility
      */
-    private async isIntegrityFormatValid(evt: FetchEnd, origin: string, cacheErrors: ErrorData[]): Promise<boolean> {
+    private async isIntegrityFormatValid(evt: FetchEnd, urls: URLs): Promise<boolean> {
         debug('Is integrity attribute valid?');
         const { element, resource } = evt;
         const integrity = element && element.getAttribute('integrity');
@@ -200,7 +206,7 @@ export default class SRIHint implements IHint {
                 // integrity must exist since we're iterating over integrityValues
                 const message = `The format of the "integrity" attribute for resource ${resource} should be "sha(256|384|512)-HASH": ${integrity!.substr(0, 10)}…`;
 
-                await that.report(origin, message, { element }, cacheErrors);
+                await that.report(urls.final, message, { element }, evt);
 
                 return false;
             }
@@ -224,7 +230,7 @@ export default class SRIHint implements IHint {
         if (!meetsBaseline) {
             const message = `The hash algorithm "${Algorithms[highestAlgorithmPriority]}" doesn't meet the baseline "${this.baseline}" in resource ${resource}`;
 
-            await this.report(origin, message, { element }, cacheErrors);
+            await this.report(urls.final, message, { element }, evt);
         }
 
         return meetsBaseline;
@@ -235,7 +241,7 @@ export default class SRIHint implements IHint {
      *
      * More info: https://w3c.github.io/webappsec-subresource-integrity/#non-secure-contexts
      */
-    private async isSecureContext(evt: FetchEnd, origin: string, cacheErrors: ErrorData[]): Promise<boolean> {
+    private async isSecureContext(evt: FetchEnd, urls: URLs): Promise<boolean> {
         debug('Is delivered on a secure context?');
         const { element, resource } = evt;
         const protocol = new URL(resource).protocol;
@@ -244,7 +250,7 @@ export default class SRIHint implements IHint {
         if (!isSecure) {
             const message = `The resource ${resource} is not delivered via a secure context`;
 
-            await this.report(origin, message, { element }, cacheErrors);
+            await this.report(urls.final, message, { element }, evt);
         }
 
         return isSecure;
@@ -258,7 +264,7 @@ export default class SRIHint implements IHint {
      *
      * More info: https://w3c.github.io/webappsec-subresource-integrity/#does-response-match-metadatalist
      */
-    private async hasRightHash(evt: FetchEnd, origin: string, cacheErrors: ErrorData[]): Promise<boolean> {
+    private async hasRightHash(evt: FetchEnd, urls: URLs): Promise<boolean> {
         debug('Does it have the right hash?');
         const { element, resource, response } = evt;
         const integrity = element && element.getAttribute('integrity');
@@ -288,40 +294,33 @@ export default class SRIHint implements IHint {
 Expected: ${hashes.join(', ')}
 Actual:   ${integrities.join(', ')}`;
 
-            await this.report(origin, message, { element }, cacheErrors);
+            await this.report(urls.final, message, { element }, evt);
         }
 
         return isOK;
     }
 
     private getCache(evt: FetchEnd): ErrorData[] {
-        const { element, resource } = evt;
+        const key = this.getCacheKey(evt);
 
-        /* istanbul ignore if */
-        if (!element) {
-            return [];
+        if (!this.cache.has(key)) {
+            this.cache.set(key, []);
         }
 
-        const integrity = element.getAttribute('integrity');
-
-        const key = `${resource}${integrity}`;
-
-        return this.cache.get(key) || [];
+        return this.cache.get(key)!;
     }
 
-    private isInCache(evt: FetchEnd): boolean {
+    private getCacheKey(evt: FetchEnd): string {
         const { element, resource } = evt;
 
         /* istanbul ignore if */
         if (!element) {
-            return false;
+            return '';
         }
 
         const integrity = element.getAttribute('integrity');
 
-        const key = `${resource}${integrity}`;
-
-        return this.cache.has(key);
+        return `${resource}${integrity}`;
     }
 
     private addToCache(evt: FetchEnd) {
@@ -367,13 +366,16 @@ Actual:   ${integrities.join(', ')}`;
      * should report what we have in the cache after the
      * first 'scan::end'.
      */
-    private async isScanEnded(evt: FetchEnd) {
-        const isInCache = this.isInCache(evt);
+    private async isInCache(evt: FetchEnd) {
+        const cacheKey = this.getCacheKey(evt);
+        const isInCache = this.cache.has(cacheKey);
 
-        if (this.scanEnded && isInCache) {
+        if (isInCache && !this.reportedKeys.has(cacheKey)) {
             const promises = this.getCache(evt).map((error) => {
                 return this.context.report(error.resource, error.message, error.options);
             });
+
+            this.reportedKeys.add(cacheKey);
 
             await Promise.all(promises);
 
@@ -389,7 +391,7 @@ Actual:   ${integrities.join(', ')}`;
      * events.
      *
      * Note: We are not using `Requester` because it depends on `iltorb` and it can
-     * cause problems with the vscode-extension because `iltorb` dependens on the
+     * cause problems with the vscode-extension because `iltorb` depends on the
      * node version for which it was compiled.
      *
      * We can probably use Requester once https://github.com/webhintio/hint/issues/1604 is done,
@@ -401,7 +403,7 @@ Actual:   ${integrities.join(', ')}`;
      * through the traverse of the dom and response.body.content will be ''. In this case,
      * we have to prevent the download of the resource.
      */
-    private async downloadContent(evt: FetchEnd) {
+    private async downloadContent(evt: FetchEnd, urls: URLs) {
         const { resource, response, element } = evt;
 
         if (!requestAsync && !response.body.content) {
@@ -428,16 +430,16 @@ Actual:   ${integrities.join(', ')}`;
         } catch (e) {
             debug(`Error accessing ${resource}. ${JSON.stringify(e)}`);
 
-            await this.context.report(origin, `Can't get the resource ${resource}`, { element });
+            await this.context.report(urls.final, `Can't get the resource ${resource}`, { element });
 
             return false;
         }
     }
 
     /** Validation entry point. */
-    private async validateResource(evt: FetchEnd, origin: string) {
+    private async validateResource(evt: FetchEnd, urls: URLs) {
         const validations = [
-            this.isScanEnded,
+            this.isInCache,
             this.addToCache,
             this.isScriptOrLink,
             this.isNotLocalResource,
@@ -452,12 +454,10 @@ Actual:   ${integrities.join(', ')}`;
             return fn.bind(this);
         });
 
-        const cacheErrors = this.getCache(evt);
-
         debug(`Validating integrity of: ${evt.resource}`);
 
         await everySeries(validations, async (validation: Function) => {
-            return await validation(evt, origin, cacheErrors);
+            return await validation(evt, urls);
         });
     }
 
@@ -472,7 +472,8 @@ Actual:   ${integrities.join(', ')}`;
             return;
         }
 
-        const origin = evt.resource;
+        const finalUrl = evt.resource;
+        const origin = new URL(evt.resource).origin;
 
         /*
          * 'this.isScriptOrLink' has already checked
@@ -488,7 +489,10 @@ Actual:   ${integrities.join(', ')}`;
         await this.validateResource(Object.assign(evt, {
             request: content.request,
             response: content.response
-        }), origin);
+        }), {
+            final: finalUrl,
+            origin
+        });
     }
 
     /** Sets the `origin` property using the initial request. */
@@ -496,10 +500,11 @@ Actual:   ${integrities.join(', ')}`;
         const { resource } = evt;
 
         this.origin = new URL(resource).origin; // Our @types/node doesn't have it
+        this.finalUrl = resource;
     }
 
     private onScanEnd(): void {
-        this.scanEnded = true;
+        this.reportedKeys.clear();
     }
 
     public constructor(context: HintContext) {
@@ -511,10 +516,16 @@ Actual:   ${integrities.join(', ')}`;
         }
 
         context.on('fetch::end::script', (evt: FetchEnd) => {
-            this.validateResource(evt, this.origin);
+            this.validateResource(evt, {
+                final: this.finalUrl,
+                origin: this.origin
+            });
         });
         context.on('fetch::end::css', (evt: FetchEnd) => {
-            this.validateResource(evt, this.origin);
+            this.validateResource(evt, {
+                final: this.finalUrl,
+                origin: this.origin
+            });
         });
         context.on('element::script', this.validateElement.bind(this));
         context.on('element::link', this.validateElement.bind(this));

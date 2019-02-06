@@ -17,3 +17,13 @@ export type ErrorData = {
     message: string;
     resource: string;
 };
+
+export type CacheComponents = {
+    key: string;
+    errors: ErrorData[];
+};
+
+export type URLs = {
+    origin: string;
+    final: string;
+};

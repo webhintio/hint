@@ -12,7 +12,7 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'local-pass')
     },
     {
-        name: 'If the ingregity is not valid it should fail',
+        name: 'If the intregity is not valid it should fail',
         path: path.join(__dirname, 'fixtures', 'local-no-pass'),
         reports: [{
             message: `The hash in the "integrity" attribute in resource https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/core.js doesn't match the received payload.
