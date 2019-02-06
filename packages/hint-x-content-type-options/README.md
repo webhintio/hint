@@ -177,21 +177,22 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 <!-- Link labels: -->
 
-[fetch spec blocking]: https://fetch.spec.whatwg.org/#should-response-to-request-be-blocked-due-to-nosniff%3F
-[chromium ssca]: https://www.chromium.org/Home/chromium-security/ssca
 [chromium corb]: https://chromium.googlesource.com/chromium/src/+/master/services/network/cross_origin_read_blocking_explainer.md
+[chromium ssca]: https://www.chromium.org/Home/chromium-security/ssca
+[fetch spec blocking]: https://fetch.spec.whatwg.org/#should-response-to-request-be-blocked-due-to-nosniff%3F
 [fetch spec issue]: https://github.com/whatwg/fetch/issues/395
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [javascript media types]: https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
-[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 
 <!-- Apache links -->
 
+[apache config]: https://webhint.io/docs/user-guide/server-configurations/apache/
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
 [header directive]: https://httpd.apache.org/docs/current/mod/mod_headers.html#header
 [how to enable apache modules]: https://github.com/h5bp/server-configs-apache/tree/7eb30da6a06ec4fc24daf33c75b7bd86f9ad1f68#enable-apache-httpd-modules
-[main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
+[main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
 
 <!-- IIS links -->
