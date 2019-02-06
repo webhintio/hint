@@ -18,7 +18,7 @@
     "@types/inquirer": "^0.0.43",
     "@types/node": "10.12.18",
     "@types/sinon": "^7.0.5",
-    "ava": "^1.2.0",
+    "ava": "^1.2.1",
     "cpx": "^1.5.0",
     "eslint": "^5.13.0",
     "eslint-plugin-import": "^2.16.0",
@@ -38,7 +38,7 @@
     "ts-loader": "^5.3.3",
     "typescript": "^3.3.1",
     "@typescript-eslint/parser": "1.2.0",
-    "webpack": "^4.29.1",
+    "webpack": "^4.29.2",
     "webpack-cli": "^3.2.3"
   },
   "engines": {
