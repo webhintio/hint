@@ -361,16 +361,16 @@ Actual:   ${integrities.join(', ')}`;
         return Promise.resolve(true);
     }
 
+    /**
+     * The item is cached. For the VSCode extension and the
+     * local connector with option 'watch' activated we
+     * should report what we have in the cache after the
+     * first 'scan::end'.
+     */
     private async isScanEnded(evt: FetchEnd) {
         const isInCache = this.isInCache(evt);
 
         if (this.scanEnded && isInCache) {
-            /*
-             * The item is cached. For the VSCode extension and the
-             * local connector with option 'watch' activated we
-             * should report what we have in the cache after the
-             * first 'scan::end'.
-             */
             const promises = this.getCache(evt).map((error) => {
                 return this.context.report(error.resource, error.message, error.options);
             });
@@ -383,27 +383,27 @@ Actual:   ${integrities.join(', ')}`;
         return !isInCache;
     }
 
+    /**
+     * `requestAsync` is not included in webpack bundle for `extension-browser`.
+     * This is ok because the browser will have already requested this via `fetch::end`
+     * events.
+     *
+     * Note: We are not using `Requester` because it depends on `iltorb` and it can
+     * cause problems with the vscode-extension because `iltorb` dependens on the
+     * node version for which it was compiled.
+     *
+     * We can probably use Requester once https://github.com/webhintio/hint/issues/1604 is done,
+     * and vscode use the node version that support it.
+     *
+     * When using crossorigin="use-credentials" and the response contains
+     * the header `Access-Control-Allow-Origin` with value `*` Chrome blocks the access
+     * to the resource by CORS policy, so we will reach this point
+     * through the traverse of the dom and response.body.content will be ''. In this case,
+     * we have to prevent the download of the resource.
+     */
     private async downloadContent(evt: FetchEnd) {
         const { resource, response, element } = evt;
 
-        /*
-         * `requestAsync` is not included in webpack bundle for `extension-browser`.
-         * This is ok because the browser will have already requested this via `fetch::end`
-         * events.
-         *
-         * Note: We are not using `Requester` because it depends on `iltorb` and it can
-         * cause problems with the vscode-extension because `iltorb` dependens on the
-         * node version for which it was compiled.
-         *
-         * We can probably use Requester once https://github.com/webhintio/hint/issues/1604 is done,
-         * and vscode use the node version that support it.
-         *
-         * When using crossorigin="use-credentials" and the response contains
-         * the header `Access-Control-Allow-Origin` with value `*` Chrome blocks the access
-         * to the resource by CORS policy, so we will reach this point
-         * through the traverse of the dom and response.body.content will be ''. In this case,
-         * we have to prevent the download of the resource.
-         */
         if (!requestAsync && !response.body.content) {
             // Stop the validations.
             return false;
