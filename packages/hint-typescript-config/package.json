@@ -10,7 +10,7 @@
   "devDependencies": {
     "@hint/parser-typescript-config": "^2.1.1",
     "@hint/utils-tests-helpers": "^2.0.3",
-    "ava": "^1.2.0",
+    "ava": "^1.2.1",
     "cpx": "^1.5.0",
     "eslint": "^5.13.0",
     "eslint-plugin-import": "^2.16.0",
