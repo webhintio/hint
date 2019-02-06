@@ -1,7 +1,7 @@
 # Use `X-Content-Type-Options` header (`x-content-type-options`)
 
-`x-content-type-options` requires that all scripts and
-stylesheets are served with the `X-Content-Type-Options: nosniff`
+`x-content-type-options` requires that all resources are
+served with the `X-Content-Type-Options: nosniff`
 HTTP response header.
 
 ## Why is this important?
@@ -29,19 +29,19 @@ header is sent for the script and the browser detects that it’s a script
 and it wasn’t served with one of the [JavaScript media types][javascript
 media types], the script will be blocked.
 
-Note: [Modern browsers only respect the header for scripts and
-stylesheets][fetch spec blocking] and sending the header for other
-resources (such as images) when they are served with the wrong media
-type may [create problems in older browsers][fetch spec issue].
+While [modern browsers respect the header mainly for scripts and
+stylesheets][fetch spec blocking], [Chromium uses this response header on
+other resources][chromium ssca] for
+[Cross-Origin Read Blocking][chromium corb].
 
 ## What does the hint check?
 
-The hint checks if all scripts and stylesheets are served with the
+The hint checks if all resources are served with the
 `X-Content-Type-Options` HTTP headers with the value of `nosniff`.
 
 ### Examples that **trigger** the hint
 
-Resource that is not script or stylesheet is served with the
+Resource is not served with the
 `X-Content-Type-Options` HTTP header.
 
 ```text
@@ -50,7 +50,6 @@ HTTP/... 200 OK
 ...
 
 Content-Type: image/png
-X-Content-Type-Options: nosniff
 ```
 
 Script is served with the `X-Content-Type-Options` HTTP header
@@ -116,6 +115,8 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 <!-- Link labels: -->
 
 [fetch spec blocking]: https://fetch.spec.whatwg.org/#should-response-to-request-be-blocked-due-to-nosniff%3F
+[chromium ssca]: https://www.chromium.org/Home/chromium-security/ssca
+[chromium corb]: https://chromium.googlesource.com/chromium/src/+/master/services/network/cross_origin_read_blocking_explainer.md
 [fetch spec issue]: https://github.com/whatwg/fetch/issues/395
 [javascript media types]: https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
