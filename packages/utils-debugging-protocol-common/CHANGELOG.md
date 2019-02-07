@@ -1,3 +1,14 @@
+# 3.0.0 (February 7, 2019)
+
+## Breaking Changes
+
+* [[`c069154cb3`](https://github.com/webhintio/hint/commit/c069154cb3802bb921a2fb1df64694c2263dd9ec)] - Breaking: Update 'utils-connector-tools' to 'v3.0.0' ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+
+## Bug fixes / Improvements
+
+* [[`f6336aa8d4`](https://github.com/webhintio/hint/commit/f6336aa8d4c05baf58f66c8c6c1880a0105f7392)] - Fix: Avoid race condition on debugging protocol (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 2.0.2 (January 15, 2019)
 
 ## Bug fixes / Improvements
