@@ -5,7 +5,7 @@ import { MDNTreeFilteredByBrowsers, TestFeatureFunction, ICompatLibrary } from '
 import { CompatNamespace } from '../enums';
 import { CompatHTML } from './compat-html';
 import { CompatCSS } from './compat-css';
-import { StyleEvents } from '../../../parser-css/dist/src/types';
+import { StyleEvents } from '@hint/parser-css/dist/src/types';
 
 export class CompatLibraryFactory {
 
