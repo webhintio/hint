@@ -1,3 +1,13 @@
+# 3.0.0 (February 7, 2019)
+
+## Breaking Changes
+
+* [[`7ccc2a83f9`](https://github.com/webhintio/hint/commit/7ccc2a83f90dbba35fae048ea779b939746e2e27)] - Breaking: Update 'connector-jsdom' to 'v3.0.0' ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`e6c369cec3`](https://github.com/webhintio/hint/commit/e6c369cec3dd1ef804af0aad36bd80a9a47e9403)] - Breaking: Update 'connector-chrome' to 'v3.0.0' ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`e42708ed88`](https://github.com/webhintio/hint/commit/e42708ed88d860aa19e9434be41114a462a50c0d)] - Breaking: Update 'utils-create-server' to 'v3.0.0' ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`583e8fcd38`](https://github.com/webhintio/hint/commit/583e8fcd385f492ac454bca4b29a0450595e1e4c)] - Breaking: Spawn webserver in separate process (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1694`](https://github.com/webhintio/hint/issues/1694)).
+
+
 # 2.0.3 (December 31, 2018)
 
 ## Bug fixes / Improvements
