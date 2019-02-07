@@ -51,7 +51,6 @@
     "@hint/parser-css": "^2.0.4",
     "hint": "^4.4.0"
   },
-  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm-run-all build:*",
