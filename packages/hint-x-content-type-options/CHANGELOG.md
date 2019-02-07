@@ -1,3 +1,10 @@
+# 3.0.0 (February 7, 2019)
+
+## Breaking Changes
+
+* [[`806740bad0`](https://github.com/webhintio/hint/commit/806740bad05e6fe2b64e6d5b552752aab50a693e)] - Breaking: Update hint to check for XCTO header on all resources (by [`Utsav Pandey`](https://github.com/utsavized) / see also: [`#1221`](https://github.com/webhintio/hint/issues/1221)).
+
+
 # 2.1.1 (January 2, 2019)
 
 ## Bug fixes / Improvements
