@@ -1,3 +1,10 @@
+# 2.1.3 (February 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`36b564624c`](https://github.com/webhintio/hint/commit/36b564624c0f899987d1b9dd84185899e592dfb9)] - Fix: Report inherited errors at `extends` location (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1717`](https://github.com/webhintio/hint/issues/1717)).
+
+
 # 2.1.2 (January 15, 2019)
 
 ## Bug fixes / Improvements
