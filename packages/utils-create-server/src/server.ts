@@ -490,7 +490,7 @@ process.on('message', async (serializedMessage: string) => {
     const dupe = Array.from(serverActions);
     let handled = false;
 
-    while (!handled) { // eslint-disable-line
+    while (!handled) {
         const action = dupe.shift();
 
         if (!action) {
