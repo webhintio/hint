@@ -1,3 +1,15 @@
+# 3.0.0 (February 7, 2019)
+
+## Breaking Changes
+
+* [[`d5a44b5f1f`](https://github.com/webhintio/hint/commit/d5a44b5f1f9417761de4c03819868371811e4daf)] - Breaking: Update 'utils-debugging-protocol-common' to 'v3.0.0' ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`583e8fcd38`](https://github.com/webhintio/hint/commit/583e8fcd385f492ac454bca4b29a0450595e1e4c)] - Breaking: Spawn webserver in separate process (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1694`](https://github.com/webhintio/hint/issues/1694)).
+
+## Bug fixes / Improvements
+
+* [[`f6336aa8d4`](https://github.com/webhintio/hint/commit/f6336aa8d4c05baf58f66c8c6c1880a0105f7392)] - Fix: Avoid race condition on debugging protocol (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 2.0.1 (December 31, 2018)
 
 ## Bug fixes / Improvements
