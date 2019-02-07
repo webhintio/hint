@@ -1,3 +1,19 @@
+# 2.1.0 (February 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`670323ad00`](https://github.com/webhintio/hint/commit/670323ad0046789d8016809ae3a80f0286a5e83b)] - Fix: Broken reference (by [`Antón Molleda`](https://github.com/molant)).
+* [[`ff8fc1fbca`](https://github.com/webhintio/hint/commit/ff8fc1fbca0d37146f665797241852bcef6bc826)] - Fix: Ignore deprecated vendor prefixes when unprefixed version is present (by [`Borja Ruiz Torres`](https://github.com/borgitas21)).
+* [[`aad8de5aa2`](https://github.com/webhintio/hint/commit/aad8de5aa2c00317376d767cdf6ab1218c14362d)] - Docs: Architecture documentation for Compat API Hint (by [`Borja Ruiz Torres`](https://github.com/borgitas21) / see also: [`#1749`](https://github.com/webhintio/hint/issues/1749)).
+* [[`cdb84bfae1`](https://github.com/webhintio/hint/commit/cdb84bfae18f045da1eaee2a3a36adb0d5fd60e5)] - Fix: Incorrect message for prefixed subfeatures (by [`Borja Ruiz Torres`](https://github.com/borgitas21) / see also: [`#1766`](https://github.com/webhintio/hint/issues/1766)).
+* [[`a42453ffda`](https://github.com/webhintio/hint/commit/a42453ffdacb54443d4a56db229b67d4b8be6833)] - Fix: Make `mdn-browser-compat-data` a dependency (by [`Tony Ross`](https://github.com/antross) / see also: [`#1752`](https://github.com/webhintio/hint/issues/1752)).
+
+## New features
+
+* [[`d82d567b7b`](https://github.com/webhintio/hint/commit/d82d567b7b4adb29be936a1989ae91f8a9a80948)] - New: Add `spellcheck` and `crossorigin` to default html ignore list (by [`Borja Ruiz Torres`](https://github.com/borgitas21)).
+* [[`f110ed5101`](https://github.com/webhintio/hint/commit/f110ed51015174f996bd5904061b59901b55b66b)] - New: `ignore` option in `.hintrc` to exclude select features (by [`Borja Ruiz Torres`](https://github.com/borgitas21) / see also: [`#1588`](https://github.com/webhintio/hint/issues/1588)).
+
+
 # 2.0.1 (January 17, 2019)
 
 ## Bug fixes / Improvements
