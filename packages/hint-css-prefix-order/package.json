@@ -11,7 +11,7 @@
   },
   "description": "Ensure vendor-prefixed versions of a CSS property are listed before the unprefixed version.",
   "devDependencies": {
-    "@hint/parser-css": "^2.0.3",
+    "@hint/parser-css": "^2.0.4",
     "@hint/utils-tests-helpers": "^3.0.0",
     "@types/debug": "0.0.31",
     "@typescript-eslint/parser": "1.3.0",
@@ -48,7 +48,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-css": "^2.0.3",
+    "@hint/parser-css": "^2.0.4",
     "hint": "^4.4.0"
   },
   "private": true,
