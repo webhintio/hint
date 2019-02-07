@@ -16,7 +16,7 @@
     "@hint/hint-sri": "^3.0.2",
     "@hint/hint-typescript-config": "^2.1.2",
     "@hint/hint-webpack-config": "^2.1.1",
-    "@hint/parser-babel-config": "^2.0.2",
+    "@hint/parser-babel-config": "^2.0.3",
     "@hint/parser-css": "^2.0.3",
     "@hint/parser-html": "^2.0.2",
     "@hint/parser-typescript-config": "^2.1.1",

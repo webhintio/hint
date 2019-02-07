@@ -8,7 +8,7 @@
   },
   "description": "hint that that checks if the Babel configuration is valid.",
   "devDependencies": {
-    "@hint/parser-babel-config": "^2.0.2",
+    "@hint/parser-babel-config": "^2.0.3",
     "@hint/utils-tests-helpers": "^3.0.0",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",
@@ -45,7 +45,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-babel-config": "^2.0.2",
+    "@hint/parser-babel-config": "^2.0.3",
     "hint": "^4.4.0"
   },
   "repository": "webhintio/hint",
