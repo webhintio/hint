@@ -816,6 +816,8 @@ const updatePackageVersionNumberInOtherPackages = async (ctx: TaskContext) => {
         'premajor'
     ].includes(semverIncrement as string);
 
+    let updatesDone = false;
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     for (const pkg of packages) {
@@ -861,6 +863,7 @@ const updatePackageVersionNumberInOtherPackages = async (ctx: TaskContext) => {
 
         if (packageJSONFileHasBeenUpdated) {
             updateFile(`${packageJSONFilePath}`, `${JSON.stringify(packageJSONFileContent, null, 2)}\n`);
+            updatesDone = true;
         }
     }
 
@@ -872,9 +875,14 @@ const updatePackageVersionNumberInOtherPackages = async (ctx: TaskContext) => {
         return;
     }
 
+    // No packages have been updated with this dependency
+    if (!updatesDone) {
+        return;
+    }
+
     // Commit changes separately depending on the type.
 
-    if (breakingDependencyTypes.length !== 0) {
+    if (packagesThatRequireMajorRelease.length > 0) {
         await gitCommitChanges(`Breaking: Update '${ctx.packageName}' to 'v${ctx.newPackageVersion}'`, true, packagesThatRequireMajorRelease);
     }
 
