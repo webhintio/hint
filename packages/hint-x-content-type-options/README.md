@@ -1,7 +1,7 @@
 # Use `X-Content-Type-Options` header (`x-content-type-options`)
 
-`x-content-type-options` requires that all scripts and
-stylesheets are served with the `X-Content-Type-Options: nosniff`
+`x-content-type-options` requires that all resources are
+served with the `X-Content-Type-Options: nosniff`
 HTTP response header.
 
 ## Why is this important?
@@ -29,19 +29,19 @@ header is sent for the script and the browser detects that it’s a script
 and it wasn’t served with one of the [JavaScript media types][javascript
 media types], the script will be blocked.
 
-Note: [Modern browsers only respect the header for scripts and
-stylesheets][fetch spec blocking] and sending the header for other
-resources (such as images) when they are served with the wrong media
-type may [create problems in older browsers][fetch spec issue].
+While [modern browsers respect the header mainly for scripts and
+stylesheets][fetch spec blocking], [Chromium uses this response header on
+other resources][chromium ssca] for
+[Cross-Origin Read Blocking][chromium corb].
 
 ## What does the hint check?
 
-The hint checks if all scripts and stylesheets are served with the
+The hint checks if all resources are served with the
 `X-Content-Type-Options` HTTP headers with the value of `nosniff`.
 
 ### Examples that **trigger** the hint
 
-Resource that is not script or stylesheet is served with the
+Resource is not served with the
 `X-Content-Type-Options` HTTP header.
 
 ```text
@@ -50,7 +50,6 @@ HTTP/... 200 OK
 ...
 
 Content-Type: image/png
-X-Content-Type-Options: nosniff
 ```
 
 Script is served with the `X-Content-Type-Options` HTTP header
@@ -76,6 +75,69 @@ HTTP/... 200 OK
 Content-Type: text/javascript; charset=utf-8
 X-Content-Type-Options: nosniff
 ```
+
+## How to configure the server to pass this hint
+
+<details><summary>How to configure Apache</summary>
+
+Apache can be configured to add headers using the [`Header`
+directive][header directive].
+
+```apache
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+</IfModule>
+```
+
+Note that:
+
+* The above snippet works with Apache `v2.2.0+`, but you need to have
+  [`mod_headers`][mod_headers] [enabled][how to enable apache modules]
+  for it to take effect.
+
+* If you have access to the [main Apache configuration file][main
+  apache conf file] (usually called `httpd.conf`), you should add
+  the logic in, for example, a [`<Directory>`][apache directory]
+  section in that file. This is usually the recommended way as
+  [using `.htaccess` files slows down][htaccess is slow] Apache!
+
+  If you don't have access to the main configuration file (quite
+  common with hosting services), add the snippets in a `.htaccess`
+  file in the root of the web site/app.
+
+For the complete set of configurations, not just for this rule, see
+the [Apache server configuration related documentation][apache config].
+
+</details>
+
+<details>
+
+<summary>How to configure IIS</summary>
+
+You can add this header unconditionally to all responses.
+
+```xml
+<configuration>
+     <system.webServer>
+        <httpProtocol>
+            <customHeaders>
+                <add name="X-Content-Type-Options" value="nosniff" />
+            </customHeaders>
+        </httpProtocol>
+    </system.webServer>
+</configuration>
+```
+
+Note that:
+
+* The above snippet works with IIS 7+.
+* You should use the above snippet in the `web.config` of your
+  application.
+
+For the complete set of configurations, not just for this rule,
+see the [IIS server configuration related documentation][iis config].
+
+</details>
 
 ## How to use this hint?
 
@@ -115,22 +177,24 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 <!-- Link labels: -->
 
+[chromium corb]: https://chromium.googlesource.com/chromium/src/+/master/services/network/cross_origin_read_blocking_explainer.md
+[chromium ssca]: https://www.chromium.org/Home/chromium-security/ssca
 [fetch spec blocking]: https://fetch.spec.whatwg.org/#should-response-to-request-be-blocked-due-to-nosniff%3F
 [fetch spec issue]: https://github.com/whatwg/fetch/issues/395
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [javascript media types]: https://html.spec.whatwg.org/multipage/scripting.html#javascript-mime-type
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
-[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 
 <!-- Apache links -->
 
+[apache config]: https://webhint.io/docs/user-guide/server-configurations/apache/
 [apache directory]: https://httpd.apache.org/docs/current/mod/core.html#directory
 [header directive]: https://httpd.apache.org/docs/current/mod/mod_headers.html#header
 [how to enable apache modules]: https://github.com/h5bp/server-configs-apache/tree/7eb30da6a06ec4fc24daf33c75b7bd86f9ad1f68#enable-apache-httpd-modules
 [htaccess is slow]: https://httpd.apache.org/docs/current/howto/htaccess.html#when
 [main apache conf file]: https://httpd.apache.org/docs/current/configuring.html#main
 [mod_headers]: https://httpd.apache.org/docs/current/mod/mod_headers.html
-[mod_mime]: https://httpd.apache.org/docs/current/mod/mod_mime.html
 
 <!-- IIS links -->
 
-[url rewrite]: https://docs.microsoft.com/en-us/iis/extensions/url-rewrite-module/using-the-url-rewrite-module
+[iis config]: https://webhint.io/docs/user-guide/server-configurations/iis/
