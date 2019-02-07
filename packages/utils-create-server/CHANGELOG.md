@@ -1,3 +1,10 @@
+# 3.0.0 (February 7, 2019)
+
+## Breaking Changes
+
+* [[`583e8fcd38`](https://github.com/webhintio/hint/commit/583e8fcd385f492ac454bca4b29a0450595e1e4c)] - Breaking: Spawn webserver in separate process (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1694`](https://github.com/webhintio/hint/issues/1694)).
+
+
 # 2.0.1 (December 14, 2018)
 
 ## Bug fixes / Improvements
