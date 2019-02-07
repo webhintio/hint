@@ -37,5 +37,5 @@
     "lint": "echo \"Nothing to lint\"",
     "test-only": "echo \"Nothing to test\""
   },
-  "version": "4.0.0"
+  "version": "5.0.0"
 }

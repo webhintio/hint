@@ -1,15 +1,23 @@
+# 5.0.0 (February 7, 2019)
+
+## Breaking Changes
+
+* [[`7ccc2a83f9`](https://github.com/webhintio/hint/commit/7ccc2a83f90dbba35fae048ea779b939746e2e27)] - Breaking: Update 'connector-jsdom' to 'v3.0.0' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`e6c369cec3`](https://github.com/webhintio/hint/commit/e6c369cec3dd1ef804af0aad36bd80a9a47e9403)] - Breaking: Update 'connector-chrome' to 'v3.0.0' (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 4.0.0 (January 15, 2019)
 
 ## Breaking Changes
 
-* [[`d56e4a512f`](https://github.com/webhintio/hint/commit/d56e4a512f679f19c92fd9731cb4a04a3469f522)] - Breaking: Update `formatter-html` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`d56e4a512f`](https://github.com/webhintio/hint/commit/d56e4a512f679f19c92fd9731cb4a04a3469f522)] - Breaking: Update `formatter-html` to `v3.0.0` (by [`Antón Molleda`](https://github.com/molant)).
 
 
 # 3.0.0 (January 15, 2019)
 
 ## Breaking Changes
 
-* [[`e10fa769bb`](https://github.com/webhintio/hint/commit/e10fa769bb83201ddc0e6b507f7099693737ced8)] - Breaking: Update `hint-manifest-is-valid` to `v3.0.0` [skip ci] ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`e10fa769bb`](https://github.com/webhintio/hint/commit/e10fa769bb83201ddc0e6b507f7099693737ced8)] - Breaking: Update `hint-manifest-is-valid` to `v3.0.0` (by [`Antón Molleda`](https://github.com/molant)).
 
 
 # 2.0.0 (November 5, 2018)
