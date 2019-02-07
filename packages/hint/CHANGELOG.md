@@ -1,3 +1,17 @@
+# 4.4.0 (February 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`c34e1cdd6a`](https://github.com/webhintio/hint/commit/c34e1cdd6a61062d8b590edf98897b9927c604f8)] - Docs: Update server configurations (by [`Antón Molleda`](https://github.com/molant)).
+* [[`36b564624c`](https://github.com/webhintio/hint/commit/36b564624c0f899987d1b9dd84185899e592dfb9)] - Fix: Report inherited errors at `extends` location (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1717`](https://github.com/webhintio/hint/issues/1717)).
+* [[`ed20a1c9b3`](https://github.com/webhintio/hint/commit/ed20a1c9b3d7ef150380b4536562d83b753ea965)] - Fix: Handle newlines in attribute values (by [`Tony Ross`](https://github.com/antross) / see also: [`#1792`](https://github.com/webhintio/hint/issues/1792)).
+* [[`5505bd9471`](https://github.com/webhintio/hint/commit/5505bd9471b29bd932a3924098126c0b6403dc6d)] - Docs: Update Built-In scripts information (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`fac28bc0be`](https://github.com/webhintio/hint/commit/fac28bc0bec87a81472f6810ef6764d2ab16a069)] - New: Add category `pitfalls` (by [`Stephanie `](https://github.com/ststimac)).
+
+
 # 4.3.1 (January 16, 2019)
 
 ## Bug fixes / Improvements
