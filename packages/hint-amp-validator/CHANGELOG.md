@@ -1,3 +1,10 @@
+# 2.5.0 (February 7, 2019)
+
+## New features
+
+* [[`fcbb835af2`](https://github.com/webhintio/hint/commit/fcbb835af295ef87b0c44c52ebabe6a966c0392c)] - Update: 'validator'.
+
+
 # 2.4.0 (January 15, 2019)
 
 ## New features
