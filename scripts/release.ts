@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as fs from 'fs';
 
 import { argv } from 'yargs';
 import * as inquirer from 'inquirer';
@@ -34,6 +35,7 @@ type Commit = {
 };
 
 type ExecResult = {
+    cmd: string;
     code: number;
     stderr: string;
     stdout: string;
@@ -92,6 +94,7 @@ const exec = (cmd: string): Promise<ExecResult> => {
     return new Promise((resolve, reject) => {
         shell.exec(cmd, (code, stdout, stderr) => {
             const result = {
+                cmd,
                 code,
                 stderr: stderr && stderr.trim(),
                 stdout: stdout && stdout.trim()
@@ -186,9 +189,7 @@ const createGitHubToken = async (showInitialMessage = true) => {
 };
 
 const updateFile = (filePath: string, content: string) => {
-    const writeContent = (shell as any)['ShellString']; // eslint-disable-line dot-notation
-
-    writeContent(content).to(filePath);
+    fs.writeFileSync(filePath, content, 'utf-8'); // eslint-disable-line
 };
 
 const createRelease = async (tag?: string, releaseNotes?: string) => {
