@@ -1,3 +1,10 @@
+# 3.0.3 (February 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`b230947a15`](https://github.com/webhintio/hint/commit/b230947a15783cd4b5442f97bab3583f52934bca)] - Fix: Update `hint-sri` to work with `connector-local` (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1632`](https://github.com/webhintio/hint/issues/1632)).
+
+
 # 3.0.2 (January 17, 2019)
 
 ## Bug fixes / Improvements
