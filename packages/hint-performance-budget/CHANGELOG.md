@@ -1,3 +1,10 @@
+# 2.1.2 (February 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`35ce084572`](https://github.com/webhintio/hint/commit/35ce084572b3da9103949de464c81a5c4cc348e5)] - Fix: Use `enum` instead of `oneOf` in schema (by [`Christoph Guttandin`](https://github.com/chrisguttandin)).
+
+
 # 2.1.1 (January 2, 2019)
 
 ## Bug fixes / Improvements
