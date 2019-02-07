@@ -1,3 +1,10 @@
+# 2.0.4 (February 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`ad9834c278`](https://github.com/webhintio/hint/commit/ad9834c278d69df14b78ca8fc767467eb8fd7014)] - Fix: Gracefully handle malformed CSS (by [`Tony Ross`](https://github.com/antross) / see also: [`#1580`](https://github.com/webhintio/hint/issues/1580)).
+
+
 # 2.0.3 (December 31, 2018)
 
 ## Bug fixes / Improvements
