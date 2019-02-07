@@ -1,3 +1,18 @@
+# 6.0.0 (February 7, 2019)
+
+## Breaking Changes
+
+* [[`3e32171a0e`](https://github.com/webhintio/hint/commit/3e32171a0e64799fc309a8dc1dd1f73af3fa55be)] - Breaking: Update 'configuration-progressive-web-apps' to 'v5.0.0' (by [`Antón Molleda`](https://github.com/molant)).
+
+## Bug fixes / Improvements
+
+* [[`b230947a15`](https://github.com/webhintio/hint/commit/b230947a15783cd4b5442f97bab3583f52934bca)] - Fix: Update `hint-sri` to work with `connector-local` (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1632`](https://github.com/webhintio/hint/issues/1632)).
+
+## New features
+
+* [[`1335f2bef6`](https://github.com/webhintio/hint/commit/1335f2bef6252c256c89dd5beaa61548b4da31fb)] - New: Hint to validate prefixed CSS properties are listed first (by [`Tony Ross`](https://github.com/antross) / see also: [`#1620`](https://github.com/webhintio/hint/issues/1620)).
+
+
 # 5.0.0 (January 16, 2019)
 
 ## Breaking Changes
