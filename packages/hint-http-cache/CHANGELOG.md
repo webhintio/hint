@@ -1,3 +1,10 @@
+# 3.0.0 (February 7, 2019)
+
+## Breaking Changes
+
+* [[`92d0125c9b`](https://github.com/webhintio/hint/commit/92d0125c9bd6ab3ca3d7882e09ce146702575f5c)] - Breaking: Split error messages (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1074`](https://github.com/webhintio/hint/issues/1074)).
+
+
 # 2.1.1 (January 2, 2019)
 
 ## Bug fixes / Improvements
