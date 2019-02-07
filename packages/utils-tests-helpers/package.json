@@ -3,7 +3,7 @@
     "@hint/connector-chrome": "^2.0.1",
     "@hint/connector-jsdom": "^2.0.2",
     "@hint/connector-local": "^2.0.2",
-    "@hint/utils-create-server": "^2.0.1",
+    "@hint/utils-create-server": "^3.0.0",
     "ava": "^1.2.1",
     "hint": "^4.3.1"
   },
