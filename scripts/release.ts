@@ -261,8 +261,10 @@ const gitHasUncommittedChanges = async (): Promise<boolean> => {
 };
 
 const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false, files: string[] = ['packages', 'yarn.lock']) => {
-    // Add all changes to the staging aread.
-    await exec(`git add ${files.join(' ')}`);
+    // Add all changes to the staging area.
+    for (const file of files){
+        await exec(`git add ${file}`);
+    }
 
     /*
      * If there aren't any changes in the staging area,
