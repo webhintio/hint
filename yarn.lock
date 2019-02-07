@@ -555,11 +555,6 @@
     "@types/glob" "*"
     fast-glob "^2.0.2"
 
-"@types/handlebars@^4.0.40":
-  version "4.0.40"
-  resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.0.40.tgz#b714e13d296a75bff3f199316d1311933ca79ffd"
-  integrity sha512-sGWNtsjNrLOdKha2RV1UeF8+UbQnPSG7qbe5wwbni0mw4h2gHXyPFUMOC+xwGirIiiydM/HSqjDO4rk6NFB18w==
-
 "@types/har-format@^1.2.3":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@types/har-format/-/har-format-1.2.3.tgz#8011ce3439d47f1e1c0219a504b2501904a4d0e6"
@@ -4643,7 +4638,7 @@ gulp-vinyl-zip@^2.1.2:
     yauzl "^2.2.1"
     yazl "^2.2.1"
 
-handlebars@^4.0.11:
+handlebars@^4.0.11, handlebars@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.0.tgz#0d6a6f34ff1f63cecec8423aa4169827bf787c3a"
   integrity sha512-l2jRuU1NAWK6AW5qqcTATWQJvNPEwkM7NEKSiv/gqOsoSQbVoWyqVEY5GS+XPQ88zLNmqASRpzfdm8d79hJS+w==
