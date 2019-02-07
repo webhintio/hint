@@ -1,3 +1,14 @@
+# 3.0.0 (February 7, 2019)
+
+## Breaking Changes
+
+* [[`c069154cb3`](https://github.com/webhintio/hint/commit/c069154cb3802bb921a2fb1df64694c2263dd9ec)] - Breaking: Update 'utils-connector-tools' to 'v3.0.0' (by [`Antón Molleda`](https://github.com/molant)).
+
+## Bug fixes / Improvements
+
+* [[`7655590801`](https://github.com/webhintio/hint/commit/76555908011804279236e70b44e9c5bb17570390)] - Fix: Debug message (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1828`](https://github.com/webhintio/hint/issues/1828)).
+
+
 # 2.1.1 (January 2, 2019)
 
 ## Bug fixes / Improvements
