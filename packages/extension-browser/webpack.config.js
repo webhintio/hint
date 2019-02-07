@@ -50,7 +50,12 @@ const baseConfig = {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist/bundle')
     },
-    resolve: { alias: { url$: path.resolve(__dirname, 'dist/src/shims/url.js') } }
+    resolve: {
+        alias: {
+            'hint/dist/src/lib/utils/network/request-async$': path.resolve(__dirname, 'dist/src/shims/request-async.js'),
+            url$: path.resolve(__dirname, 'dist/src/shims/url.js')
+        }
+    }
 };
 
 const contentScriptConfig = {

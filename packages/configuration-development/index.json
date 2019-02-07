@@ -19,6 +19,7 @@
         "meta-viewport": "error",
         "no-bom": "error",
         "no-protocol-relative-urls": "error",
+        "sri": "error",
         "typescript-config/consistent-casing": "error",
         "typescript-config/import-helpers": "error",
         "typescript-config/is-valid": "error",
