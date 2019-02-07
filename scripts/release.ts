@@ -100,6 +100,10 @@ const exec = (cmd: string): Promise<ExecResult> => {
                 stdout: stdout && stdout.trim()
             };
 
+            console.log(`${cmd} --> ${result.code}`);
+            console.error(result.stderr);
+            console.log(result.stdout);
+
             if (code === 0) {
                 return resolve(result);
             }
