@@ -1,3 +1,17 @@
+# 6.0.0 (February 7, 2019)
+
+## Breaking Changes
+
+* [[`c77be495c1`](https://github.com/webhintio/hint/commit/c77be495c17b79ab0bd5290e68d7319b618c4633)] - Breaking: Update 'hint-x-content-type-options' to 'v3.0.0' ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`1401613418`](https://github.com/webhintio/hint/commit/1401613418ac7031ef7afcc0a68e05a4f68ed290)] - Breaking: Update 'hint-http-cache' to 'v3.0.0' ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`7ccc2a83f9`](https://github.com/webhintio/hint/commit/7ccc2a83f90dbba35fae048ea779b939746e2e27)] - Breaking: Update 'connector-jsdom' to 'v3.0.0' ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+* [[`e6c369cec3`](https://github.com/webhintio/hint/commit/e6c369cec3dd1ef804af0aad36bd80a9a47e9403)] - Breaking: Update 'connector-chrome' to 'v3.0.0' ***NO_CI*** (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`1335f2bef6`](https://github.com/webhintio/hint/commit/1335f2bef6252c256c89dd5beaa61548b4da31fb)] - New: Hint to validate prefixed CSS properties are listed first (by [`Tony Ross`](https://github.com/antross) / see also: [`#1620`](https://github.com/webhintio/hint/issues/1620)).
+
+
 # 5.0.0 (January 15, 2019)
 
 ## Breaking Changes
