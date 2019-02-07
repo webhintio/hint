@@ -1,3 +1,10 @@
+# 2.5.0 (February 7, 2019)
+
+## New features
+
+* [[`8fe5dd0169`](https://github.com/webhintio/hint/commit/8fe5dd0169826e3ff159d30abc43662bfac2eaa8)] - Update: 'snyk-snapshot.json'.
+
+
 # 2.4.0 (January 15, 2019)
 
 ## New features
