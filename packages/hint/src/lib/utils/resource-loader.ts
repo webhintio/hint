@@ -29,9 +29,9 @@ import readFile from './fs/read-file';
 import { debug as d } from './debug';
 import { Resource, IHintConstructor, HintResources } from '../types';
 import { Configuration } from '../config';
-import { ResourceType } from '../enums/resourcetype';
-import { ResourceErrorStatus } from '../enums/errorstatus';
-import { ResourceError } from '../types/resourceerror';
+import { ResourceType } from '../enums/resource-type';
+import { ResourceErrorStatus } from '../enums/error-status';
+import { ResourceError } from '../types/resource-error';
 import { IConnectorConstructor } from '../types/connector';
 import cwd from './fs/cwd';
 

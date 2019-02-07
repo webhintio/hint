@@ -170,7 +170,7 @@ const loadScript = (context: AnalyzeContext) => {
     const script = proxyquire('../../../src/lib/cli/analyze', {
         '../config': context.config,
         '../engine': context.engineContainer,
-        '../utils/appinsights': appinsight,
+        '../utils/app-insights': appinsight,
         '../utils/logging': context.logger,
         '../utils/misc/ask-question': context.askQuestion,
         '../utils/resource-loader': context.resourceLoader,

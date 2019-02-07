@@ -18,8 +18,8 @@ const analyticsDebug = process.argv.includes('--analytics-debug');
 
 import * as d from 'debug';
 
-import * as insights from '../lib/utils/appinsights';
-import * as configStore from '../lib/utils/configstore';
+import * as insights from '../lib/utils/app-insights';
+import * as configStore from '../lib/utils/config-store';
 
 // This initialization needs to be done *before* other requires in order to work.
 if (debug) {
@@ -65,7 +65,7 @@ if (analyticsDebug && !debug) {
  * Now we can safely include the other modules that use debug.
  */
 import * as cli from '../lib/cli';
-import { trackException, sendPendingData } from '../lib/utils/appinsights';
+import { trackException, sendPendingData } from '../lib/utils/app-insights';
 
 /*
  * ------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 import { Category } from '../enums/category';
-import { HintScope } from '../enums/hintscope';
+import { HintScope } from '../enums/hint-scope';
 
 export type MetadataDocs = {
     category?: Category;

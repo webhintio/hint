@@ -90,8 +90,8 @@ const initContext = (t: ExecutionContext<AppInsightsContext>) => {
 };
 
 const loadScript = (context: AppInsightsContext) => {
-    return proxyquire('../../../src/lib/utils/appinsights', {
-        './configstore': context.configStore,
+    return proxyquire('../../../src/lib/utils/app-insights', {
+        './config-store': context.configStore,
         applicationinsights: context.applicationinsights
     });
 };

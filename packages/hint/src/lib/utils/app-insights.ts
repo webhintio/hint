@@ -1,6 +1,6 @@
 import * as appInsights from 'applicationinsights';
 
-import * as configStore from './configstore';
+import * as configStore from './config-store';
 import { debug as d } from './debug';
 
 interface IFlushOptions {

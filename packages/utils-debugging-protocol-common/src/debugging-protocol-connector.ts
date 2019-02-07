@@ -39,7 +39,7 @@ import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 
 import { Engine } from 'hint/dist/src/lib/engine';
 
-import { RequestResponse } from './RequestResponse';
+import { RequestResponse } from './request-response';
 
 const debug: debug.IDebugger = d(__filename);
 const lock = promisify(lockfile.lock) as (path: string, options: lockfile.Options) => Promise<void>;
