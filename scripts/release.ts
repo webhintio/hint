@@ -266,16 +266,6 @@ const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false, 
         await exec(`git add ${file}`);
     }
 
-    /*
-     * If there aren't any changes in the staging area,
-     * skip the following.
-     */
-    if (!await gitHasUncommittedChanges()) {
-
-        return;
-    }
-
-    // Otherwise commit the changes.
     await exec(`git commit -m "${commitMessage}${skipCI ? ' ***NO_CI***' : ''}"`);
 };
 
