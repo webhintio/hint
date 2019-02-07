@@ -13,7 +13,7 @@
   },
   "description": "hint that that checks using Snyk for vulnerable JavaScript libraries",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^2.0.3",
+    "@hint/utils-tests-helpers": "^3.0.0",
     "angular": "1.4.9",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",
@@ -21,7 +21,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
-    "hint": "^4.3.1",
+    "hint": "^4.4.0",
     "jquery": "2.1.4",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
     "moment": "2.24.0",
@@ -53,7 +53,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^4.3.1"
+    "hint": "^4.4.0"
   },
   "repository": "webhintio/hint",
   "scripts": {

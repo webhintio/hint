@@ -11,14 +11,14 @@
     "@hint/utils-connector-tools": "^3.0.0"
   },
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^2.0.3",
+    "@hint/utils-tests-helpers": "^3.0.0",
     "@types/debug": "0.0.31",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",
     "eslint": "^5.13.0",
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-typescript": "0.14.0",
-    "hint": "^4.3.1",
+    "hint": "^4.4.0",
     "npm-link-check": "^3.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^13.1.0",
@@ -46,7 +46,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^4.3.1"
+    "hint": "^4.4.0"
   },
   "repository": "webhintio/hint",
   "scripts": {
