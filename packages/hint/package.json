@@ -21,7 +21,7 @@
     "file-type": "^10.7.1",
     "file-url": "^2.0.2",
     "globby": "^9.0.0",
-    "handlebars": "^4.0.11",
+    "handlebars": "^4.1.0",
     "is-ci": "^2.0.0",
     "is-svg": "^3.0.0",
     "jsonc-parser": "^2.0.3",
