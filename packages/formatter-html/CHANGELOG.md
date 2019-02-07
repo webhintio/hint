@@ -1,3 +1,10 @@
+# 3.1.0 (February 7, 2019)
+
+## New features
+
+* [[`fac28bc0be`](https://github.com/webhintio/hint/commit/fac28bc0bec87a81472f6810ef6764d2ab16a069)] - New: Add category `pitfalls` (by [`Stephanie`](https://github.com/ststimac)).
+
+
 # 3.0.1 (January 16, 2019)
 
 ## Bug fixes / Improvements
