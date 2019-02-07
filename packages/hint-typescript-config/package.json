@@ -8,7 +8,7 @@
   },
   "description": "hint that that checks if the TypeScript configuration is valid.",
   "devDependencies": {
-    "@hint/parser-typescript-config": "^2.1.1",
+    "@hint/parser-typescript-config": "^2.1.2",
     "@hint/utils-tests-helpers": "^3.0.0",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",
@@ -45,7 +45,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-typescript-config": "^2.1.1",
+    "@hint/parser-typescript-config": "^2.1.2",
     "hint": "^4.4.0"
   },
   "repository": "webhintio/hint",
