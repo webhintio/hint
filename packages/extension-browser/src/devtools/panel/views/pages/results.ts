@@ -1,6 +1,8 @@
 import html from '../../../../shared/html-literal';
 import { Results } from '../../../../shared/types';
 
+import { getMessage } from '../../utils/i18n';
+
 import headerView from '../partials/header';
 import categoryView from '../partials/category';
 
@@ -19,8 +21,8 @@ export default function view({ onRestartClick, results }: Props) {
 
     return html`
         <form class="${styles.page}" onsubmit=${onSubmit}>
-            ${headerView({ analyzeText: 'Analyze again' })}
-            <h1 class="${styles.header}">Hints</h1>
+            ${headerView({ analyzeText: getMessage('analyzeAgainButtonLabel') })}
+            <h1 class="${styles.header}">${getMessage('hintsTitle')}</h1>
             ${results.categories.map(categoryView)}
         </form>
     `;

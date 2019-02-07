@@ -7,10 +7,10 @@ import metas from '../shared/metas.import';
 
 export default class WebExtensionFormatter implements IFormatter {
 
-    private getCategories(resources: HintResources): string[] {
+    private getCategories(resources: HintResources): Category[] {
         const categories = resources.hints.map(this.getHintCategory);
 
-        return Array.from(new Set(categories)).sort();
+        return Array.from(new Set(categories)).sort() as Category[];
     }
 
     private getHintCategory(hint: IHintConstructor): string {

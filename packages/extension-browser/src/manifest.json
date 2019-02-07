@@ -7,6 +7,7 @@
     "icons": {
         "180": "icon.png"
     },
+    "default_locale": "en",
     "description": "Run webhint in your browser.",
     "devtools_page": "devtools/devtools.html",
     "manifest_version": 2,

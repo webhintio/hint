@@ -1,3 +1,4 @@
+import { Category } from 'hint/dist/src/lib/enums/category';
 import { FetchEnd, FetchStart, Problem } from 'hint/dist/src/lib/types';
 
 export type Config = {
@@ -20,7 +21,7 @@ export type HintResults = {
 
 export type CategoryResults = {
     hints: HintResults[];
-    name: string;
+    name: Category;
     passed: number;
 };
 
