@@ -92,7 +92,7 @@ const generateTypeError = generateError(ErrorKeyword.type, (error: ajv.ErrorObje
 const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorObject, property: string, errors?: ajv.ErrorObject[]): string => {
     const otherErrors = without(errors, error);
     const results = otherErrors.map((otherError) => {
-        // eslint-disable-next-line typescript/no-use-before-define, no-use-before-define
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define, no-use-before-define
         return generate(otherError);
     });
 

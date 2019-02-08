@@ -64,7 +64,7 @@ const determineCharset = (originalCharset: string | null, mediaType: string | nu
      * document is a binary file, and if it is, ignore the charset.
      */
 
-    if (!isTextMediaType(mediaType || '')) { // eslint-disable-line no-use-before-define, typescript/no-use-before-define
+    if (!isTextMediaType(mediaType || '')) { // eslint-disable-line no-use-before-define, @typescript-eslint/no-use-before-define
         return null;
     }
 
