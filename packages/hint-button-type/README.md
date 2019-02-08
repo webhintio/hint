@@ -1,4 +1,4 @@
-# button-type (`@hint/hint-button-type`)
+# Specify button type (`button-type`)
 
 `button-type` checks if all buttons have a `type` attribute set.
 
