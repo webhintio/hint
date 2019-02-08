@@ -5,7 +5,8 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 const meta: HintMetadata = {
     docs: {
         category: Category.pitfalls,
-        description: `Check if button has type attribute set`
+        description: `Check if button has type attribute set`,
+        name: 'Specify button type'
     },
     id: 'button-type',
     schema: [],
