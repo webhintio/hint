@@ -68,7 +68,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
             const node = this._nodes.get(nodeId);
 
             if (node) {
-                nodes.push(new AsyncHTMLElement(node, this, this._DOM)); // eslint-disable-line no-use-before-define, typescript/no-use-before-define
+                nodes.push(new AsyncHTMLElement(node, this, this._DOM)); // eslint-disable-line no-use-before-define, @typescript-eslint/no-use-before-define
             } else {
                 /*
                  * This node was added in the DOM and we don't have it cached
@@ -137,7 +137,7 @@ export class AsyncHTMLElement implements IAsyncHTMLElement {
     private _ownerDocument: CDPAsyncHTMLDocument;
     private _DOM: Crdp.DOMClient;
     private _outerHTML: string = '';
-    private _attributesArray: { name: string; value: string; }[] = [];
+    private _attributesArray: { name: string; value: string }[] = [];
     private _attributesMap: Map<string, string> = new Map();
 
     public constructor(htmlelement: Crdp.DOM.Node, ownerDocument: CDPAsyncHTMLDocument, DOM: Crdp.DOMClient) {

@@ -28,7 +28,7 @@ const categories = [...new Set(metas.map((meta) => {
 }))].sort();
 
 export default function view({ onAnalyzeClick }: Props) {
-    /* eslint-disable no-use-before-define, typescript/no-use-before-define */
+    /* eslint-disable no-use-before-define, @typescript-eslint/no-use-before-define */
     const fragment = configurationHtmlView({
         categories,
         onAnalyzeClick: async () => {
@@ -45,7 +45,7 @@ export default function view({ onAnalyzeClick }: Props) {
             resetConfiguration();
         }
     });
-    /* eslint-enable no-use-before-define, typescript/no-use-before-define */
+    /* eslint-enable no-use-before-define, @typescript-eslint/no-use-before-define */
 
     const configRoot = fragment.firstElementChild!;
 

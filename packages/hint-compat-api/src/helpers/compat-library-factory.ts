@@ -21,6 +21,6 @@ export class CompatLibraryFactory {
         }
 
         // WORKAROUND: https://github.com/Microsoft/TypeScript/issues/28067#issuecomment-433952156
-        return new CompatCSS(<unknown>hintContext as HintContext<StyleEvents>, mdnData, testFunction);
+        return new CompatCSS(hintContext as unknown as HintContext<StyleEvents>, mdnData, testFunction);
     }
 }
