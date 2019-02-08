@@ -38,14 +38,11 @@
         },
         "formatters": {
             "description": "The formatter(s) to use for the results",
-            "oneOf": [
-                {
-                    "type": "array"
-                },
-                {
-                    "type": "string"
-                }
-            ]
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "uniqueItems": true
         },
         "parsers": {
             "description": "The parsers to be used with the connector to gather information for specific file types",

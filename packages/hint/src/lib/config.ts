@@ -426,7 +426,7 @@ export class Configuration {
             }
 
             return result;
-        }, { invalid: [] as string[], valid: [] as string[]});
+        }, { invalid: [] as string[], valid: [] as string[] });
 
         return validateResult;
     }

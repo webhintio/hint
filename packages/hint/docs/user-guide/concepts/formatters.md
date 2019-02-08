@@ -11,7 +11,7 @@ name inside the property `formatters`:
 
 ```json
 {
-    "formatters": "formatter1"
+    "formatters": ["formatter1"]
 }
 ```
 

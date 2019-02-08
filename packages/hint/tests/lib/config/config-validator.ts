@@ -8,7 +8,7 @@ const validConfig = {
         name: 'chrome',
         options: { waitFor: 1000 }
     },
-    formatters: 'json',
+    formatters: ['json'],
     hints: {
         'disallowed-headers': ['warning', {}],
         'manifest-exists': 1,
@@ -26,7 +26,7 @@ const validHintsConfig = {
         name: 'chrome',
         options: { waitFor: 1000 }
     },
-    formatters: 'json',
+    formatters: ['json'],
     hints: [
         'disallowed-headers:warning',
         '?manifest-exists',
@@ -99,14 +99,15 @@ test(`If hint severity isn't valid, it should return false`, (t) => {
     t.false(valid);
 });
 
-test('config with one formatters is valid', (t) => {
-    const valid = configValidator.validateConfig(validConfig as any);
+test('config with one formatter as a string is invalid', (t) => {
+    const invalidConfig = Object.assign({}, validConfig, { formatters: 'json' });
+    const valid = configValidator.validateConfig(invalidConfig as any);
 
-    t.true(valid);
+    t.false(valid);
 });
 
 test('config with 2 formatters is valid', (t) => {
-    const validConfigs = Object.assign({ formatters: ['json', 'stylish'] }, validConfig);
+    const validConfigs = Object.assign({}, validConfig, { formatters: ['json', 'stylish'] });
     const valid = configValidator.validateConfig(validConfigs as any);
 
     t.true(valid);
