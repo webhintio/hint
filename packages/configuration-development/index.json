@@ -11,6 +11,7 @@
         "apple-touch-icons": "off",
         "axe": "error",
         "babel-config/is-valid": "error",
+        "button-type": "error",
         "css-prefix-order": "error",
         "disown-opener": "error",
         "highest-available-document-mode": "error",

@@ -11,6 +11,7 @@
     ],
     "hints": {
         "axe": "error",
+        "button-type": "error",
         "content-type": "error",
         "css-prefix-order": "error",
         "disown-opener": "error",

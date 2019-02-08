@@ -15,7 +15,9 @@
     "references": [
         { "path": "../hint" },
         { "path": "../hint-axe" },
+        { "path": "../hint-button-type" },
         { "path": "../hint-content-type" },
+        { "path": "../hint-css-prefix-order" },
         { "path": "../hint-disown-opener" },
         { "path": "../hint-highest-available-document-mode" },
         { "path": "../hint-http-cache" },
