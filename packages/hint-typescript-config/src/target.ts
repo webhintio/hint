@@ -4,8 +4,6 @@
  * `browserslist` values.
  */
 
-import * as TypeScript from 'typescript';
-
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 
@@ -36,14 +34,16 @@ export default class TypeScriptConfigTarget implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
-        const Targets: Map<string, TypeScript.ScriptTarget> = new Map([
-            ['es3', TypeScript.ScriptTarget.ES3],
-            ['es5', TypeScript.ScriptTarget.ES5],
-            ['es6', TypeScript.ScriptTarget.ES2015],
-            ['es2015', TypeScript.ScriptTarget.ES2015],
-            ['es2016', TypeScript.ScriptTarget.ES2016],
-            ['es2017', TypeScript.ScriptTarget.ES2017],
-            ['esnext', TypeScript.ScriptTarget.ESNext]
+        const Targets = new Map([
+            ['es3', 'ES3'],
+            ['es5', 'ES5'],
+            ['es6', 'ES2015'],
+            ['es2015', 'ES2015'],
+            ['es2016', 'ES2016'],
+            ['es2017', 'ES2017'],
+            ['es2018', 'ES2018'],
+            ['esnext', 'ESNext'],
+            ['latest', 'ESNext']
         ]);
 
         /**
@@ -165,23 +165,22 @@ export default class TypeScriptConfigTarget implements IHint {
         /**
          * Returns the configured normalized target:
          * This is necessary because in the config file the value can be
-         * lowercase, but the type TypeScript.ScriptTarget only have
-         * uppercase values.
+         * either lowercase or uppercase and some values map to others.
          *
          * * The `es` part will be upper cased (e.g.: ES2015, ESNext)
          * * ES6 --> ES2015
          */
-        const normalizeScriptTarget = (target: string): TypeScript.ScriptTarget => {
-            return Targets.get(target as string)!;
+        const normalizeScriptTarget = (target: string): string => {
+            return Targets.get(target) || target;
         };
 
         /**
          * Based on the minimum supported browser configuration passed,
          * determines what's the maximum ES version that can be targetted.
          */
-        const getMaxVersion = (minimumBrowsers: Browsers): TypeScript.ScriptTarget => {
+        const getMaxVersion = (minimumBrowsers: Browsers): string => {
             const versions = Object.keys(compatMatrix);
-            let maxVersion = TypeScript.ScriptTarget.ES3;
+            let maxVersion = 'ES3';
 
             /**
              * This will check all the ES versions and compare all the
@@ -230,13 +229,13 @@ export default class TypeScriptConfigTarget implements IHint {
         const validate = async (evt: TypeScriptConfigParse) => {
             const { config, getLocation, resource } = evt;
             const { targetedBrowsers } = context;
-            const target: TypeScript.ScriptTarget = normalizeScriptTarget(config.compilerOptions.target as any);
+            const target = normalizeScriptTarget(config.compilerOptions.target as any);
             const minimumBrowsers = toMiniumBrowser(targetedBrowsers);
 
-            const maxESVersion: TypeScript.ScriptTarget = getMaxVersion(minimumBrowsers);
+            const maxESVersion = getMaxVersion(minimumBrowsers);
 
             if (maxESVersion !== target) {
-                const message = `Based on your browser configuration your "compilerOptions.target" should be "${TypeScript.ScriptTarget[maxESVersion]}". Current one is "${TypeScript.ScriptTarget[target]}"`;
+                const message = `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`;
                 const location = getLocation('compilerOptions.target');
 
                 await context.report(resource, message, { location });
