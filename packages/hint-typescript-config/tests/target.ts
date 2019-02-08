@@ -51,7 +51,7 @@ const tests: TestWithBrowserInfo[] = [
         browserslist: ['Edge 15', 'Chrome 63'],
         name: 'Configuration with "compilerOptions.target = esnext" and not very old browsers should fail',
         path: paths.esnext,
-        reports: [{ message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "Latest"` }]
+        reports: [{ message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "ESNext"` }]
     },
     {
         browserslist: ['IE 8', 'Edge 15', 'Chrome 63'],
