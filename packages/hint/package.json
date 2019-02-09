@@ -40,7 +40,7 @@
     "@types/async": "^2.4.0",
     "@types/configstore": "^4.0.0",
     "@types/content-type": "^1.1.2",
-    "@types/debug": "0.0.31",
+    "@types/debug": "4.1.0",
     "@types/file-type": "^10.6.0",
     "@types/file-url": "^2.0.0",
     "@types/globby": "^8.0.0",
