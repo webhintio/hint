@@ -1,0 +1,126 @@
+{
+    "accessibility": {
+        "message": "Accessibility",
+        "description": "Name of category for accessibility tests."
+    },
+    "analyzeAgainButtonLabel": {
+        "message": "Analyze again",
+        "description": "Label for button to restart analysis."
+    },
+    "analyzeButtonLabel": {
+        "message": "Analyze website",
+        "description": "Label for button to start analysis."
+    },
+    "analyzingStatus": {
+        "message": "Analyzing...",
+        "description": "Status text shown while running."
+    },
+    "cancelAnalysisButtonLabel": {
+        "message": "Cancel analysis",
+        "description": "Label for button to stop analysis."
+    },
+    "categoriesTitle": {
+        "message": "Categories:",
+        "description": "Title of the categories sub-section on the configuration page."
+    },
+    "checkForBestPracticesDescription": {
+        "message": "Check for best practices and common errors with your site's accessibility, speed, security and more.",
+        "description": "Brief description of what webhint does."
+    },
+    "compatibility": {
+        "message": "Compatibility",
+        "description": "Name of category for compatibility tests."
+    },
+    "configurationTitle": {
+        "message": "Configuration",
+        "description": "Title of the initial page with configuration options."
+    },
+    "development": {
+        "message": "Development",
+        "description": "Name of category for development tests."
+    },
+    "differentOriginLabel": {
+        "message": "Different origin",
+        "description": "Label for option to ignore only external resources on the page."
+    },
+    "hintCountLabel": {
+        "message": "hint $1:",
+        "description": "Label for a test result based on the order in which it is listed, e.g. 'hint 2:'."
+    },
+    "hintsTitle": {
+        "message": "Hints",
+        "description": "Title displayed for the tool tab and at the top of the results page."
+    },
+    "ignoredResourcesTitle": {
+        "message": "Ignored resources:",
+        "description": "Title of the ignored resouces sub-section on the configuration page."
+    },
+    "interoperability": {
+        "message": "Interoperability",
+        "description": "Name of category for interoperability tests."
+    },
+    "learnWhyLabel": {
+        "message": "Learn why this is important",
+        "description": "Label for link to additional documentation for a passed test."
+    },
+    "learnWhyAndHowLabel": {
+        "message": "Learn why this is important and how to fix it",
+        "description": "Label for link to additional documentation for a failed test."
+    },
+    "noneLabel": {
+        "message": "None",
+        "description": "Label for option to not ignore any resources on the page."
+    },
+    "other": {
+        "message": "Other",
+        "description": "Name of category for miscellaneous tests."
+    },
+    "passedLabel": {
+        "message": "Passed: $1/$2",
+        "description": "Label for count of passed tests, e.g. 'Passed 2/3'."
+    },
+    "passedStatus": {
+        "message": "PASSED",
+        "description": "Message shown when all tests have passed."
+    },
+    "performance": {
+        "message": "Performance",
+        "description": "Name of category for performance tests."
+    },
+    "pitfalls": {
+        "message": "Pitfalls",
+        "description": "Name of category for tests which identify common mistakes."
+    },
+    "poweredByLabel": {
+        "message": "Powered by",
+        "description": "Label displayed before link to the webhint website."
+    },
+    "pwa": {
+        "message": "PWA",
+        "description": "Name of category for progressive web app (PWA) tests."
+    },
+    "recommendedSettingsLabel": {
+        "message": "Recommended settings",
+        "description": "Label for option to use recommended target browsers."
+    },
+    "restoreDefaultsLabel": {
+        "message": "Restore defaults",
+        "description": "Label for button to restore default settings."
+    },
+    "security": {
+        "message": "Security",
+        "description": "Name of category for security tests."
+    },
+    "seeExpressionInstructionsLabel": {
+        "message": "See expression instructions",
+        "description": "Label for link to instructions for ignoring page resources."
+    },
+    "seeQueryInstructionsLabel": {
+        "message": "See query instructions",
+        "description": "Label for link to instructions for selecting target browsers."
+    },
+    "yourTargetBrowsersTitle": {
+        "message": "Your target browsers:",
+        "description": "Title of the target browsers sub-section on the configuration page."
+    }
+}

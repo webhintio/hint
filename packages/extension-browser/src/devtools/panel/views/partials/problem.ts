@@ -3,6 +3,8 @@ import { Problem } from 'hint/dist/src/lib/types/problems';
 import { browser } from '../../../../shared/globals';
 import html from '../../../../shared/html-literal';
 
+import { getMessage } from '../../utils/i18n';
+
 import * as styles from './problem.css';
 
 /*
@@ -69,7 +71,7 @@ export default function view(problem: Problem, index: number) {
     return html`
         <div class="${styles.problem}">
             <div>
-                <span class="${styles.number}">hint ${(index + 1)}:</span>
+                <span class="${styles.number}">${getMessage('hintCountLabel', [(index + 1).toString()])}</span>
                 ${problem.message}
             </div>
             <a href="view-source:${problem.resource}" target="_blank" onclick=${onViewSourceClick}>

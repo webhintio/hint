@@ -1,6 +1,7 @@
 import html from '../../../../shared/html-literal';
 import { Events } from '../../../../shared/types';
 
+import { getMessage } from '../../utils/i18n';
 import inspire from '../../utils/inspire';
 import { addMessageListener, removeMessageListener } from '../../utils/messaging';
 
@@ -40,15 +41,15 @@ const rotateMessages = (element: Element, onMessageChange: Function) => {
 export default function view({ onCancelClick, onMessageChange }: Props) {
     const fragment = html`
         <form class="${styles.analyze}" onsubmit=${onSubmit}>
-            ${headerView({analyzeDisabled: true, analyzeText: 'Analyze website'})}
+            ${headerView({analyzeDisabled: true, analyzeText: getMessage('analyzeButtonLabel')})}
             <h1 class="${styles.header}">
-                Analyzing...
+                ${getMessage('analyzingStatus')}
             </h1>
             <section class="${styles.status}">
                 <img class="${styles.image}" src="${nellieWorkingSvg}" />
-                <p class="${styles.message}">Analyzing...</p>
+                <p class="${styles.message}">${getMessage('analyzingStatus')}</p>
                 <button class="${styles.cancelButton}" onclick=${onCancelClick}>
-                    Cancel analysis
+                    ${getMessage('cancelAnalysisButtonLabel')}
                 </button>
             </section>
         </form>

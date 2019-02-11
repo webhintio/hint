@@ -1,6 +1,8 @@
 import escapeRegExp = require('lodash/escapeRegExp');
 import browserslist = require('browserslist');
 
+import { Category } from 'hint/dist/src/lib/enums/category';
+
 import { browser } from '../../../../shared/globals';
 import { Config } from '../../../../shared/types';
 import metas from '../../../../shared/metas.import';
@@ -20,11 +22,7 @@ const configKey = 'config';
 // Generate uppercase category names from bundled hint metadata.
 const categories = [...new Set(metas.map((meta) => {
     // TODO: Create a helper in `hint` to get uppercased category names.
-    return (meta.docs && meta.docs.category || 'other')
-        .replace(/^pwa$/, 'PWA')
-        .replace(/^(.)/, (char) => {
-            return char.toUpperCase();
-        });
+    return (meta.docs && meta.docs.category || Category.other);
 }))].sort();
 
 export default function view({ onAnalyzeClick }: Props) {

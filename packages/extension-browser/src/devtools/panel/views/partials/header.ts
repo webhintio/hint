@@ -1,5 +1,7 @@
 import html from '../../../../shared/html-literal';
 
+import { getMessage } from '../../utils/i18n';
+
 import * as styles from './header.css';
 
 type Props = {
@@ -16,9 +18,10 @@ export default function view({ analyzeDisabled, analyzeText }: Props) {
                 </button>
             </div>
             <div class="${styles.help}">
-                Check for best practices and common errors with your site's accessibility, speed, security and more.
+                ${getMessage('checkForBestPracticesDescription')}
                 <span class="${styles.poweredBy}">
-                    Powered by <a href="https://webhint.io" target="_blank">webhint</a>.
+                    ${getMessage('poweredByLabel')}
+                    <a href="https://webhint.io" target="_blank">webhint</a>
                 </span>
             </div>
         </header>

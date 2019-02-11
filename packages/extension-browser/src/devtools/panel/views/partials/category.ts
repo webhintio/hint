@@ -1,6 +1,8 @@
 import html from '../../../../shared/html-literal';
 import { CategoryResults } from '../../../../shared/types';
 
+import { getMessage } from '../../utils/i18n';
+
 import hintView from './hint';
 
 import * as styles from './category.css';
@@ -10,10 +12,10 @@ export default function view({ name, hints, passed }: CategoryResults) {
         <details class="${styles.category}" open>
             <summary class="${styles.summary}">
                 <span class="${styles.name}">
-                    ${name}
+                    ${getMessage(name)}
                 </span>
                 <span class="${styles.status}">
-                    PASSED: ${passed}/${hints.length}
+                    ${getMessage('passedLabel', [passed.toString(), hints.length.toString()])}
                 </span>
             </summary>
             <div class="${styles.results}">
