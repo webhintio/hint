@@ -71,7 +71,7 @@ const main = async (userConfig: Config) => {
         hints: hintsConfig,
         hintsTimeout: 10000,
         ignoredUrls: determineIgnoredUrls(userConfig.ignoredUrls),
-        parsers: ['javascript', 'manifest']
+        parsers: ['css', 'javascript', 'manifest']
     };
 
     const resources: HintResources = {

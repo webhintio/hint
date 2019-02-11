@@ -16,6 +16,7 @@
         { "path": "../hint" },
         { "path": "../hint-axe" },
         { "path": "../hint-button-type" },
+        { "path": "../hint-compat-api" },
         { "path": "../hint-content-type" },
         { "path": "../hint-css-prefix-order" },
         { "path": "../hint-disown-opener" },
