@@ -1,8 +1,8 @@
-# Check for Deprecated CSS features
+# Deprecated CSS features (`compat-api/css`)
 
 ## What does the hint check?
 
-`compat-api-css` checks if the CSS features used are deprecated in the
+`compat-api/css` checks if the CSS features used are deprecated in the
 [targeted browsers][browser-context].
 
 ## Why is this important?

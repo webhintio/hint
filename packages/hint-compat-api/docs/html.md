@@ -1,8 +1,8 @@
-# Check for Deprecated HTML elements
+# Deprecated HTML features (`compat-api/html`)
 
 ## What does the hint check?
 
-`compat-api-html` checks if the HTML elements and attributes used are
+`compat-api/html` checks if the HTML elements and attributes used are
 deprecated in the [targeted browsers][browser-context].
 
 ## Why is this important?

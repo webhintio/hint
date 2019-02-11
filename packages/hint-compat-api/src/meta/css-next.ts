@@ -7,8 +7,8 @@ const schema = require('./compat-hint-schema.json');
 const meta: HintMetadata = {
     docs: {
         category: Category.compatibility,
-        description: '`compat-api-css` validates if the CSS features of the project are not broadly supported',
-        name: 'Compatibility CSS not broadly supported features'
+        description: 'Validate if CSS features used are supported by target browsers',
+        name: 'New CSS features'
     },
     id: 'compat-api/css-next',
     schema: [schema],

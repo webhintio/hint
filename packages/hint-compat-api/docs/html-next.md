@@ -1,8 +1,8 @@
-# Check for HTML elements that are not broadly supported
+# New HTML features (`compat-api/html-next`)
 
 ## What does the hint check?
 
-`compat-api-html-next` checks if the HTML elements and attributes used are
+`compat-api/html-next` checks if the HTML elements and attributes used are
 supported in the [targeted browsers][browser-context].
 
 ## Why is this important?

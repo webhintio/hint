@@ -1,8 +1,8 @@
-# Check for CSS features that are not broadly supported
+# New CSS features (`compat-api/css-next`)
 
 ## What does the hint check?
 
-`compat-api-css-next` checks if the CSS features used are
+`compat-api/css-next` checks if the CSS features used are
 supported in the [targeted browsers][browser-context].
 
 ## Why is this important?
