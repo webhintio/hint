@@ -50,7 +50,7 @@
     "lint:packages": "yarn workspaces run lint",
     "lint:scripts": "eslint scripts --cache --ext js --ext ts --report-unused-disable-directives",
     "pre-release": "npm run clean:packages && npm run build:scripts && npm run release -- --prerelease",
-    "release": "npm run clean:packages && npm run build:scripts && node dist/scripts/release.js",
+    "release": "node scripts/fix-dependencies.js && npm run clean:packages && npm run build:scripts && node dist/scripts/release.js && node scripts/fix-dependencies.js",
     "test": "npm run clean && node scripts/test.js",
     "test-all": "yarn clean && node scripts/test-all.js",
     "test-root": "npm run clean && npm run lint && npm-run-all --parallel build:scripts:*",
