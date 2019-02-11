@@ -1,6 +1,6 @@
 # Compatibility of CSS, HTML and JavaScript features (`compat-api`)
 
-`compat api` contains hints to check if your CSS HTML and JavaScript
+`compat api` contains hints to check if your CSS, HTML, and JavaScript
 have deprecated or not broadly supported features.
 
 ## Why is this important?
@@ -10,8 +10,10 @@ are compatible with the target browsers that you want to support.
 
 ## Hints
 
-* [compat-api-css][compat-api-css]
-* [compat-api-css-next][compat-api-css-next]
+* [compat-api/css][compat-api-css]
+* [compat-api/css-next][compat-api-css-next]
+* [compat-api/html][compat-api-html]
+* [compat-api/html-next][compat-api-html-next]
 
 ## How to use these hints?
 
@@ -32,8 +34,10 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
     "connector": {...},
     "formatters": [...],
     "hints": {
-        "compat-api-css": "error",
-        "compat-api-css-next": "error",
+        "compat-api/css": "error",
+        "compat-api/css-next": "error",
+        "compat-api/html": "error",
+        "compat-api/html-next": "error",
         ...
     },
     "parsers": [...],
@@ -43,7 +47,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 <!-- Link labels: -->
 
-[compat-api-css]: ./docs/compat-api-css.md
-[compat-api-css-next]: ./docs/compat-api-css-next.md
+[compat-api-css]: ./docs/css.md
+[compat-api-css-next]: ./docs/css-next.md
+[compat-api-html]: ./docs/html.md
+[compat-api-html-next]: ./docs/html-next.md
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [npm docs]: https://docs.npmjs.com/cli/install
