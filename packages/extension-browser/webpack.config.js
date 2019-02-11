@@ -53,6 +53,7 @@ const baseConfig = {
     resolve: {
         alias: {
             'hint/dist/src/lib/utils/network/request-async$': path.resolve(__dirname, 'dist/src/shims/request-async.js'),
+            'mdn-browser-compat-data$': path.resolve(__dirname, 'dist/mdn-browser-compat-data.packed.json'),
             url$: path.resolve(__dirname, 'dist/src/shims/url.js')
         }
     }

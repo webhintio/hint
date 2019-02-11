@@ -20,6 +20,7 @@ export default class WebExtensionConnector implements IConnector {
     private _document = new AsyncHTMLDocument(document);
     private _window = new AsyncWindow(this._document); // eslint-disable-line
     private _engine: Engine;
+    private _onComplete: (resource: string) => void = () => { };
     private _options: ConnectorOptionsConfig;
 
     public constructor(engine: Engine, options?: ConnectorOptionsConfig) {
@@ -53,7 +54,7 @@ export default class WebExtensionConnector implements IConnector {
                     await this._engine.emitAsync('traverse::end', { resource });
                 }
 
-                await this._engine.emitAsync('scan::end', { resource });
+                this._onComplete(resource);
             }, this._options.waitFor);
         };
 
@@ -159,10 +160,11 @@ export default class WebExtensionConnector implements IConnector {
         this.sendMessage({ ready: true });
 
         return new Promise((resolve) => {
-            this._engine.once('scan::end', () => {
+            this._onComplete = async (resource: string) => {
+                await this._engine.emitAsync('scan::end', { resource });
                 resolve();
                 this.sendMessage({ done: true });
-            });
+            };
         });
     }
 
