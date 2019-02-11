@@ -9,7 +9,7 @@ import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
 import { EventAndListener } from 'eventemitter2';
 
-import * as configStore from '../utils/configstore';
+import * as configStore from '../utils/config-store';
 import { Configuration } from '../config';
 import { Engine } from '../engine';
 import { CLIOptions, ORA, Problem, Severity, UserConfig, HintResources } from '../types';
@@ -20,7 +20,7 @@ import askForConfirm from '../utils/misc/ask-question';
 import cutString from '../utils/misc/cut-string';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
-import * as insights from '../utils/appinsights';
+import * as insights from '../utils/app-insights';
 import { FormatterOptions, IFormatter } from '../types/formatters';
 import loadHintPackage from '../utils/packages/load-hint-package';
 

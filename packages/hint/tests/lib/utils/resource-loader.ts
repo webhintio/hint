@@ -9,9 +9,9 @@ import * as sinon from 'sinon';
 import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
 import { Configuration } from '../../../src/lib/config';
-import { ResourceType } from '../../../src/lib/enums/resourcetype';
-import { ResourceError } from '../../../src/lib/types/resourceerror';
-import { ResourceErrorStatus } from '../../../src/lib/enums/errorstatus';
+import { ResourceType } from '../../../src/lib/enums/resource-type';
+import { ResourceError } from '../../../src/lib/types/resource-error';
+import { ResourceErrorStatus } from '../../../src/lib/enums/error-status';
 
 const cacheKey = path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js');
 

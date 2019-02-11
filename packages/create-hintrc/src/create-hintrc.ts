@@ -20,10 +20,10 @@ import * as logger from 'hint/dist/src/lib/utils/logging';
 
 import cwd from 'hint/dist/src/lib/utils/fs/cwd';
 import { getInstalledResources, getCoreResources } from 'hint/dist/src/lib/utils/resource-loader';
-import { ResourceType } from 'hint/dist/src/lib/enums/resourcetype';
+import { ResourceType } from 'hint/dist/src/lib/enums/resource-type';
 import { generateBrowserslistConfig } from './browserslist';
 import { getOfficialPackages, installPackages } from 'hint/dist/src/lib/utils/npm';
-import { sendPendingData, trackEvent } from 'hint/dist/src/lib/utils/appinsights';
+import { sendPendingData, trackEvent } from 'hint/dist/src/lib/utils/app-insights';
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';

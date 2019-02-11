@@ -6,7 +6,7 @@ import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hintscope';
+import { HintScope } from 'hint/dist/src/lib/enums/hint-scope';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import isOfficial from 'hint/dist/src/lib/utils/packages/is-official';
 

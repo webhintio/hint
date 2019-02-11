@@ -38,7 +38,7 @@ import {
 } from './types';
 import * as logger from './utils/logging';
 import { HintContext } from './hint-context';
-import { HintScope } from './enums/hintscope';
+import { HintScope } from './enums/hint-scope';
 import { Configuration } from './config';
 import { Category } from './enums/category';
 

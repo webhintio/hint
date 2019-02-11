@@ -6,7 +6,7 @@ import * as proxyquire from 'proxyquire';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import delay from '../../src/lib/utils/misc/delay';
-import { HintScope } from '../../src/lib/enums/hintscope';
+import { HintScope } from '../../src/lib/enums/hint-scope';
 import { Configuration } from '../../src/lib/config';
 import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata, Problem } from '../../src/lib/types';
 import { Category } from '../../src/lib/enums/category';
