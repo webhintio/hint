@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@types/fs-extra": "5.0.4",
+    "@types/fs-extra": "5.0.5",
     "@types/listr": "^0.13.0",
     "@types/node": "11.9.0",
     "@types/p-retry": "^3.0.0",
