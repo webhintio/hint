@@ -1,0 +1,2044 @@
+@hint/configuration-progressive-web-apps
+   |-- @hint/configuration-development
+@hint/connector-local
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/utils-tests-helpers
+       |-- @hint/hint-amp-validator
+       |-- @hint/hint-apple-touch-icons
+       |   |-- @hint/configuration-progressive-web-apps
+       |       |-- @hint/configuration-development
+       |-- @hint/hint-axe
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-babel-config
+       |   |-- @hint/configuration-development
+       |-- @hint/hint-button-type
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-compat-api
+       |-- @hint/hint-content-type
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-css-prefix-order
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-disown-opener
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-doctype
+       |-- @hint/hint-highest-available-document-mode
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-html-checker
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-http-cache
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-http-compression
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-https-only
+       |-- @hint/hint-image-optimization-cloudinary
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-manifest-app-name
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-manifest-exists
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |-- @hint/hint-manifest-file-extension
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-manifest-is-valid
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-meta-charset-utf-8
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-meta-theme-color
+       |-- @hint/hint-meta-viewport
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-minified-js
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-bom
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-no-broken-links
+       |-- @hint/hint-no-disallowed-headers
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-friendly-error-pages
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-no-html-only-headers
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-http-redirects
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-p3p
+       |-- @hint/hint-no-protocol-relative-urls
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-vulnerable-javascript-libraries
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-performance-budget
+       |-- @hint/hint-sri
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-ssllabs
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-strict-transport-security
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-stylesheet-limits
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-typescript-config
+       |   |-- @hint/configuration-development
+       |-- @hint/hint-validate-set-cookie-header
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-webpack-config
+       |   |-- @hint/configuration-development
+       |-- @hint/hint-x-content-type-options
+           |-- @hint/configuration-web-recommended
+           |   |-- hint
+           |-- @hint/extension-browser
+@hint/formatter-html
+   |-- @hint/configuration-development
+   |-- @hint/configuration-progressive-web-apps
+   |   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+       |-- hint
+@hint/formatter-summary
+   |-- @hint/configuration-development
+   |-- @hint/configuration-progressive-web-apps
+   |   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+       |-- hint
+@hint/hint-axe
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-babel-config
+   |-- @hint/configuration-development
+@hint/hint-button-type
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-css-prefix-order
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-disown-opener
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-highest-available-document-mode
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-meta-charset-utf-8
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-meta-viewport
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-no-bom
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+@hint/hint-no-protocol-relative-urls
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-sri
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-typescript-config
+   |-- @hint/configuration-development
+@hint/hint-webpack-config
+   |-- @hint/configuration-development
+@hint/parser-babel-config
+   |-- @hint/configuration-development
+   |-- @hint/hint-babel-config
+   |   |-- @hint/configuration-development
+   |-- @hint/hint-webpack-config
+       |-- @hint/configuration-development
+@hint/parser-css
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+   |-- @hint/hint-compat-api
+   |-- @hint/hint-css-prefix-order
+       |-- @hint/configuration-development
+       |-- @hint/configuration-web-recommended
+       |   |-- hint
+       |-- @hint/extension-browser
+@hint/parser-html
+   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/connector-local
+       |-- @hint/configuration-development
+       |-- @hint/configuration-web-recommended
+       |   |-- hint
+       |-- @hint/utils-tests-helpers
+           |-- @hint/hint-amp-validator
+           |-- @hint/hint-apple-touch-icons
+           |   |-- @hint/configuration-progressive-web-apps
+           |   |   |-- @hint/configuration-development
+           |-- @hint/hint-axe
+           |   |-- @hint/configuration-development
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-babel-config
+           |   |-- @hint/configuration-development
+           |-- @hint/hint-button-type
+           |   |-- @hint/configuration-development
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-compat-api
+           |-- @hint/hint-content-type
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-css-prefix-order
+           |   |-- @hint/configuration-development
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-disown-opener
+           |   |-- @hint/configuration-development
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-doctype
+           |-- @hint/hint-highest-available-document-mode
+           |   |-- @hint/configuration-development
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-html-checker
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |-- @hint/hint-http-cache
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-http-compression
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |-- @hint/hint-https-only
+           |-- @hint/hint-image-optimization-cloudinary
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |-- @hint/hint-manifest-app-name
+           |   |-- @hint/configuration-progressive-web-apps
+           |   |   |-- @hint/configuration-development
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-manifest-exists
+           |   |-- @hint/configuration-progressive-web-apps
+           |   |   |-- @hint/configuration-development
+           |-- @hint/hint-manifest-file-extension
+           |   |-- @hint/configuration-progressive-web-apps
+           |   |   |-- @hint/configuration-development
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-manifest-is-valid
+           |   |-- @hint/configuration-progressive-web-apps
+           |   |   |-- @hint/configuration-development
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-meta-charset-utf-8
+           |   |-- @hint/configuration-development
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-meta-theme-color
+           |-- @hint/hint-meta-viewport
+           |   |-- @hint/configuration-development
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-minified-js
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-no-bom
+           |   |-- @hint/configuration-development
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |-- @hint/hint-no-broken-links
+           |-- @hint/hint-no-disallowed-headers
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-no-friendly-error-pages
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |-- @hint/hint-no-html-only-headers
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-no-http-redirects
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-no-p3p
+           |-- @hint/hint-no-protocol-relative-urls
+           |   |-- @hint/configuration-development
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-no-vulnerable-javascript-libraries
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |-- @hint/hint-performance-budget
+           |-- @hint/hint-sri
+           |   |-- @hint/configuration-development
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-ssllabs
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |-- @hint/hint-strict-transport-security
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |-- @hint/hint-stylesheet-limits
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-typescript-config
+           |   |-- @hint/configuration-development
+           |-- @hint/hint-validate-set-cookie-header
+           |   |-- @hint/configuration-web-recommended
+           |   |   |-- hint
+           |   |-- @hint/extension-browser
+           |-- @hint/hint-webpack-config
+           |   |-- @hint/configuration-development
+           |-- @hint/hint-x-content-type-options
+               |-- @hint/configuration-web-recommended
+               |   |-- hint
+               |-- @hint/extension-browser
+@hint/parser-typescript-config
+   |-- @hint/configuration-development
+   |-- @hint/hint-typescript-config
+   |   |-- @hint/configuration-development
+   |-- @hint/hint-webpack-config
+       |-- @hint/configuration-development
+@hint/parser-webpack-config
+   |-- @hint/configuration-development
+   |-- @hint/hint-webpack-config
+       |-- @hint/configuration-development
+@hint/connector-chrome
+   |-- @hint/configuration-progressive-web-apps
+   |   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/utils-tests-helpers
+       |-- @hint/hint-amp-validator
+       |-- @hint/hint-apple-touch-icons
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |-- @hint/hint-axe
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-babel-config
+       |   |-- @hint/configuration-development
+       |-- @hint/hint-button-type
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-compat-api
+       |-- @hint/hint-content-type
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-css-prefix-order
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-disown-opener
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-doctype
+       |-- @hint/hint-highest-available-document-mode
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-html-checker
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-http-cache
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-http-compression
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-https-only
+       |-- @hint/hint-image-optimization-cloudinary
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-manifest-app-name
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-manifest-exists
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |-- @hint/hint-manifest-file-extension
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-manifest-is-valid
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-meta-charset-utf-8
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-meta-theme-color
+       |-- @hint/hint-meta-viewport
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-minified-js
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-bom
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |       |-- hint
+       |-- @hint/hint-no-broken-links
+       |-- @hint/hint-no-disallowed-headers
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-friendly-error-pages
+       |   |-- @hint/configuration-web-recommended
+       |       |-- hint
+       |-- @hint/hint-no-html-only-headers
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-http-redirects
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-p3p
+       |-- @hint/hint-no-protocol-relative-urls
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-vulnerable-javascript-libraries
+       |   |-- @hint/configuration-web-recommended
+       |       |-- hint
+       |-- @hint/hint-performance-budget
+       |-- @hint/hint-sri
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-ssllabs
+       |   |-- @hint/configuration-web-recommended
+       |       |-- hint
+       |-- @hint/hint-strict-transport-security
+       |   |-- @hint/configuration-web-recommended
+       |       |-- hint
+       |-- @hint/hint-stylesheet-limits
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-typescript-config
+       |   |-- @hint/configuration-development
+       |-- @hint/hint-validate-set-cookie-header
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-webpack-config
+       |   |-- @hint/configuration-development
+       |-- @hint/hint-x-content-type-options
+           |-- @hint/configuration-web-recommended
+           |   |-- hint
+           |-- @hint/extension-browser
+@hint/connector-jsdom
+   |-- @hint/configuration-progressive-web-apps
+   |   |-- @hint/configuration-development
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/utils-tests-helpers
+       |-- @hint/hint-amp-validator
+       |-- @hint/hint-apple-touch-icons
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |-- @hint/hint-axe
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-babel-config
+       |   |-- @hint/configuration-development
+       |-- @hint/hint-button-type
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-compat-api
+       |-- @hint/hint-content-type
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-css-prefix-order
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-disown-opener
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-doctype
+       |-- @hint/hint-highest-available-document-mode
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-html-checker
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-http-cache
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-http-compression
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-https-only
+       |-- @hint/hint-image-optimization-cloudinary
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-manifest-app-name
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-manifest-exists
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |-- @hint/hint-manifest-file-extension
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-manifest-is-valid
+       |   |-- @hint/configuration-progressive-web-apps
+       |   |   |-- @hint/configuration-development
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-meta-charset-utf-8
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-meta-theme-color
+       |-- @hint/hint-meta-viewport
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-minified-js
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-bom
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-no-broken-links
+       |-- @hint/hint-no-disallowed-headers
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-friendly-error-pages
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-no-html-only-headers
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-http-redirects
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-p3p
+       |-- @hint/hint-no-protocol-relative-urls
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-no-vulnerable-javascript-libraries
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-performance-budget
+       |-- @hint/hint-sri
+       |   |-- @hint/configuration-development
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-ssllabs
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-strict-transport-security
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |-- @hint/hint-stylesheet-limits
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-typescript-config
+       |   |-- @hint/configuration-development
+       |-- @hint/hint-validate-set-cookie-header
+       |   |-- @hint/configuration-web-recommended
+       |   |   |-- hint
+       |   |-- @hint/extension-browser
+       |-- @hint/hint-webpack-config
+       |   |-- @hint/configuration-development
+       |-- @hint/hint-x-content-type-options
+           |-- @hint/configuration-web-recommended
+           |   |-- hint
+           |-- @hint/extension-browser
+@hint/hint-apple-touch-icons
+   |-- @hint/configuration-progressive-web-apps
+       |-- @hint/configuration-development
+@hint/hint-manifest-app-name
+   |-- @hint/configuration-progressive-web-apps
+   |   |-- @hint/configuration-development
+   |-- @hint/extension-browser
+@hint/hint-manifest-exists
+   |-- @hint/configuration-progressive-web-apps
+       |-- @hint/configuration-development
+@hint/hint-manifest-file-extension
+   |-- @hint/configuration-progressive-web-apps
+   |   |-- @hint/configuration-development
+   |-- @hint/extension-browser
+@hint/hint-manifest-is-valid
+   |-- @hint/configuration-progressive-web-apps
+   |   |-- @hint/configuration-development
+   |-- @hint/extension-browser
+@hint/parser-manifest
+   |-- @hint/configuration-progressive-web-apps
+   |   |-- @hint/configuration-development
+   |-- @hint/extension-browser
+   |-- @hint/hint-manifest-app-name
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-manifest-exists
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |-- @hint/hint-manifest-file-extension
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-manifest-is-valid
+       |-- @hint/configuration-progressive-web-apps
+       |   |-- @hint/configuration-development
+       |-- @hint/extension-browser
+@hint/formatter-stylish
+   |-- @hint/configuration-web-recommended
+       |-- hint
+@hint/hint-content-type
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-html-checker
+   |-- @hint/configuration-web-recommended
+       |-- hint
+@hint/hint-http-cache
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-http-compression
+   |-- @hint/configuration-web-recommended
+       |-- hint
+@hint/hint-image-optimization-cloudinary
+   |-- @hint/configuration-web-recommended
+       |-- hint
+@hint/hint-no-disallowed-headers
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-no-friendly-error-pages
+   |-- @hint/configuration-web-recommended
+       |-- hint
+@hint/hint-no-html-only-headers
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-no-http-redirects
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-no-vulnerable-javascript-libraries
+   |-- @hint/configuration-web-recommended
+       |-- hint
+@hint/hint-ssllabs
+   |-- @hint/configuration-web-recommended
+       |-- hint
+@hint/hint-strict-transport-security
+   |-- @hint/configuration-web-recommended
+       |-- hint
+@hint/hint-stylesheet-limits
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-validate-set-cookie-header
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/hint-x-content-type-options
+   |-- @hint/configuration-web-recommended
+   |   |-- hint
+   |-- @hint/extension-browser
+@hint/utils-debugging-protocol-common
+   |-- @hint/connector-chrome
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/utils-tests-helpers
+   |       |-- @hint/hint-amp-validator
+   |       |-- @hint/hint-apple-touch-icons
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |-- @hint/hint-axe
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-babel-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-button-type
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-compat-api
+   |       |-- @hint/hint-content-type
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-css-prefix-order
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-disown-opener
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-doctype
+   |       |-- @hint/hint-highest-available-document-mode
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-html-checker
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-http-cache
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-http-compression
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-https-only
+   |       |-- @hint/hint-image-optimization-cloudinary
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-manifest-app-name
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-manifest-exists
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |-- @hint/hint-manifest-file-extension
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-manifest-is-valid
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-meta-charset-utf-8
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-meta-theme-color
+   |       |-- @hint/hint-meta-viewport
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-minified-js
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-bom
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-no-broken-links
+   |       |-- @hint/hint-no-disallowed-headers
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-friendly-error-pages
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-no-html-only-headers
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-http-redirects
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-p3p
+   |       |-- @hint/hint-no-protocol-relative-urls
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-vulnerable-javascript-libraries
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-performance-budget
+   |       |-- @hint/hint-sri
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-ssllabs
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-strict-transport-security
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-stylesheet-limits
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-typescript-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-validate-set-cookie-header
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-webpack-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-x-content-type-options
+   |           |-- @hint/configuration-web-recommended
+   |           |   |-- hint
+   |           |-- @hint/extension-browser
+@hint/utils-create-server
+   |-- @hint/connector-chrome
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/utils-tests-helpers
+   |       |-- @hint/hint-amp-validator
+   |       |-- @hint/hint-apple-touch-icons
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |-- @hint/hint-axe
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-babel-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-button-type
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-compat-api
+   |       |-- @hint/hint-content-type
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-css-prefix-order
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-disown-opener
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-doctype
+   |       |-- @hint/hint-highest-available-document-mode
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-html-checker
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-http-cache
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-http-compression
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-https-only
+   |       |-- @hint/hint-image-optimization-cloudinary
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-manifest-app-name
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-manifest-exists
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |-- @hint/hint-manifest-file-extension
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-manifest-is-valid
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-meta-charset-utf-8
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-meta-theme-color
+   |       |-- @hint/hint-meta-viewport
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-minified-js
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-bom
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-no-broken-links
+   |       |-- @hint/hint-no-disallowed-headers
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-friendly-error-pages
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-no-html-only-headers
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-http-redirects
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-p3p
+   |       |-- @hint/hint-no-protocol-relative-urls
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-vulnerable-javascript-libraries
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-performance-budget
+   |       |-- @hint/hint-sri
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-ssllabs
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-strict-transport-security
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-stylesheet-limits
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-typescript-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-validate-set-cookie-header
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-webpack-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-x-content-type-options
+   |           |-- @hint/configuration-web-recommended
+   |           |   |-- hint
+   |           |-- @hint/extension-browser
+   |-- @hint/connector-jsdom
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/utils-tests-helpers
+   |       |-- @hint/hint-amp-validator
+   |       |-- @hint/hint-apple-touch-icons
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |-- @hint/hint-axe
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-babel-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-button-type
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-compat-api
+   |       |-- @hint/hint-content-type
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-css-prefix-order
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-disown-opener
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-doctype
+   |       |-- @hint/hint-highest-available-document-mode
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-html-checker
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-http-cache
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-http-compression
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-https-only
+   |       |-- @hint/hint-image-optimization-cloudinary
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-manifest-app-name
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-manifest-exists
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |-- @hint/hint-manifest-file-extension
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-manifest-is-valid
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-meta-charset-utf-8
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-meta-theme-color
+   |       |-- @hint/hint-meta-viewport
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-minified-js
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-bom
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-no-broken-links
+   |       |-- @hint/hint-no-disallowed-headers
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-friendly-error-pages
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-no-html-only-headers
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-http-redirects
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-p3p
+   |       |-- @hint/hint-no-protocol-relative-urls
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-vulnerable-javascript-libraries
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-performance-budget
+   |       |-- @hint/hint-sri
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-ssllabs
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-strict-transport-security
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-stylesheet-limits
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-typescript-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-validate-set-cookie-header
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-webpack-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-x-content-type-options
+   |           |-- @hint/configuration-web-recommended
+   |           |   |-- hint
+   |           |-- @hint/extension-browser
+   |-- @hint/extension-browser
+   |-- @hint/utils-connector-tools
+   |   |-- @hint/connector-jsdom
+   |   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/utils-tests-helpers
+   |   |       |-- @hint/hint-amp-validator
+   |   |       |-- @hint/hint-apple-touch-icons
+   |   |       |   |-- @hint/configuration-progressive-web-apps
+   |   |       |   |   |-- @hint/configuration-development
+   |   |       |-- @hint/hint-axe
+   |   |       |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-babel-config
+   |   |       |   |-- @hint/configuration-development
+   |   |       |-- @hint/hint-button-type
+   |   |       |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-compat-api
+   |   |       |-- @hint/hint-content-type
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-css-prefix-order
+   |   |       |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-disown-opener
+   |   |       |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-doctype
+   |   |       |-- @hint/hint-highest-available-document-mode
+   |   |       |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-html-checker
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |-- @hint/hint-http-cache
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-http-compression
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |       |-- hint
+   |   |       |-- @hint/hint-https-only
+   |   |       |-- @hint/hint-image-optimization-cloudinary
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |       |-- hint
+   |   |       |-- @hint/hint-manifest-app-name
+   |   |       |   |-- @hint/configuration-progressive-web-apps
+   |   |       |   |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-manifest-exists
+   |   |       |   |-- @hint/configuration-progressive-web-apps
+   |   |       |       |-- @hint/configuration-development
+   |   |       |-- @hint/hint-manifest-file-extension
+   |   |       |   |-- @hint/configuration-progressive-web-apps
+   |   |       |   |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-manifest-is-valid
+   |   |       |   |-- @hint/configuration-progressive-web-apps
+   |   |       |   |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-meta-charset-utf-8
+   |   |       |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-meta-theme-color
+   |   |       |-- @hint/hint-meta-viewport
+   |   |       |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-minified-js
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-no-bom
+   |   |       |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |       |-- hint
+   |   |       |-- @hint/hint-no-broken-links
+   |   |       |-- @hint/hint-no-disallowed-headers
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-no-friendly-error-pages
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |       |-- hint
+   |   |       |-- @hint/hint-no-html-only-headers
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-no-http-redirects
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-no-p3p
+   |   |       |-- @hint/hint-no-protocol-relative-urls
+   |   |       |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-no-vulnerable-javascript-libraries
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |-- @hint/hint-performance-budget
+   |   |       |-- @hint/hint-sri
+   |   |       |   |-- @hint/configuration-development
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-ssllabs
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |       |-- hint
+   |   |       |-- @hint/hint-strict-transport-security
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |       |-- hint
+   |   |       |-- @hint/hint-stylesheet-limits
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-typescript-config
+   |   |       |   |-- @hint/configuration-development
+   |   |       |-- @hint/hint-validate-set-cookie-header
+   |   |       |   |-- @hint/configuration-web-recommended
+   |   |       |   |   |-- hint
+   |   |       |   |-- @hint/extension-browser
+   |   |       |-- @hint/hint-webpack-config
+   |   |       |   |-- @hint/configuration-development
+   |   |       |-- @hint/hint-x-content-type-options
+   |   |           |-- @hint/configuration-web-recommended
+   |   |           |   |-- hint
+   |   |           |-- @hint/extension-browser
+   |   |-- @hint/hint-no-broken-links
+   |   |-- @hint/utils-debugging-protocol-common
+   |       |-- @hint/connector-chrome
+   |           |-- @hint/configuration-progressive-web-apps
+   |           |   |-- @hint/configuration-development
+   |           |-- @hint/configuration-web-recommended
+   |           |   |-- hint
+   |           |-- @hint/utils-tests-helpers
+   |               |-- @hint/hint-amp-validator
+   |               |-- @hint/hint-apple-touch-icons
+   |               |   |-- @hint/configuration-progressive-web-apps
+   |               |       |-- @hint/configuration-development
+   |               |-- @hint/hint-axe
+   |               |   |-- @hint/configuration-development
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-babel-config
+   |               |   |-- @hint/configuration-development
+   |               |-- @hint/hint-button-type
+   |               |   |-- @hint/configuration-development
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-compat-api
+   |               |-- @hint/hint-content-type
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-css-prefix-order
+   |               |   |-- @hint/configuration-development
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-disown-opener
+   |               |   |-- @hint/configuration-development
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-doctype
+   |               |-- @hint/hint-highest-available-document-mode
+   |               |   |-- @hint/configuration-development
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-html-checker
+   |               |   |-- @hint/configuration-web-recommended
+   |               |       |-- hint
+   |               |-- @hint/hint-http-cache
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-http-compression
+   |               |   |-- @hint/configuration-web-recommended
+   |               |       |-- hint
+   |               |-- @hint/hint-https-only
+   |               |-- @hint/hint-image-optimization-cloudinary
+   |               |   |-- @hint/configuration-web-recommended
+   |               |       |-- hint
+   |               |-- @hint/hint-manifest-app-name
+   |               |   |-- @hint/configuration-progressive-web-apps
+   |               |   |   |-- @hint/configuration-development
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-manifest-exists
+   |               |   |-- @hint/configuration-progressive-web-apps
+   |               |       |-- @hint/configuration-development
+   |               |-- @hint/hint-manifest-file-extension
+   |               |   |-- @hint/configuration-progressive-web-apps
+   |               |   |   |-- @hint/configuration-development
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-manifest-is-valid
+   |               |   |-- @hint/configuration-progressive-web-apps
+   |               |   |   |-- @hint/configuration-development
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-meta-charset-utf-8
+   |               |   |-- @hint/configuration-development
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-meta-theme-color
+   |               |-- @hint/hint-meta-viewport
+   |               |   |-- @hint/configuration-development
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-minified-js
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-no-bom
+   |               |   |-- @hint/configuration-development
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |-- @hint/hint-no-broken-links
+   |               |-- @hint/hint-no-disallowed-headers
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-no-friendly-error-pages
+   |               |   |-- @hint/configuration-web-recommended
+   |               |       |-- hint
+   |               |-- @hint/hint-no-html-only-headers
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-no-http-redirects
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-no-p3p
+   |               |-- @hint/hint-no-protocol-relative-urls
+   |               |   |-- @hint/configuration-development
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-no-vulnerable-javascript-libraries
+   |               |   |-- @hint/configuration-web-recommended
+   |               |       |-- hint
+   |               |-- @hint/hint-performance-budget
+   |               |-- @hint/hint-sri
+   |               |   |-- @hint/configuration-development
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-ssllabs
+   |               |   |-- @hint/configuration-web-recommended
+   |               |       |-- hint
+   |               |-- @hint/hint-strict-transport-security
+   |               |   |-- @hint/configuration-web-recommended
+   |               |       |-- hint
+   |               |-- @hint/hint-stylesheet-limits
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-typescript-config
+   |               |   |-- @hint/configuration-development
+   |               |-- @hint/hint-validate-set-cookie-header
+   |               |   |-- @hint/configuration-web-recommended
+   |               |   |   |-- hint
+   |               |   |-- @hint/extension-browser
+   |               |-- @hint/hint-webpack-config
+   |               |   |-- @hint/configuration-development
+   |               |-- @hint/hint-x-content-type-options
+   |                   |-- @hint/configuration-web-recommended
+   |                   |   |-- hint
+   |                   |-- @hint/extension-browser
+   |-- @hint/utils-tests-helpers
+   |   |-- @hint/hint-amp-validator
+   |   |-- @hint/hint-apple-touch-icons
+   |   |   |-- @hint/configuration-progressive-web-apps
+   |   |       |-- @hint/configuration-development
+   |   |-- @hint/hint-axe
+   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-babel-config
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/hint-button-type
+   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-compat-api
+   |   |-- @hint/hint-content-type
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-css-prefix-order
+   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-disown-opener
+   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-doctype
+   |   |-- @hint/hint-highest-available-document-mode
+   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-html-checker
+   |   |   |-- @hint/configuration-web-recommended
+   |   |       |-- hint
+   |   |-- @hint/hint-http-cache
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-http-compression
+   |   |   |-- @hint/configuration-web-recommended
+   |   |       |-- hint
+   |   |-- @hint/hint-https-only
+   |   |-- @hint/hint-image-optimization-cloudinary
+   |   |   |-- @hint/configuration-web-recommended
+   |   |       |-- hint
+   |   |-- @hint/hint-manifest-app-name
+   |   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-manifest-exists
+   |   |   |-- @hint/configuration-progressive-web-apps
+   |   |       |-- @hint/configuration-development
+   |   |-- @hint/hint-manifest-file-extension
+   |   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-manifest-is-valid
+   |   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-meta-charset-utf-8
+   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-meta-theme-color
+   |   |-- @hint/hint-meta-viewport
+   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-minified-js
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-no-bom
+   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |-- @hint/hint-no-broken-links
+   |   |-- @hint/hint-no-disallowed-headers
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-no-friendly-error-pages
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |-- @hint/hint-no-html-only-headers
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-no-http-redirects
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-no-p3p
+   |   |-- @hint/hint-no-protocol-relative-urls
+   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-no-vulnerable-javascript-libraries
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |-- @hint/hint-performance-budget
+   |   |-- @hint/hint-sri
+   |   |   |-- @hint/configuration-development
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-ssllabs
+   |   |   |-- @hint/configuration-web-recommended
+   |   |       |-- hint
+   |   |-- @hint/hint-strict-transport-security
+   |   |   |-- @hint/configuration-web-recommended
+   |   |       |-- hint
+   |   |-- @hint/hint-stylesheet-limits
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-typescript-config
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/hint-validate-set-cookie-header
+   |   |   |-- @hint/configuration-web-recommended
+   |   |   |   |-- hint
+   |   |   |-- @hint/extension-browser
+   |   |-- @hint/hint-webpack-config
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/hint-x-content-type-options
+   |       |-- @hint/configuration-web-recommended
+   |       |   |-- hint
+   |       |-- @hint/extension-browser
+@hint/utils-connector-tools
+   |-- @hint/connector-jsdom
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/utils-tests-helpers
+   |       |-- @hint/hint-amp-validator
+   |       |-- @hint/hint-apple-touch-icons
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |       |-- @hint/configuration-development
+   |       |-- @hint/hint-axe
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-babel-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-button-type
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-compat-api
+   |       |-- @hint/hint-content-type
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-css-prefix-order
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-disown-opener
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-doctype
+   |       |-- @hint/hint-highest-available-document-mode
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-html-checker
+   |       |   |-- @hint/configuration-web-recommended
+   |       |       |-- hint
+   |       |-- @hint/hint-http-cache
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-http-compression
+   |       |   |-- @hint/configuration-web-recommended
+   |       |       |-- hint
+   |       |-- @hint/hint-https-only
+   |       |-- @hint/hint-image-optimization-cloudinary
+   |       |   |-- @hint/configuration-web-recommended
+   |       |       |-- hint
+   |       |-- @hint/hint-manifest-app-name
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-manifest-exists
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |-- @hint/hint-manifest-file-extension
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-manifest-is-valid
+   |       |   |-- @hint/configuration-progressive-web-apps
+   |       |   |   |-- @hint/configuration-development
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-meta-charset-utf-8
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-meta-theme-color
+   |       |-- @hint/hint-meta-viewport
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-minified-js
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-bom
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |       |-- hint
+   |       |-- @hint/hint-no-broken-links
+   |       |-- @hint/hint-no-disallowed-headers
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-friendly-error-pages
+   |       |   |-- @hint/configuration-web-recommended
+   |       |       |-- hint
+   |       |-- @hint/hint-no-html-only-headers
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-http-redirects
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-p3p
+   |       |-- @hint/hint-no-protocol-relative-urls
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-no-vulnerable-javascript-libraries
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-performance-budget
+   |       |-- @hint/hint-sri
+   |       |   |-- @hint/configuration-development
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-ssllabs
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-strict-transport-security
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |-- @hint/hint-stylesheet-limits
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-typescript-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-validate-set-cookie-header
+   |       |   |-- @hint/configuration-web-recommended
+   |       |   |   |-- hint
+   |       |   |-- @hint/extension-browser
+   |       |-- @hint/hint-webpack-config
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/hint-x-content-type-options
+   |           |-- @hint/configuration-web-recommended
+   |           |   |-- hint
+   |           |-- @hint/extension-browser
+   |-- @hint/hint-no-broken-links
+   |-- @hint/utils-debugging-protocol-common
+   |   |-- @hint/connector-chrome
+   |       |-- @hint/configuration-progressive-web-apps
+   |       |   |-- @hint/configuration-development
+   |       |-- @hint/configuration-web-recommended
+   |       |   |-- hint
+   |       |-- @hint/utils-tests-helpers
+   |           |-- @hint/hint-amp-validator
+   |           |-- @hint/hint-apple-touch-icons
+   |           |   |-- @hint/configuration-progressive-web-apps
+   |           |   |   |-- @hint/configuration-development
+   |           |-- @hint/hint-axe
+   |           |   |-- @hint/configuration-development
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-babel-config
+   |           |   |-- @hint/configuration-development
+   |           |-- @hint/hint-button-type
+   |           |   |-- @hint/configuration-development
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-compat-api
+   |           |-- @hint/hint-content-type
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-css-prefix-order
+   |           |   |-- @hint/configuration-development
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-disown-opener
+   |           |   |-- @hint/configuration-development
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-doctype
+   |           |-- @hint/hint-highest-available-document-mode
+   |           |   |-- @hint/configuration-development
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-html-checker
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |-- @hint/hint-http-cache
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-http-compression
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |-- @hint/hint-https-only
+   |           |-- @hint/hint-image-optimization-cloudinary
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |-- @hint/hint-manifest-app-name
+   |           |   |-- @hint/configuration-progressive-web-apps
+   |           |   |   |-- @hint/configuration-development
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-manifest-exists
+   |           |   |-- @hint/configuration-progressive-web-apps
+   |           |   |   |-- @hint/configuration-development
+   |           |-- @hint/hint-manifest-file-extension
+   |           |   |-- @hint/configuration-progressive-web-apps
+   |           |   |   |-- @hint/configuration-development
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-manifest-is-valid
+   |           |   |-- @hint/configuration-progressive-web-apps
+   |           |   |   |-- @hint/configuration-development
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-meta-charset-utf-8
+   |           |   |-- @hint/configuration-development
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-meta-theme-color
+   |           |-- @hint/hint-meta-viewport
+   |           |   |-- @hint/configuration-development
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-minified-js
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-no-bom
+   |           |   |-- @hint/configuration-development
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |-- @hint/hint-no-broken-links
+   |           |-- @hint/hint-no-disallowed-headers
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-no-friendly-error-pages
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |-- @hint/hint-no-html-only-headers
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-no-http-redirects
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-no-p3p
+   |           |-- @hint/hint-no-protocol-relative-urls
+   |           |   |-- @hint/configuration-development
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-no-vulnerable-javascript-libraries
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |-- @hint/hint-performance-budget
+   |           |-- @hint/hint-sri
+   |           |   |-- @hint/configuration-development
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-ssllabs
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |-- @hint/hint-strict-transport-security
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |-- @hint/hint-stylesheet-limits
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-typescript-config
+   |           |   |-- @hint/configuration-development
+   |           |-- @hint/hint-validate-set-cookie-header
+   |           |   |-- @hint/configuration-web-recommended
+   |           |   |   |-- hint
+   |           |   |-- @hint/extension-browser
+   |           |-- @hint/hint-webpack-config
+   |           |   |-- @hint/configuration-development
+   |           |-- @hint/hint-x-content-type-options
+   |               |-- @hint/configuration-web-recommended
+   |               |   |-- hint
+   |               |-- @hint/extension-browser
+@hint/hint-minified-js
+   |-- @hint/extension-browser
+@hint/parser-javascript
+   |-- @hint/extension-browser
+   |-- @hint/hint-minified-js
+   |   |-- @hint/extension-browser
+@hint/configuration-web-recommended
+   |-- hint
+@hint/utils-tests-helpers
+   |-- @hint/hint-amp-validator
+   |-- @hint/hint-apple-touch-icons
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |-- @hint/hint-axe
+   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-babel-config
+   |   |-- @hint/configuration-development
+   |-- @hint/hint-button-type
+   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-compat-api
+   |-- @hint/hint-content-type
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-css-prefix-order
+   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-disown-opener
+   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-doctype
+   |-- @hint/hint-highest-available-document-mode
+   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-html-checker
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |-- @hint/hint-http-cache
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-http-compression
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |-- @hint/hint-https-only
+   |-- @hint/hint-image-optimization-cloudinary
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |-- @hint/hint-manifest-app-name
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-manifest-exists
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |-- @hint/hint-manifest-file-extension
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-manifest-is-valid
+   |   |-- @hint/configuration-progressive-web-apps
+   |   |   |-- @hint/configuration-development
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-meta-charset-utf-8
+   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-meta-theme-color
+   |-- @hint/hint-meta-viewport
+   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-minified-js
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-no-bom
+   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |-- @hint/hint-no-broken-links
+   |-- @hint/hint-no-disallowed-headers
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-no-friendly-error-pages
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |-- @hint/hint-no-html-only-headers
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-no-http-redirects
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-no-p3p
+   |-- @hint/hint-no-protocol-relative-urls
+   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-no-vulnerable-javascript-libraries
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |-- @hint/hint-performance-budget
+   |-- @hint/hint-sri
+   |   |-- @hint/configuration-development
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-ssllabs
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |-- @hint/hint-strict-transport-security
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |-- @hint/hint-stylesheet-limits
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-typescript-config
+   |   |-- @hint/configuration-development
+   |-- @hint/hint-validate-set-cookie-header
+   |   |-- @hint/configuration-web-recommended
+   |   |   |-- hint
+   |   |-- @hint/extension-browser
+   |-- @hint/hint-webpack-config
+   |   |-- @hint/configuration-development
+   |-- @hint/hint-x-content-type-options
+       |-- @hint/configuration-web-recommended
+       |   |-- hint
+       |-- @hint/extension-browser
