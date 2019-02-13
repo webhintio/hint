@@ -7,6 +7,7 @@
     "icons": {
         "180": "icon.png"
     },
+    "content_security_policy": "script-src 'self' https://az416426.vo.msecnd.net/; object-src 'self'",
     "default_locale": "en",
     "description": "Run webhint in your browser.",
     "devtools_page": "devtools/devtools.html",
