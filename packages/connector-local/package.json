@@ -15,7 +15,7 @@
     "@hint/parser-html": "^2.0.2",
     "@types/chokidar": "^1.7.5",
     "@types/mock-require": "^2.0.0",
-    "@types/sinon": "^7.0.5",
+    "@types/sinon": "^7.0.6",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",
     "eslint": "^5.13.0",
