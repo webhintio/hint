@@ -455,10 +455,10 @@
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.0.tgz#f47877eca7cb38bbc94e716c044919bb54075828"
   integrity sha512-QEYGliFbMQmDLZAcXJS+AbMDtnH0HjvgiALFbWPHsVn9dD75No+/MGEfpLCsAOWKg8WjtQxwfaPbRiq25XLYDw==
 
-"@types/ejs@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@types/ejs/-/ejs-2.6.1.tgz#cf9cd850a0fd3a55fc4813c97efb0b6503c6f4e6"
-  integrity sha512-WD8015V8Y+uDfFIjiVHU7t9SgHptqTGGN8w0A2LcrL0NLtqColM15cswkHZMUfodyuTf35sup8vW0hpWRHu0dQ==
+"@types/ejs@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@types/ejs/-/ejs-2.6.2.tgz#d59bd4b12114a62d203ed137dbee5bebc2333f93"
+  integrity sha512-Ehk6cOumvNawmngI6pCigAGHa8PipyG1XK9TodqYJOZgrOYWxxtgnTFTVERndcWFfmPu5dx3C/yy0T/NURIylg==
 
 "@types/eslint@^4.16.6":
   version "4.16.6"
