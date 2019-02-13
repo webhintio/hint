@@ -18,7 +18,7 @@
     "@types/is-ci": "^1.1.0",
     "@types/lockfile": "^1.0.1",
     "@types/lodash": "^4.14.121",
-    "@types/sinon": "^7.0.5",
+    "@types/sinon": "^7.0.6",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",
     "eslint": "^5.13.0",
