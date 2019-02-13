@@ -1,7 +1,14 @@
+/* eslint-disable no-sync */
 const fs = require('fs');
 const path = require('path');
 const globby = require('globby');
+const file = 'release-dependencies.md';
 
+fs.writeFileSync(file, '', 'utf-8');
+
+const updateFile = (content = '') => {
+    fs.appendFileSync(file, `${content}\n`, 'utf-8');
+};
 
 const packagesFiles = globby.sync([
     '**/*/package.json',
@@ -89,9 +96,31 @@ const printDependencies = (dependants, depth) => {
     });
 };
 
+// Print in the console
+
 isDependedBy.forEach((dependants, name) => {
     console.log(name);
 
     printDependencies(dependants, 1);
+});
 
+// Write md file
+const tmp = Array.from(isDependedBy);
+const sorted = tmp.sort(([, dependenciesA], [, dependenciesB]) => {
+    return dependenciesB.size - dependenciesA.size;
+});
+
+sorted.forEach(([name, dependants]) => {
+    updateFile(`# ${name}`);
+
+    updateFile();
+
+    updateFile(`| Dependency |`);
+    updateFile(`|------------|`);
+
+    dependants.forEach((dependant) => {
+        updateFile(`| ${dependant} |`);
+    });
+
+    updateFile();
 });
