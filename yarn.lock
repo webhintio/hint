@@ -594,10 +594,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/jsdom@^12.2.1":
-  version "12.2.1"
-  resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-12.2.1.tgz#0525dc8621cfbf235bca298b0f9c96bd0c6b2e5a"
-  integrity sha512-VnLP1qW70OkzpMVuFsJPhxeIzEW1y+t91Fa2rE+b3UZ3ZiTwB28pYrdNj58wa0AQ+dV7eIBcdMFl3ql9C+cc9g==
+"@types/jsdom@^12.2.2":
+  version "12.2.2"
+  resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-12.2.2.tgz#3a3f7606e11113f78ed6659544d23de8f97864cc"
+  integrity sha512-+k4AsH9TXsuvucs6EiMxxPPWiXOGyM48P+jL+IPDYhtJ+L7Cl5xbN3Vig6z8tzvo9Lv7mjLGv54j3D/KExQl7Q==
   dependencies:
     "@types/node" "*"
     "@types/tough-cookie" "*"
