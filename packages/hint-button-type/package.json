@@ -9,7 +9,7 @@
   "description": "Check if button has type attribute set",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",
-    "@types/debug": "4.1.0",
+    "@types/debug": "4.1.1",
     "@types/node": "11.9.4",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",

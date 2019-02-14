@@ -455,10 +455,10 @@
   resolved "https://registry.yarnpkg.com/@types/core-js/-/core-js-0.9.46.tgz#ea701ee34cbb6dfe6d100f1530319547c93c8d79"
   integrity sha512-LooLR6XHes9V+kNYRz1Qm8w3atw9QMn7XeZUmIpUelllF9BdryeUKd/u0Wh5ErcjpWfG39NrToU9MF7ngsTFVw==
 
-"@types/debug@4.1.0", "@types/debug@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.0.tgz#f47877eca7cb38bbc94e716c044919bb54075828"
-  integrity sha512-QEYGliFbMQmDLZAcXJS+AbMDtnH0HjvgiALFbWPHsVn9dD75No+/MGEfpLCsAOWKg8WjtQxwfaPbRiq25XLYDw==
+"@types/debug@4.1.1", "@types/debug@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.1.tgz#0be64e2fbe7c0bb2a6cad6a152462127a1b0d45a"
+  integrity sha512-OKKcc+Tt1rLMg1DTnmgvWHRna3SN51GWs/ERxpgjFNRjCUUVhGG8FEKeFqVTzBv1jEGFqbkJRWfsHV6KAcLT+A==
 
 "@types/ejs@^2.6.2":
   version "2.6.2"
