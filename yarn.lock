@@ -550,10 +550,10 @@
     "@types/glob" "*"
     fast-glob "^2.0.2"
 
-"@types/har-format@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@types/har-format/-/har-format-1.2.3.tgz#8011ce3439d47f1e1c0219a504b2501904a4d0e6"
-  integrity sha512-cMhJlSNURFcSQA3/a6I1FjSa4fknP+rSBz7feR7frp9YKp/B1z4jbo/90DMWv+6G8ZhN90cQfSd4rEv0mWSL5Q==
+"@types/har-format@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@types/har-format/-/har-format-1.2.4.tgz#3275842095abb60d14b47fa798cc9ff708dab6d4"
+  integrity sha512-iUxzm1meBm3stxUMzRqgOVHjj4Kgpgu5w9fm4X7kPRfSgVRzythsucEN7/jtOo8SQzm+HfcxWWzJS0mJDH/3DQ==
 
 "@types/highlight.js@^9.12.3":
   version "9.12.3"
