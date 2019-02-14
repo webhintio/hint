@@ -5,6 +5,7 @@ import analyzeView from './views/pages/analyze';
 import configurationView from './views/pages/configuration';
 import resultsView from './views/pages/results';
 
+import { setup, trackCancel, trackFinish, trackShow, trackStart } from './utils/analytics';
 import { addMessageListener, removeMessageListener, sendMessage } from './utils/messaging';
 import { addNetworkListeners, removeNetworkListeners } from './utils/network';
 import { syncTheme } from './utils/themes';
@@ -21,7 +22,17 @@ const render = (fragment: DocumentFragment) => {
     document.body.appendChild(fragment);
 };
 
-let delayResultsUntil = Date.now();
+let scanStart = 0;
+
+const now = () => {
+    return performance.now();
+};
+
+const getScanDuration = () => {
+    return Math.round(now() - scanStart);
+};
+
+let delayResultsUntil = now();
 
 /**
  * Wait 5s after called before showing results.
@@ -30,7 +41,7 @@ let delayResultsUntil = Date.now();
  * This does not delay showing to the "Configuration" page on cancel.
  */
 const delayResults = () => {
-    delayResultsUntil = Date.now() + 5000;
+    delayResultsUntil = now() + 5000;
 };
 
 let resultsTimeout: NodeJS.Timeout;
@@ -45,6 +56,11 @@ const show = (fragment: DocumentFragment) => {
     render(fragment);
 };
 
+/** Display the configuration page. */
+const showConfiguration = () => {
+    show(configurationView({ onAnalyzeClick: onStart })); // eslint-disable-line
+};
+
 /** Handle results received from a scan. */
 const onMessage = (message: Events) => {
     if (message.results) {
@@ -55,20 +71,22 @@ const onMessage = (message: Events) => {
         removeNetworkListeners();
 
         const showResults = () => {
-            show(resultsView({onRestartClick: onCancel, results})); // eslint-disable-line
+            show(resultsView({onRestartClick: onRestart, results})); // eslint-disable-line
         };
 
         // Display the "Results" page after any pending delays.
-        if (Date.now() < delayResultsUntil) {
-            resultsTimeout = setTimeout(showResults, delayResultsUntil - Date.now());
+        if (now() < delayResultsUntil) {
+            resultsTimeout = setTimeout(showResults, delayResultsUntil - now());
         } else {
             showResults();
         }
+
+        trackFinish(getScanDuration());
     }
 };
 
-/** Handle the user cancelling a scan or preparing to configure a new one. */
-const onCancel = () => {
+/** Handle the user preparing to configure a new scan. */
+const onRestart = () => {
     // Notify the background script that we're done scanning (in case a scan is still in-progress).
     sendMessage({ done: true });
 
@@ -77,7 +95,13 @@ const onCancel = () => {
     removeNetworkListeners();
 
     // Display the "Configuration" page.
-    show(configurationView({ onAnalyzeClick: onStart })); // eslint-disable-line
+    showConfiguration();
+};
+
+/** Handle the user canceling a scan. */
+const onCancel = () => {
+    onRestart();
+    trackCancel(getScanDuration());
 };
 
 /** Handle the user request to start a scan. */
@@ -91,10 +115,17 @@ const onStart = (config: Config) => {
 
     // Display the "Analyzing" page.
     show(analyzeView({ onCancelClick: onCancel, onMessageChange: delayResults }));
+
+    scanStart = now();
+    trackStart();
 };
 
 // Start in the stopped state (on the "Configuration" page).
-onCancel();
+showConfiguration();
 
 // Align with the current devtools theme.
 syncTheme();
+
+// Initialize analytics and increment count of the "Hints" tab being shown.
+setup();
+trackShow();
