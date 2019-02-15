@@ -21,17 +21,19 @@ import { compact, filter } from 'lodash';
 
 import { Crdp } from 'chrome-remote-debug-protocol';
 
-import { createCDPAsyncHTMLDocument, CDPAsyncHTMLDocument, AsyncHTMLElement } from './cdp-async-html';
 import { getType } from 'hint/dist/src/lib/utils/content-type';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import delay from 'hint/dist/src/lib/utils/misc/delay';
 import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
+import createAsyncWindow from 'hint/dist/src/lib/utils/dom/create-async-window';
+import { JSDOMAsyncWindow } from 'hint/dist/src/lib/types/jsdom-async-html';
+import traverse from 'hint/dist/src/lib/utils/dom/traverse';
 
 import {
     BrowserInfo, IConnector,
-    ElementFound, Event, FetchEnd, FetchError, ILauncher, TraverseUp, TraverseDown,
-    Response, Request, NetworkData, HttpHeaders, IAsyncHTMLElement
+    Event, FetchEnd, FetchError, ILauncher,
+    Response, Request, NetworkData, HttpHeaders, IAsyncHTMLElement, IAsyncHTMLDocument
 } from 'hint/dist/src/lib/types';
 
 import { normalizeHeaders } from '@hint/utils-connector-tools/dist/src/normalize-headers';
@@ -63,7 +65,7 @@ export class Connector implements IConnector {
     /** Indicates if there has been an error loading the page (e.g.: it doesn't exists). */
     private _errorWithPage: boolean = false;
     /** The DOM abstraction on top of adapter. */
-    private _dom: CDPAsyncHTMLDocument | undefined;
+    private _dom: IAsyncHTMLDocument | undefined;
     /** A collection of requests with their initial data. */
     private _pendingResponseReceived: Function[];
     /** List of all the tabs used by the connector. */
@@ -114,9 +116,9 @@ export class Connector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    private async getElementFromParser(parts: string[], dom: CDPAsyncHTMLDocument): Promise<AsyncHTMLElement | null> {
+    private async getElementFromParser(parts: string[], dom: IAsyncHTMLDocument): Promise<IAsyncHTMLElement | null> {
         let basename: string | null = null;
-        let elements: AsyncHTMLElement[] = [];
+        let elements: IAsyncHTMLElement[] = [];
 
         while (parts.length > 0) {
             basename = !basename ? parts.pop()! : `${parts.pop()}/${basename}`;
@@ -137,7 +139,7 @@ export class Connector implements IConnector {
                 decodeBasename = basename;
             }
             const query: string = `[src$="${basename}" i],[href$="${basename}" i],[src$="${decodeBasename}" i],[href$="${decodeBasename}" i]`;
-            const newElements: AsyncHTMLElement[] = await dom.querySelectorAll(query);
+            const newElements: IAsyncHTMLElement[] = await dom.querySelectorAll(query);
 
             if (newElements.length === 0) {
                 if (elements.length > 0) {
@@ -166,7 +168,7 @@ export class Connector implements IConnector {
     }
 
     /** Returns the IAsyncHTMLElement that initiated a request */
-    private async getElementFromRequest(requestId: string, dom: CDPAsyncHTMLDocument): Promise<AsyncHTMLElement | null> {
+    private async getElementFromRequest(requestId: string, dom: IAsyncHTMLDocument): Promise<IAsyncHTMLElement | null> {
         const sourceRequest = this._requests.get(requestId);
 
         if (!sourceRequest) {
@@ -271,7 +273,7 @@ export class Connector implements IConnector {
         await this._server.emitAsync(eventName, event);
     }
 
-    private async emitFetchEnd(requestResponse: RequestResponse, dom: CDPAsyncHTMLDocument | null) {
+    private async emitFetchEnd(requestResponse: RequestResponse, dom: IAsyncHTMLDocument | null) {
         const resourceUrl: string = requestResponse.finalUrl;
         const hops: string[] = requestResponse.hops;
         const originalUrl: string = hops[0] || resourceUrl;
@@ -424,54 +426,6 @@ export class Connector implements IConnector {
         await this.emitFetchEnd(requestResponse, this._dom);
     }
 
-    /** Traverses the DOM notifying when a new element is traversed. */
-    private async traverseAndNotify(element: Crdp.DOM.Node) {
-        /*
-         * CDP returns more elements than the ones we want. For example there
-         * are 2 HTML elements. One has children and has `nodeType === 1`,
-         * while the other doesn't have children and `nodeType === 10`.
-         * We ignore those elements.
-         *
-         * 10: `HTML` with no children
-         */
-        const ignoredNodeTypes: number[] = [10];
-
-        if (ignoredNodeTypes.includes(element.nodeType)) {
-            return;
-        }
-
-        const eventName = `element::${element.nodeName.toLowerCase()}` as 'element::*';
-
-        // If we are traversing, we know `this._dom` exists already
-        const wrappedElement: AsyncHTMLElement = new AsyncHTMLElement(element, this._dom!, this._client.DOM);
-
-        const event: ElementFound = {
-            element: wrappedElement,
-            resource: this._finalHref
-        };
-
-        await this._server.emitAsync(eventName, event);
-
-        const elementChildren = wrappedElement.children;
-
-        for (const child of elementChildren) {
-            const traverseDown: TraverseDown = {
-                element: wrappedElement,
-                resource: this._finalHref
-            };
-
-            await this._server.emitAsync(`traverse::down`, traverseDown);
-            await this.traverseAndNotify(child);
-        }
-
-        const traverseUp: TraverseUp = {
-            element: wrappedElement,
-            resource: this._finalHref
-        };
-
-        await this._server.emitAsync(`traverse::up`, traverseUp);
-    }
-
     /** Wait until the browser load the first tab */
     private getClient(port: number, tab: number): Promise<object> {
         let retries: number = 0;
@@ -615,7 +569,7 @@ export class Connector implements IConnector {
      * * uses the `src` attribute of `<link rel="icon">` if present.
      * * uses `favicon.ico` and the final url after redirects.
      */
-    private async getFavicon(dom: CDPAsyncHTMLDocument) {
+    private async getFavicon(dom: IAsyncHTMLDocument) {
         const element = (await dom.querySelectorAll('link[rel~="icon"]'))[0];
         const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
@@ -677,12 +631,8 @@ export class Connector implements IConnector {
                     this._client.Network.disable!();
                 }
 
-                const { DOM } = this._client;
                 const event: Event = { resource: this._finalHref };
 
-                this._dom = await createCDPAsyncHTMLDocument(DOM);
-
-                await this.processPendingResponses();
                 /*
                  * If the target is not an HTML we don't need to
                  * traverse it.
@@ -692,6 +642,16 @@ export class Connector implements IConnector {
 
                     return callback();
                 }
+
+                const node = await this._client.DOM.getDocument!({ depth: -1 });
+                const html = (await this._client.DOM.getOuterHTML!({ nodeId: node.root.nodeId })).outerHTML;
+                const window = createAsyncWindow(html);
+
+                this._dom = window.document;
+
+                await this.processPendingResponses();
+
+                await traverse((window as JSDOMAsyncWindow).dom!, this._server, node.root.documentURL! || this._finalHref);
 
                 /*
                  * Headless chrome does not download the favicon automatically.
@@ -703,12 +663,9 @@ export class Connector implements IConnector {
                 if (this._launcher.options &&
                     this._launcher.options.flags &&
                     this._launcher.options.flags.includes('--headless')) {
-                    await this.getFavicon(this._dom);
+                    await this.getFavicon(this._dom!);
                 }
 
-                await this._server.emitAsync('traverse::start', event);
-                await this.traverseAndNotify(this._dom.root);
-                await this._server.emitAsync('traverse::end', event);
                 await this._server.emitAsync('can-evaluate::script', event);
 
                 // We let time to any pending things (like error networks and so) to happen in the next second
@@ -969,7 +926,7 @@ export class Connector implements IConnector {
         });
     }
 
-    public querySelectorAll(selector: string): Promise<AsyncHTMLElement[]> {
+    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
         if (!this._dom) {
             return Promise.resolve([]);
         }
@@ -983,7 +940,7 @@ export class Connector implements IConnector {
      * ------------------------------------------------------------------------------
      */
 
-    public get dom(): CDPAsyncHTMLDocument | undefined {
+    public get dom(): IAsyncHTMLDocument | undefined {
         return this._dom;
     }
 
