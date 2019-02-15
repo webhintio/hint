@@ -134,6 +134,10 @@ export class JSDOMAsyncWindow implements IAsyncWindow {
         return this._document;
     }
 
+    public get dom(): JSDOM | undefined {
+        return this._dom;
+    }
+
     public evaluate(source: string): Promise<any> {
         return this._window.eval(source) as any;
     }
