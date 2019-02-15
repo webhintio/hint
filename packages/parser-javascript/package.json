@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "eslint": "^5.13.0",
-    "espree": "^5.0.0"
+    "espree": "^5.0.1"
   },
   "description": "webhint parser needed to analyze JavaScript files",
   "devDependencies": {
