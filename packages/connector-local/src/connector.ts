@@ -24,6 +24,8 @@ import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
 import { getContentTypeData, isTextMediaType, getType } from 'hint/dist/src/lib/utils/content-type';
 import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow } from 'hint/dist/src/lib/types/async-html';
+import { JSDOMAsyncWindow } from 'hint/src/lib/types/jsdom-async-html';
+import traverse from 'hint/dist/src/lib/utils/dom/traverse';
 
 import isFile from 'hint/dist/src/lib/utils/fs/is-file';
 import cwd from 'hint/dist/src/lib/utils/fs/cwd';
@@ -258,6 +260,9 @@ export default class LocalConnector implements IConnector {
     /* istanbul ignore next */
     private async onParseHTML(event: HTMLParse) {
         this._window = event.window;
+
+        await traverse((event.window as JSDOMAsyncWindow).dom!, this.engine, event.resource);
+
         await this.engine.emitAsync('can-evaluate::script', { resource: this._href } as CanEvaluateScript);
     }
 
