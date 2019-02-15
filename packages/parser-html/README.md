@@ -34,13 +34,18 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ## Events emitted
 
-This `parser` emits the event `parse::html` of type `HTMLParse`
+This `parser` emits the event `parse::end::html` of type `HTMLParse`
 which has the following information:
 
 * `window`: an [`IAsyncWindow`][asynchtml] object containing the
   parsed document.
 * `html`: a string containing the raw HTML source code.
 * `resource`: the parsed resource.
+
+And the event `parse::start::html` of type `Event` which has the
+following information:
+
+* `resource`: the resource that is going to be parsed.
 
 This `parser` also automatically traverses and emits events for
 elements in the tree (see [events][events] for details):
@@ -50,7 +55,6 @@ elements in the tree (see [events][events] for details):
 * `traverse::end`
 * `traverse::start`
 * `traverse::up`
-* `parse::html::end`
 
 <!-- Link labels: -->
 
