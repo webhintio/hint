@@ -56,21 +56,6 @@ test('If `fetch::end::html` is received, then the code should be parsed and the 
     t.is(id && id.value, 'test');
     t.true(div.isSame(div2));
 
-    t.is(args[3][0], 'traverse::start');
-    t.is(args[4][0], 'element::html');
-    t.is(args[5][0], 'traverse::down');
-    t.is(args[6][0], 'element::head');
-    t.is(args[7][0], 'traverse::down');
-    t.is(args[8][0], 'traverse::up');
-    t.is(args[9][0], 'element::body');
-    t.is(args[10][0], 'traverse::down');
-    t.is(args[11][0], 'element::div');
-    t.is(args[12][0], 'traverse::down');
-    t.is(args[13][0], 'traverse::up');
-    t.is(args[14][0], 'traverse::up');
-    t.is(args[15][0], 'traverse::up');
-    t.is(args[16][0], 'traverse::end');
-
     sandbox.restore();
 });
 
