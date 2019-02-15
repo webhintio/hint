@@ -68,7 +68,7 @@
     "typed-css-modules": "^0.3.7",
     "typescript": "^3.3.3",
     "util.promisify": "^1.0.0",
-    "webpack": "^4.29.3",
+    "webpack": "^4.29.4",
     "webpack-cli": "^3.2.3"
   },
   "engines": {
