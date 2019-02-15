@@ -36,13 +36,16 @@ import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-typ
 import {
     HttpHeaders,
     IConnector,
-    ElementFound, Event, FetchEnd, FetchError, TraverseDown, TraverseUp,
+    Event, FetchEnd, FetchError,
     NetworkData
 } from 'hint/dist/src/lib/types';
-import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument } from 'hint/dist/src/lib/types/jsdom-async-html';
+import { JSDOMAsyncHTMLElement, JSDOMAsyncHTMLDocument, JSDOMAsyncWindow } from 'hint/dist/src/lib/types/jsdom-async-html';
 import { Engine } from 'hint/dist/src/lib/engine';
 import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
+import createAsyncWindow from 'hint/dist/src/lib/utils/dom/create-async-window';
+import traverse from 'hint/dist/src/lib/utils/dom/traverse';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
+
 import CustomResourceLoader from './resource-loader';
 import { beforeParse } from './before-parse';
 
@@ -109,47 +112,6 @@ export default class JSDOMConnector implements IConnector {
         return r.get(uri);
     }
 
-    /** Traverses the DOM while sending `element::typeofelement` events. */
-    private async traverseAndNotify(element: HTMLElement) {
-        const eventName = `element::${element.nodeName.toLowerCase()}` as 'element::*';
-
-        debug(`emitting ${eventName}`);
-        /*
-         * should we freeze it? what about the other siblings, children,
-         * parents? We should have an option to not allow modifications
-         * maybe we create a custom object that only exposes read only
-         * properties?
-         */
-        const event: ElementFound = {
-            element: new JSDOMAsyncHTMLElement(element),
-            resource: this.finalHref
-        };
-
-        await this.server.emitAsync(eventName, event);
-        for (let i = 0; i < element.children.length; i++) {
-            const child: HTMLElement = element.children[i] as HTMLElement;
-
-            debug('next children');
-            const traverseDown: TraverseDown = {
-                element: new JSDOMAsyncHTMLElement(element),
-                resource: this.finalHref
-            };
-
-            await this.server.emitAsync(`traverse::down`, traverseDown);
-            await this.traverseAndNotify(child);
-
-        }
-
-        const traverseUp: TraverseUp = {
-            element: new JSDOMAsyncHTMLElement(element),
-            resource: this.finalHref
-        };
-
-        await this.server.emitAsync(`traverse::up`, traverseUp);
-
-        return Promise.resolve();
-    }
-
     /**
      * JSDOM doesn't download the favicon automatically, this method:
      *
@@ -200,11 +162,10 @@ export default class JSDOMConnector implements IConnector {
 
             try {
                 this._targetNetworkData = await this.fetchContent(target);
-            } catch (err) {
+            } catch (err) /* istanbul ignore next */ {
                 const hops: string[] = this.request.getRedirects(err.uri);
                 const fetchError: FetchError = {
                     element: null as any,
-                    /* istanbul ignore next */
                     error: err.error ? err.error : err,
                     hops,
                     resource: href
@@ -293,9 +254,11 @@ export default class JSDOMConnector implements IConnector {
 
                     debug(`${this.finalHref} loaded, traversing`);
                     try {
-                        await this.server.emitAsync('traverse::start', event);
-                        await this.traverseAndNotify(window.document.children[0] as HTMLElement);
-                        await this.server.emitAsync('traverse::end', event);
+                        const html = await this.html;
+
+                        const asyncWindow = createAsyncWindow(html);
+
+                        await traverse((asyncWindow as JSDOMAsyncWindow).dom!, this.server, this.finalHref);
 
                         // We download only the first favicon found
                         await this.getFavicon(window.document.querySelector('link[rel~="icon"]'));
