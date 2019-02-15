@@ -11,6 +11,9 @@ import {
     FetchEnd,
     NetworkData
 } from 'hint/dist/src/lib/types';
+import { JSDOMAsyncWindow } from 'hint/dist/src/lib/types/jsdom-async-html';
+import createAsyncWindow from 'hint/dist/src/lib/utils/dom/create-async-window';
+import traverse from 'hint/dist/src/lib/utils/dom/traverse';
 
 import { Events } from '../shared/types';
 import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-html';
@@ -47,12 +50,9 @@ export default class WebExtensionConnector implements IConnector {
             await this._engine.emitAsync('can-evaluate::script', { resource });
 
             setTimeout(async () => {
+                const asyncWindow = createAsyncWindow(document.documentElement.outerHTML);
 
-                if (this._window && document.documentElement) {
-                    await this._engine.emitAsync('traverse::start', { resource });
-                    await this.traverseAndNotify(document.documentElement, this._window.document);
-                    await this._engine.emitAsync('traverse::end', { resource });
-                }
+                await traverse((asyncWindow as JSDOMAsyncWindow).dom!, this._engine, resource);
 
                 this._onComplete(resource);
             }, this._options.waitFor);
@@ -67,23 +67,6 @@ export default class WebExtensionConnector implements IConnector {
 
     private sendMessage(message: Events) {
         browser.runtime.sendMessage(message);
-    }
-
-    /** Traverses the DOM while sending `element::*` events. */
-    private async traverseAndNotify(node: Element, doc: IAsyncHTMLDocument): Promise<void> {
-        const element = new AsyncHTMLElement(node, doc);
-        const name = node.tagName.toLowerCase();
-        const resource = location.href;
-
-        await this._engine.emitAsync(`element::${name}` as 'element::*', { element, resource });
-        await this._engine.emitAsync(`traverse::down`, { element, resource });
-
-        // Recursively traverse child elements.
-        for (let i = 0; i < node.children.length; i++) {
-            await this.traverseAndNotify(node.children[i], doc);
-        }
-
-        await this._engine.emitAsync(`traverse::up`, { element, resource });
     }
 
     private setFetchElement(event: FetchEnd) {

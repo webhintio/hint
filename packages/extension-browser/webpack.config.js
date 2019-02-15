@@ -45,7 +45,12 @@ const baseConfig = {
             }
         ]
     },
-    node: { fs: 'empty' },
+    node: {
+        child_process: 'empty', // eslint-disable-line camelcase
+        fs: 'empty',
+        net: 'mock',
+        tls: 'mock'
+    },
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist/bundle')
