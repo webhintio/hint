@@ -41,7 +41,7 @@ hintRunner.testHint(hintPath, elementAttrAddedAlwaysTrue, { browserslist: ['> 1%
 const elementAttrVersionAddedFalse: HintTest[] = [
     {
         name: 'Element attributes that have version added as false and not deprecated should fail.',
-        reports: [{ message: 'srcset attribute of the img element is not supported by ie.', position: { column: 9, line: 5 }}],
+        reports: [{ message: 'srcset attribute of the img element is not supported by ie.', position: { column: 9, line: 4 } }],
         serverConfig: generateHTMLConfig('img-srcset')
     }
 ];
@@ -87,7 +87,7 @@ hintRunner.testHint(hintPath, elementAddedVersionOfTargetedBrowser, { browsersli
 const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
         name: 'Elements added in version after targeted browser should fail.',
-        reports: [{ message: 'video element is not supported by ie 8.', position: { column: 9, line: 5 }}],
+        reports: [{ message: 'video element is not supported by ie 8.', position: { column: 9, line: 4 } }],
         serverConfig: generateHTMLConfig('video')
     }
 ];
@@ -118,7 +118,7 @@ hintRunner.testHint(hintPath, globalAttrVersionAddedNull, { browserslist: ['last
 const globalAttrVersionAddedFalse: HintTest[] = [
     {
         name: 'Global attributes that have version added as false and not deprecated should fail.',
-        reports: [{ message: 'global attribute dropzone is not supported by edge, firefox, ie.', position: { column: 9, line: 5 }}],
+        reports: [{ message: 'global attribute dropzone is not supported by edge, firefox, ie.', position: { column: 9, line: 4 } }],
         serverConfig: generateHTMLConfig('global-attr-dropzone')
     }
 ];
@@ -146,7 +146,7 @@ hintRunner.testHint(hintPath, globalAttrAddedVersionOfTargetedBrowser, { browser
 const globalAttrAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
         name: 'Global attributes added in version after targeted browser should fail.',
-        reports: [{ message: 'global attribute class is not supported by firefox 31.', position: { column: 9, line: 5 }}],
+        reports: [{ message: 'global attribute class is not supported by firefox 31.', position: { column: 9, line: 4 } }],
         serverConfig: generateHTMLConfig('div')
     }
 ];
@@ -169,7 +169,7 @@ hintRunner.testHint(hintPath, inputTypeVersionAddedNull, { browserslist: ['last 
 const inputTypeVersionAddedFalse: HintTest[] = [
     {
         name: 'Input types that have version added as false and not deprecated should fail.',
-        reports: [{ message: 'input type color is not supported by ie.', position: { column: 9, line: 5 }}],
+        reports: [{ message: 'input type color is not supported by ie.', position: { column: 9, line: 4 } }],
         serverConfig: generateHTMLConfig('input-color')
     }
 ];
@@ -179,7 +179,7 @@ hintRunner.testHint(hintPath, inputTypeVersionAddedFalse, { browserslist: ['ie 9
 const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
     {
         name: 'Input types added in a version after the targeted browsers should fail.',
-        reports: [{ message: 'input type color is not supported by chrome 19, firefox 28.', position: { column: 9, line: 5 }}],
+        reports: [{ message: 'input type color is not supported by chrome 19, firefox 28.', position: { column: 9, line: 4 } }],
         serverConfig: generateHTMLConfig('input-color')
     }
 ];
@@ -193,7 +193,7 @@ hintRunner.testHint(hintPath, inputTypeVersionAddedAfterTargetedBrowsers, { brow
 const mixedFeaturedCompatibility: HintTest[] = [
     {
         name: 'Features with mixed compatibility (not supported for specific version and never supported) and not deprecated should throw errors for browsers in which the feature is not supported.',
-        reports: [{ message: 'integrity attribute of the link element is not supported by edge, ie, safari, safari_ios, samsunginternet_android 4, webview_android 4.', position: { column: 9, line: 5 }}],
+        reports: [{ message: 'integrity attribute of the link element is not supported by edge, ie, safari, safari_ios, samsunginternet_android 4, webview_android 4.', position: { column: 9, line: 4 } }],
         serverConfig: generateHTMLConfig('link-integrity')
     }
 ];
