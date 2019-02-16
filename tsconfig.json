@@ -53,6 +53,7 @@
         { "path": "packages/hint-button-type" },
         { "path": "packages/hint-compat-api" },
         { "path": "packages/hint-content-type" },
+        { "path": "packages/hint-create-element-svg" },
         { "path": "packages/hint-css-prefix-order" },
         { "path": "packages/hint-disown-opener" },
         { "path": "packages/hint-doctype" },

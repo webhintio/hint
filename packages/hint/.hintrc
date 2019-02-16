@@ -17,6 +17,7 @@
         "axe": "warning",
         "button-type": "warning",
         "content-type": "warning",
+        "create-element-svg": "warning",
         "disown-opener": "warning",
         "highest-available-document-mode": "warning",
         "html-checker": "warning",
