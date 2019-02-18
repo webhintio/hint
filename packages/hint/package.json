@@ -18,7 +18,7 @@
     "content-type": "^1.0.4",
     "debug": "^4.1.1",
     "eventemitter2": "^5.0.1",
-    "file-type": "^10.7.1",
+    "file-type": "^10.8.0",
     "file-url": "^2.0.2",
     "globby": "^9.0.0",
     "is-ci": "^2.0.0",
