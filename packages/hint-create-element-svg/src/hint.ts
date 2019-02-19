@@ -62,7 +62,7 @@ export default class CreateElementSvgHint implements IHint {
             const results = linter.verify(sourceCode, { rules: { 'svg-create': 'error' } });
 
             for (const result of results) {
-                await context.report(scriptData.resource, result.message);
+                await context.report(scriptData.resource, result.message, { location });
             }
         };
 
