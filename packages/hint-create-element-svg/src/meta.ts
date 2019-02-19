@@ -5,7 +5,8 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 const meta: HintMetadata = {
     docs: {
         category: Category.pitfalls,
-        description: `Infrom users that they need to use createElementNS to create SVG elements instead of createElement`
+        description: `Inform users that they need to use createElementNS to create SVG elements instead of createElement`,
+        name: 'No `createElement` with SVG'
     },
     id: 'create-element-svg',
     schema: [],
