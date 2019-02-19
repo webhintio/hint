@@ -1,4 +1,4 @@
-# create-element-svg (`@hint/hint-create-element-svg`)
+# No `createElement` with SVG (`create-element-svg`)
 
 This hint informs users that they need to use [`createElementNS`][createElementNS] to create SVG elements instead of [`createElement`][createElement]
 
