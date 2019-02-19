@@ -41,7 +41,7 @@ export default class CreateElementSvgHint implements IHint {
                         if (property !== null && property.name === 'createElement' && args.length >= 1 && args[0].type === 'Literal') {
                             const arg = args[0] as ESTree.Literal;
 
-                            if (arg.value !== undefined && arg.value !== null && svgElements.includes(arg.value.toString().toLowerCase())) {
+                            if (arg.value !== undefined && arg.value !== null && svgElements.has(arg.value.toString().toLowerCase())) {
                                 eslintContext.report({
                                     messageId: 'avoidElement',
                                     node
@@ -62,7 +62,7 @@ export default class CreateElementSvgHint implements IHint {
             const results = linter.verify(sourceCode, { rules: { 'svg-create': 'error' } });
 
             for (const result of results) {
-                await context.report(scriptData.resource, result.message, { location });
+                await context.report(scriptData.resource, result.message);
             }
         };
 
