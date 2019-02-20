@@ -1325,15 +1325,15 @@ applicationinsights-js@^1.0.20:
   resolved "https://registry.yarnpkg.com/applicationinsights-js/-/applicationinsights-js-1.0.20.tgz#e0519a2c043e9b4683d32d327a06c3f18c63d5ca"
   integrity sha512-vN6fEv2fNPZtw76/mv5OJ44cTP/VzSDahdXVIGnRB5Apnf2/9PIl4IyWpwS9biG53I1sWvkw83RjdrAnsIKoRQ==
 
-applicationinsights@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.1.0.tgz#3a2be910f96885aa9089158406450b18d0736ebd"
-  integrity sha512-VvPQ9TQ2pKGXWzOo1k9yZ8WUNZVt1PPCcytP7WhitmlCCLzU9DnG/eSOUafWUagKpsrIKd74Epbtll8lDjjQlw==
+applicationinsights@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.2.0.tgz#c4c1d8a845aabaec090f6f9c84af4906793c8fae"
+  integrity sha512-zb2id/cGdapn7sSH9rotgzic7Cje9k9zb+e9RrrQxG2GuOPPN0kD03FqO8qIAd3HvdtefQY3tTZXbQKo0qtmKw==
   dependencies:
     cls-hooked "^4.2.2"
     continuation-local-storage "^3.2.1"
     diagnostic-channel "0.2.0"
-    diagnostic-channel-publishers "0.2.2"
+    diagnostic-channel-publishers "0.3.0"
 
 aproba@^1.0.3, aproba@^1.1.1:
   version "1.2.0"
@@ -3201,10 +3201,10 @@ detect-libc@^1.0.2, detect-libc@^1.0.3:
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
   integrity sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
 
-diagnostic-channel-publishers@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/diagnostic-channel-publishers/-/diagnostic-channel-publishers-0.2.2.tgz#c657cd4cb63e1370fbc96557d5b1654a9f972c65"
-  integrity sha512-QQ5y4K3owJETFmwQc3U3hzWd5mbboPnvwgbZ1kEMbbc9x/gWZOt3/ZH/SDY6cASeLemYeFDnJmXZSqINNAlGsA==
+diagnostic-channel-publishers@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/diagnostic-channel-publishers/-/diagnostic-channel-publishers-0.3.0.tgz#a32649c6e0fdf1f4fe6a21bde64dc13b500cbf02"
+  integrity sha512-tylBZM/ZJ+ismlyop3g9ejI/0+bR/3BTo06fcE4wxq6cJZOe6XMABgRUZ+QUs+0WSnuglxmJ8Wwamnl01tV+Gw==
 
 diagnostic-channel@0.2.0:
   version "0.2.0"
