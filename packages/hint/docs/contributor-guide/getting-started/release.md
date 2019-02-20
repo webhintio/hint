@@ -16,17 +16,17 @@ Commit messages are used to decide how to bump the package's version:
 
 * `Docs:` no version change, related to `.md` changes
 * `Build:` no version change, related to build and release scripts
-* `Chore:` refactoring, tests, etc. anything not user-facing will be a `patch` (x.x.X)
-* `Upgrade:` dependency updates with no public API changes are a `patch` (x.x.X)
-* `Fix:` bug fixes are a `patch` (x.x.X)
-* `New:` added functionality that does not break previous behavior is a `minor` (x.X.x)
-* `Breaking:` any change to the public API or output (like error messages) is a `major` (X.x.x)
+* `Chore:` refactoring, tests, etc. anything not user-facing will be a `patch` version change (x.x.X)
+* `Upgrade:` dependency updates with no public API changes are a `patch` version change (x.x.X)
+* `Fix:` bug fixes are a `patch` version change (x.x.X)
+* `New:` added functionality that does not break previous behavior is a `minor` version change (x.X.x)
+* `Breaking:` any change to the public API or output (like error messages) is a `major` version change (X.x.x)
 
-## Automatic bumb versioning of local dependencies
+## Automatic bump versioning of local dependencies
 
 The release process updates local dependencies directly using `Upgrade` in the commit message. The reason is that [no code changes are needed to upgrade thus a `patch`](https://semver.org/#what-should-i-do-if-i-update-my-own-dependencies-without-changing-the-public-api). If any code modification is required it should be done prior running the release script.
 
-**⁉️ NOTE**: Publishing a new version shouldn't be done if the only change since it was las published is an `Upgrade` of dependency(ies).
+**⁉️ NOTE**: Publishing a new version shouldn't be done if the only change since it was last published is an `Upgrade` of dependency(ies).
 
 Let's imagine we have `packageB`, v1.5.0, that depends on `packageA`, v1.0.5. The following are some scenarios of what should be done:
 
@@ -41,7 +41,7 @@ The release script will:
 
 Let's use a more concrete example:
 
-`utils-create-server` switches their API to spawn a new process per server and makes all its API `async`. This is a breaking change so it should be noted as `Breaking: Make API async`. The release script will bump it to the next major version, so if previously it was `3.2.1`, it will be update to `4.0.0`. At the same time we do this breaking change we want to update the packages that depend on it:
+`utils-create-server` switches their API to spawn a new process per server and makes all its API `async`. This is a breaking change so it should be noted as `Breaking: Make API async`. The release script will bump it to the next major version, so if previously it was `3.2.1`, it should be updated to `4.0.0`. At the same time we do this breaking change we want to update the packages that depend on it:
 
 | Dependency |
 |------------|
@@ -51,7 +51,7 @@ Let's use a more concrete example:
 | @hint/utils-connector-tools |
 | @hint/utils-tests-helpers |
 
-The interaction in each package with `utils-create-server` needs to be updated, but nothing changes externally so the commit to make those changes should be `Chore: Update to new utils-create-server interface`. Let's pick `utils-tests-helpers` and assume the current version is `2.0.1` and its `package.json` could look like:
+The interaction in each package with `utils-create-server` needs to be updated, but nothing changes externally so the commit to make those changes should be `Upgrade: Update to new utils-create-server interface`. Let's pick `utils-tests-helpers` and assume the current version is `2.0.1` and its `package.json` could look like:
 
 ```json
 {
@@ -87,7 +87,7 @@ Now that `@hint/utils-test-server` has been updated, what happens to all the oth
 "@hint/utils-test-server": "^2.0.1"
 ```
 
-When someone install the package from a clean cache version `2.0.2` will be downloaded among the latest `@hint/utils-create-server"` which is fully compatible with the current code.
+When someone installs the package from a clean cache, version `2.0.2` will be downloaded among the latest `@hint/utils-create-server"`. This version is fully compatible with the current code.
 
 ### New feature
 
@@ -116,33 +116,33 @@ The release script will:
 * releases `packageA` with a `major` bump: version 2.0.0.
 * add a new commit to `packageB`: `Upgrade: Bump packageA to 2.0.0`. Because the commit history has `Breaking` and `Upgrade`, `packageB` will be bumped to 2.0.0 (`Breaking` > `Upgrade`).
 
-E.g.: If `hint` changes the expectations of the resources should look like, updating will be a `Breaking`.
+E.g.: If the package `hint` expects the resources (`hint`s, `parser`s, etc.) to change their interface, updating should be a `Breaking` change.
 
-**⁉️ NOTE**: `packageA` commit could be anything, the important part is how the changes are handled in `packageB` and how they are commited. It is very tempting to do all the changes in one single commit but this could have very bad consequences (e.g.: bumping to a `major` all packages when it should be a `patch`).
+**⁉️ NOTE**: `packageA` commit could be anything, the important part is how the changes are handled in `packageB` and how they are commited. It is very tempting to do all the changes in one single commit but this could have very bad consequences (e.g.: bumping all packages by a `major` version when it should be a `patch`).
 
 ## Current release process
 
-The previous is implemented (more or less accurate) during the release process. To start a new release a use needs to run `npm run release` that executes `scripts/release.ts`. The gist is:
+The previous is implemented (more or less accurate) during the release process. To start a new release a user needs to run `npm run release` that executes `scripts/release.ts`. The gist is:
 
-1. Calculate what packages need to be published. To do this searches the latest tag for each package and checks if there have been any commits since then that affect it.
+1. Calculate what packages need to be published. To achieve this, the script searches the latest tag for each package and checks if there have been any commits since then that affect it.
 1. Sort the dependencies by less dependants, i.e. if `packageA` depends on `packageB` it will work on `packageB` first.
 1. For each package:
-   * Bump the `version` in the `package.json` of the package usint the related commit message(s) and update `CHANGELOG.md`
+   * Bump the `version` in the `package.json` of the package using the related commit message(s) and update `CHANGELOG.md`
    * Clean the package, intall dependencies via `npm`, and run `npm run test-release`
    * Publish the new package to npm
    * Update references from other packages
    * Publish changes into GitHub
 
-This script also takes care of removing the `private` property from `package.json`, initialize a new `CHANGELOG.md` if needed, download files that are updated elsewhere like snyk's database, and such.
+This script also takes care of removing the `private` property from `package.json`, initializes a new `CHANGELOG.md` if needed, downloads files that are updated elsewhere like snyk's database, and such.
 
 ## Current problems
 
 While the current process works most of the times OK, there are a few things that could be improved:
 
 * Using `tag`s to calculate the list of changes is not reliable. The team has experienced issues with tags being different accross forks, and such.
-* Installing each package individually is a slow process. There used to be problems with dependencies missing and such that can probably be avoided with the right tooling.
+* Installing each package individually is a slow process. There used to be problems with dependencies missing and such, that can probably be avoided with the right tooling.
 
-  In the past we had problems because when using workspaces all the dependencies are hoisted so if a dependency was declared in another `package.json`, it will still be found in other packages.
+  In the past, we had problems with dependencies declared in one `package.json` being found in other packages. This happened due to workspaces hoisting the dependencies.
 * Another issue using npm to install the dependencies of each package individually is that the packages need to be published in the right order and npm needs to be updated so there isn't any problem requesting the dependency. There have been instances where npm's index wasn't yet updated and the process crashed because the wanted version wasn't available. Another big issue with this approach is that there is currently a circular dependency that if not handled correctly could cause an infinite publish loop.
 * Because each package is tested individually when doing the release (contrary to testing everything first before releasing) the release process might stop in the middle because one of the packages fails for whatever reason.
 * It's not clear how to prevent publishing a package, the script seems to remove the `private` property and I couldn't find any `ignorePackages` or similar in the code.
@@ -171,7 +171,7 @@ If dependency version bumping is done automatically by the release script, every
 But what if changes are required? **This is something we need to decide**
 Let's use `configuration` as an example. If `configuration` gets a `major` bump. There could be several reasons depending on how we interpret `public API` changes in `semver`:
 
-* A `hint` changes the message reports (`Breaking`). In principle the public API of `config` does not change because it only exposes a `json`, but one could argue that the output has indeed changed. If we allign with this, `configuration` should get a major version as well. What happens then to `hint` that depends on `configuration`? Should it get a major bump as well? Because the public API doesn't change, `configuration` is an optional dependency, and it is only used from the CLI, it should be a `patch`. _Right it is not clear what the release script does. Does it assume it is a breaking change in the config? The easiest solution will be to use a `patch`_
+* A `hint` changes the message reports (`Breaking`). In principle the public API of `config` does not change because it only exposes a `json`, but one could argue that the output has indeed changed. If we align with this, `configuration` should get a major version as well. What happens then to `hint` that depends on `configuration`? Should it get a major bump as well? Because the public API doesn't change, `configuration` is an optional dependency, and it is only used from the CLI, it should be a `patch`. _Right it is not clear what the release script does. Does it assume it is a breaking change in the config? The easiest solution will be to use a `patch`_
 * `configuration` needs to change the `json` format. This means `hint`'s configuration schema has changed as well with another breaking change. It is very unlikely this will work with the current release script knowing that packages are bumped individually and not holistically. `hint` will be the first package to be published and it will point to an old version of `configuration` that is not compatible. Something similar has happened with `hint@4.4.1` that points to `configuration-web-recommended@5.0.0` but the latest version is `6.0.0` (although in this case the configurations are compatible).
 
 ## Proposed solution
