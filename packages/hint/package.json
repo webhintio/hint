@@ -9,7 +9,7 @@
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
     "ajv": "^6.9.1",
-    "applicationinsights": "^1.1.0",
+    "applicationinsights": "^1.2.0",
     "async": "^2.6.2",
     "boxen": "^3.0.0",
     "browserslist": "^4.4.1",
