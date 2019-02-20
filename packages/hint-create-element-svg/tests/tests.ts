@@ -13,14 +13,23 @@ const generateScriptTag = (script: string) => {
 };
 
 const htmlElementCreate = 'document.getElementById("container").appendChild(document.createElement("a"));';
-const invalidCircleCreate = 'document.getElementById("container").appendChild(document.createElement("circle"));';
+const invalidCircleCreate = `const container = document.getElementById("container")
+                             const circle = document.createElement("circle");
+                             container.appendChild(circle);`;
 const invalidSvgCreate = 'document.getElementById("container").appendChild(document.createElement("svg"));';
 const validSvgCreate = 'document.getElementById("container").appendChild(document.createElementNS("http://www.w3.org/2000/svg", "svg"));';
 
 const tests: HintTest[] = [
     {
+        name: 'Can create HTML element using createElement',
+        serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(htmlElementCreate))
+    },
+    {
         name: 'Should not use createElement to create SVG element',
-        reports: [{ message: 'Avoid using createElement to create SVG elements; use createElementNS instead' }],
+        reports: [{
+            message: 'Avoid using createElement to create SVG elements; use createElementNS instead',
+            position: { column: 50, line: 6}
+        }],
         serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(invalidSvgCreate))
     },
     {
@@ -29,12 +38,11 @@ const tests: HintTest[] = [
     },
     {
         name: 'Should not use createElement to create Circle SVG element',
-        reports: [{ message: 'Avoid using createElement to create SVG elements; use createElementNS instead' }],
+        reports: [{
+            message: 'Avoid using createElement to create SVG elements; use createElementNS instead',
+            position: { column: 45, line: 7}
+        }],
         serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(invalidCircleCreate))
-    },
-    {
-        name: 'Can create HTML element using createElement',
-        serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(htmlElementCreate))
     }
 ];
 
