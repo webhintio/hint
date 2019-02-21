@@ -468,31 +468,6 @@ a > .rule-tile:hover {
     }
 }
 
-@media print {
-
-    .rule-categories {
-        position: relative;
-    }
-
-    .show-categories {
-        display: none;
-    }
-
-    .rule-doc-buttons {
-        position: relative;
-    }
-
-    .rule-result--details__body p {
-        font-size: 85%;
-    }
-
-    .rule-result__code {
-        border: 1px solid #f4f4f4;
-    }
-
-}
-
-
 /* SCAN DETAILS */
 
 .rule-result {
@@ -690,8 +665,6 @@ button {
 
 .rule-result__code code {
     background-color: #f4f4f4;
-    margin-top: 1.4rem;
-    padding-left: 1.4rem;
 }
 
 @media (min-width: 48.75em) {
@@ -814,4 +787,85 @@ button {
 
 .scan-error {
     margin-top: 2.4rem;
+}
+
+/* PRINT STYLES */
+
+@media print {
+
+    .rule-categories {
+        position: relative;
+        margin: 1.2rem 0 0 0;
+        padding: 0;
+    }
+
+    .show-categories {
+        display: none;
+    }
+
+    .rule-tiles {
+        padding: .6rem 1.2rem;
+    }
+
+    .button-expand-all {
+        display: none;
+    }
+
+    .rule-doc-buttons {
+        position: relative;
+    }
+
+    .rule-doc-button,
+    .rule-doc-button:nth-child(2) {
+        border: 1px solid #4046dd;
+        color: #4046dd;
+        background-color: #fff;
+        padding: .6rem;
+    }
+
+    .rule-doc-icon {
+        display: none;
+    }
+
+    .rule-result--details,
+    .rule-result--details__hint-link,
+    .rule-result--details__footer-msg {
+        font-size: 75%;
+    }
+
+    .rule-result--details__body {
+        border-top: 1px solid #d6d6d6;
+    }
+
+    .rule-content div:nth-child(2) {
+        border-top: none;
+    }
+
+    .rule-result--details__body p {
+        margin: .6rem 0 0 0;
+    }
+
+    .rule-result__code {
+        border: 1px solid #d6d6d6;
+        margin: 1.2rem 0 0 0;
+        padding: 1.2rem;
+    }
+
+    .rule-result--details__footer-msg {
+        margin: .6rem 0 1.2rem 3rem;
+    }
+
+    .rule-result--details__footer-msg img.axe-logo {
+        width: 3rem;
+    }
+
+    .rule-title {
+        padding-left: 0;
+    }
+
+    .hint-link::after,
+    .rule-title::before {
+        display: none;
+    }
+
 }
