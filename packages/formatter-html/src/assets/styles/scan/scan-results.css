@@ -468,31 +468,6 @@ a > .rule-tile:hover {
     }
 }
 
-@media print {
-
-    .rule-categories {
-        position: relative;
-    }
-
-    .show-categories {
-        display: none;
-    }
-
-    .rule-doc-buttons {
-        position: relative;
-    }
-
-    .rule-result--details__body p {
-        font-size: 85%;
-    }
-
-    .rule-result__code {
-        border: 1px solid #f4f4f4;
-    }
-
-}
-
-
 /* SCAN DETAILS */
 
 .rule-result {
