@@ -16,7 +16,7 @@
     ],
     "rules": {
         "accessor-pairs": "off",
-        "arrow-body-style": ["error", "always"],
+        "arrow-body-style": ["error", "as-needed"],
         "array-bracket-spacing": ["error", "never"],
         "array-callback-return": "error",
         "arrow-parens": ["error", "always"],
@@ -82,7 +82,7 @@
         "no-caller": "error",
         "no-case-declarations": "error",
         "no-cond-assign": "error",
-        "no-confusing-arrow": "error",
+        "no-confusing-arrow": ["error", {"allowParens": true}],
         "no-console": "off",
         "no-const-assign": "error",
         "no-constant-condition": "error",
