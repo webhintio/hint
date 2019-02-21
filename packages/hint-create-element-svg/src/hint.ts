@@ -50,7 +50,7 @@ export default class CreateElementSvgHint implements IHint {
                             if (arg.value !== undefined && arg.value !== null && svgElements.has(arg.value.toString().toLowerCase())) {
                                 eslintContext.report({
                                     messageId: 'avoidElement',
-                                    node
+                                    node: property
                                 });
                             }
                         }
