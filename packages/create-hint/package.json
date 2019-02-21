@@ -72,5 +72,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "3.0.1"
+  "version": "3.0.2"
 }
