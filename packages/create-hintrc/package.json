@@ -26,7 +26,7 @@
     "@typescript-eslint/eslint-plugin": "^1.4.0",
     "fork-ts-checker-webpack-plugin": "^0.5.2",
     "fs-extra": "^7.0.0",
-    "hint": "^4.4.0",
+    "hint": "^4.4.1",
     "inquirer": "^6.2.2",
     "mkdirp": "^0.5.1",
     "npm-link-check": "^3.0.0",
