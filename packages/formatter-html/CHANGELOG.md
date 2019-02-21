@@ -1,3 +1,14 @@
+# 3.2.0 (February 21, 2019)
+
+## Bug fixes / Improvements
+
+* [[`1de5a33208`](https://github.com/webhintio/hint/commit/1de5a332084958bb31b908effc660fe0051dd924)] - Fix: HTML Formatter print styles (by [`Stephanie `](https://github.com/ststimac) / see also: [`#1937`](https://github.com/webhintio/hint/issues/1937)).
+
+## New features
+
+* [[`e81fc37b13`](https://github.com/webhintio/hint/commit/e81fc37b13257ece24ce7beb1447103f8fccaf08)] - New: Print report output directory (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1945`](https://github.com/webhintio/hint/issues/1945)).
+
+
 # 3.1.0 (February 7, 2019)
 
 ## New features
