@@ -32,7 +32,7 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.2.4",
     "ts-loader": "^5.3.3",
-    "typescript": "^3.3.3",
+    "typescript": "^3.3.3333",
     "@typescript-eslint/parser": "1.4.0",
     "webpack": "^4.29.5",
     "webpack-cli": "^3.2.3"
