@@ -167,7 +167,11 @@ export default class HTMLFormatter implements IFormatter {
                     await fs.outputFile(path.join(configDir, result.id), JSON.stringify(options.config));
                 }
 
-                await fs.outputFile(path.join(destDir, 'index.html'), html);
+                const destination = path.join(destDir, 'index.html');
+
+                await fs.outputFile(destination, html);
+
+                logger.log(`You can view the HTML report in "${destination}"`);
             }
 
             return result;
