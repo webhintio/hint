@@ -4,7 +4,7 @@
  * @fileoverview Main CLI that is run via the hint command. Based on ESLint.
  */
 
-/* eslint no-console:off, no-process-exit:off */
+/* eslint-disable no-process-exit, no-process-env */
 
 /*
  * ------------------------------------------------------------------------------
@@ -12,21 +12,12 @@
  * ------------------------------------------------------------------------------
  */
 
-const debug = (process.argv.includes('--debug'));
 const tracking = (/--tracking[=\s]+([^\s]*)/i).exec(process.argv.join(' '));
-const analyticsDebug = process.argv.includes('--analytics-debug');
-
-import * as d from 'debug';
 
 import * as insights from '../lib/utils/app-insights';
 import * as configStore from '../lib/utils/config-store';
 
-// This initialization needs to be done *before* other requires in order to work.
-if (debug) {
-    d.enable('hint:*');
-}
-
-const trackingEnv = process.env.HINT_TRACKING; // eslint-disable-line no-process-env
+const trackingEnv = process.env.HINT_TRACKING;
 let enableTracking;
 
 if (tracking) {
@@ -52,10 +43,6 @@ if (typeof enableTracking !== 'undefined') {
     } else {
         insights.disable();
     }
-}
-
-if (analyticsDebug && !debug) {
-    d.enable('hint:utils:appinsights');
 }
 
 /*
@@ -96,9 +83,7 @@ ${source.stack}`);
 
 const run = async () => {
     process.exitCode = await cli.execute(process.argv);
-    if (debug) {
-        console.log(`Exit code: ${process.exitCode}`);
-    }
+
     process.exit(process.exitCode);
 };
 
