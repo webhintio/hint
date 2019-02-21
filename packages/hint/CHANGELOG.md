@@ -1,3 +1,13 @@
+# 4.4.1 (February 21, 2019)
+
+## Bug fixes / Improvements
+
+* [[`d59b36717d`](https://github.com/webhintio/hint/commit/d59b36717d508499c8022729ed7da9405f8ec5bd)] - Fix: Honor `--debug` parameter even when `DEBUG` env is set (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1349`](https://github.com/webhintio/hint/issues/1349)).
+* [[`30e54ae215`](https://github.com/webhintio/hint/commit/30e54ae215d4a7fb5edd0bab79c2fd5b5ffd8b45)] - Docs: Improve commit message template (by [`Karan Sapolia`](https://github.com/karansapolia) / see also: [`#1844`](https://github.com/webhintio/hint/issues/1844)).
+* [[`44674e9c44`](https://github.com/webhintio/hint/commit/44674e9c4479cb3f3e3c2e66173437c74481f487)] - Fix: Refactor for file name convention (#1861) (by [`Karan Sapolia`](https://github.com/karansapolia) / see also: [`#1748`](https://github.com/webhintio/hint/issues/1748)).
+* [[`eb90fb42ef`](https://github.com/webhintio/hint/commit/eb90fb42ef487dbca918a0da9e86c7a368eeac42)] - Fix: Force `formatters` to be an `Array` only (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1865`](https://github.com/webhintio/hint/issues/1865)).
+
+
 # 4.4.0 (February 7, 2019)
 
 ## Bug fixes / Improvements
