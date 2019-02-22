@@ -14,7 +14,7 @@
     "@hint/hint-highest-available-document-mode": "^3.0.1",
     "@hint/hint-html-checker": "^3.0.1",
     "@hint/hint-http-cache": "^3.0.1",
-    "@hint/hint-http-compression": "^4.0.0",
+    "@hint/hint-http-compression": "^4.0.1",
     "@hint/hint-image-optimization-cloudinary": "^2.1.1",
     "@hint/hint-meta-charset-utf-8": "^3.0.0",
     "@hint/hint-meta-viewport": "^3.0.0",
