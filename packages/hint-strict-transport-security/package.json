@@ -16,13 +16,13 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-markdown": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^1.4.0",
-    "hint": "^4.4.0",
+    "hint": "^4.4.1",
     "mock-require": "^3.0.3",
     "npm-link-check": "^3.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^13.3.0",
     "rimraf": "^2.6.3",
-    "typescript": "^3.3.3",
+    "typescript": "^3.3.3333",
     "@typescript-eslint/parser": "1.4.0"
   },
   "engines": {
@@ -46,7 +46,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^4.4.0"
+    "hint": "^4.4.1"
   },
   "repository": "webhintio/hint",
   "scripts": {

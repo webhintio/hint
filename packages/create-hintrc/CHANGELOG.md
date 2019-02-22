@@ -1,3 +1,11 @@
+# 2.0.4 (February 21, 2019)
+
+## Bug fixes / Improvements
+
+* [[`1722481e51`](https://github.com/webhintio/hint/commit/1722481e51cf8e88bce77bf1c966909efed5269a)] - Fix: Disable `declarationMap` (by [`Antón Molleda`](https://github.com/molant)).
+* [[`44674e9c44`](https://github.com/webhintio/hint/commit/44674e9c4479cb3f3e3c2e66173437c74481f487)] - Fix: Refactor for file name convention (#1861) (by [`Karan Sapolia`](https://github.com/karansapolia) / see also: [`#1748`](https://github.com/webhintio/hint/issues/1748)).
+
+
 # 2.0.3 (December 31, 2018)
 
 ## Bug fixes / Improvements

@@ -1,11 +1,11 @@
 {
   "dependencies": {
-    "@hint/connector-chrome": "^3.0.0",
-    "@hint/connector-jsdom": "^3.0.0",
+    "@hint/connector-chrome": "^3.0.1",
+    "@hint/connector-jsdom": "^3.0.1",
     "@hint/connector-local": "^2.0.2",
     "@hint/utils-create-server": "^3.0.0",
     "ava": "^1.2.1",
-    "hint": "^4.4.0"
+    "hint": "^4.4.1"
   },
   "description": "hint tests helpers",
   "devDependencies": {
@@ -16,7 +16,7 @@
     "@typescript-eslint/eslint-plugin": "^1.4.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^2.6.3",
-    "typescript": "^3.3.3",
+    "typescript": "^3.3.3333",
     "@typescript-eslint/parser": "1.4.0"
   },
   "engines": {
@@ -36,7 +36,7 @@
   "license": "Apache-2.0",
   "name": "@hint/utils-tests-helpers",
   "peerDependencies": {
-    "hint": "^4.4.0"
+    "hint": "^4.4.1"
   },
   "repository": "webhintio/hint",
   "scripts": {

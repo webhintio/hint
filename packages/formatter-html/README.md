@@ -4,6 +4,8 @@ The `html` formatter outputs the result in a HTML file.
 
 ![Example output for the html formatter](images/html-output.png)
 
+A new folder `hint-report` will be created with the results.
+
 To use it you will have to install it via `npm`:
 
 ```bash

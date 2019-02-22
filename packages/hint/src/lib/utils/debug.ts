@@ -1,12 +1,25 @@
+/* eslint-disable no-process-env */
 import * as path from 'path';
+
+const debugging = (process.argv.includes('--debug'));
+const debugTarget = process.env.DEBUG || 'hint:*';
+const analyticsDebug = process.argv.includes('--analytics-debug');
+
+/**
+ * If the environment variable `DEBUG` is set, the `debug` package
+ * will get enabled so it is removed unless the `--debug` parameter
+ * is used.
+ */
+if (!debugging && process.env.DEBUG) {
+    delete process.env.DEBUG;
+}
 
 import * as d from 'debug';
 
-const debugEnabled: boolean = (process.argv.includes('--debug'));
-
-// must do this initialization *before* other requires in order to work
-if (debugEnabled) {
-    d.enable('hint:*');
+if (debugging) {
+    d.enable(debugTarget);
+} else if (analyticsDebug) {
+    d.enable('hint:utils:appinsights');
 }
 
 export const debug = (filePath: string): d.IDebugger => {
@@ -43,5 +56,4 @@ export const debug = (filePath: string): d.IDebugger => {
     }
 
     return d(`hint:${output}`);
-
 };

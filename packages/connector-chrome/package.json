@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debugging-protocol-common": "^3.0.0",
+    "@hint/utils-debugging-protocol-common": "^3.0.1",
     "chrome-launcher": "^0.10.4",
     "is-ci": "^2.0.0",
     "lockfile": "^1.0.4"
@@ -25,13 +25,13 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-markdown": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^1.4.0",
-    "hint": "^4.4.0",
+    "hint": "^4.4.1",
     "lodash": "^4.17.11",
     "npm-run-all": "^4.1.5",
     "nyc": "^13.3.0",
     "rimraf": "^2.6.3",
     "sinon": "^7.2.4",
-    "typescript": "^3.3.3",
+    "typescript": "^3.3.3333",
     "@typescript-eslint/parser": "1.4.0"
   },
   "engines": {
@@ -63,7 +63,7 @@
     "statements": 70
   },
   "peerDependencies": {
-    "hint": "^4.4.0"
+    "hint": "^4.4.1"
   },
   "repository": "webhintio/hint",
   "scripts": {
@@ -81,5 +81,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.0"
+  "version": "3.0.1"
 }

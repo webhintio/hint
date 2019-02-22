@@ -3,6 +3,7 @@
         "alwaysStrict": true,
         "composite": false,
         "declaration": false,
+        "declarationMap": false,
         "inlineSourceMap": false,
         "removeComments": true,
         "target": "esnext",
