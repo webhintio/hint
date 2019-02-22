@@ -1,3 +1,12 @@
+# 2.1.1 (February 21, 2019)
+
+## Bug fixes / Improvements
+
+* [[`c4642020cd`](https://github.com/webhintio/hint/commit/c4642020cd17923acff6dc3d6d08947bc106ec15)] - Docs: Update hint-compat-api friendly names (by [`Tony Ross`](https://github.com/antross)).
+* [[`93884230f5`](https://github.com/webhintio/hint/commit/93884230f59ba2a0221f9ea364f7a0e559cbca01)] - Docs: Update links to right hints documentation (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1874`](https://github.com/webhintio/hint/issues/1874)).
+* [[`44674e9c44`](https://github.com/webhintio/hint/commit/44674e9c4479cb3f3e3c2e66173437c74481f487)] - Fix: Refactor for file name convention (#1861) (by [`Karan Sapolia`](https://github.com/karansapolia) / see also: [`#1748`](https://github.com/webhintio/hint/issues/1748)).
+
+
 # 2.1.0 (February 7, 2019)
 
 ## Bug fixes / Improvements
