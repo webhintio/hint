@@ -2,7 +2,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "lodash": "^4.17.11",
-    "on-headers": "^1.0.1"
+    "on-headers": "^1.0.2"
   },
   "description": "hint create server util",
   "devDependencies": {
