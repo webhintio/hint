@@ -151,6 +151,7 @@ test('If an script tag is an internal javascript, then we should parse the code 
     const data = args[1] as ScriptParse;
 
     t.is(args[0], 'parse::end::javascript');
+    t.is(data.element, t.context.element);
     t.is(data.resource, 'Internal javascript');
     t.is(data.sourceCode, sourceCodeObject);
 });
@@ -189,6 +190,7 @@ test('If fetch::end::script is received, then we should parse the code and emit 
     const data = args[1] as ScriptParse;
 
     t.is(args[0], 'parse::end::javascript');
+    t.is(data.element, null);
     t.is(data.sourceCode, sourceCodeObject);
     t.is(data.resource, 'script.js');
 });

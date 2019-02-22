@@ -8,5 +8,5 @@ export const mockStyleElement = (type: string, code: string) => {
         outerHTML() {
             return Promise.resolve(`<style>  ${code}  </style>`);
         }
-    } as Partial<IAsyncHTMLElement>;
+    } as Partial<IAsyncHTMLElement> as IAsyncHTMLElement;
 };

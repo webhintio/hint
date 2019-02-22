@@ -28,7 +28,7 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
         engine.on('element::script', this.parseJavascriptTag.bind(this));
     }
 
-    private async emitScript(code: string, resource: string) {
+    private async emitScript(code: string, resource: string, element: IAsyncHTMLElement | null) {
         try {
             await this.engine.emitAsync(`parse::start::javascript`, { resource });
 
@@ -36,6 +36,7 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
 
             await this.engine.emitAsync(`parse::end::javascript`, {
                 ast,
+                element,
                 resource,
                 sourceCode: new SourceCode(code, ast)
             });
@@ -48,7 +49,7 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
         const code = fetchEnd.response.body.content;
         const resource = fetchEnd.resource;
 
-        await this.emitScript(code, resource);
+        await this.emitScript(code, resource, null);
     }
 
     private hasSrcAttribute(element: IAsyncHTMLElement) {
@@ -91,6 +92,6 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
         const code = this.getScriptContent(await element.outerHTML());
         const resource: string = 'Internal javascript';
 
-        await this.emitScript(code, resource);
+        await this.emitScript(code, resource, element);
     }
 }
