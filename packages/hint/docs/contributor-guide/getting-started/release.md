@@ -139,7 +139,7 @@ This script also takes care of removing the `private` property from `package.jso
 
 While the current process works most of the times OK, there are a few things that could be improved:
 
-* Using `tag`s to calculate the list of changes is not reliable. The team has experienced issues with tags being different accross forks, and such.
+* Using git `tag`s to calculate the list of changes is not reliable. The team has experienced issues with them being different accross forks, and such.
 * Installing each package individually is a slow process. There used to be problems with dependencies missing and such, that can probably be avoided with the right tooling.
 
   In the past, we had problems with dependencies declared in one `package.json` being found in other packages. This happened due to workspaces hoisting the dependencies.
@@ -148,6 +148,7 @@ While the current process works most of the times OK, there are a few things tha
 * It's not clear how to prevent publishing a package, the script seems to remove the `private` property and I couldn't find any `ignorePackages` or similar in the code.
 * The script has never been run to its end successfully on Windows and testing changes is complicated.
 * The release can not be fully automated. It uses OTP for GitHub and npm and doesn't take into account other type of authentication mechanisms.
+* Because the release process takes so long, Dependabot can get PRs merged automatically and thus breaking the process because we cannot push upstream.
 * Other minor issues like can't continue even if tests fail, auto approve changelog, release an specific package, etc.
 
 ### More about circular dependencies
@@ -169,10 +170,34 @@ What should happen when any of these packages gets updated?
 If dependency version bumping is done automatically by the release script, everything will be a `patch` (except the package that started the loop that can be anything).
 
 But what if changes are required? **This is something we need to decide**
-Let's use `configuration` as an example. If `configuration` gets a `major` bump. There could be several reasons depending on how we interpret `public API` changes in `semver`:
+Let's use `configuration` as an example. If `configuration` gets a `major` bump, there could be several reasons depending on how we interpret `public API` changes in `semver`:
 
 * A `hint` changes the message reports (`Breaking`). In principle the public API of `config` does not change because it only exposes a `json`, but one could argue that the output has indeed changed. If we align with this, `configuration` should get a major version as well. What happens then to `hint` that depends on `configuration`? Should it get a major bump as well? Because the public API doesn't change, `configuration` is an optional dependency, and it is only used from the CLI, it should be a `patch`. _Right it is not clear what the release script does. Does it assume it is a breaking change in the config? The easiest solution will be to use a `patch`_
 * `configuration` needs to change the `json` format. This means `hint`'s configuration schema has changed as well with another breaking change. It is very unlikely this will work with the current release script knowing that packages are bumped individually and not holistically. `hint` will be the first package to be published and it will point to an old version of `configuration` that is not compatible. Something similar has happened with `hint@4.4.1` that points to `configuration-web-recommended@5.0.0` but the latest version is `6.0.0` (although in this case the configurations are compatible).
+
+#### How to bump `configuration`s
+
+Depending on how we interpret `semver` and `pubic API` the versioning of `configuration` can be really different. If a `hint` changes its report messages, does it mean `configuration` should change or because the JSON that represents the configuration does not change it should be a patch?
+
+This section tries to cover all scenarios and how they will get solved. It assumes the dependency update is done automatically by the release script.
+
+|               | Bump type | Configuration bump type | `hint` bump type | Commments |
+|---------------|-----------|-------------------------|------------------|-----------|
+| `hintA`       | `patch`   | none                    | none             | No bumping should be done if only change (although dependency should be updated) |
+| `hintA`       | `minor`   | `minor`                 | `patch`          | Something new got added. Based on the project's history it could be `location` data, metadata, etc. `configuration` should be bumped to `minor`. Because in `hint` it's an `optionalDependency`, it should be a `patch` and force the release because otherwise it will not be pulled down |
+| `hintA`       | `major`   | `major`                 | `patch`          | Something like the report messages got changed so `configuration` should be bumped to `major`. Because in `hint` it's an `optionalDependency`, it should be a `patch`and force the release because otherwise it will not be pulled down |
+| `parserA`     | `patch`   | none                    | none             | Parsers are consumed by `hint`s so we should delegate to those how the configuration should be bumped |
+| `parserA`     | `minor`   | none                    | none             | Parsers are consumed by `hint`s so we should delegate to those how the configuration should be bumped |
+| `parserA`     | `major`   | none                    | none             | Parsers are consumed by `hint`s so we should delegate to those how the configuration should be bumped |
+| `connectorA`  | `patch`   | none                    | none             | The events of the connectors are consumed by `hint`s so we should delegate to those how the configuration should be bumped |
+| `connectorA`  | `minor`   | none                    | none             | If a new `connector` option is added and the `configuration` uses it, there will be a separate commit |
+| `connectorA`  | `major`   | none                    | none             | If a `connector` has a breaking change we should delegate to the bumping of `hint` or `hintX` how the configuration should be bumped |
+| `formatterA`  | `patch`   | none                    | none             | No bumping should be done if only change (although dependency should be updated) |
+| `formatterA`  | `minor`   | `minor`                 | `patch`          | Something new got added (like the output location in the HTML formatter). `configuration` should be bumped to `minor`. Because in `hint` it's an `optionalDependency`, it should be a `patch` and force the release because otherwise it will not be pulled down |
+| `formatterA`  | `major`   | `major`                 | `patch`          | Something like the output got changed  so `configuration` should be bumped to `major`. Because in `hint` it's an `optionalDependency`, it should be a `patch`and force the release because otherwise it will not be pulled down. If the change is at the interface level, `hint` should have been update as well so the `major` will take precedence over the `patch`. |
+| `hint`        | `patch`   | none                    | `patch`          | No bumping should be done if only change (although dependency should be updated) |
+| `hint`        | `minor`   | `minor`                 | `minor`          | `hint` is a `peerDependency` so there will be warnings if the value is `^4.4.0` but the one we are installing is `4.5.0`. Also the dependency in `hint` should be updated at the same time |
+| `hint`        | `major`   | `major`                 | `major`          | `hint` is a `peerDependency` so there will be warnings if the value is `^4.4.0` but the one we are installing is `5.0.0`. Also the dependency in `hint` should be updated at the same time |
 
 ## Proposed solution
 
