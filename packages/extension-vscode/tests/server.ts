@@ -55,9 +55,7 @@ test('It notifies if loading webhint fails', async (t) => {
     const { connection, contentWatcher, document, engine, Files, initializer } = mockContext();
 
     sandbox.stub(document, 'getText').returns(testContent);
-    sandbox.stub(document, 'uri').get(() => {
-        return testUri;
-    });
+    sandbox.stub(document, 'uri').get(() => testUri);
 
     const windowShowWarningMessageStub = sandbox.stub(connection.window, 'showWarningMessage').returns({ title: 'Cancel' });
     const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
@@ -78,9 +76,7 @@ test('It installs webhint if needed', async (t) => {
     const { child_process, connection, contentWatcher, document, engine, Files, initializer } = mockContext(); // eslint-disable-line camelcase
 
     sandbox.stub(document, 'getText').returns(testContent);
-    sandbox.stub(document, 'uri').get(() => {
-        return testUri;
-    });
+    sandbox.stub(document, 'uri').get(() => testUri);
 
     const windowShowWarningMessageStub = sandbox.stub(connection.window, 'showWarningMessage').returns({ title: 'Add webhint' });
 
@@ -107,9 +103,7 @@ test('It installs webhint via yarn if `yarn.lock` is present', async (t) => {
     const { access, child_process, connection, contentWatcher, document, engine, Files, initializer } = mockContext(); // eslint-disable-line camelcase
 
     sandbox.stub(document, 'getText').returns(testContent);
-    sandbox.stub(document, 'uri').get(() => {
-        return testUri;
-    });
+    sandbox.stub(document, 'uri').get(() => testUri);
 
     sandbox.stub(access, 'error').returns(null);
     const windowShowWarningMessageStub = sandbox.stub(connection.window, 'showWarningMessage').returns({ title: 'Add webhint' });
@@ -137,9 +131,7 @@ test('It notifies if loading the configuration fails', async (t) => {
     const { Configuration, connection, contentWatcher, document, engine, initializer } = mockContext();
 
     sandbox.stub(document, 'getText').returns(testContent);
-    sandbox.stub(document, 'uri').get(() => {
-        return testUri;
-    });
+    sandbox.stub(document, 'uri').get(() => testUri);
 
     const windowShowErrorMessageStub = sandbox.stub(connection.window, 'showErrorMessage').returns({ title: 'Ignore' });
     const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
@@ -161,9 +153,7 @@ test('It loads a local copy of webhint', async (t) => {
     const { connection, contentWatcher, document, Files, initializer } = mockContext();
 
     sandbox.stub(document, 'getText').returns(testContent);
-    sandbox.stub(document, 'uri').get(() => {
-        return testUri;
-    });
+    sandbox.stub(document, 'uri').get(() => testUri);
 
     const windowShowWarningMessageStub = sandbox.spy(connection.window, 'showWarningMessage');
     const filesResolveModule2Spy = sandbox.spy(Files, 'resolveModule2');
@@ -182,9 +172,7 @@ test('It runs webhint on content changes', async (t) => {
     const { contentWatcher, document, engine } = mockContext();
 
     sandbox.stub(document, 'getText').returns(testContent);
-    sandbox.stub(document, 'uri').get(() => {
-        return testUri;
-    });
+    sandbox.stub(document, 'uri').get(() => testUri);
     const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
 
     await contentWatcher({ document });
@@ -210,9 +198,7 @@ test('It processes multiple files serially', async (t) => {
     } as TextDocument;
 
     sandbox.stub(document, 'getText').returns(testContent);
-    sandbox.stub(document, 'uri').get(() => {
-        return testUri;
-    });
+    sandbox.stub(document, 'uri').get(() => testUri);
     const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
 
     const p1 = contentWatcher({ document });
@@ -240,9 +226,7 @@ test('It reloads and runs webhint on watched file changes', async (t) => {
 
     sandbox.stub(documents, 'all').returns([document]);
     sandbox.stub(document, 'getText').returns(testContent);
-    sandbox.stub(document, 'uri').get(() => {
-        return testUri;
-    });
+    sandbox.stub(document, 'uri').get(() => testUri);
     const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
 
     await fileWatcher();
@@ -288,9 +272,7 @@ test('It translates problems to diagnostics', async (t) => {
     const { connection, contentWatcher, document, engine } = mockContext();
 
     sandbox.stub(document, 'getText').returns(testContent);
-    sandbox.stub(document, 'uri').get(() => {
-        return testUri;
-    });
+    sandbox.stub(document, 'uri').get(() => testUri);
     const connectionSendDiagnostics = sandbox.spy(connection, 'sendDiagnostics');
     const engineClearSpy = sandbox.spy(engine, 'clear');
 

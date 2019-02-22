@@ -11,9 +11,7 @@ const hintPath = getHintPath(__filename);
 
 const metaElement = '<meta http-equiv="x-ua-compatible" content="ie=edge">';
 
-const generateHTMLPageWithMetaElement = (metaElementValue: string = 'iE=eDgE') => {
-    return generateHTMLPage(`<MEtA hTTp-EqUIv="X-Ua-CompATible" ConTenT="${metaElementValue}">`);
-};
+const generateHTMLPageWithMetaElement = (metaElementValue: string = 'iE=eDgE') => generateHTMLPage(`<MEtA hTTp-EqUIv="X-Ua-CompATible" ConTenT="${metaElementValue}">`);
 
 // Error messages.
 
@@ -27,9 +25,7 @@ const metaElementUsageDiscouragedErrorMessage = `'x-ua-compatible' meta element 
 const noHeaderErrorMessage = `Response should include 'x-ua-compatible' header.`;
 const unneededHeaderErrorMessage = `Response should not include unneeded 'x-ua-compatible' header.`;
 
-const generateIncorrectContentAttributeValueErrorMessage = (contentAttributeValue: string) => {
-    return `'x-ua-compatible' meta element 'content' attribute value should be 'ie=edge', not '${contentAttributeValue}'.`;
-};
+const generateIncorrectContentAttributeValueErrorMessage = (contentAttributeValue: string) => `'x-ua-compatible' meta element 'content' attribute value should be 'ie=edge', not '${contentAttributeValue}'.`;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

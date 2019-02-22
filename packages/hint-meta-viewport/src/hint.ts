@@ -31,28 +31,24 @@ export default class MetaViewportHint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getViewportMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
-            return elements.filter((element) => {
-                return (element.getAttribute('name') !== null && normalizeString(element.getAttribute('name')) === 'viewport');
-            });
-        };
+        const getViewportMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => elements.filter((element) => (element.getAttribute('name') !== null && normalizeString(element.getAttribute('name')) === 'viewport'));
 
-        const listIncludesBrowsersWithOrientationChangeBug = (browsersList: string[]): boolean => {
+        const listIncludesBrowsersWithOrientationChangeBug = (browsersList: string[]): boolean =>
 
-            /*
-             * Old versions of Safari for iOS require `initial-scale=1`
-             * in order to react on orientation change.
-             *
-             *  * https://www.quirksmode.org/blog/archives/2013/10/initialscale1_m.html
-             *  * https://www.quirksmode.org/blog/archives/2013/10/more_about_scal.html
-             *  * https://www.quirksmode.org/mobile/metaviewport/quickdevicewidth.html
-             *
-             * As of Safari for iOS 9+, that is no longer the case.
-             *
-             *  * https://twitter.com/ppk/status/829329905942986752
-             */
+        /*
+         * Old versions of Safari for iOS require `initial-scale=1`
+         * in order to react on orientation change.
+         *
+         *  * https://www.quirksmode.org/blog/archives/2013/10/initialscale1_m.html
+         *  * https://www.quirksmode.org/blog/archives/2013/10/more_about_scal.html
+         *  * https://www.quirksmode.org/mobile/metaviewport/quickdevicewidth.html
+         *
+         * As of Safari for iOS 9+, that is no longer the case.
+         *
+         *  * https://twitter.com/ppk/status/829329905942986752
+         */
 
-            return browsersList.some((browserVersion) => {
+            browsersList.some((browserVersion) => {
 
                 /*
                  * The following is done because `browsersList` returns
@@ -63,8 +59,6 @@ export default class MetaViewportHint implements IHint {
 
                 return version ? parseInt(version[1]) < 9 : false;
             });
-        };
-
         const checkContentValue = async (contentValue: string | null, resource: string, viewportMetaElement: IAsyncHTMLElement) => {
 
             if (!contentValue) {

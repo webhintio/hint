@@ -2,9 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const package = require('../package.json');
 
-const hintModules = Object.keys(package.devDependencies).filter((name) => {
-    return name.startsWith('@hint/hint-');
-});
+const hintModules = Object.keys(package.devDependencies).filter((name) => name.startsWith('@hint/hint-'));
 
 // Generate hints.import.ts
 
@@ -19,9 +17,7 @@ const resolve = (module: any): IHintConstructor => {
 
 const hints = [
 ${
-    hintModules.map((name) => {
-        return `    ...Object.values(require('${name}')).map(resolve)`;
-    }).join(',\n')
+    hintModules.map((name) => `    ...Object.values(require('${name}')).map(resolve)`).join(',\n')
 }
 ];
 
@@ -49,9 +45,7 @@ const resolve = (module: any): HintMetadata => {
 
 const metas = [
 ${
-    hintModules.map((name) => {
-        return `    ...Object.values(require('${name}/dist/src/meta')).map(resolve)`;
-    }).join(',\n')
+    hintModules.map((name) => `    ...Object.values(require('${name}/dist/src/meta')).map(resolve)`).join(',\n')
 }
 ];
 

@@ -47,9 +47,7 @@ if (insightsEnabled) {
 }
 
 /** Check if Application Insights is enabled or not. */
-export const isEnabled = () => {
-    return insightsEnabled;
-};
+export const isEnabled = () => insightsEnabled;
 
 /** Enable Application Insight. */
 export const enable = () => {
@@ -100,6 +98,4 @@ export const getClient = () => {
     return appInsightsClient;
 };
 
-export const isConfigured = (): boolean => {
-    return typeof configStore.get(configStoreKey) !== 'undefined';
-};
+export const isConfigured = (): boolean => typeof configStore.get(configStoreKey) !== 'undefined';

@@ -35,38 +35,36 @@ export default class AppleTouchIconsHint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getAppleTouchIcons = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
-            return elements.filter((element) => {
+        const getAppleTouchIcons = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => elements.filter((element) => {
 
-                /*
-                 * `apple-touch-icon`s can be defined either by using:
-                 *
-                 *      <link rel="apple-touch-icon" href="...">
-                 *
-                 *  or
-                 *
-                 *      <link rel="apple-touch-icon-precomposed" href="...">
-                 *
-                 *  or, since the `rel` attribute accepts a space
-                 *  separated list of values in HTML, theoretically:
-                 *
-                 *      <link rel="apple-touch-icon-precomposed apple-touch-icon" href="...">
-                 *
-                 *  but that doesn't work in practice.
-                 */
+            /*
+             * `apple-touch-icon`s can be defined either by using:
+             *
+             *      <link rel="apple-touch-icon" href="...">
+             *
+             *  or
+             *
+             *      <link rel="apple-touch-icon-precomposed" href="...">
+             *
+             *  or, since the `rel` attribute accepts a space
+             *  separated list of values in HTML, theoretically:
+             *
+             *      <link rel="apple-touch-icon-precomposed apple-touch-icon" href="...">
+             *
+             *  but that doesn't work in practice.
+             */
 
-                const relValue = element.getAttribute('rel');
+            const relValue = element.getAttribute('rel');
 
-                if (relValue === null) {
-                    return false;
-                }
+            if (relValue === null) {
+                return false;
+            }
 
-                // `normalizeString` won't return null since `relValue` isn't null.
-                const relValues = normalizeString(relValue)!.split(' ');
+            // `normalizeString` won't return null since `relValue` isn't null.
+            const relValues = normalizeString(relValue)!.split(' ');
 
-                return relValues.includes('apple-touch-icon') || relValues.includes('apple-touch-icon-precomposed');
-            });
-        };
+            return relValues.includes('apple-touch-icon') || relValues.includes('apple-touch-icon-precomposed');
+        });
 
         const checkImage = async (appleTouchIcon: IAsyncHTMLElement, resource: string) => {
             const appleTouchIconHref = normalizeString(appleTouchIcon.getAttribute('href'));

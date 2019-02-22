@@ -18,18 +18,12 @@ export default class WebExtensionFormatter implements IFormatter {
     }
 
     private getHints(resources: HintResources, category?: string): string[] {
-        return resources.hints.filter((hint) => {
-            return !category || category === this.getHintCategory(hint);
-        }).map((hint) => {
-            return hint.meta.id;
-        });
+        return resources.hints.filter((hint) => !category || category === this.getHintCategory(hint)).map((hint) => hint.meta.id);
     }
 
     private buildHintResults(resources: HintResources, problems: Problem[], category: string): HintResults[] {
         return this.getHints(resources, category).map((id) => {
-            const meta = metas.filter((meta) => {
-                return meta.id === id;
-            })[0];
+            const meta = metas.filter((meta) => meta.id === id)[0];
 
             const name = meta && meta.docs && meta.docs.name || id;
 
@@ -37,9 +31,7 @@ export default class WebExtensionFormatter implements IFormatter {
                 helpURL: `https://webhint.io/docs/user-guide/hints/hint-${id}/`,
                 id,
                 name,
-                problems: problems.filter((problem) => {
-                    return id === problem.hintId;
-                })
+                problems: problems.filter((problem) => id === problem.hintId)
             };
         });
     }
@@ -62,9 +54,7 @@ export default class WebExtensionFormatter implements IFormatter {
             return {
                 hints,
                 name,
-                passed: hints.filter((hint) => {
-                    return hint.problems.length === 0;
-                }).length
+                passed: hints.filter((hint) => hint.problems.length === 0).length
             };
         });
     }

@@ -1,14 +1,12 @@
 /** Convert '-' delimitered string to camel case name. */
-export default (value: string) => {
-    return value.split('-').reduce((accu: string, w: string) => {
-        if (!accu.length) {
-            return w.toLocaleLowerCase();
-        }
+export default (value: string) => value.split('-').reduce((accu: string, w: string) => {
+    if (!accu.length) {
+        return w.toLocaleLowerCase();
+    }
 
-        let current = accu;
+    let current = accu;
 
-        current += w.length ? `${w.charAt(0).toUpperCase()}${w.substr(1).toLowerCase()}` : '';
+    current += w.length ? `${w.charAt(0).toUpperCase()}${w.substr(1).toLowerCase()}` : '';
 
-        return current;
-    }, '');
-};
+    return current;
+}, '');

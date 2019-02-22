@@ -305,14 +305,12 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             insights.trackEvent('incompatible', resources.incompatible);
         }
 
-        const missingPackages = resources.missing.map((name) => {
-            return `@hint/${name}`;
-        });
+        const missingPackages = resources.missing.map((name) => `@hint/${name}`);
 
-        const incompatiblePackages = resources.incompatible.map((name) => {
+        const incompatiblePackages = resources.incompatible.map((name) =>
             // If the packages are incompatible, we need to force to install the latest version.
-            return `@hint/${name}@latest`;
-        });
+            `@hint/${name}@latest`
+        );
 
         if (!(await askUserToInstallDependencies(resources) &&
             await installPackages(missingPackages) &&
@@ -351,11 +349,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         }
     };
 
-    const hasError = (reports: Problem[]): boolean => {
-        return reports.some((result: Problem) => {
-            return result.severity === Severity.error;
-        });
-    };
+    const hasError = (reports: Problem[]): boolean => reports.some((result: Problem) => result.severity === Severity.error);
 
     const print = async (reports: Problem[], target?: string, scanTime?: number, date?: string): Promise<void> => {
         const formatterOptions: FormatterOptions = {

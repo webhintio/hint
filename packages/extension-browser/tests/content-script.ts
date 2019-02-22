@@ -47,52 +47,48 @@ const mockContext = () => {
         });
     };
 
-    const stubFetchEnd = (url: string, content: string): FetchEnd => {
-        return {
-            element: null,
-            request: {
-                headers: {} as any,
-                url
+    const stubFetchEnd = (url: string, content: string): FetchEnd => ({
+        element: null,
+        request: {
+            headers: {} as any,
+            url
+        },
+        resource: url,
+        response: {
+            body: {
+                content,
+                rawContent: null as any,
+                rawResponse: null as any
             },
-            resource: url,
-            response: {
-                body: {
-                    content,
-                    rawContent: null as any,
-                    rawResponse: null as any
-                },
-                charset: '',
-                headers: {} as any,
-                hops: [],
-                mediaType: '',
-                statusCode: 200,
-                url
-            }
-        };
-    };
+            charset: '',
+            headers: {} as any,
+            hops: [],
+            mediaType: '',
+            statusCode: 200,
+            url
+        }
+    });
 
     const sendFetch = (url: string, content: string) => {
         sendMessage({ fetchStart: { resource: url } });
         sendMessage({ fetchEnd: stubFetchEnd(url, content) });
     };
 
-    const stubEvents = (config: Config, onReady: () => void): Promise<Results> => {
-        return new Promise((resolve) => {
-            browser.runtime.sendMessage = (event: Events) => {
-                if (event.requestConfig) {
-                    setTimeout(() => {
-                        sendMessage({ config });
-                    }, 0);
-                }
-                if (event.ready) {
-                    setTimeout(onReady, 0);
-                }
-                if (event.results) {
-                    resolve(event.results);
-                }
-            };
-        });
-    };
+    const stubEvents = (config: Config, onReady: () => void): Promise<Results> => new Promise((resolve) => {
+        browser.runtime.sendMessage = (event: Events) => {
+            if (event.requestConfig) {
+                setTimeout(() => {
+                    sendMessage({ config });
+                }, 0);
+            }
+            if (event.ready) {
+                setTimeout(onReady, 0);
+            }
+            if (event.results) {
+                resolve(event.results);
+            }
+        };
+    });
 
     const stubContext = (url: string, html: string) => {
         const dom = new JSDOM(html, { runScripts: 'outside-only', url });
@@ -158,13 +154,7 @@ test('It analyzes a page', async (t) => {
     const results = await resultsPromise;
 
     t.not(results.categories.length, 0);
-    t.true(results.categories.some((category) => {
-        return category.hints.some((hint) => {
-            return hint.problems.some((problem) => {
-                return problem.message === '<html> element must have a lang attribute';
-            });
-        });
-    }), 'Missing `lang` attribute was not reported');
+    t.true(results.categories.some((category) => category.hints.some((hint) => hint.problems.some((problem) => problem.message === '<html> element must have a lang attribute'))), 'Missing `lang` attribute was not reported');
 });
 
 test('It configures categories', async (t) => {
@@ -200,13 +190,7 @@ test('It analyzes external resources', async (t) => {
     const results = await resultsPromise;
 
     t.not(results.categories.length, 0);
-    t.true(results.categories.some((category) => {
-        return category.hints.some((hint) => {
-            return hint.problems.some((problem) => {
-                return problem.resource === analyticsURL;
-            });
-        });
-    }), 'Issue in external resource was not reported');
+    t.true(results.categories.some((category) => category.hints.some((hint) => hint.problems.some((problem) => problem.resource === analyticsURL))), 'Issue in external resource was not reported');
 });
 
 test('It configures ignored urls', async (t) => {
@@ -225,13 +209,7 @@ test('It configures ignored urls', async (t) => {
     const results = await resultsPromise;
 
     t.not(results.categories.length, 0);
-    t.true(results.categories.every((category) => {
-        return category.hints.every((hint) => {
-            return hint.problems.every((problem) => {
-                return problem.resource !== analyticsURL;
-            });
-        });
-    }), 'Issues in external resource were not ignored');
+    t.true(results.categories.every((category) => category.hints.every((hint) => hint.problems.every((problem) => problem.resource !== analyticsURL))), 'Issues in external resource were not ignored');
 });
 
 test('It handles invalid ignored urls', async (t) => {

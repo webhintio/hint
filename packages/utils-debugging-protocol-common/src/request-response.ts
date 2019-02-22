@@ -172,9 +172,7 @@ export class RequestResponse {
             let rBody = {
                 content: '',
                 rawContent,
-                rawResponse: () => {
-                    return Promise.resolve(Buffer.alloc(0));
-                }
+                rawResponse: () => Promise.resolve(Buffer.alloc(0))
             };
 
             if (this._responseBody) {
@@ -187,9 +185,7 @@ export class RequestResponse {
                 rBody = {
                     content,
                     rawContent,
-                    rawResponse: () => {
-                        return that.getRawResponse();
-                    }
+                    rawResponse: () => that.getRawResponse()
                 };
             }
 

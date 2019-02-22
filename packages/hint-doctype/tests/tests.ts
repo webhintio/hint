@@ -5,9 +5,7 @@ import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
 const hintPath = getHintPath(__filename);
 
-const normalizeEOL = (text: string): string => {
-    return text.replace(/\n/g, os.EOL);
-};
+const normalizeEOL = (text: string): string => text.replace(/\n/g, os.EOL);
 
 const tests: HintTest[] = [
     {

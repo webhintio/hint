@@ -138,9 +138,7 @@ export class Server {
         }
 
         if (Array.isArray(content)) {
-            const transformed = map(content, (value) => {
-                return Server.updateLocalhost(value, port);
-            });
+            const transformed = map(content, (value) => Server.updateLocalhost(value, port));
 
             return transformed;
         }

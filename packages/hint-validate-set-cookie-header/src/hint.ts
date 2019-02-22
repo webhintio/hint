@@ -50,9 +50,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
         type Validator = (parsedSetCookie: ParsedSetCookieHeader) => ValidationMessages;
 
         /** Trim double quote from the value string. */
-        const unquote = (value: string): string => {
-            return value.replace(/(^")|("$)/g, '');
-        };
+        const unquote = (value: string): string => value.replace(/(^")|("$)/g, '');
 
         /** Normalize the string before the first `=`, concat and unquote the strings after the first `=`. */
         const normalizeAfterSplitByEqual = (splitResult: string[]): string[] => {
@@ -96,18 +94,14 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             return setCookie;
         };
 
-        const validASCII = (string: string): Boolean => {
-            return (/^[\x00-\x7F]+$/).test(string); // eslint-disable-line no-control-regex
-        };
+        const validASCII = (string: string) => (/^[\x00-\x7F]+$/).test(string); // eslint-disable-line no-control-regex
 
         /**
          * Validate cookie name or value string.
          * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
          */
         const validString = (name: string, illegalChars: string): Boolean => {
-            const includesIllegalChars: boolean = illegalChars.split('').some((char) => {
-                return name.includes(char);
-            });
+            const includesIllegalChars: boolean = illegalChars.split('').some((char) => name.includes(char));
             const includesWhiteSpace: boolean = (/\s/g).test(name);
 
             return validASCII(name) && !includesIllegalChars && !includesWhiteSpace;
@@ -258,9 +252,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
         };
 
         const loadHintConfigs = () => {
-            supportOlderBrowsers = ['ie 6', 'ie 7', 'ie 8'].some((e) => {
-                return context.targetedBrowsers.includes(e);
-            });
+            supportOlderBrowsers = ['ie 6', 'ie 7', 'ie 8'].some((e) => context.targetedBrowsers.includes(e));
         };
 
         const validate = async ({ element, resource, response }: FetchEnd) => {
@@ -282,9 +274,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             /**  The `chrome` connector concatenates all `set-cookie` headers to one string. */
             const setCookieHeaders: string[] = Array.isArray(rawSetCookieHeaders) ? rawSetCookieHeaders : rawSetCookieHeaders.split(/\n|\r\n/);
             const reportBatch = async (errorMessages: ValidationMessages, severity?: Severity): Promise<void[]> => {
-                const promises: Promise<void>[] = errorMessages.map((error) => {
-                    return context.report(resource, error, { element, severity });
-                });
+                const promises: Promise<void>[] = errorMessages.map((error) => context.report(resource, error, { element, severity }));
 
                 return await Promise.all(promises);
             };

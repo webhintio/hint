@@ -3,17 +3,15 @@ const chalk = require('chalk');
 
 shell.config.silent = true;
 
-const shellExec = (cmd) => {
-    return new Promise((resolve, reject) => {
-        shell.exec(cmd, (code, stdout, stderr) => {
-            if (code === 0) {
-                return resolve({ code, stderr, stdout });
-            }
+const shellExec = (cmd) => new Promise((resolve, reject) => {
+    shell.exec(cmd, (code, stdout, stderr) => {
+        if (code === 0) {
+            return resolve({ code, stderr, stdout });
+        }
 
-            return reject({ code, stderr, stdout });
-        });
+        return reject({ code, stderr, stdout });
     });
-};
+});
 
 const exec = async (msg, cmd) => { // eslint-disable-line consistent-return
 
@@ -64,22 +62,14 @@ const getLastCommitsWithSameMessage = async () => {
     return commits;
 };
 
-const getLastCommitInfo = async (message, format) => {
+const getLastCommitInfo = async (message, format) =>
     // See: https://git-scm.com/docs/pretty-formats#_pretty_formats.
-    return await exec(message, `git show --no-patch --format=%${format} -1`);
-};
+    await exec(message, `git show --no-patch --format=%${format} -1`);
+const getLastCommitAuthorEmail = async () => await getLastCommitInfo('Get author email for the last commit.', 'ae');
 
-const getLastCommitAuthorEmail = async () => {
-    return await getLastCommitInfo('Get author email for the last commit.', 'ae');
-};
+const getLastCommitAuthorName = async () => await getLastCommitInfo('Get author name for the last commit.', 'an');
 
-const getLastCommitAuthorName = async () => {
-    return await getLastCommitInfo('Get author name for the last commit.', 'an');
-};
-
-const getLastCommitSubject = async () => {
-    return await getLastCommitInfo('Get subject for the last commit.', 's');
-};
+const getLastCommitSubject = async () => await getLastCommitInfo('Get subject for the last commit.', 's');
 
 module.exports = {
     exec,

@@ -78,9 +78,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
 
     private chooseStrategyToSearchCSSFeature(childNode: ChildNode): FeatureStrategy<ChildNode> {
         const atStrategy: FeatureStrategy<AtRule> = {
-            check: (node) => {
-                return node.type === 'atrule';
-            },
+            check: (node) => node.type === 'atrule',
 
             testFeature: (node: AtRule, location) => {
                 this.testFeature('at-rules', node.name, location);
@@ -88,9 +86,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
         };
 
         const ruleStrategy: FeatureStrategy<Rule> = {
-            check: (node) => {
-                return node.type === 'rule';
-            },
+            check: (node) => node.type === 'rule',
 
             testFeature: (node: Rule, location) => {
                 this.testFeature('selectors', node.selector, location);
@@ -98,9 +94,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
         };
 
         const declarationStrategy: FeatureStrategy<Declaration> = {
-            check: (node) => {
-                return node.type === 'decl';
-            },
+            check: (node) => node.type === 'decl',
 
             testFeature: (node: Declaration, location) => {
                 this.testFeature('properties', node.prop, location);
@@ -109,9 +103,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
         };
 
         const defaultStrategy: FeatureStrategy<ChildNode> = {
-            check: () => {
-                return true;
-            },
+            check: () => true,
 
             testFeature: () => { }
         };
@@ -122,9 +114,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
             ruleStrategy
         };
 
-        const selectedStrategy = find(strategies, (x) => {
-            return x.check(childNode);
-        });
+        const selectedStrategy = find(strategies, (x) => x.check(childNode));
 
         // If no result return default strategy to be consistent
         if (!selectedStrategy) {

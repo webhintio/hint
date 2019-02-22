@@ -207,9 +207,7 @@ test(`If target is a directory, shouldn't emit the event 'fetch::start::target'`
 
     t.is(engineEmitAsyncSpy.callCount, 5);
 
-    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => {
-        return arg[0];
-    }).sort();
+    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => arg[0]).sort();
 
     t.is(events[0], 'fetch::end::html');
     t.is(events[1], 'fetch::end::image');
@@ -235,9 +233,7 @@ test(`If target is a directory, passed content should be ignored`, async (t) => 
 
     t.is(engineEmitAsyncSpy.callCount, 5);
 
-    const events: any[][] = engineEmitAsyncSpy.args.map((args: any[]) => {
-        return args;
-    }).sort();
+    const events: any[][] = engineEmitAsyncSpy.args.map((args: any[]) => args).sort();
 
     t.is(events[0][0], 'fetch::end::html');
     t.not(events[0][1].response.body.content, testContent);
@@ -279,9 +275,7 @@ test(`If watch is true, it should watch the right files`, async (t) => {
 
     t.is(engineEmitAsyncSpy.callCount, 2);
 
-    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => {
-        return arg[0];
-    }).sort();
+    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => arg[0]).sort();
 
     t.is(events[0], 'fetch::end::json');
     t.is(events[1], 'scan::start');
@@ -366,9 +360,7 @@ test(`When the watcher is ready, it should emit the scan::end event`, async (t) 
 
     t.is(engineEmitAsyncSpy.callCount, 3);
 
-    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => {
-        return arg[0];
-    }).sort();
+    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => arg[0]).sort();
 
     t.is(events[0], 'fetch::end::json');
     t.is(events[1], 'scan::end');
@@ -410,9 +402,7 @@ test(`When the watcher detects a new file, it should emit the fetch::end::{type}
 
     t.is(engineEmitAsyncSpy.callCount, 4);
 
-    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => {
-        return arg[0];
-    }).sort();
+    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => arg[0]).sort();
 
     t.is(events[0], 'fetch::end::html');
     t.is(events[1], 'fetch::end::json');
@@ -455,9 +445,7 @@ test(`When the watcher detects a change in a file, it should emit the fetch::end
 
     t.is(engineEmitAsyncSpy.callCount, 4);
 
-    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => {
-        return arg[0];
-    }).sort();
+    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => arg[0]).sort();
 
     t.is(events[0], 'fetch::end::json');
     t.is(events[1], 'fetch::end::json');
@@ -500,9 +488,7 @@ test(`When the watcher detects that a file was removed, it should emit the scan:
 
     t.is(engineEmitAsyncSpy.callCount, 3);
 
-    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => {
-        return arg[0];
-    }).sort();
+    const events: string[] = engineEmitAsyncSpy.args.map((arg: any[]) => arg[0]).sort();
 
     t.is(events[0], 'fetch::end::json');
     t.is(events[1], 'scan::end');

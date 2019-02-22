@@ -46,9 +46,7 @@ export const getSeverity = (config: HintConfig | HintConfig[]): Severity | null 
 
 };
 
-const validateHint = (schema: object, hintConfig: object): boolean => {
-    return schemaValidator(schema, hintConfig).valid;
-};
+const validateHint = (schema: object, hintConfig: object): boolean => schemaValidator(schema, hintConfig).valid;
 
 /** Validates that a hint has a valid configuration based on its schema */
 export const validate = (meta: HintMetadata, config: any, hintId: string): boolean => {
@@ -87,9 +85,7 @@ export const validate = (meta: HintMetadata, config: any, hintId: string): boole
         }
 
         // The result has to be a boolean
-        return schema.some((sch) => {
-            return validateHint(sch, config[1]);
-        });
+        return schema.some((sch) => validateHint(sch, config[1]));
     }
 
     return validateHint(meta.schema, config[1]);

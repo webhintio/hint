@@ -26,11 +26,7 @@ import { HintScope } from '../../src/lib/enums/hint-scope';
 import readFileAsync from '../../src/lib/utils/fs/read-file-async';
 
 const initContext = (t: ExecutionContext<ConfigTestContext>) => {
-    const os = {
-        homedir: (): string => {
-            return '';
-        }
-    };
+    const os = {homedir: (): string => ''};
     const resourceLoader: ResourceLoader = {
         loadConfiguration() {
             return '';
@@ -45,12 +41,10 @@ const initContext = (t: ExecutionContext<ConfigTestContext>) => {
     t.context.sandbox = sinon.createSandbox();
 };
 
-const loadScript = (context: ConfigTestContext) => {
-    return proxyquire('../../src/lib/config', {
-        './utils/resource-loader': context.resourceLoader,
-        os: context.os
-    });
-};
+const loadScript = (context: ConfigTestContext) => proxyquire('../../src/lib/config', {
+    './utils/resource-loader': context.resourceLoader,
+    os: context.os
+});
 
 test.beforeEach(initContext);
 

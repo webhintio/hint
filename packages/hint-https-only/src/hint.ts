@@ -97,9 +97,7 @@ export default class HttpsOnlyHint implements IHint {
 
             const urls = srcset
                 .split(',')
-                .map((entry) => {
-                    return entry.trim().split(' ')[0].trim();
-                });
+                .map((entry) => entry.trim().split(' ')[0].trim());
 
             return urls;
         };

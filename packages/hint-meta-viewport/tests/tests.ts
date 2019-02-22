@@ -5,9 +5,7 @@ import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
 const hintPath = getHintPath(__filename);
 
-const generateMegaViewport = (content: string = 'WiDTh = deVicE-Width, IniTial-Scale= 1.0') => {
-    return `<mEtA   NaMe="ViEwPort" cOnTenT="${content}">`;
-};
+const generateMegaViewport = (content: string = 'WiDTh = deVicE-Width, IniTial-Scale= 1.0') => `<mEtA   NaMe="ViEwPort" cOnTenT="${content}">`;
 
 const deviceWidthErrorMessage = `'viewport' meta element 'content' attribute value should contain 'width=device-width'.`;
 const disallowedPropertyErrorMessage = `'viewport' meta element 'content' attribute value should not contain disallowed property 'user-scalable'.`;

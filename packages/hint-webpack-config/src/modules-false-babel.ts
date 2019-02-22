@@ -58,9 +58,7 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
                 return;
             }
 
-            const modulesFalse = (presets as any[][]).filter((preset) => {
-                return preset.length > 1 && preset[1].modules === false;
-            });
+            const modulesFalse = (presets as any[][]).filter((preset) => preset.length > 1 && preset[1].modules === false);
 
             if (modulesFalse.length === 0) {
                 await context.report(babelEvent.resource, 'Babel presets `modules` option should be `false`');

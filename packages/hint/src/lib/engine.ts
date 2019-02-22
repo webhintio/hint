@@ -96,9 +96,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
             return false;
         }
 
-        return urls.some((urlIgnored: RegExp) => {
-            return urlIgnored.test(resource);
-        });
+        return urls.some((urlIgnored: RegExp) => urlIgnored.test(resource));
     }
 
     public constructor(config: Configuration, resources: HintResources) {
@@ -122,9 +120,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
         }
 
         this.connector = new Connector(this, config.connector && config.connector.options);
-        this._formatters = resources.formatters.map((Formatter) => {
-            return new Formatter();
-        });
+        this._formatters = resources.formatters.map((Formatter) => new Formatter());
 
         this.parsers = resources.parsers.map((ParserConstructor) => {
             debug(`Loading parser`);
@@ -170,11 +166,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
              * * `../hint-packageAnotherName/dist/src/hint-id.js` --> Fails because
              *   `packageName` is not in that path
              */
-            const hintKey = hintEntries.find((entry) => {
-                return idParts.every((idPart) => {
-                    return entry.includes(idPart);
-                });
-            });
+            const hintKey = hintEntries.find((entry) => idParts.every((idPart) => entry.includes(idPart)));
 
             return config.hints[hintKey || ''];
         };
@@ -212,12 +204,12 @@ export class Engine<E extends Events = Events> extends EventEmitter {
     public onHintEvent<K extends StringKeyOf<E>>(id: string, eventName: K, listener: (data: E[K], event: string) => void) {
         const that = this;
 
-        const createEventHandler = (handler: (data: E[K], event: string) => void, hintId: string) => {
+        const createEventHandler = (handler: (data: E[K], event: string) => void, hintId: string) =>
             /*
              * Using fake `this` parameter for typing: https://www.typescriptlang.org/docs/handbook/functions.html#this-parameters
              * `this.event` defined by eventemitter2: https://github.com/EventEmitter2/EventEmitter2#differences-non-breaking-compatible-with-existing-eventemitter
              */
-            return function (this: { event: string }, event: E[K]): Promise<any> | null {
+            function (this: { event: string }, event: E[K]): Promise<any> | null {
                 const urlsIgnoredForAll = that.ignoredUrls.get('all') || [];
                 const urlsIgnoredForHint = that.ignoredUrls.get(hintId) || [];
                 const urlsIgnored = urlsIgnoredForHint.concat(urlsIgnoredForAll);
@@ -253,7 +245,6 @@ export class Engine<E extends Events = Events> extends EventEmitter {
                     });
                 });
             };
-        };
 
         this.on(eventName as any, createEventHandler(listener, id));
     }
@@ -289,9 +280,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
     public clean(fileUrl: url.URL) {
         const file = url.format(fileUrl);
 
-        remove(this.messages, (message) => {
-            return message.resource === file;
-        });
+        remove(this.messages, (message) => message.resource === file);
     }
 
     public clear() {

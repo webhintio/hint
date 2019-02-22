@@ -42,27 +42,23 @@ const cleanUpProjectData = (projectData) => {
     return projectData;
 };
 
-const exec = (cmd) => {
-    return new Promise((resolve, reject) => {
-        const command = spawn(cmd, [], {
-            shell: true,
-            stdio: 'inherit'
-        });
-
-        command.on('error', (err) => {
-            return reject(err);
-        });
-
-        command.on('exit', (code) => {
-            if (code !== 0) {
-                return reject(new Error('NoExitCodeZero'));
-            }
-
-            return resolve(true);
-        });
-
+const exec = (cmd) => new Promise((resolve, reject) => {
+    const command = spawn(cmd, [], {
+        shell: true,
+        stdio: 'inherit'
     });
-};
+
+    command.on('error', (err) => reject(err));
+
+    command.on('exit', (code) => {
+        if (code !== 0) {
+            return reject(new Error('NoExitCodeZero'));
+        }
+
+        return resolve(true);
+    });
+
+});
 
 const buildDependencies = async (dependencies) => {
     for (const dependency of dependencies) {
@@ -73,30 +69,28 @@ const buildDependencies = async (dependencies) => {
     }
 };
 
-const getArgs = () => {
-    return yargs.options({
-        n: {
-            alias: 'batch-number',
-            default: 1,
-            describe: 'Batch numbers',
-            type: 'number'
-        },
-        s: {
-            alias: 'batch-size',
-            default: 1,
-            describe: 'Batch size',
-            type: 'number'
-        },
-        t: {
-            alias: 'run-tests',
-            default: true,
-            describe: 'Run tests',
-            type: 'boolean'
-        }
-    })
-        .help()
-        .argv;
-};
+const getArgs = () => yargs.options({
+    n: {
+        alias: 'batch-number',
+        default: 1,
+        describe: 'Batch numbers',
+        type: 'number'
+    },
+    s: {
+        alias: 'batch-size',
+        default: 1,
+        describe: 'Batch size',
+        type: 'number'
+    },
+    t: {
+        alias: 'run-tests',
+        default: true,
+        describe: 'Run tests',
+        type: 'boolean'
+    }
+})
+    .help()
+    .argv;
 
 const getCurrentBatch = (projectData, numberOfBatches = 1, batchNumber = 1) => {
     const batchSize = Math.ceil(Object.keys(projectData).length / numberOfBatches);
@@ -118,11 +112,9 @@ const getCurrentBatch = (projectData, numberOfBatches = 1, batchNumber = 1) => {
     return newPackageData;
 };
 
-const getGitOutput = async (cmd) => {
-    return (await shell.exec(cmd)).stdout
-        // Remove trailing newline to make it easier to use the output.
-        .replace(/\n$/, '');
-};
+const getGitOutput = async (cmd) => (await shell.exec(cmd)).stdout
+// Remove trailing newline to make it easier to use the output.
+    .replace(/\n$/, '');
 
 const getGitMultilineOutput = async (cmd) => {
     const output = await getGitOutput(cmd);
@@ -160,16 +152,16 @@ const getLocalFilesChanged = async () => {
      *  `\n` is used regardless of the OS type)
      */
 
-        .split('\n').map((change) => {
+        .split('\n').map((change) =>
 
-            /*
-             * Get file path:
-             *
-             * (`M  packages/hint/README.md` => `packages/hint/README.md`
-             */
+        /*
+         * Get file path:
+         *
+         * (`M  packages/hint/README.md` => `packages/hint/README.md`
+         */
 
-            return change.split(/\s/).pop();
-        });
+            change.split(/\s/).pop()
+        );
 };
 
 const getLocalDependencies = (packagePath, packageJSONFileContent) => {
@@ -341,9 +333,7 @@ const determineTestScript = (changedFiles, packagePath, availableScripts) => {
 
     // If only files related to the documentation changed.
 
-    if (changedFiles.every((file) => {
-        return (/^.*\/(.*.md)$/i).test(file);
-    })) {
+    if (changedFiles.every((file) => (/^.*\/(.*.md)$/i).test(file))) {
         return getTestScript(availableScripts, TEST_SCRIPT_NAMES.lintMarkdown);
     }
 
@@ -389,9 +379,7 @@ const getPackageData = async (pkg, packageJSONFileContent, filesChanged) => {
         return null;
     }
 
-    const filesChangedInPackage = filesChanged.filter((file) => {
-        return file.startsWith(pkg);
-    });
+    const filesChangedInPackage = filesChanged.filter((file) => file.startsWith(pkg));
 
     const testScript = await determineTestScript(filesChangedInPackage, pkg, scripts);
 
@@ -405,9 +393,7 @@ const getPackageData = async (pkg, packageJSONFileContent, filesChanged) => {
             TEST_SCRIPT_NAMES.lintMarkdown,
             TEST_SCRIPT_NAMES.test,
             TEST_SCRIPT_NAMES.testOnly
-        ].every((scriptValue) => {
-            return !scripts.includes(scriptValue);
-        }) ||
+        ].every((scriptValue) => !scripts.includes(scriptValue)) ||
 
         /*
          * * doesn't have scripts that may
@@ -434,9 +420,7 @@ const getPackageData = async (pkg, packageJSONFileContent, filesChanged) => {
 };
 
 const getRootData = async (filesChanged, packageJSONFileContent) => {
-    const filesChangedInRoot = filesChanged.filter((file) => {
-        return !file.startsWith('packages/');
-    });
+    const filesChangedInRoot = filesChanged.filter((file) => !file.startsWith('packages/'));
 
     if (filesChangedInRoot.length === 0) {
         return null;
@@ -521,9 +505,7 @@ const getPackagesData = async () => {
             continue;
         }
 
-        packageData.dependencies = packageData.dependencies.filter((dep) => {
-            return !excludedPackages.includes(dep);
-        });
+        packageData.dependencies = packageData.dependencies.filter((dep) => !excludedPackages.includes(dep));
     }
 
     return projectData;
@@ -566,9 +548,7 @@ const includeDeepDependencies = (projectData) => {
 };
 
 const execWithRetry = (command) => {
-    const fn = () => {
-        return exec(command);
-    };
+    const fn = () => exec(command);
 
     return pRetry(fn, {
         onFailedAttempt: (error) => {

@@ -88,9 +88,7 @@ export default class WebExtensionConnector implements IConnector {
 
     private setFetchElement(event: FetchEnd) {
         const url = event.request.url;
-        const elements = Array.from(document.querySelectorAll('[href],[src]')).filter((element: any) => {
-            return element.href === url || element.src === url;
-        });
+        const elements = Array.from(document.querySelectorAll('[href],[src]')).filter((element: any) => element.href === url || element.src === url);
 
         if (elements.length) {
             event.element = new AsyncHTMLElement(elements[0], this._document);

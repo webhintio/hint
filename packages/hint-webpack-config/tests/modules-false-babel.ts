@@ -21,9 +21,7 @@ const loadPackage = {
 const tests: HintLocalTest[] = [
     {
         before() {
-            loadPackage.default = () => {
-                return webpackConfig;
-            };
+            loadPackage.default = () => webpackConfig;
 
             mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
         },
@@ -32,9 +30,7 @@ const tests: HintLocalTest[] = [
     },
     {
         before() {
-            loadPackage.default = () => {
-                return webpackConfig;
-            };
+            loadPackage.default = () => webpackConfig;
 
             mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
         },
@@ -44,9 +40,7 @@ const tests: HintLocalTest[] = [
     },
     {
         before() {
-            loadPackage.default = () => {
-                return webpackV1Config;
-            };
+            loadPackage.default = () => webpackV1Config;
 
             mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
         },
@@ -55,22 +49,18 @@ const tests: HintLocalTest[] = [
     }
 ];
 
-const generateTest = (message: string, testName: string): HintLocalTest[] => {
-    return [
-        {
-            before() {
-                loadPackage.default = () => {
-                    return webpackConfig;
-                };
+const generateTest = (message: string, testName: string): HintLocalTest[] => [
+    {
+        before() {
+            loadPackage.default = () => webpackConfig;
 
-                mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
-            },
-            name: testName,
-            path: path.join(__dirname, 'fixtures', 'babelvalid'),
-            reports: [{ message }]
-        }
-    ];
-};
+            mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
+        },
+        name: testName,
+        path: path.join(__dirname, 'fixtures', 'babelvalid'),
+        reports: [{ message }]
+    }
+];
 
 hintRunner.testLocalHint(hintPath, tests, {
     parsers: ['webpack-config', 'babel-config'],

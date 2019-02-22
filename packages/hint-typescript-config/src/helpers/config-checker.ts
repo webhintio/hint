@@ -2,22 +2,19 @@ import { TypeScriptConfigParse } from '@hint/parser-typescript-config';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 /** Helper method to check if a property matches the desired value and report an issue if not. */
-const configChecker = (property: string, desiredValue: boolean, message: string, context: HintContext) => {
+const configChecker = (property: string, desiredValue: boolean, message: string, context: HintContext) => async (evt: TypeScriptConfigParse): Promise<void> => {
+    const { config, getLocation, resource } = evt;
+    const properties = property.split('.');
 
-    return async (evt: TypeScriptConfigParse): Promise<void> => {
-        const { config, getLocation, resource } = evt;
-        const properties = property.split('.');
+    let current = (config as any)[properties.shift() || ''];
 
-        let current = (config as any)[properties.shift() || ''];
+    while (properties.length > 0 && typeof current !== 'undefined') {
+        current = current[properties.shift() || ''];
+    }
 
-        while (properties.length > 0 && typeof current !== 'undefined') {
-            current = current[properties.shift() || ''];
-        }
-
-        if (current !== desiredValue) {
-            await context.report(resource, message, { location: getLocation(property) });
-        }
-    };
+    if (current !== desiredValue) {
+        await context.report(resource, message, { location: getLocation(property) });
+    }
 };
 
 export { configChecker };

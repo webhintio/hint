@@ -138,9 +138,7 @@ const initContext = (t: ExecutionContext<AnalyzeContext>) => {
     t.context.logSpy = sandbox.spy(t.context.logger, 'log');
     t.context.errorSpy = sandbox.spy(t.context.logger, 'error');
     t.context.spinner = spinner;
-    t.context.ora = () => {
-        return spinner;
-    };
+    t.context.ora = () => spinner;
     t.context.startSpy = sandbox.spy(spinner, 'start');
     t.context.failSpy = sandbox.spy(spinner, 'fail');
     t.context.succeedSpy = sandbox.spy(spinner, 'succeed');
@@ -381,9 +379,7 @@ test('If executeOn returns an error, it should exit with code 1 and call formatt
 
     const engineObj = new t.context.engineContainer.Engine();
 
-    sandbox.stub(engineObj, 'formatters').get(() => {
-        return [new FakeFormatter()];
-    });
+    sandbox.stub(engineObj, 'formatters').get(() => [new FakeFormatter()]);
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: Severity.error }]);
     sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
     sandbox.stub(t.context.askQuestion, 'default').resolves(false);
@@ -493,9 +489,7 @@ test('If executeOn returns no errors, it should exit with code 0 and call format
 
     const engineObj = new t.context.engineContainer.Engine();
 
-    sandbox.stub(engineObj, 'formatters').get(() => {
-        return [new FakeFormatter()];
-    });
+    sandbox.stub(engineObj, 'formatters').get(() => [new FakeFormatter()]);
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: 0 }]);
     sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
 
@@ -535,9 +529,7 @@ test('If executeOn returns no errors, it should call to spinner.succeed()', asyn
 
     const engineObj = new t.context.engineContainer.Engine();
 
-    sandbox.stub(engineObj, 'formatters').get(() => {
-        return [new FakeFormatter()];
-    });
+    sandbox.stub(engineObj, 'formatters').get(() => [new FakeFormatter()]);
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: 0 }]);
     sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
 
@@ -577,9 +569,7 @@ test('Event fetch::start should write a message in the spinner', async (t) => {
 
     const engineObj = new t.context.engineContainer.Engine();
 
-    sandbox.stub(engineObj, 'formatters').get(() => {
-        return [new FakeFormatter()];
-    });
+    sandbox.stub(engineObj, 'formatters').get(() => [new FakeFormatter()]);
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
         await engineObj.emitAsync('fetch::start', { resource: 'http://localhost/' });
     });
@@ -620,9 +610,7 @@ test('Event fetch::end should write a message in the spinner', async (t) => {
 
     const engineObj = new t.context.engineContainer.Engine();
 
-    sandbox.stub(engineObj, 'formatters').get(() => {
-        return [new FakeFormatter()];
-    });
+    sandbox.stub(engineObj, 'formatters').get(() => [new FakeFormatter()]);
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
         await engineObj.emitAsync('fetch::end::html', {
             element: null,
@@ -668,9 +656,7 @@ test('Event fetch::end::html should write a message in the spinner', async (t) =
 
     const engineObj = new t.context.engineContainer.Engine();
 
-    sandbox.stub(engineObj, 'formatters').get(() => {
-        return [new FakeFormatter()];
-    });
+    sandbox.stub(engineObj, 'formatters').get(() => [new FakeFormatter()]);
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
         await engineObj.emitAsync('fetch::end::html', {
             element: null,
@@ -716,9 +702,7 @@ test('Event traverse::up should write a message in the spinner', async (t) => {
 
     const engineObj = new t.context.engineContainer.Engine();
 
-    sandbox.stub(engineObj, 'formatters').get(() => {
-        return [new FakeFormatter()];
-    });
+    sandbox.stub(engineObj, 'formatters').get(() => [new FakeFormatter()]);
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
         await engineObj.emitAsync('traverse::up', {
             element: {} as any,
@@ -762,9 +746,7 @@ test('Event traverse::end should write a message in the spinner', async (t) => {
 
     const engineObj = new t.context.engineContainer.Engine();
 
-    sandbox.stub(engineObj, 'formatters').get(() => {
-        return [new FakeFormatter()];
-    });
+    sandbox.stub(engineObj, 'formatters').get(() => [new FakeFormatter()]);
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
         await engineObj.emitAsync('traverse::end', { resource: 'http://localhost/' });
     });
@@ -805,9 +787,7 @@ test('Event scan::end should write a message in the spinner', async (t) => {
 
     const engineObj = new t.context.engineContainer.Engine();
 
-    sandbox.stub(engineObj, 'formatters').get(() => {
-        return [new FakeFormatter()];
-    });
+    sandbox.stub(engineObj, 'formatters').get(() => [new FakeFormatter()]);
     sandbox.stub(engineObj, 'executeOn').callsFake(async () => {
         await engineObj.emitAsync('scan::end', { resource: 'http://localhost/' });
     });

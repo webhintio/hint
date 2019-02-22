@@ -132,9 +132,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
 
             const vulnerabilitiesBySeverity = groupBy(vulnerabilities, 'severity');
             const link = `https://snyk.io/vuln/${vulnerabilities[0].packageManager}:${vulnerabilities[0].packageName}`;
-            const detail = Object.entries(vulnerabilitiesBySeverity).map(([severity, entries]) => {
-                return `${(entries as any[]).length} ${severity}`;
-            })
+            const detail = Object.entries(vulnerabilitiesBySeverity).map(([severity, entries]) => `${(entries as any[]).length} ${severity}`)
                 .join(', ');
 
             if (detail) {

@@ -371,9 +371,7 @@ Actual:   ${integrities.join(', ')}`;
         const isInCache = this.cache.has(cacheKey);
 
         if (isInCache && !this.reportedKeys.has(cacheKey)) {
-            const promises = this.getCache(evt).map((error) => {
-                return this.context.report(error.resource, error.message, error.options);
-            });
+            const promises = this.getCache(evt).map((error) => this.context.report(error.resource, error.message, error.options));
 
             this.reportedKeys.add(cacheKey);
 
@@ -449,16 +447,14 @@ Actual:   ${integrities.join(', ')}`;
             this.isSecureContext,
             this.downloadContent,
             this.hasRightHash
-        ].map((fn) => {
+        ].map((fn) =>
             // Otherwise `this` will be undefined when we call to the fn inside `every`
-            return fn.bind(this);
-        });
+            fn.bind(this)
+        );
 
         debug(`Validating integrity of: ${evt.resource}`);
 
-        await everySeries(validations, async (validation: Function) => {
-            return await validation(evt, urls);
-        });
+        await everySeries(validations, async (validation: Function) => await validation(evt, urls));
     }
 
     /**

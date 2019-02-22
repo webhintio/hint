@@ -210,11 +210,9 @@ const fixturesWithIgnoredFeatures = [
     'spellcheck'
 ];
 
-const defaultIgnoredFeatures: HintTest[] = fixturesWithIgnoredFeatures.map((filename: string) => {
-    return {
-        name: `Ignored features by default should pass (${filename}).`,
-        serverConfig: generateHTMLConfig(filename)
-    };
-});
+const defaultIgnoredFeatures: HintTest[] = fixturesWithIgnoredFeatures.map((filename: string) => ({
+    name: `Ignored features by default should pass (${filename}).`,
+    serverConfig: generateHTMLConfig(filename)
+}));
 
 hintRunner.testHint(hintPath, defaultIgnoredFeatures, { browserslist: ['ie 10', 'chrome 24'] });

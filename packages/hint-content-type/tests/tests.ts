@@ -19,20 +19,14 @@ const noCharsetErrorMessage = `'content-type' header charset value should be 'ut
 const noHeaderErrorMessage = `Response should include 'content-type' header.`;
 const unneededCharsetErrorMessage = `'content-type' header value should not contain 'charset=utf-8'.`;
 
-const generateIncorrectMediaTypeErrorMessage = (expectedType: string, actualType: string) => {
-    return `'content-type' header media type value should be '${expectedType}', not '${actualType}'.`;
-};
+const generateIncorrectMediaTypeErrorMessage = (expectedType: string, actualType: string) => `'content-type' header media type value should be '${expectedType}', not '${actualType}'.`;
 
-const generateRequireValueErrorMessage = (expectedValue: string) => {
-    return `'content-type' header value should be '${expectedValue}'.`;
-};
+const generateRequireValueErrorMessage = (expectedValue: string) => `'content-type' header value should be '${expectedValue}'.`;
 
-const generateHTMLPageData = (content: string) => {
-    return {
-        content,
-        headers: { 'Content-Type': 'text/html; charset=utf-8' }
-    };
-};
+const generateHTMLPageData = (content: string) => ({
+    content,
+    headers: { 'Content-Type': 'text/html; charset=utf-8' }
+});
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

@@ -49,9 +49,7 @@ export default class NoBrokenLinksHint implements IHint {
 
             const urls = srcset
                 .split(',')
-                .map((entry) => {
-                    return entry.trim().split(' ')[0].trim();
-                });
+                .map((entry) => entry.trim().split(' ')[0].trim());
 
             return urls;
         };
@@ -112,9 +110,7 @@ export default class NoBrokenLinksHint implements IHint {
          */
         const getFetchedURL = (url: string) => {
 
-            const filteredItems = fetchedURLs.filter((value) => {
-                return value.url === url;
-            });
+            const filteredItems = fetchedURLs.filter((value) => value.url === url);
 
             if (filteredItems.length) {
                 return filteredItems[0];
@@ -167,57 +163,49 @@ export default class NoBrokenLinksHint implements IHint {
             return (hrefAttribute === null) ? new URL(resource) : new URL(hrefAttribute, new URL(resource));
         };
 
-        const createReports = (element: IAsyncHTMLElement, urls: string[], resourceURL: URL): Promise<void>[] => {
-            return urls.map((url) => {
-                let fullURL: string;
+        const createReports = (element: IAsyncHTMLElement, urls: string[], resourceURL: URL): Promise<void>[] => urls.map((url) => {
+            let fullURL: string;
 
-                try {
-                    fullURL = (new URL(url, resourceURL)).toString();
-                } catch (error) {
-                    // `url` is malformed, e.g.: just "http://`
-                    debug(error);
+            try {
+                fullURL = (new URL(url, resourceURL)).toString();
+            } catch (error) {
+                // `url` is malformed, e.g.: just "http://`
+                debug(error);
 
-                    return context.report(url, `Broken link found (invalid URL).`);
-                }
+                return context.report(url, `Broken link found (invalid URL).`);
+            }
 
-                /*
-                 * If the URL is not HTTP or HTTPS (e.g. `mailto:`),
-                 * there is no need to validate.
-                 */
-                if (!isRegularProtocol(fullURL)) {
-                    return Promise.resolve();
-                }
-
-                const fetched = getFetchedURL(fullURL);
-
-                if (fetched) {
-                    const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
-
-                    if (statusIndex > -1) {
-                        return context.report(fullURL, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
-                    }
-                } else {
-                    // An element which was not present in the fetch end results
-                    return requester
-                        .get(fullURL)
-                        .then((value: NetworkData) => {
-                            return handleSuccess(value, fullURL, element);
-                        })
-                        .catch((error: any) => {
-                            return handleRejection(error, fullURL, element);
-                        });
-                }
-
+            /*
+             * If the URL is not HTTP or HTTPS (e.g. `mailto:`),
+             * there is no need to validate.
+             */
+            if (!isRegularProtocol(fullURL)) {
                 return Promise.resolve();
-            });
-        };
+            }
+
+            const fetched = getFetchedURL(fullURL);
+
+            if (fetched) {
+                const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
+
+                if (statusIndex > -1) {
+                    return context.report(fullURL, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                }
+            } else {
+                // An element which was not present in the fetch end results
+                return requester
+                    .get(fullURL)
+                    .then((value: NetworkData) => handleSuccess(value, fullURL, element))
+                    .catch((error: any) => handleRejection(error, fullURL, element));
+            }
+
+            return Promise.resolve();
+        });
 
         const validateCollectedURLs = async (event: TraverseEnd) => {
             const resourceURL = await createResourceURL(event.resource);
 
-            const reports: Promise<void>[] = collectedElementsWithURLs.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
-                return [...accumulatedReports, ...createReports(element, urls, resourceURL)];
-            }, []);
+            const reports: Promise<void>[] = collectedElementsWithURLs.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => [...accumulatedReports, ...createReports(element, urls, resourceURL)], []);
 
             await Promise.all(reports);
         };

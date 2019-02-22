@@ -11,9 +11,7 @@ const hintPath = getHintPath(__filename);
 const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></script>');
 const htmlPageWithManifest = generateHTMLPage('<link rel="manifest" href="test.webmanifest">');
 
-const generateErrorMessage = (values: string[]): string => {
-    return `Response should not include disallowed ${prettyPrintArray(values)} ${values.length === 1 ? 'header' : 'headers'}.`;
-};
+const generateErrorMessage = (values: string[]): string => `Response should not include disallowed ${prettyPrintArray(values)} ${values.length === 1 ? 'header' : 'headers'}.`;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

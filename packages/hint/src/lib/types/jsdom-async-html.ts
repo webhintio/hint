@@ -22,9 +22,9 @@ export class JSDOMAsyncHTMLDocument implements IAsyncHTMLDocument {
         // jsdom's `querySelectorAll` can be a bit fragile (e.g.: fails if attribute name has `.` on it)
         try {
             const elements = Array.from(this._document.querySelectorAll(selector))
-                .map((element) => {
-                    return new JSDOMAsyncHTMLElement(element as HTMLElement, this._dom); // eslint-disable-line no-use-before-define, @typescript-eslint/no-use-before-define
-                });
+                .map((element) =>
+                    new JSDOMAsyncHTMLElement(element as HTMLElement, this._dom) // eslint-disable-line no-use-before-define, @typescript-eslint/no-use-before-define
+                );
 
             return Promise.resolve(elements);
         } catch (e) {

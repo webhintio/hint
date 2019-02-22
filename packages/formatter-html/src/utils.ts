@@ -32,10 +32,8 @@
         return newMsg;
     };
 
-    const reverseString = (str: string) => {
-        return str.split('').reverse()
-            .join('');
-    };
+    const reverseString = (str: string) => str.split('').reverse()
+        .join('');
 
     const cutString = (str: string, maxLength: number) => {
         const minLength = 0.8 * maxLength;
@@ -69,13 +67,9 @@
         return `${headChunk} … ${tailChunk}`;
     };
 
-    const cutCodeString = (codeString: string) => {
-        return shortenString(codeString, 150);
-    };
+    const cutCodeString = (codeString: string) => shortenString(codeString, 150);
 
-    const cutUrlString = (urlString: string) => {
-        return shortenString(urlString, 25);
-    };
+    const cutUrlString = (urlString: string) => shortenString(urlString, 25);
 
     const normalizePosition = (position: string) => {
         if (!position || parseInt(position) === -1) {
@@ -90,26 +84,16 @@
         pending: 'pending'
     };
 
-    const noIssues = (caregory: any) => {
-        return caregory.hints.every((hint: any) => {
-            return hint.status === hintStatus.pass;
-        });
-    };
+    const noIssues = (caregory: any) => caregory.hints.every((hint: any) => hint.status === hintStatus.pass);
 
-    const noPending = (category: any) => {
-        return category.hints.every((hint: any) => {
-            return hint.status !== hintStatus.pending;
-        });
-    };
+    const noPending = (category: any) => category.hints.every((hint: any) => hint.status !== hintStatus.pending);
 
     const filterErrorsAndWarnings = (category: any): any[] => {
         if (!category) {
             return [];
         }
 
-        return category.hints.filter((hint: any) => {
-            return hint.status !== hintStatus.pass;
-        });
+        return category.hints.filter((hint: any) => hint.status !== hintStatus.pass);
     };
 
     const passedHints = (category: any): any[] => {
@@ -117,9 +101,7 @@
             return [];
         }
 
-        return category.hints.filter((hint: any) => {
-            return hint.status === hintStatus.pass;
-        });
+        return category.hints.filter((hint: any) => hint.status === hintStatus.pass);
     };
 
     const utils = {

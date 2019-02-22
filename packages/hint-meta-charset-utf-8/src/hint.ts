@@ -36,12 +36,8 @@ export default class MetaCharsetUTF8Hint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getCharsetMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
-            return elements.filter((element) => {
-                return (element.getAttribute('charset') !== null) ||
-                    (element.getAttribute('http-equiv') !== null && normalizeString(element.getAttribute('http-equiv')) === 'content-type');
-            });
-        };
+        const getCharsetMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => elements.filter((element) => (element.getAttribute('charset') !== null) ||
+                    (element.getAttribute('http-equiv') !== null && normalizeString(element.getAttribute('http-equiv')) === 'content-type'));
 
         /** Stores the DOM received on the initial load */
         const setReceivedDom = (event: FetchEnd) => {

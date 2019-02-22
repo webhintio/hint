@@ -30,9 +30,7 @@ const htmlPageWithMoreThan512bytes = generateHTMLPage(undefined,
 const statusCodesWith256Threshold = [403, 405, 410];
 const statusCodesWith512Threshold = [400, 404, 406, 408, 409, 500, 501, 505];
 
-const generateErrorMessage = (statusCode: number, threshold: number) => {
-    return `Response with status code ${statusCode} should have more than ${threshold} bytes.`;
-};
+const generateErrorMessage = (statusCode: number, threshold: number) => `Response with status code ${statusCode} should have more than ${threshold} bytes.`;
 
 const addTests = (t: HintTest[], statusCodes: number[], threshold: number) => {
     statusCodes.forEach((statusCode) => {

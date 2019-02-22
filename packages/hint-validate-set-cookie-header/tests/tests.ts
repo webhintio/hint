@@ -7,9 +7,7 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 const hintPath = getHintPath(__filename);
 
 // Headers.
-const setCookie = (fields: string) => {
-    return { 'set-cookie': fields };
-};
+const setCookie = (fields: string) => ({ 'set-cookie': fields });
 
 // Headers that will pass.
 const doubleQuotedValueHeader = setCookie(`cookieName="cookieValue"; Secure; HttpOnly`);
@@ -38,22 +36,20 @@ const expiresOnlyHeader = setCookie(`cookieName=cookieValue; expires=Wed, 21 Oct
 const bothMaxAgeAndExpireHeader = setCookie(`cookieName=cookieValue; Max-Age=123; expires=Wed, 21 Oct 2015 07:28:00 GMT; secure; httponly`);
 
 // Error messages.
-const messages = (cookieName: string = 'cookiename'): { [key: string]: string } => {
-    return {
-        hasDomainHostPrefixError: `set-cookie header contains '__Host-' prefix but the 'domain' directive is set.`,
-        invalidAttributeError: `'set-cookie' header contains unknown attribute 'maxage'.`,
-        invalidDateFormatError: `Invalid date format in 'expires' value of the 'set-cookie' header to set '${cookieName}'. The recommended format is: Wed, 31 Dec 1997 23:59:59 GMT`,
-        invalidNameError: `'set-cookie' header to set '${cookieName}' has an invalid cookie name.`,
-        invalidValueError: `'set-cookie' header to set '${cookieName}' has an invalid cookie value.`,
-        noHttpOnlyHeaderError: `'set-cookie' header to set '${cookieName}' doesn't have the 'httponly' directive.`,
-        noNameValueStringError: `'set-cookie' header doesn't contain a cookie name-value string.`,
-        noPathHasHostPrefixError: `set-cookie header contains '__Host-' prefix but the 'path' directive doesn't have a value of '/'.`,
-        noSecureHeaderError: `'set-cookie' header to set '${cookieName}' doesn't have the 'secure' directive.`,
-        maxAgeNoExpireWarning: `Internet Explorer (IE 6, IE 7, and IE 8) doesn't support 'max-age' directive in the 'set-cookie' header to set 'cookiename'.`,
-        maxAgePrecedenceWarning: `The 'max-age' attribute takes precedence when both 'expires' and 'max-age' both exist.`,
-        trailingSemicolonError: `'set-cookie' header to set '${cookieName}' has trailing ';'`
-    };
-};
+const messages = (cookieName: string = 'cookiename'): { [key: string]: string } => ({
+    hasDomainHostPrefixError: `set-cookie header contains '__Host-' prefix but the 'domain' directive is set.`,
+    invalidAttributeError: `'set-cookie' header contains unknown attribute 'maxage'.`,
+    invalidDateFormatError: `Invalid date format in 'expires' value of the 'set-cookie' header to set '${cookieName}'. The recommended format is: Wed, 31 Dec 1997 23:59:59 GMT`,
+    invalidNameError: `'set-cookie' header to set '${cookieName}' has an invalid cookie name.`,
+    invalidValueError: `'set-cookie' header to set '${cookieName}' has an invalid cookie value.`,
+    noHttpOnlyHeaderError: `'set-cookie' header to set '${cookieName}' doesn't have the 'httponly' directive.`,
+    noNameValueStringError: `'set-cookie' header doesn't contain a cookie name-value string.`,
+    noPathHasHostPrefixError: `set-cookie header contains '__Host-' prefix but the 'path' directive doesn't have a value of '/'.`,
+    noSecureHeaderError: `'set-cookie' header to set '${cookieName}' doesn't have the 'secure' directive.`,
+    maxAgeNoExpireWarning: `Internet Explorer (IE 6, IE 7, and IE 8) doesn't support 'max-age' directive in the 'set-cookie' header to set 'cookiename'.`,
+    maxAgePrecedenceWarning: `The 'max-age' attribute takes precedence when both 'expires' and 'max-age' both exist.`,
+    trailingSemicolonError: `'set-cookie' header to set '${cookieName}' has trailing ';'`
+});
 
 const defaultTests: HintTest[] = [
     {

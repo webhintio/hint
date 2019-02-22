@@ -38,12 +38,8 @@ export default class HighestAvailableDocumentModeHint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getXUACompatibleMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
-            return elements.filter((element: IAsyncHTMLElement) => {
-                return (element.getAttribute('http-equiv') !== null &&
-                    normalizeString(element.getAttribute('http-equiv')) === 'x-ua-compatible');
-            });
-        };
+        const getXUACompatibleMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => elements.filter((element: IAsyncHTMLElement) => (element.getAttribute('http-equiv') !== null &&
+                    normalizeString(element.getAttribute('http-equiv')) === 'x-ua-compatible'));
 
         const checkHeader = async (resource: string, responseHeaders: HttpHeaders) => {
             const originalHeaderValue = responseHeaders['x-ua-compatible'];
@@ -205,9 +201,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                 'ie 8',
                 'ie 9',
                 'ie 10'
-            ].every((e) => {
-                return !context.targetedBrowsers.includes(e);
-            });
+            ].every((e) => !context.targetedBrowsers.includes(e));
         };
 
         const validate = async ({ resource }: TraverseEnd) => {

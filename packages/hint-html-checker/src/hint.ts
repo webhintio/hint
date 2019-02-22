@@ -77,9 +77,7 @@ export default class HtmlCheckerHint implements IHint {
 
         // Filter out ignored and redundant messages.
         const filter = (messages: HtmlError[]): HtmlError[] => {
-            const noIgnoredMesssages = messages.filter((message) => {
-                return !ignoredMessages.includes(message.message);
-            });
+            const noIgnoredMesssages = messages.filter((message) => !ignoredMessages.includes(message.message));
 
             if (!groupMessage) {
                 return noIgnoredMesssages;
@@ -88,21 +86,19 @@ export default class HtmlCheckerHint implements IHint {
             return uniqBy(noIgnoredMesssages, 'message');
         };
 
-        const locateAndReport = (resource: string) => {
-            return (messageItem: HtmlError): Promise<void> => {
-                const position: ProblemLocation = {
-                    column: messageItem.firstColumn,
-                    elementColumn: messageItem.hiliteStart + 1,
-                    elementLine: 1, // We will pass in the single-line code snippet generated from the HTML checker, so the elementLine is always 1
-                    line: messageItem.lastLine
-                };
-
-                return context.report(resource, messageItem.message, {
-                    codeSnippet: messageItem.extract,
-                    location: position,
-                    severity: Severity[messageItem.subType]
-                });
+        const locateAndReport = (resource: string) => (messageItem: HtmlError): Promise<void> => {
+            const position: ProblemLocation = {
+                column: messageItem.firstColumn,
+                elementColumn: messageItem.hiliteStart + 1,
+                elementLine: 1, // We will pass in the single-line code snippet generated from the HTML checker, so the elementLine is always 1
+                line: messageItem.lastLine
             };
+
+            return context.report(resource, messageItem.message, {
+                codeSnippet: messageItem.extract,
+                location: position,
+                severity: Severity[messageItem.subType]
+            });
         };
 
         const notifyError = async (resource: string, error: any) => {
@@ -170,9 +166,7 @@ export default class HtmlCheckerHint implements IHint {
                 debug(`Received HTML checker results for ${resource}`);
 
                 const filteredMessages: HtmlError[] = filter(result.messages);
-                const reportPromises: Promise<void>[] = filteredMessages.map((messageItem: HtmlError): Promise<void> => {
-                    return locateAndReportByResource(messageItem);
-                });
+                const reportPromises: Promise<void>[] = filteredMessages.map((messageItem: HtmlError): Promise<void> => locateAndReportByResource(messageItem));
 
                 try {
                     await Promise.all(reportPromises);

@@ -15,9 +15,7 @@ const pageWithStylesheet = generateHTMLPage('<link rel="stylesheet" href="test.c
 // Error messages.
 
 const noHeaderErrorMessage = `Response should include 'x-content-type-options' header.`;
-const generateInvalidValueMessage = (value: string = '') => {
-    return `'x-content-type-options' header value should be 'nosniff', not '${value}'.`;
-};
+const generateInvalidValueMessage = (value: string = '') => `'x-content-type-options' header value should be 'nosniff', not '${value}'.`;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

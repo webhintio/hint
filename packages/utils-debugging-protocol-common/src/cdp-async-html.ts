@@ -39,9 +39,7 @@ export class CDPAsyncHTMLDocument implements IAsyncHTMLDocument {
     }
 
     private getHTMLChildren(children: Crdp.DOM.Node[]) {
-        return children.find((item) => {
-            return item.nodeType === 1 && item.nodeName === 'HTML';
-        });
+        return children.find((item) => item.nodeType === 1 && item.nodeName === 'HTML');
     }
 
     /*

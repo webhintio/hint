@@ -59,12 +59,10 @@ const extendConfig = async (): Promise<InitUserConfig | null> => {
         return null;
     }
 
-    const choices = configPackages.map((pkg) => {
-        return {
-            name: getConfigurationName(pkg.name),
-            value: pkg.name
-        };
-    });
+    const choices = configPackages.map((pkg) => ({
+        name: getConfigurationName(pkg.name),
+        value: pkg.name
+    }));
 
     const questions: inquirer.Questions = [{
         choices,
@@ -118,9 +116,7 @@ const customConfig = async (): Promise<InitUserConfig | null> => {
             name: 'hints',
             pageSize: 15,
             type: 'checkbox',
-            when: (answers: inquirer.Answers) => {
-                return !answers.default;
-            }
+            when: (answers: inquirer.Answers) => !answers.default
         }
     ];
 

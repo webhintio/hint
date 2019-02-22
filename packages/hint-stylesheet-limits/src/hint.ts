@@ -23,9 +23,7 @@ export default class StylesheetLimitsHint implements IHint {
         const options = context.hintOptions;
 
         // Check if browsers with default limits are included.
-        const includesOldIE = ['ie 6', 'ie 7', 'ie 8', 'ie 9'].some((e) => {
-            return context.targetedBrowsers.includes(e);
-        });
+        const includesOldIE = ['ie 6', 'ie 7', 'ie 8', 'ie 9'].some((e) => context.targetedBrowsers.includes(e));
 
         if (!options && !includesOldIE) {
             // Exit if we don't have any limits to test.

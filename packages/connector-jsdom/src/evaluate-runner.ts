@@ -36,13 +36,13 @@ const run = async (data: { source: string }) => {
         virtualConsole
     });
 
-    const onLoad = () => {
+    const onLoad = () =>
         /*
          * Even though `onLoad()` is called on `window.onload`
          * (so all resoruces and scripts executed), we might want
          * to wait a few seconds if the site is lazy loading something.
          */
-        return setTimeout(async () => {
+        setTimeout(async () => {
             try {
                 const script: vm.Script = new vm.Script(source);
                 const evaluteResult = await script.runInContext(jsdomutils.implForWrapper(jsdom.window.document)._global);
@@ -54,8 +54,6 @@ const run = async (data: { source: string }) => {
 
             process.send!(result);
         }, waitFor);
-    };
-
     const onError = (error: ErrorEvent) => {
         debug(`onError: ${error}`);
     };

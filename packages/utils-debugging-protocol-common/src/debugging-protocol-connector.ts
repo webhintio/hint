@@ -528,9 +528,9 @@ export class Connector implements IConnector {
          */
         if (launcher.isNew) {
             // Chrome Launcher could return extensions tabs if installed them but we don't need them.
-            const tabs = filter(await cdp.List({ port: launcher.port }), (tab: any) => { // eslint-disable-line new-cap
-                return !tab.url.startsWith('chrome-extension');
-            });
+            const tabs = filter(await cdp.List({ port: launcher.port }), (tab: any) => // eslint-disable-line new-cap
+                !tab.url.startsWith('chrome-extension')
+            );
 
             // Can assume not-null as `this._launcher.launch` always will return a port.
             client = await this.getClient(launcher.port!, tabs[0]);

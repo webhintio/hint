@@ -170,9 +170,7 @@ export default class TypeScriptConfigTarget implements IHint {
          * * The `es` part will be upper cased (e.g.: ES2015, ESNext)
          * * ES6 --> ES2015
          */
-        const normalizeScriptTarget = (target: string): string => {
-            return Targets.get(target) || target;
-        };
+        const normalizeScriptTarget = (target: string): string => Targets.get(target) || target;
 
         /**
          * Based on the minimum supported browser configuration passed,

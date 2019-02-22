@@ -133,12 +133,10 @@ const prefixedFeaturesThatBecameStandardButStillAreValid: HintTest[] = [
     'backface-visibility-prefix',
     'animation-prefix',
     'transform-prefix'
-].map((featureName: string) => {
-    return {
-        name: `Prefixed feature that became standard before the targeted browser but prefix still is accepted should pass. Feature: ${featureName}`,
-        serverConfig: generateCSSConfig(featureName)
-    };
-});
+].map((featureName: string) => ({
+    name: `Prefixed feature that became standard before the targeted browser but prefix still is accepted should pass. Feature: ${featureName}`,
+    serverConfig: generateCSSConfig(featureName)
+}));
 
 hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardButStillAreValid, { browserslist: ['firefox 15 - 16'], parsers: ['css']});
 

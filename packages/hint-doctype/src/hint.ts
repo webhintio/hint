@@ -51,12 +51,10 @@ export default class implements IHint {
             return locations;
         };
 
-        const getMatchInformation = (text: string): MatchInformation => {
-            return {
-                locations: getCurrentDoctypeProblemLocation(text),
-                matches: text.match(doctypeRegExp)
-            };
-        };
+        const getMatchInformation = (text: string): MatchInformation => ({
+            locations: getCurrentDoctypeProblemLocation(text),
+            matches: text.match(doctypeRegExp)
+        });
 
         const checkNoDoctypeInContent = async (matchInfo: MatchInformation, resource: string, content: string): Promise<boolean> => {
             if (matchInfo.matches && matchInfo.matches.length > 0) {

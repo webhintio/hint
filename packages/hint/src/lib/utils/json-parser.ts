@@ -131,9 +131,7 @@ class JSONResult implements IJSONResult {
             .split(/[[.]/)
 
             // Ensure numbers are not returned as strings
-            .map((k) => {
-                return rxIsNumber.test(k) ? parseInt(k) : k;
-            });
+            .map((k) => (rxIsNumber.test(k) ? parseInt(k) : k));
     }
 }
 

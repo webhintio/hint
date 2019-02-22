@@ -14,7 +14,5 @@ export default (element: IAsyncHTMLElement, nodeName: string, attribute: string,
     const rels: string[] = relAttribute.toLowerCase()
         .split(' ');
 
-    return rels.some((rel) => {
-        return rel === value;
-    });
+    return rels.some((rel) => rel === value);
 };

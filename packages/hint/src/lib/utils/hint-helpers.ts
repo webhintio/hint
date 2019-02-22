@@ -2,11 +2,7 @@ import { basename, dirname, resolve } from 'path';
 import findPackageRoot from './packages/find-package-root';
 
 /** Lower cases all the items of `list`. */
-export const toLowerCase = (list: string[]): string[] => {
-    return list.map((e) => {
-        return e.toLowerCase();
-    });
-};
+export const toLowerCase = (list: string[]): string[] => list.map((e) => e.toLowerCase());
 
 /** Returns a list of all the headers in `headerList` that are in `headers` sorted alphabetically. */
 export const getIncludedHeaders = (headers: object, headerList: string[] = []): string[] => {
@@ -65,9 +61,7 @@ export const mergeIgnoreIncludeArrays = (originalArray: string[], ignoreArray: s
     });
 
     // Remove elements specified under 'ignore'.
-    result = result.filter((e: string) => {
-        return !ignore.includes(e);
-    });
+    result = result.filter((e: string) => !ignore.includes(e));
 
     return result;
 };

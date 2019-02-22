@@ -1,6 +1,4 @@
 export = {
-    format: (url: URL) => {
-        return `${url}`;
-    },
+    format: (url: URL) => `${url}`,
     URL
 };

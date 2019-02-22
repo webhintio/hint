@@ -113,9 +113,7 @@ export class EdgeLauncher extends Launcher {
             cmd.on('exit', () => {
                 const data = out.toString();
 
-                const result = procs.map((proc) => {
-                    return data.includes(proc);
-                });
+                const result = procs.map((proc) => data.includes(proc));
 
                 resolve(result);
             });

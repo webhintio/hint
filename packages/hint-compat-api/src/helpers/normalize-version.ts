@@ -24,9 +24,7 @@ class BrowserVersions {
      *
      */
     public normalize(browserVersion: string): number {
-        const result = browserVersion.split(this.columnSeparator).map((column) => {
-            return padStart(column, this.itemsInColum, this.charForPad);
-        })
+        const result = browserVersion.split(this.columnSeparator).map((column) => padStart(column, this.itemsInColum, this.charForPad))
             .join('');
 
         return Number(padEnd(result, this.itemsInColumns, this.charForPad));

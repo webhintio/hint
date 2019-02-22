@@ -43,9 +43,7 @@ export abstract class APIHint<T extends Events> implements IHint {
         // Check for each browser the support block
         const { support, status } = this.compatApi.getFeatureCompatStatement(collection, feature);
 
-        const browsersToSupport = Object.entries(support).filter(([browserName]: [string, SupportStatement]): boolean => {
-            return this.compatApi.isBrowserIncludedInCollection(browserName);
-        });
+        const browsersToSupport = Object.entries(support).filter(([browserName]: [string, SupportStatement]): boolean => this.compatApi.isBrowserIncludedInCollection(browserName));
 
         const groupedSupportByBrowser = browsersToSupport.reduce((group, [name, supportStatement]) => {
             const browserInfo: BrowsersInfo = { name, supportStatement };
@@ -69,9 +67,7 @@ export abstract class APIHint<T extends Events> implements IHint {
         if (hasIncompatibleBrowsers) {
             this.pendingReports.push([feature, supportStatementResult]);
         } else {
-            const index = this.pendingReports.findIndex(([reportFeature]: [FeatureInfo, SupportStatementResult]) => {
-                return !!reportFeature.prefix && reportFeature.name === feature.name;
-            });
+            const index = this.pendingReports.findIndex(([reportFeature]: [FeatureInfo, SupportStatementResult]) => !!reportFeature.prefix && reportFeature.name === feature.name);
 
             if (index !== -1) {
                 this.pendingReports.splice(index, 1);
@@ -125,15 +121,11 @@ export abstract class APIHint<T extends Events> implements IHint {
         const versions = this.compatApi.getBrowserVersions(browser.name);
         const currentVersion = browserVersions.normalize(version);
 
-        return versions.filter((version: number) => {
-            return !this.isSupportedVersion(browser, feature, currentVersion, version);
-        });
+        return versions.filter((version: number) => !this.isSupportedVersion(browser, feature, currentVersion, version));
     }
 
     private formatNotSupportedVersions(browserName: string, versions: number[]): string[] {
-        return versions.map((version: number) => {
-            return `${browserName} ${browserVersions.deNormalize(version)}`;
-        });
+        return versions.map((version: number) => `${browserName} ${browserVersions.deNormalize(version)}`);
     }
 
     private generateReportErrorMessage(feature: FeatureInfo, supportStatementResult: SupportStatementResult): string {
@@ -155,11 +147,9 @@ export abstract class APIHint<T extends Events> implements IHint {
 
     private stringifyBrowserInfo(groupedSupportByBrowser: { [browserName: string]: string[] }) {
         return Object.entries(groupedSupportByBrowser)
-            .map(([browserName, browserVersions]: [string, string[]]) => {
-                return browserVersions.length === 0 ?
-                    [browserName] :
-                    this.compatApi.groupNotSupportedVersions(browserVersions);
-            })
+            .map(([browserName, browserVersions]: [string, string[]]) => (browserVersions.length === 0 ?
+                [browserName] :
+                this.compatApi.groupNotSupportedVersions(browserVersions)))
             .join(', ');
     }
 
@@ -172,9 +162,7 @@ export abstract class APIHint<T extends Events> implements IHint {
     }
 
     private generateReports(): void {
-        const reports = this.pendingReports.filter(([feature]) => {
-            return !this.hasFallback(feature);
-        });
+        const reports = this.pendingReports.filter(([feature]) => !this.hasFallback(feature));
 
         this.reports = this.reports.concat(reports);
 
@@ -214,9 +202,7 @@ export abstract class APIHint<T extends Events> implements IHint {
         const mergedOptions = Object.assign({}, defaultHintOptions, options);
 
         if (Array.isArray(mergedOptions.enable) && mergedOptions.enable.length > 0) {
-            mergedOptions.ignore = mergedOptions.ignore.filter((featureName: string) => {
-                return !mergedOptions.enable.includes(featureName);
-            });
+            mergedOptions.ignore = mergedOptions.ignore.filter((featureName: string) => !mergedOptions.enable.includes(featureName));
         }
 
         return mergedOptions;

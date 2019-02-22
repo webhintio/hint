@@ -29,9 +29,7 @@ export const noErrors = { errors: [] };
 export const hasErrors = { errors: [{ message: notPreloadableError }] };
 
 // error messages
-export const generateTooShortError = (value: number) => {
-    return `'${stsHeader}' header 'max-age' value should be more than ${value}`;
-};
+export const generateTooShortError = (value: number) => `'${stsHeader}' header 'max-age' value should be more than ${value}`;
 export const noHeaderError = `'${stsHeader}' header was not specified`;
 export const noMaxAgeError = `'${stsHeader}' header requires 'max-age' directive`;
 export const multipleMaxAgeError = `'${stsHeader}' header contains more than one 'max-age'`;
@@ -49,12 +47,10 @@ export const faviconHeaderMaxAgeOnly = {
     '/favicon.ico': { headers: { [stsHeader]: `max-age=${OkayMaxAge + 100}` } }
 };
 
-export const generateHTMLPageData = (content: string) => {
-    return {
-        content,
-        headers: maxAgeOnlyHeader // the page itself should pass
-    };
-};
+export const generateHTMLPageData = (content: string) => ({
+    content,
+    headers: maxAgeOnlyHeader // the page itself should pass
+});
 
 export const htmlPageWithScriptData = generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>'));
 export const htmlPageWithManifestData = generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.webmanifest">'));

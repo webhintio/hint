@@ -271,31 +271,27 @@ const getResource = (source: string, type: ResourceType, name: string) => {
 /**
  * Looks inside the configurations looking for resources.
  */
-const generateConfigPathsToResources = (configurations: string[], name: string, type: ResourceType) => {
-    return configurations.reduce((total: string[], configuration: string) => {
-        const basePackagePaths = ['@hint/configuration-', 'hint-configuration-'];
+const generateConfigPathsToResources = (configurations: string[], name: string, type: ResourceType) => configurations.reduce((total: string[], configuration: string) => {
+    const basePackagePaths = ['@hint/configuration-', 'hint-configuration-'];
 
-        let result = total;
+    let result = total;
 
-        for (const basePackagePath of basePackagePaths) {
-            const packageName = `${basePackagePath}${configuration}`;
+    for (const basePackagePath of basePackagePaths) {
+        const packageName = `${basePackagePath}${configuration}`;
 
-            try {
-                const packagePath = path.dirname(resolvePackage(packageName));
+        try {
+            const packagePath = path.dirname(resolvePackage(packageName));
 
-                const resourcePackages = globby.sync(`node_modules/{@hint/,hint-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
-                    return path.dirname(pkg);
-                });
+            const resourcePackages = globby.sync(`node_modules/{@hint/,hint-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => path.dirname(pkg));
 
-                result = result.concat(resourcePackages);
-            } catch (err) {
-                debug(`Package ${packageName} not found`);
-            }
+            result = result.concat(resourcePackages);
+        } catch (err) {
+            debug(`Package ${packageName} not found`);
         }
+    }
 
-        return result;
-    }, []);
-};
+    return result;
+}, []);
 
 /**
  * Looks for a hint resource with the given `name` and tries to load it.
@@ -448,13 +444,9 @@ const loadListOfResources = (list: string[] | Object = [], type: ResourceType, c
     };
 };
 
-export const loadHint = (hintId: string, configurations?: string[]): IHintConstructor => {
-    return loadResource(hintId, ResourceType.hint, configurations);
-};
+export const loadHint = (hintId: string, configurations?: string[]): IHintConstructor => loadResource(hintId, ResourceType.hint, configurations);
 
-export const loadConfiguration = (configurationId: string, configurations?: string[]) => {
-    return loadResource(configurationId, ResourceType.configuration, configurations);
-};
+export const loadConfiguration = (configurationId: string, configurations?: string[]) => loadResource(configurationId, ResourceType.configuration, configurations);
 
 /** Returns all the resources from a `HintConfig` */
 export const loadResources = (config: Configuration): HintResources => {

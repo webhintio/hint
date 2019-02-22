@@ -18,9 +18,7 @@ const hintPath = getHintPath(__filename, true);
 const tests: HintLocalTest[] = [
     {
         before() {
-            loadPackage.default = () => {
-                return webpackConfig;
-            };
+            loadPackage.default = () => webpackConfig;
 
             mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
         },

@@ -17,11 +17,8 @@ const debug = d(__filename);
  * ---------------------------------------------------------------------
  */
 
-const getMediaTypeBasedOnFileExtension = (fileExtension: string): string | null => {
-    return fileExtension && Object.keys(mimeDB).find((key) => {
-        return (mimeDB as any)[key].extensions && (mimeDB as any)[key].extensions.includes(fileExtension);
-    }) || null; // if nothing is found, we return null to be consistent
-};
+const getMediaTypeBasedOnFileExtension = (fileExtension: string): string | null =>
+    fileExtension && Object.keys(mimeDB).find((key) => (mimeDB as any)[key].extensions && (mimeDB as any)[key].extensions.includes(fileExtension)) || null; // if nothing is found, we return null to be consistent
 
 const determineCharset = (originalCharset: string | null, mediaType: string | null): string | null => {
 
@@ -420,9 +417,7 @@ const isTextMediaType = (mediaType: string): boolean => {
         /text\/.*/i
     ];
 
-    if (textMediaTypes.some((regex) => {
-        return regex.test(mediaType);
-    })) {
+    if (textMediaTypes.some((regex) => regex.test(mediaType))) {
         return true;
     }
 

@@ -39,32 +39,24 @@ export default class HttpCompressionHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        const getHintOptions = (property: string): CompressionCheckOptions => {
-            return Object.assign(
-                {},
-                {
-                    brotli: true,
-                    gzip: true,
-                    zopfli: true
-                },
-                (context.hintOptions && context.hintOptions[property])
-            );
-        };
+        const getHintOptions = (property: string): CompressionCheckOptions => Object.assign(
+            {},
+            {
+                brotli: true,
+                gzip: true,
+                zopfli: true
+            },
+            (context.hintOptions && context.hintOptions[property])
+        );
 
         const resourceOptions: CompressionCheckOptions = getHintOptions('resource');
         const htmlOptions: CompressionCheckOptions = getHintOptions('html');
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-        const checkIfBytesMatch = (rawResponse: Buffer, magicNumbers: number[]) => {
-            return rawResponse && magicNumbers.every((b, i) => {
-                return rawResponse[i] === b;
-            });
-        };
+        const checkIfBytesMatch = (rawResponse: Buffer, magicNumbers: number[]) => rawResponse && magicNumbers.every((b, i) => rawResponse[i] === b);
 
-        const getHeaderValues = (headers: HttpHeaders, headerName: string) => {
-            return (getHeaderValueNormalized(headers, headerName) || '').split(',');
-        };
+        const getHeaderValues = (headers: HttpHeaders, headerName: string) => (getHeaderValueNormalized(headers, headerName) || '').split(',');
 
         const checkVaryHeader = async (resource: string, element: IAsyncHTMLElement | null, headers: HttpHeaders) => {
             const varyHeaderValues = getHeaderValues(headers, 'vary');
@@ -76,17 +68,11 @@ export default class HttpCompressionHint implements IHint {
             }
         };
 
-        const generateDisallowedCompressionMessage = (encoding: string) => {
-            return `Response should not be compressed with disallowed '${encoding}' compression method.`;
-        };
+        const generateDisallowedCompressionMessage = (encoding: string) => `Response should not be compressed with disallowed '${encoding}' compression method.`;
 
-        const generateContentEncodingMessage = (encoding: string, notRequired?: boolean, suffix?: string) => {
-            return `Response should${notRequired ? ' not' : ''} include 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
-        };
+        const generateContentEncodingMessage = (encoding: string, notRequired?: boolean, suffix?: string) => `Response should${notRequired ? ' not' : ''} include 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
 
-        const generateCompressionMessage = (encoding: string, notRequired?: boolean, suffix?: string) => {
-            return `Response should${notRequired ? ' not' : ''} be compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
-        };
+        const generateCompressionMessage = (encoding: string, notRequired?: boolean, suffix?: string) => `Response should${notRequired ? ' not' : ''} be compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
 
         const generateSizeMessage = async (resource: string, element: IAsyncHTMLElement | null, encoding: string, sizeDifference: number) => {
             const message = `Response should not be served compressed with ${encoding} as the compressed size is ${sizeDifference > 0 ? 'bigger than' : 'the same size as'} the uncompressed one.`;
@@ -139,118 +125,114 @@ export default class HttpCompressionHint implements IHint {
             return true;
         };
 
-        const isCompressedWithGzip = (rawContent: Buffer): boolean => {
+        const isCompressedWithGzip = (rawContent: Buffer): boolean =>
             // See: https://tools.ietf.org/html/rfc1952#page-5.
-            return checkIfBytesMatch(rawContent, [0x1f, 0x8b]);
-        };
+            checkIfBytesMatch(rawContent, [0x1f, 0x8b]);
+        const isNotCompressedWithZopfli = (rawResponse: Buffer): boolean =>
 
-        const isNotCompressedWithZopfli = (rawResponse: Buffer): boolean => {
+        /*
+         * Since the Zopfli output (for the gzip option) is valid
+         * gzip content, there doesn't seem to be a straightforward
+         * and foolproof way to identify files compressed with Zopfli.
+         *
+         * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+         *
+         * From an email discussion with @lvandeve:
+         *
+         * " There is no way to tell for sure. Adding information
+         *   to the output to indicate zopfli, would actually
+         *   add bits to the output so such thing is not done :)
+         *   Any compressor can set the FLG, MTIME, and so on
+         *   to anything it wants, and users of zopfli can also
+         *   change the MTIME bytes that zopfli had output to an
+         *   actual time.
+         *
+         *   One heuristic to tell that it was compressed with
+         *   zopfli or another dense deflate compressor is to
+         *   compress it with regular gzip -9 (which is fast),
+         *   and compare that the size of the file to test is
+         *   for example more than 3% smaller. "
+         *
+         * Using the above mentioned for every resource `hint`
+         * encounters can be expensive, plus, for the online scanner,
+         * it might also cause some security (?) problems.
+         *
+         * So, since this is not a foolproof way to identify files
+         * compressed with Zopfli, the following still not foolproof,
+         * but faster way is used.
+         *
+         * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+         *
+         * 1. gzip
+         *
+         *    A gzip member header has the following structure
+         *
+         *     +---+---+---+---+---+---+---+---+---+---+
+         *     |ID1|ID2|CM |FLG|     MTIME     |XFL|OS | (more-->)
+         *     +---+---+---+---+---+---+---+---+---+---+
+         *
+         *    where:
+         *
+         *     ID1 = 1f and ID2 = 8b - these are the magic
+         *           numbers that uniquely identify the content
+         *           as being gzip.
+         *
+         *     CM = 8 - this is a value customarily used by gzip
+         *
+         *     FLG and MTIME are usually non-zero values.
+         *
+         *     XFL will be either 0, 2, or 4:
+         *
+         *       0 - default, compressor used intermediate levels
+         *           of compression (when any of the -2 ... -8
+         *           options are used).
+         *
+         *       2 - the compressor used maximum compression,
+         *           slowest algorithm (when the -9 or --best
+         *           option is used).
+         *
+         *       4 - the compressor used fastest algorithm (when
+         *           the -1 or --fast option is used).
+         *
+         * 2. Zopfli
+         *
+         *    One thing that Zopfli does is that it sets FLG and
+         *    MTIME to 0, XFL to 2, and OS to 3 [1], so basically
+         *    files compressed with Zopfli will most likely start
+         *    with `1f8b 0800 0000 0000 0203`, unless things are
+         *    changed by the user (which in general doesn't seem
+         *    very likely to happen).
+         *
+         *    Now, regular gzip output might also start with that,
+         *    even thought the chance of doing so is smaller:
+         *
+         *    * Most web servers (e.g.: Apache², NGINX³), by default,
+         *      will not opt users into the best compression level,
+         *      therefore, the output shouldn't have XFL set to 2.
+         *
+         *    * Most utilities that output regular gzip will have
+         *      non-zero values for MTIME and FLG.
+         *
+         *   So, if a file does not start with:
+         *
+         *      `1f8b 0800 0000 0000 0203`
+         *
+         *   it's a good (not perfect) indication that Zopfli wasn't
+         *   used, but it's a fast check compared to compressing
+         *   files and comparing file sizes. However, if a file does
+         *   start with that, it can be either Zopfli or gzip, and
+         *   we cannot really make assumptions here.
+         *
+         * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+         *
+         * Ref:
+         *
+         *   ¹ https://github.com/google/zopfli/blob/6818a0859063b946094fb6f94732836404a0d89a/src/zopfli/gzip_container.c#L90-L101)
+         *   ² https://httpd.apache.org/docs/current/mod/mod_deflate.html#DeflateCompressionLevel
+         *   ³ https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_comp_level
+         */
 
-            /*
-             * Since the Zopfli output (for the gzip option) is valid
-             * gzip content, there doesn't seem to be a straightforward
-             * and foolproof way to identify files compressed with Zopfli.
-             *
-             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-             *
-             * From an email discussion with @lvandeve:
-             *
-             * " There is no way to tell for sure. Adding information
-             *   to the output to indicate zopfli, would actually
-             *   add bits to the output so such thing is not done :)
-             *   Any compressor can set the FLG, MTIME, and so on
-             *   to anything it wants, and users of zopfli can also
-             *   change the MTIME bytes that zopfli had output to an
-             *   actual time.
-             *
-             *   One heuristic to tell that it was compressed with
-             *   zopfli or another dense deflate compressor is to
-             *   compress it with regular gzip -9 (which is fast),
-             *   and compare that the size of the file to test is
-             *   for example more than 3% smaller. "
-             *
-             * Using the above mentioned for every resource `hint`
-             * encounters can be expensive, plus, for the online scanner,
-             * it might also cause some security (?) problems.
-             *
-             * So, since this is not a foolproof way to identify files
-             * compressed with Zopfli, the following still not foolproof,
-             * but faster way is used.
-             *
-             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-             *
-             * 1. gzip
-             *
-             *    A gzip member header has the following structure
-             *
-             *     +---+---+---+---+---+---+---+---+---+---+
-             *     |ID1|ID2|CM |FLG|     MTIME     |XFL|OS | (more-->)
-             *     +---+---+---+---+---+---+---+---+---+---+
-             *
-             *    where:
-             *
-             *     ID1 = 1f and ID2 = 8b - these are the magic
-             *           numbers that uniquely identify the content
-             *           as being gzip.
-             *
-             *     CM = 8 - this is a value customarily used by gzip
-             *
-             *     FLG and MTIME are usually non-zero values.
-             *
-             *     XFL will be either 0, 2, or 4:
-             *
-             *       0 - default, compressor used intermediate levels
-             *           of compression (when any of the -2 ... -8
-             *           options are used).
-             *
-             *       2 - the compressor used maximum compression,
-             *           slowest algorithm (when the -9 or --best
-             *           option is used).
-             *
-             *       4 - the compressor used fastest algorithm (when
-             *           the -1 or --fast option is used).
-             *
-             * 2. Zopfli
-             *
-             *    One thing that Zopfli does is that it sets FLG and
-             *    MTIME to 0, XFL to 2, and OS to 3 [1], so basically
-             *    files compressed with Zopfli will most likely start
-             *    with `1f8b 0800 0000 0000 0203`, unless things are
-             *    changed by the user (which in general doesn't seem
-             *    very likely to happen).
-             *
-             *    Now, regular gzip output might also start with that,
-             *    even thought the chance of doing so is smaller:
-             *
-             *    * Most web servers (e.g.: Apache², NGINX³), by default,
-             *      will not opt users into the best compression level,
-             *      therefore, the output shouldn't have XFL set to 2.
-             *
-             *    * Most utilities that output regular gzip will have
-             *      non-zero values for MTIME and FLG.
-             *
-             *   So, if a file does not start with:
-             *
-             *      `1f8b 0800 0000 0000 0203`
-             *
-             *   it's a good (not perfect) indication that Zopfli wasn't
-             *   used, but it's a fast check compared to compressing
-             *   files and comparing file sizes. However, if a file does
-             *   start with that, it can be either Zopfli or gzip, and
-             *   we cannot really make assumptions here.
-             *
-             * - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-             *
-             * Ref:
-             *
-             *   ¹ https://github.com/google/zopfli/blob/6818a0859063b946094fb6f94732836404a0d89a/src/zopfli/gzip_container.c#L90-L101)
-             *   ² https://httpd.apache.org/docs/current/mod/mod_deflate.html#DeflateCompressionLevel
-             *   ³ https://nginx.org/en/docs/http/ngx_http_gzip_module.html#gzip_comp_level
-             */
-
-            return !checkIfBytesMatch(rawResponse, [0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x03]);
-        };
-
+            !checkIfBytesMatch(rawResponse, [0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x03]);
         const checkBrotli = async (resource: string, element: IAsyncHTMLElement | null) => {
             let networkData = await getNetworkData(resource, { 'Accept-Encoding': 'br' });
 
@@ -421,17 +403,16 @@ export default class HttpCompressionHint implements IHint {
 
         };
 
-        const responseIsCompressed = async (rawResponse: Buffer, contentEncodingHeaderValue: string | null): Promise<boolean> => {
-            return isCompressedWithGzip(rawResponse) ||
+        const responseIsCompressed = async (rawResponse: Buffer, contentEncodingHeaderValue: string | null): Promise<boolean> => isCompressedWithGzip(rawResponse) ||
                 await isCompressedWithBrotli(rawResponse) ||
 
-            /*
-             * Other compression methods may be used, but there
-             * is no way to check for all possible cases. So, if
-             * this point is reached, consider 'content-encoding'
-             * header as a possible indication of the response
-             * being compressed.
-             */
+        /*
+         * Other compression methods may be used, but there
+         * is no way to check for all possible cases. So, if
+         * this point is reached, consider 'content-encoding'
+         * header as a possible indication of the response
+         * being compressed.
+         */
 
                 (!!contentEncodingHeaderValue &&
 
@@ -455,7 +436,6 @@ export default class HttpCompressionHint implements IHint {
                  */
 
                     (contentEncodingHeaderValue !== 'identity'));
-        };
 
         const checkForDisallowedCompressionMethods = async (resource: string, element: IAsyncHTMLElement | null, response: Response) => {
 

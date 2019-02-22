@@ -64,9 +64,7 @@ const checkFirstLine = (line) => {
         issues.push('[Line 1] Has over 72 characters.');
     }
 
-    const tag = ALLOWED_TAGS.filter((allowedTag) => {
-        return line.startsWith(allowedTag);
-    })[0];
+    const tag = ALLOWED_TAGS.filter((allowedTag) => line.startsWith(allowedTag))[0];
 
     if (!tag) {
         issues.push(`[Line 1] Does not start with one of the following tags: \n\n     ${ALLOWED_TAGS.join('\n     ')}\n`);
@@ -126,11 +124,7 @@ const checkLine = (line, lineNumber) => {
     return issues;
 };
 
-const getUncommentedLines = (lines) => {
-    return lines.filter((line) => {
-        return !line.startsWith('#');
-    });
-};
+const getUncommentedLines = (lines) => lines.filter((line) => !line.startsWith('#'));
 
 const getCommitData = () => {
     const commits = [];
@@ -235,9 +229,7 @@ ${commitMsg}
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 const main = () => {
-    const commitMessagesAreValid = getCommitData().reduce((result, commit) => {
-        return checkCommit(commit) && result;
-    }, true);
+    const commitMessagesAreValid = getCommitData().reduce((result, commit) => checkCommit(commit) && result, true);
 
     if (!commitMessagesAreValid) {
         console.log(`Please see the contribution guidelines for more details:\n${CONTRIBUTION_GUIDELINES_URL}`);

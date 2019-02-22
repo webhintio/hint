@@ -48,9 +48,7 @@ const inflate = (buff: Buffer): Promise<Buffer> => {
     return inflateRawAsync(buff) as any;
 };
 
-const identity = (buff: Buffer): Promise<Buffer> => {
-    return Promise.resolve(Buffer.from(buff));
-};
+const identity = (buff: Buffer): Promise<Buffer> => Promise.resolve(Buffer.from(buff));
 const asyncSome = promisify(async.someSeries) as any;
 
 const defaults = {
@@ -200,9 +198,7 @@ export class Requester {
                 body: {
                     content: parsedDataURL.body as any,
                     rawContent: parsedDataURL.body,
-                    rawResponse: () => {
-                        return Promise.resolve(parsedDataURL.body);
-                    }
+                    rawResponse: () => Promise.resolve(parsedDataURL.body)
                 },
                 charset: parsedDataURL.mimeType.parameters.get('charset') || '',
                 headers: {},
@@ -298,9 +294,7 @@ export class Requester {
                             body: {
                                 content: body as string,
                                 rawContent: rawBody as Buffer,
-                                rawResponse: () => {
-                                    return Promise.resolve(rawBodyResponse);
-                                }
+                                rawResponse: () => Promise.resolve(rawBodyResponse)
                             },
                             charset,
                             headers: response.headers as HttpHeaders,

@@ -35,9 +35,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
 
         // This hint mainly applies to Internet Explorer 5-11.
 
-        if (!['ie 5', 'ie 6', 'ie 7', 'ie 8', 'ie 9', 'ie 10', 'ie 11'].some((e) => {
-            return context.targetedBrowsers.includes(e);
-        })) {
+        if (!['ie 5', 'ie 6', 'ie 7', 'ie 8', 'ie 9', 'ie 10', 'ie 11'].some((e) => context.targetedBrowsers.includes(e))) {
             debug(`Hint does not apply for targeted browsers`);
 
             return;

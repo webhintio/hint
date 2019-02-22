@@ -90,33 +90,29 @@ shell.config.silent = true;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const exec = (cmd: string): Promise<ExecResult> => {
-    return new Promise((resolve, reject) => {
-        shell.exec(cmd, (code, stdout, stderr) => {
-            const result = {
-                cmd,
-                code,
-                stderr: stderr && stderr.trim(),
-                stdout: stdout && stdout.trim()
-            };
+const exec = (cmd: string): Promise<ExecResult> => new Promise((resolve, reject) => {
+    shell.exec(cmd, (code, stdout, stderr) => {
+        const result = {
+            cmd,
+            code,
+            stderr: stderr && stderr.trim(),
+            stdout: stdout && stdout.trim()
+        };
 
-            console.log(`${cmd} --> ${result.code}`);
-            console.error(result.stderr);
-            console.log(result.stdout);
+        console.log(`${cmd} --> ${result.code}`);
+        console.error(result.stderr);
+        console.log(result.stdout);
 
-            if (code === 0) {
-                return resolve(result);
-            }
+        if (code === 0) {
+            return resolve(result);
+        }
 
-            return reject(result);
-        });
+        return reject(result);
     });
-};
+});
 
 const execWithRetry = (cmd: string, retries: number = 2): Promise<ExecResult> => {
-    const fn = () => {
-        return exec(cmd);
-    };
+    const fn = () => exec(cmd);
 
     return pRetry(fn, {
         onFailedAttempt: (error) => {
@@ -260,9 +256,7 @@ const extractDataFromCommit = async (sha: string): Promise<Commit> => {
     };
 };
 
-const gitHasUncommittedChanges = async (): Promise<boolean> => {
-    return (await exec('git status -s')).stdout !== '';
-};
+const gitHasUncommittedChanges = async (): Promise<boolean> => (await exec('git status -s')).stdout !== '';
 
 const gitCommitChanges = async (commitMessage: string, skipCI: boolean = false, files: string[] = ['packages', 'yarn.lock']) => {
     // Add all changes to the staging area.
@@ -311,9 +305,7 @@ const deleteGitHubToken = async () => {
     }
 };
 
-const prettyPrintArray = (a: string[]): string => {
-    return [a.slice(0, -1).join(', '), a.slice(-1)[0]].join(a.length < 2 ? '' : ', and ');
-};
+const prettyPrintArray = (a: string[]): string => [a.slice(0, -1).join(', '), a.slice(-1)[0]].join(a.length < 2 ? '' : ', and ');
 
 const getCommitAuthorInfo = async (commitSHA: string): Promise<object | null> => {
     let commitInfo;
@@ -402,9 +394,7 @@ const prettyPrintCommit = async (commit: Commit): Promise<string> => {
 
     // Get related issues information.
 
-    const issues = commit.associatedIssues.map((issue) => {
-        return `[\`#${issue}\`](${REPOSITORY_URL}/issues/${issue})`;
-    });
+    const issues = commit.associatedIssues.map((issue) => `[\`#${issue}\`](${REPOSITORY_URL}/issues/${issue})`);
 
     if (issues.length > 0) {
         issuesInfo = `see also: ${prettyPrintArray(issues)}`;
@@ -456,9 +446,7 @@ const getDate = (): string => {
     return `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
-const getChangelogContent = (ctx: TaskContext) => {
-    return `# ${ctx.newPackageVersion} (${getDate()})\n\n${ctx.packageReleaseNotes}\n`;
-};
+const getChangelogContent = (ctx: TaskContext) => `# ${ctx.newPackageVersion} (${getDate()})\n\n${ctx.packageReleaseNotes}\n`;
 
 const getChangelogData = async (commits: Commit[] = []): Promise<ChangelogData> => {
 
@@ -604,9 +592,7 @@ const gitFetchTags = async () => {
     await exec('git fetch --tags');
 };
 
-const gitGetCurrentBranch = async (): Promise<string> => {
-    return (await exec(`git symbolic-ref --short HEAD`)).stdout;
-};
+const gitGetCurrentBranch = async (): Promise<string> => (await exec(`git symbolic-ref --short HEAD`)).stdout;
 
 const gitGetLastTaggedRelease = async (ctx: TaskContext) => {
     ctx.packageLastTag = (await exec(`git describe --tags --abbrev=0 --match "${ctx.packageName}-v*"`)).stdout;
@@ -627,39 +613,33 @@ const gitTagNewVersion = async (ctx: TaskContext) => {
     await exec(`git tag -a "${ctx.packageNewTag}" -m "${ctx.packageNewTag}"`);
 };
 
-const newTask = (title: string, task: (ctx: TaskContext) => void, condition?: boolean) => {
-    return {
-        enabled: (ctx: TaskContext) => {
-            return !ctx.skipRemainingTasks || condition;
-        },
-        task,
-        title
-    };
-};
+const newTask = (title: string, task: (ctx: TaskContext) => void, condition?: boolean) => ({
+    enabled: (ctx: TaskContext) => !ctx.skipRemainingTasks || condition,
+    task,
+    title
+});
 
 const npmInstall = async (ctx: TaskContext) => {
     await exec(`cd ${ctx.packagePath} && npm install`);
 };
 
-const npmPublish = (ctx: TaskContext) => {
-    return listrInput('Enter OTP: ', {
-        done: async (otp: string) => {
-            if (!ctx.isPrerelease) {
-                await exec(`cd ${ctx.packagePath} && npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''} --otp=${otp}`);
-            } else {
-                await exec(`cd ${ctx.packagePath} && npm publish --otp=${otp} --tag next`);
-            }
+const npmPublish = (ctx: TaskContext) => listrInput('Enter OTP: ', {
+    done: async (otp: string) => {
+        if (!ctx.isPrerelease) {
+            await exec(`cd ${ctx.packagePath} && npm publish ${ctx.isUnpublishedPackage ? '--access public' : ''} --otp=${otp}`);
+        } else {
+            await exec(`cd ${ctx.packagePath} && npm publish --otp=${otp} --tag next`);
         }
-    }).catch((err: any) => {
-        if (err.stderr.indexOf('you already provided a one-time password then it is likely that you either typoed') !== -1) {
-            return npmPublish(ctx);
-        }
+    }
+}).catch((err: any) => {
+    if (err.stderr.indexOf('you already provided a one-time password then it is likely that you either typoed') !== -1) {
+        return npmPublish(ctx);
+    }
 
-        ctx.npmPublishError = err;
+    ctx.npmPublishError = err;
 
-        throw new Error(JSON.stringify(err));
-    });
-};
+    throw new Error(JSON.stringify(err));
+});
 
 const npmRemovePrivateField = (ctx: TaskContext) => {
     delete ctx.packageJSONFileContent.private;
@@ -894,9 +874,7 @@ const updateYarnLockFile = async () => {
     await gitCommitChanges(`Chore: Update 'yarn.lock' file`);
 };
 
-const waitForUser = async () => {
-    return await listrInput('Press any key once you are done with the review:');
-};
+const waitForUser = async () => await listrInput('Press any key once you are done with the review:');
 
 const getTasksForRelease = (packageName: string, packageJSONFileContent: any) => {
 
@@ -1102,17 +1080,13 @@ const main = async () => {
         ...shell.ls('-d', 'packages/hint-*'),
         ...shell.ls('-d', 'packages/configuration-!(development)'),
         'packages/configuration-development'
-    ].filter((name) => {
-        return !exceptions.includes(name);
-    });
+    ].filter((name) => !exceptions.includes(name));
 
     const tasks: Task[][] = [];
 
     for (const pkg of packages) {
         tasks.push([{
-            task: () => {
-                return getTasks(pkg);
-            },
+            task: () => getTasks(pkg),
             title: `${pkg}`
         }]);
     }

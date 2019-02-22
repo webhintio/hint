@@ -29,9 +29,7 @@ const contentScript = readFile(resolve(`${__dirname}/../webhint.js`));
  */
 const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
     const targets = await browser.targets();
-    const bgTargets = targets.filter((t) => {
-        return t.type() === 'background_page';
-    });
+    const bgTargets = targets.filter((t) => t.type() === 'background_page');
 
     const matches = await Promise.all(bgTargets.map(async (t) => {
         const page = await t.page();
@@ -40,9 +38,7 @@ const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
         return await page.$('script[src="background-script.js"]');
     }));
 
-    const bgTarget = bgTargets.filter((t, i) => {
-        return matches[i];
-    })[0];
+    const bgTarget = bgTargets.filter((t, i) => matches[i])[0];
 
     return await bgTarget.page();
 };
@@ -57,43 +53,35 @@ test('It runs end-to-end in a page', async (t) => {
 
     await page.goto(url);
 
-    const resultsPromise = page.evaluate(() => {
-        return new Promise<Results>((resolve) => {
-            let onMessage: ((events: Events) => void) = () => { };
+    const resultsPromise = page.evaluate(() => new Promise<Results>((resolve) => {
+        let onMessage: ((events: Events) => void) = () => { };
 
-            window.chrome = {
-                runtime: {
-                    onMessage: {
-                        addListener: (fn: () => void) => {
-                            onMessage = fn;
-                        },
-                        removeListener: () => { }
+        window.chrome = {
+            runtime: {
+                onMessage: {
+                    addListener: (fn: () => void) => {
+                        onMessage = fn;
                     },
-                    sendMessage: (event: Events) => {
-                        if (event.requestConfig) {
-                            onMessage({ config: {} });
-                        }
-                        if (event.results) {
-                            resolve(event.results);
-                        }
+                    removeListener: () => { }
+                },
+                sendMessage: (event: Events) => {
+                    if (event.requestConfig) {
+                        onMessage({ config: {} });
+                    }
+                    if (event.results) {
+                        resolve(event.results);
                     }
                 }
-            } as any;
-        });
-    });
+            }
+        } as any;
+    }));
 
     await page.addScriptTag({ path: `${__dirname}/../webhint.js` });
 
     const results = await resultsPromise;
 
     t.not(results.categories.length, 0);
-    t.true(results.categories.some((category) => {
-        return category.hints.some((hint) => {
-            return hint.problems.some((problem) => {
-                return problem.message === '<html> element must have a lang attribute';
-            });
-        });
-    }), 'Missing `lang` attribute was not reported');
+    t.true(results.categories.some((category) => category.hints.some((hint) => hint.problems.some((problem) => problem.message === '<html> element must have a lang attribute'))), 'Missing `lang` attribute was not reported');
 
     await browser.close();
     server.stop();
@@ -123,34 +111,26 @@ if (!isCI) {
             setTimeout(resolve, 500);
         });
 
-        const results: Results = await backgroundPage.evaluate((code) => {
-            return new Promise<Results>((resolve) => {
-                chrome.runtime.onMessage.addListener((message: Events) => {
-                    if (message.results) {
-                        resolve(message.results);
-                    }
-                });
-
-                const event: Events = {
-                    enable: {
-                        code,
-                        config: {}
-                    }
-                };
-
-                // Simulate sending message from devtools panel to background script to start analyzing.
-                chrome.tabs.executeScript({ code: `chrome.runtime.sendMessage(${JSON.stringify(event)})` });
+        const results: Results = await backgroundPage.evaluate((code) => new Promise<Results>((resolve) => {
+            chrome.runtime.onMessage.addListener((message: Events) => {
+                if (message.results) {
+                    resolve(message.results);
+                }
             });
-        }, contentScript);
+
+            const event: Events = {
+                enable: {
+                    code,
+                    config: {}
+                }
+            };
+
+            // Simulate sending message from devtools panel to background script to start analyzing.
+            chrome.tabs.executeScript({ code: `chrome.runtime.sendMessage(${JSON.stringify(event)})` });
+        }), contentScript);
 
         t.not(results.categories.length, 0);
-        t.true(results.categories.some((category) => {
-            return category.hints.some((hint) => {
-                return hint.problems.some((problem) => {
-                    return problem.message === '<html> element must have a lang attribute';
-                });
-            });
-        }), 'Missing `lang` attribute was not reported');
+        t.true(results.categories.some((category) => category.hints.some((hint) => hint.problems.some((problem) => problem.message === '<html> element must have a lang attribute'))), 'Missing `lang` attribute was not reported');
 
         await browser.close();
         server.stop();

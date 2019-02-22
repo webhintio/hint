@@ -153,9 +153,7 @@ export default class HTMLFormatter implements IFormatter {
                     let scanCSS = await fs.readFile(cssFile, 'utf-8');
                     const urlCSSRegex = /url\(['"]?([^'")]*)['"]?\)/g;
 
-                    scanCSS = scanCSS.replace(urlCSSRegex, (match, group) => {
-                        return `url('${group[0] === '/' ? prefix : ''}${group}')`;
-                    });
+                    scanCSS = scanCSS.replace(urlCSSRegex, (match, group) => `url('${group[0] === '/' ? prefix : ''}${group}')`);
 
                     await fs.outputFile(filePath, scanCSS, { encoding: 'utf-8' });
                 };

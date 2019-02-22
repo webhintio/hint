@@ -94,9 +94,7 @@ export default class NoDisallowedHeadersHint implements IHint {
                 /(mod_|openssl|php)/
             ];
 
-            return regex.some((r) => {
-                return r.test(serverHeaderValue);
-            });
+            return regex.some((r) => r.test(serverHeaderValue));
         };
 
         const validate = async ({ element, response, resource }: FetchEnd) => {

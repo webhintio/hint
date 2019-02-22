@@ -28,55 +28,49 @@ const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments();
 
 // Determine if a project is using yarn by checking for `yarn.lock`.
-const hasYarnLock = (directory: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-        access(path.join(directory, 'yarn.lock'), (err) => {
-            resolve(!err);
-        });
+const hasYarnLock = (directory: string): Promise<boolean> => new Promise((resolve) => {
+    access(path.join(directory, 'yarn.lock'), (err) => {
+        resolve(!err);
     });
-};
+});
 
 // Adds webhint and configuration-development to the current workspace.
-const installWebhint = ({ global }: { global: boolean }): Promise<void> => {
-    return new Promise(async (resolve, reject) => {
-        connection.sendNotification(notifications.showOutput);
+const installWebhint = ({ global }: { global: boolean }): Promise<void> => new Promise(async (resolve, reject) => {
+    connection.sendNotification(notifications.showOutput);
 
-        // Build the installation commands.
-        const packages = 'hint @hint/configuration-development';
-        const cmd = process.platform === 'win32' ? '.cmd' : '';
-        const npm = `npm${cmd} install ${packages} ${global ? '-g' : '--save-dev'} --verbose`;
-        const yarn = `yarn${cmd} add ${packages} --dev`;
+    // Build the installation commands.
+    const packages = 'hint @hint/configuration-development';
+    const cmd = process.platform === 'win32' ? '.cmd' : '';
+    const npm = `npm${cmd} install ${packages} ${global ? '-g' : '--save-dev'} --verbose`;
+    const yarn = `yarn${cmd} add ${packages} --dev`;
 
-        // Install via `yarn` if `yarn.lock` is present, `npm` otherwise.
-        const isUsingYarn = global ?
-            false :
-            await hasYarnLock(workspace);
-        const command = isUsingYarn ? yarn : npm;
-        const parts = command.split(' ');
+    // Install via `yarn` if `yarn.lock` is present, `npm` otherwise.
+    const isUsingYarn = global ?
+        false :
+        await hasYarnLock(workspace);
+    const command = isUsingYarn ? yarn : npm;
+    const parts = command.split(' ');
 
-        // Actually start the installation.
-        const child = spawn(parts[0], parts.slice(1));
+    // Actually start the installation.
+    const child = spawn(parts[0], parts.slice(1));
 
-        // Show progress in the output window for the extension.
-        child.stdout.pipe(process.stdout);
-        child.stderr.pipe(process.stderr);
+    // Show progress in the output window for the extension.
+    child.stdout.pipe(process.stdout);
+    child.stderr.pipe(process.stderr);
 
-        child.on('exit', (code) => {
-            if (code) {
-                connection.window.showErrorMessage(`Unable to install webhint. ${code}`);
-                reject(code);
-            } else {
-                connection.window.showInformationMessage('Finished installing webhint!');
-                resolve();
-            }
-        });
+    child.on('exit', (code) => {
+        if (code) {
+            connection.window.showErrorMessage(`Unable to install webhint. ${code}`);
+            reject(code);
+        } else {
+            connection.window.showInformationMessage('Finished installing webhint!');
+            resolve();
+        }
     });
-};
+});
 
 /* istanbul ignore next */
-const trace = (message: string): void => {
-    return console.log(message);
-};
+const trace = (message: string): void => console.log(message);
 
 const loadModule = async <T>(context: string, name: string): Promise<T | null> => {
     let module: T | null = null;
@@ -256,9 +250,7 @@ const queueValidationIfNeeded = (textDocument: TextDocument): boolean => {
     }
 
     // Drop stale queued validations for the same document.
-    validationQueue = validationQueue.filter((doc) => {
-        return doc.uri !== textDocument.uri;
-    });
+    validationQueue = validationQueue.filter((doc) => doc.uri !== textDocument.uri);
 
     // Queue this document to be validated.
     validationQueue.push(textDocument);
@@ -317,9 +309,7 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
 // A watched .hintrc has changed. Reload the engine and re-validate documents.
 connection.onDidChangeWatchedFiles(async () => {
     engine = await loadWebHint(workspace);
-    await Promise.all(documents.all().map((doc) => {
-        return validateTextDocument(doc);
-    }));
+    await Promise.all(documents.all().map((doc) => validateTextDocument(doc)));
 });
 
 // Re-validate the document whenever the content changes.

@@ -31,12 +31,10 @@ const fileIsInvalidPNGErrorMessage = `'/apple-touch-icon.png' should be a valid 
 const fileIsNotPNGErrorMessage = `'/apple-touch-icon.png' should be a PNG image.`;
 const fileRequestFailedErrorMessage = `'/apple-touch-icon.png' could not be fetched (request failed).`;
 
-const generateImageData = (content: Buffer = defaultImage): Object => {
-    return {
-        content,
-        headers: { 'Content-Type': 'image/png' }
-    };
-};
+const generateImageData = (content: Buffer = defaultImage): Object => ({
+    content,
+    headers: { 'Content-Type': 'image/png' }
+});
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

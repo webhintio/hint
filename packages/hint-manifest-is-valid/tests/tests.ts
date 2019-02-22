@@ -11,9 +11,7 @@ const hintPath = getHintPath(__filename);
 
 const htmlWithManifestSpecified = generateHTMLPage('<link rel="manifest" href="site.webmanifest">');
 
-const generateErrorMessage = (property: string, propertyValue: string, valueType: string) => {
-    return `Web app manifest should not have ${valueType} value '${propertyValue}' for property '${property}'.`;
-};
+const generateErrorMessage = (property: string, propertyValue: string, valueType: string) => `Web app manifest should not have ${valueType} value '${propertyValue}' for property '${property}'.`;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

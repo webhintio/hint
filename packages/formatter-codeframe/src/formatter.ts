@@ -42,9 +42,7 @@ const countLeftWhiteSpaces = (txt: string): number => {
     return match[0].length;
 };
 
-const safeTrim = (txt: string, charsToRemove: number): boolean => {
-    return (/^\s+$/).test(txt.substr(0, charsToRemove));
-};
+const safeTrim = (txt: string, charsToRemove: number): boolean => (/^\s+$/).test(txt.substr(0, charsToRemove));
 
 const codeFrame = (code: string, location: ProblemLocation) => {
     /* istanbul ignore next */

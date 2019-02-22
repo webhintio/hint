@@ -16,43 +16,35 @@ const loadReferences = (route) => {
     const tsconfig = require(path.resolve(process.cwd(), route));
 
     const references = tsconfig.references ?
-        tsconfig.references.map((reference) => {
-            return reference.path;
-        }) :
+        tsconfig.references.map((reference) => reference.path) :
         [];
 
     return references;
 };
 
 /** Execute the `cmd` in a new process. */
-const exec = (cmd) => {
-    return new Promise((resolve, reject) => {
-        console.log(chalk.green(`  ${cmd}`));
-        const command = spawn(cmd, [], {
-            shell: true,
-            stdio: 'inherit'
-        });
-
-        command.on('error', (err) => {
-            return reject(err);
-        });
-
-        command.on('exit', (code) => {
-            if (code !== 0) {
-                return reject(new Error('NoExitCodeZero'));
-            }
-
-            return resolve(true);
-        });
-
+const exec = (cmd) => new Promise((resolve, reject) => {
+    console.log(chalk.green(`  ${cmd}`));
+    const command = spawn(cmd, [], {
+        shell: true,
+        stdio: 'inherit'
     });
-};
+
+    command.on('error', (err) => reject(err));
+
+    command.on('exit', (code) => {
+        if (code !== 0) {
+            return reject(new Error('NoExitCodeZero'));
+        }
+
+        return resolve(true);
+    });
+
+});
 
 /** Execute a `command` retrying if `exitCode` is different than 0. */
 const execWithRetry = (command) => {
-    const fn = () => {
-        return exec(command);
-    };
+    const fn = () => exec(command);
 
     return pRetry(fn, {
         onFailedAttempt: (error) => {

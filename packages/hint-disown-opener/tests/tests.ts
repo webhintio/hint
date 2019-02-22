@@ -9,9 +9,7 @@ import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
 const hintPath = getHintPath(__filename);
 
-const generateMissingMessage = (value: string, linkTypes: string[]): string => {
-    return `'${cutString(value, 100)}' should have 'rel' attribute value include ${prettyPrintArray(linkTypes)} ${linkTypes.length === 1 ? 'keyword' : 'keywords'}.`;
-};
+const generateMissingMessage = (value: string, linkTypes: string[]): string => `'${cutString(value, 100)}' should have 'rel' attribute value include ${prettyPrintArray(linkTypes)} ${linkTypes.length === 1 ? 'keyword' : 'keywords'}.`;
 
 const testsForOldBrowsers: HintTest[] = [
 

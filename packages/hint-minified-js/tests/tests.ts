@@ -7,9 +7,7 @@ const hintPath = getHintPath(__filename);
 
 const expectedMessageFromHint = 'JavaScript content should be minified.';
 
-const generateScriptTag = (script: string) => {
-    return `<script>${script}</script>`;
-};
+const generateScriptTag = (script: string) => `<script>${script}</script>`;
 
 const unminifiedJS = `
 // This method does something

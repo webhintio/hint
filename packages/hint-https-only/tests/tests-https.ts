@@ -12,12 +12,10 @@ const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);
 const noInsecureRedirectMessage = 'Should not be redirected from HTTPS.';
 const serveOverHTTPSMessage = 'Should be served over HTTPS.';
 
-const generateResponse = (content: Buffer, type: string): Object => {
-    return {
-        content,
-        headers: { 'Content-Type': type }
-    };
-};
+const generateResponse = (content: Buffer, type: string): Object => ({
+    content,
+    headers: { 'Content-Type': type }
+});
 
 const testsHTTPS: HintTest[] = [
     {

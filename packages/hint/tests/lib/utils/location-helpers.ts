@@ -24,32 +24,30 @@ type FindInElementEntry = {
 };
 
 /** Returns an object that simulates an AsyncHTMLElement */
-const getElement = (markup: string): IAsyncHTMLElement => {
-    // We don't specify the return value because ownerDocument isn't implemented here (nor needed)
-    return {
-        get nodeName() {
-            return '';
-        },
-        outerHTML() {
-            return Promise.resolve(markup);
-        },
-        get ownerDocument() {
-            return null as any;
-        },
-        get attributes() {
-            return [] as any;
-        },
-        getAttribute(name) {
-            return name;
-        },
-        getLocation() {
-            return null;
-        },
-        isSame(element) {//eslint-disable-line
-            return false;
-        }
-    };
-};
+// We don't specify the return value because ownerDocument isn't implemented here (nor needed)
+const getElement = (markup: string): IAsyncHTMLElement => ({
+    get nodeName() {
+        return '';
+    },
+    outerHTML() {
+        return Promise.resolve(markup);
+    },
+    get ownerDocument() {
+        return null as any;
+    },
+    get attributes() {
+        return [] as any;
+    },
+    getAttribute(name) {
+        return name;
+    },
+    getLocation() {
+        return null;
+    },
+    isSame(element) {//eslint-disable-line
+        return false;
+    }
+});
 
 /** AVA Macro for findInElement */
 const findInElementMacro: Macro<[FindInElementEntry], {}> = async (t: ExecutionContext, entry: FindInElementEntry) => {
@@ -105,9 +103,7 @@ const loadHTML = async (route: string) => {
     const querySelectorAll = (function (document) {
         return (selector: string) => {
             const elements = Array.from(document.querySelectorAll(selector))
-                .map((entry) => {
-                    return new JSDOMAsyncHTMLElement(entry as HTMLElement);
-                });
+                .map((entry) => new JSDOMAsyncHTMLElement(entry as HTMLElement));
 
             return Promise.resolve(elements);
         };

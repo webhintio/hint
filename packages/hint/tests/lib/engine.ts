@@ -46,9 +46,7 @@ const initContext = (t: ExecutionContext<EngineContext>) => {
     const eventEmitter: EventEmitter2 = { EventEmitter2: function EventEmitter2() { } };
 
     eventEmitter.EventEmitter2.prototype.on = () => { };
-    eventEmitter.EventEmitter2.prototype.emitAsync = () => {
-        return Promise.resolve([]);
-    };
+    eventEmitter.EventEmitter2.prototype.emitAsync = () => Promise.resolve([]);
 
     t.context.eventemitter = eventEmitter;
 };

@@ -24,13 +24,9 @@ const render = (fragment: DocumentFragment) => {
 
 let scanStart = 0;
 
-const now = () => {
-    return performance.now();
-};
+const now = () => performance.now();
 
-const getScanDuration = () => {
-    return Math.round(now() - scanStart);
-};
+const getScanDuration = () => Math.round(now() - scanStart);
 
 let delayResultsUntil = now();
 

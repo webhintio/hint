@@ -44,9 +44,7 @@ const initContext = (t: ExecutionContext<ConfigTestContext>) => {
         notify(customMessage?: NotifyOptions) { },
         update: {} as UpdateInfo | null
     };
-    t.context.updateNotifier = () => {
-        return t.context.notifier;
-    };
+    t.context.updateNotifier = () => t.context.notifier;
     t.context.loadHintPackage = {
         default() {
             return { version: '' };
@@ -60,14 +58,12 @@ const initContext = (t: ExecutionContext<ConfigTestContext>) => {
     t.context.notifyStub = sandbox.stub(t.context.notifier, 'notify').resolves();
 };
 
-const loadScript = (context: ConfigTestContext) => {
-    return proxyquire('../../src/lib/cli', {
-        './cli/actions': context.cliActions,
-        './utils/logging': context.logger,
-        './utils/packages/load-hint-package': context.loadHintPackage,
-        'update-notifier': context.updateNotifier
-    });
-};
+const loadScript = (context: ConfigTestContext) => proxyquire('../../src/lib/cli', {
+    './cli/actions': context.cliActions,
+    './utils/logging': context.logger,
+    './utils/packages/load-hint-package': context.loadHintPackage,
+    'update-notifier': context.updateNotifier
+});
 
 test.beforeEach(initContext);
 

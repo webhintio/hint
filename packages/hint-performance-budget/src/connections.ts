@@ -69,16 +69,10 @@ const getConnections = (): NetworkConfig[] => {
 const connections = getConnections();
 
 /** The ids of all the available connections. */
-const ids = connections.map((connection) => {
-    return connection.id;
-}, []);
+const ids = connections.map((connection) => connection.id, []);
 
 /** Returns the `NetworkConfig` for the given `id`. */
-const getById = (id: string): NetworkConfig | null => {
-    return connections.find((connection) => {
-        return connection.id === id;
-    }) || /* istanbul ignore next */ null;
-};
+const getById = (id: string): NetworkConfig | null => connections.find((connection) => connection.id === id) || /* istanbul ignore next */ null;
 
 export {
     getById,

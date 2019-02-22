@@ -40,9 +40,7 @@ const testBrowsersDictionary = (): void => {
     const flatMdnBrowsers = Object.keys(mdnBrowsers);
 
     Object.entries(browserNamesToMDN).forEach(([browserListName, mdnBrowserName]) => {
-        if (!flatMdnBrowsers.find((flatMdnBrowser) => {
-            return flatMdnBrowser === mdnBrowserName;
-        })) {
+        if (!flatMdnBrowsers.find((flatMdnBrowser) => flatMdnBrowser === mdnBrowserName)) {
             throw new Error('Browserslist and MDN Browsers are not compatible.');
         }
     });
@@ -62,9 +60,7 @@ export const convertBrowserSupportCollectionToMDN = (browserCollection: BrowserS
 
         mdnCollection[mdnName] = mdnCollection[mdnName] || [];
 
-        mdnCollection[mdnName] = ([...mdnCollection[mdnName], ...browserVersions]).sort((a, b) => {
-            return a - b;
-        });
+        mdnCollection[mdnName] = ([...mdnCollection[mdnName], ...browserVersions]).sort((a, b) => a - b);
     });
 
     return mdnCollection;

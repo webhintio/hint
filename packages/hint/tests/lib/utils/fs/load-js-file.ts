@@ -4,9 +4,7 @@ import test from 'ava';
 
 import loadJSFile from '../../../../src/lib/utils/fs/load-js-file';
 
-const resolve = (route: string) => {
-    return join(__dirname, route);
-};
+const resolve = (route: string) => join(__dirname, route);
 
 test('loadJSFile throws an exception if missing file', (t) => {
     t.throws(() => {

@@ -46,23 +46,17 @@ const result = markdownlint.sync({
                  */
                 const refLinkRegExp = /\](\[(.|\s)*?\])/gi;
 
-                params.tokens.filter((token) => {
-                    return token.type === 'inline';
-                }).forEach((token) => {
-                    return token.children.filter((child) => {
-                        return child.type === 'text';
-                    }).forEach((text) => {
-                        const invalidRefLink = refLinkRegExp.exec(text.content);
+                params.tokens.filter((token) => token.type === 'inline').forEach((token) => token.children.filter((child) => child.type === 'text').forEach((text) => {
+                    const invalidRefLink = refLinkRegExp.exec(text.content);
 
-                        if (invalidRefLink !== null) {
-                            onError({
-                                // context: invalidRefLink[1],
-                                detail: `Reference: ${invalidRefLink[1]}`,
-                                lineNumber: text.lineNumber
-                            });
-                        }
-                    });
-                });
+                    if (invalidRefLink !== null) {
+                        onError({
+                            // context: invalidRefLink[1],
+                            detail: `Reference: ${invalidRefLink[1]}`,
+                            lineNumber: text.lineNumber
+                        });
+                    }
+                }));
             },
             names: ['valid-reference-links'],
             tags: ['links']

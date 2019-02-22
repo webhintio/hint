@@ -13,12 +13,10 @@ const svg = readFileSync(`${__dirname}/fixtures/space-nellie.svg`);
 const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);
 const invalid = readFileSync(`${__dirname}/fixtures/invalid-image.js`);
 
-const generateResponse = (content: Buffer, type: string): Object => {
-    return {
-        content,
-        headers: { 'Content-Type': type }
-    };
-};
+const generateResponse = (content: Buffer, type: string): Object => ({
+    content,
+    headers: { 'Content-Type': type }
+});
 
 const noSavings = {
     bytes: svg.length,

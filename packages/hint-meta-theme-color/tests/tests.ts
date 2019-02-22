@@ -35,9 +35,7 @@ const validColorValues = [
     'transparent'
 ];
 
-const generateThemeColorMetaElement = (contentValue: string = '#f00', nameValue: string = 'theme-color') => {
-    return `<meta name="${nameValue}" content="${contentValue}">`;
-};
+const generateThemeColorMetaElement = (contentValue: string = '#f00', nameValue: string = 'theme-color') => `<meta name="${nameValue}" content="${contentValue}">`;
 
 const generateTest = (colorValues: string[], valueType: string = 'valid', reason?: string) => {
     const defaultTests = [];

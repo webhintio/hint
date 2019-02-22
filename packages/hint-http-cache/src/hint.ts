@@ -115,9 +115,7 @@ export default class HttpCacheHint implements IHint {
             const valueDirectives = ['max-age', 's-maxage'];
             const extensionDirectives = ['immutable', 'stale-while-revalidate', 'stale-if-error'];
 
-            const usedDirectives = cacheControlHeader.split(',').map((value) => {
-                return value.trim();
-            });
+            const usedDirectives = cacheControlHeader.split(',').map((value) => value.trim());
 
             const parsedCacheControlHeader = usedDirectives.reduce((parsed: ParsedDirectives, current: string) => {
                 const [directive, value] = current.split('=');
@@ -382,9 +380,7 @@ export default class HttpCacheHint implements IHint {
          */
         const usesFileRevving = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
             const { element, resource } = fetchEnd;
-            const matches = cacheRevvingPatterns.find((pattern) => {
-                return !!resource.match(pattern);
-            });
+            const matches = cacheRevvingPatterns.find((pattern) => !!resource.match(pattern));
 
             if (!matches) {
                 const message: string = `No configured patterns for cache busting match ${resource}. See docs to add a custom one.`;
@@ -430,9 +426,7 @@ export default class HttpCacheHint implements IHint {
                 let customRegex: RegExp[] | null = context.hintOptions && context.hintOptions.revvingPatterns || null;
 
                 if (customRegex) {
-                    customRegex = customRegex.map((reg) => {
-                        return new RegExp(reg, 'i');
-                    });
+                    customRegex = customRegex.map((reg) => new RegExp(reg, 'i'));
                 }
 
                 cacheRevvingPatterns = customRegex || predefinedRevvingPatterns;

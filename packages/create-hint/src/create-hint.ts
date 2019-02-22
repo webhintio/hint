@@ -218,18 +218,14 @@ const useCases = [
 /** List of questions to prompt the user. */
 export const questions = (type: QuestionsType) => {
     /* istanbul ignore next */
-    const notEmpty = (value: string) => {
-        return value.trim() !== '';
-    };
+    const notEmpty = (value: string) => value.trim() !== '';
 
     /* istanbul ignore next */
     return [{
         message: `Is this a package with multiple hints? (yes)`,
         name: 'multi',
         type: 'confirm',
-        when: () => {
-            return type === QuestionsType.main;
-        }
+        when: () => type === QuestionsType.main
     },
     {
         default(answers: inquirer.Answers) {
@@ -279,9 +275,7 @@ export const questions = (type: QuestionsType) => {
         name: 'elementType',
         type: 'input',
         validate: notEmpty,
-        when: (answers: inquirer.Answers) => {
-            return answers.useCase === 'dom';
-        }
+        when: (answers: inquirer.Answers) => answers.useCase === 'dom'
     },
     {
         choices: scopes,
@@ -298,9 +292,7 @@ export const questions = (type: QuestionsType) => {
         message: 'Want to add more hints (yes)?',
         name: 'again',
         type: 'confirm',
-        when: () => {
-            return type === QuestionsType.hint;
-        }
+        when: () => type === QuestionsType.hint
     }];
 };
 

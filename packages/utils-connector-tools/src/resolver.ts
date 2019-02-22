@@ -11,6 +11,4 @@ import { URL } from 'url';
  * -> `'http://example.com/favicon.ico'`
  *
  */
-export const resolveUrl = (href: string, baseUrl: string): string => {
-    return new URL(href, baseUrl).href;
-};
+export const resolveUrl = (href: string, baseUrl: string): string => new URL(href, baseUrl).href;

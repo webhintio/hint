@@ -121,9 +121,7 @@ export class CategoryResult {
         let hint = this.cache.get(lowerCaseName);
 
         if (!hint) {
-            hint = this.hints.find((hi: HintResult) => {
-                return hi.name.toLowerCase() === lowerCaseName;
-            });
+            hint = this.hints.find((hi: HintResult) => hi.name.toLowerCase() === lowerCaseName);
 
             if (hint) {
                 this.cache.set(lowerCaseName, hint);
@@ -236,9 +234,7 @@ export default class AnalysisResult {
     /**
      * Add a 0 to a time string if needed.
      */
-    private pad = (timeString: string): string => {
-        return timeString && timeString.length === 1 ? `0${timeString}` : timeString;
-    };
+    private pad = (timeString: string) => (timeString && timeString.length === 1 ? `0${timeString}` : timeString);
 
     /**
      * Return a string representing the time.
@@ -268,9 +264,7 @@ export default class AnalysisResult {
         let category = this.cache.get(lowerCaseName);
 
         if (!category) {
-            category = this.categories.find((cat: CategoryResult) => {
-                return cat.name.toLowerCase() === lowerCaseName;
-            });
+            category = this.categories.find((cat: CategoryResult) => cat.name.toLowerCase() === lowerCaseName);
 
             if (category) {
                 this.cache.set(lowerCaseName, category);

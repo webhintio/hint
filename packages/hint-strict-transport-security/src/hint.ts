@@ -87,9 +87,7 @@ export default class StrictTransportSecurityHint implements IHint {
             return parsedHeader;
         };
 
-        const isUnderAgeLimit = (maxAge: string, limit: number): boolean => {
-            return !!maxAge && parseInt(maxAge) < limit;
-        };
+        const isUnderAgeLimit = (maxAge: string, limit: number): boolean => !!maxAge && parseInt(maxAge) < limit;
 
         const isPreloaded = (hostname: string): Promise<{ [key: string]: any }> => {
             debug(`Waiting to get preload status for ${hostname}`);

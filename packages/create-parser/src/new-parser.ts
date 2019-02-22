@@ -148,60 +148,58 @@ const SHARED_TEMPLATE_PATH = './shared-templates';
 
 /* istanbul ignore next */
 /** Configure questions depending on what we need. */
-const questions = (repeat: boolean = false) => {
-    return [
-        {
-            default: 'newParser',
-            message: `What's the name of this new parser?`,
-            name: 'name',
-            type: 'input',
-            when() {
-                return !repeat;
-            }
-        },
-        {
-            default(answers: inquirer.Answers) {
-                return `Description for ${answers.name}`;
-            },
-            message(answers: inquirer.Answers) {
-                return `What's the description of this new parser '${answers.name}'?`;
-            },
-            name: 'description',
-            type: 'input',
-            when() {
-                return !repeat;
-            }
-        },
-        {
-            choices: eventList,
-            default: 'fetch::end::*',
-            message: 'Please select an event to subscribe in the parser',
-            name: 'event',
-            type: 'list',
-            when() {
-                return repeat;
-            }
-        },
-        {
-            default: 'div',
-            message: `What's the element for the event?`,
-            name: 'element',
-            type: 'input',
-            when(answers: inquirer.Answers) {
-                return answers.event === 'element::';
-            }
-        },
-        {
-            default: true,
-            message: 'Want to add more events (yes)?',
-            name: 'again',
-            type: 'confirm',
-            when() {
-                return repeat;
-            }
+const questions = (repeat: boolean = false) => [
+    {
+        default: 'newParser',
+        message: `What's the name of this new parser?`,
+        name: 'name',
+        type: 'input',
+        when() {
+            return !repeat;
         }
-    ];
-};
+    },
+    {
+        default(answers: inquirer.Answers) {
+            return `Description for ${answers.name}`;
+        },
+        message(answers: inquirer.Answers) {
+            return `What's the description of this new parser '${answers.name}'?`;
+        },
+        name: 'description',
+        type: 'input',
+        when() {
+            return !repeat;
+        }
+    },
+    {
+        choices: eventList,
+        default: 'fetch::end::*',
+        message: 'Please select an event to subscribe in the parser',
+        name: 'event',
+        type: 'list',
+        when() {
+            return repeat;
+        }
+    },
+    {
+        default: 'div',
+        message: `What's the element for the event?`,
+        name: 'element',
+        type: 'input',
+        when(answers: inquirer.Answers) {
+            return answers.event === 'element::';
+        }
+    },
+    {
+        default: true,
+        message: 'Want to add more events (yes)?',
+        name: 'again',
+        type: 'confirm',
+        when() {
+            return repeat;
+        }
+    }
+];
 
 const copyFiles = async (data: NewParser) => {
     const files = path.join(__dirname, 'files');
@@ -284,9 +282,7 @@ export default async (): Promise<boolean> => {
             eventList.splice(eventList.indexOf(event.event), 1);
             eventsSelected.push(event);
         } else {
-            const elementExists = eventsSelected.find((ev) => {
-                return ev.element === event.element;
-            });
+            const elementExists = eventsSelected.find((ev) => ev.element === event.element);
 
             if (!elementExists) {
                 eventsSelected.push(event);

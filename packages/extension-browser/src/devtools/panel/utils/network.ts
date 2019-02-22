@@ -24,55 +24,49 @@ const generateFetchStart = (request: chrome.devtools.network.Request) => {
  * onRequestFinished before HAR entries have been populated.
  * https://bugzilla.mozilla.org/show_bug.cgi?id=1472653
  */
-const waitForFullEntry = (entry: Entry, retries = 5): Promise<Entry> => {
-    return new Promise((resolve) => {
+const waitForFullEntry = (entry: Entry, retries = 5): Promise<Entry> => new Promise((resolve) => {
 
-        // Don't wait if the entry has already been populated.
-        if (typeof entry.response.content.size === 'number' && typeof entry.response.headersSize === 'number' && entry.response.status) {
-            resolve(entry);
+    // Don't wait if the entry has already been populated.
+    if (typeof entry.response.content.size === 'number' && typeof entry.response.headersSize === 'number' && entry.response.status) {
+        resolve(entry);
 
-            return;
-        }
+        return;
+    }
 
-        // Give up after a few attempts to avoid retrying forever.
-        if (!retries) {
-            browser.devtools.inspectedWindow.eval(`console.warn("[webhint] HAR missing data after max retries for ${entry.request.url}")`);
-            resolve(entry);
+    // Give up after a few attempts to avoid retrying forever.
+    if (!retries) {
+        browser.devtools.inspectedWindow.eval(`console.warn("[webhint] HAR missing data after max retries for ${entry.request.url}")`);
+        resolve(entry);
 
-            return;
-        }
+        return;
+    }
 
-        // Wait just a bit to give the HAR time to be populated.
-        setTimeout(() => {
-            // Then check if the HAR has a matching entry with more data.
-            browser.devtools.network.getHAR((async (harLog: Log) => {
-                const match = harLog.entries.filter((ent) => {
-                    return ent.request.url === entry.request.url;
-                })[0];
+    // Wait just a bit to give the HAR time to be populated.
+    setTimeout(() => {
+        // Then check if the HAR has a matching entry with more data.
+        browser.devtools.network.getHAR((async (harLog: Log) => {
+            const match = harLog.entries.filter((ent) => ent.request.url === entry.request.url)[0];
 
-                // Retry with the matching entry if found, or the old one otherwise (as a match may not exist yet).
-                resolve(await waitForFullEntry(match || entry, retries - 1));
-            }) as any);
-        }, 500);
-    });
-};
+            // Retry with the matching entry if found, or the old one otherwise (as a match may not exist yet).
+            resolve(await waitForFullEntry(match || entry, retries - 1));
+        }) as any);
+    }, 500);
+});
 
 /**
  * Get the entry response content directly from a `Request` or `Entry`.
  */
-const getContent = (entry: chrome.devtools.network.Request | Entry): Promise<string> => {
-    return new Promise((resolve) => {
-        if ('getContent' in entry) {
-            // If the first attempt, we can get the content directly (Chrome).
-            entry.getContent((content) => {
-                resolve(content);
-            });
-        } else {
-            // If a retry, we need to look on the response (Firefox; not populated by Chrome).
-            resolve(entry.response.content.text);
-        }
-    });
-};
+const getContent = (entry: chrome.devtools.network.Request | Entry): Promise<string> => new Promise((resolve) => {
+    if ('getContent' in entry) {
+        // If the first attempt, we can get the content directly (Chrome).
+        entry.getContent((content) => {
+            resolve(content);
+        });
+    } else {
+        // If a retry, we need to look on the response (Firefox; not populated by Chrome).
+        resolve(entry.response.content.text);
+    }
+});
 
 /**
  * Generate `fetch::end` events from `devtools.network.onRequestFinished`.

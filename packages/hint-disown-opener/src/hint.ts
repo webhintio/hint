@@ -47,9 +47,7 @@ export default class DisownOpenerHint implements IHint {
             const relValues: string[] = normalizeString(element.getAttribute('rel'), '')!.split(' '); // `normalizeString` uses passed default ('') instead of null
             const hrefValue: string = normalizeString(element.getAttribute('href')) || '';
 
-            const requiredValues: string[] = relValuesToCheckFor.filter((value) => {
-                return !relValues.includes(value);
-            });
+            const requiredValues: string[] = relValuesToCheckFor.filter((value) => !relValues.includes(value));
 
             if (requiredValues.length !== 0) {
                 const message = `'${cutString(await element.outerHTML(), 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`;

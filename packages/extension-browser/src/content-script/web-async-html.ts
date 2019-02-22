@@ -62,9 +62,7 @@ export class AsyncHTMLDocument implements IAsyncHTMLDocument {
     public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
         const matches = Array.from(this._document.querySelectorAll(selector));
 
-        const result = matches.map((element) => {
-            return new AsyncHTMLElement(element, this);
-        });
+        const result = matches.map((element) => new AsyncHTMLElement(element, this));
 
         return Promise.resolve(result);
     }

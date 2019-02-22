@@ -10,21 +10,19 @@ import { ProblemLocation, ISchemaValidationError, NetworkData, ElementFound } fr
 import { Engine } from 'hint';
 
 const elementLinkEventName = 'element::link';
-const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribute: string = 'site.webmanifest') => {
-    return {
-        element: {
-            getAttribute: (value: string) => {
-                if (value === 'href') {
-                    return hrefAttribute;
-                }
+const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribute: string = 'site.webmanifest') => ({
+    element: {
+        getAttribute: (value: string) => {
+            if (value === 'href') {
+                return hrefAttribute;
+            }
 
-                return relAttribute;
-            },
-            nodeName: 'LINK'
+            return relAttribute;
         },
-        resource: 'https://example.com'
-    };
-};
+        nodeName: 'LINK'
+    },
+    resource: 'https://example.com'
+});
 
 const getEngine = (): Engine<ManifestEvents> => {
     const engine = new EventEmitter2({
@@ -33,9 +31,7 @@ const getEngine = (): Engine<ManifestEvents> => {
         wildcard: true
     }) as Engine<ManifestEvents>;
 
-    engine.fetchContent = (target: string | url.URL, headers?: object): Promise<NetworkData> => {
-        return {} as Promise<NetworkData>;
-    };
+    engine.fetchContent = (target: string | url.URL, headers?: object): Promise<NetworkData> => ({} as Promise<NetworkData>);
 
     return engine;
 };
@@ -52,27 +48,25 @@ const parseJSONErrorEventName: string = 'parse::error::manifest::json';
 const scanEndEventName = 'scan::end';
 const scanEndEventValue = { resource: 'https://example.com' };
 
-const createNetworkDataObject = (manifestContent: string = '', statusCode: number = 200): NetworkData => {
-    return {
-        request: {
-            headers: null,
-            url: ''
+const createNetworkDataObject = (manifestContent: string = '', statusCode: number = 200): NetworkData => ({
+    request: {
+        headers: null,
+        url: ''
+    },
+    response: {
+        body: {
+            content: manifestContent,
+            rawContent: null,
+            rawResponse: null
         },
-        response: {
-            body: {
-                content: manifestContent,
-                rawContent: null,
-                rawResponse: null
-            },
-            charset: '',
-            headers: {},
-            hops: [],
-            mediaType: '',
-            statusCode,
-            url: ''
-        }
-    } as any;
-};
+        charset: '',
+        headers: {},
+        hops: [],
+        mediaType: '',
+        statusCode,
+        url: ''
+    }
+} as any);
 
 const createMissingTest = async (t: ExecutionContext, relAttribute: string = 'manifest', hrefAttribute: string = '') => {
     const elementLinkEventValue = getElementLinkEventValue(relAttribute, hrefAttribute);
@@ -267,9 +261,7 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
 
     await createParseTest(t, JSON.stringify(manifestContent), parseStartEventName, parseErrorSchemaEventName, (tt: ExecutionContext, result: ManifestInvalidSchema) => {
         tt.is(result.prettifiedErrors.length, expectedPrettifiedErrors.length);
-        tt.true(result.prettifiedErrors.every((e: any) => {
-            return expectedPrettifiedErrors.includes(e);
-        }));
+        tt.true(result.prettifiedErrors.every((e: any) => expectedPrettifiedErrors.includes(e)));
     });
 });
 

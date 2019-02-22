@@ -4,9 +4,7 @@ import test from 'ava';
 
 import loadJSONFile from '../../../../src/lib/utils/fs/load-json-file';
 
-const resolve = (route: string) => {
-    return join(__dirname, route);
-};
+const resolve = (route: string) => join(__dirname, route);
 
 
 test('loadJSONFile throws an exception if missing file', (t) => {

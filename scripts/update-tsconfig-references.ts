@@ -22,19 +22,13 @@ const getReferencesFromDependencies = (packagePath: string): string[] => {
 
     // Map `hint` and `@hint/*` dependencies from `package.json` to `tsconfig.json` reference names.
     return uniqueDependencies
-        .filter((name) => {
-            return name === 'hint' || name.startsWith('@hint/');
-        })
-        .map((name) => {
-            return name.replace('@hint/', '');
-        });
+        .filter((name) => name === 'hint' || name.startsWith('@hint/'))
+        .map((name) => name.replace('@hint/', ''));
 };
 
-const compactReferences = (json: string): string => {
+const compactReferences = (json: string): string =>
     // Condense JSON-serialized references to fit on a single line.
-    return json.replace(/\{\r?\n\s*("path": "[^"]+")\r?\n\s*}/g, '{ $1 }');
-};
-
+    json.replace(/\{\r?\n\s*("path": "[^"]+")\r?\n\s*}/g, '{ $1 }');
 const updateFile = (filePath: string, content: string) => {
     const writeContent = (shell as any)['ShellString']; // eslint-disable-line dot-notation
 
@@ -59,10 +53,10 @@ const main = () => {
 
             // Include all sub-packages as references in the root `tsconfig.json`.
             prefix = '';
-            references = subPackages.filter((path) => {
+            references = subPackages.filter((path) =>
                 // Exclude `connector-edge` as it only builds on Windows (can be built separately as-needed).
-                return path !== 'packages/connector-edge';
-            });
+                path !== 'packages/connector-edge'
+            );
 
         } else {
 
@@ -75,9 +69,7 @@ const main = () => {
         // Convert references to the expected `tsconfig.json` format.
         tsconfigJSON.references = references
             .sort()
-            .map((reference) => {
-                return { path: `${prefix}${reference}` };
-            });
+            .map((reference) => ({ path: `${prefix}${reference}` }));
 
         // Omit the references section if none exist.
         if (!tsconfigJSON.references.length) {

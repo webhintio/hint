@@ -20,10 +20,10 @@ type SavedConfiguration = {
 const configKey = 'config';
 
 // Generate uppercase category names from bundled hint metadata.
-const categories = [...new Set(metas.map((meta) => {
+const categories = [...new Set(metas.map((meta) =>
     // TODO: Create a helper in `hint` to get uppercased category names.
-    return (meta.docs && meta.docs.category || Category.other);
-}))].sort();
+    (meta.docs && meta.docs.category || Category.other)
+))].sort();
 
 export default function view({ onAnalyzeClick }: Props) {
     /* eslint-disable no-use-before-define, @typescript-eslint/no-use-before-define */
@@ -47,13 +47,9 @@ export default function view({ onAnalyzeClick }: Props) {
 
     const configRoot = fragment.firstElementChild!;
 
-    const findInput = (s: string): HTMLInputElement => {
-        return configRoot.querySelector(s) as HTMLInputElement;
-    };
+    const findInput = (s: string): HTMLInputElement => configRoot.querySelector(s) as HTMLInputElement;
 
-    const findAllInputs = (s: string): HTMLInputElement[] => {
-        return Array.from(configRoot.querySelectorAll(s));
-    };
+    const findAllInputs = (s: string): HTMLInputElement[] => Array.from(configRoot.querySelectorAll(s));
 
     const validityTimeouts = new Map<HTMLInputElement, NodeJS.Timeout>();
 
@@ -104,20 +100,14 @@ export default function view({ onAnalyzeClick }: Props) {
     };
 
     /** Extract selected categories from the form and convert to the `Config` format. */
-    const getCategories = (): string[] => {
-        return findAllInputs('[name^="category-"]:checked').map((input) => {
-            return input.value;
-        });
-    };
+    const getCategories = (): string[] => findAllInputs('[name^="category-"]:checked').map((input) => input.value);
 
     /** Create a regular expression to exclude URLs not part of the current origin. */
-    const buildIgnoreThirdParty = (): Promise<string> => {
-        return new Promise((resolve) => {
-            browser.devtools.inspectedWindow.eval('location.origin', (origin: string) => {
-                resolve(`^(?!${escapeRegExp(origin)})`);
-            });
+    const buildIgnoreThirdParty = (): Promise<string> => new Promise((resolve) => {
+        browser.devtools.inspectedWindow.eval('location.origin', (origin: string) => {
+            resolve(`^(?!${escapeRegExp(origin)})`);
         });
-    };
+    });
 
     /** Extract ignored URLs from the form and convert to the `Config` format. */
     const getIgnoredUrls = async (): Promise<string> => {
@@ -149,23 +139,19 @@ export default function view({ onAnalyzeClick }: Props) {
     };
 
     /** Extract all user provided configuration from the form as a `Config` object. */
-    const getConfiguration = async (): Promise<Config> => {
-        return {
-            browserslist: getBrowsersList(),
-            categories: getCategories(),
-            ignoredUrls: await getIgnoredUrls()
-        };
-    };
+    const getConfiguration = async (): Promise<Config> => ({
+        browserslist: getBrowsersList(),
+        categories: getCategories(),
+        ignoredUrls: await getIgnoredUrls()
+    });
 
-    const readConfiguration = () => {
-        return findAllInputs('input').reduce((o, input) => {
-            if (!o[input.name] || input.checked) {
-                o[input.name] = input.type === 'checkbox' ? input.checked : input.value;
-            }
+    const readConfiguration = () => findAllInputs('input').reduce((o, input) => {
+        if (!o[input.name] || input.checked) {
+            o[input.name] = input.type === 'checkbox' ? input.checked : input.value;
+        }
 
-            return o;
-        }, {} as SavedConfiguration);
-    };
+        return o;
+    }, {} as SavedConfiguration);
 
     const restoreConfiguration = () => {
         const configStr = localStorage.getItem(configKey);

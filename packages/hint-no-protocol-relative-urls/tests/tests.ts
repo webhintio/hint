@@ -5,9 +5,7 @@ import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
-const generateErrorMessage = (url: string): string => {
-    return `'${url}' should not be specified as a protocol-relative URL.`;
-};
+const generateErrorMessage = (url: string): string => `'${url}' should not be specified as a protocol-relative URL.`;
 
 const tests: HintTest[] = [
     {

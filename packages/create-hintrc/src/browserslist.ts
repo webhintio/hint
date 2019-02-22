@@ -34,9 +34,7 @@ export const generateBrowserslistConfig = (): Promise<string[]> => {
         {
             message: 'Please enter the queries you want to specify (Use comma as the separator if you have more than one query):',
             name: 'customQueries',
-            when: (answers: inquirer.Answers) => {
-                return answers.targetBy === 'custom';
-            }
+            when: (answers: inquirer.Answers) => answers.targetBy === 'custom'
         }
     ];
 
@@ -47,9 +45,7 @@ export const generateBrowserslistConfig = (): Promise<string[]> => {
             return [];
         }
 
-        const customQueries: string[] = results.customQueries.split(',').map((query: string) => {
-            return query.trim();
-        });
+        const customQueries: string[] = results.customQueries.split(',').map((query: string) => query.trim());
 
         try {
             browserslist(customQueries);

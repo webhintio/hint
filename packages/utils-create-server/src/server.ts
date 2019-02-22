@@ -451,18 +451,12 @@ const action = (fn: Action) => {
     };
 };
 
-const start = (message: WebhintMessage) => {
-    return server.start();
-};
+const start = (message: WebhintMessage) => server.start();
 
-const stop = (message: WebhintMessage) => {
+const stop = (message: WebhintMessage) =>
     // TODO: Disconnect and stop process?
-    return server.stop();
-};
-
-const port = (message: WebhintMessage) => {
-    return Promise.resolve(server.port);
-};
+    server.stop();
+const port = (message: WebhintMessage) => Promise.resolve(server.port);
 
 const configure = (message: WebhintMessage) => {
     const { payload } = message;

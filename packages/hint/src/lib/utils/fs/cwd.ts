@@ -1,3 +1,1 @@
-export default (): string => {
-    return process.cwd();
-};
+export default (): string => process.cwd();

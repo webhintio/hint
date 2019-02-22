@@ -94,17 +94,15 @@ const initContext = (t: ExecutionContext<NPMContext>) => {
     };
 };
 
-const loadScript = (context: NPMContext) => {
-    return proxyquire('../../../src/lib/utils/npm', {
-        './fs/cwd': context.cwd,
-        './fs/load-json-file': context.loadJSONFileModule,
-        './logging': context.logger,
-        './packages/find-package-root': context.findPackageRootModule,
-        child_process: context.child, // eslint-disable-line camelcase
-        fs: context.fs,
-        'npm-registry-fetch': context.npmRegistryFetch
-    });
-};
+const loadScript = (context: NPMContext) => proxyquire('../../../src/lib/utils/npm', {
+    './fs/cwd': context.cwd,
+    './fs/load-json-file': context.loadJSONFileModule,
+    './logging': context.logger,
+    './packages/find-package-root': context.findPackageRootModule,
+    child_process: context.child, // eslint-disable-line camelcase
+    fs: context.fs,
+    'npm-registry-fetch': context.npmRegistryFetch
+});
 
 test.beforeEach(initContext);
 

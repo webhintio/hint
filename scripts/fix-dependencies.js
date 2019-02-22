@@ -60,49 +60,47 @@ const { packages, paths } = initialize();
  * `property` should be one of `propertiesToUpdate`
  *
  */
-const updateProperty = (property) => {
-    return (pkg) => {
-        if (!pkg[property]) {
+const updateProperty = (property) => (pkg) => {
+    if (!pkg[property]) {
+        return;
+    }
+
+    const dependencies = Object.keys(pkg[property]);
+    let updated = false;
+
+    dependencies.forEach((dependencyName) => {
+        const dependency = packages.get(dependencyName);
+        const pkgVersion = pkg[property][dependencyName];
+
+        if (!dependency) {
             return;
         }
 
-        const dependencies = Object.keys(pkg[property]);
-        let updated = false;
+        const dependencyVersion = `^${dependency.version}`;
 
-        dependencies.forEach((dependencyName) => {
-            const dependency = packages.get(dependencyName);
-            const pkgVersion = pkg[property][dependencyName];
-
-            if (!dependency) {
-                return;
-            }
-
-            const dependencyVersion = `^${dependency.version}`;
-
-            /**
-             * `version` is "pinned" in the `package.json` so we need to add `^` to do the match.
-             *
-             * This means we could "downgrade" a `dependency` in a `package.json` if the workspace
-             * version is smaller. If this happens this means that something has gone terribly
-             * wrong before or the user should make sure to rebase with the latest `master`.
-             */
-            if (pkgVersion !== dependencyVersion) {
-                console.log(`updating ${dependencyName} from "${pkgVersion}" to "${dependencyVersion}" in ${pkg.name}.${property}`);
-                pkg[property][dependencyName] = dependencyVersion;
-                updated = true;
-            }
-        });
-
-        if (!updated) {
-            return;
+        /**
+         * `version` is "pinned" in the `package.json` so we need to add `^` to do the match.
+         *
+         * This means we could "downgrade" a `dependency` in a `package.json` if the workspace
+         * version is smaller. If this happens this means that something has gone terribly
+         * wrong before or the user should make sure to rebase with the latest `master`.
+         */
+        if (pkgVersion !== dependencyVersion) {
+            console.log(`updating ${dependencyName} from "${pkgVersion}" to "${dependencyVersion}" in ${pkg.name}.${property}`);
+            pkg[property][dependencyName] = dependencyVersion;
+            updated = true;
         }
+    });
 
-        try {
+    if (!updated) {
+        return;
+    }
+
+    try {
             fs.writeFileSync(paths.get(pkg.name), `${JSON.stringify(pkg, null, 2)}\n`, 'utf-8'); // eslint-disable-line
-        } catch (e) {
-            console.error(e);
-        }
-    };
+    } catch (e) {
+        console.error(e);
+    }
 };
 
 const propertiesUpdater = propertiesToUpdate.map(updateProperty);

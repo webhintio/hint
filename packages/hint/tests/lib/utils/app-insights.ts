@@ -89,12 +89,10 @@ const initContext = (t: ExecutionContext<AppInsightsContext>) => {
     };
 };
 
-const loadScript = (context: AppInsightsContext) => {
-    return proxyquire('../../../src/lib/utils/app-insights', {
-        './config-store': context.configStore,
-        applicationinsights: context.applicationinsights
-    });
-};
+const loadScript = (context: AppInsightsContext) => proxyquire('../../../src/lib/utils/app-insights', {
+    './config-store': context.configStore,
+    applicationinsights: context.applicationinsights
+});
 
 test.beforeEach(initContext);
 

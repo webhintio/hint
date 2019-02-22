@@ -21,11 +21,9 @@ type DeclarationPair = {
 };
 
 /** Convert `NodeSource` details to a `ProblemLocation`. */
-const getLocation = (decl: Declaration): ProblemLocation => {
-    return decl.source && decl.source.start || {
-        column: 0,
-        line: 0
-    };
+const getLocation = (decl: Declaration): ProblemLocation => decl.source && decl.source.start || {
+    column: 0,
+    line: 0
 };
 
 /** Generate a report message from an invalid pair. */

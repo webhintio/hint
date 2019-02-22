@@ -60,6 +60,4 @@ export const activate = (context: ExtensionContext) => {
     client.start();
 };
 
-export const deactivate = (): Thenable<void> => {
-    return client && client.stop();
-};
+export const deactivate = (): Thenable<void> => client && client.stop();

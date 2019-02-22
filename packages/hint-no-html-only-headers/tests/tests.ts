@@ -9,9 +9,7 @@ import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 const hintPath = getHintPath(__filename);
 const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
 
-const generateMessage = (values: string[]): string => {
-    return `Response should not include unneeded ${prettyPrintArray(values)} ${values.length === 1 ? 'header' : 'headers'}.`;
-};
+const generateMessage = (values: string[]): string => `Response should not include unneeded ${prettyPrintArray(values)} ${values.length === 1 ? 'header' : 'headers'}.`;
 
 const testsForDefaults: HintTest[] = [
     {

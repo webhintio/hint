@@ -49,13 +49,11 @@ const safe = (value: any, index: number, prefix = basePrefix): string => {
 
     // Flatten `Array`s, recursively making values safe.
     if (Array.isArray(value)) {
-        return value.map((v, i) => safe(v, i, path)).join(''); // eslint-disable-line
+        return value.map((v, i) => safe(v, i, path)).join('');
     }
 
     // Make `string`s safe by escaping values which can close or create markup.
-    return `${value}`.replace(rxUnsafe, (c) => {
-        return `&${unsafe[c] || ''};`;
-    });
+    return `${value}`.replace(rxUnsafe, (c) => `&${unsafe[c] || ''};`);
 };
 
 /**
@@ -71,9 +69,7 @@ export default function html(strings: TemplateStringsArray, ...values: any[]): D
     const t = document.createElement('template');
 
     // Make provided values safe, combine with template strings, and parse as HTML.
-    t.innerHTML = strings.reduce((combined, str, i) => {
-        return `${combined}${str}${safe(values[i], i)}`;
-    }, '');
+    t.innerHTML = strings.reduce((combined, str, i) => `${combined}${str}${safe(values[i], i)}`, '');
 
     // Replace temporary placeholders with original objects.
     t.content.querySelectorAll('*').forEach((elm) => {

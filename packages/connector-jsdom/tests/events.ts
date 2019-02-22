@@ -162,18 +162,14 @@ const sameData = (actual: any, expected: any): boolean => {
 
     // We test here getAttribute.
     if (expectedType === 'function' && actualType === 'function') {
-        return ['src', 'href'].some((attribute) => {
-            return actual(attribute) === expected(attribute);
-        });
+        return ['src', 'href'].some((attribute) => actual(attribute) === expected(attribute));
     }
 
     if (expectedType !== 'object' || actual === null) {
         return actual === expected;
     }
 
-    return every(expected, (value, key) => {
-        return sameData(actual[key], value);
-    });
+    return every(expected, (value, key) => sameData(actual[key], value));
 };
 
 const validEvent = (eventsToSearch: any[], expectedEvent: any) => {
@@ -226,9 +222,7 @@ test(`[${name}] Events`, async (t) => {
         }
     });
 
-    const pendingEvents: any[] = events.map((event) => {
-        return Server.updateLocalhost(event, server.port);
-    });
+    const pendingEvents: any[] = events.map((event) => Server.updateLocalhost(event, server.port));
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
 
@@ -244,9 +238,7 @@ test(`[${name}] Events`, async (t) => {
 
     // List of events that only have to be called once per execution
     const singles = ['fetch::error', 'scan::start', 'scan::end', 'fetch::end::html'];
-    const groupedEvents = groupBy(invokes, (invoke) => {
-        return invoke[0];
-    });
+    const groupedEvents = groupBy(invokes, (invoke) => invoke[0]);
 
     singles.forEach((single) => {
         t.is(groupedEvents[single] && groupedEvents[single].length, 1, `${single} should be called once`);

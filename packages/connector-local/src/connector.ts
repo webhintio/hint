@@ -338,9 +338,7 @@ export default class LocalConnector implements IConnector {
             }
         }
 
-        const events = await Promise.all<FetchEnd>(files.map((file) => {
-            return this.fetchData(file, options);
-        }));
+        const events = await Promise.all<FetchEnd>(files.map((file) => this.fetchData(file, options)));
 
         for (let i = 0; i < events.length; i++) {
             await this.notifyFetch(events[i]);

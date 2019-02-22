@@ -17,17 +17,9 @@ const mockContext = () => {
         wildcard: true
     }) as Engine<StyleEvents>;
 
-    const processor = {
-        process: (code: string) => {
-            return Promise.resolve({ root: { } });
-        }
-    };
+    const processor = {process: (code: string) => Promise.resolve({ root: { } })};
 
-    const CSSParser = proxyquire('../src/parser', {
-        postcss: () => {
-            return processor;
-        }
-    }).default;
+    const CSSParser = proxyquire('../src/parser', {postcss: () => processor}).default;
 
     new CSSParser(engine); // eslint-disable-line
 

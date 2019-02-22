@@ -13,23 +13,19 @@ import cwd from './fs/cwd';
 
 const debug: debug.IDebugger = d(__filename);
 
-const install = (command: string) => {
-    return new Promise((resolve, reject) => {
-        const npmInstall = spawn(command, [], { shell: true, stdio: 'inherit' });
+const install = (command: string) => new Promise((resolve, reject) => {
+    const npmInstall = spawn(command, [], { shell: true, stdio: 'inherit' });
 
-        npmInstall.on('error', (err) => {
-            return reject(err);
-        });
+    npmInstall.on('error', (err) => reject(err));
 
-        npmInstall.on('exit', (code) => {
-            if (code !== 0) {
-                return reject();
-            }
+    npmInstall.on('exit', (code) => {
+        if (code !== 0) {
+            return reject();
+        }
 
-            return resolve(true);
-        });
+        return resolve(true);
     });
-};
+});
 
 export const installPackages = async (packages: string[]): Promise<boolean> => {
     /** Whether or not the package should be installed as devDependencies. */
@@ -91,23 +87,13 @@ Please try executing:
 };
 
 /** Filters the packages that `startsWith` `initTerm`. */
-const filterPackages = (packages: NpmPackage[], initTerm: string) => {
-    return packages.filter((pkg) => {
-        return pkg.name.startsWith(initTerm);
-    });
-};
+const filterPackages = (packages: NpmPackage[], initTerm: string) => packages.filter((pkg) => pkg.name.startsWith(initTerm));
 
 /** Get npm packages from the object returned for npmRegistryFetch.json. */
-const getPackages = (result: NpmSearchResults): NpmPackage[] => {
-    return result.objects.map((obj) => {
-        return obj.package;
-    });
-};
+const getPackages = (result: NpmSearchResults): NpmPackage[] => result.objects.map((obj) => obj.package);
 
 /** Generate a search query to search packages. */
-const generateSearchQuery = (searchTerm: string, from?: number, size = 100) => {
-    return `/-/v1/search?text=${searchTerm}&size=${size}${from ? `&from=${from}` : ''}`;
-};
+const generateSearchQuery = (searchTerm: string, from?: number, size = 100) => `/-/v1/search?text=${searchTerm}&size=${size}${from ? `&from=${from}` : ''}`;
 
 /**
  * Searches all the packages in npm given `searchTerm`.

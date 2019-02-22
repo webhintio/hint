@@ -5,25 +5,19 @@ const debug: debug.IDebugger = d(__filename);
 
 const quotesRegex: RegExp = /('|")/g;
 
-const escapeQuotes = (text: string): string => {
-    return text.replace(quotesRegex, '\\$1');
-};
+const escapeQuotes = (text: string): string => text.replace(quotesRegex, '\\$1');
 
 /**
  * Escape an attribute name with namespace.
  * e.g. xmlns:data
  */
-const escapeNamespace = (text: string): string => {
-    return text.replace(':', '\\:');
-};
+const escapeNamespace = (text: string): string => text.replace(':', '\\:');
 
 /**
  * Escape a newline within a CSS attribute selector.
  * https://stackoverflow.com/questions/20338493/css-attribute-selectors-how-to-escape-newlines-within-attribute-value
  */
-const escapeNewline = (text: string): string => {
-    return text.replace(/\n(\s)?/g, '\\a $1');
-};
+const escapeNewline = (text: string): string => text.replace(/\n(\s)?/g, '\\a $1');
 
 /**
  * Creates a CSS selector from a given element using its attributes and the type of node:

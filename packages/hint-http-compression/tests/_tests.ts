@@ -19,25 +19,15 @@ interface IFetchFunction {
 
 // Error messages.
 
-const generateCompressionMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => {
-    return `Response should${notRequired ? ' not' : ''} be compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding || '') ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
-};
+const generateCompressionMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => `Response should${notRequired ? ' not' : ''} be compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding || '') ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
 
-const generateContentEncodingMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => {
-    return `Response should${notRequired ? ' not' : ''} include 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
-};
+const generateContentEncodingMessage = (encoding?: string, notRequired?: boolean, suffix?: string) => `Response should${notRequired ? ' not' : ''} include 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
 
-const generateDisallowedCompressionMessage = (encoding: string) => {
-    return `Response should not be compressed with disallowed '${encoding}' compression method.`;
-};
+const generateDisallowedCompressionMessage = (encoding: string) => `Response should not be compressed with disallowed '${encoding}' compression method.`;
 
-const generateSizeMessage = (encoding: string, differentSize: boolean) => {
-    return `Response should not be served compressed with ${encoding} as the compressed size is ${differentSize ? 'bigger than' : 'the same size as'} the uncompressed one.`;
-};
+const generateSizeMessage = (encoding: string, differentSize: boolean) => `Response should not be served compressed with ${encoding} as the compressed size is ${differentSize ? 'bigger than' : 'the same size as'} the uncompressed one.`;
 
-const generateUnneededContentEncodingMessage = (encoding?: string) => {
-    return `Response should not include 'content-encoding' header${encoding ? ` for requests made with 'accept-encoding: ${encoding}'` : ''}.`;
-};
+const generateUnneededContentEncodingMessage = (encoding?: string) => `Response should not include 'content-encoding' header${encoding ? ` for requests made with 'accept-encoding: ${encoding}'` : ''}.`;
 
 const varyMessage = `Response should include 'vary' header containing 'accept-encoding' value.`;
 
@@ -109,32 +99,30 @@ const createConfig = ({
     },
     svgzFileContent = svgzFile,
     svgzFileHeaders = { 'Content-Encoding': 'gzip' }
-} = {}) => {
-    return {
-        [JSON.stringify({ request })]: {
-            '/': {
-                content: htmlFileContent,
-                headers: Object.assign({ 'Content-Type': 'text/html; charset=utf-8' }, htmlFileHeaders)
-            },
-            '/favicon.ico': {
-                content: faviconFileContent,
-                headers: Object.assign({ 'Content-Type': 'image/x-icon' }, faviconFileHeaders)
-            },
-            '/image.png': {
-                content: imageFileContent,
-                headers: Object.assign({ 'Content-Type': 'image/png' }, imageFileHeaders)
-            },
-            '/image.svgz': {
-                content: svgzFileContent,
-                headers: Object.assign({ 'Content-Type': 'image/svg+xml' }, svgzFileHeaders)
-            },
-            '/script.js': {
-                content: scriptFileContent,
-                headers: Object.assign({ 'Content-Type': 'text/javascript; charset=utf-8' }, scriptFileHeaders)
-            }
+} = {}) => ({
+    [JSON.stringify({ request })]: {
+        '/': {
+            content: htmlFileContent,
+            headers: Object.assign({ 'Content-Type': 'text/html; charset=utf-8' }, htmlFileHeaders)
+        },
+        '/favicon.ico': {
+            content: faviconFileContent,
+            headers: Object.assign({ 'Content-Type': 'image/x-icon' }, faviconFileHeaders)
+        },
+        '/image.png': {
+            content: imageFileContent,
+            headers: Object.assign({ 'Content-Type': 'image/png' }, imageFileHeaders)
+        },
+        '/image.svgz': {
+            content: svgzFileContent,
+            headers: Object.assign({ 'Content-Type': 'image/svg+xml' }, svgzFileHeaders)
+        },
+        '/script.js': {
+            content: scriptFileContent,
+            headers: Object.assign({ 'Content-Type': 'text/javascript; charset=utf-8' }, scriptFileHeaders)
         }
-    };
-};
+    }
+});
 
 const brotliConfigs = {
     faviconFileContent: faviconFile.brotli,
@@ -174,57 +162,49 @@ const noCompressionConfigs = {
     }
 };
 
-const createGzipZopfliConfigs = (configs = {}) => {
-    return Object.assign(
-        // Accept-Encoding: gzip
-        createConfig(Object.assign({ request: { headers: { 'Accept-Encoding': 'gzip' } } }, configs)),
+const createGzipZopfliConfigs = (configs = {}) => Object.assign(
+    // Accept-Encoding: gzip
+    createConfig(Object.assign({ request: { headers: { 'Accept-Encoding': 'gzip' } } }, configs)),
 
-        // Accept-Encoding: gzip, deflate (jsdom)
-        createConfig(Object.assign({ request: { headers: { 'Accept-Encoding': 'gzip, deflate' } } }, configs)),
+    // Accept-Encoding: gzip, deflate (jsdom)
+    createConfig(Object.assign({ request: { headers: { 'Accept-Encoding': 'gzip, deflate' } } }, configs)),
 
-        // Accept-Encoding: gzip, deflate, br (chrome)
-        createConfig(configs)
-    );
-};
+    // Accept-Encoding: gzip, deflate, br (chrome)
+    createConfig(configs)
+);
 
-const createServerConfig = (configs = {}, https: boolean = false) => {
-    return Object.assign(
+const createServerConfig = (configs = {}, https: boolean = false) => Object.assign(
 
-        // Accept-Encoding: identity
-        createConfig(noCompressionConfigs),
+    // Accept-Encoding: identity
+    createConfig(noCompressionConfigs),
 
-        /*
-         * Accept-Encoding: gzip
-         * Accept-Encoding: gzip, deflate (jsdom)
-         * Accept-Encoding: gzip, deflate, br (chrome)
-         */
-        createGzipZopfliConfigs(configs),
+    /*
+     * Accept-Encoding: gzip
+     * Accept-Encoding: gzip, deflate (jsdom)
+     * Accept-Encoding: gzip, deflate, br (chrome)
+     */
+    createGzipZopfliConfigs(configs),
 
-        // Accept-Encoding: br
-        createConfig(Object.assign(
-            { request: { headers: { 'Accept-Encoding': 'br' } } },
-            https ? Object.assign({}, brotliConfigs, configs) : configs
-        ))
-    );
-};
+    // Accept-Encoding: br
+    createConfig(Object.assign(
+        { request: { headers: { 'Accept-Encoding': 'br' } } },
+        https ? Object.assign({}, brotliConfigs, configs) : configs
+    ))
+);
 
-const createGzipZopfliServerConfig = (configs: {}, https: boolean = false) => {
-    return Object.assign(
-        createServerConfig({}, https),
-        createGzipZopfliConfigs(configs)
-    );
-};
+const createGzipZopfliServerConfig = (configs: {}, https: boolean = false) => Object.assign(
+    createServerConfig({}, https),
+    createGzipZopfliConfigs(configs)
+);
 
-const createBrotliServerConfig = (configs: {}) => {
-    return createGzipZopfliServerConfig(
-        Object.assign(
-            {},
-            brotliConfigs,
-            configs
-        ),
-        true
-    );
-};
+const createBrotliServerConfig = (configs: {}) => createGzipZopfliServerConfig(
+    Object.assign(
+        {},
+        brotliConfigs,
+        configs
+    ),
+    true
+);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -253,14 +233,12 @@ const testsForBrotli: HintTest[] = [
             fnWrapper.asyncTry = originalAsyncTry;
         },
         before() {
-            fnWrapper.asyncTry = (fetch: IFetchFunction) => {
-                return (target: string, headers: HttpHeaders) => {
-                    if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'br') {
-                        return fetch(target, headers);
-                    }
+            fnWrapper.asyncTry = (fetch: IFetchFunction) => (target: string, headers: HttpHeaders) => {
+                if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'br') {
+                    return fetch(target, headers);
+                }
 
-                    return null;
-                };
+                return null;
             };
 
             mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
@@ -328,282 +306,270 @@ const testsForBrotliUASniffing = (): HintTest[] => {
     ];
 };
 
-const testsForDefaults = (https: boolean = false): HintTest[] => {
-    return [
-        {
-            name: `Only resources that should be served compressed are served compressed`,
-            serverConfig: createServerConfig({}, https)
-        },
+const testsForDefaults = (https: boolean = false): HintTest[] => [
+    {
+        name: `Only resources that should be served compressed are served compressed`,
+        serverConfig: createServerConfig({}, https)
+    },
 
-        // Compression is applied to resources that should not be compressed..
+    // Compression is applied to resources that should not be compressed..
 
-        {
-            name: `Resource that should not be served compressed is served compressed.`,
-            reports: [{ message: generateCompressionMessage('', true) }],
-            serverConfig: createGzipZopfliServerConfig(
-                { imageFileContent: imageFile.gzip },
-                https
-            )
-        },
-        /*
-         * TODO: This breaks connectors.
-         *
-         * {
-         *     name: `Resource that should not be served compressed is served with the 'Content-Encoding' header`,
-         *     reports: [{ message: generateCompressionMessage('', true) }],
-         *     serverConfig: createGzipZopfliServerConfig(
-         *         { imageFileHeaders: { 'content-encoding': 'gzip' },
-         *         https
-         *     )
-         * },
-         */
-        {
-            name: `Resource that should not be served compressed is served compressed and with the 'Content-Encoding' header`,
-            reports: [
-                { message: generateCompressionMessage('', true) },
-                { message: generateContentEncodingMessage('', true) }
-            ],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    imageFileContent: imageFile.gzip,
-                    imageFileHeaders: { 'Content-Encoding': 'gzip' }
-                },
-                https
-            )
-        }
-    ];
-};
-
-const testsForDisallowedCompressionMethods = (https: boolean = false): HintTest[] => {
-    return [
-        {
-            name: `Compressed resource is served with disallowed 'Content-Encoding: x-gzip' header`,
-            reports: [{ message: generateContentEncodingMessage('gzip') }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    scriptFileHeaders: {
-                        'Content-Encoding': 'x-gzip',
-                        vary: 'Accept-Encoding'
-                    }
-                },
-                https
-            )
-        },
-        {
-            name: `Compressed resource is served with disallowed 'Content-Encoding: x-compress' header`,
-            reports: [
-                { message: generateDisallowedCompressionMessage('x-compress') },
-                { message: generateCompressionMessage('gzip') }
-            ],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    scriptFileContent: scriptFile.original,
-                    scriptFileHeaders: {
-                        'Content-Encoding': 'x-compress',
-                        vary: 'Accept-Encoding'
-                    }
-                },
-                https
-            )
-        },
-        {
-            name: `Compressed resource is served with 'Get-Dictionary' header`,
-            reports: [{ message: generateDisallowedCompressionMessage('sdch') }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    scriptFileHeaders: {
-                        'Content-Encoding': 'gzip',
-                        'geT-dictionary': '/dictionaries/search_dict, /dictionaries/help_dict',
-                        vary: 'Accept-Encoding'
-                    }
-                },
-                https
-            )
-        }
-    ];
-};
-
-const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
-    return [
-        {
-            name: `Resource is not served compressed with gzip when gzip compression is requested`,
-            reports: [{ message: generateCompressionMessage('gzip') }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileContent: scriptFile.original,
-                    scriptFileHeaders: { 'Content-Encoding': null }
-                },
-                https
-            )
-        },
-        {
-            name: `Resource is served compressed with gzip and without the 'Content-Encoding' header when gzip compression is requested`,
-            reports: [
-                { message: generateCompressionMessage('Zopfli') },
-                { message: generateContentEncodingMessage('gzip') }
-            ],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileContent: scriptFile.gzip,
-                    scriptFileHeaders: {
-                        'Content-Encoding': null,
-                        vary: 'Accept-Encoding'
-                    }
-                },
-                https
-            )
-        },
-        {
-            name: `Resource is not served compressed with Zopfli when gzip compression is requested`,
-            reports: [{ message: generateCompressionMessage('Zopfli') }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileContent: scriptFile.gzip,
-                    scriptFileHeaders: {
-                        'Content-Encoding': 'gzip',
-                        vary: 'Accept-Encoding'
-                    }
-                },
-                https
-            )
-        },
-        {
-            name: `Resource is served compressed with Zopfli and without the 'Content-Encoding' header when gzip compression is requested`,
-            reports: [{ message: generateContentEncodingMessage('gzip') }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileContent: scriptFile.zopfli,
-                    scriptFileHeaders: {
-                        'Content-Encoding': null,
-                        vary: 'Accept-Encoding'
-                    }
-                },
-                https
-            )
-        },
-        {
-            after() {
-                fnWrapper.asyncTry = originalAsyncTry;
+    {
+        name: `Resource that should not be served compressed is served compressed.`,
+        reports: [{ message: generateCompressionMessage('', true) }],
+        serverConfig: createGzipZopfliServerConfig(
+            { imageFileContent: imageFile.gzip },
+            https
+        )
+    },
+    /*
+     * TODO: This breaks connectors.
+     *
+     * {
+     *     name: `Resource that should not be served compressed is served with the 'Content-Encoding' header`,
+     *     reports: [{ message: generateCompressionMessage('', true) }],
+     *     serverConfig: createGzipZopfliServerConfig(
+     *         { imageFileHeaders: { 'content-encoding': 'gzip' },
+     *         https
+     *     )
+     * },
+     */
+    {
+        name: `Resource that should not be served compressed is served compressed and with the 'Content-Encoding' header`,
+        reports: [
+            { message: generateCompressionMessage('', true) },
+            { message: generateContentEncodingMessage('', true) }
+        ],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                imageFileContent: imageFile.gzip,
+                imageFileHeaders: { 'Content-Encoding': 'gzip' }
             },
-            before() {
-                fnWrapper.asyncTry = (fetch: IFetchFunction) => {
-                    return (target: string, headers: HttpHeaders) => {
-                        if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'gzip') {
-                            return fetch(target, headers);
-                        }
+            https
+        )
+    }
+];
 
-                        return null;
-                    };
-                };
-
-                mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
+const testsForDisallowedCompressionMethods = (https: boolean = false): HintTest[] => [
+    {
+        name: `Compressed resource is served with disallowed 'Content-Encoding: x-gzip' header`,
+        reports: [{ message: generateContentEncodingMessage('gzip') }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                scriptFileHeaders: {
+                    'Content-Encoding': 'x-gzip',
+                    vary: 'Accept-Encoding'
+                }
             },
-            name: `If a request throws an exception, if should be managed and report an error (Gzip)`,
-            reports: [{ message: 'Could not be fetched when requested compressed with gzip' }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileContent: scriptFile.zopfli
-                },
-                https
-            )
-        }
-    ];
-};
+            https
+        )
+    },
+    {
+        name: `Compressed resource is served with disallowed 'Content-Encoding: x-compress' header`,
+        reports: [
+            { message: generateDisallowedCompressionMessage('x-compress') },
+            { message: generateCompressionMessage('gzip') }
+        ],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                scriptFileContent: scriptFile.original,
+                scriptFileHeaders: {
+                    'Content-Encoding': 'x-compress',
+                    vary: 'Accept-Encoding'
+                }
+            },
+            https
+        )
+    },
+    {
+        name: `Compressed resource is served with 'Get-Dictionary' header`,
+        reports: [{ message: generateDisallowedCompressionMessage('sdch') }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                scriptFileHeaders: {
+                    'Content-Encoding': 'gzip',
+                    'geT-dictionary': '/dictionaries/search_dict, /dictionaries/help_dict',
+                    vary: 'Accept-Encoding'
+                }
+            },
+            https
+        )
+    }
+];
 
-const testsForGzipZopfliCaching = (https: boolean = false): HintTest[] => {
-    return [
-        {
-            name: `Resource is served compressed with Zopfli and without the 'Vary' or 'Cache-Control' header when gzip compression is requested`,
-            reports: [{ message: varyMessage }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileHeaders: {
-                        'Cache-control': null,
-                        'Content-Encoding': 'gzip',
-                        vary: null
-                    }
-                },
-                https
-            )
+const testsForGzipZopfli = (https: boolean = false): HintTest[] => [
+    {
+        name: `Resource is not served compressed with gzip when gzip compression is requested`,
+        reports: [{ message: generateCompressionMessage('gzip') }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileContent: scriptFile.original,
+                scriptFileHeaders: { 'Content-Encoding': null }
+            },
+            https
+        )
+    },
+    {
+        name: `Resource is served compressed with gzip and without the 'Content-Encoding' header when gzip compression is requested`,
+        reports: [
+            { message: generateCompressionMessage('Zopfli') },
+            { message: generateContentEncodingMessage('gzip') }
+        ],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileContent: scriptFile.gzip,
+                scriptFileHeaders: {
+                    'Content-Encoding': null,
+                    vary: 'Accept-Encoding'
+                }
+            },
+            https
+        )
+    },
+    {
+        name: `Resource is not served compressed with Zopfli when gzip compression is requested`,
+        reports: [{ message: generateCompressionMessage('Zopfli') }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileContent: scriptFile.gzip,
+                scriptFileHeaders: {
+                    'Content-Encoding': 'gzip',
+                    vary: 'Accept-Encoding'
+                }
+            },
+            https
+        )
+    },
+    {
+        name: `Resource is served compressed with Zopfli and without the 'Content-Encoding' header when gzip compression is requested`,
+        reports: [{ message: generateContentEncodingMessage('gzip') }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileContent: scriptFile.zopfli,
+                scriptFileHeaders: {
+                    'Content-Encoding': null,
+                    vary: 'Accept-Encoding'
+                }
+            },
+            https
+        )
+    },
+    {
+        after() {
+            fnWrapper.asyncTry = originalAsyncTry;
         },
-        {
-            name: `Resource is served compressed with Zopfli and with 'Cache-Control: private, max-age=0' header when gzip compression is requested`,
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileHeaders: {
-                        'Cache-Control': 'private, max-age=0',
-                        'Content-Encoding': 'gzip',
-                        vary: null
-                    }
-                },
-                https
-            )
-        },
-        {
-            name: `Resource is served compressed with Zopfli and with 'Vary: user-agent' header when gzip compression is requested`,
-            reports: [{ message: varyMessage }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileHeaders: {
-                        'Cache-Control': null,
-                        'Content-Encoding': 'gzip',
-                        vary: 'user-agent'
-                    }
-                },
-                https
-            )
-        },
-        {
-            name: `Resource is served compressed with Zopfli and with 'Vary: user-agent, Accept-encoding' header when gzip compression is requested`,
-            reports: [{ message: varyMessage }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileHeaders: {
-                        'Content-Encoding': 'gzip',
-                        vary: 'user-agent, Accept-encoding'
-                    }
-                },
-                https
-            )
-        }
-    ];
-};
+        before() {
+            fnWrapper.asyncTry = (fetch: IFetchFunction) => (target: string, headers: HttpHeaders) => {
+                if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'gzip') {
+                    return fetch(target, headers);
+                }
 
-const testsForGzipZopfliSmallSize = (https: boolean = false): HintTest[] => {
-    return [
-        {
-            name: `Resource is served compressed with gzip when gzip compression is requested but uncompressed size is smaller the compressed size`,
-            reports: [{ message: generateSizeMessage('gzip', true) }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileContent: scriptSmallFile.gzip
-                },
-                https
-            )
+                return null;
+            };
+
+            mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
         },
-        {
-            name: `Resource is served compressed with Zopfli when gzip compression is requested but uncompressed size is smaller the compressed size`,
-            reports: [{ message: generateSizeMessage('Zopfli', true) }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    request: { headers: { 'Accept-Encoding': 'gzip' } },
-                    scriptFileContent: scriptSmallFile.zopfli
-                },
-                https
-            )
-        }
-    ];
-};
+        name: `If a request throws an exception, if should be managed and report an error (Gzip)`,
+        reports: [{ message: 'Could not be fetched when requested compressed with gzip' }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileContent: scriptFile.zopfli
+            },
+            https
+        )
+    }
+];
+
+const testsForGzipZopfliCaching = (https: boolean = false): HintTest[] => [
+    {
+        name: `Resource is served compressed with Zopfli and without the 'Vary' or 'Cache-Control' header when gzip compression is requested`,
+        reports: [{ message: varyMessage }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileHeaders: {
+                    'Cache-control': null,
+                    'Content-Encoding': 'gzip',
+                    vary: null
+                }
+            },
+            https
+        )
+    },
+    {
+        name: `Resource is served compressed with Zopfli and with 'Cache-Control: private, max-age=0' header when gzip compression is requested`,
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileHeaders: {
+                    'Cache-Control': 'private, max-age=0',
+                    'Content-Encoding': 'gzip',
+                    vary: null
+                }
+            },
+            https
+        )
+    },
+    {
+        name: `Resource is served compressed with Zopfli and with 'Vary: user-agent' header when gzip compression is requested`,
+        reports: [{ message: varyMessage }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileHeaders: {
+                    'Cache-Control': null,
+                    'Content-Encoding': 'gzip',
+                    vary: 'user-agent'
+                }
+            },
+            https
+        )
+    },
+    {
+        name: `Resource is served compressed with Zopfli and with 'Vary: user-agent, Accept-encoding' header when gzip compression is requested`,
+        reports: [{ message: varyMessage }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileHeaders: {
+                    'Content-Encoding': 'gzip',
+                    vary: 'user-agent, Accept-encoding'
+                }
+            },
+            https
+        )
+    }
+];
+
+const testsForGzipZopfliSmallSize = (https: boolean = false): HintTest[] => [
+    {
+        name: `Resource is served compressed with gzip when gzip compression is requested but uncompressed size is smaller the compressed size`,
+        reports: [{ message: generateSizeMessage('gzip', true) }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileContent: scriptSmallFile.gzip
+            },
+            https
+        )
+    },
+    {
+        name: `Resource is served compressed with Zopfli when gzip compression is requested but uncompressed size is smaller the compressed size`,
+        reports: [{ message: generateSizeMessage('Zopfli', true) }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                request: { headers: { 'Accept-Encoding': 'gzip' } },
+                scriptFileContent: scriptSmallFile.zopfli
+            },
+            https
+        )
+    }
+];
 
 const testsForGzipZopfliUASniffing = (https: boolean = false): HintTest[] => {
     const headersConfig = {
@@ -647,109 +613,103 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): HintTest[] => {
     ];
 };
 
-const testsForNoCompression = (https: boolean = false): HintTest[] => {
-    return [
-        {
-            name: `Resource is served compressed when requested uncompressed`,
-            reports: [
-                { message: `Response should not be compressed for requests made with 'accept-encoding: identity'.` },
-                { message: `Response should not include 'content-encoding' header for requests made with 'accept-encoding: identity'.` }
-            ],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    faviconFileContent: faviconFile.original,
-                    faviconFileHeaders: { 'Content-Encoding': null },
-                    htmlFileContent: htmlFile.original,
-                    htmlFileHeaders: { 'Content-Encoding': null },
-                    request: { headers: { 'Accept-Encoding': 'identity' } }
-                },
-                https
-            )
-        },
-        {
-            name: `Resource is served uncompressed and with the 'Content-Encoding: identity' header when requested uncompressed`,
-
-            reports: [{ message: generateUnneededContentEncodingMessage('identity') }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    faviconFileContent: faviconFile.original,
-                    faviconFileHeaders: { 'Content-Encoding': null },
-                    htmlFileContent: htmlFile.original,
-                    htmlFileHeaders: { 'Content-Encoding': null },
-                    request: { headers: { 'Accept-Encoding': 'identity' } },
-                    scriptFileContent: scriptFile.original,
-                    scriptFileHeaders: { 'Content-Encoding': 'identity' }
-                },
-                https
-            )
-        },
-        {
-            name: `Resources are served uncompressed when requested uncompressed`,
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    faviconFileContent: faviconFile.original,
-                    faviconFileHeaders: { 'Content-Encoding': null },
-                    htmlFileContent: htmlFile.original,
-                    htmlFileHeaders: { 'Content-Encoding': null },
-                    request: { headers: { 'Accept-Encoding': 'identity' } },
-                    scriptFileContent: scriptFile.original,
-                    scriptFileHeaders: { 'Content-Encoding': null }
-                },
-                https
-            )
-        },
-        {
-            after() {
-                fnWrapper.asyncTry = originalAsyncTry;
+const testsForNoCompression = (https: boolean = false): HintTest[] => [
+    {
+        name: `Resource is served compressed when requested uncompressed`,
+        reports: [
+            { message: `Response should not be compressed for requests made with 'accept-encoding: identity'.` },
+            { message: `Response should not include 'content-encoding' header for requests made with 'accept-encoding: identity'.` }
+        ],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                faviconFileContent: faviconFile.original,
+                faviconFileHeaders: { 'Content-Encoding': null },
+                htmlFileContent: htmlFile.original,
+                htmlFileHeaders: { 'Content-Encoding': null },
+                request: { headers: { 'Accept-Encoding': 'identity' } }
             },
-            before() {
-                fnWrapper.asyncTry = (fetch: IFetchFunction) => {
-                    return (target: string, headers: HttpHeaders) => {
-                        if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'identity') {
-                            return fetch(target, headers);
-                        }
+            https
+        )
+    },
+    {
+        name: `Resource is served uncompressed and with the 'Content-Encoding: identity' header when requested uncompressed`,
 
-                        return null;
-                    };
-                };
-
-                mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
+        reports: [{ message: generateUnneededContentEncodingMessage('identity') }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                faviconFileContent: faviconFile.original,
+                faviconFileHeaders: { 'Content-Encoding': null },
+                htmlFileContent: htmlFile.original,
+                htmlFileHeaders: { 'Content-Encoding': null },
+                request: { headers: { 'Accept-Encoding': 'identity' } },
+                scriptFileContent: scriptFile.original,
+                scriptFileHeaders: { 'Content-Encoding': 'identity' }
             },
-            name: `If a request throws an exception, if should be managed and report an error (no compression)`,
-            reports: [{ message: 'Could not be fetched when requested uncompressed' }],
-            serverConfig: createGzipZopfliServerConfig(
-                {
-                    faviconFileContent: faviconFile.original,
-                    faviconFileHeaders: { 'Content-Encoding': null },
-                    htmlFileContent: htmlFile.original,
-                    htmlFileHeaders: { 'Content-Encoding': null },
-                    request: { headers: { 'Accept-Encoding': 'identity' } },
-                    scriptFileContent: scriptFile.original,
-                    scriptFileHeaders: { 'Content-Encoding': null }
-                },
-                https
-            )
-        }
-    ];
-};
-
-const testsForSpecialCases = (https: boolean = false): HintTest[] => {
-    return [
-
-        // SVGZ.
-
-        {
-            name: `SVGZ image is served without the 'Content-Encoding: gzip' header`,
-            reports: [{ message: generateContentEncodingMessage('gzip') }],
-            serverConfig: createServerConfig({ svgzFileHeaders: { 'Content-Encoding': null } }, https)
+            https
+        )
+    },
+    {
+        name: `Resources are served uncompressed when requested uncompressed`,
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                faviconFileContent: faviconFile.original,
+                faviconFileHeaders: { 'Content-Encoding': null },
+                htmlFileContent: htmlFile.original,
+                htmlFileHeaders: { 'Content-Encoding': null },
+                request: { headers: { 'Accept-Encoding': 'identity' } },
+                scriptFileContent: scriptFile.original,
+                scriptFileHeaders: { 'Content-Encoding': null }
+            },
+            https
+        )
+    },
+    {
+        after() {
+            fnWrapper.asyncTry = originalAsyncTry;
         },
-        {
-            name: `SVGZ image is served with the wrong 'Content-Encoding: br' header`,
-            reports: [{ message: generateContentEncodingMessage('gzip') }],
-            serverConfig: createServerConfig({ svgzFileHeaders: { 'Content-Encoding': 'x-gzip' } }, https)
-        }
-    ];
-};
+        before() {
+            fnWrapper.asyncTry = (fetch: IFetchFunction) => (target: string, headers: HttpHeaders) => {
+                if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'identity') {
+                    return fetch(target, headers);
+                }
+
+                return null;
+            };
+
+            mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
+        },
+        name: `If a request throws an exception, if should be managed and report an error (no compression)`,
+        reports: [{ message: 'Could not be fetched when requested uncompressed' }],
+        serverConfig: createGzipZopfliServerConfig(
+            {
+                faviconFileContent: faviconFile.original,
+                faviconFileHeaders: { 'Content-Encoding': null },
+                htmlFileContent: htmlFile.original,
+                htmlFileHeaders: { 'Content-Encoding': null },
+                request: { headers: { 'Accept-Encoding': 'identity' } },
+                scriptFileContent: scriptFile.original,
+                scriptFileHeaders: { 'Content-Encoding': null }
+            },
+            https
+        )
+    }
+];
+
+const testsForSpecialCases = (https: boolean = false): HintTest[] => [
+
+    // SVGZ.
+
+    {
+        name: `SVGZ image is served without the 'Content-Encoding: gzip' header`,
+        reports: [{ message: generateContentEncodingMessage('gzip') }],
+        serverConfig: createServerConfig({ svgzFileHeaders: { 'Content-Encoding': null } }, https)
+    },
+    {
+        name: `SVGZ image is served with the wrong 'Content-Encoding: br' header`,
+        reports: [{ message: generateContentEncodingMessage('gzip') }],
+        serverConfig: createServerConfig({ svgzFileHeaders: { 'Content-Encoding': 'x-gzip' } }, https)
+    }
+];
 
 const testsForUserConfigs = (encoding: string, isTarget: boolean = true, https: boolean = false): HintTest[] => {
     const isBrotli = encoding === 'Brotli';

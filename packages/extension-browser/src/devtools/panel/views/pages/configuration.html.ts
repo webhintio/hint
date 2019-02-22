@@ -16,7 +16,6 @@ type Props = {
     onRestoreClick: () => void;
 };
 
-/* eslint-disable */
 export default function view({ categories, onAnalyzeClick, onBrowsersListChange, onResourcesChange, onRestoreClick }: Props) {
     const onSubmit = (event: Event) => {
         event.preventDefault();
