@@ -3,13 +3,12 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ElementFound, IAsyncHTMLElement, ProblemLocation } from 'hint/dist/src/lib/types';
+import { IHint, IAsyncHTMLElement, ProblemLocation } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { ScriptEvents, ScriptParse } from '@hint/parser-javascript';
 import { findProblemLocation } from 'hint/dist/src/lib/utils/location-helpers';
 
 import { Linter } from 'eslint';
-import * as ESTree from 'estree';
 
 import meta from './meta';
 import svgElements from './svgElements';
@@ -39,25 +38,26 @@ export default class CreateElementSvgHint implements IHint {
             create(eslintContext) {
                 return {
                     CallExpression(node) {
-                        const exp = node as ESTree.CallExpression;
-                        const args = exp.arguments;
-                        const callee = exp.callee as ESTree.MemberExpression;
-                        const property = callee !== undefined && callee !== null ? callee.property as ESTree.Identifier : null;
+                        if (!('callee' in node && 'property' in node.callee && 'name' in node.callee.property)) {
+                            return;
+                        }
 
-                        if (property !== null && property.name === 'createElement' && args.length >= 1 && args[0].type === 'Literal') {
-                            const arg = args[0] as ESTree.Literal;
+                        if (node.callee.property.name !== 'createElement') {
+                            return;
+                        }
 
-                            if (arg.value !== undefined && arg.value !== null && svgElements.has(arg.value.toString().toLowerCase())) {
-                                eslintContext.report({
-                                    messageId: 'avoidElement',
-                                    node: property
-                                });
-                            }
+                        const arg = node.arguments[0];
+
+                        if (arg && 'value' in arg && typeof arg.value === 'string' && svgElements.has(arg.value.toLowerCase())) {
+                            eslintContext.report({
+                                messageId: 'avoidElement',
+                                node: node.callee.property
+                            });
                         }
                     }
                 };
             },
-            meta: { messages: { avoidElement: 'Avoid using createElement to create SVG elements; use createElementNS instead' } }
+            meta: { messages: { avoidElement: 'SVG elements cannot be created with createElement; use createElementNS instead' } }
         });
 
         let scriptElement: IAsyncHTMLElement;
@@ -70,7 +70,7 @@ export default class CreateElementSvgHint implements IHint {
             const results = linter.verify(sourceCode, { rules: { 'svg-create': 'error' } });
 
             for (const result of results) {
-                let position: ProblemLocation | null = scriptElement.getLocation() || null;
+                let position = scriptElement.getLocation() || null;
                 let line = 0;
 
                 /*
@@ -78,7 +78,7 @@ export default class CreateElementSvgHint implements IHint {
                  * This offsets the line number so that it is relative
                  * to the full source code and not just the <script> tag
                  */
-                if (scriptElement) {
+                if (scriptElement && scriptData.resource === 'Internal javascript') {
                     position = await findProblemLocation(scriptElement, { column: 0, line: 0 }, result.source === null ? '' : result.source);
                     line = position !== null ? position.line : 0;
                 }
@@ -86,11 +86,10 @@ export default class CreateElementSvgHint implements IHint {
             }
         };
 
-        const enterScript = (elementFound: ElementFound) => {
+        context.on('element::script', (elementFound) => {
             scriptElement = elementFound.element;
-        };
+        });
 
-        context.on('element::script', enterScript);
         context.on('parse::end::javascript', validateScript);
     }
 }

@@ -1,23 +1,30 @@
 # No `createElement` with SVG (`create-element-svg`)
 
-This hint informs users that they need to use [`createElementNS`][createElementNS] to create SVG elements instead of [`createElement`][createElement]
+This hint informs users that they need to use [`createElementNS`][createElementNS]
+to create SVG elements instead of [`createElement`][createElement].
 
 ## Why is this important?
 
-XML documents may contain elements and attributes that are defined for and used by multiple softwares.
-This helps with modularity and re-use. However, this also causes issues with accurate recognition, resulting in collisions.
-The browser needs to be able to recognize the tags and attributes for what they are designed to represent, especially when 
-the same element type and attribute name can be used elsewhere to represent something else.
+SVG-in-HTML is a fantastic addition to the web platform, but since SVG
+is an XML-based language there is some nuance to how it can be used.
+When parsing HTML, SVG elements are automatically created correctly so
+long as they are inside an `<svg>...</svg>` block. However, SVG elements
+cannot be *dynamically* created using `createElement` in the same way
+as HTML elements.
 
-The XML namespace helps standardize these naming constructs and provides other useful information about them.
-For example, in case of SVG elements, using `createElement` to create a `circle` element will be
-misinterpreted by the browser as an invalid HTML element with the `<circle>` tag. However, creating the
-`circle` object using `createElementNS` along with the correct [SVG namespace][svg namespace] will help the
-browser correctly interpret it as an SVG element.
+For example, calling `document.createElement('circle')` actually returns
+an *HTML* element named `circle` instead of an SVG element. This is for
+compatibility with existing web content which may have created custom
+(although invalid) HTML elements using these same names.
+
+In order to dynamically create SVG elements, you must explicitly tell the
+browser you want SVG by using the [SVG namespace][svg namespace] with
+`createElementNS`. For example, to create an SVG `circle` call
+`document.createElementNS('http://www.w3.org/2000/svg', 'circle')`.
 
 ## What does the hint check?
 
-This hint scans the abstract syntax tree to check if any SVG objects are created using `createElement`
+This hint scans JavaScript source code to check if `createElement` is called with any known SVG element names.
 
 ### Examples that **trigger** the hint
 

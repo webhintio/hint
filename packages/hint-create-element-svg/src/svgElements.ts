@@ -1,5 +1,5 @@
 // keep this list lowercase
-const svgElements: Set<string> = new Set([
+const svgElements = new Set([
     'animate',
     'animatemotion',
     'animatetransform',

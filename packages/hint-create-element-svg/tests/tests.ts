@@ -27,7 +27,7 @@ const tests: HintTest[] = [
     {
         name: 'Should not use createElement to create SVG element',
         reports: [{
-            message: 'Avoid using createElement to create SVG elements; use createElementNS instead',
+            message: 'SVG elements cannot be created with createElement; use createElementNS instead',
             position: { column: 59, line: 6}
         }],
         serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(invalidSvgCreate))
@@ -39,7 +39,7 @@ const tests: HintTest[] = [
     {
         name: 'Should not use createElement to create Circle SVG element',
         reports: [{
-            message: 'Avoid using createElement to create SVG elements; use createElementNS instead',
+            message: 'SVG elements cannot be created with createElement; use createElementNS instead',
             position: { column: 54, line: 7}
         }],
         serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(invalidCircleCreate))
