@@ -22,7 +22,16 @@ type DeclarationPair = {
 
 /** Convert `NodeSource` details to a `ProblemLocation`. */
 const getLocation = (decl: Declaration): ProblemLocation => {
-    return decl.source && decl.source.start || {
+    const start = decl.source && decl.source.start;
+
+    if (start) {
+        return {
+            column: start.column - 1,
+            line: start.line - 1
+        };
+    }
+
+    return {
         column: 0,
         line: 0
     };
