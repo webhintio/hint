@@ -1,3 +1,10 @@
+# 3.0.2 (February 22, 2019)
+
+## Bug fixes / Improvements
+
+* [[`44674e9c44`](https://github.com/webhintio/hint/commit/44674e9c4479cb3f3e3c2e66173437c74481f487)] - Fix: Refactor for file name convention (#1861) (see also: [`#1748`](https://github.com/webhintio/hint/issues/1748)).
+
+
 # 3.0.1 (February 22, 2019)
 
 ## Bug fixes / Improvements
