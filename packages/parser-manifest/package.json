@@ -9,7 +9,7 @@
   "description": "webhint parser for web app manifest files",
   "devDependencies": {
     "@types/sinon": "^7.0.6",
-    "ajv": "^6.9.1",
+    "ajv": "^6.9.2",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",
     "eslint": "^5.14.1",
