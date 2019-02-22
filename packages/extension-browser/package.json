@@ -10,7 +10,7 @@
   "devDependencies": {
     "@hint/hint-axe": "^2.1.2",
     "@hint/hint-button-type": "^2.0.1",
-    "@hint/hint-compat-api": "^2.1.0",
+    "@hint/hint-compat-api": "^2.1.1",
     "@hint/hint-content-type": "^3.0.0",
     "@hint/hint-css-prefix-order": "^1.0.0",
     "@hint/hint-disown-opener": "^2.1.1",
