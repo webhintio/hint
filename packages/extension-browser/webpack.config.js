@@ -1,7 +1,7 @@
 const path = require('path');
 
 const baseConfig = {
-    mode: 'none',
+    mode: 'production',
     module: {
         rules: [
             // Bundle `axe-core` as a raw string so it can be injected at runtime.
