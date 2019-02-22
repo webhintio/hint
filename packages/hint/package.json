@@ -101,7 +101,7 @@
     ]
   },
   "optionalDependencies": {
-    "@hint/configuration-web-recommended": "^6.0.0"
+    "@hint/configuration-web-recommended": "^6.1.0"
   },
   "repository": "https://github.com/webhintio/hint",
   "scripts": {
