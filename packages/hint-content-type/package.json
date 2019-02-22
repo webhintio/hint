@@ -68,5 +68,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.0"
+  "version": "3.0.1"
 }
