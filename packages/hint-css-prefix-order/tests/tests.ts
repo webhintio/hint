@@ -28,8 +28,8 @@ const tests: HintTest[] = [
         reports: [{
             message: `'appearance' should be listed after '-webkit-appearance'.`,
             position: {
-                column: 5,
-                line: 3
+                column: 4,
+                line: 2
             }
         }],
         serverConfig: generateConfig('interleaved-prefixes')
@@ -43,8 +43,8 @@ const tests: HintTest[] = [
         reports: [{
             message: `'appearance' should be listed after '-webkit-appearance'.`,
             position: {
-                column: 5,
-                line: 2
+                column: 4,
+                line: 1
             }
         }],
         serverConfig: generateConfig('mixed-with-prefixes-last')
@@ -55,15 +55,15 @@ const tests: HintTest[] = [
             {
                 message: `'appearance' should be listed after '-webkit-appearance'.`,
                 position: {
-                    column: 5,
-                    line: 2
+                    column: 4,
+                    line: 1
                 }
             },
             {
                 message: `'appearance' should be listed after '-webkit-appearance'.`,
                 position: {
-                    column: 5,
-                    line: 8
+                    column: 4,
+                    line: 7
                 }
             }
         ],
@@ -75,15 +75,15 @@ const tests: HintTest[] = [
             {
                 message: `'appearance' should be listed after '-webkit-appearance'.`,
                 position: {
-                    column: 5,
-                    line: 2
+                    column: 4,
+                    line: 1
                 }
             },
             {
                 message: `'background-size' should be listed after '-moz-background-size'.`,
                 position: {
-                    column: 5,
-                    line: 5
+                    column: 4,
+                    line: 4
                 }
             }
         ],
@@ -102,8 +102,8 @@ const tests: HintTest[] = [
         reports: [{
             message: `'display: grid' should be listed after 'display: -ms-grid'.`,
             position: {
-                column: 5,
-                line: 2
+                column: 4,
+                line: 1
             }
         }],
         serverConfig: generateConfig('prefixed-values-last')
@@ -121,8 +121,8 @@ const tests: HintTest[] = [
         reports: [{
             message: `'appearance' should be listed after '-moz-appearance'.`,
             position: {
-                column: 5,
-                line: 2
+                column: 4,
+                line: 1
             }
         }],
         serverConfig: generateConfig('prefixes-last-moz')
@@ -132,8 +132,8 @@ const tests: HintTest[] = [
         reports: [{
             message: `'appearance' should be listed after '-webkit-appearance'.`,
             position: {
-                column: 12,
-                line: 1
+                column: 11,
+                line: 0
             }
         }],
         serverConfig: generateConfig('prefixes-last-same-line')
@@ -143,8 +143,8 @@ const tests: HintTest[] = [
         reports: [{
             message: `'appearance' should be listed after '-webkit-appearance'.`,
             position: {
-                column: 5,
-                line: 2
+                column: 4,
+                line: 1
             }
         }],
         serverConfig: generateConfig('prefixes-last-webkit')
