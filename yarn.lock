@@ -465,10 +465,10 @@
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.2.tgz#84824e9259fc583dd9385635738359c9582f7f82"
   integrity sha512-jkf6UiWUjcOqdQbatbvOm54/YbCdjt3JjiAzT/9KS2XtMmOkYHdKsI5u8fulhbuTUuiqNBfa6J5GSDiwjK+zLA==
 
-"@types/ejs@^2.6.2":
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/@types/ejs/-/ejs-2.6.2.tgz#d59bd4b12114a62d203ed137dbee5bebc2333f93"
-  integrity sha512-Ehk6cOumvNawmngI6pCigAGHa8PipyG1XK9TodqYJOZgrOYWxxtgnTFTVERndcWFfmPu5dx3C/yy0T/NURIylg==
+"@types/ejs@^2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@types/ejs/-/ejs-2.6.3.tgz#b6509e9925d7eb5e95c8c73b6492e5baae7c1e6a"
+  integrity sha512-/F+qQ0Fr0Dr1YvHjX+FCvbba4sQ27RdCPDqmP/si0e1v1GOkbQ3VRBvZPSQM7NoQ3iz3SyiJVscCP2f0vKuIhQ==
 
 "@types/eslint@^4.16.6":
   version "4.16.6"
