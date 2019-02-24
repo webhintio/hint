@@ -26,7 +26,7 @@ const tests: HintTest[] = [
         name: `'link' with initial // fails the hint`,
         reports: [{
             message: generateErrorMessage('//site.webmanifest'),
-            position: { column: 9, line: 3 }
+            position: { match: 'link rel="manifest" href="//site.webmanifest"' }
         }],
         serverConfig: generateHTMLPage('<link rel="manifest" href="//site.webmanifest">')
     },
@@ -46,7 +46,7 @@ const tests: HintTest[] = [
         name: `'script' with initial // fails the hint`,
         reports: [{
             message: generateErrorMessage('//script.js'),
-            position: { column: 9, line: 6 }
+            position: { match: 'script src="//script.js"' }
         }],
         serverConfig: generateHTMLPage(undefined, '<script src="//script.js"></script>')
     },
@@ -66,7 +66,7 @@ const tests: HintTest[] = [
         name: `'a' with initial // fails the hint`,
         reports: [{
             message: generateErrorMessage('//home'),
-            position: { column: 9, line: 6 }
+            position: { match: 'a href="//home"' }
         }],
         serverConfig: generateHTMLPage(undefined, '<a href="//home">home</a>')
     },
