@@ -2,10 +2,15 @@ import { ExecutionContext } from 'ava';
 
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 
+export type MatchProblemLocation = {
+    /** A substring matching the location of the problem. */
+    match: string;
+};
+
 export type Report = {
     /** The message to validate */
     message: string;
-    position?: ProblemLocation;
+    position?: ProblemLocation | MatchProblemLocation;
 };
 
 export type HintTest = {

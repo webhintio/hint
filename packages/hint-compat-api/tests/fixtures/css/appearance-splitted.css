@@ -4,5 +4,5 @@
 }
 
 .example2 {
-    appearance: none;
+    appearance: none; /* unprefixed */
 }

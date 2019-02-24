@@ -1,5 +1,5 @@
 .example {
-    appearance: none;
+    appearance: none; /* Report */
     background-color: #fff;
     -moz-appearance: none;
     -webkit-appearance: none;
