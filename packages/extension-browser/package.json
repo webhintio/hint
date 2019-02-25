@@ -51,7 +51,7 @@
     "eslint": "^5.14.1",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-markdown": "^1.0.0",
-    "highlight.js": "^9.15.1",
+    "highlight.js": "^9.15.2",
     "hint": "^4.4.1",
     "html-minifier": "^3.5.21",
     "is-ci": "^2.0.0",
