@@ -41,7 +41,7 @@
     "@types/is-ci": "^1.1.0",
     "@types/puppeteer": "^1.12.1",
     "@types/sinon": "^7.0.6",
-    "@typescript-eslint/eslint-plugin": "^1.4.0",
+    "@typescript-eslint/eslint-plugin": "^1.4.1",
     "@typescript-eslint/parser": "1.4.0",
     "applicationinsights-js": "^1.0.20",
     "ava": "^1.2.1",

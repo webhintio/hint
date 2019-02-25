@@ -19,7 +19,7 @@
     "cpx": "^1.5.0",
     "eslint": "^5.14.1",
     "eslint-plugin-markdown": "^1.0.0",
-    "@typescript-eslint/eslint-plugin": "^1.4.0",
+    "@typescript-eslint/eslint-plugin": "^1.4.1",
     "hint": "^4.4.1",
     "markdownlint-cli": "^0.14.0",
     "npm-link-check": "^3.0.0",
