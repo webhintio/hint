@@ -77,6 +77,7 @@ test('If a style tag is inline CSS, then we should parse the stylesheet and emit
 
     t.is(args[0], 'parse::end::css');
     t.is(data.code, code);
+    t.is(data.element, element);
     t.is(data.resource, 'Inline CSS');
 });
 
@@ -105,5 +106,6 @@ test('If fetch::end::css is received, then we should parse the stylesheet and em
 
     t.is(args[0], 'parse::end::css');
     t.is(data.code, code);
+    t.is(data.element, null);
     t.is(data.resource, 'styles.css');
 });

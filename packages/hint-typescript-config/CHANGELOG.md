@@ -1,3 +1,11 @@
+# 2.1.4 (February 22, 2019)
+
+## Bug fixes / Improvements
+
+* [[`44674e9c44`](https://github.com/webhintio/hint/commit/44674e9c4479cb3f3e3c2e66173437c74481f487)] - Fix: Refactor for file name convention (#1861) (by [`Karan Sapolia`](https://github.com/karansapolia) / see also: [`#1748`](https://github.com/webhintio/hint/issues/1748)).
+* [[`b673efd377`](https://github.com/webhintio/hint/commit/b673efd3771887148dc91252fbe8314fed3656a0)] - Fix: Remove runtime `typescript` dependency (by [`Tony Ross`](https://github.com/antross) / see also: [`#1852`](https://github.com/webhintio/hint/issues/1852)).
+
+
 # 2.1.3 (February 7, 2019)
 
 ## Bug fixes / Improvements

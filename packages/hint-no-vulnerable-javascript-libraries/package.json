@@ -20,7 +20,7 @@
     "eslint": "^5.14.1",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-markdown": "^1.0.0",
-    "@typescript-eslint/eslint-plugin": "^1.4.0",
+    "@typescript-eslint/eslint-plugin": "^1.4.2",
     "hint": "^4.4.1",
     "jquery": "2.1.4",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.5.0"
+  "version": "2.6.0"
 }

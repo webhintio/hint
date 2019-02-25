@@ -1,3 +1,10 @@
+# 6.1.0 (February 22, 2019)
+
+## New features
+
+* [[`c44cf657ea`](https://github.com/webhintio/hint/commit/c44cf657ea3c59e4bad3091c496c433ff408c23f)] - New: Enable hint-button-type in default configurations (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 6.0.0 (February 7, 2019)
 
 ## Breaking Changes

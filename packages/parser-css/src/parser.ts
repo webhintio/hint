@@ -20,7 +20,7 @@ export default class CSSParser extends Parser<StyleEvents> {
         engine.on('element::style', this.parseStyleTag.bind(this));
     }
 
-    private async emitCSS(code: string, resource: string) {
+    private async emitCSS(code: string, resource: string, element: IAsyncHTMLElement | null) {
 
         try {
             await this.engine.emitAsync(`parse::start::css`, { resource });
@@ -31,6 +31,7 @@ export default class CSSParser extends Parser<StyleEvents> {
             await this.engine.emitAsync(`parse::end::css`, {
                 ast,
                 code,
+                element,
                 resource
             });
 
@@ -43,7 +44,7 @@ export default class CSSParser extends Parser<StyleEvents> {
         const code = fetchEnd.response.body.content;
         const resource = fetchEnd.resource;
 
-        await this.emitCSS(code, resource);
+        await this.emitCSS(code, resource, null);
     }
 
     private isCSSType(element: IAsyncHTMLElement) {
@@ -76,6 +77,6 @@ export default class CSSParser extends Parser<StyleEvents> {
         const code = this.getStyleContent(await element.outerHTML());
         const resource: string = 'Inline CSS';
 
-        await this.emitCSS(code, resource);
+        await this.emitCSS(code, resource, element);
     }
 }

@@ -1,3 +1,4 @@
+import { IAsyncHTMLElement } from 'hint/dist/src/lib/types';
 import { Event, Events } from 'hint/dist/src/lib/types/events';
 import { Root } from 'postcss';
 
@@ -11,6 +12,8 @@ export type StyleParse = Event & {
     ast: Root;
     /** The raw stylesheet source code */
     code: string;
+    /** The originating <style> element if the CSS was inline */
+    element: IAsyncHTMLElement | null;
 };
 
 export type StyleEvents = Events & {

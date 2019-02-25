@@ -19,18 +19,18 @@
     "@hint/hint-meta-charset-utf-8": "^3.0.1",
     "@hint/hint-meta-viewport": "^3.0.1",
     "@hint/hint-no-bom": "^3.0.1",
-    "@hint/hint-no-disallowed-headers": "^2.1.1",
-    "@hint/hint-no-friendly-error-pages": "^3.0.0",
-    "@hint/hint-no-html-only-headers": "^2.1.1",
-    "@hint/hint-no-http-redirects": "^2.1.1",
-    "@hint/hint-no-protocol-relative-urls": "^2.1.1",
-    "@hint/hint-no-vulnerable-javascript-libraries": "^2.5.0",
-    "@hint/hint-sri": "^3.0.3",
-    "@hint/hint-ssllabs": "^2.1.1",
-    "@hint/hint-strict-transport-security": "^2.1.1",
-    "@hint/hint-stylesheet-limits": "^3.0.0",
-    "@hint/hint-validate-set-cookie-header": "^2.1.1",
-    "@hint/hint-x-content-type-options": "^3.0.0",
+    "@hint/hint-no-disallowed-headers": "^2.1.2",
+    "@hint/hint-no-friendly-error-pages": "^3.0.1",
+    "@hint/hint-no-html-only-headers": "^2.1.2",
+    "@hint/hint-no-http-redirects": "^2.1.2",
+    "@hint/hint-no-protocol-relative-urls": "^2.1.2",
+    "@hint/hint-no-vulnerable-javascript-libraries": "^2.6.0",
+    "@hint/hint-sri": "^3.0.4",
+    "@hint/hint-ssllabs": "^2.1.2",
+    "@hint/hint-strict-transport-security": "^2.1.2",
+    "@hint/hint-stylesheet-limits": "^3.0.1",
+    "@hint/hint-validate-set-cookie-header": "^2.1.2",
+    "@hint/hint-x-content-type-options": "^3.0.1",
     "@hint/parser-css": "^2.0.4",
     "@hint/parser-html": "^2.0.2"
   },
@@ -64,5 +64,5 @@
     "lint": "echo \"Nothing to lint\"",
     "test-only": "echo \"Nothing to test\""
   },
-  "version": "6.0.0"
+  "version": "6.1.0"
 }
