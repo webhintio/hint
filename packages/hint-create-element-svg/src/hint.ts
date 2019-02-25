@@ -60,8 +60,6 @@ export default class CreateElementSvgHint implements IHint {
             meta: { messages: { avoidElement: 'SVG elements cannot be created with createElement; use createElementNS instead' } }
         });
 
-        let scriptElement: IAsyncHTMLElement;
-
         const validateScript = async (scriptData: ScriptParse) => {
 
             debug(`Validating hint create-element-svg`);
@@ -70,7 +68,13 @@ export default class CreateElementSvgHint implements IHint {
             const results = linter.verify(sourceCode, { rules: { 'svg-create': 'error' } });
 
             for (const result of results) {
-                let position = scriptElement.getLocation() || null;
+                const element = scriptData.element;
+
+                if (element === null) {
+                    return;
+                }
+
+                let position = element.getLocation() || null;
                 let line = 0;
 
                 /*
@@ -78,17 +82,13 @@ export default class CreateElementSvgHint implements IHint {
                  * This offsets the line number so that it is relative
                  * to the full source code and not just the <script> tag
                  */
-                if (scriptElement && scriptData.resource === 'Internal javascript') {
-                    position = await findProblemLocation(scriptElement, { column: 0, line: 0 }, result.source === null ? '' : result.source);
+                if (scriptData.resource === 'Internal javascript') {
+                    position = await findProblemLocation(element, { column: 0, line: 0 }, result.source === null ? '' : result.source);
                     line = position !== null ? position.line : 0;
                 }
                 await context.report(scriptData.resource, result.message, { location: { column: result.column, line: line + result.line }});
             }
         };
-
-        context.on('element::script', (elementFound) => {
-            scriptElement = elementFound.element;
-        });
 
         context.on('parse::end::javascript', validateScript);
     }
