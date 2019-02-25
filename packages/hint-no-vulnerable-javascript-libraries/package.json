@@ -30,7 +30,7 @@
     "nyc": "^13.3.0",
     "rimraf": "^2.6.3",
     "typescript": "^3.3.3333",
-    "@typescript-eslint/parser": "1.4.0"
+    "@typescript-eslint/parser": "1.4.1"
   },
   "engines": {
     "node": ">=8.0.0"
