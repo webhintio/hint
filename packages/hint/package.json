@@ -49,7 +49,7 @@
     "@types/lodash": "^4.14.121",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
-    "@types/node": "11.9.4",
+    "@types/node": "11.9.5",
     "@types/ora": "^3.0.0",
     "@types/request": "^2.48.1",
     "@types/semver": "^5.4.0",
