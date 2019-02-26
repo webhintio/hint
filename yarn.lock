@@ -698,10 +698,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/ora@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@types/ora/-/ora-3.0.0.tgz#fd30d5414e00fc4608cc7e18b565dceb57f4f66c"
-  integrity sha512-AOY050qkT67vf17bQFyHSjF615vs1yAeiHrpwh55BQCnpHi70LGJaLdrrl8YlvtAzDdXTWyYLs4kb6uQXiuHIg==
+"@types/ora@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@types/ora/-/ora-3.1.0.tgz#9b0c87c825a47f3b50c56ab19c2aed4565c7643b"
+  integrity sha512-4e15N42qhHRlxyP5SpX9fK3q4tXvEkdmGdof2DZ0mqPu7glrNT8cs9bbI73NhwEGApq1TSXhs2aFmn19VCTwCQ==
   dependencies:
     "@types/node" "*"
 
