@@ -17,7 +17,7 @@
   "devDependencies": {
     "@types/inquirer": "^0.0.43",
     "@types/node": "11.9.5",
-    "@types/sinon": "^7.0.6",
+    "@types/sinon": "^7.0.7",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",
     "eslint": "^5.14.1",
