@@ -11,7 +11,7 @@
   },
   "description": "webhint's parser initializer package",
   "devDependencies": {
-    "@types/inquirer": "^0.0.43",
+    "@types/inquirer": "^0.0.44",
     "@types/node": "11.9.5",
     "@types/sinon": "^7.0.7",
     "ava": "^1.2.1",
