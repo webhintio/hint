@@ -9,7 +9,7 @@ a.anchor-top {
     padding: 3.3rem 1.2rem 1rem 1.2rem;
 
     font-size: 1.3rem;
-    background: hsla(237, 69%, 55%, .85);
+    background: hsla(266, 100%, 32%, .7);
     color: #fff;
     text-transform: uppercase;
 
@@ -17,12 +17,16 @@ a.anchor-top {
 }
 
 a.anchor-top:hover, a.anchor-top:focus {
-    background: hsla(237, 69%, 55%, .9);
+    background: hsla(266, 100%, 32%, .8);
     text-decoration: none;
 }
 
+a.anchor-top:focus {
+    outline: 1px dashed #4700a3;
+}
+
 a.anchor-top:active {
-    background: hsla(237, 69%, 55%, 1);
+    background: hsla(266, 100%, 32%, 1);
 }
 
 a.anchor-top::before {
