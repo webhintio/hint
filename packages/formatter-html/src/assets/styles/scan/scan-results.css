@@ -256,17 +256,14 @@
 }
 
 .rule-categories {
-    background-color: #fff;
-    bottom: calc(-100% + 5rem);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: calc(100% - 5rem);
+    position: fixed;
     left: 0;
     padding: 0 2rem;
-    position: fixed;
     width: 100%;
+    background-color: #fff;
     z-index: 5;
+    bottom: calc(-100% + 5rem);
+    height: calc(100% - 5rem);
     transition: bottom .5s ease-out;
 }
 
@@ -506,7 +503,7 @@ a > .rule-tile:hover {
 }
 
 .button-expand-all.closed {
-    background-position: 0 -23px;
+    background-position: 0 -2.4rem;
 }
 
 .rule-result h3 {
