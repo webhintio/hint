@@ -7,6 +7,10 @@ import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 const hintPath = getHintPath(__filename);
 
 const generateConfig = (fileName: string) => {
+    if (fileName.endsWith('.html')) {
+        return readFile(`${__dirname}/fixtures/${fileName}`);
+    }
+
     const styles = readFile(`${__dirname}/fixtures/${fileName}.css`);
 
     return {
@@ -139,6 +143,17 @@ const tests: HintTest[] = [
         serverConfig: generateConfig('prefixes-last-same-line')
     },
     {
+        name: 'Prefixed properties listed last on same line fail in HTML',
+        reports: [{
+            message: `'appearance' should be listed after '-webkit-appearance'.`,
+            position: {
+                column: 26,
+                line: 3
+            }
+        }],
+        serverConfig: generateConfig('prefixes-last-same-line.html')
+    },
+    {
         name: 'Prefixed properties listed last fail (webkit)',
         reports: [{
             message: `'appearance' should be listed after '-webkit-appearance'.`,
@@ -148,6 +163,17 @@ const tests: HintTest[] = [
             }
         }],
         serverConfig: generateConfig('prefixes-last-webkit')
+    },
+    {
+        name: 'Prefixed properties listed last fail in HTML (webkit)',
+        reports: [{
+            message: `'appearance' should be listed after '-webkit-appearance'.`,
+            position: {
+                column: 16,
+                line: 5
+            }
+        }],
+        serverConfig: generateConfig('prefixes-last-webkit.html')
     },
     {
         name: `Unprefixed property without any prefixed properties pass`,
