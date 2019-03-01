@@ -156,7 +156,7 @@
 }
 
 .scan-overview__body--purple {
-    color: #4046dd;
+    color: #4700a3;
 }
 
 .scan-overview__body__permalink {
@@ -170,7 +170,6 @@
 
 .permalink-copy {
     background-color: transparent;
-    color: #4046dd;
     font-weight: 300;
     min-width: 2rem;
     padding: 0;
@@ -321,7 +320,7 @@ a > .rule-tile:hover {
 }
 
 .rule-tile__hints {
-    color: #4046dd;
+    color: #4700a3;
 }
 
 .rule-tile__passed {
@@ -494,7 +493,7 @@ a > .rule-tile:hover {
 
 .button-expand-all {
     background: rgba(255, 255, 255, 0) url('/images/scan/open-close.svg') 0 -1px no-repeat;
-    color: #4046dd;
+    color: #4700a3;
     font-size: 1.2rem;
     font-weight: 500;
     height: 22px;
@@ -563,7 +562,7 @@ a > .rule-tile:hover {
 }
 
 .rule-result--details__hint-number {
-    color: #4046dd;
+    color: #4700a3;
 }
 
 .rule-result--details__hint-link,
@@ -580,7 +579,7 @@ a > .rule-tile:hover {
 }
 
 .rule-doc-button {
-    background: #4046dd;
+    background: #4700a3;
     display: inline-block;
     font-size: 1.4rem;
     font-weight: 500;
@@ -680,7 +679,7 @@ button {
 /* RULE RESULT MESSAGES */
 
 .rule-result__message--compiling {
-    color: #4046dd;
+    color: #4700a3;
     margin-top: -2.6rem;
 }
 
@@ -697,7 +696,7 @@ button {
     animation: spin 2s linear infinite;
     border: 3px solid #f3f3f3;
     border-radius: 50%;
-    border-top: 3px solid #4046dd;
+    border-top: 3px solid #4700a3;
     height: 2.5rem;
     width: 2.5rem;
 }
@@ -817,8 +816,8 @@ button {
 
     .rule-doc-button,
     .rule-doc-button:nth-child(2) {
-        border: 1px solid #4046dd;
-        color: #4046dd;
+        border: 1px solid #4700a3;
+        color: #4700a3;
         background-color: #fff;
         padding: .6rem;
     }
