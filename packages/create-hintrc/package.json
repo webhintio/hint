@@ -16,7 +16,7 @@
   "description": "webhint's configuration file initializer package",
   "devDependencies": {
     "@types/inquirer": "^0.0.44",
-    "@types/node": "11.9.5",
+    "@types/node": "11.10.1",
     "@types/sinon": "^7.0.7",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",
