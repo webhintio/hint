@@ -22,7 +22,7 @@
     "rimraf": "^2.6.3",
     "shelljs": "^0.8.3",
     "typescript": "^3.3.3333",
-    "@typescript-eslint/parser": "1.4.0",
+    "@typescript-eslint/parser": "1.4.2",
     "yargs": "^13.2.1"
   },
   "engines": {
