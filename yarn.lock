@@ -605,10 +605,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/jsdom@^12.2.2":
-  version "12.2.2"
-  resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-12.2.2.tgz#3a3f7606e11113f78ed6659544d23de8f97864cc"
-  integrity sha512-+k4AsH9TXsuvucs6EiMxxPPWiXOGyM48P+jL+IPDYhtJ+L7Cl5xbN3Vig6z8tzvo9Lv7mjLGv54j3D/KExQl7Q==
+"@types/jsdom@^12.2.3":
+  version "12.2.3"
+  resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-12.2.3.tgz#e5f037579d1bde5b6e52b9b74cbcb924eca9a4c6"
+  integrity sha512-CxYWGFsBs0VZ/lU9zxfWk7zYfOlQQuSs5yzk34KW/vQQJGE8OGOYxJnqj9kGHE1SBZGVJvhXs1TafIpZL8RvXw==
   dependencies:
     "@types/node" "*"
     "@types/tough-cookie" "*"
