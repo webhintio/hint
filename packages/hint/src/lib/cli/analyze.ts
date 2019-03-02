@@ -3,8 +3,8 @@ import { URL } from 'url';
 import * as path from 'path';
 
 import * as async from 'async';
-import * as ora from 'ora';
-import boxen = require('boxen'); // `require` used because `boxen` exports a function
+import { default as ora, Ora }  from 'ora';
+const boxen = require('boxen'); // `require` used because `boxen` exports a function
 import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
 import { EventAndListener } from 'eventemitter2';
@@ -12,7 +12,7 @@ import { EventAndListener } from 'eventemitter2';
 import * as configStore from '../utils/config-store';
 import { Configuration } from '../config';
 import { Engine } from '../engine';
-import { CLIOptions, ORA, Problem, Severity, UserConfig, HintResources } from '../types';
+import { CLIOptions, Problem, Severity, UserConfig, HintResources } from '../types';
 import { debug as d } from '../utils/debug';
 import { getAsUris } from '../utils/network/as-uri';
 import * as logger from '../utils/logging';
@@ -214,7 +214,7 @@ const getEvent = (event: string) => {
     return event;
 };
 
-const setUpUserFeedback = (engine: Engine, spinner: ORA) => {
+const setUpUserFeedback = (engine: Engine, spinner: Ora) => {
     engine.prependAny(((event: string, value: { resource: string }) => {
         const message: string = messages[getEvent(event)];
 
@@ -337,7 +337,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     engine = new Engine(config, resources);
 
     const start: number = Date.now();
-    const spinner: ORA = ora({ spinner: 'line' });
+    const spinner = ora({ spinner: 'line' });
     let exitCode: number = 0;
 
     if (!actions.debug) {
