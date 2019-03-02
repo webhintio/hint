@@ -100,13 +100,6 @@ export type CLIOptions = {
     hints: string;
 };
 
-export type ORA = {
-    start(): void;
-    succeed(): void;
-    fail(): void;
-    text: string;
-};
-
 /**
  * An user in a npm package.
  */
