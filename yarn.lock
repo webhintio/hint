@@ -2300,7 +2300,7 @@ chokidar@^1.6.0:
   optionalDependencies:
     fsevents "^1.0.0"
 
-chokidar@^2.0.2, chokidar@^2.0.3, chokidar@^2.0.4, chokidar@^2.1.2:
+chokidar@^2.0.2, chokidar@^2.0.4, chokidar@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.2.tgz#9c23ea40b01638439e0513864d362aeacc5ad058"
   integrity sha512-IwXUx0FXc5ibYmPC2XeEj5mpXoV66sR+t3jqu2NS2GYwCktt3KF1/Qqjws/NkegajBA4RbZ5+DDwlOiJsxDHEg==
@@ -9618,14 +9618,14 @@ type-is@~1.6.16:
     media-typer "0.3.0"
     mime-types "~2.1.18"
 
-typed-css-modules@^0.3.7:
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.3.7.tgz#430ba9b8bfe9d193dfa4f3bfd34f4f9e2fcf47c7"
-  integrity sha512-KR1VG/U0rgFWaiQtXKtFMgKaurs80nvlBvZ7BfuYGLldw6kss/97sd+aMG4CI73BbujvefG7DBjnsBqq2Aowcw==
+typed-css-modules@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.4.1.tgz#1ba76d2d9db4be6db50733bb7f0fe53a7602a264"
+  integrity sha512-aOMv55N5s2oRYnlitEDQXdBjSqULg/X68UeYs2AwSZyUk7TgrOZlnZ38/ZEpA1GF5wcHAovk4YR7Db+mYtoL2A==
   dependencies:
     camelcase "^4.1.0"
     chalk "^2.1.0"
-    chokidar "^2.0.3"
+    chokidar "^2.1.2"
     css-modules-loader-core "^1.1.0"
     glob "^7.1.2"
     is-there "^4.4.2"
