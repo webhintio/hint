@@ -33,7 +33,7 @@ export abstract class APIHint<T extends Events> implements IHint {
         });
     }
 
-    private testFeature(feature: FeatureInfo, collection: CompatStatement): boolean {
+    private testFeature(feature: FeatureInfo, collection: CompatStatement, skipReport: boolean): boolean {
         if (this.mustPackPendingReports(feature) && this.pendingReports.length > 0) {
             this.generateReports();
 
@@ -66,7 +66,7 @@ export abstract class APIHint<T extends Events> implements IHint {
 
         const hasIncompatibleBrowsers = supportStatementResult.notSupportedBrowsersCount > 0;
 
-        if (hasIncompatibleBrowsers) {
+        if (hasIncompatibleBrowsers && !skipReport) {
             this.pendingReports.push([feature, supportStatementResult]);
         } else {
             const index = this.pendingReports.findIndex(([reportFeature]: [FeatureInfo, SupportStatementResult]) => {

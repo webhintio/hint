@@ -44,15 +44,17 @@ export abstract class CompatBase<T extends Events, K extends Event> implements I
         return this.cachedFeatures.has(feature);
     }
 
-    protected checkFeatureCompatibility(feature: FeatureInfo, collection: CompatStatement | undefined): void {
+    protected checkFeatureCompatibility(feature: FeatureInfo, collection: CompatStatement | undefined, skipReport: boolean): boolean {
         if (!collection || this.isFeatureAlreadyReported(feature)) {
-            return;
+            return false;
         }
 
-        const isFeatureSupported = this.testFunction(feature, collection);
+        const isFeatureSupported = this.testFunction(feature, collection, skipReport);
 
         if (!isFeatureSupported) {
             this.cachedFeatures.add(feature);
         }
+
+        return isFeatureSupported;
     }
 }

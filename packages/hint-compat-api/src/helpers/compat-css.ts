@@ -3,13 +3,13 @@
  */
 
 import { find } from 'lodash';
-import { AtRule, Rule, Declaration, ChildNode } from 'postcss';
+import { AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
 
-import { FeatureStrategy, TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers } from '../types';
+import { FeatureStrategy, TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, FeatureAtSupport } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
 import { CompatBase } from './compat-base';
 
@@ -24,13 +24,8 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
         hintContext.on('parse::end::css', this.onParse.bind(this));
     }
 
-    public searchFeatures(parse: StyleParse) {
-        parse.ast.walk((node: ChildNode) => {
-            const strategy = this.chooseStrategyToSearchCSSFeature(node);
-            const location = this.getProblemLocationFromNode(node);
-
-            strategy.testFeature(node, location);
-        });
+    public searchFeatures(parse: StyleParse): void {
+        this.walk(parse.ast);
     }
 
     private onParse(parse: StyleParse) {
@@ -41,14 +36,118 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
         this.searchFeatures(parse);
     }
 
-    private testFeature(strategyName: string, featureNameWithPrefix: string, location?: ProblemLocation, subfeatureNameWithPrefix?: string): void {
+    private getSupportFeature(featureString: string) {
+        const featureRegex = /([^:]+):([^)]*)/g;
+        const exec = featureRegex.exec(featureString);
+
+        if (!exec) {
+            return null;
+        }
+
+        return {
+            property: exec[1],
+            value: exec[2]
+        };
+    }
+
+    /**
+     * Transform the condition of a @support block to an array of {prop: string, value: string}
+     * e.g. (display: table-cell) and ((display: list-item) and (display:run-in))
+     */
+    private getSupportFeatures(conditionsString: string): (FeatureAtSupport | null)[] {
+        // Ignore selector().
+        const conditionRegex = /(?<!selector)\(([^()]+)\)/gi;
+
+        const conditions = [];
+
+        let exec = conditionRegex.exec(conditionsString);
+
+        while (exec) {
+            conditions.push(exec[1]);
+
+            exec = conditionRegex.exec(conditionsString);
+        }
+
+        return conditions.map(this.getSupportFeature);
+    }
+
+    private validateSupportFeatures(params: string, location?: ProblemLocation): boolean {
+        const features = this.getSupportFeatures(params);
+        let query = params;
+
+        for (const feature of features) {
+            if (!feature) {
+                continue;
+            }
+
+            const featureNode = {
+                prop: feature.property.trim(),
+                type: 'decl',
+                value: feature.value.trim()
+            } as ChildNode;
+
+            const featureStrategy = this.chooseStrategyToSearchCSSFeature(featureNode);
+            const featureSupported = featureStrategy.testFeature(featureNode, location, true);
+
+            query = query.replace(`${feature.property}:${feature.value}`, featureSupported.toString());
+        }
+
+        // Ignore selector(...)
+        query = query.replace(/selector\([^)]*\)/, 'true');
+        query = query.replace(/or/gi, '||');
+        query = query.replace(/and/gi, '&&');
+        query = query.replace(/not\s*/gi, '!');
+
+        const valid = eval(query); // eslint-disable-line no-eval
+
+        return valid;
+    }
+
+    private walk(ast: ContainerBase) {
+        const nodes: ChildNode[] | undefined = ast.nodes;
+
+        if (!nodes) {
+            return;
+        }
+
+        for (const node of nodes) {
+            const strategy = this.chooseStrategyToSearchCSSFeature(node);
+            const location = this.getProblemLocationFromNode(node);
+
+            if (node.type === 'atrule' && node.name === 'supports') {
+                const supported = strategy.testFeature(node, location, true);
+
+                // If browser doesn't support @support ignore the @support block.
+                if (!supported) {
+                    continue;
+                }
+
+                const valid: boolean = this.validateSupportFeatures(node.params, location);
+
+                // At least one feature is not supported.
+                if (!valid) {
+                    continue;
+                }
+
+                this.walk(node as ContainerBase);
+
+                continue;
+            }
+
+            strategy.testFeature(node, location);
+
+            this.walk(node as ContainerBase);
+        }
+    }
+
+    private testFeature(strategyName: string, featureNameWithPrefix: string, location?: ProblemLocation, subfeatureNameWithPrefix?: string, skipReport: boolean = false): boolean {
         const collection: CompatStatement | undefined = this.MDNData[strategyName];
 
         if (!collection) {
             // Review: Throw an error
             debug('Error: The strategy does not exist.');
 
-            return;
+            return false;
         }
 
         const [prefix, name] = this.getPrefix(featureNameWithPrefix);
@@ -60,7 +159,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
             feature.subFeature = { displayableName: name, name, prefix };
         }
 
-        this.checkFeatureCompatibility(feature, collection);
+        return this.checkFeatureCompatibility(feature, collection, skipReport);
     }
 
     private getProblemLocationFromNode(node: ChildNode): ProblemLocation | undefined {
@@ -82,8 +181,8 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
                 return node.type === 'atrule';
             },
 
-            testFeature: (node: AtRule, location) => {
-                this.testFeature('at-rules', node.name, location);
+            testFeature: (node: AtRule, location?: ProblemLocation, skipReport?: boolean) => {
+                return this.testFeature('at-rules', node.name, location, undefined, skipReport);
             }
         };
 
@@ -92,8 +191,8 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
                 return node.type === 'rule';
             },
 
-            testFeature: (node: Rule, location) => {
-                this.testFeature('selectors', node.selector, location);
+            testFeature: (node: Rule, location?: ProblemLocation, skipReport?: boolean) => {
+                return this.testFeature('selectors', node.selector, location, undefined, skipReport);
             }
         };
 
@@ -102,9 +201,9 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
                 return node.type === 'decl';
             },
 
-            testFeature: (node: Declaration, location) => {
-                this.testFeature('properties', node.prop, location);
-                this.testFeature('properties', node.prop, location, node.value);
+            testFeature: (node: Declaration, location?: ProblemLocation, skipReport?: boolean) => {
+                return this.testFeature('properties', node.prop, location, undefined, skipReport) &&
+                    this.testFeature('properties', node.prop, location, node.value, skipReport);
             }
         };
 
@@ -113,7 +212,9 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
                 return true;
             },
 
-            testFeature: () => { }
+            testFeature: () => {
+                return false;
+            }
         };
 
         const strategies = {
