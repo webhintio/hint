@@ -17,7 +17,7 @@
   "devDependencies": {
     "@hint/utils-create-server": "^3.0.0",
     "@types/jsdom": "^12.2.3",
-    "@types/lodash": "^4.14.121",
+    "@types/lodash": "^4.14.122",
     "@types/sinon": "^7.0.8",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",

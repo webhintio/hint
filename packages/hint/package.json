@@ -46,7 +46,7 @@
     "@types/globby": "^8.0.0",
     "@types/is-svg": "^3.0.0",
     "@types/jsdom": "^12.2.3",
-    "@types/lodash": "^4.14.121",
+    "@types/lodash": "^4.14.122",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "11.9.5",
