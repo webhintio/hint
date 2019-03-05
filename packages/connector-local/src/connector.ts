@@ -18,7 +18,7 @@ import { promisify } from 'util';
 const readFileAsBuffer = promisify(readFile);
 
 import * as chokidar from 'chokidar';
-import * as globby from 'globby';
+import globby from 'globby';
 
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
@@ -324,13 +324,12 @@ export default class LocalConnector implements IConnector {
             await this.engine.emitAsync('fetch::start::target', initialEvent);
             files = [pathString];
         } else {
-            // TODO: the current @types/globby doesn't support gitignore. Remove "as any" when possible
             files = await globby(this.filesPattern, ({
                 absolute: true,
                 cwd: pathString,
                 dot: true,
                 gitignore: true
-            } as any));
+            }));
 
             // Ignore options.content when matching multiple files
             if (options && options.content) {
