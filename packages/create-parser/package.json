@@ -16,7 +16,7 @@
     "@types/sinon": "^7.0.8",
     "ava": "^1.2.1",
     "cpx": "^1.5.0",
-    "eslint": "^5.14.1",
+    "eslint": "^5.15.1",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-markdown": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
