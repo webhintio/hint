@@ -134,6 +134,7 @@ test('getInstalledResources should return the installed resources', async (t) =>
     cleanCache();
 
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');
+    
     const globbyStub = sinon.stub(globby, 'sync').returns(installedConnectors);
     const connectors = resourceLoader.getInstalledResources(ResourceType.connector);
 
