@@ -1,4 +1,4 @@
-import * as fileType from 'file-type';
+import fileType from 'file-type';
 import * as isSvg from 'is-svg';
 import * as mimeDB from 'mime-db';
 import { parse, MediaType } from 'content-type';
