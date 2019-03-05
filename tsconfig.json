@@ -28,6 +28,7 @@
     ],
     "include": [
         "@types/**/*.ts",
+        "release/**/*.ts",
         "scripts/**/*.ts"
     ],
     "references": [
