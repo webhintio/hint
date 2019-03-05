@@ -68,8 +68,10 @@ process.once('uncaughtException', async (err) => {
     process.exit(1);
 });
 
-process.once('unhandledRejection', async (reason) => {
-    const source = reason.error ? reason.error : reason;
+process.once('unhandledRejection', async (r) => {
+    // TODO: remove once https://github.com/DefinitelyTyped/DefinitelyTyped/issues/33636 is fixed
+    const reason = r as any;
+    const source = reason && reason instanceof Error ? reason : reason.error;
 
     trackException(source);
     await sendPendingData();

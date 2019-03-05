@@ -58,8 +58,8 @@ const installWebhint = ({ global }: { global: boolean }): Promise<void> => {
         const child = spawn(parts[0], parts.slice(1));
 
         // Show progress in the output window for the extension.
-        child.stdout.pipe(process.stdout);
-        child.stderr.pipe(process.stderr);
+        child.stdout!.pipe(process.stdout);
+        child.stderr!.pipe(process.stderr);
 
         child.on('exit', (code) => {
             if (code) {
