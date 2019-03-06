@@ -17,8 +17,8 @@ const name: string = 'chrome';
 
 type CollectContext = {
     engine: Engine<Events>;
-    engineEmitSpy: sinon.SinonSpy;
-    engineEmitAsyncSpy: sinon.SinonSpy;
+    engineEmitSpy: sinon.SinonSpy<any, boolean>;
+    engineEmitAsyncSpy: sinon.SinonSpy<any, any>;
 };
 
 const test = anyTest as TestInterface<CollectContext>;

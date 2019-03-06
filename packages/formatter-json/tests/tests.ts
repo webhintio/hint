@@ -12,7 +12,7 @@ type Logging = {
 
 type JSONContext = {
     logging: Logging;
-    loggingLogSpy: sinon.SinonSpy;
+    loggingLogSpy: sinon.SinonSpy<any, void>;
 };
 
 const test = anyTest as TestInterface<JSONContext>;

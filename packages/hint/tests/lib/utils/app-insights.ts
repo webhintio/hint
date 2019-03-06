@@ -32,7 +32,6 @@ type AppInsightsContext = {
     applicationinsights: ApplicationInsightsExtended;
     applicationinsightsClient: ApplicationinsightsClient;
     configStore: ConfigStore;
-    miscGetHintPcakgeStub: sinon.SinonStub;
     sandbox: sinon.SinonSandbox;
 };
 
