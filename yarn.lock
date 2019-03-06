@@ -1717,10 +1717,10 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
   integrity sha512-ReZxvNHIOv88FlT7rxcXIIC0fPt4KZqZbOlivyWtXLt8ESx84zd3kMC6iK5jVeS2qt+g7ftS7ye4fi06X5rtRQ==
 
-axe-core@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-3.2.0.tgz#063827424279db54c35cfbd59b6f8079821bc627"
-  integrity sha512-g7MguJCPvWgEvdJHDnWG+xDbDqiiy7t+KvryGUc8y8Pv4ElLpCnpa6CWMvqRozpojRgXR/ubCIsoVljhDEk2lA==
+axe-core@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-3.2.1.tgz#3d38addfbcb9198d6236e7ba73aed71278170900"
+  integrity sha512-XNT38eGeeBkY1y65PuEkSOyAypBo1jk07w0OGj0SJB0/z4JFWY4ep0wVitXjNVArb2M7YI4ooxp4Y/SzDZs45g==
 
 babel-code-frame@^6.22.0:
   version "6.26.0"
