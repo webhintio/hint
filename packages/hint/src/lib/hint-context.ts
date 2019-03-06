@@ -39,14 +39,16 @@ export class HintContext<E extends Events = Events> {
     private meta: HintMetadata
     private severity: Severity
     private engine: Engine<E>
+    private ignoredUrls: RegExp[]
 
-    public constructor(hintId: string, engine: Engine<E>, severity: Severity, options: any, meta: HintMetadata) {
+    public constructor(hintId: string, engine: Engine<E>, severity: Severity, options: any, meta: HintMetadata, ignoredUrls: RegExp[]) {
 
         this.id = hintId;
         this.options = options;
         this.meta = meta;
         this.engine = engine;
         this.severity = severity;
+        this.ignoredUrls = ignoredUrls;
 
         Object.freeze(this);
     }
@@ -140,5 +142,11 @@ export class HintContext<E extends Events = Events> {
     /** Subscribe an event in hint. */
     public on<K extends StringKeyOf<E>>(event: K, listener: (data: E[K], event: string) => void) {
         this.engine.onHintEvent(this.id, event, listener);
+    }
+
+    public isUrlIgnored(resource: string) {
+        return this.ignoredUrls.some((urlIgnored: RegExp) => {
+            return urlIgnored.test(resource);
+        });
     }
 }
