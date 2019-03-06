@@ -11,7 +11,7 @@ type Logging = {
 
 type CodeframeContext = {
     logging: Logging;
-    loggingLogSpy: sinon.SinonSpy;
+    loggingLogSpy: sinon.SinonSpy<any, void>;
 };
 
 const test = anyTest as TestInterface<CodeframeContext>;

@@ -47,7 +47,7 @@ type StubUtilObject = {
 
 type CreateHintRCContext = {
     inquirer: Inquirer;
-    promisifyObjectPromisifyStub: sinon.SinonStub;
+    promisifyObjectPromisifyStub: sinon.SinonStub<any, any>;
     resourceLoader: ResourceLoader;
     sandbox: sinon.SinonSandbox;
     stubBrowserslistObject: StubBrowserslistObject;

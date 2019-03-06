@@ -42,7 +42,7 @@ const mockContext = (sandbox: sinon.SinonSandbox) => {
         wildcard: true
     }) as Engine<PackageJsonEvents>;
 
-    const engineEmitAsyncSpy: sinon.SinonSpy = sandbox.spy(engine, 'emitAsync');
+    const engineEmitAsyncSpy: sinon.SinonSpy<any, any> = sandbox.spy(engine, 'emitAsync');
 
     return { engine, engineEmitAsyncSpy };
 };

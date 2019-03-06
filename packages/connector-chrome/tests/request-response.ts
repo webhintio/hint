@@ -20,7 +20,7 @@ import ChromeConnector from '../src/connector';
 
 const name: string = 'chrome';
 
-const findEvent = (func: sinon.SinonSpy, eventName: string) => {
+const findEvent = (func: sinon.SinonSpy<any, any>, eventName: string) => {
     for (let i = 0; i < func.callCount; i++) {
         const args = func.getCall(i).args;
 
