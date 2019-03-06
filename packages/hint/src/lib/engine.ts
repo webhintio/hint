@@ -191,6 +191,13 @@ export class Engine<E extends Events = Events> extends EventEmitter {
                     ignoredConnectors.includes(connectorId || '');
             };
 
+            const getIgnoredUrls = () => {
+                const urlsIgnoredForAll = this.ignoredUrls.get('all') || [];
+                const urlsIgnoredForHint = this.ignoredUrls.get(id) || [];
+
+                return urlsIgnoredForAll.concat(urlsIgnoredForHint);
+            };
+
             const hintOptions: HintConfig | HintConfig[] = getHintConfig(id);
             const severity: Severity | null = getSeverity(hintOptions);
 
@@ -199,7 +206,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
                 // TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
                 logger.log(chalk.yellow(`Warning: The hint "${id}" will be ignored for the connector "${connectorId}"`));
             } else if (severity) {
-                const context: HintContext = new HintContext(id, this, severity, hintOptions, Hint.meta);
+                const context: HintContext = new HintContext(id, this, severity, hintOptions, Hint.meta, getIgnoredUrls());
                 const hint: IHint = new Hint(context);
 
                 this.hints.set(id, hint);
