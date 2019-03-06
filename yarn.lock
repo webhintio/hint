@@ -583,13 +583,6 @@
   resolved "https://registry.yarnpkg.com/@types/is-ci/-/is-ci-1.1.0.tgz#583c5fbfcc461be9971106b9558930d67df49227"
   integrity sha512-NbyqP5D4hwl5UWnnW4Cz0gIRjhecgx/9OApcCIpp4+tjqjROGf/NBcKKDfbI3YFBTTkD3JBshiNSv5V7VoVJJg==
 
-"@types/is-svg@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@types/is-svg/-/is-svg-3.0.0.tgz#efadca143963d19d5dca5d733705dabcd58d8858"
-  integrity sha512-7uPKgaYHUWJTTRXbtG7TUG2W+tiDpqZviB0j/+hia9eSxbdTQqUUrnW/i3V/Pg+Ow/XmpnT79hCihJ1ujIiEXg==
-  dependencies:
-    "@types/node" "*"
-
 "@types/jsdom@^12.2.3":
   version "12.2.3"
   resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-12.2.3.tgz#e5f037579d1bde5b6e52b9b74cbcb924eca9a4c6"
@@ -5450,10 +5443,10 @@ is-stream@^1.0.0, is-stream@^1.0.1, is-stream@^1.1.0:
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
   integrity sha1-EtSj3U5o4Lec6428hBc66A2RykQ=
 
-is-svg@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/is-svg/-/is-svg-3.0.0.tgz#9321dbd29c212e5ca99c4fa9794c714bcafa2f75"
-  integrity sha512-gi4iHK53LR2ujhLVVj+37Ykh9GLqYHX6JOVXbLAucaG/Cqw9xwdFOjDM2qeifLs1sF1npXXFvDu0r5HNgCMrzQ==
+is-svg@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/is-svg/-/is-svg-4.0.0.tgz#a3af951416bb2b6bd1b9a49ab7b2b6a3d6776b1d"
+  integrity sha512-Zm5IOUmGRVUfRajcxxWIl+tJM1gBmYG1iD6ibxGlGco+NLOLNkrPO9/Nq7Egh3NBZnGJtPG3dRE2rimazw3EkQ==
   dependencies:
     html-comment-regex "^1.1.0"
 
