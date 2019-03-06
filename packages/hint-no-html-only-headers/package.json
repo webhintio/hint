@@ -9,7 +9,7 @@
   "description": "hint that that checks if HTML document only response headers are sent for other resources",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",
-    "ava": "^1.2.1",
+    "ava": "^1.3.1",
     "cpx": "^1.5.0",
     "eslint": "^5.15.1",
     "eslint-plugin-import": "^2.16.0",
