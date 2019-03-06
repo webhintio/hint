@@ -266,6 +266,15 @@ const configTestsLow: HintTest[] = [
     }
 ];
 
+const testsIgnoredUrls = [
+    {
+        name: `Page with a same-origin resource, SRI sha384 and baseline is 512, with the url ignored should pass`,
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css" integrity="sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4">'),
+            '/styles.css': styles
+        }
+    }
+];
 
 hintRunner.testHint(hintPath, defaults, { https: true });
 hintRunner.testHint(hintPath, configOriginAllTestsHttps, {
@@ -285,4 +294,13 @@ hintRunner.testHint(hintPath, configTestsLow, {
         originCriteria: 'all'
     },
     https: true
+});
+hintRunner.testHint(hintPath, testsIgnoredUrls, {
+    https: true,
+    ignoredUrls: [{
+        domain: '^https://localhost(\\:[0-9]{1,5})/styles\\.css',
+        hints: [
+            'sri'
+        ]
+    }]
 });
