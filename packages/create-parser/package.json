@@ -20,7 +20,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-markdown": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
-    "fork-ts-checker-webpack-plugin": "^0.5.2",
+    "fork-ts-checker-webpack-plugin": "^1.0.0",
     "fs-extra": "^7.0.0",
     "handlebars": "^4.1.0",
     "hint": "^4.4.1",
