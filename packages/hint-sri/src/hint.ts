@@ -436,9 +436,14 @@ Actual:   ${integrities.join(', ')}`;
         }
     }
 
+    private isNotIgnored(evt: FetchEnd) {
+        return !this.context.isUrlIgnored(evt.resource);
+    }
+
     /** Validation entry point. */
     private async validateResource(evt: FetchEnd, urls: URLs) {
         const validations = [
+            this.isNotIgnored,
             this.isInCache,
             this.addToCache,
             this.isScriptOrLink,
