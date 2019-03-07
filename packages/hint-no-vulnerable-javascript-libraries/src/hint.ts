@@ -166,9 +166,11 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     const version = removeTagsFromVersion(lib.version) /* istanbul ignore next */ || '';
 
                     try {
-                        if (semver.satisfies(version, vuln.semver.vulnerable[0])) {
-                            vulns.push(vuln);
-                        }
+                        vuln.semver.vulnerable.forEach((vulnVersion: string) => {
+                            if (semver.satisfies(version, vulnVersion)) {
+                                vulns.push(vuln);
+                            }
+                        });
                     } catch (e) {
                         logger.error(`Version ${version} of ${lib.name} isn't semver compliant`);
                     }
