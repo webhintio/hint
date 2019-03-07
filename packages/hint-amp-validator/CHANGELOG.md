@@ -1,3 +1,10 @@
+# 2.7.0 (March 7, 2019)
+
+## New features
+
+* [[`53a6ae03e0`](https://github.com/webhintio/hint/commit/53a6ae03e0b966b40f8b2878cc54c17d00a0df8b)] - Update: 'validator'.
+
+
 # 2.6.0 (February 21, 2019)
 
 ## Bug fixes / Improvements
