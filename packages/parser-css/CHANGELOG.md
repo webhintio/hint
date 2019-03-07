@@ -1,3 +1,10 @@
+# 2.1.0 (March 7, 2019)
+
+## New features
+
+* [[`173e35bccd`](https://github.com/webhintio/hint/commit/173e35bccd1296f499031df8001e021b34439469)] - New: Include element reference if source was inline in HTML (by [`Tony Ross`](https://github.com/antross) / see also: [`#1953`](https://github.com/webhintio/hint/issues/1953)).
+
+
 # 2.0.4 (February 7, 2019)
 
 ## Bug fixes / Improvements
