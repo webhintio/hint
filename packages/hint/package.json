@@ -46,7 +46,7 @@
     "@types/lodash": "^4.14.122",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
-    "@types/node": "11.10.4",
+    "@types/node": "11.10.5",
     "@types/request": "^2.48.1",
     "@types/semver": "^5.4.0",
     "@types/sinon": "^7.0.9",
