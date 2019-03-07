@@ -11,7 +11,7 @@
   },
   "description": "hint to validate if the HTML, CSS, and JavaScript APIs of the project are deprecated or not broadly supported",
   "devDependencies": {
-    "@hint/parser-css": "^2.0.4",
+    "@hint/parser-css": "^2.1.0",
     "@hint/utils-tests-helpers": "^3.0.0",
     "@types/debug": "4.1.2",
     "@types/node": "11.10.5",
@@ -50,7 +50,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-css": "^2.0.4",
+    "@hint/parser-css": "^2.1.0",
     "hint": "^4.5.0"
   },
   "repository": "webhintio/hint",
