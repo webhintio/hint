@@ -3,8 +3,9 @@ import { URL } from 'url';
 import * as path from 'path';
 
 import * as async from 'async';
-import { default as ora, Ora }  from 'ora';
+import { default as ora, Ora } from 'ora';
 const boxen = require('boxen'); // `require` used because `boxen` exports a function
+
 import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
 import { EventAndListener } from 'eventemitter2';
