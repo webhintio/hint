@@ -1,3 +1,10 @@
+# 6.1.1 (March 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`7cc5521aef`](https://github.com/webhintio/hint/commit/7cc5521aef9aab18ab54733275f154c8d5a94d11)] - Fix: Typo in configuration (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2013`](https://github.com/webhintio/hint/issues/2013)).
+
+
 # 6.1.0 (February 22, 2019)
 
 ## New features
