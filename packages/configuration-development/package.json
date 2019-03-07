@@ -42,7 +42,7 @@
   "main": "index.json",
   "name": "@hint/configuration-development",
   "peerDependencies": {
-    "hint": "^4.4.1"
+    "hint": "^4.5.0"
   },
   "repository": "webhintio/hint",
   "scripts": {
