@@ -6367,10 +6367,10 @@ md5.js@^1.3.4:
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
 
-mdn-browser-compat-data@^0.0.69:
-  version "0.0.69"
-  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.69.tgz#4d459d27c2d2a8c2c32b5890f97762af4ddb1996"
-  integrity sha512-tTUJBARovqwuLl3vhDwpj9E89gufIsiW1mCivecQiKGSH3xtm/81aSsKF3G8vwTRsZC63sH75i7O2nZrV6YbOA==
+mdn-browser-compat-data@^0.0.70:
+  version "0.0.70"
+  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.70.tgz#7eb8a7314f994538b70390e7048df1770fed9855"
+  integrity sha512-++gDpMmrHmZVIFTK9x3z7UjSAM3MYEwZe38yzNejVQe6OUHiLgRvlMW6TQznpIUGuWLesLGUGOg6iyj6JcTB2g==
   dependencies:
     extend "3.0.2"
 
