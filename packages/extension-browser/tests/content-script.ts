@@ -18,8 +18,7 @@ const base = '../src/content-script';
  * overridden with stubbed globals before modules which depend on it.
  */
 const paths: { [name: string]: string } = {
-    'web-async-html': `${base}/web-async-html`,
-    connector: `${base}/connector`, // eslint-disable-line sort-keys
+    connector: `${base}/connector`,
     formatter: `${base}/formatter`,
     webhint: `${base}/webhint`
 };
@@ -108,11 +107,7 @@ const mockContext = () => {
             }
         };
 
-        const webAsyncHTML = proxyquire(paths['web-async-html'], stubs);
-        const connector = proxyquire(paths.connector, {
-            ...stubs,
-            webAsyncHTML
-        });
+        const connector = proxyquire(paths.connector, stubs);
         const formatter = proxyquire(paths.formatter, stubs);
 
         proxyquire(paths.webhint, {
