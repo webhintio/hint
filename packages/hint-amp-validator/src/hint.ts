@@ -76,7 +76,7 @@ export default class AmpValidatorHint implements IHint {
                             line: error.line
                         };
 
-                        await context.report(resource, message, { location });
+                        context.report(resource, message, { location });
                     }
                 }
             }

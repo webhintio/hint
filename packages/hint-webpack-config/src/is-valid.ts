@@ -22,12 +22,12 @@ export default class WebpackConfigIsValid implements IHint {
 
     public constructor(context: HintContext<WebpackConfigEvents>) {
 
-        const invalidConfigurationFile = async (webpackConfigInvalid: WebpackConfigInvalidConfiguration) => {
+        const invalidConfigurationFile = (webpackConfigInvalid: WebpackConfigInvalidConfiguration) => {
             const { error, resource } = webpackConfigInvalid;
 
             debug(`parse::error::webpack-config::configuration received`);
 
-            await context.report(resource, error.message);
+            context.report(resource, error.message);
         };
 
         context.on('parse::error::webpack-config::configuration', invalidConfigurationFile);

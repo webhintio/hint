@@ -24,21 +24,21 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
         hintContext.on('parse::end::css', this.onParse.bind(this));
     }
 
-    public async searchFeatures(parse: StyleParse): Promise<void> {
-        await parse.ast.walk(async (node: ChildNode) => {
+    public searchFeatures(parse: StyleParse) {
+        parse.ast.walk((node: ChildNode) => {
             const strategy = this.chooseStrategyToSearchCSSFeature(node);
             const location = this.getProblemLocationFromNode(node);
 
-            await strategy.testFeature(node, location);
+            strategy.testFeature(node, location);
         });
     }
 
-    private async onParse(parse: StyleParse): Promise<void> {
+    private onParse(parse: StyleParse) {
         const { resource } = parse;
 
         this.setResource(resource);
 
-        await this.searchFeatures(parse);
+        this.searchFeatures(parse);
     }
 
     private testFeature(strategyName: string, featureNameWithPrefix: string, location?: ProblemLocation, subfeatureNameWithPrefix?: string): void {

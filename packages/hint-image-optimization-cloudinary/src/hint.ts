@@ -128,7 +128,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
         /** Waits to gather the results of all the images and notifies if there is any possible savings. */
         const end = async (data: ScanEnd) => {
             if (!configured) {
-                await context.report('', `No valid configuration for Cloudinary found. Hint could not run.`);
+                context.report('', `No valid configuration for Cloudinary found. Hint could not run.`);
 
                 return;
             }
@@ -154,12 +154,12 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
 
                 if (sizeDiff >= sizeThreshold) {
                     reported = true;
-                    await context.report(file.originalUrl, `'${cutString(file.originalUrl)}' could be around ${sizeDiff.toFixed(2)}kB (${percentageDiff}%) smaller.`, { element: file.element });
+                    context.report(file.originalUrl, `'${cutString(file.originalUrl)}' could be around ${sizeDiff.toFixed(2)}kB (${percentageDiff}%) smaller.`, { element: file.element });
                 }
             }
 
             if (!reported && totalSavings > sizeThreshold) {
-                await context.report('', `Total size savings optimizing the images on '${data.resource}' could be of around ${totalSavings.toFixed(0)}kB.`);
+                context.report('', `Total size savings optimizing the images on '${data.resource}' could be of around ${totalSavings.toFixed(0)}kB.`);
             }
 
             // uploads needs to be cleaned at the end to work propertly with the local connector + watcher

@@ -12,7 +12,7 @@ export abstract class CompatBase<T extends Events, K extends Event> implements I
     protected testFunction: TestFeatureFunction;
     private cachedFeatures: CompatFeaturesCache;
 
-    public abstract async searchFeatures(parser?: K): Promise<void>
+    public abstract searchFeatures(parser?: K): void
 
     public constructor(hintContext: HintContext<T>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
         if (!testFunction) {
@@ -34,10 +34,10 @@ export abstract class CompatBase<T extends Events, K extends Event> implements I
         this.hintResource = hintResource;
     }
 
-    public async reportError(feature: FeatureInfo, message: string): Promise<void> {
+    public reportError(feature: FeatureInfo, message: string) {
         const { location } = feature;
 
-        await this.hintContext.report(this.hintResource, message, { location });
+        this.hintContext.report(this.hintResource, message, { location });
     }
 
     private isFeatureAlreadyReported(feature: FeatureInfo): boolean {

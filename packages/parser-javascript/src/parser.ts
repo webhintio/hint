@@ -4,7 +4,7 @@ import * as espree from 'espree';
 
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import { determineMediaTypeForScript } from 'hint/dist/src/lib/utils/content-type';
-import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
+import { HTMLElement, ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
 import { ScriptEvents } from './types';
 import { Engine } from 'hint';
 
@@ -28,7 +28,7 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
         engine.on('element::script', this.parseJavascriptTag.bind(this));
     }
 
-    private async emitScript(code: string, resource: string, element: IAsyncHTMLElement | null) {
+    private async emitScript(code: string, resource: string, element: HTMLElement | null) {
         try {
             await this.engine.emitAsync(`parse::start::javascript`, { resource });
 
@@ -52,14 +52,14 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
         await this.emitScript(code, resource, null);
     }
 
-    private hasSrcAttribute(element: IAsyncHTMLElement) {
+    private hasSrcAttribute(element: HTMLElement) {
         const src = element.getAttribute('src');
 
         return !!src;
     }
 
 
-    private isJavaScriptType(element: IAsyncHTMLElement) {
+    private isJavaScriptType(element: HTMLElement) {
         const type = determineMediaTypeForScript(element);
 
         return !!type;
@@ -77,7 +77,7 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
     }
 
     private async parseJavascriptTag(elementFound: ElementFound) {
-        const element: IAsyncHTMLElement = elementFound.element;
+        const element: HTMLElement = elementFound.element;
 
         if (this.hasSrcAttribute(element)) {
             // Ignore because this will be (or have been) processed in the event 'fetch::end::script'.
@@ -89,7 +89,7 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
             return;
         }
 
-        const code = this.getScriptContent(await element.outerHTML());
+        const code = this.getScriptContent(element.outerHTML());
         const resource: string = 'Internal javascript';
 
         await this.emitScript(code, resource, element);

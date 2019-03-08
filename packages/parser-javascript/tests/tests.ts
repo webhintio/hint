@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 import { Engine } from 'hint';
-import { ElementFound, IAsyncHTMLElement, FetchEnd } from 'hint/dist/src/lib/types';
+import { ElementFound, HTMLElement, FetchEnd } from 'hint/dist/src/lib/types';
 
 import { ScriptEvents, ScriptParse } from '../src/parser';
 
@@ -16,7 +16,7 @@ type Espree = {
 };
 
 type ParseJavascriptContext = {
-    element: IAsyncHTMLElement;
+    element: HTMLElement;
     engine: Engine<ScriptEvents>;
     eslint: ESlint;
     espree: Espree;
@@ -126,7 +126,7 @@ test('If an script tag is an internal javascript, then we should parse the code 
     const eslintSourceCodeStub = sandbox.stub(t.context.eslint, 'SourceCode').returns(sourceCodeObject);
     const espreeParseStub = sandbox.stub(t.context.espree, 'parse').returns(parseObject);
 
-    sandbox.stub(t.context.element, 'outerHTML').resolves(script);
+    sandbox.stub(t.context.element, 'outerHTML').returns(script);
     const elementGetAttributeStub = sandbox.stub(t.context.element, 'getAttribute')
         .onFirstCall()
         .returns(null)

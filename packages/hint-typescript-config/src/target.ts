@@ -226,7 +226,7 @@ export default class TypeScriptConfigTarget implements IHint {
             return maxVersion;
         };
 
-        const validate = async (evt: TypeScriptConfigParse) => {
+        const validate = (evt: TypeScriptConfigParse) => {
             const { config, getLocation, resource } = evt;
             const { targetedBrowsers } = context;
             const target = normalizeScriptTarget(config.compilerOptions.target as any);
@@ -238,7 +238,7 @@ export default class TypeScriptConfigTarget implements IHint {
                 const message = `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`;
                 const location = getLocation('compilerOptions.target');
 
-                await context.report(resource, message, { location });
+                context.report(resource, message, { location });
             }
         };
 

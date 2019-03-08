@@ -1,4 +1,4 @@
-import { IAsyncHTMLElement } from 'hint/dist/src/lib/types';
+import { HTMLElement } from 'hint/dist/src/lib/types';
 
 export const mockStyleElement = (type: string, code: string) => {
     return {
@@ -6,7 +6,7 @@ export const mockStyleElement = (type: string, code: string) => {
             return type;
         },
         outerHTML() {
-            return Promise.resolve(`<style>  ${code}  </style>`);
+            return `<style>  ${code}  </style>`;
         }
-    } as Partial<IAsyncHTMLElement> as IAsyncHTMLElement;
+    } as Partial<HTMLElement> as HTMLElement;
 };

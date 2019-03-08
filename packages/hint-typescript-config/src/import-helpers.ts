@@ -29,7 +29,7 @@ export default class TypeScriptConfigImportHelpers implements IHint {
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const validate = configChecker('compilerOptions.importHelpers', true, 'The compiler option "importHelpers" should be enabled to reduce the output size.', context);
 
-        const validateTslibInstalled = async (evt: ScanEnd): Promise<void> => {
+        const validateTslibInstalled = (evt: ScanEnd) => {
             const { resource } = evt;
 
             const pathToTslib = path.join(process.cwd(), 'node_modules', 'tslib');
@@ -42,7 +42,7 @@ export default class TypeScriptConfigImportHelpers implements IHint {
             } catch (e) {
                 debug(e);
 
-                await context.report(resource, `Couldn't find package "tslib".`);
+                context.report(resource, `Couldn't find package "tslib".`);
             }
         };
 

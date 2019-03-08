@@ -9,7 +9,7 @@ import * as getImageData from 'image-size';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, TraverseEnd, NetworkData } from 'hint/dist/src/lib/types';
+import { IHint, TraverseEnd, NetworkData, HTMLElement, HTMLDocument } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
@@ -35,7 +35,7 @@ export default class AppleTouchIconsHint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getAppleTouchIcons = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
+        const getAppleTouchIcons = (elements: HTMLElement[]): HTMLElement[] => {
             return elements.filter((element) => {
 
                 /*
@@ -68,7 +68,7 @@ export default class AppleTouchIconsHint implements IHint {
             });
         };
 
-        const checkImage = async (appleTouchIcon: IAsyncHTMLElement, resource: string) => {
+        const checkImage = async (appleTouchIcon: HTMLElement, resource: string) => {
             const appleTouchIconHref = normalizeString(appleTouchIcon.getAttribute('href'));
 
             /*
@@ -79,7 +79,7 @@ export default class AppleTouchIconsHint implements IHint {
             if (!appleTouchIconHref) {
                 const message = `'apple-touch-icon' link element should have non-empty 'href' attribute.`;
 
-                await context.report(resource, message, { element: appleTouchIcon });
+                context.report(resource, message, { element: appleTouchIcon });
 
                 return;
             }
@@ -119,7 +119,7 @@ export default class AppleTouchIconsHint implements IHint {
 
                 const message = `'${appleTouchIconHref}' could not be fetched (request failed).`;
 
-                await context.report(resource, message, { element: appleTouchIcon });
+                context.report(resource, message, { element: appleTouchIcon });
 
                 return;
             }
@@ -129,7 +129,7 @@ export default class AppleTouchIconsHint implements IHint {
             if (response.statusCode !== 200) {
                 const message = `'${appleTouchIconHref}' could not be fetched (status code: ${response.statusCode}).`;
 
-                await context.report(resource, message, { element: appleTouchIcon });
+                context.report(resource, message, { element: appleTouchIcon });
 
                 return;
             }
@@ -157,7 +157,7 @@ export default class AppleTouchIconsHint implements IHint {
                 if (e instanceof TypeError) {
                     const message = `'${appleTouchIconHref}' should be a valid PNG image.`;
 
-                    await context.report(resource, message, { element: appleTouchIcon });
+                    context.report(resource, message, { element: appleTouchIcon });
                 } else {
                     debug(`'getImageData' failed for '${appleTouchIconURL}'`);
                 }
@@ -170,7 +170,7 @@ export default class AppleTouchIconsHint implements IHint {
             if (image.type !== 'png') {
                 const message = `'${appleTouchIconHref}' should be a PNG image.`;
 
-                await context.report(resource, message, { element: appleTouchIcon });
+                context.report(resource, message, { element: appleTouchIcon });
             }
 
             // Check if the image is 180x180px.
@@ -178,13 +178,13 @@ export default class AppleTouchIconsHint implements IHint {
             if (image.width !== 180 || image.height !== 180) {
                 const message = `'${appleTouchIconHref}' should be 180x180px.`;
 
-                await context.report(resource, message, { element: appleTouchIcon });
+                context.report(resource, message, { element: appleTouchIcon });
             }
 
             // TODO: Check if the image has some kind of transparency.
         };
 
-        const chooseBestIcon = (icons: IAsyncHTMLElement[]): IAsyncHTMLElement => {
+        const chooseBestIcon = (icons: HTMLElement[]): HTMLElement => {
 
             /*
              * Site will usually have something such as:
@@ -220,11 +220,11 @@ export default class AppleTouchIconsHint implements IHint {
 
 
         const validate = async ({ resource }: TraverseEnd) => {
-            const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const appleTouchIcons: IAsyncHTMLElement[] = getAppleTouchIcons(await pageDOM.querySelectorAll('link'));
+            const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
+            const appleTouchIcons: HTMLElement[] = getAppleTouchIcons(pageDOM.querySelectorAll('link'));
 
             if (appleTouchIcons.length === 0) {
-                await context.report(resource, `'apple-touch-icon' link element was not specified.`);
+                context.report(resource, `'apple-touch-icon' link element was not specified.`);
 
                 return;
             }
@@ -234,7 +234,7 @@ export default class AppleTouchIconsHint implements IHint {
              * pass most of the following tests.
              */
 
-            const appleTouchIcon: IAsyncHTMLElement = chooseBestIcon(appleTouchIcons);
+            const appleTouchIcon: HTMLElement = chooseBestIcon(appleTouchIcons);
 
             /*
              * Check if `rel='apple-touch-icon'`.
@@ -244,7 +244,7 @@ export default class AppleTouchIconsHint implements IHint {
             if (normalizeString(appleTouchIcon.getAttribute('rel')) !== 'apple-touch-icon') {
                 const message = `'apple-touch-icon' link element should have 'rel="apple-touch-icon".`;
 
-                await context.report(resource, message, { element: appleTouchIcon });
+                context.report(resource, message, { element: appleTouchIcon });
             }
 
             /*
@@ -259,7 +259,7 @@ export default class AppleTouchIconsHint implements IHint {
             if (appleTouchIcon.getAttribute('sizes')) {
                 const message = `'apple-touch-icon' link element should not have 'sizes' attribute.`;
 
-                await context.report(resource, message, { element: appleTouchIcon });
+                context.report(resource, message, { element: appleTouchIcon });
             }
 
             /*
@@ -273,13 +273,13 @@ export default class AppleTouchIconsHint implements IHint {
              * Check if the `apple-touch-icon` is included in the `<body>`.
              */
 
-            const bodyAppleTouchIcons: IAsyncHTMLElement[] = getAppleTouchIcons(await pageDOM.querySelectorAll('body link'));
+            const bodyAppleTouchIcons: HTMLElement[] = getAppleTouchIcons(pageDOM.querySelectorAll('body link'));
 
             for (const icon of bodyAppleTouchIcons) {
                 if (icon.isSame(appleTouchIcon)) {
                     const message = `'apple-touch-icon' link element should be specified in the '<head>'.`;
 
-                    await context.report(resource, message, { element: appleTouchIcon });
+                    context.report(resource, message, { element: appleTouchIcon });
                 }
             }
 
@@ -291,7 +291,7 @@ export default class AppleTouchIconsHint implements IHint {
                 if (!icon.isSame(appleTouchIcon)) {
                     const message = `'apple-touch-icon' link element is not needed as one was already specified.`;
 
-                    await context.report(resource, message, { element: icon });
+                    context.report(resource, message, { element: icon });
                 }
             }
         };

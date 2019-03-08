@@ -114,15 +114,15 @@ export default class CssPrefixOrderHint implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<StyleEvents>) {
-        context.on('parse::end::css', async ({ ast, resource }: StyleParse) => {
+        context.on('parse::end::css', ({ ast, resource }: StyleParse) => {
             debug(`Validating hint css-prefix-order`);
 
-            await ast.walkRules(async (rule) => {
+            ast.walkRules((rule) => {
                 for (const invalidPair of validateRule(rule)) {
                     const message = formatMessage(invalidPair);
                     const location = getLocation(invalidPair.unprefixed);
 
-                    await context.report(resource, message, { location });
+                    context.report(resource, message, { location });
                 }
             });
         });

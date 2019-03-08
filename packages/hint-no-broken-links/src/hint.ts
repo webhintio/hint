@@ -6,14 +6,16 @@
 import { URL } from 'url';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import {
-    IHint,
     ElementFound,
-    IAsyncHTMLElement
+    IHint,
+    HTMLDocument,
+    HTMLElement,
+    NetworkData,
+    TraverseEnd
 } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
-import { IAsyncHTMLDocument, NetworkData, TraverseEnd } from 'hint/dist/src/lib/types';
 import { CoreOptions } from 'request';
 
 import meta from './meta';
@@ -36,7 +38,7 @@ export default class NoBrokenLinksHint implements IHint {
         const brokenStatusCodes = [404, 410, 500, 503];
 
         /** Stores the elements with their URLs which have been collected while traversing the page. */
-        const collectedElementsWithURLs: [IAsyncHTMLElement, string[]][] = [];
+        const collectedElementsWithURLs: [HTMLElement, string[]][] = [];
 
         /** Stores the URLs and it's response status codes */
         const fetchedURLs: any[] = [];
@@ -60,7 +62,7 @@ export default class NoBrokenLinksHint implements IHint {
          * The callback to handle rejection returned from the `head` method
          * When DNS resolution fails, it will be handled here (ex : https://thissitedoesnotexist.com/ )
          */
-        const handleRejection = (error: any, url: string, element: IAsyncHTMLElement) => {
+        const handleRejection = (error: any, url: string, element: HTMLElement) => {
             debug(`Error accessing ${url}. ${JSON.stringify(error)}`);
 
             if (typeof error === 'string' && error.toLowerCase().includes('loop')) {
@@ -70,8 +72,8 @@ export default class NoBrokenLinksHint implements IHint {
             return context.report(url, 'Broken link found (domain not found).', { element });
         };
 
-        const isDNSOnlyResourceHint = (element: IAsyncHTMLElement): boolean => {
-            if (element.nodeName !== 'LINK') {
+        const isDNSOnlyResourceHint = (element: HTMLElement): boolean => {
+            if (element.nodeName.toLowerCase() !== 'link') {
                 return false;
             }
 
@@ -86,9 +88,9 @@ export default class NoBrokenLinksHint implements IHint {
          * and report if it exist there. We will also add it to the fetchedURLs
          * so that duplicate requests will not be made if 2 links have the same href value
          */
-        const handleSuccess = (networkData: NetworkData, url: string, element: IAsyncHTMLElement) => {
+        const handleSuccess = (networkData: NetworkData, url: string, element: HTMLElement) => {
             if (isDNSOnlyResourceHint(element)) {
-                return Promise.resolve();
+                return null;
             }
 
             const statusIndex = brokenStatusCodes.indexOf(
@@ -103,7 +105,7 @@ export default class NoBrokenLinksHint implements IHint {
 
             fetchedURLs.push({ status: networkData.response.statusCode, url });
 
-            return Promise.resolve();
+            return null;
         };
 
         /**
@@ -159,15 +161,15 @@ export default class NoBrokenLinksHint implements IHint {
             fetchedURLs.push({ statusCode: fetchEnd.response.statusCode, url: fetchEnd.resource });
         };
 
-        const createResourceURL = async (resource: string) => {
-            const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const baseTags: IAsyncHTMLElement[] = await pageDOM.querySelectorAll('base');
+        const createResourceURL = (resource: string) => {
+            const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
+            const baseTags: HTMLElement[] = pageDOM.querySelectorAll('base');
             const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
 
             return (hrefAttribute === null) ? new URL(resource) : new URL(hrefAttribute, new URL(resource));
         };
 
-        const createReports = (element: IAsyncHTMLElement, urls: string[], resourceURL: URL): Promise<void>[] => {
+        const createReports = (element: HTMLElement, urls: string[], resourceURL: URL): Promise<void>[] => {
             return urls.map((url) => {
                 let fullURL: string;
 
@@ -177,7 +179,9 @@ export default class NoBrokenLinksHint implements IHint {
                     // `url` is malformed, e.g.: just "http://`
                     debug(error);
 
-                    return context.report(url, `Broken link found (invalid URL).`);
+                    context.report(url, `Broken link found (invalid URL).`);
+
+                    return Promise.resolve();
                 }
 
                 /*
@@ -194,14 +198,16 @@ export default class NoBrokenLinksHint implements IHint {
                     const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
 
                     if (statusIndex > -1) {
-                        return context.report(fullURL, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                        context.report(fullURL, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+
+                        return Promise.resolve();
                     }
                 } else {
                     // An element which was not present in the fetch end results
                     return requester
                         .get(fullURL)
                         .then((value: NetworkData) => {
-                            return handleSuccess(value, fullURL, element);
+                            handleSuccess(value, fullURL, element);
                         })
                         .catch((error: any) => {
                             return handleRejection(error, fullURL, element);
@@ -213,7 +219,7 @@ export default class NoBrokenLinksHint implements IHint {
         };
 
         const validateCollectedURLs = async (event: TraverseEnd) => {
-            const resourceURL = await createResourceURL(event.resource);
+            const resourceURL = createResourceURL(event.resource);
 
             const reports: Promise<void>[] = collectedElementsWithURLs.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
                 return [...accumulatedReports, ...createReports(element, urls, resourceURL)];

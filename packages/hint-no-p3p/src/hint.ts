@@ -38,7 +38,7 @@ export default class NoP3pHint implements IHint {
                 const result = await context.fetchContent(wellKnown);
 
                 if (result.response.statusCode === 200) {
-                    await context.report(wellKnown.toString(), errorMessage);
+                    context.report(wellKnown.toString(), errorMessage);
                 }
             } catch (e) {
                 /*
@@ -53,12 +53,12 @@ export default class NoP3pHint implements IHint {
          * Verifies none of the responses have the `p3p` header
          * https://www.w3.org/TR/P3P11/#syntax_ext
          */
-        const validateHeaders = async ({ element, resource, response }: FetchEnd) => {
+        const validateHeaders = ({ element, resource, response }: FetchEnd) => {
             const headers: string[] = getIncludedHeaders(response.headers, ['p3p']);
             const numberOfHeaders: number = headers.length;
 
             if (numberOfHeaders > 0) {
-                await context.report(resource, errorMessage, { element });
+                context.report(resource, errorMessage, { element });
             }
         };
 
@@ -66,11 +66,11 @@ export default class NoP3pHint implements IHint {
          * Checks there isn't any `<link rel="P3Pv1">` in the document
          * https://www.w3.org/TR/P3P11/#syntax_link
          */
-        const validateHtml = async ({ element, resource }: ElementFound) => {
+        const validateHtml = ({ element, resource }: ElementFound) => {
             const rel: string | null = element.getAttribute('rel');
 
             if (rel && normalizeString(rel) === 'p3pv1') {
-                await context.report(resource, errorMessage, { element });
+                context.report(resource, errorMessage, { element });
             }
         };
 

@@ -32,14 +32,14 @@ export default class NoHttpRedirectHint implements IHint {
          *
          * Ex.: `validateRequestEnd(10)(fetchEnd)` will verify if the event `fetchEnd` has had less than 10 hops.
          */
-        const validateRequestEnd = async (fetchEnd: FetchEnd, eventName: string) => {
+        const validateRequestEnd = (fetchEnd: FetchEnd, eventName: string) => {
             const maxHops: number = eventName === 'fetch::end::html' ? maxHTMLHops : maxResourceHops;
             const { request, response, element } = fetchEnd;
 
             if (response.hops.length > maxHops) {
                 const message = `${response.hops.length} ${response.hops.length === 1 ? 'redirect' : 'redirects'} detected for '${cutString(request.url)}' (max is ${maxHops}).`;
 
-                await context.report(request.url, message, { element });
+                context.report(request.url, message, { element });
             }
         };
 

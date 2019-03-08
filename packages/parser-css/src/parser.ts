@@ -4,7 +4,7 @@ import * as postcss from 'postcss';
 
 import * as logger from 'hint/dist/src/lib/utils/logging';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import { IAsyncHTMLElement, ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
+import { ElementFound, FetchEnd, Parser, HTMLElement } from 'hint/dist/src/lib/types';
 import { StyleEvents } from './types';
 import { Engine } from 'hint';
 
@@ -20,7 +20,7 @@ export default class CSSParser extends Parser<StyleEvents> {
         engine.on('element::style', this.parseStyleTag.bind(this));
     }
 
-    private async emitCSS(code: string, resource: string, element: IAsyncHTMLElement | null) {
+    private async emitCSS(code: string, resource: string, element: HTMLElement | null) {
 
         try {
             await this.engine.emitAsync(`parse::start::css`, { resource });
@@ -47,7 +47,7 @@ export default class CSSParser extends Parser<StyleEvents> {
         await this.emitCSS(code, resource, null);
     }
 
-    private isCSSType(element: IAsyncHTMLElement) {
+    private isCSSType(element: HTMLElement) {
         const type = normalizeString(element.getAttribute('type'));
 
         /*
@@ -67,14 +67,14 @@ export default class CSSParser extends Parser<StyleEvents> {
     }
 
     private async parseStyleTag(elementFound: ElementFound) {
-        const element: IAsyncHTMLElement = elementFound.element;
+        const element: HTMLElement = elementFound.element;
 
         if (!this.isCSSType(element)) {
             // Ignore if it is not CSS.
             return;
         }
 
-        const code = this.getStyleContent(await element.outerHTML());
+        const code = this.getStyleContent(element.outerHTML());
         const resource: string = 'Inline CSS';
 
         await this.emitCSS(code, resource, element);

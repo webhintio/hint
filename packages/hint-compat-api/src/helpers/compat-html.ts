@@ -2,7 +2,7 @@
  * @fileoverview Helper that contains all the logic related with HTML compat api, to use in different modules.
  */
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { ElementFound, IAsyncHTMLElement, ProblemLocation, AsyncHTMLAttribute, IAsyncNamedNodeMap, Events, Event } from 'hint/dist/src/lib/types';
+import { ElementFound, HTMLElement, ProblemLocation, HTMLAttribute, INamedNodeMap, Events, Event } from 'hint/dist/src/lib/types';
 
 import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
@@ -17,18 +17,18 @@ export class CompatHTML extends CompatBase<Events, Event> {
         this.searchFeatures();
     }
 
-    public async searchFeatures(): Promise<void> {
-        await this.walk(async (elementFound: ElementFound) => {
+    public searchFeatures() {
+        this.walk((elementFound: ElementFound) => {
             const { element, resource } = elementFound;
-            const location = await this.hintContext.findProblemLocation(element);
+            const location = element.getLocation();
 
             this.setResource(resource);
-            await this.testElement(element, location);
-            await this.testAttributes(element, location);
+            this.testElement(element, location!);
+            this.testAttributes(element, location!);
         });
     }
 
-    private async testElement(element: IAsyncHTMLElement, location: ProblemLocation): Promise<void> {
+    private testElement(element: HTMLElement, location: ProblemLocation) {
         const elements = this.MDNData.elements;
         const elementName = element.nodeName.toLowerCase();
 
@@ -38,21 +38,21 @@ export class CompatHTML extends CompatBase<Events, Event> {
             name: elementName
         };
 
-        await this.testFeature(elements, feature);
+        this.testFeature(elements, feature);
     }
 
-    private async testAttributes(element: IAsyncHTMLElement, location: ProblemLocation): Promise<void> {
-        const namedNodeMap: IAsyncNamedNodeMap = element.attributes;
+    private testAttributes(element: HTMLElement, location: ProblemLocation) {
+        const namedNodeMap: INamedNodeMap = element.attributes;
 
         for (let index = 0; index < namedNodeMap.length; index++) {
-            const attribute: AsyncHTMLAttribute = namedNodeMap[index];
+            const attribute: HTMLAttribute = namedNodeMap[index];
 
-            await this.testGlobalAttributes(attribute, location);
-            await this.testElementAttributes(element, attribute, location);
+            this.testGlobalAttributes(attribute, location);
+            this.testElementAttributes(element, attribute, location);
         }
     }
 
-    private async testElementAttributes(element: IAsyncHTMLElement, attribute: AsyncHTMLAttribute, location: ProblemLocation): Promise<void> {
+    private testElementAttributes(element: HTMLElement, attribute: HTMLAttribute, location: ProblemLocation) {
         const INPUT_TAG = 'input';
         const TYPE_ATTR = 'type';
         const elements = this.MDNData.elements;
@@ -71,10 +71,10 @@ export class CompatHTML extends CompatBase<Events, Event> {
             subFeature
         };
 
-        await this.testFeature(elements, feature);
+        this.testFeature(elements, feature);
     }
 
-    private async testGlobalAttributes(attribute: AsyncHTMLAttribute, location: ProblemLocation): Promise<void> {
+    private testGlobalAttributes(attribute: HTMLAttribute, location: ProblemLocation) {
         const globalAttributes = this.MDNData.global_attributes;
         const attributeName = attribute.name;
 
@@ -84,14 +84,14 @@ export class CompatHTML extends CompatBase<Events, Event> {
             name: attributeName
         };
 
-        await this.testFeature(globalAttributes, feature);
+        this.testFeature(globalAttributes, feature);
     }
 
     private testFeature(collection: CompatStatement | undefined, feature: FeatureInfo): void {
         this.checkFeatureCompatibility(feature, collection);
     }
 
-    private async walk(callback: (element: ElementFound) => any): Promise<void> {
-        await this.hintContext.on('element::*', callback.bind(this));
+    private walk(callback: (element: ElementFound) => any) {
+        this.hintContext.on('element::*', callback.bind(this));
     }
 }
