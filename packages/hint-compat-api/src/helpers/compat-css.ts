@@ -103,6 +103,13 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
         return valid;
     }
 
+    /**
+     * Walk through the nodes.
+     *
+     * Using a custom method instead of ast.walk() because
+     * if the browser doesn't support @support or it considition,
+     * we have to skip the node and it children.
+     */
     private walk(ast: ContainerBase) {
         const nodes: ChildNode[] | undefined = ast.nodes;
 
@@ -122,7 +129,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
                     continue;
                 }
 
-                const valid: boolean = this.validateSupportFeatures(node.params, location);
+                const valid = this.validateSupportFeatures(node.params, location);
 
                 // At least one feature is not supported.
                 if (!valid) {
