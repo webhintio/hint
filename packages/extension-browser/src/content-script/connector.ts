@@ -5,20 +5,22 @@ import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-typ
 import {
     ConnectorOptionsConfig,
     HttpHeaders,
-    IAsyncHTMLDocument,
-    IAsyncHTMLElement,
     IConnector,
     FetchEnd,
-    NetworkData
+    NetworkData,
+    HTMLDocument,
+    HTMLElement
 } from 'hint/dist/src/lib/types';
+import getElementByUrl from 'hint/dist/src/lib/utils/dom/get-element-by-url';
 
 import { Events } from '../shared/types';
-import { AsyncWindow, AsyncHTMLDocument, AsyncHTMLElement } from './web-async-html';
+import { eval } from '../shared/globals';
 import { browser, document, location, window } from '../shared/globals';
+import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
+import traverse from 'hint/dist/src/lib/utils/dom/traverse';
 
 export default class WebExtensionConnector implements IConnector {
-    private _document = new AsyncHTMLDocument(document);
-    private _window = new AsyncWindow(this._document); // eslint-disable-line
+    private _document = createHTMLDocument(document.documentElement.outerHTML);
     private _engine: Engine;
     private _onComplete: (resource: string) => void = () => { };
     private _options: ConnectorOptionsConfig;
@@ -48,10 +50,10 @@ export default class WebExtensionConnector implements IConnector {
 
             setTimeout(async () => {
 
-                if (this._window && document.documentElement) {
-                    await this._engine.emitAsync('traverse::start', { resource });
-                    await this.traverseAndNotify(document.documentElement, this._window.document);
-                    await this._engine.emitAsync('traverse::end', { resource });
+                if (document.documentElement) {
+                    this._document = createHTMLDocument(document.documentElement.outerHTML);
+
+                    await traverse(this._document, this._engine, resource);
                 }
 
                 this._onComplete(resource);
@@ -69,32 +71,10 @@ export default class WebExtensionConnector implements IConnector {
         browser.runtime.sendMessage(message);
     }
 
-    /** Traverses the DOM while sending `element::*` events. */
-    private async traverseAndNotify(node: Element, doc: IAsyncHTMLDocument): Promise<void> {
-        const element = new AsyncHTMLElement(node, doc);
-        const name = node.tagName.toLowerCase();
-        const resource = location.href;
-
-        await this._engine.emitAsync(`element::${name}` as 'element::*', { element, resource });
-        await this._engine.emitAsync(`traverse::down`, { element, resource });
-
-        // Recursively traverse child elements.
-        for (let i = 0; i < node.children.length; i++) {
-            await this.traverseAndNotify(node.children[i], doc);
-        }
-
-        await this._engine.emitAsync(`traverse::up`, { element, resource });
-    }
-
     private setFetchElement(event: FetchEnd) {
         const url = event.request.url;
-        const elements = Array.from(document.querySelectorAll('[href],[src]')).filter((element: any) => {
-            return element.href === url || element.src === url;
-        });
 
-        if (elements.length) {
-            event.element = new AsyncHTMLElement(elements[0], this._document);
-        }
+        event.element = getElementByUrl(this._document, url);
     }
 
     private setFetchType(event: FetchEnd): string {
@@ -111,7 +91,7 @@ export default class WebExtensionConnector implements IConnector {
         const type = this.setFetchType(event);
 
         if (event.response.url === location.href) {
-            this._document.setPageHTML(event.response.body.content);
+            this._document = createHTMLDocument(event.response.body.content);
         }
 
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
@@ -169,10 +149,11 @@ export default class WebExtensionConnector implements IConnector {
     }
 
     public evaluate(source: string): Promise<any> {
-        return Promise.resolve(this._window.evaluate(source));
+        // `eval` will run the code inside the browser.
+        return Promise.resolve(eval(source)); // eslint-disable-line no-eval
     }
 
-    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
+    public querySelectorAll(selector: string): HTMLElement[] {
         return this._document.querySelectorAll(selector);
     }
 
@@ -181,12 +162,12 @@ export default class WebExtensionConnector implements IConnector {
         return Promise.resolve();
     }
 
-    public get dom(): IAsyncHTMLDocument {
+    public get dom(): HTMLDocument {
         return this._document;
     }
 
     /* istanbul ignore next */
-    public get html(): Promise<string> {
+    public get html(): string {
         return this._document.pageHTML();
     }
 }
