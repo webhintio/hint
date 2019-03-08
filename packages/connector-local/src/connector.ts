@@ -23,7 +23,7 @@ import globby from 'globby';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
 import { getContentTypeData, isTextMediaType, getType } from 'hint/dist/src/lib/utils/content-type';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IAsyncWindow } from 'hint/dist/src/lib/types/async-html';
+import traverse from 'hint/dist/src/lib/utils/dom/traverse';
 
 import isFile from 'hint/dist/src/lib/utils/fs/is-file';
 import cwd from 'hint/dist/src/lib/utils/fs/cwd';
@@ -31,12 +31,19 @@ import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 
 import {
+    CanEvaluateScript,
+    Event,
+    FetchEnd,
+    HTMLDocument,
+    HTMLElement,
     IConnector,
     IFetchOptions,
-    Event, FetchEnd, ScanEnd, NetworkData, CanEvaluateScript
+    NetworkData,
+    ScanEnd
 } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { HTMLParse, HTMLEvents } from '@hint/parser-html';
+import { JSDOM } from 'jsdom';
 
 /*
  * ------------------------------------------------------------------------------
@@ -47,7 +54,8 @@ import { HTMLParse, HTMLEvents } from '@hint/parser-html';
 const defaultOptions = {};
 
 export default class LocalConnector implements IConnector {
-    private _window: IAsyncWindow | undefined;
+    private _evaluate: ((source: string) => any) | undefined;
+    private _document: HTMLDocument | undefined;
     private _options: any;
     private engine: Engine<HTMLEvents>;
     private _href: string = '';
@@ -255,9 +263,32 @@ export default class LocalConnector implements IConnector {
         });
     }
 
+    private createJsdom(html: string): JSDOM {
+        return new JSDOM(html, {
+
+            /** Needed to provide line/column positions for elements. */
+            includeNodeLocations: true,
+
+            /**
+             * Needed to let hints run script against the DOM.
+             * However the page itself is kept static because `connector-local`
+             * validates files individually without loading resources.
+             */
+            runScripts: 'outside-only'
+        });
+    }
+
     /* istanbul ignore next */
     private async onParseHTML(event: HTMLParse) {
-        this._window = event.window;
+        const document = event.document;
+        const jsdom: JSDOM = this.createJsdom(document.pageHTML());
+
+        this._evaluate = jsdom.window.eval;
+
+        this._document = document;
+
+        await traverse(document, this.engine, event.resource);
+
         await this.engine.emitAsync('can-evaluate::script', { resource: this._href } as CanEvaluateScript);
     }
 
@@ -354,12 +385,12 @@ export default class LocalConnector implements IConnector {
 
     /* istanbul ignore next */
     public evaluate(source: string): Promise<any> {
-        return Promise.resolve(this._window ? this._window.evaluate(source) : null);
+        return this._evaluate ? this._evaluate(source) : Promise.resolve(null);
     }
 
     /* istanbul ignore next */
-    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
-        return this._window ? this._window.document.querySelectorAll(selector) : Promise.resolve([]);
+    public querySelectorAll(selector: string): HTMLElement[] {
+        return this._document ? this._document.querySelectorAll(selector) : [];
     }
 
     /* istanbul ignore next */
@@ -368,12 +399,12 @@ export default class LocalConnector implements IConnector {
     }
 
     /* istanbul ignore next */
-    public get dom(): IAsyncHTMLDocument | undefined {
-        return this._window && this._window.document;
+    public get dom(): HTMLDocument | undefined {
+        return this._document && this._document;
     }
 
     /* istanbul ignore next */
-    public get html(): Promise<string> {
-        return this._window ? this._window.document.pageHTML() : Promise.resolve('');
+    public get html(): string {
+        return this._document ? this._document.pageHTML() : '';
     }
 }
