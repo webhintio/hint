@@ -22,7 +22,7 @@ import {
     HintConfig,
     HintResources,
     HttpHeaders,
-    IAsyncHTMLElement,
+    HTMLElement,
     IConnector,
     IConnectorConstructor,
     IFetchOptions,
@@ -41,6 +41,7 @@ import { HintContext } from './hint-context';
 import { HintScope } from './enums/hint-scope';
 import { Configuration } from './config';
 import { Category } from './enums/category';
+import { HTMLDocument } from './types/html';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -62,12 +63,12 @@ export class Engine<E extends Events = Events> extends EventEmitter {
     private _timeout: number = 60000;
 
     /** The DOM of the loaded page. */
-    public get pageDOM(): object | undefined {
+    public get pageDOM(): HTMLDocument | undefined {
         return this.connector.dom;
     }
 
     /** The HTML of the loaded page. */
-    public get pageContent(): Promise<string> | undefined {
+    public get pageContent(): string | undefined {
         return this.connector.html;
     }
 
@@ -323,7 +324,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
         return this.messages;
     }
 
-    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
+    public querySelectorAll(selector: string): HTMLElement[] {
         return this.connector.querySelectorAll(selector);
     }
 

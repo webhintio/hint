@@ -10,13 +10,12 @@ import { Engine } from './engine';
 import {
     Events,
     HintMetadata,
-    IAsyncHTMLElement,
+    HTMLElement,
     NetworkData,
     ProblemLocation,
     Severity,
     StringKeyOf
 } from './types';
-import { findInElement, findProblemLocation } from './utils/location-helpers';
 import { Category } from './enums/category';
 
 export type ReportOptions = {
@@ -24,8 +23,8 @@ export type ReportOptions = {
     codeSnippet?: string;
     /** The text within `element` where the issue was found (used to refine a `ProblemLocation`). */
     content?: string;
-    /** The `IAsyncHTMLElement` where the issue was found (used to get a `ProblemLocation`). */
-    element?: IAsyncHTMLElement | null;
+    /** The `HTMLElement` where the issue was found (used to get a `ProblemLocation`). */
+    element?: HTMLElement | null;
     /** The `ProblemLocation` where the issue was found. */
     location?: ProblemLocation | null;
     /** The `Severity` to report the issue as (overrides default settings for a hint). */
@@ -98,29 +97,24 @@ export class HintContext<E extends Events = Events> {
         return this.engine.fetchContent(target, headers);
     }
 
-    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
+    public querySelectorAll(selector: string): HTMLElement[] {
         return this.engine.querySelectorAll(selector);
     }
 
-    /** Finds the exact location of the given content in the HTML that represents the `element`. */
-    public findInElement(element: IAsyncHTMLElement, content: string): Promise<ProblemLocation> {
-        return findInElement(element, content);
-    }
-
     /** Finds the approximative location in the page's HTML for a match in an element. */
-    public findProblemLocation(element: IAsyncHTMLElement, content?: string): Promise<ProblemLocation> {
-        return findProblemLocation(element, { column: 0, line: 0 }, content);
+    public findProblemLocation(element: HTMLElement): ProblemLocation {
+        return element.getLocation();
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, message: string, options: ReportOptions = {}): Promise<void> {
-        const { codeSnippet, content, element, severity } = options;
+    public report(resource: string, message: string, options: ReportOptions = {}) {
+        const { codeSnippet, element, severity } = options;
         let position: ProblemLocation | null = options.location || null;
         let sourceCode: string | null = null;
 
         if (element) {
-            position = await findProblemLocation(element, { column: 0, line: 0 }, content);
-            sourceCode = (await element.outerHTML()).replace(/[\t]/g, '    ');
+            position = this.findProblemLocation(element);
+            sourceCode = element.outerHTML().replace(/[\t]/g, '    ');
         }
 
         /*

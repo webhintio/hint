@@ -1,4 +1,4 @@
-import { IAsyncHTMLElement } from './async-html';
+import { HTMLElement } from './html';
 import { Event } from './event';
 import { ElementEvents } from './element-events';
 import { Problem } from './problems';
@@ -21,7 +21,7 @@ export type ScanEnd = Event;
 /** The object emitted on `fetch::end::*`. */
 export type FetchEnd = Event & {
     /** The element that initiated the request. */
-    element: IAsyncHTMLElement | null;
+    element: HTMLElement | null;
     /** The request made to fetch the target. */
     request: Request;
     /** The response sent while fetching the target. */
@@ -31,7 +31,7 @@ export type FetchEnd = Event & {
 /** The object emitted on `fetch::error::*` */
 export type FetchError = Event & {
     /** The element that initiated the request. */
-    element: IAsyncHTMLElement | null;
+    element: HTMLElement | null;
     /** The error found. */
     error: any;
     /** The redirects performed for the url. */
@@ -50,13 +50,13 @@ export type TraverseEnd = Event;
 /** The object emitted by a connector on `traverse::up` */
 export type TraverseUp = Event & {
     /** The parent element that was traversed. */
-    element: IAsyncHTMLElement;
+    element: HTMLElement;
 };
 
 /** The object emitted by a connector on `traverse::down` */
 export type TraverseDown = Event & {
     /** The parent element to be traversed. */
-    element: IAsyncHTMLElement;
+    element: HTMLElement;
 };
 
 /** The object emitted by a connector on `can-evaluate` */

@@ -93,15 +93,14 @@ with the website and report errors.
 To report an error, the hint has to do the following:
 
 ```ts
-await context.report(resource, message, { element: element });
+context.report(resource, message, { element: element });
 ```
 
-* `context.report()` is an asynchronous method, you should always `await`.
 * `resource` is the URL of what is being analyzed (HTML, JS, CSS, manifest,
   etc.)
 * `message` is the text to show to the user about the problem.
 * `options` is an (optional) object that can contain the following:
-  * `element` is an optional `IAsyncHTMLElement` where the issue was found
+  * `element` is an optional `HTMLElement` where the issue was found
     (used to get a `ProblemLocation` if one was not provided). For example,
     if an image is missing an `alt` attribute, this can be the `img` element.
   * `codeSnippet` is a string of source code to display (defaults to the

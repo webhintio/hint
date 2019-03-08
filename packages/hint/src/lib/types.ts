@@ -4,7 +4,7 @@ import { IParserConstructor } from './types/parser';
 import { IHintConstructor } from './types/hints';
 import { Severity } from './types/problems';
 
-export * from './types/async-html';
+export * from './types/html';
 export * from './types/connector';
 export * from './types/events';
 export * from './types/formatters';
