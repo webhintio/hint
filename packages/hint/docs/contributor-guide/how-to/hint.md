@@ -108,7 +108,8 @@ context.report(resource, message, { element: element });
   * `content` is a string of text within `element` where the issue was found
     (used to refine a `ProblemLocation`).;
   * `location` is an explicit `ProblemLocation` (`{col: number, line: number}`)
-     where the issue was found.
+     where the issue was found. If used with `element`, it represents an offset
+     from the start of that element's content (e.g. for inline CSS in HTML).
   * `severity` overrides the default `Severity` for the hint to determine how
     the issue will be reported (e.g. `Severity.error`).
 

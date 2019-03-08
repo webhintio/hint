@@ -25,7 +25,10 @@ export type ReportOptions = {
     content?: string;
     /** The `HTMLElement` where the issue was found (used to get a `ProblemLocation`). */
     element?: HTMLElement | null;
-    /** The `ProblemLocation` where the issue was found. */
+    /**
+     * The `ProblemLocation` where the issue was found.
+     * If specified with `element`, represents an offset in the element's content (e.g. for inline CSS in HTML).
+     */
     location?: ProblemLocation | null;
     /** The `Severity` to report the issue as (overrides default settings for a hint). */
     severity?: Severity;
@@ -102,18 +105,23 @@ export class HintContext<E extends Events = Events> {
     }
 
     /** Finds the approximative location in the page's HTML for a match in an element. */
-    public findProblemLocation(element: HTMLElement): ProblemLocation | null {
+    public findProblemLocation(element: HTMLElement, offset: ProblemLocation | null): ProblemLocation | null {
+        if (offset) {
+            return element.getContentLocation(offset);
+        }
+
         return element.getLocation();
     }
 
     /** Reports a problem with the resource. */
     public report(resource: string, message: string, options: ReportOptions = {}) {
         const { codeSnippet, element, severity } = options;
-        let position: ProblemLocation | null = options.location || null;
+        let position = options.location || null;
         let sourceCode: string | null = null;
 
         if (element) {
-            position = this.findProblemLocation(element);
+            // When element is provided, position is an offset in the content.
+            position = this.findProblemLocation(element, position);
             sourceCode = element.outerHTML().replace(/[\t]/g, '    ');
         }
 

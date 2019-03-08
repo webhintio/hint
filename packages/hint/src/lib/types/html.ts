@@ -79,28 +79,78 @@ export class HTMLElement {
     }
 
     /**
-     * Zero-based location of the element.
+     * Helper to find the original location in source of an element.
+     * Used when this element is part of a DOM snapshot to search the
+     * original fetched document a similar element and use the location
+     * of that element instead.
      */
-    public getLocation(): ProblemLocation | null {
+    private _getOriginalLocation(): parse5.ElementLocation | null {
         const location = this._element.sourceCodeLocation;
 
         // Use direct location information when available.
         if (location) {
-            return {
-                // Column is zero-based, but pointing to the tag name, not the character <
-                column: location.startCol,
-                line: location.startLine - 1
-            };
+            return location;
         }
 
         // If not, try to match an element in the original document to use it's location.
         if (this.ownerDocument && this.ownerDocument.originalDocument) {
             const match = findOriginalElement(this.ownerDocument.originalDocument, this);
 
-            return match ? match.getLocation() : null;
+            if (match) {
+                return match._element.sourceCodeLocation;
+            }
         }
 
+        // Otherwise we don't have a location (element may have been dynamically generated).
         return null;
+    }
+
+    /**
+     * Zero-based location of the element.
+     */
+    public getLocation(): ProblemLocation | null {
+        const location = this._getOriginalLocation();
+
+        if (!location) {
+            return null;
+        }
+
+        // Column is zero-based, but pointing to the tag name, not the character <
+        return {
+            column: location.startCol,
+            line: location.startLine - 1
+        };
+    }
+
+    /**
+     * Calculate the document location of content within this element.
+     * Used to determine offsets for CSS-in-HTML and JS-in-HTML reports.
+     */
+    public getContentLocation(offset: ProblemLocation): ProblemLocation | null {
+        const location = this._getOriginalLocation();
+
+        if (!location) {
+            return null;
+        }
+
+        // Get the end of the start tag from `parse5`, converting to be zero-based.
+        const startTag = location.startTag;
+        const column = startTag.endCol - 1;
+        const line = startTag.endLine - 1;
+
+        // Adjust resulting column when content is on the same line as the tag.
+        if (offset.line === 0) {
+            return {
+                column: column + offset.column,
+                line
+            };
+        }
+
+        // Otherwise adjust just the resulting line.
+        return {
+            column: offset.column,
+            line: line + offset.line
+        };
     }
 
     public isSame(element: HTMLElement): boolean {
