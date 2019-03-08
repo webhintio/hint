@@ -4,22 +4,26 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { ResourceLoader } from 'jsdom';
 
 import JSDOMConnector from './connector';
-import { JSDOMAsyncHTMLElement } from 'hint/dist/src/lib/types/jsdom-async-html';
+import { HTMLDocument } from 'hint/dist/src/lib/types';
+import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
 import { NetworkData, FetchEnd, FetchError } from 'hint/dist/src/lib/types';
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
+import getElementByUrl from 'hint/dist/src/lib/utils/dom/get-element-by-url';
 
 const debug: debug.IDebugger = d(__filename);
 
 export default class CustomResourceLoader extends ResourceLoader {
     private _connector: JSDOMConnector;
+    private _HTMLDocument: HTMLDocument;
 
-    public constructor(connector: JSDOMConnector) {
+    public constructor(connector: JSDOMConnector, html: string) {
         super();
 
         this._connector = connector;
+        this._HTMLDocument = createHTMLDocument(html);
     }
 
-    public async fetch(url: string, options: { element: HTMLElement }): Promise<Buffer | null> {
+    public async fetch(url: string, options: any): Promise<Buffer | null> {
         /* istanbul ignore if */
         if (!url) {
             const promise = Promise.resolve(null);
@@ -29,9 +33,14 @@ export default class CustomResourceLoader extends ResourceLoader {
             return await promise;
         }
 
+        /*
+         * We need a `HTMLElement` instead of the element returned by jsdom.
+         * To do so, we create a query from the element returned by jsdom and
+         * look for it in our `HTMLDocument`.
+         */
+        const element = getElementByUrl(this._HTMLDocument, url);
         const urlAsUrl = new URL(url);
         let resourceUrl: string = urlAsUrl.href;
-        const element = options.element ? new JSDOMAsyncHTMLElement(options.element) : null;
 
         /* istanbul ignore if */
         if (!urlAsUrl.protocol) {
