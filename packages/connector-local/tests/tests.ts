@@ -9,7 +9,8 @@ import delay from 'hint/dist/src/lib/utils/misc/delay';
 import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
 import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 import { Engine } from 'hint';
-import { Events, FetchEnd, Problem } from 'hint/dist/src/lib/types';
+import { FetchEnd, Problem } from 'hint/dist/src/lib/types';
+import { HTMLEvents } from '@hint/parser-html';
 
 type SandboxContext = {
     sandbox: sinon.SinonSandbox;
@@ -23,10 +24,10 @@ const mockContext = () => {
         clear() { },
         async emitAsync(event: Event, data: Problem[]): Promise<any> { },
         async notify() { },
-        on(): Engine<Events> {
+        on(): Engine<HTMLEvents> {
             return null as any;
         }
-    } as Partial<Engine<Events>>;
+    } as Partial<Engine<HTMLEvents>>;
 
     const chokidar = {
         watch(target: string, options: Chokidar.WatchOptions): Stream {
