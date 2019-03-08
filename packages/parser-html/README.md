@@ -34,27 +34,21 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 
 ## Events emitted
 
-This `parser` emits the event `parse::html` of type `HTMLParse`
+This `parser` emits the event `parse::end::html` of type `HTMLParse`
 which has the following information:
 
-* `window`: an [`IAsyncWindow`][asynchtml] object containing the
+* `document`: an `HTMLDocument` object containing the
   parsed document.
 * `html`: a string containing the raw HTML source code.
 * `resource`: the parsed resource.
 
-This `parser` also automatically traverses and emits events for
-elements in the tree (see [events][events] for details):
+And the event `parse::start::html` of type `Event` which has the
+following information:
 
-* `element::<element-type>`
-* `traverse::down`
-* `traverse::end`
-* `traverse::start`
-* `traverse::up`
-* `parse::html::end`
+* `resource`: the resource that is going to be parsed.
 
 <!-- Link labels: -->
 
-[asynchtml]: https://webhint.io/docs/contributor-guide/how-to/connector/#iasynchtml
 [connectors]: https://webhint.io/docs/user-guide/concepts/connectors/
 [events]: https://webhint.io/docs/contributor-guide/getting-started/events/
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
