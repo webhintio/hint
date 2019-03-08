@@ -42,8 +42,8 @@ This `parser` emits the following events:
     See the [PostCSS `walk*` APIs][postcss-walk] for help navigating
     the AST.
   * `code`: a string containing the raw stylesheet source code.
-  * `element`: an `IAsyncHTMLElement` reference if the source was inline in
-    HTML; `null` otherwise.
+  * `element`: an `HTMLElement` reference if the source was inline
+    in HTML; `null` otherwise.
   * `resource`: the parsed resource. If the CSS is in a `style tag`
     and not a file, the value will be `Inline CSS`.
 

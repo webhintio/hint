@@ -89,7 +89,7 @@ export default class HtmlCheckerHint implements IHint {
         };
 
         const locateAndReport = (resource: string) => {
-            return (messageItem: HtmlError): Promise<void> => {
+            return (messageItem: HtmlError): void => {
                 const position: ProblemLocation = {
                     column: messageItem.firstColumn,
                     elementColumn: messageItem.hiliteStart + 1,
@@ -97,7 +97,7 @@ export default class HtmlCheckerHint implements IHint {
                     line: messageItem.lastLine
                 };
 
-                return context.report(resource, messageItem.message, {
+                context.report(resource, messageItem.message, {
                     codeSnippet: messageItem.extract,
                     location: position,
                     severity: Severity[messageItem.subType]
@@ -105,9 +105,9 @@ export default class HtmlCheckerHint implements IHint {
             };
         };
 
-        const notifyError = async (resource: string, error: any) => {
+        const notifyError = (resource: string, error: any) => {
             debug(`Error getting HTML checker result for ${resource}.`, error);
-            await context.report(resource, `Could not get results from HTML checker for '${resource}'. Error: '${error}'.`);
+            context.report(resource, `Could not get results from HTML checker for '${resource}'. Error: '${error}'.`);
         };
 
         const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {
@@ -127,8 +127,8 @@ export default class HtmlCheckerHint implements IHint {
             }
         };
 
-        const checkHTML = async (data: TraverseStart): Promise<CheckerData> => {
-            const options = Object.assign({}, scanOptions, { body: await context.pageContent });
+        const checkHTML = (data: TraverseStart): CheckerData => {
+            const options = Object.assign({}, scanOptions, { body: context.pageContent });
 
             return {
                 event: data,
@@ -137,8 +137,8 @@ export default class HtmlCheckerHint implements IHint {
             };
         };
 
-        const start = async (data: TraverseStart) => {
-            const check: CheckerData = await checkHTML(data);
+        const start = (data: TraverseStart) => {
+            const check: CheckerData = checkHTML(data);
 
             htmlCheckerPromises.push(check);
         };
@@ -162,7 +162,7 @@ export default class HtmlCheckerHint implements IHint {
                 try {
                     result = JSON.parse(await check.promise);
                 } catch (e) {
-                    await notifyError(resource, e);
+                    notifyError(resource, e);
 
                     return;
                 }
@@ -170,12 +170,11 @@ export default class HtmlCheckerHint implements IHint {
                 debug(`Received HTML checker results for ${resource}`);
 
                 const filteredMessages: HtmlError[] = filter(result.messages);
-                const reportPromises: Promise<void>[] = filteredMessages.map((messageItem: HtmlError): Promise<void> => {
-                    return locateAndReportByResource(messageItem);
-                });
 
                 try {
-                    await Promise.all(reportPromises);
+                    filteredMessages.forEach((messageItem: HtmlError) => {
+                        locateAndReportByResource(messageItem);
+                    });
                 } catch (e) {
                     debug(`Error reporting the HTML checker results.`, e);
 

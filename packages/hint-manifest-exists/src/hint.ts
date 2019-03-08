@@ -35,13 +35,13 @@ export default class ManifestExistsHint implements IHint {
 
         let manifestIsSpecified = false;
 
-        const checkIfManifestWasSpecified = async (scanEndEvent: ScanEnd) => {
+        const checkIfManifestWasSpecified = (scanEndEvent: ScanEnd) => {
             if (!manifestIsSpecified) {
-                await context.report(scanEndEvent.resource, `'manifest' link element was not specified.`);
+                context.report(scanEndEvent.resource, `'manifest' link element was not specified.`);
             }
         };
 
-        const checkIfManifest = async (data: ElementFound) => {
+        const checkIfManifest = (data: ElementFound) => {
             const { element, resource } = data;
 
             if (normalizeString(element.getAttribute('rel')) !== 'manifest') {
@@ -54,7 +54,7 @@ export default class ManifestExistsHint implements IHint {
              */
 
             if (manifestIsSpecified) {
-                await context.report(resource, `'manifest' link element is not needed as one was already specified.`, { element });
+                context.report(resource, `'manifest' link element is not needed as one was already specified.`, { element });
 
                 return;
             }
@@ -64,14 +64,14 @@ export default class ManifestExistsHint implements IHint {
             const href = normalizeString(element.getAttribute('href'));
 
             if (!href) {
-                await context.report(resource, `'manifest' link element should have non-empty 'href' attribute.`, { element });
+                context.report(resource, `'manifest' link element should have non-empty 'href' attribute.`, { element });
             }
         };
 
-        const handleFetchErrors= async (fetchErrorEvent: FetchError) => {
+        const handleFetchErrors= (fetchErrorEvent: FetchError) => {
             const { resource, element, error } = fetchErrorEvent;
 
-            await context.report(resource, error.message, { element });
+            context.report(resource, error.message, { element });
         };
 
         context.on('element::link', checkIfManifest);

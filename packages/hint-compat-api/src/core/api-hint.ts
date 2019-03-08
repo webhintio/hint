@@ -181,12 +181,12 @@ export abstract class APIHint<T extends Events> implements IHint {
         this.pendingReports = [];
     }
 
-    private async consumeReports(): Promise<void> {
+    private consumeReports() {
         while (this.reports.length > 0) {
             const [feature, supportStatementResult] = this.reports.shift() as [FeatureInfo, SupportStatementResult];
             const message = this.generateReportErrorMessage(feature, supportStatementResult);
 
-            await this.compatLibrary.reportError(feature, message);
+            this.compatLibrary.reportError(feature, message);
         }
     }
 

@@ -29,8 +29,8 @@ export default class implements IHint {
             line: 0
         };
 
-        const report = async (resource: string, message: string, location = defaultProblemLocation): Promise<void> => {
-            await context.report(resource, message, { location });
+        const report = (resource: string, message: string, location = defaultProblemLocation) => {
+            context.report(resource, message, { location });
         };
 
         const getCurrentDoctypeProblemLocation = (text: string): ProblemLocation[] => {
@@ -40,7 +40,7 @@ export default class implements IHint {
             lines.forEach((line: string, i: number): void => {
                 const matched = doctypeRegExp.exec(line);
 
-                if (matched){
+                if (matched) {
                     locations.push({
                         column: matched.index,
                         line: i
@@ -58,44 +58,44 @@ export default class implements IHint {
             };
         };
 
-        const checkNoDoctypeInContent = async (matchInfo: MatchInformation, resource: string, content: string): Promise<boolean> => {
+        const checkNoDoctypeInContent = (matchInfo: MatchInformation, resource: string, content: string): boolean => {
             if (matchInfo.matches && matchInfo.matches.length > 0) {
                 return true;
             }
 
             if (!doctypeFlexibleRegExp.exec(content)) {
-                await report(resource, `'doctype' was not specified.`);
+                report(resource, `'doctype' was not specified.`);
 
                 return false;
             }
 
-            await report(resource, `'doctype' should be specified as '<!doctype html>'.`);
+            report(resource, `'doctype' should be specified as '<!doctype html>'.`);
 
             return false;
         };
 
-        const checkNoDoctypeInCorrectLine = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
+        const checkNoDoctypeInCorrectLine = (matchInfo: MatchInformation, resource: string) => {
 
             if (matchInfo.locations[0].line === correctLine) {
                 return;
             }
 
-            await report(resource, `'doctype' should be specified before anything else.`, matchInfo.locations[0]);
+            report(resource, `'doctype' should be specified before anything else.`, matchInfo.locations[0]);
         };
 
-        const checkDoctypeIsDuplicated = async (matchInfo: MatchInformation, resource: string): Promise<void> => {
+        const checkDoctypeIsDuplicated = (matchInfo: MatchInformation, resource: string) => {
             if (!matchInfo.matches || matchInfo.matches.length < 2) {
                 return;
             }
 
-            await report(resource, `'doctype' is not needed as one was already specified.`, matchInfo.locations[matchInfo.locations.length - 1]);
+            report(resource, `'doctype' is not needed as one was already specified.`, matchInfo.locations[matchInfo.locations.length - 1]);
         };
 
-        const onFetchEndHTML = async (fetchEnd: FetchEnd): Promise<void> => {
+        const onFetchEndHTML = (fetchEnd: FetchEnd) => {
             const { resource, response } = fetchEnd;
 
             if (!response || !response.body || !response.body.content) {
-                await context.report(resource, 'Resource has no content.');
+                context.report(resource, 'Resource has no content.');
 
                 return;
             }
@@ -106,14 +106,12 @@ export default class implements IHint {
 
             const globalMatch = getMatchInformation(contentTrimmed);
 
-            if (!(await checkNoDoctypeInContent(globalMatch, resource, contentTrimmed))) {
+            if (!checkNoDoctypeInContent(globalMatch, resource, contentTrimmed)) {
                 return;
             }
 
-            await Promise.all([
-                checkNoDoctypeInCorrectLine(globalMatch, resource),
-                checkDoctypeIsDuplicated(globalMatch, resource)
-            ]);
+            checkNoDoctypeInCorrectLine(globalMatch, resource);
+            checkDoctypeIsDuplicated(globalMatch, resource);
 
             return;
         };

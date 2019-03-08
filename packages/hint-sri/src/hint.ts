@@ -96,7 +96,7 @@ export default class SRIHint implements IHint {
         return Promise.resolve(false);
     }
 
-    private async report(resource: string, message: string, options: ReportOptions, evt: FetchEnd) {
+    private report(resource: string, message: string, options: ReportOptions, evt: FetchEnd) {
         const errorData: ErrorData = {
             message,
             options,
@@ -109,7 +109,7 @@ export default class SRIHint implements IHint {
         cacheErrors.push(errorData);
         this.reportedKeys.add(cacheKey);
 
-        await this.context.report(errorData.resource, errorData.message, errorData.options);
+        this.context.report(errorData.resource, errorData.message, errorData.options);
     }
 
     /**
@@ -120,14 +120,14 @@ export default class SRIHint implements IHint {
      *
      * More info in https://w3c.github.io/webappsec-subresource-integrity/#is-response-eligible
      */
-    private async isEligibleForIntegrityValidation(evt: FetchEnd, urls: URLs): Promise<boolean> {
+    private isEligibleForIntegrityValidation(evt: FetchEnd, urls: URLs): Promise<boolean> {
         debug('Is eligible for integrity validation?');
 
         const { element, resource } = evt;
         const resourceOrigin: string = new URL(resource).origin;
 
         if (urls.origin === resourceOrigin) {
-            return true;
+            return Promise.resolve(true);
         }
 
         // cross-origin scripts need to be loaded with a valid "crossorigin" attribute (ie.: anonymous or use-credentials)
@@ -136,9 +136,9 @@ export default class SRIHint implements IHint {
         if (!crossorigin) {
             const message = `Cross-origin resource ${resource} needs a "crossorigin" attribute to be eligible for integrity validation`;
 
-            await this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element }, evt);
 
-            return false;
+            return Promise.resolve(false);
         }
 
         const validCrossorigin = crossorigin === 'anonymous' || crossorigin === 'use-credentials';
@@ -146,17 +146,17 @@ export default class SRIHint implements IHint {
         if (!validCrossorigin) {
             const message = `Attribute "crossorigin" for resource ${resource} doesn't have a valid value, should "anonymous" or "use-credentials": crossorigin="${crossorigin}"`;
 
-            await this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element }, evt);
         }
 
-        return validCrossorigin;
+        return Promise.resolve(validCrossorigin);
     }
 
     /**
      * Checks if the element that triggered the download has the `integrity`
      * attribute if required based on the selected origin criteria.
      */
-    private async hasIntegrityAttribute(evt: FetchEnd, urls: URLs): Promise<boolean> {
+    private hasIntegrityAttribute(evt: FetchEnd, urls: URLs): Promise<boolean> {
         debug('has integrity attribute?');
         const { element, resource } = evt;
         const integrity = element && element.getAttribute('integrity');
@@ -168,10 +168,10 @@ export default class SRIHint implements IHint {
         if (integrityRequired && !integrity) {
             const message = `Resource ${resource} requested without the "integrity" attribute`;
 
-            await this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element }, evt);
         }
 
-        return !!integrity;
+        return Promise.resolve(!!integrity);
     }
 
     /**
@@ -189,7 +189,7 @@ export default class SRIHint implements IHint {
      *
      * https://w3c.github.io/webappsec-subresource-integrity/#agility
      */
-    private async isIntegrityFormatValid(evt: FetchEnd, urls: URLs): Promise<boolean> {
+    private isIntegrityFormatValid(evt: FetchEnd, urls: URLs): Promise<boolean> {
         debug('Is integrity attribute valid?');
         const { element, resource } = evt;
         const integrity = element && element.getAttribute('integrity');
@@ -198,7 +198,7 @@ export default class SRIHint implements IHint {
         let highestAlgorithmPriority = 0;
         const that = this;
 
-        const areFormatsValid = await everySeries(integrityValues, async (integrityValue: string) => {
+        const areFormatsValid = integrityValues.every((integrityValue: string) => {
             const results = integrityRegExp.exec(integrityValue);
             const isValid = Array.isArray(results);
 
@@ -206,7 +206,7 @@ export default class SRIHint implements IHint {
                 // integrity must exist since we're iterating over integrityValues
                 const message = `The format of the "integrity" attribute for resource ${resource} should be "sha(256|384|512)-HASH": ${integrity!.substr(0, 10)}…`;
 
-                await that.report(urls.final, message, { element }, evt);
+                that.report(urls.final, message, { element }, evt);
 
                 return false;
             }
@@ -221,7 +221,7 @@ export default class SRIHint implements IHint {
         });
 
         if (!areFormatsValid) {
-            return false;
+            return Promise.resolve(false);
         }
 
         const baseline = Algorithms[this.baseline];
@@ -230,10 +230,10 @@ export default class SRIHint implements IHint {
         if (!meetsBaseline) {
             const message = `The hash algorithm "${Algorithms[highestAlgorithmPriority]}" doesn't meet the baseline "${this.baseline}" in resource ${resource}`;
 
-            await this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element }, evt);
         }
 
-        return meetsBaseline;
+        return Promise.resolve(meetsBaseline);
     }
 
     /**
@@ -241,7 +241,7 @@ export default class SRIHint implements IHint {
      *
      * More info: https://w3c.github.io/webappsec-subresource-integrity/#non-secure-contexts
      */
-    private async isSecureContext(evt: FetchEnd, urls: URLs): Promise<boolean> {
+    private isSecureContext(evt: FetchEnd, urls: URLs): Promise<boolean> {
         debug('Is delivered on a secure context?');
         const { element, resource } = evt;
         const protocol = new URL(resource).protocol;
@@ -250,10 +250,10 @@ export default class SRIHint implements IHint {
         if (!isSecure) {
             const message = `The resource ${resource} is not delivered via a secure context`;
 
-            await this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element }, evt);
         }
 
-        return isSecure;
+        return Promise.resolve(isSecure);
     }
 
     /**
@@ -264,7 +264,7 @@ export default class SRIHint implements IHint {
      *
      * More info: https://w3c.github.io/webappsec-subresource-integrity/#does-response-match-metadatalist
      */
-    private async hasRightHash(evt: FetchEnd, urls: URLs): Promise<boolean> {
+    private hasRightHash(evt: FetchEnd, urls: URLs): Promise<boolean> {
         debug('Does it have the right hash?');
         const { element, resource, response } = evt;
         const integrity = element && element.getAttribute('integrity');
@@ -294,10 +294,10 @@ export default class SRIHint implements IHint {
 Expected: ${hashes.join(', ')}
 Actual:   ${integrities.join(', ')}`;
 
-            await this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element }, evt);
         }
 
-        return isOK;
+        return Promise.resolve(isOK);
     }
 
     private getCache(evt: FetchEnd): ErrorData[] {
@@ -366,23 +366,21 @@ Actual:   ${integrities.join(', ')}`;
      * should report what we have in the cache after the
      * first 'scan::end'.
      */
-    private async isInCache(evt: FetchEnd) {
+    private isInCache(evt: FetchEnd): Promise<boolean> {
         const cacheKey = this.getCacheKey(evt);
         const isInCache = this.cache.has(cacheKey);
 
         if (isInCache && !this.reportedKeys.has(cacheKey)) {
-            const promises = this.getCache(evt).map((error) => {
-                return this.context.report(error.resource, error.message, error.options);
+            this.getCache(evt).forEach((error) => {
+                this.context.report(error.resource, error.message, error.options);
             });
 
             this.reportedKeys.add(cacheKey);
 
-            await Promise.all(promises);
-
-            return false;
+            return Promise.resolve(false);
         }
 
-        return !isInCache;
+        return Promise.resolve(!isInCache);
     }
 
     /**
@@ -403,7 +401,7 @@ Actual:   ${integrities.join(', ')}`;
      * through the traverse of the dom and response.body.content will be ''. In this case,
      * we have to prevent the download of the resource.
      */
-    private async downloadContent(evt: FetchEnd, urls: URLs) {
+    private async downloadContent(evt: FetchEnd, urls: URLs): Promise<boolean> {
         const { resource, response, element } = evt;
 
         if (!requestAsync && !response.body.content) {
@@ -430,7 +428,7 @@ Actual:   ${integrities.join(', ')}`;
         } catch (e) {
             debug(`Error accessing ${resource}. ${JSON.stringify(e)}`);
 
-            await this.context.report(urls.final, `Can't get the resource ${resource}`, { element });
+            this.context.report(urls.final, `Can't get the resource ${resource}`, { element });
 
             return false;
         }

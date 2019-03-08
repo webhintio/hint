@@ -27,32 +27,30 @@ export default class TypeScriptConfigIsValid implements IHint {
 
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
 
-        const invalidJSONFile = async (typeScriptConfigInvalid: TypeScriptConfigInvalidJSON, event: string) => {
+        const invalidJSONFile = (typeScriptConfigInvalid: TypeScriptConfigInvalidJSON, event: string) => {
             const { error, resource } = typeScriptConfigInvalid;
 
             debug(`${event} received`);
 
-            await context.report(resource, error.message);
+            context.report(resource, error.message);
         };
 
-        const invalidExtends = async (typeScriptConfigInvalid: TypeScriptConfigExtendsError, event: string) => {
+        const invalidExtends = (typeScriptConfigInvalid: TypeScriptConfigExtendsError, event: string) => {
             const { error, resource, getLocation } = typeScriptConfigInvalid;
 
             debug(`${event} received`);
 
-            await context.report(resource, error.message, { location: getLocation('extends') });
+            context.report(resource, error.message, { location: getLocation('extends') });
         };
 
-        const invalidSchema = async (fetchEnd: TypeScriptConfigInvalidSchema) => {
+        const invalidSchema = (fetchEnd: TypeScriptConfigInvalidSchema) => {
             const { groupedErrors, resource } = fetchEnd;
 
             debug(`parse::error::typescript-config::schema received`);
 
-            for (let i = 0; i < groupedErrors.length; i++) {
-                const groupedError = groupedErrors[i];
-
-                await context.report(resource, groupedError.message, { location: groupedError.location });
-            }
+            groupedErrors.forEach((groupedError: any) => {
+                context.report(resource, groupedError.message, { location: groupedError.location });
+            });
         };
 
         context.on('parse::error::typescript-config::json', invalidJSONFile);

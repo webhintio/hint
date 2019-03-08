@@ -267,7 +267,7 @@ export default class PerformanceBudgetHint implements IHint {
          * Calculates if the size of all the loaded resources is small enough to
          * load the site in the allocated time.
          */
-        const onScanEnd = async (scanEnd: ScanEnd) => {
+        const onScanEnd = (scanEnd: ScanEnd) => {
             const { resource } = scanEnd;
             const config: NetworkConfig | null = getConfiguration();
 
@@ -281,7 +281,7 @@ export default class PerformanceBudgetHint implements IHint {
             debug(`Ideal load time: ${loadTime}s`);
 
             if (typeof config.load === 'number' && loadTime > config.load) {
-                await context.report(resource, `To load all the resources on a ${config.id} network, it will take about ${loadTime.toFixed(1)}s in optimal conditions (that is ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s target).`);
+                context.report(resource, `To load all the resources on a ${config.id} network, it will take about ${loadTime.toFixed(1)}s in optimal conditions (that is ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s target).`);
             }
         };
 

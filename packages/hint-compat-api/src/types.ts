@@ -41,5 +41,5 @@ export type SupportStatementResult = {
 
 export interface ICompatLibrary {
     setResource(resource: string): void;
-    reportError(feature: FeatureInfo, message: string): Promise<void>;
+    reportError(feature: FeatureInfo, message: string): void;
 }
