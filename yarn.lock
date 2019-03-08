@@ -9654,10 +9654,10 @@ type-is@~1.6.16:
     media-typer "0.3.0"
     mime-types "~2.1.18"
 
-typed-css-modules@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.4.1.tgz#1ba76d2d9db4be6db50733bb7f0fe53a7602a264"
-  integrity sha512-aOMv55N5s2oRYnlitEDQXdBjSqULg/X68UeYs2AwSZyUk7TgrOZlnZ38/ZEpA1GF5wcHAovk4YR7Db+mYtoL2A==
+typed-css-modules@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.4.2.tgz#eb9416a847c6ab9869fbd3a21de9d69566787f09"
+  integrity sha512-8L6efZplgnraEw1RWz1Nc6swfLm6PAawivvdwFhzkFa3CJu+cPbK9712i4CAAf+JA0/Ufe19iDTPIk1WSpoz/w==
   dependencies:
     camelcase "^4.1.0"
     chalk "^2.1.0"

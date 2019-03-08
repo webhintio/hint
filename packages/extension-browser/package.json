@@ -65,7 +65,7 @@
     "sinon": "^7.2.7",
     "style-loader": "^0.23.1",
     "svg-url-loader": "^2.3.2",
-    "typed-css-modules": "^0.4.1",
+    "typed-css-modules": "^0.4.2",
     "typescript": "^3.3.3333",
     "util.promisify": "^1.0.0",
     "webpack": "^4.29.6",
