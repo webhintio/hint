@@ -186,7 +186,7 @@ export default class ScriptSemiColonHint implements IHint {
             });
 
             for (const result of results) {
-                await context.report(scriptParse.resource, null, result.message);
+                context.report(scriptParse.resource, null, result.message);
             }
         };
 

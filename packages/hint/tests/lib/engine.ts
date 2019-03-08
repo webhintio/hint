@@ -759,7 +759,7 @@ test('pageContent should return the HTML', async (t) => {
         public querySelectorAll(): any { }
 
         public get html() {
-            return Promise.resolve(html);
+            return html;
         }
     }
 

@@ -66,7 +66,7 @@ interface IEngine {
 
 type EngineContainer = {
     Engine: IEngine;
-}
+};
 
 type Spinner = {
     fail: () => void;
