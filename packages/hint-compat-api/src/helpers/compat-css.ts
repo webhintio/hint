@@ -12,6 +12,7 @@ import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
 import { FeatureStrategy, TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, FeatureAtSupport } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
 import { CompatBase } from './compat-base';
+import { evaluateQuery } from './evaluate-query';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -73,6 +74,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
 
     private validateSupportFeatures(params: string, location?: ProblemLocation): boolean {
         const features = this.getSupportFeatures(params);
+        // Ignore selector(...)
         let query = params;
 
         for (const feature of features) {
@@ -89,16 +91,15 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
             const featureStrategy = this.chooseStrategyToSearchCSSFeature(featureNode);
             const featureSupported = featureStrategy.testFeature(featureNode, location, true);
 
-            query = query.replace(`${feature.property}:${feature.value}`, featureSupported.toString());
+            query = query.replace(`(${feature.property}:${feature.value})`, featureSupported.toString());
         }
 
-        // Ignore selector(...)
-        query = query.replace(/selector\([^)]*\)/, 'true');
+        query = query.replace(/selector\s*/g, '#');
         query = query.replace(/or/gi, '||');
         query = query.replace(/and/gi, '&&');
         query = query.replace(/not\s*/gi, '!');
 
-        const valid = eval(query); // eslint-disable-line no-eval
+        const valid = evaluateQuery(query);
 
         return valid;
     }
