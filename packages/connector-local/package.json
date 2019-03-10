@@ -9,7 +9,7 @@
   "dependencies": {
     "chokidar": "^2.1.2",
     "globby": "^9.1.0",
-    "jsdom": "^13.2.0"
+    "jsdom": "^14.0.0"
   },
   "description": "hint local connector",
   "devDependencies": {
