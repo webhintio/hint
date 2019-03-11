@@ -31,6 +31,7 @@
     "@hint/hint-validate-set-cookie-header": "^2.1.2",
     "@hint/hint-x-content-type-options": "^3.0.1",
     "@hint/parser-css": "^2.1.0",
+    "@hint/parser-html": "^2.0.2",
     "@hint/parser-javascript": "^2.1.0",
     "@hint/parser-manifest": "^2.0.2",
     "@hint/utils-create-server": "^3.0.0",

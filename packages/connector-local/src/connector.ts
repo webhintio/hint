@@ -267,7 +267,7 @@ export default class LocalConnector implements IConnector {
         return new JSDOM(html, {
 
             /** Needed to provide line/column positions for elements. */
-            includeNodeLocations: true,
+            // includeNodeLocations: true, // TODO: re-enable once locations can be copied from snapshot.
 
             /**
              * Needed to let hints run script against the DOM.
@@ -280,14 +280,10 @@ export default class LocalConnector implements IConnector {
 
     /* istanbul ignore next */
     private async onParseHTML(event: HTMLParse) {
-        const document = event.document;
-        const jsdom: JSDOM = this.createJsdom(document.pageHTML());
+        this._document = event.document;
+        this._evaluate = this.createJsdom(event.html).window.eval;
 
-        this._evaluate = jsdom.window.eval;
-
-        this._document = document;
-
-        await traverse(document, this.engine, event.resource);
+        await traverse(this._document, this.engine, event.resource);
 
         await this.engine.emitAsync('can-evaluate::script', { resource: this._href } as CanEvaluateScript);
     }

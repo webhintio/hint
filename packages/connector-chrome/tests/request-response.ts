@@ -39,7 +39,10 @@ test(`[${name}] requestResponse`, async (t) => {
         emit(): boolean {
             return false;
         },
-        async emitAsync(): Promise<any> { }
+        async emitAsync(): Promise<any> { },
+        on(): Engine {
+            return null as any;
+        }
     } as any;
 
     const engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');

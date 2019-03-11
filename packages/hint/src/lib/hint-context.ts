@@ -102,7 +102,7 @@ export class HintContext<E extends Events = Events> {
     }
 
     /** Finds the approximative location in the page's HTML for a match in an element. */
-    public findProblemLocation(element: HTMLElement): ProblemLocation {
+    public findProblemLocation(element: HTMLElement): ProblemLocation | null {
         return element.getLocation();
     }
 

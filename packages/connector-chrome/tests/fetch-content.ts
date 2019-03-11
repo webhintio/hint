@@ -18,7 +18,10 @@ test(`[${name}] Fetch Content`, async (t) => {
         emit(): boolean {
             return false;
         },
-        async emitAsync(): Promise<any> { }
+        async emitAsync(): Promise<any> { },
+        on(): Engine {
+            return null as any;
+        }
     } as any;
 
     const file = fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png'));
