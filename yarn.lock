@@ -5622,10 +5622,10 @@ jquery@2.1.4:
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.1.4.tgz#228bde698a0c61431dc2630a6a154f15890d2317"
   integrity sha1-IoveaYoMYUMdwmMKahVPFYkNIxc=
 
-js-library-detector@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/js-library-detector/-/js-library-detector-5.3.0.tgz#1432f79bf016eff97fa14781707df669c45964ca"
-  integrity sha512-FNATdscnRdM+PGekF8LEWDEsA6O1/BRrxCMkGPzLTkXQeoMBpvsnD+JMXkEpt5O/KZ9LmfvIMY3xN49QoufWPg==
+js-library-detector@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/js-library-detector/-/js-library-detector-5.4.0.tgz#d1b08dfbdc3886258f888bd441801ef9e5b69567"
+  integrity sha512-lSTEC9Q3L/cXOhYIilW3GH/v4tOnPIN40NTIBHRcn2vxTwGhMyySQTQpJ0W68ISGzOgvwVe7KCfQ9PJi6MsOIw==
 
 js-string-escape@^1.0.1:
   version "1.0.1"
