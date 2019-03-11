@@ -13,7 +13,7 @@ type FileModule = {
 };
 
 type LoadJSONFileModule = {
-    default: () => FileModule | null;
+    loadJSONFile: () => FileModule | null;
 };
 
 type AsPathString = {
@@ -49,7 +49,7 @@ const initContext = (t: ExecutionContext<ParserContext>) => {
     }) as Engine<Events>;
 
     t.context.loadJSONFileModule = {
-        default(): FileModule | null {
+        loadJSONFile(): FileModule | null {
             return null;
         }
     };
@@ -153,7 +153,7 @@ test('If one of the extended files is no a valid JSON, it should return an insta
 
     sandbox.stub(t.context.asPathString, 'default').returns('valid-with-invalid-extends');
     sandbox.stub(t.context.path, 'resolve').returns('invalid-extends');
-    sandbox.stub(t.context.loadJSONFileModule, 'default').throws(new Error('InvalidJSON'));
+    sandbox.stub(t.context.loadJSONFileModule, 'loadJSONFile').throws(new Error('InvalidJSON'));
 
     const testParser = new TestParser(t.context.engine);
     const result = await testParser.config(config, 'valid-with-invalid-extends');
@@ -187,7 +187,7 @@ test('If everything is ok, it should merge all the extended configurations', asy
         .onSecondCall()
         .returns('valid-extends-2');
 
-    const miscStub = sandbox.stub(t.context.loadJSONFileModule, 'default')
+    const miscStub = sandbox.stub(t.context.loadJSONFileModule, 'loadJSONFile')
         .onFirstCall()
         .returns({
             extends: 'valid-extends-2',

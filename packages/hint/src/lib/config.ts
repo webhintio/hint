@@ -22,9 +22,9 @@ import { mergeWith } from 'lodash';
 
 import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject, HintSeverity } from './types';
 import { debug as d } from './utils/debug';
-import isFile from './utils/fs/is-file';
-import loadJSFile from './utils/fs/load-js-file';
-import loadJSONFile from './utils/fs/load-json-file';
+import { isFile } from './utils/fs/is-file';
+import { loadJSFile } from './utils/fs/load-js-file';
+import { loadJSONFile } from './utils/fs/load-json-file';
 import { validateConfig } from './config/config-validator';
 import normalizeHints from './config/normalize-hints';
 import { validate as validateHint, getSeverity } from './config/config-hints';

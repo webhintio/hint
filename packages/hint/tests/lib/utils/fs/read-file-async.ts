@@ -4,7 +4,7 @@ import * as path from 'path';
 
 import anyTest, { Macro, TestInterface, ExecutionContext } from 'ava';
 
-import readFileAsync from '../../../../src/lib/utils/fs/read-file-async';
+import { readFileAsync } from '../../../../src/lib/utils/fs/read-file-async';
 
 const testContext = [
     {

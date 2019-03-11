@@ -5,7 +5,7 @@ import { merge } from 'lodash';
 import { Engine } from '../engine';
 import { getAsUri } from '../utils/network/as-uri';
 import getAsPathString from '../utils/network/as-path-string';
-import loadJSONFile from '../utils/fs/load-json-file';
+import { loadJSONFile } from '../utils/fs/load-json-file';
 import { Events } from './events';
 
 export interface IParsingError extends Error {

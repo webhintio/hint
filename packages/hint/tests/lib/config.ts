@@ -23,7 +23,7 @@ type ConfigTestContext = {
 const test = anyTest as TestInterface<ConfigTestContext>;
 
 import { HintScope } from '../../src/lib/enums/hint-scope';
-import readFileAsync from '../../src/lib/utils/fs/read-file-async';
+import { readFileAsync } from '../../src/lib/utils/fs/read-file-async';
 
 const initContext = (t: ExecutionContext<ConfigTestContext>) => {
     const os = {

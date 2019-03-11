@@ -1,7 +1,7 @@
 import { statSync } from 'fs';
 
 /** Check if a path is a directory and exists*/
-export default (directoryPath: string): boolean => {
+export const isDirectory = (directoryPath: string): boolean => {
     try {
         const stat = statSync(directoryPath);
 

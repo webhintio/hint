@@ -1,3 +1,3 @@
-export default (): string => {
+export const cwd = (): string => {
     return process.cwd();
 };

@@ -4,7 +4,7 @@ import { URL } from 'url';
 /*
  * Try to determine the resource's file extension.
  */
-export default (resource: string): string => {
+export const getFileExtension = (resource: string): string => {
     let url: URL;
 
     try {

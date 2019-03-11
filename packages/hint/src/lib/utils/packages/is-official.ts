@@ -1,7 +1,7 @@
 import { join } from 'path';
 
 import findPackageRoot from './find-package-root';
-import readFile from '../fs/read-file-async';
+import { readFileAsync } from '../fs/read-file-async';
 
 /**
  * Returns if the hint that is going to be created is an official.
@@ -12,7 +12,7 @@ import readFile from '../fs/read-file-async';
  */
 export default async (): Promise<boolean> => {
     try {
-        const pkg = JSON.parse(await readFile(join(findPackageRoot(process.cwd()), 'package.json')));
+        const pkg = JSON.parse(await readFileAsync(join(findPackageRoot(process.cwd()), 'package.json')));
 
         return pkg.name === '@hint/monorepo';
     } catch (e) {

@@ -5,8 +5,8 @@ import { parse, MediaType } from 'content-type';
 
 import { debug as d } from './debug';
 import { HttpHeaders, HTMLElement } from '../types';
-import getFileExtension from './fs/file-extension';
-import getFileName from './fs/file-name';
+import { getFileExtension } from './fs/file-extension';
+import { getFileName } from './fs/file-name';
 import normalizeString from './misc/normalize-string';
 
 const debug = d(__filename);

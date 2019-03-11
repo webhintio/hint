@@ -7,9 +7,9 @@ import * as npmRegistryFetch from 'npm-registry-fetch';
 import { NpmPackage, NpmSearchResults } from '../types';
 import { debug as d } from './debug';
 import * as logger from './logging';
-import loadJSONFile from './fs/load-json-file';
+import { loadJSONFile } from './fs/load-json-file';
 import findPackageRoot from './packages/find-package-root';
-import cwd from './fs/cwd';
+import { cwd } from './fs/cwd';
 
 const debug: debug.IDebugger = d(__filename);
 

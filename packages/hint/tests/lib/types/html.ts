@@ -3,7 +3,7 @@ import * as path from 'path';
 
 import anyTest, { TestInterface } from 'ava';
 
-import createHtmlDocument from '../../../src/lib/utils/dom/create-html-document';
+import { createHTMLDocument } from '../../../src/lib/utils/dom/create-html-document';
 import { HTMLDocument } from '../../../src/lib/types';
 
 type HTMLContext = {
@@ -16,7 +16,7 @@ const html = fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'test-html.h
 const serializedHTML = fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'serialized-test-html.html'), 'utf-8'); // eslint-disable-line no-sync
 
 test.beforeEach((t) => {
-    t.context.document = createHtmlDocument(html);
+    t.context.document = createHTMLDocument(html);
 });
 
 test('HTMLDocument.dom() should return the html node', (t) => {

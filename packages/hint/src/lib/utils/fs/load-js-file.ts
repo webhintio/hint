@@ -1,6 +1,6 @@
 /* eslint-disable no-eval, no-process-env */
 /** Loads a JavaScript file. */
-export default (filePath: string): any => {
+export const loadJSFile = (filePath: string): any => {
     let file;
 
     /* istanbul ignore if */

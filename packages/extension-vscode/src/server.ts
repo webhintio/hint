@@ -19,7 +19,6 @@ import * as notifications from './notifications';
 import * as hint from 'hint';
 import * as config from 'hint/dist/src/lib/config';
 import * as loader from 'hint/dist/src/lib/utils/resource-loader';
-import { HintsConfigObject, Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
 
 let workspace = '';
 
@@ -109,8 +108,8 @@ const loadModule = async <T>(context: string, name: string): Promise<T | null> =
 };
 
 // Load a user configuration, falling back to 'development' if none exists.
-const loadUserConfig = (directory: string, Configuration: typeof config.Configuration): UserConfig => {
-    const defaultConfig: UserConfig = { extends: ['development'] };
+const loadUserConfig = (directory: string, Configuration: typeof config.Configuration): hint.UserConfig => {
+    const defaultConfig: hint.UserConfig = { extends: ['development'] };
 
     try {
         const configPath = Configuration.getFilenameForDirectory(directory);
@@ -160,7 +159,7 @@ const loadWebHint = async (directory: string): Promise<hint.Engine | null> => {
      * `iltorb` if it was compiled for a different version of `node` and the
      * `local` connector doesn't support it anyway.
      */
-    (userConfig.hints as HintsConfigObject)['http-compression'] = 'off';
+    (userConfig.hints as hint.HintsConfigObject)['http-compression'] = 'off';
 
     if (!userConfig.parsers) {
         userConfig.parsers = [];
@@ -216,7 +215,7 @@ connection.onInitialize((params) => {
 });
 
 // Translate a webhint severity into the VSCode DiagnosticSeverity format.
-const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity => {
+const webhintToDiagnosticServerity = (severity: hint.Severity): DiagnosticSeverity => {
     switch (severity) {
         case 2:
             return DiagnosticSeverity.Error;
@@ -228,7 +227,7 @@ const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity =>
 };
 
 // Translate a webhint problem into the VSCode diagnostic format.
-const problemToDiagnostic = (problem: Problem): Diagnostic => {
+const problemToDiagnostic = (problem: hint.Problem): Diagnostic => {
 
     let { column: character, line } = problem.location;
 

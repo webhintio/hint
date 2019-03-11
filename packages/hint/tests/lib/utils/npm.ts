@@ -4,7 +4,7 @@ import * as proxyquire from 'proxyquire';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
 import delay from '../../../src/lib/utils/misc/delay';
-import readFile from '../../../src/lib/utils/fs/read-file';
+import { readFile } from '../../../src/lib/utils/fs/read-file';
 
 type Fs = {
     existsSync: () => boolean;

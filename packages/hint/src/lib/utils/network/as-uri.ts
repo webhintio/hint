@@ -6,9 +6,9 @@ import fileUrl = require('file-url'); // `require` used because `file-url` expor
 
 import { debug as d } from '../debug';
 import * as logger from '../logging';
-import isFile from '../fs/is-file';
-import isDirectory from '../fs/is-directory';
-import pathExists from '../fs/path-exists';
+import { isFile } from '../fs/is-file';
+import { isDirectory } from '../fs/is-directory';
+import { pathExists } from '../fs/path-exists';
 
 const debug: debug.IDebugger = d(__filename);
 

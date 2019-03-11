@@ -2,7 +2,7 @@ import { join } from 'path';
 
 import test from 'ava';
 
-import loadJSFile from '../../../../src/lib/utils/fs/load-js-file';
+import { loadJSFile } from '../../../../src/lib/utils/fs/load-js-file';
 
 const resolve = (route: string) => {
     return join(__dirname, route);

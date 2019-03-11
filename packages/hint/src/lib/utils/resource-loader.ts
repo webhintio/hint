@@ -19,13 +19,13 @@ import { execSync } from 'child_process';
 import { sync as globby } from 'globby';
 import * as semver from 'semver';
 
-import loadJSONFile from './fs/load-json-file';
+import { loadJSONFile } from './fs/load-json-file';
 import getPackage from './packages/load-package';
 import getHintPackage from './packages/load-hint-package';
 import findNodeModulesRoot from './packages/find-node-modules-root';
 import findPackageRoot from './packages/find-package-root';
 import isNormalizedIncluded from './misc/normalize-includes';
-import readFile from './fs/read-file';
+import { readFile } from './fs/read-file';
 import { debug as d } from './debug';
 import { Resource, IHintConstructor, HintResources } from '../types';
 import { Configuration } from '../config';
@@ -33,7 +33,7 @@ import { ResourceType } from '../enums/resource-type';
 import { ResourceErrorStatus } from '../enums/error-status';
 import { ResourceError } from '../types/resource-error';
 import { IConnectorConstructor } from '../types/connector';
-import cwd from './fs/cwd';
+import { cwd } from './fs/cwd';
 
 const debug: debug.IDebugger = d(__filename);
 const HINT_ROOT: string = findPackageRoot();
