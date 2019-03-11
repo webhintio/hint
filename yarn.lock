@@ -678,13 +678,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/p-retry@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@types/p-retry/-/p-retry-3.0.0.tgz#d0bbf6ebe7fffadebbdd02058c38d39bf85901d9"
-  integrity sha512-whxkmt2onv2KJ8FrKtdzUiLvPns99e7JBk47bKq5OOnhugZrx9+QOp3s4+9W8jv1jfzXxLGbEN+yrT7HjRoijQ==
-  dependencies:
-    "@types/retry" "*"
-
 "@types/parse5-htmlparser2-tree-adapter@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@types/parse5-htmlparser2-tree-adapter/-/parse5-htmlparser2-tree-adapter-5.0.1.tgz#3e012cb4109099d9ea7e1e8c505f7989bca20544"
@@ -724,7 +717,7 @@
     "@types/node" "*"
     "@types/tough-cookie" "*"
 
-"@types/retry@*":
+"@types/retry@^0.12.0":
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.0.tgz#2b35eccfcee7d38cd72ad99232fbd58bffb3c84d"
   integrity sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==
@@ -7304,11 +7297,12 @@ p-map@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-2.0.0.tgz#be18c5a5adeb8e156460651421aceca56c213a50"
   integrity sha512-GO107XdrSUmtHxVoi60qc9tUl/KkNKm+X2CF4P9amalpGxv5YqVPJNfSb0wcA+syCopkZvYYIzW8OVTQW59x/w==
 
-p-retry@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/p-retry/-/p-retry-3.0.1.tgz#316b4c8893e2c8dc1cfa891f406c4b422bebf328"
-  integrity sha512-XE6G4+YTTkT2a0UWb2kjZe8xNwf8bIbnqpc/IS/idOBVhyves0mK5OJgeocjx7q5pvX/6m23xuzVPYT1uGM73w==
+p-retry@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/p-retry/-/p-retry-4.0.0.tgz#56633299ac2fc9f6ecda749398330fdff632607a"
+  integrity sha512-bMW1FwszSBsMi6DgPnDKLhAVMDhqeySD4viMI0UiKRv7cQzRS/KYhRPWjnoxSQdvunXwZYKgN10Ya6VxF9w+Og==
   dependencies:
+    "@types/retry" "^0.12.0"
     retry "^0.12.0"
 
 p-try@^1.0.0:
