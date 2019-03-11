@@ -46,7 +46,7 @@
     "@types/debug": "4.1.2",
     "@types/file-url": "^2.0.0",
     "@types/jsdom": "^12.2.3",
-    "@types/lodash": "^4.14.122",
+    "@types/lodash": "^4.14.123",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "11.11.1",
