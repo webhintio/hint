@@ -5,7 +5,7 @@ import { argv } from 'yargs';
 import * as inquirer from 'inquirer';
 import * as Listr from 'listr';
 import * as listrInput from 'listr-input';
-import * as pRetry from 'p-retry';
+import pRetry from 'p-retry';
 import { promisify } from 'util';
 import * as req from 'request';
 import * as shell from 'shelljs';
