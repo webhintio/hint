@@ -67,6 +67,7 @@ export class Connector implements IConnector {
     private _errorWithPage: boolean = false;
     /** The DOM abstraction on top of adapter. */
     private _dom: HTMLDocument | undefined;
+    private _originalDocument: HTMLDocument | undefined;
     /** A collection of requests with their initial data. */
     private _pendingResponseReceived: Function[];
     /** List of all the tabs used by the connector. */
@@ -108,6 +109,12 @@ export class Connector implements IConnector {
 
         this._waitForTarget = new Promise((resolve) => {
             this._targetReceived = resolve;
+        });
+
+        (engine as Engine<import('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
+            if (!this._originalDocument) {
+                this._originalDocument = event.document;
+            }
         });
     }
 
@@ -589,7 +596,7 @@ export class Connector implements IConnector {
 
                 const node = await this._client.DOM.getDocument!({ depth: -1 });
                 const html = (await this._client.DOM.getOuterHTML!({ nodeId: node.root.nodeId })).outerHTML;
-                const dom: HTMLDocument = createHTMLDocument(html);
+                const dom = createHTMLDocument(html, this._originalDocument);
 
                 this._dom = dom;
 

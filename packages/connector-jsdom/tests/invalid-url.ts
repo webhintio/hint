@@ -13,7 +13,10 @@ test(`[${name}] Load an invalid url throws an error`, async (t) => {
         emit(): boolean {
             return false;
         },
-        async emitAsync(): Promise<any> { }
+        async emitAsync(): Promise<any> { },
+        on(): Engine {
+            return null as any;
+        }
     } as any;
 
     const connector: IConnector = new JSDOMConnector(engine, {});

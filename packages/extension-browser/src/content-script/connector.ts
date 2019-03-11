@@ -20,8 +20,10 @@ import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document
 import traverse from 'hint/dist/src/lib/utils/dom/traverse';
 
 export default class WebExtensionConnector implements IConnector {
-    private _document = createHTMLDocument(document.documentElement.outerHTML);
+    private _document: HTMLDocument | undefined;
+    private _originalDocument: HTMLDocument | undefined;
     private _engine: Engine;
+    private _fetchEndQueue: FetchEnd[] = [];
     private _onComplete: (resource: string) => void = () => { };
     private _options: ConnectorOptionsConfig;
 
@@ -32,6 +34,12 @@ export default class WebExtensionConnector implements IConnector {
         if (!this._options.waitFor) {
             this._options.waitFor = 1000;
         }
+
+        (engine as Engine<import ('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
+            if (event.resource === location.href) {
+                this._originalDocument = event.document;
+            }
+        });
 
         browser.runtime.onMessage.addListener(async (events: Events) => {
             if (events.fetchEnd) {
@@ -51,10 +59,12 @@ export default class WebExtensionConnector implements IConnector {
             setTimeout(async () => {
 
                 if (document.documentElement) {
-                    this._document = createHTMLDocument(document.documentElement.outerHTML);
+                    this._document = createHTMLDocument(document.documentElement.outerHTML, this._originalDocument);
 
                     await traverse(this._document, this._engine, resource);
                 }
+
+                await this.sendFetchEndEvents();
 
                 this._onComplete(resource);
             }, this._options.waitFor);
@@ -71,10 +81,18 @@ export default class WebExtensionConnector implements IConnector {
         browser.runtime.sendMessage(message);
     }
 
+    private async sendFetchEndEvents() {
+        for (const event of this._fetchEndQueue) {
+            await this.notifyFetch(event);
+        }
+    }
+
     private setFetchElement(event: FetchEnd) {
         const url = event.request.url;
 
-        event.element = getElementByUrl(this._document, url);
+        if (this._document) {
+            event.element = getElementByUrl(this._document, url);
+        }
     }
 
     private setFetchType(event: FetchEnd): string {
@@ -87,12 +105,18 @@ export default class WebExtensionConnector implements IConnector {
     }
 
     private async notifyFetch(event: FetchEnd) {
+        /*
+         * Delay dispatching FetchEnd until we have the DOM snapshot to populate `element`.
+         * But immediately process target's FetchEnd to populate `originalDocument`.
+         */
+        if (!this._document && event.response.url !== location.href) {
+            this._fetchEndQueue.push(event);
+
+            return;
+        }
+
         this.setFetchElement(event);
         const type = this.setFetchType(event);
-
-        if (event.response.url === location.href) {
-            this._document = createHTMLDocument(event.response.body.content);
-        }
 
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }
@@ -154,7 +178,7 @@ export default class WebExtensionConnector implements IConnector {
     }
 
     public querySelectorAll(selector: string): HTMLElement[] {
-        return this._document.querySelectorAll(selector);
+        return this._document ? this._document.querySelectorAll(selector) : [];
     }
 
     /* istanbul ignore next */
@@ -162,12 +186,12 @@ export default class WebExtensionConnector implements IConnector {
         return Promise.resolve();
     }
 
-    public get dom(): HTMLDocument {
+    public get dom(): HTMLDocument | undefined {
         return this._document;
     }
 
     /* istanbul ignore next */
     public get html(): string {
-        return this._document.pageHTML();
+        return this._document ? this._document.pageHTML() : '';
     }
 }

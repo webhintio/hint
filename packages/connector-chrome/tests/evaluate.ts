@@ -53,6 +53,9 @@ test(`[${name}] Evaluate JavaScript`, async (t) => {
             return false;
         },
         async emitAsync(): Promise<any> { },
+        on(): Engine {
+            return null as any;
+        },
         timeout: 10000
     } as any;
 

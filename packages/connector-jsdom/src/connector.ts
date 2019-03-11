@@ -45,6 +45,7 @@ import { Engine } from 'hint/dist/src/lib/engine';
 import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
 import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
 import traverse from 'hint/dist/src/lib/utils/dom/traverse';
+
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 
 import CustomResourceLoader from './resource-loader';
@@ -67,6 +68,7 @@ export default class JSDOMConnector implements IConnector {
     private _targetNetworkData!: NetworkData;
     private _window!: Window;
     private _document!: HTMLDocument;
+    private _originalDocument: HTMLDocument | undefined;
     private _timeout: number;
     private _resourceLoader?: ResourceLoader;
     private _subprocesses: Set<ChildProcess>;
@@ -82,6 +84,12 @@ export default class JSDOMConnector implements IConnector {
         this.server = server;
         this._timeout = server.timeout;
         this._subprocesses = new Set();
+
+        (server as Engine<import('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
+            if (!this._originalDocument) {
+                this._originalDocument = event.document;
+            }
+        });
     }
 
     /*
@@ -228,7 +236,7 @@ export default class JSDOMConnector implements IConnector {
 
             const jsdom = new JSDOM(this._targetNetworkData.response.body.content, {
                 beforeParse: beforeParse(this.finalHref),
-                includeNodeLocations: true,
+                // includeNodeLocations: true, // TODO: re-enable once locations can be copied from snapshot.
                 pretendToBeVisual: true,
                 resources: this._resourceLoader,
                 runScripts: 'dangerously',
@@ -250,9 +258,10 @@ export default class JSDOMConnector implements IConnector {
 
                     debug(`${this.finalHref} loaded, traversing`);
                     try {
+                        // TODO: Use a DOM snapshot and copy node locations insead of serializing.
                         const html = this._window.document.documentElement.outerHTML;
 
-                        const htmlDocument = createHTMLDocument(html);
+                        const htmlDocument = createHTMLDocument(html, this._originalDocument);
 
                         this._document = htmlDocument;
 

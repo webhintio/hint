@@ -8,6 +8,7 @@ import { Configuration } from 'hint/dist/src/lib/config';
 import { HintResources, HintsConfigObject, IHintConstructor } from 'hint/dist/src/lib/types';
 
 import CSSParser from '@hint/parser-css';
+import HTMLParser from '@hint/parser-html';
 import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
@@ -71,7 +72,7 @@ const main = async (userConfig: Config) => {
         hints: hintsConfig,
         hintsTimeout: 10000,
         ignoredUrls: determineIgnoredUrls(userConfig.ignoredUrls),
-        parsers: ['css', 'javascript', 'manifest']
+        parsers: ['css', 'html', 'javascript', 'manifest']
     };
 
     const resources: HintResources = {
@@ -82,6 +83,7 @@ const main = async (userConfig: Config) => {
         missing: [],
         parsers: [
             CSSParser as any,
+            HTMLParser as any,
             JavaScriptParser as any,
             ManifestParser as any
         ]

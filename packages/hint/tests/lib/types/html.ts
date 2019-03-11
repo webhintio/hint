@@ -69,8 +69,8 @@ test('HTMLElement.getLocation() should return the element location', (t) => {
     const item = t.context.document.querySelectorAll('.title')[0];
     const location = item.getLocation();
 
-    t.is(location.line, 3);
-    t.is(location.column, 9);
+    t.is(location && location.line, 3);
+    t.is(location && location.column, 9);
 });
 
 test('HTMLElement.isSame() should return if an item is the same or not', (t) => {

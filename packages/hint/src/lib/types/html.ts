@@ -3,6 +3,7 @@ import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
 import * as cssSelect from 'css-select';
 
 import { ProblemLocation } from '../types';
+import findOriginalElement from '../utils/dom/find-original-element';
 
 type Attrib = {
     [key: string]: string;
@@ -78,20 +79,36 @@ export class HTMLElement {
     }
 
     /**
-     * zero-based location of the element.
+     * Zero-based location of the element.
      */
-    public getLocation(): ProblemLocation {
+    public getLocation(): ProblemLocation | null {
         const location = this._element.sourceCodeLocation;
 
-        return {
-            // Column is zero-based, but pointing to the tag name, not the character <
-            column: location.startCol,
-            line: location.startLine - 1
-        };
+        // Use direct location information when available.
+        if (location) {
+            return {
+                // Column is zero-based, but pointing to the tag name, not the character <
+                column: location.startCol,
+                line: location.startLine - 1
+            };
+        }
+
+        // If not, try to match an element in the original document to use it's location.
+        if (this.ownerDocument && this.ownerDocument.originalDocument) {
+            const match = findOriginalElement(this.ownerDocument.originalDocument, this);
+
+            return match ? match.getLocation() : null;
+        }
+
+        return null;
     }
 
     public isSame(element: HTMLElement): boolean {
         return this._element === element._element;
+    }
+
+    public innerHTML(): string {
+        return parse5.serialize(this._element, { treeAdapter: htmlparser2Adapter });
     }
 
     public outerHTML(): string {
@@ -132,8 +149,11 @@ export class HTMLDocument {
     private _document: any;
     private _pageHTML = '';
 
-    public constructor(document: parse5.Document) {
+    public originalDocument?: HTMLDocument;
+
+    public constructor(document: parse5.Document, originalDocument?: HTMLDocument) {
         this._document = document;
+        this.originalDocument = originalDocument;
         this._pageHTML = parse5.serialize(document, { treeAdapter: htmlparser2Adapter });
     }
 

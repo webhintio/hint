@@ -37,6 +37,7 @@
         { "path": "../hint-validate-set-cookie-header" },
         { "path": "../hint-x-content-type-options" },
         { "path": "../parser-css" },
+        { "path": "../parser-html" },
         { "path": "../parser-javascript" },
         { "path": "../parser-manifest" },
         { "path": "../utils-create-server" }
