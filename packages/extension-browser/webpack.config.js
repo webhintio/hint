@@ -9,6 +9,11 @@ const baseConfig = {
                 test: /axe-core/,
                 use: 'raw-loader'
             },
+            // Bundle `js-library-detector as a raw string so it can be injected at runtime.
+            {
+                test: /js-library-detector/,
+                use: 'raw-loader'
+            },
             // Automatically bundle and inject referenced CSS files.
             {
                 exclude: /highlight\.js[/\\]styles/,

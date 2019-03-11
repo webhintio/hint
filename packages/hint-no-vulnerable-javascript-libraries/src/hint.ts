@@ -2,7 +2,6 @@
  * @fileoverview This hint checks if the site is running any vulnerable library using https://snyk.io database
  */
 import * as fs from 'fs';
-import * as path from 'path';
 import { promisify } from 'util';
 
 import { groupBy } from 'lodash';
@@ -13,7 +12,7 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { IHint, CanEvaluateScript, Severity } from 'hint/dist/src/lib/types';
 import { Library, Vulnerability } from './types';
 
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
+import loadJSONFileAsync from 'hint/dist/src/lib/utils/fs/load-json-file-async';
 import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
 import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
@@ -44,7 +43,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
          */
         const createScript = async (): Promise<string> => {
             debug('Creating script to inject');
-            const libraryDetector = await readFileAsync(require.resolve('js-library-detector/library/libraries.js'));
+            const libraryDetector = await readFileAsync(require.resolve('js-library-detector'));
 
             const script = `(function (){
                 ${libraryDetector};
@@ -66,6 +65,12 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     return detected;
                 }, []);
 
+                const scriptElement = document.getElementById('%%webhint-element-id%%');
+
+                if (scriptElement) {
+                    scriptElement.setAttribute('data-result', JSON.stringify(detectedLibraries))
+                }
+
                 return detectedLibraries;
             }())`;
 
@@ -76,8 +81,18 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
         const loadSnyk = async () => {
             const oneDay = 3600000 * 24;
             const now = Date.now();
-            const snykDBPath = path.join(__dirname, 'snyk-snapshot.json');
+            const snykDBPath = require.resolve('./snyk-snapshot.json');
             let snykStat: fs.Stats;
+
+            /*
+             * We check if requestAsync exists, because if
+             * the browser extension is running this hint, then
+             * `requestAsync` will be null and we can't download
+             * the file.
+             */
+            if (!requestAsync) {
+                return loadJSONFileAsync(snykDBPath);
+            }
 
             try {
                 snykStat = await promisify(fs.stat)(snykDBPath);
@@ -96,7 +111,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 debug(`Error loading snyk's data`);
             }
 
-            return loadJSONFile(snykDBPath);
+            return loadJSONFileAsync(snykDBPath);
         };
 
         /** If a used library has vulnerability that meets the minimum threshold, it gets reported.  */
@@ -178,7 +193,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     return vulns;
                 }, [] as Vulnerability[]);
 
-                await reportLibrary(lib, vulnerabilities, resource);
+                reportLibrary(lib, vulnerabilities, resource);
             }
         };
 
