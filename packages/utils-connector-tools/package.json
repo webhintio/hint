@@ -10,7 +10,7 @@
     "async": "^2.6.2",
     "data-urls": "^1.1.0",
     "iconv-lite": "^0.4.24",
-    "iltorb": "^2.4.1",
+    "iltorb": "^2.4.2",
     "request": "^2.88.0"
   },
   "description": "hint tools for connectors",
