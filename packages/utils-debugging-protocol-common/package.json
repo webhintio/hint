@@ -9,7 +9,7 @@
   "description": "hint debugging protocol common functionality",
   "devDependencies": {
     "@types/lodash": "^4.14.123",
-    "@types/node": "11.11.1",
+    "@types/node": "11.11.3",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "1.4.2",
     "chrome-remote-debug-protocol": "^1.2.20180422",
