@@ -106,7 +106,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
              *       within the first 1024 bytes of the document, but
              *       that check will be done by the html/markup validator.
              */
-            const charsetMetaElementsHTML = charsetMetaElement.outerHTML();
+            const charsetMetaElementsHTML = charsetMetaElement.outerHTML;
             const firstHeadElement = receivedDOM('head :first-child')[0];
             const receivedMetas = receivedDOM('meta');
             const firstMeta = receivedMetas.length > 0 ? receivedMetas[0] : '';
