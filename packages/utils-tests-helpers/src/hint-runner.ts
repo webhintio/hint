@@ -25,6 +25,18 @@ const test = anyTest as TestInterface<HintRunnerContext>;
 const localhostRegex = /(http|https):\/\/localhost[:]*[0-9]*\//g;
 
 /**
+ * Determines which parsers to use based on provided options,
+ * but always including 'html' (so individual tests don't have to).
+ */
+const determineParsers = (parsers?: string[]) => {
+    if (!parsers) {
+        return ['html'];
+    }
+
+    return Array.from(new Set(['html', ...parsers]));
+};
+
+/**
  * Creates a valid hint configuration.
  */
 const createConfig = (id: string, connector: string, opts?: any): Configuration => {
@@ -43,7 +55,7 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
             options: {}
         },
         hints,
-        parsers: opts && opts.parsers || []
+        parsers: determineParsers(opts && opts.parsers)
     };
 
     if (connector === 'jsdom') {
