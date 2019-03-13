@@ -10,8 +10,6 @@ import { Engine } from 'hint';
 
 export * from './types';
 
-const styleContentRegex: RegExp = /^<style[^>]*>([\s\S]*)<\/style\s*>$/;
-
 export default class CSSParser extends Parser<StyleEvents> {
     public constructor(engine: Engine<StyleEvents>) {
         super(engine, 'css');
@@ -60,23 +58,13 @@ export default class CSSParser extends Parser<StyleEvents> {
         return !type || type === 'text/css';
     }
 
-    private getStyleContent(styleTagText: string) {
-        const match = styleTagText.match(styleContentRegex);
-
-        return match ? match[1].trim() : /* istanbul ignore next */ styleTagText;
-    }
-
-    private async parseStyleTag(elementFound: ElementFound) {
-        const element: HTMLElement = elementFound.element;
+    private async parseStyleTag({ element, resource }: ElementFound) {
 
         if (!this.isCSSType(element)) {
             // Ignore if it is not CSS.
             return;
         }
 
-        const code = this.getStyleContent(element.outerHTML());
-        const resource: string = 'Inline CSS';
-
-        await this.emitCSS(code, resource, element);
+        await this.emitCSS(element.innerHTML, resource, element);
     }
 }

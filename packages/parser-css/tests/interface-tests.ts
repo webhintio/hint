@@ -40,12 +40,13 @@ const mockContext = () => {
 test('If a style tag is not CSS, then nothing should happen', async (t) => {
     const sandbox = sinon.createSandbox();
     const element = mockStyleElement('text/less', '');
+    const resource = 'index.html';
     const { engine, processor } = mockContext();
 
     const postcssProcessSpy = sandbox.spy(processor, 'process');
     const elementGetAttributeSpy = sandbox.spy(element, 'getAttribute');
 
-    await engine.emitAsync('element::style', { element } as ElementFound);
+    await engine.emitAsync('element::style', { element, resource } as ElementFound);
 
     t.true(elementGetAttributeSpy.calledOnce);
     t.is(elementGetAttributeSpy.firstCall.args[0], 'type');
@@ -58,13 +59,14 @@ test('If a style tag is inline CSS, then we should parse the stylesheet and emit
     const sandbox = sinon.createSandbox();
     const code = '.foo { color: #fff }';
     const element = mockStyleElement('text/css', code);
+    const resource = 'index.html';
     const { engine, processor } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
     const postcssProcessSpy = sandbox.spy(processor, 'process');
     const elementGetAttributeSpy = sandbox.spy(element, 'getAttribute');
 
-    await engine.emitAsync('element::style', { element } as ElementFound);
+    await engine.emitAsync('element::style', { element, resource } as ElementFound);
 
     t.true(elementGetAttributeSpy.calledOnce);
     t.is(elementGetAttributeSpy.firstCall.args[0], 'type');
@@ -78,7 +80,7 @@ test('If a style tag is inline CSS, then we should parse the stylesheet and emit
     t.is(args[0], 'parse::end::css');
     t.is(data.code, code);
     t.is(data.element, element);
-    t.is(data.resource, 'Inline CSS');
+    t.is(data.resource, resource);
 });
 
 test('If fetch::end::css is received, then we should parse the stylesheet and emit a parse::end::css event', async (t) => {

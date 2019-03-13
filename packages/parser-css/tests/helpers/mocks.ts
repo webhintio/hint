@@ -5,8 +5,6 @@ export const mockStyleElement = (type: string, code: string) => {
         getAttribute() {
             return type;
         },
-        outerHTML() {
-            return `<style>  ${code}  </style>`;
-        }
+        innerHTML: code
     } as Partial<HTMLElement> as HTMLElement;
 };

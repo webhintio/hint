@@ -40,9 +40,7 @@ const initContext = (t: ExecutionContext<ParseJavascriptContext>) => {
         getAttribute(): string | null {
             return null;
         },
-        outerHTML(): Promise<string> {
-            return Promise.resolve('');
-        }
+        innerHTML: ''
     } as any;
     t.context.engine = new EventEmitter2({
         delimiter: '::',
@@ -117,8 +115,8 @@ test('If an script tag is an internal javascript, then we should parse the code 
     const parseObject = {};
     const sourceCodeObject = {};
     const code = 'var x = 8;';
-    const script = `<script>  ${code}  </script>`;
     const JavascriptParser = loadScript(t.context);
+    const resource = 'index.html';
 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
@@ -126,14 +124,14 @@ test('If an script tag is an internal javascript, then we should parse the code 
     const eslintSourceCodeStub = sandbox.stub(t.context.eslint, 'SourceCode').returns(sourceCodeObject);
     const espreeParseStub = sandbox.stub(t.context.espree, 'parse').returns(parseObject);
 
-    sandbox.stub(t.context.element, 'outerHTML').returns(script);
+    sandbox.stub(t.context.element, 'innerHTML').value(code);
     const elementGetAttributeStub = sandbox.stub(t.context.element, 'getAttribute')
         .onFirstCall()
         .returns(null)
         .onSecondCall()
         .returns('text/javascript');
 
-    await t.context.engine.emitAsync('element::script', { element: t.context.element } as ElementFound);
+    await t.context.engine.emitAsync('element::script', { element: t.context.element, resource } as ElementFound);
 
     t.true(elementGetAttributeStub.calledTwice);
     t.is(elementGetAttributeStub.args[0][0], 'src');
@@ -152,7 +150,7 @@ test('If an script tag is an internal javascript, then we should parse the code 
 
     t.is(args[0], 'parse::end::javascript');
     t.is(data.element, t.context.element);
-    t.is(data.resource, 'Internal javascript');
+    t.is(data.resource, resource);
     t.is(data.sourceCode, sourceCodeObject);
 });
 
