@@ -13,7 +13,7 @@
   "description": "webhint parser needed to analyze JavaScript files",
   "devDependencies": {
     "@types/eslint": "^4.16.6",
-    "@types/sinon": "^7.0.9",
+    "@types/sinon": "^7.0.10",
     "ava": "^1.3.1",
     "cpx": "^1.5.0",
     "eslint-plugin-import": "^2.16.0",
