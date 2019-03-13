@@ -109,5 +109,5 @@ export const evaluateQuery = (queryString: string): boolean => {
         }
     }
 
-    return result!;
+    return !!result;
 };
