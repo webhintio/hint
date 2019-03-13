@@ -1,31 +1,27 @@
 enum ValidStatements {
-    and = '&&',
+    and = 'and',
     empty = '',
     false = 'false',
-    negation = '!',
-    or = '||',
-    selector = '#',
+    negation = 'not',
+    or = 'or',
+    selector = 'selector',
     true = 'true'
 }
 
-const validStatementsStrings: string[] = [];
+const validStatementsStrings: string[] = Object.values(ValidStatements);
 
-for (const [, value] of Object.entries(ValidStatements)) {
-    if (value !== 'other') {
-        validStatementsStrings.push(value);
-    }
-}
-
-// !true
+// nottrue
 validStatementsStrings.push(`${ValidStatements.negation}${ValidStatements.true}`);
-// !false
+// notfalse
 validStatementsStrings.push(`${ValidStatements.negation}${ValidStatements.false}`);
-// #true
+// selectortrue
 validStatementsStrings.push(`${ValidStatements.selector}${ValidStatements.true}`);
-// #false
+// selectorfalse
 validStatementsStrings.push(`${ValidStatements.selector}${ValidStatements.false}`);
 
-export const evaluateQuery = (query: string): boolean => {
+export const evaluateQuery = (queryString: string): boolean => {
+    const query = queryString.toLowerCase();
+
     if (query === 'false') {
         return false;
     } else if (query === 'true') {
@@ -55,15 +51,13 @@ export const evaluateQuery = (query: string): boolean => {
     let result: boolean | null = null;
 
     for (const partialQuery of splitedQuery) {
-        const firstCharacter = partialQuery[0];
-
         /*
          * We expect only the strings in validStatementsStrings.
          * If we receive something diferente, validate the whole
          * query as true.
          * e.g. var, x, =, console, etc.
          */
-        if (firstCharacter !== ValidStatements.negation && firstCharacter !== ValidStatements.selector && !validStatementsStrings.includes(partialQuery)) {
+        if (!partialQuery.startsWith(ValidStatements.negation) && !partialQuery.startsWith(ValidStatements.selector) && !validStatementsStrings.includes(partialQuery)) {
             return true;
         }
 
@@ -88,9 +82,9 @@ export const evaluateQuery = (query: string): boolean => {
          */
         let partialResult: boolean;
 
-        if (firstCharacter === ValidStatements.negation) {
-            partialResult = !evaluateQuery(partialQuery.substr(1));
-        } else if (firstCharacter === ValidStatements.selector) {
+        if (partialQuery.startsWith(ValidStatements.negation)) {
+            partialResult = !evaluateQuery(partialQuery.substr(ValidStatements.negation.length));
+        } else if (partialQuery.startsWith(ValidStatements.selector)) {
             partialResult = true;
         } else {
             partialResult = evaluateQuery(partialQuery);
@@ -109,7 +103,7 @@ export const evaluateQuery = (query: string): boolean => {
             /*
              * Calculate the acumulated result.
              */
-            result = operator === '&&' ? result && partialResult : result || partialResult;
+            result = operator === ValidStatements.and ? result && partialResult : result || partialResult;
 
             operator = null;
         }

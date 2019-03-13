@@ -17,91 +17,87 @@ const queries = [
     },
     {
         expected: false,
-        query: '!true'
+        query: 'nottrue'
     },
     {
         expected: true,
-        query: '!false'
+        query: 'notfalse'
     },
     {
         expected: false,
-        query: '!invalid'
+        query: 'notinvalid'
     },
     {
         expected: true,
-        query: '#true'
+        query: 'selectortrue'
     },
     {
         expected: true,
-        query: '#false'
+        query: 'selector true'
     },
     {
         expected: true,
-        query: '#invalid'
+        query: 'selector(true)'
     },
     {
         expected: true,
-        query: 'true && true'
+        query: 'selectorfalse'
+    },
+    {
+        expected: true,
+        query: 'selector(false)'
+    },
+    {
+        expected: true,
+        query: 'selectorinvalid'
+    },
+    {
+        expected: true,
+        query: 'true and true'
     },
     {
         expected: false,
-        query: 'true && false'
+        query: 'true and false'
     },
     {
         expected: false,
-        query: 'false && true'
+        query: 'false and true'
     },
     {
         expected: false,
-        query: 'false && false'
+        query: 'false and false'
     },
     {
         expected: true,
-        query: 'invalid && true'
+        query: 'invalid And true'
     },
     {
         expected: false,
-        query: '!invalid && true'
+        query: 'notinvalid and true'
     },
     {
         expected: true,
-        query: 'true || true'
+        query: 'true or true'
     },
     {
         expected: true,
-        query: 'true || false'
+        query: 'true or false'
     },
     {
         expected: true,
-        query: 'false || true'
+        query: 'false or true'
     },
     {
         expected: false,
-        query: 'false || false'
+        query: 'false or false'
     },
     {
         expected: true,
-        query: 'invalid || false'
+        query: 'invalid or false'
     },
     {
         expected: false,
-        query: '!invalid || false'
-    },
-    {
-        expected: false,
-        query: 'true && ( true && false) && true'
-    },
-    {
-        expected: true,
-        query: 'true && ( true && #( false && false ) ) && true'
-    },
-    {
-        expected: false,
-        query: 'true && (!true && true) && true'
-    },
-    {
-        expected: false,
-        query: 'true && (true && !(true || false)) && true'
+        query: 'notinvalid or false'
     }
 ];
 

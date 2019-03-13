@@ -2,7 +2,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { Events, Event } from 'hint/dist/src/lib/types';
 
 import { CompatFeaturesCache } from './compat-features-cache';
-import { TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, ICompatLibrary } from '../types';
+import { TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, ICompatLibrary, TestFeatureOptions } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
 
 export abstract class CompatBase<T extends Events, K extends Event> implements ICompatLibrary {
@@ -44,12 +44,12 @@ export abstract class CompatBase<T extends Events, K extends Event> implements I
         return this.cachedFeatures.has(feature);
     }
 
-    protected checkFeatureCompatibility(feature: FeatureInfo, collection: CompatStatement | undefined, skipReport: boolean): boolean {
+    protected checkFeatureCompatibility(feature: FeatureInfo, collection: CompatStatement | undefined, options: TestFeatureOptions): boolean {
         if (!collection || this.isFeatureAlreadyReported(feature)) {
             return false;
         }
 
-        const isFeatureSupported = this.testFunction(feature, collection, skipReport);
+        const isFeatureSupported = this.testFunction(feature, collection, options);
 
         if (!isFeatureSupported) {
             this.cachedFeatures.add(feature);
