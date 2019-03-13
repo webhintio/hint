@@ -39,5 +39,5 @@ hintRunner.testLocalHint(hintPath, testsIgnoredUrls, {
             'sri'
         ]
     }],
-    parser: ['html']
+    parsers: ['html']
 });

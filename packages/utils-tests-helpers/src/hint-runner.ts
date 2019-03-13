@@ -55,6 +55,7 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
             options: {}
         },
         hints,
+        ignoredUrls: opts.ignoredUrls,
         parsers: determineParsers(opts && opts.parsers)
     };
 
