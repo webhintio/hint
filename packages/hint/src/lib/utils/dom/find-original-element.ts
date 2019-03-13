@@ -33,8 +33,8 @@ const findMatch = (document: HTMLDocument, element: HTMLElement, query: string, 
         });
     }
 
-    // Return the nth match if possible, or the first match otherwise.
-    return matches[matchIndex] || matches[0] || null;
+    // Return the nth match if possible.
+    return matches[matchIndex] || null;
 };
 
 /**
@@ -69,5 +69,13 @@ export default (document: HTMLDocument, element: HTMLElement): HTMLElement | nul
         });
     }
 
-    return null;
+    const firstClass = (element.getAttribute('class') || '').split(' ')[0];
+
+    // Elements with class names (try just the first).
+    if (firstClass) {
+        return findMatch(document, element, `${element.nodeName}.${firstClass}`);
+    }
+
+    // Otherwise use the nth match.
+    return findMatch(document, element, element.nodeName);
 };
