@@ -57,3 +57,27 @@ test(`Excel formatter generates the right number of sheets with the good content
 
     await fs.remove(filePath);
 });
+
+test(`Excel formatter generates the right number of sheets with the good content in the right file`, async (t) => {
+    const formatter = new t.context.ExcelFormatter();
+    const filePath = path.join(process.cwd(), 'test.xlsx');
+
+    await formatter.format(problems.multipleproblems, undefined, { output: filePath });
+
+    const workbook = new Excel.Workbook();
+
+    await workbook.xlsx.readFile(filePath);
+
+    const summary = workbook.getWorksheet(1);
+    const report = workbook.getWorksheet(2);
+
+    t.is(summary.name, 'summary', 'Title is not summary');
+    t.is(summary.actualColumnCount, 2, `summary.actualColumnCount isn't 2`);
+    t.is(summary.actualRowCount, 3, `summary.actualRowCount isn't 3`);
+
+    t.true(report.name.startsWith('resource-'), `Title doesn't start with resource-`);
+    t.is(report.actualColumnCount, 2, `report.actualColumnCount isn't 2`);
+    t.is(report.actualRowCount, 6, `report.actualRowCount isn't 3`);
+
+    await fs.remove(filePath);
+});

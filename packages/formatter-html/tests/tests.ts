@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
@@ -10,7 +12,7 @@ const utils = require('../src/utils');
 type FsExtra = {
     copy: () => void;
     mkdirp: () => void;
-    outputFile: () => void;
+    outputFile: (path: string) => void;
     readFile: () => string;
     remove: () => void;
 };
@@ -25,7 +27,7 @@ const initContext = (t: ExecutionContext<HTMLContext>) => {
     t.context.fsExtra = {
         copy() { },
         mkdirp() { },
-        outputFile() { },
+        outputFile(path: string) { },
         readFile() {
             return '';
         },
@@ -164,6 +166,29 @@ test(`HTML formatter create copy and generate the right files`, async (t) => {
     t.true(fsExtraRemoveSpy.calledOnce);
     t.true(fsExtraMkDirpSpy.calledOnce);
     t.is(fsExtraOutputFileSpy.callCount, 4);
+
+    sandbox.restore();
+});
+
+test(`HTML formatter create copy and generate the right files if an output is provided`, async (t) => {
+    const sandbox = sinon.createSandbox();
+
+    const fsExtraCopySpy = sandbox.spy(t.context.fsExtra, 'copy');
+    const fsExtraRemoveSpy = sandbox.spy(t.context.fsExtra, 'remove');
+    const fsExtraMkDirpSpy = sandbox.spy(t.context.fsExtra, 'mkdirp');
+    const fsExtraOutputFileSpy = sandbox.spy(t.context.fsExtra, 'outputFile');
+
+    const HTMLFormatter = loadScript(t.context);
+    const formatter = new HTMLFormatter();
+    const outputFolder = path.join(process.cwd(), 'outputfolder');
+
+    await formatter.format(problems.noproblems, 'http://example.com', { config: {}, output: outputFolder });
+
+    t.true(fsExtraCopySpy.calledOnce);
+    t.true(fsExtraRemoveSpy.calledOnce);
+    t.true(fsExtraMkDirpSpy.calledOnce);
+    t.is(fsExtraOutputFileSpy.callCount, 4);
+    t.true(fsExtraOutputFileSpy.args[0][0].includes(outputFolder));
 
     sandbox.restore();
 });

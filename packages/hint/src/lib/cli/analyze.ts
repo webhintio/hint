@@ -20,6 +20,7 @@ import askForConfirm from '../utils/misc/ask-question';
 import cutString from '../utils/misc/cut-string';
 import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
+import cwd from '../utils/fs/cwd';
 import * as insights from '../utils/app-insights';
 import { FormatterOptions, IFormatter } from '../types/formatters';
 import loadHintPackage from '../utils/packages/load-hint-package';
@@ -361,6 +362,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         const formatterOptions: FormatterOptions = {
             config: userConfig || undefined,
             date,
+            output: actions.output ? path.resolve(cwd(), actions.output) : undefined,
             resources,
             scanTime,
             version: loadHintPackage().version

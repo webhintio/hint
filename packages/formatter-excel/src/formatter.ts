@@ -8,6 +8,9 @@
  * Requirements
  * ------------------------------------------------------------------------------
  */
+
+import * as path from 'path';
+
 import * as Excel from 'exceljs';
 import {
     forEach,
@@ -15,8 +18,9 @@ import {
     sortBy
 } from 'lodash';
 
+import cwd from 'hint/dist/src/lib/utils/fs/cwd';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IFormatter, Problem } from 'hint/dist/src/lib/types';
+import { IFormatter, Problem, FormatterOptions } from 'hint/dist/src/lib/types';
 import * as logger from 'hint/dist/src/lib/utils/logging';
 
 const _ = {
@@ -34,7 +38,7 @@ const startRow = 5;
  */
 
 export default class ExcelFormatter implements IFormatter {
-    public async format(messages: Problem[], /* istanbul ignore next */ target = '') {
+    public async format(messages: Problem[], /* istanbul ignore next */ target = '', options: FormatterOptions = {}) {
         if (messages.length === 0) {
             return;
         }
@@ -198,7 +202,9 @@ export default class ExcelFormatter implements IFormatter {
                 .replace(/\//g, '-')
                 .replace(/-$/, '');
 
-            await workbook.xlsx.writeFile(`${process.cwd()}/${name}.xlsx`);
+            const fileName = options.output || path.resolve(cwd(), `${name}.xlsx`);
+
+            await workbook.xlsx.writeFile(fileName);
         } catch (e) {
             /* istanbul ignore next */
             { // eslint-disable-line

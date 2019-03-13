@@ -5,6 +5,7 @@ export type FormatterOptions = {
     config?: UserConfig;
     isScanner?: boolean;
     noGenerateFiles?: boolean;
+    output?: string;
     resources?: HintResources;
     scanTime?: number;
     status?: string;

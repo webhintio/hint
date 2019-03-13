@@ -13,20 +13,22 @@
 
 import chalk from 'chalk';
 import {
-    forEach,
     groupBy,
+    reduce,
     sortBy
 } from 'lodash';
 import * as logSymbols from 'log-symbols';
+const stripAnsi = require('strip-ansi');
 
 import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IFormatter, Problem, ProblemLocation, Severity } from 'hint/dist/src/lib/types';
+import { IFormatter, Problem, ProblemLocation, Severity, FormatterOptions } from 'hint/dist/src/lib/types';
 import * as logger from 'hint/dist/src/lib/utils/logging';
+import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 
 const _ = {
-    forEach,
     groupBy,
+    reduce,
     sortBy
 };
 const debug = d(__filename);
@@ -46,7 +48,7 @@ const safeTrim = (txt: string, charsToRemove: number): boolean => {
     return (/^\s+$/).test(txt.substr(0, charsToRemove));
 };
 
-const codeFrame = (code: string, location: ProblemLocation) => {
+const codeFrame = (code: string, location: ProblemLocation): string => {
     /* istanbul ignore next */
     const line: number = typeof location.elementLine === 'number' ? location.elementLine : -1;
     /* istanbul ignore next */
@@ -57,21 +59,22 @@ const codeFrame = (code: string, location: ProblemLocation) => {
     const extraLinesToShow: number = 2;
     const firstLine: number = line - extraLinesToShow > 0 ? line - extraLinesToShow : 0;
     const lastLine: number = line + (extraLinesToShow + 1) < codeInLines.length ? line + (extraLinesToShow + 1) : codeInLines.length;
+    let result = '';
 
     if (firstLine !== 0) {
-        logger.log('…');
+        result += '…\n';
     }
 
     for (let i: number = firstLine; i < lastLine; i++) {
-        let result = '';
+        let partialResult = '';
         let mark = '';
         const canTrim: boolean = safeTrim(codeInLines[i], whiteSpacesToRemove);
 
         if (i === 1 || !canTrim) {
-            result = codeInLines[i];
+            partialResult = codeInLines[i];
         } else {
             // The first line doesn't have spaces but the other elements keep the original format
-            result = codeInLines[i].substr(whiteSpacesToRemove);
+            partialResult = codeInLines[i].substr(whiteSpacesToRemove);
         }
 
         if (i === line) {
@@ -94,26 +97,28 @@ const codeFrame = (code: string, location: ProblemLocation) => {
 
             if (cutPosition > 50) {
                 markPosition = 50 + 3;
-                result = `… ${result.substr(column - 50)}`;
+                partialResult = `… ${partialResult.substr(column - 50)}`;
             }
 
-            if (result.length > cutPosition + 50) {
-                result = `${result.substr(0, cutPosition + 50)} …`;
+            if (partialResult.length > cutPosition + 50) {
+                partialResult = `${partialResult.substr(0, cutPosition + 50)} …`;
             }
 
             mark = `${new Array(markPosition).join(' ')}^`;
         }
 
-        logger.log(result);
+        result += `${partialResult}\n`;
 
         if (mark) {
-            logger.log(mark);
+            result += `${mark}\n`;
         }
     }
 
     if (lastLine !== codeInLines.length) {
-        logger.log('…');
+        result += '…\n';
     }
+
+    return result;
 };
 
 /*
@@ -127,7 +132,7 @@ export default class CodeframeFormatter implements IFormatter {
      * Format the problems grouped by `resource` name and sorted by line and column number,
      *  indicating where in the element there is an error.
      */
-    public format(messages: Problem[]) {
+    public async format(messages: Problem[], target: string | undefined, options: FormatterOptions = {}) {
         debug('Formatting results');
 
         if (messages.length === 0) {
@@ -138,11 +143,12 @@ export default class CodeframeFormatter implements IFormatter {
         let totalErrors: number = 0;
         let totalWarnings: number = 0;
 
-        _.forEach(resources, (msgs: Problem[], resource: string) => {
+        let result = _.reduce(resources, (total: string, msgs: Problem[], resource: string) => {
             const sortedMessages: Problem[] = _.sortBy(msgs, ['location.line', 'location.column']);
             const resourceString = chalk.cyan(`${cutString(resource, 80)}`);
 
-            _.forEach(sortedMessages, (msg: Problem) => {
+            const partialResult = _.reduce(sortedMessages, (subtotal: string, msg: Problem) => {
+                let partial: string;
                 const severity = Severity.error === msg.severity ? chalk.red('Error') : chalk.yellow('Warning');
                 const location = msg.location;
 
@@ -152,18 +158,30 @@ export default class CodeframeFormatter implements IFormatter {
                     totalWarnings++;
                 }
 
-                logger.log(`${severity}: ${msg.message} (${msg.hintId}) at ${resourceString}${msg.sourceCode ? `:${location.line}:${location.column}` : ''}`);
+                partial = `${severity}: ${msg.message} (${msg.hintId}) at ${resourceString}${msg.sourceCode ? `:${location.line}:${location.column}` : ''}\n`;
 
                 if (msg.sourceCode) {
-                    codeFrame(msg.sourceCode, location);
+                    partial += codeFrame(msg.sourceCode, location);
                 }
 
-                logger.log('');
-            });
-        });
+                partial += '\n';
+
+                return subtotal + partial;
+            }, '');
+
+            return total + partialResult;
+        }, '');
 
         const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
 
-        logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? 'warning' : 'warnings'}`));
+        result += color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? 'warning' : 'warnings'}`);
+
+        if (!options.output) {
+            logger.log(result);
+
+            return;
+        }
+
+        await writeFileAsync(options.output, stripAnsi(result));
     }
 }

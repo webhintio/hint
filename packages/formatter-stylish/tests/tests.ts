@@ -4,6 +4,7 @@ import * as logSymbols from 'log-symbols';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import * as table from 'text-table';
+const stripAnsi = require('strip-ansi');
 
 import * as problems from './fixtures/list-of-problems';
 
@@ -11,9 +12,15 @@ type Logging = {
     log: () => void;
 };
 
+type WriteFileAsync = {
+    default: () => void;
+};
+
 type StylishContext = {
     logging: Logging;
     loggingLogSpy: sinon.SinonSpy<any, void>;
+    writeFileAsync: WriteFileAsync;
+    writeFileAsyncDefaultStub: sinon.SinonStub<any, void>;
 };
 
 const test = anyTest as TestInterface<StylishContext>;
@@ -21,12 +28,85 @@ const test = anyTest as TestInterface<StylishContext>;
 const initContext = (t: ExecutionContext<StylishContext>) => {
     t.context.logging = { log() { } };
     t.context.loggingLogSpy = sinon.spy(t.context.logging, 'log');
+    t.context.writeFileAsync = { default() { } };
+    t.context.writeFileAsyncDefaultStub = sinon.stub(t.context.writeFileAsync, 'default').returns();
 };
 
 const loadScript = (context: StylishContext) => {
-    const script = proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': context.logging });
+    const script = proxyquire('../src/formatter', {
+        'hint/dist/src/lib/utils/fs/write-file-async': context.writeFileAsync,
+        'hint/dist/src/lib/utils/logging': context.logging
+    });
 
     return script.default;
+};
+
+const getExpectedLogResult = () => {
+    let problem = problems.multipleproblemsandresources[1];
+    let tableData = [];
+
+    tableData.push(['', '', chalk.yellow('Warning'), problem.message, problem.hintId]);
+    problem = problems.multipleproblemsandresources[0];
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.hintId]);
+    problem = problems.multipleproblemsandresources[4];
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.hintId]);
+
+    let tableString = table(tableData);
+
+    let expectedLogResult = `${chalk.cyan('http://myresource.com/')}
+${tableString}
+${chalk.yellow.bold(`${logSymbols.error} Found 0 errors and 3 warnings`)}
+
+${chalk.cyan('http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.jpg')}`;
+
+    tableData = [];
+    problem = problems.multipleproblemsandresources[2];
+    tableData.push([chalk.red('Error'), problem.message, problem.hintId]);
+    problem = problems.multipleproblemsandresources[3];
+    tableData.push([chalk.yellow('Warning'), problem.message, problem.hintId]);
+    tableString = table(tableData);
+
+    expectedLogResult += `
+${tableString}
+${chalk.red.bold(`${logSymbols.error} Found 1 error and 1 warning`)}
+
+${chalk.red.bold(`${logSymbols.error} Found a total of 1 error and 4 warnings`)}`;
+
+    return expectedLogResult;
+};
+
+const getExpectedOutputResult = () => {
+    let problem = problems.multipleproblemsandresources[1];
+    let tableData = [];
+
+    tableData.push(['', '', 'Warning', problem.message, problem.hintId]);
+    problem = problems.multipleproblemsandresources[0];
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, 'Warning', problem.message, problem.hintId]);
+    problem = problems.multipleproblemsandresources[4];
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, 'Warning', problem.message, problem.hintId]);
+
+    let tableString = table(tableData);
+
+    let expectedLogResult = `http://myresource.com/
+${tableString}
+${stripAnsi(logSymbols.error)} Found 0 errors and 3 warnings
+
+http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.jpg`;
+
+    tableData = [];
+    problem = problems.multipleproblemsandresources[2];
+    tableData.push(['Error', problem.message, problem.hintId]);
+    problem = problems.multipleproblemsandresources[3];
+    tableData.push(['Warning', problem.message, problem.hintId]);
+    tableString = table(tableData);
+
+    expectedLogResult += `
+${tableString}
+${stripAnsi(logSymbols.error)} Found 1 error and 1 warning
+
+${stripAnsi(logSymbols.error)} Found a total of 1 error and 4 warnings`;
+
+    return expectedLogResult;
 };
 
 test.beforeEach(initContext);
@@ -51,31 +131,27 @@ test(`Stylish formatter prints a table and a summary for each resource`, (t) => 
     formatter.format(problems.multipleproblemsandresources);
 
     const log = t.context.loggingLogSpy;
-    let problem = problems.multipleproblemsandresources[1];
-    let tableData = [];
+    const writeFileStub = t.context.writeFileAsyncDefaultStub;
+    const expectedLogResult = getExpectedLogResult();
 
-    tableData.push(['', '', chalk.yellow('Warning'), problem.message, problem.hintId]);
-    problem = problems.multipleproblemsandresources[0];
-    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.hintId]);
-    problem = problems.multipleproblemsandresources[4];
-    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.hintId]);
+    t.is(log.args[0][0], expectedLogResult);
+    t.is(log.callCount, 1);
+    t.false(writeFileStub.called);
+});
 
-    let tableString = table(tableData);
+test(`Stylish formatter called with the output option should write the result in the output file`, (t) => {
+    const StylishFormatter = loadScript(t.context);
+    const formatter = new StylishFormatter();
+    const outputFile = 'test.txt';
 
-    t.is(log.args[0][0], chalk.cyan('http://myresource.com/'));
-    t.is(log.args[1][0], tableString);
-    t.is(log.args[2][0], chalk.yellow.bold(`${logSymbols.error} Found 0 errors and 3 warnings`));
-    t.is(log.args[3][0], '');
-    t.is(log.args[4][0], chalk.cyan('http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.jpg'));
+    formatter.format(problems.multipleproblemsandresources, undefined, { output: outputFile });
 
-    tableData = [];
-    problem = problems.multipleproblemsandresources[2];
-    tableData.push([chalk.red('Error'), problem.message, problem.hintId]);
-    problem = problems.multipleproblemsandresources[3];
-    tableData.push([chalk.yellow('Warning'), problem.message, problem.hintId]);
-    tableString = table(tableData);
+    const log = t.context.loggingLogSpy;
+    const writeFileStub = t.context.writeFileAsyncDefaultStub;
+    const expectedOutputResult = getExpectedOutputResult();
 
-    t.is(log.args[5][0], tableString);
-    t.is(log.args[6][0], chalk.red.bold(`${logSymbols.error} Found 1 error and 1 warning`));
-    t.is(log.args[7][0], '');
+    t.false(log.called);
+    t.true(writeFileStub.calledOnce);
+    t.is(writeFileStub.args[0][0], outputFile);
+    t.is(writeFileStub.args[0][1], expectedOutputResult);
 });

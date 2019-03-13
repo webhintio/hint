@@ -78,6 +78,12 @@ export const options = optionator({
             enum: ['on', 'off'],
             option: 'tracking',
             type: 'String'
+        },
+        {
+            alias: 'o',
+            description: `Save the formatter output to a file, in case of 'html' or 'excel' formatter, save the result with the name specified`,
+            option: 'output',
+            type: 'String'
         }
     ],
     prepend: 'hint [options] https://url.com'

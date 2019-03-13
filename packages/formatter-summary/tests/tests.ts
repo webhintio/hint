@@ -4,6 +4,7 @@ import * as logSymbols from 'log-symbols';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import * as table from 'text-table';
+const stripAnsi = require('strip-ansi');
 
 import * as problems from './fixtures/list-of-problems';
 
@@ -11,9 +12,15 @@ type Logging = {
     log: () => void;
 };
 
+type WriteFileAsync = {
+    default: () => void;
+};
+
 type SummaryContext = {
     logging: Logging;
     loggingLogSpy: sinon.SinonSpy<any, void>;
+    writeFileAsync: WriteFileAsync;
+    writeFileAsyncDefaultStub: sinon.SinonStub<any, void>;
 };
 
 const test = anyTest as TestInterface<SummaryContext>;
@@ -21,10 +28,15 @@ const test = anyTest as TestInterface<SummaryContext>;
 const initContext = (t: ExecutionContext<SummaryContext>) => {
     t.context.logging = { log() { } };
     t.context.loggingLogSpy = sinon.spy(t.context.logging, 'log');
+    t.context.writeFileAsync = { default() { } };
+    t.context.writeFileAsyncDefaultStub = sinon.stub(t.context.writeFileAsync, 'default').returns();
 };
 
 const loadScript = (context: SummaryContext) => {
-    const script = proxyquire('../src/formatter', { 'hint/dist/src/lib/utils/logging': context.logging });
+    const script = proxyquire('../src/formatter', {
+        'hint/dist/src/lib/utils/fs/write-file-async': context.writeFileAsync,
+        'hint/dist/src/lib/utils/logging': context.logging
+    });
 
     return script.default;
 };
@@ -46,6 +58,7 @@ test(`Summary formatter doesn't print anything if no values`, (t) => {
 
 test(`Summary formatter prints in yellow if only warnings found`, (t) => {
     const log = t.context.loggingLogSpy;
+    const writeFileStub = t.context.writeFileAsyncDefaultStub;
     const tableData = [];
 
     const SummaryFormatter = loadScript(t.context);
@@ -55,14 +68,17 @@ test(`Summary formatter prints in yellow if only warnings found`, (t) => {
 
     tableData.push([chalk.cyan('random-hint'), chalk.yellow(`2 warnings`)]);
 
-    const tableString = table(tableData);
+    const expectedResult = `${table(tableData)}
+${chalk.yellow.bold(`${logSymbols.error.trim()} Found a total of 0 errors and 2 warnings`)}`;
 
-    t.is(log.args[0][0], tableString);
-    t.is(log.args[1][0], chalk.yellow.bold(`${logSymbols.error.trim()} Found a total of 0 errors and 2 warnings`));
+    t.true(log.calledOnce);
+    t.false(writeFileStub.calledOnce);
+    t.is(log.args[0][0], expectedResult);
 });
 
 test(`Summary formatter prints a table and a summary for all resources combined`, (t) => {
     const log = t.context.loggingLogSpy;
+    const writeFileStub = t.context.writeFileAsyncDefaultStub;
     const tableData = [];
 
     const SummaryFormatter = loadScript(t.context);
@@ -73,14 +89,17 @@ test(`Summary formatter prints a table and a summary for all resources combined`
     tableData.push([chalk.cyan('random-hint2'), chalk.red(`1 error`)]);
     tableData.push([chalk.cyan('random-hint'), chalk.yellow(`4 warnings`)]);
 
-    const tableString = table(tableData);
+    const expectedResult = `${table(tableData)}
+${chalk.red.bold(`${logSymbols.error.trim()} Found a total of 1 error and 4 warnings`)}`;
 
-    t.is(log.args[0][0], tableString);
-    t.is(log.args[1][0], chalk.red.bold(`${logSymbols.error.trim()} Found a total of 1 error and 4 warnings`));
+    t.true(log.calledOnce);
+    t.false(writeFileStub.calledOnce);
+    t.is(log.args[0][0], expectedResult);
 });
 
 test(`Summary formatter sorts by name if same number of errors`, (t) => {
     const log = t.context.loggingLogSpy;
+    const writeFileStub = t.context.writeFileAsyncDefaultStub;
     const tableData = [];
 
     const SummaryFormatter = loadScript(t.context);
@@ -91,14 +110,17 @@ test(`Summary formatter sorts by name if same number of errors`, (t) => {
     tableData.push([chalk.cyan('random-hint'), chalk.red(`1 error`)]);
     tableData.push([chalk.cyan('random-hint2'), chalk.red(`1 error`)]);
 
-    const tableString = table(tableData);
+    const expectedResult = `${table(tableData)}
+${chalk.red.bold(`${logSymbols.error.trim()} Found a total of 2 errors and 0 warnings`)}`;
 
-    t.is(log.args[0][0], tableString);
-    t.is(log.args[1][0], chalk.red.bold(`${logSymbols.error.trim()} Found a total of 2 errors and 0 warnings`));
+    t.true(log.calledOnce);
+    t.false(writeFileStub.calledOnce);
+    t.is(log.args[0][0], expectedResult);
 });
 
 test(`Summary formatter prints errors and warnings for a hint that reports both`, (t) => {
     const log = t.context.loggingLogSpy;
+    const writeFileStub = t.context.writeFileAsyncDefaultStub;
     const tableData = [];
 
     const SummaryFormatter = loadScript(t.context);
@@ -108,8 +130,32 @@ test(`Summary formatter prints errors and warnings for a hint that reports both`
 
     tableData.push([chalk.cyan('random-hint'), chalk.red(`1 error`), chalk.yellow(`1 warning`)]);
 
-    const tableString = table(tableData);
+    const expectedResult = `${table(tableData)}
+${chalk.red.bold(`${logSymbols.error.trim()} Found a total of 1 error and 1 warning`)}`;
 
-    t.is(log.args[0][0], tableString);
-    t.is(log.args[1][0], chalk.red.bold(`${logSymbols.error.trim()} Found a total of 1 error and 1 warning`));
+    t.true(log.calledOnce);
+    t.false(writeFileStub.calledOnce);
+    t.is(log.args[0][0], expectedResult);
+});
+
+test(`Summary formatter called with the output option should write the result in the output file`, (t) => {
+    const log = t.context.loggingLogSpy;
+    const writeFileStub = t.context.writeFileAsyncDefaultStub;
+    const tableData = [];
+    const outputFile = 'output.json';
+
+    const SummaryFormatter = loadScript(t.context);
+    const formatter = new SummaryFormatter();
+
+    formatter.format(problems.summaryErrorWarnings, undefined, { output: outputFile });
+
+    tableData.push(['random-hint', '1 error', '1 warning']);
+
+    const expectedResult = `${table(tableData)}
+${stripAnsi(logSymbols.error.trim())} Found a total of 1 error and 1 warning`;
+
+    t.false(log.calledOnce);
+    t.true(writeFileStub.calledOnce);
+    t.is(writeFileStub.args[0][0], outputFile);
+    t.is(writeFileStub.args[0][1], expectedResult);
 });

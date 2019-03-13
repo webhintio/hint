@@ -13,6 +13,7 @@ import * as path from 'path';
 import * as ejs from 'ejs';
 import * as fs from 'fs-extra';
 
+import cwd from 'hint/dist/src/lib/utils/fs/cwd';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { IFormatter, Problem, FormatterOptions, HintResources } from 'hint/dist/src/lib/types';
 import { Category } from 'hint/dist/src/lib/enums/category';
@@ -134,7 +135,7 @@ export default class HTMLFormatter implements IFormatter {
                     .replace(/\//g, '-')
                     .replace(/[?=]/g, '-query-')
                     .replace(/-$/, '');
-                const destDir = path.join(process.cwd(), 'hint-report', name);
+                const destDir = options.output || path.join(cwd(), 'hint-report', name);
                 const currentDir = path.join(__dirname);
                 const configDir = path.join(destDir, 'config');
 
@@ -164,7 +165,7 @@ export default class HTMLFormatter implements IFormatter {
                 await parseCssfile(path.join(destDir, 'styles', 'anchor-top.css'), '../');
 
                 if (options.config) {
-                    await fs.outputFile(path.join(configDir, result.id), JSON.stringify(options.config));
+                    await fs.outputFile(path.join(configDir, result.id), JSON.stringify(options.config), { encoding: 'utf-8'});
                 }
 
                 const destination = path.join(destDir, 'index.html');

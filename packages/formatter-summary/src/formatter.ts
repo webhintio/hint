@@ -10,18 +10,19 @@
 
 import chalk from 'chalk';
 import {
-    defaultTo,
     forEach,
     groupBy
 } from 'lodash';
 import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
+const stripAnsi = require('strip-ansi');
+
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IFormatter, Problem, Severity } from 'hint/dist/src/lib/types';
+import { IFormatter, Problem, Severity, FormatterOptions } from 'hint/dist/src/lib/types';
 import * as logger from 'hint/dist/src/lib/utils/logging';
+import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 
 const _ = {
-    defaultTo,
     forEach,
     groupBy
 };
@@ -35,10 +36,10 @@ const debug = d(__filename);
 
 export default class SummaryFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public format(messages: Problem[]) {
+    public async format(messages: Problem[], target: string | undefined, options: FormatterOptions = {}) {
         debug('Formatting results');
 
-        if (_.defaultTo(messages.length, 0) === 0) {
+        if (messages.length === 0) {
             return;
         }
 
@@ -87,10 +88,17 @@ export default class SummaryFormatter implements IFormatter {
             totalWarnings += warnings;
         });
 
-        logger.log(table(tableData));
-
         const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
 
-        logger.log(color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? 'warning' : 'warnings'}`));
+        const result = `${table(tableData)}
+${color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? 'warning' : 'warnings'}`)}`;
+
+        if (!options.output) {
+            logger.log(result);
+
+            return;
+        }
+
+        await writeFileAsync(options.output, stripAnsi(result));
     }
 }

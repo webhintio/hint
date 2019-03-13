@@ -78,12 +78,12 @@ export type Resource = IConnectorConstructor | IFormatterConstructor | IHintCons
 
 export type CLIOptions = {
     _: string[];
+    'analytics-debug': boolean;
     config: string;
     debug: boolean;
-    format: string;
     help: boolean;
-    init: boolean;
-    ['output-file']: string;
+    output: string;
+    tracking: string; // 'on' or 'off'
     version: boolean;
     watch: boolean;
 

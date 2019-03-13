@@ -10,18 +10,19 @@
  */
 
 import {
-    forEach,
     groupBy,
+    reduce,
     sortBy
 } from 'lodash';
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IFormatter, Problem } from 'hint/dist/src/lib/types';
+import { IFormatter, Problem, FormatterOptions } from 'hint/dist/src/lib/types';
 import * as logger from 'hint/dist/src/lib/utils/logging';
+import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 
 const _ = {
-    forEach,
     groupBy,
+    reduce,
     sortBy
 };
 const debug = d(__filename);
@@ -34,17 +35,30 @@ const debug = d(__filename);
 
 export default class JSONFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public format(messages: Problem[]) {
+    public async format(messages: Problem[], target: string | undefined, options: FormatterOptions = {}) {
 
         debug('Formatting results');
 
+        if (messages.length === 0) {
+            return;
+        }
+
         const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'resource');
 
-        _.forEach(resources, (msgs: Problem[], resource: string) => {
+        const result = _.reduce(resources, (total: string, msgs: Problem[], resource: string) => {
             const sortedMessages: Problem[] = _.sortBy(msgs, ['location.line', 'location.column']);
+            const result = `${total ? '\n\n' : ''}${resource}: ${msgs.length} issues
+${JSON.stringify(sortedMessages, null, 2)}`;
 
-            logger.log(`${resource}: ${msgs.length} issues`);
-            logger.log(JSON.stringify(sortedMessages, null, 2));
-        });
+            return total + result;
+        }, '');
+
+        if (!options.output) {
+            logger.log(result);
+
+            return;
+        }
+
+        await writeFileAsync(options.output, result);
     }
 }
