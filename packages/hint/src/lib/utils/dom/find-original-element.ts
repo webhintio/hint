@@ -65,7 +65,7 @@ export default (document: HTMLDocument, element: HTMLElement): HTMLElement | nul
     // Elements with content that is typically unique.
     if (['audio', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'script', 'style', 'video'].includes(element.nodeName)) {
         return findMatch(document, element, element.nodeName, (potentialMatch) => {
-            return potentialMatch.innerHTML() === element.innerHTML();
+            return potentialMatch.innerHTML === element.innerHTML;
         });
     }
 

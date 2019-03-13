@@ -157,11 +157,11 @@ export class HTMLElement {
         return this._element === element._element;
     }
 
-    public innerHTML(): string {
+    public get innerHTML(): string {
         return parse5.serialize(this._element, { treeAdapter: htmlparser2Adapter });
     }
 
-    public outerHTML(): string {
+    public get outerHTML(): string {
         /*
          * Until parse5 support outerHTML
          * (https://github.com/inikulin/parse5/issues/230)
