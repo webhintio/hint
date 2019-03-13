@@ -10,7 +10,6 @@ import { Engine } from 'hint';
 
 export * from './types';
 
-const scriptContentRegex: RegExp = /^<script[^>]*>([\s\S]*)<\/script>$/;
 // This is the default configuration in eslint for espree.
 const defaultParserOptions = {
     comment: true,
@@ -65,20 +64,7 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
         return !!type;
     }
 
-    private getScriptContent(scriptTagText: string) {
-        const match = scriptTagText.match(scriptContentRegex);
-
-        if (!match) {
-            // QUESTION: throw an exception?
-            return '';
-        }
-
-        return match[1].trim();
-    }
-
-    private async parseJavascriptTag(elementFound: ElementFound) {
-        const element: HTMLElement = elementFound.element;
-
+    private async parseJavascriptTag({ element, resource }: ElementFound) {
         if (this.hasSrcAttribute(element)) {
             // Ignore because this will be (or have been) processed in the event 'fetch::end::script'.
             return;
@@ -89,9 +75,6 @@ export default class JavascriptParser extends Parser<ScriptEvents> {
             return;
         }
 
-        const code = this.getScriptContent(element.outerHTML());
-        const resource: string = 'Internal javascript';
-
-        await this.emitScript(code, resource, element);
+        await this.emitScript(element.innerHTML, resource, element);
     }
 }
