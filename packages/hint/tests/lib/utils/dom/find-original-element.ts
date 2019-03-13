@@ -16,8 +16,8 @@ const compare = (originalSource: string, snapshotSource: string) => {
 
     if (!result) {
         console.log(`Match: 
-            ${originalElement && originalElement.outerHTML()}
-            ${foundElement && foundElement.outerHTML()}`);
+            ${originalElement && originalElement.outerHTML}
+            ${foundElement && foundElement.outerHTML}`);
     }
 
     return result;

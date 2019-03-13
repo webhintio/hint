@@ -110,7 +110,7 @@ export default class FooterHint implements IHint {
         const stringToBeIncluded = `(c) webhint`;
         const validateFooter = async (elementFound: ElementFound) => {
             const { element, resource } = elementFound;
-            const footerHTML = element.outerHTML();
+            const footerHTML = element.outerHTML;
 
             debug(`Validating hint validate-footer`);
 

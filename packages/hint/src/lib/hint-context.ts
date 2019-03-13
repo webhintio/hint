@@ -122,7 +122,7 @@ export class HintContext<E extends Events = Events> {
         if (element) {
             // When element is provided, position is an offset in the content.
             position = this.findProblemLocation(element, position);
-            sourceCode = element.outerHTML().replace(/[\t]/g, '    ');
+            sourceCode = element.outerHTML.replace(/[\t]/g, '    ');
         }
 
         /*

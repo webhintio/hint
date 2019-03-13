@@ -79,8 +79,14 @@ test('HTMLElement.isSame() should return if an item is the same or not', (t) => 
     t.true(item.isSame(item));
 });
 
-test('HTMLElement.outerHTML() should return the element HTML', (t) => {
+test('HTMLElement.outerHTML should return the element HTML', (t) => {
     const item = t.context.document.querySelectorAll('.title')[0];
 
-    t.is(item.outerHTML(), '<h1 class="title">Title</h1>');
+    t.is(item.outerHTML, '<h1 class="title">Title</h1>');
+});
+
+test('HTMLElement.innerHTML should return the element content', (t) => {
+    const item = t.context.document.querySelectorAll('.title')[0];
+
+    t.is(item.innerHTML, 'Title');
 });
