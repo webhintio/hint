@@ -48,7 +48,7 @@ test('If `fetch::end::html` is received, then the code should be parsed and the 
     t.is((args[2][1] as HTMLParse).resource, 'test.html');
     t.is((args[2][1] as HTMLParse).html, code);
     t.is(document.pageHTML(), '<!DOCTYPE html><html><head></head><body><div id="test">Test</div></body></html>');
-    t.is(div.outerHTML(), '<div id="test">Test</div>');
+    t.is(div.outerHTML, '<div id="test">Test</div>');
     t.is(div.nodeName.toLowerCase(), 'div');
     t.is(div.getAttribute('id'), 'test');
     t.is(location && location.line, 0);

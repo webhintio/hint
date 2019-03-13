@@ -31,7 +31,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
 
         const validate = ({ element, resource }: ElementFound) => {
             if (debug.enabled) {
-                const html: string = element.outerHTML();
+                const html = element.outerHTML;
 
                 debug(`Analyzing link\n${cutString(html, 50)}`);
             }

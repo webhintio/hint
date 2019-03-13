@@ -52,7 +52,7 @@ export default class DisownOpenerHint implements IHint {
             });
 
             if (requiredValues.length !== 0) {
-                const message = `'${cutString(element.outerHTML(), 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`;
+                const message = `'${cutString(element.outerHTML, 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`;
 
                 context.report(resource, message, { content: hrefValue, element });
             }
