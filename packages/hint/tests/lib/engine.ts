@@ -551,7 +551,7 @@ test(`If a hint is ignoring some url, it shouldn't run the event`, (t) => {
 
     const Engine = loadScript(t.context);
 
-    new Engine({
+    const engine = new Engine({
         browserslist: [],
         connector: { name: 'connector' },
         extends: [],
@@ -571,7 +571,7 @@ test(`If a hint is ignoring some url, it shouldn't run the event`, (t) => {
 
     const eventHandler = t.context.eventemitter.EventEmitter2.prototype.on.args[0][1];
 
-    t.is(eventHandler({ resource: 'http://www.domain1.com/test' }), null);
+    t.is(eventHandler.call(engine, { resource: 'http://www.domain1.com/test' }), null);
 
     t.context.eventemitter.EventEmitter2.prototype.on.restore();
 });
