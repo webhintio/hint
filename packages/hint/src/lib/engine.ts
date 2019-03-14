@@ -229,6 +229,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
                 const urlsIgnoredForAll = that.ignoredUrls.get('all') || [];
                 const urlsIgnoredForHint = that.ignoredUrls.get(hintId) || [];
                 const urlsIgnored = urlsIgnoredForHint.concat(urlsIgnoredForAll);
+                const eventName = this.event; // eslint-disable-line no-invalid-this
 
                 if (that.isIgnored(urlsIgnored, (event as any).resource)) {
                     return null;
@@ -251,7 +252,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
                     }, that._timeout);
 
                     immediateId = setImmediate(async () => {
-                        const result: any = await handler(event, this.event); // eslint-disable-line no-invalid-this
+                        const result: any = await handler(event, eventName);
 
                         if (timeoutId) {
                             clearTimeout(timeoutId);
