@@ -695,10 +695,10 @@
   resolved "https://registry.yarnpkg.com/@types/proxyquire/-/proxyquire-1.3.28.tgz#05a647bb0d8fe48fc8edcc193e43cc79310faa7d"
   integrity sha512-SQaNzWQ2YZSr7FqAyPPiA3FYpux2Lqh3HWMZQk47x3xbMCqgC/w0dY3dw9rGqlweDDkrySQBcaScXWeR+Yb11Q==
 
-"@types/puppeteer@^1.12.2":
-  version "1.12.2"
-  resolved "https://registry.yarnpkg.com/@types/puppeteer/-/puppeteer-1.12.2.tgz#5e3c8ab57fe3e0c9d75d8deeb6bf290b57321dd7"
-  integrity sha512-EGfxdNxqsEQiY6Ce+4rRD8PsDD18b5FWR+J/gWX7J/UKNRk1Pi9bircx0oADMNF2RdbyzmC+7TU95nwnerFwlA==
+"@types/puppeteer@^1.12.3":
+  version "1.12.3"
+  resolved "https://registry.yarnpkg.com/@types/puppeteer/-/puppeteer-1.12.3.tgz#1309882d368ed21004dfc4520864fdafcf126277"
+  integrity sha512-mJtUPdXqB8THRwiHPbx8pkGYi+8IPf3dMuwJS9hHpr59BwkuLDkkEJ4qMST0k6TbOUXp+wyMJii30ouSkoEtaw==
   dependencies:
     "@types/node" "*"
 
