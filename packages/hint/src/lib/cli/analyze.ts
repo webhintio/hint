@@ -3,6 +3,7 @@ import { URL } from 'url';
 import * as path from 'path';
 
 import * as async from 'async';
+import boxen from 'boxen';
 import { default as ora, Ora } from 'ora';
 import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
@@ -23,7 +24,6 @@ import * as insights from '../utils/app-insights';
 import { FormatterOptions, IFormatter } from '../types/formatters';
 import loadHintPackage from '../utils/packages/load-hint-package';
 
-const boxen = require('boxen'); // `require` used because `boxen` exports a function
 const each = promisify(async.each);
 const debug: debug.IDebugger = d(__filename);
 const configStoreKey: string = 'run';
