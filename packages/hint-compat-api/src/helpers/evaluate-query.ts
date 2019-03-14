@@ -46,11 +46,11 @@ export const evaluateQuery = (queryString: string): boolean => {
     /*
      * Split the query in statements.
      */
-    const splitedQuery = finalQuery.trim().split(' ');
+    const splitQuery = finalQuery.trim().split(' ');
     let operator: string | null = null;
     let result: boolean | null = null;
 
-    for (const partialQuery of splitedQuery) {
+    for (const partialQuery of splitQuery) {
         /*
          * We expect only the strings in validStatementsStrings.
          * If we receive something diferente, validate the whole
@@ -101,7 +101,7 @@ export const evaluateQuery = (queryString: string): boolean => {
 
         if (operator) {
             /*
-             * Calculate the acumulated result.
+             * Calculate the accumulated result.
              */
             result = operator === ValidStatements.and ? result && partialResult : result || partialResult;
 

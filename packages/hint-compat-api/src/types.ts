@@ -11,9 +11,10 @@ export type BrowserSupportCollection = {
 
 export type TestFeatureOptions = {
     /**
-     * Indicate if the report of a feature has to be skiped
+     * Indicate if the report of a feature has to be skipped
      * This is necessary because in some cases, we just need to
      * check if a feature is valid or not, without reporting it.
+     * E.g. when deciding whether to ignore a `@supports` block.
      */
     skipReport?: boolean;
 };
