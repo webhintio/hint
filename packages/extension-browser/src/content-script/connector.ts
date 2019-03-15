@@ -19,8 +19,6 @@ import { browser, document, location, window } from '../shared/globals';
 import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
 import traverse from 'hint/dist/src/lib/utils/dom/traverse';
 
-const scriptElementIdRegex = /%%webhint-element-id%%/g;
-
 export default class WebExtensionConnector implements IConnector {
     private _document: HTMLDocument | undefined;
     private _originalDocument: HTMLDocument | undefined;
@@ -179,7 +177,7 @@ export default class WebExtensionConnector implements IConnector {
     }
 
     private needsToRunInPage(source: string) {
-        return source.match(scriptElementIdRegex);
+        return source.includes('/*RunInPageContext*/');
     }
 
     private scriptsCounter: number = 0;
@@ -222,7 +220,12 @@ export default class WebExtensionConnector implements IConnector {
             observer.observe(script, config);
 
             document.body.appendChild(script);
-            script.textContent = source.replace(scriptElementIdRegex, script.id);
+            script.textContent = `(async () => {
+                const result = await ${source}
+const scriptElement = document.getElementById('${script.id}');
+
+scriptElement.setAttribute('data-result', JSON.stringify(result));
+})();`;
         });
     }
 
