@@ -449,6 +449,7 @@ const getType = (mediaType: string) => {
     }
 
     switch (mediaType) {
+        case 'application/javascript':
         case 'text/javascript':
             return 'script';
         case 'text/css':
