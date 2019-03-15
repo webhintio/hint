@@ -9,11 +9,11 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as cheerio from 'cheerio';
-
-import { HTMLDocument, HTMLElement, IHint, FetchEnd, TraverseEnd } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+
+import { HTMLEvents } from '@hint/parser-html';
 
 import meta from './meta';
 
@@ -27,40 +27,20 @@ export default class MetaCharsetUTF8Hint implements IHint {
 
     public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
-        let receivedDOM: CheerioStatic | undefined;
-        /*
-         * This function exists because not all connector (e.g.: jsdom)
-         * support matching attribute values case-insensitively.
-         *
-         * https://www.w3.org/TR/selectors4/#attribute-case
-         */
+    public constructor(context: HintContext<HTMLEvents>) {
+        let validated = false;
 
-        const getCharsetMetaElements = (elements: HTMLElement[]): HTMLElement[] => {
-            return elements.filter((element) => {
-                return (element.getAttribute('charset') !== null) ||
-                    (element.getAttribute('http-equiv') !== null && normalizeString(element.getAttribute('http-equiv')) === 'content-type');
-            });
-        };
+        context.on('scan::end', () => {
+            validated = false;
+        });
 
-        /** Stores the DOM received on the initial load */
-        const setReceivedDom = (event: FetchEnd) => {
+        context.on('parse::end::html', ({ document, html, resource }) => {
             // The first time we receive this event is the main content, we don't care about iframes, requests by ads, etc.
-            /* istanbul ignore if */
-            if (typeof receivedDOM !== 'undefined') {
+            if (validated) {
                 return;
             }
 
-            receivedDOM = event.response.body.content ?
-                cheerio.load(event.response.body.content) :
-                cheerio.load('');
-        };
-
-        const validate = ({ resource }: TraverseEnd) => {
-            if (!receivedDOM) {
-                // There was a problem loading the HTML or the target wasn't one so no need to analyze
-                return;
-            }
+            validated = true;
 
             /*
              * There are 2 versions of the charset meta element:
@@ -75,8 +55,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
              * but for regular HTML, it should not be used.
              */
 
-            const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
-            const charsetMetaElements: HTMLElement[] = getCharsetMetaElements(pageDOM.querySelectorAll('meta'));
+            const charsetMetaElements = document.querySelectorAll('meta[charset], meta[http-equiv="content-type" i]');
 
             if (charsetMetaElements.length === 0) {
                 context.report(resource, `'charset' meta element was not specified.`);
@@ -89,7 +68,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
              * the user intended to use, and check if it's:
              */
 
-            const charsetMetaElement: HTMLElement = charsetMetaElements[0];
+            const charsetMetaElement = charsetMetaElements[0];
 
             // * `<meta charset="utf-8">`
 
@@ -106,27 +85,22 @@ export default class MetaCharsetUTF8Hint implements IHint {
              *       within the first 1024 bytes of the document, but
              *       that check will be done by the html/markup validator.
              */
-            const charsetMetaElementsHTML = charsetMetaElement.outerHTML;
-            const firstHeadElement = receivedDOM('head :first-child')[0];
-            const receivedMetas = receivedDOM('meta');
-            const firstMeta = receivedMetas.length > 0 ? receivedMetas[0] : '';
-            const firstMetaHTML = firstMeta ? receivedDOM.html(firstMeta) : '';
-            const headElementContent: string = receivedDOM.html(receivedDOM('head'));
 
-            if (!firstHeadElement ||
-                firstHeadElement !== receivedMetas[0] ||
-                !firstMetaHTML ||
-                charsetMetaElementsHTML !== firstMetaHTML ||
-                !(/^<head[^>]*>\s*<meta/).test(headElementContent)) {
+            const firstHeadElement = document.querySelectorAll('head :first-child')[0];
+            const isCharsetMetaFirstHeadElement = charsetMetaElement && firstHeadElement && charsetMetaElement.isSame(firstHeadElement);
 
+            const headElementContent = document.querySelectorAll('head')[0].outerHTML;
+            const isMetaElementFirstHeadContent = (/^<head[^>]*>\s*<meta/).test(headElementContent);
+
+            if (!isCharsetMetaFirstHeadElement || !isMetaElementFirstHeadContent) {
                 context.report(resource, `'charset' meta element should be the first thing in '<head>'.`, { element: charsetMetaElement });
             }
 
             // * specified in the `<body>`.
 
-            const bodyMetaElements: HTMLElement[] = getCharsetMetaElements(pageDOM.querySelectorAll('body meta'));
+            const bodyMetaElements = document.querySelectorAll('body meta[charset], body meta[http-equiv="content-type" i]');
 
-            if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(charsetMetaElement)) {
+            if (bodyMetaElements[0] && bodyMetaElements[0].isSame(charsetMetaElement)) {
                 context.report(resource, `'charset' meta element should be specified in the '<head>', not '<body>'.`, { element: charsetMetaElement });
 
                 return;
@@ -151,9 +125,6 @@ export default class MetaCharsetUTF8Hint implements IHint {
              *     context.report(resource, `Unneeded XML declaration: '${xmlDeclaration[1]}'.`);
              * }
              */
-        };
-
-        context.on('fetch::end::html', setReceivedDom);
-        context.on('traverse::end', validate);
+        });
     }
 }
