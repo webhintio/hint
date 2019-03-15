@@ -73,7 +73,7 @@ export default class AmpValidatorHint implements IHint {
                     } else {
                         const location = {
                             column: error.col,
-                            line: error.line
+                            line: error.line - 1 // The validator uses 1-based lines (but 0-based columns)
                         };
 
                         context.report(resource, message, { location });
