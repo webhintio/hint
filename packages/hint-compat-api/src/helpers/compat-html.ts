@@ -88,7 +88,7 @@ export class CompatHTML extends CompatBase<Events, Event> {
     }
 
     private testFeature(collection: CompatStatement | undefined, feature: FeatureInfo): void {
-        this.checkFeatureCompatibility(feature, collection);
+        this.checkFeatureCompatibility(feature, collection, { skipReport: false });
     }
 
     private walk(callback: (element: ElementFound) => any) {

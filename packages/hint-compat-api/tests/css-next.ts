@@ -304,3 +304,40 @@ hintRunner.testHint(hintPath, defaultIgnoredFeaturesShouldNotFail, {
     browserslist: ['android 4.4.3-4.4.4'],
     parsers: ['css']
 });
+
+const supportIgnoredIfNotSupported: HintTest[] = [
+    {
+        name: `If browser doesn't support @support, it should ignore the @support block`,
+        serverConfig: generateCSSConfig('support-flex')
+    }
+];
+
+hintRunner.testHint(hintPath, supportIgnoredIfNotSupported, {
+    browserslist: ['IE 9'],
+    parsers: ['css']
+});
+
+const supportSupportedButNotFeature: HintTest[] = [
+    {
+        name: `If browser supports @support, but not the feature, it should ignore the @support block`,
+        serverConfig: generateCSSConfig('support-flex')
+    }
+];
+
+hintRunner.testHint(hintPath, supportSupportedButNotFeature, {
+    browserslist: ['Chrome 28'],
+    parsers: ['css']
+});
+
+const supportAndFeatureSupported: HintTest[] = [
+    {
+        name: `If browser supports @support and the feature, it shouldn't ignore the @support block`,
+        reports: [{ message: 'grid is not supported by chrome 29.', position: { column: 8, line: 2 }}],
+        serverConfig: generateCSSConfig('support-flex')
+    }
+];
+
+hintRunner.testHint(hintPath, supportAndFeatureSupported, {
+    browserslist: ['Chrome 29'],
+    parsers: ['css']
+});
