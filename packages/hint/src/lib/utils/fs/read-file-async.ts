@@ -9,7 +9,7 @@ declare const __webpack_require__: Function; // eslint-disable-line
 export default async (filePath: string): Promise<string> => {
     if (typeof __webpack_require__ !== 'undefined' && typeof filePath === 'number') { // eslint-disable-line
         // Read files from a webpack bundle (must have been bundled using webpack's `raw-loader`).
-        return __webpack_require__(filePath);
+        return __webpack_require__(filePath).default;
     }
 
     const content: string = await promisify(readFile)(filePath, 'utf8');
