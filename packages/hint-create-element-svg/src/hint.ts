@@ -55,24 +55,20 @@ export default class CreateElementSvgHint implements IHint {
             meta: { messages: { avoidElement: 'SVG elements cannot be created with createElement; use createElementNS instead' } }
         });
 
-        const validateScript = async (scriptData: ScriptParse) => {
+        const validateScript = async ({ element, sourceCode, resource }: ScriptParse) => {
 
             debug(`Validating hint create-element-svg`);
 
-            const sourceCode = scriptData.sourceCode;
             const results = linter.verify(sourceCode, { rules: { 'svg-create': 'error' } });
 
             for (const result of results) {
-                const element = scriptData.element;
-
-                if (element === null) {
-                    return;
-                }
-
                 // ESLint location is 1-based
-                const loc = { column: result.column - 1, line: result.line - 1};
+                const location = {
+                    column: result.column - 1,
+                    line: result.line - 1
+                };
 
-                await context.report(scriptData.resource, result.message, { element, location: loc });
+                await context.report(resource, result.message, { element, location });
             }
         };
 

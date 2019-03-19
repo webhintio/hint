@@ -24,7 +24,8 @@ browser you want SVG by using the [SVG namespace][svg namespace] with
 
 ## What does the hint check?
 
-This hint scans JavaScript source code to check if `createElement` is called with any known SVG element names.
+This hint scans JavaScript source code to check if `createElement` is
+called with any known SVG element names.
 
 ### Examples that **trigger** the hint
 
@@ -74,7 +75,7 @@ configuration file:
 
 ## Further Reading
 
-[Document.createElementNS: What's the difference and why we need it?][createElementNS vs createElement]
+[Document.createElementNS][createElementNS vs createElement]
 [SVG: Scalable Vector Graphics][svg]
 
 <!-- Link labels: -->
