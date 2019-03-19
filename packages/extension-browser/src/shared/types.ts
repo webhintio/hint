@@ -8,7 +8,6 @@ export type Config = {
 };
 
 export type InjectDetails = {
-    code: string;
     config: Config;
 }
 

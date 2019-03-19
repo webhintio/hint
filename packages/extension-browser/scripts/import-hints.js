@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const package = require('../package.json');
+const pkg = require('../package.json');
 
-const hintModules = Object.keys(package.devDependencies).filter((name) => {
+const hintModules = Object.keys(pkg.devDependencies).filter((name) => {
     return name.startsWith('@hint/hint-');
 });
 
