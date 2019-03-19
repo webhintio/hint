@@ -221,8 +221,8 @@ export default class WebExtensionConnector implements IConnector {
 
             document.body.appendChild(script);
             script.textContent = `(async () => {
-                const result = await ${source}
-const scriptElement = document.getElementById('${script.id}');
+const scriptElement = document.currentScript;
+const result = await ${source}
 
 scriptElement.setAttribute('data-result', JSON.stringify(result));
 })();`;
