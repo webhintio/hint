@@ -3,10 +3,9 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, IAsyncHTMLElement, ProblemLocation } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { ScriptEvents, ScriptParse } from '@hint/parser-javascript';
-import { findProblemLocation } from 'hint/dist/src/lib/utils/location-helpers';
 
 import { Linter } from 'eslint';
 
@@ -18,11 +17,6 @@ const debug: debug.IDebugger = d(__filename);
 export default class CreateElementSvgHint implements IHint {
 
     public static readonly meta = meta;
-
-    /** Finds the approximative location in the page's HTML for a match in an element. */
-    public findProblemLocation(element: IAsyncHTMLElement, content?: string): Promise<ProblemLocation> {
-        return findProblemLocation(element, { column: 0, line: 0 }, content);
-    }
 
     public constructor(context: HintContext<ScriptEvents>) {
         const linter = new Linter();
@@ -50,6 +44,7 @@ export default class CreateElementSvgHint implements IHint {
 
                         if (arg && 'value' in arg && typeof arg.value === 'string' && svgElements.has(arg.value.toLowerCase())) {
                             eslintContext.report({
+                                loc: node.callee.property.loc,
                                 messageId: 'avoidElement',
                                 node: node.callee.property
                             });
@@ -74,19 +69,10 @@ export default class CreateElementSvgHint implements IHint {
                     return;
                 }
 
-                let position = element.getLocation() || null;
-                let line = 0;
+                // ESLint location is 1-based
+                const loc = { column: result.column - 1, line: result.line - 1};
 
-                /*
-                 * Eslint returns location data starting at <script>
-                 * This offsets the line number so that it is relative
-                 * to the full source code and not just the <script> tag
-                 */
-                if (scriptData.resource === 'Internal javascript') {
-                    position = await findProblemLocation(element, { column: 0, line: 0 }, result.source === null ? '' : result.source);
-                    line = position !== null ? position.line : 0;
-                }
-                await context.report(scriptData.resource, result.message, { location: { column: result.column, line: line + result.line }});
+                await context.report(scriptData.resource, result.message, { element, location: loc });
             }
         };
 
