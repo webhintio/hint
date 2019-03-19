@@ -180,8 +180,6 @@ export default class WebExtensionConnector implements IConnector {
         return source.includes('/*RunInPageContext*/');
     }
 
-    private scriptsCounter: number = 0;
-
     /**
      * Runs a script in the website context.
      *
@@ -197,8 +195,6 @@ export default class WebExtensionConnector implements IConnector {
                 childList: false,
                 subtree: false
             };
-
-            script.id = `webhint-evaluate-script-element-${this.scriptsCounter++}`;
 
             const callback = (mutationsList: MutationRecord[], observer: MutationObserver) => {
                 mutationsList.forEach((mutation: MutationRecord) => {
