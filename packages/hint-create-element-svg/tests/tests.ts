@@ -13,11 +13,11 @@ const generateScriptTag = (script: string) => {
     return `<script type="text/javascript">${script}</script>`;
 };
 const generatePageWithExternalScript = () => {
-    const externalJS = readFile(`${__dirname}/js/testjs.js`);
+    const externalJS = readFile(`${__dirname}/fixtures/testjs.js`);
 
     return {
-        '/': generateHTMLPage(`<script src="js/testjs.js"></script>`),
-        [`/js/testjs.js`]: {
+        '/': generateHTMLPage(`<script src="fixtures/testjs.js"></script>`),
+        [`/fixtures/testjs.js`]: {
             content: externalJS,
             headers: { 'Content-Type': 'text/javascript' }
         }
