@@ -11,12 +11,10 @@
  */
 
 import chalk from 'chalk';
-import {
-    forEach,
-    groupBy,
-    reduce,
-    sortBy
-} from 'lodash';
+import forEach = require('lodash/forEach');
+import groupBy = require('lodash/groupBy');
+import reduce = require('lodash/reduce');
+import sortBy = require('lodash/sortBy');
 import * as logSymbols from 'log-symbols';
 import * as table from 'text-table';
 const stripAnsi = require('strip-ansi');

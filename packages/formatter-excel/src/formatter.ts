@@ -12,11 +12,9 @@
 import * as path from 'path';
 
 import * as Excel from 'exceljs';
-import {
-    forEach,
-    groupBy,
-    sortBy
-} from 'lodash';
+import forEach = require('lodash/forEach');
+import groupBy = require('lodash/groupBy');
+import sortBy = require('lodash/sortBy');
 
 import cwd from 'hint/dist/src/lib/utils/fs/cwd';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';

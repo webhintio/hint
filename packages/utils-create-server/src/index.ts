@@ -1,6 +1,7 @@
 import { spawn, ChildProcess, SpawnOptions } from 'child_process';
 
-import { map, reduce } from 'lodash';
+import map = require('lodash/map');
+import reduce = require('lodash/reduce');
 
 import { Message, ServerConfiguration } from './types';
 import { replacer, reviver } from './buffer-serialization';

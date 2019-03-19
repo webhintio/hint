@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { cloneDeep } from 'lodash';
+import cloneDeep = require('lodash/cloneDeep');
 
 import { FetchEnd, IJSONResult, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint';

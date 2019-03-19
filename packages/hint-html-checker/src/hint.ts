@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import { uniqBy } from 'lodash';
+import uniqBy = require('lodash/uniqBy');
 import { OptionsWithUrl } from 'request';
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';

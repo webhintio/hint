@@ -12,11 +12,9 @@
  */
 
 import chalk from 'chalk';
-import {
-    groupBy,
-    reduce,
-    sortBy
-} from 'lodash';
+import groupBy = require('lodash/groupBy');
+import reduce = require('lodash/reduce');
+import sortBy = require('lodash/sortBy');
 import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 

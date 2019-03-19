@@ -5,7 +5,8 @@
 import * as http from 'http';
 import * as https from 'https';
 
-import { forEach, random } from 'lodash';
+import forEach = require('lodash/forEach');
+import random = require('lodash/random');
 import * as express from 'express';
 
 // to work with option 'strict', we can't use import.

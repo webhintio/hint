@@ -17,7 +17,8 @@ import { promisify } from 'util';
 import * as cdp from 'chrome-remote-interface';
 
 import * as lockfile from 'lockfile';
-import { compact, filter } from 'lodash';
+import compact = require('lodash/compact');
+import filter = require('lodash/filter');
 
 import { Crdp } from 'chrome-remote-debug-protocol';
 

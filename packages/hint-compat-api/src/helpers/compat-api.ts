@@ -5,7 +5,7 @@
 // Waiting for this PR https://github.com/mdn/browser-compat-data/pull/3004
 const mdnAPI: CompatData = require('mdn-browser-compat-data');
 
-import { get } from 'lodash';
+import get = require('lodash/get');
 
 import { CompatNamespace } from '../enums';
 import { browserVersions } from './normalize-version';

@@ -13,7 +13,7 @@ import * as url from 'url';
 
 import chalk from 'chalk';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
-import { remove } from 'lodash';
+import remove = require('lodash/remove');
 
 import { debug as d } from './utils/debug';
 import { getSeverity } from './config/config-hints';

@@ -9,7 +9,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { URL } from 'url';
 
-import { groupBy, every } from 'lodash';
+import groupBy = require('lodash/groupBy');
+import every = require('lodash/every');
 import * as sinon from 'sinon';
 import test from 'ava';
 import { Server } from '@hint/utils-create-server';

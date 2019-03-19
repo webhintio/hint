@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { merge } from 'lodash';
+import merge = require('lodash/merge');
 
 import { Engine } from '../engine';
 import { getAsUri } from '../utils/network/as-uri';

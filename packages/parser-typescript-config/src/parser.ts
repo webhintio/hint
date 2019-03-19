@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 
-import { cloneDeep } from 'lodash';
+import cloneDeep = require('lodash/cloneDeep');
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 import { FetchEnd, IJSONResult, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';

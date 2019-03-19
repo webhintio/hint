@@ -1,12 +1,9 @@
 import * as ajv from 'ajv';
-import {
-    cloneDeep,
-    forEach,
-    groupBy,
-    reduce,
-    without,
-    Dictionary
-} from 'lodash';
+import cloneDeep = require('lodash/cloneDeep');
+import forEach = require('lodash/forEach');
+import groupBy = require('lodash/groupBy');
+import reduce = require('lodash/reduce');
+import without = require('lodash/without');
 
 import { IJSONLocationFunction, ISchemaValidationError, SchemaValidationResult } from '../types';
 import { GroupedError } from '../types/schema-validation-result';
@@ -225,7 +222,7 @@ const generateErrorsMessage = (errors: ajv.ErrorObject[]): string[] => {
  * *   - 'root' should have required properties 'connector' or 'extends'
  */
 const groupMessages = (errors: ISchemaValidationError[]): GroupedError[] => {
-    const grouped: Dictionary<ajv.ErrorObject[]> = groupBy(errors, 'dataPath');
+    const grouped = groupBy(errors, 'dataPath');
 
     const result = reduce(grouped, (allErrors, groupErrors: ISchemaValidationError[]) => {
         let errors = groupErrors;
