@@ -18,7 +18,7 @@ import * as os from 'os';
 import * as path from 'path';
 
 import browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
-import { mergeWith } from 'lodash';
+import mergeWith = require('lodash/mergeWith');
 
 import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject, HintSeverity } from './types';
 import { debug as d } from './utils/debug';

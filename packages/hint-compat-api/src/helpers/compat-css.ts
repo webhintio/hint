@@ -2,7 +2,7 @@
  * @fileoverview Helper that contains all the logic related with CSS compat api, to use in different modules.
  */
 
-import { find } from 'lodash';
+import find = require('lodash/find');
 import { AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';

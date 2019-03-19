@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash';
+import cloneDeep = require('lodash/cloneDeep');
 import test from 'ava';
 
 import * as configValidator from '../../../src/lib/config/config-validator';

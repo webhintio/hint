@@ -3,8 +3,6 @@
  * For more information on the issue: https://github.com/mdn/browser-compat-data/pull/2690#issuecomment-417237045
  */
 
-import { padStart, padEnd } from 'lodash';
-
 class BrowserVersions {
     private columnSeparator = '.';
     private charForPad = '0';
@@ -25,15 +23,15 @@ class BrowserVersions {
      */
     public normalize(browserVersion: string): number {
         const result = browserVersion.split(this.columnSeparator).map((column) => {
-            return padStart(column, this.itemsInColum, this.charForPad);
+            return column.padStart(this.itemsInColum, this.charForPad);
         })
             .join('');
 
-        return Number(padEnd(result, this.itemsInColumns, this.charForPad));
+        return Number(result.padEnd(this.itemsInColumns, this.charForPad));
     }
 
     public deNormalize(normalizedVersion: number): string {
-        const normalizedVersionString = padStart(`${normalizedVersion}`, this.itemsInColumns, this.charForPad);
+        const normalizedVersionString = `${normalizedVersion}`.padStart(this.itemsInColumns, this.charForPad);
         const columns = normalizedVersionString.match(/..?/g);
 
         if (!columns) {

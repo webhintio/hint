@@ -9,11 +9,9 @@
  * ------------------------------------------------------------------------------
  */
 
-import {
-    groupBy,
-    reduce,
-    sortBy
-} from 'lodash';
+import groupBy = require('lodash/groupBy');
+import reduce = require('lodash/reduce');
+import sortBy = require('lodash/sortBy');
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { IFormatter, Problem, FormatterOptions } from 'hint/dist/src/lib/types';

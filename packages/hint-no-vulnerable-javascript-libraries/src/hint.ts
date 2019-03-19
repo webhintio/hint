@@ -4,7 +4,7 @@
 import * as fs from 'fs';
 import { promisify } from 'util';
 
-import { groupBy } from 'lodash';
+import groupBy = require('lodash/groupBy');
 import * as semver from 'semver';
 
 import * as logger from 'hint/dist/src/lib/utils/logging';

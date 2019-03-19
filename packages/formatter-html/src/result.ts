@@ -1,7 +1,8 @@
 import * as path from 'path';
 
 import * as moment from 'moment';
-import { cloneDeep } from 'lodash';
+
+import cloneDeep = require('lodash/cloneDeep');
 
 import { Severity, FormatterOptions } from 'hint/dist/src/lib/types';
 import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
