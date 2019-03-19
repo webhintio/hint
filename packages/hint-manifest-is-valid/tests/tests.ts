@@ -38,24 +38,15 @@ const defaultTests: HintTest[] = [
         reports: [
             {
                 message: `'root' should NOT have additional properties. Additional property found 'additionalProperty'.`,
-                position: {
-                    column: 2,
-                    line: 0
-                }
+                position: { match: 'additionalProperty' }
             },
             {
                 message: `'icons[0]' should NOT have additional properties. Additional property found 'density'.`,
-                position: {
-                    column: 63,
-                    line: 0
-                }
+                position: { match: 'density' }
             },
             {
                 message: `'name' should be 'string'.`,
-                position: {
-                    column: 110,
-                    line: 0
-                }
+                position: { match: 'name' }
             }
         ],
         serverConfig: {

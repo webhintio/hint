@@ -29,7 +29,7 @@ const tests: HintTest[] = [
         serverConfig: 'HTML to use',
         reports: [{
             message: 'Message the error will have',
-            position: { column: 0, line: 0 } // Where the error will show.
+            position: { match: 'text' } // Source where error will show.
         }]
     },
     { ... }
@@ -71,6 +71,42 @@ There's more information and detail in the following sections.
   on each `Report` will be matched. This means you can decide to ignore some
   that are not relevant to you, i.e.: in the code above you could decide to
   remove `position` and the test engine will not try to validate that property.
+
+### `position`
+
+When specified, `position` can be a `ProblemLocation` or a string of text in
+the source to derive a `ProblemLocation` from. The latter is recommended when
+possible as it is less error-prone.
+
+```ts
+// `position` as a `ProblemLocation`
+const tests: HintTest[] = [
+    {
+        name: 'Name of the tests',
+        serverConfig: 'HTML to use',
+        reports: [{
+            message: 'Error message targeting the word "HTML"',
+            position: { column: 0, line: 0 }
+        }]
+    },
+    { ... }
+];
+```
+
+```ts
+// `position` as a `match`
+const tests: HintTest[] = [
+    {
+        name: 'Name of the tests',
+        serverConfig: 'HTML to use',
+        reports: [{
+            message: 'Error message targeting the word "HTML"',
+            position: { match: 'HTML' }
+        }]
+    },
+    { ... }
+];
+```
 
 ### Execute code `before` or `after` collecting the results
 

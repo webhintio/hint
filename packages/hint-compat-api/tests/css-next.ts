@@ -170,9 +170,9 @@ const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Features that were added after the targeted browser should fail.',
         reports: [
-            { message: 'keyframes is not supported by chrome 40.', position: { column: 0, line: 0 }},
-            { message: 'keyframes is not supported by chrome 40.', position: { column: 0, line: 6 }},
-            { message: 'keyframes is not supported by chrome 40.', position: { column: 0, line: 12 }}
+            { message: 'keyframes is not supported by chrome 40.', position: { match: '@keyframes name' }},
+            { message: 'keyframes is not supported by chrome 40.', position: { match: '@keyframes name2' }},
+            { message: 'keyframes is not supported by chrome 40.', position: { match: '@keyframes name3' }}
         ],
         serverConfig: generateCSSConfig('keyframes')
     }
@@ -183,7 +183,7 @@ hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { br
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were added after the targeted browser should fail.',
-        reports: [{ message: 'animation-duration prefixed with -webkit- is not supported by opera 12.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'animation-duration prefixed with -webkit- is not supported by opera 12.', position: { match: '-webkit-animation-duration' }}],
         serverConfig: generateCSSConfig('animation-duration-prefix')
     }
 ];
@@ -211,7 +211,7 @@ hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDepre
 const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Child features that were added later than targeted browsers should fail.',
-        reports: [{ message: 'flex is not supported by chrome 26-28.', position: { column: 4, line: 1 } }],
+        reports: [{ message: 'flex is not supported by chrome 26-28.', position: { match: 'display: flex;' } }],
         serverConfig: generateCSSConfig('display-flex')
     }
 ];
@@ -221,7 +221,7 @@ hintRunner.testHint(hintPath, childFeatureAddedLaterThanTargetedBrowsers, { brow
 const childPrefixedFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Child prefixed features that were added later than targeted browsers should fail.',
-        reports: [{ message: 'flex prefixed with -webkit- is not supported by chrome 17-19.', position: { column: 4, line: 1 } }],
+        reports: [{ message: 'flex prefixed with -webkit- is not supported by chrome 17-19.', position: { match: 'display: -webkit-flex;' } }],
         serverConfig: generateCSSConfig('display-flex-prefix')
     }
 ];
@@ -231,7 +231,7 @@ hintRunner.testHint(hintPath, childPrefixedFeatureAddedLaterThanTargetedBrowsers
 const notSupportedPropertiesAndValuesShouldNotSeparatelyLog: HintTest[] = [
     {
         name: 'Features not supported and not deprecated should not separately log the feature and value.',
-        reports: [{ message: 'appearance is not supported by ie.', position: { column: 4, line: 3 }}],
+        reports: [{ message: 'appearance is not supported by ie.', position: { match: 'appearance: none; /* Report */' }}],
         serverConfig: generateCSSConfig('appearance')
     }
 ];
@@ -242,8 +242,8 @@ const notSupportedFeaturesWithoutFallbackShouldSeparatelyLog: HintTest[] = [
     {
         name: 'Features not supported and not deprecated should separately log vendor prefixes if fallback is not defined.',
         reports: [
-            { message: 'appearance prefixed with -webkit- is not supported by ie.', position: { column: 4, line: 1 }},
-            { message: 'appearance prefixed with -moz- is not supported by ie.', position: { column: 4, line: 2 }}
+            { message: 'appearance prefixed with -webkit- is not supported by ie.', position: { match: '-webkit-appearance' }},
+            { message: 'appearance prefixed with -moz- is not supported by ie.', position: { match: '-moz-appearance' }}
         ],
         serverConfig: generateCSSConfig('appearance-only-prefixes')
     }
@@ -254,7 +254,7 @@ hintRunner.testHint(hintPath, notSupportedFeaturesWithoutFallbackShouldSeparatel
 const notSupportedAndNotDeprecatedFeature: HintTest[] = [
     {
         name: 'Features not supported and not deprecated should fail.',
-        reports: [{ message: 'cursor is not supported by webview_android.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'cursor is not supported by webview_android.', position: { match: 'cursor' }}],
         serverConfig: generateCSSConfig('cursor')
     }
 ];
@@ -269,9 +269,9 @@ const notSupportedFeaturesSplittedByCSSRuleBlock: HintTest[] = [
     {
         name: 'Should handle reports separately by CSS blocks.',
         reports: [
-            { message: 'appearance prefixed with -webkit- is not supported by ie.', position: { column: 4, line: 1 }},
-            { message: 'appearance prefixed with -moz- is not supported by ie.', position: { column: 4, line: 2 }},
-            { message: 'appearance is not supported by ie.', position: { column: 4, line: 6 }}
+            { message: 'appearance prefixed with -webkit- is not supported by ie.', position: { match: '-webkit-appearance' }},
+            { message: 'appearance prefixed with -moz- is not supported by ie.', position: { match: '-moz-appearance' }},
+            { message: 'appearance is not supported by ie.', position: { match: 'appearance: none; /* unprefixed */' }}
         ],
         serverConfig: generateCSSConfig('appearance-splitted')
     }
@@ -282,7 +282,7 @@ hintRunner.testHint(hintPath, notSupportedFeaturesSplittedByCSSRuleBlock, { brow
 const disorderedNotSupportedFeatures: HintTest[] = [
     {
         name: 'Should handle disordered vendor prefixes',
-        reports: [{ message: 'appearance is not supported by ie.', position: { column: 4, line: 1 }}],
+        reports: [{ message: 'appearance is not supported by ie.', position: { match: 'appearance' }}],
         serverConfig: generateCSSConfig('appearance-disordered-prefixes')
     }
 ];
@@ -302,5 +302,42 @@ const defaultIgnoredFeaturesShouldNotFail: HintTest[] = [
 
 hintRunner.testHint(hintPath, defaultIgnoredFeaturesShouldNotFail, {
     browserslist: ['android 4.4.3-4.4.4'],
+    parsers: ['css']
+});
+
+const supportIgnoredIfNotSupported: HintTest[] = [
+    {
+        name: `If browser doesn't support @support, it should ignore the @support block`,
+        serverConfig: generateCSSConfig('support-flex')
+    }
+];
+
+hintRunner.testHint(hintPath, supportIgnoredIfNotSupported, {
+    browserslist: ['IE 9'],
+    parsers: ['css']
+});
+
+const supportSupportedButNotFeature: HintTest[] = [
+    {
+        name: `If browser supports @support, but not the feature, it should ignore the @support block`,
+        serverConfig: generateCSSConfig('support-flex')
+    }
+];
+
+hintRunner.testHint(hintPath, supportSupportedButNotFeature, {
+    browserslist: ['Chrome 28'],
+    parsers: ['css']
+});
+
+const supportAndFeatureSupported: HintTest[] = [
+    {
+        name: `If browser supports @support and the feature, it shouldn't ignore the @support block`,
+        reports: [{ message: 'grid is not supported by chrome 29.', position: { column: 8, line: 2 }}],
+        serverConfig: generateCSSConfig('support-flex')
+    }
+];
+
+hintRunner.testHint(hintPath, supportAndFeatureSupported, {
+    browserslist: ['Chrome 29'],
     parsers: ['css']
 });

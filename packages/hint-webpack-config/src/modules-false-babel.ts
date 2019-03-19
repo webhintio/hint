@@ -38,15 +38,15 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
             babelEvent = babelConfigEvent;
         };
 
-        const validate = async () => {
+        const validate = () => {
             if (!webpackEvent) {
-                await context.report('', 'The parser webpack-config should be activated');
+                context.report('', 'The parser webpack-config should be activated');
 
                 return;
             }
 
             if (!babelEvent) {
-                await context.report('', 'The parser babel-config should be activated');
+                context.report('', 'The parser babel-config should be activated');
 
                 return;
             }
@@ -63,7 +63,7 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
             });
 
             if (modulesFalse.length === 0) {
-                await context.report(babelEvent.resource, 'Babel presets `modules` option should be `false`');
+                context.report(babelEvent.resource, 'Babel presets `modules` option should be `false`');
             }
         };
 

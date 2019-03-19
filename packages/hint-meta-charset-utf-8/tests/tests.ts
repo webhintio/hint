@@ -59,10 +59,6 @@ const tests: HintTest[] = [
         serverConfig: generateHTMLPage(`${metaCharset}${metaHttpEquiv}`)
     },
     {
-        name: `Target is not served with a valid media type`,
-        serverConfig: { '/': { headers: { 'Content-Type': 'invalid' } } }
-    },
-    {
         name: `Target is served with a non-HTML specific media type`,
         serverConfig: { '/': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } } }
     },
@@ -79,7 +75,7 @@ const tests: HintTest[] = [
     },
     {
         name: `Meta 'charset' is injected after load, should fail`,
-        reports: [{ message: metaElementIsNotFirstInHeadErrorMessage }],
+        reports: [{ message: metaElementNotSpecifiedErrorMessage }],
         serverConfig: generateHTMLPage(`<title>No charset</title>
         <script>
             var head = document.querySelector('head');
@@ -115,4 +111,4 @@ const tests: HintTest[] = [
      */
 ];
 
-hintRunner.testHint(getHintPath(__filename), tests);
+hintRunner.testHint(getHintPath(__filename), tests, { parsers: ['html'] });

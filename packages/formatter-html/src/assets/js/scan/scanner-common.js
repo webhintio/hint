@@ -166,7 +166,7 @@
         scrollTo(title);
     };
 
-    var categoryClasses = ['rule-tile', 'rule-icon', 'rule-tile__category', 'rule-tile__sub-category', 'rule-tile__passed', 'rule-tile__info', 'rule-tile__results'];
+    var categoryClasses = ['rule-tile--wrapper', 'rule-tile', 'rule-icon', 'rule-tile__category', 'rule-tile__sub-category', 'rule-tile__passed', 'rule-tile__info', 'rule-tile__results'];
 
     var onContainerClick = function (evt) {
         var element = evt.target;

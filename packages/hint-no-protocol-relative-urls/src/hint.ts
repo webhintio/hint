@@ -29,9 +29,9 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        const validate = async ({ element, resource }: ElementFound) => {
+        const validate = ({ element, resource }: ElementFound) => {
             if (debug.enabled) {
-                const html: string = await element.outerHTML();
+                const html = element.outerHTML;
 
                 debug(`Analyzing link\n${cutString(html, 50)}`);
             }
@@ -49,7 +49,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
 
                 const message = `'${url}' should not be specified as a protocol-relative URL.`;
 
-                await context.report(resource, message, { content: url, element });
+                context.report(resource, message, { content: url, element });
             }
         };
 

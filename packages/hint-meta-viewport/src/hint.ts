@@ -6,7 +6,7 @@
 import { parseMetaViewPortContent } from 'metaviewport-parser';
 
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import { IAsyncHTMLDocument, IAsyncHTMLElement, TraverseEnd } from 'hint/dist/src/lib/types';
+import { HTMLDocument, HTMLElement, TraverseEnd } from 'hint/dist/src/lib/types';
 import { IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
@@ -31,7 +31,7 @@ export default class MetaViewportHint implements IHint {
          * https://www.w3.org/TR/selectors4/#attribute-case
          */
 
-        const getViewportMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
+        const getViewportMetaElements = (elements: HTMLElement[]): HTMLElement[] => {
             return elements.filter((element) => {
                 return (element.getAttribute('name') !== null && normalizeString(element.getAttribute('name')) === 'viewport');
             });
@@ -65,12 +65,12 @@ export default class MetaViewportHint implements IHint {
             });
         };
 
-        const checkContentValue = async (contentValue: string | null, resource: string, viewportMetaElement: IAsyncHTMLElement) => {
+        const checkContentValue = (contentValue: string | null, resource: string, viewportMetaElement: HTMLElement) => {
 
             if (!contentValue) {
                 const message = `'viewport' meta element should have non-empty 'content' attribute.`;
 
-                await context.report(resource, message, { element: viewportMetaElement });
+                context.report(resource, message, { element: viewportMetaElement });
 
                 return;
             }
@@ -82,13 +82,13 @@ export default class MetaViewportHint implements IHint {
             for (const key of Object.keys(content.unknownProperties)) {
                 const message = `'viewport' meta element 'content' attribute value should not contain unknown property '${key}'.`;
 
-                await context.report(resource, message, { element: viewportMetaElement });
+                context.report(resource, message, { element: viewportMetaElement });
             }
 
             for (const key of Object.keys(content.invalidValues)) {
                 const message = `'viewport' meta element 'content' attribute value should not contain invalid value '${content.invalidValues[key]}' for property '${key}'.`;
 
-                await context.report(resource, message, { element: viewportMetaElement });
+                context.report(resource, message, { element: viewportMetaElement });
             }
 
             // Disallow certain properties.
@@ -113,7 +113,7 @@ export default class MetaViewportHint implements IHint {
                 ].includes(key)) {
                     const message = `'viewport' meta element 'content' attribute value should not contain disallowed property '${key}'.`;
 
-                    await context.report(resource, message, { element: viewportMetaElement });
+                    context.report(resource, message, { element: viewportMetaElement });
                 }
             }
 
@@ -127,7 +127,7 @@ export default class MetaViewportHint implements IHint {
             if (content.validProperties.width !== 'device-width') {
                 const message = `'viewport' meta element 'content' attribute value should contain 'width=device-width'.`;
 
-                await context.report(resource, message, { element: viewportMetaElement });
+                context.report(resource, message, { element: viewportMetaElement });
             }
 
             const initialScaleValue = content.validProperties['initial-scale'];
@@ -158,16 +158,16 @@ export default class MetaViewportHint implements IHint {
 
                 const message = `'viewport' meta element 'content' attribute value should contain 'initial-scale=1'.`;
 
-                await context.report(resource, message, { element: viewportMetaElement });
+                context.report(resource, message, { element: viewportMetaElement });
             }
         };
 
-        const validate = async ({ resource }: TraverseEnd) => {
-            const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const viewportMetaElements: IAsyncHTMLElement[] = getViewportMetaElements(await pageDOM.querySelectorAll('meta'));
+        const validate = ({ resource }: TraverseEnd) => {
+            const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
+            const viewportMetaElements: HTMLElement[] = getViewportMetaElements(pageDOM.querySelectorAll('meta'));
 
             if (viewportMetaElements.length === 0) {
-                await context.report(resource, `'viewport' meta element was not specified.`);
+                context.report(resource, `'viewport' meta element was not specified.`);
 
                 return;
             }
@@ -179,11 +179,11 @@ export default class MetaViewportHint implements IHint {
              * intended to use, and check if it's specified in the `<body>`.
              */
 
-            const viewportMetaElement: IAsyncHTMLElement = viewportMetaElements[0];
-            const bodyMetaElements: IAsyncHTMLElement[] = getViewportMetaElements(await pageDOM.querySelectorAll('body meta'));
+            const viewportMetaElement: HTMLElement = viewportMetaElements[0];
+            const bodyMetaElements: HTMLElement[] = getViewportMetaElements(pageDOM.querySelectorAll('body meta'));
 
             if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(viewportMetaElement)) {
-                await context.report(resource, `'viewport' meta element should be specified in the '<head>', not '<body>'.`, { element: viewportMetaElement });
+                context.report(resource, `'viewport' meta element should be specified in the '<head>', not '<body>'.`, { element: viewportMetaElement });
             }
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -194,7 +194,7 @@ export default class MetaViewportHint implements IHint {
 
             const contentValue = normalizeString(viewportMetaElement.getAttribute('content'));
 
-            await checkContentValue(contentValue, resource, viewportMetaElement);
+            checkContentValue(contentValue, resource, viewportMetaElement);
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -206,7 +206,7 @@ export default class MetaViewportHint implements IHint {
                 const metaElements = viewportMetaElements.slice(1);
 
                 for (const metaElement of metaElements) {
-                    await context.report(resource, `'viewport' meta element is not needed as one was already specified.`, { element: metaElement });
+                    context.report(resource, `'viewport' meta element is not needed as one was already specified.`, { element: metaElement });
                 }
             }
 

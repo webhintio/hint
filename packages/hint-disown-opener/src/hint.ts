@@ -17,7 +17,7 @@ import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
 import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, ElementFound, IHint } from 'hint/dist/src/lib/types';
+import { HTMLElement, ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
@@ -43,7 +43,7 @@ export default class DisownOpenerHint implements IHint {
             includeSameOriginURLs = (context.hintOptions && context.hintOptions.includeSameOriginURLs) || false;
         };
 
-        const checkForRelValues = async (resource: string, element: IAsyncHTMLElement, relValuesToCheckFor: string[]) => {
+        const checkForRelValues = (resource: string, element: HTMLElement, relValuesToCheckFor: string[]) => {
             const relValues: string[] = normalizeString(element.getAttribute('rel'), '')!.split(' '); // `normalizeString` uses passed default ('') instead of null
             const hrefValue: string = normalizeString(element.getAttribute('href')) || '';
 
@@ -52,13 +52,13 @@ export default class DisownOpenerHint implements IHint {
             });
 
             if (requiredValues.length !== 0) {
-                const message = `'${cutString(await element.outerHTML(), 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`;
+                const message = `'${cutString(element.outerHTML, 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`;
 
-                await context.report(resource, message, { content: hrefValue, element });
+                context.report(resource, message, { content: hrefValue, element });
             }
         };
 
-        const checkSameOrigin = (resource: string, element: IAsyncHTMLElement): boolean => {
+        const checkSameOrigin = (resource: string, element: HTMLElement): boolean => {
             const hrefValue: string = normalizeString(element.getAttribute('href')) || '';
 
             try {
@@ -84,7 +84,7 @@ export default class DisownOpenerHint implements IHint {
             }
         };
 
-        const hasHrefValue = (element: IAsyncHTMLElement): boolean => {
+        const hasHrefValue = (element: HTMLElement): boolean => {
             if (normalizeString(element.getAttribute('href')) !== null) {
                 return true;
             }
@@ -94,13 +94,13 @@ export default class DisownOpenerHint implements IHint {
             return false;
         };
 
-        const elementHrefHasRequiredProtocol = (element: IAsyncHTMLElement): boolean => {
+        const elementHrefHasRequiredProtocol = (element: HTMLElement): boolean => {
             const hrefValue: string = element.getAttribute('href') || '';
 
             return isRegularProtocol(hrefValue);
         };
 
-        const hasTargetBlank = (element: IAsyncHTMLElement): boolean => {
+        const hasTargetBlank = (element: HTMLElement): boolean => {
             if (normalizeString(element.getAttribute('target')) === '_blank') {
                 return true;
             }
@@ -110,7 +110,7 @@ export default class DisownOpenerHint implements IHint {
             return false;
         };
 
-        const validate = async ({ element, resource }: ElementFound) => {
+        const validate = ({ element, resource }: ElementFound) => {
             if (!hasTargetBlank(element) ||
                 !hasHrefValue(element) ||
                 !elementHrefHasRequiredProtocol(element) ||
@@ -137,7 +137,7 @@ export default class DisownOpenerHint implements IHint {
                 relValuesToCheckFor.push('noreferrer');
             }
 
-            await checkForRelValues(resource, element, relValuesToCheckFor);
+            checkForRelValues(resource, element, relValuesToCheckFor);
         };
 
         loadHintConfigs();

@@ -11,7 +11,7 @@ import ExcelFormatter from '../src/formatter';
 
 type ExcelContext = {
     ExcelFormatter: typeof ExcelFormatter;
-    spy: sinon.SinonSpy;
+    spy: sinon.SinonSpy<[], void>;
 };
 
 const test = anyTest as TestInterface<ExcelContext>;

@@ -9,11 +9,11 @@
  * ------------------------------------------------------------------------------
  */
 
-import * as cheerio from 'cheerio';
-
-import { IAsyncHTMLDocument, IAsyncHTMLElement, IHint, FetchEnd, TraverseEnd } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+
+import { HTMLEvents } from '@hint/parser-html';
 
 import meta from './meta';
 
@@ -27,40 +27,20 @@ export default class MetaCharsetUTF8Hint implements IHint {
 
     public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
-        let receivedDOM: CheerioStatic | undefined;
-        /*
-         * This function exists because not all connector (e.g.: jsdom)
-         * support matching attribute values case-insensitively.
-         *
-         * https://www.w3.org/TR/selectors4/#attribute-case
-         */
+    public constructor(context: HintContext<HTMLEvents>) {
+        let validated = false;
 
-        const getCharsetMetaElements = (elements: IAsyncHTMLElement[]): IAsyncHTMLElement[] => {
-            return elements.filter((element) => {
-                return (element.getAttribute('charset') !== null) ||
-                    (element.getAttribute('http-equiv') !== null && normalizeString(element.getAttribute('http-equiv')) === 'content-type');
-            });
-        };
+        context.on('scan::end', () => {
+            validated = false;
+        });
 
-        /** Stores the DOM received on the initial load */
-        const setReceivedDom = (event: FetchEnd) => {
+        context.on('parse::end::html', ({ document, html, resource }) => {
             // The first time we receive this event is the main content, we don't care about iframes, requests by ads, etc.
-            /* istanbul ignore if */
-            if (typeof receivedDOM !== 'undefined') {
+            if (validated) {
                 return;
             }
 
-            receivedDOM = event.response.body.content ?
-                cheerio.load(event.response.body.content) :
-                cheerio.load('');
-        };
-
-        const validate = async ({ resource }: TraverseEnd) => {
-            if (!receivedDOM) {
-                // There was a problem loading the HTML or the target wasn't one so no need to analyze
-                return;
-            }
+            validated = true;
 
             /*
              * There are 2 versions of the charset meta element:
@@ -75,11 +55,10 @@ export default class MetaCharsetUTF8Hint implements IHint {
              * but for regular HTML, it should not be used.
              */
 
-            const pageDOM: IAsyncHTMLDocument = context.pageDOM as IAsyncHTMLDocument;
-            const charsetMetaElements: IAsyncHTMLElement[] = getCharsetMetaElements(await pageDOM.querySelectorAll('meta'));
+            const charsetMetaElements = document.querySelectorAll('meta[charset], meta[http-equiv="content-type" i]');
 
             if (charsetMetaElements.length === 0) {
-                await context.report(resource, `'charset' meta element was not specified.`);
+                context.report(resource, `'charset' meta element was not specified.`);
 
                 return;
             }
@@ -89,14 +68,14 @@ export default class MetaCharsetUTF8Hint implements IHint {
              * the user intended to use, and check if it's:
              */
 
-            const charsetMetaElement: IAsyncHTMLElement = charsetMetaElements[0];
+            const charsetMetaElement = charsetMetaElements[0];
 
             // * `<meta charset="utf-8">`
 
             if (charsetMetaElement.getAttribute('http-equiv') !== null) {
-                await context.report(resource, `'charset' meta element should be specified using shorter '<meta charset="utf-8">' form.`, { element: charsetMetaElement });
+                context.report(resource, `'charset' meta element should be specified using shorter '<meta charset="utf-8">' form.`, { element: charsetMetaElement });
             } else if (normalizeString(charsetMetaElement.getAttribute('charset')) !== 'utf-8') {
-                await context.report(resource, `'charset' meta element value should be 'utf-8', not '${charsetMetaElement.getAttribute('charset')}'.`, { element: charsetMetaElement });
+                context.report(resource, `'charset' meta element value should be 'utf-8', not '${charsetMetaElement.getAttribute('charset')}'.`, { element: charsetMetaElement });
             }
 
             /*
@@ -106,28 +85,23 @@ export default class MetaCharsetUTF8Hint implements IHint {
              *       within the first 1024 bytes of the document, but
              *       that check will be done by the html/markup validator.
              */
-            const charsetMetaElementsHTML = await charsetMetaElement.outerHTML();
-            const firstHeadElement = receivedDOM('head :first-child')[0];
-            const receivedMetas = receivedDOM('meta');
-            const firstMeta = receivedMetas.length > 0 ? receivedMetas[0] : '';
-            const firstMetaHTML = firstMeta ? receivedDOM.html(firstMeta) : '';
-            const headElementContent: string = receivedDOM.html(receivedDOM('head'));
 
-            if (!firstHeadElement ||
-                firstHeadElement !== receivedMetas[0] ||
-                !firstMetaHTML ||
-                charsetMetaElementsHTML !== firstMetaHTML ||
-                !(/^<head[^>]*>\s*<meta/).test(headElementContent)) {
+            const firstHeadElement = document.querySelectorAll('head :first-child')[0];
+            const isCharsetMetaFirstHeadElement = charsetMetaElement && firstHeadElement && charsetMetaElement.isSame(firstHeadElement);
 
-                await context.report(resource, `'charset' meta element should be the first thing in '<head>'.`, { element: charsetMetaElement });
+            const headElementContent = document.querySelectorAll('head')[0].outerHTML;
+            const isMetaElementFirstHeadContent = (/^<head[^>]*>\s*<meta/).test(headElementContent);
+
+            if (!isCharsetMetaFirstHeadElement || !isMetaElementFirstHeadContent) {
+                context.report(resource, `'charset' meta element should be the first thing in '<head>'.`, { element: charsetMetaElement });
             }
 
             // * specified in the `<body>`.
 
-            const bodyMetaElements: IAsyncHTMLElement[] = getCharsetMetaElements(await pageDOM.querySelectorAll('body meta'));
+            const bodyMetaElements = document.querySelectorAll('body meta[charset], body meta[http-equiv="content-type" i]');
 
-            if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(charsetMetaElement)) {
-                await context.report(resource, `'charset' meta element should be specified in the '<head>', not '<body>'.`, { element: charsetMetaElement });
+            if (bodyMetaElements[0] && bodyMetaElements[0].isSame(charsetMetaElement)) {
+                context.report(resource, `'charset' meta element should be specified in the '<head>', not '<body>'.`, { element: charsetMetaElement });
 
                 return;
             }
@@ -138,7 +112,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
                 const metaElements = charsetMetaElements.slice(1);
 
                 for (const metaElement of metaElements) {
-                    await context.report(resource, `'charset' meta element is not needed as one was already specified.`, { element: metaElement });
+                    context.report(resource, `'charset' meta element is not needed as one was already specified.`, { element: metaElement });
                 }
             }
 
@@ -148,12 +122,9 @@ export default class MetaCharsetUTF8Hint implements IHint {
              * const xmlDeclaration = context.pageContent.match(/^\s*(<\?xml\s[^>]*encoding=.*\?>)/i);
              *
              * if (xmlDeclaration) {
-             *     await context.report(resource, `Unneeded XML declaration: '${xmlDeclaration[1]}'.`);
+             *     context.report(resource, `Unneeded XML declaration: '${xmlDeclaration[1]}'.`);
              * }
              */
-        };
-
-        context.on('fetch::end::html', setReceivedDom);
-        context.on('traverse::end', validate);
+        });
     }
 }

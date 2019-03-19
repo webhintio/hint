@@ -4,7 +4,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 /** Helper method to check if a property matches the desired value and report an issue if not. */
 const configChecker = (property: string, desiredValue: boolean, message: string, context: HintContext) => {
 
-    return async (evt: TypeScriptConfigParse): Promise<void> => {
+    return (evt: TypeScriptConfigParse) => {
         const { config, getLocation, resource } = evt;
         const properties = property.split('.');
 
@@ -15,7 +15,7 @@ const configChecker = (property: string, desiredValue: boolean, message: string,
         }
 
         if (current !== desiredValue) {
-            await context.report(resource, message, { location: getLocation(property) });
+            context.report(resource, message, { location: getLocation(property) });
         }
     };
 };

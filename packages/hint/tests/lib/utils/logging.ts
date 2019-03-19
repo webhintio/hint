@@ -4,9 +4,9 @@ import * as sinon from 'sinon';
 import * as logging from '../../../src/lib/utils/logging';
 
 type LoggingContext = {
-    consoleLogSpy: sinon.SinonSpy;
-    consoleErrorSpy: sinon.SinonSpy;
-    consoleWarnSpy: sinon.SinonSpy;
+    consoleLogSpy: sinon.SinonSpy<[any?, ...any[]], void>;
+    consoleErrorSpy: sinon.SinonSpy<[any?, ...any[]], void>;
+    consoleWarnSpy: sinon.SinonSpy<[any?, ...any[]], void>;
 };
 
 const test = anyTest as TestInterface<LoggingContext>;

@@ -71,7 +71,7 @@ export default class ManifestIsValidHint implements IHint {
                 color.model === 'hwb';
         };
 
-        const checkColors = async (resource: string, manifest: Manifest, getLocation: IJSONLocationFunction) => {
+        const checkColors = (resource: string, manifest: Manifest, getLocation: IJSONLocationFunction) => {
             const colorProperties = [
                 'background_color',
                 'theme_color'
@@ -91,7 +91,7 @@ export default class ManifestIsValidHint implements IHint {
                     const location = getLocation(property);
                     const message = `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`;
 
-                    await context.report(resource, message, { location });
+                    context.report(resource, message, { location });
 
                     continue;
                 }
@@ -100,38 +100,38 @@ export default class ManifestIsValidHint implements IHint {
                     const location = getLocation(property);
                     const message = `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`;
 
-                    await context.report(resource, message, { location });
+                    context.report(resource, message, { location });
                 }
             }
         };
 
-        const checkLang = async (resource: string, manifest: Manifest, getLocation: IJSONLocationFunction) => {
+        const checkLang = (resource: string, manifest: Manifest, getLocation: IJSONLocationFunction) => {
             const lang = manifest.lang;
 
             if (lang && !bcp47(lang)) {
                 const location = getLocation('lang');
                 const message = `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`;
 
-                await context.report(resource, message, { location });
+                context.report(resource, message, { location });
             }
         };
 
-        const handleInvalidJSON = async (manifestInvalidJSON: ManifestInvalidJSON) => {
+        const handleInvalidJSON = (manifestInvalidJSON: ManifestInvalidJSON) => {
             const { resource } = manifestInvalidJSON;
 
-            await context.report(resource, `Web app manifest should contain valid JSON.`);
+            context.report(resource, `Web app manifest should contain valid JSON.`);
         };
 
-        const handleInvalidSchema = async (manifestInvalidSchemaEvent: ManifestInvalidSchema) => {
+        const handleInvalidSchema = (manifestInvalidSchemaEvent: ManifestInvalidSchema) => {
             for (let i = 0; i < manifestInvalidSchemaEvent.groupedErrors.length; i++) {
                 const error = manifestInvalidSchemaEvent.groupedErrors[i].message;
                 const location = manifestInvalidSchemaEvent.groupedErrors[i].location;
 
-                await context.report(manifestInvalidSchemaEvent.resource, error, { location });
+                context.report(manifestInvalidSchemaEvent.resource, error, { location });
             }
         };
 
-        const validateOtherProperties = async (manifestParsed: ManifestParsed) => {
+        const validateOtherProperties = (manifestParsed: ManifestParsed) => {
             const {
                 getLocation,
                 parsedContent: manifest,
@@ -139,8 +139,8 @@ export default class ManifestIsValidHint implements IHint {
             } = manifestParsed;
 
             // Additional checks not covered by the schema.
-            await checkLang(resource, manifest, getLocation);
-            await checkColors(resource, manifest, getLocation);
+            checkLang(resource, manifest, getLocation);
+            checkColors(resource, manifest, getLocation);
         };
 
         context.on('parse::end::manifest', validateOtherProperties);

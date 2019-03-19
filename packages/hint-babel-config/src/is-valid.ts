@@ -20,23 +20,23 @@ export default class BabelConfigIsValidHint implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<BabelConfigEvents>) {
-        const invalidJSONFile = async (babelConfigInvalid: BabelConfigInvalidJSON, event: string) => {
+        const invalidJSONFile = (babelConfigInvalid: BabelConfigInvalidJSON, event: string) => {
             const { error, resource } = babelConfigInvalid;
 
             debug(`${event} received`);
 
-            await context.report(resource, error.message);
+            context.report(resource, error.message);
         };
 
-        const invalidExtends = async (babelConfigInvalid: BabelConfigExtendsError, event: string) => {
+        const invalidExtends = (babelConfigInvalid: BabelConfigExtendsError, event: string) => {
             const { error, resource, getLocation } = babelConfigInvalid;
 
             debug(`${event} received`);
 
-            await context.report(resource, error.message, { location: getLocation('extends') });
+            context.report(resource, error.message, { location: getLocation('extends') });
         };
 
-        const invalidSchema = async (fetchEnd: BabelConfigInvalidSchema) => {
+        const invalidSchema = (fetchEnd: BabelConfigInvalidSchema) => {
             const { groupedErrors, resource } = fetchEnd;
 
             debug(`parse::error::babel-config::schema received`);
@@ -44,7 +44,7 @@ export default class BabelConfigIsValidHint implements IHint {
             for (let i = 0; i < groupedErrors.length; i++) {
                 const groupedError = groupedErrors[i];
 
-                await context.report(resource, groupedError.message, { location: groupedError.location });
+                context.report(resource, groupedError.message, { location: groupedError.location });
             }
         };
 

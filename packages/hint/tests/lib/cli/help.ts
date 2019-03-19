@@ -11,8 +11,8 @@ type Logger = {
 
 type HelpContext = {
     logger: Logger;
-    loggerLogSpy: sinon.SinonSpy;
-    loggerErrorSpy: sinon.SinonSpy;
+    loggerLogSpy: sinon.SinonSpy<[string], void>;
+    loggerErrorSpy: sinon.SinonSpy<[string], void>;
     sandbox: sinon.SinonSandbox;
 };
 

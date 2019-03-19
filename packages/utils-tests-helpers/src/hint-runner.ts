@@ -8,12 +8,15 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import { Server } from '@hint/utils-create-server';
 
 import { ids as connectors } from './connectors';
-import { IHintConstructor, HintsConfigObject, Problem } from 'hint/dist/src/lib/types';
+import { IHintConstructor, HintsConfigObject, Problem, ProblemLocation } from 'hint/dist/src/lib/types';
+import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
+import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
+import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
+import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
 import * as resourceLoader from 'hint/dist/src/lib/utils/resource-loader';
 import { HintTest, HintLocalTest, Report } from './hint-test-type';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { Configuration } from 'hint/dist/src/lib/config';
-import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
 
 type HintRunnerContext = {
     server: Server;
@@ -23,6 +26,65 @@ const test = anyTest as TestInterface<HintRunnerContext>;
 
 // Regex to replace all scenarios: `http(s)://localhost/`, `http(s)://localhost:3000/`
 const localhostRegex = /(http|https):\/\/localhost[:]*[0-9]*\//g;
+
+/**
+ * Determines which parsers to use based on provided options,
+ * but always including 'html' (so individual tests don't have to).
+ */
+const determineParsers = (parsers?: string[]) => {
+    if (!parsers) {
+        return ['html'];
+    }
+
+    return Array.from(new Set(['html', ...parsers]));
+};
+
+/**
+ * Generates a ProblemLocation based on the index of the first occurance
+ * of the provided substring.
+ */
+const findPosition = (source: string, match: string): ProblemLocation => {
+    const lines = source.split('\n');
+    const index = source.indexOf(match);
+
+    let line = 0;
+    let column = index;
+
+    while (line < lines.length && column >= lines[line].length) {
+        column -= (lines[line].length + 1);
+        line++;
+    }
+
+    return {
+        column,
+        line
+    };
+};
+
+/**
+ * Get the source code for the provided resource.
+ * Returns the empty string if resource was invalid.
+ */
+const requestSource = async (url: string, connector: string): Promise<string> => {
+    try {
+        if (connector === 'local') {
+            return await readFileAsync(asPathString(getAsUri(url)!));
+        } else {
+            /*
+            * Allow us to use our self-signed cert for testing.
+            * https://github.com/request/request/issues/418#issuecomment-23058601
+            */
+            return await requestAsync({
+                rejectUnauthorized: false,
+                strictSSL: false,
+                url
+            });
+        }
+    } catch (e) {
+        // Some tests deliberately use invalid URLs (e.g. `test:`).
+        return '';
+    }
+};
 
 /**
  * Creates a valid hint configuration.
@@ -43,7 +105,8 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
             options: {}
         },
         hints,
-        parsers: opts && opts.parsers || []
+        ignoredUrls: opts.ignoredUrls,
+        parsers: determineParsers(opts && opts.parsers)
     };
 
     if (connector === 'jsdom') {
@@ -66,7 +129,7 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
 };
 
 /** Validates that the results from the execution match the expected ones. */
-const validateResults = (t: ExecutionContext<HintRunnerContext>, results: Problem[], reports: Report[] | undefined) => {
+const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<string, string>, results: Problem[], reports?: Report[]) => {
     const server = t.context.server || {};
 
     if (!reports) {
@@ -96,19 +159,23 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, results: Proble
     const reportsCopy = reports.slice(0);
 
     results.forEach((result) => {
-        const { message } = result;
+        const { location, message, resource } = result;
         let index = 0;
 
         const found = reportsCopy.some((report, i) => {
             index = i;
 
-            if (report.message !== result.message) {
+            if (report.message !== message) {
                 return false;
             }
 
-            if (report.position && result.location) {
-                return report.position.column === result.location.column &&
-                    report.position.line === result.location.line;
+            if (report.position && location) {
+                const position = 'match' in report.position ?
+                    findPosition(sources.get(resource) || '', report.position.match) :
+                    report.position;
+
+                return position.column === location.column &&
+                    position.line === location.line;
             }
 
             return true;
@@ -118,7 +185,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, results: Proble
             reportsCopy.splice(index, 1);
         }
 
-        t.true(found, `No reports match "${message}" or its location.`);
+        t.true(found, `No reports match "${message}" or its location (${JSON.stringify(location)}).`);
     });
 };
 
@@ -162,10 +229,18 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
             const engine = await createConnector(t, hintTest, connector);
             const results = await engine.executeOn(new URL(target));
 
+            const sources = new Map<string, string>();
+
+            for (const result of results) {
+                if (!sources.has(result.resource)) {
+                    sources.set(result.resource, await requestSource(result.resource, connector));
+                }
+            }
+
             await stopConnector(hintTest, engine);
             await server.stop();
 
-            return validateResults(t, results, Server.updateLocalhost(reports, server.port));
+            return validateResults(t, sources, results, Server.updateLocalhost(reports, server.port));
         } catch (e) {
             console.error(e);
 
@@ -205,8 +280,9 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
 
 export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], configs: { [key: string]: any } = {}) => {
     const Hint: IHintConstructor = resourceLoader.loadHint(hintId, []);
+    const connector = 'local';
 
-    if (Hint.meta.ignoredConnectors && Hint.meta.ignoredConnectors.includes('local')) {
+    if (Hint.meta.ignoredConnectors && Hint.meta.ignoredConnectors.includes(connector)) {
         return;
     }
 
@@ -219,7 +295,7 @@ export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], config
      * If the tests for a hint ignores the connector, then we
      * skip the tests
      */
-    if (configs.ignoredConnectors && configs.ignoredConnectors.includes('local')) {
+    if (configs.ignoredConnectors && configs.ignoredConnectors.includes(connector)) {
         runner = test.skip;
     }
 
@@ -231,12 +307,13 @@ export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], config
                 await hintTest.before(t);
             }
 
-            const hintConfig = createConfig(hintId, 'local', configs);
+            const hintConfig = createConfig(hintId, connector, configs);
             const resources = resourceLoader.loadResources(hintConfig);
             const engine = new Engine(hintConfig, resources);
 
             // Can assume `getAsUri(hintTest.path)` is not `null` since these are controlled test inputs.
-            const results = await engine.executeOn(getAsUri(hintTest.path)!);
+            const target = getAsUri(hintTest.path)!;
+            const results = await engine.executeOn(target);
 
             await engine.close();
 
@@ -244,7 +321,15 @@ export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], config
                 await hintTest.after(t);
             }
 
-            return validateResults(t, results, hintTest.reports);
+            const sources = new Map<string, string>();
+
+            for (const result of results) {
+                if (!sources.has(result.resource)) {
+                    sources.set(result.resource, await requestSource(result.resource, connector));
+                }
+            }
+
+            return validateResults(t, sources, results, hintTest.reports);
         } catch (e) {
             console.error(e);
 
@@ -253,6 +338,6 @@ export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], config
     };
 
     hintTests.forEach((hintTest) => {
-        runner(`[local] ${hintTest.name}`, runHint, hintTest, 'local');
+        runner(`[local] ${hintTest.name}`, runHint, hintTest, connector);
     });
 };

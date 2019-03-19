@@ -41,13 +41,13 @@ export default class MinifiedJsHint implements IHint {
             return Math.round((1 - tokenRatio) * 100);
         };
 
-        const validateContentMinified = async (scriptData: ScriptParse) => {
+        const validateContentMinified = (scriptData: ScriptParse) => {
             const improvementIndex = getImprovementIndex(scriptData);
 
             debug(`Calculated improvementIndex for ${scriptData.resource}: ${improvementIndex}`);
 
             if (improvementIndex > threshold) {
-                await context.report(scriptData.resource, 'JavaScript content should be minified.');
+                context.report(scriptData.resource, 'JavaScript content should be minified.');
             }
         };
 

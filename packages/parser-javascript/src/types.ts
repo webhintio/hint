@@ -1,6 +1,6 @@
 import { AST, SourceCode } from 'eslint';
 
-import { IAsyncHTMLElement } from 'hint/dist/src/lib/types';
+import { HTMLElement } from 'hint/dist/src/lib/types';
 import { Event, Events } from 'hint/dist/src/lib/types/events';
 
 /** The object emitted by the `javascript` parser */
@@ -8,7 +8,7 @@ export type ScriptParse = Event & {
     /** The ast generated from the script */
     ast: AST.Program;
     /** The originating <script> element if the script was inline */
-    element: IAsyncHTMLElement | null;
+    element: HTMLElement | null;
     /** The source code parsed */
     sourceCode: SourceCode;
 };

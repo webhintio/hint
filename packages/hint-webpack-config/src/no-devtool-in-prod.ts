@@ -22,13 +22,13 @@ export default class WebpackConfigNoDevtoolInProd implements IHint {
 
     public constructor(context: HintContext<WebpackConfigEvents>) {
 
-        const configReceived = async (webpackConfigEvent: WebpackConfigParse) => {
+        const configReceived = (webpackConfigEvent: WebpackConfigParse) => {
             const { config, resource } = webpackConfigEvent;
 
             debug(`parse::end::webpack-config received`);
 
             if (config.devtool && config.devtool.toString().includes('eval')) {
-                await context.report(resource, `\`${config.devtool.toString()}\` not recommended for prodution`);
+                context.report(resource, `\`${config.devtool.toString()}\` not recommended for prodution`);
             }
         };
 

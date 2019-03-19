@@ -12,7 +12,7 @@
 import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'axe-core';
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IAsyncHTMLElement, IHint, Severity, CanEvaluateScript } from 'hint/dist/src/lib/types';
+import { HTMLElement, IHint, Severity, CanEvaluateScript } from 'hint/dist/src/lib/types';
 import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
@@ -56,9 +56,9 @@ export default class AxeHint implements IHint {
             return script;
         };
 
-        const getElement = async (node: AxeNodeResult): Promise<IAsyncHTMLElement> => {
+        const getElement = (node: AxeNodeResult): HTMLElement => {
             const selector: string = node.target[0];
-            const elements: IAsyncHTMLElement[] = await context.querySelectorAll(selector);
+            const elements: HTMLElement[] = context.querySelectorAll(selector);
 
             return elements[0];
         };
@@ -87,7 +87,7 @@ export default class AxeHint implements IHint {
 
                 message = `${message}. Please try again later, or report an issue if this problem persists.`;
 
-                await context.report(resource, message, { severity: Severity.warning });
+                context.report(resource, message, { severity: Severity.warning });
                 debug('Error executing script %O', e);
 
                 return;
@@ -106,21 +106,14 @@ export default class AxeHint implements IHint {
                 return;
             }
 
-            const reportPromises: Promise<void>[] = result.violations.reduce((promises: Promise<void>[], violation: AxeResult) => {
-
-                const elementPromises = violation.nodes.map(async (node: AxeNodeResult) => {
-                    const element = await getElement(node);
+            result.violations.forEach((violation: AxeResult) => {
+                violation.nodes.forEach((node: AxeNodeResult) => {
+                    const element = getElement(node);
 
                     // TODO: find the right element here using node.target[0] ?
-                    await context.report(resource, violation.help, { element });
-
-                    return;
+                    context.report(resource, violation.help, { element });
                 });
-
-                return promises.concat(elementPromises);
             }, []);
-
-            await Promise.all(reportPromises);
         };
 
         loadHintConfig();

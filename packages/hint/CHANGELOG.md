@@ -1,3 +1,10 @@
+# 4.5.0 (March 7, 2019)
+
+## New features
+
+* [[`8bed0b0ddb`](https://github.com/webhintio/hint/commit/8bed0b0ddbdd0ab72e321f2a8f9f55a0231bb982)] - New: Expose `ignoredUrls` in `HintContext` (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 4.4.1 (February 21, 2019)
 
 ## Bug fixes / Improvements

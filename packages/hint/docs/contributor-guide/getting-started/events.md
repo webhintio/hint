@@ -10,6 +10,8 @@ import { Event, Events } from 'hint/dist/src/lib/types/events';
 ...
 export type StyleParse = Event & {
     ast: Root;
+    code: string;
+    element: HTMLElement | null;
 };
 
 export type StyleEvents = Events & {
@@ -58,7 +60,7 @@ type ElementFound = {
     /** The URI of the resource firing this event. */
     resource: string;
     /** The visited element. */
-    element: IAsyncHTMLElement;
+    element: HTMLElement;
 }
 ```
 
@@ -72,7 +74,7 @@ Event is emitted **when** the content of a `resource` (`js`, `css`,
 ```ts
 type FetchEnd {
     /** The element that initiated the request. */
-    element: IAsyncHTMLElement;
+    element: HTMLElement;
     /** The URL of the target */
     resource: string;
     /** The request made to fetch the target. */
@@ -94,7 +96,7 @@ type FetchError {
     /** The URL of the target. */
     resource: string;
     /** The element that initiated the request. */
-    element: IAsyncHTMLElement;
+    element: HTMLElement;
     /** The error found. */
     error: any;
     /** The redirects performed for the url. */
@@ -161,7 +163,7 @@ is to be traversed.
 ```ts
 type TraverseDown {
     /** The parent element to be traversed. */
-    element: IAsyncHTMLElement;
+    element: HTMLElement;
     /** The URL of the target. */
     resource: string;
 }
@@ -206,7 +208,7 @@ node that was traversed.
 ```ts
 type TraverseUp {
     /** The parent element that was traversed. */
-    element: IAsyncHTMLElement;
+    element: HTMLElement;
     /** The URL of the target. */
     resource: string;
 }

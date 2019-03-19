@@ -243,12 +243,12 @@ export default class HttpCacheHint implements IHint {
          * an error because it's up to the browser vendor to decide what
          * to do.
          */
-        const hasCacheControl = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
+        const hasCacheControl = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { resource, response: { headers } } = fetchEnd;
             const cacheControl: string | null = headers && headers['cache-control'] || null;
 
             if (!cacheControl) {
-                await context.report(resource, `No "cache-control" header or empty value found. It should have a value`, { element: fetchEnd.element });
+                context.report(resource, `No "cache-control" header or empty value found. It should have a value`, { element: fetchEnd.element });
 
                 return false;
             }
@@ -259,14 +259,14 @@ export default class HttpCacheHint implements IHint {
         /*
          * Validates if all the cache-control directives and values are correct.
          */
-        const hasInvalidDirectives = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
+        const hasInvalidDirectives = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { invalidDirectives, invalidValues } = directives;
             const { resource } = fetchEnd;
 
             if (invalidDirectives.size > 0) {
                 const message: string = `The ${invalidDirectives.size === 1 ? 'directive' : 'directives'} ${Array.from(invalidDirectives.keys()).join(', ')} ${invalidDirectives.size === 1 ? 'is' : 'are'} invalid`;
 
-                await context.report(resource, message, { element: fetchEnd.element });
+                context.report(resource, message, { element: fetchEnd.element });
 
                 return false;
             }
@@ -274,7 +274,7 @@ export default class HttpCacheHint implements IHint {
             if (invalidValues.size > 0) {
                 const message: string = `The following ${invalidValues.size === 1 ? 'directive has' : 'directives have'} an invalid value:\n${directivesToString(invalidValues)}`;
 
-                await context.report(resource, message, { element: fetchEnd.element });
+                context.report(resource, message, { element: fetchEnd.element });
 
                 return false;
             }
@@ -285,7 +285,7 @@ export default class HttpCacheHint implements IHint {
         /*
          * Validates if there is any non recommended directives.
          */
-        const hasNoneNonRecommendedDirectives = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
+        const hasNoneNonRecommendedDirectives = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { usedDirectives } = directives;
             const { resource } = fetchEnd;
             const nonRecommendedDirective = nonRecommendedDirectives(usedDirectives);
@@ -293,7 +293,7 @@ export default class HttpCacheHint implements IHint {
             if (nonRecommendedDirective) {
                 const message: string = `The directive "${nonRecommendedDirective}" is not recommended`;
 
-                await context.report(resource, message, { element: fetchEnd.element });
+                context.report(resource, message, { element: fetchEnd.element });
 
                 return false;
             }
@@ -305,7 +305,7 @@ export default class HttpCacheHint implements IHint {
          * Validates that `no-cache` and `no-store` are not used in combination
          *  with `max-age` or `s-maxage`.
          */
-        const validateDirectiveCombinations = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
+        const validateDirectiveCombinations = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { header, usedDirectives } = directives;
 
             if (usedDirectives.has('no-cache') || usedDirectives.has('no-store')) {
@@ -314,7 +314,7 @@ export default class HttpCacheHint implements IHint {
                 if (hasMaxAge) {
                     const message: string = `The following Cache-Control header is using a wrong combination of directives:\n${header}`;
 
-                    await context.report(fetchEnd.resource, message, { element: fetchEnd.element });
+                    context.report(fetchEnd.resource, message, { element: fetchEnd.element });
 
                     return false;
                 }
@@ -326,7 +326,7 @@ export default class HttpCacheHint implements IHint {
         /**
          * Validates the target uses no-cache or a small max-age value
          */
-        const hasSmallCache = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
+        const hasSmallCache = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { header, usedDirectives } = directives;
 
             if (usedDirectives.has('no-cache')) {
@@ -338,7 +338,7 @@ export default class HttpCacheHint implements IHint {
             if (!isValidCache) {
                 const message: string = `The target should not be cached, or have a small "max-age" value (${maxAgeTarget}):\n${header}`;
 
-                await context.report(fetchEnd.resource, message, { element: fetchEnd.element });
+                context.report(fetchEnd.resource, message, { element: fetchEnd.element });
 
                 return false;
             }
@@ -349,7 +349,7 @@ export default class HttpCacheHint implements IHint {
         /**
          * Validates that a resource (JS, CSS, images, etc.) has the right caching directives.
          */
-        const hasLongCache = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
+        const hasLongCache = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { header, usedDirectives } = directives;
             const { resource, element } = fetchEnd;
 
@@ -361,7 +361,7 @@ export default class HttpCacheHint implements IHint {
             if (usedDirectives.has('no-cache') || !longCache) {
                 const message: string = `Static resources should have a long cache value (${maxAgeResource}):\nDirectives used: ${header}`;
 
-                await context.report(resource, message, { element });
+                context.report(resource, message, { element });
 
                 validates = false;
             }
@@ -369,7 +369,7 @@ export default class HttpCacheHint implements IHint {
             if (!immutable) {
                 const message: string = `Static resources should use the "immutable" directive:\nDirectives used: ${header}`;
 
-                await context.report(resource, message, { element });
+                context.report(resource, message, { element });
 
                 validates = false;
             }
@@ -380,7 +380,7 @@ export default class HttpCacheHint implements IHint {
         /**
          * Validates that a resource (JS, CSS, images, etc.) is using the right file revving format.
          */
-        const usesFileRevving = async (directives: ParsedDirectives, fetchEnd: FetchEnd): Promise<boolean> => {
+        const usesFileRevving = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { element, resource } = fetchEnd;
             const matches = cacheRevvingPatterns.find((pattern) => {
                 return !!resource.match(pattern);
@@ -389,7 +389,7 @@ export default class HttpCacheHint implements IHint {
             if (!matches) {
                 const message: string = `No configured patterns for cache busting match ${resource}. See docs to add a custom one.`;
 
-                await context.report(resource, message, { element });
+                context.report(resource, message, { element });
 
                 return false;
             }
@@ -397,7 +397,7 @@ export default class HttpCacheHint implements IHint {
             return true;
         };
 
-        const validate = async (fetchEnd: FetchEnd, eventName: string) => {
+        const validate = (fetchEnd: FetchEnd, eventName: string) => {
             const type: TargetType = eventName === 'fetch::end::html' ? 'html' : 'fetch';
             const { resource } = fetchEnd;
 
@@ -440,14 +440,9 @@ export default class HttpCacheHint implements IHint {
                 validators.push(usesFileRevving);
             }
 
-            // TODO: It will be so nice to have an async `every` here instead of this...
-            for (const validator of validators) {
-                const result = await validator(parsedDirectives, fetchEnd);
-
-                if (!result) {
-                    return;
-                }
-            }
+            validators.every((validator) => {
+                return validator(parsedDirectives, fetchEnd);
+            });
 
             return;
         };

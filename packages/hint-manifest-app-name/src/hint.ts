@@ -29,27 +29,27 @@ export default class ManifestAppNameHint implements IHint {
 
     public constructor(context: HintContext<ManifestEvents>) {
 
-        const checkIfPropertyExists = async (resource: string, content: string | undefined, propertyName: string) => {
+        const checkIfPropertyExists = (resource: string, content: string | undefined, propertyName: string) => {
             if (typeof content === 'undefined') {
-                await context.report(resource, `Web app manifest should have '${propertyName}' property.`);
+                context.report(resource, `Web app manifest should have '${propertyName}' property.`);
             }
         };
 
-        const checkIfPropertyValueIsNotEmpty = async (resource: string, content: string | undefined, propertyName: string, getLocation: IJSONLocationFunction) => {
+        const checkIfPropertyValueIsNotEmpty = (resource: string, content: string | undefined, propertyName: string, getLocation: IJSONLocationFunction) => {
             if (typeof content === 'string' && (content.trim() === '')) {
                 const message = `Web app manifest should have non-empty '${propertyName}' property value.`;
                 const location = getLocation(propertyName);
 
-                await context.report(resource, message, { location });
+                context.report(resource, message, { location });
             }
         };
 
-        const checkIfPropertyValueIsUnderLimit = async (resource: string, content: string | undefined, propertyName: string, shortNameLengthLimit: number, getLocation: IJSONLocationFunction) => {
+        const checkIfPropertyValueIsUnderLimit = (resource: string, content: string | undefined, propertyName: string, shortNameLengthLimit: number, getLocation: IJSONLocationFunction) => {
             if (content && (ucs2.decode(content).length > shortNameLengthLimit)) {
                 const message = `Web app manifest should have '${propertyName}' property value under ${shortNameLengthLimit} characters.`;
                 const location = getLocation(propertyName);
 
-                await context.report(resource, message, { location });
+                context.report(resource, message, { location });
 
                 return false;
             }
@@ -57,7 +57,7 @@ export default class ManifestAppNameHint implements IHint {
             return true;
         };
 
-        const validate = async ({ getLocation, parsedContent: manifest, resource }: ManifestParsed) => {
+        const validate = ({ getLocation, parsedContent: manifest, resource }: ManifestParsed) => {
             const name = manifest.name;
 
             /*
@@ -92,9 +92,9 @@ export default class ManifestAppNameHint implements IHint {
 
             const shortNameLengthLimit: number = 12;
 
-            await checkIfPropertyExists(resource, name, 'name');
-            await checkIfPropertyValueIsNotEmpty(resource, name, 'name', getLocation);
-            await checkIfPropertyValueIsUnderLimit(resource, name, 'name', nameLengthLimit, getLocation);
+            checkIfPropertyExists(resource, name, 'name');
+            checkIfPropertyValueIsNotEmpty(resource, name, 'name', getLocation);
+            checkIfPropertyValueIsUnderLimit(resource, name, 'name', nameLengthLimit, getLocation);
 
             const shortName: string | undefined = manifest.short_name;
             const shortNameIsRequired: boolean | undefined = typeof name === 'string' && (name.trim() !== '') && (ucs2.decode(name).length > shortNameLengthLimit);
@@ -110,9 +110,9 @@ export default class ManifestAppNameHint implements IHint {
                 return;
             }
 
-            await checkIfPropertyExists(resource, shortName, 'short_name');
-            await checkIfPropertyValueIsNotEmpty(resource, shortName, 'short_name', getLocation);
-            await checkIfPropertyValueIsUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit, getLocation);
+            checkIfPropertyExists(resource, shortName, 'short_name');
+            checkIfPropertyValueIsNotEmpty(resource, shortName, 'short_name', getLocation);
+            checkIfPropertyValueIsUnderLimit(resource, shortName, 'short_name', shortNameLengthLimit, getLocation);
         };
 
         context.on('parse::end::manifest', validate);

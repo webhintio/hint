@@ -30,13 +30,13 @@ export default class HttpsOnlyHint implements IHint {
         let target: string;
         const reportedUrls: Set<string> = new Set();
 
-        const validateTarget = async (fetchEvent: FetchEnd): Promise<void> => {
+        const validateTarget = (fetchEvent: FetchEnd) => {
             const { resource } = fetchEvent;
 
             if (!isHTTPS(resource)) {
                 debug('HTTPS no detected');
 
-                await context.report(resource, 'Site should be served over HTTPS.');
+                context.report(resource, 'Site should be served over HTTPS.');
 
                 return;
             }
@@ -44,32 +44,28 @@ export default class HttpsOnlyHint implements IHint {
             debug('HTTPS detected');
 
             this.targetIsServedOverHTTPS = true;
-
-            return;
         };
 
-        const reportInsecureHops = (response: Response): Promise<void>[] => {
+        const reportInsecureHops = (response: Response) => {
             const { hops } = response;
 
-            return hops.map((hop) => {
+            return hops.forEach((hop) => {
                 const fails: boolean = !reportedUrls.has(hop) && !isHTTPS(hop);
 
                 if (fails) {
                     reportedUrls.add(hop);
 
-                    return context.report(hop, `Should not be redirected from HTTPS.`);
+                    context.report(hop, `Should not be redirected from HTTPS.`);
                 }
-
-                return Promise.resolve();
             });
         };
 
-        const validateFetchEnd = async (fetchEnd: FetchEnd) => {
+        const validateFetchEnd = (fetchEnd: FetchEnd) => {
             // We are assuming the first `fetch::end` event recieved is the target url.
             if (!target) {
                 target = fetchEnd.resource;
 
-                await validateTarget(fetchEnd);
+                validateTarget(fetchEnd);
 
                 return;
             }
@@ -80,12 +76,12 @@ export default class HttpsOnlyHint implements IHint {
 
             const { resource, response } = fetchEnd;
 
-            await Promise.all(reportInsecureHops(response));
+            reportInsecureHops(response);
 
             if (!reportedUrls.has(resource) && !isHTTPS(resource) && !isDataURI(resource)) {
                 reportedUrls.add(resource);
 
-                await context.report(resource, 'Should be served over HTTPS.');
+                context.report(resource, 'Should be served over HTTPS.');
             }
         };
 
@@ -119,7 +115,7 @@ export default class HttpsOnlyHint implements IHint {
          * video but `hint` will still flag that the `ogv` video is served over HTTP
          * (as well as the `poster`).
          */
-        const validateElementSrcs = async (traverseElement: ElementFound): Promise<void> => {
+        const validateElementSrcs = (traverseElement: ElementFound) => {
             const { element, resource } = traverseElement;
             /*
              * Possible URL sources:
@@ -161,19 +157,15 @@ export default class HttpsOnlyHint implements IHint {
                 urls.push(...srcset);
             }
 
-            const reports: Promise<void>[] = urls.map((url) => {
+            urls.forEach((url) => {
                 const fullUrl = URL.resolve(resource, url);
 
                 if (!isHTTPS(fullUrl) && !isDataURI(fullUrl) && !reportedUrls.has(fullUrl)) {
                     reportedUrls.add(fullUrl);
 
-                    return context.report(fullUrl, 'Should be served over HTTPS.');
+                    context.report(fullUrl, 'Should be served over HTTPS.');
                 }
-
-                return Promise.resolve();
             });
-
-            await Promise.all(reports);
         };
 
         context.on('fetch::end::*', validateFetchEnd);

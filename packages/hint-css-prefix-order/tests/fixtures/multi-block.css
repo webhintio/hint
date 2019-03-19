@@ -1,11 +1,11 @@
 .example1 {
-    appearance: none;
+    appearance: none; /* Report 1 */
     -moz-appearance: none;
     -webkit-appearance: none;
 }
 
 .example2 {
-    appearance: none;
+    appearance: none; /* Report 2 */
     -moz-appearance: none;
     -webkit-appearance: none;
 }

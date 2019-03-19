@@ -22,7 +22,22 @@ Actual:   sha256-YCbKJH6PpUlk130udu/JepdKVpXjdEyzje+z1pE=`
     }
 ];
 
+const testsIgnoredUrls = [{
+    name: 'If the URL with no valid sri is ignored, it should pass',
+    path: path.join(__dirname, 'fixtures', 'local-no-pass')
+}];
+
 hintRunner.testLocalHint(hintPath, tests, {
     hintOptions: { baseline: 'sha256' },
+    parsers: ['html']
+});
+
+hintRunner.testLocalHint(hintPath, testsIgnoredUrls, {
+    ignoredUrls: [{
+        domain: '^https://cdnjs.cloudflare.com/ajax/libs/jquery/3\\.3\\.1/core\\.js',
+        hints: [
+            'sri'
+        ]
+    }],
     parsers: ['html']
 });

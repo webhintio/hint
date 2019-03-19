@@ -1,3 +1,10 @@
+# 3.0.5 (March 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`9c279b9643`](https://github.com/webhintio/hint/commit/9c279b9643bf700be46ef7ad96a6d4d343cfce04)] - Fix: SRI ignore ignoredUrls correctly (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1990`](https://github.com/webhintio/hint/issues/1990)).
+
+
 # 3.0.4 (February 22, 2019)
 
 ## Bug fixes / Improvements

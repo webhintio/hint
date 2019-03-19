@@ -2,12 +2,10 @@ import { atob } from 'abab';
 import { Crdp } from 'chrome-remote-debug-protocol';
 
 import { getContentTypeData } from 'hint/dist/src/lib/utils/content-type';
-import { HttpHeaders, Response } from 'hint/dist/src/lib/types';
+import { HttpHeaders, Response, HTMLElement } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 import { normalizeHeaders } from '@hint/utils-connector-tools/dist/src/normalize-headers';
-
-import { AsyncHTMLElement } from './cdp-async-html';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -161,7 +159,7 @@ export class RequestResponse {
 
     private _response: Response | undefined;
     /** The `Response` associated to this request to be sent on the `fetch::end` event. */
-    public getResponse(element: AsyncHTMLElement | null): Response {
+    public getResponse(element: HTMLElement | null): Response {
         if (!this._response) {
 
             const { headers, status } = this.responseReceived!.response;

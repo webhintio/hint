@@ -2,7 +2,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { Events, Event } from 'hint/dist/src/lib/types';
 
 import { CompatFeaturesCache } from './compat-features-cache';
-import { TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, ICompatLibrary } from '../types';
+import { TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, ICompatLibrary, TestFeatureOptions } from '../types';
 import { CompatStatement } from '../types-mdn.temp';
 
 export abstract class CompatBase<T extends Events, K extends Event> implements ICompatLibrary {
@@ -12,7 +12,7 @@ export abstract class CompatBase<T extends Events, K extends Event> implements I
     protected testFunction: TestFeatureFunction;
     private cachedFeatures: CompatFeaturesCache;
 
-    public abstract async searchFeatures(parser?: K): Promise<void>
+    public abstract searchFeatures(parser?: K): void
 
     public constructor(hintContext: HintContext<T>, MDNData: MDNTreeFilteredByBrowsers, testFunction: TestFeatureFunction) {
         if (!testFunction) {
@@ -34,25 +34,27 @@ export abstract class CompatBase<T extends Events, K extends Event> implements I
         this.hintResource = hintResource;
     }
 
-    public async reportError(feature: FeatureInfo, message: string): Promise<void> {
+    public reportError(feature: FeatureInfo, message: string) {
         const { location } = feature;
 
-        await this.hintContext.report(this.hintResource, message, { location });
+        this.hintContext.report(this.hintResource, message, { location });
     }
 
     private isFeatureAlreadyReported(feature: FeatureInfo): boolean {
         return this.cachedFeatures.has(feature);
     }
 
-    protected checkFeatureCompatibility(feature: FeatureInfo, collection: CompatStatement | undefined): void {
+    protected checkFeatureCompatibility(feature: FeatureInfo, collection: CompatStatement | undefined, options: TestFeatureOptions): boolean {
         if (!collection || this.isFeatureAlreadyReported(feature)) {
-            return;
+            return false;
         }
 
-        const isFeatureSupported = this.testFunction(feature, collection);
+        const isFeatureSupported = this.testFunction(feature, collection, options);
 
         if (!isFeatureSupported) {
             this.cachedFeatures.add(feature);
         }
+
+        return isFeatureSupported;
     }
 }

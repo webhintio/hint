@@ -16,10 +16,7 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'invalid-schema', '.babelrc'),
         reports: [{
             message: `'moduleId' should be 'string'.`,
-            position: {
-                column: 5,
-                line: 4
-            }
+            position: { match: 'moduleId' }
         }]
     },
     {
@@ -40,10 +37,7 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'has-invalid-babel-package-json', 'package.json'),
         reports: [{
             message: `'moduleId' should be 'string'.`,
-            position: {
-                column: 5,
-                line: 3
-            }
+            position: { match: 'moduleId' }
         }]
     },
     {
@@ -51,10 +45,7 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'has-additional-property', '.babelrc'),
         reports: [{
             message: `'root' should NOT have additional properties. Additional property found 'additional'.`,
-            position: {
-                column: 5,
-                line: 10
-            }
+            position: { match: 'additional' }
         }]
     },
     {
@@ -62,10 +53,7 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'has-invalid-enum-property', '.babelrc'),
         reports: [{
             message: `'sourceMaps' should be equal to one of the allowed values 'both, inline, true, false'. Value found 'invalidValue'`,
-            position: {
-                column: 5,
-                line: 14
-            }
+            position: { match: 'sourceMaps' }
         }]
     },
     {
@@ -74,10 +62,7 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', '.babelrc')}`,
-                position: {
-                    column: 3,
-                    line: 1
-                }
+                position: { match: 'extends' }
             }
         ]
     },
@@ -87,10 +72,7 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `Unexpected token ' in JSON at position 191`,
-                position: {
-                    column: 3,
-                    line: 1
-                }
+                position: { match: 'extends' }
             }
         ]
     }

@@ -1,3 +1,10 @@
+# 1.0.2 (March 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`091a3b1968`](https://github.com/webhintio/hint/commit/091a3b1968360c1745372a4eba45148e4970e9e0)] - Fix: Off-by-one error with hint-css-prefix-order (by [`Tony Ross`](https://github.com/antross) / see also: [`#1955`](https://github.com/webhintio/hint/issues/1955)).
+
+
 # 1.0.1 (February 21, 2019)
 
 ## Bug fixes / Improvements

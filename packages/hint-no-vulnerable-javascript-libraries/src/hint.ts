@@ -100,7 +100,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
         };
 
         /** If a used library has vulnerability that meets the minimum threshold, it gets reported.  */
-        const reportLibrary = async (library: Library, vulns: Vulnerability[], resource: string) => {
+        const reportLibrary = (library: Library, vulns: Vulnerability[], resource: string) => {
             let vulnerabilities = vulns;
 
 
@@ -138,7 +138,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 .join(', ');
 
             if (detail) {
-                await context.report(resource, `'${library.name}@${library.version}' has ${vulnerabilities.length} known ${vulnerabilities.length === 1 ? 'vulnerability' : 'vulnerabilities'} (${detail}). See '${link}' for more information.`);
+                context.report(resource, `'${library.name}@${library.version}' has ${vulnerabilities.length} known ${vulnerabilities.length === 1 ? 'vulnerability' : 'vulnerabilities'} (${detail}). See '${link}' for more information.`);
             }
         };
 
@@ -166,9 +166,11 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     const version = removeTagsFromVersion(lib.version) /* istanbul ignore next */ || '';
 
                     try {
-                        if (semver.satisfies(version, vuln.semver.vulnerable[0])) {
-                            vulns.push(vuln);
-                        }
+                        vuln.semver.vulnerable.forEach((vulnVersion: string) => {
+                            if (semver.satisfies(version, vulnVersion)) {
+                                vulns.push(vuln);
+                            }
+                        });
                     } catch (e) {
                         logger.error(`Version ${version} of ${lib.name} isn't semver compliant`);
                     }
@@ -199,7 +201,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
 
                 message = `${message}. Please try again later, or report an issue if this problem persists.`;
 
-                await context.report(resource, message, { severity: Severity.warning });
+                context.report(resource, message, { severity: Severity.warning });
                 debug('Error executing script', e);
 
                 return;

@@ -22,7 +22,7 @@ import {
     HintConfig,
     HintResources,
     HttpHeaders,
-    IAsyncHTMLElement,
+    HTMLElement,
     IConnector,
     IConnectorConstructor,
     IFetchOptions,
@@ -41,6 +41,7 @@ import { HintContext } from './hint-context';
 import { HintScope } from './enums/hint-scope';
 import { Configuration } from './config';
 import { Category } from './enums/category';
+import { HTMLDocument } from './types/html';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -62,12 +63,12 @@ export class Engine<E extends Events = Events> extends EventEmitter {
     private _timeout: number = 60000;
 
     /** The DOM of the loaded page. */
-    public get pageDOM(): object | undefined {
+    public get pageDOM(): HTMLDocument | undefined {
         return this.connector.dom;
     }
 
     /** The HTML of the loaded page. */
-    public get pageContent(): Promise<string> | undefined {
+    public get pageContent(): string | undefined {
         return this.connector.html;
     }
 
@@ -191,6 +192,13 @@ export class Engine<E extends Events = Events> extends EventEmitter {
                     ignoredConnectors.includes(connectorId || '');
             };
 
+            const getIgnoredUrls = () => {
+                const urlsIgnoredForAll = this.ignoredUrls.get('all') || [];
+                const urlsIgnoredForHint = this.ignoredUrls.get(id) || [];
+
+                return urlsIgnoredForAll.concat(urlsIgnoredForHint);
+            };
+
             const hintOptions: HintConfig | HintConfig[] = getHintConfig(id);
             const severity: Severity | null = getSeverity(hintOptions);
 
@@ -199,7 +207,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
                 // TODO: I don't think we should have a dependency on logger here. Maybe send a warning event?
                 logger.log(chalk.yellow(`Warning: The hint "${id}" will be ignored for the connector "${connectorId}"`));
             } else if (severity) {
-                const context: HintContext = new HintContext(id, this, severity, hintOptions, Hint.meta);
+                const context: HintContext = new HintContext(id, this, severity, hintOptions, Hint.meta, getIgnoredUrls());
                 const hint: IHint = new Hint(context);
 
                 this.hints.set(id, hint);
@@ -221,6 +229,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
                 const urlsIgnoredForAll = that.ignoredUrls.get('all') || [];
                 const urlsIgnoredForHint = that.ignoredUrls.get(hintId) || [];
                 const urlsIgnored = urlsIgnoredForHint.concat(urlsIgnoredForAll);
+                const eventName = this.event; // eslint-disable-line no-invalid-this
 
                 if (that.isIgnored(urlsIgnored, (event as any).resource)) {
                     return null;
@@ -243,7 +252,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
                     }, that._timeout);
 
                     immediateId = setImmediate(async () => {
-                        const result: any = await handler(event, this.event); // eslint-disable-line no-invalid-this
+                        const result: any = await handler(event, eventName);
 
                         if (timeoutId) {
                             clearTimeout(timeoutId);
@@ -316,7 +325,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
         return this.messages;
     }
 
-    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
+    public querySelectorAll(selector: string): HTMLElement[] {
         return this.connector.querySelectorAll(selector);
     }
 

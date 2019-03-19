@@ -90,7 +90,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             return false;
         };
 
-        const validate = async ({ element, resource, response }: FetchEnd) => {
+        const validate = ({ element, resource, response }: FetchEnd) => {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
@@ -106,7 +106,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
                 if (numberOfHeaders > 0) {
                     const message = `Response should not include unneeded ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`;
 
-                    await context.report(resource, message, { element });
+                    context.report(resource, message, { element });
                 }
             }
         };

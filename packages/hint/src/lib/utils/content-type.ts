@@ -1,10 +1,10 @@
-import * as fileType from 'file-type';
-import * as isSvg from 'is-svg';
+import fileType from 'file-type';
+import isSvg from 'is-svg';
 import * as mimeDB from 'mime-db';
 import { parse, MediaType } from 'content-type';
 
 import { debug as d } from './debug';
-import { HttpHeaders, IAsyncHTMLElement } from '../types';
+import { HttpHeaders, HTMLElement } from '../types';
 import getFileExtension from './fs/file-extension';
 import getFileName from './fs/file-name';
 import normalizeString from './misc/normalize-string';
@@ -93,7 +93,7 @@ const determineCharset = (originalCharset: string | null, mediaType: string | nu
     return defaultCharset ? defaultCharset : determinedCharset;
 };
 
-const determineMediaTypeForScript = (element: IAsyncHTMLElement): string | null => {
+const determineMediaTypeForScript = (element: HTMLElement): string | null => {
     const typeAttribute = normalizeString(element.getAttribute('type') || '');
 
     /*
@@ -153,7 +153,7 @@ const determineMediaTypeForScript = (element: IAsyncHTMLElement): string | null 
 };
 
 /* istanbul ignore next */
-const determineMediaTypeBasedOnElement = (element: IAsyncHTMLElement | null): string | null => {
+const determineMediaTypeBasedOnElement = (element: HTMLElement | null): string | null => {
     const nodeName = element && normalizeString(element.nodeName);
 
     if (element && nodeName) {
@@ -377,7 +377,7 @@ const parseContentTypeHeader = (headers: HttpHeaders | null): MediaType | null =
  * file extension.
  */
 /* istanbul ignore next */
-const getContentTypeData = (element: IAsyncHTMLElement | null, resource: string, headers: HttpHeaders | null, rawContent: Buffer) => {
+const getContentTypeData = (element: HTMLElement | null, resource: string, headers: HttpHeaders | null, rawContent: Buffer) => {
 
     let originalMediaType: string | null = null;
     let originalCharset: string | null = null;
@@ -449,6 +449,7 @@ const getType = (mediaType: string) => {
     }
 
     switch (mediaType) {
+        case 'application/javascript':
         case 'text/javascript':
             return 'script';
         case 'text/css':

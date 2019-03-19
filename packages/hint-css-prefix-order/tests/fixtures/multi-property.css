@@ -1,7 +1,7 @@
 .example {
-    appearance: none;
+    appearance: none; /* Report 1 */
     -moz-appearance: none;
     -webkit-appearance: none;
-    background-size: cover;
+    background-size: cover; /* Report 2 */
     -moz-background-size: cover;
 }

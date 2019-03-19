@@ -15,10 +15,11 @@ const mockCSS = async (sandbox: sinon.SinonSandbox, code: string) => {
     const engine = new EventEmitter2({ delimiter: '::', maxListeners: 0, wildcard: true }) as Engine<StyleEvents>;
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
     const element = mockStyleElement('text/css', code);
+    const resource = 'index.html';
 
     new CSSParser.default(engine); // eslint-disable-line
 
-    await engine.emitAsync('element::style', { element } as ElementFound);
+    await engine.emitAsync('element::style', { element, resource } as ElementFound);
 
     return engineEmitAsyncSpy;
 };
@@ -40,7 +41,7 @@ test('We should provide a correct AST when parsing CSS.', async (t) => {
     t.is(declaration.prop, 'color');
     t.is(declaration.value, '#fff');
     t.is(data.code, code);
-    t.is(data.resource, 'Inline CSS');
+    t.is(data.resource, 'index.html');
 
     sandbox.restore();
 });
@@ -62,7 +63,7 @@ test('We should provide a correct AST when parsing malformed CSS.', async (t) =>
     t.is(declaration.prop, 'color');
     t.is(declaration.value, '#fff');
     t.is(data.code, code);
-    t.is(data.resource, 'Inline CSS');
+    t.is(data.resource, 'index.html');
 
     sandbox.restore();
 });

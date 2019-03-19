@@ -55,12 +55,12 @@ export default class SSLLabsHint implements IHint {
             scanOptions = Object.assign(scanOptions, userSslOptions);
         };
 
-        const verifyEndpoint = async (resource: string, { grade, serverName = resource, details }: SSLLabsEndpoint) => {
+        const verifyEndpoint = (resource: string, { grade, serverName = resource, details }: SSLLabsEndpoint) => {
             if (!grade && details.protocols.length === 0) {
                 const message = `'${resource}' does not support HTTPS.`;
 
                 debug(message);
-                await context.report(resource, message);
+                context.report(resource, message);
 
                 return;
             }
@@ -72,15 +72,15 @@ export default class SSLLabsHint implements IHint {
                 const message: string = `${serverName}'s grade ${grade} does not meet the minimum ${minimumGrade} required.`;
 
                 debug(message);
-                await context.report(resource, message);
+                context.report(resource, message);
             } else {
                 debug(`Grade ${grade} for ${resource} is ok.`);
             }
         };
 
-        const notifyError = async (resource: string, error: any) => {
+        const notifyError = (resource: string, error: any) => {
             debug(`Error getting data for ${resource} %O`, error);
-            await context.report(resource, `Could not get results from SSL Labs for '${resource}'.`);
+            context.report(resource, `Could not get results from SSL Labs for '${resource}'.`);
         };
 
         const start = async ({ resource }: FetchEnd) => {
@@ -88,7 +88,7 @@ export default class SSLLabsHint implements IHint {
                 const message: string = `'${resource}' does not support HTTPS.`;
 
                 debug(message);
-                await context.report(resource, message);
+                context.report(resource, message);
 
                 return;
             }
@@ -100,9 +100,9 @@ export default class SSLLabsHint implements IHint {
             scanOptions.host = resource;
 
             promise = ssllabs(scanOptions)
-                .catch(async (error: any) => {
+                .catch((error: any) => {
                     failed = true;
-                    await notifyError(resource, error);
+                    notifyError(resource, error);
                 });
         };
 
@@ -129,14 +129,14 @@ export default class SSLLabsHint implements IHint {
 There might be something wrong with SSL Labs servers.`;
 
                 debug(msg);
-                await context.report(resource, msg);
+                context.report(resource, msg);
 
                 return;
             }
 
-            for (const endpoint of host.endpoints) {
-                await verifyEndpoint(resource, endpoint);
-            }
+            host.endpoints.forEach((endpoint) => {
+                verifyEndpoint(resource, endpoint);
+            });
         };
 
         loadHintConfig();

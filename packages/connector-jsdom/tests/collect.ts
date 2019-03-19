@@ -18,8 +18,8 @@ const name: string = 'jsdom';
 
 type CollectContext = {
     engine: Engine<Events>;
-    engineEmitSpy: sinon.SinonSpy;
-    engineEmitAsyncSpy: sinon.SinonSpy;
+    engineEmitSpy: sinon.SinonSpy<any, boolean>;
+    engineEmitAsyncSpy: sinon.SinonSpy<any, any>;
 };
 
 const test = anyTest as TestInterface<CollectContext>;
@@ -29,7 +29,10 @@ test.beforeEach((t) => {
         emit(): boolean {
             return false;
         },
-        async emitAsync(): Promise<any> { }
+        async emitAsync(): Promise<any> { },
+        on(): Engine {
+            return null as any;
+        }
     } as any;
 
     t.context.engineEmitSpy = sinon.spy(engine, 'emit');

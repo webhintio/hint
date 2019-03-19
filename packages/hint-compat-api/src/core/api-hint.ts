@@ -2,7 +2,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, Events } from 'hint/dist/src/lib/types';
 
 import { CompatAPI, userBrowsers } from '../helpers';
-import { FeatureInfo, BrowsersInfo, SupportStatementResult, ICompatLibrary } from '../types';
+import { FeatureInfo, BrowsersInfo, SupportStatementResult, ICompatLibrary, TestFeatureOptions } from '../types';
 import { SimpleSupportStatement, VersionValue, SupportStatement, CompatStatement, StatusBlock } from '../types-mdn.temp';
 import { CompatLibraryFactory } from '../helpers/compat-library-factory';
 import { browserVersions } from '../helpers/normalize-version';
@@ -33,7 +33,7 @@ export abstract class APIHint<T extends Events> implements IHint {
         });
     }
 
-    private testFeature(feature: FeatureInfo, collection: CompatStatement): boolean {
+    private testFeature(feature: FeatureInfo, collection: CompatStatement, options: TestFeatureOptions): boolean {
         if (this.mustPackPendingReports(feature) && this.pendingReports.length > 0) {
             this.generateReports();
 
@@ -66,7 +66,7 @@ export abstract class APIHint<T extends Events> implements IHint {
 
         const hasIncompatibleBrowsers = supportStatementResult.notSupportedBrowsersCount > 0;
 
-        if (hasIncompatibleBrowsers) {
+        if (hasIncompatibleBrowsers && !options.skipReport) {
             this.pendingReports.push([feature, supportStatementResult]);
         } else {
             const index = this.pendingReports.findIndex(([reportFeature]: [FeatureInfo, SupportStatementResult]) => {
@@ -181,12 +181,12 @@ export abstract class APIHint<T extends Events> implements IHint {
         this.pendingReports = [];
     }
 
-    private async consumeReports(): Promise<void> {
+    private consumeReports() {
         while (this.reports.length > 0) {
             const [feature, supportStatementResult] = this.reports.shift() as [FeatureInfo, SupportStatementResult];
             const message = this.generateReportErrorMessage(feature, supportStatementResult);
 
-            await this.compatLibrary.reportError(feature, message);
+            this.compatLibrary.reportError(feature, message);
         }
     }
 

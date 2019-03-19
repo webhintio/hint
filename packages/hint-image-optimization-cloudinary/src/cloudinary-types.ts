@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
-import { IAsyncHTMLElement } from 'hint/dist/src/lib/types';
+import { HTMLElement } from 'hint/dist/src/lib/types';
 
 export type cloudinaryResult = {
     bytes: number;
-    element: IAsyncHTMLElement | null;
+    element: HTMLElement | null;
     format: string;
     height: number;
     originalBytes: number;

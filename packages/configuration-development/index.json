@@ -30,7 +30,7 @@
         "webpack-config/is-installed": "error",
         "webpack-config/is-valid": "error",
         "webpack-config/module-esnext-typescript": "off",
-        "webpack-config/modules/false-babel": "error",
+        "webpack-config/modules-false-babel": "error",
         "webpack-config/no-devtool-in-prod": "error"
     },
     "hintsTimeout": 10000,

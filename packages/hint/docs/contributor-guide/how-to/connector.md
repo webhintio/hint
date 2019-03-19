@@ -43,11 +43,8 @@ this order:
    or if there are, the connector has waited a reasonable amount of
    time. The traversing of the DOM is [depth-first][depth-first search],
    sending:
-   * [`element::<element-type>`][events element]
-     when visiting a node (see [IASyncHTML](#iasynchtml) for more
-     information,
-   * [`traverse::down`][events traversedown] when going deeper
-     in the DOM,
+   * [`element::<element-type>`][events element] when visiting a node,
+   * [`traverse::down`][events traversedown] when going deeper in the DOM,
    * [`traverse::up`][events traverseup] when going up.
 1. [`traverse::end`][events traverseend]
 1. The final event is [`scan::end`][events scanend].
@@ -74,48 +71,9 @@ export interface IConnector {
     /** Evaluates the given JavaScript `code` asynchronously in the target. */
     evaluate(code: string): Promise<any>;
     /** Finds all the nodes that match the given query. */
-    querySelectorAll(query: string): Promise<IAsyncHTMLElement[]>
+    querySelectorAll(query: string): HTMLElement[]
 }
 ```
-
-### IASyncHTML
-
-`IAsyncHTML` is an abstraction on top of the connector’s DOM. The reason
-is that some connectors can access the DOM synchronously (like `jsdom`)
-and some others don’t (like those that rely on a debugging protocol).
-We decided to create an asynchronous abstraction so the different parts
-that might need access to the DOM know how to use. `IAsyncHTML` is
-composed two interfaces: `IAsyncHTMLElement` and `IAsyncHTMLDocument`.
-Not all the `HTMLElement` or `HTMLDocument` properties are implemented:
-
-```ts
-/** A wrapper of an HTMLElement that gives access to the required resources
-  * asynchronously to be compatible with all connectors */
-export interface IAsyncHTMLElement {
-    /** The attributes of the element */
-    readonly attributes: Array<{ name: string, value: string }> | NamedNodeMap;
-    /** Returns the value for a given attribute */
-    getAttribute(attribute: string): string;
-    /** Checks if two AsyncHTMLElements are the same */
-    isSame(element: IAsyncHTMLElement): boolean;
-    /** Returns the outerHTML of the element */
-    outerHTML(): Promise<string>;
-    /** Returns the document where the element lives */
-    readonly ownerDocument: IAsyncHTMLDocument;
-    /** The nodeName of the element */
-    readonly nodeName: string
-}
-
-export interface IAsyncHTMLDocument {
-    /** A wrapper around querySelectorAll that returns an Array of AsyncHTMLElements instead of a NodeList */
-    querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]>
-    /** The HTML of the page as returned by document.children[0].outerHTML or similar */
-    pageHTML(): Promise<string>;
-}
-```
-
-When traversing the DOM, the `element` in the `event` needs to be an
-`IAsyncHTMLElement`.
 
 ## How to test a "full" connector
 

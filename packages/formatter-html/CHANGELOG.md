@@ -1,3 +1,12 @@
+# 3.2.1 (March 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`022f05a0ef`](https://github.com/webhintio/hint/commit/022f05a0ef4719132fcd7dc5dc7bbf15b3f7d7a2)] - Fix: Color updates and code cleanup (by [`Stephanie `](https://github.com/ststimac) / see also: [`#1993`](https://github.com/webhintio/hint/issues/1993)).
+* [[`2cc07c5d1b`](https://github.com/webhintio/hint/commit/2cc07c5d1bc0d4c9884f11ce07ab95689f7656d8)] - Fix: Color audit changes to scan results (by [`Stephanie `](https://github.com/ststimac) / see also: [`#1991`](https://github.com/webhintio/hint/issues/1991)).
+* [[`a606adac27`](https://github.com/webhintio/hint/commit/a606adac27ca56607993266a41a0fedcc5298a46)] - Fix: Button cutoff and misc a11y issues (by [`Stephanie `](https://github.com/ststimac) / see also: [`#1985`](https://github.com/webhintio/hint/issues/1985)).
+
+
 # 3.2.0 (February 21, 2019)
 
 ## Bug fixes / Improvements

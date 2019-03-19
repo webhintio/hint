@@ -1,3 +1,14 @@
+# 2.7.0 (March 7, 2019)
+
+## Bug fixes / Improvements
+
+* [[`51f123f74a`](https://github.com/webhintio/hint/commit/51f123f74a01c38462d6f32541d9cd3c46c7100a)] - Fix: Check all possible version ranges for vulns (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`ad64989676`](https://github.com/webhintio/hint/commit/ad6498967623fa1978b67ce508d47e0806cb4b2e)] - Update: 'snyk-snapshot.json' (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 2.6.0 (February 22, 2019)
 
 ## Bug fixes / Improvements

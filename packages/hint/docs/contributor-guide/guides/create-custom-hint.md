@@ -93,7 +93,6 @@ validateFooter function. As shown in the code below, we have access to the
 footer element in the page and use that for our check - if the HTML doesn’t
 include the target string, we simply file a report by calling `context.report`
 with the *resource* (URL), the *element* (footer), and the *error message*.
-Note that `context.report` is an asynchronous method, so always use `await`.
 
 ```ts
 export default class FooterHint implements IHint {
@@ -111,14 +110,14 @@ export default class FooterHint implements IHint {
         const stringToBeIncluded = `(c) webhint`;
         const validateFooter = async (elementFound: ElementFound) => {
             const { element, resource } = elementFound;
-            const footerHTML = await element.outerHTML();
+            const footerHTML = element.outerHTML;
 
             debug(`Validating hint validate-footer`);
 
             if (!footerHTML.includes(stringToBeIncluded)) {
                 const message = `"${stringToBeIncluded}" is not included in the footer.`;
 
-                await context.report(resource, message, { element });
+                context.report(resource, message, { element });
             }
         };
 

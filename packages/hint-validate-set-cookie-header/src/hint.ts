@@ -263,7 +263,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             });
         };
 
-        const validate = async ({ element, resource, response }: FetchEnd) => {
+        const validate = ({ element, resource, response }: FetchEnd) => {
             const defaultValidators: Validator[] = [validateNameAndValue, validatePrefixes, validateSecurityAttributes, validateExpireDate, validateMaxAgeAndExpires];
 
             // This check does not apply if URI starts with protocols others than http/https.
@@ -281,12 +281,11 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
             /**  The `chrome` connector concatenates all `set-cookie` headers to one string. */
             const setCookieHeaders: string[] = Array.isArray(rawSetCookieHeaders) ? rawSetCookieHeaders : rawSetCookieHeaders.split(/\n|\r\n/);
-            const reportBatch = async (errorMessages: ValidationMessages, severity?: Severity): Promise<void[]> => {
-                const promises: Promise<void>[] = errorMessages.map((error) => {
-                    return context.report(resource, error, { element, severity });
-                });
 
-                return await Promise.all(promises);
+            const reportBatch = (errorMessages: ValidationMessages, severity?: Severity) => {
+                errorMessages.forEach((error) => {
+                    context.report(resource, error, { element, severity });
+                });
             };
 
             for (const setCookieHeader of setCookieHeaders) {
@@ -296,20 +295,22 @@ export default class ValidateSetCookieHeaderHint implements IHint {
                     parsedSetCookie = parse(setCookieHeader);
                     parsedSetCookie.resource = resource;
                 } catch (err) {
-                    await context.report(resource, err.message, { element });
+                    context.report(resource, err.message, { element });
 
                     return;
                 }
 
-                for (const defaultValidator of defaultValidators) {
+                defaultValidators.every((defaultValidator) => {
                     const messages: ValidationMessages = defaultValidator(parsedSetCookie);
 
                     if (messages.length) {
-                        await reportBatch(messages);
+                        reportBatch(messages);
 
-                        return;
+                        return false;
                     }
-                }
+
+                    return true;
+                });
             }
         };
 

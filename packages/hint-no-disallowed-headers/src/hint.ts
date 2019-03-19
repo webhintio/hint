@@ -99,7 +99,7 @@ export default class NoDisallowedHeadersHint implements IHint {
             });
         };
 
-        const validate = async ({ element, response, resource }: FetchEnd) => {
+        const validate = ({ element, response, resource }: FetchEnd) => {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
@@ -137,13 +137,13 @@ export default class NoDisallowedHeadersHint implements IHint {
             ) {
                 const message = `'server' header value should only contain the server name, not '${(response.headers as any).server}'.`;
 
-                await context.report(resource, message, { element });
+                context.report(resource, message, { element });
             }
 
             if (numberOfHeaders > 0) {
                 const message = `Response should not include disallowed ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`;
 
-                await context.report(resource, message, { element });
+                context.report(resource, message, { element });
             }
         };
 

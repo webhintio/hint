@@ -21,8 +21,8 @@ import ChromeConnector from '../src/connector';
 type EventsContext = {
     connector?: IConnector;
     engine: Engine<Events>;
-    engineEmitSpy: sinon.SinonSpy;
-    engineEmitAsyncSpy: sinon.SinonSpy;
+    engineEmitSpy: sinon.SinonSpy<any, any>;
+    engineEmitAsyncSpy: sinon.SinonSpy<any, any>;
 };
 
 const test = anyTest as TestInterface<EventsContext>;
@@ -206,7 +206,10 @@ test.beforeEach((t) => {
         emit(): boolean {
             return false;
         },
-        async emitAsync(): Promise<any> { }
+        async emitAsync(): Promise<any> { },
+        on(): Engine {
+            return null as any;
+        }
     } as any;
 
     t.context.engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');

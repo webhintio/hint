@@ -4,7 +4,7 @@ import { IParserConstructor } from './types/parser';
 import { IHintConstructor } from './types/hints';
 import { Severity } from './types/problems';
 
-export * from './types/async-html';
+export * from './types/html';
 export * from './types/connector';
 export * from './types/events';
 export * from './types/formatters';
@@ -98,13 +98,6 @@ export type CLIOptions = {
      * For more than one hint, use comma separated, with no spaces values. E.g.: "content-type,axe"
      */
     hints: string;
-};
-
-export type ORA = {
-    start(): void;
-    succeed(): void;
-    fail(): void;
-    text: string;
 };
 
 /**

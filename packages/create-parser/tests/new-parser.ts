@@ -40,18 +40,18 @@ type HandlebarsUtils = {
 type NewParserContext = {
     sandbox: sinon.SinonSandbox;
     fsExtra: FsExtra;
-    fsExtraCopyStub: sinon.SinonStub;
+    fsExtraCopyStub: sinon.SinonStub<[string, string], void>;
     handlebarsUtils: HandlebarsUtils
-    handlebarsUtilsCompileTemplateStub: sinon.SinonStub;
+    handlebarsUtilsCompileTemplateStub: sinon.SinonStub<[string, any], Promise<string>>;
     inquirer: Inquirer;
     isOfficial: IsOfficial;
     mkdirp: Mkdirp;
     normalizeStringByDelimiter: NormalizeStringByDelimiter;
-    normalizeStringByDelimiterDefaultStub: sinon.SinonStub;
+    normalizeStringByDelimiterDefaultStub: sinon.SinonStub<[], string>;
     readFileAsync: ReadFileAsync;
-    readFileAsyncDefaultStub: sinon.SinonStub;
+    readFileAsyncDefaultStub: sinon.SinonStub<[], Promise<string>>;
     writeFileAsync: WriteFileAsync;
-    writeFileAsyncDefaultStub: sinon.SinonStub;
+    writeFileAsyncDefaultStub: sinon.SinonStub<[], void>;
 };
 
 const test = anyTest as TestInterface<NewParserContext>;

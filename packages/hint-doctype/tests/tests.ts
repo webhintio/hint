@@ -12,7 +12,7 @@ const normalizeEOL = (text: string): string => {
 const tests: HintTest[] = [
     {
         name: `'doctype' is not in the first line should fail`,
-        reports: [{ message: `'doctype' should be specified before anything else.`, position: { column: 16, line: 2 } }],
+        reports: [{ message: `'doctype' should be specified before anything else.`, position: { match: '<!DOCTYPE html>' } }],
         serverConfig: {
             '/': {
                 content: normalizeEOL(`<p><span></span>
@@ -36,13 +36,13 @@ const tests: HintTest[] = [
     },
     {
         name: `'doctype' found more than once should fail`,
-        reports: [{ message: `'doctype' is not needed as one was already specified.`, position: { column: 16, line: 3 } }],
+        reports: [{ message: `'doctype' is not needed as one was already specified.`, position: { match: '<!DOCTYPE html><!-- Report -->' } }],
         serverConfig: {
             '/': {
                 content: normalizeEOL(`<!DOCTYPE html>
                 <p><span></span>
                 <head></head>
-                <!DOCTYPE html>
+                <!DOCTYPE html><!-- Report -->
                 `),
                 headers: { 'Content-Type': 'text/html' }
             }

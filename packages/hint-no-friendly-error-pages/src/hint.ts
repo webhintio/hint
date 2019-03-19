@@ -137,7 +137,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             for (const key of Object.keys(foundErrorPages)) {
                 const threshold = statusCodesWith512Threshold.includes(Number.parseInt(key)) ? 512 : 256;
 
-                await context.report(href, `Response with status code ${key} should have more than ${threshold} bytes.`);
+                context.report(href, `Response with status code ${key} should have more than ${threshold} bytes.`);
             }
         };
 

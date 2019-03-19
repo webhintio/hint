@@ -9,12 +9,25 @@ export type BrowserSupportCollection = {
     [key: string]: number[];
 };
 
-export type FeatureStrategy<T extends ChildNode> = {
-    check: (node: T | ChildNode) => boolean;
-    testFeature: (node: T, location?: ProblemLocation) => void;
+export type TestFeatureOptions = {
+    /**
+     * Indicate if the report of a feature has to be skipped
+     * This is necessary because in some cases, we just need to
+     * check if a feature is valid or not, without reporting it.
+     * E.g. when deciding whether to ignore a `@supports` block.
+     */
+    skipReport?: boolean;
 };
 
-export type TestFeatureFunction = (feature: FeatureInfo, collection: CompatStatement) => boolean;
+export type FeatureStrategy<T extends ChildNode> = {
+    check: (node: T | ChildNode) => boolean;
+    /**
+     * Test if a feature is supported. It will return true if it is supported.
+     */
+    testFeature: (node: T, location: ProblemLocation | undefined, options?: TestFeatureOptions) => boolean;
+};
+
+export type TestFeatureFunction = (feature: FeatureInfo, collection: CompatStatement, options: TestFeatureOptions) => boolean;
 
 export type BrowserVersions = {
     [key: string]: string[];
@@ -41,5 +54,10 @@ export type SupportStatementResult = {
 
 export interface ICompatLibrary {
     setResource(resource: string): void;
-    reportError(feature: FeatureInfo, message: string): Promise<void>;
+    reportError(feature: FeatureInfo, message: string): void;
+}
+
+export type FeatureAtSupport = {
+    property: string;
+    value: string;
 }

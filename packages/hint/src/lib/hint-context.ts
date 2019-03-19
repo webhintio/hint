@@ -10,13 +10,12 @@ import { Engine } from './engine';
 import {
     Events,
     HintMetadata,
-    IAsyncHTMLElement,
+    HTMLElement,
     NetworkData,
     ProblemLocation,
     Severity,
     StringKeyOf
 } from './types';
-import { findInElement, findProblemLocation } from './utils/location-helpers';
 import { Category } from './enums/category';
 
 export type ReportOptions = {
@@ -24,9 +23,12 @@ export type ReportOptions = {
     codeSnippet?: string;
     /** The text within `element` where the issue was found (used to refine a `ProblemLocation`). */
     content?: string;
-    /** The `IAsyncHTMLElement` where the issue was found (used to get a `ProblemLocation`). */
-    element?: IAsyncHTMLElement | null;
-    /** The `ProblemLocation` where the issue was found. */
+    /** The `HTMLElement` where the issue was found (used to get a `ProblemLocation`). */
+    element?: HTMLElement | null;
+    /**
+     * The `ProblemLocation` where the issue was found.
+     * If specified with `element`, represents an offset in the element's content (e.g. for inline CSS in HTML).
+     */
     location?: ProblemLocation | null;
     /** The `Severity` to report the issue as (overrides default settings for a hint). */
     severity?: Severity;
@@ -39,14 +41,16 @@ export class HintContext<E extends Events = Events> {
     private meta: HintMetadata
     private severity: Severity
     private engine: Engine<E>
+    private ignoredUrls: RegExp[]
 
-    public constructor(hintId: string, engine: Engine<E>, severity: Severity, options: any, meta: HintMetadata) {
+    public constructor(hintId: string, engine: Engine<E>, severity: Severity, options: any, meta: HintMetadata, ignoredUrls: RegExp[]) {
 
         this.id = hintId;
         this.options = options;
         this.meta = meta;
         this.engine = engine;
         this.severity = severity;
+        this.ignoredUrls = ignoredUrls;
 
         Object.freeze(this);
     }
@@ -96,29 +100,29 @@ export class HintContext<E extends Events = Events> {
         return this.engine.fetchContent(target, headers);
     }
 
-    public querySelectorAll(selector: string): Promise<IAsyncHTMLElement[]> {
+    public querySelectorAll(selector: string): HTMLElement[] {
         return this.engine.querySelectorAll(selector);
     }
 
-    /** Finds the exact location of the given content in the HTML that represents the `element`. */
-    public findInElement(element: IAsyncHTMLElement, content: string): Promise<ProblemLocation> {
-        return findInElement(element, content);
-    }
-
     /** Finds the approximative location in the page's HTML for a match in an element. */
-    public findProblemLocation(element: IAsyncHTMLElement, content?: string): Promise<ProblemLocation> {
-        return findProblemLocation(element, { column: 0, line: 0 }, content);
+    public findProblemLocation(element: HTMLElement, offset: ProblemLocation | null): ProblemLocation | null {
+        if (offset) {
+            return element.getContentLocation(offset);
+        }
+
+        return element.getLocation();
     }
 
     /** Reports a problem with the resource. */
-    public async report(resource: string, message: string, options: ReportOptions = {}): Promise<void> {
-        const { codeSnippet, content, element, severity } = options;
-        let position: ProblemLocation | null = options.location || null;
+    public report(resource: string, message: string, options: ReportOptions = {}) {
+        const { codeSnippet, element, severity } = options;
+        let position = options.location || null;
         let sourceCode: string | null = null;
 
         if (element) {
-            position = await findProblemLocation(element, { column: 0, line: 0 }, content);
-            sourceCode = (await element.outerHTML()).replace(/[\t]/g, '    ');
+            // When element is provided, position is an offset in the content.
+            position = this.findProblemLocation(element, position);
+            sourceCode = element.outerHTML.replace(/[\t]/g, '    ');
         }
 
         /*
@@ -140,5 +144,11 @@ export class HintContext<E extends Events = Events> {
     /** Subscribe an event in hint. */
     public on<K extends StringKeyOf<E>>(event: K, listener: (data: E[K], event: string) => void) {
         this.engine.onHintEvent(this.id, event, listener);
+    }
+
+    public isUrlIgnored(resource: string) {
+        return this.ignoredUrls.some((urlIgnored: RegExp) => {
+            return urlIgnored.test(resource);
+        });
     }
 }

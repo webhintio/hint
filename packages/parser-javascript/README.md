@@ -41,7 +41,8 @@ This `parser` emits the following events:
   information:
 
   * `ast`: an ESLint `AST.Program` object containing the parsed AST.
-  * `element`: an `IAsyncHTMLElement` reference if the source was inline in HTML; `null` otherwise.
+  * `element`: an `HTMLElement` reference if the source was inline
+    in HTML; `null` otherwise.
   * `resource`: the parsed resource. If the JavaScript is in
     a `script tag` and not a file, the value will be `Internal
     javascript`.

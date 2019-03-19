@@ -1,6 +1,6 @@
 import * as url from 'url';
 
-import { IAsyncHTMLElement } from './async-html';
+import { HTMLElement, HTMLDocument } from './html';
 import { HttpHeaders, NetworkData } from './network';
 import { Engine } from '../engine';
 
@@ -11,9 +11,9 @@ export interface IConnectorConstructor {
 /** A connector to be used by hint */
 export interface IConnector {
     /** The original DOM of the resource collected. */
-    dom?: object;
+    dom?: HTMLDocument;
     /** The original HTML of the resource collected. */
-    html?: Promise<string>;
+    html?: string;
     /** The headers from the response if applicable. */
     headers?: HttpHeaders;
     /** Collects all the information for the given target. */
@@ -25,7 +25,7 @@ export interface IConnector {
     /** Evaluates the given JavaScript `code` asynchronously in the target. */
     evaluate(code: string): Promise<any>;
     /** Finds all the nodes that match the given query. */
-    querySelectorAll(query: string): Promise<IAsyncHTMLElement[]>;
+    querySelectorAll(query: string): HTMLElement[];
 }
 
 /** Additional detail for calls to `connect` and `fetchContent` on `IConnector`. */
