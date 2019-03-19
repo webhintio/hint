@@ -12,6 +12,7 @@
         "axe": "error",
         "babel-config/is-valid": "error",
         "button-type": "error",
+        "create-element-svg": "error",
         "css-prefix-order": "error",
         "disown-opener": "error",
         "highest-available-document-mode": "error",

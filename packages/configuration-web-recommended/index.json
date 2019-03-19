@@ -13,6 +13,7 @@
         "axe": "error",
         "button-type": "error",
         "content-type": "error",
+        "create-element-svg": "error",
         "css-prefix-order": "error",
         "disown-opener": "error",
         "highest-available-document-mode": "error",
