@@ -25,8 +25,8 @@ const sendEvent = (tabId: number, event: Events) => {
 };
 
 /** Add the script to run webhint to the page. */
-const injectContentScript = (tabId: number, code: string, retries = 0) => {
-    browser.tabs.executeScript(tabId, { code, runAt: 'document_start' }, (result) => {
+const injectContentScript = (tabId: number, retries = 0) => {
+    browser.tabs.executeScript(tabId, { file: 'content-script/webhint.js', runAt: 'document_start' }, (result) => {
         // We get an empty object `{}` back on success, or `undefined` if the script failed to execute.
         if (!result) {
             if (retries <= 2) {
@@ -35,7 +35,7 @@ const injectContentScript = (tabId: number, code: string, retries = 0) => {
                  * Variation of https://bugzilla.mozilla.org/show_bug.cgi?id=1397667
                  */
                 console.warn('Failed to inject content script. Retrying...');
-                injectContentScript(tabId, code, retries + 1);
+                injectContentScript(tabId, retries + 1);
             } else {
                 // Give up if retrying still doesn't inject the content script.
                 console.error('Failed to inject content script after retrying.');
@@ -45,7 +45,7 @@ const injectContentScript = (tabId: number, code: string, retries = 0) => {
 };
 
 /** Turn on request tracking for the specified tab. */
-const enable = (tabId: number, code: string) => {
+const enable = (tabId: number) => {
     readyTabs.delete(tabId);
     let timeout = 0;
 
@@ -54,7 +54,7 @@ const enable = (tabId: number, code: string) => {
         if (details.tabId === tabId && details.frameId === 0) {
             browser.webNavigation.onCommitted.removeListener(onCommitted);
             clearTimeout(timeout);
-            injectContentScript(tabId, code);
+            injectContentScript(tabId);
         }
     };
 
@@ -86,7 +86,7 @@ browser.runtime.onMessage.addListener((message: Events, sender) => {
     // Activate content-script when requested by devtools page (saving configuration for when content-script is ready).
     if (message.enable) {
         configs.set(tabId, message.enable.config);
-        enable(tabId, message.enable.code);
+        enable(tabId);
     }
 
     // Forward configuration to content-script when asked (happens before `message.ready`).

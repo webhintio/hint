@@ -9,8 +9,7 @@ import { Config, Events, Results } from '../src/shared/types';
 import { awaitListener, stubEvent, stubGlobals, Globals } from './helpers/globals';
 
 const backgroundScriptPath = '../src/background-script';
-
-const contentScript = 'DUMMY CONTENT SCRIPT';
+const contentScriptPath = 'content-script/webhint.js';
 
 /**
  * Require the background script using the provided `browser` APIs.
@@ -42,7 +41,7 @@ const prepareContentScriptInjection = (sandbox: SinonSandbox, browser: typeof ch
         const onMessage = await onMessagePromise;
 
         // Simulate receiving `Events.enable` from the devtools panel.
-        onMessage({ enable: { code: contentScript, config: {} } } as Events, { tab: { id: tabId } } as any, () => {});
+        onMessage({ enable: { config: {} } } as Events, { tab: { id: tabId } } as any, () => {});
 
         const onCommitted = await onCommittedPromise;
 
@@ -105,7 +104,7 @@ test('It injects the content script when enabled.', async (t) => {
 
     t.true(executeScriptSpy.calledOnce);
     t.is(executeScriptSpy.firstCall.args[0], tabId);
-    t.is(executeScriptSpy.firstCall.args[1].code, contentScript);
+    t.is(executeScriptSpy.firstCall.args[1].file, contentScriptPath);
     t.is(executeScriptSpy.firstCall.args[1].runAt, 'document_start');
 
     sandbox.restore();
@@ -139,7 +138,7 @@ test('It retries injecting the content script if it fails.', async (t) => {
 
     t.true(executeScriptSpy.calledOnce);
     t.is(executeScriptSpy.firstCall.args[0], tabId);
-    t.is(executeScriptSpy.firstCall.args[1].code, contentScript);
+    t.is(executeScriptSpy.firstCall.args[1].file, contentScriptPath);
     t.is(executeScriptSpy.firstCall.args[1].runAt, 'document_start');
 
     sandbox.restore();
@@ -164,7 +163,7 @@ test('It passes provided configuration to the content script.', async (t) => {
     const onMessage = await onMessagePromise;
 
     // Simulate receiving `Events.enable` from the devtools panel.
-    onMessage({ enable: { code: contentScript, config }, tabId } as Events, {} as any, () => {});
+    onMessage({ enable: { config }, tabId } as Events, {} as any, () => {});
 
     // Simulate receiving `Events.requestConfig` from the content script.
     onMessage({ requestConfig: true}, { tab: { id: tabId } } as any, () => {});
