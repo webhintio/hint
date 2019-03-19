@@ -40,13 +40,15 @@ This `parser` emits the following events:
 * `parse::end::javascript`, of type `ScriptParse` which contains the following
   information:
 
-  * `ast`: an ESLint `AST.Program` object containing the parsed AST.
+  * `ast`: an `ESTree` AST generated from the script.
   * `element`: an `HTMLElement` reference if the source was inline
     in HTML; `null` otherwise.
   * `resource`: the parsed resource. If the JavaScript is in
-    a `script tag` and not a file, the value will be `Internal
-    javascript`.
-  * `sourceCode`: a `eslint` `SourceCode` object.
+    a `script tag` and not a file, the value will refer to the
+    HTML document containing the script.
+  * `sourceCode`: the raw source code that was parsed.
+  * `tokens`: a list of tokens generated from the source code.
+  * `walk`: helper methods for walking the AST.
 
 <!-- Link labels: -->
 

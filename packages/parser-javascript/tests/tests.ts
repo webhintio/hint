@@ -7,33 +7,27 @@ import { ElementFound, HTMLElement, FetchEnd } from 'hint/dist/src/lib/types';
 
 import { ScriptEvents, ScriptParse } from '../src/parser';
 
-type ESlint = {
-    SourceCode: (code: string, parseObject: {}) => {};
-};
-
-type Espree = {
-    parse: (code: string) => {};
+type Acorn = {
+    parse: (code: string, options: any) => {};
+    tokenizer: (code: string, options: any) => any[];
 };
 
 type ParseJavascriptContext = {
+    acorn: Acorn;
     element: HTMLElement;
     engine: Engine<ScriptEvents>;
-    eslint: ESlint;
-    espree: Espree;
     sandbox: sinon.SinonSandbox;
 };
 
 const test = anyTest as TestInterface<ParseJavascriptContext>;
 
 const initContext = (t: ExecutionContext<ParseJavascriptContext>) => {
-    t.context.eslint = {
-        SourceCode(code: string, parseObject: {}) {
-            return {};
-        }
-    };
-    t.context.espree = {
+    t.context.acorn = {
         parse(code: string) {
             return {};
+        },
+        tokenizer(code: string) {
+            return [];
         }
     };
     t.context.element = {
@@ -52,13 +46,7 @@ const initContext = (t: ExecutionContext<ParseJavascriptContext>) => {
 };
 
 const loadScript = (context: ParseJavascriptContext) => {
-    const script = proxyquire('../src/parser', {
-        // eslint-disable-next-line
-        'eslint/lib/util/source-code': function (...args: any[]) {
-            return Reflect.construct(context.eslint.SourceCode, args, new.target);
-        },
-        espree: context.espree
-    });
+    const script = proxyquire('../src/parser', { acorn: context.acorn });
 
     return script.default;
 };
@@ -75,16 +63,16 @@ test('If an script tag is an external javascript, then nothing happen', async (t
 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
-    const eslintSourceCodeSpy = sandbox.spy(t.context.eslint, 'SourceCode');
-    const espreeParseSpy = sandbox.spy(t.context.espree, 'parse');
+    const acornParseSpy = sandbox.spy(t.context.acorn, 'parse');
+    const acornTokenizeSpy = sandbox.spy(t.context.acorn, 'tokenizer');
     const elementGetAttributeStub = sandbox.stub(t.context.element, 'getAttribute').returns('http://script.url');
 
     await t.context.engine.emitAsync('element::script', { element: t.context.element } as ElementFound);
 
     t.true(elementGetAttributeStub.calledOnce);
     t.is(elementGetAttributeStub.args[0][0], 'src');
-    t.false(espreeParseSpy.called);
-    t.false(eslintSourceCodeSpy.called);
+    t.false(acornParseSpy.called);
+    t.false(acornTokenizeSpy.called);
 });
 
 test('If an script tag is not a javascript, then nothing should happen', async (t) => {
@@ -93,8 +81,8 @@ test('If an script tag is not a javascript, then nothing should happen', async (
 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
-    const eslintSourceCodeSpy = sandbox.spy(t.context.eslint, 'SourceCode');
-    const espreeParseSpy = sandbox.spy(t.context.espree, 'parse');
+    const acornParseSpy = sandbox.spy(t.context.acorn, 'parse');
+    const acornTokenizeSpy = sandbox.spy(t.context.acorn, 'tokenizer');
     const elementGetAttributeStub = sandbox.stub(t.context.element, 'getAttribute')
         .onFirstCall()
         .returns(null)
@@ -106,14 +94,14 @@ test('If an script tag is not a javascript, then nothing should happen', async (
     t.true(elementGetAttributeStub.calledTwice);
     t.is(elementGetAttributeStub.args[0][0], 'src');
     t.is(elementGetAttributeStub.args[1][0], 'type');
-    t.false(espreeParseSpy.called);
-    t.false(eslintSourceCodeSpy.called);
+    t.false(acornParseSpy.called);
+    t.false(acornTokenizeSpy.called);
 });
 
 test('If an script tag is an internal javascript, then we should parse the code and emit a parse::end::javascript event', async (t) => {
     const sandbox = t.context.sandbox;
     const parseObject = {};
-    const sourceCodeObject = {};
+    const tokenList: any[] = ['test'];
     const code = 'var x = 8;';
     const JavascriptParser = loadScript(t.context);
     const resource = 'index.html';
@@ -121,8 +109,8 @@ test('If an script tag is an internal javascript, then we should parse the code 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
     const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
-    const eslintSourceCodeStub = sandbox.stub(t.context.eslint, 'SourceCode').returns(sourceCodeObject);
-    const espreeParseStub = sandbox.stub(t.context.espree, 'parse').returns(parseObject);
+    const acornParseStub = sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
+    const acornTokenizeStub = sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
 
     sandbox.stub(t.context.element, 'innerHTML').value(code);
     const elementGetAttributeStub = sandbox.stub(t.context.element, 'getAttribute')
@@ -136,11 +124,10 @@ test('If an script tag is an internal javascript, then we should parse the code 
     t.true(elementGetAttributeStub.calledTwice);
     t.is(elementGetAttributeStub.args[0][0], 'src');
     t.is(elementGetAttributeStub.args[1][0], 'type');
-    t.true(espreeParseStub.calledOnce);
-    t.is(espreeParseStub.args[0][0], code);
-    t.true(eslintSourceCodeStub.calledOnce);
-    t.is(eslintSourceCodeStub.args[0][0], code);
-    t.is(eslintSourceCodeStub.args[0][1], parseObject);
+    t.true(acornParseStub.calledOnce);
+    t.is(acornParseStub.args[0][0], code);
+    t.true(acornTokenizeStub.calledOnce);
+    t.is(acornTokenizeStub.args[0][0], code);
     t.true(engineEmitAsyncSpy.calledThrice);
 
     t.is(engineEmitAsyncSpy.args[1][0], 'parse::start::javascript');
@@ -151,21 +138,22 @@ test('If an script tag is an internal javascript, then we should parse the code 
     t.is(args[0], 'parse::end::javascript');
     t.is(data.element, t.context.element);
     t.is(data.resource, resource);
-    t.is(data.sourceCode, sourceCodeObject);
+    t.is(data.ast, parseObject);
+    t.is(data.tokens[0], tokenList[0]);
 });
 
 test('If fetch::end::script is received, then we should parse the code and emit a parse::end::javascript event', async (t) => {
     const sandbox = t.context.sandbox;
     const parseObject = {};
-    const sourceCodeObject = {};
+    const tokenList: any[] = ['test'];
     const code = 'var x = 8;';
     const JavascriptParser = loadScript(t.context);
 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
     const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
-    const eslintSourceCodeStub = sandbox.stub(t.context.eslint, 'SourceCode').returns(sourceCodeObject);
-    const espreeParseStub = sandbox.stub(t.context.espree, 'parse').returns(parseObject);
+    const acornParseStub = sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
+    const acornTokenizeStub = sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
 
     await t.context.engine.emitAsync('fetch::end::script', {
         resource: 'script.js',
@@ -175,11 +163,10 @@ test('If fetch::end::script is received, then we should parse the code and emit 
         }
     } as FetchEnd);
 
-    t.true(espreeParseStub.calledOnce);
-    t.is(espreeParseStub.args[0][0], code);
-    t.true(eslintSourceCodeStub.calledOnce);
-    t.is(eslintSourceCodeStub.args[0][0], code);
-    t.is(eslintSourceCodeStub.args[0][1], parseObject);
+    t.true(acornParseStub.calledOnce);
+    t.is(acornParseStub.args[0][0], code);
+    t.true(acornTokenizeStub.calledOnce);
+    t.is(acornTokenizeStub.args[0][0], code);
     t.true(engineEmitAsyncSpy.calledThrice);
 
     t.is(engineEmitAsyncSpy.args[1][0], 'parse::start::javascript');
@@ -189,6 +176,7 @@ test('If fetch::end::script is received, then we should parse the code and emit 
 
     t.is(args[0], 'parse::end::javascript');
     t.is(data.element, null);
-    t.is(data.sourceCode, sourceCodeObject);
+    t.is(data.ast, parseObject);
     t.is(data.resource, 'script.js');
+    t.is(data.tokens[0], tokenList[0]);
 });
