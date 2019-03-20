@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const baseConfig = {
     mode: 'none',
@@ -7,6 +8,11 @@ const baseConfig = {
             // Bundle `axe-core` as a raw string so it can be injected at runtime.
             {
                 test: /axe-core/,
+                use: 'raw-loader'
+            },
+            // Bundle `js-library-detector as a raw string so it can be injected at runtime.
+            {
+                test: /js-library-detector/,
                 use: 'raw-loader'
             },
             // Automatically bundle and inject referenced CSS files.
@@ -50,6 +56,9 @@ const baseConfig = {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist/bundle')
     },
+    plugins: [
+        new webpack.DefinePlugin({ 'process.env.webpack': JSON.stringify(true) })
+    ],
     resolve: {
         alias: {
             'hint/dist/src/lib/utils/network/request-async$': path.resolve(__dirname, 'dist/src/shims/request-async.js'),

@@ -2,7 +2,6 @@
  * @fileoverview This hint checks if the site is running any vulnerable library using https://snyk.io database
  */
 import * as fs from 'fs';
-import * as path from 'path';
 import { promisify } from 'util';
 
 import { groupBy } from 'lodash';
@@ -13,7 +12,6 @@ import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { IHint, CanEvaluateScript, Severity } from 'hint/dist/src/lib/types';
 import { Library, Vulnerability } from './types';
 
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
 import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
@@ -44,9 +42,10 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
          */
         const createScript = async (): Promise<string> => {
             debug('Creating script to inject');
-            const libraryDetector = await readFileAsync(require.resolve('js-library-detector/library/libraries.js'));
+            const libraryDetector = await readFileAsync(require.resolve('js-library-detector'));
 
-            const script = `(function (){
+            const script = `/*RunInPageContext*/
+            (function (){
                 ${libraryDetector};
 
                 const libraries = Object.entries(d41d8cd98f00b204e9800998ecf8427e_LibraryDetectorTests);
@@ -76,11 +75,19 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
         const loadSnyk = async () => {
             const oneDay = 3600000 * 24;
             const now = Date.now();
-            const snykDBPath = path.join(__dirname, 'snyk-snapshot.json');
-            let snykStat: fs.Stats;
+
+            /*
+             * If webpack is true, we are in the browser
+             * extension and we don't need to download a
+             * new file.
+             */
+            if (process.env.webpack) { // eslint-disable-line no-process-env
+                return require('./snyk-snapshot.json');
+            }
 
             try {
-                snykStat = await promisify(fs.stat)(snykDBPath);
+                const snykDBPath = require.resolve('./snyk-snapshot.json');
+                const snykStat = await promisify(fs.stat)(snykDBPath);
                 const modified = new Date(snykStat.mtime).getTime();
 
                 // We check if the file is older than 24h to update it
@@ -96,7 +103,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 debug(`Error loading snyk's data`);
             }
 
-            return loadJSONFile(snykDBPath);
+            return require('./snyk-snapshot.json');
         };
 
         /** If a used library has vulnerability that meets the minimum threshold, it gets reported.  */
@@ -178,7 +185,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     return vulns;
                 }, [] as Vulnerability[]);
 
-                await reportLibrary(lib, vulnerabilities, resource);
+                reportLibrary(lib, vulnerabilities, resource);
             }
         };
 

@@ -35,7 +35,7 @@ export default class WebExtensionConnector implements IConnector {
             this._options.waitFor = 1000;
         }
 
-        (engine as Engine<import ('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
+        (engine as Engine<import('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
             if (event.resource === location.href) {
                 this._originalDocument = event.document;
             }
@@ -51,10 +51,8 @@ export default class WebExtensionConnector implements IConnector {
             // TODO: Trigger 'fetch::start::target'.
         });
 
-        const onLoad = async () => {
+        const onLoad = () => {
             const resource = location.href;
-
-            await this._engine.emitAsync('can-evaluate::script', { resource });
 
             setTimeout(async () => {
 
@@ -65,6 +63,12 @@ export default class WebExtensionConnector implements IConnector {
                 }
 
                 await this.sendFetchEndEvents();
+
+                /*
+                 * Evaluate after the traversing, just in case something goes wrong
+                 * in any of the evaluation and some scripts are left in the DOM.
+                 */
+                await this._engine.emitAsync('can-evaluate::script', { resource });
 
                 this._onComplete(resource);
             }, this._options.waitFor);
@@ -172,7 +176,65 @@ export default class WebExtensionConnector implements IConnector {
         });
     }
 
+    private needsToRunInPage(source: string) {
+        return source.includes('/*RunInPageContext*/');
+    }
+
+    /**
+     * Runs a script in the website context.
+     *
+     * By default, `eval` runs the scripts in a different context
+     * but, some scripts, needs to run in the same context
+     * of the website.
+     */
+    private evaluateInPage(source: string): Promise<any> {
+        return new Promise((resolve) => {
+            const script = document.createElement('script');
+            const config = {
+                attributes: true,
+                childList: false,
+                subtree: false
+            };
+
+            const callback = (mutationsList: MutationRecord[], observer: MutationObserver) => {
+                mutationsList.forEach((mutation: MutationRecord) => {
+                    if (mutation.type !== 'attributes' && mutation.attributeName !== 'data-result') {
+                        return;
+                    }
+
+                    const result = JSON.parse(script.getAttribute('data-result')!);
+
+                    document.body.removeChild(script);
+                    observer.disconnect();
+
+                    resolve(result);
+                });
+            };
+
+            const observer = new MutationObserver(callback);
+
+            observer.observe(script, config);
+
+            document.body.appendChild(script);
+            script.textContent = `(async () => {
+const scriptElement = document.currentScript;
+const result = await ${source}
+
+scriptElement.setAttribute('data-result', JSON.stringify(result));
+})();`;
+        });
+    }
+
     public evaluate(source: string): Promise<any> {
+        /*
+         * TODO: another option here is changing the interface of IConnector
+         * to allow another parameter in evaluate to indicate if we should run
+         * the script in the page context or if eval is enough.
+         */
+        if (this.needsToRunInPage(source)) {
+            return this.evaluateInPage(source);
+        }
+
         // `eval` will run the code inside the browser.
         return Promise.resolve(eval(source)); // eslint-disable-line no-eval
     }
