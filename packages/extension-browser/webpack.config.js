@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const baseConfig = {
     mode: 'none',
@@ -55,6 +56,9 @@ const baseConfig = {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist/bundle')
     },
+    plugins: [
+        new webpack.DefinePlugin({ 'process.env.webpack': JSON.stringify(true) })
+    ],
     resolve: {
         alias: {
             'hint/dist/src/lib/utils/network/request-async$': path.resolve(__dirname, 'dist/src/shims/request-async.js'),

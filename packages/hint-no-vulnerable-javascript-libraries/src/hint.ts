@@ -77,12 +77,11 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
             const now = Date.now();
 
             /*
-             * We check if requestAsync exists, because if
-             * the browser extension is running this hint, then
-             * `requestAsync` will be null and we can't download
-             * the file.
+             * If webpack is true, we are in the browser
+             * extension and we don't need to download a
+             * new file.
              */
-            if (!requestAsync) {
+            if (process.env.webpack) { // eslint-disable-line no-process-env
                 return require('./snyk-snapshot.json');
             }
 
