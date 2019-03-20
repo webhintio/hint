@@ -51,7 +51,7 @@ const printPosition = (position: number, text: string) => {
 
 export default class StylishFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public async format(messages: Problem[], target: string | undefined, options: FormatterOptions = {}) {
+    public async format(messages: Problem[], options: FormatterOptions = {}) {
 
         debug('Formatting results');
 

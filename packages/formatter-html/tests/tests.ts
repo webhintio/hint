@@ -47,7 +47,7 @@ test(`HTML formatter returns the right object`, async (t) => {
     const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
-    const result: Result = await formatter.format(problems.noproblems, 'http://example.com');
+    const result: Result = await formatter.format(problems.noproblems, { target: 'http://example.com' });
 
     t.plan((result.categories.length * 2) + 2);
 
@@ -64,7 +64,7 @@ test(`HTML formatter returns the right number of erros and warnings`, async (t) 
     const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
-    const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com');
+    const result: Result = await formatter.format(problems.multipleproblems, { target: 'http://example.com' });
 
     t.plan(13);
 
@@ -109,7 +109,10 @@ test(`HTML formatter return the right value for isFinish`, async (t) => {
     const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
-    const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com', { status: 'error' });
+    const result: Result = await formatter.format(problems.multipleproblems, {
+        status: 'error',
+        target: 'http://example.com'
+    });
 
     t.is(result.isFinish, true);
 });
@@ -118,7 +121,10 @@ test(`HTML formatter return the right scan time`, async (t) => {
     const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
-    const result: Result = await formatter.format(problems.multipleproblems, 'http://example.com', { scanTime: 4500000 });
+    const result: Result = await formatter.format(problems.multipleproblems, {
+        scanTime: 4500000,
+        target: 'http://example.com'
+    });
 
     t.is(result.scanTime, '01:15:00');
 });
@@ -127,8 +133,11 @@ test(`HTML formatter return the right third party logo url`, async (t) => {
     const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
-    const result1: Result = await formatter.format(problems.multipleproblems, 'http://example.com', {});
-    const result2: Result = await formatter.format(problems.multipleproblems, 'http://example.com', { isScanner: true });
+    const result1: Result = await formatter.format(problems.multipleproblems, { target: 'http://example.com' });
+    const result2: Result = await formatter.format(problems.multipleproblems, {
+        isScanner: true,
+        target: 'http://example.com'
+    });
 
     const category1 = result1.getCategoryByName(Category.development);
     const category2 = result2.getCategoryByName(Category.development);
@@ -160,7 +169,10 @@ test(`HTML formatter create copy and generate the right files`, async (t) => {
     const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
-    await formatter.format(problems.noproblems, 'http://example.com', { config: {} });
+    await formatter.format(problems.noproblems, {
+        config: {},
+        target: 'http://example.com'
+    });
 
     t.true(fsExtraCopySpy.calledOnce);
     t.true(fsExtraRemoveSpy.calledOnce);
@@ -182,7 +194,11 @@ test(`HTML formatter create copy and generate the right files if an output is pr
     const formatter = new HTMLFormatter();
     const outputFolder = path.join(process.cwd(), 'outputfolder');
 
-    await formatter.format(problems.noproblems, 'http://example.com', { config: {}, output: outputFolder });
+    await formatter.format(problems.noproblems, {
+        config: {},
+        output: outputFolder,
+        target: 'http://example.com'
+    });
 
     t.true(fsExtraCopySpy.calledOnce);
     t.true(fsExtraRemoveSpy.calledOnce);
@@ -204,7 +220,10 @@ test(`HTML formatter shoudn't copy and generate any file if option noGenerateFil
     const HTMLFormatter = loadScript(t.context);
     const formatter = new HTMLFormatter();
 
-    await formatter.format(problems.noproblems, 'http://example.com', { noGenerateFiles: true });
+    await formatter.format(problems.noproblems, {
+        noGenerateFiles: true,
+        target: 'http://example.com'
+    });
 
     t.false(fsExtraCopySpy.called);
     t.false(fsExtraRemoveSpy.called);

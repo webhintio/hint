@@ -365,12 +365,13 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             output: actions.output ? path.resolve(cwd(), actions.output) : undefined,
             resources,
             scanTime,
+            target,
             version: loadHintPackage().version
         };
 
         if (engine) {
             await each(engine.formatters, async (formatter: IFormatter) => {
-                await formatter.format(reports, target, formatterOptions);
+                await formatter.format(reports, formatterOptions);
             });
         }
     };

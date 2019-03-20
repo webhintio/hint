@@ -144,7 +144,7 @@ test(`Stylish formatter called with the output option should write the result in
     const formatter = new StylishFormatter();
     const outputFile = 'test.txt';
 
-    formatter.format(problems.multipleproblemsandresources, undefined, { output: outputFile });
+    formatter.format(problems.multipleproblemsandresources, { output: outputFile });
 
     const log = t.context.loggingLogSpy;
     const writeFileStub = t.context.writeFileAsyncDefaultStub;

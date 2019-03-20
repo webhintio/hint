@@ -91,10 +91,11 @@ export default class HTMLFormatter implements IFormatter {
     }
 
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public async format(problems: Problem[], /* istanbul ignore next */ target = '', /* istanbul ignore next */ options: FormatterOptions = {}) {
+    public async format(problems: Problem[], /* istanbul ignore next */ options: FormatterOptions = {}) {
 
         debug('Formatting results');
 
+        const target = options.target || '';
         const result = new AnalysisResult(target, options);
         const categoryList: string[] = getCategoryList(options.resources);
 

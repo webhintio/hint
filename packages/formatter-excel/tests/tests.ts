@@ -29,7 +29,7 @@ test(`Excel formatter doesn't print anything if no values`, async (t) => {
     const formatter = new t.context.ExcelFormatter();
     const spy = t.context.spy;
 
-    await formatter.format(problems.noproblems, '');
+    await formatter.format(problems.noproblems);
 
     t.is(spy.callCount, 0);
 });
@@ -37,7 +37,7 @@ test(`Excel formatter doesn't print anything if no values`, async (t) => {
 test(`Excel formatter generates the right number of sheets with the good content`, async (t) => {
     const formatter = new t.context.ExcelFormatter();
 
-    await formatter.format(problems.multipleproblems, 'http://myresource.com:8080/');
+    await formatter.format(problems.multipleproblems, { target: 'http://myresource.com:8080/' });
 
     const workbook = new Excel.Workbook();
     const filePath = path.join(process.cwd(), 'http-myresource-com-8080.xlsx');
@@ -62,7 +62,7 @@ test(`Excel formatter generates the right number of sheets with the good content
     const formatter = new t.context.ExcelFormatter();
     const filePath = path.join(process.cwd(), 'test.xlsx');
 
-    await formatter.format(problems.multipleproblems, undefined, { output: filePath });
+    await formatter.format(problems.multipleproblems, { output: filePath });
 
     const workbook = new Excel.Workbook();
 

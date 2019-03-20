@@ -69,7 +69,7 @@ export default class WebExtensionFormatter implements IFormatter {
         });
     }
 
-    public format(problems: Problem[], target: string, options: FormatterOptions) {
+    public format(problems: Problem[], options: FormatterOptions) {
 
         // The browser extension always provides resources to the formatter.
         const resources = options.resources!;

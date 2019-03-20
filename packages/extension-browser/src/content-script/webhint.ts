@@ -66,7 +66,7 @@ const main = async (userConfig: Config) => {
 
     const config: Configuration = {
         browserslist: determineBrowserslist(userConfig.browserslist),
-        connector: { name: 'web-extension', options: { } },
+        connector: { name: 'web-extension', options: {} },
         extends: undefined,
         formatters: ['web-extension'],
         hints: hintsConfig,
@@ -93,7 +93,10 @@ const main = async (userConfig: Config) => {
     const problems = await engine.executeOn(new URL(location.href));
 
     engine.formatters.forEach((formatter) => {
-        formatter.format(problems, location.href, { resources });
+        formatter.format(problems, {
+            resources,
+            target: location.href
+        });
     });
 };
 

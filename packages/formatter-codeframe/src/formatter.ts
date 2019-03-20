@@ -132,7 +132,7 @@ export default class CodeframeFormatter implements IFormatter {
      * Format the problems grouped by `resource` name and sorted by line and column number,
      *  indicating where in the element there is an error.
      */
-    public async format(messages: Problem[], target: string | undefined, options: FormatterOptions = {}) {
+    public async format(messages: Problem[], options: FormatterOptions = {}) {
         debug('Formatting results');
 
         if (messages.length === 0) {

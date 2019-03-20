@@ -147,7 +147,7 @@ test(`Summary formatter called with the output option should write the result in
     const SummaryFormatter = loadScript(t.context);
     const formatter = new SummaryFormatter();
 
-    formatter.format(problems.summaryErrorWarnings, undefined, { output: outputFile });
+    formatter.format(problems.summaryErrorWarnings, { output: outputFile });
 
     tableData.push(['random-hint', '1 error', '1 warning']);
 

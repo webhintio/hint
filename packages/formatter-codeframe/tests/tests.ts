@@ -198,7 +198,7 @@ test(`Codeframe formatter called with the output option should write the result 
     const formatter = new CodeframeFormatter();
     const outputFile = 'output.json';
 
-    formatter.format(problems.codeframeproblems, null, { output: outputFile });
+    formatter.format(problems.codeframeproblems, { output: outputFile });
 
     const log = t.context.loggingLogSpy;
     const writeFileStub = t.context.writeFileAsyncDefaultStub;

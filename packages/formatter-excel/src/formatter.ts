@@ -38,11 +38,12 @@ const startRow = 5;
  */
 
 export default class ExcelFormatter implements IFormatter {
-    public async format(messages: Problem[], /* istanbul ignore next */ target = '', options: FormatterOptions = {}) {
+    public async format(messages: Problem[], options: FormatterOptions = {}) {
         if (messages.length === 0) {
             return;
         }
 
+        const target = options.target || '';
         const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'resource');
         const workbook = new Excel.Workbook();
         const sortedResources = _.sortBy(Object.keys(resources));

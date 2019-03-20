@@ -207,7 +207,7 @@ test(`JSON formatter called with the output option should write the result in th
     const formatter = new JsonFormatter();
     const outputFile = 'output.json';
 
-    formatter.format(problems.multipleproblems, null, { output: outputFile });
+    formatter.format(problems.multipleproblems, { output: outputFile });
 
     const loggingLogSpy = t.context.loggingLogSpy;
     const writeFileAsyncDefaultStub = t.context.writeFileAsyncDefaultStub;
@@ -226,7 +226,7 @@ test('JSON formatter only save one file with the result even if there is multipl
     const formatter = new JsonFormatter();
     const outputFile = path.join(process.cwd(), '..', '..', 'output.json');
 
-    formatter.format(problems.multipleproblemsandresoruces, null, { output: outputFile });
+    formatter.format(problems.multipleproblemsandresoruces, { output: outputFile });
 
     const loggingLogSpy = t.context.loggingLogSpy;
     const writeFileAsyncDefaultStub = t.context.writeFileAsyncDefaultStub;
