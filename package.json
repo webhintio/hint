@@ -21,7 +21,7 @@
     "p-retry": "^4.0.0",
     "rimraf": "^2.6.3",
     "shelljs": "^0.8.3",
-    "typescript": "^3.3.3333",
+    "typescript": "^3.3.4000",
     "yargs": "^13.2.2"
   },
   "engines": {
