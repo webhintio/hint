@@ -34,9 +34,9 @@ export default class MinifiedJsHint implements IHint {
             threshold = context.hintOptions.threshold;
         }
 
-        const getImprovementIndex = (scriptData: ScriptParse) => {
-            const contentLength = scriptData.sourceCode.text.length;
-            const tokenRatio = scriptData.ast.tokens.length / contentLength;
+        const getImprovementIndex = ({ sourceCode, tokens }: ScriptParse) => {
+            const contentLength = sourceCode.length;
+            const tokenRatio = tokens.length / contentLength;
 
             return Math.round((1 - tokenRatio) * 100);
         };

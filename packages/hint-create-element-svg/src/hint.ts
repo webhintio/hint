@@ -5,9 +5,7 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { ScriptEvents, ScriptParse } from '@hint/parser-javascript';
-
-import { Linter } from 'eslint';
+import { ScriptEvents } from '@hint/parser-javascript';
 
 import meta from './meta';
 import svgElements from './svgElements';
@@ -19,7 +17,6 @@ export default class CreateElementSvgHint implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<ScriptEvents>) {
-        const linter = new Linter();
 
         /*
          * Check to see if any call expression in the AST has a callee with
@@ -28,50 +25,33 @@ export default class CreateElementSvgHint implements IHint {
          * the correct identifier property for creating SVG elements is
          * 'createElementNS'
          */
-        linter.defineRule('svg-create', {
-            create(eslintContext) {
-                return {
-                    CallExpression(node) {
-                        if (!('callee' in node && 'property' in node.callee && 'name' in node.callee.property)) {
-                            return;
-                        }
-
-                        if (node.callee.property.name !== 'createElement') {
-                            return;
-                        }
-
-                        const arg = node.arguments[0];
-
-                        if (arg && 'value' in arg && typeof arg.value === 'string' && svgElements.has(arg.value.toLowerCase())) {
-                            eslintContext.report({
-                                loc: node.callee.property.loc,
-                                messageId: 'avoidElement',
-                                node: node.callee.property
-                            });
-                        }
-                    }
-                };
-            },
-            meta: { messages: { avoidElement: 'SVG elements cannot be created with createElement; use createElementNS instead' } }
-        });
-
-        const validateScript = async ({ element, sourceCode, resource }: ScriptParse) => {
+        context.on('parse::end::javascript', ({ ast, element, resource, walk }) => {
 
             debug(`Validating hint create-element-svg`);
 
-            const results = linter.verify(sourceCode, { rules: { 'svg-create': 'error' } });
+            walk.simple(ast, {
+                CallExpression(node) {
+                    if (!('property' in node.callee && 'name' in node.callee.property)) {
+                        return;
+                    }
 
-            for (const result of results) {
-                // ESLint location is 1-based
-                const location = {
-                    column: result.column - 1,
-                    line: result.line - 1
-                };
+                    if (node.callee.property.name !== 'createElement') {
+                        return;
+                    }
 
-                await context.report(resource, result.message, { element, location });
-            }
-        };
+                    const arg = node.arguments[0];
 
-        context.on('parse::end::javascript', validateScript);
+                    if (arg && 'value' in arg && typeof arg.value === 'string' && svgElements.has(arg.value.toLowerCase())) {
+                        const message = 'SVG elements cannot be created with createElement; use createElementNS instead';
+                        const location = node.callee.property.loc ? {
+                            column: node.callee.property.loc.start.column,
+                            line: node.callee.property.loc.start.line - 1
+                        } : null;
+
+                        context.report(resource, message, { element, location });
+                    }
+                }
+            });
+        });
     }
 }
