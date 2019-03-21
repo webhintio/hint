@@ -38,7 +38,7 @@
     "sinon": "^7.3.0",
     "typescript": "^3.3.3333",
     "@typescript-eslint/parser": "1.4.2",
-    "vscode": "^1.1.32"
+    "vscode": "^1.1.33"
   },
   "displayName": "webhint",
   "engines": {

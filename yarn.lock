@@ -9552,10 +9552,10 @@ vscode-languageserver@^5.2.1:
     vscode-languageserver-protocol "3.14.1"
     vscode-uri "^1.0.6"
 
-vscode-test@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/vscode-test/-/vscode-test-0.1.1.tgz#070fb1bb28ba8c94cbf06be27872a2ce23fa6fc5"
-  integrity sha512-D8C12HR6O/3Bl4Bn+1c6n/J4/nSVtRhzZJ5c97GoB4cOwqFv7AOkuqzosd2iV49eZAGpGw3Qz5Vg9vGjKFaKAA==
+vscode-test@^0.1.4:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/vscode-test/-/vscode-test-0.1.5.tgz#250534f90e78d37a84419a00f9bd15341e1a4f8f"
+  integrity sha512-s+lbF1Dtasc0yXVB9iQTexBe2JK6HJAUJe3fWezHKIjq+xRw5ZwCMEMBaonFIPy7s95qg2HPTRDR5W4h4kbxGw==
   dependencies:
     http-proxy-agent "^2.1.0"
     https-proxy-agent "^2.2.1"
@@ -9565,10 +9565,10 @@ vscode-uri@^1.0.6:
   resolved "https://registry.yarnpkg.com/vscode-uri/-/vscode-uri-1.0.6.tgz#6b8f141b0bbc44ad7b07e94f82f168ac7608ad4d"
   integrity sha512-sLI2L0uGov3wKVb9EB+vIQBl9tVP90nqRvxSoJ35vI3NjxE8jfsE5DSOhWgSunHSZmKS4OCi2jrtfxK7uyp2ww==
 
-vscode@^1.1.32:
-  version "1.1.32"
-  resolved "https://registry.yarnpkg.com/vscode/-/vscode-1.1.32.tgz#83001913d69715104c86a8af88a571ecc34cb707"
-  integrity sha512-RSjrFoV45i+Qlhr8nWWkDv9MCoF1WGEdaqKnGinzZUIf5tn9olMSWOPXvNM3EEgMw5IGzwi38X48jomn3uLtYw==
+vscode@^1.1.33:
+  version "1.1.33"
+  resolved "https://registry.yarnpkg.com/vscode/-/vscode-1.1.33.tgz#e05d5ca25eb35d799fc20622af7c7a561abf6fba"
+  integrity sha512-sXedp2oF6y4ZvqrrFiZpeMzaCLSWV+PpYkIxjG/iYquNZ9KrLL2LujltGxPLvzn49xu2sZkyC+avVNFgcJD1Iw==
   dependencies:
     glob "^7.1.2"
     mocha "^4.0.1"
@@ -9576,7 +9576,7 @@ vscode@^1.1.32:
     semver "^5.4.1"
     source-map-support "^0.5.0"
     url-parse "^1.4.4"
-    vscode-test "^0.1.1"
+    vscode-test "^0.1.4"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"
