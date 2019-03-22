@@ -4,6 +4,8 @@ import readFile from 'hint/dist/src/lib/utils/fs/read-file';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
+import { ignoredConnectors } from './_ignored-connectors';
+
 const hintPath = getHintPath(__filename, true);
 
 const generateHTMLConfig = (fileName: string) => {
@@ -27,7 +29,7 @@ const elementAddedAlwaysTrue: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAddedAlwaysTrue, { browserslist: ['last 2 Edge versions'] });
+hintRunner.testHint(hintPath, elementAddedAlwaysTrue, { browserslist: ['last 2 Edge versions'], ignoredConnectors });
 
 const elementAttrAddedAlwaysTrue: HintTest[] = [
     {
@@ -36,7 +38,7 @@ const elementAttrAddedAlwaysTrue: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAttrAddedAlwaysTrue, { browserslist: ['> 1%'] });
+hintRunner.testHint(hintPath, elementAttrAddedAlwaysTrue, { browserslist: ['> 1%'], ignoredConnectors });
 
 const elementAttrVersionAddedFalse: HintTest[] = [
     {
@@ -46,7 +48,7 @@ const elementAttrVersionAddedFalse: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAttrVersionAddedFalse, { browserslist: ['ie 9'] });
+hintRunner.testHint(hintPath, elementAttrVersionAddedFalse, { browserslist: ['ie 9'], ignoredConnectors });
 
 const elementVersionAddedNull: HintTest[] = [
     {
@@ -55,7 +57,7 @@ const elementVersionAddedNull: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementVersionAddedNull, { browserslist: ['and_chr 69'] });
+hintRunner.testHint(hintPath, elementVersionAddedNull, { browserslist: ['and_chr 69'], ignoredConnectors });
 
 const elementVersionAddedFalse: HintTest[] = [
     {
@@ -64,7 +66,7 @@ const elementVersionAddedFalse: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2 Chrome versions'] });
+hintRunner.testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2 Chrome versions'], ignoredConnectors });
 
 const elementAddedInVersionBeforeTargetedBrowserVersion: HintTest[] = [
     {
@@ -73,7 +75,7 @@ const elementAddedInVersionBeforeTargetedBrowserVersion: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAddedInVersionBeforeTargetedBrowserVersion, { browserslist: ['ie 10'] });
+hintRunner.testHint(hintPath, elementAddedInVersionBeforeTargetedBrowserVersion, { browserslist: ['ie 10'], ignoredConnectors });
 
 const elementAddedVersionOfTargetedBrowser: HintTest[] = [
     {
@@ -82,7 +84,7 @@ const elementAddedVersionOfTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAddedVersionOfTargetedBrowser, { browserslist: ['ie 9'] });
+hintRunner.testHint(hintPath, elementAddedVersionOfTargetedBrowser, { browserslist: ['ie 9'], ignoredConnectors });
 
 const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
@@ -92,7 +94,7 @@ const elementAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['ie 8'] });
+hintRunner.testHint(hintPath, elementAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['ie 8'], ignoredConnectors });
 
 const elementAttrVersionAddedNull: HintTest[] = [
     {
@@ -101,7 +103,7 @@ const elementAttrVersionAddedNull: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAttrVersionAddedNull, { browserslist: ['last 2 Edge versions'] });
+hintRunner.testHint(hintPath, elementAttrVersionAddedNull, { browserslist: ['last 2 Edge versions'], ignoredConnectors });
 
 /*
  * GLOBAL ATTRIBUTES
@@ -113,7 +115,7 @@ const globalAttrVersionAddedNull: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrVersionAddedNull, { browserslist: ['last 2 and_chr versions'] });
+hintRunner.testHint(hintPath, globalAttrVersionAddedNull, { browserslist: ['last 2 and_chr versions'], ignoredConnectors });
 
 const globalAttrVersionAddedFalse: HintTest[] = [
     {
@@ -123,7 +125,7 @@ const globalAttrVersionAddedFalse: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrVersionAddedFalse, { browserslist: ['last 2 edge versions', 'last 2 firefox versions', 'last 2 ie versions', 'Chrome 60'] });
+hintRunner.testHint(hintPath, globalAttrVersionAddedFalse, { browserslist: ['last 2 edge versions', 'last 2 firefox versions', 'last 2 ie versions', 'Chrome 60'], ignoredConnectors });
 
 const globalAttrAddedInVersionBeforeTargetedBrowserVersion: HintTest[] = [
     {
@@ -132,7 +134,7 @@ const globalAttrAddedInVersionBeforeTargetedBrowserVersion: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrAddedInVersionBeforeTargetedBrowserVersion, { browserslist: ['firefox 34'] });
+hintRunner.testHint(hintPath, globalAttrAddedInVersionBeforeTargetedBrowserVersion, { browserslist: ['firefox 34'], ignoredConnectors });
 
 const globalAttrAddedVersionOfTargetedBrowser: HintTest[] = [
     {
@@ -141,7 +143,7 @@ const globalAttrAddedVersionOfTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrAddedVersionOfTargetedBrowser, { browserslist: ['firefox 34'] });
+hintRunner.testHint(hintPath, globalAttrAddedVersionOfTargetedBrowser, { browserslist: ['firefox 34'], ignoredConnectors });
 
 const globalAttrAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     {
@@ -151,7 +153,7 @@ const globalAttrAddedInVersionAfterTargetedBrowserVersion: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttrAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['firefox 31'] });
+hintRunner.testHint(hintPath, globalAttrAddedInVersionAfterTargetedBrowserVersion, { browserslist: ['firefox 31'], ignoredConnectors });
 
 /*
  * INPUT TYPES
@@ -164,7 +166,7 @@ const inputTypeVersionAddedNull: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, inputTypeVersionAddedNull, { browserslist: ['last 2 and_chr versions'] });
+hintRunner.testHint(hintPath, inputTypeVersionAddedNull, { browserslist: ['last 2 and_chr versions'], ignoredConnectors });
 
 const inputTypeVersionAddedFalse: HintTest[] = [
     {
@@ -174,7 +176,7 @@ const inputTypeVersionAddedFalse: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, inputTypeVersionAddedFalse, { browserslist: ['ie 9'] });
+hintRunner.testHint(hintPath, inputTypeVersionAddedFalse, { browserslist: ['ie 9'], ignoredConnectors });
 
 const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
     {
@@ -184,7 +186,7 @@ const inputTypeVersionAddedAfterTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, inputTypeVersionAddedAfterTargetedBrowsers, { browserslist: ['chrome 19', 'firefox 28', 'edge 15'] });
+hintRunner.testHint(hintPath, inputTypeVersionAddedAfterTargetedBrowsers, { browserslist: ['chrome 19', 'firefox 28', 'edge 15'], ignoredConnectors });
 
 /*
  * IGNORE HINT OPTION
@@ -200,7 +202,8 @@ const mixedFeaturedCompatibility: HintTest[] = [
 
 hintRunner.testHint(hintPath, mixedFeaturedCompatibility, {
     browserslist: ['firefox 28', 'edge 15', 'ie 10', 'safari 11', 'ios_saf 11', 'samsung 4', 'android 4'],
-    hintOptions: { enable: ['integrity'] }
+    hintOptions: { enable: ['integrity'] },
+    ignoredConnectors
 });
 
 const fixturesWithIgnoredFeatures = [
@@ -217,4 +220,4 @@ const defaultIgnoredFeatures: HintTest[] = fixturesWithIgnoredFeatures.map((file
     };
 });
 
-hintRunner.testHint(hintPath, defaultIgnoredFeatures, { browserslist: ['ie 10', 'chrome 24'] });
+hintRunner.testHint(hintPath, defaultIgnoredFeatures, { browserslist: ['ie 10', 'chrome 24'], ignoredConnectors });
