@@ -11,7 +11,7 @@ The following is a basic `formatter` that `.stringify()`s the results:
 
 ```js
 export default class JSONFormatter implements IFormatter {
-    public format(messages: Problem[]) {
+    public async format(messages: Problem[], options: FormatterOptions = {}) {
         console.log(JSON.stringify(messages, null, 2));
     }
 }
@@ -38,7 +38,7 @@ import * as _ from 'lodash';
 
 export default class JSONFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
-    public format(messages: Problem[]) {
+    public async format(messages: Problem[], options: FormatterOptions = {}) {
         const resources = _.groupBy(messages, 'resource');
 
         _.forEach(resources, (msgs, resource) => {
@@ -49,6 +49,23 @@ export default class JSONFormatter implements IFormatter {
         });
     }
 }
+```
+
+The `options` parameter is as follows:
+
+```ts
+export type FormatterOptions = {
+    /** Start time (queued in online scanner) ISO string */
+    date?: string;
+    /** The file to use to output the results requested by the user */
+    output?: string;
+    /** The time it took to analyze the URL */
+    scanTime?: number;
+    /** The analyzed URL */
+    target?: string;
+    /** webhint's version */
+    version?: string;
+};
 ```
 
 You can always check the code of any of the official `formatter`s for

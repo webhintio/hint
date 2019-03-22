@@ -7,11 +7,15 @@ export type FormatterOptions = {
     date?: string;
     isScanner?: boolean;
     noGenerateFiles?: boolean;
+    /** The file to use to output the results requested by the user */
     output?: string;
     resources?: HintResources;
+    /** The time it took to analyze the URL */
     scanTime?: number;
     status?: string;
+    /** The analyzed URL */
     target?: string;
+    /** webhint's version */
     version?: string;
 };
 
