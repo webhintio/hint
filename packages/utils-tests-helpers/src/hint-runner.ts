@@ -69,17 +69,17 @@ const requestSource = async (url: string, connector: string): Promise<string> =>
     try {
         if (connector === 'local') {
             return await readFileAsync(asPathString(getAsUri(url)!));
-        } else {
-            /*
-            * Allow us to use our self-signed cert for testing.
-            * https://github.com/request/request/issues/418#issuecomment-23058601
-            */
-            return await requestAsync({
-                rejectUnauthorized: false,
-                strictSSL: false,
-                url
-            });
         }
+
+        /*
+         * Allow us to use our self-signed cert for testing.
+         * https://github.com/request/request/issues/418#issuecomment-23058601
+         */
+        return await requestAsync({
+            rejectUnauthorized: false,
+            strictSSL: false,
+            url
+        });
     } catch (e) {
         // Some tests deliberately use invalid URLs (e.g. `test:`).
         return '';
