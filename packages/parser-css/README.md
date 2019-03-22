@@ -45,7 +45,8 @@ This `parser` emits the following events:
   * `element`: an `HTMLElement` reference if the source was inline
     in HTML; `null` otherwise.
   * `resource`: the parsed resource. If the CSS is in a `style tag`
-    and not a file, the value will be `Inline CSS`.
+    and not a file, the value will refer to the HTML document containing
+    the stylesheet.
 
 <!-- Link labels: -->
 
