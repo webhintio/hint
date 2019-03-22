@@ -14,14 +14,16 @@ import { OptionsWithUrl } from 'request';
 
 import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation, Severity, TraverseStart } from 'hint/dist/src/lib/types';
+import { IHint, ProblemLocation, Severity } from 'hint/dist/src/lib/types';
+
+import { HTMLEvents, HTMLParse } from '@hint/parser-html';
 
 import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
 
 type CheckerData = {
-    event: TraverseStart;
+    event: HTMLParse;
     failed: boolean;
     promise: Promise<any>;
 };
@@ -36,7 +38,7 @@ export default class HtmlCheckerHint implements IHint {
 
     public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<HTMLEvents>) {
 
         /** The promise that represents the scan by HTML checker. */
         let htmlCheckerPromises: CheckerData[] = [];
@@ -127,8 +129,8 @@ export default class HtmlCheckerHint implements IHint {
             }
         };
 
-        const checkHTML = (data: TraverseStart): CheckerData => {
-            const options = Object.assign({}, scanOptions, { body: context.pageContent });
+        const checkHTML = (data: HTMLParse): CheckerData => {
+            const options = Object.assign({}, scanOptions, { body: data.html });
 
             return {
                 event: data,
@@ -137,7 +139,7 @@ export default class HtmlCheckerHint implements IHint {
             };
         };
 
-        const start = (data: TraverseStart) => {
+        const start = (data: HTMLParse) => {
             const check: CheckerData = checkHTML(data);
 
             htmlCheckerPromises.push(check);
@@ -188,7 +190,7 @@ export default class HtmlCheckerHint implements IHint {
 
         loadHintConfig();
 
-        context.on('traverse::start', start);
+        context.on('parse::end::html', start);
         context.on('scan::end', end);
     }
 }
