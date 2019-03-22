@@ -4,6 +4,8 @@ import readFile from 'hint/dist/src/lib/utils/fs/read-file';
 import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
 import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
 
+import { ignoredConnectors } from './_ignored-connectors';
+
 const hintPath = getHintPath(__filename, true);
 
 const generateHTMLConfig = (fileName: string) => {
@@ -27,7 +29,7 @@ const elementNeverRemoved: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementNeverRemoved, { browserslist: ['> 1%'] });
+hintRunner.testHint(hintPath, elementNeverRemoved, { browserslist: ['> 1%'], ignoredConnectors });
 
 const elementAttrNeverRemoved: HintTest[] = [
     {
@@ -36,7 +38,7 @@ const elementAttrNeverRemoved: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAttrNeverRemoved, { browserslist: ['> 1%'] });
+hintRunner.testHint(hintPath, elementAttrNeverRemoved, { browserslist: ['> 1%'], ignoredConnectors });
 
 const removedForFlags: HintTest[] = [
     {
@@ -45,7 +47,7 @@ const removedForFlags: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['firefox 34'] });
+hintRunner.testHint(hintPath, removedForFlags, { browserslist: ['firefox 34'], ignoredConnectors });
 
 const onlySupportedByFlags: HintTest[] = [
     {
@@ -55,7 +57,7 @@ const onlySupportedByFlags: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, onlySupportedByFlags, { browserslist: ['firefox 60'] });
+hintRunner.testHint(hintPath, onlySupportedByFlags, { browserslist: ['firefox 60'], ignoredConnectors });
 
 const elementRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     {
@@ -64,7 +66,7 @@ const elementRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementRemovedVersionLaterThanTargetedBrowser, { browserslist: ['firefox 20'] });
+hintRunner.testHint(hintPath, elementRemovedVersionLaterThanTargetedBrowser, { browserslist: ['firefox 20'], ignoredConnectors });
 
 const elementRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
@@ -74,7 +76,7 @@ const elementRemovedVersionOfTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementRemovedVersionOfTargetedBrowser, { browserslist: ['firefox 22'] });
+hintRunner.testHint(hintPath, elementRemovedVersionOfTargetedBrowser, { browserslist: ['firefox 22'], ignoredConnectors });
 
 const elementRemovedVersionEarlierThanMultipleTargetedBrowser: HintTest[] = [
     {
@@ -84,7 +86,7 @@ const elementRemovedVersionEarlierThanMultipleTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanMultipleTargetedBrowser, { browserslist: ['firefox 24 - 26'] });
+hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanMultipleTargetedBrowser, { browserslist: ['firefox 24 - 26'], ignoredConnectors });
 
 const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     {
@@ -94,7 +96,7 @@ const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 23', 'opera 16'] });
+hintRunner.testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 23', 'opera 16'], ignoredConnectors });
 
 const elementVersionAddedFalse: HintTest[] = [
     {
@@ -104,7 +106,7 @@ const elementVersionAddedFalse: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2 Chrome versions'] });
+hintRunner.testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2 Chrome versions'], ignoredConnectors });
 
 const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
     {
@@ -114,7 +116,7 @@ const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56', 'ie 11'] });
+hintRunner.testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56', 'ie 11'], ignoredConnectors });
 
 const elementVersionAddedFalseForMultipleBrowsers: HintTest[] = [
     {
@@ -124,7 +126,7 @@ const elementVersionAddedFalseForMultipleBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementVersionAddedFalseForMultipleBrowsers, { browserslist: ['chrome 43', 'last 2 Edge versions', 'last 2 ie versions', 'opera 12'] });
+hintRunner.testHint(hintPath, elementVersionAddedFalseForMultipleBrowsers, { browserslist: ['chrome 43', 'last 2 Edge versions', 'last 2 ie versions', 'opera 12'], ignoredConnectors });
 
 const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
     {
@@ -134,7 +136,7 @@ const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'chrome 45', 'and_ff 56'] });
+hintRunner.testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'chrome 45', 'and_ff 56'], ignoredConnectors });
 
 const elementAttrRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     {
@@ -143,7 +145,7 @@ const elementAttrRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAttrRemovedVersionLaterThanTargetedBrowser, { browserslist: ['firefox 52'] });
+hintRunner.testHint(hintPath, elementAttrRemovedVersionLaterThanTargetedBrowser, { browserslist: ['firefox 52'], ignoredConnectors });
 
 const elementAttrRemovedVersionOfTargetedBrowser: HintTest[] = [
     {
@@ -153,7 +155,7 @@ const elementAttrRemovedVersionOfTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAttrRemovedVersionOfTargetedBrowser, { browserslist: ['firefox 55'] });
+hintRunner.testHint(hintPath, elementAttrRemovedVersionOfTargetedBrowser, { browserslist: ['firefox 55'], ignoredConnectors });
 
 const elementAttrRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     {
@@ -163,7 +165,7 @@ const elementAttrRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, elementAttrRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 56'] });
+hintRunner.testHint(hintPath, elementAttrRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 56'], ignoredConnectors });
 
 /*
  * GLOBAL ATTRIBUTES
@@ -175,7 +177,7 @@ const globalAttributeNeverRemoved: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1%'] });
+hintRunner.testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1%'], ignoredConnectors });
 
 /*
  * FIXME: Browserlist doesn't have the whole list of browsers,
@@ -227,7 +229,7 @@ const inputTypeNeverRemoved: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'] });
+hintRunner.testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], ignoredConnectors });
 
 const mixedFeaturedCompatibility: HintTest[] = [
     {
@@ -236,4 +238,4 @@ const mixedFeaturedCompatibility: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['edge 15', 'ie 10', 'safari 11', 'ios_saf 11', 'samsung 4', 'android 4'] });
+hintRunner.testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['edge 15', 'ie 10', 'safari 11', 'ios_saf 11', 'samsung 4', 'android 4'], ignoredConnectors });
