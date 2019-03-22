@@ -6,26 +6,18 @@ export type Library = {
     npmPkgName: string;
 };
 
-/** A snyk.io vulnerability report. */
-
+/**
+ * A snyk.io vulnerability report (just the pieces used by webhint).
+ *
+ * Note: to include additional properties in this list, add them here
+ * and update `filterSnykData` in `pack-snyk.js` to copy them to the
+ * final, packed version of the data.
+ */
 export type Vulnerability = {
-    title: string;
-    moduleName: string;
-    language: string;
     packageManager: string;
-    identifiers: any;
     severity: string;
-    semver: any;
-    vulnerable: string;
-    credit: string[];
-    CVSSv3: string;
-    disclosureTime: string; // Should be a date time, but we don't hydrate that from JSON.
-    patches: string[];
-    publicationTime: string; // Should be a date time, but we don't hydrate that from JSON.
-    modificationTime: string; // Should be a date time, but we don't hydrate that from JSON.
-    creationTime: string; // Should be a date time, but we don't hydrate that from JSON.
-    id: string;
+    semver: {
+        vulnerable: string[];
+    };
     packageName: string;
-    cvssScore: number;
-    alternativeIds: string[];
 };
