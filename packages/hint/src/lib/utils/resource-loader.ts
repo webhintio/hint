@@ -19,21 +19,19 @@ import { execSync } from 'child_process';
 import { sync as globby } from 'globby';
 import * as semver from 'semver';
 
-import loadJSONFile from './fs/load-json-file';
-import getPackage from './packages/load-package';
-import getHintPackage from './packages/load-hint-package';
-import findNodeModulesRoot from './packages/find-node-modules-root';
-import findPackageRoot from './packages/find-package-root';
-import isNormalizedIncluded from './misc/normalize-includes';
-import readFile from './fs/read-file';
-import { debug as d } from './debug';
+import { debug as d, fs as fsUtils, misc, packages } from '@hint/utils';
+
 import { Resource, IHintConstructor, HintResources } from '../types';
 import { Configuration } from '../config';
 import { ResourceType } from '../enums/resource-type';
 import { ResourceErrorStatus } from '../enums/error-status';
 import { ResourceError } from '../types/resource-error';
 import { IConnectorConstructor } from '../types/connector';
-import cwd from './fs/cwd';
+import loadHintPackage from '../utils/packages/load-hint-package';
+
+const { cwd, loadJSONFile, readFile } = fsUtils;
+const { loadPackage: getPackage, findNodeModulesRoot, findPackageRoot} = packages;
+const { normalizeIncludes } = misc;
 
 const debug: debug.IDebugger = d(__filename);
 const HINT_ROOT: string = findPackageRoot();
@@ -96,7 +94,7 @@ const resolvePackage = (modulePath: string): string => {
 const isVersionValid = (resourcePath: string): boolean => {
     try {
         const pkg = getPackage(resourcePath);
-        const hintPkg = getHintPackage();
+        const hintPkg = loadHintPackage();
 
         return semver.satisfies(hintPkg.version, pkg.peerDependencies.hint);
     } catch (e) {
@@ -372,7 +370,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
                 try {
                     const packageConfig = getPackage(source);
 
-                    if (!isNormalizedIncluded(packageConfig.name, packageName)) {
+                    if (!normalizeIncludes(packageConfig.name, packageName)) {
                         return false;
                     }
                 } catch (e) {
