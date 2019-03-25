@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0"
+  },
   "description": "webhint parser needed to analyze webpack config files",
   "devDependencies": {
     "@types/node": "11.12.0",

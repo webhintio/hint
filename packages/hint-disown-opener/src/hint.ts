@@ -12,14 +12,14 @@
 
 import { URL } from 'url';
 
-import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
-import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils/dist/src/debug';
+import { isSupported } from '@hint/utils/dist/src/caniuse';
+import { isRegularProtocol } from '@hint/utils/dist/src/network/is-regular-protocol';
+import { cutString } from '@hint/utils/dist/src/misc/cut-string';
+import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
+import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
 import { HTMLElement, ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
 import meta from './meta';
 

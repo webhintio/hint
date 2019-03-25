@@ -15,8 +15,8 @@ import {
     IHint,
     IJSONLocationFunction
 } from 'hint/dist/src/lib/types';
-import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { isSupported } from '@hint/utils/dist/src/caniuse';
+import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import {
     Manifest,
     ManifestEvents,

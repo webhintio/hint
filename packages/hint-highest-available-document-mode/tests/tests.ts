@@ -1,12 +1,11 @@
 /* eslint sort-keys: 0 */
 
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+const {generateHTMLPage, getHintPath} = test;
 const hintPath = getHintPath(__filename);
 
 const metaElement = '<meta http-equiv="x-ua-compatible" content="ie=edge">';
@@ -128,9 +127,9 @@ const testsForRequireMetaElementConfig: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, testsForNonDocumentModeBrowsers, { browserslist: ['ie >= 11', 'chrome >= 50', 'edge >= 13', 'firefox >= 45'] });
-hintRunner.testHint(hintPath, testsForRequireMetaElementConfig, {
+testHint(hintPath, testsForNonDocumentModeBrowsers, { browserslist: ['ie >= 11', 'chrome >= 50', 'edge >= 13', 'firefox >= 45'] });
+testHint(hintPath, testsForRequireMetaElementConfig, {
     browserslist: ['ie 8'],
     hintOptions: { requireMetaElement: true }
 });
-hintRunner.testHint(hintPath, testsForHeaders, { browserslist: ['ie 8'] });
+testHint(hintPath, testsForHeaders, { browserslist: ['ie 8'] });

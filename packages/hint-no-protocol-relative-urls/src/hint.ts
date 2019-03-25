@@ -8,9 +8,9 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils/dist/src/debug';
+import { cutString } from '@hint/utils/dist/src/misc/cut-string';
 import { ElementFound, IHint } from 'hint/dist/src/lib/types';
-import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';

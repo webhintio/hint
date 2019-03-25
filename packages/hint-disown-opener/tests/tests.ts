@@ -1,12 +1,9 @@
-/* eslint sort-keys: 0 */
+import { misc, test } from '@hint/utils';
 
-import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
+const { generateHTMLPage, getHintPath } = test;
+const { cutString, prettyPrintArray } = misc;
 const hintPath = getHintPath(__filename);
 
 const generateMissingMessage = (value: string, linkTypes: string[]): string => {
@@ -204,6 +201,6 @@ const testsForIncludeSameOriginURLsConfig: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, testsWithFullSupportBrowsers, { browserslist: ['chrome 60', 'firefox 55'] });
-hintRunner.testHint(hintPath, testsForOldBrowsers, { browserslist: ['ie 8'] });
-hintRunner.testHint(hintPath, testsForIncludeSameOriginURLsConfig, { hintOptions: { includeSameOriginURLs: true } });
+testHint(hintPath, testsWithFullSupportBrowsers, { browserslist: ['chrome 60', 'firefox 55'] });
+testHint(hintPath, testsForOldBrowsers, { browserslist: ['ie 8'] });
+testHint(hintPath, testsForIncludeSameOriginURLsConfig, { hintOptions: { includeSameOriginURLs: true } });

@@ -63,8 +63,8 @@ const initContext = (t: ExecutionContext<ConfigTestContext>) => {
 const loadScript = (context: ConfigTestContext) => {
     return proxyquire('../../src/lib/cli', {
         './cli/actions': context.cliActions,
-        './utils/logging': context.logger,
         './utils/packages/load-hint-package': context.loadHintPackage,
+        '@hint/utils': { logger: context.logger },
         'update-notifier': context.updateNotifier
     });
 };

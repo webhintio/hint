@@ -15,14 +15,17 @@ import chalk from 'chalk';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import remove = require('lodash/remove');
 
-import { debug as d } from './utils/debug';
+import * as logger from '@hint/utils/dist/src/logging';
+import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
+import { debug as d } from '@hint/utils/dist/src/debug';
+
 import { getSeverity } from './config/config-hints';
 import {
     Events,
     HintConfig,
     HintResources,
-    HttpHeaders,
     HTMLElement,
+    HTMLDocument,
     IConnector,
     IConnectorConstructor,
     IFetchOptions,
@@ -36,12 +39,10 @@ import {
     Severity,
     StringKeyOf
 } from './types';
-import * as logger from './utils/logging';
 import { HintContext } from './hint-context';
 import { HintScope } from './enums/hint-scope';
 import { Configuration } from './config';
 import { Category } from './enums/category';
-import { HTMLDocument } from './types/html';
 
 const debug: debug.IDebugger = d(__filename);
 

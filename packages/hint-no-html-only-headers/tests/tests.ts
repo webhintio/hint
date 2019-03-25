@@ -1,11 +1,8 @@
-/* eslint sort-keys: 0 */
+import { misc, test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
-
+const { prettyPrintArray } = misc;
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
 
@@ -20,8 +17,8 @@ const testsForDefaults: HintTest[] = [
             '/': {
                 content: htmlPage,
                 headers: {
-                    'X-Frame-Options': 'SAMEORIGIN',
-                    'Content-Type': 'text/html; charset=utf-8'
+                    'Content-Type': 'text/html; charset=utf-8',
+                    'X-Frame-Options': 'SAMEORIGIN'
                 }
             },
             '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }
@@ -38,8 +35,8 @@ const testsForDefaults: HintTest[] = [
             '/': {
                 content: htmlPage,
                 headers: {
-                    'X-Frame-Options': 'SAMEORIGIN',
-                    'Content-Type': 'text/html; charset=utf-8'
+                    'Content-Type': 'text/html; charset=utf-8',
+                    'X-Frame-Options': 'SAMEORIGIN'
                 }
             },
             '/test.js': {
@@ -79,8 +76,8 @@ const testsForDefaults: HintTest[] = [
             },
             '/test.js': {
                 headers: {
-                    'Content-Type': 'application/javascript; charset=utf-8',
                     'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'application/javascript; charset=utf-8',
                     'Feature-Policy': `geolocation 'self'`,
                     'X-Content-Security-Policy': 'default-src "none"',
                     'X-Frame-Options': 'DENY',
@@ -172,8 +169,8 @@ const testsForIncludeConfigs: HintTest[] = [
             '/': {
                 content: htmlPage,
                 headers: {
-                    'X-Frame-Options': 'SAMEORIGIN',
                     'Content-Type': 'text/html; charset=utf-8',
+                    'X-Frame-Options': 'SAMEORIGIN',
                     'X-Test-1': 'test',
                     'X-Test-2': 'test'
                 }
@@ -206,8 +203,8 @@ const testsForConfigs: HintTest[] = [
             '/': {
                 content: htmlPage,
                 headers: {
-                    'X-Frame-Options': 'SAMEORIGIN',
                     'Content-Type': 'text/html; charset=utf-8',
+                    'X-Frame-Options': 'SAMEORIGIN',
                     'X-Test-1': 'test',
                     'X-Test-2': 'test'
                 }
@@ -225,10 +222,10 @@ const testsForConfigs: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, testsForDefaults);
-hintRunner.testHint(hintPath, testsForIgnoreConfigs, { hintOptions: { ignore: ['Content-Security-Policy', 'X-UA-Compatible', 'X-Test-1'] } });
-hintRunner.testHint(hintPath, testsForIncludeConfigs, { hintOptions: { include: ['Content-Security-Policy', 'X-Test-1', 'X-Test-2'] } });
-hintRunner.testHint(hintPath, testsForConfigs, {
+testHint(hintPath, testsForDefaults);
+testHint(hintPath, testsForIgnoreConfigs, { hintOptions: { ignore: ['Content-Security-Policy', 'X-UA-Compatible', 'X-Test-1'] } });
+testHint(hintPath, testsForIncludeConfigs, { hintOptions: { include: ['Content-Security-Policy', 'X-Test-1', 'X-Test-2'] } });
+testHint(hintPath, testsForConfigs, {
     hintOptions: {
         ignore: ['X-Frame-Options', 'X-Test-2', 'X-Test-3'],
         include: ['X-Test-1', 'X-Test-2', 'X-UA-Compatible']

@@ -1,9 +1,8 @@
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import readFile from 'hint/dist/src/lib/utils/fs/read-file';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { test, fs } from '@hint/utils';
 
+const { readFile } = fs;
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const generateConfig = (fileName: string) => {
@@ -151,4 +150,4 @@ const tests: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, tests, { parsers: ['css'] });
+testHint(hintPath, tests, { parsers: ['css'] });

@@ -1,8 +1,7 @@
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const metaElementIsNotInHeadErrorMessage = `'theme-color' meta element should be specified in the '<head>', not '<body>'.`;
@@ -97,10 +96,10 @@ const defaultTests: HintTest[] = [
 
 const testForNoSupportForHexWithAlpha: HintTest[] = [...generateTest(notAlwaysSupportedColorValues, 'unsupported', 'because of the targeted browsers')];
 
-hintRunner.testHint(hintPath, defaultTests, {
+testHint(hintPath, defaultTests, {
     browserslist: [
         'chrome 65',
         'firefox 60'
     ]
 });
-hintRunner.testHint(hintPath, testForNoSupportForHexWithAlpha, { browserslist: ['chrome 50'] });
+testHint(hintPath, testForNoSupportForHexWithAlpha, { browserslist: ['chrome 50'] });

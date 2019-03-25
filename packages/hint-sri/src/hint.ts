@@ -7,9 +7,9 @@ import { URL } from 'url';
 
 import { HintContext, ReportOptions } from 'hint/dist/src/lib/hint-context';
 import { IHint, FetchEnd, ElementFound, NetworkData, Request, Response } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
+import { debug as d } from '@hint/utils/dist/src/debug';
+import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
+import { requestAsync } from '@hint/utils/dist/src/network/request-async';
 
 import { Algorithms, OriginCriteria, ErrorData, URLs } from './types';
 import meta from './meta';

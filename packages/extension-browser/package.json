@@ -8,6 +8,7 @@
   },
   "description": "webhint browser extension",
   "devDependencies": {
+    "@hint/utils": "^1.0.0",
     "@hint/hint-axe": "^2.1.2",
     "@hint/hint-button-type": "^2.0.1",
     "@hint/hint-compat-api": "^2.1.1",

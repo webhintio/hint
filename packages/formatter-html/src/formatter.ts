@@ -13,16 +13,15 @@ import * as path from 'path';
 import * as ejs from 'ejs';
 import * as fs from 'fs-extra';
 
-import cwd from 'hint/dist/src/lib/utils/fs/cwd';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d, fs as fsUtils, logger } from '@hint/utils';
 import { IFormatter, Problem, FormatterOptions, HintResources } from 'hint/dist/src/lib/types';
 import { Category } from 'hint/dist/src/lib/enums/category';
-import * as logger from 'hint/dist/src/lib/utils/logging';
 
 const utils = require('./utils');
 
 import AnalysisResult, { CategoryResult, HintResult } from './result';
 
+const { cwd } = fsUtils;
 const debug = d(__filename);
 
 /*
@@ -166,7 +165,7 @@ export default class HTMLFormatter implements IFormatter {
                 await parseCssfile(path.join(destDir, 'styles', 'anchor-top.css'), '../');
 
                 if (options.config) {
-                    await fs.outputFile(path.join(configDir, result.id), JSON.stringify(options.config), { encoding: 'utf-8'});
+                    await fs.outputFile(path.join(configDir, result.id), JSON.stringify(options.config), { encoding: 'utf-8' });
                 }
 
                 const destination = path.join(destDir, 'index.html');

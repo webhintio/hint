@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0"
+  },
   "description": "Require scripts and styles to use Subresource Integrity",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",

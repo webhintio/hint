@@ -20,15 +20,13 @@ const readFileAsBuffer = promisify(readFile);
 import * as chokidar from 'chokidar';
 import globby from 'globby';
 
-import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
-import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
+import { fs, logger, network } from '@hint/utils';
+
 import { getContentTypeData, isTextMediaType, getType } from 'hint/dist/src/lib/utils/content-type';
 import traverse from 'hint/dist/src/lib/utils/dom/traverse';
 
-import isFile from 'hint/dist/src/lib/utils/fs/is-file';
-import cwd from 'hint/dist/src/lib/utils/fs/cwd';
-import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
-import * as logger from 'hint/dist/src/lib/utils/logging';
+const { cwd, isFile, readFileAsync } = fs;
+const { asPathString, getAsUri } = network;
 
 import {
     CanEvaluateScript,

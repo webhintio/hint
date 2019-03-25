@@ -1,9 +1,7 @@
-/* eslint sort-keys: 0 */
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { test } from '@hint/utils';
 
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-
+const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 // Headers.
@@ -45,12 +43,12 @@ const messages = (cookieName: string = 'cookiename'): { [key: string]: string } 
         invalidDateFormatError: `Invalid date format in 'expires' value of the 'set-cookie' header to set '${cookieName}'. The recommended format is: Wed, 31 Dec 1997 23:59:59 GMT`,
         invalidNameError: `'set-cookie' header to set '${cookieName}' has an invalid cookie name.`,
         invalidValueError: `'set-cookie' header to set '${cookieName}' has an invalid cookie value.`,
+        maxAgeNoExpireWarning: `Internet Explorer (IE 6, IE 7, and IE 8) doesn't support 'max-age' directive in the 'set-cookie' header to set 'cookiename'.`,
+        maxAgePrecedenceWarning: `The 'max-age' attribute takes precedence when both 'expires' and 'max-age' both exist.`,
         noHttpOnlyHeaderError: `'set-cookie' header to set '${cookieName}' doesn't have the 'httponly' directive.`,
         noNameValueStringError: `'set-cookie' header doesn't contain a cookie name-value string.`,
         noPathHasHostPrefixError: `set-cookie header contains '__Host-' prefix but the 'path' directive doesn't have a value of '/'.`,
         noSecureHeaderError: `'set-cookie' header to set '${cookieName}' doesn't have the 'secure' directive.`,
-        maxAgeNoExpireWarning: `Internet Explorer (IE 6, IE 7, and IE 8) doesn't support 'max-age' directive in the 'set-cookie' header to set 'cookiename'.`,
-        maxAgePrecedenceWarning: `The 'max-age' attribute takes precedence when both 'expires' and 'max-age' both exist.`,
         trailingSemicolonError: `'set-cookie' header to set '${cookieName}' has trailing ';'`
     };
 };
@@ -78,69 +76,69 @@ const defaultTests: HintTest[] = [
     },
     {
         name: `Header doesn't have cookie name-value-string`,
-        serverConfig: { '/': { headers: noNameValueStringHeader } },
-        reports: [{ message: messages().noNameValueStringError }]
+        reports: [{ message: messages().noNameValueStringError }],
+        serverConfig: { '/': { headers: noNameValueStringHeader } }
     },
     {
         name: `Header contains unknown attributes`,
-        serverConfig: { '/': { headers: invalidAttributeHeader } },
-        reports: [{ message: messages().invalidAttributeError }]
+        reports: [{ message: messages().invalidAttributeError }],
+        serverConfig: { '/': { headers: invalidAttributeHeader } }
     },
     {
         name: `Header doesn't have 'Secure' directive`,
-        serverConfig: { '/': { headers: noSecureHeader } },
-        reports: [{ message: messages().noSecureHeaderError }]
+        reports: [{ message: messages().noSecureHeaderError }],
+        serverConfig: { '/': { headers: noSecureHeader } }
     },
     {
         name: `Header doesn't have 'HttpOnly' directive`,
-        serverConfig: { '/': { headers: noHttpOnlyHeader } },
-        reports: [{ message: messages().noHttpOnlyHeaderError }]
+        reports: [{ message: messages().noHttpOnlyHeaderError }],
+        serverConfig: { '/': { headers: noHttpOnlyHeader } }
     },
     {
         name: `Cookie name contains invalid characters`,
-        serverConfig: { '/': { headers: invalidNameHeader } },
-        reports: [{ message: messages('"cookiename"').invalidNameError }]
+        reports: [{ message: messages('"cookiename"').invalidNameError }],
+        serverConfig: { '/': { headers: invalidNameHeader } }
     },
     {
         name: `Cookie value contains invalid characters`,
-        serverConfig: { '/': { headers: invalidValueHeader } },
-        reports: [{ message: messages().invalidValueError }]
+        reports: [{ message: messages().invalidValueError }],
+        serverConfig: { '/': { headers: invalidValueHeader } }
     },
     {
         name: `'Expires' directive contains invalid date format`,
-        serverConfig: { '/': { headers: invalidDateFormatHeader } },
-        reports: [{ message: messages().invalidDateFormatError }]
+        reports: [{ message: messages().invalidDateFormatError }],
+        serverConfig: { '/': { headers: invalidDateFormatHeader } }
     },
     {
         name: `Header contains trailing semicolon`,
-        serverConfig: { '/': { headers: trailingSemicolonHeader } },
-        reports: [{ message: messages().trailingSemicolonError }]
+        reports: [{ message: messages().trailingSemicolonError }],
+        serverConfig: { '/': { headers: trailingSemicolonHeader } }
     },
     {
         name: `Header contains multiple errors`,
-        serverConfig: { '/': { headers: multipleErrorsHeader } },
         reports: [
             { message: messages('"cookiename"').invalidNameError },
             { message: messages('"cookiename"').invalidValueError }
-        ]
+        ],
+        serverConfig: { '/': { headers: multipleErrorsHeader } }
     },
     {
         name: `Cookie name has '__Host' prefix but doesn't have 'Path' directive`,
-        serverConfig: { '/': { headers: noPathHostPrefixHeader } },
-        reports: [{ message: messages().noPathHasHostPrefixError }]
+        reports: [{ message: messages().noPathHasHostPrefixError }],
+        serverConfig: { '/': { headers: noPathHostPrefixHeader } }
     },
     {
         name: `Cookie name has '__Host' prefix but has 'Domain' directive set`,
-        serverConfig: { '/': { headers: hasDomainHostPrefixHeader } },
-        reports: [{ message: messages().hasDomainHostPrefixError }]
+        reports: [{ message: messages().hasDomainHostPrefixError }],
+        serverConfig: { '/': { headers: hasDomainHostPrefixHeader } }
     }
 ];
 
 const olderBrowserOnlyTests = [
     {
         name: `'Max-Age' only in old browsers (older browsers only)`,
-        serverConfig: { '/': { headers: maxAgeOnlyHeader } },
-        reports: [{ message: messages().maxAgeNoExpireWarning }]
+        reports: [{ message: messages().maxAgeNoExpireWarning }],
+        serverConfig: { '/': { headers: maxAgeOnlyHeader } }
     },
     {
         name: `Both 'Max-Age' and 'Expires' exist in new browsers (older browsers only)`,
@@ -159,8 +157,8 @@ const olderBrowserOnlyTests = [
 const newBrowserOnlyTests = [
     {
         name: `Both 'Max-Age' and 'Expires' exist in new browsers (new browsers only)`,
-        serverConfig: { '/': { headers: bothMaxAgeAndExpireHeader } },
-        reports: [{ message: messages().maxAgePrecedenceWarning }]
+        reports: [{ message: messages().maxAgePrecedenceWarning }],
+        serverConfig: { '/': { headers: bothMaxAgeAndExpireHeader } }
     },
     {
         name: `'Max-Age' only in new browsers`,
@@ -179,8 +177,8 @@ const newBrowserOnlyTests = [
 const oldAndNewBrowsersTest = [
     {
         name: `'Max-Age' only in old browsers (old and new browsers)`,
-        serverConfig: { '/': { headers: maxAgeOnlyHeader } },
-        reports: [{ message: messages().maxAgeNoExpireWarning }]
+        reports: [{ message: messages().maxAgeNoExpireWarning }],
+        serverConfig: { '/': { headers: maxAgeOnlyHeader } }
     },
     {
         name: `Both 'Max-Age' and 'Expires' exist in new browsers (old and new browsers)`,
@@ -196,7 +194,7 @@ const oldAndNewBrowsersTest = [
     }
 ];
 
-hintRunner.testHint(hintPath, defaultTests, {
+testHint(hintPath, defaultTests, {
     https: true,
     /*
      * Tests are skipped in `chrome` due to the absence of 'Set-Cookie' header.
@@ -206,7 +204,7 @@ hintRunner.testHint(hintPath, defaultTests, {
     ignoredConnectors: ['chrome']
 });
 
-hintRunner.testHint(hintPath, newBrowserOnlyTests, {
+testHint(hintPath, newBrowserOnlyTests, {
     browserslist: [
         '> 1%',
         'last 2 versions'
@@ -215,7 +213,7 @@ hintRunner.testHint(hintPath, newBrowserOnlyTests, {
     ignoredConnectors: ['chrome']
 });
 
-hintRunner.testHint(hintPath, olderBrowserOnlyTests, {
+testHint(hintPath, olderBrowserOnlyTests, {
     browserslist: [
         'ie 6', 'ie 7'
     ],
@@ -223,7 +221,7 @@ hintRunner.testHint(hintPath, olderBrowserOnlyTests, {
     ignoredConnectors: ['chrome']
 });
 
-hintRunner.testHint(hintPath, oldAndNewBrowsersTest, {
+testHint(hintPath, oldAndNewBrowsersTest, {
     browserslist: [
         'ie >= 6',
         'last 2 versions'

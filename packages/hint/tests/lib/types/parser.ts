@@ -12,13 +12,9 @@ type FileModule = {
     name: string;
 };
 
-type LoadJSONFileModule = {
-    default: () => FileModule | null;
-};
+type LoadJSONFileModule = () => FileModule | null;
 
-type AsPathString = {
-    default: () => string;
-};
+type AsPathString = () => string;
 
 type Path = {
     dirname: () => string;
@@ -48,16 +44,12 @@ const initContext = (t: ExecutionContext<ParserContext>) => {
         wildcard: true
     }) as Engine<Events>;
 
-    t.context.loadJSONFileModule = {
-        default(): FileModule | null {
-            return null;
-        }
+    t.context.loadJSONFileModule = (): FileModule | null => {
+        return null;
     };
 
-    t.context.asPathString = {
-        default(): string {
-            return '';
-        }
+    t.context.asPathString = (): string => {
+        return '';
     };
 
     t.context.path = {
@@ -73,9 +65,9 @@ const initContext = (t: ExecutionContext<ParserContext>) => {
 
 const loadScript = (context: ParserContext) => {
     const script = proxyquire('../../../src/lib/types/parser', {
-        '../utils/fs/load-json-file': context.loadJSONFileModule,
-        '../utils/network/as-path-string': context.asPathString,
-        '../utils/network/as-uri': asUri,
+        '@hint/utils/dist/src/fs/load-json-file': { loadJSONFile: context.loadJSONFileModule },
+        '@hint/utils/dist/src/network/as-path-string': { asPathString: context.asPathString },
+        '@hint/utils/dist/src/network/as-uri': asUri,
         path: context.path
     });
 
@@ -111,6 +103,10 @@ test(`If config doesn't have an extends property, it should return the same obje
 
 test('If there is a circular reference, it should return an instance of an Error', async (t) => {
     const sandbox = t.context.sandbox;
+
+    sandbox.stub(t.context, 'asPathString').returns('circularReference');
+    sandbox.stub(t.context.path, 'resolve').returns('circularReference');
+
     const Parser = loadScript(t.context);
 
     class TestParser extends Parser {
@@ -125,9 +121,6 @@ test('If there is a circular reference, it should return an instance of an Error
 
     const config = { extends: 'circularReference' };
 
-    sandbox.stub(t.context.asPathString, 'default').returns('circularReference');
-    sandbox.stub(t.context.path, 'resolve').returns('circularReference');
-
     const testParser = new TestParser(t.context.engine);
     const result = await testParser.config(config, 'circularReference');
 
@@ -137,6 +130,11 @@ test('If there is a circular reference, it should return an instance of an Error
 
 test('If one of the extended files is no a valid JSON, it should return an instance of an Error', async (t) => {
     const sandbox = t.context.sandbox;
+
+    sandbox.stub(t.context, 'asPathString').returns('valid-with-invalid-extends');
+    sandbox.stub(t.context.path, 'resolve').returns('invalid-extends');
+    sandbox.stub(t.context, 'loadJSONFileModule').throws(new Error('InvalidJSON'));
+
     const Parser = loadScript(t.context);
 
     class TestParser extends Parser {
@@ -151,10 +149,6 @@ test('If one of the extended files is no a valid JSON, it should return an insta
 
     const config = { extends: 'invalid-extends' };
 
-    sandbox.stub(t.context.asPathString, 'default').returns('valid-with-invalid-extends');
-    sandbox.stub(t.context.path, 'resolve').returns('invalid-extends');
-    sandbox.stub(t.context.loadJSONFileModule, 'default').throws(new Error('InvalidJSON'));
-
     const testParser = new TestParser(t.context.engine);
     const result = await testParser.config(config, 'valid-with-invalid-extends');
 
@@ -163,6 +157,28 @@ test('If one of the extended files is no a valid JSON, it should return an insta
 
 test('If everything is ok, it should merge all the extended configurations', async (t) => {
     const sandbox = t.context.sandbox;
+
+    sandbox.stub(t.context, 'asPathString').returns('valid-with-extends');
+    sandbox.stub(t.context.path, 'resolve')
+        .onFirstCall()
+        .returns('valid-extends')
+        .onSecondCall()
+        .returns('valid-extends-2');
+
+    const miscStub = sandbox.stub(t.context, 'loadJSONFileModule')
+        .onFirstCall()
+        .returns({
+            extends: 'valid-extends-2',
+            name: 'valid-extends'
+        })
+        .onSecondCall()
+        .returns({
+            extends: null,
+            name: 'valid-extends-2'
+        });
+
+    sandbox.spy(t.context.engine, 'emitAsync');
+
     const Parser = loadScript(t.context);
 
     class TestParser extends Parser {
@@ -179,27 +195,6 @@ test('If everything is ok, it should merge all the extended configurations', asy
         extends: 'valid-extends',
         name: 'valid'
     };
-
-    sandbox.stub(t.context.asPathString, 'default').returns('valid-with-extends');
-    sandbox.stub(t.context.path, 'resolve')
-        .onFirstCall()
-        .returns('valid-extends')
-        .onSecondCall()
-        .returns('valid-extends-2');
-
-    const miscStub = sandbox.stub(t.context.loadJSONFileModule, 'default')
-        .onFirstCall()
-        .returns({
-            extends: 'valid-extends-2',
-            name: 'valid-extends'
-        })
-        .onSecondCall()
-        .returns({
-            extends: null,
-            name: 'valid-extends-2'
-        });
-
-    sandbox.spy(t.context.engine, 'emitAsync');
 
     const testParser = new TestParser(t.context.engine);
 

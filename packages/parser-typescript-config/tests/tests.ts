@@ -6,12 +6,13 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
-import readFile from 'hint/dist/src/lib/utils/fs/read-file';
-import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
+import * as utils from '@hint/utils';
 import { Engine } from 'hint';
 import { FetchEnd, ErrorEvent } from 'hint/dist/src/lib/types';
 import { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfigInvalidSchema } from '../src/parser';
+
+const { loadJSONFile, readFile } = utils.fs;
+const { getAsUri } = utils.network;
 
 type SandboxContext = {
     sandbox: sinon.SinonSandbox;
@@ -21,20 +22,19 @@ const test = anyTest as TestInterface<SandboxContext>;
 
 const schema = readFile(path.join(__dirname, 'fixtures', 'schema.json'));
 
-const mockContext = () => {
+const mockContext = (context: SandboxContext) => {
     const statObject = { mtime: new Date() };
 
-    const requestAsync = {
-        default(url: string): Promise<string> {
-            return Promise.resolve(schema);
-        }
+    (utils.network as any).requestAsync = (url: string): Promise<string> => {
+        return Promise.resolve(schema);
     };
 
-    const writeFileAsync = {
-        default(path: string, content: string): Promise<void> {
-            return Promise.resolve();
-        }
+    (utils.fs as any).writeFileAsync = (path: string, content: string): Promise<void> => {
+        return Promise.resolve();
     };
+
+    const requestAsyncStub = context.sandbox.stub(utils.network, 'requestAsync');
+    const writeFileAsyncStub = context.sandbox.stub(utils.fs, 'writeFileAsync');
 
     const fs = {
         stat(path: string, callback: Function): void {
@@ -49,17 +49,16 @@ const mockContext = () => {
     }) as Engine<TypeScriptConfigEvents>;
 
     const script = proxyquire('../src/parser', {
-        fs,
-        'hint/dist/src/lib/utils/fs/write-file-async': writeFileAsync,
-        'hint/dist/src/lib/utils/network/request-async': requestAsync
+        '@hint/utils': utils,
+        fs
     });
 
     return {
         engine,
         fs,
-        requestAsync,
+        requestAsyncStub,
         TypeScriptConfigParser: script.default,
-        writeFileAsync
+        writeFileAsyncStub
     };
 };
 
@@ -74,7 +73,7 @@ test.afterEach.always((t) => {
 
 test(`If the resource doesn't match the regex, nothing should happen`, async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext();
+    const { engine, TypeScriptConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -88,7 +87,7 @@ test(`If the resource doesn't match the regex, nothing should happen`, async (t)
 
 test('If the file contains an invalid json, it should fail', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext();
+    const { engine, TypeScriptConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -108,7 +107,7 @@ test('If the file contains an invalid json, it should fail', async (t) => {
 
 test('If the file contains a valid json with an invalid schema, it should fail', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext();
+    const { engine, TypeScriptConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -127,7 +126,7 @@ test('If the file contains a valid json with an invalid schema, it should fail',
 
 test('If we receive a valid json with a valid name, it should emit the event parse::end::typescript-config', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext();
+    const { engine, TypeScriptConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -175,7 +174,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
 
 test('If we receive a valid json with an extends, it should emit the event parse::end::typescript-config with the right data', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext();
+    const { engine, TypeScriptConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -225,7 +224,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
 
 test('If we receive a json with an extends with a loop, it should emit the event parse::error::typescript-config::extends', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext();
+    const { engine, TypeScriptConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -245,7 +244,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
 
 test('If we receive a json with an extends with an invalid json, it should emit the event parse::error::typescript-config::extends', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext();
+    const { engine, TypeScriptConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -265,13 +264,11 @@ test('If we receive a json with an extends with an invalid json, it should emit 
 
 test(`If the schema file was updated in less than 24 hours, it shouldn't update the current schema`, async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, fs, requestAsync, TypeScriptConfigParser, writeFileAsync } = mockContext();
+    const { engine, fs, requestAsyncStub, TypeScriptConfigParser, writeFileAsyncStub } = mockContext(t.context);
 
     const fsStatStub = sandbox.stub(fs, 'stat').callsFake((path: string, callback) => {
         callback(null, { mtime: new Date() });
     });
-    const requestAsyncSpy = sandbox.spy(requestAsync, 'default');
-    const writeFileAsyncSpy = sandbox.spy(writeFileAsync, 'default');
 
     new TypeScriptConfigParser(engine); // eslint-disable-line no-new
 
@@ -283,13 +280,13 @@ test(`If the schema file was updated in less than 24 hours, it shouldn't update 
     } as FetchEnd);
 
     t.true(fsStatStub.calledOnce);
-    t.false(requestAsyncSpy.called);
-    t.false(writeFileAsyncSpy.called);
+    t.false(requestAsyncStub.called);
+    t.false(writeFileAsyncStub.called);
 });
 
 test(`If the schema file wasn't updated in less than 24 hours, it should update the current schema`, async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, fs, requestAsync, TypeScriptConfigParser, writeFileAsync } = mockContext();
+    const { engine, fs, requestAsyncStub, TypeScriptConfigParser, writeFileAsyncStub } = mockContext(t.context);
 
     const today = new Date();
     const dayBeforeYesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2);
@@ -297,8 +294,9 @@ test(`If the schema file wasn't updated in less than 24 hours, it should update 
     const fsStatStub = sandbox.stub(fs, 'stat').callsFake((path: string, callback) => {
         callback(null, { mtime: dayBeforeYesterday });
     });
-    const requestAsyncStub = sandbox.stub(requestAsync, 'default').resolves(schema);
-    const writeFileAsyncStub = sandbox.stub(writeFileAsync, 'default').resolves();
+
+    requestAsyncStub.resolves(schema);
+    writeFileAsyncStub.resolves();
 
     new TypeScriptConfigParser(engine); // eslint-disable-line no-new
 

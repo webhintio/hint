@@ -6,14 +6,14 @@ import { URL } from 'url';
 
 import * as getImageData from 'image-size';
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { debug as d, misc, network } from '@hint/utils';
 import { IHint, TraverseEnd, NetworkData, HTMLElement, HTMLDocument } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
 
+const { normalizeString } = misc;
+const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*

@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0"
+  },
   "description": "hint that that checks if the JavaScript used by the web page is minified",
   "devDependencies": {
     "@hint/parser-javascript": "^2.1.0",

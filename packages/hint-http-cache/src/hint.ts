@@ -2,9 +2,9 @@
  * @fileoverview Checks if your cache-control header and asset strategy follows best practices
  */
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
-import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
+import { debug as d } from '@hint/utils/dist/src/debug';
+import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
+import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
@@ -411,7 +411,7 @@ export default class HttpCacheHint implements IHint {
 
             const headers = fetchEnd.response.headers;
             const { response: { mediaType } } = fetchEnd;
-            const cacheControlHeaderValue: string = getHeaderValueNormalized(headers, 'cache-control', '')!; // won't return null since default value was provided
+            const cacheControlHeaderValue: string = normalizeHeaderValue(headers, 'cache-control', '')!; // won't return null since default value was provided
             const parsedDirectives: ParsedDirectives = parseCacheControlHeader(cacheControlHeaderValue);
 
             const validators = [

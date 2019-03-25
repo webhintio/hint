@@ -14,6 +14,7 @@
     ],
     "references": [
         { "path": "../hint" },
+        { "path": "../utils" },
         { "path": "../utils-connector-tools" },
         { "path": "../utils-tests-helpers" }
     ]

@@ -22,20 +22,18 @@ import filter = require('lodash/filter');
 
 import { Crdp } from 'chrome-remote-debug-protocol';
 
+import { debug as d, HttpHeaders, misc, network } from '@hint/utils';
+
 import { getType } from 'hint/dist/src/lib/utils/content-type';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
-import delay from 'hint/dist/src/lib/utils/misc/delay';
-import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
 import getElementByUrl from 'hint/dist/src/lib/utils/dom/get-element-by-url';
 import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
 import traverse from 'hint/dist/src/lib/utils/dom/traverse';
-import { HTMLDocument, HTMLElement } from 'hint/dist/src/lib/types';
 
 import {
     BrowserInfo, IConnector,
+    HTMLDocument, HTMLElement,
     Event, FetchEnd, FetchError, ILauncher,
-    Response, Request, NetworkData, HttpHeaders
+    Response, Request, NetworkData
 } from 'hint/dist/src/lib/types';
 
 import { normalizeHeaders } from '@hint/utils-connector-tools/dist/src/normalize-headers';
@@ -45,6 +43,8 @@ import { Engine } from 'hint/dist/src/lib/engine';
 
 import { RequestResponse } from './request-response';
 
+const { cutString, delay } = misc;
+const { isHTMLDocument } = network;
 const debug: debug.IDebugger = d(__filename);
 const lock = promisify(lockfile.lock) as (path: string, options: lockfile.Options) => Promise<void>;
 const unlock = promisify(lockfile.unlock);

@@ -9,10 +9,9 @@ import {
     SchemaValidationResult
 } from 'hint/dist/src/lib/types';
 
-import isHTTP from 'hint/dist/src/lib/utils/network/is-http';
-import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-
+import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
+import { isHTTP } from '@hint/utils/dist/src/network/is-http';
+import { isHTTPS } from '@hint/utils/dist/src/network/is-https';
 import { ManifestEvents } from './types';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';

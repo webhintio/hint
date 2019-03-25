@@ -14,16 +14,16 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { NpmPackage, UserConfig } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import * as logger from 'hint/dist/src/lib/utils/logging';
+import { UserConfig } from 'hint/dist/src/lib/types';
+import { appInsights, debug as d, fs as fsUtils, logger, npm, NpmPackage } from '@hint/utils';
 
-import cwd from 'hint/dist/src/lib/utils/fs/cwd';
 import { getInstalledResources, getCoreResources } from 'hint/dist/src/lib/utils/resource-loader';
 import { ResourceType } from 'hint/dist/src/lib/enums/resource-type';
 import { generateBrowserslistConfig } from './browserslist';
-import { getOfficialPackages, installPackages } from 'hint/dist/src/lib/utils/npm';
-import { sendPendingData, trackEvent } from 'hint/dist/src/lib/utils/app-insights';
+
+const { getOfficialPackages, installPackages } = npm;
+const { sendPendingData, trackEvent } = appInsights;
+const { cwd } = fsUtils;
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';

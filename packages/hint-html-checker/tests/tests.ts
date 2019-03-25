@@ -2,10 +2,10 @@
 
 import * as mock from 'mock-require';
 
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import * as utils from '@hint/utils';
 
+const { getHintPath } = utils.test;
 const hintPath = getHintPath(__filename);
 const exampleUrl = 'https://empty.webhint.io/';
 const validatorError = 'error';
@@ -77,27 +77,27 @@ const configCheckerMessages = {
 };
 
 const htmlCheckerMock = (response: any) => {
-    const requestAsync = {
-        default(scanOptions: any) {
-            let responseMessages;
+    const requestAsync = (scanOptions: any) => {
+        let responseMessages;
 
-            if (response.pass) { // No errors/warnings are detected in the target html
-                return Promise.resolve(JSON.stringify(noErrorMessages));
-            }
-
-            if (response.error) { // Errors/warnings are detected in the target html
-                const isDefaultChecker = scanOptions.url === defaultValidator;
-
-                responseMessages = isDefaultChecker ? defaultCheckerMessages : configCheckerMessages;
-
-                return Promise.resolve(JSON.stringify(responseMessages));
-            }
-
-            return Promise.reject(validatorError); // Error with the validator
+        if (response.pass) { // No errors/warnings are detected in the target html
+            return Promise.resolve(JSON.stringify(noErrorMessages));
         }
+
+        if (response.error) { // Errors/warnings are detected in the target html
+            const isDefaultChecker = scanOptions.url === defaultValidator;
+
+            responseMessages = isDefaultChecker ? defaultCheckerMessages : configCheckerMessages;
+
+            return Promise.resolve(JSON.stringify(responseMessages));
+        }
+
+        return Promise.reject(validatorError); // Error with the validator
     };
 
-    mock('hint/dist/src/lib/utils/network/request-async', requestAsync);
+    (utils.network as any).requestAsync = requestAsync;
+
+    mock('@hint/utils', utils);
 };
 
 const testsForDefaults: HintTest[] = [
@@ -225,22 +225,22 @@ const testsForErrors: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, testsForDefaults, { serial: true });
-hintRunner.testHint(hintPath, testsForIgnoreStringConfigs, {
+testHint(hintPath, testsForDefaults, { serial: true });
+testHint(hintPath, testsForIgnoreStringConfigs, {
     hintOptions: { ignore: defaultCheckerMessages.messages[1].message },
     serial: true
 });
-hintRunner.testHint(hintPath, testsForIgnoreArrayConfigs, {
+testHint(hintPath, testsForIgnoreArrayConfigs, {
     hintOptions: { ignore: [defaultCheckerMessages.messages[0].message, defaultCheckerMessages.messages[1].message] },
     serial: true
 });
-hintRunner.testHint(hintPath, testsForValidatorConfig, {
+testHint(hintPath, testsForValidatorConfig, {
     hintOptions: { validator: configValidator },
     serial: true
 });
-hintRunner.testHint(hintPath, testsForDetailsConfig, {
+testHint(hintPath, testsForDetailsConfig, {
     hintOptions: { details: true },
     serial: true
 });
 
-hintRunner.testHint(hintPath, testsForErrors);
+testHint(hintPath, testsForErrors);

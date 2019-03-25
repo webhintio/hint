@@ -13,13 +13,13 @@ import {
     NetworkData,
     TraverseEnd
 } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
+import { debug as d, network } from '@hint/utils';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 import { CoreOptions } from 'request';
 
 import meta from './meta';
 
+const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*

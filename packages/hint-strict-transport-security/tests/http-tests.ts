@@ -1,10 +1,9 @@
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { test } from '@hint/utils';
 
 import * as common from './_common';
 
+const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const noHttpServerTests: HintTest[] = [{
@@ -18,4 +17,4 @@ const noHttpServerTests: HintTest[] = [{
     serverConfig: Object.assign({}, { '/': '' })
 }];
 
-hintRunner.testHint(hintPath, noHttpServerTests);
+testHint(hintPath, noHttpServerTests);

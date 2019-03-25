@@ -4,17 +4,16 @@
 
 import { URL } from 'url';
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d, network } from '@hint/utils';
 import { IHint, FetchEnd, ScanEnd, Response } from 'hint/dist/src/lib/types';
-import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
 
 import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';
 import * as Connections from './connections';
 
 import meta from './meta';
 
+const { isHTTPS, normalizeHeaderValue } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /**
@@ -79,7 +78,7 @@ export default class PerformanceBudgetHint implements IHint {
                 response.body.rawContent.byteLength :
                 response.body.content.length;
             let sentSize: number;
-            const contentEncoding = getHeaderValueNormalized(response.headers, 'content-encoding', '');
+            const contentEncoding = normalizeHeaderValue(response.headers, 'content-encoding', '');
 
             if (contentEncoding) {
                 try {

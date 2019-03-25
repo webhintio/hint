@@ -4,6 +4,8 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
+import * as utils from '@hint/utils';
+
 import * as handlebarsUtils from '../src/handlebars-utils';
 
 type Inquirer = {
@@ -16,17 +18,9 @@ type FsExtra = {
 
 type Mkdirp = (dir: string, callback: Function) => void;
 
-type WriteFileAsyncModule = {
-    default: () => void;
-};
-
-type IsOfficialModule = {
-    default: () => Promise<boolean>;
-};
-
-type CWD = {
-    default: () => string;
-};
+type WriteFileAsyncModule = () => void;
+type IsOfficialModule = () => Promise<boolean>;
+type CWD = () => string;
 
 type HandlebarsUtils = {
     escapeSafeString: (str: string) => hbs.SafeString;
@@ -47,10 +41,8 @@ type CreateHintContext = {
 const test = anyTest as TestInterface<CreateHintContext>;
 
 const initContext = (t: ExecutionContext<CreateHintContext>) => {
-    t.context.cwd = {
-        default(): string {
-            return '';
-        }
+    t.context.cwd = (): string => {
+        return '';
     };
     t.context.fsExtra = { copy(orig: string, dest: string) { } };
     t.context.handlebarsUtils = {
@@ -64,25 +56,28 @@ const initContext = (t: ExecutionContext<CreateHintContext>) => {
             return Promise.resolve({});
         }
     };
-    t.context.isOfficialModule = {
-        default() {
-            return Promise.resolve(false);
-        }
+    t.context.isOfficialModule = () => {
+        return Promise.resolve(false);
     };
     t.context.mkdirp = (dir: string, callback: Function) => {
         callback();
     };
     t.context.sandbox = sinon.createSandbox();
-    t.context.writeFileAsyncModule = { default() { } };
+    t.context.writeFileAsyncModule = () => { };
 };
 
 const loadScript = (context: CreateHintContext) => {
     const script = proxyquire('../src/create-hint', {
         '../src/handlebars-utils': context.handlebarsUtils,
+        '@hint/utils': {
+            fs: {
+                cwd: context.cwd,
+                readFile: utils.fs.readFile,
+                writeFileAsync: context.writeFileAsyncModule
+            },
+            packages: { isOfficial: context.isOfficialModule }
+        },
         'fs-extra': context.fsExtra,
-        'hint/dist/src/lib/utils/fs/cwd': context.cwd,
-        'hint/dist/src/lib/utils/fs/write-file-async': context.writeFileAsyncModule,
-        'hint/dist/src/lib/utils/packages/is-official': context.isOfficialModule,
         inquirer: context.inquirer,
         mkdirp: context.mkdirp
     });
@@ -108,11 +103,11 @@ test('It creates a hint if the option multiple hints is false', async (t) => {
     const sandbox = sinon.createSandbox();
 
     const fsExtraCopyStub = sandbox.stub(t.context.fsExtra, 'copy').resolves();
-    const miscWriteFileAsyncStub = sandbox.stub(t.context.writeFileAsyncModule, 'default').resolves();
+    const miscWriteFileAsyncStub = sandbox.stub(t.context, 'writeFileAsyncModule').resolves();
     const handlebarsCompileTemplateStub = sandbox.stub(t.context.handlebarsUtils, 'compileTemplate').resolves('');
 
-    sandbox.stub(t.context.isOfficialModule, 'default').resolves(true);
-    sandbox.stub(t.context.cwd, 'default').returns(root);
+    sandbox.stub(t.context, 'isOfficialModule').resolves(true);
+    sandbox.stub(t.context, 'cwd').returns(root);
     sandbox.stub(t.context.inquirer, 'prompt').resolves(results);
 
     const newHint = loadScript(t.context);
@@ -154,11 +149,11 @@ test('It creates a package with multiple hints', async (t) => {
     const sandbox = sinon.createSandbox();
 
     const fsExtraCopyStub = sandbox.stub(t.context.fsExtra, 'copy').resolves();
-    const miscWriteFileAsyncStub = sandbox.stub(t.context.writeFileAsyncModule, 'default').resolves();
+    const miscWriteFileAsyncStub = sandbox.stub(t.context, 'writeFileAsyncModule').resolves();
     const handlebarsCompileTemplateStub = sandbox.stub(t.context.handlebarsUtils, 'compileTemplate').resolves('');
 
-    sandbox.stub(t.context.isOfficialModule, 'default').resolves(false);
-    sandbox.stub(t.context.cwd, 'default').returns(root);
+    sandbox.stub(t.context, 'isOfficialModule').resolves(false);
+    sandbox.stub(t.context, 'cwd').returns(root);
     sandbox.stub(t.context.inquirer, 'prompt')
         .onFirstCall()
         .resolves(packageResults)

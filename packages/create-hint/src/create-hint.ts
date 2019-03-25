@@ -5,18 +5,15 @@ import { copy } from 'fs-extra';
 import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
+import { fs, logger, misc, packages } from '@hint/utils';
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hint-scope';
-import * as logger from 'hint/dist/src/lib/utils/logging';
-import isOfficial from 'hint/dist/src/lib/utils/packages/is-official';
 
 import Handlebars, { compileTemplate, escapeSafeString } from './handlebars-utils';
-import normalizeStringByDelimiter from 'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter';
-import readFile from 'hint/dist/src/lib/utils/fs/read-file';
-import cwd from 'hint/dist/src/lib/utils/fs/cwd';
-import toCamelCase from 'hint/dist/src/lib/utils/misc/to-camel-case';
-import toPascalCase from 'hint/dist/src/lib/utils/misc/to-pascal-case';
-import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
+
+const { isOfficial } = packages;
+const { cwd, readFile, writeFileAsync } = fs;
+const { normalizeStringByDelimiter, toCamelCase, toPascalCase} = misc;
 
 /*
  * ------------------------------------------------------------------------------

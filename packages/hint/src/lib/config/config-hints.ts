@@ -8,8 +8,9 @@
  * ------------------------------------------------------------------------------
  */
 
+import { debug as d } from '@hint/utils/dist/src/debug';
+
 import { validate as schemaValidator } from '../utils/schema-validator';
-import { debug as d } from '../utils/debug';
 import { HintMetadata, HintConfig } from '../types';
 import { Severity } from '../types/problems';
 

@@ -1,8 +1,8 @@
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import readFile from 'hint/dist/src/lib/utils/fs/read-file';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { fs, test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
+
+const { generateHTMLPage, getHintPath } = test;
+const { readFile } = fs;
 
 import { ignoredConnectors } from './_ignored-connectors';
 
@@ -35,7 +35,7 @@ const featureAddedBeforeTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, featureAddedBeforeTargetedBrowsers, { browserslist: ['last 2 Chrome versions'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, featureAddedBeforeTargetedBrowsers, { browserslist: ['last 2 Chrome versions'], ignoredConnectors, parsers: ['css'] });
 
 const prefixedFeatureAddedBeforeTargetedBrowsers: HintTest[] = [
     {
@@ -44,7 +44,7 @@ const prefixedFeatureAddedBeforeTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, prefixedFeatureAddedBeforeTargetedBrowsers, { browserslist: ['safari 4-6'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, prefixedFeatureAddedBeforeTargetedBrowsers, { browserslist: ['safari 4-6'], ignoredConnectors, parsers: ['css'] });
 
 const childFeatureAddedBeforeTargetedBrowsers: HintTest[] = [
     {
@@ -53,7 +53,7 @@ const childFeatureAddedBeforeTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, childFeatureAddedBeforeTargetedBrowsers, { browserslist: ['chrome 30'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, childFeatureAddedBeforeTargetedBrowsers, { browserslist: ['chrome 30'], ignoredConnectors, parsers: ['css'] });
 
 const prefixedChildFeatureAddedBeforeTargetedBrowsers: HintTest[] = [
     {
@@ -62,7 +62,7 @@ const prefixedChildFeatureAddedBeforeTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, prefixedChildFeatureAddedBeforeTargetedBrowsers, { browserslist: ['chrome 22'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, prefixedChildFeatureAddedBeforeTargetedBrowsers, { browserslist: ['chrome 22'], ignoredConnectors, parsers: ['css'] });
 
 const featureAddedSameAsTargetedBrowsers: HintTest[] = [
     {
@@ -71,7 +71,7 @@ const featureAddedSameAsTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, featureAddedSameAsTargetedBrowsers, { browserslist: ['chrome 43'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, featureAddedSameAsTargetedBrowsers, { browserslist: ['chrome 43'], ignoredConnectors, parsers: ['css'] });
 
 const childFeatureAddedSameAsTargetedBrowsers: HintTest[] = [
     {
@@ -80,7 +80,7 @@ const childFeatureAddedSameAsTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, childFeatureAddedSameAsTargetedBrowsers, { browserslist: ['chrome 29'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, childFeatureAddedSameAsTargetedBrowsers, { browserslist: ['chrome 29'], ignoredConnectors, parsers: ['css'] });
 
 const childPrefixedFeatureAddedSameAsTargetedBrowsers: HintTest[] = [
     {
@@ -89,7 +89,7 @@ const childPrefixedFeatureAddedSameAsTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, childPrefixedFeatureAddedSameAsTargetedBrowsers, { browserslist: ['chrome 21'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, childPrefixedFeatureAddedSameAsTargetedBrowsers, { browserslist: ['chrome 21'], ignoredConnectors, parsers: ['css'] });
 
 const featureAddedTrue: HintTest[] = [
     {
@@ -98,7 +98,7 @@ const featureAddedTrue: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, featureAddedTrue, { browserslist: ['edge 13'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, featureAddedTrue, { browserslist: ['edge 13'], ignoredConnectors, parsers: ['css'] });
 
 const prefixedFeatureAddedTrue: HintTest[] = [
     {
@@ -107,7 +107,7 @@ const prefixedFeatureAddedTrue: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, prefixedFeatureAddedTrue, { browserslist: ['chrome 32', 'chrome 63 - 65'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, prefixedFeatureAddedTrue, { browserslist: ['chrome 32', 'chrome 63 - 65'], ignoredConnectors, parsers: ['css'] });
 
 const featureVersionAddedNull: HintTest[] = [
     {
@@ -116,7 +116,7 @@ const featureVersionAddedNull: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, featureVersionAddedNull, { browserslist: ['and_chr 69'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, featureVersionAddedNull, { browserslist: ['and_chr 69'], ignoredConnectors, parsers: ['css'] });
 
 const childFeatureVersionAddedNull: HintTest[] = [
     {
@@ -125,7 +125,7 @@ const childFeatureVersionAddedNull: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, childFeatureVersionAddedNull, { browserslist: ['chrome 65'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, childFeatureVersionAddedNull, { browserslist: ['chrome 65'], ignoredConnectors, parsers: ['css'] });
 
 const featureWithNoCompatInfo: HintTest[] = [
     {
@@ -134,7 +134,7 @@ const featureWithNoCompatInfo: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, featureWithNoCompatInfo, { browserslist: ['chrome 65'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, featureWithNoCompatInfo, { browserslist: ['chrome 65'], ignoredConnectors, parsers: ['css'] });
 
 /*
  * Currently the hint goes two levels deep
@@ -148,7 +148,7 @@ const childOfFeatureWithNoCompatInfoAddedEarlierThan: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedEarlierThan, { browserslist: ['chrome 65'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, childOfFeatureWithNoCompatInfoAddedEarlierThan, { browserslist: ['chrome 65'], ignoredConnectors, parsers: ['css'] });
 
 const childOfFeatureWithNoCompatInfoAddedLaterThan: HintTest[] = [
     {
@@ -157,7 +157,7 @@ const childOfFeatureWithNoCompatInfoAddedLaterThan: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { browserslist: ['chrome 58'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, childOfFeatureWithNoCompatInfoAddedLaterThan, { browserslist: ['chrome 58'], ignoredConnectors, parsers: ['css'] });
 
 const featureVersionAddedFalse: HintTest[] = [
     {
@@ -166,7 +166,7 @@ const featureVersionAddedFalse: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'], ignoredConnectors, parsers: ['css'] });
 
 const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
@@ -180,7 +180,7 @@ const featureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 40'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, featureVersionAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 40'], ignoredConnectors, parsers: ['css'] });
 
 const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
@@ -190,7 +190,7 @@ const prefixedFeatureVersionAddedLaterThanTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, prefixedFeatureVersionAddedLaterThanTargetedBrowsers, { browserslist: ['opera 12'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, prefixedFeatureVersionAddedLaterThanTargetedBrowsers, { browserslist: ['opera 12'], ignoredConnectors, parsers: ['css'] });
 
 const prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedBeforeTarget: HintTest[] = [
     {
@@ -199,7 +199,7 @@ const prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedBeforeTarget: HintT
     }
 ];
 
-hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedBeforeTarget, { browserslist: ['firefox 3.6 - 4'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedBeforeTarget, { browserslist: ['firefox 3.6 - 4'], ignoredConnectors, parsers: ['css'] });
 
 const prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget: HintTest[] = [
     {
@@ -208,7 +208,7 @@ const prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget: HintTe
     }
 ];
 
-hintRunner.testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget, { browserslist: ['firefox 4'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, prefixedFeaturesThatBecameStandardAndMarkedAsDeprecatedAfterTarget, { browserslist: ['firefox 4'], ignoredConnectors, parsers: ['css'] });
 
 const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
@@ -218,7 +218,7 @@ const childFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, childFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 26 - 29'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, childFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 26 - 29'], ignoredConnectors, parsers: ['css'] });
 
 const childPrefixedFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
     {
@@ -228,7 +228,7 @@ const childPrefixedFeatureAddedLaterThanTargetedBrowsers: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, childPrefixedFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 17 - 19'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, childPrefixedFeatureAddedLaterThanTargetedBrowsers, { browserslist: ['chrome 17 - 19'], ignoredConnectors, parsers: ['css'] });
 
 const notSupportedPropertiesAndValuesShouldNotSeparatelyLog: HintTest[] = [
     {
@@ -238,7 +238,7 @@ const notSupportedPropertiesAndValuesShouldNotSeparatelyLog: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, notSupportedPropertiesAndValuesShouldNotSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, notSupportedPropertiesAndValuesShouldNotSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], ignoredConnectors, parsers: ['css'] });
 
 const notSupportedFeaturesWithoutFallbackShouldSeparatelyLog: HintTest[] = [
     {
@@ -251,7 +251,7 @@ const notSupportedFeaturesWithoutFallbackShouldSeparatelyLog: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, notSupportedFeaturesWithoutFallbackShouldSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, notSupportedFeaturesWithoutFallbackShouldSeparatelyLog, { browserslist: ['firefox 60', 'ie 10'], ignoredConnectors, parsers: ['css'] });
 
 const notSupportedAndNotDeprecatedFeature: HintTest[] = [
     {
@@ -261,7 +261,7 @@ const notSupportedAndNotDeprecatedFeature: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, notSupportedAndNotDeprecatedFeature, {
+testHint(hintPath, notSupportedAndNotDeprecatedFeature, {
     browserslist: ['android 4.4.3-4.4.4', 'edge 17', 'firefox 60', 'ie 11', 'opera 56'],
     hintOptions: { enable: ['cursor'] },
     ignoredConnectors,
@@ -280,7 +280,7 @@ const notSupportedFeaturesSplittedByCSSRuleBlock: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, notSupportedFeaturesSplittedByCSSRuleBlock, { browserslist: ['firefox 60', 'ie 10'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, notSupportedFeaturesSplittedByCSSRuleBlock, { browserslist: ['firefox 60', 'ie 10'], ignoredConnectors, parsers: ['css'] });
 
 const disorderedNotSupportedFeatures: HintTest[] = [
     {
@@ -290,7 +290,7 @@ const disorderedNotSupportedFeatures: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, disorderedNotSupportedFeatures, { browserslist: ['firefox 60', 'ie 10'], ignoredConnectors, parsers: ['css'] });
+testHint(hintPath, disorderedNotSupportedFeatures, { browserslist: ['firefox 60', 'ie 10'], ignoredConnectors, parsers: ['css'] });
 
 /*
  * IGNORE HINT OPTION
@@ -303,7 +303,7 @@ const defaultIgnoredFeaturesShouldNotFail: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, defaultIgnoredFeaturesShouldNotFail, {
+testHint(hintPath, defaultIgnoredFeaturesShouldNotFail, {
     browserslist: ['android 4.4.3-4.4.4'],
     ignoredConnectors,
     parsers: ['css']
@@ -316,7 +316,7 @@ const supportIgnoredIfNotSupported: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, supportIgnoredIfNotSupported, {
+testHint(hintPath, supportIgnoredIfNotSupported, {
     browserslist: ['IE 9'],
     ignoredConnectors,
     parsers: ['css']
@@ -329,7 +329,7 @@ const supportSupportedButNotFeature: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, supportSupportedButNotFeature, {
+testHint(hintPath, supportSupportedButNotFeature, {
     browserslist: ['Chrome 28'],
     ignoredConnectors,
     parsers: ['css']
@@ -343,7 +343,7 @@ const supportAndFeatureSupported: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, supportAndFeatureSupported, {
+testHint(hintPath, supportAndFeatureSupported, {
     browserslist: ['Chrome 29'],
     ignoredConnectors,
     parsers: ['css']

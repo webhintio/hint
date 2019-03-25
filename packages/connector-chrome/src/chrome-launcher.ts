@@ -5,12 +5,13 @@
 import * as chromeLauncher from 'chrome-launcher';
 import * as isCI from 'is-ci';
 
+import { debug as d, fs, misc } from '@hint/utils';
+
 import { Launcher } from '@hint/utils-debugging-protocol-common/dist/src/launcher';
 import { BrowserInfo, LauncherOptions } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import delay from 'hint/dist/src/lib/utils/misc/delay';
-import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
-import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
+
+const { readFileAsync, writeFileAsync } = fs;
+const { delay } = misc;
 
 const debug: debug.IDebugger = d(__filename);
 

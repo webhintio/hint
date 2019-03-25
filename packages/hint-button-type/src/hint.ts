@@ -4,7 +4,7 @@
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ElementFound } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils/dist/src/debug';
 
 import meta from './meta';
 

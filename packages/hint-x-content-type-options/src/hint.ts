@@ -9,10 +9,10 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils/dist/src/debug';
+import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
+import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import meta from './meta';
 

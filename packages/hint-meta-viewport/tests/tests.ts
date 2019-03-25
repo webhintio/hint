@@ -1,8 +1,7 @@
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const generateMegaViewport = (content: string = 'WiDTh = deVicE-Width, IniTial-Scale= 1.0') => {
@@ -104,14 +103,14 @@ const testsForBrowsersWithoutOrientationChangeBug: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, testsForDefaults);
-hintRunner.testHint(hintPath, testsForBrowsersWithOrientationChangeBug, {
+testHint(hintPath, testsForDefaults);
+testHint(hintPath, testsForBrowsersWithOrientationChangeBug, {
     browserslist: [
         'ios_saf 8', // Safari for iOS version that contains the orientation change bug.
         'ios_saf 9'
     ]
 });
-hintRunner.testHint(hintPath, testsForBrowsersWithoutOrientationChangeBug, {
+testHint(hintPath, testsForBrowsersWithoutOrientationChangeBug, {
     browserslist: [
         'edge 15',
         'ios_saf 9',

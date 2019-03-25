@@ -1,9 +1,9 @@
 import * as path from 'path';
 
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import { HintLocalTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
+import { test } from '@hint/utils';
+import { HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
 
+const { getHintPath } = test;
 const hintPath = getHintPath(__filename, true);
 
 const tests: HintLocalTest[] = [
@@ -78,4 +78,4 @@ const tests: HintLocalTest[] = [
     }
 ];
 
-hintRunner.testLocalHint(hintPath, tests, { parsers: ['babel-config'] });
+testLocalHint(hintPath, tests, { parsers: ['babel-config'] });

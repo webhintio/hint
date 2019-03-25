@@ -15,15 +15,14 @@ import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IFormatter, Problem, Severity, FormatterOptions } from 'hint/dist/src/lib/types';
-import * as logger from 'hint/dist/src/lib/utils/logging';
-import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
+import { debug as d, fs, logger } from '@hint/utils';
+import { FormatterOptions, IFormatter, Problem, Severity } from 'hint/dist/src/lib/types';
 
 const _ = {
     forEach,
     groupBy
 };
+const { writeFileAsync } = fs;
 const debug = d(__filename);
 
 /*

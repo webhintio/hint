@@ -7,6 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
+    "@hint/utils": "^1.0.0",
     "postcss": "^7.0.14"
   },
   "description": "Ensure vendor-prefixed versions of a CSS property are listed before the unprefixed version.",

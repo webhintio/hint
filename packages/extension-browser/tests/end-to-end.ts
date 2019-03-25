@@ -5,7 +5,6 @@ import test from 'ava';
 import { Server } from '@hint/utils-create-server';
 
 import { Events, Results } from '../src/shared/types';
-
 import { readFixture } from './helpers/fixtures';
 
 const pathToExtension = `${__dirname}/../bundle`;

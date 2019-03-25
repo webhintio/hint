@@ -1,7 +1,9 @@
 import * as url from 'url';
 
+import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
+
 import { HTMLElement, HTMLDocument } from './html';
-import { HttpHeaders, NetworkData } from './network';
+import { NetworkData } from './network';
 import { Engine } from '../engine';
 
 export interface IConnectorConstructor {

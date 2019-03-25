@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0"
+  },
   "description": "Check if button has type attribute set",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",

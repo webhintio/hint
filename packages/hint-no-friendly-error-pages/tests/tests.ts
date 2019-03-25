@@ -1,10 +1,9 @@
 /* eslint sort-keys: 0 */
 
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const htmlPageWithLessThan256bytes = generateHTMLPage(undefined,
@@ -128,10 +127,10 @@ tests.push(
     }
 );
 
-hintRunner.testHint(hintPath, tests, {
+testHint(hintPath, tests, {
     browserslist: [
         'ie 6-11',
         'last 2 versions'
     ]
 });
-hintRunner.testHint(hintPath, testsForWhenHintDoesNotApply, { browserslist: ['Edge 15'] });
+testHint(hintPath, testsForWhenHintDoesNotApply, { browserslist: ['Edge 15'] });

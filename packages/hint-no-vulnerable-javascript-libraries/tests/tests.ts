@@ -1,16 +1,15 @@
-/* eslint sort-keys: 0, no-sync: 0 */
+/* eslint no-sync: 0 */
 
 import * as fs from 'fs';
 
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
 const generateScriptTag = (script: string) => {
     return `<script>${script}</script>`;
 };
 
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const angular = fs.readFileSync(require.resolve('angular/angular.min.js'), 'utf-8');
@@ -65,6 +64,6 @@ const userMediumConfigTests: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, defaultTests);
-hintRunner.testHint(hintPath, userHighConfigTests, { hintOptions: { severity: 'high' } });
-hintRunner.testHint(hintPath, userMediumConfigTests, { hintOptions: { severity: 'medium' } });
+testHint(hintPath, defaultTests);
+testHint(hintPath, userHighConfigTests, { hintOptions: { severity: 'high' } });
+testHint(hintPath, userMediumConfigTests, { hintOptions: { severity: 'medium' } });

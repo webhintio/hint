@@ -1,9 +1,13 @@
 import * as path from 'path';
 
-import { ConnectorConfig, CLIOptions, IHint, HintsConfigObject, HintMetadata, UserConfig } from '../../src/lib/types';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
+
+import { fs } from '@hint/utils';
+
+import { HintScope } from '../../src/lib/enums/hint-scope';
+import { ConnectorConfig, CLIOptions, IHint, HintsConfigObject, HintMetadata, UserConfig } from '../../src/lib/types';
 
 type ResourceLoader = {
     loadConfiguration: () => string;
@@ -22,8 +26,7 @@ type ConfigTestContext = {
 
 const test = anyTest.serial as TestInterface<ConfigTestContext>;
 
-import { HintScope } from '../../src/lib/enums/hint-scope';
-import readFileAsync from '../../src/lib/utils/fs/read-file-async';
+const { readFileAsync } = fs;
 
 const initContext = (t: ExecutionContext<ConfigTestContext>) => {
     const os = {

@@ -13,16 +13,15 @@ import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
 import sortBy = require('lodash/sortBy');
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IFormatter, Problem, FormatterOptions } from 'hint/dist/src/lib/types';
-import * as logger from 'hint/dist/src/lib/utils/logging';
-import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
+import { debug as d, fs, logger } from '@hint/utils';
+import { FormatterOptions, IFormatter, Problem } from 'hint/dist/src/lib/types';
 
 const _ = {
     groupBy,
     reduce,
     sortBy
 };
+const { writeFileAsync } = fs;
 const debug = d(__filename);
 
 /*

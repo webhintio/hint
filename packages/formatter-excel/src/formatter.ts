@@ -16,10 +16,8 @@ import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
 import sortBy = require('lodash/sortBy');
 
-import cwd from 'hint/dist/src/lib/utils/fs/cwd';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { IFormatter, Problem, FormatterOptions } from 'hint/dist/src/lib/types';
-import * as logger from 'hint/dist/src/lib/utils/logging';
+import { debug as d, fs, logger } from '@hint/utils';
+import { FormatterOptions, IFormatter, Problem } from 'hint/dist/src/lib/types';
 
 const _ = {
     forEach,
@@ -27,6 +25,7 @@ const _ = {
     sortBy
 };
 const debug = d(__filename);
+const { cwd } = fs;
 const startRow = 5;
 
 /*

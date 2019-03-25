@@ -1,7 +1,7 @@
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test as testUtils } from '@hint/utils';
+import { testHint } from '@hint/utils-tests-helpers';
 
+const { generateHTMLPage, getHintPath } = testUtils;
 const hintPath = getHintPath(__filename);
 
 const generateCSSRules = (count = 1) => {
@@ -40,7 +40,7 @@ const generateImports = (count = 1) => {
 const test = (label: string, limits: { maxRules: number; maxSheets: number; maxImports: number }, configs: any) => {
     const { maxRules, maxSheets, maxImports } = limits;
 
-    hintRunner.testHint(hintPath, [
+    testHint(hintPath, [
         {
             name: `Page${label} contains less than ${maxRules} CSS rules`,
             serverConfig: generateHTMLPage(`<style>${generateCSSRules(maxRules - 1)}</style>`)
@@ -68,7 +68,7 @@ const test = (label: string, limits: { maxRules: number; maxSheets: number; maxI
          */
         configs.ignoredConnectors = ['jsdom'];
 
-        hintRunner.testHint(hintPath, [
+        testHint(hintPath, [
             {
                 name: `Page${label} contains less than ${maxImports} nested imports`,
                 serverConfig: generateImports(maxImports - 1)

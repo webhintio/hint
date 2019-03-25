@@ -15,6 +15,7 @@
     "references": [
         { "path": "../hint" },
         { "path": "../parser-babel-config" },
+        { "path": "../utils" },
         { "path": "../utils-tests-helpers" }
     ]
 }

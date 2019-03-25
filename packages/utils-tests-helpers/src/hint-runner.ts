@@ -5,18 +5,20 @@
 import { URL } from 'url';
 
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
-import { Server } from '@hint/utils-create-server';
 
-import { ids as connectors } from './connectors';
+import { Server } from '@hint/utils-create-server';
+import { fs, network } from '@hint/utils';
+
 import { IHintConstructor, HintsConfigObject, Problem, ProblemLocation } from 'hint/dist/src/lib/types';
-import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
-import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
-import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
-import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
 import * as resourceLoader from 'hint/dist/src/lib/utils/resource-loader';
-import { HintTest, HintLocalTest, Report } from './hint-test-type';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { Configuration } from 'hint/dist/src/lib/config';
+
+import { ids as connectors } from './connectors';
+import { HintTest, HintLocalTest, Report } from './hint-test-type';
+
+const { readFileAsync } = fs;
+const { asPathString, getAsUri, requestAsync } = network;
 
 type HintRunnerContext = {
     server: Server;

@@ -31,7 +31,7 @@ const initContext = (t: ExecutionContext<HelpContext>) => {
 };
 
 const loadScript = (context: HelpContext) => {
-    const script = proxyquire('../../../src/lib/cli/help', { '../utils/logging': context.logger });
+    const script = proxyquire('../../../src/lib/cli/help', { '@hint/utils': { logger: context.logger } });
 
     return script.default;
 };

@@ -8,13 +8,16 @@
  * ------------------------------------------------------------------------------
  */
 
-import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { getIncludedHeaders, mergeIgnoreIncludeArrays, toLowerCase } from 'hint/dist/src/lib/utils/hint-helpers';
+import { debug as d } from '@hint/utils/dist/src/debug';
+import { mergeIgnoreIncludeArrays } from '@hint/utils/dist/src/misc/merge-ignore-include-arrays';
+import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
+import { toLowerCaseArray } from '@hint/utils/dist/src/misc/to-lowercase-array';
+import { includedHeaders } from '@hint/utils/dist/src/network/included-headers';
+import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
+import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
+
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
-import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
-import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
 import meta from './meta';
 
@@ -108,7 +111,7 @@ export default class NoDisallowedHeadersHint implements IHint {
                 return;
             }
 
-            const headers: string[] = getIncludedHeaders(response.headers, disallowedHeaders);
+            const headers: string[] = includedHeaders(response.headers, disallowedHeaders);
             const numberOfHeaders: number = headers.length;
 
             /*
@@ -128,10 +131,10 @@ export default class NoDisallowedHeadersHint implements IHint {
              *  * https://httpd.apache.org/docs/current/mod/core.html#servertokens
              */
 
-            const serverHeaderValue = getHeaderValueNormalized(response.headers, 'server');
+            const serverHeaderValue = normalizeHeaderValue(response.headers, 'server');
 
             if (!disallowedHeaders.includes('server') &&
-                !toLowerCase(ignoreHeaders).includes('server') &&
+                !toLowerCaseArray(ignoreHeaders).includes('server') &&
                 serverHeaderValue &&
                 serverHeaderContainsTooMuchInformation(serverHeaderValue)
             ) {

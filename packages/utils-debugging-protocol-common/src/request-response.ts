@@ -1,9 +1,10 @@
 import { atob } from 'abab';
 import { Crdp } from 'chrome-remote-debug-protocol';
 
+import { debug as d, HttpHeaders } from '@hint/utils';
+
 import { getContentTypeData } from 'hint/dist/src/lib/utils/content-type';
-import { HttpHeaders, Response, HTMLElement } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { Response, HTMLElement } from 'hint/dist/src/lib/types';
 import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
 import { normalizeHeaders } from '@hint/utils-connector-tools/dist/src/normalize-headers';
 

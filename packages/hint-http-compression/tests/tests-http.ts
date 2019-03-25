@@ -1,5 +1,5 @@
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { testHint } from '@hint/utils-tests-helpers';
 
 import {
     testsForBrotliOverHTTP,
@@ -14,6 +14,7 @@ import {
     testsForUserConfigs
 } from './_tests';
 
+const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 /*
@@ -27,20 +28,20 @@ testConfigsSerial.serial = true;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-hintRunner.testHint(hintPath, testsForDefaults(), testConfigs);
-hintRunner.testHint(hintPath, testsForSpecialCases(), testConfigs);
-hintRunner.testHint(hintPath, testsForDisallowedCompressionMethods(), testConfigs);
-hintRunner.testHint(hintPath, testsForNoCompression(), testConfigsSerial);
-hintRunner.testHint(hintPath, testsForGzipZopfli(), testConfigsSerial);
-hintRunner.testHint(hintPath, testsForGzipZopfliCaching(), testConfigs);
-hintRunner.testHint(hintPath, testsForGzipZopfliSmallSize(), testConfigs);
-hintRunner.testHint(hintPath, testsForGzipZopfliUASniffing(), testConfigs);
-hintRunner.testHint(hintPath, testsForBrotliOverHTTP, testConfigs);
+testHint(hintPath, testsForDefaults(), testConfigs);
+testHint(hintPath, testsForSpecialCases(), testConfigs);
+testHint(hintPath, testsForDisallowedCompressionMethods(), testConfigs);
+testHint(hintPath, testsForNoCompression(), testConfigsSerial);
+testHint(hintPath, testsForGzipZopfli(), testConfigsSerial);
+testHint(hintPath, testsForGzipZopfliCaching(), testConfigs);
+testHint(hintPath, testsForGzipZopfliSmallSize(), testConfigs);
+testHint(hintPath, testsForGzipZopfliUASniffing(), testConfigs);
+testHint(hintPath, testsForBrotliOverHTTP, testConfigs);
 
 // Tests for the user options.
 [true, false].forEach((isTarget) => {
     ['gzip', 'zopfli', 'brotli'].forEach((encoding) => {
-        hintRunner.testHint(
+        testHint(
             hintPath,
             testsForUserConfigs(`${encoding}`, isTarget),
             Object.assign(

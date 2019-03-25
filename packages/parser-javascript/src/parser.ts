@@ -2,11 +2,11 @@ import { Options, parse, tokenizer } from 'acorn';
 import * as walk from 'acorn-walk';
 import * as ESTree from 'estree';
 
-import * as logger from 'hint/dist/src/lib/utils/logging';
+import * as logger from '@hint/utils/dist/src/logging';
 import { determineMediaTypeForScript } from 'hint/dist/src/lib/utils/content-type';
 import { HTMLElement, ElementFound, FetchEnd, Parser as WebhintParser } from 'hint/dist/src/lib/types';
 import { ScriptEvents } from './types';
-import { Engine } from 'hint';
+import { Engine } from 'hint/dist/src/lib/engine';
 
 export * from './types';
 

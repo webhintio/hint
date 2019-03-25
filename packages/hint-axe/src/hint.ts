@@ -11,9 +11,9 @@
 
 import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'axe-core';
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils/dist/src/debug';
+import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
 import { HTMLElement, IHint, Severity, CanEvaluateScript } from 'hint/dist/src/lib/types';
-import readFileAsync from 'hint/dist/src/lib/utils/fs/read-file-async';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';

@@ -1,8 +1,8 @@
 import * as path from 'path';
 
+import { fs } from '@hint/utils';
 import { FetchEnd, IJSONResult, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint';
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
@@ -10,6 +10,8 @@ import { PackageJsonEvents } from './types';
 import { IJsonSchemaForNpmPackageJsonFiles } from './schema';
 
 export * from './types';
+
+const { loadJSONFile } = fs;
 
 export default class PackageJsonParser extends Parser<PackageJsonEvents> {
     private schema: IJsonSchemaForNpmPackageJsonFiles;
@@ -27,7 +29,7 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
         return validate(this.schema, config, result.getLocation);
     }
 
-    private async emitInvalidPackageJson (validationResult: SchemaValidationResult, resource: string): Promise<void> {
+    private async emitInvalidPackageJson(validationResult: SchemaValidationResult, resource: string): Promise<void> {
         await this.engine.emitAsync('parse::error::package-json::schema', {
             error: new Error('Invalid package.json configuration'),
             errors: validationResult.errors,

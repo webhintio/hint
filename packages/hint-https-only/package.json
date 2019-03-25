@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0"
+  },
   "description": "hint that that checks if your site is using HTTPS and if it has mixed content.",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",

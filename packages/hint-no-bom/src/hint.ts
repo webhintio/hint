@@ -3,14 +3,12 @@
  */
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, IHint, NetworkData } from 'hint/dist/src/lib/types';
-import { asyncTry } from 'hint/dist/src/lib/utils/async-wrapper';
+import { asyncTry, debug as d, network } from '@hint/utils';
 import { isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
-import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
 
 import meta from './meta';
 
-
+const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*

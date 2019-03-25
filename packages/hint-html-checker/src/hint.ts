@@ -12,7 +12,7 @@
 import uniqBy = require('lodash/uniqBy');
 import { OptionsWithUrl } from 'request';
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ProblemLocation, Severity } from 'hint/dist/src/lib/types';
 
@@ -113,8 +113,8 @@ export default class HtmlCheckerHint implements IHint {
         };
 
         const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {
-            const requestAsync = (await import('hint/dist/src/lib/utils/network/request-async')).default;
-            const delay = (await import('hint/dist/src/lib/utils/misc/delay')).default;
+            const requestAsync = (await import('@hint/utils')).network.requestAsync;
+            const delay = (await import('@hint/utils')).misc.delay;
 
             try {
                 return await requestAsync(options);

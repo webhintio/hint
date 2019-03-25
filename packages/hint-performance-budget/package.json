@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0"
+  },
   "description": "hint that that checks if a page passes a set performance budget",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",

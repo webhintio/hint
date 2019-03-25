@@ -6,6 +6,7 @@ import { EventEmitter2 } from 'eventemitter2';
 import * as proxyquire from 'proxyquire';
 import { Engine } from 'hint';
 import { ScanEnd, FetchEnd, ErrorEvent } from 'hint/dist/src/lib/types';
+import * as utils from '@hint/utils';
 
 import { WebpackConfigEvents, WebpackConfigParse } from '../src/parser';
 
@@ -15,24 +16,30 @@ type SandboxContext = {
 
 const test = anyTest as TestInterface<SandboxContext>;
 
-const mockContext = () => {
+const mockContext = (context: SandboxContext) => {
     const engine = new EventEmitter2({
         delimiter: '::',
         maxListeners: 0,
         wildcard: true
     }) as Engine<WebpackConfigEvents>;
 
-    const loadPackage = {
-        default() {
+    const packages = {
+        loadPackage: () => {
             return { version: '' };
         }
     };
 
-    const script = proxyquire('../src/parser', { 'hint/dist/src/lib/utils/packages/load-package': loadPackage });
+
+    const loadPackageStub = context.sandbox.stub(packages, 'loadPackage');
+
+    const script = proxyquire('../src/parser', {
+        '@hint/utils': { network: utils.network },
+        '@hint/utils/dist/src/packages/load-package': { loadPackage: loadPackageStub }
+    });
 
     return {
         engine,
-        loadPackage,
+        loadPackageStub,
         WebpackConfigParser: script.default
     };
 };
@@ -47,7 +54,7 @@ test.afterEach.always((t) => {
 
 test('If any file is parsed, it should emit a `parse::error::webpack-config::not-found` error', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, WebpackConfigParser } = mockContext();
+    const { engine, WebpackConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -62,7 +69,7 @@ test('If any file is parsed, it should emit a `parse::error::webpack-config::not
 
 test(`If the resource isn't the webpack configuration, nothing should happen`, async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, WebpackConfigParser } = mockContext();
+    const { engine, WebpackConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -76,7 +83,7 @@ test(`If the resource isn't the webpack configuration, nothing should happen`, a
 
 test('If the file contains an invalid configuration, it should fail', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, WebpackConfigParser } = mockContext();
+    const { engine, WebpackConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -94,11 +101,11 @@ test('If the file contains an invalid configuration, it should fail', async (t) 
 test('If the configuration is valid and webpack is installed locally, it should emit the event parse::end::webpack-config', async (t) => {
     const configPath = path.join(__dirname, 'fixtures', 'valid', 'webpack.config.js');
     const sandbox = t.context.sandbox;
-    const { engine, loadPackage, WebpackConfigParser } = mockContext();
+    const { engine, loadPackageStub, WebpackConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    sandbox.stub(loadPackage, 'default').returns({ version: '4.0.0' });
+    loadPackageStub.returns({ version: '4.0.0' });
 
     new WebpackConfigParser(engine); // eslint-disable-line no-new
 
@@ -118,11 +125,11 @@ test('If the configuration is valid and webpack is installed locally, it should 
 test(`If the configuration is valid but webpack isn't installed locally, it should emit the event parse::error::webpack-config::not-install`, async (t) => {
     const configPath = path.join(__dirname, 'fixtures', 'valid', 'webpack.config.js');
     const sandbox = t.context.sandbox;
-    const { engine, loadPackage, WebpackConfigParser } = mockContext();
+    const { engine, loadPackageStub, WebpackConfigParser } = mockContext(t.context);
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
-    sandbox.stub(loadPackage, 'default').throws(new Error('error'));
+    loadPackageStub.throws(new Error('error'));
 
     new WebpackConfigParser(engine); // eslint-disable-line no-new
 

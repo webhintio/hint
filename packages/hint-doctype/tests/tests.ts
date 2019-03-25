@@ -1,8 +1,8 @@
 import * as os from 'os';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
+const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const normalizeEOL = (text: string): string => {
@@ -185,4 +185,4 @@ const tests: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, tests);
+testHint(hintPath, tests);
