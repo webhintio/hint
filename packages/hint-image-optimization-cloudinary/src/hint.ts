@@ -10,12 +10,12 @@ import * as getImageData from 'image-size';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, FetchEnd, ScanEnd } from 'hint/dist/src/lib/types';
-import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
-import * as logger from 'hint/dist/src/lib/utils/logging';
+import { logger, misc } from '@hint/utils';
 import { cloudinaryResult } from './cloudinary-types';
 
 import meta from './meta';
 
+const { cutString } = misc;
 /*
  * ------------------------------------------------------------------------------
  * Public

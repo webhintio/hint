@@ -6,15 +6,15 @@ import * as sinon from 'sinon';
 import * as table from 'text-table';
 const stripAnsi = require('strip-ansi');
 
+import * as utils from '@hint/utils';
+
 import * as problems from './fixtures/list-of-problems';
 
 type Logging = {
     log: () => void;
 };
 
-type WriteFileAsync = {
-    default: () => void;
-};
+type WriteFileAsync = () => void;
 
 type StylishContext = {
     logging: Logging;
@@ -28,14 +28,18 @@ const test = anyTest as TestInterface<StylishContext>;
 const initContext = (t: ExecutionContext<StylishContext>) => {
     t.context.logging = { log() { } };
     t.context.loggingLogSpy = sinon.spy(t.context.logging, 'log');
-    t.context.writeFileAsync = { default() { } };
-    t.context.writeFileAsyncDefaultStub = sinon.stub(t.context.writeFileAsync, 'default').returns();
+    t.context.writeFileAsync = () => { };
+    t.context.writeFileAsyncDefaultStub = sinon.stub(t.context, 'writeFileAsync').returns();
 };
 
 const loadScript = (context: StylishContext) => {
     const script = proxyquire('../src/formatter', {
-        'hint/dist/src/lib/utils/fs/write-file-async': context.writeFileAsync,
-        'hint/dist/src/lib/utils/logging': context.logging
+        '@hint/utils': {
+            debug: utils.debug,
+            fs: { writeFileAsync: context.writeFileAsync },
+            logger: context.logging,
+            misc: utils.misc
+        }
     });
 
     return script.default;

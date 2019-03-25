@@ -1,6 +1,6 @@
 import { URL } from 'url';
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils';
 import { ResourceLoader } from 'jsdom';
 
 import JSDOMConnector from './connector';

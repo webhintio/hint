@@ -12,8 +12,10 @@ import * as express from 'express';
 // to work with option 'strict', we can't use import.
 const onHeaders = require('on-headers');
 
-import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { misc, network } from '@hint/utils';
+
+const { normalizeHeaderValue } = network;
+const { normalizeString } = misc;
 
 import { Message, ServerConfiguration, WebhintMessage } from './types';
 import { replacer, reviver } from './buffer-serialization';
@@ -38,7 +40,7 @@ export class Server {
     private _isHTTPS: boolean | undefined;
 
     private static readonly _cert: string =
-`-----BEGIN CERTIFICATE-----
+        `-----BEGIN CERTIFICATE-----
 MIIDBTCCAe2gAwIBAgIJAPrIPsJ7DJ0SMA0GCSqGSIb3DQEBBQUAMBkxFzAVBgNV
 BAMMDmxvY2FsaG9zdDo4NDQzMB4XDTE3MDcwNzE3MTI0OVoXDTI3MDcwNTE3MTI0
 OVowGTEXMBUGA1UEAwwObG9jYWxob3N0Ojg0NDMwggEiMA0GCSqGSIb3DQEBAQUA
@@ -59,7 +61,7 @@ w4C7/uFcTns/5rYjv+vp+EGv5cupxJjXpd1O/buT/Tt/Ur5maySbu4vDYVgmPuXU
 -----END CERTIFICATE-----`
 
     private static readonly _key: string =
-`-----BEGIN RSA PRIVATE KEY-----
+        `-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEA5iJUAL+mQBqxIN3Bz/jaX6kFfi0tFsUnMzwHGZg1yXmuXlAL
 exnPYCO1CyB1uvEyfKxlXWSiq4j6l5hv72Pfrv1GdSMHEGVjEz0wy/Crtf5Q49M8
 Tt2r7oxJxxnIKdUXX0tE7IoEua0lpsfnbfWu8259aAodpentR3hXdDRdebV2RrIS
@@ -154,7 +156,7 @@ IsW9AGST1xe4XVCLy+FIoo1RVpfJyp8h9zSzDASh/F1+5DY1PUJQ
 
         for (const [header, value] of Object.entries(headers)) {
             // TODO: handle `string[]` in `req.headers`
-            const headerValue = getHeaderValueNormalized(req.headers as any, header);
+            const headerValue = normalizeHeaderValue(req.headers as any, header);
 
             if ((headerValue !== normalizeString(value as string)) || (!headerValue && (value === null))) {
                 return 0;

@@ -5,12 +5,13 @@ import * as fs from 'fs-extra';
 import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
-import * as logger from 'hint/dist/src/lib/utils/logging';
-import isOfficial from 'hint/dist/src/lib/utils/packages/is-official';
-import normalize from 'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter';
-import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
+import { appInsights, fs as fsUtils, logger, misc, packages } from '@hint/utils';
 import { escapeSafeString, compileTemplate } from './handlebars-utils';
-import { sendPendingData, trackEvent } from 'hint/dist/src/lib/utils/app-insights';
+
+const { isOfficial } = packages;
+const { normalizeStringByDelimiter } = misc;
+const { writeFileAsync } = fsUtils;
+const { sendPendingData, trackEvent } = appInsights;
 
 /*
  * ------------------------------------------------------------------------------
@@ -69,7 +70,7 @@ const capitalize = (str: string): string => {
         return '';
     }
 
-    const splittedText: string[] = normalize(str, ' ').split(' ');
+    const splittedText: string[] = normalizeStringByDelimiter(str, ' ').split(' ');
 
     const result = splittedText.reduce((total, text) => {
         /* istanbul ignore else */
@@ -99,7 +100,7 @@ class NewParser {
 
     public constructor(parserData: QuestionsType) {
         this.name = parserData.name;
-        this.normalizedName = normalize(parserData.name, '-');
+        this.normalizedName = normalizeStringByDelimiter(parserData.name, '-');
         this.capitalizedName = capitalize(parserData.name);
         this.description = escapeSafeString(parserData.description);
 

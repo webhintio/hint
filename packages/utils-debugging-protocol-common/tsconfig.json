@@ -16,6 +16,7 @@
     "references": [
         { "path": "../hint" },
         { "path": "../parser-html" },
+        { "path": "../utils" },
         { "path": "../utils-connector-tools" }
     ]
 }

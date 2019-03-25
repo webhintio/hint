@@ -1,8 +1,7 @@
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { test } from '@hint/utils';
 
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const bodyWithValidLinks = `<div>
@@ -267,4 +266,4 @@ const tests: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, tests);
+testHint(hintPath, tests);

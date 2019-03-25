@@ -1,12 +1,9 @@
-/* eslint sort-keys: 0 */
-
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const htmlWithManifestSpecified = generateHTMLPage('<link rel="manifest" href="site.webmanifest">');
@@ -124,15 +121,15 @@ const testForThemeColorWithNoSupportForHexWithAlpha: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, defaultTests, { parsers: ['manifest'] });
-hintRunner.testHint(hintPath, testsForThemeColor, {
+testHint(hintPath, defaultTests, { parsers: ['manifest'] });
+testHint(hintPath, testsForThemeColor, {
     browserslist: [
         'chrome 65',
         'firefox 60'
     ],
     parsers: ['manifest']
 });
-hintRunner.testHint(hintPath, testForThemeColorWithNoSupportForHexWithAlpha, {
+testHint(hintPath, testForThemeColorWithNoSupportForHexWithAlpha, {
     browserslist: ['chrome 50'],
     parsers: ['manifest']
 });

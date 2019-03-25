@@ -1,8 +1,7 @@
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
+const { generateHTMLPage, getHintPath} = test;
 const htmlWithManifestSpecified = generateHTMLPage('<link rel="manifest" href="site.webmanifest">');
 
 const tests: HintTest[] = [
@@ -62,4 +61,4 @@ const tests: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(getHintPath(__filename), tests, { parsers: ['manifest'] });
+testHint(getHintPath(__filename), tests, { parsers: ['manifest'] });

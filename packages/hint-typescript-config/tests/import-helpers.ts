@@ -1,25 +1,19 @@
 import * as path from 'path';
 
 import { ExecutionContext } from 'ava';
+import * as mock from 'mock-require';
 import * as sinon from 'sinon';
 
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import { HintLocalTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
+import * as utils from '@hint/utils';
+import { HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
 
-type Package = {
-    exists: boolean;
-};
-
-type LoadPackage = {
-    default: () => Package;
-};
+const { getHintPath } = utils.test;
 
 type ImportHelpersContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const loadPackage: LoadPackage = require('hint/dist/src/lib/utils/packages/load-package');
+const packages = utils.packages;
 
 const hintPath = getHintPath(__filename, true);
 
@@ -31,9 +25,11 @@ const tests: HintLocalTest[] = [
         before: (t: ExecutionContext<ImportHelpersContext>) => {
             const sandbox = sinon.createSandbox();
 
-            sandbox.stub(loadPackage, 'default').returns({ exists: true });
+            sandbox.stub(utils.packages, 'loadPackage').returns({ exists: true });
 
             t.context.sandbox = sandbox;
+
+            mock('@hint/utils/dist/src/packages/load-package', { loadPackage: packages.loadPackage });
         },
         name: 'Configuration with "compilerOptions.importHelpers = true" should pass',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'import')
@@ -45,9 +41,11 @@ const tests: HintLocalTest[] = [
         before: (t: ExecutionContext<ImportHelpersContext>) => {
             const sandbox = sinon.createSandbox();
 
-            sandbox.stub(loadPackage, 'default').throws(new Error('Not found'));
+            sandbox.stub(utils.packages, 'loadPackage').throws(new Error('Not found'));
 
             t.context.sandbox = sandbox;
+
+            mock('@hint/utils/dist/src/packages/load-package', { loadPackage: packages.loadPackage });
         },
         name: 'Configuration with "compilerOptions.importHelpers = true" but tslibs is not installed should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'import'),
@@ -60,9 +58,11 @@ const tests: HintLocalTest[] = [
         before: (t: ExecutionContext<ImportHelpersContext>) => {
             const sandbox = sinon.createSandbox();
 
-            sandbox.stub(loadPackage, 'default').returns({ exists: true });
+            sandbox.stub(utils.packages, 'loadPackage').returns({ exists: true });
 
             t.context.sandbox = sandbox;
+
+            mock('@hint/utils/dist/src/packages/load-package', { loadPackage: packages.loadPackage });
         },
         name: 'Configuration with "compilerOptions.importHelpers = false" should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'import-false'),
@@ -75,9 +75,11 @@ const tests: HintLocalTest[] = [
         before: (t: ExecutionContext<ImportHelpersContext>) => {
             const sandbox = sinon.createSandbox();
 
-            sandbox.stub(loadPackage, 'default').returns({ exists: true });
+            sandbox.stub(utils.packages, 'loadPackage').returns({ exists: true });
 
             t.context.sandbox = sandbox;
+
+            mock('@hint/utils/dist/src/packages/load-package', { loadPackage: packages.loadPackage });
         },
         name: 'Configuration with no explicit "compilerOptions.importHelpers" should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'no-import'),
@@ -90,9 +92,11 @@ const tests: HintLocalTest[] = [
         before: (t: ExecutionContext<ImportHelpersContext>) => {
             const sandbox = sinon.createSandbox();
 
-            sandbox.stub(loadPackage, 'default').throws(new Error('Not found'));
+            sandbox.stub(utils.packages, 'loadPackage').throws(new Error('Not found'));
 
             t.context.sandbox = sandbox;
+
+            mock('@hint/utils/dist/src/packages/load-package', { loadPackage: packages.loadPackage });
         },
         name: 'Configuration with no explicit "compilerOptions.importHelpers" and no "tslib" installed should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'no-import'),
@@ -103,4 +107,4 @@ const tests: HintLocalTest[] = [
     }
 ];
 
-hintRunner.testLocalHint(hintPath, tests, { parsers: ['typescript-config'], serial: true });
+testLocalHint(hintPath, tests, { parsers: ['typescript-config'], serial: true });

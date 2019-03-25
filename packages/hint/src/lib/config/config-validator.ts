@@ -9,10 +9,10 @@
  * ------------------------------------------------------------------------------
  */
 
+import { debug as d, logger } from '@hint/utils';
+
 import { validate } from '../utils/schema-validator';
-import { debug as d } from '../utils/debug';
 import { UserConfig } from '../types';
-import * as logger from '../utils/logging';
 import { SchemaValidationResult, GroupedError } from '../types/schema-validation-result';
 
 const debug = d(__filename);

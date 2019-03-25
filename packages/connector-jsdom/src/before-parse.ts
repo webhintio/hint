@@ -5,11 +5,12 @@
 import { URL } from 'url';
 import * as vm from 'vm';
 import * as path from 'path';
+import { DOMWindow } from 'jsdom';
 
 import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
+import { fs } from '@hint/utils';
 
-import readFile from 'hint/dist/src/lib/utils/fs/read-file';
-import { DOMWindow } from 'jsdom';
+const { readFile } = fs;
 
 export const beforeParse = (finalHref: string) => {
     return (window: DOMWindow) => {

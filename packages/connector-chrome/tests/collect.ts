@@ -9,9 +9,12 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import { Server, ServerConfiguration } from '@hint/utils-create-server';
 import { Events, IConnector, IConnectorConstructor } from 'hint/dist/src/lib/types';
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import ChromeConnector from '../src/connector';
 import { Engine } from 'hint';
+import { test as testUtils } from '@hint/utils';
+
+import ChromeConnector from '../src/connector';
+
+const { generateHTMLPage } = testUtils;
 
 const name: string = 'chrome';
 

@@ -14,8 +14,7 @@
 
 const tracking = (/--tracking[=\s]+([^\s]*)/i).exec(process.argv.join(' '));
 
-import * as insights from '../lib/utils/app-insights';
-import * as configStore from '../lib/utils/config-store';
+import { configStore, appInsights } from '@hint/utils';
 
 const trackingEnv = process.env.HINT_TRACKING;
 let enableTracking;
@@ -29,19 +28,19 @@ if (tracking) {
 if (typeof enableTracking !== 'undefined') {
     if (enableTracking) {
         const alreadyRun: boolean = configStore.get('run');
-        const configured = insights.isConfigured();
+        const configured = appInsights.isConfigured();
 
-        insights.enable();
+        appInsights.enable();
 
         if (!configured) {
             if (!alreadyRun) {
-                insights.trackEvent('FirstRun');
+                appInsights.trackEvent('FirstRun');
             } else {
-                insights.trackEvent('SecondRun');
+                appInsights.trackEvent('SecondRun');
             }
         }
     } else {
-        insights.disable();
+        appInsights.disable();
     }
 }
 
@@ -52,7 +51,7 @@ if (typeof enableTracking !== 'undefined') {
  * Now we can safely include the other modules that use debug.
  */
 import * as cli from '../lib/cli';
-import { trackException, sendPendingData } from '../lib/utils/app-insights';
+const { trackException, sendPendingData } = appInsights;
 
 /*
  * ------------------------------------------------------------------------------

@@ -1,9 +1,8 @@
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import readFile from 'hint/dist/src/lib/utils/fs/read-file';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { fs, test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
+const { readFile } = fs;
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const styles = readFile(`${__dirname}/fixtures/styles.css`);
@@ -276,26 +275,26 @@ const testsIgnoredUrls = [
     }
 ];
 
-hintRunner.testHint(hintPath, defaults, { https: true });
-hintRunner.testHint(hintPath, configOriginAllTestsHttps, {
+testHint(hintPath, defaults, { https: true });
+testHint(hintPath, configOriginAllTestsHttps, {
     hintOptions: { originCriteria: 'all' },
     https: true
 });
-hintRunner.testHint(hintPath, configTestsHigh, {
+testHint(hintPath, configTestsHigh, {
     hintOptions: {
         baseline: 'sha512',
         originCriteria: 'all'
     },
     https: true
 });
-hintRunner.testHint(hintPath, configTestsLow, {
+testHint(hintPath, configTestsLow, {
     hintOptions: {
         baseline: 'sha256',
         originCriteria: 'all'
     },
     https: true
 });
-hintRunner.testHint(hintPath, testsIgnoredUrls, {
+testHint(hintPath, testsIgnoredUrls, {
     https: true,
     ignoredUrls: [{
         domain: '^https://localhost(\\:[0-9]{1,5})/styles\\.css',

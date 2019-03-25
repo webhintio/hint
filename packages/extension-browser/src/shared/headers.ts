@@ -1,4 +1,4 @@
-import { HttpHeaders } from 'hint/dist/src/lib/types';
+import { HttpHeaders } from '@hint/utils';
 
 /** Convert `webRequest` or `devtools.network` headers to `hint` headers. */
 export const mapHeaders = (webRequestHeaders: { name: string; value?: string }[]): HttpHeaders => {

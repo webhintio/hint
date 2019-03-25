@@ -9,6 +9,10 @@
   "bin": {
     "create-parser": "./dist/src/create-parser.js"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0",
+    "hint": "^4.5.0"
+  },
   "description": "webhint's parser initializer package",
   "devDependencies": {
     "@types/inquirer": "^6.0.0",
@@ -26,7 +30,6 @@
     "fork-ts-checker-webpack-plugin": "^1.0.1",
     "fs-extra": "^7.0.0",
     "handlebars": "^4.1.1",
-    "hint": "^4.5.0",
     "inquirer": "^6.2.2",
     "mkdirp": "^0.5.1",
     "npm-link-check": "^3.0.0",

@@ -17,6 +17,7 @@
         { "path": "../parser-babel-config" },
         { "path": "../parser-typescript-config" },
         { "path": "../parser-webpack-config" },
+        { "path": "../utils" },
         { "path": "../utils-tests-helpers" }
     ]
 }

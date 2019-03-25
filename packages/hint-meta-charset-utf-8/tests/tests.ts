@@ -1,10 +1,7 @@
-/* eslint sort-keys: 0 */
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-
+const { generateHTMLPage, getHintPath } = test;
 const metaCharset = '<mEtA CHaRseT="UtF-8">';
 const metaHttpEquiv = '<MeTa HTTP-EquiV="ConTent-Type" Content="TexT/HTML; CharSet=UtF-8">';
 
@@ -111,4 +108,4 @@ const tests: HintTest[] = [
      */
 ];
 
-hintRunner.testHint(getHintPath(__filename), tests, { parsers: ['html'] });
+testHint(getHintPath(__filename), tests, { parsers: ['html'] });

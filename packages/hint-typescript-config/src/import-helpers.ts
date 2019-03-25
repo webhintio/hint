@@ -8,8 +8,7 @@ import * as path from 'path';
 import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ScanEnd } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import loadPackage from 'hint/dist/src/lib/utils/packages/load-package';
+import { debug as d } from '@hint/utils';
 
 import { configChecker } from './helpers/config-checker';
 
@@ -29,7 +28,7 @@ export default class TypeScriptConfigImportHelpers implements IHint {
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
         const validate = configChecker('compilerOptions.importHelpers', true, 'The compiler option "importHelpers" should be enabled to reduce the output size.', context);
 
-        const validateTslibInstalled = (evt: ScanEnd) => {
+        const validateTslibInstalled = async (evt: ScanEnd) => {
             const { resource } = evt;
 
             const pathToTslib = path.join(process.cwd(), 'node_modules', 'tslib');
@@ -37,7 +36,11 @@ export default class TypeScriptConfigImportHelpers implements IHint {
             debug(`Searching "tslib" in ${pathToTslib}`);
 
             try {
-                loadPackage(pathToTslib);
+                /*
+                 * HACK: Need to do an import here in order to be capable of mocking
+                 * when testing the hint.
+                 */
+                (await import('@hint/utils/dist/src/packages/load-package')).loadPackage(pathToTslib);
                 debug(`"tslib" found`);
             } catch (e) {
                 debug(e);

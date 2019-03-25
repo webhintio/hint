@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0"
+  },
   "description": "hint for best practices related to the meta charset",
   "devDependencies": {
     "@hint/parser-html": "^2.0.2",

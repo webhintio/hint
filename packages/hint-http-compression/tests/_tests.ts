@@ -2,17 +2,15 @@ import * as fs from 'fs';
 
 import * as mock from 'mock-require';
 
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import { HttpHeaders } from 'hint/dist/src/lib/types';
+import { HintTest } from '@hint/utils-tests-helpers';
+import * as utils from '@hint/utils';
 
-// We need to use `require` to be able to overwrite the method `asyncTry`.
-const fnWrapper = require('hint/dist/src/lib/utils/async-wrapper');
-const originalAsyncTry = fnWrapper.asyncTry;
+const originalAsyncTry = utils.asyncTry;
 
 const uaString = 'Mozilla/5.0 Gecko';
 
 interface IFetchFunction {
-    (target: string, headers: HttpHeaders): Promise<any>;
+    (target: string, headers: utils.HttpHeaders): Promise<any>;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -250,11 +248,11 @@ const testsForBrotli: HintTest[] = [
     },
     {
         after() {
-            fnWrapper.asyncTry = originalAsyncTry;
+            (utils as any).asyncTry = originalAsyncTry;
         },
         before() {
-            fnWrapper.asyncTry = (fetch: IFetchFunction) => {
-                return (target: string, headers: HttpHeaders) => {
+            (utils as any).asyncTry = (fetch: IFetchFunction) => {
+                return (target: string, headers: utils.HttpHeaders) => {
                     if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'br') {
                         return fetch(target, headers);
                     }
@@ -263,7 +261,7 @@ const testsForBrotli: HintTest[] = [
                 };
             };
 
-            mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
+            mock('@hint/utils', utils);
         },
         name: `If a request throws an exception, if should be managed and report an error (brotli)`,
         reports: [{ message: `Could not be fetched when requested compressed with Brotli` }],
@@ -487,11 +485,11 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
         },
         {
             after() {
-                fnWrapper.asyncTry = originalAsyncTry;
+                (utils as any).asyncTry = originalAsyncTry;
             },
             before() {
-                fnWrapper.asyncTry = (fetch: IFetchFunction) => {
-                    return (target: string, headers: HttpHeaders) => {
+                (utils as any).asyncTry = (fetch: IFetchFunction) => {
+                    return (target: string, headers: utils.HttpHeaders) => {
                         if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'gzip') {
                             return fetch(target, headers);
                         }
@@ -500,7 +498,7 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
                     };
                 };
 
-                mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
+                mock('@hint/utils', utils);
             },
             name: `If a request throws an exception, if should be managed and report an error (Gzip)`,
             reports: [{ message: 'Could not be fetched when requested compressed with gzip' }],
@@ -700,11 +698,11 @@ const testsForNoCompression = (https: boolean = false): HintTest[] => {
         },
         {
             after() {
-                fnWrapper.asyncTry = originalAsyncTry;
+                (utils as any).asyncTry = originalAsyncTry;
             },
             before() {
-                fnWrapper.asyncTry = (fetch: IFetchFunction) => {
-                    return (target: string, headers: HttpHeaders) => {
+                (utils as any).asyncTry = (fetch: IFetchFunction) => {
+                    return (target: string, headers: utils.HttpHeaders) => {
                         if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'identity') {
                             return fetch(target, headers);
                         }
@@ -713,7 +711,7 @@ const testsForNoCompression = (https: boolean = false): HintTest[] => {
                     };
                 };
 
-                mock('hint/dist/src/lib/utils/async-wrapper', fnWrapper);
+                mock('@hint/utils', utils);
             },
             name: `If a request throws an exception, if should be managed and report an error (no compression)`,
             reports: [{ message: 'Could not be fetched when requested uncompressed' }],

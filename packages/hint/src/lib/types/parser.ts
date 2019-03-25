@@ -2,10 +2,11 @@ import * as path from 'path';
 
 import merge = require('lodash/merge');
 
+import { loadJSONFile } from '@hint/utils/dist/src/fs/load-json-file';
+import { asPathString } from '@hint/utils/dist/src/network/as-path-string';
+import { getAsUri } from '@hint/utils/dist/src/network/as-uri';
+
 import { Engine } from '../engine';
-import { getAsUri } from '../utils/network/as-uri';
-import getAsPathString from '../utils/network/as-path-string';
-import loadJSONFile from '../utils/fs/load-json-file';
 import { Events } from './events';
 
 export interface IParsingError extends Error {
@@ -33,7 +34,7 @@ export abstract class Parser<E extends Events = Events> {
         const configIncludes = new Set();
 
         // `resource` has already been loaded to provide `config` so `getAsUri` won't be null.
-        let configPath = getAsPathString(getAsUri(resource)!);
+        let configPath = asPathString(getAsUri(resource)!);
 
         /*
          * `configPath` will have the format c:/path or /path

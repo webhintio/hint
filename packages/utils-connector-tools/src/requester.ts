@@ -16,16 +16,16 @@ import * as request from 'request';
 import * as iconv from 'iconv-lite';
 import parseDataURL = require('data-urls'); // Using `require` as `data-urls` exports a function.
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
-import toLowerCaseKeys from 'hint/dist/src/lib/utils/misc/to-lowercase-keys';
+import { debug as d, HttpHeaders, misc, network } from '@hint/utils';
 
 import { getContentTypeData } from 'hint/dist/src/lib/utils/content-type';
-import { NetworkData, HttpHeaders } from 'hint/dist/src/lib/types'; //eslint-disable-line
+import { NetworkData } from 'hint/dist/src/lib/types'; //eslint-disable-line
 import { RedirectManager } from './redirects';
 
 interface IDecompressor { (content: Buffer): Promise<Buffer> }
 
+const { normalizeHeaderValue } = network;
+const { toLowerCaseKeys } = misc;
 const debug = d(__filename);
 const decompressBrotli = promisify(brotli.decompress);
 const decompressGzip = promisify(zlib.gunzip);
@@ -281,7 +281,7 @@ export class Requester {
                         }
                     }
 
-                    const contentEncoding: string | null = getHeaderValueNormalized(response.headers as HttpHeaders, 'content-encoding');
+                    const contentEncoding: string | null = normalizeHeaderValue(response.headers as HttpHeaders, 'content-encoding');
                     const rawBody: Buffer | null = await this.decompressResponse(contentEncoding, rawBodyResponse);
                     const contentTypeData = getContentTypeData(null, uri, response.headers as HttpHeaders, rawBody as Buffer);
                     const charset = contentTypeData.charset || '';

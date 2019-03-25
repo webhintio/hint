@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@hint/utils": "^1.0.0",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "on-headers": "^1.0.2"

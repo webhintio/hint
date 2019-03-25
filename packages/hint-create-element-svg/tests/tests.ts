@@ -1,9 +1,8 @@
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import readFile from 'hint/dist/src/lib/utils/fs/read-file';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { fs, test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
+const { generateHTMLPage, getHintPath } = test;
+const { readFile } = fs;
 const hintPath = getHintPath(__filename);
 
 const generateHTMLPageWithDivTag = (head: string, body: string) => {
@@ -66,4 +65,4 @@ const tests: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, tests, { parsers: ['javascript']});
+testHint(hintPath, tests, { parsers: ['javascript'] });

@@ -7,7 +7,7 @@ import { vendor, Declaration, Rule } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils/dist/src/debug';
 
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 

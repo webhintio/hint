@@ -2,12 +2,11 @@ import { readFileSync } from 'fs';
 
 import * as mock from 'mock-require';
 
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 import { cloudinaryResult } from '../src/cloudinary-types';
 
+const { generateHTMLPage, getHintPath} = test;
 const hintPath = getHintPath(__filename);
 const svg = readFileSync(`${__dirname}/fixtures/space-nellie.svg`);
 const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);
@@ -136,19 +135,19 @@ const noConfigTest: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, testThresholds, {
+testHint(hintPath, testThresholds, {
     hintOptions: { apiKey: 'fakeApiName', apiSecret: 'fakeApiSecret', cloudName: 'fakeCloudName', threshold: 150 },
     ignoredConnectors: ['chrome'],
     serial: true
 });
 
-hintRunner.testHint(hintPath, tests, {
+testHint(hintPath, tests, {
     hintOptions: { apiKey: 'fakeApiName', apiSecret: 'fakeApiSecret', cloudName: 'fakeCloudName' },
     ignoredConnectors: ['chrome'],
     serial: true
 });
 
-hintRunner.testHint(hintPath, noConfigTest, {
+testHint(hintPath, noConfigTest, {
     ignoredConnectors: ['chrome'],
     serial: true
 });

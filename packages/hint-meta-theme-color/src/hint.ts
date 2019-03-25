@@ -17,12 +17,13 @@ import {
     IHint,
     TraverseEnd
 } from 'hint/dist/src/lib/types';
-import { isSupported } from 'hint/dist/src/lib/utils/caniuse';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { caniuse, misc } from '@hint/utils';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
 
+const { isSupported } = caniuse;
+const { normalizeString } = misc;
 /*
  * ------------------------------------------------------------------------------
  * Public

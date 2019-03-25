@@ -5,7 +5,7 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 // The list of types depends on the events you want to capture.
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
-import cutString from 'hint/dist/src/lib/utils/misc/cut-string';
+import { cutString } from '@hint/utils/dist/src/misc/cut-string';
 
 import meta from './meta';
 

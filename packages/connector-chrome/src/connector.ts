@@ -14,7 +14,7 @@ import { Connector } from '@hint/utils-debugging-protocol-common/dist/src/debugg
 import { ILauncher } from 'hint/dist/src/lib/types';
 import { CDPLauncher } from './chrome-launcher';
 
-import { Engine } from 'hint/dist/src/lib/engine';
+import { Engine } from 'hint';
 
 export default class ChromeConnector extends Connector {
     public constructor(server: Engine, config?: object) {

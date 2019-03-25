@@ -14,13 +14,12 @@ import * as os from 'os';
 import * as path from 'path';
 import { promisify } from 'util';
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import delay from 'hint/dist/src/lib/utils/misc/delay';
+import { debug as d, logger, misc } from '@hint/utils';
 import { Launcher } from '@hint/utils-debugging-protocol-common/dist/src/launcher';
-import * as logging from 'hint/dist/src/lib/utils/logging';
 import { BrowserInfo, LauncherOptions } from 'hint/dist/src/lib/types';
 import * as nodeWindows from 'node-windows';
 
+const { delay } = misc;
 const diagnosticsPath = require.resolve('edge-diagnostics-adapter');
 const elevate = promisify(nodeWindows.elevate);
 
@@ -139,7 +138,7 @@ export class EdgeLauncher extends Launcher {
         if (!osInfo.isWin || osInfo.version < 10) {
             const message = 'Edge diagnostics adapter needs windows 10';
 
-            logging.error(message);
+            logger.error(message);
             throw new Error(message);
         }
 

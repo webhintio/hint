@@ -1,5 +1,7 @@
 import * as mock from 'mock-require';
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
+import * as utils from '@hint/utils';
+
+const { generateHTMLPage } = utils.test;
 
 export const OkayMaxAge = 31536000; // a max-age value larger than the minimum
 export const smallMaxAge = 1; // a max-age value less than the minimum
@@ -60,47 +62,39 @@ export const htmlPageWithScriptData = generateHTMLPageData(generateHTMLPage(unde
 export const htmlPageWithManifestData = generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.webmanifest">'));
 
 export const requestJSONAsyncMock = (responseObject: any) => {
-    const isDataURI = {
-        default() {
-            return false;
-        }
+    const isDataURI = () => {
+        return false;
     };
-    const isHTTPS = {
-        default() {
-            return true;
-        }
+    const isHTTPS = () => {
+        return true;
     };
-    const isRegularProtocol = {
-        default() {
-            return true;
-        }
+    const isRegularProtocol = () => {
+        return true;
     };
-    const normalizeString = {
-        default(str = '') {
-            return str.toLowerCase();
-        }
+    const normalizeString = (str = '') => {
+        return str.toLowerCase();
     };
-    const requestJSONAsync = {
-        default(uri: string) {
-            let response;
+    const requestJSONAsync = (uri: string) => {
+        let response;
 
-            if (uri.includes('/api/v2/preloadable')) {
-                response = responseObject.preloadable;
-            } else {
-                response = responseObject.status;
-            }
-
-            if (!response) {
-                return Promise.reject('Error with the verification service.');
-            }
-
-            return Promise.resolve(response);
+        if (uri.includes('/api/v2/preloadable')) {
+            response = responseObject.preloadable;
+        } else {
+            response = responseObject.status;
         }
+
+        if (!response) {
+            return Promise.reject('Error with the verification service.');
+        }
+
+        return Promise.resolve(response);
     };
 
-    mock('hint/dist/src/lib/utils/network/is-data-uri', isDataURI);
-    mock('hint/dist/src/lib/utils/network/is-https', isHTTPS);
-    mock('hint/dist/src/lib/utils/network/is-regular-protocol', isRegularProtocol);
-    mock('hint/dist/src/lib/utils/misc/normalize-string', normalizeString);
-    mock('hint/dist/src/lib/utils/network/request-json-async', requestJSONAsync);
+    (utils.network as any).isDataURI = isDataURI;
+    (utils.network as any).isRegularProtocol = isRegularProtocol;
+
+    mock('@hint/utils', utils);
+    mock('@hint/utils/dist/src/network/is-https', { isHTTPS });
+    mock('@hint/utils/dist/src/misc/normalize-string', { normalizeString });
+    mock('@hint/utils/dist/src/network/request-json-async', { requestJSONAsync });
 };

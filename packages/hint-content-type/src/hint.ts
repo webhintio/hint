@@ -11,11 +11,11 @@
 
 import { MediaType, parse } from 'content-type';
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils/dist/src/debug';
+import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
+import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
+import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
-import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
-import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 import { isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
@@ -66,7 +66,7 @@ export default class ContentTypeHint implements IHint {
                 return;
             }
 
-            const contentTypeHeaderValue: string | null = getHeaderValueNormalized(response.headers, 'content-type');
+            const contentTypeHeaderValue: string | null = normalizeHeaderValue(response.headers, 'content-type');
 
             // Check if the `Content-Type` header was sent.
 

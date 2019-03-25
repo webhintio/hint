@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0"
+  },
   "description": "hint that that checks if external links disown the opener",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",

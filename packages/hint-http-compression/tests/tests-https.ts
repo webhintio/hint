@@ -1,5 +1,5 @@
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { test } from '@hint/utils';
+import { testHint } from '@hint/utils-tests-helpers';
 
 import {
     testsForBrotli,
@@ -16,6 +16,7 @@ import {
     testsForUserConfigs
 } from './_tests';
 
+const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 /*
@@ -34,23 +35,23 @@ testConfigsSerial.serial = true;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-hintRunner.testHint(hintPath, testsForDefaults(true), testConfigs);
-hintRunner.testHint(hintPath, testsForSpecialCases(true), testConfigs);
-hintRunner.testHint(hintPath, testsForDisallowedCompressionMethods(true), testConfigs);
-hintRunner.testHint(hintPath, testsForNoCompression(true), testConfigsSerial);
-hintRunner.testHint(hintPath, testsForGzipZopfli(true), testConfigsSerial);
-hintRunner.testHint(hintPath, testsForGzipZopfliCaching(true), testConfigs);
-hintRunner.testHint(hintPath, testsForGzipZopfliSmallSize(true), testConfigs);
-hintRunner.testHint(hintPath, testsForGzipZopfliUASniffing(true), testConfigs);
+testHint(hintPath, testsForDefaults(true), testConfigs);
+testHint(hintPath, testsForSpecialCases(true), testConfigs);
+testHint(hintPath, testsForDisallowedCompressionMethods(true), testConfigs);
+testHint(hintPath, testsForNoCompression(true), testConfigsSerial);
+testHint(hintPath, testsForGzipZopfli(true), testConfigsSerial);
+testHint(hintPath, testsForGzipZopfliCaching(true), testConfigs);
+testHint(hintPath, testsForGzipZopfliSmallSize(true), testConfigs);
+testHint(hintPath, testsForGzipZopfliUASniffing(true), testConfigs);
 
-hintRunner.testHint(hintPath, testsForBrotli, testConfigsSerial);
-hintRunner.testHint(hintPath, testsForBrotliSmallSize, testConfigs);
-hintRunner.testHint(hintPath, testsForBrotliUASniffing(), testConfigs);
+testHint(hintPath, testsForBrotli, testConfigsSerial);
+testHint(hintPath, testsForBrotliSmallSize, testConfigs);
+testHint(hintPath, testsForBrotliUASniffing(), testConfigs);
 
 // Tests for the user options.
 [true, false].forEach((isHTML) => {
     ['gzip', 'zopfli', 'brotli'].forEach((encoding) => {
-        hintRunner.testHint(
+        testHint(
             hintPath,
             testsForUserConfigs(`${encoding}`, isHTML, true),
             Object.assign(

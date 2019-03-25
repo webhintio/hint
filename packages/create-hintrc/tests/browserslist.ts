@@ -2,6 +2,8 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 
+import * as utils from '@hint/utils';
+
 type Inquirer = {
     prompt: () => Promise<any>;
 };
@@ -30,7 +32,10 @@ const invalidQueries = {
 
 const loadScript = (context: BrowserslistContext): () => Promise<string> => {
     const browserlist = proxyquire('../src/browserslist', {
-        'hint/dist/src/lib/utils/logging': context.logger,
+        '@hint/utils': {
+            debug: utils.debug,
+            logger: context.logger
+        },
         inquirer: context.inquirer
     });
 

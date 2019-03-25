@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0"
+  },
   "description": "hint that that checks if the web app manifest file has the correct file extension",
   "devDependencies": {
     "@hint/parser-manifest": "^2.0.2",

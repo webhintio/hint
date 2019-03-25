@@ -7,21 +7,18 @@ import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
 import { EventAndListener } from 'eventemitter2';
 
-import * as configStore from '../utils/config-store';
+import { appInsights, configStore, debug as d, fs, logger, misc, network, npm } from '@hint/utils';
+
 import { Configuration } from '../config';
 import { Engine } from '../engine';
-import { CLIOptions, Problem, Severity, UserConfig, HintResources } from '../types';
-import { debug as d } from '../utils/debug';
-import { getAsUris } from '../utils/network/as-uri';
-import * as logger from '../utils/logging';
-import askForConfirm from '../utils/misc/ask-question';
-import cutString from '../utils/misc/cut-string';
+import { CLIOptions, Problem, Severity, UserConfig, HintResources, FormatterOptions } from '../types';
 import * as resourceLoader from '../utils/resource-loader';
-import { installPackages } from '../utils/npm';
-import cwd from '../utils/fs/cwd';
-import * as insights from '../utils/app-insights';
-import { FormatterOptions } from '../types/formatters';
 import loadHintPackage from '../utils/packages/load-hint-package';
+
+const { getAsUris } = network;
+const { askQuestion, cutString } = misc;
+const { installPackages } = npm;
+const { cwd } = fs;
 
 const debug: debug.IDebugger = d(__filename);
 const configStoreKey: string = 'run';
@@ -74,12 +71,12 @@ or set the flag --tracking=on|off`;
 
 /** Ask user if he wants to activate the telemetry or not. */
 const askForTelemetryConfirmation = async (config: Configuration) => {
-    if (insights.isConfigured()) {
+    if (appInsights.isConfigured()) {
         return;
     }
 
     if (isCI) {
-        if (!insights.isConfigured()) {
+        if (!appInsights.isConfigured()) {
             showCITelemetryMessage();
         }
 
@@ -100,23 +97,23 @@ const askForTelemetryConfirmation = async (config: Configuration) => {
 
     debug(`Prompting telemetry permission.`);
 
-    const confirm: boolean = await askForConfirm(message);
+    const confirm: boolean = await askQuestion(message);
 
     if (confirm) {
-        insights.enable();
+        appInsights.enable();
 
-        insights.trackEvent('SecondRun');
-        insights.trackEvent('analyze', config);
+        appInsights.trackEvent('SecondRun');
+        appInsights.trackEvent('analyze', config);
 
         return;
     }
 
-    insights.disable();
+    appInsights.disable();
 };
 
 const askUserToUseDefaultConfiguration = async (): Promise<boolean> => {
     const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://webhint.io/docs/user-guide/#default-configuration`;
-    const confirmation: boolean = await askForConfirm(question);
+    const confirmation: boolean = await askQuestion(question);
 
     return confirmation;
 };
@@ -141,7 +138,7 @@ const askUserToInstallDependencies = async (resources: HintResources): Promise<b
 
     const question: string = `There ${dependencies.length === 1 ? 'is a package' : 'are packages'} from your .hintrc file not installed or with an incompatible version. Do you want us to try to install/update them?`;
 
-    const answer: boolean = await askForConfirm(question);
+    const answer: boolean = await askQuestion(question);
 
     return answer;
 };
@@ -292,15 +289,15 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     let resources = resourceLoader.loadResources(config);
 
-    insights.trackEvent('analyze', config);
+    appInsights.trackEvent('analyze', config);
 
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {
         if (resources.missing.length > 0) {
-            insights.trackEvent('missing', resources.missing);
+            appInsights.trackEvent('missing', resources.missing);
         }
 
         if (resources.incompatible.length > 0) {
-            insights.trackEvent('incompatible', resources.incompatible);
+            appInsights.trackEvent('incompatible', resources.incompatible);
         }
 
         const missingPackages = resources.missing.map((name) => {

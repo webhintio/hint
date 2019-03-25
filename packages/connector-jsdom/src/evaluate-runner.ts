@@ -3,7 +3,7 @@ import * as vm from 'vm';
 import { JSDOM, VirtualConsole } from 'jsdom';
 import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils';
 
 import { beforeParse } from './before-parse';
 

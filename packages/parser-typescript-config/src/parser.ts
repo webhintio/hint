@@ -2,21 +2,20 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
 
-import cloneDeep = require('lodash/cloneDeep');
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { cloneDeep } from 'lodash';
 
+import { debug as d, fs as fsUtils, network } from '@hint/utils';
 import { FetchEnd, IJSONResult, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint';
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
 import { validate } from 'hint/dist/src/lib/utils/schema-validator';
-import requestAsync from 'hint/dist/src/lib/utils/network/request-async';
-import writeFileAsync from 'hint/dist/src/lib/utils/fs/write-file-async';
 
 import { TypeScriptConfig, TypeScriptConfigEvents } from './types';
 
 export * from './types';
 
+const { loadJSONFile, writeFileAsync } = fsUtils;
+const { requestAsync } = network;
 const debug = d(__filename);
 const oneDay = 3600000 * 24;
 

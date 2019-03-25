@@ -41,6 +41,7 @@
         { "path": "../parser-html" },
         { "path": "../parser-javascript" },
         { "path": "../parser-manifest" },
+        { "path": "../utils" },
         { "path": "../utils-create-server" }
     ]
 }

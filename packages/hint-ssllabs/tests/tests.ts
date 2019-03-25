@@ -2,10 +2,10 @@
 
 import * as mock from 'mock-require';
 
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { test } from '@hint/utils';
 
+const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const ssllabsMock = (response: any) => {
@@ -136,9 +136,9 @@ There might be something wrong with SSL Labs servers.`
     }
 ];
 
-hintRunner.testHint(hintPath, testsForDefaults, { serial: true });
-hintRunner.testHint(hintPath, testsForConfigs, {
+testHint(hintPath, testsForDefaults, { serial: true });
+testHint(hintPath, testsForConfigs, {
     hintOptions: { grade: 'A+' },
     serial: true
 });
-hintRunner.testHint(hintPath, testsForErrors, { serial: true });
+testHint(hintPath, testsForErrors, { serial: true });

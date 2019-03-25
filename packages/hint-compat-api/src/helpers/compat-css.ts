@@ -5,8 +5,8 @@
 import find = require('lodash/find');
 import { AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
+import { debug as d } from '@hint/utils/dist/src/debug';
 import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
 
 import { FeatureStrategy, TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, FeatureAtSupport, TestFeatureOptions } from '../types';

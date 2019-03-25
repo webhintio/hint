@@ -4,13 +4,15 @@ import * as url from 'url';
 import * as sinon from 'sinon';
 import { EventEmitter2 } from 'eventemitter2';
 import test from 'ava';
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
-import readFile from 'hint/dist/src/lib/utils/fs/read-file';
-import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
+
+import { fs, network } from '@hint/utils';
 import { Engine } from 'hint';
+import { FetchEnd } from 'hint/dist/src/lib/types';
 
 import BabelConfigParser, { BabelConfigEvents, BabelConfigParsed } from '../src/parser';
-import { FetchEnd } from 'hint/dist/src/lib/types';
+
+const { loadJSONFile, readFile } = fs;
+const { getAsUri } = network;
 
 test(`If the resource doesn't match the target file names, nothing should happen`, async (t) => {
     const sandbox = sinon.createSandbox();

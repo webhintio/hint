@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@hint/utils": "^1.0.0",
     "@hint/utils-debugging-protocol-common": "^3.0.1",
     "edge-diagnostics-adapter": "^0.6.0",
     "node-windows": "^0.1.14"

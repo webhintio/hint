@@ -1,7 +1,7 @@
 /**
  * @fileoverview `babel-config/is-valid` warns against providing an invalid babel configuration file.
  */
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d } from '@hint/utils';
 import { IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 

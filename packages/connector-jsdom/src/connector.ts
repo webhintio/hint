@@ -31,10 +31,9 @@ import { fork, ChildProcess } from 'child_process';
 
 import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d, HttpHeaders, network } from '@hint/utils';
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
 import {
-    HttpHeaders,
     HTMLDocument,
     IConnector,
     HTMLElement,
@@ -42,7 +41,6 @@ import {
     NetworkData
 } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
-import isHTMLDocument from 'hint/dist/src/lib/utils/network/is-html-document';
 import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
 import traverse from 'hint/dist/src/lib/utils/dom/traverse';
 
@@ -58,6 +56,7 @@ import { beforeParse } from './before-parse';
  * ------------------------------------------------------------------------------
  */
 
+const { isHTMLDocument } = network;
 const debug: debug.IDebugger = d(__filename);
 
 const defaultOptions = { waitFor: 1000 };

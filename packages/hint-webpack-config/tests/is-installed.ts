@@ -1,39 +1,36 @@
 import * as path from 'path';
 import * as mock from 'mock-require';
 
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import { HintLocalTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
+import { fs, test } from '@hint/utils';
+import { HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+
+const { getHintPath } = test;
+const { loadJSONFile } = fs;
 
 const webpackDestPath = path.join(__dirname, 'fixtures', 'valid', 'package.json');
 const webpackConfig = loadJSONFile(webpackDestPath);
-const loadPackage = {
-    default() {
-        return;
-    }
-};
 
 const hintPath = getHintPath(__filename, true);
 const tests: HintLocalTest[] = [
     {
         before() {
-            loadPackage.default = () => {
+            // Using `as any` to avoid `read-only` error.
+            const loadPackage = () => {
                 return webpackConfig;
             };
 
-            mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
+            mock('@hint/utils/dist/src/packages/load-package', { loadPackage });
         },
         name: 'If valid configuration file exists and webpack is installed should pass',
         path: path.join(__dirname, 'fixtures', 'valid')
     },
     {
         before() {
-            loadPackage.default = () => {
+            const loadPackage = () => {
                 throw new Error('error');
             };
 
-            mock('hint/dist/src/lib/utils/packages/load-package', loadPackage);
+            mock('@hint/utils/dist/src/packages/load-package', { loadPackage });
         },
         name: 'If valid configuration file exists but webpack is not installed should fail',
         path: path.join(__dirname, 'fixtures', 'valid'),
@@ -41,7 +38,7 @@ const tests: HintLocalTest[] = [
     }
 ];
 
-hintRunner.testLocalHint(hintPath, tests, {
+testLocalHint(hintPath, tests, {
     parsers: ['webpack-config'],
     serial: true
 });

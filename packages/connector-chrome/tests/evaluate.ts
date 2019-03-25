@@ -3,11 +3,13 @@ import { URL } from 'url';
 import test from 'ava';
 
 import { Server } from '@hint/utils-create-server';
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
+import { test as testUtils } from '@hint/utils';
 import { IConnector, Events } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint';
 
 import ChromeConnector from '../src/connector';
+
+const { generateHTMLPage } = testUtils;
 
 const name: string = 'chrome';
 

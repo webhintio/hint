@@ -1,10 +1,9 @@
 import { readFileSync } from 'fs';
 
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
+import { HintTest, testHint} from '@hint/utils-tests-helpers';
+import { test } from '@hint/utils';
 
+const { generateHTMLPage, getHintPath} = test;
 const hintPath = getHintPath(__filename);
 
 const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);
@@ -94,4 +93,4 @@ const testsHTTPS: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, testsHTTPS, { https: true });
+testHint(hintPath, testsHTTPS, { https: true });

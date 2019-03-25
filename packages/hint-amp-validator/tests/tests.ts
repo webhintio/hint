@@ -1,10 +1,10 @@
 /* eslint sort-keys: 0 */
 
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import readFile from 'hint/dist/src/lib/utils/fs/read-file';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { test, fs } from '@hint/utils';
 
+const { readFile } = fs;
+const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const validAMPHTML = readFile(`${__dirname}/fixtures/valid-amp.html`);
@@ -35,4 +35,4 @@ const defaultTests: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, defaultTests);
+testHint(hintPath, defaultTests);

@@ -17,16 +17,16 @@
 import chalk from 'chalk';
 import * as updateNotifier from 'update-notifier';
 
-import { CLIOptions } from './types';
-import * as logger from './utils/logging';
-import getHintPackage from './utils/packages/load-hint-package';
+import { logger } from '@hint/utils';
 
+import loadHintPackage from './utils/packages/load-hint-package';
+import { CLIOptions } from './types';
 import { options } from './cli/options';
 import { cliActions } from './cli/actions';
 
 /** Notify user if the current version of webhint is not up to date. */
 const notifyIfNeeded = () => {
-    const pkg = getHintPackage();
+    const pkg = loadHintPackage();
     /*
      * Fetch and persist comparison result in the background.
      * Check interval is set as one day by default.

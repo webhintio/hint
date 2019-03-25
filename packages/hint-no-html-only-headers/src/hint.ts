@@ -9,12 +9,13 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import { getIncludedHeaders, mergeIgnoreIncludeArrays } from 'hint/dist/src/lib/utils/hint-helpers';
+import { debug as d } from '@hint/utils/dist/src/debug';
+import { includedHeaders } from '@hint/utils/dist/src/network/included-headers';
+import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
+import { mergeIgnoreIncludeArrays } from '@hint/utils/dist/src/misc/merge-ignore-include-arrays';
+import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, Response, IHint } from 'hint/dist/src/lib/types';
-import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
-import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
 
 import meta from './meta';
 
@@ -100,7 +101,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             }
 
             if (!willBeTreatedAsHTML(response)) {
-                const headers: string[] = getIncludedHeaders(response.headers, unneededHeaders);
+                const headers: string[] = includedHeaders(response.headers, unneededHeaders);
                 const numberOfHeaders: number = headers.length;
 
                 if (numberOfHeaders > 0) {

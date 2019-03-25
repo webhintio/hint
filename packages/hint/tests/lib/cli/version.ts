@@ -2,6 +2,8 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
+import * as utils from '@hint/utils';
+
 type Logger = {
     error: (error: string) => void;
     log: (log: string) => void;
@@ -29,7 +31,12 @@ const initContext = (t: ExecutionContext<VersionContext>) => {
 };
 
 const loadScript = (context: VersionContext) => {
-    const script = proxyquire('../../../src/lib/cli/version', { '../utils/logging': context.logger });
+    const script = proxyquire('../../../src/lib/cli/version', {
+        '@hint/utils': {
+            logger: context.logger,
+            packages: utils.packages
+        }
+    });
 
     return script.default;
 };

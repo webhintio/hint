@@ -5,6 +5,8 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
+import * as utils from '@hint/utils';
+
 import { CLIOptions, Severity, IFormatter, Problem, HintResources, IConnector, UserConfig } from '../../../src/lib/types';
 
 const actions = { _: ['http://localhost/'] } as CLIOptions;
@@ -33,9 +35,7 @@ type ValidateHintsConfigResult = {
     invalid: any[];
 };
 
-type AskQuestion = {
-    default: () => any;
-};
+type AskQuestion = () => any;
 
 type Logger = {
     error: (text: string) => any;
@@ -105,8 +105,6 @@ const appinsight = {
     trackEvent() { }
 };
 
-// import { default as analyze, engine } from '../../../src/lib/cli/analyze';
-
 const initContext = (t: ExecutionContext<AnalyzeContext>) => {
     const sandbox = sinon.createSandbox();
     const spinner = {
@@ -161,7 +159,7 @@ const initContext = (t: ExecutionContext<AnalyzeContext>) => {
         }
     };
 
-    t.context.askQuestion = { default() { } };
+    t.context.askQuestion = () => { };
     t.context.resourceLoader = {
         loadResources() {
             return null;
@@ -174,10 +172,20 @@ const loadScript = (context: AnalyzeContext) => {
     const script = proxyquire('../../../src/lib/cli/analyze', {
         '../config': context.config,
         '../engine': context.engineContainer,
-        '../utils/app-insights': appinsight,
-        '../utils/logging': context.logger,
-        '../utils/misc/ask-question': context.askQuestion,
         '../utils/resource-loader': context.resourceLoader,
+        '@hint/utils': {
+            appInsights: appinsight,
+            configStore: utils.configStore,
+            debug: utils.debug,
+            logger: context.logger,
+            misc: {
+                askQuestion: context.askQuestion,
+                cutString: utils.misc.cutString
+            },
+            network: utils.network,
+            npm: utils.npm,
+            packages: utils.packages
+        },
         ora: context.ora
     });
 
@@ -240,7 +248,7 @@ test('If config file does not exist, it should use `web-recommended` as default 
 
     sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
-    sandbox.stub(t.context.askQuestion, 'default').resolves(false);
+    sandbox.stub(t.context, 'askQuestion').resolves(false);
 
     const analyze = loadScript(t.context);
 
@@ -269,7 +277,7 @@ test('If config file is an invalid JSON, it should ask to use the default config
     sandbox.stub(t.context.config.Configuration, 'validateHintsConfig').returns(validateHintsConfigResult);
 
     const configurationFromConfigStub = sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
-    const askQuestionDefaultStub = sandbox.stub(t.context.askQuestion, 'default').resolves(true);
+    const askQuestionDefaultStub = sandbox.stub(t.context, 'askQuestion').resolves(true);
 
     const analyze = loadScript(t.context);
 
@@ -297,7 +305,7 @@ test('If config file has an invalid configuration, it should ask to use the defa
     const configurationFromConfigStub = sandbox.stub(t.context.config.Configuration, 'fromConfig')
         .onSecondCall()
         .returns({});
-    const askQuestionDefaultStub = sandbox.stub(t.context.askQuestion, 'default').resolves(true);
+    const askQuestionDefaultStub = sandbox.stub(t.context, 'askQuestion').resolves(true);
 
     const analyze = loadScript(t.context);
 
@@ -323,7 +331,7 @@ test('If config file is invalid and user refuses to use the default or to create
     sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
     sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});
     sandbox.stub(t.context.config.Configuration, 'fromConfig').throws(error);
-    const askQuestionDefaultStub = sandbox.stub(t.context.askQuestion, 'default').resolves(false);
+    const askQuestionDefaultStub = sandbox.stub(t.context, 'askQuestion').resolves(false);
 
     const analyze = loadScript(t.context);
 
@@ -390,7 +398,7 @@ test('If executeOn returns an error, it should exit with code 1 and call formatt
     });
     sandbox.stub(engineObj, 'executeOn').resolves([{ severity: Severity.error }]);
     sandbox.stub(t.context.engineContainer, 'Engine').returns(engineObj);
-    sandbox.stub(t.context.askQuestion, 'default').resolves(false);
+    sandbox.stub(t.context, 'askQuestion').resolves(false);
     sandbox.stub(t.context.config.Configuration, 'getFilenameForDirectory').returns('/config/path');
     sandbox.stub(t.context.config.Configuration, 'fromConfig').returns({});
     sandbox.stub(t.context.config.Configuration, 'loadConfigFile').returns({});

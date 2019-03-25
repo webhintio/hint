@@ -1,5 +1,6 @@
+import { logger } from '@hint/utils';
+
 import { options } from './options';
-import * as logger from '../utils/logging';
 import { CLIOptions } from '../types';
 
 /** Prints the help menu in the console. */

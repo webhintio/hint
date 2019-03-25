@@ -6,12 +6,12 @@ import { URL } from 'url';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ElementFound, FetchEnd, IHint, ScanStart } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import { getIncludedHeaders } from 'hint/dist/src/lib/utils/hint-helpers';
+import { debug as d, misc, network } from '@hint/utils';
 
 import meta from './meta';
 
+const { normalizeString } = misc;
+const { includedHeaders } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*
@@ -54,7 +54,7 @@ export default class NoP3pHint implements IHint {
          * https://www.w3.org/TR/P3P11/#syntax_ext
          */
         const validateHeaders = ({ element, resource, response }: FetchEnd) => {
-            const headers: string[] = getIncludedHeaders(response.headers, ['p3p']);
+            const headers: string[] = includedHeaders(response.headers, ['p3p']);
             const numberOfHeaders: number = headers.length;
 
             if (numberOfHeaders > 0) {

@@ -1,6 +1,4 @@
-export type HttpHeaders = {
-    [name: string]: string | undefined; // TODO: include `string[]`
-};
+import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
 
 /** Request data from fetching an item using a connector. */
 export type Request = {

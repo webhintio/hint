@@ -1,10 +1,7 @@
-/* eslint sort-keys: 0 */
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-
+const { generateHTMLPage, getHintPath } = test;
 const generateErrorMessage = (url: string): string => {
     return `'${url}' should not be specified as a protocol-relative URL.`;
 };
@@ -76,4 +73,4 @@ const tests: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(getHintPath(__filename), tests);
+testHint(getHintPath(__filename), tests);

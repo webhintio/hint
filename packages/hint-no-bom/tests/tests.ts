@@ -2,14 +2,11 @@ import * as fs from 'fs';
 
 import * as mock from 'mock-require';
 
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
+import * as utils from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
-// We need to use `require` to be able to overwrite the method `asyncTry`.
-const asyncWrapper = require('hint/dist/src/lib/utils/async-wrapper');
-const originalAsyncTry = asyncWrapper.asyncTry;
+const { generateHTMLPage, getHintPath } = utils.test;
+const originalAsyncTry = utils.asyncTry;
 
 const hintPath = getHintPath(__filename);
 const bom = fs.readFileSync(`${__dirname}/fixtures/bom.html`); // eslint-disable-line no-sync
@@ -37,10 +34,11 @@ const tests: HintTest[] = [
     },
     {
         after() {
-            asyncWrapper.asyncTry = originalAsyncTry;
+            // using `as any` because if not, asyncTry is read-only
+            (utils as any).asyncTry = originalAsyncTry;
         },
         before() {
-            asyncWrapper.asyncTry = function (fetch: (target: string) => Promise<any>) {
+            (utils as any).asyncTry = function (fetch: (target: string) => Promise<any>) {
                 return (target: string) => {
                     if (!target.includes('styles.css')) {
                         return fetch(target);
@@ -50,7 +48,7 @@ const tests: HintTest[] = [
                 };
             };
 
-            mock('hint/dist/src/lib/utils/async-wrapper', asyncWrapper);
+            mock('@hint/utils', utils);
         },
         name: `If a request throws and exception, it should be managed and report an error`,
         reports: [{ message: 'Content could not be fetched.' }],
@@ -61,4 +59,4 @@ const tests: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, tests, { serial: true });
+testHint(hintPath, tests, { serial: true });

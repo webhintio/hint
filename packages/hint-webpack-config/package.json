@@ -6,6 +6,9 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    "@hint/utils": "^1.0.0"
+  },
   "description": "hint thats to check the webpack configuration.",
   "devDependencies": {
     "@hint/parser-babel-config": "^2.0.3",

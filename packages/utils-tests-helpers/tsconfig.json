@@ -18,6 +18,7 @@
         { "path": "../connector-jsdom" },
         { "path": "../connector-local" },
         { "path": "../hint" },
+        { "path": "../utils" },
         { "path": "../utils-create-server" }
     ]
 }

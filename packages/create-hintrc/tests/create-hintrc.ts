@@ -3,7 +3,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
-import { NpmPackage } from 'hint/dist/src/lib/types';
+import * as utils from '@hint/utils';
 
 type Inquirer = {
     prompt: () => Promise<any>;
@@ -33,7 +33,7 @@ type Fs = {
 };
 
 type Npm = {
-    getOfficialPackages: () => Promise<NpmPackage[] | null>;
+    getOfficialPackages: () => Promise<utils.NpmPackage[] | null>;
     installPackages: () => boolean;
 };
 
@@ -81,10 +81,13 @@ const installedParsers: string[] = [];
 const loadScript = (context: CreateHintRCContext): () => Promise<boolean> => {
     const initHintrc = proxyquire('../src/create-hintrc', {
         './browserslist': context.stubBrowserslistObject,
+        '@hint/utils': {
+            fs: utils.fs,
+            logger: context.logger,
+            npm: context.npm
+        },
         child_process: context.child, // eslint-disable-line camelcase
         fs: context.fs,
-        'hint/dist/src/lib/utils/logging': context.logger,
-        'hint/dist/src/lib/utils/npm': context.npm,
         'hint/dist/src/lib/utils/resource-loader': context.resourceLoader,
         inquirer: context.inquirer,
         util: context.stubUtilObject
@@ -164,7 +167,7 @@ test(`initHintrc should install the configuration package if user chooses a reco
         maintainers: [],
         name: '@hint/configuration-recommended',
         version: '1.0.0'
-    }] as NpmPackage[]);
+    }] as utils.NpmPackage[]);
 
     const stub = sandbox.stub(t.context.npm, 'installPackages').returns(true);
 
@@ -198,7 +201,7 @@ test(`initHintrc shouldn't install the configuration package if user chooses a r
         maintainers: [],
         name: '@hint/configuration-recommended',
         version: '1.0.0'
-    }] as NpmPackage[]);
+    }] as utils.NpmPackage[]);
 
     const stub = sandbox.stub(t.context.npm, 'installPackages').returns(true);
 
@@ -283,7 +286,7 @@ test(`if instalation of a config package fails, "initHintrc" returns true`, asyn
         maintainers: [],
         name: '@hint/configuration-recommended',
         version: '1.0.0'
-    }] as NpmPackage[]);
+    }] as utils.NpmPackage[]);
 
     sandbox.stub(t.context.npm, 'installPackages').returns(false);
     sandbox.stub(t.context.resourceLoader, 'getInstalledResources').returns([]);

@@ -15,22 +15,10 @@ type FsExtra = {
 };
 
 type Mkdirp = (dir: string, callback: Function) => void;
-
-type ReadFileAsync = {
-    default: () => Promise<string>;
-};
-
-type WriteFileAsync = {
-    default: () => void;
-};
-
-type IsOfficial = {
-    default: () => Promise<boolean>;
-};
-
-type NormalizeStringByDelimiter = {
-    default: () => string;
-};
+type ReadFileAsync = () => Promise<string>;
+type WriteFileAsync = () => void;
+type IsOfficial = () => Promise<boolean>;
+type NormalizeStringByDelimiter = () => string;
 
 type HandlebarsUtils = {
     escapeSafeString: (str: string) => hbs.SafeString;
@@ -69,30 +57,36 @@ const initContext = (t: ExecutionContext<NewParserContext>) => {
     };
     t.context.handlebarsUtilsCompileTemplateStub = sandbox.stub(t.context.handlebarsUtils, 'compileTemplate').resolves('');
     t.context.inquirer = { prompt(questions: InquirerTypes.Question[]) { return Promise.resolve(); } };
-    t.context.isOfficial = { default() { return Promise.resolve(false); } };
+    t.context.isOfficial = () => { return Promise.resolve(false); };
     t.context.mkdirp = (dir: string, callback: Function) => {
         callback();
     };
-    t.context.normalizeStringByDelimiter = {
-        default(): string {
-            return '';
-        }
+    t.context.normalizeStringByDelimiter = (): string => {
+        return '';
     };
-    t.context.normalizeStringByDelimiterDefaultStub = sandbox.stub(t.context.normalizeStringByDelimiter, 'default').returns('');
-    t.context.readFileAsync = { default() { return Promise.resolve(''); } };
-    t.context.readFileAsyncDefaultStub = sandbox.stub(t.context.readFileAsync, 'default').resolves('');
+    t.context.normalizeStringByDelimiterDefaultStub = sandbox.stub(t.context, 'normalizeStringByDelimiter').returns('');
+    t.context.readFileAsync = () => { return Promise.resolve(''); };
+    t.context.readFileAsyncDefaultStub = sandbox.stub(t.context, 'readFileAsync').resolves('');
     t.context.sandbox = sandbox;
-    t.context.writeFileAsync = { default() { } };
-    t.context.writeFileAsyncDefaultStub = sandbox.stub(t.context.writeFileAsync, 'default').resolves();
+    t.context.writeFileAsync = () => { };
+    t.context.writeFileAsyncDefaultStub = sandbox.stub(t.context, 'writeFileAsync').resolves();
 };
 
 const loadScript = (context: NewParserContext) => {
     const script = proxyquire('../src/new-parser', {
         '../src/handlebars-utils': context.handlebarsUtils,
-        'hint/dist/src/lib/utils/fs/read-file-async': context.readFileAsync,
-        'hint/dist/src/lib/utils/fs/write-file-async': context.writeFileAsync,
-        'hint/dist/src/lib/utils/misc/normalize-string-by-delimeter': context.normalizeStringByDelimiter,
-        'hint/dist/src/lib/utils/packages/is-official': context.isOfficial,
+        '@hint/utils': {
+            fs: {
+                readFileAsync: context.readFileAsync,
+                writeFileAsync: context.writeFileAsync
+            },
+            misc: {
+                normalizeStringByDelimiter: context.normalizeStringByDelimiter
+            },
+            packages: {
+                isOfficial: context.isOfficial
+            }
+        },
         'fs-extra': context.fsExtra,
         inquirer: context.inquirer,
         mkdirp: context.mkdirp
@@ -118,7 +112,7 @@ test('It should create a new official parser.', async (t) => {
     };
     const sandbox = t.context.sandbox;
 
-    sandbox.stub(t.context.isOfficial, 'default').resolves(true);
+    sandbox.stub(t.context, 'isOfficial').resolves(true);
     sandbox.stub(t.context.inquirer, 'prompt')
         .onFirstCall()
         .resolves(parserInfoResult)
@@ -158,7 +152,7 @@ test('It should create a new official parser with no duplicate events.', async (
     };
     const sandbox = t.context.sandbox;
 
-    sandbox.stub(t.context.isOfficial, 'default').resolves(true);
+    sandbox.stub(t.context, 'isOfficial').resolves(true);
     const inquirerPromptStub = sandbox.stub(t.context.inquirer, 'prompt')
         .onCall(0)
         .resolves(parserInfoResult)
@@ -210,7 +204,7 @@ test('It should create a new non-official parser.', async (t) => {
     };
     const sandbox = t.context.sandbox;
 
-    sandbox.stub(t.context.isOfficial, 'default').resolves(false);
+    sandbox.stub(t.context, 'isOfficial').resolves(false);
     sandbox.stub(t.context.inquirer, 'prompt')
         .onFirstCall()
         .resolves(parserInfoResult)

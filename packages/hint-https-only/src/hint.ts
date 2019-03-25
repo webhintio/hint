@@ -7,12 +7,11 @@ import * as URL from 'url';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import { IHint, FetchEnd, Response, ElementFound } from 'hint/dist/src/lib/types';
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
-import isHTTPS from 'hint/dist/src/lib/utils/network/is-https';
-import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
+import { debug as d, network } from '@hint/utils';
 
 import meta from './meta';
 
+const { isDataURI, isHTTPS} = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*

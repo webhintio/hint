@@ -12,13 +12,13 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { debug as d } from 'hint/dist/src/lib/utils/debug';
+import { debug as d, network } from '@hint/utils';
 import { FetchEnd, NetworkData, TraverseEnd, IHint } from 'hint/dist/src/lib/types';
-import isDataURI from 'hint/dist/src/lib/utils/network/is-data-uri';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
 
+const { isDataURI } = network;
 const debug = d(__filename);
 
 /*
@@ -43,7 +43,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             return;
         }
 
-        const foundErrorPages: {[status: number]: {size: number; url: string}} = {};
+        const foundErrorPages: { [status: number]: { size: number; url: string } } = {};
 
         /*
          * Default thresholds:

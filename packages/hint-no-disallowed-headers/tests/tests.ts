@@ -1,11 +1,10 @@
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
-import prettyPrintArray from 'hint/dist/src/lib/utils/misc/pretty-print-array';
+import { misc, test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+const { prettyPrintArray } = misc;
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></script>');
@@ -171,11 +170,11 @@ const testsForConfigs: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, testsForDefaults);
-hintRunner.testHint(hintPath, testsForDifferentServerHeaderValues);
-hintRunner.testHint(hintPath, testsForIgnoreConfigs, { hintOptions: { ignore: ['Server', 'X-Powered-By', 'X-Test-1'] } });
-hintRunner.testHint(hintPath, testsForIncludeConfigs, { hintOptions: { include: ['Server', 'X-Test-1', 'X-Test-2'] } });
-hintRunner.testHint(hintPath, testsForConfigs, {
+testHint(hintPath, testsForDefaults);
+testHint(hintPath, testsForDifferentServerHeaderValues);
+testHint(hintPath, testsForIgnoreConfigs, { hintOptions: { ignore: ['Server', 'X-Powered-By', 'X-Test-1'] } });
+testHint(hintPath, testsForIncludeConfigs, { hintOptions: { include: ['Server', 'X-Test-1', 'X-Test-2'] } });
+testHint(hintPath, testsForConfigs, {
     hintOptions: {
         ignore: ['Server', 'X-Test-2', 'X-Test-3'],
         include: ['X-Powered-By', 'X-Test-1', 'X-Test-2']

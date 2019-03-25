@@ -5,12 +5,15 @@ import * as Chokidar from 'chokidar';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 import * as proxyquire from 'proxyquire';
-import delay from 'hint/dist/src/lib/utils/misc/delay';
-import asPathString from 'hint/dist/src/lib/utils/network/as-path-string';
-import { getAsUri } from 'hint/dist/src/lib/utils/network/as-uri';
+
+import { fs, logger, misc, network } from '@hint/utils';
 import { Engine } from 'hint';
 import { FetchEnd, Problem } from 'hint/dist/src/lib/types';
 import { HTMLEvents } from '@hint/parser-html';
+
+const { delay } = misc;
+const { asPathString, getAsUri } = network;
+const { readFileAsync } = fs;
 
 type SandboxContext = {
     sandbox: sinon.SinonSandbox;
@@ -18,7 +21,7 @@ type SandboxContext = {
 
 const test = anyTest as TestInterface<SandboxContext>;
 
-const mockContext = () => {
+const mockContext = (context: SandboxContext) => {
     const engine = {
         clean() { },
         clear() { },
@@ -35,29 +38,36 @@ const mockContext = () => {
         }
     };
 
-    const cwd = {
-        default(): string {
+    const fsMocks = {
+        cwd(): string {
             return '';
-        }
-    };
-
-    const isFile = {
-        default(filePath: string): boolean {
+        },
+        isFile(filePath: string): boolean {
             return false;
         }
     };
 
+    const cwdStub = context.sandbox.stub(fsMocks, 'cwd');
+    const isFileStub = context.sandbox.stub(fsMocks, 'isFile');
+
     const script = proxyquire('../src/connector', {
-        chokidar,
-        'hint/dist/src/lib/utils/fs/cwd': cwd,
-        'hint/dist/src/lib/utils/fs/is-file': isFile
+        '@hint/utils': {
+            fs: {
+                cwd: cwdStub,
+                isFile: isFileStub,
+                readFileAsync
+            },
+            logger,
+            network
+        },
+        chokidar
     });
 
     return {
         chokidar,
-        cwd,
+        cwdStub,
         engine,
-        isFile,
+        isFileStub,
         LocalConnector: script.default
     };
 };
@@ -73,10 +83,10 @@ test.afterEach.always((t) => {
 test(`If target is a file, it should emit 'fetch::start::target' event`, async (t) => {
     const sandbox = t.context.sandbox;
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'script.js'));
-    const { engine, isFile, LocalConnector } = mockContext();
+    const { engine, isFileStub, LocalConnector } = mockContext(t.context);
 
 
-    sandbox.stub(isFile, 'default').returns(true);
+    isFileStub.returns(true);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     const connector = new LocalConnector(engine as any, {});
@@ -94,9 +104,9 @@ test(`If target is a file, it should emit 'fetch::start::target' event`, async (
 test(`If target is a html file, it should emit 'fetch::end::html' event instead of 'fetch::end'`, async (t) => {
     const sandbox = t.context.sandbox;
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'test.html'));
-    const { engine, isFile, LocalConnector } = mockContext();
+    const { engine, isFileStub, LocalConnector } = mockContext(t.context);
 
-    sandbox.stub(isFile, 'default').returns(true);
+    isFileStub.returns(true);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     const connector = new LocalConnector(engine as any, {});
@@ -114,9 +124,9 @@ test(`If target is a html file, it should emit 'fetch::end::html' event instead 
 test(`If target is a file (text), 'content' is setted`, async (t) => {
     const sandbox = t.context.sandbox;
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'script.js'));
-    const { engine, isFile, LocalConnector } = mockContext();
+    const { engine, isFileStub, LocalConnector } = mockContext(t.context);
 
-    sandbox.stub(isFile, 'default').returns(true);
+    isFileStub.returns(true);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     const connector = new LocalConnector(engine as any, {});
@@ -135,9 +145,9 @@ test(`If content is passed, it is used instead of the file`, async (t) => {
     const sandbox = t.context.sandbox;
     const testContent = '"Test Content";';
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'script.js'));
-    const { engine, isFile, LocalConnector } = mockContext();
+    const { engine, isFileStub, LocalConnector } = mockContext(t.context);
 
-    sandbox.stub(isFile, 'default').returns(true);
+    isFileStub.returns(true);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     const connector = new LocalConnector(engine as any, {});
@@ -155,9 +165,9 @@ test(`If content is passed, it is used instead of the file`, async (t) => {
 test(`If target is a file (image), 'content' is empty`, async (t) => {
     const sandbox = t.context.sandbox;
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'stylish-output.png'));
-    const { engine, isFile, LocalConnector } = mockContext();
+    const { engine, isFileStub, LocalConnector } = mockContext(t.context);
 
-    sandbox.stub(isFile, 'default').returns(true);
+    isFileStub.returns(true);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     const connector = new LocalConnector(engine as any, {});
@@ -175,9 +185,9 @@ test(`If target is a file (image), 'content' is empty`, async (t) => {
 test(`If target is an image, 'content' is empty`, async (t) => {
     const sandbox = t.context.sandbox;
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'stylish-output.png'));
-    const { engine, isFile, LocalConnector } = mockContext();
+    const { engine, isFileStub, LocalConnector } = mockContext(t.context);
 
-    sandbox.stub(isFile, 'default').returns(true);
+    isFileStub.returns(true);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     const connector = new LocalConnector(engine as any, {});
@@ -195,9 +205,9 @@ test(`If target is an image, 'content' is empty`, async (t) => {
 test(`If target is a directory, shouldn't emit the event 'fetch::start::target'`, async (t) => {
     const sandbox = t.context.sandbox;
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch'));
-    const { engine, isFile, LocalConnector } = mockContext();
+    const { engine, isFileStub, LocalConnector } = mockContext(t.context);
 
-    sandbox.stub(isFile, 'default').returns(false);
+    isFileStub.returns(false);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     const connector = new LocalConnector(engine as any, {});
@@ -223,9 +233,9 @@ test(`If target is a directory, passed content should be ignored`, async (t) => 
     const sandbox = t.context.sandbox;
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch'));
     const testContent = 'Test Content';
-    const { engine, isFile, LocalConnector } = mockContext();
+    const { engine, isFileStub, LocalConnector } = mockContext(t.context);
 
-    sandbox.stub(isFile, 'default').returns(false);
+    isFileStub.returns(false);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     const connector = new LocalConnector(engine as any, {});
@@ -255,12 +265,12 @@ test(`If watch is true, it should watch the right files`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
     const directory = directoryUri ? asPathString(directoryUri) : '';
     const stream = new Stream();
-    const { chokidar, cwd, engine, isFile, LocalConnector } = mockContext();
+    const { chokidar, cwdStub, engine, isFileStub, LocalConnector } = mockContext(t.context);
 
     (stream as any).close = () => { };
 
-    sandbox.stub(isFile, 'default').returns(false);
-    sandbox.stub(cwd, 'default').returns(directory);
+    isFileStub.returns(false);
+    cwdStub.returns(directory);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
     const chokidarWatchStub = sandbox.stub(chokidar, 'watch').returns(stream);
 
@@ -301,12 +311,12 @@ test(`If watch is true, it should use the .gitignore`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-ignore'));
     const directory = directoryUri ? asPathString(directoryUri) : '';
     const stream = new Stream();
-    const { chokidar, cwd, engine, isFile, LocalConnector } = mockContext();
+    const { chokidar, cwdStub, engine, isFileStub, LocalConnector } = mockContext(t.context);
 
     (stream as any).close = () => { };
 
-    sandbox.stub(isFile, 'default').returns(false);
-    sandbox.stub(cwd, 'default').returns(directory);
+    isFileStub.returns(false);
+    cwdStub.returns(directory);
     sandbox.spy(engine, 'emitAsync');
     const chokidarWatchStub = sandbox.stub(chokidar, 'watch').returns(stream);
 
@@ -339,12 +349,12 @@ test(`When the watcher is ready, it should emit the scan::end event`, async (t) 
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
     const directory = directoryUri ? asPathString(directoryUri) : '';
     const stream = new Stream();
-    const { chokidar, cwd, engine, isFile, LocalConnector } = mockContext();
+    const { chokidar, cwdStub, engine, isFileStub, LocalConnector } = mockContext(t.context);
 
     (stream as any).close = () => { };
 
-    sandbox.stub(isFile, 'default').returns(false);
-    sandbox.stub(cwd, 'default').returns(directory);
+    isFileStub.returns(false);
+    cwdStub.returns(directory);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -381,12 +391,12 @@ test(`When the watcher detects a new file, it should emit the fetch::end::{type}
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
     const directory = directoryUri ? asPathString(directoryUri) : '';
     const stream = new Stream();
-    const { chokidar, cwd, engine, isFile, LocalConnector } = mockContext();
+    const { chokidar, cwdStub, engine, isFileStub, LocalConnector } = mockContext(t.context);
 
     (stream as any).close = () => { };
 
-    sandbox.stub(isFile, 'default').returns(false);
-    sandbox.stub(cwd, 'default').returns(directory);
+    isFileStub.returns(false);
+    cwdStub.returns(directory);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -426,12 +436,12 @@ test(`When the watcher detects a change in a file, it should emit the fetch::end
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
     const directory = directoryUri ? asPathString(directoryUri) : '';
     const stream = new Stream();
-    const { chokidar, cwd, engine, isFile, LocalConnector } = mockContext();
+    const { chokidar, cwdStub, engine, isFileStub, LocalConnector } = mockContext(t.context);
 
     (stream as any).close = () => { };
 
-    sandbox.stub(isFile, 'default').returns(false);
-    sandbox.stub(cwd, 'default').returns(directory);
+    isFileStub.returns(false);
+    cwdStub.returns(directory);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -471,12 +481,12 @@ test(`When the watcher detects that a file was removed, it should emit the scan:
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
     const directory = directoryUri ? asPathString(directoryUri) : '';
     const stream = new Stream();
-    const { chokidar, cwd, engine, isFile, LocalConnector } = mockContext();
+    const { chokidar, cwdStub, engine, isFileStub, LocalConnector } = mockContext(t.context);
 
     (stream as any).close = () => { };
 
-    sandbox.stub(isFile, 'default').returns(false);
-    sandbox.stub(cwd, 'default').returns(directory);
+    isFileStub.returns(false);
+    cwdStub.returns(directory);
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     sandbox.stub(chokidar, 'watch').returns(stream);
@@ -515,12 +525,12 @@ test(`When the watcher get an error, it should throw an error`, async (t) => {
     const directoryUri = getAsUri(path.join(__dirname, 'fixtures', 'watch-no-ignore'));
     const directory = directoryUri ? asPathString(directoryUri) : '';
     const stream = new Stream();
-    const { chokidar, cwd, engine, isFile, LocalConnector } = mockContext();
+    const { chokidar, cwdStub, engine, isFileStub, LocalConnector } = mockContext(t.context);
 
     (stream as any).close = () => { };
 
-    sandbox.stub(isFile, 'default').returns(false);
-    sandbox.stub(cwd, 'default').returns(directory);
+    isFileStub.returns(false);
+    cwdStub.returns(directory);
     sandbox.spy(engine, 'emitAsync');
     sandbox.stub(chokidar, 'watch').returns(stream);
 

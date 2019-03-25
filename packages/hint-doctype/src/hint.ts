@@ -3,6 +3,7 @@
  */
 
 import * as os from 'os';
+
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, FetchEnd, ProblemLocation } from 'hint/dist/src/lib/types';
 import { MatchInformation } from './types';

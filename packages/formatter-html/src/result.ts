@@ -4,10 +4,11 @@ import * as moment from 'moment';
 
 import cloneDeep = require('lodash/cloneDeep');
 
+import { fs } from '@hint/utils';
 import { Severity, FormatterOptions } from 'hint/dist/src/lib/types';
-import loadJSONFile from 'hint/dist/src/lib/utils/fs/load-json-file';
 import { Problem } from 'hint/dist/src/lib/types';
 
+const { loadJSONFile } = fs;
 const thirdPartyServices = loadJSONFile(path.join(__dirname, 'configs', 'third-party-service-config.json'));
 const categoryImages = loadJSONFile(path.join(__dirname, 'configs', 'category-images.json'));
 const hintsWithoutDocs = ['optimize-image'];

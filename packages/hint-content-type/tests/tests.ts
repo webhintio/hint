@@ -1,12 +1,12 @@
 import * as fs from 'fs';
 
-import generateHTMLPage from 'hint/dist/src/lib/utils/misc/generate-html-page';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
-import { HintTest } from '@hint/utils-tests-helpers/dist/src/hint-test-type';
-import * as hintRunner from '@hint/utils-tests-helpers/dist/src/hint-runner';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
+
+import { test } from '@hint/utils';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const pngImage = fs.readFileSync(`${__dirname}/fixtures/image.png`); // eslint-disable-line no-sync
@@ -324,8 +324,8 @@ const testsForConfigs: HintTest[] = [
     }
 ];
 
-hintRunner.testHint(hintPath, testsForDefaults);
-hintRunner.testHint(hintPath, testsForConfigs, {
+testHint(hintPath, testsForDefaults);
+testHint(hintPath, testsForConfigs, {
     hintOptions: {
         '.*\\.js': 'application/javascript',
         'test/test2\\.js': 'application/x-javascript; charset=utf-8',

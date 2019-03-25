@@ -11,19 +11,17 @@ import { promisify } from 'util';
 
 import * as brotli from 'iltorb';
 
+import { asyncTry, HttpHeaders, misc, network } from '@hint/utils';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { FetchEnd, IHint, NetworkData, Response, HttpHeaders, HTMLElement } from 'hint/dist/src/lib/types';
-import { asyncTry } from 'hint/dist/src/lib/utils/async-wrapper';
+import { FetchEnd, IHint, NetworkData, Response, HTMLElement } from 'hint/dist/src/lib/types';
 import { getFileExtension, isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
-import getHeaderValueNormalized from 'hint/dist/src/lib/utils/network/normalized-header-value';
-import isHTTP from 'hint/dist/src/lib/utils/network/is-http';
-import isRegularProtocol from 'hint/dist/src/lib/utils/network/is-regular-protocol';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
 
 import { CompressionCheckOptions } from './types';
 
 import meta from './meta';
 
+const { isHTTP, isRegularProtocol, normalizeHeaderValue } = network;
+const { normalizeString } = misc;
 const decompressBrotli = promisify(brotli.decompress) as (buffer: Buffer) => Promise<Buffer>;
 const uaString = 'Mozilla/5.0 Gecko';
 
@@ -63,7 +61,7 @@ export default class HttpCompressionHint implements IHint {
         };
 
         const getHeaderValues = (headers: HttpHeaders, headerName: string) => {
-            return (getHeaderValueNormalized(headers, headerName) || '').split(',');
+            return (normalizeHeaderValue(headers, headerName) || '').split(',');
         };
 
         const checkVaryHeader = (resource: string, element: HTMLElement | null, headers: HttpHeaders) => {
@@ -110,7 +108,7 @@ export default class HttpCompressionHint implements IHint {
             }
 
             return {
-                contentEncodingHeaderValue: getHeaderValueNormalized(networkData.response.headers, 'content-encoding'),
+                contentEncodingHeaderValue: normalizeHeaderValue(networkData.response.headers, 'content-encoding'),
                 rawContent: networkData.response.body.rawContent,
                 rawResponse,
                 response: networkData.response
@@ -461,7 +459,7 @@ export default class HttpCompressionHint implements IHint {
 
             // See: https://www.iana.org/assignments/http-parameters/http-parameters.xml.
 
-            const contentEncodingHeaderValue = getHeaderValueNormalized(response.headers, 'content-encoding');
+            const contentEncodingHeaderValue = normalizeHeaderValue(response.headers, 'content-encoding');
 
             if (!contentEncodingHeaderValue) {
                 return;
@@ -614,7 +612,7 @@ export default class HttpCompressionHint implements IHint {
             if ((response.mediaType === 'image/svg+xml' || getFileExtension(resource) === 'svgz') &&
                 isCompressedWithGzip(rawResponse)) {
 
-                if (getHeaderValueNormalized(response.headers, 'content-encoding') !== 'gzip') {
+                if (normalizeHeaderValue(response.headers, 'content-encoding') !== 'gzip') {
                     context.report(resource, generateContentEncodingMessage('gzip'), { element });
                 }
 
@@ -666,7 +664,7 @@ export default class HttpCompressionHint implements IHint {
                     return;
                 }
 
-                const contentEncodingHeaderValue = getHeaderValueNormalized(response.headers, 'content-encoding');
+                const contentEncodingHeaderValue = normalizeHeaderValue(response.headers, 'content-encoding');
 
                 // * Check if the resource is actually compressed.
                 if (await responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {

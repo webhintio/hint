@@ -10,7 +10,7 @@
  */
 
 import { IHint } from 'hint/dist/src/lib/types';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
+import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import { HTMLEvents } from '@hint/parser-html';

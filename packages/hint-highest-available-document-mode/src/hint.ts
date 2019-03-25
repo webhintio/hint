@@ -9,9 +9,10 @@
  * ------------------------------------------------------------------------------
  */
 
-import { HTMLDocument, HTMLElement, IHint, TraverseEnd, HttpHeaders } from 'hint/dist/src/lib/types';
-import normalizeString from 'hint/dist/src/lib/utils/misc/normalize-string';
-import isLocalFile from 'hint/dist/src/lib/utils/network/is-local-file';
+import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
+import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
+import { isLocalFile } from '@hint/utils/dist/src/network/is-local-file';
+import { HTMLDocument, HTMLElement, IHint, TraverseEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';

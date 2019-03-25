@@ -5,6 +5,7 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
 import { Severity } from 'hint/dist/src/lib/types';
+import * as utils from '@hint/utils';
 
 import * as problems from './fixtures/list-of-problems';
 
@@ -12,9 +13,7 @@ type Logging = {
     log: () => void;
 };
 
-type WriteFileAsync = {
-    default: () => void;
-};
+type WriteFileAsync = () => void;
 
 type JSONContext = {
     logging: Logging;
@@ -28,14 +27,17 @@ const test = anyTest as TestInterface<JSONContext>;
 const initContext = (t: ExecutionContext<JSONContext>) => {
     t.context.logging = { log() { } };
     t.context.loggingLogSpy = sinon.spy(t.context.logging, 'log');
-    t.context.writeFileAsync = { default() { } };
-    t.context.writeFileAsyncDefaultStub = sinon.stub(t.context.writeFileAsync, 'default').returns();
+    t.context.writeFileAsync = () => { };
+    t.context.writeFileAsyncDefaultStub = sinon.stub(t.context, 'writeFileAsync').returns();
 };
 
 const loadScript = (context: JSONContext) => {
     const script = proxyquire('../src/formatter', {
-        'hint/dist/src/lib/utils/fs/write-file-async': context.writeFileAsync,
-        'hint/dist/src/lib/utils/logging': context.logging
+        '@hint/utils': {
+            debug: utils.debug,
+            fs: { writeFileAsync: context.writeFileAsync },
+            logger: context.logging
+        }
     });
 
     return script.default;
