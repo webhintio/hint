@@ -4,9 +4,6 @@
 
 import * as crypto from 'crypto';
 import { URL } from 'url';
-import { promisify } from 'util';
-
-import * as async from 'async';
 
 import { HintContext, ReportOptions } from 'hint/dist/src/lib/hint-context';
 import { IHint, FetchEnd, ElementFound, NetworkData, Request, Response } from 'hint/dist/src/lib/types';
@@ -18,7 +15,6 @@ import { Algorithms, OriginCriteria, ErrorData, URLs } from './types';
 import meta from './meta';
 
 const debug: debug.IDebugger = d(__filename);
-const everySeries = promisify(async.everySeries) as (arr: any, iterator: any) => Promise<any>;
 
 /*
  * ------------------------------------------------------------------------------
@@ -453,15 +449,18 @@ Actual:   ${integrities.join(', ')}`;
             this.downloadContent,
             this.hasRightHash
         ].map((fn) => {
-            // Otherwise `this` will be undefined when we call to the fn inside `every`
             return fn.bind(this);
         });
 
         debug(`Validating integrity of: ${evt.resource}`);
 
-        await everySeries(validations, async (validation: Function) => {
-            return await validation(evt, urls);
-        });
+        for (const validation of validations) {
+            const valid = await validation(evt, urls);
+
+            if (!valid) {
+                break;
+            }
+        }
     }
 
     /**

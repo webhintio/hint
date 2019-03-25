@@ -1,8 +1,6 @@
-import { promisify } from 'util';
 import { URL } from 'url';
 import * as path from 'path';
 
-import * as async from 'async';
 import boxen from 'boxen';
 import { default as ora, Ora } from 'ora';
 import * as chalk from 'chalk';
@@ -22,10 +20,9 @@ import * as resourceLoader from '../utils/resource-loader';
 import { installPackages } from '../utils/npm';
 import cwd from '../utils/fs/cwd';
 import * as insights from '../utils/app-insights';
-import { FormatterOptions, IFormatter } from '../types/formatters';
+import { FormatterOptions } from '../types/formatters';
 import loadHintPackage from '../utils/packages/load-hint-package';
 
-const each = promisify(async.each);
 const debug: debug.IDebugger = d(__filename);
 const configStoreKey: string = 'run';
 
@@ -370,9 +367,9 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         };
 
         if (engine) {
-            await each(engine.formatters, async (formatter: IFormatter) => {
+            for (const formatter of engine.formatters) {
                 await formatter.format(reports, formatterOptions);
-            });
+            }
         }
     };
 
