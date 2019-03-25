@@ -10,7 +10,6 @@
   "dependencies": {
     "ajv": "^6.10.0",
     "applicationinsights": "^1.2.0",
-    "async": "^2.6.2",
     "boxen": "^3.0.0",
     "browserslist": "^4.5.2",
     "caniuse-api": "^3.0.0",

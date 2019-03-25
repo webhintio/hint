@@ -7,7 +7,6 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "async": "^2.6.2",
     "data-urls": "^1.1.0",
     "iconv-lite": "^0.4.24",
     "iltorb": "^2.4.2",

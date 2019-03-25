@@ -11,7 +11,6 @@ import * as url from 'url';
 import { promisify } from 'util';
 import * as zlib from 'zlib';
 
-import * as async from 'async';
 import * as brotli from 'iltorb';
 import * as request from 'request';
 import * as iconv from 'iconv-lite';
@@ -51,7 +50,6 @@ const inflate = (buff: Buffer): Promise<Buffer> => {
 const identity = (buff: Buffer): Promise<Buffer> => {
     return Promise.resolve(Buffer.from(buff));
 };
-const asyncSome = promisify(async.someSeries) as any;
 
 const defaults = {
     encoding: null,
@@ -95,7 +93,7 @@ export class Requester {
 
     /** Returns the functions to try to use in order for a given algorithm. */
     private decompressors(algorithm: string): Function[] {
-        const priorities: {[name: string]: number | undefined} = {
+        const priorities: { [name: string]: number | undefined } = {
             br: 0,
             gzip: 1,
             deflate: 2, // eslint-disable-line sort-keys
@@ -143,14 +141,16 @@ export class Requester {
         const algorithms = contentEncoding ?
             contentEncoding.split(',') :
             ['']; // `contentEncoding` could be null. For our purposes '' is OK
-        const decompressors = this.decompressors(algorithms.shift()!.trim()); // `algorithms` will have at least one item, so `shift()` won't return `undefined`.
+        const decompressors = this.decompressors(algorithms.shift()!.trim()) as IDecompressor[]; // `algorithms` will have at least one item, so `shift()` won't return `undefined`.
         let rawBody: Buffer | null = null;
 
-        await asyncSome(decompressors, async (decompressor: IDecompressor) => {
+        for (const decompressor of decompressors) {
             rawBody = await that.tryToDecompress(decompressor, rawBodyResponse);
 
-            return !!rawBody;
-        });
+            if (rawBody) {
+                break;
+            }
+        }
 
         // There's another decompression we need to do
         if (rawBody && algorithms.length > 0) {
