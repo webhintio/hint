@@ -1,14 +1,16 @@
-import findPackageRoot from './find-package-root';
+import { packages } from '@hint/utils';
+
+const { findPackageRoot } = packages;
 
 /** Returns an object that represents the `package.json` version of `hint` */
 export default () => {
     // webpack will embed the package.json
     /* istanbul ignore if */
     if (process.env.webpack) { // eslint-disable-line no-process-env
-        return require('../../../../../package.json');
+        return require('../../../../hint/package.json');
     }
 
-    const pkgPath = findPackageRoot();
+    const pkgPath = findPackageRoot(__dirname);
 
     return require(`${pkgPath}/package.json`);
 };

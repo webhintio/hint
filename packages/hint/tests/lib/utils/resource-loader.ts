@@ -8,6 +8,9 @@ import test from 'ava';
 import * as sinon from 'sinon';
 import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
+
+import * as utils from '@hint/utils';
+
 import { Configuration } from '../../../src/lib/config';
 import { ResourceType } from '../../../src/lib/enums/resource-type';
 import { ResourceError } from '../../../src/lib/types/resource-error';
@@ -182,9 +185,16 @@ test.serial('loadResource throws an error if the version is incompatible when us
                 return { version: '1.1.0' };
             }
         },
-        '../utils/packages/load-package': {
-            default() {
-                return { peerDependencies: { hint: '0.1.0' } };
+        '@hint/utils': {
+            debug: utils.debug,
+            fs: utils.fs,
+            misc: utils.misc,
+            packages: {
+                findNodeModulesRoot: utils.packages.findNodeModulesRoot,
+                findPackageRoot: utils.packages.findPackageRoot,
+                loadPackage() {
+                    return { peerDependencies: { hint: '0.1.0' } };
+                }
             }
         }
     });
@@ -210,9 +220,16 @@ test.serial('loadResource returns the resource if versions are compatible', asyn
                 return { version: '0.1.0' };
             }
         },
-        '../utils/packages/load-package': {
-            default() {
-                return { peerDependencies: { hint: '0.1.0' } };
+        '@hint/utils': {
+            debug: utils.debug,
+            fs: utils.fs,
+            misc: utils.misc,
+            packages: {
+                findNodeModulesRoot: utils.packages.findNodeModulesRoot,
+                findPackageRoot: utils.packages.findPackageRoot,
+                loadPackage() {
+                    return { peerDependencies: { hint: '0.1.0' } };
+                }
             }
         }
     });
@@ -231,9 +248,16 @@ test.serial('loadResource throws an error if the hint is loaded from the current
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        '../utils/packages/load-package': {
-            default() {
-                return { name: 'fake-resource' };
+        '@hint/utils': {
+            debug: utils.debug,
+            fs: utils.fs,
+            misc: utils.misc,
+            packages: {
+                findNodeModulesRoot: utils.packages.findNodeModulesRoot,
+                findPackageRoot: utils.packages.findPackageRoot,
+                loadPackage() {
+                    return { name: 'fake-resource' };
+                }
             }
         }
     });
@@ -262,9 +286,16 @@ test.serial(`loadResource doesn't throw an error if the hint is loaded from the 
     cleanCache();
 
     proxyquire('../../../src/lib/utils/resource-loader', {
-        '../utils/packages/load-package': {
-            default() {
-                return { name: 'hint-another-fake-resource' };
+        '@hint/utils': {
+            debug: utils.debug,
+            fs: utils.fs,
+            misc: utils.misc,
+            packages: {
+                findNodeModulesRoot: utils.packages.findNodeModulesRoot,
+                findPackageRoot: utils.packages.findPackageRoot,
+                loadPackage() {
+                    return { name: 'hint-another-fake-resource' };
+                }
             }
         }
     });
