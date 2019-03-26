@@ -10,7 +10,7 @@
   "devDependencies": {
     "@hint/parser-html": "^2.0.2",
     "@types/lodash": "^4.14.123",
-    "@types/node": "11.11.7",
+    "@types/node": "11.11.8",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "1.4.2",
     "chrome-remote-debug-protocol": "^1.2.20180422",
