@@ -584,13 +584,9 @@ const runTests = async (projectData) => {
 
         if (!ALREADY_BUILD_DEPENDENCIES.has(packagePath)) {
             await buildDependencies(packageData.dependencies);
-            await execWithRetry(`cd ${packagePath} && yarn ${packageData.testScript}`);
-
-            continue;
         }
 
-        // If the package was already build, just execute the tests.
-        await execWithRetry(`cd ${packagePath} && yarn ${TEST_SCRIPT_NAMES.testOnly}`);
+        await execWithRetry(`cd ${packagePath} && yarn ${packageData.testScript}`);
     }
 };
 
