@@ -49,7 +49,7 @@
     "@types/lodash": "^4.14.123",
     "@types/mime-db": "^1.27.0",
     "@types/mkdirp": "^0.5.2",
-    "@types/node": "11.11.7",
+    "@types/node": "11.11.8",
     "@types/parse5": "^5.0.0",
     "@types/parse5-htmlparser2-tree-adapter": "^5.0.1",
     "@types/request": "^2.48.1",
