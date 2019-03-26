@@ -2,7 +2,7 @@
   "devDependencies": {
     "@types/fs-extra": "5.0.5",
     "@types/listr": "^0.13.0",
-    "@types/node": "11.11.8",
+    "@types/node": "11.12.0",
     "@types/shelljs": "^0.8.3",
     "@types/yargs": "^12.0.10",
     "@typescript-eslint/parser": "1.4.2",
