@@ -64,6 +64,7 @@
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "prebuild:snyk": "node ./scripts/pack-snyk.js",
     "test": "npm run lint && npm run build && npm run test-only",
