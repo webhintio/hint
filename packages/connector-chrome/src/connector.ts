@@ -10,11 +10,11 @@
  * ------------------------------------------------------------------------------
  */
 
-import { Connector } from '@hint/utils-debugging-protocol-common/dist/src/debugging-protocol-connector';
-import { ILauncher } from 'hint/dist/src/lib/types';
+import { Connector } from '@hint/utils-debugging-protocol-common';
+import { Engine, ILauncher } from 'hint';
+
 import { CDPLauncher } from './chrome-launcher';
 
-import { Engine } from 'hint';
 
 export default class ChromeConnector extends Connector {
     public constructor(server: Engine, config?: object) {

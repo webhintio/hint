@@ -6,9 +6,8 @@ import * as chromeLauncher from 'chrome-launcher';
 import * as isCI from 'is-ci';
 
 import { debug as d, fs, misc } from '@hint/utils';
-
-import { Launcher } from '@hint/utils-debugging-protocol-common/dist/src/launcher';
-import { BrowserInfo, LauncherOptions } from 'hint/dist/src/lib/types';
+import { Launcher } from '@hint/utils-debugging-protocol-common';
+import { BrowserInfo, LauncherOptions } from 'hint';
 
 const { readFileAsync, writeFileAsync } = fs;
 const { delay } = misc;

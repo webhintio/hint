@@ -4,7 +4,7 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { Severity } from 'hint/dist/src/lib/types';
+import { Severity } from 'hint';
 import * as utils from '@hint/utils';
 
 import * as problems from './fixtures/list-of-problems';

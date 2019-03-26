@@ -6,8 +6,7 @@ import { URL } from 'url';
 
 import test from 'ava';
 import { Server } from '@hint/utils-create-server';
-import { IConnector, NetworkData, Events } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint';
+import { Engine, Events, IConnector, NetworkData } from 'hint';
 
 import ChromeConnector from '../src/connector';
 

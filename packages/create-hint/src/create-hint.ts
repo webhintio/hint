@@ -6,8 +6,7 @@ import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
 import { fs, logger, misc, packages } from '@hint/utils';
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hint-scope';
+import { Category, HintScope } from 'hint';
 
 import Handlebars, { compileTemplate, escapeSafeString } from './handlebars-utils';
 

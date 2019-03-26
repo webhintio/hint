@@ -12,6 +12,10 @@ for Visual Studio Code.
 * Select `Client + Server` from the drop down.
 * Run the launch config.
 
+NOTE: Make sure you open a file in the launched vscode instance
+that webhint is registered for (like html or tsconfig.json), otherwise,
+the server won't start.
+
 ## Running Tests
 
 * Run `yarn test` from this directory.

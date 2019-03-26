@@ -23,7 +23,7 @@ const getSrcsetUrls = (srcset: string): string[] => {
     return urls;
 };
 
-export default (dom: HTMLDocument, url: string, base: string): HTMLElement | null => {
+export const getElementByUrl = (dom: HTMLDocument, url: string, base: string): HTMLElement | null => {
     // TODO: Cache dom.querySelectorAll?.
     const elements = dom.querySelectorAll('[href],[src],[poster],[srcset]').filter((element: any) => {
         const elementUrl = element.getAttribute('href') || element.getAttribute('src') || element.getAttribute('poster');

@@ -18,12 +18,12 @@ import parseDataURL = require('data-urls'); // Using `require` as `data-urls` ex
 
 import { debug as d, HttpHeaders, misc, network } from '@hint/utils';
 
-import { getContentTypeData } from 'hint/dist/src/lib/utils/content-type';
-import { NetworkData } from 'hint/dist/src/lib/types'; //eslint-disable-line
+import { NetworkData, utils } from 'hint';
 import { RedirectManager } from './redirects';
 
 interface IDecompressor { (content: Buffer): Promise<Buffer> }
 
+const { contentType: { getContentTypeData } } = utils;
 const { normalizeHeaderValue } = network;
 const { toLowerCaseKeys } = misc;
 const debug = d(__filename);

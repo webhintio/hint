@@ -3,8 +3,7 @@
  * property `removeComments` is enabled in your TypeScript configuration
  * file (i.e `tsconfig.json`).
  */
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
+import { HintContext, IHint } from 'hint';
 import { configChecker } from './helpers/config-checker';
 
 import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';

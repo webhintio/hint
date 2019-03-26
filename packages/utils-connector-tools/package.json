@@ -46,6 +46,7 @@
     "webhint"
   ],
   "license": "Apache-2.0",
+  "main": "./dist/src/index.js",
   "name": "@hint/utils-connector-tools",
   "peerDependencies": {
     "hint": "^4.5.0"

@@ -4,17 +4,17 @@
  */
 
 import { URL } from 'url';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
 import {
     ElementFound,
-    IHint,
+    HintContext,
     HTMLDocument,
     HTMLElement,
+    IHint,
     NetworkData,
     TraverseEnd
-} from 'hint/dist/src/lib/types';
+} from 'hint';
 import { debug as d, network } from '@hint/utils';
-import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
+import { Requester } from '@hint/utils-connector-tools';
 import { CoreOptions } from 'request';
 
 import meta from './meta';

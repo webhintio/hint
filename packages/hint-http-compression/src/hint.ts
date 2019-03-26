@@ -12,14 +12,13 @@ import { promisify } from 'util';
 import * as brotli from 'iltorb';
 
 import { asyncTry, HttpHeaders, misc, network } from '@hint/utils';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { FetchEnd, IHint, NetworkData, Response, HTMLElement } from 'hint/dist/src/lib/types';
-import { getFileExtension, isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
+import { FetchEnd, HintContext, HTMLElement, IHint, NetworkData, Response, utils } from 'hint';
 
 import { CompressionCheckOptions } from './types';
 
 import meta from './meta';
 
+const { contentType: { getFileExtension, isTextMediaType } } = utils;
 const { isHTTP, isRegularProtocol, normalizeHeaderValue } = network;
 const { normalizeString } = misc;
 const decompressBrotli = promisify(brotli.decompress) as (buffer: Buffer) => Promise<Buffer>;

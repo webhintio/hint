@@ -2,17 +2,14 @@ import * as path from 'path';
 
 import cloneDeep = require('lodash/cloneDeep');
 
-import { FetchEnd, IJSONResult, Parser, SchemaValidationResult } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint';
+import { Engine, FetchEnd, IJSONResult, Parser, SchemaValidationResult, utils } from 'hint';
 import { fs } from '@hint/utils';
-
-import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
-import { validate } from 'hint/dist/src/lib/utils/schema-validator';
 
 import { BabelConfig, BabelConfigEvents } from './types';
 
 export * from './types';
 
+const { jsonParser: { parseJSON }, schemaValidator: { validate } } = utils;
 const { loadJSONFile } = fs;
 
 export default class BabelConfigParser extends Parser<BabelConfigEvents> {

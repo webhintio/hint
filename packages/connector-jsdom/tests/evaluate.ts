@@ -4,8 +4,7 @@ import test from 'ava';
 
 import { Server } from '@hint/utils-create-server';
 import { test as testUtils } from '@hint/utils';
-import { IConnector, Events } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint';
+import { Engine, Events, IConnector } from 'hint';
 
 import JSDOMConnector from '../src/connector';
 

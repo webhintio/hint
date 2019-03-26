@@ -24,10 +24,9 @@ import { Crdp } from 'chrome-remote-debug-protocol';
 
 import { debug as d, HttpHeaders, misc, network } from '@hint/utils';
 
-import { getType } from 'hint/dist/src/lib/utils/content-type';
-import getElementByUrl from 'hint/dist/src/lib/utils/dom/get-element-by-url';
-import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
-import traverse from 'hint/dist/src/lib/utils/dom/traverse';
+import { utils } from 'hint';
+
+const { contentType: { getType }, dom: { createHTMLDocument, getElementByUrl, traverse } } = utils;
 
 import {
     BrowserInfo, IConnector,

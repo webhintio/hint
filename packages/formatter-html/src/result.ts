@@ -5,8 +5,7 @@ import * as moment from 'moment';
 import cloneDeep = require('lodash/cloneDeep');
 
 import { fs } from '@hint/utils';
-import { Severity, FormatterOptions } from 'hint/dist/src/lib/types';
-import { Problem } from 'hint/dist/src/lib/types';
+import { FormatterOptions, Severity, Problem } from 'hint';
 
 const { loadJSONFile } = fs;
 const thirdPartyServices = loadJSONFile(path.join(__dirname, 'configs', 'third-party-service-config.json'));
@@ -200,7 +199,7 @@ export default class AnalysisResult {
     public permalink: string;
     /** List of categories. */
     public categories: CategoryResult[];
-    /** URL analized. */
+    /** URL analyzed. */
     public url: string;
     /** The analysis is finish. */
     public isFinish: boolean;

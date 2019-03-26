@@ -9,7 +9,7 @@ type Package = {
 };
 
 type LoadHintPackage = {
-    default: () => Package;
+    loadHintPackage: () => Package;
 };
 
 type Logger = {
@@ -48,7 +48,7 @@ const initContext = (t: ExecutionContext<ConfigTestContext>) => {
         return t.context.notifier;
     };
     t.context.loadHintPackage = {
-        default() {
+        loadHintPackage() {
             return { version: '' };
         }
     };
@@ -63,7 +63,7 @@ const initContext = (t: ExecutionContext<ConfigTestContext>) => {
 const loadScript = (context: ConfigTestContext) => {
     return proxyquire('../../src/lib/cli', {
         './cli/actions': context.cliActions,
-        './utils/packages/load-hint-package': context.loadHintPackage,
+        './utils/packages': context.loadHintPackage,
         '@hint/utils': { logger: context.logger },
         'update-notifier': context.updateNotifier
     });
@@ -88,7 +88,7 @@ test('Users should be notified if there is a new version of hint', async (t) => 
 See ${chalk.cyan('https://webhint.io/about/changelog/')} for details`;
 
     t.context.notifier.update = newUpdate;
-    sandbox.stub(t.context.loadHintPackage, 'default').returns({ version: '0.2.0' });
+    sandbox.stub(t.context.loadHintPackage, 'loadHintPackage').returns({ version: '0.2.0' });
 
     const cli = loadScript(t.context);
 
@@ -118,7 +118,7 @@ test(`Users shouldn't be notified if they just updated to the latest version and
     };
 
     t.context.notifier.update = newUpdate;
-    sandbox.stub(t.context.loadHintPackage, 'default').returns({ version: '0.3.0' });
+    sandbox.stub(t.context.loadHintPackage, 'loadHintPackage').returns({ version: '0.3.0' });
 
     const cli = loadScript(t.context);
 

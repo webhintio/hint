@@ -39,7 +39,7 @@ const meta: HintMetadata = {
         }
     }],
     /*
-     * axe can not analize a file itself, it needs a connector.
+     * axe can not analyze a file itself, it needs a connector.
      */
     scope: HintScope.any
 };

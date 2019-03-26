@@ -4,9 +4,8 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { debug as d, network } from '@hint/utils';
-import { FetchEnd, IHint, NetworkData } from 'hint/dist/src/lib/types';
+import { FetchEnd, HintContext, IHint, NetworkData } from 'hint';
 
 import meta from './meta';
 

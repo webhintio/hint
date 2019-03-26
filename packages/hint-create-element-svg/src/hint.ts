@@ -2,8 +2,7 @@
  * @fileoverview Inform users that they need to use createElementNS to create SVG elements instead of createElement
  */
 
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
+import { HintContext, IHint } from 'hint';
 import { debug as d } from '@hint/utils';
 import { ScriptEvents } from '@hint/parser-javascript';
 

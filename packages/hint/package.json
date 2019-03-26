@@ -79,7 +79,7 @@
     "security"
   ],
   "license": "Apache-2.0",
-  "main": "./dist/src/lib/engine.js",
+  "main": "./dist/src/lib/index.js",
   "name": "hint",
   "nyc": {
     "branches": 75,

@@ -12,9 +12,9 @@ import * as zlib from 'zlib';
 
 import * as sinon from 'sinon';
 import test from 'ava';
+
 import { Server } from '@hint/utils-create-server';
-import { IConnector, Events } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint';
+import { Engine, Events, IConnector } from 'hint';
 
 import ChromeConnector from '../src/connector';
 

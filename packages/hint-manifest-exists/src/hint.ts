@@ -12,11 +12,11 @@
 import {
     ElementFound,
     FetchError,
+    HintContext,
     IHint,
     ScanEnd
-} from 'hint/dist/src/lib/types';
+} from 'hint';
 import { misc } from '@hint/utils';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ManifestEvents } from '@hint/parser-manifest';
 
 import meta from './meta';

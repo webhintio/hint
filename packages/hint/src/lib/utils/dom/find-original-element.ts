@@ -42,7 +42,7 @@ const findMatch = (document: HTMLDocument, element: HTMLElement, query: string, 
  * which is likely the original source for the provided element. Used to
  * resolve element locations to the original HTML when possible.
  */
-export default (document: HTMLDocument, element: HTMLElement): HTMLElement | null => {
+export const findOriginalElement = (document: HTMLDocument, element: HTMLElement): HTMLElement | null => {
 
     // Elements with attributes whose values are typically unique (e.g. IDs or URLs).
     for (const attribute of ['id', 'name', 'data', 'href', 'src', 'srcset', 'charset']) {

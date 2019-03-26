@@ -20,9 +20,9 @@ import * as path from 'path';
 import browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
 import mergeWith = require('lodash/mergeWith');
 
-import { debug as d, fs as fsUtils, logger } from '@hint/utils';
+import { debug as d, fs as fsUtils } from '@hint/utils';
 
-import { UserConfig, IgnoredUrl, CLIOptions, ConnectorConfig, HintsConfigObject, HintSeverity } from './types';
+import { UserConfig, IgnoredUrl, ConnectorConfig, HintsConfigObject, HintSeverity, CreateAnalyzerOptions } from './types';
 import { validateConfig } from './config/config-validator';
 import normalizeHints from './config/normalize-hints';
 import { validate as validateHint, getSeverity } from './config/config-hints';
@@ -155,21 +155,19 @@ const buildHintsConfigFromHintNames = (hintNames: string[], severity: HintSeveri
 /**
  * Overrides the config values with values obtained from the CLI, if any
  */
-const updateConfigWithCommandLineValues = (config: UserConfig, actions?: CLIOptions) => {
+const updateConfigWithOptionsValues = (config: UserConfig, options: CreateAnalyzerOptions = {}) => {
     debug('overriding config settings with values provided via CLI');
 
     // If formatters are provided, use them
-    if (actions && actions.formatters) {
-        config.formatters = actions.formatters.split(',');
-        debug(`Using formatters option provided from command line: ${actions.formatters}`);
+    if (options.formatters) {
+        config.formatters = options.formatters;
+        debug(`Using formatters option provided from Analyzer options: ${options.formatters.join(', ')}`);
     }
 
     // If hints are provided, use them
-    if (actions && actions.hints) {
-        const hintNames = actions.hints.split(',');
-
-        config.hints = buildHintsConfigFromHintNames(hintNames, 'error');
-        debug(`Using hints option provided from command line: ${actions.hints}`);
+    if (options.hints) {
+        config.hints = buildHintsConfigFromHintNames(options.hints, 'error');
+        debug(`Using hints option provided from command line: ${options.hints.join(', ')}`);
     }
 };
 
@@ -214,50 +212,6 @@ export class Configuration {
 
             return total;
         }, {} as HintsConfigObject);
-    }
-
-    /**
-     * @deprecated
-     * Generates the list of browsers to target using the `browserslist` property
-     * of the `hint` configuration or `package.json` or uses the default one
-     */
-    public static loadBrowsersList(config: UserConfig) {
-        logger.warn('`Configuration.loadBrowsersList` is deprecated. Use `Configuration.fromConfig` instead.');
-
-        const directory: string = process.cwd();
-        const files: string[] = CONFIG_FILES.reduce((total, configFile) => {
-            const filename: string = path.join(directory, configFile);
-
-            if (isFile(filename)) {
-                total.push(filename);
-            }
-
-            return total;
-        }, [] as string[]);
-
-        if (!config.browserslist) {
-            for (let i = 0; i < files.length; i++) {
-                const file: string = files[i];
-                const tmpConfig: UserConfig | null = Configuration.loadConfigFile(file);
-
-                if (tmpConfig && tmpConfig.browserslist) {
-                    config.browserslist = tmpConfig.browserslist;
-                    break;
-                }
-
-                if (file.endsWith('package.json')) {
-                    const packagejson = loadJSONFile(file);
-
-                    config.browserslist = packagejson.browserslist;
-                }
-            }
-        }
-
-        if (!config.browserslist || config.browserslist.length === 0) {
-            return browserslist();
-        }
-
-        return browserslist(config.browserslist);
     }
 
     /**
@@ -374,10 +328,10 @@ export class Configuration {
         return config;
     }
 
-    public static fromConfig(config: UserConfig | null, actions?: CLIOptions): Configuration {
+    public static fromConfig(config: UserConfig | null, options?: CreateAnalyzerOptions): Configuration {
 
         if (!config) {
-            throw new Error(`Couldn't find a configuration file`);
+            throw new Error(`Couldn't find a configuration`);
         }
 
         if (!validateConfig(config)) {
@@ -395,11 +349,11 @@ export class Configuration {
         }
 
         // In case the user uses the --watch flag when running hint
-        if (actions && actions.watch && userConfig.connector && userConfig.connector.options) {
-            userConfig.connector.options.watch = actions.watch;
+        if (options && options.watch && userConfig.connector && userConfig.connector.options) {
+            userConfig.connector.options.watch = options.watch;
         }
 
-        updateConfigWithCommandLineValues(userConfig, actions);
+        updateConfigWithOptionsValues(userConfig, options);
 
         if (userConfig.formatters && !Array.isArray(userConfig.formatters)) {
             userConfig.formatters = [userConfig.formatters];
@@ -432,34 +386,6 @@ export class Configuration {
         }, { invalid: [] as string[], valid: [] as string[] });
 
         return validateResult;
-    }
-
-    /**
-     * @deprecated
-     * Loads a configuration file regardless of the source. Inspects the file path
-     * to determine the correctly way to load the config file.
-     */
-    public static fromFilePath(filePath: string, actions: CLIOptions): Configuration {
-        logger.warn('`Configuration.fromFilePath` is deprecated. Use `Configuration.loadConfigFile` with `Configuration.fromConfig` instead.');
-
-        /**
-         * 1. Load the file from the HD
-         * 2. Validate it's OK
-         * 3. Read extends and validate they are OK
-         * 4. Apply extends
-         * 6. Return final configuration object with defaults if needed
-         */
-
-        // 1
-        const resolvedPath: string = path.resolve(process.cwd(), filePath);
-        const userConfig = Configuration.loadConfigFile(resolvedPath);
-        const config = this.fromConfig(userConfig, actions);
-
-        if (userConfig) {
-            userConfig.browserslist = userConfig.browserslist || Configuration.loadBrowsersList(userConfig);
-        }
-
-        return config;
     }
 
     /**

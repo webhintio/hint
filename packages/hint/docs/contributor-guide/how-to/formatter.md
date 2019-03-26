@@ -19,6 +19,8 @@ export default class JSONFormatter implements IFormatter {
 }
 ```
 
+<!-- eslint-enable require-await -->
+
 A `message` looks like this:
 
 ```json
@@ -54,6 +56,8 @@ export default class JSONFormatter implements IFormatter {
     }
 }
 ```
+
+<!-- eslint-enable require-await -->
 
 The `options` parameter is as follows:
 

@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import createHTMLDocument from '../../../../src/lib/utils/dom/create-html-document';
-import findOriginalElement from '../../../../src/lib/utils/dom/find-original-element';
+import { createHTMLDocument } from '../../../../src/lib/utils/dom/create-html-document';
+import { findOriginalElement } from '../../../../src/lib/utils/dom/find-original-element';
 
 const compare = (originalSource: string, snapshotSource: string) => {
     const originalDocument = createHTMLDocument(originalSource);

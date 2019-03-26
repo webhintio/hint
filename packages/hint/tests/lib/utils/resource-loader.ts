@@ -181,7 +181,7 @@ test.serial('loadResource throws an error if the version is incompatible when us
 
     proxyquire('../../../src/lib/utils/resource-loader', {
         '../utils/packages/load-hint-package': {
-            default() {
+            loadHintPackage() {
                 return { version: '1.1.0' };
             }
         },
@@ -216,7 +216,7 @@ test.serial('loadResource returns the resource if versions are compatible', asyn
 
     proxyquire('../../../src/lib/utils/resource-loader', {
         '../utils/packages/load-hint-package': {
-            default() {
+            loadHintPackage() {
                 return { version: '0.1.0' };
             }
         },

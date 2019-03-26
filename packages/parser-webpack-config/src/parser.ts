@@ -1,8 +1,7 @@
 import * as path from 'path';
 import * as webpack from 'webpack'; // This is used just to have types.
 
-import { FetchEnd, Parser } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint/dist/src/lib/engine';
+import { Engine, FetchEnd, Parser } from 'hint';
 import { network } from '@hint/utils';
 
 import { WebpackConfigEvents } from './types';

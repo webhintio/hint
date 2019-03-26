@@ -4,6 +4,7 @@ import * as mock from 'mock-require';
 
 import { test } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
+
 import { cloudinaryResult } from '../src/cloudinary-types';
 
 const { generateHTMLPage, getHintPath} = test;

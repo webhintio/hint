@@ -1,4 +1,4 @@
-import { ProblemLocation } from 'hint/dist/src/lib/types';
+import { ProblemLocation } from 'hint';
 
 export type MatchInformation = {
     matches: RegExpMatchArray | null;

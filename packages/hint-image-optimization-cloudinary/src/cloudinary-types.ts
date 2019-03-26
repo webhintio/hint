@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { HTMLElement } from 'hint/dist/src/lib/types';
+import { HTMLElement } from 'hint';
 
 export type cloudinaryResult = {
     bytes: number;

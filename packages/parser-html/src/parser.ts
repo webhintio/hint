@@ -28,7 +28,7 @@ try {
 
 import { Parser, FetchEnd } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
-import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
+import { createHTMLDocument } from 'hint/dist/src/lib/utils/dom/create-html-document';
 import { HTMLEvents } from './types';
 
 export * from './types';

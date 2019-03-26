@@ -14,9 +14,8 @@
 import { promisify } from 'util';
 
 import { debug as d } from '@hint/utils';
-import { FetchEnd, ScanEnd, IHint } from 'hint/dist/src/lib/types';
+import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
 import { Grades, SSLLabsEndpoint, SSLLabsOptions, SSLLabsResult } from './types';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
 

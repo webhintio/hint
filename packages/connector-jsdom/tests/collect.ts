@@ -8,9 +8,8 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import { ServerConfiguration, Server } from '@hint/utils-create-server';
-import { IConnector, IConnectorConstructor, Events } from 'hint/dist/src/lib/types';
 import { test as testUtils } from '@hint/utils';
-import { Engine } from 'hint';
+import { Engine, Events, IConnector, IConnectorConstructor } from 'hint';
 
 import JSDOMConnector from '../src/connector';
 

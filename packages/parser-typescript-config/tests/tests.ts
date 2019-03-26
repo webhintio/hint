@@ -7,8 +7,8 @@ import anyTest, { TestInterface } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
 import * as utils from '@hint/utils';
-import { Engine } from 'hint';
-import { FetchEnd, ErrorEvent } from 'hint/dist/src/lib/types';
+import { Engine, FetchEnd, ErrorEvent } from 'hint';
+
 import { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfigInvalidSchema } from '../src/parser';
 
 const { loadJSONFile, readFile } = utils.fs;

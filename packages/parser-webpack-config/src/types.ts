@@ -1,6 +1,6 @@
 import * as webpack from 'webpack';
 
-import { ErrorEvent, Event, Events } from 'hint/dist/src/lib/types/events';
+import { ErrorEvent, Event, Events } from 'hint';
 
 /** Data type sent for Invalid configuation event */
 export type WebpackConfigInvalidConfiguration = ErrorEvent;

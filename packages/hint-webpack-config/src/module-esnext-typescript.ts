@@ -1,8 +1,7 @@
 /**
  * @fileoverview `webpack-config/module-esnext-typescript` warns against not having set the propety `compilerOptions.module` to `esnext` in typescript configuration file.
  */
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
+import { HintContext, IHint } from 'hint';
 import { debug as d } from '@hint/utils';
 
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';

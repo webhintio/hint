@@ -4,8 +4,7 @@
 
 import { URL } from 'url';
 
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { ElementFound, FetchEnd, IHint, ScanStart } from 'hint/dist/src/lib/types';
+import { ElementFound, FetchEnd, HintContext, IHint, ScanStart } from 'hint';
 import { debug as d, misc, network } from '@hint/utils';
 
 import meta from './meta';

@@ -4,11 +4,9 @@ import { debug as d } from '@hint/utils';
 import { ResourceLoader } from 'jsdom';
 
 import JSDOMConnector from './connector';
-import { HTMLDocument } from 'hint/dist/src/lib/types';
-import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
-import { NetworkData, FetchEnd, FetchError } from 'hint/dist/src/lib/types';
-import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
-import getElementByUrl from 'hint/dist/src/lib/utils/dom/get-element-by-url';
+import { FetchEnd, FetchError, HTMLDocument, NetworkData, utils } from 'hint';
+
+const { dom: { createHTMLDocument, getElementByUrl }, contentType: { getContentTypeData, getType } } = utils;
 
 const debug: debug.IDebugger = d(__filename);
 
