@@ -1,27 +1,35 @@
-import { URL } from 'url';
 import * as path from 'path';
 
 import boxen from 'boxen';
-import { default as ora, Ora } from 'ora';
 import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
-import { EventAndListener } from 'eventemitter2';
+import { default as ora } from 'ora';
 
 import { appInsights, configStore, debug as d, fs, logger, misc, network, npm } from '@hint/utils';
 
-import { Configuration } from '../config';
-import { Engine } from '../engine';
-import { CLIOptions, Problem, Severity, UserConfig, HintResources, FormatterOptions } from '../types';
-import * as resourceLoader from '../utils/resource-loader';
-import loadHintPackage from '../utils/packages/load-hint-package';
+import {
+    AnalyzerError,
+    AnalyzeOptions,
+    CLIOptions,
+    CreateAnalyzerOptions,
+    HintResources,
+    Problem,
+    Severity,
+    UserConfig
+} from '../types';
+import { loadHintPackage } from '../utils/packages/load-hint-package';
+
+import { createAnalyzer, getUserConfig } from '../';
+import { Analyzer } from '../analyzer';
+import { AnalyzerErrorStatus } from '../enums/error-status';
 
 const { getAsUris } = network;
-const { askQuestion, cutString } = misc;
+const { askQuestion } = misc;
 const { installPackages } = npm;
 const { cwd } = fs;
-
 const debug: debug.IDebugger = d(__filename);
 const configStoreKey: string = 'run';
+const spinner = ora({ spinner: 'line' });
 
 /*
  * ------------------------------------------------------------------------------
@@ -70,7 +78,7 @@ or set the flag --tracking=on|off`;
 };
 
 /** Ask user if he wants to activate the telemetry or not. */
-const askForTelemetryConfirmation = async (config: Configuration) => {
+const askForTelemetryConfirmation = async (userConfig: UserConfig) => {
     if (appInsights.isConfigured()) {
         return;
     }
@@ -103,44 +111,12 @@ const askForTelemetryConfirmation = async (config: Configuration) => {
         appInsights.enable();
 
         appInsights.trackEvent('SecondRun');
-        appInsights.trackEvent('analyze', config);
+        appInsights.trackEvent('analyze', userConfig);
 
         return;
     }
 
     appInsights.disable();
-};
-
-const askUserToUseDefaultConfiguration = async (): Promise<boolean> => {
-    const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://webhint.io/docs/user-guide/#default-configuration`;
-    const confirmation: boolean = await askQuestion(question);
-
-    return confirmation;
-};
-
-/** Prints the list of missing and incompatible resources found. */
-const showMissingAndIncompatiblePackages = (resources: HintResources) => {
-    if (resources.missing.length > 0) {
-        logger.log(`The following ${resources.missing.length === 1 ? 'package is' : 'packages are'} missing:
-    ${resources.missing.join(', ')}`);
-    }
-
-    if (resources.incompatible.length > 0) {
-        logger.log(`The following ${resources.incompatible.length === 1 ? 'package is' : 'packages are'} incompatible:
-    ${resources.incompatible.join(', ')}`);
-    }
-};
-
-const askUserToInstallDependencies = async (resources: HintResources): Promise<boolean> => {
-    showMissingAndIncompatiblePackages(resources);
-
-    const dependencies: string[] = resources.incompatible.concat(resources.missing);
-
-    const question: string = `There ${dependencies.length === 1 ? 'is a package' : 'are packages'} from your .hintrc file not installed or with an incompatible version. Do you want us to try to install/update them?`;
-
-    const answer: boolean = await askQuestion(question);
-
-    return answer;
 };
 
 /**
@@ -169,95 +145,136 @@ const getDefaultConfiguration = () => {
     return { extends: ['web-recommended'] };
 };
 
-const getUserConfig = (actions?: CLIOptions): UserConfig | null => {
-    const configPath: string | null = (actions && actions.config) || Configuration.getFilenameForDirectory(process.cwd());
+const askUserToUseDefaultConfiguration = async (): Promise<UserConfig | null> => {
+    const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://webhint.io/docs/user-guide/#default-configuration`;
+    const confirmation: boolean = await askQuestion(question);
 
-    if (!configPath) {
+    if (confirmation) {
         return getDefaultConfiguration();
     }
 
-    debug(`Loading configuration file from ${configPath}.`);
+    return null;
+};
+
+/** Prints the list of missing and incompatible resources found. */
+const showMissingAndIncompatiblePackages = (resources: HintResources) => {
+    if (resources.missing.length > 0) {
+        logger.log(`The following ${resources.missing.length === 1 ? 'package is' : 'packages are'} missing:
+    ${resources.missing.join(', ')}`);
+    }
+
+    if (resources.incompatible.length > 0) {
+        logger.log(`The following ${resources.incompatible.length === 1 ? 'package is' : 'packages are'} incompatible:
+    ${resources.incompatible.join(', ')}`);
+    }
+};
+
+const askUserToInstallDependencies = async (resources: HintResources): Promise<boolean> => {
+    showMissingAndIncompatiblePackages(resources);
+
+    const dependencies: string[] = resources.incompatible.concat(resources.missing);
+
+    const question: string = `There ${dependencies.length === 1 ? 'is a package' : 'are packages'} from your .hintrc file not installed or with an incompatible version. Do you want us to try to install/update them?`;
+
+    const answer: boolean = await askQuestion(question);
+
+    return answer;
+};
+
+const loadUserConfig = (actions?: CLIOptions): UserConfig | null => {
+    const userConfig = getUserConfig(actions && actions.config);
+
+    if (!userConfig) {
+        return getDefaultConfiguration();
+    }
+
+    return userConfig;
+};
+
+const askToInstallPackages = async (resources: HintResources): Promise<boolean> => {
+    if (resources.missing.length > 0) {
+        appInsights.trackEvent('missing', resources.missing);
+    }
+
+    if (resources.incompatible.length > 0) {
+        appInsights.trackEvent('incompatible', resources.incompatible);
+    }
+
+    const missingPackages = resources.missing.map((name) => {
+        return `@hint/${name}`;
+    });
+
+    const incompatiblePackages = resources.incompatible.map((name) => {
+        // If the packages are incompatible, we need to force to install the latest version.
+        return `@hint/${name}@latest`;
+    });
+
+    if (!(await askUserToInstallDependencies(resources) &&
+        await installPackages(missingPackages) &&
+        await installPackages(incompatiblePackages))) {
+
+        // The user doesn't want to install the dependencies or something went wrong installing them
+        return false;
+    }
+
+    // After installing all the packages, we need to load the resources again.
+    return true;
+};
+
+const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOptions): Promise<Analyzer> => {
+    let webhint: Analyzer;
+
     try {
-        const resolvedPath: string = path.resolve(process.cwd(), configPath);
-
-        const config: UserConfig | null = Configuration.loadConfigFile(resolvedPath);
-
-        return config || getDefaultConfiguration();
+        webhint = createAnalyzer(userConfig, options);
     } catch (e) {
-        logger.error(e);
+        const error = e as AnalyzerError;
 
-        return null;
-    }
-};
+        if (error.status === AnalyzerErrorStatus.ConfigurationError) {
+            const config = await askUserToUseDefaultConfiguration();
 
-const messages: { [name: string]: string } = {
-    'fetch::end': '%url% downloaded',
-    'fetch::start': 'Downloading %url%',
-    'scan::end': 'Finishing...',
-    'scan::start': 'Analyzing %url%',
-    'traverse::down': 'Traversing the DOM',
-    'traverse::end': 'Traversing finished',
-    'traverse::start': 'Traversing the DOM',
-    'traverse::up': 'Traversing the DOM'
-};
+            if (!config) {
+                throw e;
+            }
 
-const getEvent = (event: string) => {
-    if (event.startsWith('fetch::end')) {
-        return 'fetch::end';
-    }
-
-    return event;
-};
-
-const setUpUserFeedback = (engine: Engine, spinner: Ora) => {
-    engine.prependAny(((event: string, value: { resource: string }) => {
-        const message: string = messages[getEvent(event)];
-
-        if (!message) {
-            return;
+            return getAnalyzer(config, options);
         }
 
-        spinner.text = message.replace('%url%', cutString(value.resource));
-    }) as EventAndListener);
+        if (error.status === AnalyzerErrorStatus.ResourceError) {
+            const installed = await askToInstallPackages(error.resources!);
+
+            if (!installed) {
+                throw e;
+            }
+
+            return getAnalyzer(userConfig, options);
+        }
+
+        if (error.status === AnalyzerErrorStatus.HintError) {
+            logger.error(`Invalid hint configuration in .hintrc: ${error.invalidHints!.join(', ')}.`);
+
+            throw e;
+        }
+
+        /*
+         * If the error is not an AnalyzerErrorStatus
+         * bubble up the exception.
+         */
+        logger.error(e.message, e);
+
+        throw e;
+    }
+
+    return webhint;
 };
 
-/** Asks the users if they want to create a new configuration file or use the default one. */
-const getDefaultOrCreateConfig = async (actions: CLIOptions): Promise<Configuration | null> => {
-    const useDefault = await askUserToUseDefaultConfiguration();
-    let userConfig: UserConfig;
+const actionsToOptions = (actions: CLIOptions): CreateAnalyzerOptions => {
+    const options: CreateAnalyzerOptions = {
+        formatters: actions.formatters ? actions.formatters.split(',') : undefined,
+        hints: actions.hints ? actions.hints.split(',') : undefined,
+        watch: actions.watch
+    };
 
-    if (useDefault) {
-        userConfig = getDefaultConfiguration();
-    } else {
-        logger.error(`Unable to find a valid configuration file. Please create a valid .hintrc file using 'npm init hintrc'.`);
-
-        return null;
-    }
-
-    return Configuration.fromConfig(userConfig, actions);
-};
-
-/**
- * Returns the configuration to use for the current execution.
- * Depending on the user, the configuration could be read from a file,
- * could be a new created one, or use the defaults.
- */
-const getHintConfiguration = async (userConfig: UserConfig | null, actions: CLIOptions): Promise<Configuration | null> => {
-    if (!userConfig) {
-        return getDefaultOrCreateConfig(actions);
-    }
-
-    let config: Configuration | null;
-
-    try {
-        config = Configuration.fromConfig(userConfig, actions);
-    } catch (err) {
-        logger.error(err.message);
-
-        config = await getDefaultOrCreateConfig(actions);
-    }
-
-    return config;
+    return options;
 };
 
 /*
@@ -266,79 +283,29 @@ const getHintConfiguration = async (userConfig: UserConfig | null, actions: CLIO
  * ------------------------------------------------------------------------------
  */
 
-// HACK: we need this to correctly test the messages in tests/lib/cli.ts.
-
-export let engine: Engine | null = null;
-
 /** Analyzes a website if indicated by `actions`. */
 export default async (actions: CLIOptions): Promise<boolean> => {
-
-    const targets: URL[] = getAsUris(actions._);
+    const targets = getAsUris(actions._);
 
     if (targets.length === 0) {
         return false;
     }
 
-    // userConfig will be null if an error occurred loading the user configuration (error parsing a JSON)
-    const userConfig: UserConfig | null = await getUserConfig(actions);
-    const config: Configuration | null = await getHintConfiguration(userConfig, actions);
+    const userConfig = await loadUserConfig(actions);
 
-    if (!config) {
+    const createAnalyzerOptions = actionsToOptions(actions);
+    let webhint: Analyzer;
+
+    try {
+        webhint = await getAnalyzer(userConfig!, createAnalyzerOptions);
+    } catch (e) {
         return false;
     }
 
-    let resources = resourceLoader.loadResources(config);
+    appInsights.trackEvent('analyze', userConfig!);
 
-    appInsights.trackEvent('analyze', config);
-
-    if (resources.missing.length > 0 || resources.incompatible.length > 0) {
-        if (resources.missing.length > 0) {
-            appInsights.trackEvent('missing', resources.missing);
-        }
-
-        if (resources.incompatible.length > 0) {
-            appInsights.trackEvent('incompatible', resources.incompatible);
-        }
-
-        const missingPackages = resources.missing.map((name) => {
-            return `@hint/${name}`;
-        });
-
-        const incompatiblePackages = resources.incompatible.map((name) => {
-            // If the packages are incompatible, we need to force to install the latest version.
-            return `@hint/${name}@latest`;
-        });
-
-        if (!(await askUserToInstallDependencies(resources) &&
-            await installPackages(missingPackages) &&
-            await installPackages(incompatiblePackages))) {
-
-            // The user doesn't want to install the dependencies or something went wrong installing them
-            return false;
-        }
-
-        // After installing all the packages, we need to load the resources again.
-        resources = resourceLoader.loadResources(config);
-    }
-
-    const invalidConfigHints = Configuration.validateHintsConfig(config).invalid;
-
-    if (invalidConfigHints.length > 0) {
-        logger.error(`Invalid hint configuration in .hintrc: ${invalidConfigHints.join(', ')}.`);
-
-        return false;
-    }
-
-    engine = new Engine(config, resources);
-
-    const start: number = Date.now();
-    const spinner = ora({ spinner: 'line' });
-    let exitCode: number = 0;
-
-    if (!actions.debug) {
-        spinner.start();
-        setUpUserFeedback(engine, spinner);
-    }
+    const start = Date.now();
+    let exitCode = 0;
 
     const endSpinner = (method: string) => {
         if (!actions.debug && (spinner as any)[method]) {
@@ -353,48 +320,63 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     };
 
     const print = async (reports: Problem[], target?: string, scanTime?: number, date?: string): Promise<void> => {
-        const formatterOptions: FormatterOptions = {
+        await webhint.format(reports, {
             config: userConfig || undefined,
             date,
             output: actions.output ? path.resolve(cwd(), actions.output) : undefined,
-            resources,
+            resources: webhint.resources,
             scanTime,
             target,
             version: loadHintPackage().version
-        };
-
-        if (engine) {
-            for (const formatter of engine.formatters) {
-                await formatter.format(reports, formatterOptions);
-            }
-        }
+        });
     };
 
-    engine.on('print', print);
+    const getAnalyzeOptions = (): AnalyzeOptions => {
+        const scanStart = new Map<string, number>();
+        const analyzerOptions: AnalyzeOptions = {
+            targetEndCallback: undefined,
+            targetStartCallback: undefined,
+            updateCallback: undefined
+        };
 
-    for (const target of targets) {
-        try {
-            const scanStart = Date.now();
-            const results: Problem[] = await engine.executeOn(target);
+        if (!actions.debug) {
+            analyzerOptions.updateCallback = (update) => {
+                spinner.text = update.message;
+            };
+        }
+
+        analyzerOptions.targetStartCallback = (start) => {
+            if (!actions.debug) {
+                spinner.start();
+            }
+            scanStart.set(start.url, Date.now());
+        };
+        analyzerOptions.targetEndCallback = async (end) => {
             const scanEnd = Date.now();
+            const start = scanStart.get(end.url) || 0;
 
-            if (hasError(results)) {
+            if (hasError(end.problems)) {
                 exitCode = 1;
             }
 
             endSpinner(exitCode ? 'fail' : 'succeed');
 
-            await askForTelemetryConfirmation(config);
-            await print(results, target.href, scanEnd - scanStart, new Date(scanStart).toISOString());
-        } catch (e) {
-            exitCode = 1;
-            endSpinner('fail');
-            debug(`Failed to analyze: ${target.href}`);
-            debug(e);
-        }
-    }
+            await print(end.problems, end.url, scanEnd - start, new Date(start).toISOString());
+        };
 
-    await engine.close();
+        return analyzerOptions;
+    };
+
+    try {
+        await webhint.analyze(targets, getAnalyzeOptions());
+
+        await askForTelemetryConfirmation(userConfig!);
+    } catch (e) {
+        exitCode = 1;
+        endSpinner('fail');
+        debug(`Failed to analyze: ${e.url}`);
+        debug(e);
+    }
 
     debug(`Total runtime: ${Date.now() - start}ms`);
 

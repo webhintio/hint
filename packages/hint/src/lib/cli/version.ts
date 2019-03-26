@@ -1,5 +1,5 @@
 import { logger } from '@hint/utils';
-import loadHintPackage from '../utils/packages/load-hint-package';
+import { loadHintPackage } from '../utils/packages/load-hint-package';
 
 
 /** Prints the current hint version in the console. */

@@ -4,14 +4,12 @@
 
 import * as URL from 'url';
 
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-
-import { IHint, FetchEnd, Response, ElementFound } from 'hint/dist/src/lib/types';
+import { ElementFound, FetchEnd, HintContext, IHint, Response } from 'hint';
 import { debug as d, network } from '@hint/utils';
 
 import meta from './meta';
 
-const { isDataURI, isHTTPS} = network;
+const { isDataURI, isHTTPS } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*

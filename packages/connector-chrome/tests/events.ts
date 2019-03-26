@@ -14,8 +14,7 @@ import every = require('lodash/every');
 import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 import { Server } from '@hint/utils-create-server';
-import { IConnector, Events } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint';
+import { Engine, Events, IConnector } from 'hint';
 
 import ChromeConnector from '../src/connector';
 

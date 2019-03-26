@@ -2,9 +2,7 @@
  * @fileoverview `babel-config/is-valid` warns against providing an invalid babel configuration file.
  */
 import { debug as d } from '@hint/utils';
-import { IHint } from 'hint/dist/src/lib/types';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-
+import { HintContext, IHint } from 'hint';
 import { BabelConfigEvents, BabelConfigExtendsError, BabelConfigInvalidJSON, BabelConfigInvalidSchema } from '@hint/parser-babel-config';
 
 import meta from './meta/is-valid';

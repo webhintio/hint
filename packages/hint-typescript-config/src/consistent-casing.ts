@@ -3,8 +3,7 @@
  * is enabled in the TypeScript configuration file (i.e `tsconfig.json`).
  */
 import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
+import { HintContext, IHint } from 'hint';
 import { configChecker } from './helpers/config-checker';
 
 import meta from './meta/consistent-casing';

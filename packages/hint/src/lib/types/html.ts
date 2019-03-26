@@ -3,7 +3,7 @@ import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
 import * as cssSelect from 'css-select';
 
 import { ProblemLocation } from '../types';
-import findOriginalElement from '../utils/dom/find-original-element';
+import { findOriginalElement } from '../utils/dom/find-original-element';
 
 type Attrib = {
     [key: string]: string;

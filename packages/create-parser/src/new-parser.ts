@@ -6,6 +6,7 @@ import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
 import { appInsights, fs as fsUtils, logger, misc, packages } from '@hint/utils';
+
 import { escapeSafeString, compileTemplate } from './handlebars-utils';
 
 const { isOfficial } = packages;

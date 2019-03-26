@@ -1,5 +1,5 @@
-import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
-import { IJSONLocationFunction, ISchemaValidationError, GroupedError } from 'hint/dist/src/lib/types';
+import { GroupedError, Event, ErrorEvent, Events, IJSONLocationFunction, ISchemaValidationError } from 'hint';
+
 import { IJsonSchemaForNpmPackageJsonFiles } from './schema';
 
 export type PackageJsonInvalidJSON = ErrorEvent;

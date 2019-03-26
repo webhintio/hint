@@ -4,8 +4,7 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 import * as proxyquire from 'proxyquire';
-import { Engine } from 'hint';
-import { ScanEnd, FetchEnd, ErrorEvent } from 'hint/dist/src/lib/types';
+import { Engine, ErrorEvent, FetchEnd, ScanEnd } from 'hint';
 import * as utils from '@hint/utils';
 
 import { WebpackConfigEvents, WebpackConfigParse } from '../src/parser';

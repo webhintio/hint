@@ -6,8 +6,7 @@
 import * as path from 'path';
 
 import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ScanEnd } from 'hint/dist/src/lib/types';
+import { HintContext, IHint, ScanEnd } from 'hint';
 import { debug as d } from '@hint/utils';
 
 import { configChecker } from './helpers/config-checker';

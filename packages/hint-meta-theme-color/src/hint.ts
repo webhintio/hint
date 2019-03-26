@@ -13,12 +13,12 @@ import { get as parseColor, ColorDescriptor } from 'color-string';
 
 import {
     ElementFound,
+    HintContext,
     HTMLElement,
     IHint,
     TraverseEnd
-} from 'hint/dist/src/lib/types';
+} from 'hint';
 import { caniuse, misc } from '@hint/utils';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
 

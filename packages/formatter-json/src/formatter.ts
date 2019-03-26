@@ -14,7 +14,7 @@ import reduce = require('lodash/reduce');
 import sortBy = require('lodash/sortBy');
 
 import { debug as d, fs, logger } from '@hint/utils';
-import { FormatterOptions, IFormatter, Problem } from 'hint/dist/src/lib/types';
+import { FormatterOptions, IFormatter, Problem } from 'hint';
 
 const _ = {
     groupBy,

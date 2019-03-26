@@ -19,7 +19,7 @@ import * as updateNotifier from 'update-notifier';
 
 import { logger } from '@hint/utils';
 
-import loadHintPackage from './utils/packages/load-hint-package';
+import { loadHintPackage } from './utils/packages';
 import { CLIOptions } from './types';
 import { options } from './cli/options';
 import { cliActions } from './cli/actions';

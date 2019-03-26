@@ -1,8 +1,7 @@
 /**
  * @fileoverview `webpack-config/is-valid` warns against providing an invalid webpack configuration file `webpack.config.js`.
  */
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
+import { HintContext, IHint } from 'hint';
 import { debug as d } from '@hint/utils';
 
 import { WebpackConfigEvents, WebpackConfigInvalidConfiguration } from '@hint/parser-webpack-config';

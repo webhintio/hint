@@ -62,6 +62,10 @@ export type TraverseDown = Event & {
 /** The object emitted by a connector on `can-evaluate` */
 export type CanEvaluateScript = Event;
 
+export type PrintEvent = Event & {
+    problems: Problem[];
+};
+
 export type Events = {
     'can-evaluate::script': CanEvaluateScript;
     'fetch::end::*': FetchEnd;
@@ -79,7 +83,7 @@ export type Events = {
     'fetch::start': FetchStart;
     'fetch::start::target': FetchStart;
     'parse::error::*': ErrorEvent;
-    'print': Problem[];
+    'print': PrintEvent;
     'scan::end': ScanEnd;
     'scan::start': ScanStart;
     'traverse::down': TraverseDown;

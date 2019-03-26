@@ -4,8 +4,7 @@
  * `browserslist` values.
  */
 
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
+import { HintContext, IHint } from 'hint';
 
 import { TypeScriptConfigEvents, TypeScriptConfigParse } from '@hint/parser-typescript-config';
 

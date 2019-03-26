@@ -4,8 +4,7 @@
 
 import * as os from 'os';
 
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, FetchEnd, ProblemLocation } from 'hint/dist/src/lib/types';
+import { FetchEnd, HintContext, IHint, ProblemLocation } from 'hint';
 import { MatchInformation } from './types';
 
 import meta from './meta';

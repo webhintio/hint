@@ -7,10 +7,9 @@ import * as proxyquire from 'proxyquire';
 import anyTest, { TestInterface } from 'ava';
 
 import { fs, network } from '@hint/utils';
-import { Engine } from 'hint';
+import { Engine, FetchEnd } from 'hint';
 
 import { PackageJsonEvents } from '../src/parser';
-import { FetchEnd } from 'hint/dist/src/lib/types';
 
 const { loadJSONFile } = fs;
 const { getAsUri } = network;

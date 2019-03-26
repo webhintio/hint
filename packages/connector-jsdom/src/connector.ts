@@ -32,23 +32,11 @@ import { fork, ChildProcess } from 'child_process';
 import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
 
 import { debug as d, HttpHeaders, network } from '@hint/utils';
-import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
-import {
-    HTMLDocument,
-    IConnector,
-    HTMLElement,
-    Event, FetchEnd, FetchError,
-    NetworkData
-} from 'hint/dist/src/lib/types';
-import { Engine } from 'hint/dist/src/lib/engine';
-import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
-import traverse from 'hint/dist/src/lib/utils/dom/traverse';
-
-import { Requester } from '@hint/utils-connector-tools/dist/src/requester';
+import { Engine, Event, FetchEnd, FetchError, HTMLDocument, HTMLElement, IConnector, NetworkData, utils } from 'hint';
+import { Requester } from '@hint/utils-connector-tools';
 
 import CustomResourceLoader from './resource-loader';
 import { beforeParse } from './before-parse';
-
 
 /*
  * ------------------------------------------------------------------------------
@@ -56,6 +44,7 @@ import { beforeParse } from './before-parse';
  * ------------------------------------------------------------------------------
  */
 
+const { dom: { createHTMLDocument, traverse }, contentType: { getContentTypeData, getType } } = utils;
 const { isHTMLDocument } = network;
 const debug: debug.IDebugger = d(__filename);
 

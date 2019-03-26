@@ -14,13 +14,12 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { UserConfig } from 'hint/dist/src/lib/types';
+import { ResourceType, UserConfig, utils } from 'hint';
 import { appInsights, debug as d, fs as fsUtils, logger, npm, NpmPackage } from '@hint/utils';
 
-import { getInstalledResources, getCoreResources } from 'hint/dist/src/lib/utils/resource-loader';
-import { ResourceType } from 'hint/dist/src/lib/enums/resource-type';
 import { generateBrowserslistConfig } from './browserslist';
 
+const { resourceLoader: { getInstalledResources, getCoreResources } } = utils;
 const { getOfficialPackages, installPackages } = npm;
 const { sendPendingData, trackEvent } = appInsights;
 const { cwd } = fsUtils;

@@ -308,8 +308,11 @@ export class Engine<E extends Events = Events> extends EventEmitter {
         this.messages = [];
     }
 
-    public async notify(this: Engine<Events>) {
-        await this.emitAsync('print', this.messages);
+    public async notify(this: Engine<Events>, resource: string) {
+        await this.emitAsync('print', {
+            problems: this.messages,
+            resource
+        });
     }
 
     /** Runs all the configured hints on a target */

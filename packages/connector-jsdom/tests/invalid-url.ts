@@ -1,8 +1,8 @@
 import { URL } from 'url';
 
 import test from 'ava';
-import { IConnector, Events } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint';
+
+import { Engine, Events, IConnector } from 'hint';
 
 import JSDOMConnector from '../src/connector';
 

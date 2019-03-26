@@ -5,6 +5,29 @@
  * It currently only sends `fetch::end::*` events.
  */
 
+/**
+ * `jsdom` always tries to load `canvas` even though it is not needed for
+ * the HTML parser. If there is a mismatch between the user's node version
+ * and where the HTML parser is being executed (e.g.: VS Code extension)
+ * `canvas` will fail to load and crash the excution. To avoid
+ * that we hijack `require`'s cache and set an empty `Module` for `canvas`
+ * so `jsdom` doesn't use it and continues executing
+ * normally.
+ */
+
+try {
+    const canvasPath = require.resolve('canvas');
+    const Module = require('module');
+    const fakeCanvas = new Module('', null);
+
+    /* istanbul ignore next */
+    fakeCanvas.exports = function () { };
+
+    require.cache[canvasPath] = fakeCanvas;
+} catch (e) {
+    // `canvas` is not installed, nothing to do
+}
+
 /*
  * ------------------------------------------------------------------------------
  * Requirements
@@ -22,8 +45,9 @@ import globby from 'globby';
 
 import { fs, logger, network } from '@hint/utils';
 
-import { getContentTypeData, isTextMediaType, getType } from 'hint/dist/src/lib/utils/content-type';
-import traverse from 'hint/dist/src/lib/utils/dom/traverse';
+import { utils } from 'hint';
+
+const { contentType: { getContentTypeData, getType, isTextMediaType }, dom: { traverse } } = utils;
 
 const { cwd, isFile, readFileAsync } = fs;
 const { asPathString, getAsUri } = network;
@@ -154,7 +178,7 @@ export default class LocalConnector implements IConnector {
         const scanEndEvent: ScanEnd = { resource: href };
 
         await this.engine.emitAsync('scan::end', scanEndEvent);
-        await this.engine.notify();
+        await this.engine.notify(href);
 
         logger.log('Watching for file changes.');
     }

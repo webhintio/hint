@@ -8,16 +8,20 @@ import { debug as d } from '@hint/utils/dist/src/debug';
 import { fileExtension as getFileExtension, fileName as getFileName } from '@hint/utils/dist/src/fs';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 
-import { HTMLElement } from '../types';
+// import { HTMLElement } from '../types';
 
 const debug = d(__filename);
+
+type HTMLElement = {
+    getAttribute(attrib: string): string | null;
+    nodeName: string;
+};
 
 /*
  * ---------------------------------------------------------------------
  * Private methods
  * ---------------------------------------------------------------------
  */
-
 const getMediaTypeBasedOnFileExtension = (fileExtension: string): string | null => {
     return fileExtension && Object.keys(mimeDB).find((key) => {
         return (mimeDB as any)[key].extensions && (mimeDB as any)[key].extensions.includes(fileExtension);

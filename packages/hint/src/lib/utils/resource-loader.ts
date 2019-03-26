@@ -27,10 +27,10 @@ import { ResourceType } from '../enums/resource-type';
 import { ResourceErrorStatus } from '../enums/error-status';
 import { ResourceError } from '../types/resource-error';
 import { IConnectorConstructor } from '../types/connector';
-import loadHintPackage from '../utils/packages/load-hint-package';
+import { loadHintPackage } from './packages/load-hint-package';
 
 const { cwd, loadJSONFile, readFile } = fsUtils;
-const { loadPackage: getPackage, findNodeModulesRoot, findPackageRoot} = packages;
+const { loadPackage: getPackage, findNodeModulesRoot, findPackageRoot } = packages;
 const { normalizeIncludes } = misc;
 
 const debug: debug.IDebugger = d(__filename);

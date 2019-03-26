@@ -1,6 +1,4 @@
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { HintScope } from 'hint/dist/src/lib/enums/hint-scope';
-import { HintMetadata } from 'hint/dist/src/lib/types';
+import { Category, HintMetadata, HintScope } from 'hint';
 
 import * as Connections from './connections';
 

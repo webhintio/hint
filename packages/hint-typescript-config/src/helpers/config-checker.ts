@@ -1,5 +1,5 @@
 import { TypeScriptConfigParse } from '@hint/parser-typescript-config';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { HintContext } from 'hint';
 
 /** Helper method to check if a property matches the desired value and report an issue if not. */
 const configChecker = (property: string, desiredValue: boolean, message: string, context: HintContext) => {

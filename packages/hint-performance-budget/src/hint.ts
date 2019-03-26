@@ -5,8 +5,7 @@
 import { URL } from 'url';
 
 import { debug as d, network } from '@hint/utils';
-import { IHint, FetchEnd, ScanEnd, Response } from 'hint/dist/src/lib/types';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { FetchEnd, HintContext, IHint, Response, ScanEnd } from 'hint';
 
 import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';
 import * as Connections from './connections';

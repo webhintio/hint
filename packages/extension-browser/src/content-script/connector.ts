@@ -11,13 +11,13 @@ import {
     HTMLDocument,
     HTMLElement
 } from 'hint/dist/src/lib/types';
-import getElementByUrl from 'hint/dist/src/lib/utils/dom/get-element-by-url';
+import { getElementByUrl } from 'hint/dist/src/lib/utils/dom/get-element-by-url';
 
 import { Events } from '../shared/types';
 import { eval } from '../shared/globals';
 import { browser, document, location, window } from '../shared/globals';
-import createHTMLDocument from 'hint/dist/src/lib/utils/dom/create-html-document';
-import traverse from 'hint/dist/src/lib/utils/dom/traverse';
+import { createHTMLDocument } from 'hint/dist/src/lib/utils/dom/create-html-document';
+import { traverse } from 'hint/dist/src/lib/utils/dom/traverse';
 
 export default class WebExtensionConnector implements IConnector {
     private _document: HTMLDocument | undefined;

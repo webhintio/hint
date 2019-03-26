@@ -1,8 +1,10 @@
+import { URL } from 'url';
+
 import * as mock from './fixtures/mocks';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
-import { Problem, Severity } from 'hint/dist/src/lib/types';
+import { Problem, Severity, Target } from 'hint/dist/src/lib/types';
 import { Diagnostic, DiagnosticSeverity, TextDocument } from 'vscode-languageserver';
 
 type ServerContext = {
@@ -15,8 +17,8 @@ const mockContext = () => {
     const mocks = mock.mocks();
 
     proxyquire('../src/server', {
+        child_process: mocks.child_process, // eslint-disable-line camelcase
         fs: mocks.fs,
-        child_process: mocks.child_process, // eslint-disable-line
         'vscode-languageserver': {
             createConnection: mocks.createConnection,
             Files: mocks.Files,
@@ -27,16 +29,17 @@ const mockContext = () => {
 
     return {
         access: mocks.access,
+        Analyzer: mocks.Analyzer,
+        analyzer: mocks.analyzer,
         child_process: mocks.child_process, // eslint-disable-line camelcase
-        Configuration: mocks.Configuration,
         connection: mocks.connection,
         contentWatcher: mocks.getContentWatcher(),
         document: mocks.document,
         documents: mocks.documents,
-        engine: mocks.engine,
         Files: mocks.Files,
         fileWatcher: mocks.getFileWatcher(),
-        initializer: mocks.getInitializer()
+        initializer: mocks.getInitializer(),
+        modules: mocks.modules
     };
 };
 
@@ -52,7 +55,7 @@ test('It notifies if loading webhint fails', async (t) => {
     const sandbox = t.context.sandbox;
     const testContent = 'Test Content';
     const testUri = 'file:///test/uri';
-    const { connection, contentWatcher, document, engine, Files, initializer } = mockContext();
+    const { connection, contentWatcher, document, analyzer, Files, initializer } = mockContext();
 
     sandbox.stub(document, 'getText').returns(testContent);
     sandbox.stub(document, 'uri').get(() => {
@@ -60,7 +63,7 @@ test('It notifies if loading webhint fails', async (t) => {
     });
 
     const windowShowWarningMessageStub = sandbox.stub(connection.window, 'showWarningMessage').returns({ title: 'Cancel' });
-    const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
+    const analyzerAnalyzeStub = sandbox.stub(analyzer, 'analyze').resolves([]);
 
     sandbox.stub(Files, 'resolveModule2').throws();
 
@@ -68,14 +71,14 @@ test('It notifies if loading webhint fails', async (t) => {
     await contentWatcher({ document });
 
     t.true(windowShowWarningMessageStub.calledOnce);
-    t.false(engineExecuteOnSpy.called);
+    t.false(analyzerAnalyzeStub.called);
 });
 
 test('It installs webhint if needed', async (t) => {
     const sandbox = t.context.sandbox;
     const testContent = 'Test Content';
     const testUri = 'file:///test/uri';
-    const { child_process, connection, contentWatcher, document, engine, Files, initializer } = mockContext(); // eslint-disable-line camelcase
+    const { child_process, connection, contentWatcher, document, analyzer, Files, initializer } = mockContext(); // eslint-disable-line camelcase
 
     sandbox.stub(document, 'getText').returns(testContent);
     sandbox.stub(document, 'uri').get(() => {
@@ -89,7 +92,7 @@ test('It installs webhint if needed', async (t) => {
         .throws();
 
     const childProcessSpawnSpy = sandbox.spy(child_process, 'spawn');
-    const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
+    const analyzerAnalyzeStub = sandbox.stub(analyzer, 'analyze').resolves([]);
 
     await initializer({ rootPath: '' });
     await contentWatcher({ document });
@@ -97,14 +100,14 @@ test('It installs webhint if needed', async (t) => {
     t.true(windowShowWarningMessageStub.calledOnce);
     t.true(childProcessSpawnSpy.calledOnce);
     t.is(childProcessSpawnSpy.args[0][0], `npm${process.platform === 'win32' ? '.cmd' : ''}`);
-    t.false(engineExecuteOnSpy.called);
+    t.false(analyzerAnalyzeStub.called);
 });
 
 test('It installs webhint via yarn if `yarn.lock` is present', async (t) => {
     const sandbox = t.context.sandbox;
     const testContent = 'Test Content';
     const testUri = 'file:///test/uri';
-    const { access, child_process, connection, contentWatcher, document, engine, Files, initializer } = mockContext(); // eslint-disable-line camelcase
+    const { access, child_process, connection, contentWatcher, document, analyzer, Files, initializer } = mockContext(); // eslint-disable-line camelcase
 
     sandbox.stub(document, 'getText').returns(testContent);
     sandbox.stub(document, 'uri').get(() => {
@@ -119,7 +122,7 @@ test('It installs webhint via yarn if `yarn.lock` is present', async (t) => {
         .throws();
 
     const childProcessSpawnSpy = sandbox.spy(child_process, 'spawn');
-    const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
+    const analyzerAnalyzeStub = sandbox.stub(analyzer, 'analyze').resolves([]);
 
     await initializer({ rootPath: '' });
     await contentWatcher({ document });
@@ -127,14 +130,14 @@ test('It installs webhint via yarn if `yarn.lock` is present', async (t) => {
     t.true(windowShowWarningMessageStub.calledOnce);
     t.true(childProcessSpawnSpy.calledOnce);
     t.is(childProcessSpawnSpy.args[0][0], `yarn${process.platform === 'win32' ? '.cmd' : ''}`);
-    t.false(engineExecuteOnSpy.called);
+    t.false(analyzerAnalyzeStub.called);
 });
 
 test('It notifies if loading the configuration fails', async (t) => {
     const sandbox = t.context.sandbox;
     const testContent = 'Test Content';
     const testUri = 'file:///test/uri';
-    const { Configuration, connection, contentWatcher, document, engine, initializer } = mockContext();
+    const { connection, contentWatcher, document, analyzer, initializer, modules } = mockContext();
 
     sandbox.stub(document, 'getText').returns(testContent);
     sandbox.stub(document, 'uri').get(() => {
@@ -142,15 +145,15 @@ test('It notifies if loading the configuration fails', async (t) => {
     });
 
     const windowShowErrorMessageStub = sandbox.stub(connection.window, 'showErrorMessage').returns({ title: 'Ignore' });
-    const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
+    const analyzerAnalyzeStub = sandbox.stub(analyzer, 'analyze').resolves([]);
 
-    sandbox.stub(Configuration, 'fromConfig').throws();
+    sandbox.stub(modules.hint, 'createAnalyzer').throws();
 
     await initializer({ rootPath: '' });
     await contentWatcher({ document });
 
     t.true(windowShowErrorMessageStub.calledOnce);
-    t.false(engineExecuteOnSpy.called);
+    t.false(analyzerAnalyzeStub.called);
 });
 
 test('It loads a local copy of webhint', async (t) => {
@@ -179,26 +182,28 @@ test('It runs webhint on content changes', async (t) => {
     const sandbox = t.context.sandbox;
     const testContent = 'Test Content';
     const testUri = 'file:///test/uri';
-    const { contentWatcher, document, engine } = mockContext();
+    const { contentWatcher, document, analyzer } = mockContext();
 
     sandbox.stub(document, 'getText').returns(testContent);
     sandbox.stub(document, 'uri').get(() => {
         return testUri;
     });
-    const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
+    const analyzerAnalyzeStub = sandbox.stub(analyzer, 'analyze').resolves([]);
 
     await contentWatcher({ document });
 
-    t.true(engineExecuteOnSpy.calledOnce);
-    t.is(engineExecuteOnSpy.args[0][0].href, testUri);
-    t.is(engineExecuteOnSpy.args[0][1]!.content, testContent);
+    const target = analyzerAnalyzeStub.args[0][0] as Target;
+
+    t.true(analyzerAnalyzeStub.calledOnce);
+    t.is((target.url as URL).href, testUri);
+    t.is(target.content, testContent);
 });
 
 test('It processes multiple files serially', async (t) => {
     const sandbox = t.context.sandbox;
     const testContent = 'Test Content';
     const testUri = 'file:///test/uri';
-    const { connection, contentWatcher, document, engine } = mockContext();
+    const { connection, contentWatcher, document, analyzer } = mockContext();
 
     const document2 = {
         getText() {
@@ -213,19 +218,24 @@ test('It processes multiple files serially', async (t) => {
     sandbox.stub(document, 'uri').get(() => {
         return testUri;
     });
-    const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
+    const analyzerAnalyzeStub = sandbox.stub(analyzer, 'analyze').resolves([]);
 
     const p1 = contentWatcher({ document });
     const p2 = contentWatcher({ document: document2 });
 
+
     sandbox.stub(connection, 'sendDiagnostics').value(() => {
-        t.true(engineExecuteOnSpy.calledOnce);
-        t.is(engineExecuteOnSpy.args[0][0].href, testUri);
-        t.is(engineExecuteOnSpy.args[0][1]!.content, testContent);
+        const target = analyzerAnalyzeStub.args[0][0] as Target;
+
+        t.true(analyzerAnalyzeStub.calledOnce);
+        t.is((target.url as URL).href, testUri);
+        t.is(target.content, testContent);
 
         sandbox.stub(connection, 'sendDiagnostics').value(() => {
-            t.is(engineExecuteOnSpy.args[1][0].href, document2.uri);
-            t.is(engineExecuteOnSpy.args[1][1]!.content, document2.getText());
+            const target = analyzerAnalyzeStub.args[1][0] as Target;
+
+            t.is((target.url as URL).href, document2.uri);
+            t.is(target.content, document2.getText());
         });
     });
 
@@ -236,27 +246,29 @@ test('It reloads and runs webhint on watched file changes', async (t) => {
     const sandbox = t.context.sandbox;
     const testContent = 'Test Content';
     const testUri = 'file:///test/uri';
-    const { document, documents, engine, fileWatcher } = mockContext();
+    const { document, documents, analyzer, fileWatcher } = mockContext();
 
     sandbox.stub(documents, 'all').returns([document]);
     sandbox.stub(document, 'getText').returns(testContent);
     sandbox.stub(document, 'uri').get(() => {
         return testUri;
     });
-    const engineExecuteOnSpy = sandbox.spy(engine, 'executeOn');
+    const analyzerAnalyzeStub = sandbox.stub(analyzer, 'analyze').resolves([]);
 
     await fileWatcher();
 
-    t.true(engineExecuteOnSpy.calledOnce);
-    t.is(engineExecuteOnSpy.args[0][0].href, testUri);
-    t.is(engineExecuteOnSpy.args[0][1]!.content, testContent);
+    const target = analyzerAnalyzeStub.args[0][0] as Target;
+
+    t.true(analyzerAnalyzeStub.calledOnce);
+    t.is((target.url as URL).href, testUri);
+    t.is(target.content, testContent);
 });
 
 test('It translates problems to diagnostics', async (t) => {
     const sandbox = t.context.sandbox;
     const testContent = 'Test Content';
     const testUri = 'file:///test/uri';
-    const problems: Partial<Problem>[] = [
+    const problems: Problem[] = [
         {
             hintId: 'test-id-1',
             location: {
@@ -284,21 +296,19 @@ test('It translates problems to diagnostics', async (t) => {
             message: 'Test Message 3',
             severity: Severity.off
         }
-    ];
-    const { connection, contentWatcher, document, engine } = mockContext();
+    ] as Problem[];
+    const { connection, contentWatcher, document, analyzer } = mockContext();
 
     sandbox.stub(document, 'getText').returns(testContent);
     sandbox.stub(document, 'uri').get(() => {
         return testUri;
     });
     const connectionSendDiagnostics = sandbox.spy(connection, 'sendDiagnostics');
-    const engineClearSpy = sandbox.spy(engine, 'clear');
 
-    sandbox.stub(engine, 'executeOn').returns(problems);
+    sandbox.stub(analyzer, 'analyze').resolves([{ problems, url: testUri }]);
 
     await contentWatcher({ document });
 
-    t.true(engineClearSpy.calledOnce);
     t.true(connectionSendDiagnostics.calledOnce);
 
     t.is(connectionSendDiagnostics.args[0][0].uri, testUri);

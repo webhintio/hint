@@ -17,7 +17,7 @@ import groupBy = require('lodash/groupBy');
 import sortBy = require('lodash/sortBy');
 
 import { debug as d, fs, logger } from '@hint/utils';
-import { FormatterOptions, IFormatter, Problem } from 'hint/dist/src/lib/types';
+import { FormatterOptions, IFormatter, Problem } from 'hint';
 
 const _ = {
     forEach,

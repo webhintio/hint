@@ -13,8 +13,7 @@ import uniqBy = require('lodash/uniqBy');
 import { OptionsWithUrl } from 'request';
 
 import { debug as d } from '@hint/utils';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation, Severity } from 'hint/dist/src/lib/types';
+import { HintContext, IHint, ProblemLocation, Severity } from 'hint';
 
 import { HTMLEvents, HTMLParse } from '@hint/parser-html';
 

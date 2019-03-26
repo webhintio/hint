@@ -88,7 +88,7 @@ const loadScript = (context: CreateHintRCContext): () => Promise<boolean> => {
         },
         child_process: context.child, // eslint-disable-line camelcase
         fs: context.fs,
-        'hint/dist/src/lib/utils/resource-loader': context.resourceLoader,
+        hint: { utils: { resourceLoader: context.resourceLoader } },
         inquirer: context.inquirer,
         util: context.stubUtilObject
     }).default;

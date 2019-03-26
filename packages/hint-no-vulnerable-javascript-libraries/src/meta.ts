@@ -20,7 +20,7 @@ const meta: HintMetadata = {
         type: 'object'
     }],
     /*
-     * Snyk can not analize a file itself, it needs a connector.
+     * Snyk can not analyze a file itself, it needs a connector.
      * TODO: Change to any once the local connector has jsdom.
      */
     scope: HintScope.site

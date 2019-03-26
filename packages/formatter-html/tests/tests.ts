@@ -3,9 +3,10 @@ import * as path from 'path';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
+import { Category } from 'hint';
+
 import Result from '../src/result';
 import * as problems from './fixtures/list-of-problems';
-import { Category } from 'hint/dist/src/lib/enums/category';
 
 const utils = require('../src/utils');
 

@@ -1,5 +1,3 @@
-import * as url from 'url';
-
 import {
     InitializeParams,
     InitializeResult,
@@ -7,7 +5,7 @@ import {
     TextDocumentChangeEvent,
     PublishDiagnosticsParams
 } from 'vscode-languageserver';
-import { Problem, IFetchOptions } from 'hint/dist/src/lib/types';
+import { Endpoint, AnalyzerResult } from 'hint';
 
 export type Message = {
     title: string;
@@ -31,11 +29,6 @@ export type Connection = {
     window: Window;
 }
 
-export type EngineType = {
-    clear: () => void;
-    executeOn: (target: url.URL, options?: IFetchOptions) => Partial<Problem>[];
-}
-
 export type Std = {
     pipe: () => void;
 };
@@ -55,6 +48,24 @@ export type FilesType = {
 };
 
 export const mocks = () => {
+    const analyzer = {
+        analyze(endpoints: Endpoint): Promise<AnalyzerResult[]> {
+            return Promise.resolve([]);
+        }
+    }
+
+    class Analyzer {
+        private constructor() { }
+        public static create() {
+            return analyzer;
+        }
+        public static getUserConfig() {
+        }
+    }
+
+    const createAnalyzer = Analyzer.create;
+    const getUserConfig = Analyzer.getUserConfig;
+
     const child = {
         on(event: string, listener: () => void) {
             if (event === 'exit') {
@@ -67,7 +78,6 @@ export const mocks = () => {
         stdout: { pipe() { } }
     };
 
-    // eslint-disable-next-line
     const child_process = {
         spawn(cmd: string) {
             return child;
@@ -87,23 +97,6 @@ export const mocks = () => {
             }, 0);
         }
     };
-
-    const engine = {
-        clear() { },
-        executeOn(target: url.URL, options?: IFetchOptions): Partial<Problem>[] {
-            return [];
-        }
-    };
-
-    const Configuration = {
-        fromConfig() { },
-        getFilenameForDirectory() {
-            return '';
-        },
-        loadConfigFile() { }
-    };
-
-    const loadResources = () => { };
 
     let fileWatcher: () => any;
     let initializer: (params: Partial<InitializeParams>) => Promise<InitializeResult>;
@@ -135,16 +128,8 @@ export const mocks = () => {
         return connection;
     };
 
-    class Engine {
-        public constructor() {
-            return engine;
-        }
-    }
-
     const modules: { [name: string]: any } = {
-        hint: { Engine },
-        'hint/dist/src/lib/config': { Configuration },
-        'hint/dist/src/lib/utils/resource-loader': { loadResources }
+        hint: { createAnalyzer, getUserConfig }
     };
 
     const Files = {
@@ -176,17 +161,21 @@ export const mocks = () => {
         }
     };
 
-
-
     return {
         access,
+        /*
+         * 'as any' to avoid error:
+         * Exported variable 'mocks' has or is using private name 'Analyzer'.
+         *
+         * We need to export Analyzer to be able to stub 'Analyzer.create'.
+         */
+        Analyzer: Analyzer as any,
+        analyzer,
         child_process,
-        Configuration,
         connection,
         createConnection,
         document,
         documents,
-        engine,
         Files,
         fs,
         getContentWatcher: () => {
@@ -198,6 +187,7 @@ export const mocks = () => {
         getInitializer: () => {
             return initializer;
         },
+        modules,
         ProposedFeatures,
         TextDocuments: class TextDocuments {
             public constructor() {

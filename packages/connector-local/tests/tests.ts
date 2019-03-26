@@ -7,8 +7,7 @@ import anyTest, { TestInterface } from 'ava';
 import * as proxyquire from 'proxyquire';
 
 import { fs, logger, misc, network } from '@hint/utils';
-import { Engine } from 'hint';
-import { FetchEnd, Problem } from 'hint/dist/src/lib/types';
+import { Engine, FetchEnd, Problem } from 'hint';
 import { HTMLEvents } from '@hint/parser-html';
 
 const { delay } = misc;

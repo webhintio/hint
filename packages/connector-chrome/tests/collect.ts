@@ -8,8 +8,7 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import { Server, ServerConfiguration } from '@hint/utils-create-server';
-import { Events, IConnector, IConnectorConstructor } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint';
+import { Engine, Events, IConnector, IConnectorConstructor } from 'hint';
 import { test as testUtils } from '@hint/utils';
 
 import ChromeConnector from '../src/connector';

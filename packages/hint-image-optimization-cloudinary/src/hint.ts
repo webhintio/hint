@@ -8,8 +8,7 @@ import { tmpdir } from 'os';
 import * as fs from 'fs-extra';
 import * as getImageData from 'image-size';
 
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, FetchEnd, ScanEnd } from 'hint/dist/src/lib/types';
+import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
 import { logger, misc } from '@hint/utils';
 import { cloudinaryResult } from './cloudinary-types';
 

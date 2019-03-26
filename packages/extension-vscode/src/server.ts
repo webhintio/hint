@@ -15,17 +15,15 @@ import {
 
 import * as notifications from './notifications';
 
-// TODO: Enhance `hint` exports so everything can be imported directly.
 import * as hint from 'hint';
-import * as config from 'hint/dist/src/lib/config';
-import * as loader from 'hint/dist/src/lib/utils/resource-loader';
-import { HintsConfigObject, Problem, Severity, UserConfig } from 'hint/dist/src/lib/types';
+import { HintsConfigObject, Problem, Severity, UserConfig } from 'hint';
 
 let workspace = '';
 
 // Connect to the language client.
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments();
+const defaultConfig: UserConfig = { extends: ['development'] };
 
 // Determine if a project is using yarn by checking for `yarn.lock`.
 const hasYarnLock = (directory: string): Promise<boolean> => {
@@ -108,51 +106,22 @@ const loadModule = async <T>(context: string, name: string): Promise<T | null> =
     return module;
 };
 
-// Load a user configuration, falling back to 'development' if none exists.
-const loadUserConfig = (directory: string, Configuration: typeof config.Configuration): UserConfig => {
-    const defaultConfig: UserConfig = { extends: ['development'] };
-
-    try {
-        const configPath = Configuration.getFilenameForDirectory(directory);
-        const resolvedPath = path.resolve(directory, configPath!); // Ok if `configPath` is `null`; will fall back to `defaultConfig` in `catch`
-
-        return Configuration.loadConfigFile(resolvedPath) || defaultConfig;
-    } catch (e) {
-        return defaultConfig;
-    }
-};
-
-// Load a copy of webhint with the provided configuration.
-const loadEngine = async (directory: string, configuration: config.Configuration): Promise<hint.Engine | null> => {
-    const localLoader = await loadModule<typeof loader>(directory, 'hint/dist/src/lib/utils/resource-loader');
-    const localHint = await loadModule<typeof hint>(directory, 'hint');
-
-    if (!localLoader || !localHint) {
-        return null;
-    }
-
-    const resources = localLoader.loadResources(configuration);
-
-    return new localHint.Engine(configuration, resources);
-};
-
 // Load both webhint and a configuration, adjusting it as needed for this extension.
-const loadWebHint = async (directory: string): Promise<hint.Engine | null> => {
-    const configModule = await loadModule<typeof config>(directory, 'hint/dist/src/lib/config');
+const loadWebhint = async (directory: string): Promise<hint.Analyzer | null> => {
+    const hintModule = await loadModule<typeof hint>(directory, 'hint');
 
     // If no module was returned, the user cancelled installing webhint.
-    if (!configModule) {
+    if (!hintModule) {
         return null;
     }
 
-    const { Configuration } = configModule;
-    const userConfig = loadUserConfig(directory, Configuration);
+    const userConfig = hintModule.getUserConfig(directory) || defaultConfig;
 
     // The vscode extension only works with the local connector.
     userConfig.connector = { name: 'local' };
 
     if (!userConfig.hints) {
-        userConfig.hints = { };
+        userConfig.hints = {};
     }
 
     /*
@@ -161,6 +130,11 @@ const loadWebHint = async (directory: string): Promise<hint.Engine | null> => {
      * `local` connector doesn't support it anyway.
      */
     (userConfig.hints as HintsConfigObject)['http-compression'] = 'off';
+
+    /*
+     * Remove formatters because the extension doesn't use them.
+     */
+    userConfig.formatters = [];
 
     if (!userConfig.parsers) {
         userConfig.parsers = [];
@@ -171,12 +145,12 @@ const loadWebHint = async (directory: string): Promise<hint.Engine | null> => {
         userConfig.parsers.push('html');
     }
 
-    let engine: hint.Engine | null = null;
+    let webhint: hint.Analyzer | null = null;
 
     try {
-        engine = await loadEngine(directory, Configuration.fromConfig(userConfig));
+        webhint = hintModule.createAnalyzer(userConfig);
 
-        return engine;
+        return webhint;
     } catch (e) {
         // Instantiating webhint failed, log the error to the webhint output panel to aid debugging.
         console.error(e);
@@ -191,14 +165,14 @@ const loadWebHint = async (directory: string): Promise<hint.Engine | null> => {
 
         // Retry if asked.
         if (answer && answer.title === retry) {
-            return await loadWebHint(directory);
+            return await loadWebhint(directory);
         }
 
         return null;
     }
 };
 
-let engine: hint.Engine | null = null;
+let webhint: hint.Analyzer | null = null;
 let loaded = false;
 let validating = false;
 let validationQueue: TextDocument[] = [];
@@ -280,11 +254,11 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
         // Try to load webhint if this is the first validation.
         if (!loaded) {
             loaded = true;
-            engine = await loadWebHint(workspace);
+            webhint = await loadWebhint(workspace);
         }
 
         // Gracefully exit if all attempts to get an engine failed.
-        if (!engine) {
+        if (!webhint) {
             return;
         }
 
@@ -293,14 +267,14 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
 
         // Pass content directly to validate unsaved changes.
         const content = textDocument.getText();
-        const problems = await engine.executeOn(url, { content });
-
-        // Clear problems to avoid duplicates since vscode remembers them for us.
-        engine.clear();
+        const AnalzyerResult = await webhint.analyze({
+            content,
+            url
+        });
 
         // Send the computed diagnostics to VSCode.
         connection.sendDiagnostics({
-            diagnostics: problems.map(problemToDiagnostic),
+            diagnostics: AnalzyerResult.length > 0 ? AnalzyerResult[0].problems.map(problemToDiagnostic) : [],
             uri: textDocument.uri
         });
 
@@ -316,7 +290,7 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
 
 // A watched .hintrc has changed. Reload the engine and re-validate documents.
 connection.onDidChangeWatchedFiles(async () => {
-    engine = await loadWebHint(workspace);
+    webhint = await loadWebhint(workspace);
     await Promise.all(documents.all().map((doc) => {
         return validateTextDocument(doc);
     }));

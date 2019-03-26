@@ -1,13 +1,12 @@
 /**
  * @fileoverview Warns against having the BOM character at the beginning of a text file
  */
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { FetchEnd, IHint, NetworkData } from 'hint/dist/src/lib/types';
+import { FetchEnd, HintContext, IHint, NetworkData, utils } from 'hint';
 import { asyncTry, debug as d, network } from '@hint/utils';
-import { isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
 
 import meta from './meta';
 
+const { contentType: { isTextMediaType } } = utils;
 const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 

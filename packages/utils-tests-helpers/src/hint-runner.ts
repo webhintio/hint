@@ -9,14 +9,12 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import { Server } from '@hint/utils-create-server';
 import { fs, network } from '@hint/utils';
 
-import { IHintConstructor, HintsConfigObject, Problem, ProblemLocation } from 'hint/dist/src/lib/types';
-import * as resourceLoader from 'hint/dist/src/lib/utils/resource-loader';
-import { Engine } from 'hint/dist/src/lib/engine';
-import { Configuration } from 'hint/dist/src/lib/config';
+import { Configuration, Engine, HintsConfigObject, IHintConstructor, Problem, ProblemLocation, utils } from 'hint';
 
 import { ids as connectors } from './connectors';
 import { HintTest, HintLocalTest, Report } from './hint-test-type';
 
+const { resourceLoader } = utils;
 const { readFileAsync } = fs;
 const { asPathString, getAsUri, requestAsync } = network;
 

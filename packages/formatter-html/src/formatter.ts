@@ -14,8 +14,7 @@ import * as ejs from 'ejs';
 import * as fs from 'fs-extra';
 
 import { debug as d, fs as fsUtils, logger } from '@hint/utils';
-import { IFormatter, Problem, FormatterOptions, HintResources } from 'hint/dist/src/lib/types';
-import { Category } from 'hint/dist/src/lib/enums/category';
+import { Category, FormatterOptions, HintResources, IFormatter, Problem } from 'hint';
 
 const utils = require('./utils');
 

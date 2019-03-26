@@ -5,7 +5,7 @@ import * as iconv from 'iconv-lite';
 import * as brotli from 'iltorb';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import { Server } from '@hint/utils-create-server';
-import { NetworkData } from 'hint/dist/src/lib/types';
+import { NetworkData } from 'hint';
 
 import { Requester } from '../src/requester';
 
