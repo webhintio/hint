@@ -4,10 +4,12 @@ A `formatter` formats the results of `webhint`: from crafting `JSON` to
 connecting to a database and storing the results in it.
 
 To create one, you will need a class that implements the interface
-`IFormatter`. This inteface has a method `format` witch will receive an
-array of `message`s if any issues have been found.
+`IFormatter`. This inteface has an `async` method `format` that
+receives an array of `message`s if any issues have been found.
 
 The following is a basic `formatter` that `.stringify()`s the results:
+
+<!-- eslint-disable require-await -->
 
 ```js
 export default class JSONFormatter implements IFormatter {
@@ -32,6 +34,8 @@ A `message` looks like this:
 With this, you can group the issues by `resource` and sort them by
 `line` and `column`. Using the previous example and `lodash` will
 look as follows:
+
+<!-- eslint-disable require-await -->
 
 ```js
 import * as _ from 'lodash';
