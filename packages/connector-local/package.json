@@ -16,6 +16,8 @@
     "@hint/parser-html": "^2.0.2",
     "@types/chokidar": "^2.1.3",
     "@types/mock-require": "^2.0.0",
+    "@types/node": "11.12.0",
+    "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.0.10",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "1.4.2",
