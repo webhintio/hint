@@ -23,7 +23,7 @@
   "description": "Run webhint in Visual Studio Code.",
   "devDependencies": {
     "@types/sinon": "^7.0.10",
-    "ava": "^1.3.1",
+    "ava": "^1.4.0",
     "cpx": "^1.5.0",
     "eslint": "^5.15.1",
     "eslint-plugin-import": "^2.16.0",
