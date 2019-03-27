@@ -30,7 +30,7 @@
     "nyc": "^13.3.0",
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.3",
-    "sinon": "^7.3.0",
+    "sinon": "^7.3.1",
     "typescript": "^3.3.4000"
   },
   "engines": {
