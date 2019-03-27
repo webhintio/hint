@@ -1444,10 +1444,10 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-ava@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/ava/-/ava-1.4.0.tgz#acd5149bdf7eadfcc9fb82fb33d2e658d1303ae0"
-  integrity sha512-0k0YzgIhRWPibh4guIe1XdmJw985EQ86haALTosN8fRWEUDjWe3h2f7brTYfS7OsvKrHalO2p5AhaMwIFGY5/A==
+ava@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/ava/-/ava-1.4.1.tgz#4a59289e0c9728e492ec3a5be21d1072636be172"
+  integrity sha512-wKpgOPTL7hJSBWpfbU4SA8rlsTZrph9g9g7qYDV7M6uK1rKeW8oCUJWRwCd8B24S4N0Y5myf6cTEnA66WIk0sA==
   dependencies:
     "@ava/babel-preset-stage-4" "^2.0.0"
     "@ava/babel-preset-transform-test-files" "^5.0.0"
