@@ -4,7 +4,7 @@
     "@hint/connector-jsdom": "^3.0.1",
     "@hint/connector-local": "^2.0.2",
     "@hint/utils-create-server": "^3.0.0",
-    "ava": "^1.3.1",
+    "ava": "^1.4.0",
     "hint": "^4.5.0"
   },
   "description": "hint tests helpers",
