@@ -73,6 +73,7 @@
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",{{#if official}}
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:dependencies": "node ../../scripts/lint-dependencies.js",{{else}}
     "lint:md": "node ../../scripts/lint-markdown.js",{{else}}
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",{{/if}}
