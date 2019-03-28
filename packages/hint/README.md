@@ -4,7 +4,7 @@
 
 If you want to have an idea of what `webhint` does and you
 have an updated version of `npm` (v5.2.0) and [Node.js LTS (v8.9.2)
-or later, x64 version recommended][https://nodejs.org/en/download/current/]
+or later, x64 version recommended](https://nodejs.org/en/download/current/)
 you can use the following command:
 
 ```bash
@@ -23,19 +23,18 @@ You can also install it as a `devDependency` if you prefer not to
 have it globally (which is the team's preferred option).
 
 **NOTE**: If you run into any issues during the install process
-please check the [troubleshoot section](./troubleshoot/summary.md).
-
+please check the [troubleshoot section](./docs/user-guide/troubleshoot/summary.md).
 
 ### Further reading
 
 Now that you have `webhint` up and running, it is time to learn a bit
 more about the different pieces:
 
-* [Configurations](./concepts/configurations.md)
-* [Hints](./concepts/hints.md)
-* [Connectors](./concepts/connectors.md)
-* [Formatters](./concepts/formatters.md)
-* [Parsers](./concepts/parsers.md)
+* [Configurations](./docs/user-guide/concepts/configurations.md)
+* [Hints](./docs/user-guide/concepts/hints.md)
+* [Connectors](./docs/user-guide/concepts/connectors.md)
+* [Formatters](./docs/user-guide/concepts/formatters.md)
+* [Parsers](./docs/user-guide/concepts/parsers.md)
 
 ## Contributing to webhint
 

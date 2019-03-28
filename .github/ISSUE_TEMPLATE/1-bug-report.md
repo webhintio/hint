@@ -9,9 +9,12 @@ labels: "type:bug"
 Hi there 👋
 
 Thanks for taking the time to make webhint better! Before
-opening a new issue please make sure to search in the existing
-ones (even closed!) as they might contain information about
-workarounds, resolution, or progress updates.
+opening a new issue please take a look at the troubleshoot
+guide:
+https://webhint.io/docs/user-guide/troubleshoot/summary/
+and make sure to search the existing ones (even closed!)
+as they might contain information about workarounds,
+resolution, or progress updates.
 
 -->
 

@@ -3,14 +3,15 @@
 ## Getting started
 
 If you want to have an idea of what `webhint` does and you
-have an updated version of `npm` (v5.2.0) and [Node LTS (v8.9.2)
-or later][nodejs] you can use the following command:
+have an updated version of `npm` (v5.2.0) and [Node.js LTS (v8.9.2)
+or later, x64 version recommended][nodejs] you can use the
+following command:
 
 ```bash
 npx hint https://example.com
 ```
 
-Alternatively, you can install it locally with:
+Alternatively, you can install it globally with:
 
 ```bash
 npm install -g --engine-strict hint
