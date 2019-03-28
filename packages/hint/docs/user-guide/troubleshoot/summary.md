@@ -1,9 +1,11 @@
 # Common issues when installing or running webhint
 
-While the team has made progress in removing the possibilities of
-running into issues while installing the project, you could still
-run into some issues especially when dealing with binary packages
-(`canvas` and `iltorb` are the currently used ones).
+The team currently supports webhint on the latest 2 LTS and
+current branch. While it is possible to run it on x86 version of
+Node.js, it is recommended to use the x64 one. The reason is that
+the project still uses some binary packages (`canvas` and `iltorb`)
+and in most cases there are precompiled versions for x64 and thus
+avoiding to compile anything.
 
 This section contains the most commons issues reported by users with
 potential fixes. If you run into something that is not documented
@@ -17,7 +19,7 @@ native modules:
 
 > gyp ERR! stack Error: Can't find Python executable "python"
 
-Newer versions of node (10+) on Windows ask users if they want the installer
+Newer versions of Node.js (10+) on Windows ask users if they want the installer
 to automatically install the required dependencies. You can use this method
 or you can also install the [`windows-build-tools`][windows build tools].
 From an **Elevated PowerShell** run the following:
@@ -31,14 +33,14 @@ npm install --global windows-build-tools
 Starting on `connector-jsdom v1.1.0`, `canvas` was changed to be an optional
 dependency so while you might see some issues during the installation if the
 binary is not available for download, the overall process should finish and
-you should be able to execute `webhint` using the `jsdom` connector. The only caveat
-is that images will not be downloaded.
+you should be able to execute `webhint` using the `jsdom` connector. The only
+caveat is that images will not be downloaded.
 
 This error happens more often:
 
-* when there is a new release of node and precompiled binaries for `canvas`
+* when there is a new release of Node.js and precompiled binaries for `canvas`
   are not yet available.
-* if you are running node x86 on Windows. The recommendation is to switch to
+* if you are running Node.js x86 on Windows. The recommendation is to switch to
   x64 as [it is unlikely there will be x86 binaries any time soon][canvas x86].
 
 You can also compile it yourself by following the [instructions][canvas compile].
@@ -53,7 +55,7 @@ dependency `canvas` throws an `EACCES`. This [issue][permission
 issue] was resolved adopting the recommended solution. You can find
 detailed steps on how to change the npm default directory [here][npm
 change default directory]. According to [npm’s documentation][npm use
-package manager], if you have node installed using a package
+package manager], if you have Node.js installed using a package
 manager like [Homebrew][homebrew] or [nvm][nvm], you may be able to avoid
 the trouble of messing with the directories and have the correct
 permissions set up right out of the box. As a result, you will not

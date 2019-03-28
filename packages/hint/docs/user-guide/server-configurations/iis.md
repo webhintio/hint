@@ -6,7 +6,7 @@ the server configuration.
 
 There are some assumptions though:
 
-* The site is static. If you are using node with iisnode, ASP.NET, etc.
+* The site is static. If you are using Node.js with iisnode, ASP.NET, etc.
   you will have to add the required configuration (but most of this
   configuration should still be valid).
 * All the static assets are in the folder `dist/static`.
