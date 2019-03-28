@@ -2,48 +2,42 @@
 
 ## Quick start user guide
 
-Once you have [`Node.js`](https://nodejs.org/en/download/current/)
-v8.x on your machine, you can use `npx` or install `hint` globally
-to use it.
-
-**Note**: Only the latest 2 LTS versions of node and the current
-one are supported.
-
-### Using `npx`
-
-Run the following command:
+If you want to have an idea of what `webhint` does and you
+have an updated version of `npm` (v5.2.0) and [Node.js LTS (v8.9.2)
+or later, x64 version recommended][https://nodejs.org/en/download/current/]
+you can use the following command:
 
 ```bash
 npx hint https://example.com
 ```
 
-This will analyze `https://example.com` using the default configuration.
-
-### Installing `webhint` globally
+Alternatively, you can install it globally with:
 
 ```bash
 npm install -g --engine-strict hint
-```
 
-Create a `.hintrc` file by running this command and following the
-instructions:
-
-```bash
-npm create hintrc
-```
-
-Scan a website:
-
-```bash
 hint https://example.com
 ```
 
-For more in depth information on how to get started, configurations,
-and more, see the online [user guide](https://webhint.io/docs/user-guide/),
-or the [local version](./docs/user-guide/index.md)
-for the most recent (and unstable) content.
+You can also install it as a `devDependency` if you prefer not to
+have it globally (which is the team's preferred option).
 
-## Contributing to hint
+**NOTE**: If you run into any issues during the install process
+please check the [troubleshoot section](./troubleshoot/summary.md).
+
+
+### Further reading
+
+Now that you have `webhint` up and running, it is time to learn a bit
+more about the different pieces:
+
+* [Configurations](./concepts/configurations.md)
+* [Hints](./concepts/hints.md)
+* [Connectors](./concepts/connectors.md)
+* [Formatters](./concepts/formatters.md)
+* [Parsers](./concepts/parsers.md)
+
+## Contributing to webhint
 
 To know more about the internals of `webhint`, the structure of the
 project, how to create new hints, collectors, formatters, etc, take a
