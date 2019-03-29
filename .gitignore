@@ -7,7 +7,6 @@
 .DS_Store
 .eslintcache
 .nyc_output
-.vscode
 cdp.lock
 coverage
 dist
