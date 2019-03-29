@@ -151,7 +151,7 @@ test('It passes provided configuration to the content script.', async (t) => {
     const tabId = 7;
     const config: Config = {
         browserslist: 'default',
-        categories: ['accessibility'],
+        disabledCategories: ['accessibility'],
         ignoredUrls: 'google-analytics.com'
     };
 

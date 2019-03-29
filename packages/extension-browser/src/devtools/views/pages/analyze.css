@@ -1,0 +1,12 @@
+.image {
+    max-width: 25rem;
+}
+
+.message {
+    margin-top: -0.5rem;
+}
+
+.status {
+    padding: 2em;
+    text-align: center;
+}

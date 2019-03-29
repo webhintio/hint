@@ -53,7 +53,7 @@ const main = async (userConfig: Config) => {
 
     const hintsConfig = hints.reduce((o, hint) => {
         const category = hint.meta.docs && hint.meta.docs.category || 'other';
-        const enabled = !userConfig.categories || userConfig.categories.includes(category);
+        const enabled = !(userConfig.disabledCategories && userConfig.disabledCategories.includes(category));
 
         o[hint.meta.id] = enabled ? 'warning' : 'off';
 
@@ -65,7 +65,7 @@ const main = async (userConfig: Config) => {
     }, {} as HintsConfigObject);
 
     const config: Configuration = {
-        browserslist: determineBrowserslist(userConfig.browserslist),
+        browserslist: determineBrowserslist(userConfig.browserslist && userConfig.browserslist.trim()),
         connector: { name: 'web-extension', options: {} },
         extends: undefined,
         formatters: ['web-extension'],

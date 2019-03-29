@@ -1,0 +1,5 @@
+.root {
+    color: var(--text-highlight-color);
+    font-size: 0.85em;
+    margin-left: 1.5rem;
+}

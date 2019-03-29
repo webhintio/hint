@@ -1,0 +1,13 @@
+.root {
+    min-height: 100%;
+}
+
+.header {
+    background-color: var(--bg-inverse-alt-color);
+    color: var(--text-inverse-color);
+    font-size: 1.25em;
+    font-weight: normal;
+    line-height: 1.75em;
+    margin: 0;
+    padding: 0 2rem;
+}

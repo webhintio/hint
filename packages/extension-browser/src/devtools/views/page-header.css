@@ -1,0 +1,25 @@
+.root {
+    align-items: center;
+    background-color: var(--bg-color);
+    display: flex;
+    padding: 1rem;
+}
+
+.help {
+    flex: auto;
+    margin: 0 1rem;
+    width: 100%;
+}
+
+.actions {
+    margin: 0 1rem;
+}
+
+.button {
+    min-width: 10.5em;
+    white-space: nowrap;
+}
+
+.poweredBy {
+    white-space: nowrap;
+}

@@ -1,0 +1,14 @@
+.root {
+    position: relative;
+}
+
+.root input:invalid {
+    outline: 1px solid var(--invalid-outline-color);
+}
+
+.restoreButton {
+    float: right;
+    margin-right: 2rem;
+    margin-top: 1.5rem;
+    margin-left: -5rem;
+}
