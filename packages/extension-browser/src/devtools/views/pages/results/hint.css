@@ -1,0 +1,17 @@
+.root {
+    margin: 1rem 0;
+}
+
+.summary {
+    cursor: pointer;
+    line-height: 2em;
+    padding: 0 1rem;
+}
+
+.results {
+    padding: 0 2rem;
+}
+
+.status.passed {
+    color: var(--text-passed-color);
+}

@@ -122,5 +122,41 @@
     "yourTargetBrowsersTitle": {
         "message": "Your target browsers:",
         "description": "Title of the target browsers sub-section on the configuration page."
+    },
+    "statAverageLoadTimeForMobileSites": {
+        "message": "The average load time for mobile sites is $1 seconds over 3G connections.",
+        "description": "Statistic about the average load time for mobile websites."
+    },
+    "statJavaScriptTakesMoreToProcessThanJPEG": {
+        "message": "1MB of JavaScript takes more time to process than 1MB of a JPEG file.",
+        "description": "Statistic about how JavaScript is more expensive to load."
+    },
+    "statMedianSiteSize": {
+        "message": "The median site size is $1KB.",
+        "description": "Statistic about the average site size."
+    },
+    "statMobileSiteVisitsAbandonedByLoad": {
+        "message": "$1% of mobile site visits are abandoned if pages take longer than $2 seconds to load.",
+        "description": "Statistic about the percent drop-off of mobile visits based on load times."
+    },
+    "statResourcesAreNotCacheable": {
+        "message": "$1% of resources aren't cacheable.",
+        "description": "Statistic about the precentage of web resources which can't be cached."
+    },
+    "statSitesCompressResourcesTheyShouldNot": {
+        "message": "$1% of sites compress at least one resource they shouldn't.",
+        "description": "Statistic about the percentage of websites which needlessly compress."
+    },
+    "statSitesForgetToCompressResources": {
+        "message": "$1% of sites forget to compress one or more resources.",
+        "description": "Statistic about the percentage of websites which forget to compress."
+    },
+    "statWebsitesPerformARedirect": {
+        "message": "$1% of websites perform a redirect for at least one resource.",
+        "description": "Statistic about the percentage of websites performing redirects."
+    },
+    "statWebsitesUsingLibrariesWithKnownVulnerabilities": {
+        "message": "$1% of websites use a JavaScript library with known vulnerabilities.",
+        "description": "Statistic about the percentage of websites with vulnerable libraries."
     }
 }

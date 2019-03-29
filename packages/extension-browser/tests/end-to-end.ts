@@ -1,13 +1,26 @@
 import * as isCI from 'is-ci';
-import { launch, Browser, Page } from 'puppeteer';
+import { launch, Browser, Frame, Page, Target } from 'puppeteer';
 import test from 'ava';
 
+import { misc } from '@hint/utils';
 import { Server } from '@hint/utils-create-server';
 
 import { Events, Results } from '../src/shared/types';
 import { readFixture } from './helpers/fixtures';
 
+const { delay } = misc;
+
 const pathToExtension = `${__dirname}/../bundle`;
+
+const getPageFromTarget = async (target: Target) => {
+    /*
+     * TODO: Replace this hack with something more stable.
+     * See https://github.com/GoogleChrome/puppeteer/issues/4247
+     */
+    (target as any)._targetInfo.type = 'page';
+
+    return await target.page();
+};
 
 /**
  * Find the Puppeteer `Page` associated with the background script
@@ -39,6 +52,49 @@ const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
     })[0];
 
     return await bgTarget.page();
+};
+
+/**
+ * Find the Puppeteer `Page` associated with the devtools panel
+ * for the webhint browser extension.
+ *
+ * Needed because Puppeteer doesn't expose the devtools as a page.
+ *
+ * @param browser The Puppeteer `Browser` instance to search.
+ * @returns The found devtools panel for the extension.
+ */
+const findWebhintDevtoolsPanel = async (browser: Browser): Promise<Frame> => {
+    const targets = await browser.targets();
+    const devtoolsTarget = targets.filter((t) => {
+        return t.type() === 'other' && t.url().startsWith('chrome-devtools://');
+    })[0];
+
+    const devtoolsPage = await getPageFromTarget(devtoolsTarget);
+
+    await delay(500);
+
+    /*
+     * Select the last tab in the devtools by navigating left using keyboard
+     * shortcuts. The last tab will be webhint so long as we've only loaded
+     * one devtools extension.
+     *
+     * Based on https://github.com/GoogleChrome/puppeteer/issues/3699#issuecomment-450526587
+     */
+    await devtoolsPage.keyboard.down('Control');
+    await devtoolsPage.keyboard.press('[');
+    await devtoolsPage.keyboard.up('Control');
+
+    await delay(500);
+
+    const webhintTarget = (await browser.targets()).filter((target) => {
+        return target.url().startsWith('chrome-extension://') &&
+            target.url().endsWith('/panel.html');
+    })[0];
+
+    const webhintPanelPage = await getPageFromTarget(webhintTarget);
+    const webhintPanelFrame = webhintPanelPage.frames()[0];
+
+    return webhintPanelFrame;
 };
 
 test('It runs end-to-end in a page', async (t) => {
@@ -105,17 +161,23 @@ if (!isCI) {
                 `--disable-extensions-except=${pathToExtension}`,
                 `--load-extension=${pathToExtension}`
             ],
+            defaultViewport: null,
+            devtools: true,
             headless: false
         });
 
         const pages = await browser.pages();
-        const backgroundPage = await findBackgroundScriptPage(browser);
 
         await pages[0].goto(url);
 
-        await new Promise((resolve) => {
-            setTimeout(resolve, 500);
-        });
+        await delay(500);
+
+        const backgroundPage = await findBackgroundScriptPage(browser);
+        const webhintPanel = await findWebhintDevtoolsPanel(browser);
+
+        await delay(500);
+
+        await webhintPanel.click('button[type="submit"]');
 
         const results: Results = await backgroundPage.evaluate(() => {
             return new Promise<Results>((resolve) => {
@@ -124,11 +186,6 @@ if (!isCI) {
                         resolve(message.results);
                     }
                 });
-
-                const event: Events = { enable: { config: {} } };
-
-                // Simulate sending message from devtools panel to background script to start analyzing.
-                chrome.tabs.executeScript({ code: `chrome.runtime.sendMessage(${JSON.stringify(event)})` });
             });
         });
 

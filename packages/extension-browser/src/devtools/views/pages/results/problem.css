@@ -1,0 +1,15 @@
+.root {
+    margin: 1rem 0;
+}
+
+.number {
+    color: var(--text-highlight-color);
+}
+
+.code,
+.code:global(.hljs) {
+    background-color: var(--bg-alt-color) !important;
+    font-size: 0.7rem;
+    padding: 1rem;
+    white-space: pre-wrap;
+}

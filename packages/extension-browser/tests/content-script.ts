@@ -167,7 +167,7 @@ test('It configures categories', async (t) => {
     const html = await readFixture('missing-lang.html');
     const { stubContext, stubEvents, sendFetch } = mockContext();
 
-    const resultsPromise = stubEvents({ categories: [Category.accessibility] }, () => {
+    const resultsPromise = stubEvents({ disabledCategories: [Category.accessibility] }, () => {
         sendFetch(url, html);
     });
 
@@ -175,8 +175,9 @@ test('It configures categories', async (t) => {
 
     const results = await resultsPromise;
 
-    t.is(results.categories.length, 1);
-    t.is(results.categories[0].name, Category.accessibility);
+    t.true(results.categories.every((c) => {
+        return c.name !== Category.accessibility;
+    }));
 });
 
 test('It analyzes external resources', async (t) => {
