@@ -11,7 +11,7 @@
     "ajv": "^6.10.0",
     "applicationinsights": "^1.2.0",
     "boxen": "^3.0.0",
-    "browserslist": "^4.5.2",
+    "browserslist": "^4.5.3",
     "caniuse-api": "^3.0.0",
     "chalk": "^2.4.2",
     "configstore": "^4.0.0",
