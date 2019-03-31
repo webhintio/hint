@@ -7036,10 +7036,10 @@ p-map@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-2.0.0.tgz#be18c5a5adeb8e156460651421aceca56c213a50"
   integrity sha512-GO107XdrSUmtHxVoi60qc9tUl/KkNKm+X2CF4P9amalpGxv5YqVPJNfSb0wcA+syCopkZvYYIzW8OVTQW59x/w==
 
-p-retry@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/p-retry/-/p-retry-4.0.0.tgz#56633299ac2fc9f6ecda749398330fdff632607a"
-  integrity sha512-bMW1FwszSBsMi6DgPnDKLhAVMDhqeySD4viMI0UiKRv7cQzRS/KYhRPWjnoxSQdvunXwZYKgN10Ya6VxF9w+Og==
+p-retry@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/p-retry/-/p-retry-4.1.0.tgz#9ce7cef2069e84bf590df3b8ec18d740109338d6"
+  integrity sha512-oepllyG9gX1qH4Sm20YAKxg1GA7L7puhvGnTfimi31P07zSIj7SDV6YtuAx9nbJF51DES+2CIIRkXs8GKqWJxA==
   dependencies:
     "@types/retry" "^0.12.0"
     retry "^0.12.0"
