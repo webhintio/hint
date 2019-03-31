@@ -141,7 +141,7 @@ export class Connector implements IConnector {
          * `type` can be "parser", "script", "preload", and "other": https://chromedevtools.github.io/debugger-protocol-viewer/tot/Network/#type-Initiator
          */
         if (['parser', 'other'].includes(type) && requestUrl.startsWith('http')) {
-            return getElementByUrl(dom, requestUrl);
+            return getElementByUrl(dom, requestUrl, this._finalHref);
         }
 
         return null;

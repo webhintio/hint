@@ -23,7 +23,7 @@ const getSrcsetUrls = (srcset: string): string[] => {
     return urls;
 };
 
-export default (dom: HTMLDocument, url: string): HTMLElement | null => {
+export default (dom: HTMLDocument, url: string, base: string): HTMLElement | null => {
     // TODO: Cache dom.querySelectorAll?.
     const elements = dom.querySelectorAll('[href],[src],[poster],[srcset]').filter((element: any) => {
         const elementUrl = element.getAttribute('href') || element.getAttribute('src') || element.getAttribute('poster');
@@ -35,7 +35,7 @@ export default (dom: HTMLDocument, url: string): HTMLElement | null => {
 
         const absoluteUrls = elementUrls.map((relativeUrl) => {
             // TODO: Cache the absolute URL, so we don't run new URL() for the same URL.
-            return new URL(relativeUrl, url).href;
+            return new URL(relativeUrl, base).href;
         });
 
         if (absoluteUrls.includes(url)) {
