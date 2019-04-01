@@ -19,7 +19,7 @@
     "css-select": "^2.0.2",
     "debug": "^4.1.1",
     "eventemitter2": "^5.0.1",
-    "file-type": "^10.9.0",
+    "file-type": "^10.10.0",
     "file-url": "^2.0.2",
     "globby": "^9.2.0",
     "is-ci": "^2.0.0",
