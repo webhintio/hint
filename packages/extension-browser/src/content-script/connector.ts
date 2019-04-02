@@ -95,7 +95,7 @@ export default class WebExtensionConnector implements IConnector {
         const url = event.request.url;
 
         if (this._document) {
-            event.element = getElementByUrl(this._document, url);
+            event.element = getElementByUrl(this._document, url, location.href);
         }
     }
 

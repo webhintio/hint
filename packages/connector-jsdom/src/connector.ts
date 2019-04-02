@@ -232,7 +232,7 @@ export default class JSDOMConnector implements IConnector {
                 debug(`Console: ${err}`);
             });
 
-            this._resourceLoader = new CustomResourceLoader(this, fetchEnd.response.body.content);
+            this._resourceLoader = new CustomResourceLoader(this, fetchEnd.response.body.content, this.finalHref);
 
             const jsdom = new JSDOM(this._targetNetworkData.response.body.content, {
                 beforeParse: beforeParse(this.finalHref),

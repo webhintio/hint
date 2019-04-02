@@ -14,12 +14,14 @@ const debug: debug.IDebugger = d(__filename);
 
 export default class CustomResourceLoader extends ResourceLoader {
     private _connector: JSDOMConnector;
+    private _finalHref: string;
     private _HTMLDocument: HTMLDocument;
 
-    public constructor(connector: JSDOMConnector, html: string) {
+    public constructor(connector: JSDOMConnector, html: string, finalHref: string) {
         super();
 
         this._connector = connector;
+        this._finalHref = finalHref;
         this._HTMLDocument = createHTMLDocument(html);
     }
 
@@ -38,7 +40,7 @@ export default class CustomResourceLoader extends ResourceLoader {
          * To do so, we create a query from the element returned by jsdom and
          * look for it in our `HTMLDocument`.
          */
-        const element = getElementByUrl(this._HTMLDocument, url);
+        const element = getElementByUrl(this._HTMLDocument, url, this._finalHref);
         const urlAsUrl = new URL(url);
         let resourceUrl: string = urlAsUrl.href;
 
