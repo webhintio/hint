@@ -367,10 +367,10 @@
     once "^1.4.0"
     universal-user-agent "^2.0.1"
 
-"@octokit/rest@^16.23.1":
-  version "16.23.1"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.23.1.tgz#cbc0bbd78f3990580a64be29309eb3f709d3c762"
-  integrity sha512-Kwjt6Ue6lgRcc6enQ2O6QLkDtK1yTDJgfjrfyGar5R+fsESVomOTl1D9iq9NNSQMPaDctcpUD8C/HudjYAeoWw==
+"@octokit/rest@^16.23.2":
+  version "16.23.2"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.23.2.tgz#975e84610427c4ab6c41bec77c24aed9b7563db4"
+  integrity sha512-ZxiZMaCuqBG/IsbgNRVfGwYsvBb5DjHuMGjJgOrinT+/b+1j1U7PiGyRkHDJdjTGA6N/PsMC2lP2ZybX9579iA==
   dependencies:
     "@octokit/request" "2.4.2"
     atob-lite "^2.0.0"
