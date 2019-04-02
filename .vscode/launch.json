@@ -1,0 +1,57 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // Use IntelliSense to learn about possible attributes.
+            // Hover to view descriptions of existing attributes.
+            // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+            "type": "node",
+            "request": "launch",
+            "name": "Run AVA test",
+            "preLaunchTask": "npm: cache",
+            "program": "${workspaceFolder}/node_modules/ava/profile.js",
+            "args": [
+                "${fileDirname}/../dist/tests/${fileBasenameNoExtension}.js"
+            ],
+            "sourceMaps": true,
+            "outFiles": [
+                "${workSpaceRoot}/packages/*/dist/**/*.js"
+            ],
+            "skipFiles": [
+                "<node_internals>/**/*.js"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Current JS file",
+            "program": "${file}",
+            "skipFiles": [
+                "<node_internals>/**/*.js"
+            ],
+            "console": "integratedTerminal",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "webhint",
+            "program": "${workspaceFolder}/packages/hint/dist/src/bin/hint.js",
+            "args": [
+                "${selectedText}"
+            ],
+            "cwd": "${workspaceFolder}/packages/hint/",
+            "sourceMaps": true,
+            "outFiles": [
+                "${workSpaceRoot}/packages/*/dist/**/*.js"
+            ],
+            "skipFiles": [
+                "<node_internals>/**/*.js"
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}
