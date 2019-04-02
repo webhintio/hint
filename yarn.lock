@@ -4764,10 +4764,10 @@ iltorb@^2.4.2:
     prebuild-install "^5.2.4"
     which-pm-runs "^1.0.0"
 
-image-size@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.7.2.tgz#5014c2c43003020d265801867b8bcf97c4080cf1"
-  integrity sha512-CBmVIFHyDyiWi1U24eNHl8SH0Iir2IgmEv1RwdRVZxWsEbSCvV5b/eXaYP8epOFv2dbw5uNBOrn1Nc5P5KvsUA==
+image-size@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.7.3.tgz#dd73b4a06171c7898bff6cef27cd3fe1cc4fe117"
+  integrity sha512-CgCZhKUtnwgCV/wh28LGDWdIWhbqq64DAL0c6kjtAtqrKbMr/EZ0yAUXQXdPBsGtQxWQdK6P3itDVfDJ7tjlvA==
 
 immediate@~3.0.5:
   version "3.0.6"
