@@ -41,7 +41,7 @@
             "name": "webhint",
             "program": "${workspaceFolder}/packages/hint/dist/src/bin/hint.js",
             "args": [
-                "https://example.com"
+                "${selectedText}"
             ],
             "cwd": "${workspaceFolder}/packages/hint/",
             "sourceMaps": true,

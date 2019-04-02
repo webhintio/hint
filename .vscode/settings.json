@@ -1,5 +1,4 @@
 {
-    "editor.renderWhitespace": "all",
     "eslint.alwaysShowStatus": true,
     "eslint.validate": [
         "javascript",
