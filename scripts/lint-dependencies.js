@@ -48,6 +48,7 @@ const getCodeContent = async (pkgPath) => {
         `${pkgPath}/**/*.js`,
         `${pkgPath}/**/*.jsx`,
         `!${pkgPath}/**/*.d.ts`,
+        `!${pkgPath}/dist/**/*`,
         `!${pkgPath}/node_modules/**/*` // needed when we are inside a package like extension-vscode
     ], { gitignore: true });
 
