@@ -367,12 +367,13 @@
     once "^1.4.0"
     universal-user-agent "^2.0.1"
 
-"@octokit/rest@^16.22.0":
-  version "16.22.0"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.22.0.tgz#461770ae6f8b5a50a85f7d1b2752645c3e01ba6a"
-  integrity sha512-1PGUwDxLuG7AZsiKaIdxJr918jcZ1FtPX0kGqxoUlssn+fIzzlwQY623gnM8vY9c9jfASD+QUQmflHh3FwBthw==
+"@octokit/rest@^16.23.0":
+  version "16.23.0"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.23.0.tgz#e0c04341aeb13184c54b989c55050555144dedc7"
+  integrity sha512-xJkLhA+v2+3AhAcQUNQqPcgqcM3qOZlGOX132oRD8HvfMaJRELZbuGuhPykD5qtYCut8QMpLD+nte6PVq8K0pg==
   dependencies:
     "@octokit/request" "2.4.2"
+    atob "^2.1.2"
     before-after-hook "^1.4.0"
     btoa-lite "^1.0.0"
     deprecation "^1.0.1"
@@ -1504,7 +1505,7 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha1-x57Zf380y48robyXkLzDZkdLS3k=
 
-atob@^2.1.1:
+atob@^2.1.1, atob@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
