@@ -29,7 +29,7 @@
     "mime-db": "1.35.0",
     "npm-registry-fetch": "^3.9.0",
     "optionator": "^0.8.2",
-    "ora": "^3.3.0",
+    "ora": "^3.3.1",
     "parse5": "^5.1.0",
     "parse5-htmlparser2-tree-adapter": "^5.1.0",
     "request": "^2.88.0",
