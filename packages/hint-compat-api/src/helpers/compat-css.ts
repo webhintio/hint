@@ -56,15 +56,16 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
      * e.g. (display: table-cell) and ((display: list-item) and (display:run-in))
      */
     private getSupportFeatures(conditionsString: string): (FeatureAtSupport | null)[] {
-        // Ignore selector().
-        const conditionRegex = /(?<!selector)\(([^()]+)\)/gi;
-
+        const conditionRegex = /(selector)?\(([^()]+)\)/gi;
         const conditions = [];
 
         let exec = conditionRegex.exec(conditionsString);
 
         while (exec) {
-            conditions.push(exec[1]);
+            // Ignore selector();
+            if (!exec[1]) {
+                conditions.push(exec[2]);
+            }
 
             exec = conditionRegex.exec(conditionsString);
         }
