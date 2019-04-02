@@ -17,7 +17,7 @@
     "@types/node": "11.12.0",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "1.4.2",
-    "@types/yargs": "^12.0.10",
+    "@types/yargs": "^12.0.11",
     "ava": "^1.4.1",
     "cpx": "^1.5.0",
     "eslint": "^5.15.1",
