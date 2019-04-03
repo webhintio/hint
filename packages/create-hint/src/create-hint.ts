@@ -142,7 +142,6 @@ class HintPackage {
         this.normalizedName = normalizeStringByDelimiter(data.name, '-');
         this.description = escapeSafeString(data.description);
         this.official = data.official;
-        this.packageMain = `dist/src/index.js`; // package.json#main
 
         const prefix = this.official ? '@hint/hint' : 'hint'; // package.json#name
 
@@ -150,10 +149,13 @@ class HintPackage {
         this.hints = [];
 
         if (this.isMulti) {
+            this.packageMain = `dist/src/index.js`; // package.json#main
+
             (data.hints as inquirer.Answers[]).forEach((hint) => {
                 this.hints.push(new NewHint(hint, this.normalizedName));
             });
         } else {
+            this.packageMain = `dist/src/hint.js`; // package.json#main
             this.hints.push(new NewHint(data));
         }
 
@@ -316,10 +318,6 @@ const copyFiles = async (origin: string, destination: string) => {
 const generateHintFiles = async (destination: string, data: HintPackage) => {
     const commonFiles = [
         {
-            destination: join(destination, 'src', `index.ts`),
-            path: join(__dirname, TEMPLATE_PATH, 'index.ts.hbs')
-        },
-        {
             destination: join(destination, 'README.md'),
             path: join(__dirname, TEMPLATE_PATH, 'readme.md.hbs')
         },
@@ -331,6 +329,17 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
             destination: join(destination, 'package.json'),
             path: join(__dirname, SHARED_TEMPLATE_PATH, 'package.hbs')
         }];
+
+    /**
+     * `index.ts` is only necessary if we have multiple files. Otherwise
+     * `package.json#main` points to `hint.ts`
+     */
+    if (data.isMulti) {
+        commonFiles.push({
+            destination: join(destination, 'src', `index.ts`),
+            path: join(__dirname, TEMPLATE_PATH, 'index.ts.hbs')
+        });
+    }
 
     if (!data.official) {
         commonFiles.push({
@@ -381,13 +390,17 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
 
     for (const hint of data.hints) {
         const [hintContent, testContent, metaContent] = await Promise.all([compileTemplate(hintFile.path, hint), compileTemplate(testFile.path, hint), compileTemplate(metaFile.path, hint)]);
-
-        // e.g.: hint-ssllabs/src/ssllabs.ts
-        const hintPath = join(hintFile.destination, `${hint.normalizedName}.ts`);
-        // e.g.: hint-ssllabs/tests/ssllabs.ts
-        const testPath = join(testFile.destination, `${hint.normalizedName}.ts`);
-        // e.g.: hint-ssllabs/src/meta/is-valid.ts or hint-ssllabs/src/meta.ts
-        const metaPath = data.isMulti ? join(metaFile.destination, 'meta', `${hint.normalizedName}.ts`) : join(metaFile.destination, 'meta.ts');
+        const { metaPath, hintPath, testPath } = data.isMulti ?
+            {
+                hintPath: join(hintFile.destination, `${hint.normalizedName}.ts`),
+                metaPath: join(metaFile.destination, 'meta', `${hint.normalizedName}.ts`),
+                testPath: join(testFile.destination, `${hint.normalizedName}.ts`)
+            } :
+            {
+                hintPath: join(hintFile.destination, 'hint.ts'),
+                metaPath: join(metaFile.destination, 'meta.ts'),
+                testPath: join(testFile.destination, `tests.ts`)
+            };
 
         await Promise.all([mkdirpAsync(dirname(hintPath)), mkdirpAsync(dirname(testPath)), mkdirpAsync(dirname(metaPath))]);
 

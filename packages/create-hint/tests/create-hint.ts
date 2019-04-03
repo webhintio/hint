@@ -121,9 +121,9 @@ test('It creates a hint if the option multiple hints is false', async (t) => {
     t.true(fsExtraCopyStub.args[0][0].endsWith('files'), 'Unexpected path for official files');
     t.is(fsExtraCopyStub.args[0][1], path.join(root, 'hint-awesome-hint'), 'Copy path is not the expected one');
 
-    // index.ts, package.json, readme.md, tsconfig.json, hint.ts, meta.ts, tests/hint.ts
-    t.is(handlebarsCompileTemplateStub.callCount, 7, `Handlebars doesn't complile the right number of files`);
-    t.is(miscWriteFileAsyncStub.callCount, 7, 'Invalid number of files created');
+    // package.json, readme.md, tsconfig.json, hint.ts, meta.ts, tests/hint.ts
+    t.is(handlebarsCompileTemplateStub.callCount, 6, `Handlebars doesn't complile the right number of files`);
+    t.is(miscWriteFileAsyncStub.callCount, 6, 'Invalid number of files created');
 
     t.true(result);
 
