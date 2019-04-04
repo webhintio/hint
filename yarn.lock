@@ -457,10 +457,12 @@
   resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.9.tgz#791581118068517ecd0bc29fd4590239a577a489"
   integrity sha512-tf2BBQFIRgaoxkii5Ys4Q2nvhPQ2PFt9FfgDc+xL7+XPi3s4ScqzRuAn8FRBCglnyzVvwEznOtdfqGREzUOkCw==
 
-"@types/async-retry@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@types/async-retry/-/async-retry-1.3.0.tgz#9a442a89dd1708b582de214789dd2a0d2118216a"
-  integrity sha512-2ljqDql4TPLQQee+/Z19PIWbrBEIkOohpAInlPrwi0VHbwtx4Ke6KXNmcwezwITMxX8gOYj2u+pn+3DMa4bDCg==
+"@types/async-retry@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@types/async-retry/-/async-retry-1.4.0.tgz#4c52040183941c6f5e7b404538cd5687f9ea7b2a"
+  integrity sha512-6bF24iEEM8ApmvJYpUjUW/w5Ud9q8KV8c25T5ClSxTmgeM7vtJZIKwYwQ0rWQmKCwPVkbwfxIJ8sgXQC4XzAlw==
+  dependencies:
+    "@types/retry" "*"
 
 "@types/async@^2.4.1":
   version "2.4.1"
@@ -770,7 +772,7 @@
     "@types/node" "*"
     "@types/tough-cookie" "*"
 
-"@types/retry@^0.12.0":
+"@types/retry@*", "@types/retry@^0.12.0":
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.0.tgz#2b35eccfcee7d38cd72ad99232fbd58bffb3c84d"
   integrity sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==
