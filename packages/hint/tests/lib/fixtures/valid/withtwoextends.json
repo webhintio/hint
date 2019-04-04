@@ -1,0 +1,17 @@
+{
+    "extends": [
+        "basics", "basics2"
+    ],
+    "connector": {
+        "name": "chrome",
+        "options": {
+            "waitFor": 1000
+        }
+    },
+    "parsers": [
+        "typescript"
+    ],
+    "hints": {
+        "disallowed-headers": "error"
+    }
+}
