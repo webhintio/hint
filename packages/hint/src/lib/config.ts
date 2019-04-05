@@ -101,6 +101,10 @@ const composeConfig = (userConfig: UserConfig, parentConfig = '') => {
     // The formatters defined by the user has to overwritte the one in the extends.
     finalConfig.formatters = userConfig.formatters ? userConfig.formatters : finalConfig.formatters;
 
+    if (finalConfig.formatters) {
+        finalConfig.formatters = Array.from(new Set(finalConfig.formatters));
+    }
+
     // Otherwise the output could be double or we could trigger double events
     if (finalConfig.parsers) {
         finalConfig.parsers = Array.from(new Set(finalConfig.parsers));

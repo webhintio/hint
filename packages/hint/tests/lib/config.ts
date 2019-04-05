@@ -20,7 +20,7 @@ type ConfigTestContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<ConfigTestContext>;
+const test = anyTest.serial as TestInterface<ConfigTestContext>;
 
 import { HintScope } from '../../src/lib/enums/hint-scope';
 import readFileAsync from '../../src/lib/utils/fs/read-file-async';
@@ -234,6 +234,38 @@ test(`if the configuration file contains an extends property, it should combine 
 
     const config = loadScript(t.context);
     const configuration: UserConfig = config.Configuration.fromFilePath(path.join(__dirname, './fixtures/valid/withextends.json'), { watch: false } as CLIOptions);
+
+    t.is((configuration.connector as ConnectorConfig).name, 'chrome');
+    t.is((configuration.hints as HintsConfigObject)['disallowed-headers'], 'error');
+    t.is(configuration.formatters && configuration.formatters.length, 1);
+    t.is(configuration.parsers && configuration.parsers.length, 2);
+});
+
+test(`if the configuration file contains two extends property, formatters are not duplicated.`, async (t) => {
+    const { resourceLoader, sandbox } = t.context;
+
+    class FakeDisallowedHint implements IHint {
+        public static called: boolean = false;
+        public constructor() {
+            FakeDisallowedHint.called = true;
+        }
+
+        public static readonly meta: HintMetadata = {
+            id: 'disallowed-headers',
+            schema: [],
+            scope: HintScope.any
+        }
+    }
+
+    sandbox.stub(resourceLoader, 'loadHint').returns(FakeDisallowedHint);
+
+    // Returns the same config for all the extends.
+    const exts = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/valid/package.json'))).hintConfig;
+
+    sandbox.stub(resourceLoader, 'loadConfiguration').returns(exts);
+
+    const config = loadScript(t.context);
+    const configuration: UserConfig = config.Configuration.fromFilePath(path.join(__dirname, './fixtures/valid/withtwoextends.json'), { watch: false } as CLIOptions);
 
     t.is((configuration.connector as ConnectorConfig).name, 'chrome');
     t.is((configuration.hints as HintsConfigObject)['disallowed-headers'], 'error');
