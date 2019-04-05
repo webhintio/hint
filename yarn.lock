@@ -1247,10 +1247,10 @@ applicationinsights-js@^1.0.20:
   resolved "https://registry.yarnpkg.com/applicationinsights-js/-/applicationinsights-js-1.0.20.tgz#e0519a2c043e9b4683d32d327a06c3f18c63d5ca"
   integrity sha512-vN6fEv2fNPZtw76/mv5OJ44cTP/VzSDahdXVIGnRB5Apnf2/9PIl4IyWpwS9biG53I1sWvkw83RjdrAnsIKoRQ==
 
-applicationinsights@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.3.0.tgz#bff28fe6200752e94a3cff36f1c6cf553ab88781"
-  integrity sha512-rZbdSAZ88SQLquS3TQCBFfbGXVA1a/Yzce2A4kqjZNCqA4wxuOnOqg7EDvdU11iJYFj/FgOY91ni9/OJ9HE4IA==
+applicationinsights@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.3.1.tgz#3bdb469fa2089249504505b8d53cdbe0167c0ca8"
+  integrity sha512-4IdsBZpu+m7FjI/wgUGmEkEh2rqeL6YEMr2lA6/N+rK31TqlJrbiKdiuBYWPvpsGQ+y0eoAaXJ+s71SwVgchJw==
   dependencies:
     cls-hooked "^4.2.2"
     continuation-local-storage "^3.2.1"
