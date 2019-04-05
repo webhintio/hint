@@ -4599,7 +4599,7 @@ hosted-git-info@^2.1.4, hosted-git-info@^2.6.0:
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.7.1.tgz#97f236977bd6e125408930ff6de3eec6281ec047"
   integrity sha512-7T/BxH19zbcCTa8XkMlbK5lTo1WtgkFi3GvdWEyNuc4Vex7/9Dqbnpsf4JMydcfj9HCg4zUWFTL3Za6lapg5/w==
 
-html-comment-regex@^1.1.0:
+html-comment-regex@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/html-comment-regex/-/html-comment-regex-1.1.2.tgz#97d4688aeb5c81886a364faa0cad1dda14d433a7"
   integrity sha512-P+M65QY2JQ5Y0G9KKdlDpo0zK+/OHptU5AaBwUfAIDJZk1MYf32Frm84EcOytfJE0t5JvkAnKlmjsXDnWzCJmQ==
@@ -5240,12 +5240,12 @@ is-stream@^1.0.0, is-stream@^1.0.1, is-stream@^1.1.0:
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
   integrity sha1-EtSj3U5o4Lec6428hBc66A2RykQ=
 
-is-svg@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/is-svg/-/is-svg-4.0.0.tgz#a3af951416bb2b6bd1b9a49ab7b2b6a3d6776b1d"
-  integrity sha512-Zm5IOUmGRVUfRajcxxWIl+tJM1gBmYG1iD6ibxGlGco+NLOLNkrPO9/Nq7Egh3NBZnGJtPG3dRE2rimazw3EkQ==
+is-svg@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/is-svg/-/is-svg-4.1.0.tgz#2145ca077e542bcf1d0eda76a27d929594ce0754"
+  integrity sha512-So9ZAeBKLyM7vzgBAQZTZe8FhiBFwJGNfZQ5dZrAEojHDij6uvQwg050gVUOugFwBz9DR7isn4w1D6ciN8JTEw==
   dependencies:
-    html-comment-regex "^1.1.0"
+    html-comment-regex "^1.1.2"
 
 is-symbol@^1.0.2:
   version "1.0.2"
