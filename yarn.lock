@@ -6038,10 +6038,10 @@ markdown-link-validator@^1.0.0:
     optionator "^0.8.2"
     uslug "^1.0.4"
 
-markdownlint-cli@^0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/markdownlint-cli/-/markdownlint-cli-0.14.1.tgz#8207f869f2d861858ea280861a94365cdcf6eb27"
-  integrity sha512-bHueUEp1NmSFPWvOk3SNWhRRAInrdvmuzlkMrZJptUF6jNXJ32OhPXicRw2xg43+NLiUI01V5sc1VIrRWLKgig==
+markdownlint-cli@^0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/markdownlint-cli/-/markdownlint-cli-0.15.0.tgz#12a820d3745a955cff2877157d132248e9d3802b"
+  integrity sha512-UTstPEXMix4CO1RIgjX3Bd1M+xklc4KXMP2309Zfp5y3UJOASWLSXnTnzkztBn5aZRt7bzLZmxTaR8M4J8cbbQ==
   dependencies:
     commander "~2.9.0"
     deep-extend "~0.5.1"
@@ -6050,21 +6050,14 @@ markdownlint-cli@^0.14.1:
     js-yaml "~3.13.0"
     lodash.differencewith "~4.5.0"
     lodash.flatten "~4.4.0"
-    markdownlint "~0.12.0"
+    markdownlint "~0.13.0"
     minimatch "~3.0.4"
     rc "~1.2.7"
 
-markdownlint@^0.13.0:
+markdownlint@^0.13.0, markdownlint@~0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.13.0.tgz#39ffd5ffbf1198c761a5ef3e28c195e5eb8dd669"
   integrity sha512-mGeDEbvmRk2T8f043lK7Lhcdi7mr68hQqGsJCS4p52uvEyOLym28s3r7GA6aaFQFtwT0MfFaJ/7Ex4n/HVPUnQ==
-  dependencies:
-    markdown-it "8.4.2"
-
-markdownlint@~0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.12.0.tgz#998e0c22698a753c406f19b06c2375321a2b4fb0"
-  integrity sha512-bjur6ZP0yKHVYh1U5+xD+bVkouKiUyiVzg9c9qkytYRW2nDfSowifKSmpPeO0uZHxzZOYMcV2Oe7sycPOEqMOQ==
   dependencies:
     markdown-it "8.4.2"
 
