@@ -11,7 +11,7 @@
     "@types/yargs": "^12.0.11",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "1.4.2",
-    "builtin-modules": "^3.0.0",
+    "builtin-modules": "^3.1.0",
     "chalk": "^2.4.2",
     "cpx": "^1.5.0",
     "eslint": "^5.15.1",
