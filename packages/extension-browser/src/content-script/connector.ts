@@ -2,7 +2,9 @@ import * as url from 'url';
 
 import { Engine } from 'hint';
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
-import { createHTMLDocument, getElementByUrl, HTMLDocument, HTMLElement, traverse } from '@hint/utils/dist/src/dom';
+import { getElementByUrl, HTMLDocument, HTMLElement, traverse } from '@hint/utils/dist/src/dom';
+import { createHelpers, restoreReferences } from '@hint/utils/dist/src/dom/snapshot';
+import { DocumentData } from '@hint/utils/dist/src/types/snapshot';
 import { getContentTypeData, getType } from '@hint/utils/dist/src/content-type';
 import {
     ConnectorOptionsConfig,
@@ -11,9 +13,8 @@ import {
     NetworkData
 } from 'hint/dist/src/lib/types';
 
-import { browser, document, location, window } from '../shared/globals';
+import { browser, document, eval, location, MutationObserver, window } from '../shared/globals';
 import { Events } from '../shared/types';
-import { eval } from '../shared/globals';
 
 export default class WebExtensionConnector implements IConnector {
     private _document: HTMLDocument | undefined;
@@ -53,7 +54,13 @@ export default class WebExtensionConnector implements IConnector {
             setTimeout(async () => {
 
                 if (document.documentElement) {
-                    this._document = createHTMLDocument(document.documentElement.outerHTML, this._originalDocument);
+                    await this.evaluateInPage(`(${createHelpers})()`);
+
+                    const snapshot: DocumentData = await this.evaluateInPage('__webhint.snapshotDocument(document)');
+
+                    restoreReferences(snapshot);
+
+                    this._document = new HTMLDocument(snapshot, this._originalDocument);
 
                     await traverse(this._document, this._engine, resource);
                 }
@@ -211,13 +218,14 @@ export default class WebExtensionConnector implements IConnector {
 
             observer.observe(script, config);
 
-            document.body.appendChild(script);
             script.textContent = `(async () => {
 const scriptElement = document.currentScript;
 const result = await ${source}
 
-scriptElement.setAttribute('data-result', JSON.stringify(result));
+scriptElement.setAttribute('data-result', JSON.stringify(result) || null);
 })();`;
+
+            document.body.appendChild(script);
         });
     }
 

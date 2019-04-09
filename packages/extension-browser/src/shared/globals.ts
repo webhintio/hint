@@ -8,6 +8,7 @@ const _document = document;
 const _eval = eval; // eslint-disable-line no-eval
 const _fetch = fetch;
 const _location = location;
+const _MutationObserver = MutationObserver;
 const _window = window;
 
 export {
@@ -16,5 +17,6 @@ export {
     _eval as eval,
     _fetch as fetch,
     _location as location,
+    _MutationObserver as MutationObserver,
     _window as window
 };

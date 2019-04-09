@@ -94,7 +94,7 @@ const mockContext = () => {
     };
 
     const stubContext = (url: string, html: string) => {
-        const dom = new JSDOM(html, { runScripts: 'outside-only', url });
+        const dom = new JSDOM(html, { runScripts: 'dangerously', url });
 
         const stubs = {
             '../shared/globals': {
@@ -103,6 +103,7 @@ const mockContext = () => {
                 document: dom.window.document,
                 eval: dom.window.eval,
                 location: dom.window.location,
+                MutationObserver: (dom.window as any).MutationObserver,
                 window: dom.window
             }
         };

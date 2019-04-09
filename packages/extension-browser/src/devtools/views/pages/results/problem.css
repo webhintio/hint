@@ -6,6 +6,26 @@
     color: var(--text-highlight-color);
 }
 
+.button {
+    background-color: var(--bg-inverse-color);
+    border: none;
+    border-radius: 2px;
+    color: var(--text-inverse-color);
+    cursor: pointer;
+    fill: var(--text-inverse-color);
+    height: 1.1rem;
+    margin-top: -0.25rem;
+    position: relative;
+    top: 0.25rem;
+}
+
+.icon {
+    height: 0.95rem;
+    margin-right: -0.2rem;
+    position: relative;
+    top: 0.075rem;
+}
+
 .code,
 .code:global(.hljs) {
     background-color: var(--bg-alt-color) !important;
