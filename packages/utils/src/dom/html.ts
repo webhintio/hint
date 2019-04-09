@@ -6,22 +6,7 @@ import { ProblemLocation } from '../types/problem-location';
 import { findOriginalElement } from './find-original-element';
 import { INamedNodeMap } from '../types/html';
 
-import { DocumentData, ElementData } from './snapshot';
-
-type Attrib = {
-    [key: string]: string;
-};
-
-type ParsedHTMLElement = {
-    attribs: Attrib;
-    children: ParsedHTMLElement[];
-    next: ParsedHTMLElement | null;
-    nodeType: number;
-    parent: ParsedHTMLElement | null;
-    prev: ParsedHTMLElement | null;
-    sourceCodeLocation: parse5.ElementLocation;
-    tagName: string;
-}
+import { DocumentData, ElementData } from '../types/snapshot';
 
 export class HTMLElement {
     public ownerDocument?: HTMLDocument;
@@ -86,7 +71,7 @@ export class HTMLElement {
             const match = findOriginalElement(this.ownerDocument.originalDocument, this);
 
             if (match) {
-                return match._element.sourceCodeLocation;
+                return match._element.sourceCodeLocation || null;
             }
         }
 
@@ -107,6 +92,7 @@ export class HTMLElement {
         // Column is zero-based, but pointing to the tag name, not the character <
         return {
             column: location.startCol,
+            elementId: this._element.id,
             line: location.startLine - 1
         };
     }

@@ -6,6 +6,8 @@ export type ProblemLocation = {
     line: number;
     /** The column number relative to the element where a Problem is */
     elementColumn?: number;
+    /** The generated unique ID for the element in the DOM */
+    elementId?: number;
     /** The line number relative to the element where a Problem is */
     elementLine?: number;
 };

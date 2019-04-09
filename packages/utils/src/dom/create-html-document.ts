@@ -1,6 +1,8 @@
-import { HTMLDocument } from './html';
 import * as parse5 from 'parse5';
 import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
+
+import { DocumentData } from '../types/snapshot';
+import { HTMLDocument } from './html';
 
 /**
  * Create an HTMLDocument object from an string.
@@ -11,7 +13,7 @@ export const createHTMLDocument = (html: string, originalDocument?: HTMLDocument
     const dom = parse5.parse(html, {
         sourceCodeLocationInfo: !originalDocument,
         treeAdapter: htmlparser2Adapter
-    });
+    }) as DocumentData;
 
     return new HTMLDocument(dom, originalDocument);
 };
