@@ -59,8 +59,15 @@ type Props = {
 };
 
 const Problem = ({ problem, index }: Props) => {
-    const { line, column } = problem.location;
+    const { line, column, elementId } = problem.location;
     const url = `${problem.resource}${line > -1 ? `:${line + 1}:${column + 1}` : ''}`;
+
+    const onInspectElementClick = useCallback(() => {
+        // Verify elementId is actually a number since it originates from untrusted snapshot data.
+        if (typeof elementId === 'number') {
+            browser.devtools.inspectedWindow.eval(`inspect(__webhint.findNode(${elementId}))`);
+        }
+    }, [elementId]);
 
     const onViewSourceClick = useCallback((event: MouseEvent) => {
         if (browser.devtools.panels.openResource) {
@@ -81,6 +88,15 @@ const Problem = ({ problem, index }: Props) => {
             <a href={`view-source:${problem.resource}`} target="_blank" onClick={onViewSourceClick}>
                 {url}
             </a>
+            {' '}
+            {elementId &&
+                <button className={styles.button} type="button" title="Inspect Element" onClick={onInspectElementClick}>
+                    <svg className={styles.icon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33.51 30.51">
+                        <path d="M1.83 22.54v-21h21v11.38l1 .41V.54h-23v23h17.39l-.42-1z"/>
+                        <path d="M21.71 29.35l3.84-6.95.14-.25.25-.14 6.95-3.84-19.09-7.91z"/>
+                    </svg>
+                </button>
+            }
             {problem.sourceCode &&
                 <SyntaxHighlighter className={styles.code} useInlineStyles="false">
                     {problem.sourceCode}
