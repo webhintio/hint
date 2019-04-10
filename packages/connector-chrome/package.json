@@ -31,7 +31,7 @@
     "nyc": "^13.3.0",
     "rimraf": "^2.6.3",
     "sinon": "^7.3.1",
-    "typescript": "^3.3.4000"
+    "typescript": "^3.4.3"
   },
   "engines": {
     "node": ">=8.0.0"
