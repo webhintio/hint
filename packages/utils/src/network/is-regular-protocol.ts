@@ -1,4 +1,4 @@
-import { debug as d } from '../debug';
+import { debug as d } from '../misc/debug';
 import { normalizeString } from '../misc/normalize-string';
 
 const debug: debug.IDebugger = d(__filename);

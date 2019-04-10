@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as npmRegistryFetch from 'npm-registry-fetch';
 
 import { NpmPackage, NpmSearchResults } from './types/npm';
-import { debug as d } from './debug';
+import { debug as d } from './misc/debug';
 import * as logger from './logging';
 import { cwd, loadJSONFile } from './fs';
 import { findPackageRoot } from './packages';

@@ -3,7 +3,7 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
-import { misc } from '../src';
+import { delay } from '../src/misc';
 import { readFile } from '../src/fs';
 
 type Fs = {
@@ -116,7 +116,7 @@ test('installPackages should run the right command `hint` is installed locally, 
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -139,7 +139,7 @@ test('installPackages should run the right command if `hint` is installed locall
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -160,7 +160,7 @@ test('installPackages should run the right command if `hint` is installed locall
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -183,7 +183,7 @@ test('installPackages should run the right command if `hint` is installed locall
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -203,7 +203,7 @@ test('installPackages should run the right command if `hint` is installed global
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -227,7 +227,7 @@ test('installPackages should show the command to run if the installation fail an
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 1);
 
@@ -249,7 +249,7 @@ test('installPackages should show the command to run if the installation fail an
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 1);
 

@@ -1,7 +1,7 @@
 import * as appInsights from 'applicationinsights';
 
 import * as configStore from './config-store';
-import { debug as d } from './debug';
+import { debug as d } from './misc/debug';
 
 interface IFlushOptions {
     callback: () => void;
