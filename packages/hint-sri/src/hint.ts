@@ -416,6 +416,7 @@ Actual:   ${integrities.join(', ')}`;
 
         try {
             response.body.content = await requestAsync({
+                gzip: true,
                 method: 'GET',
                 url: resource
             });
