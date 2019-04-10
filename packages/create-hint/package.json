@@ -35,7 +35,7 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.3.1",
     "ts-loader": "^5.3.3",
-    "typescript": "^3.3.4000",
+    "typescript": "^3.4.3",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0"
   },
