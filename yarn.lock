@@ -489,10 +489,10 @@
   dependencies:
     chokidar "*"
 
-"@types/chrome@^0.0.81":
-  version "0.0.81"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.81.tgz#4fbf34c370a60235be4f97f32429e701fb644d10"
-  integrity sha512-NKkQGMJSppFwUwMbEbYcq8/p/ACVHmQCUpWaqJVdHn81tU3by+YXnxw86KFa0tUSLamu35wtzFaMyY4TFaMceQ==
+"@types/chrome@^0.0.82":
+  version "0.0.82"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.82.tgz#baa7b8a162f715b83294375f745acb60af818e74"
+  integrity sha512-Gpbjs+bnOZ41p2ZV2l/x9XaJUGpwZJMwAv76QPb1kO7IbHuCuczyg/BdJQkkWEWLCR1T4SnA2K1yJ3vScZITiw==
   dependencies:
     "@types/filesystem" "*"
 

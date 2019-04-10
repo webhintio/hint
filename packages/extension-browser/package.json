@@ -37,7 +37,7 @@
     "@hint/parser-manifest": "^2.0.2",
     "@hint/utils-create-server": "^3.0.0",
     "@types/applicationinsights-js": "^1.0.9",
-    "@types/chrome": "^0.0.81",
+    "@types/chrome": "^0.0.82",
     "@types/har-format": "^1.2.4",
     "@types/highlight.js": "^9.12.3",
     "@types/is-ci": "^1.1.0",
