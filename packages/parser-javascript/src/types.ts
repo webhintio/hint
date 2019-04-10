@@ -32,7 +32,7 @@ type NodeTypeForValue<N, T> = N extends { type: T } ? N : never;
  * }
  * ```
  */
-type NodeVisitor = { [T in NodeTypes]?: (node: NodeTypeForValue<Node, T>) => void };
+export type NodeVisitor = { [T in NodeTypes]?: (node: NodeTypeForValue<Node, T>) => void };
 
 // TODO: Define types for all `acorn-walk` helpers and use them instead.
 export type Walk = {

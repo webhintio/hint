@@ -13,8 +13,13 @@ type Acorn = {
     tokenizer: (code: string, options: any) => any[];
 };
 
+type AcornWalk = {
+    simple: () => void;
+};
+
 type ParseJavascriptContext = {
     acorn: Acorn;
+    acornWalk: AcornWalk;
     element: HTMLElement;
     engine: Engine<ScriptEvents>;
     sandbox: sinon.SinonSandbox;
@@ -42,12 +47,16 @@ const initContext = (t: ExecutionContext<ParseJavascriptContext>) => {
         maxListeners: 0,
         wildcard: true
     }) as Engine<ScriptEvents>;
+    t.context.acornWalk = { simple() { } };
 
     t.context.sandbox = sinon.createSandbox();
 };
 
 const loadScript = (context: ParseJavascriptContext) => {
-    const script = proxyquire('../src/parser', { acorn: context.acorn });
+    const script = proxyquire('../src/parser', {
+        acorn: context.acorn,
+        'acorn-walk': context.acornWalk
+    });
 
     return script.default;
 };
@@ -180,4 +189,79 @@ test('If fetch::end::script is received, then we should parse the code and emit 
     t.is(data.ast, parseObject);
     t.is(data.resource, 'script.js');
     t.is(data.tokens[0], tokenList[0]);
+});
+
+test('If the tree walked is always the same, acorn-walk will be called just once', async (t) => {
+    const sandbox = t.context.sandbox;
+    const parseObject = {};
+    const tokenList: any[] = ['test'];
+    const code = 'var x = 8;';
+    const JavascriptParser = loadScript(t.context);
+
+    new JavascriptParser(t.context.engine); // eslint-disable-line
+
+    sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
+    sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
+    const walkSimpleSpy = sandbox.spy(t.context.acornWalk, 'simple');
+
+    t.context.engine.on('parse::end::javascript', (data: ScriptParse) => {
+        data.walk.simple(data.ast, {
+            CallExpression(node) {
+            }
+        });
+
+        data.walk.simple(data.ast, {
+            CallExpression(node) {
+            }
+        });
+    });
+
+    await t.context.engine.emitAsync('fetch::end::script', {
+        resource: 'script.js',
+        response: {
+            body: { content: code },
+            mediaType: 'text/javascript'
+        }
+    } as FetchEnd);
+
+    t.true(walkSimpleSpy.calledOnce);
+});
+
+test('acorn-walk will be called once per javascript file', async (t) => {
+    const sandbox = t.context.sandbox;
+    const parseObject = {};
+    const tokenList: any[] = ['test'];
+    const code = 'var x = 8;';
+    const JavascriptParser = loadScript(t.context);
+
+    new JavascriptParser(t.context.engine); // eslint-disable-line
+
+    sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
+    sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
+    const walkSimpleSpy = sandbox.spy(t.context.acornWalk, 'simple');
+
+    t.context.engine.on('parse::end::javascript', (data: ScriptParse) => {
+        data.walk.simple(data.ast, {
+            CallExpression(node) {
+            }
+        });
+    });
+
+    await t.context.engine.emitAsync('fetch::end::script', {
+        resource: 'script.js',
+        response: {
+            body: { content: code },
+            mediaType: 'text/javascript'
+        }
+    } as FetchEnd);
+
+    await t.context.engine.emitAsync('fetch::end::script', {
+        resource: 'script2.js',
+        response: {
+            body: { content: code },
+            mediaType: 'text/javascript'
+        }
+    } as FetchEnd);
+
+    t.true(walkSimpleSpy.calledTwice);
 });
