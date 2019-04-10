@@ -43,7 +43,7 @@ With this in mind, the options would be:
 
 | Entry Point | Values  |
 | ----------- | ------- |
-| ENV         | `WEBHINT_USER` <br> `WEBHINT_PASSWORD` <br> `WEBHINT_USER_SELECTOR` <br> `WEBHINT_PASSWORD_SELECTOR` <br> `WEBHINT_SUBMIT` |
+| ENV         | `WEBHINT_AUTH_USER` <br> `WEBHINT_AUTH_PASSWORD` <br> `WEBHINT_AUTH_USER_SELECTOR` <br> `WEBHINT_AUTH_PASSWORD_SELECTOR` <br> `WEBHINT_AUTH_SUBMIT` |
 | CLI         | `user`, `-u` <br> `password`, `-p` <br> `user-selector`, `-us` <br> `password-selector`, `-ps` <br> `submit`, `-s`
 | Configuration | `user`, `password` and `submit` properties <br> in `options` with `selector` and `value`. <br> See below for example |
 
@@ -54,17 +54,19 @@ With this in mind, the options would be:
   "connector": {
     "name": "chromium",
     "options": {
-       "user": {
-         "selector": "",
-         "value": ""
-       },
-       "password": {
-         "selector": "",
-         "value": ""
-       },
-       "submit": {
-         "selector": ""
-       }
+      "auth": {
+        "user": {
+          "selector": "",
+          "value": ""
+        },
+        "password": {
+          "selector": "",
+          "value": ""
+        },
+        "submit": {
+          "selector": ""
+        }
+      }
     }
   }
   // ...
@@ -78,15 +80,17 @@ An example of a combination of these methods is:
   "connector": {
     "name": "chromium",
     "options": {
-       "user": {
-         "selector": "#user"
-       },
-       "password": {
-         "selector": "#pass"
-       },
-       "submit": {
-         "selector": "#login"
-       }
+      "auth": {
+        "user": {
+          "selector": "#user"
+        },
+        "password": {
+          "selector": "#pass"
+        },
+        "submit": {
+          "selector": "#login"
+        }
+      }
     }
   }
   // ...
