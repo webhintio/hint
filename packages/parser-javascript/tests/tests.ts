@@ -13,8 +13,16 @@ type Acorn = {
     tokenizer: (code: string, options: any) => any[];
 };
 
+type AcornWalk = {
+    ancestor: () => void;
+    full: () => void;
+    fullAncestor: () => void;
+    simple: () => void;
+};
+
 type ParseJavascriptContext = {
     acorn: Acorn;
+    acornWalk: AcornWalk;
     element: HTMLElement;
     engine: Engine<ScriptEvents>;
     sandbox: sinon.SinonSandbox;
@@ -42,12 +50,21 @@ const initContext = (t: ExecutionContext<ParseJavascriptContext>) => {
         maxListeners: 0,
         wildcard: true
     }) as Engine<ScriptEvents>;
+    t.context.acornWalk = {
+        ancestor() { },
+        full() { },
+        fullAncestor() { },
+        simple() { }
+    };
 
     t.context.sandbox = sinon.createSandbox();
 };
 
 const loadScript = (context: ParseJavascriptContext) => {
-    const script = proxyquire('../src/parser', { acorn: context.acorn });
+    const script = proxyquire('../src/parser', {
+        acorn: context.acorn,
+        'acorn-walk': context.acornWalk
+    });
 
     return script.default;
 };
@@ -180,4 +197,113 @@ test('If fetch::end::script is received, then we should parse the code and emit 
     t.is(data.ast, parseObject);
     t.is(data.resource, 'script.js');
     t.is(data.tokens[0], tokenList[0]);
+});
+
+test('If the tree walked is always the same, acorn-walk will be called just once for each method', async (t) => {
+    const sandbox = t.context.sandbox;
+    const parseObject = {};
+    const tokenList: any[] = ['test'];
+    const code = 'var x = 8;';
+    const JavascriptParser = loadScript(t.context);
+
+    new JavascriptParser(t.context.engine); // eslint-disable-line
+
+    sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
+    sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
+    const walkSimpleSpy = sandbox.spy(t.context.acornWalk, 'simple');
+    const walkAncestorSpy = sandbox.spy(t.context.acornWalk, 'ancestor');
+    const walkFullSpy = sandbox.spy(t.context.acornWalk, 'full');
+    const walkFullAncestorSpy = sandbox.spy(t.context.acornWalk, 'fullAncestor');
+
+    t.context.engine.on('parse::end::javascript', (data: ScriptParse) => {
+        data.walk.simple(data.ast, {
+            CallExpression(node) {
+            }
+        });
+
+        data.walk.simple(data.ast, {
+            CallExpression(node) {
+            }
+        });
+
+        data.walk.ancestor(data.ast, {
+            CallExpression(node) {
+            }
+        });
+
+        data.walk.ancestor(data.ast, {
+            CallExpression(node) {
+            }
+        });
+
+        data.walk.full(data.ast, (node) => { });
+        data.walk.full(data.ast, (node) => { });
+        data.walk.fullAncestor(data.ast, (node) => { });
+        data.walk.fullAncestor(data.ast, (node) => { });
+    });
+
+    await t.context.engine.emitAsync('fetch::end::script', {
+        resource: 'script.js',
+        response: {
+            body: { content: code },
+            mediaType: 'text/javascript'
+        }
+    } as FetchEnd);
+
+    t.true(walkSimpleSpy.calledOnce);
+    t.true(walkAncestorSpy.calledOnce);
+    t.true(walkFullAncestorSpy.calledOnce);
+    t.true(walkFullSpy.calledOnce);
+});
+
+test('acorn-walk will be called once per javascript file and method', async (t) => {
+    const sandbox = t.context.sandbox;
+    const parseObject = {};
+    const tokenList: any[] = ['test'];
+    const code = 'var x = 8;';
+    const JavascriptParser = loadScript(t.context);
+
+    new JavascriptParser(t.context.engine); // eslint-disable-line
+
+    sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
+    sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
+    const walkSimpleSpy = sandbox.spy(t.context.acornWalk, 'simple');
+    const walkAncestorSpy = sandbox.spy(t.context.acornWalk, 'ancestor');
+    const walkFullSpy = sandbox.spy(t.context.acornWalk, 'full');
+    const walkFullAncestorSpy = sandbox.spy(t.context.acornWalk, 'fullAncestor');
+
+    t.context.engine.on('parse::end::javascript', (data: ScriptParse) => {
+        data.walk.simple(data.ast, {
+            CallExpression(node) {
+            }
+        });
+        data.walk.ancestor(data.ast, {
+            CallExpression(node) {
+            }
+        });
+
+        data.walk.full(data.ast, (node) => { });
+        data.walk.fullAncestor(data.ast, (node) => { });
+    });
+
+    await t.context.engine.emitAsync('fetch::end::script', {
+        resource: 'script.js',
+        response: {
+            body: { content: code },
+            mediaType: 'text/javascript'
+        }
+    } as FetchEnd);
+
+    await t.context.engine.emitAsync('fetch::end::script', {
+        resource: 'script2.js',
+        response: {
+            body: { content: code },
+            mediaType: 'text/javascript'
+        }
+    } as FetchEnd);
+
+    t.true(walkSimpleSpy.calledTwice);
+    t.true(walkAncestorSpy.calledTwice);
+    t.true(walkFullAncestorSpy.calledTwice);
+    t.true(walkFullSpy.calledTwice);
 });
