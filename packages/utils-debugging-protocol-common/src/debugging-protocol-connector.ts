@@ -82,6 +82,10 @@ export class Connector implements IConnector {
     private _waitForTarget: Promise<null>;
     /** Function to call when the target is downloaded. */
     private _targetReceived!: Function;
+    /** Lock file. */
+    private _lockFile = 'cdp.lock';
+    /** Lock status. */
+    private _isLocked = false;
 
     public constructor(engine: Engine, config: object, launcher: ILauncher) {
         const defaultOptions = {
@@ -400,26 +404,42 @@ export class Connector implements IConnector {
         return loadCDP();
     }
 
-    /** Initiates Chrome if needed and a new tab to start the collection. */
-    private async initiateComms() {
-        const cdpLock = 'cdp.lock';
-
+    private async lockFile() {
         try {
-            await lock(cdpLock, {
+            debug(`Trying to acquire lock`);
+            await lock(this._lockFile, {
                 pollPeriod: 500,
                 retries: 20,
                 retryWait: 1000,
                 stale: 50000,
                 wait: 50000
             });
+            this._isLocked = true;
+            debug(`Lock acquired`);
         } catch (e) {
             /* istanbul ignore next */
             { // eslint-disable-line
-                debug('Error while locking', e);
+                debug(`Error while locking`, e);
 
                 throw e;
             }
         }
+    }
+
+    private async unlockFile() {
+        if (this._isLocked) {
+            debug(`Trying to unlock`);
+            await unlock(this._lockFile);
+            debug(`Unlock successful`);
+        } else {
+            debug(`No need to unlock`);
+        }
+    }
+
+    /** Initiates Chrome if needed and a new tab to start the collection. */
+    private async initiateComms() {
+
+        await this.lockFile();
 
         const launcher: BrowserInfo = await this._launcher.launch(this._options.useTabUrl ? this._options.tabUrl : 'about:blank');
         let client;
@@ -467,7 +487,7 @@ export class Connector implements IConnector {
             });
         }
 
-        await unlock(cdpLock);
+        await this.unlockFile();
 
         return client;
     }
@@ -478,8 +498,9 @@ export class Connector implements IConnector {
     }
 
     /** Handles when we have been disconnected from the browser. */
-    private onDisconnect() {
+    private async onDisconnect() {
         debug(`Disconnected`);
+        await this.unlockFile();
     }
 
     /** Enables the handles for all the relevant Networks events sent by the debugging protocol. */
@@ -503,8 +524,8 @@ export class Connector implements IConnector {
         const { Network, Page } = this._client;
 
         // The typings we use for CDP aren't 100% compatible with our libarary
-        (this._client as any).on('error', this.onError);
-        (this._client as any).on('disconnect', this.onDisconnect);
+        (this._client as any).on('error', this.onError.bind(this));
+        (this._client as any).on('disconnect', this.onDisconnect.bind(this));
 
         await this.enableNetworkEvents();
 
@@ -711,70 +732,76 @@ export class Connector implements IConnector {
         })();
     }
 
-    private isClosed() {
-        return new Promise(async (resolve) => {
-            let maxTries = 200;
-            let finish = false;
+    public async close() {
+        /**
+         * On macOS Chrome does not fully exit even if all the tabs are closed.
+         * This causes a timeout when running the tests with nyc of about 2
+         * minutes (or if the browser is manually closed). This addresses this
+         * issue.
+         * Because during testing multiple workers are using the same instance of
+         * Chrome, one could try to close the browser while another is opening a
+         * new tab and thus causing communication issues. The solution is to use
+         * the same lock to launch the browser and to close it with a twist: The
+         * close method gets all the possible Targets of type page (tabs),
+         * close the ones related to the current session and see if there are any
+         * other left. If there are not, that means it is safe to completely close
+         * the browser by sending a SIGKILL (no other methods works because the
+         * debugging protocol client cannot communicate in this state and
+         * gracefully close the browser).
+         */
+        try {
+            debug(`Closing connector (${this._pid})`);
+            await this.lockFile();
 
-            if (!this._pid) {
-                resolve();
+            const { targetInfos } = await this._client.Target.getTargets!();
+            const targets = new Set();
 
-                return;
-            }
+            debug(`Pending targets: ${targetInfos.length}`);
 
-            while (!finish) {
+            targetInfos.forEach((target) => {
+                if (target.type === 'page') {
+                    targets.add(target.targetId);
+                }
+            });
+
+            while (this._tabs.length > 0) {
+                debug(`Pending tabs: ${this._tabs.length}`);
+
+                const tab = this._tabs.pop();
+
                 try {
-                    /*
-                     * We test if the process is still running or is a leftover:
-                     * https://nodejs.org/api/process.html#process_process_kill_pid_signal
-                     */
+                    if (targets.has(tab.id)) {
+                        targets.delete(tab.id);
 
-                    process.kill(this._pid, 0);
+                        debug(`(${tab.id}) Closing target`);
+                        // Need to use `cdp.Close` instead of `Target.closeTarget` because otherwise we could get disconnected directly and never return
+                        await cdp.Close({ id: tab.id, port: (this._client as any).port }); // eslint-disable-line new-cap
 
-                    maxTries--;
-
-                    // Wait for 10 seconds to close the browser or continue.
-                    if (maxTries === 0) {
-                        finish = true;
-                    } else {
-                        await delay(50);
+                        debug(`(${tab.id}) Target closed`);
                     }
                 } catch (e) {
-                    debug(`Process with ${this._pid} doesn't seem to be running`);
-                    finish = true;
+                    debug(`Couldn't close target ${tab.id}`);
                 }
             }
 
-            resolve();
-        });
-    }
-
-    public async close() {
-        debug(`Pending tabs: ${this._tabs.length}`);
-
-        while (this._tabs.length > 0) {
-            const tab = this._tabs.pop();
-
             try {
-                await cdp.Close({ id: tab.id, port: (this._client as any).port }); // eslint-disable-line new-cap
+                debug(`Closing client`);
+                (this._client as any).close();
+
+                if (targets.size === 0 && this._pid) {
+                    process.kill(this._pid, 9);
+                }
             } catch (e) {
-                debug(`Couldn't close tab ${tab.id}`);
+                debug(`Couldn't close the client properly`);
             }
-        }
-
-        try {
-
-            (this._client as any).close();
-
-            /*
-             * We need to wait until the browser is closed because
-             * in tests if we close the client and at the same time
-             * the next test tries to open a new tab, an error is
-             * thrown.
-             */
-            await this.isClosed();
         } catch (e) {
-            debug(`Couldn't close the client properly`);
+            /* istanbul ignore next */
+            { // eslint-disable-line
+                debug(`Error while closing`);
+                debug(e);
+            }
+        } finally {
+            await this.unlockFile();
         }
     }
 
