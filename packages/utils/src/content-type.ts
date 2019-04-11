@@ -1,13 +1,14 @@
 import fileType from 'file-type';
 import isSvg from 'is-svg';
-import * as mimeDB from 'mime-db';
+
 import { parse, MediaType } from 'content-type';
 
-import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { fileExtension as getFileExtension, fileName as getFileName } from '@hint/utils/dist/src/fs';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { HTMLElement } from './dom';
+import { debug as d } from './debug';
+import mimeDB from './mime-db';
+import { HttpHeaders } from './types/http-header';
+import { fileExtension as getFileExtension, fileName as getFileName } from './fs';
+import { normalizeString } from './misc/normalize-string';
 
 const debug = d(__filename);
 
@@ -18,7 +19,7 @@ const debug = d(__filename);
  */
 const getMediaTypeBasedOnFileExtension = (fileExtension: string): string | null => {
     return fileExtension && Object.keys(mimeDB).find((key) => {
-        return (mimeDB as any)[key].extensions && (mimeDB as any)[key].extensions.includes(fileExtension);
+        return !!mimeDB[key].extensions && mimeDB[key].extensions!.includes(fileExtension);
     }) || null; // if nothing is found, we return null to be consistent
 };
 

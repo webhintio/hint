@@ -22,18 +22,19 @@ import filter = require('lodash/filter');
 
 import { Crdp } from 'chrome-remote-debug-protocol';
 
-import { debug as d, dom, HTMLDocument, HTMLElement, HttpHeaders, misc, network } from '@hint/utils';
+import { contentType, debug as d, dom, HTMLDocument, HTMLElement, HttpHeaders, misc, network } from '@hint/utils';
+
 import {
     BrowserInfo, IConnector, Engine,
     Event, FetchEnd, FetchError, ILauncher,
-    Response, Request, NetworkData, utils
+    Response, Request, NetworkData
 } from 'hint';
 import { normalizeHeaders, Requester } from '@hint/utils-connector-tools';
 
 import { RequestResponse } from './request-response';
 
 const { createHTMLDocument, getElementByUrl, traverse } = dom;
-const { contentType: { getType } } = utils;
+const { getType } = contentType;
 const { cutString, delay } = misc;
 const { isHTMLDocument } = network;
 const debug: debug.IDebugger = d(__filename);

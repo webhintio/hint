@@ -44,7 +44,8 @@ import * as chokidar from 'chokidar';
 import globby from 'globby';
 import { JSDOM } from 'jsdom';
 
-import { dom, fs, HTMLDocument, HTMLElement, logger, network } from '@hint/utils';
+import { contentType, dom, fs, HTMLDocument, HTMLElement, logger, network } from '@hint/utils';
+
 import {
     CanEvaluateScript,
     Engine,
@@ -53,8 +54,7 @@ import {
     IConnector,
     IFetchOptions,
     NetworkData,
-    ScanEnd,
-    utils
+    ScanEnd
 } from 'hint';
 import { HTMLParse, HTMLEvents } from '@hint/parser-html';
 
@@ -65,7 +65,7 @@ import { HTMLParse, HTMLEvents } from '@hint/parser-html';
  */
 
 const { traverse } = dom;
-const { contentType: { getContentTypeData, getType, isTextMediaType } } = utils;
+const { getContentTypeData, getType, isTextMediaType } = contentType;
 const { cwd, isFile, readFileAsync } = fs;
 const { asPathString, getAsUri } = network;
 const defaultOptions = {};
