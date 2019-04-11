@@ -2,7 +2,7 @@ import * as url from 'url';
 
 import { Engine } from 'hint';
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
-import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
+import { getContentTypeData, getType } from '@hint/utils/dist/src/content-type';
 import {
     ConnectorOptionsConfig,
     IConnector,

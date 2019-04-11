@@ -1,14 +1,14 @@
 import { atob } from 'abab';
 import { Crdp } from 'chrome-remote-debug-protocol';
 
-import { debug as d, HttpHeaders } from '@hint/utils';
+import { contentType, debug as d, HttpHeaders } from '@hint/utils';
 
-import { Response, HTMLElement, utils } from 'hint';
+import { Response, HTMLElement } from 'hint';
 import { normalizeHeaders, Requester } from '@hint/utils-connector-tools';
 
 const debug: debug.IDebugger = d(__filename);
 
-const { contentType: { getContentTypeData } } = utils;
+const { getContentTypeData } = contentType;
 
 export enum RequestStatus {
     willBeSent = 'willBeSent',

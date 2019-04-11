@@ -43,12 +43,13 @@ const readFileAsBuffer = promisify(readFile);
 import * as chokidar from 'chokidar';
 import globby from 'globby';
 
-import { fs, logger, network } from '@hint/utils';
+import { contentType, fs, logger, network } from '@hint/utils';
 
 import { utils } from 'hint';
 
-const { contentType: { getContentTypeData, getType, isTextMediaType }, dom: { traverse } } = utils;
+const { dom: { traverse } } = utils;
 
+const { getContentTypeData, getType, isTextMediaType } = contentType;
 const { cwd, isFile, readFileAsync } = fs;
 const { asPathString, getAsUri } = network;
 

@@ -22,11 +22,12 @@ import filter = require('lodash/filter');
 
 import { Crdp } from 'chrome-remote-debug-protocol';
 
-import { debug as d, HttpHeaders, misc, network } from '@hint/utils';
+import { contentType, debug as d, HttpHeaders, misc, network } from '@hint/utils';
 
 import { utils } from 'hint';
 
-const { contentType: { getType }, dom: { createHTMLDocument, getElementByUrl, traverse } } = utils;
+const { getType } = contentType;
+const { dom: { createHTMLDocument, getElementByUrl, traverse } } = utils;
 
 import {
     BrowserInfo, IConnector,

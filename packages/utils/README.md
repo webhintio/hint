@@ -38,6 +38,24 @@ and exception.
 * `get`: Get the value from the config store.
 * `set`: Set a value in the config store.
 
+### contentType
+
+* `determineMediaTypeBasedOnFileExtension`: Get a mime-type associated
+  with the specified file extension.
+* `determineMediaTypeBasedOnFileName`: Get a mime-type associated with
+  the specified filename.
+* `determineMediaTypeForScript`: Check if the provided mime-type is a
+  recognized mime-type for JavaScript, returning the recommended
+  mime-type if so, `null` otherwise.
+* `getContentTypeData`: Try to determine the correct mime-type for a
+  response.
+* `getFileExtension`: Try to determine a resource's file extension.
+* `getType`: Returns the group to which the mediaType belongs to. E.g.:
+  `image`, `font`, `script`, `css`, `html`, `manifest`, `xml` or
+  `unkown`.
+* `isTextMediaType`: Check if a mime-type represents a text-based
+  resource.
+
 ### fs
 
 * `cwd`: Returns the current working directory. Same as `process.cwd()`.

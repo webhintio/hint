@@ -16,7 +16,7 @@ import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
 import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
-import { isTextMediaType } from 'hint/dist/src/lib/utils/content-type';
+import { isTextMediaType } from '@hint/utils/dist/src/content-type';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
