@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import * as contentType from '../../../src/lib/utils/content-type';
+import * as contentType from '../src/content-type';
 import * as fs from 'fs';
 
 test('determineMediaTypeBasedOnFileExtension determines the right mime type based on the extension', (t) => {

@@ -16,14 +16,14 @@ import * as request from 'request';
 import * as iconv from 'iconv-lite';
 import parseDataURL = require('data-urls'); // Using `require` as `data-urls` exports a function.
 
-import { debug as d, HttpHeaders, misc, network } from '@hint/utils';
+import { contentType, debug as d, HttpHeaders, misc, network } from '@hint/utils';
 
-import { NetworkData, utils } from 'hint';
+import { NetworkData } from 'hint';
 import { RedirectManager } from './redirects';
 
 interface IDecompressor { (content: Buffer): Promise<Buffer> }
 
-const { contentType: { getContentTypeData } } = utils;
+const { getContentTypeData } = contentType;
 const { normalizeHeaderValue } = network;
 const { toLowerCaseKeys } = misc;
 const debug = d(__filename);

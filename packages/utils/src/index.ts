@@ -2,6 +2,7 @@ import * as appInsightsUtils from './app-insights';
 import { asyncTry } from './async-wrapper';
 import * as caniuseUtils from './caniuse';
 import * as configStoreUtils from './config-store';
+import * as contentTypeUtils from './content-type';
 import { debug } from './debug';
 import * as fsUtils from './fs';
 import * as loggingUtils from './logging';
@@ -27,6 +28,7 @@ export const npm = npmUtils;
 export const appInsights = appInsightsUtils;
 export const caniuse = caniuseUtils;
 export const configStore = configStoreUtils;
+export const contentType = contentTypeUtils;
 export const test = testUtils;
 export const dom = domUtils;
 

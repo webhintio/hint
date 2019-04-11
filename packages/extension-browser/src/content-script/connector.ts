@@ -2,11 +2,8 @@ import * as url from 'url';
 
 import { Engine } from 'hint';
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
-import { HTMLDocument, HTMLElement } from '@hint/utils/dist/src/dom/html';
-import { createHTMLDocument } from '@hint/utils/dist/src/dom/create-html-document';
-import { traverse } from '@hint/utils/dist/src/dom/traverse';
-import { getElementByUrl } from '@hint/utils/dist/src/dom/get-element-by-url';
-import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
+import { createHTMLDocument, getElementByUrl, HTMLDocument, HTMLElement, traverse } from '@hint/utils/dist/src/dom';
+import { getContentTypeData, getType } from '@hint/utils/dist/src/content-type';
 import {
     ConnectorOptionsConfig,
     IConnector,
