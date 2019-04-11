@@ -10,7 +10,7 @@ const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const pngImage = fs.readFileSync(`${__dirname}/fixtures/image.png`); // eslint-disable-line no-sync
-const svgImage = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M1,1"/></svg>';
+const svgImage = '<svg xmlns="http://www.w3.org/2000/svg" width="1px" height="1px"><path d="M1,1"/></svg>';
 
 const incorrectCharsetErrorMessage = `'content-type' header charset value should be 'utf-8', not 'iso-8859-1'.`;
 const invalidMediaTypeErrorMessage = `'content-type' header value should be valid (invalid media type).`;
