@@ -33,8 +33,8 @@ const initContext = (t: ExecutionContext<VersionContext>) => {
 const loadScript = (context: VersionContext) => {
     const script = proxyquire('../../../src/lib/cli/version', {
         '@hint/utils': {
-            logger: context.logger,
-            packages: utils.packages
+            ...utils,
+            logger: context.logger
         }
     });
 

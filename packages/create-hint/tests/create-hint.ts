@@ -70,12 +70,10 @@ const loadScript = (context: CreateHintContext) => {
     const script = proxyquire('../src/create-hint', {
         '../src/handlebars-utils': context.handlebarsUtils,
         '@hint/utils': {
-            fs: {
-                cwd: context.cwd,
-                readFile: utils.fs.readFile,
-                writeFileAsync: context.writeFileAsyncModule
-            },
-            packages: { isOfficial: context.isOfficialModule }
+            ...utils,
+            cwd: context.cwd,
+            isOfficial: context.isOfficialModule,
+            writeFileAsync: context.writeFileAsyncModule
         },
         'fs-extra': context.fsExtra,
         inquirer: context.inquirer,

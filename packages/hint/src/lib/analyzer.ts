@@ -20,10 +20,7 @@ import { AnalyzerErrorStatus } from './enums/error-status';
 import { IFormatterConstructor } from './types/formatters';
 import { loadResources } from './utils/resource-loader';
 
-import { fs, logger, misc } from '@hint/utils';
-
-const { cutString } = misc;
-const { cwd, isFile } = fs;
+import { cwd, cutString, isFile, logger } from '@hint/utils';
 
 const initFormatters = (formatters: IFormatterConstructor[]): IFormatter[] => {
     const result = formatters.map((FormatterConstructor) => {

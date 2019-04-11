@@ -16,11 +16,10 @@ import { promisify } from 'util';
 
 import * as nodeWindows from 'node-windows';
 
-import { debug as d, logger, misc } from '@hint/utils';
+import { debug as d, delay, logger } from '@hint/utils';
 import { Launcher } from '@hint/utils-debugging-protocol-common';
 import { BrowserInfo, LauncherOptions } from 'hint';
 
-const { delay } = misc;
 const diagnosticsPath = require.resolve('edge-diagnostics-adapter');
 const elevate = promisify(nodeWindows.elevate);
 

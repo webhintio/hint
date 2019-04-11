@@ -22,7 +22,7 @@ import filter = require('lodash/filter');
 
 import { Crdp } from 'chrome-remote-debug-protocol';
 
-import { debug as d, HttpHeaders, misc, network } from '@hint/utils';
+import { cutString, debug as d, delay, isHTMLDocument, HttpHeaders } from '@hint/utils';
 
 import { utils } from 'hint';
 
@@ -42,8 +42,6 @@ import { Engine } from 'hint/dist/src/lib/engine';
 
 import { RequestResponse } from './request-response';
 
-const { cutString, delay } = misc;
-const { isHTMLDocument } = network;
 const debug: debug.IDebugger = d(__filename);
 const lock = promisify(lockfile.lock) as (path: string, options: lockfile.Options) => Promise<void>;
 const unlock = promisify(lockfile.unlock);

@@ -5,7 +5,16 @@ import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
 import { default as ora } from 'ora';
 
-import { appInsights, configStore, debug as d, fs, logger, misc, network, npm } from '@hint/utils';
+import {
+    appInsights,
+    askQuestion,
+    configStore,
+    cwd,
+    debug as d,
+    getAsUris,
+    logger,
+    npm
+} from '@hint/utils';
 
 import {
     AnalyzerError,
@@ -23,10 +32,7 @@ import { createAnalyzer, getUserConfig } from '../';
 import { Analyzer } from '../analyzer';
 import { AnalyzerErrorStatus } from '../enums/error-status';
 
-const { getAsUris } = network;
-const { askQuestion } = misc;
 const { installPackages } = npm;
-const { cwd } = fs;
 const debug: debug.IDebugger = d(__filename);
 const configStoreKey: string = 'run';
 const spinner = ora({ spinner: 'line' });

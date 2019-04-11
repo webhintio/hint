@@ -19,7 +19,16 @@ import { execSync } from 'child_process';
 import { sync as globby } from 'globby';
 import * as semver from 'semver';
 
-import { debug as d, fs as fsUtils, misc, packages } from '@hint/utils';
+import {
+    cwd,
+    debug as d,
+    findNodeModulesRoot,
+    findPackageRoot,
+    loadJSONFile,
+    loadPackage as getPackage,
+    normalizeIncludes,
+    readFile
+} from '@hint/utils';
 
 import { Resource, IHintConstructor, HintResources } from '../types';
 import { Configuration } from '../config';
@@ -28,10 +37,6 @@ import { ResourceErrorStatus } from '../enums/error-status';
 import { ResourceError } from '../types/resource-error';
 import { IConnectorConstructor } from '../types/connector';
 import { loadHintPackage } from './packages/load-hint-package';
-
-const { cwd, loadJSONFile, readFile } = fsUtils;
-const { loadPackage: getPackage, findNodeModulesRoot, findPackageRoot } = packages;
-const { normalizeIncludes } = misc;
 
 const debug: debug.IDebugger = d(__filename);
 const HINT_ROOT: string = findPackageRoot();

@@ -145,17 +145,10 @@ const loadScript = (context: AnalyzeContext) => {
             getUserConfig: (context.analyzer.Analyzer as any).getUserConfig
         },
         '@hint/utils': {
+            ...utils,
             appInsights: context.appInsight,
-            configStore: utils.configStore,
-            debug: utils.debug,
-            logger: context.logger,
-            misc: {
-                askQuestion: context.askQuestion,
-                cutString: utils.misc.cutString
-            },
-            network: utils.network,
-            npm: utils.npm,
-            packages: utils.packages
+            askQuestion: context.askQuestion,
+            logger: context.logger
         },
         ora: context.ora
     });

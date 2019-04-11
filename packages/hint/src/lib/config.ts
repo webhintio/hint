@@ -20,15 +20,13 @@ import * as path from 'path';
 import browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
 import mergeWith = require('lodash/mergeWith');
 
-import { debug as d, fs as fsUtils } from '@hint/utils';
+import { debug as d, isFile, loadJSFile, loadJSONFile } from '@hint/utils';
 
 import { UserConfig, IgnoredUrl, ConnectorConfig, HintsConfigObject, HintSeverity, CreateAnalyzerOptions } from './types';
 import { validateConfig } from './config/config-validator';
 import normalizeHints from './config/normalize-hints';
 import { validate as validateHint, getSeverity } from './config/config-hints';
 import * as resourceLoader from './utils/resource-loader';
-
-const { isFile, loadJSFile, loadJSONFile} = fsUtils;
 
 const debug: debug.IDebugger = d(__filename);
 

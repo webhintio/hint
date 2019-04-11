@@ -17,7 +17,7 @@ import remove = require('lodash/remove');
 
 import * as logger from '@hint/utils/dist/src/logging';
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils/dist/src/misc/debug';
 
 import { getSeverity } from './config/config-hints';
 import {

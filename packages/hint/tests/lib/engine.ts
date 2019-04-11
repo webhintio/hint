@@ -5,15 +5,13 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
-import { misc } from '@hint/utils';
+import { delay } from '@hint/utils';
 
 import { HintScope } from '../../src/lib/enums/hint-scope';
 import { Configuration } from '../../src/lib/config';
 import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata, Problem } from '../../src/lib/types';
 import { Category } from '../../src/lib/enums/category';
 import { HintContext } from '../../src/lib/hint-context';
-
-const { delay } = misc;
 
 type EventEmitter2 = {
     EventEmitter2: () => void;

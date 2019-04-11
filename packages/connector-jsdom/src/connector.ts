@@ -31,7 +31,7 @@ import { fork, ChildProcess } from 'child_process';
 
 import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
 
-import { debug as d, HttpHeaders, network } from '@hint/utils';
+import { debug as d, HttpHeaders, isHTMLDocument } from '@hint/utils';
 import { Engine, Event, FetchEnd, FetchError, HTMLDocument, HTMLElement, IConnector, NetworkData, utils } from 'hint';
 import { Requester } from '@hint/utils-connector-tools';
 
@@ -45,7 +45,6 @@ import { beforeParse } from './before-parse';
  */
 
 const { dom: { createHTMLDocument, traverse }, contentType: { getContentTypeData, getType } } = utils;
-const { isHTMLDocument } = network;
 const debug: debug.IDebugger = d(__filename);
 
 const defaultOptions = { waitFor: 1000 };

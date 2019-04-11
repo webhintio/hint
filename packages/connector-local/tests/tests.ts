@@ -6,13 +6,10 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 import * as proxyquire from 'proxyquire';
 
-import { fs, logger, misc, network } from '@hint/utils';
+import * as utils from '@hint/utils';
+import { asPathString, delay, getAsUri, readFileAsync } from '@hint/utils';
 import { Engine, FetchEnd, Problem } from 'hint';
 import { HTMLEvents } from '@hint/parser-html';
-
-const { delay } = misc;
-const { asPathString, getAsUri } = network;
-const { readFileAsync } = fs;
 
 type SandboxContext = {
     sandbox: sinon.SinonSandbox;
@@ -51,13 +48,10 @@ const mockContext = (context: SandboxContext) => {
 
     const script = proxyquire('../src/connector', {
         '@hint/utils': {
-            fs: {
-                cwd: cwdStub,
-                isFile: isFileStub,
-                readFileAsync
-            },
-            logger,
-            network
+            ...utils,
+            cwd: cwdStub,
+            isFile: isFileStub,
+            readFileAsync
         },
         chokidar
     });

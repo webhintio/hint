@@ -4,7 +4,7 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { fs } from '@hint/utils';
+import { readFileAsync } from '@hint/utils';
 
 import { HintScope } from '../../src/lib/enums/hint-scope';
 import { IHint, HintMetadata } from '../../src/lib/types';
@@ -25,8 +25,6 @@ type ConfigTestContext = {
 };
 
 const test = anyTest.serial as TestInterface<ConfigTestContext>;
-
-const { readFileAsync } = fs;
 
 const initContext = (t: ExecutionContext<ConfigTestContext>) => {
     const os = {

@@ -5,14 +5,19 @@ import { copy } from 'fs-extra';
 import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
-import { fs, logger, misc, packages } from '@hint/utils';
+import {
+    cwd,
+    isOfficial,
+    logger,
+    normalizeStringByDelimiter,
+    readFile,
+    toCamelCase,
+    toPascalCase,
+    writeFileAsync
+} from '@hint/utils';
 import { Category, HintScope } from 'hint';
 
 import Handlebars, { compileTemplate, escapeSafeString } from './handlebars-utils';
-
-const { isOfficial } = packages;
-const { cwd, readFile, writeFileAsync } = fs;
-const { normalizeStringByDelimiter, toCamelCase, toPascalCase} = misc;
 
 /*
  * ------------------------------------------------------------------------------

@@ -4,7 +4,7 @@ import * as mimeDB from 'mime-db';
 import { parse, MediaType } from 'content-type';
 
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils/dist/src/misc/debug';
 import { fileExtension as getFileExtension, fileName as getFileName } from '@hint/utils/dist/src/fs';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 

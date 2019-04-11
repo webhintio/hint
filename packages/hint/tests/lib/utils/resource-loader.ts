@@ -186,15 +186,9 @@ test.serial('loadResource throws an error if the version is incompatible when us
             }
         },
         '@hint/utils': {
-            debug: utils.debug,
-            fs: utils.fs,
-            misc: utils.misc,
-            packages: {
-                findNodeModulesRoot: utils.packages.findNodeModulesRoot,
-                findPackageRoot: utils.packages.findPackageRoot,
-                loadPackage() {
-                    return { peerDependencies: { hint: '0.1.0' } };
-                }
+            ...utils,
+            loadPackage() {
+                return { peerDependencies: { hint: '0.1.0' } };
             }
         }
     });
@@ -221,15 +215,9 @@ test.serial('loadResource returns the resource if versions are compatible', asyn
             }
         },
         '@hint/utils': {
-            debug: utils.debug,
-            fs: utils.fs,
-            misc: utils.misc,
-            packages: {
-                findNodeModulesRoot: utils.packages.findNodeModulesRoot,
-                findPackageRoot: utils.packages.findPackageRoot,
-                loadPackage() {
-                    return { peerDependencies: { hint: '0.1.0' } };
-                }
+            ...utils,
+            loadPackage() {
+                return { peerDependencies: { hint: '0.1.0' } };
             }
         }
     });
@@ -249,15 +237,9 @@ test.serial('loadResource throws an error if the hint is loaded from the current
 
     proxyquire('../../../src/lib/utils/resource-loader', {
         '@hint/utils': {
-            debug: utils.debug,
-            fs: utils.fs,
-            misc: utils.misc,
-            packages: {
-                findNodeModulesRoot: utils.packages.findNodeModulesRoot,
-                findPackageRoot: utils.packages.findPackageRoot,
-                loadPackage() {
-                    return { name: 'fake-resource' };
-                }
+            ...utils,
+            loadPackage() {
+                return { name: 'fake-resource' };
             }
         }
     });
@@ -287,15 +269,9 @@ test.serial(`loadResource doesn't throw an error if the hint is loaded from the 
 
     proxyquire('../../../src/lib/utils/resource-loader', {
         '@hint/utils': {
-            debug: utils.debug,
-            fs: utils.fs,
-            misc: utils.misc,
-            packages: {
-                findNodeModulesRoot: utils.packages.findNodeModulesRoot,
-                findPackageRoot: utils.packages.findPackageRoot,
-                loadPackage() {
-                    return { name: 'hint-another-fake-resource' };
-                }
+            ...utils,
+            loadPackage() {
+                return { name: 'hint-another-fake-resource' };
             }
         }
     });

@@ -15,14 +15,13 @@ import { promisify } from 'util';
 import * as inquirer from 'inquirer';
 
 import { ResourceType, UserConfig, utils } from 'hint';
-import { appInsights, debug as d, fs as fsUtils, logger, npm, NpmPackage } from '@hint/utils';
+import { appInsights, cwd, debug as d, logger, npm, NpmPackage } from '@hint/utils';
 
 import { generateBrowserslistConfig } from './browserslist';
 
 const { resourceLoader: { getInstalledResources, getCoreResources } } = utils;
 const { getOfficialPackages, installPackages } = npm;
 const { sendPendingData, trackEvent } = appInsights;
-const { cwd } = fsUtils;
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';

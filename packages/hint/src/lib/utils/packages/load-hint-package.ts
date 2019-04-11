@@ -1,6 +1,4 @@
-import { packages } from '@hint/utils';
-
-const { findPackageRoot } = packages;
+import { findPackageRoot } from '@hint/utils';
 
 /** Returns an object that represents the `package.json` version of `hint` */
 export const loadHintPackage = () => {
