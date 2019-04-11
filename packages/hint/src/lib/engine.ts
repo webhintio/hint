@@ -18,14 +18,14 @@ import remove = require('lodash/remove');
 import * as logger from '@hint/utils/dist/src/logging';
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
 import { debug as d } from '@hint/utils/dist/src/debug';
+import { HTMLElement, HTMLDocument } from '@hint/utils/dist/src/dom/html';
 
 import { getSeverity } from './config/config-hints';
 import {
     Events,
     HintConfig,
     HintResources,
-    HTMLElement,
-    HTMLDocument,
+
     IConnector,
     IConnectorConstructor,
     IFetchOptions,

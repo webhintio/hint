@@ -2,26 +2,13 @@ import * as parse5 from 'parse5';
 import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
 import * as cssSelect from 'css-select';
 
-import { ProblemLocation } from '../types';
-import { findOriginalElement } from '../utils/dom/find-original-element';
+import { ProblemLocation } from '../types/problem-location';
+import { findOriginalElement } from './find-original-element';
+import { INamedNodeMap } from '../types/html';
 
 type Attrib = {
     [key: string]: string;
 };
-
-export type HTMLAttribute = {
-    /** Attribute name of the element */
-    name: string;
-
-    /** Attribute value of the element */
-    value: string;
-};
-
-export interface INamedNodeMap {
-    [index: number]: HTMLAttribute;
-    item?(index: number): HTMLAttribute | null;
-    readonly length: number;
-}
 
 type ParsedHTMLElement = {
     attribs: Attrib;

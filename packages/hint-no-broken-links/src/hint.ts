@@ -7,13 +7,11 @@ import { URL } from 'url';
 import {
     ElementFound,
     HintContext,
-    HTMLDocument,
-    HTMLElement,
     IHint,
     NetworkData,
     TraverseEnd
 } from 'hint';
-import { debug as d, network } from '@hint/utils';
+import { debug as d, HTMLDocument, HTMLElement, network } from '@hint/utils';
 import { Requester } from '@hint/utils-connector-tools';
 import { CoreOptions } from 'request';
 

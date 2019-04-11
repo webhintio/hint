@@ -7,7 +7,8 @@ import { URL } from 'url';
 import * as getImageData from 'image-size';
 
 import { debug as d, misc, network } from '@hint/utils';
-import { HintContext, HTMLDocument, HTMLElement, IHint, NetworkData, TraverseEnd } from 'hint';
+import { HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
+import { HTMLElement, HTMLDocument } from '@hint/utils/dist/src/dom/html';
 
 import meta from './meta';
 

@@ -11,8 +11,8 @@ import { promisify } from 'util';
 
 import * as brotli from 'iltorb';
 
-import { asyncTry, HttpHeaders, misc, network } from '@hint/utils';
-import { FetchEnd, HintContext, HTMLElement, IHint, NetworkData, Response, utils } from 'hint';
+import { asyncTry, HTMLElement, HttpHeaders, misc, network } from '@hint/utils';
+import { FetchEnd, HintContext, IHint, NetworkData, Response, utils } from 'hint';
 
 import { CompressionCheckOptions } from './types';
 

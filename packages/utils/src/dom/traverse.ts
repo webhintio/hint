@@ -1,5 +1,4 @@
-import { HTMLDocument, HTMLElement } from '../../types/html';
-import { TraverseUp, TraverseDown, Event } from '../../types/events';
+import { HTMLDocument, HTMLElement } from './html';
 
 import { EventEmitter2 } from 'eventemitter2';
 
@@ -13,7 +12,7 @@ const traverseAndNotify = async (element: HTMLElement, document: HTMLDocument, e
     const traverseEvent = {
         element,
         resource
-    } as TraverseDown | TraverseUp;
+    };
 
     await engine.emitAsync(`traverse::down`, traverseEvent);
 
@@ -28,7 +27,7 @@ const traverseAndNotify = async (element: HTMLElement, document: HTMLDocument, e
 export const traverse = async (document: HTMLDocument, engine: EventEmitter2, resource: string): Promise<void> => {
     const documentElement = document.documentElement;
 
-    const event = { resource } as Event;
+    const event = { resource };
 
     await engine.emitAsync('traverse::start', event);
     await traverseAndNotify(documentElement, document, engine, resource);

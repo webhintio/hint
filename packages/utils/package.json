@@ -15,6 +15,8 @@
     "file-url": "^2.0.2",
     "lodash": "^4.17.11",
     "npm-registry-fetch": "^3.9.0",
+    "parse5": "^5.1.0",
+    "parse5-htmlparser2-tree-adapter": "^5.1.0",
     "request": "^2.88.0",
     "strip-bom": "^3.0.0",
     "strip-json-comments": "^2.0.1"
@@ -24,6 +26,8 @@
     "@types/configstore": "^4.0.0",
     "@types/debug": "4.1.2",
     "@types/file-url": "^2.0.0",
+    "@types/parse5": "^5.0.0",
+    "@types/parse5-htmlparser2-tree-adapter": "^5.0.1",
     "@types/request": "^2.48.1",
     "@types/strip-bom": "^3.0.0",
     "@types/strip-json-comments": "^0.0.30",

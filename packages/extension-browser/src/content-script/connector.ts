@@ -2,22 +2,21 @@ import * as url from 'url';
 
 import { Engine } from 'hint';
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
+import { HTMLDocument, HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { createHTMLDocument } from '@hint/utils/dist/src/dom/create-html-document';
+import { traverse } from '@hint/utils/dist/src/dom/traverse';
+import { getElementByUrl } from '@hint/utils/dist/src/dom/get-element-by-url';
 import { getContentTypeData, getType } from 'hint/dist/src/lib/utils/content-type';
 import {
     ConnectorOptionsConfig,
     IConnector,
     FetchEnd,
-    NetworkData,
-    HTMLDocument,
-    HTMLElement
+    NetworkData
 } from 'hint/dist/src/lib/types';
-import { getElementByUrl } from 'hint/dist/src/lib/utils/dom/get-element-by-url';
 
+import { browser, document, location, window } from '../shared/globals';
 import { Events } from '../shared/types';
 import { eval } from '../shared/globals';
-import { browser, document, location, window } from '../shared/globals';
-import { createHTMLDocument } from 'hint/dist/src/lib/utils/dom/create-html-document';
-import { traverse } from 'hint/dist/src/lib/utils/dom/traverse';
 
 export default class WebExtensionConnector implements IConnector {
     private _document: HTMLDocument | undefined;

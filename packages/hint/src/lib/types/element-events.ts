@@ -1,10 +1,9 @@
-import { HTMLElement } from './html';
 import { Event } from './event';
 
 /** The object emitted by a connector on `element::<element-type>`. */
 export type ElementFound = Event & {
     /** The visited element. */
-    element: HTMLElement;
+    element: import('@hint/utils').HTMLElement;
 };
 
 // List of elements from https://developer.mozilla.org/en-US/docs/Web/HTML/Element

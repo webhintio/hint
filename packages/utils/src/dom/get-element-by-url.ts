@@ -1,6 +1,6 @@
 import { URL } from 'url';
 
-import { HTMLDocument, HTMLElement } from '../../types/html';
+import { HTMLDocument, HTMLElement } from './html';
 
 const getSrcsetUrls = (srcset: string): string[] => {
     if (!srcset) {

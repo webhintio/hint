@@ -1,7 +1,6 @@
 import test from 'ava';
 
-import { createHTMLDocument } from '../../../../src/lib/utils/dom/create-html-document';
-import { findOriginalElement } from '../../../../src/lib/utils/dom/find-original-element';
+import { createHTMLDocument, findOriginalElement } from '../../src/dom/';
 
 const compare = (originalSource: string, snapshotSource: string) => {
     const originalDocument = createHTMLDocument(originalSource);
@@ -15,7 +14,7 @@ const compare = (originalSource: string, snapshotSource: string) => {
     const result = originalElement && foundElement ? originalElement.isSame(foundElement) : originalElement === foundElement;
 
     if (!result) {
-        console.log(`Match: 
+        console.log(`Match:
             ${originalElement && originalElement.outerHTML}
             ${foundElement && foundElement.outerHTML}`);
     }

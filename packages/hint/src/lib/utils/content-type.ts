@@ -7,15 +7,9 @@ import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { fileExtension as getFileExtension, fileName as getFileName } from '@hint/utils/dist/src/fs';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-
-// import { HTMLElement } from '../types';
+import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 
 const debug = d(__filename);
-
-type HTMLElement = {
-    getAttribute(attrib: string): string | null;
-    nodeName: string;
-};
 
 /*
  * ---------------------------------------------------------------------

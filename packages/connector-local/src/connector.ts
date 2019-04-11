@@ -42,30 +42,21 @@ const readFileAsBuffer = promisify(readFile);
 
 import * as chokidar from 'chokidar';
 import globby from 'globby';
+import { JSDOM } from 'jsdom';
 
-import { fs, logger, network } from '@hint/utils';
-
-import { utils } from 'hint';
-
-const { contentType: { getContentTypeData, getType, isTextMediaType }, dom: { traverse } } = utils;
-
-const { cwd, isFile, readFileAsync } = fs;
-const { asPathString, getAsUri } = network;
-
+import { dom, fs, HTMLDocument, HTMLElement, logger, network } from '@hint/utils';
 import {
     CanEvaluateScript,
+    Engine,
     Event,
     FetchEnd,
-    HTMLDocument,
-    HTMLElement,
     IConnector,
     IFetchOptions,
     NetworkData,
-    ScanEnd
-} from 'hint/dist/src/lib/types';
-import { Engine } from 'hint/dist/src/lib/engine';
+    ScanEnd,
+    utils
+} from 'hint';
 import { HTMLParse, HTMLEvents } from '@hint/parser-html';
-import { JSDOM } from 'jsdom';
 
 /*
  * ------------------------------------------------------------------------------
@@ -73,6 +64,11 @@ import { JSDOM } from 'jsdom';
  * ------------------------------------------------------------------------------
  */
 
+const { traverse } = dom;
+const { contentType: { getContentTypeData, getType, isTextMediaType } } = utils;
+
+const { cwd, isFile, readFileAsync } = fs;
+const { asPathString, getAsUri } = network;
 const defaultOptions = {};
 
 export default class LocalConnector implements IConnector {

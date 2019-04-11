@@ -3,8 +3,7 @@ import * as path from 'path';
 
 import anyTest, { TestInterface } from 'ava';
 
-import { createHTMLDocument } from '../../../src/lib/utils/dom/create-html-document';
-import { HTMLDocument } from '../../../src/lib/types';
+import { createHTMLDocument, HTMLDocument } from '../../src/dom';
 
 type HTMLContext = {
     document: HTMLDocument;

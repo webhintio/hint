@@ -1,4 +1,4 @@
-import { HTMLDocument } from '../../types/html';
+import { HTMLDocument } from './html';
 import * as parse5 from 'parse5';
 import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
 
