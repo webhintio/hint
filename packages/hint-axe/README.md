@@ -1,6 +1,6 @@
-# aXe accessibility check (`axe`)
+# axe accessibility check (`axe`)
 
-`aXe` is the accessibility engine for automated testing of HTML-based
+`axe` is the accessibility engine for automated testing of HTML-based
 user interfaces. This hint performs the default accessibility tests
 (WCAG 2.0 Level A and Level AA rules) and alerts if something fails.
 
@@ -41,7 +41,7 @@ for more information of what they do.
 This hint uses [`axe.run`][axe.run] and the default values ([WCAG
 2.0][wcag 2.0] Level A and Level AA rules) over the `document`.
 You can modify what rules or categories are executed via an `options`
-object that follows [aXe’s documentation][axe docs].
+object that follows [axe’s documentation][axe docs].
 
 Some examples of hint configurations that you can have in the
 [`.hintrc`][hintrc] file:
@@ -134,7 +134,7 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 ## Further Reading
 
 * [Deque University](https://dequeuniversity.com/)
-* [aXe core GitHub page][axe core]
+* [axe core GitHub page][axe core]
 * [Web Accessibility Initiative (WAI)](https://www.w3.org/WAI/)
 
 <!-- Link labels: -->

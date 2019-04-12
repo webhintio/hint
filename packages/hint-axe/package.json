@@ -10,7 +10,7 @@
     "@hint/utils": "^1.0.0",
     "axe-core": "^3.2.2"
   },
-  "description": "hint that that checks using aXe for accessibility related best practices",
+  "description": "hint that that checks using axe for accessibility related best practices",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",
     "@types/node": "11.12.0",

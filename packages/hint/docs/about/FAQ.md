@@ -7,7 +7,7 @@ developer experience: easy to configure, develop, and well documented.
 
 `webhint` doesn’t want to reinvent the wheel. For that reason it tries
 to integrate other tools and services that do a great job, and
-contribute back where appropriate. For example, we are using [aXe][axe]
+contribute back where appropriate. For example, we are using [axe][axe]
 for accessibility, [SSL Server Test][ssllabs] for checking the
 certificate configuration, etc.
 

@@ -6,7 +6,7 @@ const meta: HintMetadata = {
     docs: {
         category: Category.accessibility,
         description: 'Runs axe-core tests in the target',
-        name: 'aXe accessibility check'
+        name: 'axe accessibility check'
     },
     id: 'axe',
     schema: [{
