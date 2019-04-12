@@ -28,7 +28,7 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
         engine.on('element::script', this.parseJavascriptTag.bind(this));
     }
 
-    private getCurrentVisitors(walkArray: WalkArray, node: ESTree.Node, base?: NodeVisitor, state?: any) {
+    private getCurrentVisitorsOrCallback(walkArray: WalkArray, node: ESTree.Node, base?: NodeVisitor, state?: any) {
         const item = walkArray.find(([key]) => {
             return key.node === node && key.base === base && key.state === state;
         });
@@ -47,36 +47,57 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
             /*
              * We will need an array for each walk method supported.
              */
-            const walkArray: WalkArray = [];
+            const walkArrays: { [t: string]: WalkArray } = {};
 
-            /*
-             * For now, only `walk.simple` is supported.
-             * When support for any other method is added we will need
-             * to reuse this method (in case of `ancestor`) or create
-             * a new one if the signature is not the same.
-             */
-            const simple = (node: ESTree.Node, visitors: NodeVisitor, base?: NodeVisitor, state?: any) => {
-                let currentVisitors: Map<string, Array<any>> | null = this.getCurrentVisitors(walkArray, node, base, state);
-
-                if (!currentVisitors) {
-                    currentVisitors = new Map();
-                    walkArray.push([{ base, node, state }, currentVisitors]);
+            const getWalkAccumulator = (methodName: string) => {
+                if (!walkArrays[methodName]) {
+                    walkArrays[methodName] = [];
                 }
 
-                Object.entries(visitors).forEach(([name, callback]) => {
-                    let visitorCallbacks = currentVisitors!.get(name);
+                return (node: ESTree.Node, visitorsOrCallback: NodeVisitor | Function, base?: NodeVisitor, state?: any) => {
+                    let currentVisitors: Map<string, Array<any>> | null = this.getCurrentVisitorsOrCallback(walkArrays[methodName], node, base, state);
 
-                    if (!visitorCallbacks) {
-                        visitorCallbacks = [];
+                    if (!currentVisitors) {
+                        currentVisitors = new Map();
+                        walkArrays[methodName].push([{ base, node, state }, currentVisitors]);
                     }
 
-                    visitorCallbacks.push(callback);
+                    if (typeof visitorsOrCallback === 'function') {
+                        const name = 'callbacks';
 
-                    currentVisitors!.set(name, visitorCallbacks);
-                });
+                        let visitorCallbacks = currentVisitors!.get(name);
+
+                        if (!visitorCallbacks) {
+                            visitorCallbacks = [];
+                        }
+
+                        visitorCallbacks.push(visitorsOrCallback);
+
+                        currentVisitors!.set(name, visitorCallbacks);
+
+                        return;
+                    }
+
+                    Object.entries(visitorsOrCallback).forEach(([name, callback]) => {
+                        let visitorCallbacks = currentVisitors!.get(name);
+
+                        if (!visitorCallbacks) {
+                            visitorCallbacks = [];
+                        }
+
+                        visitorCallbacks.push(callback);
+
+                        currentVisitors!.set(name, visitorCallbacks);
+                    });
+                };
             };
 
-            const walk: Walk = { simple };
+            const walk: Walk = {
+                ancestor: getWalkAccumulator('ancestor'),
+                full: getWalkAccumulator('full'),
+                fullAncestor: getWalkAccumulator('fullAncestor'),
+                simple: getWalkAccumulator('simple')
+            };
 
             await this.engine.emitAsync(`parse::end::javascript`, {
                 ast,
@@ -87,18 +108,32 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                 walk
             });
 
-            walkArray.forEach(([{ node }, visitors]) => {
-                const fullVisitors: any = {};
+            Object.entries(walkArrays).forEach(([methodName, walkArray]) => {
+                walkArray.forEach(([{ node, state, base }, visitors]) => {
+                    let fullVisitors: any | Function = {};
 
-                visitors.forEach((callbacks, name) => {
-                    fullVisitors[name] = (n: ESTree.Expression) => {
-                        callbacks.forEach((c: Function) => {
-                            c(n);
-                        });
-                    };
+                    visitors.forEach((callbacks, name) => {
+                        if (name !== 'callbacks') {
+                            /* istanbul ignore next */
+                            fullVisitors[name] = (callbackNode: ESTree.Expression, ancestors?: ESTree.Node[]) => {
+                                callbacks.forEach((callback: Function) => {
+                                    callback(callbackNode, ancestors);
+                                });
+                            };
+
+                            return;
+                        }
+
+                        /* istanbul ignore next */
+                        fullVisitors = (callbackNode: ESTree.Node, callbackState: any, typeOrAncestors: string | ESTree.Node[]) => {
+                            callbacks.forEach((callback: Function) => {
+                                callback(callbackNode, callbackState, typeOrAncestors);
+                            });
+                        };
+                    });
+
+                    acornWalk[methodName](node, fullVisitors, base, state);
                 });
-
-                acornWalk.simple(node, fullVisitors);
             });
         } catch (err) {
             logger.error(`Error parsing JS code: ${sourceCode}`);

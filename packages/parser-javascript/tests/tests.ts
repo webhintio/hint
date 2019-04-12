@@ -14,6 +14,9 @@ type Acorn = {
 };
 
 type AcornWalk = {
+    ancestor: () => void;
+    full: () => void;
+    fullAncestor: () => void;
     simple: () => void;
 };
 
@@ -47,7 +50,12 @@ const initContext = (t: ExecutionContext<ParseJavascriptContext>) => {
         maxListeners: 0,
         wildcard: true
     }) as Engine<ScriptEvents>;
-    t.context.acornWalk = { simple() { } };
+    t.context.acornWalk = {
+        ancestor() { },
+        full() { },
+        fullAncestor() { },
+        simple() { }
+    };
 
     t.context.sandbox = sinon.createSandbox();
 };
@@ -191,7 +199,7 @@ test('If fetch::end::script is received, then we should parse the code and emit 
     t.is(data.tokens[0], tokenList[0]);
 });
 
-test('If the tree walked is always the same, acorn-walk will be called just once', async (t) => {
+test('If the tree walked is always the same, acorn-walk will be called just once for each method', async (t) => {
     const sandbox = t.context.sandbox;
     const parseObject = {};
     const tokenList: any[] = ['test'];
@@ -203,6 +211,9 @@ test('If the tree walked is always the same, acorn-walk will be called just once
     sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
     sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
     const walkSimpleSpy = sandbox.spy(t.context.acornWalk, 'simple');
+    const walkAncestorSpy = sandbox.spy(t.context.acornWalk, 'ancestor');
+    const walkFullSpy = sandbox.spy(t.context.acornWalk, 'full');
+    const walkFullAncestorSpy = sandbox.spy(t.context.acornWalk, 'fullAncestor');
 
     t.context.engine.on('parse::end::javascript', (data: ScriptParse) => {
         data.walk.simple(data.ast, {
@@ -214,6 +225,21 @@ test('If the tree walked is always the same, acorn-walk will be called just once
             CallExpression(node) {
             }
         });
+
+        data.walk.ancestor(data.ast, {
+            CallExpression(node) {
+            }
+        });
+
+        data.walk.ancestor(data.ast, {
+            CallExpression(node) {
+            }
+        });
+
+        data.walk.full(data.ast, (node) => { });
+        data.walk.full(data.ast, (node) => { });
+        data.walk.fullAncestor(data.ast, (node) => { });
+        data.walk.fullAncestor(data.ast, (node) => { });
     });
 
     await t.context.engine.emitAsync('fetch::end::script', {
@@ -225,9 +251,12 @@ test('If the tree walked is always the same, acorn-walk will be called just once
     } as FetchEnd);
 
     t.true(walkSimpleSpy.calledOnce);
+    t.true(walkAncestorSpy.calledOnce);
+    t.true(walkFullAncestorSpy.calledOnce);
+    t.true(walkFullSpy.calledOnce);
 });
 
-test('acorn-walk will be called once per javascript file', async (t) => {
+test('acorn-walk will be called once per javascript file and method', async (t) => {
     const sandbox = t.context.sandbox;
     const parseObject = {};
     const tokenList: any[] = ['test'];
@@ -239,12 +268,22 @@ test('acorn-walk will be called once per javascript file', async (t) => {
     sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
     sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
     const walkSimpleSpy = sandbox.spy(t.context.acornWalk, 'simple');
+    const walkAncestorSpy = sandbox.spy(t.context.acornWalk, 'ancestor');
+    const walkFullSpy = sandbox.spy(t.context.acornWalk, 'full');
+    const walkFullAncestorSpy = sandbox.spy(t.context.acornWalk, 'fullAncestor');
 
     t.context.engine.on('parse::end::javascript', (data: ScriptParse) => {
         data.walk.simple(data.ast, {
             CallExpression(node) {
             }
         });
+        data.walk.ancestor(data.ast, {
+            CallExpression(node) {
+            }
+        });
+
+        data.walk.full(data.ast, (node) => { });
+        data.walk.fullAncestor(data.ast, (node) => { });
     });
 
     await t.context.engine.emitAsync('fetch::end::script', {
@@ -264,4 +303,7 @@ test('acorn-walk will be called once per javascript file', async (t) => {
     } as FetchEnd);
 
     t.true(walkSimpleSpy.calledTwice);
+    t.true(walkAncestorSpy.calledTwice);
+    t.true(walkFullAncestorSpy.calledTwice);
+    t.true(walkFullSpy.calledTwice);
 });

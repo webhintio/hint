@@ -23,16 +23,18 @@ type NodeTypeForValue<N, T> = N extends { type: T } ? N : never;
  * Object with optional properties for each possible value of `type`.
  * Each property references a method taking a `node` of the type
  * which corresponds to the value of `type` represented by the property name.
+ * And optionaly the ancestors of that node if we are using `ancestor` for the
+ * walk.
  *
  * ```ts
  * const visitor: NodeVisitor = {
- *     Literal(node) {
+ *     Literal(node, ancestors) {
  *         // node is correctly narrowed to type Literal from ESTree
  *     }
  * }
  * ```
  */
-export type NodeVisitor = { [T in NodeTypes]?: (node: NodeTypeForValue<Node, T>) => void };
+export type NodeVisitor = { [T in NodeTypes]?: (node: NodeTypeForValue<Node, T>, ancestors?: Node[]) => void };
 
 // TODO: Define types for all `acorn-walk` helpers and use them instead.
 export type Walk = {
@@ -50,6 +52,9 @@ export type Walk = {
      * From `acorn-walk` (https://github.com/acornjs/acorn/tree/master/acorn-walk)
      */
     simple(node: Node, visitors: NodeVisitor, base?: NodeVisitor, state?: any): void;
+    ancestor(node: Node, visitors: NodeVisitor, base?: NodeVisitor, state?: any): void;
+    full(node: Node, callback: (node: Node, state: any, type: string) => void, base?: NodeVisitor, state?: any): void;
+    fullAncestor(node: Node, callback: (node: Node, state: any, ancestors: Node[]) => void, base?: NodeVisitor, state?: any): void;
 };
 
 /** The object emitted by the `javascript` parser */
