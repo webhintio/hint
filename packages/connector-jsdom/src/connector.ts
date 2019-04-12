@@ -45,7 +45,6 @@ import { beforeParse } from './before-parse';
  */
 
 const { createHTMLDocument, traverse } = dom;
-
 const { contentType: { getContentTypeData, getType } } = utils;
 const { isHTMLDocument } = network;
 const debug: debug.IDebugger = d(__filename);
