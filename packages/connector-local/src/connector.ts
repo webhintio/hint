@@ -66,7 +66,6 @@ import { HTMLParse, HTMLEvents } from '@hint/parser-html';
 
 const { traverse } = dom;
 const { contentType: { getContentTypeData, getType, isTextMediaType } } = utils;
-
 const { cwd, isFile, readFileAsync } = fs;
 const { asPathString, getAsUri } = network;
 const defaultOptions = {};
