@@ -18,7 +18,7 @@ type Key = {
     state?: any;
 };
 
-type WalkArray = Array<[Key, Map<string, Array<any>>]>;
+type WalkArray = Array<[Key, Map<string, Array<Function>>]>;
 
 export default class JavascriptParser extends WebhintParser<ScriptEvents> {
     public constructor(engine: Engine<ScriptEvents>) {
@@ -52,7 +52,7 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                 }
 
                 return (node: ESTree.Node, visitorsOrCallback: NodeVisitor | Function, base?: NodeVisitor, state?: any) => {
-                    let currentVisitors: Map<string, Array<any>> | null = this.getCurrentVisitorsOrCallback(walkArrays[methodName], node, base, state);
+                    let currentVisitors = this.getCurrentVisitorsOrCallback(walkArrays[methodName], node, base, state);
 
                     if (!currentVisitors) {
                         currentVisitors = new Map();
@@ -62,7 +62,7 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                     if (typeof visitorsOrCallback === 'function') {
                         const name = 'callbacks';
 
-                        let visitorCallbacks = currentVisitors!.get(name);
+                        let visitorCallbacks = currentVisitors.get(name);
 
                         if (!visitorCallbacks) {
                             visitorCallbacks = [];
@@ -70,22 +70,22 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
 
                         visitorCallbacks.push(visitorsOrCallback);
 
-                        currentVisitors!.set(name, visitorCallbacks);
+                        currentVisitors.set(name, visitorCallbacks);
 
                         return;
                     }
 
-                    Object.entries(visitorsOrCallback).forEach(([name, callback]) => {
-                        let visitorCallbacks = currentVisitors!.get(name);
+                    for (const [name, callback] of Object.entries(visitorsOrCallback)) {
+                        let visitorCallbacks = currentVisitors.get(name);
 
                         if (!visitorCallbacks) {
                             visitorCallbacks = [];
                         }
 
-                        visitorCallbacks.push(callback);
+                        visitorCallbacks.push(callback!);
 
-                        currentVisitors!.set(name, visitorCallbacks);
-                    });
+                        currentVisitors.set(name, visitorCallbacks);
+                    }
                 };
             };
 
@@ -107,12 +107,12 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
 
             Object.entries(walkArrays).forEach(([methodName, walkArray]) => {
                 walkArray.forEach(([{ node, state, base }, visitors]) => {
-                    let allVisitors: any | Function = {};
+                    let allVisitors: NodeVisitor | Function = {};
 
                     visitors.forEach((callbacks, name) => {
-                        if (name !== 'callbacks') {
+                        if (typeof allVisitors !== 'function') {
                             /* istanbul ignore next */
-                            allVisitors[name] = (callbackNode: ESTree.Expression, ancestors?: ESTree.Node[]) => {
+                            allVisitors[name as keyof NodeVisitor] = (callbackNode: ESTree.Expression, ancestors?: ESTree.Node[]) => {
                                 callbacks.forEach((callback: Function) => {
                                     callback(callbackNode, ancestors);
                                 });
