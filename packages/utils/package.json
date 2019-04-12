@@ -22,7 +22,7 @@
   "description": "hint tools",
   "devDependencies": {
     "@types/configstore": "^4.0.0",
-    "@types/debug": "4.1.2",
+    "@types/debug": "4.1.4",
     "@types/file-url": "^2.0.0",
     "@types/request": "^2.48.1",
     "@types/strip-bom": "^3.0.0",

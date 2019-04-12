@@ -12,7 +12,7 @@
   "description": "hint that that checks if your site is using HTTPS and if it has mixed content.",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",
-    "@types/debug": "4.1.3",
+    "@types/debug": "4.1.4",
     "@types/node": "11.12.0",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "1.4.2",
