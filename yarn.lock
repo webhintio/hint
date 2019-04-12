@@ -561,15 +561,10 @@
   resolved "https://registry.yarnpkg.com/@types/core-js/-/core-js-0.9.46.tgz#ea701ee34cbb6dfe6d100f1530319547c93c8d79"
   integrity sha512-LooLR6XHes9V+kNYRz1Qm8w3atw9QMn7XeZUmIpUelllF9BdryeUKd/u0Wh5ErcjpWfG39NrToU9MF7ngsTFVw==
 
-"@types/debug@4.1.2":
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.2.tgz#84824e9259fc583dd9385635738359c9582f7f82"
-  integrity sha512-jkf6UiWUjcOqdQbatbvOm54/YbCdjt3JjiAzT/9KS2XtMmOkYHdKsI5u8fulhbuTUuiqNBfa6J5GSDiwjK+zLA==
-
-"@types/debug@4.1.3", "@types/debug@^4.1.3":
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.3.tgz#4965a87531d7c6863f5b097b2c518b825e926cc7"
-  integrity sha512-PQverGatRgqIhRLracrC8k/j5A6QOASVLR0wuURx6ROQZx3OQ9PnTc/5Xrznny/xaO0TwdxSgGyG90NCzk37Rg==
+"@types/debug@4.1.4", "@types/debug@^4.1.4":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.4.tgz#56eec47706f0fd0b7c694eae2f3172e6b0b769da"
+  integrity sha512-D9MyoQFI7iP5VdpEyPZyjjqIJ8Y8EDNQFIFVLOmeg1rI1xiHOChyUPMPRUVfqFCerxfE+yS3vMyj37F6IdtOoQ==
 
 "@types/ejs@^2.6.3":
   version "2.6.3"
