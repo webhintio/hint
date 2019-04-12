@@ -44,9 +44,6 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
             const ast = parse(sourceCode, options) as ESTree.Node;
             const tokens = [...tokenizer(sourceCode, options)];
 
-            /*
-             * We will need an array for each walk method supported.
-             */
             const walkArrays: { [t: string]: WalkArray } = {};
 
             const getWalkAccumulator = (methodName: string) => {
@@ -110,12 +107,12 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
 
             Object.entries(walkArrays).forEach(([methodName, walkArray]) => {
                 walkArray.forEach(([{ node, state, base }, visitors]) => {
-                    let fullVisitors: any | Function = {};
+                    let allVisitors: any | Function = {};
 
                     visitors.forEach((callbacks, name) => {
                         if (name !== 'callbacks') {
                             /* istanbul ignore next */
-                            fullVisitors[name] = (callbackNode: ESTree.Expression, ancestors?: ESTree.Node[]) => {
+                            allVisitors[name] = (callbackNode: ESTree.Expression, ancestors?: ESTree.Node[]) => {
                                 callbacks.forEach((callback: Function) => {
                                     callback(callbackNode, ancestors);
                                 });
@@ -125,14 +122,14 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                         }
 
                         /* istanbul ignore next */
-                        fullVisitors = (callbackNode: ESTree.Node, callbackState: any, typeOrAncestors: string | ESTree.Node[]) => {
+                        allVisitors = (callbackNode: ESTree.Node, callbackState: any, typeOrAncestors: string | ESTree.Node[]) => {
                             callbacks.forEach((callback: Function) => {
                                 callback(callbackNode, callbackState, typeOrAncestors);
                             });
                         };
                     });
 
-                    acornWalk[methodName](node, fullVisitors, base, state);
+                    acornWalk[methodName](node, allVisitors, base, state);
                 });
             });
         } catch (err) {

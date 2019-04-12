@@ -23,7 +23,7 @@ type NodeTypeForValue<N, T> = N extends { type: T } ? N : never;
  * Object with optional properties for each possible value of `type`.
  * Each property references a method taking a `node` of the type
  * which corresponds to the value of `type` represented by the property name.
- * And optionaly the ancestors of that node if we are using `ancestor` for the
+ * And optionally the ancestors of that node if we are using `ancestor` for the
  * walk.
  *
  * ```ts
