@@ -14,11 +14,10 @@ import { get as parseColor, ColorDescriptor } from 'color-string';
 import {
     ElementFound,
     HintContext,
-    HTMLElement,
     IHint,
     TraverseEnd
 } from 'hint';
-import { caniuse, misc } from '@hint/utils';
+import { caniuse, HTMLElement, misc } from '@hint/utils';
 
 import meta from './meta';
 

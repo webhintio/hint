@@ -1,8 +1,8 @@
 import * as url from 'url';
 
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
+import { HTMLElement, HTMLDocument } from '@hint/utils/dist/src/dom/html';
 
-import { HTMLElement, HTMLDocument } from './html';
 import { NetworkData } from './network';
 import { Engine } from '../engine';
 

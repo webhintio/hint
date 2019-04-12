@@ -1,4 +1,4 @@
-import { HTMLElement } from './html';
+import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 import { Event } from './event';
 import { ElementEvents } from './element-events';
 import { Problem } from './problems';

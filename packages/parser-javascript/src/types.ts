@@ -1,7 +1,7 @@
 import { Token } from 'acorn';
 import { Node } from 'estree';
 
-import { HTMLElement } from 'hint/dist/src/lib/types';
+import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 import { Event, Events } from 'hint/dist/src/lib/types/events';
 
 /** All possible values for the Node `type` property. */

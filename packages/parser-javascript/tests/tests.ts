@@ -2,8 +2,9 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
-import { Engine } from 'hint';
-import { ElementFound, HTMLElement, FetchEnd } from 'hint/dist/src/lib/types';
+
+import { ElementFound, Engine, FetchEnd } from 'hint';
+import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 
 import { ScriptEvents, ScriptParse } from '../src/parser';
 

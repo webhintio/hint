@@ -11,9 +11,10 @@
 
 import { AxeResults, Result as AxeResult, NodeResult as AxeNodeResult } from 'axe-core';
 
+import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
-import { HTMLElement, IHint, Severity, CanEvaluateScript } from 'hint/dist/src/lib/types';
+import { IHint, Severity, CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';

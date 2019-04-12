@@ -6,11 +6,12 @@
  */
 import { URL } from 'url';
 
+import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+
 import { Engine } from './engine';
 import {
     Events,
     HintMetadata,
-    HTMLElement,
     NetworkData,
     ProblemLocation,
     Severity,

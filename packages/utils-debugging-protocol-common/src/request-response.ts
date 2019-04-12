@@ -1,9 +1,8 @@
 import { atob } from 'abab';
 import { Crdp } from 'chrome-remote-debug-protocol';
 
-import { debug as d, HttpHeaders } from '@hint/utils';
-
-import { Response, HTMLElement, utils } from 'hint';
+import { debug as d, HTMLElement, HttpHeaders } from '@hint/utils';
+import { Response, utils } from 'hint';
 import { normalizeHeaders, Requester } from '@hint/utils-connector-tools';
 
 const debug: debug.IDebugger = d(__filename);

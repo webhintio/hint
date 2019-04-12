@@ -1,4 +1,4 @@
-import { HTMLElement } from 'hint/dist/src/lib/types';
+import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 import { Event, Events } from 'hint/dist/src/lib/types/events';
 import { Root } from 'postcss';
 

@@ -1,8 +1,10 @@
 /**
  * @fileoverview Helper that contains all the logic related with HTML compat api, to use in different modules.
  */
+import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { HTMLAttribute, INamedNodeMap} from '@hint/utils/src/types/html';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { ElementFound, HTMLElement, ProblemLocation, HTMLAttribute, INamedNodeMap, Events, Event } from 'hint/dist/src/lib/types';
+import { ElementFound, ProblemLocation, Events, Event } from 'hint/dist/src/lib/types';
 
 import { MDNTreeFilteredByBrowsers, TestFeatureFunction, FeatureInfo } from '../types';
 import { CompatStatement } from '../types-mdn.temp';

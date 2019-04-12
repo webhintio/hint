@@ -1,4 +1,7 @@
+import { ProblemLocation } from '@hint/utils';
 import { Category } from '../enums/category';
+
+export { ProblemLocation };
 
 /** The severity configuration of a hint */
 export enum Severity {
@@ -6,18 +9,6 @@ export enum Severity {
     warning = 1,
     error = 2
 }
-
-/** The location of a Problem in the code */
-export type ProblemLocation = {
-    /** The zero-based column number where a Problem is */
-    column: number;
-    /** The zero-based line number where a Problem is */
-    line: number;
-    /** The column number relative to the element where a Problem is */
-    elementColumn?: number;
-    /** The line number relative to the element where a Problem is */
-    elementLine?: number;
-};
 
 /** A problem found by a hint  */
 export type Problem = {

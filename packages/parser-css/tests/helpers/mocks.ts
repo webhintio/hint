@@ -1,4 +1,4 @@
-import { HTMLElement } from 'hint/dist/src/lib/types';
+import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 
 export const mockStyleElement = (type: string, code: string) => {
     return {

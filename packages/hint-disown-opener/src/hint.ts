@@ -15,10 +15,11 @@ import { URL } from 'url';
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { isSupported } from '@hint/utils/dist/src/caniuse';
 import { isRegularProtocol } from '@hint/utils/dist/src/network/is-regular-protocol';
+import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 import { cutString } from '@hint/utils/dist/src/misc/cut-string';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
-import { HTMLElement, ElementFound, IHint } from 'hint/dist/src/lib/types';
+import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';

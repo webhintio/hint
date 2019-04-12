@@ -1,7 +1,6 @@
 import test from 'ava';
 
-import { createHTMLDocument } from '../../../../src/lib/utils/dom/create-html-document';
-import { getElementByUrl } from '../../../../src/lib/utils/dom/get-element-by-url';
+import { createHTMLDocument, getElementByUrl } from '../../src/dom/';
 
 test('Find by URL match (no match)', (t) => {
     const dom = createHTMLDocument(`

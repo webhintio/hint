@@ -1,4 +1,4 @@
-import { HTMLDocument, HTMLElement } from '../../types/html';
+import { HTMLDocument, HTMLElement } from './html';
 
 type Predicate = (element: HTMLElement) => boolean;
 
