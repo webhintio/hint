@@ -297,7 +297,7 @@ export default class JSDOMConnector implements IConnector {
             debug(`Exception ignored while closing JSDOM connector (most likely pending network requests)`);
             debug(e);
         } finally {
-            // Kill any subprocess that is still alive.
+            // Kill any subprocess that are still alive.
             this.killAllSubprocesses();
         }
 
