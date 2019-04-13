@@ -9,7 +9,7 @@ steps:
     displayName: 'Use Yarn 1.x'
     inputs:
       checkLatest: true
-  - script: yarn
+  - script: yarn --ignore-engines
     displayName: 'Install dependencies'
   - script: yarn test
     displayName: 'Test'
