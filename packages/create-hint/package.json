@@ -26,7 +26,7 @@
     "eslint-plugin-markdown": "^1.0.0",
     "fork-ts-checker-webpack-plugin": "^1.0.2",
     "fs-extra": "^7.0.0",
-    "handlebars": "^4.1.1",
+    "handlebars": "^4.1.2",
     "hint": "^4.5.0",
     "inquirer": "^6.2.2",
     "mkdirp": "^0.5.1",
