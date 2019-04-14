@@ -21,15 +21,15 @@ the same GitHub repo.
 ## Step 2: Fork and checkout your own webhint repository
 
 Go to <https://github.com/webhintio/hint> and click the `Fork` button.
-Follow the [GitHub documentation][github fork docs] for forking and cloning.
+Follow the [GitHub documentation][github fork docs] for forking.
 
-Once you’ve cloned the repository:
+Clone your forked repository:
 
 ```bash
-git clone https://github.com/webhintio/hint.git
+git clone https://github.com/<your_GitHub_username>/hint.git
 ```
 
-go into the project’s directory:
+Then go into the project’s directory:
 
 ```bash
 cd hint
@@ -70,7 +70,7 @@ directory, and then run:
 yarn test
 ```
 
-The testing takes a a bit to complete. If any tests fail, that
+The testing takes a bit to complete. If any tests fail, that
 likely means one or more parts of the environment setup didn’t complete
 correctly. The upstream tests always pass.
 
