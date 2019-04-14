@@ -405,10 +405,10 @@
     once "^1.4.0"
     universal-user-agent "^2.0.1"
 
-"@octokit/rest@^16.23.5":
-  version "16.23.5"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.23.5.tgz#835de07e68646f66abb18d13886803571afe5fbe"
-  integrity sha512-7RcYNXeBvmKdbXdaRGCDzaq8snEaZrD7X+jUFT6ZjEMNgaSYrkl7pB+ICh+dnTpubAeFPpxeKR+82msCbgxqew==
+"@octokit/rest@^16.24.0":
+  version "16.24.0"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.24.0.tgz#ac6e6a2258ed27e6978d6677c2a104c1b2c7449a"
+  integrity sha512-BesjqU1wWLrP5g4vu0GRJpPxlXM+ISNsXexLGIAANxxPkiWcUy0raPwyUMtt5/8WScJ7sbct7MqmL0adMO3ZNw==
   dependencies:
     "@octokit/request" "3.0.0"
     atob-lite "^2.0.0"
@@ -561,7 +561,7 @@
   resolved "https://registry.yarnpkg.com/@types/core-js/-/core-js-0.9.46.tgz#ea701ee34cbb6dfe6d100f1530319547c93c8d79"
   integrity sha512-LooLR6XHes9V+kNYRz1Qm8w3atw9QMn7XeZUmIpUelllF9BdryeUKd/u0Wh5ErcjpWfG39NrToU9MF7ngsTFVw==
 
-"@types/debug@4.1.4", "@types/debug@^4.1.4":
+"@types/debug@^4.1.4":
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.4.tgz#56eec47706f0fd0b7c694eae2f3172e6b0b769da"
   integrity sha512-D9MyoQFI7iP5VdpEyPZyjjqIJ8Y8EDNQFIFVLOmeg1rI1xiHOChyUPMPRUVfqFCerxfE+yS3vMyj37F6IdtOoQ==
@@ -2411,7 +2411,7 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000955:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000957.tgz#fb1026bf184d7d62c685205358c3b24b9e29f7b3"
   integrity sha512-8wxNrjAzyiHcLXN/iunskqQnJquQQ6VX8JHfW5kLgAPRSiSuKZiNfmIkP5j7jgyXqAQBSoXyJxfnbCFS0ThSiQ==
 
-canvas@2.4.1:
+canvas@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/canvas/-/canvas-2.4.1.tgz#d3b40efc7c281006ca0ff9cc854aaa8b82abec7a"
   integrity sha512-SaFomFqDuuuSTScTHQ7nXc5ea71Ieb8ctvwXjR7vzLsBMfp3euTv2xsTY70zIoC5r4sSQZYXv6tiHiORJ4y1vg==
