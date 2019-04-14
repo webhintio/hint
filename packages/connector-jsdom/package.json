@@ -19,10 +19,10 @@
     "@hint/utils-create-server": "^3.0.0",
     "@types/jsdom": "^12.2.3",
     "@types/lodash": "^4.14.123",
-    "@types/node": "11.12.0",
+    "@types/node": "^11.13.4",
     "@types/sinon": "^7.0.11",
-    "@typescript-eslint/eslint-plugin": "^1.4.2",
-    "@typescript-eslint/parser": "1.4.2",
+    "@typescript-eslint/eslint-plugin": "^1.6.0",
+    "@typescript-eslint/parser": "^1.6.0",
     "ava": "^1.4.1",
     "cpx": "^1.5.0",
     "eslint": "^5.15.1",
@@ -57,7 +57,7 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
-    "canvas": "2.4.1"
+    "canvas": "^2.4.1"
   },
   "peerDependencies": {
     "hint": "^4.5.0"
