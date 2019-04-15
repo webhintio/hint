@@ -51,7 +51,7 @@ To use a different hint than the one specified in your `.hintrc` file:
 hint https://example.com --hints html-checker
 ```
 
-Multiple hints can be specified as a comma sepreated string:
+Multiple hints can be specified as a comma seperated string:
 
 ```bash
 hint https://example.com --hints axe,html-checker
