@@ -39,7 +39,7 @@ const anyResources = (resources: any[], type: string) => {
         return true;
     }
 
-    logger.error(`Couldn't find any installed ${type}s. Visit https://www.npmjs.com/search?q=%hint%2F${type}.`);
+    logger.error(`Couldn't find any installed ${type}s. Visit https://www.npmjs.com/search?q=hint%2F${type}.`);
 
     return false;
 };
