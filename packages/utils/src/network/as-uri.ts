@@ -1,8 +1,9 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import compact = require('lodash/compact');
-import fileUrl = require('file-url'); // `require` used because `file-url` exports a function
+import * as fileUrl from 'file-url';
+import compact = require('lodash/compact'); // `require` used because `lodash/compact` exports a function
+
 
 import { debug as d } from '../debug';
 import * as logger from '../logging';
