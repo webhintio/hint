@@ -26,7 +26,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
     }
 
     public searchFeatures(parse: StyleParse): void {
-        this.walk(parse.ast);
+        this.walk(parse.ast, parse.code);
     }
 
     private onParse(parse: StyleParse) {
@@ -110,7 +110,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
      * if the browser doesn't support @support or it considition,
      * we have to skip the node and it children.
      */
-    private walk(ast: ContainerBase) {
+    private walk(ast: ContainerBase, codeSnippet: string) {
         const nodes: ChildNode[] | undefined = ast.nodes;
 
         if (!nodes) {
@@ -136,14 +136,14 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
                     continue;
                 }
 
-                this.walk(node as ContainerBase);
+                this.walk(node as ContainerBase, codeSnippet);
 
                 continue;
             }
 
-            strategy.testFeature(node, location);
+            strategy.testFeature(node, location, { codeSnippet });
 
-            this.walk(node as ContainerBase);
+            this.walk(node as ContainerBase, codeSnippet);
         }
     }
 
@@ -158,12 +158,12 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
         }
 
         const [prefix, name] = this.getPrefix(featureNameWithPrefix);
-        const feature: FeatureInfo = { displayableName: name, location, name, prefix };
+        const feature: FeatureInfo = { codeSnippet: options.codeSnippet, displayableName: name, location, name, prefix };
 
         if (subfeatureNameWithPrefix) {
             const [prefix, name] = this.getPrefix(subfeatureNameWithPrefix);
 
-            feature.subFeature = { displayableName: name, name, prefix };
+            feature.subFeature = { codeSnippet: options.codeSnippet, displayableName: name, name, prefix };
         }
 
         return this.checkFeatureCompatibility(feature, collection, options);

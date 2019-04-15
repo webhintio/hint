@@ -2,7 +2,7 @@
  * @fileoverview Helper that contains all the logic related with HTML compat api, to use in different modules.
  */
 import { HTMLElement } from '@hint/utils/dist/src/dom/html';
-import { HTMLAttribute, INamedNodeMap} from '@hint/utils/src/types/html';
+import { HTMLAttribute, INamedNodeMap } from '@hint/utils/src/types/html';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ElementFound, ProblemLocation, Events, Event } from 'hint/dist/src/lib/types';
 
@@ -23,18 +23,20 @@ export class CompatHTML extends CompatBase<Events, Event> {
         this.walk((elementFound: ElementFound) => {
             const { element, resource } = elementFound;
             const location = element.getLocation();
+            const codeSnippet = element.outerHTML;
 
             this.setResource(resource);
-            this.testElement(element, location!);
-            this.testAttributes(element, location!);
+            this.testElement(element, location!, codeSnippet);
+            this.testAttributes(element, location!, codeSnippet);
         });
     }
 
-    private testElement(element: HTMLElement, location: ProblemLocation) {
+    private testElement(element: HTMLElement, location: ProblemLocation, codeSnippet: string) {
         const elements = this.MDNData.elements;
         const elementName = element.nodeName.toLowerCase();
 
         const feature: FeatureInfo = {
+            codeSnippet,
             displayableName: `${elementName} element`,
             location,
             name: elementName
@@ -43,24 +45,24 @@ export class CompatHTML extends CompatBase<Events, Event> {
         this.testFeature(elements, feature);
     }
 
-    private testAttributes(element: HTMLElement, location: ProblemLocation) {
+    private testAttributes(element: HTMLElement, location: ProblemLocation, codeSnippet: string) {
         const namedNodeMap: INamedNodeMap = element.attributes;
 
         for (let index = 0; index < namedNodeMap.length; index++) {
             const attribute: HTMLAttribute = namedNodeMap[index];
 
-            this.testGlobalAttributes(attribute, location);
-            this.testElementAttributes(element, attribute, location);
+            this.testGlobalAttributes(attribute, location, codeSnippet);
+            this.testElementAttributes(element, attribute, location, codeSnippet);
         }
     }
 
-    private testElementAttributes(element: HTMLElement, attribute: HTMLAttribute, location: ProblemLocation) {
+    private testElementAttributes(element: HTMLElement, attribute: HTMLAttribute, location: ProblemLocation, codeSnippet: string) {
         const INPUT_TAG = 'input';
         const TYPE_ATTR = 'type';
         const elements = this.MDNData.elements;
         const elementName = element.nodeName.toLowerCase();
         const displayableName = `${attribute.name} attribute of the ${elementName} element`;
-        const subFeature: FeatureInfo = { displayableName, name: attribute.name };
+        const subFeature: FeatureInfo = { codeSnippet, displayableName, name: attribute.name };
 
         if (elementName === INPUT_TAG && attribute.name === TYPE_ATTR) {
             subFeature.displayableName = `${INPUT_TAG} ${TYPE_ATTR} ${attribute.value}`;
@@ -68,6 +70,7 @@ export class CompatHTML extends CompatBase<Events, Event> {
         }
 
         const feature: FeatureInfo = {
+            codeSnippet,
             location,
             name: elementName,
             subFeature
@@ -76,11 +79,12 @@ export class CompatHTML extends CompatBase<Events, Event> {
         this.testFeature(elements, feature);
     }
 
-    private testGlobalAttributes(attribute: HTMLAttribute, location: ProblemLocation) {
+    private testGlobalAttributes(attribute: HTMLAttribute, location: ProblemLocation, codeSnippet: string) {
         const globalAttributes = this.MDNData.global_attributes;
         const attributeName = attribute.name;
 
         const feature: FeatureInfo = {
+            codeSnippet,
             displayableName: `global attribute ${attributeName}`,
             location,
             name: attributeName
