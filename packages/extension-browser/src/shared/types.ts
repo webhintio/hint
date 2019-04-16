@@ -7,6 +7,11 @@ export type Config = {
     ignoredUrls?: string;
 };
 
+export type ErrorData = {
+    message: string;
+    stack: string;
+};
+
 export type InjectDetails = {
     config: Config;
 }
@@ -31,6 +36,7 @@ export type Results = {
 export type Events = {
     config?: Config;
     enable?: InjectDetails;
+    error?: ErrorData;
     fetchEnd?: FetchEnd;
     fetchStart?: FetchStart;
     done?: boolean;

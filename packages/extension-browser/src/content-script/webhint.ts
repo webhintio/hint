@@ -12,13 +12,30 @@ import HTMLParser from '@hint/parser-html';
 import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
-import { browser, location } from '../shared/globals';
+import { browser, location, window } from '../shared/globals';
 import { Config, Events } from '../shared/types';
 
 import WebExtensionConnector from './connector';
 import WebExtensionFormatter from './formatter';
 
 import hints from '../shared/hints.import';
+
+const reportError = (message: string, stack: string) => {
+    browser.runtime.sendMessage({
+        error: {
+            message,
+            stack
+        }
+    });
+};
+
+window.addEventListener('error', (evt) => {
+    reportError(evt.error.message, evt.error.stack);
+});
+
+window.addEventListener('unhandledrejection', (evt) => {
+    reportError(evt.reason.message, evt.reason.stack);
+});
 
 /** Use the provided `browserslist` query if valid; `defaults` otherwise. */
 const determineBrowserslist = (list?: string) => {

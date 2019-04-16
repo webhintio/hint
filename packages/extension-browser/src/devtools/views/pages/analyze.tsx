@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 
-import { Results } from '../../../shared/types';
+import { ErrorData, Results } from '../../../shared/types';
 
 import { getMessage } from '../../utils/i18n';
 import { useRotatingInspiration } from '../../utils/inspire';
@@ -22,6 +22,9 @@ type Props = {
     /** Listener for when the user decides to cancel a scan. */
     onCancel: (duration: number) => void;
 
+    /** Listener for when the scan fails with an error. */
+    onError: (error: ErrorData) => void;
+
     /** Listener to receive the results of a scan after it completes. */
     onResults: (results: Results, duration: number) => void;
 };
@@ -29,7 +32,7 @@ type Props = {
 /**
  * Display progress and status while running a scan.
  */
-const AnalyzePage = ({ onCancel, onResults }: Props) => {
+const AnalyzePage = ({ onCancel, onError, onResults }: Props) => {
     const [delayUntil, setDelayUntil] = useState(0);
     const [scanStart] = useState(performance.now());
     const [resultsTimeout, setResultsTimeout] = useState({} as NodeJS.Timeout);
@@ -46,6 +49,12 @@ const AnalyzePage = ({ onCancel, onResults }: Props) => {
 
     // Listen for results from the background script.
     useMessageListener((message) => {
+        if (message.error) {
+            onError(message.error);
+
+            return;
+        }
+
         if (!message.results) {
             return;
         }

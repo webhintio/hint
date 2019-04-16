@@ -116,8 +116,8 @@ browser.runtime.onMessage.addListener((message: Events, sender) => {
         sendEvent(tabId, message);
     }
 
-    // Forward results from content-script to the associated devtools panel.
-    if (message.results) {
+    // Forward errors or results from content-script to the associated devtools panel.
+    if (message.error || message.results) {
         const port = devtoolsPorts.get(tabId);
 
         if (port) {
