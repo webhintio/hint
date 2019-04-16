@@ -26,7 +26,7 @@ const Page = ({ actionDisabled, actionName, children, className, title, onAction
     }, [onAction]);
 
     return (
-        <form className={`${styles.root} ${className}`} onSubmit={onSubmit}>
+        <form className={`${styles.root} ${className || ''}`} onSubmit={onSubmit}>
             <PageHeader actionDisabled={actionDisabled} actionName={actionName} />
             <h1 className={styles.header}>
                 {title}

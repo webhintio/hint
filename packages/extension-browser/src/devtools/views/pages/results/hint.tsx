@@ -21,7 +21,7 @@ const Hint = ({ name, problems, helpURL }: HintResults) => {
                 </span>
             </summary>
             <div className={styles.results}>
-                <a href={helpURL} target="_blank">
+                <a href={helpURL} rel="noopener noreferrer" target="_blank">
                     {problems.length ? getMessage('learnWhyLabel') : getMessage('learnWhyAndHowLabel')}
                 </a>
                 {problems.map(
