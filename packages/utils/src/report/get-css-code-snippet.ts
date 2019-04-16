@@ -53,6 +53,10 @@ const getCodeSnippetPostfix = (node: ChildNode): string => {
  *         prop: value;
  *     }
  *
+ * Node type `comment`
+ *
+ *      /* comment * / (the space is intentional to not break the comment)
+ *
  * Node type `atrule`
  *
  *     @keyframe name { }

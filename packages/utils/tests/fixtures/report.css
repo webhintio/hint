@@ -1,0 +1,13 @@
+/* comment */
+.selector {
+    color: #000;
+    font-size: 1rem;
+}
+
+@keyframes keyname {
+    0% {
+        /* keyframe comment */
+        width: 0;
+    }
+}
+
