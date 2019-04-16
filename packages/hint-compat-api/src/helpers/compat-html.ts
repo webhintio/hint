@@ -2,7 +2,8 @@
  * @fileoverview Helper that contains all the logic related with HTML compat api, to use in different modules.
  */
 import { HTMLElement } from '@hint/utils/dist/src/dom/html';
-import { HTMLAttribute, INamedNodeMap } from '@hint/utils/src/types/html';
+import { HTMLAttribute, INamedNodeMap } from '@hint/utils/dist/src/types/html';
+import { getHTMLCodeSnippet } from '@hint/utils/dist/src/report/get-html-code-snippet';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ElementFound, ProblemLocation, Events, Event } from 'hint/dist/src/lib/types';
 
@@ -23,7 +24,7 @@ export class CompatHTML extends CompatBase<Events, Event> {
         this.walk((elementFound: ElementFound) => {
             const { element, resource } = elementFound;
             const location = element.getLocation();
-            const codeSnippet = element.outerHTML;
+            const codeSnippet = getHTMLCodeSnippet(element);
 
             this.setResource(resource);
             this.testElement(element, location!, codeSnippet);
