@@ -13,6 +13,7 @@
     "content-type": "^1.0.4",
     "debug": "^4.1.1",
     "file-url": "^3.0.0",
+    "is-wsl": "^1.1.0",
     "lodash": "^4.17.11",
     "npm-registry-fetch": "^3.9.0",
     "parse5": "^5.1.0",
@@ -65,7 +66,7 @@
   "license": "Apache-2.0",
   "main": "./dist/src/index.js",
   "name": "@hint/utils",
-    "nyc": {
+  "nyc": {
     "branches": 75,
     "extends": "../../.nycrc",
     "include": [

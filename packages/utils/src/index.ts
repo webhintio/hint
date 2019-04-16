@@ -13,6 +13,7 @@ import * as pkgs from './packages';
 import * as testUtils from './test';
 import * as domUtils from './dom';
 import * as reportUtils from './report';
+import * as chromiumFinderUtils from './chromium-finder';
 
 export * from './types/http-header';
 export * from './types/npm';
@@ -33,6 +34,7 @@ export const contentType = contentTypeUtils;
 export const test = testUtils;
 export const dom = domUtils;
 export const report = reportUtils;
+export const chromiumFinder = chromiumFinderUtils;
 
 export {
     asyncTry,
