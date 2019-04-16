@@ -26,7 +26,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
     }
 
     public searchFeatures(parse: StyleParse): void {
-        this.walk(parse.ast, parse.code);
+        this.walk(parse.ast);
     }
 
     private onParse(parse: StyleParse) {
@@ -103,6 +103,167 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
         return valid;
     }
 
+    private hasSemicolon(node: ChildNode): boolean {
+        const source = node.source;
+
+        if (!source || !source.end || !source.input) {
+            return false;
+        }
+
+        // type NodeSource doesn't have the property css.
+        const css = (source.input as any).css;
+
+        if (!css) {
+            return false;
+        }
+
+        const line = css.split('\n')[source.end.line - 1];
+
+        return line[source.end.column - 1] === ';';
+    }
+
+    private getCodeSnippetPrefix(node: ChildNode): string {
+        if (node.type === 'rule') {
+            return `${node.raws.before}${node.selector}${node.raws.between}`;
+        }
+
+        if (node.type === 'atrule') {
+            return `@${node.name}${node.raws.afterName}${node.params}${node.raws.between}`;
+        }
+
+        return '';
+    }
+
+    private getCodeSnippetContent(node: ChildNode, isFirstNode: boolean, currentContent: string): string {
+        let numberOfSpaces = 4;
+        const grandpa = node.parent ? node.parent.parent : null;
+
+        if (grandpa && grandpa.type === 'atrule') {
+            numberOfSpaces = 8;
+        }
+
+        const spaces = new Array(numberOfSpaces + 1).join(' ');
+
+        return `${!isFirstNode ? `\n${spaces}…\n${spaces}` : ''}${!isFirstNode ? currentContent.replace(node.raws.before!, '') : currentContent}`;
+    }
+
+    private getCodeSnippetPostfix(node: ChildNode, isLastNode: boolean): string {
+        let numberOfSpaces = 4;
+        const grandpa = node.parent ? node.parent.parent : null;
+
+        if (grandpa) {
+            numberOfSpaces = 8;
+        }
+
+        const spaces = new Array(numberOfSpaces + 1).join(' ');
+
+        return `${!isLastNode ? `\n${spaces}…` : ''}${node.raws.after}`;
+    }
+
+    /**
+     * Generate a Snippet code for a CSS node.
+     *
+     * Examples:
+     *
+     * Node type `rule`:
+     *     .selector { … }
+     *
+     * Node type `decl`
+     *
+     *     .selector {
+     *         prop: value;
+     *     }
+     *
+     *     .selector {
+     *         prop: value;
+     *         …
+     *     }
+     *
+     *     .selector {
+     *         …
+     *         prop: value;
+     *     }
+     *
+     * Node type `rule` inside `atrule`
+     *     @support (display: grid) {
+     *         .selector { … }
+     *     }
+     *
+     *     @support (display: grid) {
+     *         …
+     *         .selector { … }
+     *     }
+     *
+     *     @support (display: grid) {
+     *         .selector { … }
+     *         …
+     *     }
+     *
+     * Node type `decl` inside `atrule`
+     *     @support (display: grid) {
+     *         .selector {
+     *             prop: value;
+     *         }
+     *     }
+     *
+     *     @support (display: grid) {
+     *         .selector {
+     *             …
+     *             prop: value;
+     *         }
+     *     }
+     *
+     *     @support (display: grid) {
+     *         .selector {
+     *             prop: value;
+     *             …
+     *         }
+     *     }
+     *
+     *     @support (display: grid) {
+     *         …
+     *         .selector {
+     *             …
+     *             prop: value;
+     *         }
+     *     }
+     * @param node - Node to generate the snippet code
+     */
+    private generateCodeSnippet(node: ChildNode): string {
+        let result = '';
+
+        switch (node.type) {
+            case 'rule':
+                result = `${node.raws.before}${node.selector} { … }`;
+                break;
+            case 'decl':
+                result = `${node.raws.before}${node.prop}${node.raws.between}${node.value}${this.hasSemicolon(node) ? ';' : ''}`;
+                break;
+            default:
+        }
+
+        let parent = node.parent;
+        let child = node;
+
+        while (parent && parent.type !== 'root') {
+            const nodes = parent.nodes!;
+            const nodePosition = nodes.findIndex((childNode) => { // eslint-disable-line no-loop-func
+                return childNode === child;
+            });
+            const isFirstNode = nodePosition === 0;
+            const isLastNode = nodePosition === (nodes.length - 1);
+
+            result = `${this.getCodeSnippetPrefix(parent)}{${this.getCodeSnippetContent(child, isFirstNode, result)}${this.getCodeSnippetPostfix(parent, isLastNode)}}`;
+
+            child = parent;
+            parent = parent.parent;
+        }
+
+        result = result.trim();
+
+        return result;
+    }
+
     /**
      * Walk through the nodes.
      *
@@ -110,7 +271,7 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
      * if the browser doesn't support @support or it considition,
      * we have to skip the node and it children.
      */
-    private walk(ast: ContainerBase, codeSnippet: string) {
+    private walk(ast: ContainerBase) {
         const nodes: ChildNode[] | undefined = ast.nodes;
 
         if (!nodes) {
@@ -136,14 +297,16 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
                     continue;
                 }
 
-                this.walk(node as ContainerBase, codeSnippet);
+                this.walk(node as ContainerBase);
 
                 continue;
             }
 
+            const codeSnippet = this.generateCodeSnippet(node);
+
             strategy.testFeature(node, location, { codeSnippet });
 
-            this.walk(node as ContainerBase, codeSnippet);
+            this.walk(node as ContainerBase);
         }
     }
 
