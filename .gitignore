@@ -1,4 +1,6 @@
+*.info
 *.log
+*.lock
 *.pid
 *.STALE
 *.trace
@@ -12,7 +14,6 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-cdp.lock
 coverage
 dist
 hint-report

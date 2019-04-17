@@ -35,6 +35,7 @@
         { "path": "packages/connector-chrome" },
         { "path": "packages/connector-jsdom" },
         { "path": "packages/connector-local" },
+        { "path": "packages/connector-puppeteer" },
         { "path": "packages/create-hint" },
         { "path": "packages/create-hintrc" },
         { "path": "packages/create-parser" },
