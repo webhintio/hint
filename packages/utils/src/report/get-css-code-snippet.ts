@@ -20,9 +20,7 @@ const getCodeSnippetContent = (node: ChildNode, content: string): string => {
         numberOfSpaces = 8;
     }
 
-    const spaces = new Array(numberOfSpaces + 1).join(' ');
-
-    return `${spaces}${content}`;
+    return content.padStart(content.length + numberOfSpaces, ' ');
 };
 
 const getCodeSnippetPostfix = (node: ChildNode): string => {
@@ -33,9 +31,7 @@ const getCodeSnippetPostfix = (node: ChildNode): string => {
         numberOfSpaces = 4;
     }
 
-    const spaces = new Array(numberOfSpaces + 1).join(' ');
-
-    return `${spaces}}`;
+    return '}'.padStart(numberOfSpaces + 1, ' ');
 };
 
 /**
