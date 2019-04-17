@@ -12,6 +12,7 @@ import * as npmUtils from './npm';
 import * as pkgs from './packages';
 import * as testUtils from './test';
 import * as domUtils from './dom';
+import * as reportUtils from './report';
 
 export * from './types/http-header';
 export * from './types/npm';
@@ -31,6 +32,7 @@ export const configStore = configStoreUtils;
 export const contentType = contentTypeUtils;
 export const test = testUtils;
 export const dom = domUtils;
+export const report = reportUtils;
 
 export {
     asyncTry,

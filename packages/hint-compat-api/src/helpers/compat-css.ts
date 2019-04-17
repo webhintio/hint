@@ -7,6 +7,7 @@ import { AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { ProblemLocation } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils/dist/src/debug';
+import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
 import { StyleParse, StyleEvents } from '@hint/parser-css/dist/src/types';
 
 import { FeatureStrategy, TestFeatureFunction, FeatureInfo, MDNTreeFilteredByBrowsers, FeatureAtSupport, TestFeatureOptions } from '../types';
@@ -141,7 +142,9 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
                 continue;
             }
 
-            strategy.testFeature(node, location);
+            const codeSnippet = getCSSCodeSnippet(node);
+
+            strategy.testFeature(node, location, { codeSnippet });
 
             this.walk(node as ContainerBase);
         }
@@ -158,12 +161,12 @@ export class CompatCSS extends CompatBase<StyleEvents, StyleParse> {
         }
 
         const [prefix, name] = this.getPrefix(featureNameWithPrefix);
-        const feature: FeatureInfo = { displayableName: name, location, name, prefix };
+        const feature: FeatureInfo = { codeSnippet: options.codeSnippet, displayableName: name, location, name, prefix };
 
         if (subfeatureNameWithPrefix) {
             const [prefix, name] = this.getPrefix(subfeatureNameWithPrefix);
 
-            feature.subFeature = { displayableName: name, name, prefix };
+            feature.subFeature = { codeSnippet: options.codeSnippet, displayableName: name, name, prefix };
         }
 
         return this.checkFeatureCompatibility(feature, collection, options);

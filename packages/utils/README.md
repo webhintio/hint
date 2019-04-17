@@ -149,6 +149,11 @@ official.
 * `loadPackage`: Returns the package found in the given `pathString` or an
 exception if no package is found.
 
+### report
+
+* `getCSSCodeSnippet`: Generate a Snippet code for a CSS node.
+* `getHTMLCodeSnippet`: Generate a Snippet code for a HTMLElement.
+
 ### test
 
 * `generateHTMLPage`: Creates a valid minimal HTML.

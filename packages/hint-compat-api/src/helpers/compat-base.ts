@@ -35,9 +35,9 @@ export abstract class CompatBase<T extends Events, K extends Event> implements I
     }
 
     public reportError(feature: FeatureInfo, message: string) {
-        const { location } = feature;
+        const { codeSnippet, location } = feature;
 
-        this.hintContext.report(this.hintResource, message, { location });
+        this.hintContext.report(this.hintResource, message, { codeSnippet, location });
     }
 
     private isFeatureAlreadyReported(feature: FeatureInfo): boolean {

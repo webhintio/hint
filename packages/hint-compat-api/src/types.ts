@@ -11,6 +11,10 @@ export type BrowserSupportCollection = {
 
 export type TestFeatureOptions = {
     /**
+     * Source code to display.
+     */
+    codeSnippet?: string;
+    /**
      * Indicate if the report of a feature has to be skipped
      * This is necessary because in some cases, we just need to
      * check if a feature is valid or not, without reporting it.
@@ -34,10 +38,11 @@ export type BrowserVersions = {
 };
 
 export type FeatureInfo = {
+    codeSnippet?: string;
+    displayableName?: string;
+    location?: ProblemLocation;
     name: string;
     prefix?: string;
-    location?: ProblemLocation;
-    displayableName?: string;
     subFeature?: FeatureInfo;
 };
 
