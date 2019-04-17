@@ -63,13 +63,24 @@ export default class HttpCompressionHint implements IHint {
             return (normalizeHeaderValue(headers, headerName) || '').split(',');
         };
 
-        const checkVaryHeader = (resource: string, element: HTMLElement | null, headers: HttpHeaders) => {
+        const checkVaryHeader = (resource: string, headers: HttpHeaders) => {
             const varyHeaderValues = getHeaderValues(headers, 'vary');
             const cacheControlValues = getHeaderValues(headers, 'cache-control');
 
             if (!cacheControlValues.includes('private') &&
                 !varyHeaderValues.includes('accept-encoding')) {
-                context.report(resource, `Response should include 'vary' header containing 'accept-encoding' value.`, { element });
+
+                let codeSnippet = '';
+
+                if (varyHeaderValues.length > 0) {
+                    codeSnippet = `vary: ${varyHeaderValues.join(',')}\n`;
+                }
+
+                if (cacheControlValues.length > 0) {
+                    codeSnippet += `cache-control: ${cacheControlValues.join(',')}`;
+                }
+
+                context.report(resource, `Response should include 'vary' header containing 'accept-encoding' value.`, { codeLanguage: 'http', codeSnippet: codeSnippet.trim() });
             }
         };
 
@@ -305,7 +316,7 @@ export default class HttpCompressionHint implements IHint {
 
             // Check related headers.
 
-            checkVaryHeader(resource, element, response.headers);
+            checkVaryHeader(resource, response.headers);
 
             if (contentEncodingHeaderValue !== 'br') {
                 context.report(resource, generateContentEncodingMessage('br'), { element });
@@ -379,7 +390,7 @@ export default class HttpCompressionHint implements IHint {
 
             if (shouldCheckIfCompressedWith.gzip ||
                 shouldCheckIfCompressedWith.zopfli) {
-                checkVaryHeader(resource, element, response.headers);
+                checkVaryHeader(resource, response.headers);
 
                 if (contentEncodingHeaderValue !== 'gzip') {
                     context.report(resource, generateContentEncodingMessage('gzip'), { element });
@@ -611,8 +622,10 @@ export default class HttpCompressionHint implements IHint {
             if ((response.mediaType === 'image/svg+xml' || getFileExtension(resource) === 'svgz') &&
                 isCompressedWithGzip(rawResponse)) {
 
-                if (normalizeHeaderValue(response.headers, 'content-encoding') !== 'gzip') {
-                    context.report(resource, generateContentEncodingMessage('gzip'), { element });
+                const headerValue = normalizeHeaderValue(response.headers, 'content-encoding');
+
+                if (headerValue !== 'gzip') {
+                    context.report(resource, generateContentEncodingMessage('gzip'), { codeLanguage: 'http', codeSnippet: `content-encoding: ${headerValue}` });
                 }
 
                 return true;
@@ -672,7 +685,7 @@ export default class HttpCompressionHint implements IHint {
 
                 // * Check if resource is sent with the `Content-Encoding` header.
                 if (contentEncodingHeaderValue) {
-                    context.report(resource, `Response should not include 'content-encoding' header.`, { element });
+                    context.report(resource, `Response should not include 'content-encoding' header.`, { codeLanguage: 'http', codeSnippet: `content-encoding: ${contentEncodingHeaderValue}` });
                 }
 
                 return;

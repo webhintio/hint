@@ -154,7 +154,7 @@ export default class CodeframeFormatter implements IFormatter {
                     totalWarnings++;
                 }
 
-                partial = `${severity}: ${msg.message} (${msg.hintId}) at ${resourceString}${msg.sourceCode ? `:${location.line}:${location.column}` : ''}\n`;
+                partial = `${severity}: ${msg.message} (${msg.hintId}) at ${resourceString}${(location.line !== -1 && location.column !== -1) ? `:${location.line}:${location.column}` : ''}\n`;
 
                 if (msg.sourceCode) {
                     partial += codeFrame(msg.sourceCode, location);

@@ -33,6 +33,8 @@ export type ReportOptions = {
     location?: ProblemLocation | null;
     /** The `Severity` to report the issue as (overrides default settings for a hint). */
     severity?: Severity;
+    /** Indicate the language of the codeSnippet */
+    codeLanguage?: string;
 };
 
 /** Acts as an abstraction layer between hints and the main hint object. */
@@ -117,8 +119,8 @@ export class HintContext<E extends Events = Events> {
     /** Reports a problem with the resource. */
     public report(resource: string, message: string, options: ReportOptions = {}) {
         const { codeSnippet, element, severity } = options;
-        let position = options.location || null;
         let sourceCode: string | null = null;
+        let position = options.location || null;
 
         if (element) {
             // When element is provided, position is an offset in the content.
@@ -138,7 +140,8 @@ export class HintContext<E extends Events = Events> {
             codeSnippet || sourceCode || '',
             position,
             message,
-            resource
+            resource,
+            options.codeLanguage
         );
     }
 

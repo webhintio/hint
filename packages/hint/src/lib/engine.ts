@@ -282,9 +282,10 @@ export class Engine<E extends Events = Events> extends EventEmitter {
     }
 
     /** Reports a message from one of the hints. */
-    public report(hintId: string, category: Category, severity: Severity, sourceCode: string, location: ProblemLocation | null, message: string, resource: string) {
+    public report(hintId: string, category: Category, severity: Severity, sourceCode: string, location: ProblemLocation | null, message: string, resource: string, codeLanguage: string | undefined) {
         const problem: Problem = {
             category,
+            codeLanguage,
             hintId,
             location: location || { column: -1, line: -1 },
             message,
