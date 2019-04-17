@@ -405,10 +405,10 @@
     once "^1.4.0"
     universal-user-agent "^2.0.1"
 
-"@octokit/rest@^16.24.2":
-  version "16.24.2"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.24.2.tgz#bd9a3a07983830edd5222b464d8cedf9a14ec6dc"
-  integrity sha512-s0q08+1UgX2Kc5SOciE03nPUrWjMQoiYh0YaU1IxGhjPZ0kjmzD1NUPmm7Zo1pQKuo1CBxG2alyFYvtqFwE1NA==
+"@octokit/rest@^16.24.3":
+  version "16.24.3"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-16.24.3.tgz#5f844be604826b352d9683a133839341db2bed23"
+  integrity sha512-fBr2ziN4WT9G9sYTfnNVI/0wCb68ZI5isNU48lfWXQDyAy4ftlrh0SkIbhL7aigXUjcY0cX5J46ypyRPH0/U0g==
   dependencies:
     "@octokit/request" "3.0.0"
     atob-lite "^2.0.0"
