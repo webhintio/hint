@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "strict": true
+    },
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
+    "extends": "../../tsconfig.json",
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts"
+    ],
+    "references": [
+        { "path": "../hint" },
+        { "path": "../parser-html" },
+        { "path": "../utils" },
+        { "path": "../utils-connector-tools" },
+        { "path": "../utils-create-server" }
+    ]
+}

@@ -33,6 +33,7 @@
     ],
     "references": [
         { "path": "packages/connector-chrome" },
+        { "path": "packages/connector-chromium" },
         { "path": "packages/connector-jsdom" },
         { "path": "packages/connector-local" },
         { "path": "packages/create-hint" },
