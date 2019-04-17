@@ -8,7 +8,7 @@ import Page from '../page';
 
 import * as styles from './error.css';
 
-const openIssueUrl = 'https://github.com/webhintio/hint/issues/new?labels=type%3Abug&amp;template=1-bug-report.md&amp;title=%5BBug%5D+Bug+description';
+const openIssueUrl = 'https://github.com/webhintio/hint/issues/new?labels=type%3Abug&amp;template=2-bug-report-browser.md&amp;title=%5BBug%5D+Bug+description';
 
 type Props = {
     /** Listener for when the user decides to run another scan. */
