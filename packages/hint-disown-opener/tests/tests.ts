@@ -43,7 +43,7 @@ const testsForOldBrowsers: HintTest[] = [
         }
     },
     {
-        name: `'a' has invauld "href"'`,
+        name: `'a' has invalid "href"'`,
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="http://">test</a>`) }
     },
 

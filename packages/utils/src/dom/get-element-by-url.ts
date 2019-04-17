@@ -41,7 +41,18 @@ export const getElementByUrl = (dom: HTMLDocument, url: string, base: string): H
 
         const absoluteUrls = elementUrls.map((relativeUrl) => {
             // TODO: Cache the absolute URL, so we don't run new URL() for the same URL.
-            return new URL(relativeUrl, base).href;
+
+            /**
+             * If `elementUrls` has an element with an invalid value
+             * (e.g.: just `http://`), creating a new `URL` will fail.
+             */
+            try {
+                const { href } = new URL(relativeUrl, base);
+
+                return href;
+            } catch (e) {
+                return 'invalid';
+            }
         });
 
         if (absoluteUrls.includes(url)) {

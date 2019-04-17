@@ -37,6 +37,8 @@ export default class ManifestParser extends Parser<ManifestEvents> {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+    private validatedManifests: Map<string, string> = new Map();
+
     public constructor(engine: Engine<ManifestEvents>) {
         super(engine, 'manifest');
 
@@ -125,6 +127,21 @@ export default class ManifestParser extends Parser<ManifestEvents> {
 
     private async validateManifest(fetchEnd: FetchEnd) {
         const { resource, response } = fetchEnd;
+
+        /**
+         * Some connectors can download the manifest directly and thus
+         * triggering multiple validations of the same resource.
+         * Need to avoid that.
+         */
+        if (this.validatedManifests.has(resource)) {
+            const validatedBody = this.validatedManifests.get(resource);
+
+            if (validatedBody === response.body.content) {
+                return;
+            }
+        }
+
+        this.validatedManifests.set(resource, response.body.content);
 
         await this.engine.emitAsync(`parse::start::manifest`, { resource });
 
