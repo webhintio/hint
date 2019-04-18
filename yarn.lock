@@ -811,7 +811,14 @@
   resolved "https://registry.yarnpkg.com/@types/proxyquire/-/proxyquire-1.3.28.tgz#05a647bb0d8fe48fc8edcc193e43cc79310faa7d"
   integrity sha512-SQaNzWQ2YZSr7FqAyPPiA3FYpux2Lqh3HWMZQk47x3xbMCqgC/w0dY3dw9rGqlweDDkrySQBcaScXWeR+Yb11Q==
 
-"@types/puppeteer@^1.12.3":
+"@types/puppeteer-core@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@types/puppeteer-core/-/puppeteer-core-1.9.0.tgz#5ceb397e3ff769081fb07d71289b5009392d24d3"
+  integrity sha512-YJwGTq0a8xZxN7/QDeW59XMdKTRNzDTc8ZVBPDB6J13GgXn1+QzgMA8pAq1/bj2FD0R7xj3nYoZra10b0HLzFw==
+  dependencies:
+    "@types/puppeteer" "*"
+
+"@types/puppeteer@*":
   version "1.12.3"
   resolved "https://registry.yarnpkg.com/@types/puppeteer/-/puppeteer-1.12.3.tgz#1309882d368ed21004dfc4520864fdafcf126277"
   integrity sha512-mJtUPdXqB8THRwiHPbx8pkGYi+8IPf3dMuwJS9hHpr59BwkuLDkkEJ4qMST0k6TbOUXp+wyMJii30ouSkoEtaw==
@@ -9057,10 +9064,10 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-puppeteer@^1.14.0:
+puppeteer-core@^1.14.0:
   version "1.14.0"
-  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-1.14.0.tgz#828c1926b307200d5fc8289b99df4e13e962d339"
-  integrity sha512-SayS2wUX/8LF8Yo2Rkpc5nkAu4Jg3qu+OLTDSOZtisVQMB2Z5vjlY2TdPi/5CgZKiZroYIiyUN3sRX63El9iaw==
+  resolved "https://registry.yarnpkg.com/puppeteer-core/-/puppeteer-core-1.14.0.tgz#1c3dfe275cee6edbe1b5c1104023256f42c071e5"
+  integrity sha512-MCggbALqO0uZnfo3uDPfCn5HRfIznnBHE4KM3QeiDY4lre/QHOlEnOevKhyiswriTde4+4WkiCzSK0Eaz0QFqw==
   dependencies:
     debug "^4.1.0"
     extract-zip "^1.6.6"
