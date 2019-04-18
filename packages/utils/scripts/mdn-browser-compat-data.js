@@ -1,7 +1,7 @@
 const fs = require('fs');
 const mdn = require('mdn-browser-compat-data');
 const path = require('path');
-const filename = path.resolve(`${__dirname}/../dist/mdn-browser-compat-data.packed.json`);
+const filename = path.resolve(`${__dirname}/../src/compat/browser-compat-data.ts`);
 
 /**
  * Determine if a given support statement qualifies as "always supported" by
@@ -14,7 +14,16 @@ const filename = path.resolve(`${__dirname}/../dist/mdn-browser-compat-data.pack
 const isUniversalSupportStatement = (browserName, supportStatement) => {
     const version = supportStatement.version_added;
 
+    // Flagged or prefixed support isn't "full" support.
+    if (supportStatement.flags || supportStatement.prefix) {
+        return false;
+    }
+
     if (supportStatement.version_removed) {
+        return false;
+    }
+
+    if (typeof supportStatement.version_removed === 'string') {
         return false;
     }
 
@@ -114,20 +123,22 @@ const isFeatureUniversallyUnsupported = (compat) => {
 /**
  * Remove any `bcd.SimpleSupportStatement` that requires `flags`.
  * Flagged entries are ignored since they must be enabled by end users.
+ * Unless the flagged entry is the only entry (in which case it's needed
+ * to infer lack of support).
  *
  * @param {string} browserName
  * @param {bcd.SupportBlock} support
  */
 const removeFlaggedSupport = (browserName, support) => {
     const supportStatements = getSupportStatements(browserName, support);
-    const unflaggedSupportStatements = supportStatements.filter((supportStatement) => {
+    const unflagged = supportStatements.filter((supportStatement) => {
         return !supportStatement.flags;
     });
 
-    if (unflaggedSupportStatements.length) {
-        support[browserName] = unflaggedSupportStatements;
+    if (unflagged.length) {
+        support[browserName] = unflagged.length === 1 ? unflagged[0] : unflagged;
     } else {
-        delete support[browserName];
+        support[browserName] = { version_added: false }; // eslint-disable-line camelcase
     }
 };
 
@@ -234,11 +245,24 @@ const data = {
     html: mdn.html
 };
 
+// TODO: drop `browsers` after `hint-compat-api` uses new util methods.
 removeBrowserDetails(data.browsers);
 removeFeatures(data.css);
 removeFeatures(data.html);
 
-fs.writeFile(filename, JSON.stringify(data), (err) => {
+const code = `/* eslint-disable */
+import { PrimaryIdentifier } from 'mdn-browser-compat-data/types';
+
+type Data = {
+    browsers: PrimaryIdentifier;
+    css: PrimaryIdentifier;
+    html: PrimaryIdentifier;
+}
+
+export const mdn: Data = ${JSON.stringify(data, null, 4)} as any;
+`;
+
+fs.writeFile(filename, code, (err) => {
     if (err) {
         throw err;
     } else {
