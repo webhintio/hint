@@ -26,4 +26,6 @@ export type Problem = {
     category: Category;
     /** The severity of the hint based on the actual configuration */
     severity: Severity;
+    /** Indicate the language of the sourceCode */
+    codeLanguage?: string;
 };

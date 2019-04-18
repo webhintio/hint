@@ -14,6 +14,7 @@ import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
 import { toLowerCaseArray } from '@hint/utils/dist/src/misc/to-lowercase-array';
 import { includedHeaders } from '@hint/utils/dist/src/network/included-headers';
 import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
+import { capitalizeHeaderName } from '@hint/utils/dist/src/network/capitalize-header-name';
 import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -102,7 +103,7 @@ export default class NoDisallowedHeadersHint implements IHint {
             });
         };
 
-        const validate = ({ element, response, resource }: FetchEnd) => {
+        const validate = ({ response, resource }: FetchEnd) => {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
@@ -132,6 +133,7 @@ export default class NoDisallowedHeadersHint implements IHint {
              */
 
             const serverHeaderValue = normalizeHeaderValue(response.headers, 'server');
+            const codeLanguage = 'http';
 
             if (!disallowedHeaders.includes('server') &&
                 !toLowerCaseArray(ignoreHeaders).includes('server') &&
@@ -140,13 +142,17 @@ export default class NoDisallowedHeadersHint implements IHint {
             ) {
                 const message = `'server' header value should only contain the server name, not '${(response.headers as any).server}'.`;
 
-                context.report(resource, message, { element });
+                context.report(resource, message, { codeLanguage, codeSnippet: `${capitalizeHeaderName('server')}: ${serverHeaderValue}` });
             }
 
             if (numberOfHeaders > 0) {
                 const message = `Response should not include disallowed ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`;
 
-                context.report(resource, message, { element });
+                const codeSnippet = headers.reduce((total, header) => {
+                    return `${total}${total ? '\n' : ''}${header}: ${normalizeHeaderValue(response.headers, header)}`;
+                }, '');
+
+                context.report(resource, message, { codeLanguage, codeSnippet });
             }
         };
 

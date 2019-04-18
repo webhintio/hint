@@ -4,6 +4,7 @@
 
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
+import { capitalizeHeaderName } from '@hint/utils/dist/src/network/capitalize-header-name';
 import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -248,7 +249,7 @@ export default class HttpCacheHint implements IHint {
             const cacheControl: string | null = headers && headers['cache-control'] || null;
 
             if (!cacheControl) {
-                context.report(resource, `No "cache-control" header or empty value found. It should have a value`, { element: fetchEnd.element });
+                context.report(resource, `No "cache-control" header or empty value found. It should have a value`);
 
                 return false;
             }
@@ -260,13 +261,15 @@ export default class HttpCacheHint implements IHint {
          * Validates if all the cache-control directives and values are correct.
          */
         const hasInvalidDirectives = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
-            const { invalidDirectives, invalidValues } = directives;
+            const { header, invalidDirectives, invalidValues } = directives;
             const { resource } = fetchEnd;
+            const codeSnippet = `${capitalizeHeaderName('cache-control')}: ${header}`;
+            const codeLanguage = 'http';
 
             if (invalidDirectives.size > 0) {
                 const message: string = `The ${invalidDirectives.size === 1 ? 'directive' : 'directives'} ${Array.from(invalidDirectives.keys()).join(', ')} ${invalidDirectives.size === 1 ? 'is' : 'are'} invalid`;
 
-                context.report(resource, message, { element: fetchEnd.element });
+                context.report(resource, message, { codeLanguage, codeSnippet });
 
                 return false;
             }
@@ -274,7 +277,7 @@ export default class HttpCacheHint implements IHint {
             if (invalidValues.size > 0) {
                 const message: string = `The following ${invalidValues.size === 1 ? 'directive has' : 'directives have'} an invalid value:\n${directivesToString(invalidValues)}`;
 
-                context.report(resource, message, { element: fetchEnd.element });
+                context.report(resource, message, { codeLanguage, codeSnippet });
 
                 return false;
             }
@@ -286,14 +289,14 @@ export default class HttpCacheHint implements IHint {
          * Validates if there is any non recommended directives.
          */
         const hasNoneNonRecommendedDirectives = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
-            const { usedDirectives } = directives;
+            const { header, usedDirectives } = directives;
             const { resource } = fetchEnd;
             const nonRecommendedDirective = nonRecommendedDirectives(usedDirectives);
 
             if (nonRecommendedDirective) {
                 const message: string = `The directive "${nonRecommendedDirective}" is not recommended`;
 
-                context.report(resource, message, { element: fetchEnd.element });
+                context.report(resource, message, { codeLanguage: 'http', codeSnippet: `${capitalizeHeaderName('cache-control')}: ${header}` });
 
                 return false;
             }
@@ -314,7 +317,7 @@ export default class HttpCacheHint implements IHint {
                 if (hasMaxAge) {
                     const message: string = `The following Cache-Control header is using a wrong combination of directives:\n${header}`;
 
-                    context.report(fetchEnd.resource, message, { element: fetchEnd.element });
+                    context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `${capitalizeHeaderName('cache-control')}: ${header}` });
 
                     return false;
                 }
@@ -338,7 +341,7 @@ export default class HttpCacheHint implements IHint {
             if (!isValidCache) {
                 const message: string = `The target should not be cached, or have a small "max-age" value (${maxAgeTarget}):\n${header}`;
 
-                context.report(fetchEnd.resource, message, { element: fetchEnd.element });
+                context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `${capitalizeHeaderName('cache-control')}: ${header}` });
 
                 return false;
             }
@@ -351,7 +354,9 @@ export default class HttpCacheHint implements IHint {
          */
         const hasLongCache = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { header, usedDirectives } = directives;
-            const { resource, element } = fetchEnd;
+            const { resource } = fetchEnd;
+            const codeSnippet = `${capitalizeHeaderName('cache-control')}: ${header}`;
+            const codeLanguage = 'http';
 
             const longCache = compareToMaxAge(usedDirectives, maxAgeResource) >= 0;
             const immutable = usedDirectives.has('immutable');
@@ -361,7 +366,7 @@ export default class HttpCacheHint implements IHint {
             if (usedDirectives.has('no-cache') || !longCache) {
                 const message: string = `Static resources should have a long cache value (${maxAgeResource}):\nDirectives used: ${header}`;
 
-                context.report(resource, message, { element });
+                context.report(resource, message, { codeLanguage, codeSnippet });
 
                 validates = false;
             }
@@ -369,7 +374,7 @@ export default class HttpCacheHint implements IHint {
             if (!immutable) {
                 const message: string = `Static resources should use the "immutable" directive:\nDirectives used: ${header}`;
 
-                context.report(resource, message, { element });
+                context.report(resource, message, { codeLanguage, codeSnippet });
 
                 validates = false;
             }

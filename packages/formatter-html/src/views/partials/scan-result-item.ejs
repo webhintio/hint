@@ -28,7 +28,7 @@
                 <% } %>
                 <% if (problem.sourceCode) { %>
                 <div class="rule-result__code">
-                    <code><%= utils.cutCodeString(problem.sourceCode); %></code>
+                    <code class="<%= problem.codeLanguage %>"><%= utils.cutCodeString(problem.sourceCode); %></code>
                 </div>
                 <% } %>
             </div>
