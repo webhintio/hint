@@ -39,7 +39,7 @@
     "@hint/parser-manifest": "^2.0.2",
     "@hint/utils-create-server": "^3.0.0",
     "@microsoft/applicationinsights-web-basic": "^2.0.0-rc3",
-    "@types/chrome": "^0.0.82",
+    "@types/chrome": "^0.0.83",
     "@types/har-format": "^1.2.4",
     "@types/highlight.js": "^9.12.3",
     "@types/is-ci": "^1.1.0",
