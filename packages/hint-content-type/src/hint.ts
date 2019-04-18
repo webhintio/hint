@@ -14,6 +14,7 @@ import { MediaType, parse } from 'content-type';
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
+import { capitalizeHeaderName } from '@hint/utils/dist/src/network/capitalize-header-name';
 import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { isTextMediaType } from '@hint/utils/dist/src/content-type';
@@ -67,7 +68,7 @@ export default class ContentTypeHint implements IHint {
             }
 
             const contentTypeHeaderValue: string | null = normalizeHeaderValue(response.headers, 'content-type');
-            const codeSnippet = `content-type: ${contentTypeHeaderValue}`;
+            const codeSnippet = `${capitalizeHeaderName('content-type')}: ${contentTypeHeaderValue}`;
             const codeLanguage = 'http';
 
             // Check if the `Content-Type` header was sent.

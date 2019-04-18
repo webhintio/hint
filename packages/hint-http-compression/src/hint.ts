@@ -19,7 +19,7 @@ import { CompressionCheckOptions } from './types';
 import meta from './meta';
 
 const { getFileExtension, isTextMediaType } = contentType;
-const { isHTTP, isRegularProtocol, normalizeHeaderValue } = network;
+const { capitalizeHeaderName, isHTTP, isRegularProtocol, normalizeHeaderValue } = network;
 const { normalizeString } = misc;
 const decompressBrotli = promisify(brotli.decompress) as (buffer: Buffer) => Promise<Buffer>;
 const uaString = 'Mozilla/5.0 Gecko';
@@ -73,11 +73,11 @@ export default class HttpCompressionHint implements IHint {
                 let codeSnippet = '';
 
                 if (varyHeaderValues.length > 0) {
-                    codeSnippet = `vary: ${varyHeaderValues.join(',')}\n`;
+                    codeSnippet = `${capitalizeHeaderName('vary')}: ${varyHeaderValues.join(',')}\n`;
                 }
 
                 if (cacheControlValues.length > 0) {
-                    codeSnippet += `cache-control: ${cacheControlValues.join(',')}`;
+                    codeSnippet += `${capitalizeHeaderName('cache-control')}: ${cacheControlValues.join(',')}`;
                 }
 
                 context.report(resource, `Response should include 'vary' header containing 'accept-encoding' value.`, { codeLanguage: 'http', codeSnippet: codeSnippet.trim() });
@@ -625,7 +625,7 @@ export default class HttpCompressionHint implements IHint {
                 const headerValue = normalizeHeaderValue(response.headers, 'content-encoding');
 
                 if (headerValue !== 'gzip') {
-                    context.report(resource, generateContentEncodingMessage('gzip'), { codeLanguage: 'http', codeSnippet: `content-encoding: ${headerValue}` });
+                    context.report(resource, generateContentEncodingMessage('gzip'), { codeLanguage: 'http', codeSnippet: `${capitalizeHeaderName('content-encoding')}: ${headerValue}` });
                 }
 
                 return true;
@@ -685,7 +685,7 @@ export default class HttpCompressionHint implements IHint {
 
                 // * Check if resource is sent with the `Content-Encoding` header.
                 if (contentEncodingHeaderValue) {
-                    context.report(resource, `Response should not include 'content-encoding' header.`, { codeLanguage: 'http', codeSnippet: `content-encoding: ${contentEncodingHeaderValue}` });
+                    context.report(resource, `Response should not include 'content-encoding' header.`, { codeLanguage: 'http', codeSnippet: `${capitalizeHeaderName('content-encoding')}: ${contentEncodingHeaderValue}` });
                 }
 
                 return;

@@ -14,6 +14,7 @@ import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
 import { toLowerCaseArray } from '@hint/utils/dist/src/misc/to-lowercase-array';
 import { includedHeaders } from '@hint/utils/dist/src/network/included-headers';
 import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
+import { capitalizeHeaderName } from '@hint/utils/dist/src/network/capitalize-header-name';
 import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -141,7 +142,7 @@ export default class NoDisallowedHeadersHint implements IHint {
             ) {
                 const message = `'server' header value should only contain the server name, not '${(response.headers as any).server}'.`;
 
-                context.report(resource, message, { codeLanguage, codeSnippet: `server: ${serverHeaderValue}` });
+                context.report(resource, message, { codeLanguage, codeSnippet: `${capitalizeHeaderName('server')}: ${serverHeaderValue}` });
             }
 
             if (numberOfHeaders > 0) {

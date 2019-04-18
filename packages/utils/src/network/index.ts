@@ -11,3 +11,4 @@ export * from './is-regular-protocol';
 export * from './normalize-header-value';
 export * from './request-async';
 export * from './request-json-async';
+export * from './capitalize-header-name';
