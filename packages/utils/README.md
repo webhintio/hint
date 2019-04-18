@@ -29,9 +29,10 @@ and exception.
 * `getClient`: Return the Application Insights client.
 * `isConfigured`: Check if Application Insights is configured.
 
-### caniuse
+### compat
 
-* `isSupported`: Convinience wrapper to expose the method `isSupported`.
+* `getUnsupported`: Get browsers without support for CSS or HTML features.
+* `isSupported`: Query MDN for support of CSS or HTML features.
 
 ### configStore
 

@@ -1,6 +1,5 @@
 import * as appInsightsUtils from './app-insights';
 import { asyncTry } from './async-wrapper';
-import * as caniuseUtils from './caniuse';
 import * as configStoreUtils from './config-store';
 import * as contentTypeUtils from './content-type';
 import { debug } from './debug';
@@ -19,6 +18,7 @@ export * from './types/http-header';
 export * from './types/npm';
 export * from './types/html';
 export * from './types/problem-location';
+export * from './compat';
 export * from './dom/html';
 
 export const packages = pkgs;
@@ -28,7 +28,6 @@ export const network = networkUtils;
 export const logger = loggingUtils;
 export const npm = npmUtils;
 export const appInsights = appInsightsUtils;
-export const caniuse = caniuseUtils;
 export const configStore = configStoreUtils;
 export const contentType = contentTypeUtils;
 export const test = testUtils;
