@@ -24,7 +24,7 @@
     "eslint": "^5.15.1",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-markdown": "^1.0.0",
-    "fork-ts-checker-webpack-plugin": "^1.0.3",
+    "fork-ts-checker-webpack-plugin": "^1.0.4",
     "fs-extra": "^7.0.0",
     "handlebars": "^4.1.2",
     "hint": "^4.5.0",
