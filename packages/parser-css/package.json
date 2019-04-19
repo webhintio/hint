@@ -13,7 +13,7 @@
   },
   "description": "webhint parser needed to analyze CSS files",
   "devDependencies": {
-    "@types/node": "^11.13.4",
+    "@types/node": "^11.13.5",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.0.11",
     "@typescript-eslint/eslint-plugin": "^1.6.0",
