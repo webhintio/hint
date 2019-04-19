@@ -1,0 +1,6 @@
+.root {
+    display: block;
+    font-size: var(--input-font-size);
+    line-height: 1rem; /* 16px */
+    margin: 0.5rem 0;
+}

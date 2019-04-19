@@ -3,6 +3,7 @@ import { Entry, Log } from 'har-format';
 import { browser } from '../../shared/globals';
 import { mapHeaders } from '../../shared/headers';
 
+import { evaluate } from './inject';
 import { sendMessage } from './messaging';
 
 /** Track the number of redirects by request. */
@@ -36,7 +37,7 @@ const waitForFullEntry = (entry: Entry, retries = 5): Promise<Entry> => {
 
         // Give up after a few attempts to avoid retrying forever.
         if (!retries) {
-            browser.devtools.inspectedWindow.eval(`console.warn("[webhint] HAR missing data after max retries for ${entry.request.url}")`);
+            evaluate(`console.warn("[webhint] HAR missing data after max retries for ${entry.request.url}")`);
             resolve(entry);
 
             return;
@@ -80,7 +81,7 @@ const getContent = (entry: chrome.devtools.network.Request | Entry): Promise<str
  */
 const generateFetchEnd = async (entry: chrome.devtools.network.Request) => {
     const fullEntry = await waitForFullEntry(entry);
-    const content = await getContent(entry);
+    const content = await getContent(entry) || '';
     const url = fullEntry.request.url;
 
     if (fullEntry.response.redirectURL) {

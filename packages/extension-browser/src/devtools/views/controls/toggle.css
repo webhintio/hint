@@ -1,0 +1,51 @@
+.root {
+    --duration: 0.08s;
+    --timing: linear;
+
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--input-bg-color);
+    border: var(--border);
+    border-radius: 2.5rem; /* 40px */
+    box-sizing: border-box;
+    height: 1.25rem; /* 20px */
+    position: relative;
+    transition: background-color var(--timing) var(--duration);
+    vertical-align: middle;
+    width: 2.5rem; /* 40px */
+}
+
+.root:checked {
+    background-color: var(--bg-inverse-color);
+    border-color: var(--bg-inverse-color);
+}
+
+.root:focus {
+    outline: var(--focus-outline);
+}
+
+.root:global(:not(.focus-visible)) {
+    outline: none;
+}
+
+.root:after {
+    --size: 0.6875rem; /* 11px */
+
+    content: '';
+    background-color: var(--text-color);
+    border-radius: 50%;
+    height: var(--size);
+    left: calc(0px - var(--size) / 2);
+    position: absolute;
+    top: calc(50% - var(--size) / 2);
+    transition-duration: var(--duration);
+    transition-property: background-color, transform;
+    transition-timing-function: var(--timing);
+    transform: translateX(0.625rem); /* 10px */
+    width: var(--size);
+}
+
+.root:checked:after {
+    background-color: var(--text-inverse-color);
+    transform: translateX(1.875rem); /* 30px */
+}

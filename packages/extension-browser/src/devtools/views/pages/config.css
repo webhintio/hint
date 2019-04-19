@@ -6,9 +6,20 @@
     outline: 1px solid var(--invalid-outline-color);
 }
 
-.restoreButton {
-    float: right;
-    margin-right: 2rem;
-    margin-top: 1.5rem;
-    margin-left: -5rem;
+.categories {
+    display: grid;
+    gap: 1.5rem; /* 24px */
+    margin: 1.5rem 0; /* 24px */
+}
+
+/* Horizontal layout */
+@media (min-width: 48rem /* 768px */) {
+    .categories {
+        grid-auto-flow: column;
+        max-width: 56.25rem; /* 900px */
+    }
+}
+
+.poweredBy {
+    margin: 1.75rem 0; /* 28px 0 */
 }

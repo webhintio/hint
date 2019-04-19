@@ -30,8 +30,8 @@ export const inspire = (): string => {
 };
 
 /** Generate a status message that periodically changes. */
-export const useRotatingInspiration = (initialMessage: string) => {
-    const [message, setMessage] = useState(initialMessage);
+export const useRotatingInspiration = () => {
+    const [message, setMessage] = useState(inspire);
 
     useEffect(() => {
         const interval = setInterval(() => {

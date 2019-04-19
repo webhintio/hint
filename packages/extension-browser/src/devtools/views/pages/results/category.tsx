@@ -8,23 +8,28 @@ import Hint from './hint';
 
 import * as styles from './category.css';
 
-const Category = ({ name, hints, passed }: CategoryResults) => {
+type Props = CategoryResults & {
+    showPassed: boolean;
+};
+
+const Category = ({ name, hints, showPassed }: Props) => {
+    const shownHints = hints.filter((hint) => {
+        return showPassed || hint.problems.length > 0;
+    });
+
     return (
-        <details className={styles.root} open={true}>
-            <summary className={styles.summary}>
+        <div className={styles.root}>
+            <div id={`results-category-${name}`} className={styles.summary}>
                 <span className={styles.name}>
                     {getMessage(name)}
                 </span>
-                <span className={styles.status}>
-                    {getMessage('passedLabel', [passed.toString(), hints.length.toString()])}
-                </span>
-            </summary>
+            </div>
             <div className={styles.results}>
-                {hints.map((hint) => {
+                {shownHints.map((hint) => {
                     return <Hint key={hint.id} {...hint} />;
                 })}
             </div>
-        </details>
+        </div>
     );
 };
 

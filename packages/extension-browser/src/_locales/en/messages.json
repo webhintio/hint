@@ -7,9 +7,17 @@
         "message": "Analyze again",
         "description": "Label for button to restart analysis."
     },
-    "analyzeButtonLabel": {
-        "message": "Analyze website",
+    "startScanButtonLabel": {
+        "message": "Start scan",
         "description": "Label for button to start analysis."
+    },
+    "scanAgainButtonLabel": {
+        "message": "Scan again",
+        "description": "Label for button to scan again."
+    },
+    "newScanButtonLabel": {
+        "message": "Configure a new scan",
+        "description": "Label for button to configure a new scan."
     },
     "analyzingStatus": {
         "message": "Analyzing...",
@@ -20,20 +28,16 @@
         "description": "Label for button to stop analysis."
     },
     "categoriesTitle": {
-        "message": "Categories:",
+        "message": "Categories",
         "description": "Title of the categories sub-section on the configuration page."
     },
     "checkForBestPracticesDescription": {
-        "message": "Check for best practices and common errors with your site's accessibility, speed, security and more.",
+        "message": "Check for best practices and common errors with your site's accessibility, speed, security, and more.",
         "description": "Brief description of what webhint does."
     },
     "compatibility": {
         "message": "Compatibility",
         "description": "Name of category for compatibility tests."
-    },
-    "configurationTitle": {
-        "message": "Configuration",
-        "description": "Title of the initial page with configuration options."
     },
     "development": {
         "message": "Development",
@@ -51,20 +55,24 @@
         "message": "There was an error running webhint. Please try again. If the error still occurs: ",
         "description": "Message informing users what to do when an error occurs."
     },
-    "errorTitle": {
-        "message": "Error",
-        "description": "Title of the page displayed after an error occured during a scan."
-    },
     "hintCountLabel": {
         "message": "hint $1:",
         "description": "Label for a test result based on the order in which it is listed, e.g. 'hint 2:'."
     },
+    "scanResultTitle": {
+        "message": "Hints: Scan Results",
+        "description": "Label for the title in the header in the result page."
+    },
+    "hintIssuesLabel": {
+        "message": "Hints: $1",
+        "description": "Label for count of hints with issues, e.g. 'Hints: 2'."
+    },
     "hintsTitle": {
         "message": "Hints",
-        "description": "Title displayed for the tool tab and at the top of the results page."
+        "description": "Title displayed for the tool tab."
     },
     "ignoredResourcesTitle": {
-        "message": "Ignored resources:",
+        "message": "Ignored resources",
         "description": "Title of the ignored resouces sub-section on the configuration page."
     },
     "learnWhyLabel": {
@@ -74,6 +82,10 @@
     "learnWhyAndHowLabel": {
         "message": "Learn why this is important and how to fix it",
         "description": "Label for link to additional documentation for a failed test."
+    },
+    "noIssuesLabel": {
+        "message": "No issues",
+        "description": "Label for a hint with no issues."
     },
     "noneLabel": {
         "message": "None",
@@ -86,10 +98,6 @@
     "other": {
         "message": "Other",
         "description": "Name of category for miscellaneous tests."
-    },
-    "passedLabel": {
-        "message": "Passed: $1/$2",
-        "description": "Label for count of passed tests, e.g. 'Passed 2/3'."
     },
     "passedStatus": {
         "message": "PASSED",
@@ -131,9 +139,9 @@
         "message": "See query instructions",
         "description": "Label for link to instructions for selecting target browsers."
     },
-    "yourTargetBrowsersTitle": {
-        "message": "Your target browsers:",
-        "description": "Title of the target browsers sub-section on the configuration page."
+    "showPassedHintsLabel": {
+        "message": "Show passed hints",
+        "description": "Label for toggle to hide/show groups of hints which passed."
     },
     "statAverageLoadTimeForMobileSites": {
         "message": "The average load time for mobile sites is $1 seconds over 3G connections.",
@@ -170,5 +178,13 @@
     "statWebsitesUsingLibrariesWithKnownVulnerabilities": {
         "message": "$1% of websites use a JavaScript library with known vulnerabilities.",
         "description": "Statistic about the percentage of websites with vulnerable libraries."
+    },
+    "targetBrowsersTitle": {
+        "message": "Target browsers",
+        "description": "Title of the target browsers sub-section on the configuration page."
+    },
+    "targetUrl": {
+        "message": "URL: $1",
+        "description": "Label for the result page with the url analyzed."
     }
 }

@@ -1,0 +1,39 @@
+.root {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--input-bg-color);
+    border: var(--border);
+    border-radius: 50%;
+    height: var(--input-size);
+    margin: 0;
+    position: relative;
+    width: var(--input-size);
+}
+
+.root:focus {
+    outline: var(--focus-outline);
+}
+
+.root:global(:not(.focus-visible)) {
+    outline: none;
+}
+
+.root:after {
+    --size: calc(var(--input-size) / 2);
+
+    background-color: var(--text-color);
+    border-radius: 50%;
+    content: '';
+    display: block;
+    height: var(--size);
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    width: var(--size);
+}
+
+.root:checked:after {
+    visibility: visible;
+}

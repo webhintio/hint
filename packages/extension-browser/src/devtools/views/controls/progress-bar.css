@@ -1,0 +1,53 @@
+.root {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--bg-inverse-alt-color);
+    border: none;
+    border-radius: 40px;
+    height: 0.25em; /* 4px */;
+    overflow: hidden;
+    position: relative;
+}
+
+.root::-webkit-progress-bar {
+    background-color: transparent;
+}
+
+.root::-moz-progress-bar {
+    background-color: var(--bg-inverse-color);
+    border-radius: 40px;
+}
+
+.root::-webkit-progress-value {
+    background-color: var(--bg-inverse-color);
+    border-radius: 40px;
+}
+
+@keyframes slide {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(200%)
+    }
+}
+
+.root:indeterminate::-moz-progress-bar {
+    animation: slide ease-in-out 2s infinite;
+    width: 50% !important;
+}
+
+/* Can't animate `-webkit-progress-value` so using `after` instead. */
+.root:indeterminate:after {
+    animation: slide ease-in-out 2s infinite;
+    background-color: var(--bg-inverse-color);
+    border-radius: 40px;
+    content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 50% !important;
+}
