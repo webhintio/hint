@@ -13,7 +13,7 @@
   "devDependencies": {
     "@hint/parser-html": "^2.0.2",
     "@hint/utils-tests-helpers": "^3.0.0",
-    "@types/node": "^11.13.4",
+    "@types/node": "^11.13.5",
     "@typescript-eslint/eslint-plugin": "^1.6.0",
     "@typescript-eslint/parser": "^1.6.0",
     "ava": "^1.4.1",
