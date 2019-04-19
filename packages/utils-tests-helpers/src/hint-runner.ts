@@ -222,11 +222,16 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
 
     /** Runs a test for the hint being tested */
     const runHint = async (t: ExecutionContext<HintRunnerContext>, hintTest: HintTest, connector: string) => {
+        let engine,
+            server;
+
         try {
-            const server = await Server.create({ configuration: hintTest.serverConfig, isHTTPS: configs.https });
+            server = await Server.create({ configuration: hintTest.serverConfig, isHTTPS: configs.https });
+
             const { serverUrl, reports } = hintTest;
             const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
-            const engine = await createConnector(t, hintTest, connector);
+
+            engine = await createConnector(t, hintTest, connector);
             const results = await engine.executeOn(new URL(target));
 
             const sources = new Map<string, string>();
@@ -243,6 +248,14 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
             return validateResults(t, sources, results, Server.updateLocalhost(reports, server.port));
         } catch (e) {
             console.error(e);
+
+            if (server) {
+                await server.stop();
+            }
+
+            if (engine) {
+                await engine.close();
+            }
 
             return t.fail(`${hintTest.name} throwed an exception:\n${e.message}\n${e.stack}`);
         }
