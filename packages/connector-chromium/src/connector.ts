@@ -1,9 +1,10 @@
 import compact = require('lodash/compact');
 import * as puppeteer from 'puppeteer-core';
 
-import { chromiumFinder, contentType, debug as d, dom, HTMLElement, network, HTMLDocument, HttpHeaders } from '@hint/utils';
+import { contentType, debug as d, dom, HTMLElement, network, HTMLDocument, HttpHeaders } from '@hint/utils';
 import { normalizeHeaders, Requester } from '@hint/utils-connector-tools';
 import { IConnector, Engine, FetchError, FetchEnd, NetworkData, Request } from 'hint';
+import { launch, close } from './lib/lifecycle';
 
 const { getContentTypeData, getType } = contentType;
 const { createHTMLDocument, getElementByUrl, traverse } = dom;
@@ -17,7 +18,6 @@ export default class ChromiumConnector implements IConnector {
     private _browser!: puppeteer.Browser;
     private _dom: HTMLDocument | undefined;
     private _engine: Engine;
-    private _executable: string;
     /** The default headers to do any request. */
     private _headers: HttpHeaders = {};
     private _html: string | undefined;
@@ -28,15 +28,7 @@ export default class ChromiumConnector implements IConnector {
     private _pendingRequests: Function[] = [];
 
     public constructor(engine: Engine, config?: object) {
-        try {
-            this._engine = engine;
-            this._executable = chromiumFinder.getInstallationPath();
-
-            debug(`Browser executable: ${this._executable}`);
-        } catch (e) {
-            debug(`No executable found`);
-            throw e;
-        }
+        this._engine = engine;
 
         (engine as Engine<import('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
             // TODO: If there's a navigation we should probably clear this before? We'll need to use `page.on('framenavigated')`
@@ -333,26 +325,6 @@ export default class ChromiumConnector implements IConnector {
         await this._engine.emitAsync(eventName, fetchEndPayload);
     }
 
-    private async launch() {
-        debug(`Launching browser`);
-
-        // Check if there's another browser running first
-
-        try {
-            // TODO: Do we need to use `userDataDir` or with the flags is not needed? It will polute history though
-
-            // QUESTION: by default puppeteer is headless, do we care?
-            this._browser = await puppeteer.launch({
-                executablePath: this._executable,
-                headless: false
-            });
-        } catch (e) {
-            debug(e);
-
-            throw e;
-        }
-    }
-
     private addListeners() {
         debug(`Adding event listeners`);
 
@@ -399,16 +371,8 @@ export default class ChromiumConnector implements IConnector {
 
     public async close() {
         this.removeListeners();
-        // Do magic here around closing or not
 
-
-        try {
-            await this._browser.close();
-        } catch (e) {
-            debug(`Error closing browser`);
-        }
-
-        // this._page.disconnect();
+        await close(this._browser, this._page);
     }
 
     public evaluate(code: string): Promise<any> {
@@ -427,11 +391,12 @@ export default class ChromiumConnector implements IConnector {
 
         const event = { resource: target.href };
 
-        await this.launch();
-        await this._engine.emit('scan::start', event);
+        const { browser, page } = await launch();
 
-        debug(`Creating new page`);
-        this._page = await this._browser.newPage();
+        this._browser = browser;
+        this._page = page;
+
+        await this._engine.emit('scan::start', event);
 
         // TODO: Figure out how to execute the user tasks in here and when to subscribe to events
 
@@ -461,7 +426,9 @@ export default class ChromiumConnector implements IConnector {
         const html = await this._page.content();
         const dom = createHTMLDocument(html, this._originalDocument);
 
-        await this.getFavicon(dom);
+        if (this._options.headless) {
+            await this.getFavicon(dom);
+        }
 
         this._dom = dom;
 
