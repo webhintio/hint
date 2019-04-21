@@ -67,6 +67,7 @@
         { "path": "packages/hint-manifest-app-name" },
         { "path": "packages/hint-manifest-exists" },
         { "path": "packages/hint-manifest-file-extension" },
+        { "path": "packages/hint-manifest-icons" },
         { "path": "packages/hint-manifest-is-valid" },
         { "path": "packages/hint-meta-charset-utf-8" },
         { "path": "packages/hint-meta-theme-color" },
