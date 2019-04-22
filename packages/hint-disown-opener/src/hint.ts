@@ -13,7 +13,7 @@
 import { URL } from 'url';
 
 import { debug as d } from '@hint/utils/dist/src/debug';
-import { isSupported } from '@hint/utils/dist/src/caniuse';
+import { isSupported } from '@hint/utils/dist/src/compat';
 import { isRegularProtocol } from '@hint/utils/dist/src/network/is-regular-protocol';
 import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 import { cutString } from '@hint/utils/dist/src/misc/cut-string';
@@ -120,12 +120,6 @@ export default class DisownOpenerHint implements IHint {
                 return;
             }
 
-            /*
-             * TODO: In the future, change this to not use caniuse data.
-             * https://github.com/webhintio/hint/issues/30
-             */
-
-            const targetedBrowsers: string = context.targetedBrowsers.join();
             const relValuesToCheckFor: string[] = ['noopener'];
 
             /*
@@ -134,7 +128,8 @@ export default class DisownOpenerHint implements IHint {
              * also check for 'noreferrer'.
              */
 
-            if (!targetedBrowsers || !isSupported('rel-noopener', targetedBrowsers)) {
+            // TODO: Fix `isSupported` so `element` can be `a`.
+            if (!context.targetedBrowsers.length || !isSupported({ attribute: 'rel', element: 'link', value: 'noopener' }, context.targetedBrowsers)) {
                 relValuesToCheckFor.push('noreferrer');
             }
 

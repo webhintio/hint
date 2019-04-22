@@ -15,7 +15,7 @@ import {
     IHint,
     IJSONLocationFunction
 } from 'hint/dist/src/lib/types';
-import { isSupported } from '@hint/utils/dist/src/caniuse';
+import { isSupported } from '@hint/utils/dist/src/compat';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import {
     Manifest,
@@ -40,8 +40,6 @@ export default class ManifestIsValidHint implements IHint {
 
     public constructor(context: HintContext<ManifestEvents>) {
 
-        const targetedBrowsers: string = context.targetedBrowsers.join();
-
         const isNotSupportedColorValue = (color: ColorDescriptor, normalizedColorValue: string): boolean => {
             const hexWithAlphaRegex = /^#([0-9a-fA-F]{4}){1,2}$/;
 
@@ -62,10 +60,12 @@ export default class ManifestIsValidHint implements IHint {
              *   * https://cs.chromium.org/chromium/src/third_party/WebKit/Source/platform/graphics/Color.cpp?rcl=6263bcf0ec9f112b5f0d84fc059c759302bd8c67
              */
 
+            // TODO: Use `isSupported` for all color syntax checks.
+
             // `RGBA` support depends on the browser.
             return (color.model === 'rgb' &&
                 hexWithAlphaRegex.test(normalizedColorValue) &&
-                !isSupported('css-rrggbbaa', targetedBrowsers)) ||
+                !isSupported({ property: 'color', value: '#00000000' }, context.targetedBrowsers)) ||
 
                 // `HWB` is not supported anywhere (?).
                 color.model === 'hwb';

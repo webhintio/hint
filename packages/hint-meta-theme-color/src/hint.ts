@@ -17,11 +17,10 @@ import {
     IHint,
     TraverseEnd
 } from 'hint';
-import { caniuse, HTMLElement, misc } from '@hint/utils';
+import { HTMLElement, isSupported, misc } from '@hint/utils';
 
 import meta from './meta';
 
-const { isSupported } = caniuse;
 const { normalizeString } = misc;
 /*
  * ------------------------------------------------------------------------------
@@ -34,8 +33,6 @@ export default class MetaThemeColorHint implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext) {
-
-        const targetedBrowsers: string = context.targetedBrowsers.join();
 
         let bodyElementWasReached: boolean = false;
         let firstThemeColorMetaElement: HTMLElement;
@@ -68,10 +65,12 @@ export default class MetaThemeColorHint implements IHint {
              *   * https://cs.chromium.org/chromium/src/third_party/WebKit/Source/platform/graphics/Color.cpp?rcl=6263bcf0ec9f112b5f0d84fc059c759302bd8c67
              */
 
+            // TODO: Use `isSupported` for all color syntax checks.
+
             // `RGBA` support depends on the browser.
             return (color.model === 'rgb' &&
                 hexWithAlphaRegex.test(normalizedColorValue) &&
-                !isSupported('css-rrggbbaa', targetedBrowsers)) ||
+                !isSupported({ property: 'color', value: '#00000000' }, context.targetedBrowsers)) ||
 
                 // `HWB` is not supported anywhere (?).
                 color.model === 'hwb';
