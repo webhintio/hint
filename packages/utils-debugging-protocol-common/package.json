@@ -12,7 +12,7 @@
     "@hint/parser-html": "^2.0.2",
     "@types/lockfile": "^1.0.1",
     "@types/lodash": "^4.14.123",
-    "@types/node": "^11.13.5",
+    "@types/node": "^11.13.6",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
     "chrome-remote-debug-protocol": "^1.2.20180422",
