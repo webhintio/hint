@@ -11,7 +11,7 @@ const { createHTMLDocument, getElementByUrl, traverse } = dom;
 const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 
-type EventName = 'error' | 'pageerror' | 'request' | 'requestfailed' | 'response' | 'close' | 'console' | 'dialog' | 'domcontentloaded' | 'frameattached' | 'framedetached' | 'framenavigated' | 'workerdestroyed'
+type EventName = keyof puppeteer.PageEventObj;
 
 export default class ChromiumConnector implements IConnector {
     private _options: any; // TODO: scope this a bit more
@@ -228,11 +228,6 @@ export default class ChromiumConnector implements IConnector {
         };
     }
 
-    private async navigationEnded(response: puppeteer.Response) {
-        this._html = await response.text();
-        this._originalDocument = createHTMLDocument(this._html);
-    }
-
     private onError(error: Error) {
         debug(`Error: ${error}`);
     }
@@ -299,9 +294,7 @@ export default class ChromiumConnector implements IConnector {
             return;
         }
 
-        if (isTarget) {
-            await this.navigationEnded(response);
-        } else if (!this._dom) {
+        if (!this._dom && !isTarget) {
             // DOM isn't loaded yet, need to queue up
             this._pendingRequests.push(this.onResponse.bind(this, response));
 
@@ -324,6 +317,11 @@ export default class ChromiumConnector implements IConnector {
 
         if (isTarget && defaults.includes(suffix)) {
             suffix = 'html';
+        }
+
+        if (isTarget && suffix === 'html') {
+            this._html = fetchEndPayload.response.body.content;
+            this._originalDocument = createHTMLDocument(this._html);
         }
 
         const eventName = `fetch::end::${suffix}` as 'fetch::end::*';
@@ -419,8 +417,6 @@ export default class ChromiumConnector implements IConnector {
 
         debug(`Navigation complete`);
 
-        // Check that target is HTML, if it isn't then leave
-
         // Stop network events after navigation is considered complete so no more issues are reported
         const networkEvents: EventName[] = ['request', 'requestfailed', 'response'];
 
@@ -430,27 +426,32 @@ export default class ChromiumConnector implements IConnector {
 
         this.removeListeners(networkEvents);
 
-        const html = await this._page.content();
-        const dom = createHTMLDocument(html, this._originalDocument);
+        // If target wasn't an HTML then don't do any of the following
 
-        if (this._options.headless) {
-            await this.getFavicon(dom);
+        if (this._html) {
+            const html = await this._page.content();
+            const dom = createHTMLDocument(html, this._originalDocument);
+
+            if (this._options.headless) {
+                await this.getFavicon(dom);
+            }
+
+            this._dom = dom;
+
+
+            // Process pending requests now that the dom is ready
+            while (this._pendingRequests.length > 0) {
+                const pendingRequest = this._pendingRequests.shift()!;
+
+                await pendingRequest();
+            }
+
+            await traverse(dom, this._engine, this._page.url());
+
+
+            // TODO: Update with the final URL
+            await this._engine.emitAsync('can-evaluate::script', event);
         }
-
-        this._dom = dom;
-
-        // Process pending requests now that the dom is ready
-        while (this._pendingRequests.length > 0) {
-            const pendingRequest = this._pendingRequests.shift()!;
-
-            await pendingRequest();
-        }
-
-        await traverse(dom, this._engine, this._page.url());
-
-
-        // TODO: Update with the final URL
-        await this._engine.emitAsync('can-evaluate::script', event);
 
         // Some other timeouts or awaits here?
 
