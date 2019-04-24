@@ -337,8 +337,8 @@ export default class PuppeteerConnector implements IConnector {
         const options = {
             headers,
             // we sync the ignore SSL error options with `request`. This is neeeded for local https tests
-            rejectUnauthorized: this._options.ignoreHTTPSErrors,
-            strictSSL: this._options.ignoreHTTPSErrors
+            rejectUnauthorized: !this._options.ignoreHTTPSErrors,
+            strictSSL: !this._options.ignoreHTTPSErrors
         };
 
         const request = new Requester(options);
