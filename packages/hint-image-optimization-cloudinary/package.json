@@ -10,7 +10,7 @@
     "@hint/utils": "^1.0.0",
     "cloudinary": "^1.14.0",
     "fs-extra": "^7.0.0",
-    "image-size": "^0.7.3"
+    "image-size": "^0.7.4"
   },
   "description": "hint that that checks using Cloudinary's API if images are optimized",
   "devDependencies": {
