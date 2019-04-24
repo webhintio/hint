@@ -26,6 +26,8 @@ export type HintTest = {
     serverConfig?: any;
     /** The url to `executeOn` if different than `localhost`. */
     serverUrl?: string;
+    /** Whether this test should be skipped. */
+    skip?: boolean;
 };
 
 export type HintLocalTest = {

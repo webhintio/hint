@@ -275,7 +275,11 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
             hintTests.forEach((hintTest) => {
                 let runner;
 
-                runner = configs['serial'] ? test.serial : test; // eslint-disable-line dot-notation
+                if (hintTest.skip) {
+                    runner = test.skip;
+                } else {
+                    runner = configs['serial'] ? test.serial : test; // eslint-disable-line dot-notation
+                }
 
                 /*
                  * If the tests for a hint ignores the connector, then we

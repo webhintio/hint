@@ -7,8 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^1.0.0",
-    "mdn-browser-compat-data": "^0.0.72"
+    "@hint/utils": "^1.0.0"
   },
   "description": "hint to validate if the HTML, CSS, and JavaScript APIs of the project are deprecated or not broadly supported",
   "devDependencies": {

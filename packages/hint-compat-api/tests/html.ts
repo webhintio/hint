@@ -52,7 +52,7 @@ testHint(hintPath, removedForFlags, { browserslist: ['firefox 34'], ignoredConne
 const onlySupportedByFlags: HintTest[] = [
     {
         name: 'Elements only supported by flags should fail.',
-        reports: [{ message: 'shadow element is not supported by firefox 60.', position: { match: 'shadow' } }],
+        reports: [{ message: 'shadow element is not supported by firefox.', position: { match: 'shadow' } }],
         serverConfig: generateHTMLConfig('shadow')
     }
 ];
@@ -108,11 +108,13 @@ const elementVersionAddedFalse: HintTest[] = [
 
 testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2 Chrome versions'], ignoredConnectors });
 
+// TODO: Remove - This tests a feature never implemented anywhere (which we exclude from our data set)...
 const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
     {
         name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
         reports: [{ message: 'element element is not supported by any of your target browsers.', position: { match: 'element' } }],
-        serverConfig: generateHTMLConfig('element')
+        serverConfig: generateHTMLConfig('element'),
+        skip: true
     }
 ];
 
@@ -128,11 +130,13 @@ const elementVersionAddedFalseForMultipleBrowsers: HintTest[] = [
 
 testHint(hintPath, elementVersionAddedFalseForMultipleBrowsers, { browserslist: ['chrome 43', 'last 2 Edge versions', 'last 2 ie versions', 'opera 12'], ignoredConnectors });
 
+// TODO: Remove - This tests a feature never implemented anywhere (which we exclude from our data set)...
 const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
     {
         name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
         reports: [{ message: 'element element is not supported by edge, firefox_android.', position: { match: 'element' } }],
-        serverConfig: generateHTMLConfig('element')
+        serverConfig: generateHTMLConfig('element'),
+        skip: true
     }
 ];
 

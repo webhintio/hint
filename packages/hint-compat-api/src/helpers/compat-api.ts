@@ -3,7 +3,7 @@
  */
 
 // Waiting for this PR https://github.com/mdn/browser-compat-data/pull/3004
-const mdnAPI: CompatData = require('mdn-browser-compat-data');
+import { mdn } from '@hint/utils/dist/src/compat/browser-compat-data';
 
 import get = require('lodash/get');
 
@@ -11,6 +11,8 @@ import { CompatNamespace } from '../enums';
 import { browserVersions } from './normalize-version';
 import { BrowserSupportCollection, MDNTreeFilteredByBrowsers, BrowserVersions, FeatureInfo } from '../types';
 import { CompatData, CompatStatement, SupportStatement, SimpleSupportStatement, Identifier, VersionValue } from '../types-mdn.temp'; // Temporal
+
+const mdnAPI = mdn as unknown as CompatData;
 
 export class CompatAPI {
     public compatDataApi: MDNTreeFilteredByBrowsers;

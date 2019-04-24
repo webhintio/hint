@@ -2,9 +2,12 @@
  * @fileoverview Helper that convert browser names from Browserlist to MDN Api.
  */
 
-const { browsers: mdnBrowsers } = require('mdn-browser-compat-data');
+// TODO: replace with direct usage of `getUnsupported` from `@hint/utils`.
+import { mdn } from '@hint/utils/dist/src/compat/browser-compat-data';
 
 import { BrowserSupportCollection } from '../types';
+
+const mdnBrowsers = mdn.browsers;
 
 type BrowsersDictionary = {
     [key: string]: string;
