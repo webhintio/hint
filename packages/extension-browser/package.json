@@ -6,7 +6,7 @@
     ],
     "timeout": "1m"
   },
-  "bundleSize": 660000,
+  "bundleSize": 640000,
   "description": "webhint browser extension",
   "devDependencies": {
     "@hint/utils": "^1.0.0",

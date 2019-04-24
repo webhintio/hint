@@ -84,21 +84,25 @@ const removedInEarlierVersionsAndAddedLater: HintTest[] = [
 
 testHint(hintPath, removedInEarlierVersionsAndAddedLater, { browserslist: ['opera 32'], ignoredConnectors, parsers: ['css']});
 
+// TODO: Switch feature/version - Tests versions older than those included in the packaged data set.
 const removedForPrefixEqualToTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version equal to the targeted browser should fail.',
         reports: [{ message: 'keyframes prefixed with -o- is not supported by opera 15.', position: { match: '@-o-keyframes' }}],
-        serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
+        serverConfig: generateCSSConfig('keyframes-prefix-obsolete'),
+        skip: true
     }
 ];
 
 testHint(hintPath, removedForPrefixEqualToTargetedBrowsers, { browserslist: ['opera 15'], ignoredConnectors, parsers: ['css']});
 
+// TODO: Switch feature/version - Tests versions older than those included in the packaged data set.
 const removedForPrefixEarlierThanTargetedBrowsers: HintTest[] = [
     {
         name: 'Prefixed features that were removed in a version earlier than the targeted browser should fail.',
         reports: [{ message: 'keyframes prefixed with -o- is not supported by opera 16, opera 18-19.', position: { match: '@-o-keyframes' }}],
-        serverConfig: generateCSSConfig('keyframes-prefix-obsolete')
+        serverConfig: generateCSSConfig('keyframes-prefix-obsolete'),
+        skip: true
     }
 ];
 
@@ -153,11 +157,13 @@ const prefixedFeatureThatBecameStandardAfterTarget: HintTest[] = [
 
 testHint(hintPath, prefixedFeatureThatBecameStandardAfterTarget, { browserslist: ['firefox 3.6'], ignoredConnectors, parsers: ['css']});
 
+// TODO: Switch feature/version - Tests versions older than those included in the packaged data set.
 const prefixedFeaturesThatBecameStandardAndPrefixWasDeprecated: HintTest[] = [
     {
         name: 'Prefixed features that became deprecated before the targeted browser should fail.',
         reports: [{ message: 'background-size prefixed with -moz- is not supported by firefox 4.', position: { match: '-moz-background-size' }}],
-        serverConfig: generateCSSConfig('background-size-prefix')
+        serverConfig: generateCSSConfig('background-size-prefix'),
+        skip: true
     }
 ];
 
@@ -176,7 +182,7 @@ testHint(hintPath, featureVersionAddedFalse, { browserslist: ['ie 11'], ignoredC
 const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
     {
         name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
-        reports: [{ message: 'box-lines is not supported by firefox, firefox_android.', position: { match: 'box-lines' }}],
+        reports: [{ message: 'box-lines is not supported by any of your target browsers.', position: { match: 'box-lines' }}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];
@@ -186,7 +192,7 @@ testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { b
 const mixedFeaturedCompatibility: HintTest[] = [
     {
         name: 'Features with mixed compatibility (version added null vs false) for different browsers should only throw errors for browsers in which the feature has never been added (false).',
-        reports: [{ message: 'box-lines is not supported by firefox.', position: { match: 'box-lines' }}],
+        reports: [{ message: 'box-lines is not supported by any of your target browsers.', position: { match: 'box-lines' }}],
         serverConfig: generateCSSConfig('box-lines')
     }
 ];
