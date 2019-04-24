@@ -64,6 +64,22 @@ export const createHelpers = () => {
         return null;
     };
 
+    const isComment = (node: Node): node is Comment => {
+        return node.nodeType === 8;
+    };
+
+    const isDoctype = (node: Node): node is DocumentType => {
+        return node.nodeType === 10;
+    };
+
+    const isElement = (node: Node): node is Element => {
+        return node.nodeType === 1;
+    };
+
+    const isText = (node: Node): node is Text => {
+        return node.nodeType === 3;
+    };
+
     type AttrData = {
         attribs: { [name: string]: string };
         'x-attribsNamespace': { [name: string]: string | null };
@@ -92,7 +108,7 @@ export const createHelpers = () => {
         const id = getId(node);
         const sourceCodeLocation = getLocation(node);
 
-        if (node instanceof Comment) {
+        if (isComment(node)) {
             return {
                 data: node.nodeValue || '',
                 id,
@@ -102,7 +118,7 @@ export const createHelpers = () => {
                 sourceCodeLocation,
                 type: 'comment'
             };
-        } else if (node instanceof DocumentType) {
+        } else if (isDoctype(node)) {
             return {
                 data: node.nodeValue || '',
                 id,
@@ -116,7 +132,7 @@ export const createHelpers = () => {
                 systemId: node.systemId,
                 type: 'directive'
             };
-        } else if (node instanceof Element) {
+        } else if (isElement(node)) {
             const name = node.nodeName.toLowerCase();
             const attrs = Array.from(node.attributes).reduce(snapshotAttr, {
                 attribs: {},
@@ -138,7 +154,7 @@ export const createHelpers = () => {
                 'x-attribsNamespace': attrs['x-attribsNamespace'],
                 'x-attribsPrefix': attrs['x-attribsPrefix']
             };
-        } else if (node instanceof Text) {
+        } else if (isText(node)) {
             return {
                 data: node.nodeValue || '',
                 id,
