@@ -109,8 +109,12 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
         parsers: determineParsers(opts && opts.parsers)
     };
 
-    // Allow us to use our self-signed cert for testing.
-    config.connector.options = { ignoreHTTPSErrors: true };
+    // Defaults needed to run the tests
+    config.connector.options = {
+        detached: true, // This only applies to `puppeteer`
+        ignoreHTTPSErrors: true,
+        waitUntil: 'networkidle0' // This only applies to `puppeteer`
+    };
 
     return Configuration.fromConfig(config);
 };

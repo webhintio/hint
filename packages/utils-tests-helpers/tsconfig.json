@@ -14,9 +14,9 @@
         "tests/**/*.ts"
     ],
     "references": [
-        { "path": "../connector-chrome" },
         { "path": "../connector-jsdom" },
         { "path": "../connector-local" },
+        { "path": "../connector-puppeteer" },
         { "path": "../hint" },
         { "path": "../utils" },
         { "path": "../utils-create-server" }
