@@ -10,7 +10,7 @@
     "@hint/utils": "^1.0.0",
     "data-urls": "^1.1.0",
     "iconv-lite": "^0.4.24",
-    "iltorb": "^2.4.2",
+    "iltorb": "^2.4.3",
     "request": "^2.88.0"
   },
   "description": "hint tools for connectors",

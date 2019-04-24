@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@hint/utils": "^1.0.0",
-    "iltorb": "^2.4.2"
+    "iltorb": "^2.4.3"
   },
   "description": "hint for HTTP compression related best practices",
   "devDependencies": {
