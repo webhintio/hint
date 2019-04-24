@@ -47,7 +47,7 @@
     "postcss-safe-parser": "^4.0.1",
     "proxyquire": "2.0.0",
     "rimraf": "^2.6.3",
-    "typescript": "^3.4.4"
+    "typescript": "^3.4.5"
   },
   "engines": {
     "node": ">=8.0.0"
