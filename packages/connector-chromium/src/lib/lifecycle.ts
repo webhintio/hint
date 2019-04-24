@@ -1,18 +1,20 @@
 import { promisify } from 'util';
+import { unlink } from 'fs';
+
 import * as locker from 'lockfile';
 import * as puppeteer from 'puppeteer-core';
 
-import { chromiumFinder, debug as d, fs, misc } from '@hint/utils';
+import { chromiumFinder, debug as d, fs } from '@hint/utils';
 
 const debug: debug.IDebugger = d(__filename);
 
+const deleteFile = promisify(unlink);
 const lockFile = promisify(locker.lock) as (path: string, options: locker.Options) => Promise<void>;
 const unlockFile = promisify(locker.unlock);
 const lockName = 'chromium-connector.lock';
 let isLocked = false;
 
 const { readFileAsync, writeFileAsync } = fs;
-const { delay } = misc;
 
 const pidFile = 'chromium.pid';
 const executablePath = chromiumFinder.getInstallationPath();
@@ -64,7 +66,7 @@ const getBrowserInfo = async () => {
     };
 
     try {
-        result = JSON.parse(await readFileAsync(pidFile));
+        result = JSON.parse((await readFileAsync(pidFile)).trim());
     } catch (e) {
         /* istanbul ignore next */
         { // eslint-disable-line
@@ -75,36 +77,16 @@ const getBrowserInfo = async () => {
         }
     }
 
-    /* istanbul ignore if */
-    if (Number.isNaN(result.pid)) {
-        return null;
-    }
-
-    try {
-        /*
-         * We test if the process is still running or if it is a leftover:
-         * https://nodejs.org/api/process.html#process_process_kill_pid_signal
-         */
-        /*
-         * When running tests serially (because we mock a dependency),
-         * sometimes the connector tries to connect to a browser that
-         * is being closed and the connection fails. We wait a few
-         * milliseconds to make sure this doesn't happen. The number
-         * is by trial and error.
-         */
-        await delay(400);
-
-        process.kill(result.pid, 0);
-    } catch (e) {
-        /* istanbul ignore next */
-        { // eslint-disable-line
-            debug(`Process with ${result.pid} doesn't seem to be running`);
-
-            return null;
-        }
-    }
-
     return result;
+};
+
+const deletePid = async () => {
+    try {
+        await deleteFile(pidFile);
+    } catch (e) {
+        debug(`Error trying to delete ${pidFile}`);
+        debug(e);
+    }
 };
 
 /** Stores the `pid` of the given `child` into a file. */
@@ -114,31 +96,57 @@ const writePid = async (browserInfo: BrowserInfo) => {
 };
 
 // Accept some options here
-export const launch = async () => {
+export const launch = async (options: any) => {
     await lock();
+
+    const ignoreHTTPSErrorsOption = { ignoreHTTPSErrors: options && options.overrideInvalidCert };
 
     const currentInfo = await getBrowserInfo();
 
     if (currentInfo) {
-        // TODO: Options here
-        const browser = await puppeteer.connect({ browserWSEndpoint: currentInfo.browserWSEndpoint });
+        try {
+            const connectOptions = Object.assign(
+                {},
+                { browserWSEndpoint: currentInfo.browserWSEndpoint },
+                ignoreHTTPSErrorsOption,
+                options);
 
-        debug(`Creating new page`);
-        const page = await browser.newPage();
+            const browser = await puppeteer.connect(connectOptions);
 
-        await unlock();
+            debug(`Creating new page in existing browser`);
+            const page = await browser.newPage();
 
-        return { browser, page };
+            await unlock();
+
+            return { browser, page };
+        } catch (e) {
+            // The process might be dead so we need to launch a new one and delete the current info file
+            await deletePid();
+        }
     }
 
-    // TODO: Merge options here
-    const browser = await puppeteer.launch({
-        executablePath,
-        headless: false
-    });
+    const launchOptions = { executablePath };
+
+    debug(`Launching new browser instance`);
+
+    const browser = await puppeteer.launch(Object.assign(
+        {},
+        launchOptions,
+        options
+    ));
 
     debug(`Creating new page`);
-    const page = await browser.newPage();
+
+    /**
+     * When the browser starts there's usually a blank page,
+     * instead of creating a new one to navigate, it is reused.
+     * If none is available, then a new one is created.
+     */
+    const pages = await browser.pages();
+
+    const page = pages.length > 0 ?
+        await pages[0] :
+        await browser.newPage();
 
     const pid = browser.process().pid;
     const browserWSEndpoint = browser.wsEndpoint();
@@ -170,26 +178,30 @@ export const launch = async () => {
 };
 
 export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) => {
-    // Do magic here around closing or not
     await lock();
 
     try {
-        await page.close();
+        const pages = await browser.pages();
 
-        const targets = await browser.targets();
-        const pageTargets = targets.filter((target) => {
-            return target.type() === 'page';
-        });
 
-        if (pageTargets.length === 0) {
-            await browser.close();
-        } else {
-            await browser.disconnect();
+        if (pages.length === 1) {
+            /**
+             * TODO:
+             * Guess what happens with headless, does the browser need to be closed?
+             * What about macOS?
+             */
+            await deletePid();
         }
+
+        debug(`Closing page`);
+        debug(`Remaining pages: ${pages.length - 1}`);
+
+        await page.close();
     } catch (e) {
-        debug(`Error closing browser`);
+        debug(`Error closig page`);
+        debug(e);
     } finally {
+
         await unlock();
     }
-    // this._page.disconnect();
 };

@@ -218,10 +218,9 @@ test.beforeEach((t) => {
     t.context.engine = engine;
 });
 
-test.afterEach.always(async (t) => {
+test.afterEach.always((t) => {
     t.context.engineEmitAsyncSpy.restore();
     t.context.engineEmitSpy.restore();
-    await t.context.connector!.close();
 });
 
 test(`[${name}] Events`, async (t) => {

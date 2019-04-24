@@ -8,12 +8,14 @@
   },
   "dependencies": {
     "@hint/utils": "^1.0.0",
+    "lockfile": "^1.0.4",
     "puppeteer-core": "^1.14.0"
   },
   "description": "hint connector for Chromium based browsers",
   "devDependencies": {
     "@hint/utils-create-server": "^3.0.0",
     "@types/is-ci": "^1.1.0",
+    "@types/lockfile": "^1.0.1",
     "@types/lodash": "^4.14.123",
     "@types/node": "^11.13.4",
     "@types/puppeteer-core": "^1.9.0",
@@ -80,5 +82,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.1"
+  "version": "1.0.0"
 }

@@ -27,7 +27,7 @@ export default class ChromiumConnector implements IConnector {
     private _finalHref = '';
     private _pendingRequests: Function[] = [];
 
-    public constructor(engine: Engine, config?: object) {
+    public constructor(engine: Engine, options?: object) {
         this._engine = engine;
 
         (engine as Engine<import('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
@@ -37,7 +37,14 @@ export default class ChromiumConnector implements IConnector {
             }
         });
 
-        this._options = Object.assign({}, config);
+        const defaults = {
+            handleSIGHUP: false,
+            handleSIGINT: false,
+            handleSIGTERM: false,
+            headless: true
+        };
+
+        this._options = Object.assign({}, defaults, options);
     }
 
     private async createFetchEndPayload(response: puppeteer.Response): Promise<FetchEnd> {
@@ -391,7 +398,7 @@ export default class ChromiumConnector implements IConnector {
 
         const event = { resource: target.href };
 
-        const { browser, page } = await launch();
+        const { browser, page } = await launch(this._options);
 
         this._browser = browser;
         this._page = page;
