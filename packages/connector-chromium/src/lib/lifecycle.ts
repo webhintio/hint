@@ -99,7 +99,13 @@ const writePid = async (browserInfo: BrowserInfo) => {
 export const launch = async (options: any) => {
     await lock();
 
-    const ignoreHTTPSErrorsOption = { ignoreHTTPSErrors: options && options.overrideInvalidCert };
+    const ignoreHTTPSErrorsOption = options && options.overrideInvalidCert ?
+        {
+            // `ignoreHTTPSErrors` sometimes is not enough on headless: https://github.com/GoogleChrome/puppeteer/issues/2377#issuecomment-414147922
+            args: ['--enable-features=NetworkService'],
+            ignoreHTTPSErrors: true
+        } :
+        {};
 
     const currentInfo = await getBrowserInfo();
 
