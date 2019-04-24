@@ -120,7 +120,7 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
         };
     }
 
-    if (connector === 'chrome') {
+    if (connector === 'chromium') {
         // Allow us to use our self-signed cert for testing.
         config.connector.options = { overrideInvalidCert: true };
     }

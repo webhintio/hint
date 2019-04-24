@@ -4,20 +4,20 @@
  */
 import { IConnectorConstructor } from 'hint';
 
-import ChromeConnector from '@hint/connector-chrome';
+import ChromiumConnector from '@hint/connector-chromium';
 import JSDOMConnector from '@hint/connector-jsdom';
 
 /** The IDs of the available connectors to test. */
 export const ids = [
-    'chrome',
+    'chromium',
     'jsdom'
 ];
 
 /** The Constructors of the available connectors to test. */
 export const connectors: { ctor: IConnectorConstructor; name: string }[] = [
     {
-        ctor: ChromeConnector,
-        name: 'chrome'
+        ctor: ChromiumConnector,
+        name: 'chromium'
     },
     {
         ctor: JSDOMConnector,
