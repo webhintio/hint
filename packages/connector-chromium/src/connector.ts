@@ -26,6 +26,7 @@ export default class ChromiumConnector implements IConnector {
     private _page!: puppeteer.Page;
     private _finalHref = '';
     private _pendingRequests: Function[] = [];
+    private _targetNetworkData!: NetworkData;
 
     public constructor(engine: Engine, options?: object) {
         this._engine = engine;
@@ -66,7 +67,7 @@ export default class ChromiumConnector implements IConnector {
             response.text(),
             response.buffer()
         ])
-            .catch(() => {
+            .catch((e) => {
                 return ['', Buffer.alloc(0)];
             });
 
@@ -313,15 +314,18 @@ export default class ChromiumConnector implements IConnector {
          * we change the suffix to `html` so hints work properly.
          */
         let suffix = getType(fetchEndPayload.response.mediaType);
-        const defaults = ['unknown', 'xml'];
+        const defaults = ['html', 'unknown', 'xml'];
 
-        if (isTarget && defaults.includes(suffix)) {
-            suffix = 'html';
-        }
+        if (isTarget) {
 
-        if (isTarget && suffix === 'html') {
-            this._html = fetchEndPayload.response.body.content;
-            this._originalDocument = createHTMLDocument(this._html);
+            if (defaults.includes(suffix)) {
+                suffix = 'html';
+
+                this._html = fetchEndPayload.response.body.content;
+                this._originalDocument = createHTMLDocument(this._html);
+            }
+
+            this._targetNetworkData = fetchEndPayload;
         }
 
         const eventName = `fetch::end::${suffix}` as 'fetch::end::*';
@@ -426,9 +430,11 @@ export default class ChromiumConnector implements IConnector {
 
         this.removeListeners(networkEvents);
 
-        // If target wasn't an HTML then don't do any of the following
+        // Await for target ready/downloaded
 
-        if (this._html) {
+        // await this._targetReady;
+
+        if (this._html !== undefined) {
             const html = await this._page.content();
             const dom = createHTMLDocument(html, this._originalDocument);
 
@@ -505,5 +511,12 @@ export default class ChromiumConnector implements IConnector {
         }
 
         return this._dom.pageHTML();
+    }
+
+    public get headers() {
+        return this._targetNetworkData &&
+            this._targetNetworkData.response &&
+            normalizeHeaders(this._targetNetworkData.response.headers) ||
+            undefined;
     }
 }
