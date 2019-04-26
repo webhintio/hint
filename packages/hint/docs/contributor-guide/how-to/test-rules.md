@@ -7,35 +7,34 @@ testing a hint and how to configure the test server to do what you need.
 ## Getting started
 
 If you have used the built-in tools to create a new hint (core or custom),
-everything should already set up to use `hint-runner.ts` and the `testHint`
+everything should already set up to use `hint-runner.ts` under (`utils-tests-helpers`) and the `testHint`
 method.
 
 If not, you need to:
 
-1. Create a `tests.ts` file in a folder with the name of the hint
-   (e.g.: `src/tests/hints/<hint-id>/tests.ts`)
+1. Create a `tests.ts` file in the hint folder like `hint-<hint-id>/src/tests/tests.ts`.
 1. Have the following template:
 
 ```ts
-import { HintTest } from 'hint/dist/tests/helpers/hint-test-type';
-import * as hintRunner from 'hint/dist/tests/helpers/hint-runner';
-import { getHintPath } from 'hint/dist/src/lib/utils/hint-helpers';
+import { test } from '@hint/utils';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const tests: HintTest[] = [
     {
-        name: 'Name of the tests',
-        serverConfig: 'HTML to use',
-        reports: [{
-            message: 'Message the error will have',
-            position: { match: 'text' } // Source where error will show.
-        }]
+        name: 'This test should pass',
+        serverConfig: generateHTMLPage()
     },
-    { ... }
+    {
+        name: `This test should fail`,
+        reports: [{ message: `This should be your error message` }],
+        serverConfig: generateHTMLPage()
+    }
 ];
 
-hintRunner.testHint(hintPath, tests);
+testHint(hintPath, tests);
 ```
 
 The high level overview of what's is happening in the code above is as follows:
@@ -51,6 +50,8 @@ The high level overview of what's is happening in the code above is as follows:
    that particular test.
    The results from executing it are compared to those defined in
    `HintTest.reports`. If they match, then everything is good.
+ 1. If the `reports` property is not specified, the actual results of the
+    test will be logged. This can be used to debug what is being returned by the tests.
 
 There's more information and detail in the following sections.
 
