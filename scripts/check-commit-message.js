@@ -12,7 +12,7 @@ const { ucs2 } = require('punycode');
 
 const COMMIT_MESSAGE_FILE = '.git/COMMIT_EDITMSG';
 
-const CONTRIBUTION_GUIDELINES_URL = 'https://webhint.io/docs/contributor-guide/contributing/pull-requests/#commitmessages';
+const CONTRIBUTION_GUIDELINES_URL = 'https://webhint.io/docs/contributor-guide/getting-started/pull-requests/#commit-messages';
 
 const PKG = require('./../package.json');
 
