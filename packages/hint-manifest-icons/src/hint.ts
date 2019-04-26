@@ -4,8 +4,7 @@
 import { URL } from 'url';
 import * as getImageData from 'image-size';
 import imageType, { ImageTypeResult } from 'image-type';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, NetworkData } from 'hint/dist/src/lib/types';
+import { IHint, NetworkData, HintContext } from 'hint';
 import { ManifestEvents, ManifestParsed, ManifestImageResource } from '@hint/parser-manifest';
 import { debug as d } from '@hint/utils';
 
@@ -27,7 +26,7 @@ export default class ManifestIconHint implements IHint {
         };
 
         /**
-         * Try to see if the `icon` file actually
+         * See if the `icon` file actually
          * exists and is accessible.
          */
         const iconExists = async (iconPath: string) => {
@@ -46,8 +45,7 @@ export default class ManifestIconHint implements IHint {
             const response = networkData.response;
 
             if (response.statusCode !== 200) {
-                const message = `Icon could not be fetched (status code:
-                                    ${response.statusCode}).`;
+                const message = `Icon could not be fetched (status code: ${response.statusCode}).`;
 
                 context.report(iconPath, message);
 
@@ -58,6 +56,7 @@ export default class ManifestIconHint implements IHint {
         };
         /**
          * Passes only for the PNG files
+         * @param iconType type specified in the manifest file
          * @param rawContent raw datastream
          * @param iconPath icon resource path
          */
@@ -84,8 +83,7 @@ export default class ManifestIconHint implements IHint {
                     });
 
                     if (specifiedType !== image.ext) {
-                        const message = `Real image type (${image.ext} )
-                                    do not match with specified sizes (${specifiedType})`;
+                        const message = `Real image type (${image.ext}) do not match with specified type (${specifiedType})`;
 
                         context.report(iconPath, message);
                     }
@@ -95,8 +93,7 @@ export default class ManifestIconHint implements IHint {
                     }
                 }
 
-                const message = `'Icon should be a valid image type
-                                        ${JSON.stringify(allowedTypes)}`;
+                const message = `Icon should be a valid image type ${JSON.stringify(allowedTypes)}`;
 
                 context.report(iconPath, message);
 
@@ -106,18 +103,24 @@ export default class ManifestIconHint implements IHint {
             return false;
         };
 
+        /**
+         *
+         * @param iconSizes Sizes specified in the manifest file
+         * @param iconRawData
+         * @param iconPath full path to the icon file
+         */
         const validateSizes = (iconSizes: string | undefined, iconRawData: Buffer, iconPath: string) => {
             if (iconSizes === undefined) {
                 context.report(iconPath, `Sizes not specifed for icon`);
 
-                return;
+                return false;
             }
             /**
              * sizes can be the string 'any' OR
              * two non-negative integers without leading 0s and separated by 'x' like 144x144
              */
             if (iconSizes === 'any') {
-                return;
+                return false;
             }
             const specifiedSize = iconSizes.split('x');
 
@@ -128,10 +131,27 @@ export default class ManifestIconHint implements IHint {
             const sizesMatch = JSON.stringify(specifiedSize) === JSON.stringify(realSize);
 
             if (!sizesMatch) {
-                const message = `Real image size (${JSON.stringify(realSize)})
-                                    do not match with specified size (${specifiedSize})`;
+                const message = `Real image size (${JSON.stringify(realSize)}) do not match with specified size (${specifiedSize})`;
 
                 context.report(iconPath, message);
+
+                return false;
+            }
+
+            return true;
+        };
+
+        const hasRequiredSizes = (validSizes: string[], icons: string) => {
+            const requiredSizes = ['192x192', '512x512'];
+
+            const requiredSizesNotFound = requiredSizes.filter((size) => {
+                return !validSizes.includes(size);
+            });
+
+            if (requiredSizesNotFound.length > 0) {
+                const message = `Required sizes ${JSON.stringify(requiredSizesNotFound)} not found.`;
+
+                context.report(icons, message);
             }
         };
 
@@ -141,19 +161,29 @@ export default class ManifestIconHint implements IHint {
          * @param hostnameWithProtocol
          */
         const validateIcons = async (icons: ManifestImageResource[], hostnameWithProtocol: string) => {
+            const validSizes: string[] = [];
+
             for (const icon of icons) {
                 const fullIconPath = getIconFullPath(icon.src, hostnameWithProtocol);
 
                 const iconRawData = await iconExists(fullIconPath);
 
                 if (iconRawData !== null) {
-                    const validImageType = await validateImageType(icon.type, iconRawData, fullIconPath);
+                    const validImageType = validateImageType(icon.type, iconRawData, fullIconPath);
 
                     if (validImageType) {
-                        await validateSizes(icon.sizes, iconRawData, fullIconPath);
+                        const validIconSizes = validateSizes(icon.sizes, iconRawData, fullIconPath);
+
+                        if (validIconSizes && icon.sizes !== undefined) {
+                            validSizes.push(icon.sizes);
+                        }
                     }
                 }
             }
+
+            debug(`Found ValidSizes: ${validSizes}`);
+
+            return validSizes;
         };
 
         const validate = async (parseEnd: ManifestParsed) => {
@@ -171,13 +201,17 @@ export default class ManifestIconHint implements IHint {
              *--------`);
              */
 
-            if (icons !== undefined) {
+            if (icons !== undefined && icons.length > 0) {
                 // const fullIconsPath = getIconsFullPath(icons, hostnameWithProtocol);
 
                 debug(`Validating if manifest-icon file exists`);
-                await validateIcons(icons, hostnameWithProtocol);
+                const validSizes = await validateIcons(icons, hostnameWithProtocol);
+
+                if (validSizes.length > 0) {
+                    hasRequiredSizes(validSizes, resource);
+                }
             } else {
-                context.report(resource, 'Icons was found to be undefined.');
+                context.report(resource, 'Valid icons property was not found.');
             }
         };
 
