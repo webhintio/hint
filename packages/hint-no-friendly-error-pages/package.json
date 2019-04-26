@@ -12,7 +12,7 @@
   "description": "hint that that checks if protocol relative URLs are used",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",
-    "@types/node": "^11.13.5",
+    "@types/node": "^11.13.7",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
     "ava": "^1.4.1",
