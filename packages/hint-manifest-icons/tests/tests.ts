@@ -169,10 +169,4 @@ const tests: HintTest[] = [
     }
 ];
 
-testHint(hintPath, tests, {
-    connector: {
-        name: 'jsdom',
-        options: { waitFor: 1000 }
-    },
-    parsers: ['manifest']
-});
+testHint(hintPath, tests, { parsers: ['manifest'] });

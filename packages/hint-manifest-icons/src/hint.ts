@@ -195,15 +195,8 @@ export default class ManifestIconHint implements IHint {
             const hostnameWithProtocol = `${resourceURL.protocol}//${resourceURL.host}`;
 
             debug(`Validating hint manifest-icon`);
-            /**
-             * console.log(`\n--------
-             * ${JSON.stringify(hostnameWithProtocol, null, '\t')}
-             *--------`);
-             */
 
             if (icons !== undefined && icons.length > 0) {
-                // const fullIconsPath = getIconsFullPath(icons, hostnameWithProtocol);
-
                 debug(`Validating if manifest-icon file exists`);
                 const validSizes = await validateIcons(icons, hostnameWithProtocol);
 

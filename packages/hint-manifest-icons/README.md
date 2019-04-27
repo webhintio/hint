@@ -18,7 +18,7 @@ a `sizes` property, and the `type` of image.
 
 ## What does the hint check?
 
-`hint-manifest-icons` checks that:
+`manifest-icons` checks that:
 
 1. The icons file actually exists.
 2. The icons `type` is specified and matches the real icon type.
@@ -29,7 +29,6 @@ a `sizes` property, and the `type` of image.
 ### Examples that **trigger** the hint
 
 A list of code examples that will fail this hint.
-It's good to put some edge cases in here.
 
 #### Example 1
 
