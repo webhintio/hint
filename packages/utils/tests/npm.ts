@@ -8,7 +8,7 @@ import { readFile } from '../src/fs';
 
 type Fs = {
     existsSync: () => boolean;
-}
+};
 
 type CWD = () => string;
 
@@ -122,7 +122,7 @@ test('installPackages should run the right command `hint` is installed locally, 
 
     await promise;
 
-    t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1 --save-dev');
+    t.is(childSpawnStub.args[0][0], 'npm install --save-dev hint1 @hint/formatter-formatter1');
 });
 
 test('installPackages should run the right command if `hint` is installed locally, and has `hint` as a regular dependency', async (t) => {
@@ -209,7 +209,7 @@ test('installPackages should run the right command if `hint` is installed global
 
     await promise;
 
-    t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1 -g');
+    t.is(childSpawnStub.args[0][0], 'npm install --global hint1 @hint/formatter-formatter1');
 });
 
 test('installPackages should show the command to run if the installation fail and `hint` is installed locally', async (t) => {
@@ -233,8 +233,8 @@ test('installPackages should show the command to run if the installation fail an
 
     await promise;
 
-    t.true(childSpawnStub.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 --save-dev'));
-    t.false(childSpawnStub.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 -g'));
+    t.true(childSpawnStub.args[0][0].includes('npm install --save-dev hint1 @hint/formatter-formatter1'));
+    t.false(childSpawnStub.args[0][0].includes('npm install --global hint1 @hint/formatter-formatter1'));
 });
 
 test('installPackages should show the command to run if the installation fail and `hint` is installed globally', async (t) => {
@@ -255,7 +255,7 @@ test('installPackages should show the command to run if the installation fail an
 
     await promise;
 
-    t.true(childSpawnStub.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 -g'));
+    t.true(childSpawnStub.args[0][0].includes('npm install --global hint1 @hint/formatter-formatter1'));
 });
 
 test('search should search the right query', async (t) => {

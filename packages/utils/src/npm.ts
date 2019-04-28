@@ -30,17 +30,25 @@ const install = (command: string) => {
     });
 };
 
+const hasYarnLock = (directory: string): Promise<boolean> => {
+    return new Promise((resolve) => {
+        fs.access(path.join(directory, 'yarn.lock'), (err) => {
+            resolve(!err);
+        });
+    });
+};
+
 /** Install the given packages. */
 export const installPackages = async (packages: string[]): Promise<boolean> => {
     /** Whether or not the package should be installed as devDependencies. */
     let isDev: boolean = false;
     /** Current working directory. */
     const currentWorkingDir = cwd();
-    /** Wheter or not the process is running in windows */
+    /** Whether or not the process is running in windows */
     const isWindows = process.platform === 'win32';
 
-    /** Command to install the packages. */
-    let command: string = `npm install ${packages.join(' ')}`;
+    /** package manager to install the packages. */
+    let packageManagerChoice: 'npm' | 'yarn' = 'npm';
 
     if (packages.length === 0) {
         return Promise.resolve(true);
@@ -62,10 +70,16 @@ export const installPackages = async (packages: string[]): Promise<boolean> => {
             // Even if `hint` is installed locally, package.json could not exist in the current working directory.
             isDev = false;
         }
+
+        packageManagerChoice = (await hasYarnLock(currentWorkingDir)) ? 'yarn' : 'npm';
     }
 
-    command += global ? ' -g' : '';
-    command += isDev ? ' --save-dev' : '';
+    const installCommand = {
+        npm: `npm install${global ? ' --global' : ''}${isDev ? ' --save-dev' : ''}`,
+        yarn: `yarn add${isDev ? ' --dev' : ''}`
+    };
+
+    const command: string = `${installCommand[packageManagerChoice]} ${packages.join(' ')}`;
 
     try {
         debug(`Running command ${command}`);
@@ -113,16 +127,15 @@ const generateSearchQuery = (searchTerm: string, from?: number, size = 100) => {
  * Searches all the packages in npm given `searchTerm`.
  */
 export const search = async (searchTerm: string): Promise<NpmPackage[]> => {
-    const result = await npmRegistryFetch.json(generateSearchQuery(searchTerm)) as NpmSearchResults;
+    const result = (await npmRegistryFetch.json(generateSearchQuery(searchTerm))) as NpmSearchResults;
 
     let total = getPackages(result);
 
     while (result.total > total.length) {
-        const r = await npmRegistryFetch.json(generateSearchQuery(searchTerm, total.length)) as NpmSearchResults;
+        const r = (await npmRegistryFetch.json(generateSearchQuery(searchTerm, total.length))) as NpmSearchResults;
 
         total = total.concat(getPackages(r));
     }
-
 
     return total;
 };
