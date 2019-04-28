@@ -940,10 +940,10 @@
   resolved "https://registry.yarnpkg.com/@types/update-notifier/-/update-notifier-2.5.0.tgz#63cfcee92cc915f9a6eea4d1442ec6efd012e118"
   integrity sha512-YV+ZcSIiv30GhLM7WwxI+bsbcW34d3Yhl2JSFBNFL6qtfsoI9++hogxz+jTqeS86ynKcMUE0AsnLWQynfJnsfA==
 
-"@types/webpack@^4.4.27":
-  version "4.4.27"
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.4.27.tgz#8bb9429185977a6b3b9e6e6132f561066aa7e7c2"
-  integrity sha512-xSll/4UXnLQ0xjdAoTRIFxA6NPC2abJ8nHxRH6SqTymHrfGCc8er7qH0npwCP8q3VFoJh2Hjz1wH8oTjwx9/jQ==
+"@types/webpack@^4.4.28":
+  version "4.4.28"
+  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-4.4.28.tgz#5286d426dc6475edbeb69789fa98d96a4e1e1640"
+  integrity sha512-kZO1rUsJVfpsXk/LSAJQxQDHMWg24cGUR5TsjLvCvm/WzD9Q9F60i9E0JRF68XBE5bDYkkkbNNP0hFmiphTNJA==
   dependencies:
     "@types/anymatch" "*"
     "@types/node" "*"
