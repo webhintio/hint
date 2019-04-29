@@ -24,7 +24,7 @@ export default class ManifestScopedUrlsHint implements IHint {
         /**
          * See if the `start_url` is accessible.
          */
-        const startUrlAccessible = async (startUrl: string, resource: string) => {
+        const startUrlAccessible = async (startUrl: string, resource: string): Promise<boolean> => {
             let networkData: NetworkData;
 
             try {
@@ -37,6 +37,7 @@ export default class ManifestScopedUrlsHint implements IHint {
 
                 return false;
             }
+
             const response = networkData.response;
 
             if (response.statusCode !== 200) {
@@ -56,7 +57,7 @@ export default class ManifestScopedUrlsHint implements IHint {
          * @param parsedContent Manifest
          * @param resource
          */
-        const manifestPropertyFound = (property: string, parsedContent: Manifest, resource: string) => {
+        const manifestPropertyFound = (property: string, parsedContent: Manifest, resource: string): boolean => {
             const found = parsedContent.hasOwnProperty(property);
 
             if (!found) {
@@ -89,13 +90,10 @@ export default class ManifestScopedUrlsHint implements IHint {
          * @param parsedContent
          * @param resource
          */
-        const startUrlInScope = (parsedContent: Manifest, resource: string) => {
+        const startUrlInScope = (parsedContent: Manifest, resource: string): boolean => {
             const scope = parsedContent.scope || '/';
-
             const startURL = parsedContent.start_url;
-
             const relativePath = relative(scope, startURL!);
-
             const inScope = relativePath && !relativePath.startsWith('..');
 
             if (relativePath === '') {
@@ -113,22 +111,18 @@ export default class ManifestScopedUrlsHint implements IHint {
             return true;
         };
 
-        const validate = async (parseEnd: ManifestParsed) => {
-            const { parsedContent, resource } = parseEnd;
+        const validate = async ({ parsedContent, resource }: ManifestParsed) => {
             const resourceURL = new URL(resource);
             const hostnameWithProtocol = `${resourceURL.protocol}//${resourceURL.host}`;
 
             debug(`Validating hint manifest-scoped-urls`);
 
             findAppName(parsedContent, resource);
-
             const hasStartUrl = manifestPropertyFound('start_url', parsedContent, resource);
 
             if (hasStartUrl) {
                 startUrlInScope(parsedContent, resource);
-
                 const separator = parsedContent.start_url!.startsWith('/') ? '' : '/';
-
                 const fullStartUrl = hostnameWithProtocol + separator + parsedContent.start_url;
 
                 await startUrlAccessible(fullStartUrl, resource);
