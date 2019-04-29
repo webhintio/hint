@@ -435,15 +435,19 @@ export default class ChromiumConnector implements IConnector {
         // await this._targetReady;
 
         if (this._html !== undefined) {
-            const html = await this._page.content();
-            const dom = createHTMLDocument(html, this._originalDocument);
+            // QUESTION: Even if the content is blank we will receive a minimum HTML with this. Are we OK with the behavior?
+            if (this._html !== '') {
+                const html = await this._page.content();
 
-            if (this._options.headless) {
-                await this.getFavicon(dom);
+                this._dom = createHTMLDocument(html, this._originalDocument);
+
+                await traverse(this._dom, this._engine, this._page.url());
+
+                if (this._options.headless) {
+                    // TODO: Check if browser downloads favicon even if there's no content
+                    await this.getFavicon(this._dom);
+                }
             }
-
-            this._dom = dom;
-
 
             // Process pending requests now that the dom is ready
             while (this._pendingRequests.length > 0) {
@@ -451,9 +455,6 @@ export default class ChromiumConnector implements IConnector {
 
                 await pendingRequest();
             }
-
-            await traverse(dom, this._engine, this._page.url());
-
 
             // TODO: Update with the final URL
             await this._engine.emitAsync('can-evaluate::script', event);
