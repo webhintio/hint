@@ -5,16 +5,11 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 const meta: HintMetadata = {
     docs: {
         category: Category.pwa,
-        description: `Description for manifest-icons`
+        description: `Ensures that required icons are specified in the web app manifest`,
+        name: 'Manifest has icons'
     },
     id: 'manifest-icons',
-    schema: [
-        /*
-         * If you want to allow the user to configure your hint
-         * you should use a valid JSON schema. More info in:
-         * https://webhint.io/docs/contributor-guide/hints/#themetaproperty
-         */
-    ],
+    schema: [],
     scope: HintScope.any
 };
 

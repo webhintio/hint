@@ -1,4 +1,4 @@
-# manifest-icons (`@hint/hint-manifest-icons`)
+# Manifest has icons (`manifest-icons`)
 
 `manifest-icons` requires that the icons specified in the Web App Manifest file
 have a `192x192` and `512x512` size icon
@@ -79,7 +79,7 @@ specified type (`madeuptype`)
 
 `http://localhost:5000/images/icons/icon-128x128.png`
 
-hint #2: Real image size (`["144","144"]`) do not match with
+hint #2: Real image size (`144x144`) do not match with
 specified size (`144,17`)
 
 `http://localhost:5000/images/icons/icon-144x144.png`

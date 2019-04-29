@@ -95,7 +95,7 @@ const tests: HintTest[] = [
     },
     {
         name: 'Specified size does not match with real image size',
-        reports: [{ message: `Real image size (["128","128"]) do not match with specified size (128,120)` }],
+        reports: [{ message: `Real image size (128x128) do not match with specified size (128,120)` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/fixtures/icon-128x128.png': generateImageData(icon128px),
