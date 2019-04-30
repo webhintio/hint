@@ -22,7 +22,7 @@ const generateImageData = (content: Buffer): Object => {
 const tests: HintTest[] = [
     {
         name: 'Web app manifest is specified with empty icons property',
-        reports: [{ message: `Valid icons property was not found.` }],
+        reports: [{ message: `Valid icons property was not found in the web app manifest` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': {
@@ -34,7 +34,15 @@ const tests: HintTest[] = [
     },
     {
         name: 'Inaccessible icon URL in the Web app manifest',
-        reports: [{ message: `Icon could not be fetched (status code: 404).` }],
+        reports: [
+            {
+                message: `Icon could not be fetched (status code: 404).`,
+                position: {
+                    column: 29,
+                    line: 3
+                }
+            }
+        ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/fixtures/icon-192x192.png': generateImageData(icon192px),
@@ -64,7 +72,15 @@ const tests: HintTest[] = [
     },
     {
         name: 'Specified type does not match with real image type',
-        reports: [{ message: `Real image type (png) do not match with specified type (madeuptype)` }],
+        reports: [
+            {
+                message: `Real image type (png) do not match with specified type (madeuptype)`,
+                position: {
+                    column: 29,
+                    line: 5
+                }
+            }
+        ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/fixtures/icon-128x128.png': generateImageData(icon128px),
@@ -95,7 +111,15 @@ const tests: HintTest[] = [
     },
     {
         name: 'Specified size does not match with real image size',
-        reports: [{ message: `Real image size (128x128) do not match with specified size (128,120)` }],
+        reports: [
+            {
+                message: `Real image size (128x128) do not match with specified size (128,120)`,
+                position: {
+                    column: 29,
+                    line: 4
+                }
+            }
+        ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/fixtures/icon-128x128.png': generateImageData(icon128px),
@@ -126,7 +150,15 @@ const tests: HintTest[] = [
     },
     {
         name: 'Required size icons not found',
-        reports: [{ message: `Required sizes ["512x512"] not found.` }],
+        reports: [
+            {
+                message: `Required sizes ["512x512"] not found.`,
+                position: {
+                    column: 21,
+                    line: 1
+                }
+            }
+        ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/fixtures/icon-192x192.png': generateImageData(icon192px),

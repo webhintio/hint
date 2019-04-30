@@ -32,7 +32,7 @@ A list of code examples that will fail this hint.
 
 #### Example 1
 
-Valid `icons` property was not found:
+Valid `icons` property was not found in the web app manifest
 
 ```json
 {
