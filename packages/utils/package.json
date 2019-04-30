@@ -22,7 +22,7 @@
     "request": "^2.88.0",
     "semver": "^6.0.0",
     "strip-bom": "^4.0.0",
-    "strip-json-comments": "^3.0.0"
+    "strip-json-comments": "^3.0.1"
   },
   "description": "hint tools",
   "devDependencies": {
