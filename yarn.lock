@@ -10612,6 +10612,11 @@ strip-json-comments@2.0.1, strip-json-comments@^2.0.1, strip-json-comments@~2.0.
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
 
+strip-json-comments@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.0.0.tgz#86456f81e4bd10d314576c1adf7719ed0894ce3b"
+  integrity sha512-+yvKOYsd+oXGSoNMD0PgjwWn4MrgXTK/t/Fh54NXLf1cOOf3ceP/JvP5JRDP8jeKBsmtXS9PeoOr2eh1RKWSqg==
+
 style-loader@^0.23.1:
   version "0.23.1"
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.23.1.tgz#cb9154606f3e771ab6c4ab637026a1049174d925"
