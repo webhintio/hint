@@ -113,7 +113,7 @@ const tests: HintTest[] = [
         name: 'Specified size does not match with real image size',
         reports: [
             {
-                message: `Real image size (128x128) do not match with specified size (128,120)`,
+                message: `Real image size (128x128) do not match with specified size(s) (128x121,128x122,128x123)`,
                 position: {
                     column: 29,
                     line: 4
@@ -130,7 +130,7 @@ const tests: HintTest[] = [
                     "icons": [
                         {
                             "src": "fixtures/icon-128x128.png",
-                            "sizes": "128x120",
+                            "sizes": "128x121 128x122 128x123",
                             "type": "image/png"
                         },
                         {

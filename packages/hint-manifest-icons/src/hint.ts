@@ -117,20 +117,29 @@ export default class ManifestIconHint implements IHint {
 
             /**
              * sizes can be the string 'any' OR
+             * space seperated list of
              * two non-negative integers without leading 0s and separated by 'x' like 144x144
              */
             if (iconSizes === 'any') {
                 return false;
             }
 
-            const specifiedSize = iconSizes.split('x');
+            const specifiedSizes = iconSizes.split(' ');
             const realImage = getImageData(iconRawData);
-            const specifiedWidth = parseInt(specifiedSize[0]);
-            const specifiedHeight = parseInt(specifiedSize[1]);
-            const sizesMatch = specifiedWidth === realImage.width && specifiedHeight === realImage.height;
+
+            /**
+             * Do not report if one of the specified size match real icon size
+             */
+            const sizesMatch = specifiedSizes.some((specifiedSize) => {
+                const [widthString, heightString] = specifiedSize.split('x');
+                const specifiedWidth = parseInt(widthString);
+                const specifiedHeight = parseInt(heightString);
+
+                return specifiedWidth === realImage.width && specifiedHeight === realImage.height;
+            });
 
             if (!sizesMatch) {
-                const message = `Real image size (${realImage.width}x${realImage.height}) do not match with specified size (${specifiedSize})`;
+                const message = `Real image size (${realImage.width}x${realImage.height}) do not match with specified size(s) (${specifiedSizes})`;
 
                 context.report(resource, message, { location: iconSizelocation });
 
