@@ -25,7 +25,7 @@ export default class ManifestIconHint implements IHint {
          * See if the `icon` file actually
          * exists and is accessible.
          */
-        const iconExists = async (iconPath: string, resource: string, index: number, getLocation: IJSONLocationFunction): Promise<Buffer | null> => {
+        const iconExists = async (iconPath: string, resource: string, index: number, getLocation: IJSONLocationFunction): Promise<{ iconRawData: Buffer | null; mediaType: string }> => {
             let networkData: NetworkData;
 
             const iconSrcLocation = getLocation(`icons[${index}].src`);
@@ -38,7 +38,10 @@ export default class ManifestIconHint implements IHint {
 
                 context.report(resource, message, { location: iconSrcLocation });
 
-                return null;
+                return {
+                    iconRawData: null,
+                    mediaType: ''
+                };
             }
             const response = networkData.response;
 
@@ -47,10 +50,16 @@ export default class ManifestIconHint implements IHint {
 
                 context.report(resource, message, { location: iconSrcLocation });
 
-                return null;
+                return {
+                    iconRawData: null,
+                    mediaType: ''
+                };
             }
 
-            return response.body.rawContent;
+            return {
+                iconRawData: response.body.rawContent,
+                mediaType: response.mediaType
+            };
         };
         /**
          * Passes only for the PNG files
@@ -58,7 +67,7 @@ export default class ManifestIconHint implements IHint {
          * @param rawContent raw datastream
          * @param iconPath icon resource path
          */
-        const validateImageType = (iconType: string | undefined, rawContent: Buffer, resource: string, index: number, getLocation: IJSONLocationFunction): boolean => {
+        const validateImageType = (iconType: string | undefined, mediaType: string, rawContent: Buffer, resource: string, index: number, getLocation: IJSONLocationFunction): boolean => {
             const allowedTypes = ['png', 'jpg'];
             const iconTypeLocation = getLocation(`icons[${index}].type`);
 
@@ -71,6 +80,7 @@ export default class ManifestIconHint implements IHint {
             }
 
             const specifiedType = iconType.split('/')[1];
+            const specifiedMIMEType = mediaType.split('/')[1];
 
             /** Handling for the corrupt rawContent */
             if (rawContent) {
@@ -81,6 +91,10 @@ export default class ManifestIconHint implements IHint {
 
                     if (specifiedType !== image.ext) {
                         const message = `Real image type (${image.ext}) do not match with specified type (${specifiedType})`;
+
+                        context.report(resource, message, { location: iconTypeLocation });
+                    } else if (specifiedType !== specifiedMIMEType) {
+                        const message = `MIME type (${specifiedMIMEType}) do not match with specified type (${specifiedType})`;
 
                         context.report(resource, message, { location: iconTypeLocation });
                     }
@@ -174,10 +188,10 @@ export default class ManifestIconHint implements IHint {
                 const icon = icons[index];
 
                 const fullIconPath = `${hostnameWithProtocol}/${icon.src}`;
-                const iconRawData = await iconExists(fullIconPath, resource, index, getLocation);
+                const { iconRawData, mediaType } = await iconExists(fullIconPath, resource, index, getLocation);
 
                 if (iconRawData) {
-                    const validImageType = validateImageType(icon.type, iconRawData, resource, index, getLocation);
+                    const validImageType = validateImageType(icon.type, mediaType, iconRawData, resource, index, getLocation);
 
                     if (validImageType) {
                         const validIconSizes = validateSizes(icon.sizes, iconRawData, resource, index, getLocation);
