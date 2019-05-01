@@ -9,7 +9,7 @@
   "dependencies": {
     "@hint/utils": "^1.0.0",
     "@hint/utils-debugging-protocol-common": "^3.0.1",
-    "chrome-launcher": "^0.10.4",
+    "chrome-launcher": "^0.10.6",
     "is-ci": "^2.0.0"
   },
   "description": "hint connector for Google Chrome",
