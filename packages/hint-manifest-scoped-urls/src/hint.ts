@@ -4,7 +4,7 @@
 
 import { URL } from 'url';
 import { relative } from 'path';
-import { IHint, HintContext, NetworkData } from 'hint';
+import { IHint, HintContext, NetworkData, ProblemLocation } from 'hint';
 import { ManifestEvents, ManifestParsed, Manifest } from '@hint/parser-manifest';
 import { debug as d } from '@hint/utils';
 
@@ -24,7 +24,7 @@ export default class ManifestScopedUrlsHint implements IHint {
         /**
          * See if the `start_url` is accessible.
          */
-        const startUrlAccessible = async (startUrl: string, resource: string): Promise<boolean> => {
+        const startUrlAccessible = async (startUrl: string, resource: string, startUrllocation: ProblemLocation): Promise<boolean> => {
             let networkData: NetworkData;
 
             try {
@@ -33,7 +33,7 @@ export default class ManifestScopedUrlsHint implements IHint {
                 debug(`Failed to fetch ${startUrl}`);
                 const message = `Request failed for start_url: ${startUrl}`;
 
-                context.report(startUrl, message);
+                context.report(resource, message, { location: startUrllocation });
 
                 return false;
             }
@@ -43,7 +43,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             if (response.statusCode !== 200) {
                 const message = `Specified start_url not accessible. (status code: ${response.statusCode}).`;
 
-                context.report(startUrl, message);
+                context.report(resource, message, { location: startUrllocation });
 
                 return false;
             }
@@ -90,7 +90,7 @@ export default class ManifestScopedUrlsHint implements IHint {
          * @param parsedContent
          * @param resource
          */
-        const startUrlInScope = (parsedContent: Manifest, resource: string): boolean => {
+        const startUrlInScope = (parsedContent: Manifest, resource: string, startUrllocation: ProblemLocation): boolean => {
             const scope = parsedContent.scope || '/';
             const startURL = parsedContent.start_url;
             const relativePath = relative(scope, startURL!);
@@ -103,7 +103,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             if (!inScope) {
                 const message = `start_url is not in scope of the app.`;
 
-                context.report(resource, message);
+                context.report(resource, message, { location: startUrllocation });
 
                 return false;
             }
@@ -111,21 +111,22 @@ export default class ManifestScopedUrlsHint implements IHint {
             return true;
         };
 
-        const validate = async ({ parsedContent, resource }: ManifestParsed) => {
+        const validate = async ({ getLocation, parsedContent, resource }: ManifestParsed) => {
             const resourceURL = new URL(resource);
             const hostnameWithProtocol = `${resourceURL.protocol}//${resourceURL.host}`;
 
             debug(`Validating hint manifest-scoped-urls`);
 
-            findAppName(parsedContent, resource);
             const hasStartUrl = manifestPropertyFound('start_url', parsedContent, resource);
 
             if (hasStartUrl) {
-                startUrlInScope(parsedContent, resource);
+                const startUrlLocation = getLocation('start_url');
+
+                startUrlInScope(parsedContent, resource, startUrlLocation!);
                 const separator = parsedContent.start_url!.startsWith('/') ? '' : '/';
                 const fullStartUrl = hostnameWithProtocol + separator + parsedContent.start_url;
 
-                await startUrlAccessible(fullStartUrl, resource);
+                await startUrlAccessible(absoluteStartUrl, resource, startUrlLocation!);
             }
         };
 

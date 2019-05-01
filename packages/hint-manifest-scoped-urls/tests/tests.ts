@@ -40,7 +40,12 @@ const tests: HintTest[] = [
     },
     {
         name: 'Manifest property start_url not scoped.',
-        reports: [{ message: `start_url is not in scope of the app.` }],
+        reports: [
+            {
+                message: `start_url is not in scope of the app.`,
+                position: { match: 'start_url": "/",' }
+            }
+        ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': {
@@ -54,7 +59,12 @@ const tests: HintTest[] = [
     },
     {
         name: 'Manifest property start_url scoped but inaccessible',
-        reports: [{ message: `Specified start_url not accessible. (status code: 404).` }],
+        reports: [
+            {
+                message: `Specified start_url not accessible. (status code: 404).`,
+                position: { match: 'start_url": "/test",' }
+            }
+        ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': {
