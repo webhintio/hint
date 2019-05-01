@@ -8,7 +8,7 @@ import test from 'ava';
 import { Server } from '@hint/utils-create-server';
 import { Engine, Events, IConnector, NetworkData } from 'hint';
 
-import ChromeConnector from '../src/connector';
+import Connector from '../src/connector';
 
 const name: string = 'chromium';
 
@@ -24,7 +24,7 @@ test(`[${name}] Fetch Content`, async (t) => {
     } as any;
 
     const file = fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png'));
-    const connector: IConnector = new ChromeConnector(engine, {});
+    const connector: IConnector = new Connector(engine, { detached: true });
     const server = await Server.create({ configuration: { '/nellie.png': { content: file } } });
 
     const result: NetworkData = await (connector.fetchContent ? connector.fetchContent(new URL(`http://localhost:${server.port}/nellie.png`)) : {} as NetworkData);

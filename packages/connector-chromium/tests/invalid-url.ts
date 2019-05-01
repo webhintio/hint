@@ -4,7 +4,7 @@ import test from 'ava';
 
 import { Engine, Events, IConnector } from 'hint';
 
-import ChromeConnector from '../src/connector';
+import Connector from '../src/connector';
 
 const name: string = 'chromium';
 
@@ -19,7 +19,7 @@ test(`[${name}] Load an invalid url throws an error`, async (t) => {
         }
     } as any;
 
-    const connector: IConnector = new ChromeConnector(engine, {});
+    const connector: IConnector = new Connector(engine, { detached: true });
 
     await t.throwsAsync(connector.collect(new URL('https://localhome')));
 

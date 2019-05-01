@@ -122,7 +122,10 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
 
     if (connector === 'chromium') {
         // Allow us to use our self-signed cert for testing.
-        config.connector.options = { overrideInvalidCert: true };
+        config.connector.options = {
+            detached: true,
+            overrideInvalidCert: true
+        };
     }
 
     return Configuration.fromConfig(config);

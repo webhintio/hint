@@ -16,7 +16,7 @@ import test from 'ava';
 import { Server } from '@hint/utils-create-server';
 import { Engine, Events, IConnector } from 'hint';
 
-import ChromeConnector from '../src/connector';
+import Connector from '../src/connector';
 
 const name: string = 'chromium';
 
@@ -48,7 +48,7 @@ test(`[${name}] requestResponse`, async (t) => {
     const engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
     const engineEmitSpy = sinon.spy(engine, 'emit');
 
-    const connector: IConnector = new ChromeConnector(engine, {});
+    const connector: IConnector = new Connector(engine, { detached: true });
     const server = await Server.create();
 
     const html = Server.updateLocalhost(sourceHtml, server.port);

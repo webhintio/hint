@@ -8,7 +8,7 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import { Server, ServerConfiguration } from '@hint/utils-create-server';
-import { Engine, Events, IConnector, IConnectorConstructor } from 'hint';
+import { Engine, Events, IConnectorConstructor } from 'hint';
 import { test as testUtils } from '@hint/utils';
 
 import ChromeConnector from '../src/connector';
@@ -50,10 +50,10 @@ test.afterEach.always((t) => {
 const pathToFaviconInDir = path.join(__dirname, './fixtures/common/favicon.ico');
 const pathToFaviconInLinkElement = path.join(__dirname, './fixtures/common/favicon-32x32.png');
 
-const runTest = async (t: ExecutionContext<CollectContext>, ConnectorConstructor: IConnectorConstructor, serverConfig: ServerConfiguration): Promise<Server> => {
+const runTest = async (t: ExecutionContext<CollectContext>, Connector: IConnectorConstructor, serverConfig: ServerConfiguration): Promise<Server> => {
     const server = await Server.create({ configuration: serverConfig });
     const { engine } = t.context;
-    const connector: IConnector = new ConnectorConstructor(engine, {});
+    const connector= new Connector(engine, { detached: true });
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
     await Promise.all([connector.close(), server.stop()]);

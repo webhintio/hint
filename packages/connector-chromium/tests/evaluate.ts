@@ -4,9 +4,9 @@ import test from 'ava';
 
 import { Server } from '@hint/utils-create-server';
 import { test as testUtils } from '@hint/utils';
-import { Engine, Events, IConnector } from 'hint';
+import { Engine, Events } from 'hint';
 
-import ChromiumConnector from '../src/connector';
+import Connector from '../src/connector';
 
 const { generateHTMLPage } = testUtils;
 
@@ -61,7 +61,7 @@ test(`[${name}] Evaluate JavaScript`, async (t) => {
     } as any;
 
     const server = await Server.create({ configuration: generateHTMLPage('', '') });
-    const connector: IConnector = new ChromiumConnector(engine, {});
+    const connector = new Connector(engine, { detached: true });
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
 

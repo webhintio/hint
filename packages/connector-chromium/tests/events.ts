@@ -16,7 +16,7 @@ import anyTest, { TestInterface } from 'ava';
 import { Server } from '@hint/utils-create-server';
 import { Engine, Events, IConnector } from 'hint';
 
-import ChromeConnector from '../src/connector';
+import Connector from '../src/connector';
 
 type EventsContext = {
     connector?: IConnector;
@@ -225,7 +225,7 @@ test.afterEach.always((t) => {
 
 test(`[${name}] Events`, async (t) => {
     const { engine } = t.context;
-    const connector: IConnector = new ChromeConnector(engine, {});
+    const connector: IConnector = new Connector(engine, { detached: true });
 
     t.context.connector = connector;
 
