@@ -37,10 +37,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Icon could not be fetched (status code: 404).`,
-                position: {
-                    column: 29,
-                    line: 3
-                }
+                position: { match: 'src": "an-inaccessible-path.png"' }
             }
         ],
         serverConfig: {
@@ -75,10 +72,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Real image type (png) do not match with specified type (madeuptype)`,
-                position: {
-                    column: 29,
-                    line: 5
-                }
+                position: { match: 'type": "image/madeuptype' }
             }
         ],
         serverConfig: {
@@ -114,10 +108,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Real image size (128x128) do not match with specified size(s) (128x121,128x122,128x123)`,
-                position: {
-                    column: 29,
-                    line: 4
-                }
+                position: { match: 'sizes": "128x121 128x122 128x123' }
             }
         ],
         serverConfig: {
@@ -153,10 +144,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Required sizes ["512x512"] not found.`,
-                position: {
-                    column: 21,
-                    line: 1
-                }
+                position: { match: 'icons' }
             }
         ],
         serverConfig: {
@@ -164,14 +152,14 @@ const tests: HintTest[] = [
             '/fixtures/icon-192x192.png': generateImageData(icon192px),
             '/site.webmanifest': {
                 content: `{
-                    "icons": [
-                        {
-                            "src": "fixtures/icon-192x192.png",
-                            "sizes": "192x192",
-                            "type": "image/png"
-                        }
-                        ]
-                }`
+                        "icons": [
+                            {
+                                "src": "fixtures/icon-192x192.png",
+                                "sizes": "192x192",
+                                "type": "image/png"
+                            }
+                            ]
+                    }`
             }
         }
     },
