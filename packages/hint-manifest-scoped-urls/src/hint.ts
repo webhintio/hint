@@ -1,5 +1,5 @@
 /**
- * @fileoverview Checks if urls in the manifest are in scope and accessible
+ * @fileoverview Checks if URLs in the manifest are in scope and accessible
  */
 
 import { URL } from 'url';
@@ -31,7 +31,7 @@ export default class ManifestScopedUrlsHint implements IHint {
                 networkData = await context.fetchContent(startUrl);
             } catch (e) {
                 debug(`Failed to fetch ${startUrl}`);
-                const message = `Request failed for start_url: ${startUrl}`;
+                const message = `Request failed for 'start_url'`;
 
                 context.report(resource, message, { location: startUrllocation });
 
@@ -41,7 +41,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             const response = networkData.response;
 
             if (response.statusCode !== 200) {
-                const message = `Specified start_url not accessible. (status code: ${response.statusCode}).`;
+                const message = `Specified 'start_url' is not accessible. (status code: ${response.statusCode}).`;
 
                 context.report(resource, message, { location: startUrllocation });
 
@@ -61,7 +61,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             const found = parsedContent.hasOwnProperty(property);
 
             if (!found) {
-                const message = `Property ${property} not found in Manifest file`;
+                const message = `Property '${property}' not found in manifest file`;
 
                 context.report(resource, message);
 
@@ -72,21 +72,8 @@ export default class ManifestScopedUrlsHint implements IHint {
         };
 
         /**
-         * Reports if neither of `name` and `short_name` is specified
-         * @param parsedContent
-         * @param resource
-         */
-        const findAppName = (parsedContent: Manifest, resource: string) => {
-            const hasName = parsedContent.hasOwnProperty('name') || parsedContent.hasOwnProperty('short_name');
-
-            if (!hasName) {
-                manifestPropertyFound('name', parsedContent, resource);
-            }
-        };
-
-        /**
          * Checks that the `start_url` is under the scope of
-         * url specified in the `scope`
+         * the URL specified in the `scope`
          * @param parsedContent
          * @param resource
          */
@@ -101,7 +88,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             }
 
             if (!inScope) {
-                const message = `start_url is not in scope of the app.`;
+                const message = `'start_url' is not in scope of the app.`;
 
                 context.report(resource, message, { location: startUrllocation });
 
@@ -124,7 +111,7 @@ export default class ManifestScopedUrlsHint implements IHint {
 
                 startUrlInScope(parsedContent, resource, startUrlLocation!);
                 const separator = parsedContent.start_url!.startsWith('/') ? '' : '/';
-                const fullStartUrl = hostnameWithProtocol + separator + parsedContent.start_url;
+                const absoluteStartUrl = hostnameWithProtocol + separator + parsedContent.start_url;
 
                 await startUrlAccessible(absoluteStartUrl, resource, startUrlLocation!);
             }

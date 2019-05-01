@@ -5,7 +5,7 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 const meta: HintMetadata = {
     docs: {
         category: Category.pwa,
-        description: `Checks if urls in the manifest are in scope and accessible`
+        description: `Checks if URLs in the manifest are in scope and accessible`
     },
     id: 'manifest-scoped-urls',
     schema: [],

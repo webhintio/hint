@@ -1,4 +1,4 @@
-# manifest-scoped-urls (`@hint/hint-manifest-scoped-urls`)
+# Manifest has scoped `start_url` (`manifest-scoped-urls`)
 
 `manifest-scoped-urls` requires that:
 
@@ -140,8 +140,9 @@ configuration file:
 
 ## Further Reading
 
-<!-- Link labels: -->
 See [W3C Web App Manifest Spec.][w3c-spec] for icons to get more information.
+
+<!-- Link labels: -->
 
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [start_url_imp]: https://developers.google.com/web/tools/lighthouse/audits/manifest-contains-start_url
