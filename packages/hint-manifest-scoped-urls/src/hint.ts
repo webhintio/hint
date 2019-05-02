@@ -108,6 +108,15 @@ export default class ManifestScopedUrlsHint implements IHint {
 
             if (hasStartUrl) {
                 const startUrlLocation = getLocation('start_url');
+                const notSameOrigin = parsedContent.start_url!.startsWith('http');
+
+                if (notSameOrigin) {
+                    const message = `'start_url' must have same origin as the manifest file.`;
+
+                    context.report(resource, message, { location: startUrlLocation });
+
+                    return;
+                }
 
                 startUrlInScope(parsedContent, resource, startUrlLocation!);
                 const separator = parsedContent.start_url!.startsWith('/') ? '' : '/';

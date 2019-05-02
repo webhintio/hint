@@ -17,7 +17,8 @@ From [Google Lighthouse Audit][start_url_imp]
 > page was active when the user decided to add the app to the homescreen.
 
 The `scope` in the Web Manifest file is important to decide whether the user
-has left the app or not.
+has left the app or not. Also, the `start_url` needs to be same-origin
+as specified in the W3C Specs for [start_url][w3c-start_url].
 
 From [Google Lighthouse Audit][scope_imp]
 
@@ -32,8 +33,9 @@ From [Google Lighthouse Audit][scope_imp]
 
 1. `name` or `short_name` is specified.
 2. `start_url` is specified.
-3. `start_url` is accessible.
-4. `start_url` path is **equal to** or **child of** path specified
+3. `start_url` is same-origin.
+4. `start_url` is accessible.
+5. `start_url` path is **equal to** or **child of** path specified
 in `scope` (_default_ scope is `/` ).
 
 ### Examples that **trigger** the hint
@@ -56,8 +58,6 @@ No `name` or `short_name` property specified in Manifest file
 
 No `start_url` property specified in Manifest file
 
-`http://localhost:5000/an-inaccessible-path.png`
-
 ```json
 {
     ...,
@@ -69,8 +69,6 @@ No `start_url` property specified in Manifest file
 #### Example 3
 
 Manifest property start_url not scoped.
-
-`http://localhost:5000/an-inaccessible-path.png`
 
 ```json
 {
@@ -86,14 +84,26 @@ Manifest property start_url not scoped.
 
 Manifest property start_url scoped but inaccessible
 
-`http://localhost:5000/an-inaccessible-path.png`
-
 ```json
 {
     ...,
     "short_name": "Test webhint App",
     "start_url": "/test",
     "scope": "/test"
+    ...
+}
+```
+
+#### Example 5
+
+Manifest property start_url is not same origin
+
+```json
+{
+    ...,
+    "short_name": "Test webhint App",
+    "start_url": "https://example.com",
+    "scope": "/",
     ...
 }
 ```
@@ -147,4 +157,5 @@ See [W3C Web App Manifest Spec.][w3c-spec] for icons to get more information.
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [start_url_imp]: https://developers.google.com/web/tools/lighthouse/audits/manifest-contains-start_url
 [w3c-spec]: https://www.w3.org/TR/appmanifest/
+[w3c-start_url]: https://w3c.github.io/manifest/#start_url-member
 [scope_imp]: https://developers.google.com/web/fundamentals/web-app-manifest/
