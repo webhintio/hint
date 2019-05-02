@@ -35,7 +35,45 @@ const tests: HintTest[] = [
         }
     },
     {
-        name: 'Manifest property start_url scoped but inaccessible',
+        name: 'Manifest property start_url is relative and inaccessible.',
+        reports: [
+            {
+                message: `Specified 'start_url' is not accessible. (status code: 404).`,
+                position: { match: 'start_url": "randomcontent",' }
+            }
+        ],
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/site.webmanifest': {
+                content: `{
+                    "short_name": "Test webhint App",
+                    "start_url": "randomcontent",
+                    "scope": "/"
+                }`
+            }
+        }
+    },
+    {
+        name: 'Manifest property start_url is not same origin',
+        reports: [
+            {
+                message: `'start_url' must have same origin as the manifest file.`,
+                position: { match: 'start_url": "https://example.com",' }
+            }
+        ],
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/site.webmanifest': {
+                content: `{
+                    "short_name": "Test webhint App",
+                    "start_url": "https://example.com",
+                    "scope": "/"
+                }`
+            }
+        }
+    },
+    {
+        name: 'Manifest property start_url is absolute and scoped but inaccessible',
         reports: [
             {
                 message: `Specified 'start_url' is not accessible. (status code: 404).`,
@@ -51,6 +89,45 @@ const tests: HintTest[] = [
                     "scope": "/test"
                 }`
             }
+        }
+    },
+    {
+        name: 'Manifest property start_url is relative and accessible.',
+        serverConfig: {
+            '/index.html': htmlWithManifestSpecified,
+            '/site.webmanifest': {
+                content: `{
+                    "short_name": "Test webhint App",
+                    "start_url": "index.html",
+                    "scope": "/"
+                }`
+            }
+        }
+    },
+    {
+        name: 'Manifest property start_url is a deep absolute accessible path.',
+        serverConfig: {
+            '/site.webmanifest': {
+                content: `{
+                    "short_name": "Test webhint App",
+                    "start_url": "/test/path/../../test/path/index.html",
+                    "scope": "/test/path"
+                }`
+            },
+            '/test/path/index.html': htmlWithManifestSpecified
+        }
+    },
+    {
+        name: 'Manifest property start_url is a deep relative accessible path.',
+        serverConfig: {
+            '/site.webmanifest': {
+                content: `{
+                    "short_name": "Test webhint App",
+                    "start_url": "test/path/../../test/path/index.html",
+                    "scope": "/test/path"
+                }`
+            },
+            '/test/path/index.html': htmlWithManifestSpecified
         }
     },
     {
