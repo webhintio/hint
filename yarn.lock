@@ -8140,10 +8140,10 @@ mdn-browser-compat-data@0.0.66:
   dependencies:
     extend "3.0.2"
 
-mdn-browser-compat-data@^0.0.77:
-  version "0.0.77"
-  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.77.tgz#5ff115fc734887b8417f98f4627ab5ed0c945414"
-  integrity sha512-pfpsUTAnINNKp719Fy1jufXqGrZ1DE1JOS2Rs0Gw6b0VxArku1+N/BnRmSaFz2Dp5yrXXQikMuO65n91Qn329Q==
+mdn-browser-compat-data@^0.0.78:
+  version "0.0.78"
+  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.78.tgz#e15b5f4f9034825d85c712f9f640813c57ecffda"
+  integrity sha512-1Ez+1E0Z3kwoZ+RgmB1BLlj+nSJxeZuZxIWymnm9kbAEW92pgARVX+yxgKtyHg/UsLost5dt8IitQU4AQDzifw==
   dependencies:
     extend "3.0.2"
 
