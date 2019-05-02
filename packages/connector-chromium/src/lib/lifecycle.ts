@@ -72,8 +72,10 @@ const getBrowserInfo = async (): Promise<BrowserInfo | null> => {
 };
 
 /** Stores the `BrowserInfo` into a file. */
-const writeBrowserInfo = async (browserInfo: BrowserInfo) => {
-    /* istanbul ignore next */
+const writeBrowserInfo = async (browser: puppeteer.Browser) => {
+    const browserWSEndpoint = browser.wsEndpoint();
+    const browserInfo = { browserWSEndpoint };
+
     await writeFileAsync(infoFile, JSON.stringify(browserInfo, null, 4));
 };
 
@@ -85,6 +87,20 @@ const deleteBrowserInfo = async () => {
         debug(`Error trying to delete ${infoFile}`);
         debug(e);
     }
+};
+
+const connectToBrowser = async (currentInfo: BrowserInfo, options: any) => {
+    const connectOptions = Object.assign(
+        {},
+        { browserWSEndpoint: currentInfo.browserWSEndpoint },
+        options);
+
+    const browser = await puppeteer.connect(connectOptions);
+
+    debug(`Creating new page in existing browser`);
+    const page = await browser.newPage();
+
+    return { browser, page };
 };
 
 /** Spawns a new detached process that will start a browser using puppeteer. */
@@ -112,57 +128,15 @@ const startDetached = (options: any): Promise<puppeteer.Browser> => {
     });
 };
 
-export const launch = async (options: any) => {
-    await lock();
-
-    const ignoreHTTPSErrorsOption = options && options.overrideInvalidCert ?
-        {
-            // `ignoreHTTPSErrors` sometimes is not enough on headless: https://github.com/GoogleChrome/puppeteer/issues/2377#issuecomment-414147922
-            args: ['--enable-features=NetworkService'],
-            ignoreHTTPSErrors: true
-        } :
-        {};
-
-    const currentInfo = await getBrowserInfo();
-
-    if (currentInfo) {
-        try {
-            const connectOptions = Object.assign(
-                {},
-                { browserWSEndpoint: currentInfo.browserWSEndpoint },
-                ignoreHTTPSErrorsOption,
-                options);
-
-            const browser = await puppeteer.connect(connectOptions);
-
-            debug(`Creating new page in existing browser`);
-            const page = await browser.newPage();
-
-            await unlock();
-
-            return { browser, page };
-        } catch (e) {
-            // The process might be dead so we need to launch a new one and delete the current info file
-            await deleteBrowserInfo();
-        }
-    }
-
-    const launchOptions = { executablePath };
-
+const startBrowser = async (options: any) => {
     debug(`Launching new browser instance`);
-
-    const finalOptions = Object.assign(
-        {},
-        launchOptions,
-        options
-    );
 
     let browser;
 
     if (options.detached) {
         debug(`Starting browser in detached mode`);
         try {
-            browser = await startDetached(finalOptions);
+            browser = await startDetached(options);
         } catch (e) {
             debug(e);
 
@@ -170,7 +144,7 @@ export const launch = async (options: any) => {
         }
     } else {
         debug(`Starting browser in regular mode`);
-        browser = await puppeteer.launch(finalOptions);
+        browser = await puppeteer.launch(options);
     }
 
     debug(`Creating new page`);
@@ -186,18 +160,56 @@ export const launch = async (options: any) => {
         await pages[0] :
         await browser.newPage();
 
-    const browserWSEndpoint = browser.wsEndpoint();
+    return { browser, page };
+};
+
+const getHTTPSConfiguration = (options: any) => {
+    const ignoreHTTPSErrorsOption = options && options.overrideInvalidCert ?
+        {
+            // `ignoreHTTPSErrors` sometimes is not enough on headless: https://github.com/GoogleChrome/puppeteer/issues/2377#issuecomment-414147922
+            args: ['--enable-features=NetworkService'],
+            ignoreHTTPSErrors: true
+        } :
+        {};
+
+    return ignoreHTTPSErrorsOption;
+};
+
+export const launch = async (options: any) => {
+    await lock();
+
+    const httpsConfiguration = getHTTPSConfiguration(options);
+    const currentInfo = await getBrowserInfo();
+
+    if (currentInfo) {
+        try {
+            const connection = await connectToBrowser(currentInfo, httpsConfiguration);
+
+            await unlock();
+
+            return connection;
+        } catch (e) {
+            // The process might be dead so we need to launch a new one and delete the current info file
+            await deleteBrowserInfo();
+        }
+    }
+
+    const finalOptions = Object.assign(
+        {},
+        { executablePath },
+        options
+    );
+    const connection = await startBrowser(finalOptions);
+    const { browser } = connection;
 
     try {
-        const browserInfo = { browserWSEndpoint };
-
-        await writeBrowserInfo(browserInfo);
+        await writeBrowserInfo(browser);
 
         debug('Browser launched correctly');
 
         await unlock();
 
-        return { browser, page };
+        return connection;
     } catch (e) /* istanbul ignore next */ {
         debug('Error launching browser');
         debug(e);
