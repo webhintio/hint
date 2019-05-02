@@ -30,9 +30,11 @@ const lock = async () => {
     try {
         debug(`Trying to acquire lock`);
         await lockFile(lockName, {
+            pollPeriod: 500,
             retries: 30,
             retryWait: 1000,
-            stale: 60000
+            stale: 60000,
+            wait: 50000
         });
         isLocked = true;
         debug(`Lock acquired`);
@@ -216,14 +218,15 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) =>
     try {
         const pages = await browser.pages();
 
-        if (pages.length === 1) {
-            await deleteBrowserInfo();
-        }
-
         debug(`Closing page`);
         debug(`Remaining pages: ${pages.length - 1}`);
 
-        await page.close();
+        if (pages.length === 1) {
+            await deleteBrowserInfo();
+            await browser.close();
+        } else {
+            await page.close();
+        }
     } catch (e) {
         debug(`Error closing page`);
         debug(e);

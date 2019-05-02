@@ -1,3 +1,4 @@
+import * as isCI from 'is-ci';
 import compact = require('lodash/compact');
 import * as puppeteer from 'puppeteer-core';
 
@@ -30,7 +31,7 @@ export default class ChromiumConnector implements IConnector {
     private _pendingRequests: Function[] = [];
     private _targetNetworkData!: NetworkData;
 
-    public constructor(engine: Engine, options?: object) {
+    public constructor(engine: Engine, options?: any) {
         this._engine = engine;
 
         (engine as Engine<import('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
@@ -40,14 +41,15 @@ export default class ChromiumConnector implements IConnector {
             }
         });
 
-        const defaults = {
-            handleSIGHUP: false,
-            handleSIGINT: false,
-            handleSIGTERM: false,
-            headless: false
+        const handleSIGs = {
+            handleSIGHUP: !(options && options.detached),
+            handleSIGINT: !(options && options.detached),
+            handleSIGTERM: !(options && options.detached)
         };
 
-        this._options = Object.assign({}, defaults, options);
+        const defaults = { headless: isCI };
+
+        this._options = Object.assign({}, defaults, handleSIGs, options);
     }
 
     private onError(error: Error) {
