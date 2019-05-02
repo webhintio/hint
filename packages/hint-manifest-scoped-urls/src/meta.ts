@@ -5,11 +5,12 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 const meta: HintMetadata = {
     docs: {
         category: Category.pwa,
-        description: `Checks if URLs in the manifest are in scope and accessible`
+        description: `Checks if URLs in the manifest are in scope and accessible`,
+        name: 'Manifest has scoped `start_url`'
     },
     id: 'manifest-scoped-urls',
     schema: [],
-    scope: HintScope.any
+    scope: HintScope.site
 };
 
 export default meta;

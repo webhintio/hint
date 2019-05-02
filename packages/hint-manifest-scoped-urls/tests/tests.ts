@@ -73,7 +73,20 @@ const tests: HintTest[] = [
         }
     },
     {
-        name: 'Manifest property start_url is absolute and scoped but inaccessible',
+        name: 'Manifest property start_url has valid preceding `http`',
+        serverConfig: {
+            '/httpsLover.html': htmlWithManifestSpecified,
+            '/site.webmanifest': {
+                content: `{
+                    "short_name": "Test webhint App",
+                    "start_url": "httpsLover.html",
+                    "scope": "/"
+                }`
+            }
+        }
+    },
+    {
+        name: 'Manifest property start_url has preceding `/` and scoped but inaccessible',
         reports: [
             {
                 message: `Specified 'start_url' is not accessible. (status code: 404).`,
@@ -105,7 +118,7 @@ const tests: HintTest[] = [
         }
     },
     {
-        name: 'Manifest property start_url is a deep absolute accessible path.',
+        name: 'Manifest property start_url is a deep accessible path.',
         serverConfig: {
             '/site.webmanifest': {
                 content: `{

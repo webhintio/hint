@@ -3,7 +3,6 @@
 `manifest-scoped-urls` requires that:
 
 * The start_url is accessible and scoped.
-* Either `name` or `short_name` is specified
 
 ## Why is this important?
 
@@ -31,7 +30,6 @@ From [Google Lighthouse Audit][scope_imp]
 
 `manifest-scoped-urls` checks that the:
 
-1. `name` or `short_name` is specified.
 2. `start_url` is specified.
 3. `start_url` is same-origin.
 4. `start_url` is accessible.
@@ -44,19 +42,7 @@ A list of code examples that will fail this hint.
 
 #### Example 1
 
-No `name` or `short_name` property specified in Manifest file
-
-```json
-{
-    ...,
-    "start_url": "/",
-    ...
-}
-```
-
-#### Example 2
-
-No `start_url` property specified in Manifest file
+No `start_url` property specified in Manifest file.
 
 ```json
 {
@@ -66,15 +52,27 @@ No `start_url` property specified in Manifest file
 }
 ```
 
-#### Example 3
+#### Example 2
 
 Manifest property start_url not scoped.
 
 ```json
 {
     ...,
-    "short_name": "Test webhint App",
     "start_url": "/",
+    "scope": "/test"
+    ...
+}
+```
+
+#### Example 3
+
+Manifest property start_url scoped but inaccessible.
+
+```json
+{
+    ...,
+    "start_url": "/test",
     "scope": "/test"
     ...
 }
@@ -82,26 +80,11 @@ Manifest property start_url not scoped.
 
 #### Example 4
 
-Manifest property start_url scoped but inaccessible
+Manifest property start_url is not same origin.
 
 ```json
 {
     ...,
-    "short_name": "Test webhint App",
-    "start_url": "/test",
-    "scope": "/test"
-    ...
-}
-```
-
-#### Example 5
-
-Manifest property start_url is not same origin
-
-```json
-{
-    ...,
-    "short_name": "Test webhint App",
     "start_url": "https://example.com",
     "scope": "/",
     ...
@@ -113,7 +96,6 @@ Manifest property start_url is not same origin
 ```json
 {
     ...,
-    "short_name": "Test webhint App",
     "start_url": "/index.html",
     "scope": "/"
     ...

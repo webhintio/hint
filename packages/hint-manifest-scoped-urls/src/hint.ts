@@ -5,7 +5,7 @@
 import { URL } from 'url';
 import { relative } from 'path';
 import { IHint, HintContext, NetworkData, ProblemLocation } from 'hint';
-import { ManifestEvents, ManifestParsed, Manifest } from '@hint/parser-manifest';
+import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { debug as d } from '@hint/utils';
 
 import meta from './meta';
@@ -52,35 +52,13 @@ export default class ManifestScopedUrlsHint implements IHint {
         };
 
         /**
-         *
-         * @param property `property` to be found in the Manifest
-         * @param parsedContent Manifest
-         * @param resource
-         */
-        const manifestPropertyFound = (property: string, parsedContent: Manifest, resource: string): boolean => {
-            const found = parsedContent.hasOwnProperty(property);
-
-            if (!found) {
-                const message = `Property '${property}' not found in manifest file`;
-
-                context.report(resource, message);
-
-                return false;
-            }
-
-            return true;
-        };
-
-        /**
          * Checks that the `start_url` is under the scope of
          * the URL specified in the `scope`
          * @param parsedContent
          * @param resource
          */
-        const startUrlInScope = (parsedContent: Manifest, resource: string, startUrllocation: ProblemLocation): boolean => {
-            const scope = parsedContent.scope || '/';
-            const startURL = parsedContent.start_url;
-            const relativePath = relative(scope, startURL!);
+        const startUrlInScope = (startURL: string, scope: string, resource: string, startUrllocation: ProblemLocation): boolean => {
+            const relativePath = relative(scope, startURL);
             const inScope = relativePath && !relativePath.startsWith('..');
 
             if (relativePath === '') {
@@ -98,17 +76,16 @@ export default class ManifestScopedUrlsHint implements IHint {
             return true;
         };
 
-        const validate = async ({ getLocation, parsedContent, resource }: ManifestParsed) => {
+        const validate = async ({ getLocation, parsedContent: { start_url: startURL, scope }, resource }: ManifestParsed) => {
             const resourceURL = new URL(resource);
             const hostnameWithProtocol = `${resourceURL.protocol}//${resourceURL.host}`;
 
             debug(`Validating hint manifest-scoped-urls`);
 
-            const hasStartUrl = manifestPropertyFound('start_url', parsedContent, resource);
-
-            if (hasStartUrl) {
-                const startUrlLocation = getLocation('start_url');
-                const notSameOrigin = parsedContent.start_url!.startsWith('http');
+            if (startURL) {
+                const startUrlLocation = getLocation('start_url')!;
+                const notSameOrigin = startURL.startsWith('http://') || startURL.startsWith('https://');
+                const computedScope = scope || `${resource}/`;
 
                 if (notSameOrigin) {
                     const message = `'start_url' must have same origin as the manifest file.`;
@@ -118,11 +95,15 @@ export default class ManifestScopedUrlsHint implements IHint {
                     return;
                 }
 
-                startUrlInScope(parsedContent, resource, startUrlLocation!);
-                const separator = parsedContent.start_url!.startsWith('/') ? '' : '/';
-                const absoluteStartUrl = hostnameWithProtocol + separator + parsedContent.start_url;
+                startUrlInScope(startURL, computedScope, resource, startUrlLocation);
+                const separator = startURL.startsWith('/') ? '' : '/';
+                const absoluteStartUrl = hostnameWithProtocol + separator + startURL;
 
-                await startUrlAccessible(absoluteStartUrl, resource, startUrlLocation!);
+                await startUrlAccessible(absoluteStartUrl, resource, startUrlLocation);
+            } else {
+                const message = `Property 'start_url' not found in manifest file`;
+
+                context.report(resource, message);
             }
         };
 
