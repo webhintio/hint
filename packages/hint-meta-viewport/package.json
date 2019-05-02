@@ -13,7 +13,7 @@
   "description": "hint for best practices related to the meta viewport",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",
-    "@types/node": "^11.13.8",
+    "@types/node": "^11.13.9",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
     "ava": "^1.4.1",
