@@ -152,7 +152,7 @@ test('It runs end-to-end in a page', async (t) => {
 
 // TODO: Get this working in CI (at least for Linux).
 if (!isCI) {
-    test('It runs end-to-end as an extension', async (t) => {
+    test.skip('It runs end-to-end as an extension', async (t) => {
         const server = await Server.create({ configuration: await readFixture('missing-lang.html') });
 
         const url = `http://localhost:${server.port}/`;
