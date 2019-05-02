@@ -15,7 +15,7 @@
     "@hint/parser-html": "^2.0.2",
     "@hint/utils-tests-helpers": "^3.0.0",
     "@types/mock-require": "^2.0.0",
-    "@types/node": "^11.13.8",
+    "@types/node": "^11.13.9",
     "@types/request": "^2.48.1",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",

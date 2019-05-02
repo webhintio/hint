@@ -19,7 +19,7 @@
     "@hint/utils-create-server": "^3.0.0",
     "@types/jsdom": "^12.2.3",
     "@types/lodash": "^4.14.123",
-    "@types/node": "^11.13.8",
+    "@types/node": "^11.13.9",
     "@types/sinon": "^7.0.11",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",

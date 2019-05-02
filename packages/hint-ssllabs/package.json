@@ -14,7 +14,7 @@
   "devDependencies": {
     "@hint/utils-tests-helpers": "^3.0.0",
     "@types/mock-require": "^2.0.0",
-    "@types/node": "^11.13.8",
+    "@types/node": "^11.13.9",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
     "ava": "^1.4.1",
