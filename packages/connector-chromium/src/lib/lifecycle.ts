@@ -1,5 +1,7 @@
 import { promisify } from 'util';
 import { unlink } from 'fs';
+import { join } from 'path';
+import { spawn } from 'child_process';
 
 import * as locker from 'lockfile';
 import * as puppeteer from 'puppeteer-core';
@@ -7,7 +9,6 @@ import * as puppeteer from 'puppeteer-core';
 import { chromiumFinder, debug as d, fs } from '@hint/utils';
 
 const debug: debug.IDebugger = d(__filename);
-
 const deleteFile = promisify(unlink);
 const lockFile = promisify(locker.lock) as (path: string, options: locker.Options) => Promise<void>;
 const unlockFile = promisify(locker.unlock);
@@ -16,35 +17,29 @@ let isLocked = false;
 
 const { readFileAsync, writeFileAsync } = fs;
 
-const pidFile = 'chromium.pid';
+const infoFile = 'chromium.info';
 const executablePath = chromiumFinder.getInstallationPath();
 
 debug(`Chromium executable: ${executablePath}`);
 
 type BrowserInfo = {
     browserWSEndpoint: string;
-    pid: number;
 }
 
 const lock = async () => {
     try {
         debug(`Trying to acquire lock`);
         await lockFile(lockName, {
-            pollPeriod: 500,
-            retries: 20,
+            retries: 30,
             retryWait: 1000,
-            stale: 50000,
-            wait: 50000
+            stale: 60000
         });
         isLocked = true;
         debug(`Lock acquired`);
-    } catch (e) {
-        /* istanbul ignore next */
-        { // eslint-disable-line
-            debug(`Error while locking`, e);
+    } catch (e) /* istanbul ignore next */ {
+        debug(`Error while locking`, e);
 
-            throw e;
-        }
+        throw e;
     }
 };
 
@@ -59,43 +54,62 @@ const unlock = async () => {
 };
 
 /** If a browser is already running, it returns its pid. Otherwise return value is -1.  */
-const getBrowserInfo = async () => {
-    let result = {
-        browserWSEndpoint: '',
-        pid: -1
-    };
+const getBrowserInfo = async (): Promise<BrowserInfo | null> => {
+    let result = { browserWSEndpoint: '' };
 
     try {
-        result = JSON.parse((await readFileAsync(pidFile)).trim());
-    } catch (e) {
-        /* istanbul ignore next */
-        { // eslint-disable-line
-            debug(`Error reading ${pidFile}`);
-            debug(e);
+        result = JSON.parse((await readFileAsync(infoFile)).trim());
+    } catch (e) /* istanbul ignore next */ {
+        debug(`Error reading ${infoFile}`);
+        debug(e);
 
-            return null;
-        }
+        return null;
     }
 
     return result;
 };
 
-const deletePid = async () => {
+/** Stores the `BrowserInfo` into a file. */
+const writeBrowserInfo = async (browserInfo: BrowserInfo) => {
+    /* istanbul ignore next */
+    await writeFileAsync(infoFile, JSON.stringify(browserInfo, null, 4));
+};
+
+/** Deletes the file containing the `BrowserInfo`. */
+const deleteBrowserInfo = async () => {
     try {
-        await deleteFile(pidFile);
+        await deleteFile(infoFile);
     } catch (e) {
-        debug(`Error trying to delete ${pidFile}`);
+        debug(`Error trying to delete ${infoFile}`);
         debug(e);
     }
 };
 
-/** Stores the `pid` of the given `child` into a file. */
-const writePid = async (browserInfo: BrowserInfo) => {
-    /* istanbul ignore next */
-    await writeFileAsync(pidFile, JSON.stringify(browserInfo, null, 4));
+/** Spawns a new detached process that will start a browser using puppeteer. */
+const startDetached = (options: any): Promise<puppeteer.Browser> => {
+    return new Promise((resolve) => {
+        const launcherProcess = spawn(
+            process.execPath,
+            [join(__dirname, 'launcher.js')],
+            {
+                detached: true,
+                stdio: [0, 1, 2, 'ipc']
+            });
+
+        launcherProcess.on('message', async (browserInfo) => {
+            const { browserWSEndpoint } = browserInfo;
+            const browser = await puppeteer.connect({ browserWSEndpoint });
+
+            launcherProcess.unref();
+            launcherProcess.disconnect();
+
+            resolve(browser);
+        });
+
+        launcherProcess.send(options);
+    });
 };
 
-// Accept some options here
 export const launch = async (options: any) => {
     await lock();
 
@@ -127,7 +141,7 @@ export const launch = async (options: any) => {
             return { browser, page };
         } catch (e) {
             // The process might be dead so we need to launch a new one and delete the current info file
-            await deletePid();
+            await deleteBrowserInfo();
         }
     }
 
@@ -135,11 +149,27 @@ export const launch = async (options: any) => {
 
     debug(`Launching new browser instance`);
 
-    const browser = await puppeteer.launch(Object.assign(
+    const finalOptions = Object.assign(
         {},
         launchOptions,
         options
-    ));
+    );
+
+    let browser;
+
+    if (options.detached) {
+        debug(`Starting browser in detached mode`);
+        try {
+            browser = await startDetached(finalOptions);
+        } catch (e) {
+            debug(e);
+
+            throw e;
+        }
+    } else {
+        debug(`Starting browser in regular mode`);
+        browser = await puppeteer.launch(finalOptions);
+    }
 
     debug(`Creating new page`);
 
@@ -154,49 +184,40 @@ export const launch = async (options: any) => {
         await pages[0] :
         await browser.newPage();
 
-    const pid = browser.process().pid;
     const browserWSEndpoint = browser.wsEndpoint();
 
     try {
-        const browserInfo = {
-            browserWSEndpoint,
-            pid
-        };
+        const browserInfo = { browserWSEndpoint };
 
-        await writePid(browserInfo);
+        await writeBrowserInfo(browserInfo);
 
         debug('Browser launched correctly');
 
         await unlock();
 
         return { browser, page };
-    } catch (e) {
-        /* istanbul ignore next */
-        { // eslint-disable-line
-            debug('Error launching browser');
-            debug(e);
+    } catch (e) /* istanbul ignore next */ {
+        debug('Error launching browser');
+        debug(e);
 
-            await unlock();
+        await unlock();
 
-            throw e;
-        }
+        throw e;
     }
 };
 
 export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) => {
+    if (!browser) {
+        return;
+    }
+
     await lock();
 
     try {
         const pages = await browser.pages();
 
-
         if (pages.length === 1) {
-            /**
-             * TODO:
-             * Guess what happens with headless, does the browser need to be closed?
-             * What about macOS?
-             */
-            await deletePid();
+            await deleteBrowserInfo();
         }
 
         debug(`Closing page`);
@@ -204,7 +225,7 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) =>
 
         await page.close();
     } catch (e) {
-        debug(`Error closig page`);
+        debug(`Error closing page`);
         debug(e);
     } finally {
 
