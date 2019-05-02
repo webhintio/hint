@@ -1,17 +1,18 @@
 import * as puppeteer from 'puppeteer-core';
 import { contentType, debug as d, HTMLDocument } from '@hint/utils';
-import { FetchStart, FetchError, FetchEnd } from 'hint';
+import { Events } from 'hint';
 import { createFetchEndPayload, Fetcher } from './create-fetchend-payload';
 import { getElementFromResponse } from './get-element-from-response';
 
 const { getType } = contentType;
 const debug: debug.IDebugger = d(__filename);
 
-type RequestEvent = { name: 'fetch::start::target' | 'fetch::start'; payload: FetchStart };
-type RequestFailedEvent = { name: 'fetch::error'; payload: FetchError } | null;
-type ResponseEvent = { name: 'fetch::end::*' | 'fetch::end::html'; payload: FetchEnd } | null;
+type EventResult<K extends keyof Events> = {
+    name: K;
+    payload: Events[K];
+};
 
-export const onRequestHandler = (request: puppeteer.Request): RequestEvent => {
+export const onRequestHandler = (request: puppeteer.Request): EventResult<'fetch::start::target' | 'fetch::start'> => {
     const requestUrl = request.url();
     const event = { resource: requestUrl };
     const name = request.isNavigationRequest() ?
@@ -26,7 +27,7 @@ export const onRequestHandler = (request: puppeteer.Request): RequestEvent => {
     };
 };
 
-export const onRequestFailedHandler = (request: puppeteer.Request, baseUrl: string, dom?: HTMLDocument): RequestFailedEvent => {
+export const onRequestFailedHandler = (request: puppeteer.Request, baseUrl: string, dom?: HTMLDocument): EventResult<'fetch::error'> | null => {
     const resource = request.url();
 
     if (!dom) {
@@ -42,7 +43,7 @@ export const onRequestFailedHandler = (request: puppeteer.Request, baseUrl: stri
             return redirect.url();
         });
 
-    const event: FetchError = {
+    const event = {
         element,
         error: request.failure(),
         hops,
@@ -55,7 +56,7 @@ export const onRequestFailedHandler = (request: puppeteer.Request, baseUrl: stri
     };
 };
 
-export const onResponseHandler = async (response: puppeteer.Response, baseUrl: string, fetchContent: Fetcher, dom?: HTMLDocument): Promise<ResponseEvent> => {
+export const onResponseHandler = async (response: puppeteer.Response, baseUrl: string, fetchContent: Fetcher, dom?: HTMLDocument): Promise<EventResult<'fetch::end::html' | 'fetch::end::*'> | null> => {
     const resource = response.url();
     const isTarget = response.request().isNavigationRequest();
 
