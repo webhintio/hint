@@ -1,5 +1,3 @@
-import * as isCI from 'is-ci';
+// import * as isCI from 'is-ci';
 
-export const ignoredConnectors = isCI ?
-    ['chrome'] :
-    [];
+export const ignoredConnectors = ['puppeteer'];
