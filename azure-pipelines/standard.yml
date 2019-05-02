@@ -1,6 +1,5 @@
 steps:
-  - script:
-      brew cask install google-chrome
+  - script: brew update && brew cask install google-chrome
     condition: eq(variables['Agent.OS'], 'Darwin')
     displayName: 'Install Chrome'
   - script: |
