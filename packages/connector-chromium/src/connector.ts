@@ -182,17 +182,16 @@ export default class ChromiumConnector implements IConnector {
             const event = { resource: this._finalHref };
 
             // QUESTION: Even if the content is blank we will receive a minimum HTML with this. Are we OK with the behavior?
-            if (this._html !== '') {
-                const html = await this._page.content();
 
-                this._dom = createHTMLDocument(html, this._originalDocument);
+            const html = await this._page.content();
 
-                await traverse(this._dom, this._engine, this._page.url());
+            this._dom = createHTMLDocument(html, this._originalDocument);
 
-                if (this._options.headless) {
-                    // TODO: Check if browser downloads favicon even if there's no content
-                    await getFavicon(this._finalHref, this._dom, this.fetchContent.bind(this), this._engine);
-                }
+            await traverse(this._dom, this._engine, this._page.url());
+
+            if (this._options.headless) {
+                // TODO: Check if browser downloads favicon even if there's no content
+                await getFavicon(this._finalHref, this._dom, this.fetchContent.bind(this), this._engine);
             }
 
             // Process pending requests now that the dom is ready
