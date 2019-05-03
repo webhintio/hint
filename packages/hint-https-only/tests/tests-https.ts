@@ -43,12 +43,6 @@ const testsHTTPS: HintTest[] = [
         serverConfig: { '/': { content: generateHTMLPage('', '<img src="http://example.com/image.png">') } }
     },
     {
-        name: 'Redirect in resource fails (svg)',
-        reports: [{ message: noInsecureRedirectMessage }],
-        // If this test fails, check the image src.
-        serverConfig: { '/': { content: generateHTMLPage('', '<img src="http://webhint.io/static/images/home-hello-nellie-87201a8cb4.svg">') } }
-    },
-    {
         name: 'Redirect in resource fails (png)',
         reports: [{ message: noInsecureRedirectMessage }],
         serverConfig: {
