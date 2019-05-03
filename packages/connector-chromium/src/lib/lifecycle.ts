@@ -115,8 +115,8 @@ const startDetached = (options: any): Promise<puppeteer.Browser> => {
             });
 
         launcherProcess.on('message', async (browserInfo) => {
-            const { browserWSEndpoint } = browserInfo;
-            const browser = await puppeteer.connect({ browserWSEndpoint });
+            const finalOptions = Object.assign({}, browserInfo, options);
+            const browser = await puppeteer.connect(finalOptions);
 
             launcherProcess.unref();
             launcherProcess.disconnect();
