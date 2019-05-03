@@ -23,12 +23,14 @@ export default class ChromiumConnector implements IConnector {
     private _engine: Engine;
     /** The default headers to do any request. */
     private _headers: HttpHeaders = {};
-    private _html: string | undefined;
+    private _targetBody: string | undefined;
     private _listeners: Map<EventName, Function> = new Map();
     private _originalDocument: HTMLDocument | undefined;
     private _page!: puppeteer.Page;
     private _finalHref = '';
     private _pendingRequests: Function[] = [];
+    private _targetReady!: CallableFunction;
+    private _targetFailed!: CallableFunction;
     private _targetNetworkData!: NetworkData;
 
     public constructor(engine: Engine, options?: any) {
@@ -56,6 +58,17 @@ export default class ChromiumConnector implements IConnector {
         debug(`Error: ${error}`);
     }
 
+    private waitForTarget() {
+        if (this._targetBody !== undefined) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            this._targetReady = resolve;
+            this._targetFailed = reject;
+        });
+    }
+
     private async onRequest(request: puppeteer.Request) {
         if (request.isNavigationRequest()) {
             this._headers = normalizeHeaders(request.headers())!;
@@ -76,6 +89,10 @@ export default class ChromiumConnector implements IConnector {
 
         const event = onRequestFailedHandler(request, this._finalHref, this._dom);
 
+        if (request.isNavigationRequest()) {
+            this._targetFailed();
+        }
+
         if (!event) {
             this._pendingRequests.push(this.onRequestFailed.bind(this, request));
 
@@ -93,7 +110,7 @@ export default class ChromiumConnector implements IConnector {
         debug(`Response received: ${resource}`);
 
         if (status >= 300 && status < 400) {
-            // It's a redirect so it will be handled later
+            // Redirects are handled later
             return;
         }
 
@@ -108,14 +125,20 @@ export default class ChromiumConnector implements IConnector {
         const { name, payload } = event;
 
         if (isTarget) {
-            if (name === 'fetch::end::html') {
-                this._html = payload.response.body.content;
-                this._originalDocument = createHTMLDocument(this._html!);
-            }
+            this._targetBody = payload.response.body.content;
             this._targetNetworkData = payload;
+
+            if (name === 'fetch::end::html') {
+                this._originalDocument = createHTMLDocument(this._targetBody!);
+            }
         }
 
         await this._engine.emitAsync(name, payload);
+
+        // The `fetch::end` of the target needs to be processed before notifying
+        if (isTarget && this._targetReady) {
+            this._targetReady();
+        }
     }
 
     private addListeners() {
@@ -178,31 +201,31 @@ export default class ChromiumConnector implements IConnector {
     }
 
     private async processTarget() {
-        if (this._html !== undefined) {
-            const event = { resource: this._finalHref };
+        await this.waitForTarget();
 
-            // QUESTION: Even if the content is blank we will receive a minimum HTML with this. Are we OK with the behavior?
+        const event = { resource: this._finalHref };
 
-            const html = await this._page.content();
+        // QUESTION: Even if the content is blank we will receive a minimum HTML with this. Are we OK with the behavior?
 
-            this._dom = createHTMLDocument(html, this._originalDocument);
+        const html = await this._page.content();
 
-            await traverse(this._dom, this._engine, this._page.url());
+        this._dom = createHTMLDocument(html, this._originalDocument);
 
-            if (this._options.headless) {
-                // TODO: Check if browser downloads favicon even if there's no content
-                await getFavicon(this._finalHref, this._dom, this.fetchContent.bind(this), this._engine);
-            }
+        await traverse(this._dom, this._engine, this._page.url());
 
-            // Process pending requests now that the dom is ready
-            while (this._pendingRequests.length > 0) {
-                const pendingRequest = this._pendingRequests.shift()!;
-
-                await pendingRequest();
-            }
-
-            await this._engine.emitAsync('can-evaluate::script', event);
+        if (this._options.headless) {
+            // TODO: Check if browser downloads favicon even if there's no content
+            await getFavicon(this._finalHref, this._dom, this.fetchContent.bind(this), this._engine);
         }
+
+        // Process pending requests now that the dom is ready
+        while (this._pendingRequests.length > 0) {
+            const pendingRequest = this._pendingRequests.shift()!;
+
+            await pendingRequest();
+        }
+
+        await this._engine.emitAsync('can-evaluate::script', event);
     }
 
     public async close() {
