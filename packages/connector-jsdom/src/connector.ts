@@ -293,8 +293,7 @@ export default class JSDOMConnector implements IConnector {
                          * stop processing any more.
                          */
                         await this.server.emitAsync('scan::end', event);
-                    } catch (e) {
-                        /* istanbul ignore next */
+                    } catch (e) /* istanbul ignore next */ {
                         reject(e);
                     }
                     resolve();
