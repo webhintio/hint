@@ -25,7 +25,7 @@ const hintPath = getHintPath(__filename);
  */
 const testConfigs = {
     https: true,
-    ignoredConnectors: ['chrome'],
+    ignoredConnectors: ['puppeteer'],
     serial: false
 };
 

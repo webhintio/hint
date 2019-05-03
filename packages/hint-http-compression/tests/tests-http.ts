@@ -19,9 +19,9 @@ const hintPath = getHintPath(__filename);
 
 /*
  * TODO: Remove `ignoredConnectors` part once headless
- *       Chrome on CI doesn't fail. :(
+ *       Chromium on CI doesn't fail. :(
  */
-const testConfigs = { ignoredConnectors: ['chrome'], serial: false };
+const testConfigs = { ignoredConnectors: ['puppeteer'], serial: false };
 const testConfigsSerial = Object.assign({}, testConfigs);
 
 testConfigsSerial.serial = true;
