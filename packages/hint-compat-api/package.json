@@ -14,7 +14,7 @@
     "@hint/parser-css": "^2.1.0",
     "@hint/utils-tests-helpers": "^3.0.0",
     "@types/debug": "^4.1.4",
-    "@types/node": "^11.13.9",
+    "@types/node": "^12.0.0",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
     "ava": "^1.4.1",
