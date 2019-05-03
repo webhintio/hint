@@ -5,7 +5,7 @@ import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-const {generateHTMLPage, getHintPath} = test;
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const metaElement = '<meta http-equiv="x-ua-compatible" content="ie=edge">';
@@ -13,6 +13,8 @@ const metaElement = '<meta http-equiv="x-ua-compatible" content="ie=edge">';
 const generateHTMLPageWithMetaElement = (metaElementValue: string = 'iE=eDgE') => {
     return generateHTMLPage(`<MEtA hTTp-EqUIv="X-Ua-CompATible" ConTenT="${metaElementValue}">`);
 };
+
+const page = generateHTMLPage();
 
 // Error messages.
 
@@ -36,7 +38,12 @@ const testsForNonDocumentModeBrowsers: HintTest[] = [
     {
         name: `HTML page is served with 'X-UA-Compatible' header but the targeted browsers don't support document modes`,
         reports: [{ message: unneededHeaderErrorMessage }],
-        serverConfig: { '/': { headers: { 'X-UA-Compatible': 'ie=edge' } } }
+        serverConfig: {
+            '/': {
+                content: page,
+                headers: { 'X-UA-Compatible': 'ie=edge' }
+            }
+        }
     },
     {
         name: `'X-UA-Compatible' meta element is not specified but the targeted browsers don't support document modes`,
@@ -53,16 +60,26 @@ const testsForHeaders: HintTest[] = [
     {
         name: `HTML page is served without 'X-UA-Compatible' header`,
         reports: [{ message: noHeaderErrorMessage }],
-        serverConfig: { '/': '' }
+        serverConfig: { '/': page }
     },
     {
         name: `HTML page is served with 'X-UA-Compatible' header with a value different than 'ie=edge'`,
         reports: [{ message: incorrectHeaderValueErrorMessage }],
-        serverConfig: { '/': { headers: { 'X-UA-Compatible': 'IE=7,9,10' } } }
+        serverConfig: {
+            '/': {
+                content: page,
+                headers: { 'X-UA-Compatible': 'IE=7,9,10' }
+            }
+        }
     },
     {
         name: `HTML page is served with 'X-UA-Compatible' header with the value 'ie=edge'`,
-        serverConfig: { '/': { headers: { 'X-ua-Compatible': 'iE=EdGe' } } }
+        serverConfig: {
+            '/': {
+                content: page,
+                headers: { 'X-ua-Compatible': 'iE=EdGe' }
+            }
+        }
     },
     {
         name: `HTML page is served with 'X-UA-Compatible' header and the meta element`,
@@ -80,7 +97,7 @@ const testsForRequireMetaElementConfig: HintTest[] = [
     {
         name: `'X-UA-Compatible' meta element is not specified`,
         reports: [{ message: metaElementIsNotSpecifiedErrorMessage }],
-        serverConfig: { '/': '' }
+        serverConfig: { '/': page }
     },
     {
         name: `'X-UA-Compatible' meta element is specified with the value of 'ie=edge'`,
