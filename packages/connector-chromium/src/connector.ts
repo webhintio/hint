@@ -211,15 +211,6 @@ export default class ChromiumConnector implements IConnector {
 
         this._dom = createHTMLDocument(html, this._originalDocument);
 
-        if (this._targetBody !== '') {
-            await traverse(this._dom, this._engine, this._page.url());
-        }
-
-        if (this._options.headless) {
-            // TODO: Check if browser downloads favicon even if there's no content
-            await getFavicon(this._finalHref, this._dom, this.fetchContent.bind(this), this._engine);
-        }
-
         // Process pending requests now that the dom is ready
         while (this._pendingRequests.length > 0) {
             const pendingRequest = this._pendingRequests.shift()!;
@@ -227,7 +218,16 @@ export default class ChromiumConnector implements IConnector {
             await pendingRequest();
         }
 
-        await this._engine.emitAsync('can-evaluate::script', event);
+        if (this._targetBody) {
+            await traverse(this._dom, this._engine, this._page.url());
+
+            await this._engine.emitAsync('can-evaluate::script', event);
+        }
+
+        if (this._options.headless) {
+            // TODO: Check if browser downloads favicon even if there's no content
+            await getFavicon(this._finalHref, this._dom, this.fetchContent.bind(this), this._engine);
+        }
     }
 
     public async close() {
