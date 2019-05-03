@@ -89,7 +89,7 @@ export default class ChromiumConnector implements IConnector {
 
         const event = onRequestFailedHandler(request, this._finalHref, this._dom);
 
-        if (request.isNavigationRequest()) {
+        if (request.isNavigationRequest() && this._targetFailed) {
             this._targetFailed();
         }
 
@@ -211,7 +211,9 @@ export default class ChromiumConnector implements IConnector {
 
         this._dom = createHTMLDocument(html, this._originalDocument);
 
-        await traverse(this._dom, this._engine, this._page.url());
+        if (this._targetBody !== '') {
+            await traverse(this._dom, this._engine, this._page.url());
+        }
 
         if (this._options.headless) {
             // TODO: Check if browser downloads favicon even if there's no content
