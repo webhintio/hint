@@ -1,9 +1,9 @@
 import { readFileSync } from 'fs';
 
-import { HintTest, testHint} from '@hint/utils-tests-helpers';
+import { HintTest, testHint } from '@hint/utils-tests-helpers';
 import { test } from '@hint/utils';
 
-const { generateHTMLPage, getHintPath} = test;
+const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);
@@ -43,12 +43,6 @@ const testsHTTPS: HintTest[] = [
         serverConfig: { '/': { content: generateHTMLPage('', '<img src="http://example.com/image.png">') } }
     },
     {
-        name: 'Redirect in resource fails (svg)',
-        reports: [{ message: noInsecureRedirectMessage }],
-        // If this test fails, check the image src.
-        serverConfig: { '/': { content: generateHTMLPage('', '<img src="http://webhint.io/static/images/home-hello-nellie-87201a8cb4.svg">') } }
-    },
-    {
         name: 'Redirect in resource fails (png)',
         reports: [{ message: noInsecureRedirectMessage }],
         serverConfig: {
@@ -79,11 +73,11 @@ const testsHTTPS: HintTest[] = [
         serverConfig: {
             '/': {
                 content: generateHTMLPage('', `<video width="480" controls poster="http://ia800502.us.archive.org/10/items/WebmVp8Vorbis/webmvp8.gif" >
-    <source src="https://archive.org/download/WebmVp8Vorbis/webmvp8.webm" type="video/webm">
-    <source src="https://archive.org/download/WebmVp8Vorbis/webmvp8_512kb.mp4" type="video/mp4">
-    <source src="http://ia800502.us.archive.org/10/items/WebmVp8Vorbis/webmvp8.ogv" type="video/ogg">
-    Your browser doesn't support HTML5 video tag.
-</video>`)
+        <source src="https://archive.org/download/WebmVp8Vorbis/webmvp8.webm" type="video/webm">
+        <source src="https://archive.org/download/WebmVp8Vorbis/webmvp8_512kb.mp4" type="video/mp4">
+        <source src="http://ia800502.us.archive.org/10/items/WebmVp8Vorbis/webmvp8.ogv" type="video/ogg">
+        Your browser doesn't support HTML5 video tag.
+    </video>`)
             }
         }
     },
