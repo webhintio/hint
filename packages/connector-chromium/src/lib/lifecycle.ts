@@ -178,27 +178,28 @@ const getHTTPSConfiguration = (options: any) => {
 export const launch = async (options: any) => {
     await lock();
 
-    const httpsConfiguration = getHTTPSConfiguration(options);
     const currentInfo = await getBrowserInfo();
+    const httpsConfiguration = getHTTPSConfiguration(options);
+    const finalOptions = Object.assign(
+        {},
+        httpsConfiguration,
+        { executablePath },
+        options
+    );
 
     if (currentInfo) {
         try {
-            const connection = await connectToBrowser(currentInfo, httpsConfiguration);
+            const connection = await connectToBrowser(currentInfo, finalOptions);
 
             await unlock();
 
             return connection;
         } catch (e) {
-            // The process might be dead so we need to launch a new one and delete the current info file
+            // `currentInfo` contains outdated data: delete information and start fresh
             await deleteBrowserInfo();
         }
     }
 
-    const finalOptions = Object.assign(
-        {},
-        { executablePath },
-        options
-    );
     const connection = await startBrowser(finalOptions);
     const { browser } = connection;
 
