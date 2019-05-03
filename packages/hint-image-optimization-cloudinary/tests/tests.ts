@@ -138,17 +138,17 @@ const noConfigTest: HintTest[] = [
 
 testHint(hintPath, testThresholds, {
     hintOptions: { apiKey: 'fakeApiName', apiSecret: 'fakeApiSecret', cloudName: 'fakeCloudName', threshold: 150 },
-    ignoredConnectors: ['chrome'],
+    ignoredConnectors: ['chromium'],
     serial: true
 });
 
 testHint(hintPath, tests, {
     hintOptions: { apiKey: 'fakeApiName', apiSecret: 'fakeApiSecret', cloudName: 'fakeCloudName' },
-    ignoredConnectors: ['chrome'],
+    ignoredConnectors: ['chromium'],
     serial: true
 });
 
 testHint(hintPath, noConfigTest, {
-    ignoredConnectors: ['chrome'],
+    ignoredConnectors: ['chromium'],
     serial: true
 });

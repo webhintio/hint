@@ -231,7 +231,7 @@ test(`If a hint has the metadata "ignoredConnectors" set up, we should ignore th
 
         public static readonly meta: HintMetadata = {
             id: 'disallowed-headers',
-            ignoredConnectors: ['chrome'],
+            ignoredConnectors: ['chromium'],
             schema: [],
             scope: HintScope.any
         }
@@ -256,7 +256,7 @@ test(`If a hint has the metadata "ignoredConnectors" set up, we should ignore th
 
     new Engine({
         browserslist: [],
-        connector: { name: 'chrome' },
+        connector: { name: 'chromium' },
         extends: [],
         formatters: [],
         hints: {
