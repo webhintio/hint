@@ -81,7 +81,7 @@ tests.push(
         name: `Response has status code 200 and 404 page was generated and has less than 512 bytes`,
         reports: [{ message: generateErrorMessage(404, 512) }],
         serverConfig: {
-            '/': '',
+            '/': generateHTMLPage(),
             '*': {
                 content: htmlPageWithLessThan512bytes,
                 status: 404
