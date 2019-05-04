@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@hint/utils": "^1.0.0",
-    "node-ssllabs": "^0.6.0"
+    "node-ssllabs": "^1.0.1"
   },
   "description": "hint that that checks using SSL Labs for best practices related to the website's SSL configuration",
   "devDependencies": {

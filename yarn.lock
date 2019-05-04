@@ -1878,7 +1878,7 @@ async@^1.5.2:
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
   integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
 
-async@^2.0.0, async@^2.6.1, async@^2.6.2, async@~2.6.0:
+async@^2.0.0, async@^2.6.1, async@~2.6.0:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.2.tgz#18330ea7e6e313887f5d2f2a904bac6fe4dd5381"
   integrity sha512-H1qVYh1MYhEEFLsP97cVKqCGo7KfCyTt6uEWqsTBr9SO84oK9Uwbyd/yCW+6rKJLHksBNUVWZDAjfS+Ccx0Bbg==
@@ -8805,13 +8805,10 @@ node-releases@^1.1.17:
   dependencies:
     semver "^5.3.0"
 
-node-ssllabs@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/node-ssllabs/-/node-ssllabs-0.6.0.tgz#5f3c488d490135c58b4dd90182b6c07c0b176ce4"
-  integrity sha512-gLdlhwCcnHJ2CvTnxJVwUOFHrpWG+TuQlw7PUHZK+UAxJ5SdDo8NFkkiz1TNUcBm37QDrdjBCzF8SzSV49fi8A==
-  dependencies:
-    async "^2.6.2"
-    underscore "^1.9.1"
+node-ssllabs@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/node-ssllabs/-/node-ssllabs-1.0.1.tgz#f2dfc01d290d00639f8ce7783157a16f23370d1c"
+  integrity sha512-Jk+6wxWVEvEkmCqBdEOBCIgMgeqBaxuIe8IEAsxcOAWT6mxHel4jnStAy840eKE18OrGOCgD3royEjKz+kGBCQ==
 
 nomnom@1.8.1:
   version "1.8.1"
@@ -12157,11 +12154,6 @@ uid2@0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/uid2/-/uid2-0.0.3.tgz#483126e11774df2f71b8b639dcd799c376162b82"
   integrity sha1-SDEm4Rd03y9xuLY53NeZw3YWK4I=
-
-underscore@^1.9.1:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.1.tgz#06dce34a0e68a7babc29b365b8e74b8925203961"
-  integrity sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
 
 underscore@~1.6.0:
   version "1.6.0"
