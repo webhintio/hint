@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@hint/utils": "^1.0.0",
-    "postcss": "^7.0.14",
+    "postcss": "^7.0.15",
     "postcss-safe-parser": "^4.0.1"
   },
   "description": "webhint parser needed to analyze CSS files",
