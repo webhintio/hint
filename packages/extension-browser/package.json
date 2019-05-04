@@ -85,7 +85,7 @@
     "util.promisify": "^1.0.0",
     "web-ext": "^3.0.0",
     "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.1"
+    "webpack-cli": "^3.3.2"
   },
   "engines": {
     "node": ">=8.0.0"
