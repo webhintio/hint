@@ -5,6 +5,10 @@
     "exclude": [
         "**/dist/tests/**"
     ],
+    "extension": [
+        ".ts",
+        ".tsx"
+    ],
     "functions": 80,
     "instrument": true,
     "lines": 80,

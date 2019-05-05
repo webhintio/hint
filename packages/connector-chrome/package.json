@@ -56,9 +56,6 @@
     "branches": 30,
     "extends": "../../.nycrc",
     "functions": 70,
-    "include": [
-      "dist/src/**/*.js"
-    ],
     "lines": 70,
     "statements": 70
   },
