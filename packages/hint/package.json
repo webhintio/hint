@@ -76,10 +76,7 @@
   "name": "hint",
   "nyc": {
     "branches": 75,
-    "extends": "../../.nycrc",
-    "include": [
-      "dist/src/**/*.js"
-    ]
+    "extends": "../../.nycrc"
   },
   "optionalDependencies": {
     "@hint/configuration-web-recommended": "^6.1.0"

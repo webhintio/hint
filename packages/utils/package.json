@@ -72,10 +72,7 @@
   "name": "@hint/utils",
   "nyc": {
     "branches": 75,
-    "extends": "../../.nycrc",
-    "include": [
-      "dist/src/**/*.js"
-    ]
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {},
   "private": true,
