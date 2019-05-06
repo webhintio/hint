@@ -14,7 +14,7 @@
         "tests/**/*.ts"
     ],
     "references": [
-        { "path": "../connector-chrome" },
+        { "path": "../connector-chromium" },
         { "path": "../connector-jsdom" },
         { "path": "../connector-local" },
         { "path": "../hint" },
