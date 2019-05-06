@@ -61,7 +61,7 @@
     "lint:packages": "yarn workspaces run lint",
     "lint:scripts": "eslint scripts release --cache --ext js --ext ts --report-unused-disable-directives",
     "release": "npm run clean:packages && npm run build:scripts && node dist/release/main.js",
-    "test": "npm run clean && node scripts/test.js",
+    "test": "cd packages && cd utils && yarn build && cd .. && cd .. && node print-version.js",
     "test-all": "yarn clean && node scripts/test-all.js",
     "test-root": "npm run clean && npm run lint && npm-run-all --parallel build:scripts:*",
     "update:references": "npm run build:scripts && node dist/scripts/update-tsconfig-references.js",
