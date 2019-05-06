@@ -63,7 +63,7 @@ export interface INewHint {
     parentName: string;
 }
 
-export enum QuestionsType {
+export const enum QuestionsType {
     /** Main questions to create a simple hints or a package with multiples hints */
     main = 'main',
     /** Questions to add more hints to the package */

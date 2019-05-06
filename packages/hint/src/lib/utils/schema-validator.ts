@@ -23,7 +23,7 @@ const validator = new ajv({ // eslint-disable-line new-cap
 
 validator.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
 
-enum ErrorKeyword {
+const enum ErrorKeyword {
     additionalProperties = 'additionalProperties',
     anyOf = 'anyOf',
     enum = 'enum',

@@ -1,4 +1,4 @@
-export enum Category {
+export const enum Category {
     accessibility = 'accessibility',
     development = 'development',
     compatibility = 'compatibility',

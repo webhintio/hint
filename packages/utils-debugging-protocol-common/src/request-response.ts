@@ -10,7 +10,7 @@ const debug: debug.IDebugger = d(__filename);
 
 const { getContentTypeData } = contentType;
 
-export enum RequestStatus {
+export const enum RequestStatus {
     willBeSent = 'willBeSent',
     responseReceived = 'responseReceived',
     loadingFinished = 'loadingFinished',

@@ -1,4 +1,4 @@
-enum ValidStatements {
+const enum ValidStatements {
     and = 'and',
     empty = '',
     false = 'false',

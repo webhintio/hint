@@ -1,5 +1,5 @@
 /** The type of resource */
-export enum ResourceType {
+export const enum ResourceType {
     configuration = 'configuration',
     connector = 'connector',
     formatter = 'formatter',

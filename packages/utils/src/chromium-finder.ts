@@ -14,7 +14,7 @@ import { execSync, execFileSync } from 'child_process';
 
 const newLineRegex = /\r?\n/;
 
-export enum Browser {
+export const enum Browser {
     Chrome,
     Chromium,
     Edge
