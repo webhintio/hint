@@ -9,11 +9,10 @@ import { FetchEnd, FetchError, FetchStart, IJSONLocationFunction, ISchemaValidat
  * https://github.com/w3c/manifest/wiki/Platforms
  */
 
-export enum ManifestPlatform {
-    'itunes',
-    'play',
-    'window'
-}
+export type ManifestPlatform =
+    'itunes' |
+    'play' |
+    'windows';
 
 /*
  * ImageResource
