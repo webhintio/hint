@@ -81,6 +81,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
              * extension and we don't need to download a
              * new file.
              */
+            /* istanbul ignore if */
             if (process.env.webpack) { // eslint-disable-line no-process-env
                 return require('./snyk-snapshot.json');
             }
@@ -91,6 +92,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 const modified = new Date(snykStat.mtime).getTime();
 
                 // We check if the file is older than 24h to update it
+                /* istanbul ignore if */
                 if (now - modified > oneDay) {
                     debug('snkyDB is older than 24h.');
                     debug('Updating snykDB');
@@ -98,7 +100,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
 
                     await writeFileAsync(snykDBPath, res);
                 }
-            } catch (e) {
+            } catch (e) /* istanbul ignore next */ {
                 debug(e);
                 debug(`Error loading snyk's data`);
             }

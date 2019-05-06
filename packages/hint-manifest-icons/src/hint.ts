@@ -72,9 +72,10 @@ export default class ManifestIconHint implements IHint {
             const iconTypeLocation = getLocation(`icons[${index}].type`);
 
             if (!iconType) {
-                const message = `Icon type was not specifed`;
+                const message = `Icon type was not specified.`;
+                const iconLocation = getLocation(`icons[${index}]`);
 
-                context.report(resource, message, { location: iconTypeLocation });
+                context.report(resource, message, { location: iconLocation });
 
                 return false;
             }

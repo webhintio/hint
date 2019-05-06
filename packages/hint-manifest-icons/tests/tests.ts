@@ -33,6 +33,25 @@ const tests: HintTest[] = [
         }
     },
     {
+        name: 'Web app manifest links to an invalid icon URL',
+        reports: [{ message: `Icon could not be fetched (request failed).` }],
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/fixtures/icon-192x192.png': null,
+            '/site.webmanifest': {
+                content: `{
+                    "icons": [
+                        {
+                            "src": "fixtures/icon-192x192.png",
+                            "sizes": "192x192",
+                            "type": "image/png"
+                        }
+                    ]
+                }`
+            }
+        }
+    },
+    {
         name: 'Inaccessible icon URL in the Web app manifest',
         reports: [
             {
@@ -99,6 +118,29 @@ const tests: HintTest[] = [
                             "type": "image/png"
                         }
                         ]
+                }`
+            }
+        }
+    },
+    {
+        name: 'Missing type in icon',
+        reports: [
+            {
+                message: `Icon type was not specified.`,
+                position: { match: '{\n                            "src"' }
+            }
+        ],
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/fixtures/icon-192x192.png': generateImageData(icon192px),
+            '/site.webmanifest': {
+                content: `{
+                    "icons": [
+                        {
+                            "src": "fixtures/icon-192x192.png",
+                            "sizes": "192x192"
+                        }
+                    ]
                 }`
             }
         }
