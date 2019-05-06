@@ -10,9 +10,6 @@ const analyticsDebug = process.argv.includes('--analytics-debug');
  * will get enabled so it is removed unless the `--debug` parameter
  * is used.
  */
-if (!debugging && process.env.DEBUG) {
-    delete process.env.DEBUG;
-}
 
 import * as d from 'debug';
 
