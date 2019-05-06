@@ -133,16 +133,16 @@ export class HintContext<E extends Events = Events> {
          * So pass the `location` on as it is.
          */
 
-        this.engine.report(
-            this.id,
-            (this.meta && this.meta.docs && this.meta.docs.category) ? this.meta.docs.category : Category.other,
-            severity || this.severity,
-            codeSnippet || sourceCode || '',
-            position,
+        this.engine.report({
+            category: (this.meta && this.meta.docs && this.meta.docs.category) ? this.meta.docs.category : Category.other,
+            codeLanguage: options.codeLanguage,
+            hintId: this.id,
+            location: position || { column: -1, line: -1 },
             message,
             resource,
-            options.codeLanguage
-        );
+            severity: severity || this.severity,
+            sourceCode: codeSnippet || sourceCode || ''
+        });
     }
 
     /** Subscribe an event in hint. */

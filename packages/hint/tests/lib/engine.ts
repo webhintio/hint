@@ -921,13 +921,21 @@ test('executeOn should forward content if provided', async (t) => {
     const Engine = loadScript(t.context);
 
     class FakeConnectorCollect implements IConnector {
-        private server: typeof Engine;
-        public constructor(server: typeof Engine) {
+        private server: import('../../src/lib/engine').Engine;
+        public constructor(server: import('../../src/lib/engine').Engine) {
             this.server = server;
         }
 
         public collect(target: url.URL, options?: IFetchOptions) {
-            this.server.report('1', Category.other, 1, 'node', { column: 1, line: 1 }, options && options.content || '', target.href);
+            this.server.report({
+                category: Category.other,
+                hintId: '1',
+                location: { column: 1, line: 1 },
+                message: options && options.content || '',
+                resource: target.href,
+                severity: 1,
+                sourceCode: 'node'
+            });
 
             return Promise.resolve(target);
         }
