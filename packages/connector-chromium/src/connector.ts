@@ -142,8 +142,6 @@ export default class ChromiumConnector implements IConnector {
     }
 
     private addListeners() {
-        debug(`Adding event listeners`);
-
         const onError = this.onError.bind(this);
         const onRequest = this.onRequest.bind(this);
         const onRequestFailed = this.onRequestFailed.bind(this);
@@ -155,6 +153,8 @@ export default class ChromiumConnector implements IConnector {
         this._listeners.set('requestfailed', onRequestFailed);
         this._listeners.set('response', onResponse);
 
+        debug(`Adding event listeners (${this._listeners.size})`);
+
         for (const [eventName, handler] of this._listeners) {
             this._page.on(eventName, (handler as any));
         }
@@ -162,7 +162,7 @@ export default class ChromiumConnector implements IConnector {
 
     private removeListeners(name?: EventName | EventName[]) {
         if (!name) {
-            debug(`Removing all event listeners`);
+            debug(`Removing all event listeners (${this._listeners.size})`);
             this.removeListeners(Array.from(this._listeners.keys()));
 
             return;
