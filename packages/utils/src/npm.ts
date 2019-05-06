@@ -41,14 +41,11 @@ const hasYarnLock = (directory: string): Promise<boolean> => {
 /** Install the given packages. */
 export const installPackages = async (packages: string[]): Promise<boolean> => {
     /** Whether or not the package should be installed as devDependencies. */
-    let isDev: boolean = false;
+    let isDev = false;
     /** Current working directory. */
     const currentWorkingDir = cwd();
     /** Whether or not the process is running in windows */
     const isWindows = process.platform === 'win32';
-
-    /** package manager to install the packages. */
-    let packageManagerChoice: 'npm' | 'yarn' = 'npm';
 
     if (packages.length === 0) {
         return Promise.resolve(true);
@@ -58,6 +55,9 @@ export const installPackages = async (packages: string[]): Promise<boolean> => {
 
     // Check if hint is installed locally.
     const global: boolean = !fs.existsSync(hintLocalPath); // eslint-disable-line no-sync
+
+    /** package manager to install the packages. */
+    const packageManagerChoice = (!global && await hasYarnLock(currentWorkingDir)) ? 'yarn' : 'npm';
 
     if (!global) {
         try {
@@ -71,7 +71,6 @@ export const installPackages = async (packages: string[]): Promise<boolean> => {
             isDev = false;
         }
 
-        packageManagerChoice = (await hasYarnLock(currentWorkingDir)) ? 'yarn' : 'npm';
     }
 
     const installCommand = {
@@ -79,7 +78,7 @@ export const installPackages = async (packages: string[]): Promise<boolean> => {
         yarn: `yarn add${isDev ? ' --dev' : ''}`
     };
 
-    const command: string = `${installCommand[packageManagerChoice]} ${packages.join(' ')}`;
+    const command = `${installCommand[packageManagerChoice]} ${packages.join(' ')}`;
 
     try {
         debug(`Running command ${command}`);
