@@ -13,6 +13,7 @@
     "debug": "^4.1.1",
     "file-url": "^3.0.0",
     "is-wsl": "^2.0.0",
+    "jsonc-parser": "^2.1.0",
     "lodash": "^4.17.11",
     "npm-registry-fetch": "^3.9.0",
     "parse5": "^5.1.0",

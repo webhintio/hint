@@ -13,11 +13,10 @@ import {
     Events,
     HintMetadata,
     NetworkData,
-    ProblemLocation,
-    Severity,
     StringKeyOf
 } from './types';
-import { Category } from './enums/category';
+import { ProblemLocation, Severity } from '@hint/utils/dist/src/types/problems';
+import { Category } from '@hint/utils/dist/src/types/category';
 
 export type ReportOptions = {
     /** The source code to display (defaults to the `outerHTML` of `element`). */

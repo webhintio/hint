@@ -9,8 +9,9 @@ import { misc } from '@hint/utils';
 
 import { HintScope } from '../../src/lib/enums/hint-scope';
 import { Configuration } from '../../src/lib/config';
-import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata, Problem } from '../../src/lib/types';
-import { Category } from '../../src/lib/enums/category';
+import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata } from '../../src/lib/types';
+import { Problem } from '@hint/utils/dist/src/types/problems';
+import { Category } from '@hint/utils/dist/src/types/category';
 import { HintContext } from '../../src/lib/hint-context';
 
 const { delay } = misc;

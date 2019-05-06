@@ -5,7 +5,8 @@ import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
 import without = require('lodash/without');
 
-import { GroupedError, IJSONLocationFunction, ISchemaValidationError, SchemaValidationResult } from '../types';
+import { GroupedError, ISchemaValidationError, SchemaValidationResult } from './schema-validation-result';
+import { IJSONLocationFunction } from '../types/json-parser';
 
 /*
  * If we want to use the ajv types in TypeScript, we need to import

@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import { SchemaValidationResult } from '../../../src/lib/types';
-import { validate } from '../../../src/lib/utils/schema-validator';
+import { SchemaValidationResult } from '../../src/schema-validation/schema-validation-result';
+import { validate } from '../../src/schema-validation/schema-validator';
 
 const baseSchema = {
     $schema: 'http://json-schema.org/draft-04/schema#',

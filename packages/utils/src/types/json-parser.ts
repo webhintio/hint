@@ -1,4 +1,4 @@
-import { ProblemLocation } from './problems';
+import { ProblemLocation } from './problem-location';
 
 export interface IJSONLocationOptions {
     at?: 'name' | 'value';

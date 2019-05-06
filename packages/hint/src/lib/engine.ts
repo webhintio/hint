@@ -33,13 +33,15 @@ import {
     IHintConstructor,
     NetworkData,
     Parser,
-    Problem,
-    Severity,
     StringKeyOf
 } from './types';
 import { HintContext } from './hint-context';
 import { HintScope } from './enums/hint-scope';
 import { Configuration } from './config';
+import {
+    Problem,
+    Severity
+} from '@hint/utils/dist/src/types/problems';
 
 const debug: debug.IDebugger = d(__filename);
 

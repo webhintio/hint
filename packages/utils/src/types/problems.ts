@@ -1,5 +1,5 @@
-import { ProblemLocation } from '@hint/utils';
-import { Category } from '../enums/category';
+import { ProblemLocation } from './problem-location';
+import { Category } from './category';
 
 export { ProblemLocation };
 

@@ -2,17 +2,17 @@ import { IFormatterConstructor } from './types/formatters';
 import { IConnectorConstructor } from './types/connector';
 import { IParserConstructor } from './types/parser';
 import { IHintConstructor } from './types/hints';
-import { Severity } from './types/problems';
+import { Severity } from '@hint/utils/dist/src/types/problems';
 
 export * from './types/connector';
 export * from './types/events';
 export * from './types/formatters';
-export * from './types/json-parser';
+export * from '@hint/utils/dist/src/types/json-parser';
 export * from './types/network';
-export * from './types/problems';
+export * from '@hint/utils/dist/src/types/problems';
 export * from './types/hints';
 export * from './types/parser';
-export * from './types/schema-validation-result';
+export * from '@hint/utils/dist/src/schema-validation/schema-validation-result';
 export * from './types/analyzer';
 export * from './types/analyzer-error';
 

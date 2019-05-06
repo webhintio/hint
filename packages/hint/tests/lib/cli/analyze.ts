@@ -3,6 +3,7 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import * as utils from '@hint/utils';
+import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
 
 import {
     AnalyzeOptions,
@@ -11,8 +12,6 @@ import {
     CLIOptions,
     CreateAnalyzerOptions,
     Endpoint,
-    Problem,
-    Severity,
     UserConfig
 } from '../../../src/lib/types';
 import { AnalyzerErrorStatus } from '../../../src/lib/enums/error-status';

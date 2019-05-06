@@ -1,7 +1,7 @@
 import * as packagesUtils from './packages';
 import * as resourceLoaderUtils from './resource-loader';
-import * as schemaValidatorUtils from './schema-validator';
-import * as jsonParserUtils from './json-parser';
+import * as schemaValidatorUtils from '@hint/utils/dist/src/schema-validation/schema-validator';
+import * as jsonParserUtils from '@hint/utils/dist/src/json-parser';
 
 export * from './resource-loader';
 

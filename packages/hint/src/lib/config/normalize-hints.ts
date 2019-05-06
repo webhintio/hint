@@ -1,5 +1,5 @@
 import { HintsConfigObject, HintSeverity } from '../types';
-import { Severity } from '../types/problems';
+import { Severity } from '@hint/utils/dist/src/types/problems';
 
 /**
  * @fileoverview Used for normalizing hints that are passed as configuration.
