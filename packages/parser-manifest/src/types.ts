@@ -1,4 +1,4 @@
-import { FetchEnd, FetchError, FetchStart, ISchemaValidationError, IJSONLocationFunction, Event, ErrorEvent, Events, GroupedError } from 'hint/dist/src/lib/types';
+import { FetchEnd, FetchError, FetchStart, IJSONLocationFunction, ISchemaValidationError, Event, ErrorEvent, Events, GroupedError } from 'hint';
 
 /* eslint-disable camelcase */
 

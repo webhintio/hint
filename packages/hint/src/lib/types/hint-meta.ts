@@ -1,4 +1,4 @@
-import { Category } from '../enums/category';
+import { Category } from '@hint/utils/dist/src/types/category';
 import { HintScope } from '../enums/hint-scope';
 
 export type MetadataDocs = {

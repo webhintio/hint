@@ -5,7 +5,7 @@ import css from 'react-syntax-highlighter/dist/esm/languages/hljs/css';
 import javascript from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
 import xml from 'react-syntax-highlighter/dist/esm/languages/hljs/xml';
 
-import { Problem as ProblemData } from 'hint/dist/src/lib/types/problems';
+import { Problem as ProblemData } from '@hint/utils/dist/src/types/problems';
 
 import { browser } from '../../../../shared/globals';
 

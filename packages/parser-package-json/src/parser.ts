@@ -1,10 +1,12 @@
 import * as path from 'path';
 
 import { fs } from '@hint/utils';
-import { Engine, FetchEnd, IJSONResult, Parser, SchemaValidationResult, utils } from 'hint';
+import { Engine, FetchEnd, Parser, SchemaValidationResult, utils } from 'hint';
 
 import { PackageJsonEvents } from './types';
 import { IJsonSchemaForNpmPackageJsonFiles } from './schema';
+
+import { IJSONResult } from '@hint/utils/dist/src/types/json-parser';
 
 export * from './types';
 

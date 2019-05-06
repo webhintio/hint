@@ -1,7 +1,7 @@
 import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 import { Event } from './event';
 import { ElementEvents } from './element-events';
-import { Problem } from './problems';
+import { Problem } from '@hint/utils/dist/src/types/problems';
 import { Request, Response } from './network';
 
 export * from './event';

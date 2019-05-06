@@ -3,7 +3,6 @@ import { URL } from 'url';
 import {
     ElementFound,
     FetchEnd,
-    IJSONResult,
     NetworkData,
     Parser,
     SchemaValidationResult
@@ -14,8 +13,9 @@ import { isHTTP } from '@hint/utils/dist/src/network/is-http';
 import { isHTTPS } from '@hint/utils/dist/src/network/is-https';
 import { ManifestEvents } from './types';
 import { Engine } from 'hint/dist/src/lib/engine';
-import { parseJSON } from 'hint/dist/src/lib/utils/json-parser';
-import { validate } from 'hint/dist/src/lib/utils/schema-validator';
+import { parseJSON } from '@hint/utils/dist/src/json-parser';
+import { IJSONResult } from '@hint/utils/dist/src/types/json-parser';
+import { validate } from '@hint/utils/dist/src/schema-validation/schema-validator';
 
 export * from './types';
 

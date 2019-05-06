@@ -1,5 +1,6 @@
 import { findNodeAtLocation, Node, parse, parseTree, Segment } from 'jsonc-parser';
-import { IJSONLocationOptions, IJSONResult, ProblemLocation } from '../types';
+import { IJSONLocationOptions, IJSONResult } from './types/json-parser';
+import { ProblemLocation} from './types/problem-location';
 
 const rxIsNumber = /^[0-9]+$/;
 

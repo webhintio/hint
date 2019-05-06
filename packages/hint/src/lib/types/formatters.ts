@@ -1,4 +1,4 @@
-import { Problem } from './problems';
+import { Problem } from '@hint/utils/dist/src/types/problems';
 import { UserConfig, HintResources } from '../types';
 
 export type FormatterOptions = {

@@ -13,11 +13,10 @@ import {
     CLIOptions,
     CreateAnalyzerOptions,
     HintResources,
-    Problem,
-    Severity,
     UserConfig
 } from '../types';
 import { loadHintPackage } from '../utils/packages/load-hint-package';
+import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
 
 import { createAnalyzer, getUserConfig } from '../';
 import { Analyzer } from '../analyzer';

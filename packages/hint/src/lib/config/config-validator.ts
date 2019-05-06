@@ -11,9 +11,9 @@
 
 import { debug as d, logger } from '@hint/utils';
 
-import { validate } from '../utils/schema-validator';
+import { validate } from '@hint/utils/dist/src/schema-validation/schema-validator';
 import { UserConfig } from '../types';
-import { SchemaValidationResult, GroupedError } from '../types/schema-validation-result';
+import { SchemaValidationResult, GroupedError } from '@hint/utils/dist/src/schema-validation/schema-validation-result';
 
 const debug = d(__filename);
 const schema = require('./config-schema.json');

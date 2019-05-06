@@ -9,11 +9,11 @@ import {
     ConnectorConfig,
     HintResources,
     IFetchOptions,
-    Problem,
     IFormatter,
     UserConfig
 } from '../../src/lib/types';
 import { AnalyzerErrorStatus } from '../../src/lib/enums/error-status';
+import { Problem } from '@hint/utils/dist/src/types/problems';
 
 type Logger = {
     warn: () => void;

@@ -9,7 +9,6 @@ import {
     FormatterOptions,
     HintResources,
     IFormatter,
-    Problem,
     Target,
     UserConfig,
     Endpoint,
@@ -21,6 +20,7 @@ import { IFormatterConstructor } from './types/formatters';
 import { loadResources } from './utils/resource-loader';
 
 import { fs, logger, misc } from '@hint/utils';
+import { Problem } from '@hint/utils/dist/src/types/problems';
 
 const { cutString } = misc;
 const { cwd, isFile } = fs;
