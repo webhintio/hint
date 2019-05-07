@@ -109,21 +109,8 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
         parsers: determineParsers(opts && opts.parsers)
     };
 
-    if (connector === 'jsdom') {
-        config.connector.options = {
-            /*
-             * Allow us to use our self-signed cert for testing.
-             * https://github.com/request/request/issues/418#issuecomment-23058601
-             */
-            rejectUnauthorized: false,
-            strictSSL: false
-        };
-    }
-
-    if (connector === 'chrome') {
-        // Allow us to use our self-signed cert for testing.
-        config.connector.options = { overrideInvalidCert: true };
-    }
+    // Allow us to use our self-signed cert for testing.
+    config.connector.options = { ignoreHTTPSErrors: true };
 
     return Configuration.fromConfig(config);
 };

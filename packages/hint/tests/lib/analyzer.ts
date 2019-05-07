@@ -24,6 +24,7 @@ type Configuration = {
     fromConfig: () => Configuration;
     getFilenameForDirectory: (directory: string) => string;
     loadConfigFile: (filePath: string) => UserConfig;
+    validateConnectorConfig: () => boolean;
     validateHintsConfig: () => { invalid: string[]; valid: string[] };
 };
 
@@ -87,6 +88,9 @@ test.beforeEach((t) => {
             },
             loadConfigFile(filePath: string): UserConfig {
                 return {};
+            },
+            validateConnectorConfig(): boolean {
+                return true;
             },
             validateHintsConfig() {
                 return {} as any;
@@ -159,6 +163,31 @@ test(`If there is any missing or incompatible resource, it should return an erro
     t.true(resourceLoaderStub.calledOnce);
     t.true(fromConfigStub.calledOnce);
     t.is(error.status, AnalyzerErrorStatus.ResourceError);
+});
+
+test(`If the connector is not configured correctly, it should return an error with the status 'ConnectorError'`, (t) => {
+    const { Analyzer } = loadScript(t.context);
+    const sandbox = t.context.sandbox;
+
+    const fromConfigStub = sandbox.stub(t.context.configuration.Configuration, 'fromConfig').returns(t.context.configuration.Configuration);
+    const resourceLoaderStub = sandbox.stub(t.context.resourceLoader, 'loadResources').returns({
+        connector: null,
+        formatters: [],
+        hints: [],
+        incompatible: [],
+        missing: [],
+        parsers: []
+    });
+    const validateConnectorConfigStub = sandbox.stub(t.context.configuration.Configuration, 'validateConnectorConfig').returns(false);
+
+    const error = t.throws<AnalyzerError>(() => {
+        Analyzer.create({});
+    });
+
+    t.true(validateConnectorConfigStub.calledOnce);
+    t.true(resourceLoaderStub.calledOnce);
+    t.true(fromConfigStub.calledOnce);
+    t.is(error.status, AnalyzerErrorStatus.ConnectorError);
 });
 
 test(`If there is any invalid hint, it should return an error with the status 'HintError'`, (t) => {

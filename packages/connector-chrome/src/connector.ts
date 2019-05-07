@@ -17,8 +17,20 @@ import { CDPLauncher } from './chrome-launcher';
 
 
 export default class ChromeConnector extends Connector {
-    public constructor(server: Engine, config?: object) {
-        const launcher: ILauncher = new CDPLauncher(config || {});
+    public static schema = {
+        additionalProperties: false,
+        properties: {
+            ignoreHTTPSErrors: { type: 'boolean' },
+            launcherOptions: { type: 'object' },
+            waitFor: {
+                minimum: 0,
+                type: 'number'
+            }
+        }
+    };
+
+    public constructor(server: Engine, config?: any) {
+        const launcher: ILauncher = new CDPLauncher(config && config.launcherOptions|| {});
 
         super(server, config || {}, launcher);
     }

@@ -17,7 +17,6 @@ import { promisify } from 'util';
 import * as cdp from 'chrome-remote-interface';
 
 import * as lockfile from 'lockfile';
-import compact = require('lodash/compact');
 import filter = require('lodash/filter');
 
 import { Crdp } from 'chrome-remote-debug-protocol';
@@ -44,8 +43,6 @@ const unlock = promisify(lockfile.unlock);
 export class Connector implements IConnector {
     /** The final set of options resulting of merging the users, and default ones. */
     private _options: any;
-    /** The default headers to do any request. */
-    private _headers: HttpHeaders;
     /** The original URL to collect. */
     private _href: string = '';
     /** The final URL after redirects (if they exist) */
@@ -80,22 +77,28 @@ export class Connector implements IConnector {
     /** Lock status. */
     private _isLocked = false;
 
+    public static schema = {
+        additionalProperties: false,
+        properties: {
+            ignoreHTTPSErrors: { type: 'boolean' },
+            launcherOptions: { type: 'object' },
+            waitFor: {
+                minimum: 0,
+                type: 'number'
+            }
+        }
+    };
+
     public constructor(engine: Engine, config: object, launcher: ILauncher) {
         const defaultOptions = {
-            overrideInvalidCert: false,
-            /*
-             * tabUrl is a empty html site used to avoid edge diagnostics adapter to receive unexpeted onLoadEventFired
-             * and onRequestWillBeSent events from the default url opened when you create a new tab in Edge.
-             */
-            tabUrl: 'https://empty.webhint.io/',
-            useTabUrl: false
+            ignoreHTTPSErrors: false,
+            waitFor: 5000
         };
 
         this._server = engine;
         this._timeout = engine.timeout;
 
         this._options = Object.assign({}, defaultOptions, config);
-        this._headers = this._options.headers;
 
         // TODO: setExtraHTTPHeaders with _headers in an async way.
 
@@ -152,18 +155,13 @@ export class Connector implements IConnector {
             requestResponse = this._requests.get(requestId) as RequestResponse;
             requestResponse.updateRequestWillBeSent(params);
         } else {
-            requestResponse = new RequestResponse(this._client.Network, params, this._options.overrideInvalidCert);
+            requestResponse = new RequestResponse(this._client.Network, params, this._options.ignoreHTTPSErrors);
             this._requests.set(requestId, requestResponse);
         }
 
         const requestUrl: string = params.request.url;
 
         debug(`About to start fetching ${cutString(requestUrl)} (${params.requestId})`);
-
-        if (!this._headers) {
-            // TODO: do some clean up, we probably don't want all the headers as the "defaults".
-            this._headers = normalizeHeaders(params.request.headers)!;
-        }
 
         const eventName = this._href === requestUrl ? 'fetch::start::target' : 'fetch::start';
 
@@ -434,7 +432,7 @@ export class Connector implements IConnector {
 
         await this.lockFile();
 
-        const launcher: BrowserInfo = await this._launcher.launch(this._options.useTabUrl ? this._options.tabUrl : 'about:blank');
+        const launcher: BrowserInfo = await this._launcher.launch('about:blank');
         let client;
 
         this._pid = launcher.pid;
@@ -454,7 +452,7 @@ export class Connector implements IConnector {
             client = await this.getClient(launcher.port!, tabs[0]);
             this._tabs = tabs;
         } else {
-            const tab = await cdp.New({ port: launcher.port, url: this._options.useTabUrl ? this._options.tabUrl : null }); // eslint-disable-line new-cap
+            const tab = await cdp.New({ port: launcher.port, url: null }); // eslint-disable-line new-cap
 
             if (!tab) {
                 throw new Error('Error trying to open a new tab');
@@ -692,7 +690,7 @@ export class Connector implements IConnector {
              * Ignore all the certificate errors.
              */
 
-            if (this._options.overrideInvalidCert) {
+            if (this._options.ignoreHTTPSErrors) {
                 Security.certificateError(({ eventId }: Crdp.Security.CertificateErrorEvent) => {
                     Security.handleCertificateError({
                         action: 'continue',
@@ -803,14 +801,12 @@ export class Connector implements IConnector {
          * TODO: This should create a new tab, navigate to the
          * resource and control what is received somehow via an event.
          */
-        const assigns = compact([this && this._headers, customHeaders]);
-        const headers = Object.assign({}, ...assigns);
         const href: string = typeof target === 'string' ? target : target.href;
         const options = {
-            headers,
+            headers: customHeaders || { },
             // we sync the ignore SSL error options with `request`. This is neeeded for local https tests
-            rejectUnauthorized: !this._options.overrideInvalidCert,
-            strictSSL: !this._options.overrideInvalidCert
+            rejectUnauthorized: !this._options.ignoreHTTPSErrors,
+            strictSSL: !this._options.ignoreHTTPSErrors
         };
 
         const request: Requester = new Requester(options);

@@ -21,12 +21,15 @@ import browserslist = require('browserslist'); // `require` used because `browse
 import mergeWith = require('lodash/mergeWith');
 
 import { debug as d, fs as fsUtils } from '@hint/utils';
+import { validate as schemaValidator } from '@hint/utils/dist/src/schema-validation/schema-validator';
 
 import { UserConfig, IgnoredUrl, ConnectorConfig, HintsConfigObject, HintSeverity, CreateAnalyzerOptions } from './types';
 import { validateConfig } from './config/config-validator';
 import normalizeHints from './config/normalize-hints';
 import { validate as validateHint, getSeverity } from './config/config-hints';
 import * as resourceLoader from './utils/resource-loader';
+import { ResourceType } from './enums';
+import { IConnectorConstructor } from './types/connector';
 
 const { isFile, loadJSFile, loadJSONFile} = fsUtils;
 
@@ -364,6 +367,21 @@ export class Configuration {
         const hints = Configuration.cleanHints(normalizeHints(userConfig.hints!)); // `userConfig.hints` should not be `null` due to `validateConfig` check above
 
         return new Configuration(userConfig, browsers, ignoredUrls, hints);
+    }
+
+    public static validateConnectorConfig(config: Configuration) {
+        const connectorId = config.connector!.name;
+
+        debug(`Validating ${connectorId} connector`);
+
+        const Connector = resourceLoader.loadResource(connectorId, ResourceType.connector) as IConnectorConstructor;
+
+        debug(`Connector schema:`);
+        debug(Connector.schema);
+        debug(`User configuration:`);
+        debug(config.connector!.options!);
+
+        return schemaValidator(Connector.schema, config.connector!.options!).valid;
     }
 
     /**
