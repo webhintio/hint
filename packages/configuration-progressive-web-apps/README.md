@@ -43,6 +43,7 @@ and it will be as if you had this:
         "manifest-app-name": "error",
         "manifest-exists": "error",
         "manifest-file-extension": "error",
+        "manifest-icons": "error",
         "manifest-is-valid": "error",
         ...
     },
