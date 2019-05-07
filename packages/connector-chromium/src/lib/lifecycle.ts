@@ -28,6 +28,8 @@ type BrowserInfo = {
 
 const lock = async () => {
     try {
+        const start = Date.now();
+
         debug(`Trying to acquire lock`);
         await lockFile(lockName, {
             pollPeriod: 500,
@@ -37,9 +39,10 @@ const lock = async () => {
             wait: 50000
         });
         isLocked = true;
-        debug(`Lock acquired`);
+        debug(`Lock acquired after ${(Date.now() - start) / 1000}`);
     } catch (e) /* istanbul ignore next */ {
-        debug(`Error while locking`, e);
+        debug(`Error while locking`);
+        debug(e);
 
         throw e;
     }
@@ -47,9 +50,11 @@ const lock = async () => {
 
 const unlock = async () => {
     if (isLocked) {
+        const start = Date.now();
+
         debug(`Trying to unlock`);
         await unlockFile(lockName);
-        debug(`Unlock successful`);
+        debug(`Unlock successful after ${(Date.now() - start) / 1000}`);
     } else {
         debug(`No need to unlock`);
     }
@@ -222,7 +227,11 @@ export const launch = async (options: any) => {
 };
 
 export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) => {
+    debug(`Closing`);
+
     if (!browser) {
+        debug(`No browsing instance to close`);
+
         return;
     }
 

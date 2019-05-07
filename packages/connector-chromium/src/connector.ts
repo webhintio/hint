@@ -162,13 +162,14 @@ export default class ChromiumConnector implements IConnector {
 
     private removeListeners(name?: EventName | EventName[]) {
         if (!name) {
-            debug(`Removing all event listeners (${this._listeners.size})`);
+            debug(`Removing all pending event listeners (${this._listeners.size})`);
             this.removeListeners(Array.from(this._listeners.keys()));
 
             return;
         }
 
         if (Array.isArray(name)) {
+            debug(`Removing event listeners for ${name}`);
             for (const eventName of name) {
                 this.removeListeners(eventName);
             }
