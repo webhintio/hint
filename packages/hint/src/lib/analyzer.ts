@@ -47,6 +47,14 @@ const validateHints = (configuration: Configuration) => {
     }
 };
 
+const validateConnector = (configuration: Configuration) => {
+    const connectorCofigurationValid = Configuration.validateConnectorConfig(configuration);
+
+    if (!connectorCofigurationValid) {
+        throw new AnalyzerError('Invalid connector configuration', AnalyzerErrorStatus.ConnectorError);
+    }
+};
+
 /**
  * Node API.
  */
@@ -95,6 +103,7 @@ export class Analyzer {
         const formatters = initFormatters(resources.formatters);
 
         validateResources(resources);
+        validateConnector(configuration);
         validateHints(configuration);
 
         return new Analyzer(configuration, resources, formatters);

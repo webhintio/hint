@@ -24,6 +24,16 @@ export default class WebExtensionConnector implements IConnector {
     private _onComplete: (resource: string) => void = () => { };
     private _options: ConnectorOptionsConfig;
 
+    public static schema = {
+        additionalProperties: false,
+        properties: {
+            waitFor: {
+                minimum: 0,
+                type: 'number'
+            }
+        }
+    };
+
     public constructor(engine: Engine, options?: ConnectorOptionsConfig) {
         this._engine = engine;
         this._options = options || {};

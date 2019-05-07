@@ -8,6 +8,7 @@ import { Engine } from '../engine';
 
 export interface IConnectorConstructor {
     new(server: Engine, config?: object, launcher?: ILauncher): IConnector;
+    schema: any;
 }
 
 /** A connector to be used by hint */

@@ -55,6 +55,9 @@ with the values you want to modify:
 
 The following is the list of shared configurations for all `connector`s:
 
+* `ignoreHTTPSErrors` is a boolean that indicates if errors with certificates
+  should be ignored. Use this when checking self-signed certificated.
+
 * `waitFor` time in milliseconds the connector will wait after the site is
   ready before starting the DOM traversing and stop listening to any
   network request. By default, it will wait until the network is somehow
@@ -64,53 +67,41 @@ Depending on the `connector`, other configurations may be available.
 
 ### jsdom configuration
 
-`jsdom` allows you to configure the following:
-
-* `headers`: the headers used to fetch the resources. By default they are:
+`jsdom` is built on top of [`request`][request]. The way to configure
+it is via the `requestOptions` property. The following is an example
+on how to use custom headers:
 
 ```json
  {
-    "Accept-Language": "en-US,en;q=0.8,es;q=0.6,fr;q=0.4",
-    "Cache-Control": "no-cache",
-    "DNT": 1,
-    "Pragma": "no-cache",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36"
+    "name": "jsdom",
+    "waitFor": 10000,
+    "requestOptions": {
+        "headers": {
+            "Accept-Language": "en-US,en;q=0.8,es;q=0.6,fr;q=0.4",
+            "Cache-Control": "no-cache",
+            "DNT": 1,
+            "Pragma": "no-cache",
+            "User-Agent": "Custom user agent"
+        }
+    }
 }
 ```
 
-### remote-debugging-connector configuration
+### chrome configuration
 
-There are some `connector`s built on top of the [Chrome DevTools
-Protocol][cdp]. `chrome` and `edge` are some of these `connector`s.
-
-The set of settings specific for them are:
-
-* `defaultProfile (boolean)`: Indicates if the browser should use the
-  default profile or create a new one. By default the value is `false`
-  so a new one is created. You might want to set it to `true` if you
-  want `webhint` to have access to pages where the default profile is
-  already authenticated. This only applies for Google Chrome as
-  Microsoft Edge doesn’t create a new profile.
-* `useTabUrl (boolean)`: Indicates if the browser should navigate first
-  to a given page before going to the final target. `false` by default.
-* `tabUrl (string)`: The URL to visit before the final target in case
-  `useTabUrl` is `true`. `https://empty.webhint.io/` is the
-  default value.
-* `flags? (string[])`: Allows you to pass in additional Chrome
-  command line API flags. Useful if you would like to start your
-  session in headless mode or with GPU disabled. Here's the full list
-  of [available command line flags][cli flags].
-* `waitForContentLoaded (number)`: Time in milliseconds to wait for the
-  `loadingFinished` event from the `debugging protocol` before requesting
-  the body of a response. The default value is `10000` (10 seconds).
+The `chrome-connector` uses [`chrome-launcher`][chrome-launcher] to
+start the browser. The way to pass custom options is via the
+`launcherOptions` property. The following is an example that passes
+some `flags` to it and uses the `defaultProfile`:
 
 ```json
-{
-    "defaultProfile": true,
-    "flags": ["--headless", "--disable-gpu"],
-    "tabUrl": "https://empty.webhint.io/",
-    "useTabUrl": false,
-    "waitForContentLoaded": 10000
+ {
+    "name": "chrome",
+    "waitFor": 10000,
+    "launcherOptions": {
+        "defaultProfile": true,
+        "flags": ["--headless", "--disable-gpu"],
+    }
 }
 ```
 
@@ -168,9 +159,8 @@ connectors.
 
 <!-- Link labels: -->
 
-[cdp]: https://chromedevtools.github.io/devtools-protocol/
-[cli flags]: https://github.com/GoogleChrome/chrome-launcher/blob/master/docs/chrome-flags-for-tools.md
-[eda]: https://github.com/Microsoft/edge-diagnostics-adapter
 [how to connector]: ../../contributor-guide/how-to/connector.md
 [jsdom]: https://github.com/tmpvar/jsdom
+[request]: https://github.com/request/request
+[chrome-launcher]: https://github.com/googlechrome/chrome-launcher
 [wsl-interop]: https://msdn.microsoft.com/en-us/commandline/wsl/release_notes#build-14951

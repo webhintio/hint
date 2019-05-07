@@ -49,7 +49,10 @@ const { getContentTypeData, getType } = contentType;
 const { isHTMLDocument } = network;
 const debug: debug.IDebugger = d(__filename);
 
-const defaultOptions = { waitFor: 1000 };
+const defaultOptions = {
+    ignoreHTTPSErrors: false,
+    waitFor: 5000
+};
 
 export default class JSDOMConnector implements IConnector {
     private _options: any;
@@ -62,14 +65,36 @@ export default class JSDOMConnector implements IConnector {
     private _resourceLoader?: ResourceLoader;
     private _subprocesses: Set<ChildProcess>;
 
+    public static schema = {
+        additionalProperties: false,
+        properties: {
+            ignoreHTTPSErrors: { type: 'boolean' },
+            requestOptions: { type: 'object' },
+            waitFor: {
+                minimum: 0,
+                type: 'number'
+            }
+        }
+    };
+
     public request: Requester;
     public server: Engine;
     public finalHref!: string;
     public fetchedHrefs!: Set<string>;
 
-    public constructor(server: Engine, config?: object) {
+    public constructor(server: Engine, config?: any) {
         this._options = Object.assign({}, defaultOptions, config);
-        this.request = new Requester(this._options);
+
+        const requesterOptions = Object.assign(
+            {},
+            {
+                rejectUnauthorized: !this._options.ignoreHTTPSErrors,
+                strictSSL: !this._options.ignoreHTTPSErrors
+            },
+            this._options.requestOptions || {}
+        );
+
+        this.request = new Requester(requesterOptions);
         this.server = server;
         this._timeout = server.timeout;
         this._subprocesses = new Set();
@@ -102,8 +127,8 @@ export default class JSDOMConnector implements IConnector {
 
         const r: Requester = new Requester({
             headers: customHeaders,
-            rejectUnauthorized: this._options.rejectUnauthorized,
-            strictSSL: this._options.strictSSL
+            rejectUnauthorized: !this._options.ignoreHTTPSErrors,
+            strictSSL: !this._options.ignoreHTTPSErrors
         });
 
         return r.get(uri);

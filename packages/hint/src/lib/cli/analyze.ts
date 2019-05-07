@@ -254,6 +254,12 @@ const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOption
             throw e;
         }
 
+        if (error.status === AnalyzerErrorStatus.ConnectorError) {
+            logger.error(`Invalid connector configuration in .hintrc`);
+
+            throw e;
+        }
+
         /*
          * If the error is not an AnalyzerErrorStatus
          * bubble up the exception.

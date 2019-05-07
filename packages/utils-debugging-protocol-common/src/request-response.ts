@@ -18,7 +18,7 @@ export enum RequestStatus {
 }
 
 export class RequestResponse {
-    private _overrideInvalidCert: boolean;
+    private _ignoreHTTPSErrors: boolean;
 
     /** The debugging protocol Network Client used to download the response body. */
     private _network: Crdp.NetworkClient;
@@ -87,8 +87,8 @@ export class RequestResponse {
         const options = {
             headers,
             // we sync the ignore SSL error options with `request`. This is neeeded for local https tests
-            rejectUnauthorized: !this._overrideInvalidCert,
-            strictSSL: !this._overrideInvalidCert
+            rejectUnauthorized: !this._ignoreHTTPSErrors,
+            strictSSL: !this._ignoreHTTPSErrors
         };
 
         const request: Requester = new Requester(options);
@@ -277,12 +277,12 @@ export class RequestResponse {
         this.logInfo(RequestStatus.loadingFailed);
     }
 
-    public constructor(network: Crdp.NetworkClient, event: Crdp.Network.RequestWillBeSentEvent, overrideInvalidCert: boolean) {
+    public constructor(network: Crdp.NetworkClient, event: Crdp.Network.RequestWillBeSentEvent, ignoreHTTPSErrors: boolean) {
         this._network = network;
         this._status = RequestStatus.willBeSent;
         this._willBeSent = event;
         this._requestId = event.requestId;
         this._originalUrl = event.request.url;
-        this._overrideInvalidCert = overrideInvalidCert;
+        this._ignoreHTTPSErrors = ignoreHTTPSErrors;
     }
 }
