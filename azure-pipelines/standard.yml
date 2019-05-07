@@ -1,14 +1,25 @@
 steps:
-  - script: brew update && brew cask install google-chrome
-    condition: eq(variables['Agent.OS'], 'Darwin')
-    displayName: 'Install Chrome'
   - script: |
+      brew update && brew cask install google-chrome
       /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version
       /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome &
       sleep 10
       ps aux | grep conky | grep -v grep | awk '{print $2}' | xargs kill
     condition: eq(variables['Agent.OS'], 'Darwin')
-    displayName: 'Print Chrome version'
+    displayName: 'Install Chrome (macOS)'
+  - powershell: |
+      # dir "C:\Program Files (x86)\Google\Chrome\Application\*.exe" -recurse
+      # Remove-Item -Path "HKLM:\SOFTWARE\Policies\Google\Update"
+      # Remove-Item -Path "HKLM:\SOFTWARE\Policies\Google\Chrome"
+      # echo "Trying to uninstall chrome"
+      # Start-Process -FilePath 'C:\Program Files (x86)\Google\Chrome\Application\71.0.3578.98\Installer\setup.exe' -ArgumentList '--uninstall', '--silent', '--multi-install', '--chrome', '--system-level', '--enable-logging' -Wait
+      choco install googlechrome
+      echo "----------------"
+      cat "C:\ProgramData\chocolatey\logs\chocolatey.log"
+      echo "----------------"
+      cat "C:\Users\VssAdministrator\AppData\Local\Temp\chocolatey\GoogleChrome.74.0.3729.131.MsiInstall.log"
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
+    displayName: 'Update Chrome (Windows)'
   - task: NodeTool@0
     inputs:
       versionSpec: $(node_version)
