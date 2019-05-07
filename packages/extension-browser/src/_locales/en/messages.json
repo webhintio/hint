@@ -67,10 +67,6 @@
         "message": "Ignored resources:",
         "description": "Title of the ignored resouces sub-section on the configuration page."
     },
-    "interoperability": {
-        "message": "Interoperability",
-        "description": "Name of category for interoperability tests."
-    },
     "learnWhyLabel": {
         "message": "Learn why this is important",
         "description": "Label for link to additional documentation for a passed test."
