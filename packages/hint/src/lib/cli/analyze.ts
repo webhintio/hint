@@ -54,7 +54,7 @@ by sending limited usage information
 (no personal information or URLs will be sent).
 
 To know more about what information will be sent please
-visit ${chalk.default.green('https://webhint.io/docs/user-guide/telemetry')}`;
+visit ${chalk.default.green('https://webhint.io/docs/user-guide/telemetry/summary/')}`;
 
     printFrame(message);
 };
@@ -68,7 +68,7 @@ by sending limited usage information
 (no personal information or URLs will be sent).
 
 To know more about what information will be sent please
-visit ${chalk.default.green('https://webhint.io/docs/user-guide/telemetry')}
+visit ${chalk.default.green('https://webhint.io/docs/user-guide/telemetry/summary/')}
 
 Please configure it using
 the environment variable HINT_TRACKING to 'on' or 'off'
