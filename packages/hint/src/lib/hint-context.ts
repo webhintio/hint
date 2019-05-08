@@ -17,6 +17,7 @@ import {
 } from './types';
 import { ProblemLocation, Severity } from '@hint/utils/dist/src/types/problems';
 import { Category } from '@hint/utils/dist/src/types/category';
+import { getHTMLCodeSnippet } from '@hint/utils/dist/src/report/get-html-code-snippet';
 
 export type ReportOptions = {
     /** The source code to display (defaults to the `outerHTML` of `element`). */
@@ -124,7 +125,7 @@ export class HintContext<E extends Events = Events> {
         if (element) {
             // When element is provided, position is an offset in the content.
             position = this.findProblemLocation(element, position);
-            sourceCode = element.outerHTML.replace(/[\t]/g, '    ');
+            sourceCode = getHTMLCodeSnippet(element);
         }
 
         /*
