@@ -1,0 +1,4 @@
+.root input:first-child {
+    margin-right: 0.375rem; /* 6px */
+    vertical-align: middle;
+}

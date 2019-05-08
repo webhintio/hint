@@ -242,7 +242,7 @@ test('It forwards results to the devtools panel.', async (t) => {
     const globals = stubGlobals();
     const { browser } = globals;
     const tabId = 3;
-    const results: Results = { categories: [] };
+    const results: Results = { categories: [], url: '' };
 
     const port: chrome.runtime.Port = {
         name: `${tabId}`,
@@ -276,7 +276,7 @@ test('It ignores results without a devtools panel.', async (t) => {
     const globals = stubGlobals();
     const { browser } = globals;
     const tabId = 1;
-    const results: Results = { categories: [] };
+    const results: Results = { categories: [], url: '' };
 
     const port: chrome.runtime.Port = {
         name: `${tabId + 1}`, // Chose a different tabId so we should NOT receive results.

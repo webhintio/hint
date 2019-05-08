@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 
-import { ErrorData, Results } from '../../../shared/types';
+import { Config, ErrorData, Results } from '../../../shared/types';
 
 import { getMessage } from '../../utils/i18n';
 import { useRotatingInspiration } from '../../utils/inspire';
-import { useMessageListener } from '../../utils/messaging';
+import { sendMessage, useMessageListener } from '../../utils/messaging';
+import { addNetworkListeners, removeNetworkListeners } from '../../utils/network';
 
-import AppButton from '../app-button';
-import Page from '../page';
+import Button from '../controls/button';
+import ProgressBar from '../controls/progress-bar';
 
 import * as styles from './analyze.css';
 
@@ -19,6 +20,8 @@ const getScanDuration = (scanStart: number) => {
 };
 
 type Props = {
+    config: Config;
+
     /** Listener for when the user decides to cancel a scan. */
     onCancel: (duration: number) => void;
 
@@ -32,11 +35,22 @@ type Props = {
 /**
  * Display progress and status while running a scan.
  */
-const AnalyzePage = ({ onCancel, onError, onResults }: Props) => {
+const Analyze = ({ config, onCancel, onError, onResults }: Props) => {
     const [delayUntil, setDelayUntil] = useState(0);
     const [scanStart] = useState(performance.now());
     const [resultsTimeout, setResultsTimeout] = useState({} as NodeJS.Timeout);
-    const status = useRotatingInspiration(getMessage('analyzingStatus'));
+    const status = useRotatingInspiration();
+
+    // Handle starting and stopping a scan (whether complete, canceled, or after an error).
+    useEffect(() => {
+        addNetworkListeners();
+        sendMessage({ enable: { config } }); // Tell the background script to start scanning.
+
+        return () => {
+            removeNetworkListeners();
+            sendMessage({ done: true }); // Tell the background script to stop scanning.
+        };
+    }, [config]);
 
     /*
      * Wait 5s after each status change before calling `onResults`.
@@ -79,18 +93,22 @@ const AnalyzePage = ({ onCancel, onError, onResults }: Props) => {
     }, [onCancel, resultsTimeout, scanStart]);
 
     return (
-        <Page title={getMessage('analyzingStatus')} actionDisabled={true} actionName={getMessage('analyzeButtonLabel')}>
+        <div className={styles.root}>
             <section className={styles.status}>
-                <img className={styles.image} src={nellieWorkingSvg} />
-                <p className={styles.message}>
-                    {status}
-                </p>
-                <AppButton primary={true} onClick={onCancelClick}>
+                <h1 className={styles.header}>
+                    {getMessage('analyzingStatus')}
+                </h1>
+                <div className={styles.messages}>
+                    <div className={styles.message}>{status}</div>
+                    <img className={styles.image} src={nellieWorkingSvg} />
+                </div>
+                <ProgressBar className={styles.progress} />
+                <Button primary={true} onClick={onCancelClick}>
                     {getMessage('cancelAnalysisButtonLabel')}
-                </AppButton>
+                </Button>
             </section>
-        </Page>
+        </div>
     );
 };
 
-export default AnalyzePage;
+export default Analyze;

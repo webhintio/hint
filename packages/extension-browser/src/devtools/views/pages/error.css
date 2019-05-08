@@ -2,6 +2,13 @@
     margin: 1.5rem 2rem;
 }
 
+.actions {
+    display: inline-grid;
+    gap: 0.5rem; /* 8px */
+    grid-template-columns: auto auto;
+    margin-bottom: 1rem; /* 16px */
+}
+
 .stack {
     white-space: pre-wrap;
 }

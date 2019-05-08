@@ -5,14 +5,17 @@ import { Config as ConfigData } from '../../../shared/types';
 
 import { getMessage } from '../../utils/i18n';
 
-import AppButton from '../app-button';
+import Button from '../controls/button';
+
+import PoweredBy from '../powered-by';
 import Page from '../page';
 
-import BrowsersConfig from './config/browsers';
-import CategoriesConfig from './config/categories';
-import ResourcesConfig from './config/resources';
+import BrowsersConfig from './config/sections/browsers';
+import CategoriesConfig from './config/sections/categories';
+import ResourcesConfig from './config/sections/resources';
+import ConfigHeader from './config/header';
 
-import { resolveIgnoreQuery } from './config/resources';
+import { resolveIgnoreQuery } from './config/sections/resources';
 
 import * as styles from './config.css';
 
@@ -37,6 +40,8 @@ const saveConfig = (config: ConfigData) => {
 };
 
 type Props = {
+    disabled?: boolean;
+
     /** Listener for when the user decides to run a scan. */
     onStart: (config: ConfigData) => void;
 };
@@ -44,7 +49,7 @@ type Props = {
 /**
  * Display options to configure and initialize a scan.
  */
-const ConfigPage = ({ onStart }: Props) => {
+const ConfigPage = ({ disabled, onStart }: Props) => {
     const [config, setConfig] = useState(loadConfig);
 
     const onAnalyzeClick = useCallback(async () => {
@@ -52,19 +57,19 @@ const ConfigPage = ({ onStart }: Props) => {
 
         const ignoredUrls = await resolveIgnoreQuery(config.ignoredUrls);
 
-        onStart({...config, ignoredUrls});
+        onStart({ ...config, ignoredUrls });
     }, [config, onStart]);
 
     const onCategoriesChange = useCallback((disabledCategories?: string[]) => {
-        setConfig({...config, disabledCategories});
+        setConfig({ ...config, disabledCategories });
     }, [config]);
 
     const onBrowsersChange = useCallback((browserslist?: string) => {
-        setConfig({...config, browserslist});
+        setConfig({ ...config, browserslist });
     }, [config]);
 
     const onResourcesChange = useCallback((ignoredUrls?: string) => {
-        setConfig({...config, ignoredUrls});
+        setConfig({ ...config, ignoredUrls });
     }, [config]);
 
     const onRestoreClick = useCallback(() => {
@@ -72,13 +77,18 @@ const ConfigPage = ({ onStart }: Props) => {
     }, []);
 
     return (
-        <Page title={getMessage('configurationTitle')} className={styles.root} actionName={getMessage('analyzeButtonLabel')} onAction={onAnalyzeClick}>
-            <AppButton className={styles.restoreButton} onClick={onRestoreClick}>
+        <Page className={styles.root} disabled={disabled} onAction={onAnalyzeClick}>
+            <ConfigHeader />
+            <div className={styles.categories}>
+                <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange} />
+                <BrowsersConfig query={config.browserslist} onChange={onBrowsersChange} />
+                <ResourcesConfig query={config.ignoredUrls} onChange={onResourcesChange} />
+            </div>
+            <Button onClick={onRestoreClick}>
                 {getMessage('restoreDefaultsLabel')}
-            </AppButton>
-            <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange}/>
-            <BrowsersConfig query={config.browserslist} onChange={onBrowsersChange}/>
-            <ResourcesConfig query={config.ignoredUrls} onChange={onResourcesChange}/>
+            </Button>
+            {' '}
+            <PoweredBy className={styles.poweredBy} />
         </Page>
     );
 };

@@ -1,74 +1,73 @@
 .root {
+    /* Colors */
     --bg-color: #fff;
-    --bg-alt-color: #f2f2f2;
-    --bg-inverse-color: #4046dd;
-    --bg-inverse-alt-color: #999;
-    --border-color: #333;
-    --border-alt-color: #d7d7d7;
+    --bg-alt-color: #fff;
+    --bg-inverse-color: #0070c6;
+    --bg-inverse-color-hover: #0078d4;
+    --bg-inverse-alt-color: rgba(0, 0, 0, 0.065);
+    --bg-inverse-alt-color-hover: rgba(0, 0, 0, 0.05);
+    --border-color: rgba(0, 0, 0, 0.19);
+    --border-alt-color: #cecece;
+    --input-bg-color: var(--bg-color);
     --invalid-outline-color: red;
-    --link-color: #4700a3;
+    --link-color: var(--bg-inverse-color);
     --shadow-color: #00000080;
     --text-color: #000;
-    --text-highlight-color: #666;
+    --text-alt-color: #000;
+    --text-highlight-color: #737373;
     --text-inverse-color: #fff;
     --text-passed-color: #00864b;
+    --warning-color: #f2c811;
+    --error-color: #d83b01;
+    --pass-color: #00864b;
+    --problem-link-color: #bf49da;
+
+    /* Fonts */
+    --bold: 600;
+    --font-family: "Segoe UI", Tahoma, sans-serif;
+
+    /* Sizes */
+    --border-width: 1px;
+    --font-size: 0.875rem; /* 14px */
+    --input-font-size: 0.75rem; /* 12px */
+    --small-font-size: 0.625rem; /* 10px */
+    --input-size: 1rem; /* 16px */
+    --rounding: 0.125rem; /* 2px */
+
+    /* Styles */
+    --border: var(--border-width) solid var(--border-color);
+    --focus-outline: 2px solid var(--text-color);
 }
 
 .root[data-theme^='dark'] {
-    --bg-color: #000;
-    --bg-alt-color: #242424;
-    --bg-inverse-color: #4046dd;
-    --bg-inverse-alt-color: #333;
-    --border-color: #ccc;
-    --border-alt-color: #525252;
-    --link-color: #888cea;
+    --bg-color: #252525;
+    --bg-alt-color: #2d2d2d;
+    --bg-inverse-alt-color: rgba(255, 255, 255, 0.08);
+    --bg-inverse-alt-color-hover: rgba(255, 255, 255, 0.065);
+    --border-color: rgba(255, 255, 255, 0.25);
+    --input-bg-color: rgba(0, 0, 0, 0.3);
+    --link-color: #67b5ef;
+    --problem-link-color: #ce9178;
     --shadow-color: #ffffff80;
-    --text-color: #d5d5d5;
-    --text-highlight-color: #999;
-    --text-inverse-color: #fff;
-    --text-passed-color: #00ca71;
+    --text-color: #fff;
+    --text-highlight-color: #fff;
+    --text-passed-color: #00a85f;
 }
 
 .root {
-    background-color: var(--bg-alt-color);
+    background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: "Segoe UI", Tahoma, sans-serif; /* Match default overrides in Chrome */
-    font-size: 12px; /* Match default overrides in Chrome */
+    font-family: var(--font-family);
+    font-size: var(--font-size);
     margin: 0;
-    overflow: auto;
+    overflow-y: scroll;
+    padding: 0 2.5rem;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-}
-
-.root a[href] {
-    color: var(--link-color);
-    text-decoration: none;
-}
-
-.root a[href]:hover {
-    text-decoration: underline;
-}
-
-.root input,
-.root select {
-    background-color: var(--bg-alt-color);
-    border: 1px solid var(--border-alt-color);
-    border-radius: 2px;
-    color: var(--text-color);
-}
-
-.root input:focus,
-.root select:focus {
-    background-color: var(--bg-color);
-    border-color: var(--text-color);
-}
-
-.root[data-theme^="dark"] input[type="checkbox"],
-.root[data-theme^="dark"] input[type="radio"] {
-    filter: invert(80%);
+    user-select: none;
 }
 
 /*
@@ -84,14 +83,14 @@
  * https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
  */
 .root[data-theme^='dark']::-webkit-scrollbar {
-    height: 14px;
-    width: 14px;
+    height: 0.875rem;
+    width: 0.875rem;
 }
 .root[data-theme^='dark']::-webkit-scrollbar-corner {
-    background-color: var(--bg-alt-color);
+    background-color: var(--bg-color);
 }
 .root[data-theme^='dark']::-webkit-scrollbar-thumb {
-    border-radius: 2px;
+    border-radius: 0.125rem;
     background-color: var(--bg-inverse-alt-color);
     box-shadow: inset 0 0 1px var(--shadow-color);
 }

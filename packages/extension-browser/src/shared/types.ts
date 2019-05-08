@@ -31,6 +31,7 @@ export type CategoryResults = {
 
 export type Results = {
     categories: CategoryResults[];
+    url: string;
 };
 
 export type Events = {

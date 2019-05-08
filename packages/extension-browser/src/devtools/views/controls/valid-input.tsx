@@ -1,7 +1,11 @@
 import * as React from 'react';
-import { useCallback, DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import { useCallback } from 'react';
 
-type Props = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
+import { ElementProps } from '../../utils/types';
+
+import * as styles from './valid-input.css';
+
+type Props = ElementProps<'input'> & {
     validate: (value: string) => string;
     value: string;
 };
@@ -9,7 +13,7 @@ type Props = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputE
 /**
  * Create an `<input>` with a custom `validate` function.
  */
-const ValidInput = ({ onChange, validate, value, ...props }: Props) => {
+const ValidInput = ({ className, onChange, validate, value, ...props }: Props) => {
 
     /*
      * Update custom validity whenever value changes.
@@ -22,7 +26,7 @@ const ValidInput = ({ onChange, validate, value, ...props }: Props) => {
     }, [validate, value]);
 
     return (
-        <input ref={inputRef} onChange={onChange} value={value} {...props} />
+        <input className={`${styles.root} ${className || ''}`} ref={inputRef} onChange={onChange} value={value} {...props} />
     );
 };
 

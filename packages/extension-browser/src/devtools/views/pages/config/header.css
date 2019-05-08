@@ -1,0 +1,8 @@
+.root {
+    background-color: var(--bg-color);
+}
+
+.help {
+    font-size: var(--font-size);
+    margin: 1rem 0; /* 16px 0 */
+}

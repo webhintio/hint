@@ -3,82 +3,82 @@ import { useCallback, useState } from 'react';
 
 import { Config as ConfigData, ErrorData, Results as ResultsData } from '../../shared/types';
 
-import AnalyzePage from './pages/analyze';
+import Analyze from './pages/analyze';
 import ConfigPage from './pages/config';
 import ErrorPage from './pages/error';
 import ResultsPage from './pages/results';
 
 import { trackCancel, trackError, trackFinish, trackStart } from '../utils/analytics';
-import { sendMessage } from '../utils/messaging';
-import { addNetworkListeners, removeNetworkListeners } from '../utils/network';
 import { useCurrentTheme } from '../utils/themes';
 
 import * as styles from './app.css';
 
 const enum Page {
-    Analyze,
     Config,
     Error,
     Results
 }
 
-const emptyResults: ResultsData = { categories: [] };
+const emptyResults: ResultsData = { categories: [], url: '' };
 
 const App = () => {
     const [page, setPage] = useState(Page.Config);
     const [error, setError] = useState({} as ErrorData);
+    const [config, setConfig] = useState({} as ConfigData);
     const [results, setResults] = useState(emptyResults);
+    const [isAnalyzing, setIsAnalyzing] = useState(false);
     const theme = useCurrentTheme();
 
     /*
      * Utilize `useCallback` to memoize handlers passed to child components.
      * Allows `shouldComponentUpdate` optimizations to reduce nested re-render.
      *
+     * TODO: Pass dispatch from `useReducer` instead.
+     *
      * https://reactjs.org/docs/hooks-faq.html#are-hooks-slow-because-of-creating-functions-in-render
      */
 
     const onCancel = useCallback((duration: number) => {
-        setPage(Page.Config);
-        sendMessage({ done: true }); // Tell the background script to cancel scanning.
-        removeNetworkListeners();
+        setIsAnalyzing(false);
         trackCancel(duration);
     }, []);
 
+    const onConfigure = useCallback(() => {
+        setPage(Page.Config);
+    }, []);
+
     const onError = useCallback((error: ErrorData) => {
+        setIsAnalyzing(false);
         setPage(Page.Error);
         setError(error);
-        removeNetworkListeners();
         trackError(error);
     }, []);
 
     const onRestart = useCallback(() => {
-        setPage(Page.Config);
+        setIsAnalyzing(true);
+        trackStart();
     }, []);
 
     const onResults = useCallback((results: ResultsData, duration: number) => {
+        setIsAnalyzing(false);
         setPage(Page.Results);
         setResults(results);
-        removeNetworkListeners();
         trackFinish(duration);
     }, []);
 
-    const onStart = useCallback((config: ConfigData) => {
-        setPage(Page.Analyze);
-        sendMessage({ enable: { config } }); // Tell the background script to start scanning.
-        addNetworkListeners();
-        trackStart();
-    }, []);
+    const onStart = useCallback((newConfig: ConfigData) => {
+        setConfig(newConfig);
+        onRestart();
+    }, [onRestart]);
 
     const getCurrentPage = () => {
         switch (page) {
             case Page.Config:
-                return <ConfigPage onStart={onStart}/>;
-            case Page.Analyze:
-                return <AnalyzePage onCancel={onCancel} onError={onError} onResults={onResults}/>;
+                return <ConfigPage disabled={isAnalyzing} onStart={onStart}/>;
             case Page.Error:
-                return <ErrorPage error={error} onRestart={onRestart}/>;
+                return <ErrorPage disabled={isAnalyzing} error={error} onConfigure={onConfigure} onRestart={onRestart}/>;
             case Page.Results:
-                return <ResultsPage results={results} onRestart={onRestart}/>;
+                return <ResultsPage disabled={isAnalyzing} results={results} onConfigure={onConfigure} onRestart={onRestart}/>;
             default:
                 throw new Error(`Unknown page: ${page}`);
         }
@@ -87,6 +87,7 @@ const App = () => {
     return (
         <div className={styles.root} data-theme={theme}>
             {getCurrentPage()}
+            {isAnalyzing && <Analyze config={config} onCancel={onCancel} onError={onError} onResults={onResults}/>}
         </div>
     );
 };

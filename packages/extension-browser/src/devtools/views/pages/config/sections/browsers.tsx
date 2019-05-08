@@ -2,14 +2,19 @@ import * as React from 'react';
 import { useCallback, FormEvent } from 'react';
 import browserslist = require('browserslist');
 
-import { getMessage } from '../../../utils/i18n';
+import { getMessage } from '../../../../utils/i18n';
 
-import ConfigExample from './config-example';
-import ConfigLabel from './config-label';
-import ConfigSection from './config-section';
-import ValidInput from './valid-input';
+import ExternalLink from '../../../controls/external-link';
+import LabelText from '../../../controls/label-text';
+import Radio from '../../../controls/radio';
+import ValidInput from '../../../controls/valid-input';
+
+import ConfigExample from '../example';
+import ConfigLabel from '../label';
+import ConfigSection from '../section';
 
 type Props = {
+    className?: string;
     query?: string;
     onChange: (query?: string) => void;
 };
@@ -35,7 +40,7 @@ const validate = (value?: string): string => {
  * Display options ot include/exclude issues pertaining to
  * specific browsers from a scan.
  */
-const BrowsersSection = ({ query, onChange }: Props) => {
+const BrowsersSection = ({ className, query, onChange }: Props) => {
 
     const onDefaultSelected = useCallback(() => {
         onChange();
@@ -56,19 +61,19 @@ const BrowsersSection = ({ query, onChange }: Props) => {
     }, [onChange, query]);
 
     return (
-        <ConfigSection title={getMessage('yourTargetBrowsersTitle')}>
+        <ConfigSection className={className} title={getMessage('targetBrowsersTitle')}>
             <ConfigLabel>
-                <input type="radio" name="browsers" checked={!query} onChange={onDefaultSelected} />
-                {getMessage('recommendedSettingsLabel')}
+                <Radio name="browsers" checked={!query} onChange={onDefaultSelected} />
+                <LabelText>{getMessage('recommendedSettingsLabel')}</LabelText>
                 <ConfigExample>&gt; 0.5%, last 2 versions, Firefox ESR, not dead</ConfigExample>
             </ConfigLabel>
             <ConfigLabel>
-                <input type="radio" name="browsers" checked={!!query} onChange={onCustomSelected} />
-                <ValidInput type="text" placeholder={placeholder} value={query || ''} validate={validate} onChange={onCustomChange} onFocus={onCustomFocus} />
+                <Radio name="browsers" checked={!!query} onChange={onCustomSelected} />
+                <ValidInput type="text" tabIndex={query ? 0 : -1} placeholder={placeholder} value={query || ''} validate={validate} onChange={onCustomChange} onFocus={onCustomFocus} />
                 <ConfigExample>
-                    <a href="https://github.com/browserslist/browserslist#full-list" target="_blank">
+                    <ExternalLink href="https://github.com/browserslist/browserslist#full-list">
                         {getMessage('seeQueryInstructionsLabel')}
-                    </a>
+                    </ExternalLink>
                 </ConfigExample>
             </ConfigLabel>
         </ConfigSection>

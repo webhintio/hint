@@ -1,0 +1,32 @@
+.button {
+    background-color: var(--bg-inverse-alt-color);
+    border: none;
+    border-radius: var(--rounding);
+    color: var(--text-color);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--input-font-size);
+    padding: 0.1875rem 1rem 0.3125rem; /* 3px 16px 5px */
+    min-width: 6.25rem; /* 100px */
+}
+
+.button:focus {
+    outline: var(--focus-outline);
+}
+
+.button:global(:not(.focus-visible)) {
+    outline: none;
+}
+
+.button:hover {
+    background-color: var(--bg-inverse-alt-color-hover);
+}
+
+.primary.button {
+    background-color: var(--bg-inverse-color);
+    color: var(--text-inverse-color);
+}
+
+.primary.button:hover {
+    background-color: var(--bg-inverse-color-hover);
+}

@@ -1,3 +1,30 @@
 .root {
     background-color: var(--bg-color);
 }
+
+.results {
+    align-items: start;
+    display: grid;
+    gap: 2rem; /* 32px */
+    grid-template-columns: auto 1fr;
+}
+
+.summary {
+    display: none;
+}
+
+@media (min-width: 48rem /* 768px */) {
+    .summary {
+        display: block;
+        list-style: none;
+        margin: 0;
+        min-width: 10rem; /* 160px */
+        padding: 0;
+        position: sticky;
+        top: 1rem; /* 16px */
+    }
+}
+
+.poweredBy {
+    margin: 1.75rem 0; /* 28px 0 */
+}

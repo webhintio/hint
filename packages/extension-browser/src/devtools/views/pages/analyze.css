@@ -1,12 +1,50 @@
-.image {
-    max-width: 25rem;
-}
-
-.message {
-    margin-top: -0.5rem;
+.root {
+    align-items: center;
+    background-color: rgba(238, 238, 238, 0.51);
+    display: grid;
+    height: 100%;
+    justify-items: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 .status {
-    padding: 2em;
-    text-align: center;
+    background-color: var(--bg-color);
+    border-radius: calc(2 * var(--rounding));
+    box-shadow: 0 4.8px 14.4px rgba(0, 0, 0, 0.18), 0 25.6px 57.6px rgba(0, 0, 0, 0.22);
+    box-sizing: border-box;
+    display: grid;
+    gap: 1rem; /* 16px */
+    justify-items: left;
+    max-width: 28.5rem; /* 456px */
+    padding: 1.5rem; /* 24px */
+    width: 80%;
+}
+
+.header {
+    font-size: var(--font-size);
+    font-weight: var(--bold);
+    margin: 0;
+    padding: 0;
+}
+
+.messages {
+    align-items: center;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100%;
+}
+
+.message {
+    font-size: var(--input-font-size);
+}
+
+.image {
+    margin-top: -10%;
+}
+
+.progress {
+    width: 100%;
 }

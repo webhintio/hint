@@ -4,6 +4,8 @@ import { ErrorData } from '../../../shared/types';
 
 import { getMessage } from '../../utils/i18n';
 
+import Button from '../controls/button';
+import ExternalLink from '../controls/external-link';
 import Page from '../page';
 
 import * as styles from './error.css';
@@ -11,6 +13,11 @@ import * as styles from './error.css';
 const openIssueUrl = 'https://github.com/webhintio/hint/issues/new?labels=type%3Abug&amp;template=2-bug-report-browser.md&amp;title=%5BBug%5D+Bug+description';
 
 type Props = {
+    disabled?: boolean;
+
+    /** Listener for when the user decides to configure a new scan. */
+    onConfigure: () => void;
+
     /** Listener for when the user decides to run another scan. */
     onRestart: () => void;
 
@@ -21,16 +28,24 @@ type Props = {
 /**
  * Display an error which occured during a scan.
  */
-const ErrorPage = ({ error, onRestart }: Props) => {
+const ErrorPage = ({ disabled, error, onConfigure, onRestart }: Props) => {
     return (
-        <Page title={getMessage('errorTitle')} actionName={getMessage('analyzeAgainButtonLabel')} onAction={onRestart}>
+        <Page disabled={disabled} onAction={onRestart}>
             <section className={styles.content}>
                 <p>
                     {getMessage('errorMessage')}
-                    <a href={openIssueUrl} rel="noopener noreferrer" target="_blank">
+                    <ExternalLink href={openIssueUrl}>
                         {getMessage('openAnIssue')}
-                    </a>
+                    </ExternalLink>
                 </p>
+                <div className={styles.actions}>
+                    <Button type="submit" primary={true}>
+                        {getMessage('scanAgainButtonLabel')}
+                    </Button>
+                    <Button type="button" onClick={onConfigure}>
+                        {getMessage('newScanButtonLabel')}
+                    </Button>
+                </div>
                 <details>
                     <summary>
                         {getMessage('errorDetails')}

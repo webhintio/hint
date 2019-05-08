@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as styles from './config-example.css';
+import * as styles from './example.css';
 
 type Props = {
     children: any;

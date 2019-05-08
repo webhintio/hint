@@ -1,22 +1,52 @@
 .root {
-    margin: 1rem 0;
+    margin: 1.5rem 0; /* 24px */
+    padding-left: 0.5rem; /* 8px */
+}
+
+.header {
+    font-size: var(--font-size);
+    margin-bottom: 0.75rem; /* 12px */
+    margin-left: -0.5rem; /* -8px */
+}
+
+.problemLink {
+    color: var(--problem-link-color);
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.problemLink:focus {
+    border-bottom: 2px solid var(--text-color);
+    outline: none;
+}
+
+.problemLink:global(:not(.focus-visible)) {
+    border: none;
 }
 
 .number {
-    color: var(--text-highlight-color);
+    font-weight: var(--bold);
 }
 
 .button {
     background-color: var(--bg-inverse-color);
     border: none;
-    border-radius: 2px;
+    border-radius: 0 var(--rounding) 0 var(--rounding);
     color: var(--text-inverse-color);
     cursor: pointer;
     fill: var(--text-inverse-color);
-    height: 1.1rem;
-    margin-top: -0.25rem;
-    position: relative;
-    top: 0.25rem;
+    height: 1.125rem; /* 18px */
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.button:focus {
+    outline: var(--focus-outline);
+}
+
+.button:global(:not(.focus-visible)) {
+    outline: none;
 }
 
 .icon {
@@ -26,10 +56,19 @@
     top: 0.075rem;
 }
 
+.codeWrapper {
+    position: relative;
+}
+
 .code,
 .code:global(.hljs) {
     background-color: var(--bg-alt-color) !important;
-    font-size: 0.7rem;
-    padding: 1rem;
+    border-radius: var(--rounding);
+    box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.18), 0px 1.6px 3.6px rgba(0, 0, 0, 0.22);
+    box-sizing: border-box;
+    font-size: 12px; /* rem units are incorrect here at runtime?!? */
+    margin: 0.375rem 0; /* 6px 0 */
+    padding: 1rem; /* 16px */
     white-space: pre-wrap;
+    word-break: break-all;
 }

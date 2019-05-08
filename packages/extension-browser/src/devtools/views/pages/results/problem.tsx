@@ -10,6 +10,7 @@ import { Problem as ProblemData } from '@hint/utils/dist/src/types/problems';
 import { browser } from '../../../../shared/globals';
 
 import { getMessage } from '../../../utils/i18n';
+import { evaluate } from '../../../utils/inject';
 
 import * as styles from './problem.css';
 
@@ -65,7 +66,7 @@ const Problem = ({ problem, index }: Props) => {
     const onInspectElementClick = useCallback(() => {
         // Verify elementId is actually a number since it originates from untrusted snapshot data.
         if (typeof elementId === 'number') {
-            browser.devtools.inspectedWindow.eval(`inspect(__webhint.findNode(${elementId}))`);
+            evaluate(`inspect(__webhint.findNode(${elementId}))`);
         }
     }, [elementId]);
 
@@ -76,19 +77,8 @@ const Problem = ({ problem, index }: Props) => {
         }
     }, [line, problem.resource]);
 
-    return (
-        <div className={styles.root}>
-            <div>
-                <span className={styles.number}>
-                    {getMessage('hintCountLabel', [(index + 1).toString()])}
-                </span>
-                {' '}
-                {problem.message}
-            </div>
-            <a href={`view-source:${problem.resource}`} target="_blank" onClick={onViewSourceClick}>
-                {url}
-            </a>
-            {' '}
+    const codeArea = problem.sourceCode && (
+        <div className={styles.codeWrapper}>
             {elementId &&
                 <button className={styles.button} type="button" title="Inspect Element" onClick={onInspectElementClick}>
                     <svg className={styles.icon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33.51 30.51">
@@ -97,11 +87,25 @@ const Problem = ({ problem, index }: Props) => {
                     </svg>
                 </button>
             }
-            {problem.sourceCode &&
-                <SyntaxHighlighter className={styles.code} useInlineStyles="false">
-                    {problem.sourceCode}
-                </SyntaxHighlighter>
-            }
+            <SyntaxHighlighter className={styles.code} useInlineStyles="false">
+                {problem.sourceCode}
+            </SyntaxHighlighter>
+        </div>
+    );
+
+    return (
+        <div className={styles.root}>
+            <div className={styles.header}>
+                <span className={styles.number}>
+                    {getMessage('hintCountLabel', [(index + 1).toString()])}
+                </span>
+                {' '}
+                {problem.message}
+            </div>
+            <a className={styles.problemLink} href={`view-source:${problem.resource}`} target="_blank" onClick={onViewSourceClick}>
+                {url}
+            </a>
+            {codeArea}
         </div>
     );
 };

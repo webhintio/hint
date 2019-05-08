@@ -3,14 +3,18 @@ import { useCallback, FormEvent } from 'react';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
 
-import metas from '../../../../shared/metas.import';
+import metas from '../../../../../shared/metas.import';
 
-import { getMessage } from '../../../utils/i18n';
+import { getMessage } from '../../../../utils/i18n';
 
-import ConfigLabel from './config-label';
-import ConfigSection from './config-section';
+import Checkbox from '../../../controls/checkbox';
+import LabelText from '../../../controls/label-text';
+
+import ConfigLabel from '../label';
+import ConfigSection from '../section';
 
 type Props = {
+    className?: string;
     disabled?: string[];
     onChange: (disabled?: string[]) => void;
 };
@@ -23,7 +27,7 @@ const categories = [...new Set(metas.map((meta) => {
 /**
  * Display options to include/exclude entire categories of hints from a scan.
  */
-const CategoriesSection = ({ disabled, onChange }: Props) => {
+const CategoriesSection = ({ className, disabled, onChange }: Props) => {
 
     /** Report disabled categories when a category is enabled/disabled. */
     const onCategoryChange = useCallback((event: FormEvent<HTMLInputElement>) => {
@@ -49,14 +53,14 @@ const CategoriesSection = ({ disabled, onChange }: Props) => {
 
         return (
             <ConfigLabel key={category}>
-                <input type="checkbox" value={category} checked={!isDisabled} onChange={onCategoryChange} />
-                {getMessage(category)}
+                <Checkbox value={category} checked={!isDisabled} onChange={onCategoryChange} />
+                <LabelText>{getMessage(category)}</LabelText>
             </ConfigLabel>
         );
     });
 
     return (
-        <ConfigSection title={getMessage('categoriesTitle')}>
+        <ConfigSection className={className} title={getMessage('categoriesTitle')}>
             {categoryInputs}
         </ConfigSection>
     );

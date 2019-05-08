@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
 
-import * as styles from './app-button.css';
+import * as styles from './button.css';
 
 type Props = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
     primary?: boolean;
 };
 
-const AppButton = ({className, primary, type, ...props}: Props) => {
+const Button = ({className, primary, type, ...props}: Props) => {
 
     const classes = [styles.button];
 
@@ -24,4 +24,4 @@ const AppButton = ({className, primary, type, ...props}: Props) => {
     );
 };
 
-export default AppButton;
+export default Button;

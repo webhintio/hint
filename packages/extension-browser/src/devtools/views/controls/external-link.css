@@ -1,0 +1,16 @@
+.root {
+    --border: 1px solid var(--link-color);
+
+    border-bottom: var(--border);
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+.root:focus {
+    border-bottom: 2px solid var(--text-color);
+    outline: none;
+}
+
+.root:global(:not(.focus-visible)) {
+    border-bottom: var(--border);
+}

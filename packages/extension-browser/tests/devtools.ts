@@ -27,18 +27,18 @@ const mockExtensionAPIs = (results: Results) => {
         (window as any).browser = {
             devtools: {
                 inspectedWindow: { tabId: 1 },
+                network: {
+                    getHAR: () => {},
+                    onRequestFinished: {
+                        addListener: () => {},
+                        removeListener: () => {}
+                    }
+                },
                 panels: { themeName: 'dark' }
             },
             i18n: {
                 getMessage: () => {
                     return 'Localized string.';
-                }
-            },
-            network: {
-                getHAR: () => {},
-                onRequestFinished: {
-                    addListener: () => {},
-                    removeListener: () => {}
                 }
             },
             runtime: {
@@ -108,17 +108,18 @@ test('It builds a configuration, starts a scan, and displays results', async (t)
             hints: [],
             name: Category.compatibility,
             passed: 0
-        }]
+        }],
+        url: ''
     } as Results as any);
 
     // Load the devtools panel.
     await page.goto(url);
 
     // Disable the "Accessibility" category.
-    await page.click('[class*="config-label_root"]');
+    await page.click('input[type="checkbox"][value="accessibility"]');
 
-    // Click the "Analyze website" button.
-    await page.click('[class*="page-header_button"]');
+    // Click the "Start scan" button.
+    await page.click('button[type="submit"]');
 
     // Wait for the panel to start the scan, getting the passed configuration.
     const injectDetails: InjectDetails = await page.evaluate(() => {

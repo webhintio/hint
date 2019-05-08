@@ -77,6 +77,6 @@ export default class WebExtensionFormatter implements IFormatter {
         const categories = this.buildCategoryResults(resources, problems);
 
         // Forward results to the devtools page (via the background script).
-        browser.runtime.sendMessage({ results: { categories } });
+        browser.runtime.sendMessage({ results: { categories, url: options.target } });
     }
 }

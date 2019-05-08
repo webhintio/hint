@@ -1,0 +1,5 @@
+.header {
+    font-size: var(--font-size);
+    font-weight: var(--bold);
+    margin: 0;
+}
