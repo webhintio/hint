@@ -16,7 +16,7 @@
   "devDependencies": {
     "@hint/utils-create-server": "^3.0.0",
     "@types/is-ci": "^1.1.0",
-    "@types/lodash": "^4.14.123",
+    "@types/lodash": "^4.14.124",
     "@types/node": "^12.0.0",
     "@types/sinon": "^7.0.11",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
