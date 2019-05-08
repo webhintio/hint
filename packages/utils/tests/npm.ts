@@ -10,7 +10,7 @@ type Fs = {
     existsSync: () => boolean;
 };
 
-type HasYarnLock = () => boolean;
+type HasYarnLock = () => Promise<boolean>;
 
 type CWD = () => string;
 
@@ -62,8 +62,8 @@ const initContext = (t: ExecutionContext<NPMContext>) => {
             return true;
         }
     };
-    t.context.hasYarnLock = (): boolean => {
-        return false;
+    t.context.hasYarnLock = (): Promise<boolean> => {
+        return Promise.resolve(false);
     };
     t.context.loadJSONFileModule = (): string => {
         return '';
@@ -160,7 +160,7 @@ test('installPackages should run `yarn` if yarn.lock is found, `hint` is install
     const sandbox = t.context.sandbox;
 
     sandbox.stub(t.context.fs, 'existsSync').returns(true);
-    sandbox.stub(t.context, 'hasYarnLock').returns(true);
+    sandbox.stub(t.context, 'hasYarnLock').resolves(true);
     const childSpawnStub = sandbox.stub(t.context.child, 'spawn').returns(emitter);
 
     sandbox.stub(t.context, 'findPackageRootModule').returns('/example/path');
@@ -176,7 +176,7 @@ test('installPackages should run `yarn` if yarn.lock is found, `hint` is install
 
     await promise;
 
-    t.is(childSpawnStub.args[0][0], 'yarn install hint1 @hint/formatter-formatter1');
+    t.is(childSpawnStub.args[0][0], 'yarn add hint1 @hint/formatter-formatter1');
 });
 
 test('installPackages should run the right command if `hint` is installed locally but the project package.json doesn\'t exist', async (t) => {
