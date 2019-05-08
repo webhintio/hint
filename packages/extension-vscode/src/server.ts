@@ -17,6 +17,7 @@ import * as notifications from './notifications';
 
 import * as hint from 'hint';
 import { HintsConfigObject, Problem, Severity, UserConfig } from 'hint';
+import { hasYarnLock } from '@hint/utils';
 
 let workspace = '';
 
