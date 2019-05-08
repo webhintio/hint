@@ -10,6 +10,8 @@ type Fs = {
     existsSync: () => boolean;
 };
 
+type HasYarnLock = () => boolean;
+
 type CWD = () => string;
 
 type Logger = {
@@ -30,6 +32,7 @@ type NPMContext = {
     cwd: CWD;
     findPackageRootModule: FindPackageRootModule;
     fs: Fs;
+    hasYarnLock: HasYarnLock;
     loadJSONFileModule: LoadJSONFileModule;
     logger: Logger;
     npmRegistryFetch: NPMRegistryFetch;
@@ -58,6 +61,9 @@ const initContext = (t: ExecutionContext<NPMContext>) => {
         existsSync(): boolean {
             return true;
         }
+    };
+    t.context.hasYarnLock = (): boolean => {
+        return false;
     };
     t.context.loadJSONFileModule = (): string => {
         return '';
@@ -88,6 +94,7 @@ const loadScript = (context: NPMContext) => {
             cwd: context.cwd,
             loadJSONFile: context.loadJSONFileModule
         },
+        './has-yarnlock': context.hasYarnLock,
         './logging': context.logger,
         './packages': { findPackageRoot: context.findPackageRootModule },
         child_process: context.child, // eslint-disable-line camelcase
@@ -146,6 +153,30 @@ test('installPackages should run the right command if `hint` is installed locall
     await promise;
 
     t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1');
+});
+
+test('installPackages should run `yarn` if yarn.lock is found, `hint` is installed locally, and has `hint` as a regular dependency', async (t) => {
+    const emitter = getEmitter();
+    const sandbox = t.context.sandbox;
+
+    sandbox.stub(t.context.fs, 'existsSync').returns(true);
+    sandbox.stub(t.context, 'hasYarnLock').returns(true);
+    const childSpawnStub = sandbox.stub(t.context.child, 'spawn').returns(emitter);
+
+    sandbox.stub(t.context, 'findPackageRootModule').returns('/example/path');
+    sandbox.stub(t.context, 'cwd').returns('/example/path');
+    sandbox.stub(t.context, 'loadJSONFileModule').returns(dependencyJson);
+
+    const npmUtils = loadScript(t.context);
+    const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
+
+    await misc.delay(500);
+
+    emitter.emit('exit', 0);
+
+    await promise;
+
+    t.is(childSpawnStub.args[0][0], 'yarn install hint1 @hint/formatter-formatter1');
 });
 
 test('installPackages should run the right command if `hint` is installed locally but the project package.json doesn\'t exist', async (t) => {

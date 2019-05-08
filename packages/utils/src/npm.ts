@@ -9,6 +9,7 @@ import { debug as d } from './debug';
 import * as logger from './logging';
 import { cwd, loadJSONFile } from './fs';
 import { findPackageRoot } from './packages';
+import { hasYarnLock } from './has-yarnlock';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -26,14 +27,6 @@ const install = (command: string) => {
             }
 
             return resolve(true);
-        });
-    });
-};
-
-const hasYarnLock = (directory: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-        fs.access(path.join(directory, 'yarn.lock'), (err) => {
-            resolve(!err);
         });
     });
 };
