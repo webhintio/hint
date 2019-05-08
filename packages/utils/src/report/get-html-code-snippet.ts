@@ -18,7 +18,7 @@ const getOpening = (html: string) => {
  * @param {number} threshold - Max number of charaters in the result.
  */
 export const getHTMLCodeSnippet = (element: HTMLElement, threshold = 100) => {
-    const outerHTML = element.outerHTML;
+    const outerHTML = element.outerHTML.replace(/[\t]/g, '    ');
 
     if (outerHTML.length <= threshold) {
         return outerHTML;
