@@ -886,6 +886,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.0.tgz#d11813b9c0ff8aaca29f04cbc12817f4c7d656e5"
   integrity sha512-Jrb/x3HT4PTJp6a4avhmJCDEVrPdqLfl3e8GGMbpkGGdwAV5UGlIs4vVEfsHHfylZVOKZWpOqmqFH8CbfOZ6kg==
 
+"@types/node@^11.13.8":
+  version "11.13.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.10.tgz#4df59e5966b56f512bac98898bcbee5067411f0f"
+  integrity sha512-leUNzbFTMX94TWaIKz8N15Chu55F9QSH+INKayQr5xpkasBQBRF3qQXfo3/dOnMU/dEIit+Y/SU8HyOjq++GwA==
+
 "@types/node@^8.0.7":
   version "8.10.48"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.48.tgz#e385073561643a9ba6199a1985ffc03530f90781"
@@ -8213,7 +8218,14 @@ markdownlint-cli@^0.15.0:
     minimatch "~3.0.4"
     rc "~1.2.7"
 
-markdownlint@^0.13.0, markdownlint@~0.13.0:
+markdownlint@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.14.0.tgz#4cbccb41f7fd8875be188ea3fa9ccd31a6c863b0"
+  integrity sha512-PkLe36HTB0ZkU8Kveq4rGmftFgPxioweqofHyHLcPD9SKyUdMAgUgNJQ4+OXjpsVPLLL3qYoxPewsQ5G3FI+iQ==
+  dependencies:
+    markdown-it "8.4.2"
+
+markdownlint@~0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.13.0.tgz#39ffd5ffbf1198c761a5ef3e28c195e5eb8dd669"
   integrity sha512-mGeDEbvmRk2T8f043lK7Lhcdi7mr68hQqGsJCS4p52uvEyOLym28s3r7GA6aaFQFtwT0MfFaJ/7Ex4n/HVPUnQ==
@@ -9051,7 +9063,7 @@ nwsapi@^2.1.3:
   resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.1.3.tgz#25f3a5cec26c654f7376df6659cdf84b99df9558"
   integrity sha512-RowAaJGEgYXEZfQ7tvvdtAQUKPyTR6T6wNu0fwlNsGQYr/h3yQc6oI8WnVZh3Y/Sylwc+dtAlvPqfFZjhTyk3A==
 
-nyc@^14.1.0:
+nyc@^14.0.0, nyc@^14.1.0:
   version "14.1.0"
   resolved "https://registry.yarnpkg.com/nyc/-/nyc-14.1.0.tgz#ae864913a4c5a947bfaebeb66a488bdb1868c9a3"
   integrity sha512-iy9fEV8Emevz3z/AanIZsoGa8F4U2p0JKevZ/F0sk+/B2r9E6Qn+EPs0bpxEhnAt6UPlTL8mQZIaSJy8sK0ZFw==
