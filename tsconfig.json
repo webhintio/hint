@@ -69,6 +69,7 @@
         { "path": "packages/hint-manifest-file-extension" },
         { "path": "packages/hint-manifest-icons" },
         { "path": "packages/hint-manifest-is-valid" },
+        { "path": "packages/hint-manifest-scoped-urls" },
         { "path": "packages/hint-meta-charset-utf-8" },
         { "path": "packages/hint-meta-theme-color" },
         { "path": "packages/hint-meta-viewport" },
