@@ -298,6 +298,7 @@ export const getCurrentBranchRemoteInfo = async () => {
     /**
      * `current` should be something like:
      * `* new/release   a1b3fbbf67a0 [molant/new/release: ahead 5, behind 1] New: Release script improvements`
+     * `* new/release   a1b3fbbf67a0 [molant/new/release] New: Release script improvements`
      *
      * The following regex has 3 capturing groups:
      *
@@ -305,7 +306,7 @@ export const getCurrentBranchRemoteInfo = async () => {
      * 2. the sha: `a1b3fbbf67a0`
      * 3. the remote branch: `molant/new/release`
      */
-    const regex = /\*\s+(.+?)\s+([a-z0-9]+)\s\[(.+?):/gi;
+    const regex = /\*\s+(.+?)\s+([a-z0-9]+)\s\[(.+?)[\]:]/gi;
     const results = regex.exec(current);
 
     if (!results) {

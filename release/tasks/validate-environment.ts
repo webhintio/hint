@@ -82,7 +82,7 @@ const masterRemote = async () => {
     const remoteRegex = new RegExp('^(https://|git@)github.com[:/]webhintio/hint.git$', 'i');
 
     if (!remoteRegex.test(remoteURL)) {
-        const message = 'Current branch does not point to the official webhint repository';
+        const message = `Current branch "${remoteURL}" does not point to the official webhint repository`;
 
         debug(message);
 
@@ -90,7 +90,7 @@ const masterRemote = async () => {
     }
 
     if (remoteBranch !== 'master') {
-        const message = 'Current branch does not point to master';
+        const message = `Current branch "${remoteBranch}" does not point to master`;
 
         debug(message);
 
