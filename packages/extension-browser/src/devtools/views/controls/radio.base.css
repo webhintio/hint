@@ -1,13 +1,21 @@
 .root {
     -webkit-appearance: none;
     appearance: none;
-    background-color: var(--input-bg-color);
+    background-color: var(--input-bg);
     border: var(--border);
     border-radius: 50%;
     height: var(--input-size);
     margin: 0;
     position: relative;
     width: var(--input-size);
+}
+
+.root:hover {
+    background-color: var(--input-hover-bg);
+}
+
+.root:active {
+    background-color: var(--input-active-bg);
 }
 
 .root:focus {
@@ -18,10 +26,11 @@
     outline: none;
 }
 
+/* Dot inside checked radio. */
 .root:after {
     --size: calc(var(--input-size) / 2);
 
-    background-color: var(--text-color);
+    background-color: var(--base-color);
     border-radius: 50%;
     content: '';
     display: block;

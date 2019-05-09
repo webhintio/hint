@@ -1,0 +1,20 @@
+.root {
+    composes: root from './radio.base.css';
+}
+
+.root:checked {
+    background-color: var(--highlight-bg);
+}
+
+/* Dot inside checked radio. */
+.root:checked:after {
+    background-color: var(--light-color);
+}
+
+.root:checked:hover {
+    background-color: var(--highlight-bg-hover);
+}
+
+.root:checked:active {
+    background-color: var(--highlight-bg-active);
+}

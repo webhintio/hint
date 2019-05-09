@@ -1,8 +1,10 @@
 import * as React from 'react';
 
+import { useCurrentDesign } from '../../utils/themes';
 import { ElementProps, Omit } from '../../utils/types';
 
-import * as styles from './radio.css';
+import * as fluent from './radio.fluent.css';
+import * as photon from './radio.photon.css';
 
 type Props = Omit<'type', ElementProps<'input'>>;
 
@@ -10,6 +12,8 @@ type Props = Omit<'type', ElementProps<'input'>>;
  * Radio input with common styles.
  */
 const Radio = ({ className, ...props }: Props) => {
+    const styles = useCurrentDesign({ fluent, photon });
+
     return (
         <input type="radio" className={`${styles.root} ${className || ''}`} {...props} />
     );
