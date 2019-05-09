@@ -82,18 +82,14 @@ export class HTMLElement {
     /**
      * Zero-based location of the element.
      */
-    public getLocation(): ProblemLocation | null {
+    public getLocation(): ProblemLocation {
         const location = this._getOriginalLocation();
-
-        if (!location) {
-            return null;
-        }
 
         // Column is zero-based, but pointing to the tag name, not the character <
         return {
-            column: location.startCol,
+            column: location ? location.startCol : -1,
             elementId: this._element.id,
-            line: location.startLine - 1
+            line: location ? location.startLine - 1 : -1
         };
     }
 
