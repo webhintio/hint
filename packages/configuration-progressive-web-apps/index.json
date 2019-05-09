@@ -14,7 +14,6 @@
         "manifest-app-name": "error",
         "manifest-exists": "error",
         "manifest-file-extension": "error",
-        "manifest-icons": "error",
         "manifest-is-valid": "error"
     },
     "hintsTimeout": 120000,
