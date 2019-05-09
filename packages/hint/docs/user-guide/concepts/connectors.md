@@ -29,7 +29,7 @@ The current supported connectors are:
 
 * `jsdom`: Your website will be loaded using [`jsdom`][jsdom].
 * `chrome`: Your website will be loaded using Chrome and the Chrome
-  Debugging Protocol. This is one of the `remote-debugging-connector`s.
+  Debugging Protocol.
 * `local`: This connector will analyze the files specified (a file
   or a directory).
 
@@ -139,16 +139,6 @@ Connectors are expected to implement at least some basic functionality
 but expose more events or have some extra functionality. The following
 document details the known differences or issues among the official
 connectors.
-
-### Edge
-
-* You need administrator privileges to run `webhint` on Edge. You
-  should be automatically prompted when running it.
-* It’s best to close all instances of Edge before to avoid any issues.
-* The current implementation can have some problems when scanning multiple
-  sites simultaneously. This should not be a common scenario.
-* The connector will make use of the `useTabUrl` and `tabUrl` properties.
-  Removing those can cause unexpected results.
 
 ### jsdom
 
