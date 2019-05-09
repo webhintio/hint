@@ -1,4 +1,7 @@
+import { debug as d } from '../debug';
 import { HTMLDocument, HTMLElement } from './html';
+
+const debug: debug.IDebugger = d(__filename);
 
 type Predicate = (element: HTMLElement) => boolean;
 
@@ -6,7 +9,13 @@ type Predicate = (element: HTMLElement) => boolean;
  * Find all elements matching the provided query and test in the target document.
  */
 const findMatches = (document: HTMLDocument, query: string, test?: Predicate): HTMLElement[] => {
-    let matches = document.querySelectorAll(query);
+    let matches: HTMLElement[] = [];
+
+    try {
+        matches = document.querySelectorAll(query);
+    } catch (e) {
+        debug(`Selector is invalid (${query}): ${e.message}`);
+    }
 
     if (test) {
         matches = matches.filter((match) => {
