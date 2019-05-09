@@ -532,10 +532,10 @@
     universal-user-agent "^2.0.1"
     url-template "^2.0.8"
 
-"@octokit/plugin-throttling@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-throttling/-/plugin-throttling-2.4.0.tgz#add1bd6a797aa210ce860e8bbe7f7505ba5e4d99"
-  integrity sha512-0bYfgQdqAtWiqXvS6oKMiousTno+e3pFoaYS57LpAp8p56Far49/vpGvbEvBUuNyoUFgOcTGm5WTpO1IPptHuQ==
+"@octokit/plugin-throttling@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-throttling/-/plugin-throttling-2.5.0.tgz#220128b9b234e9d737be4eab446df8c1f9b5cbab"
+  integrity sha512-/At81g5SRkzYcdajozmZkHYhTSltXhUs5C6rDx3uHTD7skXVx/+0DOdAn2kx6agm+BjZSLYMdDsnrRij8jRiTg==
   dependencies:
     bottleneck "^2.15.3"
 
