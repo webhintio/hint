@@ -8225,7 +8225,14 @@ markdownlint-cli@^0.15.0:
     minimatch "~3.0.4"
     rc "~1.2.7"
 
-markdownlint@^0.13.0, markdownlint@~0.13.0:
+markdownlint@^0.14.1:
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.14.1.tgz#62666d897284b44af20627229334045248f1c941"
+  integrity sha512-W3RxMP8GYyJAhgUXIXvBOXT2ai89qDIuLf2ZM0Xd+XcwXBS6Hu06Hg2UKNwMDPTy0uQK8YWCH4hkdxlevm/BgQ==
+  dependencies:
+    markdown-it "8.4.2"
+
+markdownlint@~0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.13.0.tgz#39ffd5ffbf1198c761a5ef3e28c195e5eb8dd669"
   integrity sha512-mGeDEbvmRk2T8f043lK7Lhcdi7mr68hQqGsJCS4p52uvEyOLym28s3r7GA6aaFQFtwT0MfFaJ/7Ex4n/HVPUnQ==
