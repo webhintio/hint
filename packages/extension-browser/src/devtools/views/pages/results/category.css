@@ -8,7 +8,7 @@
 }
 
 .summary {
-    background-color: var(--bg-color);
+    background-color: var(--base-bg);
     line-height: 1.75rem; /* 28px */
     padding: 0;
 }

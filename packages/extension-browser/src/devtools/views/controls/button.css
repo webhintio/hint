@@ -1,11 +1,11 @@
 .button {
-    background-color: var(--bg-inverse-alt-color);
+    background-color: var(--button-bg);
     border: none;
     border-radius: var(--rounding);
-    color: var(--text-color);
+    color: var(--base-color);
     cursor: pointer;
     font-family: inherit;
-    font-size: var(--input-font-size);
+    font-size: var(--font-size-sm);
     padding: 0.1875rem 1rem 0.3125rem; /* 3px 16px 5px */
     min-width: 6.25rem; /* 100px */
 }
@@ -19,14 +19,14 @@
 }
 
 .button:hover {
-    background-color: var(--bg-inverse-alt-color-hover);
+    background-color: var(--button-bg-hover);
 }
 
 .primary.button {
-    background-color: var(--bg-inverse-color);
-    color: var(--text-inverse-color);
+    background-color: var(--highlight-bg);
+    color: var(--light-color);
 }
 
 .primary.button:hover {
-    background-color: var(--bg-inverse-color-hover);
+    background-color: var(--highlight-bg-hover);
 }

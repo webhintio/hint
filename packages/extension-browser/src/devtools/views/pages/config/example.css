@@ -1,5 +1,5 @@
 .root {
-    color: var(--text-highlight-color);
-    font-size: var(--small-font-size);
+    color: var(--example-color);
+    font-size: var(--font-size-xs);
     margin-left: 1.325rem; /* 22 px */
 }
