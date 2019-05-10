@@ -79,6 +79,17 @@ export default class LocalConnector implements IConnector {
     private filesPattern: string[];
     private watcher: chokidar.FSWatcher | null = null;
 
+    public static schema = {
+        additionalProperties: false,
+        properties: {
+            pattern: {
+                items: { type: 'string' },
+                type: 'array'
+            },
+            watch: { type: 'boolean' }
+        }
+    }
+
     public constructor(engine: Engine<HTMLEvents>, config: object) {
         this._options = Object.assign({}, defaultOptions, config);
         this.filesPattern = this.getFilesPattern();
