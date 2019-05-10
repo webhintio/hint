@@ -54,7 +54,7 @@
     "build:ts": "tsc -b",
     "cache": "node scripts/ava-cache.js",
     "clean": "npm-run-all clean:*",
-    "clean:packages": "rimraf \"packages/!(connector-edge|extension-vscode)/{dist,package-lock.json,yarn.lock}\"",
+    "clean:packages": "rimraf \"packages/!extension-vscode/{dist,package-lock.json,yarn.lock}\"",
     "clean:root": "rimraf dist",
     "lint": "npm-run-all --parallel lint:*",
     "lint:md": "node scripts/lint-markdown && markdown-link-validator .",
@@ -76,7 +76,7 @@
       "**/vscode-languageserver"
     ],
     "packages": [
-      "packages/!(connector-edge)"
+      "packages/*"
     ]
   }
 }

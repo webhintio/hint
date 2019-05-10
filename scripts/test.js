@@ -457,27 +457,13 @@ const getRootData = async (filesChanged, packageJSONFileContent) => {
 
 
 const getPackagesData = async () => {
-    const excludedPackages = [
-
-        /*
-         * Exclude `connector-edge` for now to allow tests
-         * to run on Windows.
-         *
-         * TODO: Remove this once the `yarn` related issues are
-         *       fixed or we find a better solution to handle this.
-         *
-         * Ref: https://github.com/yarnpkg/yarn/issues/5951
-         *
-         */
-
-        'packages/connector-edge'
-    ];
+    const excludedPackages = [];
 
     const filesChanged = await getFilesChanged();
 
     const packages = [
         '.', // <= root
-        ...shell.ls('-d', 'packages/!(connector-edge)')
+        ...shell.ls('-d', 'packages/*')
     ];
 
     const projectData = {};
