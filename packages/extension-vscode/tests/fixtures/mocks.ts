@@ -27,7 +27,7 @@ export type Connection = {
     sendDiagnostics: (params: PublishDiagnosticsParams) => void;
     sendNotification: () => void;
     window: Window;
-}
+};
 
 export type Std = {
     pipe: () => void;
@@ -37,7 +37,7 @@ export type Child = {
     on: (event: string, listener: () => void) => void;
     stderr: Std;
     stdout: Std;
-}
+};
 
 export type ChildProcess = {
     spawn: (cmd: string) => Child;
@@ -52,15 +52,14 @@ export const mocks = () => {
         analyze(endpoints: Endpoint): Promise<AnalyzerResult[]> {
             return Promise.resolve([]);
         }
-    }
+    };
 
     class Analyzer {
         private constructor() { }
         public static create() {
             return analyzer;
         }
-        public static getUserConfig() {
-        }
+        public static getUserConfig() { }
     }
 
     const createAnalyzer = Analyzer.create;
@@ -84,17 +83,9 @@ export const mocks = () => {
         }
     };
 
-    const access = {
-        error(): Error | null {
-            return new Error('ENOENT');
-        }
-    };
-
-    const fs = {
-        access(path: string, callback: (err: Error | null) => void) {
-            setTimeout(() => {
-                callback(access.error());
-            }, 0);
+    const hintUtils = {
+        hasYarnLock(directory: string): Promise<boolean> {
+            return Promise.resolve(false);
         }
     };
 
@@ -113,13 +104,13 @@ export const mocks = () => {
         sendNotification() { },
         window: {
             showErrorMessage() {
-                return { title: '' }
+                return { title: '' };
             },
             showInformationMessage() {
-                return { title: '' }
+                return { title: '' };
             },
             showWarningMessage() {
-                return { title: '' }
+                return { title: '' };
             }
         }
     };
@@ -162,7 +153,7 @@ export const mocks = () => {
     };
 
     return {
-        access,
+        hintUtils,
         /*
          * 'as any' to avoid error:
          * Exported variable 'mocks' has or is using private name 'Analyzer'.
@@ -177,7 +168,6 @@ export const mocks = () => {
         document,
         documents,
         Files,
-        fs,
         getContentWatcher: () => {
             return contentWatcher;
         },
