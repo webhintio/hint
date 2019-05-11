@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { useCurrentDesign } from '../../utils/themes';
+import { useCurrentDesignStyles } from '../../utils/themes';
 import { ElementProps, Omit } from '../../utils/types';
 
 import * as fluent from './checkbox.fluent.css';
@@ -12,7 +12,7 @@ type Props = Omit<'type', ElementProps<'input'>>;
  * Checkbox input with common styles.
  */
 const Checkbox = ({ className, ...props }: Props) => {
-    const styles = useCurrentDesign({ fluent, photon });
+    const styles = useCurrentDesignStyles({ fluent, photon });
 
     return (
         <input type="checkbox" className={`${styles.root} ${className || ''}`} {...props} />

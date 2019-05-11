@@ -9,7 +9,7 @@ import ErrorPage from './pages/error';
 import ResultsPage from './pages/results';
 
 import { trackCancel, trackError, trackFinish, trackStart } from '../utils/analytics';
-import { useCurrentDesign, useCurrentTheme } from '../utils/themes';
+import { useCurrentDesignStyles, useCurrentTheme, withCurrentDesign } from '../utils/themes';
 
 import * as fluent from './app.fluent.css';
 import * as photon from './app.photon.css';
@@ -29,7 +29,7 @@ const App = () => {
     const [results, setResults] = useState(emptyResults);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-    const styles = useCurrentDesign({ fluent, photon });
+    const styles = useCurrentDesignStyles({ fluent, photon });
     const theme = useCurrentTheme();
 
     /*
@@ -95,4 +95,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default withCurrentDesign(App);

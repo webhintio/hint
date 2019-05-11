@@ -1,15 +1,67 @@
-import { useEffect, useState } from 'react';
+import { createContext, createElement, useContext, useEffect, useState, ComponentType } from 'react';
 
 import { browser } from '../../shared/globals';
 
 /** Supported design systems. */
-type DesignSystems<T> = {
-    fluent: T;
-    photon?: T;
+enum DesignSystems {
+    fluent = 'fluent',
+    photon = 'photon'
+}
+
+type DesignSystem = keyof typeof DesignSystems;
+
+/** Mapping of design systems to associated styles. */
+type DesignStyles<T> = {
+    [design in DesignSystems]: T;
 };
 
-/** Current design system. */
-declare const DESIGN_SYSTEM: keyof DesignSystems<any>;
+/** Build-specified design system. */
+declare const DESIGN_SYSTEM: DesignSystem;
+
+/** List of all supported design systems. */
+const designs = Object.keys(DesignSystems) as DesignSystem[];
+
+/** React `Context` representing the current design system. */
+const DesignContext = createContext(DESIGN_SYSTEM);
+
+/**
+ * React higher-order component which incorporates state representing
+ * the currently active design system. This state is consumed via
+ * `useCurrentDesignStyles` to choose between alternate stylesheets
+ * for a given component based on the current design system.
+ *
+ * Defaults to the build-specified design, but allows iterating through
+ * all supported designs by pressing CTRL+ALT+D.
+ */
+export const withCurrentDesign = <P extends object>(Component: ComponentType<P>) => {
+    return (props: P) => {
+        const [design, setDesign] = useState(DESIGN_SYSTEM);
+
+        useEffect(() => {
+            const onKeyUp = (event: KeyboardEvent) => {
+                if (!event.ctrlKey || !event.altKey || event.key !== 'd') {
+                    return;
+                }
+
+                setDesign((design) => {
+                    const index = (designs.indexOf(design) + 1) % designs.length;
+
+                    return designs[index];
+                });
+            };
+
+            document.addEventListener('keyup', onKeyUp);
+
+            return () => {
+                document.removeEventListener('keyup', onKeyUp);
+            };
+        }, []);
+
+        return createElement(DesignContext.Provider, { value: design },
+            createElement(Component, props)
+        );
+    };
+};
 
 /**
  * Select styles to use based on the current design system.
@@ -22,8 +74,10 @@ declare const DESIGN_SYSTEM: keyof DesignSystems<any>;
  * const styles = useCurrentDesign({ fluent, photon });
  * ```
  */
-export const useCurrentDesign = <T>(designs: DesignSystems<T>): T => {
-    return designs[DESIGN_SYSTEM] || designs.fluent;
+export const useCurrentDesignStyles = <T>(styles: DesignStyles<T>): T => {
+    const currentDesign = useContext(DesignContext);
+
+    return styles[currentDesign];
 };
 
 /** Align active styles with the current devtools theme. */
