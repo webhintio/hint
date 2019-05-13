@@ -10,7 +10,9 @@ type Fs = {
     existsSync: () => boolean;
 };
 
-type HasYarnLock = () => Promise<boolean>;
+type HasYarnLock = {
+    hasYarnLock: () => Promise<boolean>;
+};
 
 type CWD = () => string;
 
@@ -62,8 +64,10 @@ const initContext = (t: ExecutionContext<NPMContext>) => {
             return true;
         }
     };
-    t.context.hasYarnLock = (): Promise<boolean> => {
-        return Promise.resolve(false);
+    t.context.hasYarnLock = {
+        hasYarnLock() {
+            return Promise.resolve(false);
+        }
     };
     t.context.loadJSONFileModule = (): string => {
         return '';
@@ -160,7 +164,7 @@ test('installPackages should run `yarn` if yarn.lock is found, `hint` is install
     const sandbox = t.context.sandbox;
 
     sandbox.stub(t.context.fs, 'existsSync').returns(true);
-    sandbox.stub(t.context, 'hasYarnLock').resolves(true);
+    sandbox.stub(t.context.hasYarnLock, 'hasYarnLock').resolves(true);
     const childSpawnStub = sandbox.stub(t.context.child, 'spawn').returns(emitter);
 
     sandbox.stub(t.context, 'findPackageRootModule').returns('/example/path');
