@@ -24,7 +24,7 @@ const buildForRelease = async (pkg: Package) => {
 
     const command = `npm run ${npmScript}`;
 
-    await execa(command);
+    await execa(command, { cwd: path.dirname(pkg.path) });
 };
 
 export const confirmRelease = (ctx: Context) => {
