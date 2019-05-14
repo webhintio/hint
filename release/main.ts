@@ -6,7 +6,7 @@ import * as Listr from 'listr';
 import { Arguments } from 'yargs';
 
 import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease } from './lib/skippers';
-import { execa, taskErrorWrapper } from './lib/utils';
+import { taskErrorWrapper } from './lib/utils';
 import { updateChangelogs } from './tasks/update-changelogs';
 import { updateThirdPartyResources } from './lib/update-3rd-party';
 import { argv } from './lib/yargs-config';
@@ -24,14 +24,10 @@ import { authenticateGitHub } from './tasks/authenticate-github';
 import { cleanWorkspace } from './tasks/clean-workspace';
 import { deauthenticateGitHub } from './tasks/deauthenticate-github';
 import { pushChanges } from './tasks/push-changes';
+import { installDependencies } from './tasks/install-dependencies';
 import { Parameters } from './@types/custom';
 
 const ignoredPackages = ['connector-edge', 'extension-vscode', 'extension-browser'];
-
-/** Install all dependencies using `yarn`. */
-const installDependencies = () => {
-    return execa('yarn');
-};
 
 /** The tasks to be executed in sequential order. */
 const tasks = new Listr([
@@ -77,7 +73,7 @@ const tasks = new Listr([
     {
         title: 'Commit changes',
         skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
-        task: commitPackagesChanges
+        task: taskErrorWrapper(commitPackagesChanges)
     },
     {
         title: 'Validate changes',
@@ -92,7 +88,7 @@ const tasks = new Listr([
     {
         title: 'Install dependencies',
         skip: skipReasons(skipIfError, skipIfAborted, skipInstallation),
-        task: installDependencies
+        task: taskErrorWrapper(installDependencies)
     },
     {
         title: 'Run tests',
