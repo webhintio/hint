@@ -76,7 +76,6 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {},
-  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "ava": "ava",
