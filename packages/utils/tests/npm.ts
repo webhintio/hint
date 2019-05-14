@@ -183,6 +183,30 @@ test('installPackages should run `yarn` if yarn.lock is found, `hint` is install
     t.is(childSpawnStub.args[0][0], 'yarn add hint1 @hint/formatter-formatter1');
 });
 
+test('installPackages should run `yarn` if yarn.lock is found, `hint` is installed locally, and has `hint` as a dev dependency', async (t) => {
+    const emitter = getEmitter();
+    const sandbox = t.context.sandbox;
+
+    sandbox.stub(t.context.fs, 'existsSync').returns(true);
+    sandbox.stub(t.context.hasYarnLock, 'hasYarnLock').resolves(true);
+    const childSpawnStub = sandbox.stub(t.context.child, 'spawn').returns(emitter);
+
+    sandbox.stub(t.context, 'findPackageRootModule').returns('/example/path');
+    sandbox.stub(t.context, 'cwd').returns('/example/path');
+    sandbox.stub(t.context, 'loadJSONFileModule').returns(devDependencyJson);
+
+    const npmUtils = loadScript(t.context);
+    const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
+
+    await misc.delay(500);
+
+    emitter.emit('exit', 0);
+
+    await promise;
+
+    t.is(childSpawnStub.args[0][0], 'yarn add --dev hint1 @hint/formatter-formatter1');
+});
+
 test('installPackages should run the right command if `hint` is installed locally but the project package.json doesn\'t exist', async (t) => {
     const emitter = getEmitter();
     const sandbox = t.context.sandbox;
