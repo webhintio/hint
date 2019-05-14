@@ -5,7 +5,7 @@
 import * as Listr from 'listr';
 import { Arguments } from 'yargs';
 
-import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease } from './lib/skippers';
+import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease, skipTests } from './lib/skippers';
 import { taskErrorWrapper } from './lib/utils';
 import { updateChangelogs } from './tasks/update-changelogs';
 import { updateThirdPartyResources } from './lib/update-3rd-party';
@@ -92,7 +92,7 @@ const tasks = new Listr([
     },
     {
         title: 'Run tests',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease, skipTests),
         task: runTests()
     },
     {

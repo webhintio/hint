@@ -17,6 +17,10 @@ export const argv = yargs
         alias: 's',
         describe: 'Skip "yarn" install process'
     })
+    .option('skipTests', {
+        alias: 't',
+        describe: 'Skip the testing face and go directly to publish on npm and GitHub'
+    })
     .version(false)
     .help()
     .argv;

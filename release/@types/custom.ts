@@ -28,6 +28,7 @@ export type Parameters = {
     help: boolean;
     justRelease: boolean;
     skipInstall: boolean;
+    skipTests: boolean;
 }
 
 export type Reference = {

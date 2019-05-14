@@ -35,6 +35,14 @@ export const skipIfAborted = (ctx: Context) => {
         '';
 };
 
+export const skipTests = (ctx: Context) => {
+    const { skipTests } = ctx.argv;
+
+    return typeof skipTests === 'undefined' ?
+        '' :
+        '--skipTests';
+};
+
 const skipArgument = (argument: string) => {
     return (ctx: Context) => {
         return ctx.argv[argument] ?
