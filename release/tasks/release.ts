@@ -60,7 +60,7 @@ export const release = () => {
             await buildForRelease(pkg);
 
             const dryRun = ctx.argv.dryRun ?
-                '--dry-run' :
+                ' --dry-run' :
                 '';
 
             message = `Publishing ${pkg.name}`;
@@ -68,7 +68,7 @@ export const release = () => {
             debug(message);
             observer.next(message);
 
-            const { stdout } = await execa(`npm publish --access public ${dryRun}`, { cwd: path.dirname(pkg.path) });
+            const { stdout } = await execa(`npm publish --access public${dryRun}`, { cwd: path.dirname(pkg.path) });
 
             debug(stdout);
         } else {
