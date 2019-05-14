@@ -1,3 +1,10 @@
+# 6.2.0 (May 14, 2019)
+
+## New features
+
+* [[`283e587140`](https://github.com/webhintio/hint/commit/283e5871404a576a7fae50a7e5145567ee681003)] - New: Add `create-element-svg` (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 6.1.1 (March 7, 2019)
 
 ## Bug fixes / Improvements

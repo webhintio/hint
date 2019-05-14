@@ -1,3 +1,19 @@
+# 6.2.0 (May 14, 2019)
+
+## New features
+
+* [[`283e587140`](https://github.com/webhintio/hint/commit/283e5871404a576a7fae50a7e5145567ee681003)] - New: Add `create-element-svg` (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`a0de4486ec`](https://github.com/webhintio/hint/commit/a0de4486eccbf6d838a1d7e32e840302810d9163)] - Chore: Update 'hint-sri' to 'v3.0.5' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`5e0dca5eec`](https://github.com/webhintio/hint/commit/5e0dca5eec561463ec715f4ecac0b22a71de7ab3)] - Chore: Update 'hint-no-vulnerable-javascript-libraries' to 'v2.7.0' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`aa9ef5e153`](https://github.com/webhintio/hint/commit/aa9ef5e15383bf0cf221896a3cde02635d331c60)] - Chore: Update 'hint-css-prefix-order' to 'v1.0.2' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`12d9b851f4`](https://github.com/webhintio/hint/commit/12d9b851f4afcfce693806df35d37c36684c35d8)] - Chore: Update 'parser-css' to 'v2.1.0' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`50f9ebcfb2`](https://github.com/webhintio/hint/commit/50f9ebcfb261bc290ae8bcf71360a277ee2351d4)] - Chore: Update 'formatter-html' to 'v3.2.1' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`2abf2d66f8`](https://github.com/webhintio/hint/commit/2abf2d66f8ae620edab9d1dada6eb828d4531c1c)] - Chore: Update 'hint' to 'v4.5.0' (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 6.1.0 (February 22, 2019)
 
 ## New features

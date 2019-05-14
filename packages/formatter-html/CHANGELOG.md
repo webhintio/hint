@@ -1,3 +1,50 @@
+# 4.0.0 (May 14, 2019)
+
+## Breaking Changes
+
+* [[`e2ad04570d`](https://github.com/webhintio/hint/commit/e2ad04570df3fc8e968bfd412c617b49759b7ae4)] - Breaking: Move target to options in Formatter.format (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+## Bug fixes / Improvements
+
+* [[`b7b4866def`](https://github.com/webhintio/hint/commit/b7b4866def7a5bad3cddcb05b49a51b0c5b52bec)] - Fix: Error location for HTTP headers and added code snippet (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2209`](https://github.com/webhintio/hint/issues/2209)).
+* [[`2dfb338234`](https://github.com/webhintio/hint/commit/2dfb3382347cd264561adc378d6c73972bd1bae6)] - Fix: Review pinned version of packages (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2025`](https://github.com/webhintio/hint/issues/2025)).
+* [[`7b44f65c73`](https://github.com/webhintio/hint/commit/7b44f65c73cf9f357b8b43354b046e2a294e9822)] - Docs: Stop capitalizing the `x` in axe (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2215`](https://github.com/webhintio/hint/issues/2215)).
+* [[`fefa0bf8aa`](https://github.com/webhintio/hint/commit/fefa0bf8aa96aed556a62bf3f501e791dd9c8ece)] - Fix: Missing dependencies (by [`Antón Molleda`](https://github.com/molant)).
+* [[`169f2da4bb`](https://github.com/webhintio/hint/commit/169f2da4bbed1b452c799baf01aa8ddc4af3ef76)] - Fix: Accessibility issue in mobile menu (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2053`](https://github.com/webhintio/hint/issues/2053)).
+
+## New features
+
+* [[`d934aeb9b7`](https://github.com/webhintio/hint/commit/d934aeb9b714a7ddcaf1d09a3790348eaa4c335b)] - New: Node.js API (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1532`](https://github.com/webhintio/hint/issues/1532)).
+* [[`f8cbcef837`](https://github.com/webhintio/hint/commit/f8cbcef8379fa2b97c990fbfae6a74b13a4a6c8f)] - New: Add `utils` package (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`640bd86d6d`](https://github.com/webhintio/hint/commit/640bd86d6db80d039c87b273ba5785c25a725aa2)] - New: Add parameter to output formatter output to a file (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2056`](https://github.com/webhintio/hint/issues/2056)).
+
+## Chores
+
+* [[`94f55efa03`](https://github.com/webhintio/hint/commit/94f55efa03e2e26ab2a22f7c3dbd8df95f44296d)] - Chore: Remove deprecation handling of interoperability category (by [`Tony Ross`](https://github.com/antross)).
+* [[`04b7167def`](https://github.com/webhintio/hint/commit/04b7167def4bf2db18f8e2cf76228db9109446fc)] - Upgrade: Bump @types/fs-extra from 5.0.5 to 5.1.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`907995d47e`](https://github.com/webhintio/hint/commit/907995d47ec7dcdee2e3f336f026f9901e55f291)] - Upgrade: Bump @types/node from 11.13.9 to 12.0.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`0f70f6f773`](https://github.com/webhintio/hint/commit/0f70f6f773235cdab31d5811eaa5f0ff9be9650f)] - Upgrade: Bump nyc from 14.0.0 to 14.1.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`8332a32710`](https://github.com/webhintio/hint/commit/8332a32710329a40a628d4e61286a0a5464fb11f)] - Upgrade: Bump @types/node from 11.13.8 to 11.13.9 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`60624562af`](https://github.com/webhintio/hint/commit/60624562af11362cf834f1791c6f3c1dfe84385d)] - Upgrade: Bump @types/node from 11.13.5 to 11.13.8 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`2075b77ab1`](https://github.com/webhintio/hint/commit/2075b77ab1b05aadc51329261df3fbc9d83cc09e)] - Upgrade: Bump typescript from 3.4.4 to 3.4.5 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`15aeb57f27`](https://github.com/webhintio/hint/commit/15aeb57f2753dce8e6b7c78a9cc5c5376a538835)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.6.0 to 1.7.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`7c89c54dc0`](https://github.com/webhintio/hint/commit/7c89c54dc035641db905a2d057dc2ba04af09eb1)] - Upgrade: Bump @typescript-eslint/parser from 1.6.0 to 1.7.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`b7a588d442`](https://github.com/webhintio/hint/commit/b7a588d442233484c5ffdff41865761213b4121a)] - Upgrade: Bump typescript from 3.4.3 to 3.4.4 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`c119a3562d`](https://github.com/webhintio/hint/commit/c119a3562dd487b8e48f20c99ed27d37b92288a8)] - Upgrade: Bump @types/node from 11.13.4 to 11.13.5 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`c8f87f8cb3`](https://github.com/webhintio/hint/commit/c8f87f8cb3318ef0abf1259e7a78f920c2f6701e)] - Upgrade: Bump eslint-plugin-import from 2.16.0 to 2.17.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`d6e55c5300`](https://github.com/webhintio/hint/commit/d6e55c5300b8b855c83e03428fbedc75f7a4f5bd)] - Upgrade: Bump sinon from 7.3.1 to 7.3.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`83510aecf9`](https://github.com/webhintio/hint/commit/83510aecf9657aadbc987ae7ad66603a1da1e8e0)] - Upgrade: Bump nyc from 13.3.0 to 14.0.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`3f591e798f`](https://github.com/webhintio/hint/commit/3f591e798f352ec47bab83e53ed548318688e51a)] - Upgrade: Bump typescript from 3.3.4000 to 3.4.3 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`ee6926da4a`](https://github.com/webhintio/hint/commit/ee6926da4ad6dbefb6582d18659f9016d7413ec4)] - Upgrade: Bump @types/sinon from 7.0.10 to 7.0.11 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`f50942e1ac`](https://github.com/webhintio/hint/commit/f50942e1ac6658f9e4b333f7f3a7342ab98b48ea)] - Upgrade: Bump ava from 1.4.0 to 1.4.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`20977a7026`](https://github.com/webhintio/hint/commit/20977a70263218cfdbfe3ff37a9ce7398ed8f795)] - Upgrade: Bump sinon from 7.3.0 to 7.3.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`c8eb30606a`](https://github.com/webhintio/hint/commit/c8eb30606a39c9175e1ec43a8d693d04ff5842d4)] - Upgrade: Bump ava from 1.3.1 to 1.4.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`879d4b2c59`](https://github.com/webhintio/hint/commit/879d4b2c59ff8a4a58e547639624d3efc3e3e38b)] - Chore: Scope lodash imports to reduce browser extension size (by [`Tony Ross`](https://github.com/antross)).
+* [[`3f94789dca`](https://github.com/webhintio/hint/commit/3f94789dcaf69db0047858becd18e1aedf406dcd)] - Upgrade: Bump typescript from 3.3.3333 to 3.3.4000 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`f9fa6be4d4`](https://github.com/webhintio/hint/commit/f9fa6be4d48d339738a5f9a8ff257a75cba8ce97)] - Upgrade: Bump sinon from 7.2.7 to 7.3.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`8aca1d9472`](https://github.com/webhintio/hint/commit/8aca1d9472703f153d3a4cedae1b776d32f6da02)] - Upgrade: Bump @types/sinon from 7.0.9 to 7.0.10 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 3.2.1 (March 7, 2019)
 
 ## Bug fixes / Improvements

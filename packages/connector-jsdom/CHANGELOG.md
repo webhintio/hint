@@ -1,3 +1,74 @@
+# 4.0.0 (May 14, 2019)
+
+## Breaking Changes
+
+* [[`fa1652bb1d`](https://github.com/webhintio/hint/commit/fa1652bb1d99ffc1163dcca337836d9048832ac9)] - Breaking: Validate `Connector`s configuration (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2257`](https://github.com/webhintio/hint/issues/2257)).
+* [[`a01fbca4f0`](https://github.com/webhintio/hint/commit/a01fbca4f09b6de97edc698839d64910cb40f76a)] - Breaking: Move `content-type` util from `hint` to `@hint/utils` (by [`Tony Ross`](https://github.com/antross)).
+* [[`f3583a2cf8`](https://github.com/webhintio/hint/commit/f3583a2cf8c8a93c0ad726803d7211f7b1383b2b)] - Breaking: Refactor DOM utils inside hint to `@hint/utils` (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2192`](https://github.com/webhintio/hint/issues/2192)).
+
+## Bug fixes / Improvements
+
+* [[`2dfb338234`](https://github.com/webhintio/hint/commit/2dfb3382347cd264561adc378d6c73972bd1bae6)] - Fix: Review pinned version of packages (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2025`](https://github.com/webhintio/hint/issues/2025)).
+* [[`1c19155f56`](https://github.com/webhintio/hint/commit/1c19155f563806c554fc12c8b1c7f67ac1bed433)] - Fix: Ensure we are clossing subprocesses in jsdom (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2223`](https://github.com/webhintio/hint/issues/2223)).
+* [[`bff51557e4`](https://github.com/webhintio/hint/commit/bff51557e4fdb9bf921d3dbe60a85d897fe9abde)] - Fix: Use correct base URL in `getElementByUrl` (by [`Tony Ross`](https://github.com/antross) / see also: [`#2148`](https://github.com/webhintio/hint/issues/2148)).
+* [[`fefa0bf8aa`](https://github.com/webhintio/hint/commit/fefa0bf8aa96aed556a62bf3f501e791dd9c8ece)] - Fix: Missing dependencies (by [`Antón Molleda`](https://github.com/molant)).
+* [[`29b22740ad`](https://github.com/webhintio/hint/commit/29b22740ad4948d424a2072349dc8dfb7bc99134)] - Fix: Tie more elements from DOM snapshot back to original source (by [`Tony Ross`](https://github.com/antross)).
+* [[`5bc0b1657f`](https://github.com/webhintio/hint/commit/5bc0b1657f024068c1479ee226dbeff3d806000a)] - Fix: Change how traversing is done and removed IAsync* references (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+## New features
+
+* [[`d934aeb9b7`](https://github.com/webhintio/hint/commit/d934aeb9b714a7ddcaf1d09a3790348eaa4c335b)] - New: Node.js API (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1532`](https://github.com/webhintio/hint/issues/1532)).
+* [[`f8cbcef837`](https://github.com/webhintio/hint/commit/f8cbcef8379fa2b97c990fbfae6a74b13a4a6c8f)] - New: Add `utils` package (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+## Chores
+
+* [[`f1d392c919`](https://github.com/webhintio/hint/commit/f1d392c91988e1bdd5768568a98c72679d20c98a)] - Upgrade: Bump @types/lodash from 4.14.124 to 4.14.126 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`14d9bbbf47`](https://github.com/webhintio/hint/commit/14d9bbbf473f173d3efc3859a7450dc041855544)] - Chore: Update User-Agent to more recent one (by [`Antón Molleda`](https://github.com/molant)).
+* [[`84dc626ff2`](https://github.com/webhintio/hint/commit/84dc626ff2f8113122d0f8bcca8ba339465cc0c4)] - Upgrade: Bump @types/lodash from 4.14.123 to 4.14.124 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`7106e385a6`](https://github.com/webhintio/hint/commit/7106e385a608d3ae29c269e4bba880dafe6a570e)] - Upgrade: Bump canvas from 2.4.1 to 2.5.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`907995d47e`](https://github.com/webhintio/hint/commit/907995d47ec7dcdee2e3f336f026f9901e55f291)] - Upgrade: Bump @types/node from 11.13.9 to 12.0.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`0f70f6f773`](https://github.com/webhintio/hint/commit/0f70f6f773235cdab31d5811eaa5f0ff9be9650f)] - Upgrade: Bump nyc from 14.0.0 to 14.1.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`8332a32710`](https://github.com/webhintio/hint/commit/8332a32710329a40a628d4e61286a0a5464fb11f)] - Upgrade: Bump @types/node from 11.13.8 to 11.13.9 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`60624562af`](https://github.com/webhintio/hint/commit/60624562af11362cf834f1791c6f3c1dfe84385d)] - Upgrade: Bump @types/node from 11.13.5 to 11.13.8 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`2075b77ab1`](https://github.com/webhintio/hint/commit/2075b77ab1b05aadc51329261df3fbc9d83cc09e)] - Upgrade: Bump typescript from 3.4.4 to 3.4.5 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`15aeb57f27`](https://github.com/webhintio/hint/commit/15aeb57f2753dce8e6b7c78a9cc5c5376a538835)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.6.0 to 1.7.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`0c862603a3`](https://github.com/webhintio/hint/commit/0c862603a37dda6b6cc78d902d9805b7c36ce967)] - Upgrade: Bump jsdom from 14.0.0 to 15.0.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`7c89c54dc0`](https://github.com/webhintio/hint/commit/7c89c54dc035641db905a2d057dc2ba04af09eb1)] - Upgrade: Bump @typescript-eslint/parser from 1.6.0 to 1.7.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`b7a588d442`](https://github.com/webhintio/hint/commit/b7a588d442233484c5ffdff41865761213b4121a)] - Upgrade: Bump typescript from 3.4.3 to 3.4.4 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`c119a3562d`](https://github.com/webhintio/hint/commit/c119a3562dd487b8e48f20c99ed27d37b92288a8)] - Upgrade: Bump @types/node from 11.13.4 to 11.13.5 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`c8f87f8cb3`](https://github.com/webhintio/hint/commit/c8f87f8cb3318ef0abf1259e7a78f920c2f6701e)] - Upgrade: Bump eslint-plugin-import from 2.16.0 to 2.17.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`d6e55c5300`](https://github.com/webhintio/hint/commit/d6e55c5300b8b855c83e03428fbedc75f7a4f5bd)] - Upgrade: Bump sinon from 7.3.1 to 7.3.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`83510aecf9`](https://github.com/webhintio/hint/commit/83510aecf9657aadbc987ae7ad66603a1da1e8e0)] - Upgrade: Bump nyc from 13.3.0 to 14.0.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`3f591e798f`](https://github.com/webhintio/hint/commit/3f591e798f352ec47bab83e53ed548318688e51a)] - Upgrade: Bump typescript from 3.3.4000 to 3.4.3 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`ee6926da4a`](https://github.com/webhintio/hint/commit/ee6926da4ad6dbefb6582d18659f9016d7413ec4)] - Upgrade: Bump @types/sinon from 7.0.10 to 7.0.11 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`f50942e1ac`](https://github.com/webhintio/hint/commit/f50942e1ac6658f9e4b333f7f3a7342ab98b48ea)] - Upgrade: Bump ava from 1.4.0 to 1.4.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`20977a7026`](https://github.com/webhintio/hint/commit/20977a70263218cfdbfe3ff37a9ce7398ed8f795)] - Upgrade: Bump sinon from 7.3.0 to 7.3.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`c8eb30606a`](https://github.com/webhintio/hint/commit/c8eb30606a39c9175e1ec43a8d693d04ff5842d4)] - Upgrade: Bump ava from 1.3.1 to 1.4.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`879d4b2c59`](https://github.com/webhintio/hint/commit/879d4b2c59ff8a4a58e547639624d3efc3e3e38b)] - Chore: Scope lodash imports to reduce browser extension size (by [`Tony Ross`](https://github.com/antross)).
+* [[`3f94789dca`](https://github.com/webhintio/hint/commit/3f94789dcaf69db0047858becd18e1aedf406dcd)] - Upgrade: Bump typescript from 3.3.3333 to 3.3.4000 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`f9fa6be4d4`](https://github.com/webhintio/hint/commit/f9fa6be4d48d339738a5f9a8ff257a75cba8ce97)] - Upgrade: Bump sinon from 7.2.7 to 7.3.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`d3d9a2598b`](https://github.com/webhintio/hint/commit/d3d9a2598b323cd333fdefe404caf4cfd08e606a)] - Upgrade: Bump canvas from 2.4.0 to 2.4.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`e25706f45b`](https://github.com/webhintio/hint/commit/e25706f45bc43f207e250adc9560349b47db33bb)] - Upgrade: Bump canvas from 2.2.0 to 2.4.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`8aca1d9472`](https://github.com/webhintio/hint/commit/8aca1d9472703f153d3a4cedae1b776d32f6da02)] - Upgrade: Bump @types/sinon from 7.0.9 to 7.0.10 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`bb4c36429a`](https://github.com/webhintio/hint/commit/bb4c36429ac8e66c1b93525d1c6204b9b7ec8827)] - Upgrade: Bump @types/lodash from 4.14.122 to 4.14.123 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`06ebaf8bf5`](https://github.com/webhintio/hint/commit/06ebaf8bf548b415401ea3aaf6acf6bfa69dbb5b)] - Upgrade: Bump jsdom from 13.2.0 to 14.0.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`2abf2d66f8`](https://github.com/webhintio/hint/commit/2abf2d66f8ae620edab9d1dada6eb828d4531c1c)] - Chore: Update 'hint' to 'v4.5.0' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`84dfa26365`](https://github.com/webhintio/hint/commit/84dfa26365305d3d595b6b4298fd1ec10c53e495)] - Upgrade: Bump @types/sinon from 7.0.8 to 7.0.9 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`4a14448fdb`](https://github.com/webhintio/hint/commit/4a14448fdbebf96599548e49e4c8bca2fc0f05f8)] - Upgrade: Bump ava from 1.2.1 to 1.3.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`e6ad75945a`](https://github.com/webhintio/hint/commit/e6ad75945a116ac822864d6561037f1de863fde4)] - Upgrade: Bump @types/lodash from 4.14.121 to 4.14.122 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`efcf80ba61`](https://github.com/webhintio/hint/commit/efcf80ba61c23c210d634c20ae85963af473606e)] - Upgrade: Bump eslint from 5.14.1 to 5.15.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`d1886d51fe`](https://github.com/webhintio/hint/commit/d1886d51fed067007c8d632344d081e2c9c99f7a)] - Upgrade: Bump sinon from 7.2.6 to 7.2.7 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`a6cd56ec07`](https://github.com/webhintio/hint/commit/a6cd56ec0762d31d186a9e5e76fd99252cde9fc8)] - Upgrade: Bump @types/jsdom from 12.2.2 to 12.2.3 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`84c9d7425f`](https://github.com/webhintio/hint/commit/84c9d7425f3e64068654942c1b5f4c4e3d97c866)] - Upgrade: Bump @types/sinon from 7.0.7 to 7.0.8 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`e9c11688c9`](https://github.com/webhintio/hint/commit/e9c11688c9a94d9a091e275ed847b9f5dda7ac53)] - Upgrade: Bump @typescript-eslint/parser from 1.4.0 to 1.4.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`c6779b0b91`](https://github.com/webhintio/hint/commit/c6779b0b91cebed9d3048bf0822e8363ebf99da6)] - Upgrade: Bump sinon from 7.2.5 to 7.2.6 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`19334ecf98`](https://github.com/webhintio/hint/commit/19334ecf98184514f29d714fa752489a6d8d98b4)] - Upgrade: Bump sinon from 7.2.4 to 7.2.5 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`f806ea20be`](https://github.com/webhintio/hint/commit/f806ea20bea2a56f5a423c38f6128d9f5173f2c9)] - Upgrade: Bump @types/sinon from 7.0.6 to 7.0.7 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`e6221bf245`](https://github.com/webhintio/hint/commit/e6221bf245848bbfa6008ec1e506ad4c097ec5c2)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.4.1 to 1.4.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`2bd6b8d1cf`](https://github.com/webhintio/hint/commit/2bd6b8d1cffec609afccc7ab0c2ca05f06d3eaab)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.4.0 to 1.4.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`6c5082f769`](https://github.com/webhintio/hint/commit/6c5082f769a3d280239d1699c185396a57edac0d)] - Upgrade: Bump typescript from 3.3.3 to 3.3.3333 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 3.0.1 (February 21, 2019)
 
 ## Bug fixes / Improvements

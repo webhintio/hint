@@ -1,3 +1,28 @@
+# 5.1.0 (May 14, 2019)
+
+## Bug fixes / Improvements
+
+* [[`5295b71930`](https://github.com/webhintio/hint/commit/5295b719304975ced719277eef557b2fc82ff1c0)] - Fix: Remove `hint-manifest-icons` (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`0d53ac530c`](https://github.com/webhintio/hint/commit/0d53ac530cbbc713c80c112a83ec0bc6fad77110)] - New: Add `manifest-icons` to `config-pwa` (by [`Shivang Tripathi`](https://github.com/shivangg) / see also: [`#2352`](https://github.com/webhintio/hint/issues/2352)).
+
+## Chores
+
+* [[`50f9ebcfb2`](https://github.com/webhintio/hint/commit/50f9ebcfb261bc290ae8bcf71360a277ee2351d4)] - Chore: Update 'formatter-html' to 'v3.2.1' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`2abf2d66f8`](https://github.com/webhintio/hint/commit/2abf2d66f8ae620edab9d1dada6eb828d4531c1c)] - Chore: Update 'hint' to 'v4.5.0' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`379f778aa0`](https://github.com/webhintio/hint/commit/379f778aa023f36921eb8ebfe9d82761b74d9f3c)] - Chore: Update 'hint-manifest-is-valid' to 'v3.0.1' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`02faf81a4f`](https://github.com/webhintio/hint/commit/02faf81a4fa838537f3d310720278c8bfdc774b8)] - Chore: Update 'hint-manifest-file-extension' to 'v2.1.2' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`4734d43b4d`](https://github.com/webhintio/hint/commit/4734d43b4dda90cbbb5babb015b7a3940dd32ca1)] - Chore: Update 'hint-manifest-exists' to 'v2.1.2' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`95425ffcc0`](https://github.com/webhintio/hint/commit/95425ffcc059aa4f7811a0a46ff6579fbc924695)] - Chore: Update 'hint-manifest-app-name' to 'v2.1.1' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`0824a9f268`](https://github.com/webhintio/hint/commit/0824a9f2680fd28ea62304ee009a2e36e65278cc)] - Chore: Update 'hint-apple-touch-icons' to 'v2.1.2' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`7872c9ab96`](https://github.com/webhintio/hint/commit/7872c9ab96e47b7fd5d21bd0c3c5e8e0b2cfbf33)] - Chore: Update 'formatter-html' to 'v3.2.0' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`d28ece6aec`](https://github.com/webhintio/hint/commit/d28ece6aecaf24e983dfd3f2ef85547753bef325)] - Chore: Update 'connector-jsdom' to 'v3.0.1' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`b437336914`](https://github.com/webhintio/hint/commit/b43733691484c844da8dadc3a4b93db956e0c7b1)] - Chore: Update 'connector-chrome' to 'v3.0.1' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`2b5de440a1`](https://github.com/webhintio/hint/commit/2b5de440a1865e45ac91f6c9d529d0e077e47746)] - Chore: Update 'hint' to 'v4.4.1' (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 5.0.0 (February 7, 2019)
 
 ## Breaking Changes

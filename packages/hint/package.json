@@ -78,7 +78,7 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
-    "@hint/configuration-web-recommended": "^6.1.0"
+    "@hint/configuration-web-recommended": "^6.2.0"
   },
   "repository": "https://github.com/webhintio/hint",
   "scripts": {
@@ -102,5 +102,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.5.0"
+  "version": "5.0.0"
 }

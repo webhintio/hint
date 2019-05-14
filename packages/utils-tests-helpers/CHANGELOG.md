@@ -1,3 +1,57 @@
+# 4.0.0 (May 14, 2019)
+
+## Breaking Changes
+
+* [[`fa1652bb1d`](https://github.com/webhintio/hint/commit/fa1652bb1d99ffc1163dcca337836d9048832ac9)] - Breaking: Validate `Connector`s configuration (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2257`](https://github.com/webhintio/hint/issues/2257)).
+
+## Bug fixes / Improvements
+
+* [[`2dfb338234`](https://github.com/webhintio/hint/commit/2dfb3382347cd264561adc378d6c73972bd1bae6)] - Fix: Review pinned version of packages (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2025`](https://github.com/webhintio/hint/issues/2025)).
+* [[`fefa0bf8aa`](https://github.com/webhintio/hint/commit/fefa0bf8aa96aed556a62bf3f501e791dd9c8ece)] - Fix: Missing dependencies (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`d934aeb9b7`](https://github.com/webhintio/hint/commit/d934aeb9b714a7ddcaf1d09a3790348eaa4c335b)] - New: Node.js API (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#1532`](https://github.com/webhintio/hint/issues/1532)).
+* [[`f8cbcef837`](https://github.com/webhintio/hint/commit/f8cbcef8379fa2b97c990fbfae6a74b13a4a6c8f)] - New: Add `utils` package (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`a28a599497`](https://github.com/webhintio/hint/commit/a28a5994970178b43703a0ff50a02bbfa952c858)] - New: Include HTML parser for tests by default (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`907995d47e`](https://github.com/webhintio/hint/commit/907995d47ec7dcdee2e3f336f026f9901e55f291)] - Upgrade: Bump @types/node from 11.13.9 to 12.0.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`8332a32710`](https://github.com/webhintio/hint/commit/8332a32710329a40a628d4e61286a0a5464fb11f)] - Upgrade: Bump @types/node from 11.13.8 to 11.13.9 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`f934c5af80`](https://github.com/webhintio/hint/commit/f934c5af80fedbdedc300597db126bbeb4df9016)] - Chore: Use packed MDN data from `@hint/utils` (by [`Tony Ross`](https://github.com/antross)).
+* [[`60624562af`](https://github.com/webhintio/hint/commit/60624562af11362cf834f1791c6f3c1dfe84385d)] - Upgrade: Bump @types/node from 11.13.5 to 11.13.8 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`2075b77ab1`](https://github.com/webhintio/hint/commit/2075b77ab1b05aadc51329261df3fbc9d83cc09e)] - Upgrade: Bump typescript from 3.4.4 to 3.4.5 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`15aeb57f27`](https://github.com/webhintio/hint/commit/15aeb57f2753dce8e6b7c78a9cc5c5376a538835)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.6.0 to 1.7.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`7c89c54dc0`](https://github.com/webhintio/hint/commit/7c89c54dc035641db905a2d057dc2ba04af09eb1)] - Upgrade: Bump @typescript-eslint/parser from 1.6.0 to 1.7.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`72664f7c5c`](https://github.com/webhintio/hint/commit/72664f7c5c63803629f8970c433028633cba5663)] - Chore: Properly close resources on failure (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2236`](https://github.com/webhintio/hint/issues/2236)).
+* [[`b7a588d442`](https://github.com/webhintio/hint/commit/b7a588d442233484c5ffdff41865761213b4121a)] - Upgrade: Bump typescript from 3.4.3 to 3.4.4 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`c119a3562d`](https://github.com/webhintio/hint/commit/c119a3562dd487b8e48f20c99ed27d37b92288a8)] - Upgrade: Bump @types/node from 11.13.4 to 11.13.5 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`c8f87f8cb3`](https://github.com/webhintio/hint/commit/c8f87f8cb3318ef0abf1259e7a78f920c2f6701e)] - Upgrade: Bump eslint-plugin-import from 2.16.0 to 2.17.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`3f591e798f`](https://github.com/webhintio/hint/commit/3f591e798f352ec47bab83e53ed548318688e51a)] - Upgrade: Bump typescript from 3.3.4000 to 3.4.3 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`f50942e1ac`](https://github.com/webhintio/hint/commit/f50942e1ac6658f9e4b333f7f3a7342ab98b48ea)] - Upgrade: Bump ava from 1.4.0 to 1.4.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`c8eb30606a`](https://github.com/webhintio/hint/commit/c8eb30606a39c9175e1ec43a8d693d04ff5842d4)] - Upgrade: Bump ava from 1.3.1 to 1.4.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`3f94789dca`](https://github.com/webhintio/hint/commit/3f94789dcaf69db0047858becd18e1aedf406dcd)] - Upgrade: Bump typescript from 3.3.3333 to 3.3.4000 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`e67e695e65`](https://github.com/webhintio/hint/commit/e67e695e65f85734b319bdc0b2e14a0acd574567)] - Chore: Fix linting issue in `utils-tests-helpers` (by [`Tony Ross`](https://github.com/antross)).
+* [[`ae5124479d`](https://github.com/webhintio/hint/commit/ae5124479d63d9d4bdafa0cac211eb2857485f50)] - Chore: Refactor location tests to match similar text (by [`Tony Ross`](https://github.com/antross)).
+* [[`4ad0ea4187`](https://github.com/webhintio/hint/commit/4ad0ea41871335a9958df710e4dba33f92e301a8)] - Chore: Fix report positions in tests (by [`Tony Ross`](https://github.com/antross)).
+* [[`2abf2d66f8`](https://github.com/webhintio/hint/commit/2abf2d66f8ae620edab9d1dada6eb828d4531c1c)] - Chore: Update 'hint' to 'v4.5.0' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`4a14448fdb`](https://github.com/webhintio/hint/commit/4a14448fdbebf96599548e49e4c8bca2fc0f05f8)] - Upgrade: Bump ava from 1.2.1 to 1.3.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`efcf80ba61`](https://github.com/webhintio/hint/commit/efcf80ba61c23c210d634c20ae85963af473606e)] - Upgrade: Bump eslint from 5.14.1 to 5.15.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`e9c11688c9`](https://github.com/webhintio/hint/commit/e9c11688c9a94d9a091e275ed847b9f5dda7ac53)] - Upgrade: Bump @typescript-eslint/parser from 1.4.0 to 1.4.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`e6221bf245`](https://github.com/webhintio/hint/commit/e6221bf245848bbfa6008ec1e506ad4c097ec5c2)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.4.1 to 1.4.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`2bd6b8d1cf`](https://github.com/webhintio/hint/commit/2bd6b8d1cffec609afccc7ab0c2ca05f06d3eaab)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.4.0 to 1.4.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`6c5082f769`](https://github.com/webhintio/hint/commit/6c5082f769a3d280239d1699c185396a57edac0d)] - Upgrade: Bump typescript from 3.3.3 to 3.3.3333 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`d28ece6aec`](https://github.com/webhintio/hint/commit/d28ece6aecaf24e983dfd3f2ef85547753bef325)] - Chore: Update 'connector-jsdom' to 'v3.0.1' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`b437336914`](https://github.com/webhintio/hint/commit/b43733691484c844da8dadc3a4b93db956e0c7b1)] - Chore: Update 'connector-chrome' to 'v3.0.1' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`2b5de440a1`](https://github.com/webhintio/hint/commit/2b5de440a1865e45ac91f6c9d529d0e077e47746)] - Chore: Update 'hint' to 'v4.4.1' (by [`Antón Molleda`](https://github.com/molant)).
+* [[`fa33e150d6`](https://github.com/webhintio/hint/commit/fa33e150d6fc30d92c8b413ecf68a6922c686bba)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.3.0 to 1.4.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`e88d6f4696`](https://github.com/webhintio/hint/commit/e88d6f4696bbe3256aca0aa16ca7f76a9a3d3092)] - Upgrade: Bump @typescript-eslint/parser from 1.3.0 to 1.4.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`243149e001`](https://github.com/webhintio/hint/commit/243149e001c91f15fa95c2885c457bfdc4b7fda1)] - Upgrade: Bump eslint from 5.13.0 to 5.14.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`f15cde0c3a`](https://github.com/webhintio/hint/commit/f15cde0c3a5c496d2f21cadc6d2301d76fa6197c)] - Chore: Fully migrate to `@typescript-eslint/eslint-plugin|parser` (by [`Antón Molleda`](https://github.com/molant)).
+* [[`5904ed5be2`](https://github.com/webhintio/hint/commit/5904ed5be2aed85779d24016007d63aab17ae442)] - Upgrade: Bump typescript from 3.3.1 to 3.3.3 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 3.0.0 (February 7, 2019)
 
 ## Breaking Changes
