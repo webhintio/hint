@@ -24,7 +24,7 @@ const defaultTests: HintTest[] = [
         serverConfig: invalidAMPHTML,
         reports: [
             {
-                message: `The mandatory attribute '⚡' is missing in tag 'html'. (https://www.ampproject.org/docs/reference/spec#required-markup)`,
+                message: `The mandatory attribute '⚡' is missing in tag 'html'. (https://amp.dev/documentation/guides-and-tutorials/learn/spec/amphtml#required-markup)`,
                 position: { match: '<html lang="en">' }
             }
         ]
