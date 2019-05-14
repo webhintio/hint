@@ -81,7 +81,6 @@ export const getPackages = (ignoredPackages: string[]) => {
                 name: content.name,
                 oldVersion: content.version,
                 path: destination,
-                published: false,
                 publishedVersion: '',
                 references,
                 tested: false,

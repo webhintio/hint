@@ -16,7 +16,7 @@ export const validateChanges = (ctx: Context) => {
     }
 
     for (const [, pkg] of ctx.packages) {
-        if (!pkg.ignore && pkg.updated) {
+        if (!pkg.ignore && (pkg.updated || !pkg.publishedVersion)) {
             debug(`${pkg.name.padEnd(maxLength)} ${pkg.oldVersion.padEnd(8)} ${pkg.content.version}`);
         }
     }

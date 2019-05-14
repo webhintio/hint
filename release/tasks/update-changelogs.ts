@@ -176,7 +176,7 @@ const updatePackage = async (pkg: Package) => {
  */
 export const updateChangelogs = () => {
     return packageTask(async (pkg, observer) => {
-        if (pkg.updated && pkg.commits.length > 0 && !pkg.ignore) {
+        if (!pkg.ignore && (pkg.updated && pkg.commits.length > 0 || !pkg.publishedVersion)) {
             const message = `Updating changelog for ${pkg.name}`;
 
             debug(message);

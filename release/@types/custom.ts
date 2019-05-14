@@ -16,7 +16,6 @@ export type Package = {
     name: string;
     oldVersion: string;
     path: string;
-    published: boolean;
     publishedVersion: string;
     references: string[];
     tested: boolean;
