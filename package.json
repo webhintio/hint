@@ -33,7 +33,7 @@
     "semver": "^5.6.0",
     "shelljs": "^0.8.3",
     "typescript": "^3.4.5",
-    "yargs": "^13.2.2"
+    "yargs": "^13.2.4"
   },
   "engines": {
     "node": ">=8.0.0"
