@@ -8,7 +8,7 @@
   },
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
-    "@hint/utils": "^1.0.0",
+    "@hint/utils": "^2.0.0",
     "ajv": "^6.10.0",
     "applicationinsights": "^1.3.1",
     "boxen": "^3.2.0",
@@ -78,7 +78,7 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
-    "@hint/configuration-web-recommended": "^6.2.0"
+    "@hint/configuration-web-recommended": "^6.2.1"
   },
   "repository": "https://github.com/webhintio/hint",
   "scripts": {
@@ -102,5 +102,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "5.0.0"
+  "version": "5.0.1"
 }

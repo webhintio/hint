@@ -7,11 +7,11 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^1.0.0"
+    "@hint/utils": "^2.0.0"
   },
   "description": "hint for best practices related to the usage of the Set-Cookie response header.",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^4.0.0",
+    "@hint/utils-tests-helpers": "^4.0.1",
     "@types/node": "^12.0.2",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
@@ -20,7 +20,7 @@
     "eslint": "^5.15.1",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-markdown": "^1.0.0",
-    "hint": "^5.0.0",
+    "hint": "^5.0.1",
     "npm-link-check": "^3.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.1.0",
@@ -48,7 +48,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.0.0"
+    "hint": "^5.0.1"
   },
   "repository": "webhintio/hint",
   "scripts": {
@@ -69,5 +69,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.2.0"
+  "version": "2.2.1"
 }
