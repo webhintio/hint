@@ -180,9 +180,11 @@ test(`wsl sets missing env variables Windows`, (t) => {
 
     const chromiumFinder = loadDependency(t.context);
 
-    t.throws(() => {
+    const error = t.throws(() => {
         chromiumFinder.getInstallationPath({ browser: 'Chrome' });
     });
+
+    t.is(error.message, 'No installation found');
 
     t.true(setVariableSpy.calledThrice);
     t.is(setVariableSpy.firstCall.args[0], 'LOCALAPPDATA');
