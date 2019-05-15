@@ -27,7 +27,7 @@ import { pushChanges } from './tasks/push-changes';
 import { installDependencies } from './tasks/install-dependencies';
 import { Parameters } from './@types/custom';
 
-const ignoredPackages = ['connector-edge', 'extension-vscode', 'extension-browser'];
+const ignoredPackages = ['extension-vscode', 'extension-browser'];
 
 /** The tasks to be executed in sequential order. */
 const tasks = new Listr([

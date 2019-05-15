@@ -59,11 +59,14 @@ const main = () => {
 
             // Include all sub-packages as references in the root `tsconfig.json`.
             prefix = '';
-            references = subPackages.filter((path) => {
-                // Exclude `connector-edge` as it only builds on Windows (can be built separately as-needed).
-                return path !== 'packages/connector-edge';
-            });
-
+            references = subPackages;
+            /**
+             *  references = subPackages.filter((path) => {
+             * // Exclude any package as needed here
+             * return path !== 'packages/package-to-ignore';
+             * });
+             *
+             */
         } else {
 
             // Only include explicit dependencies in sub-packages.
