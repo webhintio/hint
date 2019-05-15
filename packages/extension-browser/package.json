@@ -39,7 +39,7 @@
     "@hint/utils": "^1.0.0",
     "@hint/utils-create-server": "^3.1.0",
     "@microsoft/applicationinsights-web-basic": "^2.0.0-rc5",
-    "@types/chrome": "^0.0.83",
+    "@types/chrome": "^0.0.85",
     "@types/har-format": "^1.2.4",
     "@types/highlight.js": "^9.12.3",
     "@types/is-ci": "^1.1.0",
