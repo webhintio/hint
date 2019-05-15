@@ -1,6 +1,6 @@
 import { ElementLocation } from 'parse5';
 
-import { ChildData, DocumentData, ElementData } from '../types/snapshot';
+import { ChildData, DocumentData, ParentData } from '../types/snapshot';
 
 /**
  * Inject and invoke within the context of a page to generate global
@@ -19,6 +19,7 @@ import { ChildData, DocumentData, ElementData } from '../types/snapshot';
 export const createHelpers = () => {
     let nextId = 1;
     const idSymbol = Symbol('webhint-node-id');
+    const HTMLNS = 'http://www.w3.org/1999/xhtml';
 
     /**
      * Retrieve the unique ID assigned to a `Node`,
@@ -72,8 +73,16 @@ export const createHelpers = () => {
         return node.nodeType === 10;
     };
 
+    const isDocumentFragment = (node: Node): node is DocumentFragment => {
+        return node.nodeType === 11;
+    };
+
     const isElement = (node: Node): node is Element => {
         return node.nodeType === 1;
+    };
+
+    const isTemplateElement = (element: Element): element is HTMLTemplateElement => {
+        return element.localName === 'template' && element.namespaceURI === HTMLNS;
     };
 
     const isText = (node: Node): node is Text => {
@@ -132,6 +141,16 @@ export const createHelpers = () => {
                 systemId: node.systemId,
                 type: 'directive'
             };
+        } else if (isDocumentFragment(node)) {
+            return {
+                children: Array.from(node.childNodes).map(snapshot),
+                id,
+                name: 'root',
+                next: null,
+                parent: null,
+                prev: null,
+                type: 'root'
+            };
         } else if (isElement(node)) {
             const name = node.nodeName.toLowerCase();
             const attrs = Array.from(node.attributes).reduce(snapshotAttr, {
@@ -139,10 +158,13 @@ export const createHelpers = () => {
                 'x-attribsNamespace': {},
                 'x-attribsPrefix': {}
             });
+            const children = isTemplateElement(node) ?
+                [snapshot(node.content)] :
+                Array.from(node.childNodes).map(snapshot);
 
             return {
                 attribs: attrs.attribs,
-                children: Array.from(node.childNodes).map(snapshot),
+                children,
                 id,
                 name,
                 namespace: node.namespaceURI,
@@ -194,7 +216,7 @@ export const createHelpers = () => {
 /**
  * Recursively rebuild parent and sibling references in a DOM snapshot.
  */
-const restoreChildReferences = (node: ChildData, index: number, arr: ChildData[], parent: DocumentData | ElementData) => {
+const restoreChildReferences = (node: ChildData, index: number, arr: ChildData[], parent: ParentData) => {
     node.next = arr[index + 1] || null;
     node.parent = parent;
     node.prev = arr[index - 1] || null;
