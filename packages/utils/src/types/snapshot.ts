@@ -1,12 +1,13 @@
 import { ElementLocation, Location } from 'parse5';
 
-export type ChildData = CommentData | DoctypeData | ElementData | TextData;
+export type ChildData = CommentData | DoctypeData | DocumentFragmentData | ElementData | TextData;
 export type NodeData = DocumentData | ChildData;
+export type ParentData = DocumentData | DocumentFragmentData | ElementData;
 
 type BaseData = {
     id?: number;
     next: ChildData | null;
-    parent: DocumentData | ElementData | null;
+    parent: ParentData | null;
     prev: ChildData | null;
 };
 
@@ -31,6 +32,12 @@ export type DocumentData = {
     name: 'root';
     type: 'root';
     'x-mode': 'no-quirks' | 'quirks' | 'limited-quirks';
+};
+
+export type DocumentFragmentData = BaseData & {
+    children: ChildData[];
+    name: 'root';
+    type: 'root';
 };
 
 export type ElementData = BaseData & {

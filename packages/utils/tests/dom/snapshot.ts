@@ -2,10 +2,9 @@ import test from 'ava';
 import { JSDOM } from 'jsdom';
 
 import { createHelpers, restoreReferences } from '../../src/dom/snapshot';
-import { DocumentData, ElementData } from '../../src/types/snapshot';
+import { DocumentData, DocumentFragmentData, ElementData } from '../../src/types/snapshot';
 
-const createSnapshot = (location = false): [DocumentData, JSDOM] => {
-    const html = `<!doctype html>
+const defaultHTML = `<!doctype html>
 <html>
     <body>
         <h1>Title</h1>
@@ -13,6 +12,7 @@ const createSnapshot = (location = false): [DocumentData, JSDOM] => {
     </body>
 </html>`;
 
+const createSnapshot = (html = defaultHTML, location = false): [DocumentData, JSDOM] => {
     const dom = new JSDOM(html, {
         includeNodeLocations: location,
         runScripts: 'outside-only'
@@ -35,8 +35,37 @@ test('Create a snapshot', (t) => {
     t.is(snapshot.type, 'root');
 });
 
+test('Snapshot <template> element', (t) => {
+    const [snapshot] = createSnapshot(`
+        <!doctype html>
+        <html>
+            <head>
+                <template><div>1</div><div>2</div></template>
+            </head>
+        </html>
+    `);
+
+    const html = snapshot.children.filter((c) => {
+        return c.type === 'tag' && c.name === 'html';
+    })[0] as ElementData;
+
+    const head = html && html.children.filter((c) => {
+        return c.type === 'tag' && c.name === 'head';
+    })[0] as ElementData;
+
+    const template = head && head.children.filter((c) => {
+        return c.type === 'tag' && c.name === 'template';
+    })[0] as ElementData;
+
+    const fragment = template && template.children[0] as DocumentFragmentData;
+
+    t.is(template.children.length, 1);
+    t.is(fragment && fragment.type, 'root');
+    t.is(fragment && fragment.children.length, 2);
+});
+
 test('Create a snapshot with location', (t) => {
-    const [snapshot] = createSnapshot(true);
+    const [snapshot] = createSnapshot(defaultHTML, true);
 
     const html = snapshot.children.filter((c) => {
         return c.type === 'tag' && c.name === 'html';
