@@ -49,6 +49,12 @@ export const confirmRelease = (ctx: Context) => {
 export const release = () => {
 
     return packageTask(async (pkg, observer, ctx) => {
+        if (pkg.ignore) {
+            debug(`Skipping ${pkg.name} from publishing as it is ignored`);
+
+            return;
+        }
+
         // In case we are doing just publishing because the process failed earlier
         if (pkg.publishedVersion !== pkg.content.version) {
 
