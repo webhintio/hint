@@ -15,9 +15,9 @@ import { execSync, execFileSync } from 'child_process';
 const newLineRegex = /\r?\n/;
 
 export enum Browser {
-    Chrome,
-    Chromium,
-    Edge
+    Chrome = 'Chrome',
+    Chromium = 'Chromium',
+    Edge = 'Edge'
 }
 
 const ERRORS = {
@@ -363,7 +363,13 @@ export const getInstallationPath = (options?: { browser?: Browser; browserPath?:
     }
 
     if (options && options.browser) {
-        return findBrowserPath(options.browser);
+        const browserPath = findBrowserPath(options.browser);
+
+        if (browserPath) {
+            return browserPath;
+        }
+
+        throw new Error(ERRORS.NoInstallationFound);
     }
 
     /** The order in which to search for browsers in case none are provided. */
