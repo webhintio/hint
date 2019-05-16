@@ -1,5 +1,5 @@
 .root {
-    color: var(--text-color);
+    color: var(--base-color);
     display: grid;
     gap: 0.5rem; /* 8px */
     grid-template-columns: 1fr auto;
@@ -35,9 +35,9 @@
 }
 
 .status.warn:after {
-    background-color: var(--warning-color);
+    background-color: var(--status-bg-warn);
 }
 
 .status.error:after {
-    background-color: var(--error-color);
+    background-color: var(--status-bg-error);
 }

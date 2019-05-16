@@ -1,0 +1,34 @@
+.root {
+    composes: root from './app.base.css';
+
+    --button-bg: rgba(0, 0, 0, 0.065);
+    --button-bg-hover: rgba(0, 0, 0, 0.05);
+
+    --border-color: rgba(0, 0, 0, 0.19);
+    --border-alt-color: #cecece;
+    --border-invalid-color: #d70022;
+
+    --highlight-bg: #0070c6;
+    --highlight-bg-active: var(--highlight-bg);
+    --highlight-bg-hover: #0078d4;
+
+    --input-bg: var(--base-bg);
+    --input-active-bg: var(--input-bg);
+    --input-hover-bg: var(--input-bg);
+    --input-text-bg: var(--input-bg);
+
+    --link-color: var(--highlight-bg);
+    --link-alt-color: #bf49da;
+
+    --status-bg-error: #d83b01;
+    --status-bg-pass: #00864b;
+    --status-bg-warn: #f2c811;
+
+    --shadow-color: #00000080;
+
+    --text-bg: var(--base-bg);
+}
+
+.root[data-theme='dark'] {
+    --input-bg: rgba(0, 0, 0, 0.3);
+}

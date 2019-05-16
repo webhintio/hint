@@ -3,7 +3,9 @@ const glob = require('glob');
 const path = require('path');
 const packageJSON = require('../package.json');
 
-glob(`${path.resolve(__dirname, '../dist')}/webhint-*.zip`, (err, files) => {
+const folder = process.argv[2];
+
+glob(`${path.resolve(__dirname, '..', folder)}/webhint-*.zip`, (err, files) => {
     if (err) {
         throw new Error(`Validating bundle size failed: ${err}`);
     }

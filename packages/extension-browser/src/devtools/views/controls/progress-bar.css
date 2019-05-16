@@ -2,7 +2,7 @@
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
-    background-color: var(--bg-inverse-alt-color);
+    background-color: var(--button-bg);
     border: none;
     border-radius: 40px;
     height: 0.25em; /* 4px */;
@@ -15,12 +15,12 @@
 }
 
 .root::-moz-progress-bar {
-    background-color: var(--bg-inverse-color);
+    background-color: var(--highlight-bg);
     border-radius: 40px;
 }
 
 .root::-webkit-progress-value {
-    background-color: var(--bg-inverse-color);
+    background-color: var(--highlight-bg);
     border-radius: 40px;
 }
 
@@ -41,7 +41,7 @@
 /* Can't animate `-webkit-progress-value` so using `after` instead. */
 .root:indeterminate:after {
     animation: slide ease-in-out 2s infinite;
-    background-color: var(--bg-inverse-color);
+    background-color: var(--highlight-bg);
     border-radius: 40px;
     content: '';
     display: block;

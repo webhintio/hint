@@ -1,0 +1,20 @@
+.root {
+    composes: root from './checkbox.base.css';
+}
+
+.root:checked {
+    background-color: var(--highlight-bg);
+}
+
+/* Checkmark inside checked checkbox. */
+.root:checked:after {
+    background-color: var(--light-color);
+}
+
+.root:checked:hover {
+    background-color: var(--highlight-bg-hover);
+}
+
+.root:checked:active {
+    background-color: var(--highlight-bg-active);
+}

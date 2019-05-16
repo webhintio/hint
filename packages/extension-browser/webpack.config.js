@@ -75,7 +75,10 @@ module.exports = (env) => {
             path: path.resolve(__dirname, 'dist/bundle')
         },
         plugins: [
-            new webpack.DefinePlugin({ 'process.env.webpack': JSON.stringify(true) })
+            new webpack.DefinePlugin({
+                DESIGN_SYSTEM: JSON.stringify(env && env.design || 'fluent'),
+                'process.env.webpack': JSON.stringify(true)
+            })
         ],
         resolve: {
             alias: {

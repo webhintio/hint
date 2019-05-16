@@ -1,5 +1,5 @@
 .root {
-    background-color: var(--bg-color);
+    background-color: var(--base-bg);
 }
 
 .help {

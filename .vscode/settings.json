@@ -6,6 +6,9 @@
         "typescript",
         "typescriptreact"
     ],
+    "files.exclude": {
+        "**/*.css.d.ts": true
+    },
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true
 }

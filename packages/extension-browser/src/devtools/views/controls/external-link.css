@@ -7,7 +7,7 @@
 }
 
 .root:focus {
-    border-bottom: 2px solid var(--text-color);
+    border-bottom: 2px solid var(--base-color);
     outline: none;
 }
 

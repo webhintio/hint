@@ -1,0 +1,3 @@
+.root {
+    composes: root from './radio.base.css';
+}

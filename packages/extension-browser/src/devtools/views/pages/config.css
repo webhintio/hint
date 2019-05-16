@@ -3,9 +3,10 @@
 }
 
 .root input:invalid {
-    outline: 1px solid var(--invalid-outline-color);
+    outline: 1px solid var(--border-invalid-color);
 }
 
+/* TODO: rename as this includes target browsers, etc */
 .categories {
     display: grid;
     gap: 1.5rem; /* 24px */
