@@ -17,8 +17,8 @@ const mockContext = () => {
     const mocks = mock.mocks();
 
     proxyquire('../src/server', {
+        '@hint/utils': mocks.hintUtils,
         child_process: mocks.child_process, // eslint-disable-line camelcase
-        fs: mocks.fs,
         'vscode-languageserver': {
             createConnection: mocks.createConnection,
             Files: mocks.Files,
@@ -28,7 +28,6 @@ const mockContext = () => {
     });
 
     return {
-        access: mocks.access,
         Analyzer: mocks.Analyzer,
         analyzer: mocks.analyzer,
         child_process: mocks.child_process, // eslint-disable-line camelcase
@@ -38,6 +37,7 @@ const mockContext = () => {
         documents: mocks.documents,
         Files: mocks.Files,
         fileWatcher: mocks.getFileWatcher(),
+        hintUtils: mocks.hintUtils,
         initializer: mocks.getInitializer(),
         modules: mocks.modules
     };
@@ -107,14 +107,14 @@ test('It installs webhint via yarn if `yarn.lock` is present', async (t) => {
     const sandbox = t.context.sandbox;
     const testContent = 'Test Content';
     const testUri = 'file:///test/uri';
-    const { access, child_process, connection, contentWatcher, document, analyzer, Files, initializer } = mockContext(); // eslint-disable-line camelcase
+    const { hintUtils, child_process, connection, contentWatcher, document, analyzer, Files, initializer } = mockContext(); // eslint-disable-line camelcase
 
     sandbox.stub(document, 'getText').returns(testContent);
     sandbox.stub(document, 'uri').get(() => {
         return testUri;
     });
 
-    sandbox.stub(access, 'error').returns(null);
+    sandbox.stub(hintUtils, 'hasYarnLock').resolves(true);
     const windowShowWarningMessageStub = sandbox.stub(connection.window, 'showWarningMessage').returns({ title: 'Add webhint' });
 
     sandbox.stub(Files, 'resolveModule2')
@@ -222,7 +222,6 @@ test('It processes multiple files serially', async (t) => {
 
     const p1 = contentWatcher({ document });
     const p2 = contentWatcher({ document: document2 });
-
 
     sandbox.stub(connection, 'sendDiagnostics').value(() => {
         const target = analyzerAnalyzeStub.args[0][0] as Target;

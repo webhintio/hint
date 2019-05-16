@@ -9,6 +9,7 @@ import { debug as d } from './debug';
 import * as logger from './logging';
 import { cwd, loadJSONFile } from './fs';
 import { findPackageRoot } from './packages';
+import { hasYarnLock } from './has-yarnlock';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -33,14 +34,11 @@ const install = (command: string) => {
 /** Install the given packages. */
 export const installPackages = async (packages: string[]): Promise<boolean> => {
     /** Whether or not the package should be installed as devDependencies. */
-    let isDev: boolean = false;
+    let isDev = false;
     /** Current working directory. */
     const currentWorkingDir = cwd();
-    /** Wheter or not the process is running in windows */
+    /** Whether or not the process is running in windows */
     const isWindows = process.platform === 'win32';
-
-    /** Command to install the packages. */
-    let command: string = `npm install ${packages.join(' ')}`;
 
     if (packages.length === 0) {
         return Promise.resolve(true);
@@ -50,6 +48,9 @@ export const installPackages = async (packages: string[]): Promise<boolean> => {
 
     // Check if hint is installed locally.
     const global: boolean = !fs.existsSync(hintLocalPath); // eslint-disable-line no-sync
+
+    /** package manager to install the packages. */
+    const packageManagerChoice = (!global && await hasYarnLock(currentWorkingDir)) ? 'yarn' : 'npm';
 
     if (!global) {
         try {
@@ -62,10 +63,15 @@ export const installPackages = async (packages: string[]): Promise<boolean> => {
             // Even if `hint` is installed locally, package.json could not exist in the current working directory.
             isDev = false;
         }
+
     }
 
-    command += global ? ' -g' : '';
-    command += isDev ? ' --save-dev' : '';
+    const installCommand = {
+        npm: `npm install${global ? ' --global' : ''}${isDev ? ' --save-dev' : ''}`,
+        yarn: `yarn add${isDev ? ' --dev' : ''}`
+    };
+
+    const command = `${installCommand[packageManagerChoice]} ${packages.join(' ')}`;
 
     try {
         debug(`Running command ${command}`);
@@ -113,16 +119,15 @@ const generateSearchQuery = (searchTerm: string, from?: number, size = 100) => {
  * Searches all the packages in npm given `searchTerm`.
  */
 export const search = async (searchTerm: string): Promise<NpmPackage[]> => {
-    const result = await npmRegistryFetch.json(generateSearchQuery(searchTerm)) as NpmSearchResults;
+    const result = (await npmRegistryFetch.json(generateSearchQuery(searchTerm))) as NpmSearchResults;
 
     let total = getPackages(result);
 
     while (result.total > total.length) {
-        const r = await npmRegistryFetch.json(generateSearchQuery(searchTerm, total.length)) as NpmSearchResults;
+        const r = (await npmRegistryFetch.json(generateSearchQuery(searchTerm, total.length))) as NpmSearchResults;
 
         total = total.concat(getPackages(r));
     }
-
 
     return total;
 };

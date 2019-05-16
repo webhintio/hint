@@ -1,6 +1,4 @@
 import { spawn } from 'child_process';
-import { access } from 'fs';
-import * as path from 'path';
 import { URL } from 'url';
 
 import {
@@ -17,6 +15,7 @@ import * as notifications from './notifications';
 
 import * as hint from 'hint';
 import { HintsConfigObject, Problem, Severity, UserConfig } from 'hint';
+import { hasYarnLock } from '@hint/utils';
 
 let workspace = '';
 
@@ -24,15 +23,6 @@ let workspace = '';
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments();
 const defaultConfig: UserConfig = { extends: ['development'] };
-
-// Determine if a project is using yarn by checking for `yarn.lock`.
-const hasYarnLock = (directory: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-        access(path.join(directory, 'yarn.lock'), (err) => {
-            resolve(!err);
-        });
-    });
-};
 
 // Adds webhint and configuration-development to the current workspace.
 const installWebhint = ({ global }: { global: boolean }): Promise<void> => {

@@ -20,6 +20,7 @@ export * from './types/html';
 export * from './types/problem-location';
 export * from './compat';
 export * from './dom/html';
+export * from './has-yarnlock';
 
 export const packages = pkgs;
 export const fs = fsUtils;

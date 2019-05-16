@@ -8,7 +8,11 @@ import { readFile } from '../src/fs';
 
 type Fs = {
     existsSync: () => boolean;
-}
+};
+
+type HasYarnLock = {
+    hasYarnLock: () => Promise<boolean>;
+};
 
 type CWD = () => string;
 
@@ -30,6 +34,7 @@ type NPMContext = {
     cwd: CWD;
     findPackageRootModule: FindPackageRootModule;
     fs: Fs;
+    hasYarnLock: HasYarnLock;
     loadJSONFileModule: LoadJSONFileModule;
     logger: Logger;
     npmRegistryFetch: NPMRegistryFetch;
@@ -57,6 +62,11 @@ const initContext = (t: ExecutionContext<NPMContext>) => {
     t.context.fs = {
         existsSync(): boolean {
             return true;
+        }
+    };
+    t.context.hasYarnLock = {
+        hasYarnLock() {
+            return Promise.resolve(false);
         }
     };
     t.context.loadJSONFileModule = (): string => {
@@ -88,6 +98,7 @@ const loadScript = (context: NPMContext) => {
             cwd: context.cwd,
             loadJSONFile: context.loadJSONFileModule
         },
+        './has-yarnlock': context.hasYarnLock,
         './logging': context.logger,
         './packages': { findPackageRoot: context.findPackageRootModule },
         child_process: context.child, // eslint-disable-line camelcase
@@ -122,7 +133,7 @@ test('installPackages should run the right command `hint` is installed locally, 
 
     await promise;
 
-    t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1 --save-dev');
+    t.is(childSpawnStub.args[0][0], 'npm install --save-dev hint1 @hint/formatter-formatter1');
 });
 
 test('installPackages should run the right command if `hint` is installed locally, and has `hint` as a regular dependency', async (t) => {
@@ -146,6 +157,54 @@ test('installPackages should run the right command if `hint` is installed locall
     await promise;
 
     t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1');
+});
+
+test('installPackages should run `yarn` if yarn.lock is found, `hint` is installed locally, and has `hint` as a regular dependency', async (t) => {
+    const emitter = getEmitter();
+    const sandbox = t.context.sandbox;
+
+    sandbox.stub(t.context.fs, 'existsSync').returns(true);
+    sandbox.stub(t.context.hasYarnLock, 'hasYarnLock').resolves(true);
+    const childSpawnStub = sandbox.stub(t.context.child, 'spawn').returns(emitter);
+
+    sandbox.stub(t.context, 'findPackageRootModule').returns('/example/path');
+    sandbox.stub(t.context, 'cwd').returns('/example/path');
+    sandbox.stub(t.context, 'loadJSONFileModule').returns(dependencyJson);
+
+    const npmUtils = loadScript(t.context);
+    const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
+
+    await misc.delay(500);
+
+    emitter.emit('exit', 0);
+
+    await promise;
+
+    t.is(childSpawnStub.args[0][0], 'yarn add hint1 @hint/formatter-formatter1');
+});
+
+test('installPackages should run `yarn` if yarn.lock is found, `hint` is installed locally, and has `hint` as a dev dependency', async (t) => {
+    const emitter = getEmitter();
+    const sandbox = t.context.sandbox;
+
+    sandbox.stub(t.context.fs, 'existsSync').returns(true);
+    sandbox.stub(t.context.hasYarnLock, 'hasYarnLock').resolves(true);
+    const childSpawnStub = sandbox.stub(t.context.child, 'spawn').returns(emitter);
+
+    sandbox.stub(t.context, 'findPackageRootModule').returns('/example/path');
+    sandbox.stub(t.context, 'cwd').returns('/example/path');
+    sandbox.stub(t.context, 'loadJSONFileModule').returns(devDependencyJson);
+
+    const npmUtils = loadScript(t.context);
+    const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
+
+    await misc.delay(500);
+
+    emitter.emit('exit', 0);
+
+    await promise;
+
+    t.is(childSpawnStub.args[0][0], 'yarn add --dev hint1 @hint/formatter-formatter1');
 });
 
 test('installPackages should run the right command if `hint` is installed locally but the project package.json doesn\'t exist', async (t) => {
@@ -209,7 +268,7 @@ test('installPackages should run the right command if `hint` is installed global
 
     await promise;
 
-    t.is(childSpawnStub.args[0][0], 'npm install hint1 @hint/formatter-formatter1 -g');
+    t.is(childSpawnStub.args[0][0], 'npm install --global hint1 @hint/formatter-formatter1');
 });
 
 test('installPackages should show the command to run if the installation fail and `hint` is installed locally', async (t) => {
@@ -233,8 +292,8 @@ test('installPackages should show the command to run if the installation fail an
 
     await promise;
 
-    t.true(childSpawnStub.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 --save-dev'));
-    t.false(childSpawnStub.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 -g'));
+    t.true(childSpawnStub.args[0][0].includes('npm install --save-dev hint1 @hint/formatter-formatter1'));
+    t.false(childSpawnStub.args[0][0].includes('npm install --global hint1 @hint/formatter-formatter1'));
 });
 
 test('installPackages should show the command to run if the installation fail and `hint` is installed globally', async (t) => {
@@ -255,7 +314,7 @@ test('installPackages should show the command to run if the installation fail an
 
     await promise;
 
-    t.true(childSpawnStub.args[0][0].includes('npm install hint1 @hint/formatter-formatter1 -g'));
+    t.true(childSpawnStub.args[0][0].includes('npm install --global hint1 @hint/formatter-formatter1'));
 });
 
 test('search should search the right query', async (t) => {
