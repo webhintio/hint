@@ -237,7 +237,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
 
                 // If a hint is spending a lot of time to finish we should ignore it.
 
-                return new Promise((resolve) => {
+                return new Promise((resolve, reject) => {
                     let immediateId: any;
 
                     const timeoutId = setTimeout(() => {
@@ -252,13 +252,17 @@ export class Engine<E extends Events = Events> extends EventEmitter {
                     }, that._timeout);
 
                     immediateId = setImmediate(async () => {
-                        const result: any = await handler(event, eventName);
+                        try {
+                            const result: any = await handler(event, eventName);
 
-                        if (timeoutId) {
-                            clearTimeout(timeoutId);
+                            if (timeoutId) {
+                                clearTimeout(timeoutId);
+                            }
+
+                            resolve(result);
+                        } catch (e) {
+                            reject(e);
                         }
-
-                        resolve(result);
                     });
                 });
             };

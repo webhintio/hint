@@ -72,10 +72,14 @@ export const disable = () => {
 export const sendPendingData = (isAppCrashing = true) => {
     debug('Sending pending data to Application Insights');
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         appInsightsClient.flush({
-            callback: () => {
-                resolve();
+            callback: (error) => {
+                if (error) {
+                    return reject(error);
+                }
+
+                return resolve();
             },
             isAppCrashing
         });
