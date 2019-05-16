@@ -26,7 +26,7 @@
     "optionator": "^0.8.2",
     "ora": "^3.4.0",
     "semver": "^6.0.0",
-    "update-notifier": "^2.5.0"
+    "update-notifier": "^3.0.0"
   },
   "description": "The linting tool for the web",
   "devDependencies": {
