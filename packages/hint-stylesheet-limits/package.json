@@ -42,7 +42,8 @@
   "main": "dist/src/hint.js",
   "name": "@hint/hint-stylesheet-limits",
   "nyc": {
-    "extends": "../../.nycrc"
+    "extends": "../../.nycrc",
+    "branches": 79
   },
   "peerDependencies": {
     "hint": "^5.0.1"
