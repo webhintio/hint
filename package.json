@@ -57,6 +57,7 @@
     "clean:packages": "rimraf \"packages/!extension-vscode/{dist,package-lock.json,yarn.lock}\"",
     "clean:root": "rimraf dist",
     "lint": "npm-run-all --parallel lint:*",
+    "lint:dependencies": "node scripts/lint-dependencies.js",
     "lint:md": "node scripts/lint-markdown && markdown-link-validator .",
     "lint:packages": "yarn workspaces run lint",
     "lint:scripts": "eslint scripts release --cache --ext js --ext ts --report-unused-disable-directives",
