@@ -9,7 +9,7 @@
   "description": "webhint formatter that outputs the result in an Excel file (xlsx)",
   "dependencies": {
     "@hint/utils": "^2.0.0",
-    "exceljs": "1.10.0",
+    "exceljs": "1.11.0",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.11"
   },
