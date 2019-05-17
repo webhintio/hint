@@ -1497,7 +1497,7 @@ append-transform@^1.0.0:
   dependencies:
     default-require-extensions "^2.0.0"
 
-applicationinsights@^1.2.0, applicationinsights@^1.3.1:
+applicationinsights@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.3.1.tgz#3bdb469fa2089249504505b8d53cdbe0167c0ca8"
   integrity sha512-4IdsBZpu+m7FjI/wgUGmEkEh2rqeL6YEMr2lA6/N+rK31TqlJrbiKdiuBYWPvpsGQ+y0eoAaXJ+s71SwVgchJw==
@@ -4784,10 +4784,15 @@ file-loader@1.1.11:
     loader-utils "^1.0.2"
     schema-utils "^0.4.5"
 
-file-type@^10.10.0, file-type@^10.11.0:
+file-type@^10.10.0:
   version "10.11.0"
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-10.11.0.tgz#2961d09e4675b9fb9a3ee6b69e9cd23f43fd1890"
   integrity sha512-uzk64HRpUZyTGZtVuvrjP0FYxzQrBf4rojot6J65YMEbwBLB0CWm0CLojVpwpmFmxcE/lkvYICgfcGozbBq6rw==
+
+file-type@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/file-type/-/file-type-11.0.0.tgz#576ca9ec099925b0c4df7e75d3be52696b62fb52"
+  integrity sha512-ixd0mHkDO8KJ1S+ANTM+cZoZgL+TB0txLMm9KjTndfOjFYuRmrUcOtmSEm+e9s7wrynZOvvRD/8LwMQ6a24Irg==
 
 file-uri-to-path@1:
   version "1.0.0"

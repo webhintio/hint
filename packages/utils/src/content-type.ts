@@ -1,4 +1,4 @@
-import fileType from 'file-type';
+import fileType = require('file-type');
 import isSvg from 'is-svg';
 
 import { parse, MediaType } from 'content-type';
