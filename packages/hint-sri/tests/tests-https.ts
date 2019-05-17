@@ -58,6 +58,13 @@ const configOriginAllTestsHttps: HintTest[] = [
         }
     },
     {
+        name: `NEW: Page with a same-origin and a base tag and SRI sha512 passes`,
+        serverConfig: {
+            '/': generateHTMLPage('<base href="nested/"><link rel="stylesheet" href="/styles.css" integrity="sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaASFg1VeCzTKs1QIMkWaL1ewsA==">'),
+            '/nested/styles.css': styles
+        }
+    },
+    {
         name: `Page with a same-origin alternate stylesheet and SRI sha512 passes`,
         serverConfig: {
             '/': generateHTMLPage('<link rel=" stylesheet alternate " href="/styles.css" integrity="sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaASFg1VeCzTKs1QIMkWaL1ewsA==">'),

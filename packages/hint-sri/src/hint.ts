@@ -469,6 +469,14 @@ Actual:   ${integrities.join(', ')}`;
      * or element::link
      */
     private async validateElement(evt: ElementFound) {
+        const createResourceURL = (resource: string) => {
+            const pageDOM: any = this.context.pageDOM;
+            const baseTags: NodeListOf<HTMLElement> = pageDOM.querySelectorAll('base');
+            const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
+
+            return (hrefAttribute === null) ? new URL(resource) : new URL(hrefAttribute, new URL(resource));
+        };
+
         const isScriptOrLink = await this.isScriptOrLink(evt as FetchEnd);
 
         if (!isScriptOrLink) {
@@ -482,7 +490,7 @@ Actual:   ${integrities.join(', ')}`;
          * 'this.isScriptOrLink' has already checked
          * that the src or href attribute exists, so it is safe to use !.
          */
-        evt.resource = new URL(evt.element.getAttribute('src')! || evt.element.getAttribute('href')!, evt.resource).href;
+        evt.resource = createResourceURL(evt.element.getAttribute('src')! || evt.element.getAttribute('href')!).href;
 
         const content: NetworkData = {
             request: {} as Request,
