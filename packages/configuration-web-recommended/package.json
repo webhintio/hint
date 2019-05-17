@@ -33,7 +33,8 @@
     "@hint/hint-validate-set-cookie-header": "^2.2.1",
     "@hint/hint-x-content-type-options": "^3.1.1",
     "@hint/parser-css": "^3.0.1",
-    "@hint/parser-html": "^3.0.0"
+    "@hint/parser-html": "^3.0.0",
+    "@hint/parser-javascript": "^3.0.1"
   },
   "description": "webhint's recommended hints configuration for live websites",
   "engines": {
