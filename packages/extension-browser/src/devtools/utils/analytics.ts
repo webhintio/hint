@@ -34,7 +34,8 @@ export const trackCancel = (duration: number) => {
 
 /** Called when analysis fails due to an error. */
 export const trackError = (error: ErrorData) => {
-    trackEvent('f12-error', error);
+    // Drop the error stack as it can contain filesystem paths.
+    trackEvent('f12-error', { message: error.message });
 };
 
 /** Called when analysis finished. */

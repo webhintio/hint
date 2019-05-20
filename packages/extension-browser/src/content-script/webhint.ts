@@ -21,7 +21,6 @@ import WebExtensionFormatter from './formatter';
 import hints from '../shared/hints.import';
 
 const reportError = (message: string, stack: string) => {
-    // TODO: Remove URLs and file paths from stack
     browser.runtime.sendMessage({
         error: {
             message,
