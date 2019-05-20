@@ -32,10 +32,5 @@
     "hint": "^5.0.1"
   },
   "repository": "webhintio/hint",
-  "scripts": {
-    "build": "echo \"Nothing to build\"",
-    "lint": "echo \"Nothing to lint\"",
-    "test-only": "echo \"Nothing to test\""
-  },
   "version": "5.1.0"
 }
