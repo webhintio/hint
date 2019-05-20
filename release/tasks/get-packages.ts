@@ -74,7 +74,6 @@ export const getPackages = (ignoredPackages: string[]) => {
             const ignore = content.private || shouldBeIgnored(destination, ignored);
 
             ctx.packages.set(content.name, {
-                built: false,
                 commits: [],
                 content,
                 ignore,

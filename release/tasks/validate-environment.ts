@@ -8,20 +8,6 @@ import { debug, execa } from '../lib/utils';
 import { ListrTaskWrapper } from 'listr';
 import { getCurrentBranchRemoteInfo } from '../lib/git-helpers';
 
-
-const validNodejsVersion = () => {
-    const maxValidVersion = '10.1.0';
-    const minValidVersion = '8.9.0'; // First "Carbon" release
-    const nodeVersion = process.versions.node;
-    const valid = semver.gte(nodeVersion, minValidVersion) && semver.lte(nodeVersion, maxValidVersion);
-
-    debug(`Node.js version ${nodeVersion} is valid`);
-
-    if (!valid) {
-        throw new Error('Unsupported node version');
-    }
-};
-
 const runningInRoot = () => {
     const errorMessage = 'Not running from root of project';
     const pkg = require(path.join(process.cwd(), 'package.json'));
@@ -106,7 +92,6 @@ export const validateEnvironment = async (ctx: Context, task: ListrTaskWrapper) 
     debug(`Validate and configure environment`);
 
     const checks = [
-        validNodejsVersion,
         runningInRoot,
         gitAvailable,
         noUncommitedChanges,

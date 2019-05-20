@@ -5,7 +5,7 @@
 import * as Listr from 'listr';
 import { Arguments } from 'yargs';
 
-import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease, skipTests } from './lib/skippers';
+import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease } from './lib/skippers';
 import { taskErrorWrapper } from './lib/utils';
 import { updateChangelogs } from './tasks/update-changelogs';
 import { updateThirdPartyResources } from './lib/update-3rd-party';
@@ -70,6 +70,17 @@ const tasks = new Listr([
         skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
         task: taskErrorWrapper(savePackageChanges)
     },
+    /**
+     * Cross-deps should be updated by now and we need to make sure to commit
+     * the latest `yarn.lock` that might remove bad ones. E.g.: if a package
+     * was pointing to `hint: 4.5.0` instead of `5.0.0`, `node_modules` could
+     * have that version downloaded instead of the right one.
+     */
+    {
+        title: 'Install dependencies',
+        skip: skipReasons(skipIfError, skipIfAborted, skipInstallation),
+        task: taskErrorWrapper(installDependencies)
+    },
     {
         title: 'Commit changes',
         skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
@@ -86,13 +97,8 @@ const tasks = new Listr([
         task: cleanWorkspace()
     },
     {
-        title: 'Install dependencies',
-        skip: skipReasons(skipIfError, skipIfAborted, skipInstallation),
-        task: taskErrorWrapper(installDependencies)
-    },
-    {
-        title: 'Run tests',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease, skipTests),
+        title: 'Build and test',
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
         task: runTests()
     },
     {

@@ -9,7 +9,6 @@ export type GitHubAuth = {
 }
 
 export type Package = {
-    built: boolean;
     commits: Commit[];
     content: any;
     ignore: boolean;
