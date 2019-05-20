@@ -67,7 +67,7 @@
     "test": "npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
-    "test-release": "npm run lint && npm run clean && npm run build:assets && tsc && npm run test-only",
+    "test-release": "npm run lint && npm run build-release && npm run test-only",
     "watch:assets": "npm run build:assets -- -w --no-initial",
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
