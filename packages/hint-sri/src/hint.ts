@@ -3,6 +3,7 @@
  */
 
 import * as crypto from 'crypto';
+import { join } from 'path';
 import { URL } from 'url';
 
 import { HintContext, ReportOptions } from 'hint/dist/src/lib/hint-context';
@@ -418,6 +419,8 @@ Actual:   ${integrities.join(', ')}`;
             response.body.content = await requestAsync({
                 gzip: true,
                 method: 'GET',
+                rejectUnauthorized: false,
+                strictSSL: false,
                 url: resource
             });
 
@@ -470,11 +473,32 @@ Actual:   ${integrities.join(', ')}`;
      */
     private async validateElement(evt: ElementFound) {
         const createResourceURL = (resource: string) => {
-            const pageDOM: any = this.context.pageDOM;
-            const baseTags: NodeListOf<HTMLElement> = pageDOM.querySelectorAll('base');
-            const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
+            const targetURL = evt.resource;
+            const pageDOM = this.context.pageDOM!;
+            const baseTags = pageDOM.querySelectorAll('base');
+            const hrefAttribute = (baseTags.length === 0) ? '' : (baseTags[0].getAttribute('href') || '');
+            const baseURL = new URL(hrefAttribute, targetURL);
 
-            return (hrefAttribute === null) ? new URL(resource) : new URL(hrefAttribute, new URL(resource));
+            /**
+             * `new URL(path, base)` only uses `base.origin` to create
+             * the new URL. E.g.:
+             *
+             * ```ts
+             * const resourceURL = new URL('/style.css', 'https://localhost/nested/');
+             *
+             * resourceURL.href === 'https://localhost/style.css';
+             * ```
+             * What is needed is `https://localhost/nested/style.css`
+             *
+             * To solve this we use `path.join` with `base.pathname`
+             * and we use the result to create a new `URL`.
+             */
+            const pathname = join(baseURL.pathname, resource);
+            const resourceURL = new URL(pathname, baseURL);
+
+            debug(`calculated "resourceURL": ${resourceURL}`);
+
+            return resourceURL;
         };
 
         const isScriptOrLink = await this.isScriptOrLink(evt as FetchEnd);
