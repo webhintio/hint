@@ -21,7 +21,7 @@ export default class WebExtensionConnector implements IConnector {
     private _originalDocument: HTMLDocument | undefined;
     private _engine: Engine;
     private _fetchEndQueue: FetchEnd[] = [];
-    private _onComplete: (resource: string) => void = () => { };
+    private _onComplete: (err: Error | null, resource?: string) => void = () => { };
     private _options: ConnectorOptionsConfig;
 
     public static schema = {
@@ -49,21 +49,24 @@ export default class WebExtensionConnector implements IConnector {
         });
 
         browser.runtime.onMessage.addListener(async (events: Events) => {
-            if (events.fetchEnd) {
-                await this.notifyFetch(events.fetchEnd);
+            try {
+                if (events.fetchEnd) {
+                    await this.notifyFetch(events.fetchEnd);
+                }
+                if (events.fetchStart) {
+                    await this._engine.emitAsync('fetch::start', events.fetchStart);
+                }
+                // TODO: Trigger 'fetch::start::target'.
+            } catch (err) {
+                this._onComplete(err);
             }
-            if (events.fetchStart) {
-                await this._engine.emitAsync('fetch::start', events.fetchStart);
-            }
-            // TODO: Trigger 'fetch::start::target'.
         });
 
         const onLoad = () => {
             const resource = location.href;
 
             setTimeout(async () => {
-
-                if (document.documentElement) {
+                try {
                     await this.evaluateInPage(`(${createHelpers})()`);
 
                     const snapshot: DocumentData = await this.evaluateInPage('__webhint.snapshotDocument(document)');
@@ -72,18 +75,21 @@ export default class WebExtensionConnector implements IConnector {
 
                     this._document = new HTMLDocument(snapshot, this._originalDocument);
 
+                    await this.sendFetchEndEvents();
+
                     await traverse(this._document, this._engine, resource);
+
+                    /*
+                     * Evaluate after the traversing, just in case something goes wrong
+                     * in any of the evaluation and some scripts are left in the DOM.
+                     */
+                    await this._engine.emitAsync('can-evaluate::script', { resource });
+
+                    this._onComplete(null, resource);
+
+                } catch (err) {
+                    this._onComplete(err);
                 }
-
-                await this.sendFetchEndEvents();
-
-                /*
-                 * Evaluate after the traversing, just in case something goes wrong
-                 * in any of the evaluation and some scripts are left in the DOM.
-                 */
-                await this._engine.emitAsync('can-evaluate::script', { resource });
-
-                this._onComplete(resource);
             }, this._options.waitFor);
         };
 
@@ -180,11 +186,21 @@ export default class WebExtensionConnector implements IConnector {
 
         this.sendMessage({ ready: true });
 
-        return new Promise((resolve) => {
-            this._onComplete = async (resource: string) => {
-                await this._engine.emitAsync('scan::end', { resource });
-                resolve();
-                this.sendMessage({ done: true });
+        return new Promise((resolve, reject) => {
+            this._onComplete = async (err: Error | null, resource = '') => {
+                if (err) {
+                    reject(err);
+
+                    return;
+                }
+
+                try {
+                    await this._engine.emitAsync('scan::end', { resource });
+                    resolve();
+                    this.sendMessage({ done: true });
+                } catch (e) {
+                    reject(e);
+                }
             };
         });
     }
@@ -201,7 +217,7 @@ export default class WebExtensionConnector implements IConnector {
      * of the website.
      */
     private evaluateInPage(source: string): Promise<any> {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             const script = document.createElement('script');
             const config = {
                 attributes: true,
@@ -210,18 +226,29 @@ export default class WebExtensionConnector implements IConnector {
             };
 
             const callback = (mutationsList: MutationRecord[], observer: MutationObserver) => {
-                mutationsList.forEach((mutation: MutationRecord) => {
-                    if (mutation.type !== 'attributes' && mutation.attributeName !== 'data-result') {
-                        return;
-                    }
+                try {
+                    mutationsList.forEach((mutation: MutationRecord) => {
+                        if (mutation.type !== 'attributes' || !(/^data-(error|result)$/).test(mutation.attributeName || '')) {
+                            return;
+                        }
 
-                    const result = JSON.parse(script.getAttribute('data-result')!);
+                        const error = script.getAttribute('data-error');
+                        const result = script.getAttribute('data-result');
 
-                    document.body.removeChild(script);
-                    observer.disconnect();
+                        document.body.removeChild(script);
+                        observer.disconnect();
 
-                    resolve(result);
-                });
+                        if (error) {
+                            reject(JSON.parse(error));
+                        } else if (result) {
+                            resolve(JSON.parse(result));
+                        } else {
+                            reject(new Error('No error or result returned from evaluate.'));
+                        }
+                    });
+                } catch (err) {
+                    reject(err);
+                }
             };
 
             const observer = new MutationObserver(callback);
@@ -229,10 +256,14 @@ export default class WebExtensionConnector implements IConnector {
             observer.observe(script, config);
 
             script.textContent = `(async () => {
-const scriptElement = document.currentScript;
-const result = await ${source}
+    const scriptElement = document.currentScript;
+    try {
+        const result = await ${source}
 
-scriptElement.setAttribute('data-result', JSON.stringify(result) || null);
+        scriptElement.setAttribute('data-result', JSON.stringify(result) || null);
+    } catch (err) {
+        scriptElement.setAttribute('data-error', JSON.stringify({ message: err.message, stack: err.stack }));
+    }
 })();`;
 
             document.body.appendChild(script);

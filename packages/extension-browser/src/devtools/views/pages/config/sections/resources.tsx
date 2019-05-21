@@ -28,10 +28,16 @@ const placeholder = 'google-analytics.com';
 
 /** Create a regular expression to exclude URLs not part of the current origin. */
 const buildIgnoreThirdParty = (): Promise<string> => {
-    return new Promise((resolve) => {
-        evaluate('location.origin', (origin: string) => {
-            resolve(`^(?!${escapeRegExp(origin)})`);
+    return new Promise((resolve, reject) => {
+
+        evaluate('location.origin', (origin: string, err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(`^(?!${escapeRegExp(origin)})`);
+            }
         });
+
     });
 };
 

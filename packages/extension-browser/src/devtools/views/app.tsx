@@ -8,7 +8,7 @@ import ConfigPage from './pages/config';
 import ErrorPage from './pages/error';
 import ResultsPage from './pages/results';
 
-import { trackCancel, trackError, trackFinish, trackStart } from '../utils/analytics';
+import { trackCancel, trackError, trackFinish, trackStart, trackTimeout } from '../utils/analytics';
 import { useCurrentDesignStyles, useCurrentTheme, withCurrentDesign } from '../utils/themes';
 
 import * as fluent from './app.fluent.css';
@@ -74,6 +74,13 @@ const App = () => {
         onRestart();
     }, [onRestart]);
 
+    const onTimeout = useCallback((duration: number) => {
+        setIsAnalyzing(false);
+        setPage(Page.Error);
+        setError({ message: 'Scan timed out.', stack: '' });
+        trackTimeout(duration);
+    }, []);
+
     const getCurrentPage = () => {
         switch (page) {
             case Page.Config:
@@ -90,7 +97,7 @@ const App = () => {
     return (
         <div className={styles.root} data-theme={theme}>
             {getCurrentPage()}
-            {isAnalyzing && <Analyze config={config} onCancel={onCancel} onError={onError} onResults={onResults}/>}
+            {isAnalyzing && <Analyze config={config} onCancel={onCancel} onError={onError} onResults={onResults} onTimeout={onTimeout}/>}
         </div>
     );
 };

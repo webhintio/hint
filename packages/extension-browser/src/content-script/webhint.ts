@@ -12,7 +12,7 @@ import HTMLParser from '@hint/parser-html';
 import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
-import { browser, location, window } from '../shared/globals';
+import { browser, location } from '../shared/globals';
 import { Config, Events } from '../shared/types';
 
 import WebExtensionConnector from './connector';
@@ -28,14 +28,6 @@ const reportError = (message: string, stack: string) => {
         }
     });
 };
-
-window.addEventListener('error', (evt) => {
-    reportError(evt.error.message, evt.error.stack);
-});
-
-window.addEventListener('unhandledrejection', (evt) => {
-    reportError(evt.reason.message, evt.reason.stack);
-});
 
 /** Use the provided `browserslist` query if valid; `defaults` otherwise. */
 const determineBrowserslist = (list?: string) => {
@@ -119,7 +111,9 @@ const main = async (userConfig: Config) => {
 
 const onMessage = (events: Events) => {
     if (events.config) {
-        main(events.config);
+        main(events.config).catch((err) => {
+            reportError(err.message, err.stack);
+        });
         browser.runtime.onMessage.removeListener(onMessage);
     }
 };

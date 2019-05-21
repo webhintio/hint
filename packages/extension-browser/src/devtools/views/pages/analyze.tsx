@@ -15,6 +15,8 @@ import * as styles from './analyze.css';
 
 import * as nellieWorkingSvg from '../../../nellie-working.svg';
 
+const maxRunTime = 3 * 60 * 1000; // Three minutes.
+
 const getScanDuration = (scanStart: number) => {
     return Math.round(performance.now() - scanStart);
 };
@@ -30,12 +32,15 @@ type Props = {
 
     /** Listener to receive the results of a scan after it completes. */
     onResults: (results: Results, duration: number) => void;
+
+    /** Listener for when a scan fails to return after the max alloted time. */
+    onTimeout: (duration: number) => void;
 };
 
 /**
  * Display progress and status while running a scan.
  */
-const Analyze = ({ config, onCancel, onError, onResults }: Props) => {
+const Analyze = ({ config, onCancel, onError, onResults, onTimeout }: Props) => {
     const [delayUntil, setDelayUntil] = useState(0);
     const [scanStart] = useState(performance.now());
     const [resultsTimeout, setResultsTimeout] = useState({} as NodeJS.Timeout);
@@ -46,11 +51,16 @@ const Analyze = ({ config, onCancel, onError, onResults }: Props) => {
         addNetworkListeners();
         sendMessage({ enable: { config } }); // Tell the background script to start scanning.
 
+        const timeout = setTimeout(() => {
+            onTimeout(getScanDuration(scanStart));
+        }, maxRunTime);
+
         return () => {
+            clearTimeout(timeout);
             removeNetworkListeners();
             sendMessage({ done: true }); // Tell the background script to stop scanning.
         };
-    }, [config]);
+    }, [config, onTimeout, scanStart]);
 
     /*
      * Wait 5s after each status change before calling `onResults`.
