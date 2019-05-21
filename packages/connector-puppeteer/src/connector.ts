@@ -16,8 +16,23 @@ const debug: debug.IDebugger = d(__filename);
 
 type EventName = keyof puppeteer.PageEventObj;
 
+type AuthConfig = {
+    user: {
+        selector: string;
+        value: string;
+    };
+    password: {
+        selector: string;
+        value: string;
+    };
+    submit: {
+        selector: string;
+    };
+};
+
 // TODO: keep in sync with the schema and take a look at #1594 and #1628
 type ConnectorOptions = {
+    auth?: AuthConfig;
     browser?: Browser;
     detached?: boolean;
     headless?: boolean;
@@ -27,6 +42,7 @@ type ConnectorOptions = {
 };
 
 export default class PuppeteerConnector implements IConnector {
+    private _auth: AuthConfig | null;
     private _browser!: puppeteer.Browser;
     private _dom: HTMLDocument | undefined;
     private _engine: Engine;
@@ -45,7 +61,32 @@ export default class PuppeteerConnector implements IConnector {
 
     public static schema = {
         additionalProperties: false,
+        definitions: {
+            fieldInput: {
+                properties: {
+                    selector: { types: 'string' },
+                    value: { types: 'string' }
+                },
+                required: ['selector', 'value'],
+                type: 'object'
+            },
+            submitInput: {
+                properties: { selector: { types: 'string' } },
+                required: ['selector'],
+                type: 'object'
+            }
+        },
         properties: {
+            auth: {
+                additionalProperties: false,
+                properties: {
+                    password: { $ref: '#/definitions/fieldInput' },
+                    submit: { $ref: '#/definitions/submitInput' },
+                    user: { $ref: '#/definitions/fieldInput' }
+                },
+                required: ['user', 'password', 'submit'],
+                type: 'object'
+            },
             browser: {
                 enum: ['Chrome', 'Chromium', 'Edge'],
                 type: 'string'
@@ -72,8 +113,8 @@ export default class PuppeteerConnector implements IConnector {
         });
 
         this._waitUntil = options && options.waitUntil ? options.waitUntil : 'networkidle2';
-
         this._options = this.toPuppeteerOptions(options);
+        this._auth = options && options.auth ? options.auth : null;
     }
 
     /** Transform general options to more specific `puppeteer` ones if applicable. */
@@ -288,6 +329,25 @@ export default class PuppeteerConnector implements IConnector {
         }
     }
 
+    private async authenticate() {
+        if (!this._auth) {
+            return;
+        }
+        const { user, password, submit } = this._auth;
+
+        await this._page.type(user.selector, user.value);
+        await this._page.type(password.selector, password.value);
+
+        /**
+         * Example on how to do it available in:
+         * https://pptr.dev/#?product=Puppeteer&version=v1.16.0&show=api-pagewaitfornavigationoptions
+         */
+        await Promise.all([
+            this._page.waitForNavigation({ waitUntil: this._waitUntil }),
+            this._page.click(submit.selector)
+        ]);
+    }
+
     public async close() {
         this.removeListeners();
 
@@ -304,12 +364,12 @@ export default class PuppeteerConnector implements IConnector {
         await this._engine.emit('scan::start', { resource: target.href });
 
         // TODO: Figure out how to execute the user tasks in here and when to subscribe to events
-
         this.addListeners();
 
         debug(`Navigating to ${target.href}`);
         await this._page.goto(target.href, { waitUntil: this._waitUntil });
-        // TODO: what happens if there are multiple redirects here?
+
+        await this.authenticate();
 
         // This is the final URL
         this._finalHref = this._page.url();

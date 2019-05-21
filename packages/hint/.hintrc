@@ -1,15 +1,10 @@
 {
     "connector": {
-        "name": "chrome",
+        "name": "puppeteer",
         "options": {
-            "waitFor": 1000
+            "waitUntil": "networkidle2"
         }
     },
-    "formatters": [
-        "html",
-        "summary"
-    ],
-    "parsers": ["javascript"],
     "hintsTimeout": 120000,
     "hints": {
         "amp-validator": "off",

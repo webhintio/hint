@@ -40,13 +40,46 @@ The set of settings supported by the Puppeteer connector are:
     "connector": {
         "name": "puppeteer",
         "options": {
-            "ignoreHTTPSErrors: true|false,
+            "auth": {
+                "user": {
+                    "selector": "string",
+                    "value": "string"
+                },
+                "password": {
+                    "selector": "string",
+                    "value": "string"
+                },
+                "submit": {
+                    "selector": "string"
+                }
+            },
+            "ignoreHTTPSErrors": true|false,
             "waitUntil": "dom|loaded|networkidle0|networkidle2"
         }
     },
     ...
 }
 ```
+
+### Website authentication
+
+The `puppeteer` connector allows to authenticate on a website that:
+
+* uses user/password (i.e.: no MFA or captcha).
+* the website needs to redirect to the login page and to the initial
+  target after successful authentication.
+
+The properties of `auth` are:
+
+* `user`: the information needed to identify the `input` element via
+  a query `selector` (e.g.: `#login`) to type the `value` for the
+  username in (e.g.: `username1`).
+* `password`: the information needed to identify the `input` element via
+  a query `selector` (e.g.: `#password`) to type the `value` for the
+  password in (e.g.: `P@ssw0rd`).
+* `submit`: the information needed to identify the `input` (or `button`)
+  element via a query `selector` (e.g.: `input[type="submit"]`) to `click`
+  to submit the crendentials.
 
 ## Further Reading
 
