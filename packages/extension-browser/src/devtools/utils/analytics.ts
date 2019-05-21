@@ -52,3 +52,8 @@ export const trackShow = () => {
 export const trackStart = () => {
     trackEvent('f12-start');
 };
+
+/** Called when analysis fails to complete in the allotted time. */
+export const trackTimeout = (duration: number) => {
+    trackEvent('f12-timeout', undefined, { 'f12-timeout-duration': duration });
+};
