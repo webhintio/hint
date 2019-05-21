@@ -10,7 +10,6 @@ import * as path from 'path';
 import { URL } from 'url';
 
 import groupBy = require('lodash/groupBy');
-import every = require('lodash/every');
 import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 import { Server } from '@hint/utils-create-server';
@@ -18,6 +17,7 @@ import { Engine, Events, IConnector } from 'hint';
 
 import Connector from '../src/connector';
 import { runIfNoCiAndWindows } from './_run-if-no-ci-windows';
+import { validEvent } from './_valid-event';
 
 type EventsContext = {
     connector?: IConnector;
@@ -156,51 +156,6 @@ const events = [
     ['scan::end', { resource: 'http://localhost/' }]
 ];
 /* eslint-enable sort-keys */
-
-/**
- * Losely compares to data events. It will check if all the properties in
- * `data2` are in `data1` with the same values.
- */
-const sameData = (actual: any, expected: any): boolean => {
-    const actualType = typeof actual;
-    const expectedType = typeof expected;
-
-    // If `expected` doesn't have a value, then it is an enhacement and we can ignore it
-    if (actualType !== 'undefined' && expectedType === 'undefined') {
-        return true;
-    }
-
-    // We test here getAttribute.
-    if (expectedType === 'function' && actualType === 'function') {
-        return ['src', 'href'].some((attribute) => {
-            return actual(attribute) === expected(attribute);
-        });
-    }
-
-    if (expectedType !== 'object' || actual === null) {
-        return actual === expected;
-    }
-
-    return every(expected, (value, key) => {
-        return sameData(actual[key], value);
-    });
-};
-
-const validEvent = (eventsToSearch: any[], expectedEvent: any) => {
-    const originalSize = eventsToSearch.length;
-
-    for (let i = 0; i < eventsToSearch.length; i++) {
-        const emittedEvent = eventsToSearch[i];
-
-        if (sameData(emittedEvent, expectedEvent)) {
-            eventsToSearch.splice(i, 1);
-
-            break;
-        }
-    }
-
-    return originalSize !== eventsToSearch.length;
-};
 
 const tests = () => {
 
