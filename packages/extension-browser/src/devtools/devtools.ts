@@ -3,6 +3,6 @@ import { getMessage } from './utils/i18n';
 
 browser.devtools.panels.create(
     getMessage('hintsTitle'),
-    '/icon.png',
+    `/tab-icon.${browser.devtools.panels.themeName}.svg`,
     '/devtools/panel.html'
 );

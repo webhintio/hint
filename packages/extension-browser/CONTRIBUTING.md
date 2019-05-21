@@ -17,6 +17,14 @@
 
 * Side-load `"dist/bundle/"` in target browser
 
+### Release builds
+
+Running the release build command will generate zip files
+for both Chromium-based browsers and Firefox, found under
+`dist/chromium/` and `dist/firefox/` respectively.
+
+* `yarn build-release`
+
 ## High-level architecture
 
 The browser extension includes components which collaborate across
