@@ -37,28 +37,38 @@ configuration file:
 }
 ```
 
-### jsdom configuration
+## Options
 
-`jsdom` allows you to configure the following:
+The set of settings supported by jsdom connector are:
 
-* `headers`: the headers used to fetch the resources. By default they are:
+* `ignoreHTTPSError (boolean)`: Indicates if errors with certificates
+  should be ignored. Use this when checking self-signed certificates.
+  It is `false` by default.
+* `waitFor (number)`: time in milliseconds the connector will wait after
+  the site is ready before starting the DOM traversing and stop listening
+  to any network request. By default, it will wait until the network is
+  somehow "quiet" even though more requests could be processed after DOM
+  traversing. Default is `5000`.
 
 ```json
- {
-    "Accept-Language": "en-US,en;q=0.8,es;q=0.6,fr;q=0.4",
-    "Cache-Control": "no-cache",
-    "DNT": 1,
-    "Pragma": "no-cache",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"
+{
+    "connector": {
+        "name": "jsdom",
+        "options": {
+            "ignoreHTTPSErrors": false,
+            "waitFor": 10000
+        }
+    },
+    ...
 }
 ```
 
 ## Further Reading
 
-* [Connectors][connectors]
+* [Connectors overview][connectors]
 
 <!-- Link labels: -->
 
+[connectors]: https://webhint.io/docs/user-guide/concepts/connectors/
 [jsdom]: https://github.com/jsdom/jsdom
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
-[connectors]: https://webhint.io/docs/user-guide/concepts/connectors/
