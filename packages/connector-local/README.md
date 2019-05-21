@@ -17,10 +17,6 @@ Then, install the new connector:
 npm install @hint/connector-local
 ```
 
-## Known issues
-
-* This connector can't traverse an HTML file.
-
 ## Usage
 
 Configure the connector name in your [`.hintrc`][hintrc]
@@ -35,9 +31,42 @@ configuration file:
 }
 ```
 
+## Options
+
+`local` allows you to configure the following:
+
+* `pattern`: Add or ignore files defined in the pattern. By default the
+  `local` connector will use the following pattern `['**', '!.git/**']`. This
+  doesn't apply if you are targeting just a file or if you are using the
+  options `content`.
+* `watch`: Run `webhint` in watch mode. Watch files and trigger the analysis
+  on changes.
+
+```json
+{
+    "connector": {
+        "name": "local",
+        "options": {
+            "pattern": ["**", "!.git/**"],
+            "watch": false
+        }
+    },
+    ...
+}
+```
+
+In addition, the `local` connector accept a new parameter in the
+method `collect` that allow you to pass the content to analyze as an string.
+To use that property, you need to call to the `executeOn` method in
+the engine with the content to analyze.
+
+```js
+engine.executeOn(url, {content: '{{your content}}'});
+```
+
 ## Further Reading
 
-* [Connectors][connectors]
+* [Connectors oerview][connectors]
 
 <!-- Link labels: -->
 

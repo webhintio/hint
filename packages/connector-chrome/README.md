@@ -35,37 +35,31 @@ configuration file:
 
 The set of settings supported by Chrome connector are:
 
-* `defaultProfile (boolean)`: Indicates if the browser should use the
-  default profile or create a new one. By default the value is `false`
-  so a new one is created. You might want to set it to `true` if you
-  want `webhint` to have access to pages where the default profile is
-  already authenticated. NOTE: Due to an issue in
-  [`chrome-launcher`][chrome-launcher-issue], all the instances of
-  the browser need to be closed before run `webhint`.
-* `useTabUrl (boolean)`: Indicates if the browser should navigate first
-  to a given page before going to the final target. `false` by default.
-* `tabUrl (string)`: The URL to visit before the final target in case
-  `useTabUrl` is `true`. `https://empty.webhint.io/` is the
-  default value.
-* `flags? (string[])`: Allows you to pass in additional Chrome
-  command line API flags. Useful if you would like to start your
-  session in headless mode or with GPU disabled. Here's the full list
-  of [available command line flags][cli flags].
-  `['--no-default-browser-check']` is the default value.
-* `waitForContentLoaded (number)`: Time in milliseconds to wait for the
-  `loadingFinished` event from the `debugging protocol` before requesting
-  the body of a response. The default value is `10000` (10 seconds).
+* `ignoreHTTPSError (boolean)`: Indicates if errors with certificates
+  should be ignored. Use this when checking self-signed certificates.
+  It is `false` by default.
+* `launcherOptions (object)`: Allows you to pass in additional Chrome
+  command line API flags. This connector uses
+  [Chrome Launcher][chrome-launcher] to start Chrome and
+  `launcherOptions` will be relied to it so the same options are
+  supported.
+* `waitFor (number)`: time in milliseconds the connector will wait after
+  the site is ready before starting the DOM traversing and stop listening
+  to any network request. By default, it will wait until the network is
+  somehow "quiet" even though more requests could be processed after DOM
+  traversing. Default is `5000`.
 
 ```json
 {
     "connector": {
         "name": "chrome",
         "options": {
-            "defaultProfile": true,
-            "useTabUrl": false,
-            "tabUrl": "https://empty.webhint.io/",
-            "flags": ["--headless", "--disable-gpu"],
-            "waitForContentLoaded": 10000
+            "ignoreHTTPSErrors": false,
+            "launcherOptions": {
+                "defaultProfile": true,
+                "flags": ["--headless", "--disable-gpu"]
+            },
+            "waitFor": 10000
         }
     },
     ...
@@ -74,12 +68,13 @@ The set of settings supported by Chrome connector are:
 
 ## Further Reading
 
-* [Connectors][connectors]
+* [Connectors overview][connectors]
 
 <!-- Link labels: -->
 
 [cdp]: https://chromedevtools.github.io/devtools-protocol/
+[chrome-launcher]: https://github.com/googlechrome/chrome-launcher
+[chrome-launcher-issue]: https://github.com/GoogleChrome/chrome-launcher/issues/118
 [cli flags]: https://github.com/GoogleChrome/chrome-launcher/blob/master/docs/chrome-flags-for-tools.md
 [connectors]: https://webhint.io/docs/user-guide/concepts/connectors/
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
-[chrome-launcher-issue]: https://github.com/GoogleChrome/chrome-launcher/issues/118
