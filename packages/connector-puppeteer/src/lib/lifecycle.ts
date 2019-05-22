@@ -19,6 +19,7 @@ let isLocked = false;
 const { readFileAsync, writeFileAsync } = fs;
 
 const infoFile = 'browser.info';
+const TIMEOUT = 30000;
 
 export type LifecycleLaunchOptions = LaunchOptions & {
     detached: boolean;
@@ -104,6 +105,8 @@ const connectToBrowser = async (currentInfo: BrowserInfo, options: LifecycleLaun
     debug(`Creating new page in existing browser`);
     const page = await browser.newPage();
 
+    page.setDefaultTimeout(options.timeout || TIMEOUT);
+
     return { browser, page };
 };
 
@@ -167,6 +170,8 @@ ${JSON.stringify(options, null, 2)}
     const page = pages.length > 0 ?
         await pages[0] :
         await browser.newPage();
+
+    page.setDefaultTimeout(options.timeout || TIMEOUT);
 
     return { browser, page };
 };
