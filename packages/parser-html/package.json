@@ -65,7 +65,7 @@
     "lint:md": "node ../../scripts/lint-markdown.js",
     "test": "npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
-    "test-release": "npm run lint && npm run build-release && npm run test-only",
+    "test-release": "npm run lint && npm run build-release && ava",
     "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",

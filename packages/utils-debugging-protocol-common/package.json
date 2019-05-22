@@ -59,7 +59,7 @@
     "lint:md": "node ../../scripts/lint-markdown.js",
     "test": "npm run test-only",
     "test-only": "npm run build",
-    "test-release": "npm run lint && npm run build-release && npm run test-only",
+    "test-release": "npm run lint && npm run build-release && ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },

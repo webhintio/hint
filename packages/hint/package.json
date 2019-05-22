@@ -90,7 +90,7 @@
     "hint": "node dist/src/bin/hint",
     "test": "npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
-    "test-release": "npm run lint && npm run build-release && npm run test-only",
+    "test-release": "npm run lint && npm run build-release && ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",
     "watch:resources": "npm run build:assets -- -w --no-initial",
