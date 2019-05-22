@@ -45,6 +45,11 @@ const browserVariables = new Map([
             Browser.Chromium, [
                 '/Contents/MacOS/Chromium'
             ]
+        ],
+        [
+            Browser.Edge, [
+                '/Contents/MacOS/Microsoft Edge Canary'
+            ]
         ]
     ])],
     ['linux', new Map([

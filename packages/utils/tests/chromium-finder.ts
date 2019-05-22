@@ -192,21 +192,6 @@ test(`wsl sets missing env variables Windows`, (t) => {
     t.is(setVariableSpy.thirdCall.args[0], 'PROGRAMFILES(X86)');
 });
 
-test(`(macOS) Does not have any information for Edge`, (t) => {
-    const sandbox = t.context.sandbox;
-
-    sandbox.stub(t.context.getPlatform, 'getPlatform')
-        .returns('darwin');
-
-    const chromiumFinder = loadDependency(t.context);
-
-    const error = t.throws(() => {
-        chromiumFinder.getInstallationPath({ browser: 'Edge' });
-    });
-
-    t.is(error.message, 'The provided browser is not supported in this platform');
-});
-
 test(`(Linux) Does not have any information for Edge`, (t) => {
     const sandbox = t.context.sandbox;
 
