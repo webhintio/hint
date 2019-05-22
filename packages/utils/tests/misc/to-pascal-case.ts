@@ -15,3 +15,10 @@ test(`toPascalCase returns a string in Pascal Case even if the input doesn't hav
 
     t.is(pascalCased, expected);
 });
+
+test(`toPascalCase returns an empty sting if passed`, (t) => {
+    const expected = '';
+    const pascalCased = toPascalCase('');
+
+    t.is(pascalCased, expected);
+});
