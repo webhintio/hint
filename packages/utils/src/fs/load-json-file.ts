@@ -1,4 +1,4 @@
-import * as stripComments from 'strip-json-comments';
+import stripComments = require('strip-json-comments');
 
 import { readFile } from './read-file';
 
