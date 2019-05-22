@@ -1,31 +1,8 @@
 import * as path from 'path';
-import { Package, Context } from '../@types/custom';
+import { Context } from '../@types/custom';
 import { debug, execa, packageTask } from '../lib/utils';
 
 const inquirer = require('listr-inquirer'); // `require` used because `listr-inquirer` exports a function
-
-const buildForRelease = async (pkg: Package) => {
-    const scripts = ['build-release', 'build'];
-    const npmScript = scripts.reduce((cmd, script) => {
-        if (cmd) {
-            return cmd;
-        }
-        if (pkg.content.scripts.hasOwnProperty(script)) {
-            return script;
-        }
-
-        return cmd;
-    }, '');
-
-    if (npmScript === '') {
-        // Nothing to build
-        return;
-    }
-
-    const command = `npm run ${npmScript}`;
-
-    await execa(command, { cwd: path.dirname(pkg.path) });
-};
 
 export const confirmRelease = (ctx: Context) => {
     const questions = [{
@@ -62,8 +39,6 @@ export const release = () => {
 
             debug(message);
             observer.next(message);
-
-            await buildForRelease(pkg);
 
             const dryRun = ctx.argv.dryRun ?
                 ' --dry-run' :
