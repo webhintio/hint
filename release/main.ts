@@ -70,6 +70,11 @@ const tasks = new Listr([
         skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
         task: taskErrorWrapper(savePackageChanges)
     },
+    {
+        title: 'Cleanup workspace',
+        skip: skipReasons(skipIfError, skipIfAborted, skipInstallation),
+        task: cleanWorkspace()
+    },
     /**
      * Cross-deps should be updated by now and we need to make sure to commit
      * the latest `yarn.lock` that might remove bad ones. E.g.: if a package
@@ -90,11 +95,6 @@ const tasks = new Listr([
         title: 'Validate changes',
         skip: skipReasons(skipIfError, skipIfForced, skipIfJustRelease),
         task: taskErrorWrapper(validateChanges)
-    },
-    {
-        title: 'Cleanup workspace',
-        skip: skipReasons(skipIfError, skipIfAborted, skipInstallation),
-        task: cleanWorkspace()
     },
     {
         title: 'Build and test',
