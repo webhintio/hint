@@ -30,7 +30,7 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.3.2",
     "typescript": "^3.4.5",
-    "webpack": "^4.31.0"
+    "webpack": "^4.32.1"
   },
   "engines": {
     "node": ">=8.0.0"
