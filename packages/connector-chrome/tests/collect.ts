@@ -85,7 +85,10 @@ test(`[${name}] Favicon is present in a 'link' element with 'rel' attribute set 
 
 test(`[${name}] Favicon is present in the root directory`, async (t) => {
     const faviconInRootDir = `http://localhost/favicon.ico`;
-    const serverConfig: ServerConfiguration = { '/favicon.ico': fs.readFileSync(pathToFaviconInDir) };
+    const serverConfig: ServerConfiguration = {
+        '/': generateHTMLPage(),
+        '/favicon.ico': fs.readFileSync(pathToFaviconInDir)
+    };
 
     const server = await runTest(t, ChromeConnector, serverConfig);
 
