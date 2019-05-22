@@ -8095,10 +8095,10 @@ node-releases@^1.1.19:
   dependencies:
     semver "^5.3.0"
 
-node-ssllabs@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/node-ssllabs/-/node-ssllabs-1.1.0.tgz#f90f9241ea6cf87def31f6b61327cc53354b47a6"
-  integrity sha512-3cX3z71nylTpoWL5G1XN6ohOzdNNoeQ6lyyl/pr2hRHp3xVFyc/Y22SniN60fZvlhJ+wGJaJ3PGiiG4QcCCFlg==
+node-ssllabs@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/node-ssllabs/-/node-ssllabs-1.1.2.tgz#a491c5ae26b6f72a9229ac3288ae2508517d9f24"
+  integrity sha512-5REgvNBPZei3ic35r9w6nlNeMgSUy3TlGB0mX+nk5c0+EuoAu8pmYDbDeuGRTpqdEcfSpxMlG1jskhfya6ZBRA==
   dependencies:
     proxy-agent "^3.1.0"
 
