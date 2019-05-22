@@ -36,7 +36,7 @@ const buildAndTestPackages = async (pkgNames: string[], pkgs: Map<string, Packag
         if (pkg.tested) {
             debug(`Package "${pkg.name} already build/tested"`);
 
-            return;
+            continue;
         }
 
         /**
@@ -57,7 +57,7 @@ const buildAndTestPackages = async (pkgNames: string[], pkgs: Map<string, Packag
 
             debug(`Package "${pkg.name}" does not have a build and test script`);
 
-            return;
+            continue;
         }
 
         const testMessage = `Running "${command}" for "${pkg.name}"`;
