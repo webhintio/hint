@@ -109,11 +109,16 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
         parsers: determineParsers(opts && opts.parsers)
     };
 
-    // Defaults needed to run the tests
+    /**
+     * Defaults needed to run the tests. All apply only to
+     * `puppeteer` except `ignoreHTTPSErrors` that's common
+     * to all.
+     */
     config.connector.options = {
-        detached: true, // This only applies to `puppeteer`
+        detached: true,
         ignoreHTTPSErrors: true,
-        waitUntil: 'networkidle0' // This only applies to `puppeteer`
+        puppeteerOptions: { timeout: 60000 },
+        waitUntil: 'networkidle0'
     };
 
     return Configuration.fromConfig(config);
