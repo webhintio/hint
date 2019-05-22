@@ -64,7 +64,7 @@ and exception.
 * `getInstallationPath`: Searchs for a valid Chromium browser from the ones
   supported. The current priority list is:
   * `Chrome Canary`, `Chrome`, `Chromium`, `Edge Canary`, `Edge Dev` (`Edge`
-  only on `win32` platforms). A user can also pass the browser to use
+  on `win32` and `darwin` platforms). A user can also pass the browser to use
   (`Chrome`, `Chromium`, `Edge`) via the `options` parameter
   (`options.browser`) or a `path` to the executable (`options.browserPath`) to
   use (`getInstallationPath` will only verify it exists, not if it's actually
