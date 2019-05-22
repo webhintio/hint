@@ -67,6 +67,7 @@ export const calculateNewVersions = (ctx: Context) => {
             return;
         }
 
+        pkg.updated = true;
         pkg.content.version = calculatePackageNewVersion(pkg, bumpType);
     });
 
