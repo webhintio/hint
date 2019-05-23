@@ -3,6 +3,7 @@ export * from './cut-string';
 export * from './delay';
 export * from './environment';
 export * from './get-platform';
+export * from './merge-env-with-options';
 export * from './merge-ignore-include-arrays';
 export * from './normalize-includes';
 export * from './normalize-string';
