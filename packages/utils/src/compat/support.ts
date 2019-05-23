@@ -39,13 +39,9 @@ export const getUnsupported = (feature: FeatureQuery, browsers: string[]): Unsup
         return getDeclarationUnsupported(feature, browsers);
     } else if ('rule' in feature) {
         return getRuleUnsupported(feature, browsers);
-    } else if ('selector' in feature) {
-        return getSelectorUnsupported(feature, browsers);
     }
 
-    const exhaustiveCheck: never = feature;
-
-    return exhaustiveCheck;
+    return getSelectorUnsupported(feature, browsers);
 };
 
 export const getSupported = (feature: FeatureQuery, browsers: string[]): string[] | null => {

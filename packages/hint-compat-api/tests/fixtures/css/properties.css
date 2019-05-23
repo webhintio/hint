@@ -1,0 +1,24 @@
+.example1 {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button; /* Report 1 */
+}
+
+.example2 {
+    appearance: button; /* Report 2 */
+    -webkit-appearance: button;
+    -moz-appearance: button;
+}
+
+.example3 {
+    -webkit-appearance: button; /* Report 3 */
+    -moz-appearance: button; /* Report 4 */
+}
+
+.example4 {
+    -webkit-appearance: button; /* Report 5 */
+}
+
+.example5 {
+    appearance: button; /* Report 6 */
+}

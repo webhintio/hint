@@ -1,0 +1,7 @@
+@-webkit-keyframes name {
+    0% { left: 0%; }
+}
+
+@keyframes name {
+    0% { left: 0%; }
+}

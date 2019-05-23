@@ -1,84 +1,97 @@
-# Deprecated CSS features (`compat-api/css`)
+# Supported CSS features (`compat-api/css`)
 
 ## What does the hint check?
 
-`compat-api/css` checks if the CSS features used are deprecated in the
-[targeted browsers][browser-context].
+`compat-api/css` checks if the CSS features used are
+supported in all [target browsers][browser-context].
 
 ## Why is this important?
 
-Deprecated CSS APIs should not be used as browsers may no longer
-provide support for these APIs. It can be tricky knowing when browser
-support for CSS features have been removed - and whether the support
-was removed for the prefixed or non-prefixed version of the feature.
-This hint will check if you are using features that have been deprecated,
-taking into account prefixes.
+New CSS features are being implemented all the time. It's tricky knowing
+when a feature has become standard among all browsers, when it needs a prefix,
+and when it is not supported. This hint will check if you are using features
+that are not supported by your target browsers, taking into account prefixes
+and feature detection via `@supports` blocks.
 
 ### Examples that **trigger** the hint
 
-The [box-lines][box-lines] property
-was added with the `-webkit-` prefix for Chrome and removed from versions of
-Chrome 67 and onwards.
-Targeted Chrome browsers of versions 67 and up will trigger the hint.
+Support for the [box-flex][box-flex] property was never added to any version
+of Internet Explorer. If Internet Explorer is being targeted, using the
+`box-flex` property will trigger the hint.
 
 ```css
 .example {
-    -webkit-box-lines: single;
+    box-flex: 1;
 }
 ```
 
-The `padding-box` value of the [box-sizing][box-sizing]
-property is deprecated and was removed in Firefox 50.
-Targeted Firefox browsers of versions 50 and up will trigger the hint.
+The `grid` value of the [display][display] property was added to Chrome 57
+and up. Using `display: grid` while targeting Chrome prior to 57 will trigger
+the hint.
 
 ```css
 .example {
-    box-sizing: padding-box;
+    display: grid;
 }
 ```
 
-The non-prefixed [keyframes][keyframes]
-at-rule was removed from Opera 15. Targeted Opera browsers of versions 15
-and up will trigger the hint if the at-rule is used without the `-webkit-`
-prefix.
+Using an unsupported property inside an `@supports` block that was not part
+of the `@supports` test will trigger the hint.
 
 ```css
-@keyframes name {
-    0% {
-        left: 0%;
+@supports (display: flex) {
+    .example {
+        display: grid;
     }
 }
 ```
 
 ### Examples that **pass** the hint
 
-The [background][background] property was never
-removed for any browser. It should always pass the hint.
+The [charset][charset] at-rule was added in Chrome 2. It will pass when
+targeting Chrome 2 or higher.
+
+```css
+@charset "UTF-8";
+```
+
+The [border-radius][border-radius] property was added in IE 9. It will pass
+when targeting IE 9 or higher.
 
 ```css
 .example {
-    background: firebrick;
+    border-radius: 10px;
 }
 ```
 
-The [box-lines][box-lines] property
-was added with prefixes for Chrome, Opera and Safari. Although
-the prefixed property was removed for these browsers subsequently, using
-the property without a prefix will not trigger the hint since the non-prefixed
-version of `box-lines` was never added and thus never deprecated.
+Using an unsupported property inside an `@supports` block will pass if it was
+part of the `@supports` test.
 
 ```css
-.example {
-    box-lines: single;
+@supports (display: grid) {
+    .example {
+        display: grid;
+    }
+}
+```
+
+Using a supported property inside an `@supports` block will pass even if that
+property was not part of the `@supports` test.
+
+```css
+@supports (display: flex) {
+    .example {
+        color: black;
+    }
 }
 ```
 
 ## Can the hint be configured?
 
-This hint throws errors for CSS features that have been deprecated in any
-of the [targeted browsers][targeted-browsers] listed.
+This hint throws errors for CSS features that are not supported in any of the
+[target browsers][target-browsers] listed.
 
-The targeted browsers can be defined in either the `.hintrc` or
+The target browsers can be defined in either the `.hintrc` or
 `package.json` file.
 This property follows the same convention as [browserslist][browserslist].
 
@@ -92,7 +105,16 @@ This property follows the same convention as [browserslist][browserslist].
 ```
 
 `ignore` can be used to specify a list of CSS features to be ignored. The
-default value is `['cursor']`.
+default value is:
+
+```json
+[
+    "-moz-appearance: none",
+    "-webkit-appearance: none",
+    "appearance: none",
+    "cursor"
+]
+```
 
 In the `.hintrc` file:
 
@@ -129,6 +151,15 @@ In the `.hintrc` file:
 }
 ```
 
+## Limitations
+
+CSS features not represented in MDN will pass to avoid false-positives.
+These could result from data missing for a particular browser or because a
+bogus rule, property, or value was used.
+
+CSS selectors, including pseudo-elements such as `::placeholder`, are not
+currently checked.
+
 ## Further Reading
 
 * [CSS: Cascading Style Sheets (MDN)][docmdn]
@@ -136,12 +167,12 @@ In the `.hintrc` file:
 
 <!-- Link labels: -->
 
-[background]: https://developer.mozilla.org/en-US/docs/Web/CSS/background
-[box-lines]: https://developer.mozilla.org/en-US/docs/Web/CSS/box-lines
-[box-sizing]: https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing
+[docmdn]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[border-radius]: https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
+[box-flex]: https://developer.mozilla.org/en-US/docs/Web/CSS/box-flex
 [browser-compat]: https://github.com/mdn/browser-compat-data
 [browser-context]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
 [browserslist]: https://github.com/browserslist/browserslist#readme
-[docmdn]: https://developer.mozilla.org/en-US/docs/Web/CSS
-[keyframes]: https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes
-[targeted-browsers]: ../../hint/docs/user-guide/configuring-webhint/browser-context.md
+[charset]: https://developer.mozilla.org/en-US/docs/Web/CSS/@charset
+[display]: https://developer.mozilla.org/en-US/docs/Web/CSS/display
+[target-browsers]: ../../hint/docs/user-guide/configuring-webhint/browser-context.md

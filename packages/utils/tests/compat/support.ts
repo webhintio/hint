@@ -1,10 +1,17 @@
 import test from 'ava';
 
-import { getUnsupported, isSupported } from '../../src/compat';
+import { getSupported, getUnsupported, isSupported } from '../../src/compat';
 
 test('isSupported works', (t) => {
     t.true(isSupported({ element: 'details' }, ['chrome 74']));
     t.false(isSupported({ element: 'details' }, ['ie 11']));
+    t.false(isSupported({ element: 'details' }, ['chrome 74', 'ie 11']));
+});
+
+test('getSupported works', (t) => {
+    t.deepEqual(getSupported({ element: 'details' }, ['chrome 74']), ['chrome 74']);
+    t.deepEqual(getSupported({ element: 'details' }, ['ie 11']), null);
+    t.deepEqual(getSupported({ element: 'details' }, ['chrome 74', 'ie 11']), ['chrome 74']);
 });
 
 test('Element query works', (t) => {
