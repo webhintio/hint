@@ -107,6 +107,8 @@ contents.
 * `askQuestion`: Asks a y/n question to the user defaulting to Yes.
 * `cutString`: Cut a given string adding `…` in the middle.
 * `delay`: Convenience wrapper to add a delay using promises.
+* `mergeEnvWithOptions`: Merges any `webhint_` prefixed environment
+  variable available with the given `options` object.
 * `mergeIgnoreIncludeArrays`: Adds the items from  `includeArray` into
 `originalArray` and removes the ones from `ignoreArray`.
 * `normalizeIncludes`: Return if normalized `source` string includes
