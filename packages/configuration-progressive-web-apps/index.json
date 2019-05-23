@@ -1,9 +1,6 @@
 {
     "connector": {
-        "name": "jsdom",
-        "options": {
-            "waitFor": 5000
-        }
+        "name": "puppeteer"
     },
     "formatters": [
         "html",

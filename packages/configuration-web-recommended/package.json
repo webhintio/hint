@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@hint/connector-chrome": "^4.0.2",
+    "@hint/connector-puppeteer": "^1.0.0",
     "@hint/connector-jsdom": "^4.0.2",
     "@hint/connector-local": "^3.0.2",
     "@hint/formatter-html": "^4.0.2",
