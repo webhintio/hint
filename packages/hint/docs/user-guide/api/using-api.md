@@ -14,6 +14,15 @@ To use the API, the first thing you need to do is import the class `Analyzer`.
 import { Analyzer } from 'hint';
 ```
 
+This example is using TypeScript, so you'll also need to import some type definitions to
+enable Intellisense support and a successful TypeScript build. Any types you need are included with Webhint and are
+located in the `hint/dist/src/lib/types` directory. Two types we'll be using in the example are
+`UserConfig` and `AnalyzerResult`, so import those with the following line:
+
+ ```ts
+import { UserConfig, AnalyzerResult } from 'hint/dist/src/lib/types';
+```
+
 Once you have the class `Analyzer`, you need to create an instance of
 the class.
 
