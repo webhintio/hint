@@ -1,75 +1,73 @@
-# Deprecated HTML features (`compat-api/html`)
+# Supported HTML features (`compat-api/html`)
 
 ## What does the hint check?
 
 `compat-api/html` checks if the HTML elements and attributes used are
-deprecated in the [targeted browsers][browser-context].
+supported in all [target browsers][browser-context].
 
 ## Why is this important?
 
-Deprecated HTML elements and attributes should not be used
-as browsers may no longer provide support for them.
-It can be tricky knowing when browser support for HTML elements
-and attributes have been removed. This hint will check if you
-are using HTML elements and attributes that have been deprecated.
+New HTML elements and attributes are being implemented all the time.
+It's tricky knowing when an element or attribute has become standard
+among all browsers. This hint will check if you are using elements or
+attributes that are not supported by your target browsers.
 
 ### Examples that **trigger** the hint
 
-The [blink][blink] element is deprecated and was removed in Firefox 22.
-Targeting Firefox browsers of versions 22 and up will trigger the hint.
+The [blink][blink] element was never added to any version of Chrome.
+Targeting Chrome browsers of any version will trigger the hint.
 
 ```html
 <blink>Why would somebody use this?</blink>
 ```
 
-The `scoped` attribute of the [style][style] element is deprecated
-and was removed in Firefox 55. Targeting Firefox versions 55 and up
-will trigger the hint.
+The `srcset` attribute of the [img][img] element was never
+added to any version of Internet Explorer. Targeting
+Internet Explorer browsers of any version will trigger the hint.
 
 ```html
-<style scoped>
-    h1 {color:red;}
-</style>
+<img srcset="foo.jpg, bar.jpg">
 ```
 
-The global attribute [contextmenu][contextmenu] was removed from Firefox 56
-for Android. Targeting Firefox for Android browsers of versions 56 and up
-will trigger the hint.
+The [input type][input-type] [`color`][input-type-color] was not added for any
+version of Internet Explorer. Targeting any version of Internet Explorer
+will trigger the hint for this input type.
 
 ```html
-<body contextmenu="share"></body>
+<input type="color">
 ```
 
 ### Examples that **pass** the hint
 
-The [div][div] element was never removed by any browser.
-It should always pass the hint.
+The [div][div] element has been added for all versions of all browsers.
+It will pass the hint regardless of whatever your target browsers are.
 
 ```html
 <div></div>
 ```
 
-The `method` attribute of the [form][form] element was never
-removed for any browser. It should always pass the hint.
+The `alt` attribute of the [img][img] element has been added for all versions
+of all browsers. It will pass the hint regardless of whatever your target
+browsers are.
 
 ```html
-<form method="get"></form>
+<img alt="mountains">
 ```
 
-The global attribute [class][class] was never removed for any browser.
-It should always pass the hint.
+The [video][video] element and its `autoplay` attribute was added for versions
+of Internet Explorer 9 and onwards. Versions of Internet Explorer from version
+9 onwards will pass the hint.
 
 ```html
-<div class="foobar"></div>
-<p class="foobar"></p>
+<video autoplay></video>
 ```
 
 ## Can the hint be configured?
 
-This hint throws errors for HTML elements that have been deprecated in any
-of the [targeted browsers][targeted-browsers] listed.
+This hint throws errors for HTML elements that are not supported in any of the
+[target browsers][target-browsers] listed.
 
-The targeted browsers can be defined in either the `.hintrc` or
+The target browsers can be defined in either the `.hintrc` or
 `package.json` file.
 This property follows the same convention as [browserslist][browserslist].
 
@@ -83,7 +81,15 @@ This property follows the same convention as [browserslist][browserslist].
 ```
 
 `ignore` can be used to specify a list of HTML features to be ignored. The
-default value is `['integrity']`.
+default value is:
+
+```json
+[
+    "crossorigin",
+    "integrity",
+    "spellcheck"
+]
+```
 
 In the `.hintrc` file:
 
@@ -120,21 +126,28 @@ In the `.hintrc` file:
 }
 ```
 
+## Limitations
+
+HTML features not represented in MDN will pass to avoid false-positives.
+These could result from data missing for a particular browser or because a
+bogus element was used.
+
 ## Further Reading
 
-* [CSS: Cascading Style Sheets (MDN)][docmdn]
+* [HTML: Hypertext Markup Language (MDN)][docmdn]
 * [Browser Compat Data (MDN)][browser-compat]
 
 <!-- Link labels: -->
 
 [blink]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blink
-[style]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/style
+[img]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img
+[video]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
 [div]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
-[form]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form
-[contextmenu]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contextmenu
-[class]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class
+[input-type-color]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
+[input-type]: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+[global-attr]: https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes
+[docmdn]: https://developer.mozilla.org/en-US/docs/Web/HTML
 [browser-compat]: https://github.com/mdn/browser-compat-data
 [browser-context]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
 [browserslist]: https://github.com/browserslist/browserslist#readme
-[docmdn]: https://developer.mozilla.org/en-US/docs/Web/HTML
-[targeted-browsers]: ../../hint/docs/user-guide/configuring-webhint/browser-context.md
+[target-browsers]: ../../hint/docs/user-guide/configuring-webhint/browser-context.md

@@ -1,8 +1,0 @@
-.example1 {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-
-.example2 {
-    appearance: none; /* unprefixed */
-}

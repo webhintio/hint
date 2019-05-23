@@ -7,8 +7,8 @@ const schema = require('./compat-hint-schema.json');
 const meta: HintMetadata = {
     docs: {
         category: Category.compatibility,
-        description: 'Validate if HTML features used are deprecated in target browsers',
-        name: 'Deprecated HTML features'
+        description: 'Validate if HTML features used are supported in target browsers',
+        name: 'Supported HTML features'
     },
     id: 'compat-api/html',
     schema: [schema],

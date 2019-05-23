@@ -1,0 +1,17 @@
+.example1 {
+    display: -ms-grid;
+    display: grid; /* Report 1 */
+}
+
+.example2 {
+    display: grid; /* Report 2 */
+    display: -ms-grid;
+}
+
+.example3 {
+    display: -ms-grid; /* Report 3 */
+}
+
+.example4 {
+    display: grid; /* Report 4 */
+}

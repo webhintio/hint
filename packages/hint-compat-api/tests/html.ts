@@ -1,10 +1,8 @@
 import { fs, test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { testHint } from '@hint/utils-tests-helpers';
 
 const { generateHTMLPage, getHintPath } = test;
 const { readFile } = fs;
-
-import { ignoredConnectors } from './_ignored-connectors';
 
 const hintPath = getHintPath(__filename, true);
 
@@ -15,231 +13,76 @@ const generateHTMLConfig = (fileName: string) => {
     return { '/': generateHTMLPage(undefined, htmlFile) };
 };
 
-/*
- * Tests for html features that were removed / deprecated.
- * More information about how `hintRunner` can be configured is
- * available in:
- * https://webhint.io/docs/contributor-guide/how-to/test-hints/
- */
+const targetBrowsers = ['chrome 73-74', 'edge 17-18', 'firefox 65-66', 'ie 10-11'];
 
-const elementNeverRemoved: HintTest[] = [
+testHint(hintPath,
+    [
+        {
+            name: 'Reports unsupported HTML attributes',
+            reports: [
+                {
+                    message: 'img[srcset] is not supported by ie 10-11.',
+                    position: { match: 'img srcset=' }
+                },
+                {
+                    message: 'div[hidden] is not supported by ie 10.',
+                    position: { match: 'div hidden' }
+                }
+            ],
+            serverConfig: generateHTMLConfig('attributes')
+        },
+        {
+            name: 'Reports unsupported HTML elements',
+            reports: [
+                {
+                    message: 'blink is not supported by chrome 73-74, edge 17-18, firefox 65-66, ie 10-11.',
+                    position: { match: 'blink' }
+                },
+                {
+                    message: 'details is not supported by edge 17-18, ie 10-11.',
+                    position: { match: 'details' }
+                }
+            ],
+            serverConfig: generateHTMLConfig('elements')
+        },
+        {
+            name: 'Does not report ignored HTML features by default',
+            serverConfig: generateHTMLConfig('ignore')
+        },
+        {
+            name: 'Reports unsupported HTML attribute values',
+            reports: [
+                // TODO: Include <form method="dialog"> or similar once MDN data is available
+                {
+                    message: 'input[type=color] is not supported by ie 10-11.',
+                    position: { match: 'input type="color"' }
+                }
+            ],
+            serverConfig: generateHTMLConfig('values')
+        }
+    ],
+    { browserslist: targetBrowsers }
+);
+
+testHint(hintPath,
+    [
+        {
+            name: 'Reports overridden ignored HTML features',
+            reports: [
+                {
+                    message: 'script[integrity] is not supported by ie 10-11.',
+                    position: { match: 'script integrity' }
+                }
+            ],
+            serverConfig: generateHTMLConfig('ignore')
+        },
+        {
+            name: 'Does not report manually ignored HTML features',
+            serverConfig: generateHTMLConfig('values')
+        }
+    ],
     {
-        name: 'Elements that were never removed should pass.',
-        serverConfig: generateHTMLConfig('div')
+        browserslist: targetBrowsers,
+        hintOptions: { enable: ['integrity'], ignore: ['input[type=color]'] }
     }
-];
-
-testHint(hintPath, elementNeverRemoved, { browserslist: ['> 1%'], ignoredConnectors });
-
-const elementAttrNeverRemoved: HintTest[] = [
-    {
-        name: 'Element attributes that were never removed should pass.',
-        serverConfig: generateHTMLConfig('form-method')
-    }
-];
-
-testHint(hintPath, elementAttrNeverRemoved, { browserslist: ['> 1%'], ignoredConnectors });
-
-const removedForFlags: HintTest[] = [
-    {
-        name: 'Elements removed from versions requiring flags should pass.',
-        serverConfig: generateHTMLConfig('picture')
-    }
-];
-
-testHint(hintPath, removedForFlags, { browserslist: ['firefox 34'], ignoredConnectors });
-
-const onlySupportedByFlags: HintTest[] = [
-    {
-        name: 'Elements only supported by flags should fail.',
-        reports: [{ message: 'shadow element is not supported by firefox.', position: { match: 'shadow' } }],
-        serverConfig: generateHTMLConfig('shadow')
-    }
-];
-
-testHint(hintPath, onlySupportedByFlags, { browserslist: ['firefox 60'], ignoredConnectors });
-
-const elementRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
-    {
-        name: 'Elements that were removed in a version later than the targeted browser should pass.',
-        serverConfig: generateHTMLConfig('blink')
-    }
-];
-
-testHint(hintPath, elementRemovedVersionLaterThanTargetedBrowser, { browserslist: ['firefox 20'], ignoredConnectors });
-
-const elementRemovedVersionOfTargetedBrowser: HintTest[] = [
-    {
-        name: 'Elements that were removed the version of the targeted browser should fail.',
-        reports: [{ message: 'blink element is not supported by firefox 22.' }],
-        serverConfig: generateHTMLConfig('blink')
-    }
-];
-
-testHint(hintPath, elementRemovedVersionOfTargetedBrowser, { browserslist: ['firefox 22'], ignoredConnectors });
-
-const elementRemovedVersionEarlierThanMultipleTargetedBrowser: HintTest[] = [
-    {
-        name: 'Elements that were removed in a version before the targeted browser should fail.',
-        reports: [{ message: 'blink element is not supported by firefox 24-26.' }],
-        serverConfig: generateHTMLConfig('blink')
-    }
-];
-
-testHint(hintPath, elementRemovedVersionEarlierThanMultipleTargetedBrowser, { browserslist: ['firefox 24 - 26'], ignoredConnectors });
-
-const elementRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
-    {
-        name: 'Elements that were removed in a version before the targeted browsers should fail with one error.',
-        reports: [{ message: 'blink element is not supported by any of your target browsers.' }],
-        serverConfig: generateHTMLConfig('blink')
-    }
-];
-
-testHint(hintPath, elementRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 23', 'opera 16'], ignoredConnectors });
-
-const elementVersionAddedFalse: HintTest[] = [
-    {
-        name: 'Elements that have version added as false should fail.',
-        reports: [{ message: 'blink element is not supported by chrome.', position: { match: 'blink' } }],
-        serverConfig: generateHTMLConfig('blink')
-    }
-];
-
-testHint(hintPath, elementVersionAddedFalse, { browserslist: ['last 2 Chrome versions'], ignoredConnectors });
-
-// TODO: Remove - This tests a feature never implemented anywhere (which we exclude from our data set)...
-const featureVersionAddedFalseForAllTargetedBrowsers: HintTest[] = [
-    {
-        name: 'Features with no support (version added is false) for multiple targeted browsers should fail.',
-        reports: [{ message: 'element element is not supported by any of your target browsers.', position: { match: 'element' } }],
-        serverConfig: generateHTMLConfig('element'),
-        skip: true
-    }
-];
-
-testHint(hintPath, featureVersionAddedFalseForAllTargetedBrowsers, { browserslist: ['firefox 62', 'and_ff 56', 'ie 11'], ignoredConnectors });
-
-const elementVersionAddedFalseForMultipleBrowsers: HintTest[] = [
-    {
-        name: 'Elements that have version added as false for multiple browsers should fail with one error.',
-        reports: [{ message: 'blink element is not supported by chrome, edge, ie.', position: { match: 'blink' } }],
-        serverConfig: generateHTMLConfig('blink')
-    }
-];
-
-testHint(hintPath, elementVersionAddedFalseForMultipleBrowsers, { browserslist: ['chrome 43', 'last 2 Edge versions', 'last 2 ie versions', 'opera 12'], ignoredConnectors });
-
-// TODO: Remove - This tests a feature never implemented anywhere (which we exclude from our data set)...
-const featureVersionAddedMixedFalseAndNullForDifferentBrowsers: HintTest[] = [
-    {
-        name: 'Features with unknown support (version added is null) and no support (version added is false) for different browsers should fail for unsupported browsers.',
-        reports: [{ message: 'element element is not supported by edge, firefox_android.', position: { match: 'element' } }],
-        serverConfig: generateHTMLConfig('element'),
-        skip: true
-    }
-];
-
-testHint(hintPath, featureVersionAddedMixedFalseAndNullForDifferentBrowsers, { browserslist: ['edge 18', 'chrome 45', 'and_ff 56'], ignoredConnectors });
-
-const elementAttrRemovedVersionLaterThanTargetedBrowser: HintTest[] = [
-    {
-        name: 'Element attributes that were removed in a version later than the targeted browser should pass.',
-        serverConfig: generateHTMLConfig('style-scoped')
-    }
-];
-
-testHint(hintPath, elementAttrRemovedVersionLaterThanTargetedBrowser, { browserslist: ['firefox 52'], ignoredConnectors });
-
-const elementAttrRemovedVersionOfTargetedBrowser: HintTest[] = [
-    {
-        name: 'Element attributes that were removed the version of the targeted browser should fail.',
-        reports: [{ message: 'scoped attribute of the style element is not supported by firefox 55.' }],
-        serverConfig: generateHTMLConfig('style-scoped')
-    }
-];
-
-testHint(hintPath, elementAttrRemovedVersionOfTargetedBrowser, { browserslist: ['firefox 55'], ignoredConnectors });
-
-const elementAttrRemovedVersionEarlierThanTargetedBrowser: HintTest[] = [
-    {
-        name: 'Element attributes that were removed in a version before the targeted browser should fail.',
-        reports: [{ message: 'scoped attribute of the style element is not supported by firefox 56.' }],
-        serverConfig: generateHTMLConfig('style-scoped')
-    }
-];
-
-testHint(hintPath, elementAttrRemovedVersionEarlierThanTargetedBrowser, { browserslist: ['firefox 56'], ignoredConnectors });
-
-/*
- * GLOBAL ATTRIBUTES
- */
-const globalAttributeNeverRemoved: HintTest[] = [
-    {
-        name: 'Global attributes that were never removed should pass.',
-        serverConfig: generateHTMLConfig('div')
-    }
-];
-
-testHint(hintPath, globalAttributeNeverRemoved, { browserslist: ['> 1%'], ignoredConnectors });
-
-/*
- * FIXME: Browserlist doesn't have the whole list of browsers,
- * so for firefox android is always returning the 63th version.
- * This is a problem because the test only make sense for the
- * contextmenu attribute.
- * https://github.com/mdn/browser-compat-data/blob/master/html/global_attributes.json
- */
-
-/*
- * const globalAttributeRemovedLaterThanTargetedBrowser: HintTest[] = [
- *     {
- *         name: 'Global attributes that were removed after the targeted browsers should pass',
- *         serverConfig: generateHTMLConfig('global-attr-contextmenu')
- *     }
- * ];
- *
- * testHint(hintPath, globalAttributeRemovedLaterThanTargetedBrowser, { browserslist: ['and_ff 55'] });
- *
- * const globalAttributeRemovedVersionOfTargetedBrowser: HintTest[] = [
- *     {
- *         name: 'Global attributes that were removed the version of the targeted browser should fail',
- *         reports: [{ message: 'global attribute contextmenu is not supported by firefox_android 56.'}],
- *         serverConfig: generateHTMLConfig('global-attr-contextmenu')
- *     }
- * ];
- *
- * testHint(hintPath, globalAttributeRemovedVersionOfTargetedBrowser, { browserslist: ['and_ff 56'] });
- *
- * const globalAttributeRemovedEarlierThanTargetedBrowser: HintTest[] = [
- *     {
- *         name: 'Global attributes that were removed before the targeted browsers should fail',
- *         reports: [{ message: 'global attribute contextmenu is not supported by firefox_android 57.'}],
- *         serverConfig: generateHTMLConfig('global-attr-contextmenu')
- *     }
- * ];
- *
- * testHint(hintPath, globalAttributeRemovedEarlierThanTargetedBrowser, { browserslist: ['and_ff 57'] });
- */
-
-/*
- * INPUT TYPES
- * Presently there are no input types that have been removed.
- */
-const inputTypeNeverRemoved: HintTest[] = [
-    {
-        name: 'Input types that were never removed should pass.',
-        serverConfig: generateHTMLConfig('input-button')
-    }
-];
-
-testHint(hintPath, inputTypeNeverRemoved, { browserslist: ['> 1%'], ignoredConnectors });
-
-const mixedFeaturedCompatibility: HintTest[] = [
-    {
-        name: 'Features with mixed compatibility (version added null vs false) but deprecated should pass.',
-        serverConfig: generateHTMLConfig('link-integrity')
-    }
-];
-
-testHint(hintPath, mixedFeaturedCompatibility, { browserslist: ['edge 15', 'ie 10', 'safari 11', 'ios_saf 11', 'samsung 4', 'android 4'], ignoredConnectors });
+);
