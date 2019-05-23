@@ -20,7 +20,7 @@ located in the `hint/dist/src/lib/types` directory. Two types we'll be using in 
 `UserConfig` and `AnalyzerResult`, so import those with the following line:
 
  ```ts
-import { UserConfig, AnalyzerResult } from 'hint/dist/src/lib/types';
+import { UserConfig, AnalyzerResult } from 'hint';
 ```
 
 Once you have the class `Analyzer`, you need to create an instance of
