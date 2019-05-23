@@ -1,3 +1,16 @@
+# 2.8.2 (May 23, 2019)
+
+## New features
+
+* [[`6a3a7da39c`](https://github.com/webhintio/hint/commit/6a3a7da39ca793a458e04582780f013bb769b258)] - Update: 'snyk-snapshot.json'.
+
+## Chores
+
+* [[`18e6021203`](https://github.com/webhintio/hint/commit/18e60212036e0243942814879a9f33751eb582c3)] - Upgrade: Bump semver from 5.7.0 to 6.1.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`313cce5742`](https://github.com/webhintio/hint/commit/313cce5742c8d6ff855aafe563c72b8e9b7bfb5f)] - Chore: Repurpose `test-release` script (by [`Antón Molleda`](https://github.com/molant)).
+* [[`aab9913543`](https://github.com/webhintio/hint/commit/aab9913543d9a09fc8ccb0e0c7dc8b2f2ee35ed6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.7.0 to 1.9.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 2.8.0 (May 14, 2019)
 
 ## Bug fixes / Improvements

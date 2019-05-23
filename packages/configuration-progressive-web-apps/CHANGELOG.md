@@ -1,3 +1,11 @@
+# 5.1.1 (May 23, 2019)
+
+## Chores
+
+* [[`313cce5742`](https://github.com/webhintio/hint/commit/313cce5742c8d6ff855aafe563c72b8e9b7bfb5f)] - Chore: Repurpose `test-release` script (by [`Antón Molleda`](https://github.com/molant)).
+* [[`58aefffb20`](https://github.com/webhintio/hint/commit/58aefffb20f0de78b1cf7b6fde418e3ddead1ab7)] - Chore: Update dependencies and package version (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 5.1.0 (May 14, 2019)
 
 ## Bug fixes / Improvements

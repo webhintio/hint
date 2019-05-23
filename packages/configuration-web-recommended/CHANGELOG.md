@@ -1,3 +1,14 @@
+# 6.2.2 (May 23, 2019)
+
+## Bug fixes / Improvements
+
+* [[`1cfe752eac`](https://github.com/webhintio/hint/commit/1cfe752eac18c1f4a068877fbb554a1265f311f2)] - Fix: Add missing `parser-javascript` (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`313cce5742`](https://github.com/webhintio/hint/commit/313cce5742c8d6ff855aafe563c72b8e9b7bfb5f)] - Chore: Repurpose `test-release` script (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 6.2.0 (May 14, 2019)
 
 ## New features

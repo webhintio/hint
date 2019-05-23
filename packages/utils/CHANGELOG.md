@@ -1,3 +1,27 @@
+# 2.1.0 (May 23, 2019)
+
+## Bug fixes / Improvements
+
+* [[`7db6ffa11b`](https://github.com/webhintio/hint/commit/7db6ffa11bb6e7c776b3fa7f06cddae62fd4a3be)] - Fix: Error handling improvements (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2431`](https://github.com/webhintio/hint/issues/2431), and [`#2442`](https://github.com/webhintio/hint/issues/2442)).
+* [[`86a94d14ae`](https://github.com/webhintio/hint/commit/86a94d14aecad979db3d8c77a39da4b38fe9c859)] - Fix: Use `string enum` for `Browser` (by [`Antón Molleda`](https://github.com/molant)).
+* [[`882cc81a1b`](https://github.com/webhintio/hint/commit/882cc81a1b3c806390452c7ab18857c260a48512)] - Fix: Missing and extra dependencies (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2375`](https://github.com/webhintio/hint/issues/2375)).
+* [[`4ab29f7765`](https://github.com/webhintio/hint/commit/4ab29f7765f3bb4b77a4ebfa3d6ac45253a6085a)] - Fix: Snapshot template element content as children (by [`Tony Ross`](https://github.com/antross) / see also: [`#2427`](https://github.com/webhintio/hint/issues/2427)).
+
+## New features
+
+* [[`bbce68a7e2`](https://github.com/webhintio/hint/commit/bbce68a7e2fa2131f8e4cc0a57814581e27491fd)] - New: Connector `puppeteer` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2248`](https://github.com/webhintio/hint/issues/2248), and [`#2419`](https://github.com/webhintio/hint/issues/2419)).
+* [[`0a403073d1`](https://github.com/webhintio/hint/commit/0a403073d1898ff8b0280b7a35af7d629233c3c2)] - New: Flatten `chromiumFinder` to root (by [`Antón Molleda`](https://github.com/molant)).
+* [[`d8832aafe5`](https://github.com/webhintio/hint/commit/d8832aafe5137168d7993a6d3de42b00cc1af67d)] - New: Support yarn for installing .hintrc packages (by [`Shivang Tripathi`](https://github.com/shivangg) / see also: [`#1630`](https://github.com/webhintio/hint/issues/1630)).
+
+## Chores
+
+* [[`18e6021203`](https://github.com/webhintio/hint/commit/18e60212036e0243942814879a9f33751eb582c3)] - Upgrade: Bump semver from 5.7.0 to 6.1.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`71ffb3ad3b`](https://github.com/webhintio/hint/commit/71ffb3ad3b2a76c1c1b0629c406f15956a46847d)] - Chore: Drop unnecessary types (by [`Tony Ross`](https://github.com/antross)).
+* [[`313cce5742`](https://github.com/webhintio/hint/commit/313cce5742c8d6ff855aafe563c72b8e9b7bfb5f)] - Chore: Repurpose `test-release` script (by [`Antón Molleda`](https://github.com/molant)).
+* [[`3e6dea7450`](https://github.com/webhintio/hint/commit/3e6dea7450eb0a96ee6f5474239da2c60215006a)] - Upgrade: Bump mdn-browser-compat-data from 0.0.79 to 0.0.80 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`aab9913543`](https://github.com/webhintio/hint/commit/aab9913543d9a09fc8ccb0e0c7dc8b2f2ee35ed6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.7.0 to 1.9.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 1.0.0 (May 14, 2019)
 
 ## Breaking Changes

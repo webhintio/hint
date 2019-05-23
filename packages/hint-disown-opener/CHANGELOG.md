@@ -1,3 +1,15 @@
+# 3.1.0 (May 23, 2019)
+
+## New features
+
+* [[`bbce68a7e2`](https://github.com/webhintio/hint/commit/bbce68a7e2fa2131f8e4cc0a57814581e27491fd)] - New: Connector `puppeteer` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2248`](https://github.com/webhintio/hint/issues/2248), and [`#2419`](https://github.com/webhintio/hint/issues/2419)).
+
+## Chores
+
+* [[`313cce5742`](https://github.com/webhintio/hint/commit/313cce5742c8d6ff855aafe563c72b8e9b7bfb5f)] - Chore: Repurpose `test-release` script (by [`Antón Molleda`](https://github.com/molant)).
+* [[`aab9913543`](https://github.com/webhintio/hint/commit/aab9913543d9a09fc8ccb0e0c7dc8b2f2ee35ed6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.7.0 to 1.9.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 3.0.0 (May 14, 2019)
 
 ## Breaking Changes

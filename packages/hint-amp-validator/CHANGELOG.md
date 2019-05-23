@@ -1,3 +1,15 @@
+# 2.8.2 (May 23, 2019)
+
+## New features
+
+* [[`434c231ce0`](https://github.com/webhintio/hint/commit/434c231ce08a48e867d953d98a29279f127b6d63)] - Update: 'validator'.
+
+## Chores
+
+* [[`313cce5742`](https://github.com/webhintio/hint/commit/313cce5742c8d6ff855aafe563c72b8e9b7bfb5f)] - Chore: Repurpose `test-release` script (by [`Antón Molleda`](https://github.com/molant)).
+* [[`aab9913543`](https://github.com/webhintio/hint/commit/aab9913543d9a09fc8ccb0e0c7dc8b2f2ee35ed6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.7.0 to 1.9.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 2.8.0 (May 14, 2019)
 
 ## Bug fixes / Improvements

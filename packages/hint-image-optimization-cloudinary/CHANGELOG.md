@@ -1,3 +1,13 @@
+# 3.0.2 (May 23, 2019)
+
+## Chores
+
+* [[`313cce5742`](https://github.com/webhintio/hint/commit/313cce5742c8d6ff855aafe563c72b8e9b7bfb5f)] - Chore: Repurpose `test-release` script (by [`Antón Molleda`](https://github.com/molant)).
+* [[`d8041ab5d5`](https://github.com/webhintio/hint/commit/d8041ab5d5aff7339cc37b283bd502549a49f987)] - Chore: Replace `Chrome` with `Puppeteer` in `ignoredConnectors` (by [`Antón Molleda`](https://github.com/molant)).
+* [[`ab0fc4af6a`](https://github.com/webhintio/hint/commit/ab0fc4af6a3ed392db54849144b42a75c6d39abe)] - Upgrade: Bump fs-extra from 7.0.1 to 8.0.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`aab9913543`](https://github.com/webhintio/hint/commit/aab9913543d9a09fc8ccb0e0c7dc8b2f2ee35ed6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.7.0 to 1.9.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 3.0.0 (May 14, 2019)
 
 ## Breaking Changes

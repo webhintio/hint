@@ -1,3 +1,14 @@
+# 2.1.2 (May 23, 2019)
+
+## Chores
+
+* [[`dd83fdc931`](https://github.com/webhintio/hint/commit/dd83fdc931a095767cc4677bc3642d33f8b8a917)] - Upgrade: Bump webpack from 4.32.1 to 4.32.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`f05dfce3a1`](https://github.com/webhintio/hint/commit/f05dfce3a171937efa94bc9fe232f3b097cca4d3)] - Upgrade: Bump webpack from 4.31.0 to 4.32.1 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`e73356b251`](https://github.com/webhintio/hint/commit/e73356b25103e9edd6ee80f34148317cf31f984e)] - Upgrade: Bump @types/webpack from 4.4.31 to 4.4.32 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`313cce5742`](https://github.com/webhintio/hint/commit/313cce5742c8d6ff855aafe563c72b8e9b7bfb5f)] - Chore: Repurpose `test-release` script (by [`Antón Molleda`](https://github.com/molant)).
+* [[`aab9913543`](https://github.com/webhintio/hint/commit/aab9913543d9a09fc8ccb0e0c7dc8b2f2ee35ed6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.7.0 to 1.9.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 2.1.0 (May 14, 2019)
 
 ## Bug fixes / Improvements

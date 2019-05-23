@@ -1,3 +1,14 @@
+# 3.0.1 (May 23, 2019)
+
+## Chores
+
+* [[`313cce5742`](https://github.com/webhintio/hint/commit/313cce5742c8d6ff855aafe563c72b8e9b7bfb5f)] - Chore: Repurpose `test-release` script (by [`Antón Molleda`](https://github.com/molant)).
+* [[`55df7132ca`](https://github.com/webhintio/hint/commit/55df7132ca519287ee2e6471abd72178d7bcec89)] - Upgrade: Bump jsdom from 15.0.0 to 15.1.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`aab9913543`](https://github.com/webhintio/hint/commit/aab9913543d9a09fc8ccb0e0c7dc8b2f2ee35ed6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.7.0 to 1.9.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`58aefffb20`](https://github.com/webhintio/hint/commit/58aefffb20f0de78b1cf7b6fde418e3ddead1ab7)] - Chore: Update dependencies and package version (by [`Antón Molleda`](https://github.com/molant)).
+* [[`6278da9bfc`](https://github.com/webhintio/hint/commit/6278da9bfcacbf3887f797a54585e7d46594d276)] - Upgrade: Bump @types/node from 12.0.0 to 12.0.2 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 3.0.0 (May 14, 2019)
 
 ## Breaking Changes

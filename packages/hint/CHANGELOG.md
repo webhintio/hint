@@ -1,3 +1,23 @@
+# 5.0.2 (May 23, 2019)
+
+## Bug fixes / Improvements
+
+* [[`7db6ffa11b`](https://github.com/webhintio/hint/commit/7db6ffa11bb6e7c776b3fa7f06cddae62fd4a3be)] - Fix: Error handling improvements (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2431`](https://github.com/webhintio/hint/issues/2431), and [`#2442`](https://github.com/webhintio/hint/issues/2442)).
+* [[`882cc81a1b`](https://github.com/webhintio/hint/commit/882cc81a1b3c806390452c7ab18857c260a48512)] - Fix: Missing and extra dependencies (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2375`](https://github.com/webhintio/hint/issues/2375)).
+
+## Chores
+
+* [[`18e6021203`](https://github.com/webhintio/hint/commit/18e60212036e0243942814879a9f33751eb582c3)] - Upgrade: Bump semver from 5.7.0 to 6.1.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`00c5729dce`](https://github.com/webhintio/hint/commit/00c5729dce587b6664b2875fe438e5a748301e98)] - Chore: Fix reference to package.json when bundled (by [`Tony Ross`](https://github.com/antross)).
+* [[`0fc3f4b93e`](https://github.com/webhintio/hint/commit/0fc3f4b93e55bd2acce46b4557cbf575f0eb2108)] - Upgrade: Bump @types/lodash from 4.14.129 to 4.14.130 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`313cce5742`](https://github.com/webhintio/hint/commit/313cce5742c8d6ff855aafe563c72b8e9b7bfb5f)] - Chore: Repurpose `test-release` script (by [`Antón Molleda`](https://github.com/molant)).
+* [[`d8041ab5d5`](https://github.com/webhintio/hint/commit/d8041ab5d5aff7339cc37b283bd502549a49f987)] - Chore: Replace `Chrome` with `Puppeteer` in `ignoredConnectors` (by [`Antón Molleda`](https://github.com/molant)).
+* [[`96cb813d10`](https://github.com/webhintio/hint/commit/96cb813d102801743a59f966cb6da15b0b7e08b6)] - Upgrade: Bump browserslist from 4.5.6 to 4.6.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`377046e163`](https://github.com/webhintio/hint/commit/377046e163ddd57bf3743f8ba5810a5309e2c66d)] - Upgrade: Bump update-notifier from 2.5.0 to 3.0.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`3e893dbaef`](https://github.com/webhintio/hint/commit/3e893dbaef6c49b92a67e1ae0a486be938a32ed1)] - Upgrade: Bump @types/lodash from 4.14.126 to 4.14.129 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`aab9913543`](https://github.com/webhintio/hint/commit/aab9913543d9a09fc8ccb0e0c7dc8b2f2ee35ed6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.7.0 to 1.9.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 5.0.0 (May 14, 2019)
 
 ## Breaking Changes

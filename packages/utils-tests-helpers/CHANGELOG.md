@@ -1,3 +1,14 @@
+# 5.0.0 (May 23, 2019)
+
+## Breaking Changes
+
+* [[`086a4a7aff`](https://github.com/webhintio/hint/commit/086a4a7aff82cd72d6d18d5c004657e908127faf)] - Breaking: Replace `chrome` connector with `puppeteer` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2255`](https://github.com/webhintio/hint/issues/2255)).
+
+## Chores
+
+* [[`aab9913543`](https://github.com/webhintio/hint/commit/aab9913543d9a09fc8ccb0e0c7dc8b2f2ee35ed6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.7.0 to 1.9.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+
+
 # 4.0.0 (May 14, 2019)
 
 ## Breaking Changes
