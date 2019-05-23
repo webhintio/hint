@@ -14,6 +14,15 @@ To use the API, the first thing you need to do is import the class `Analyzer`.
 import { Analyzer } from 'hint';
 ```
 
+This example is using TypeScript, so you will also need to import some type
+definitions to enable Intellisense support and a successful build.
+Any type should be available directly in the `hint` package.
+For this case we need `UserConfig` and `AnalyzerResult`:
+
+ ```ts
+import { UserConfig, AnalyzerResult } from 'hint';
+```
+
 Once you have the class `Analyzer`, you need to create an instance of
 the class.
 
