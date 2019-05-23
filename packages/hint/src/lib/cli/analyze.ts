@@ -23,7 +23,7 @@ import { Analyzer } from '../analyzer';
 import { AnalyzerErrorStatus } from '../enums/error-status';
 
 const { getAsUris } = network;
-const { askQuestion } = misc;
+const { askQuestion, mergeEnvWithOptions } = misc;
 const { installPackages } = npm;
 const { cwd } = fs;
 const debug: debug.IDebugger = d(__filename);
@@ -181,7 +181,9 @@ const askUserToInstallDependencies = async (resources: HintResources): Promise<b
 };
 
 const loadUserConfig = (actions?: CLIOptions): UserConfig | null => {
-    const userConfig = getUserConfig(actions && actions.config);
+    let userConfig = getUserConfig(actions && actions.config);
+
+    userConfig = mergeEnvWithOptions(userConfig);
 
     if (!userConfig) {
         return getDefaultConfiguration();

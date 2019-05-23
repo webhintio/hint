@@ -83,3 +83,31 @@ The `severity` of a `hint` can be:
 `webhint` allows you to configure it in many different ways. Please
 check the other entires under _Configuring webhint_ and the main page
 for each package to have more details.
+
+## Setting options via environment variables
+
+It is possible to set webhint options via environment variables. To do
+so you have to create a variable prefixed by `webhint_` where each
+"word" is another property. E.g.:
+
+```text
+"webhint_connector_options_waitFor" = "60000"
+```
+
+will get transformed to:
+
+```json
+{
+    "connector": {
+        "options": {
+            "waitFor": 60000
+        }
+    }
+}
+```
+
+and get merged with your `.hintrc`. Keep in mind that if a key already
+exists in `.hintrc` it will take precedence.
+
+An example where you might want to do this is for providing credentials
+and not storing them in a file.
