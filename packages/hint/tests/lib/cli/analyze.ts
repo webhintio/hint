@@ -150,7 +150,10 @@ const loadScript = (context: AnalyzeContext) => {
             logger: context.logger,
             misc: {
                 askQuestion: context.askQuestion,
-                cutString: utils.misc.cutString
+                cutString: utils.misc.cutString,
+                mergeEnvWithOptions: (options: any) => {
+                    return options;
+                }
             },
             network: utils.network,
             npm: utils.npm,
