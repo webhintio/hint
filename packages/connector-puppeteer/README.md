@@ -53,6 +53,7 @@ The set of settings supported by the Puppeteer connector are:
                     "selector": "string"
                 }
             },
+            "browser": "chrome|chromium|edge",
             "ignoreHTTPSErrors": true|false,
             "waitUntil": "dom|loaded|networkidle0|networkidle2"
         }
@@ -60,6 +61,22 @@ The set of settings supported by the Puppeteer connector are:
     ...
 }
 ```
+
+All properties of `options` are optional.
+
+* `auth`: The credentials and elements to authenticate on a website.
+  See next section for further details.
+* `browser (chrome|chromium|edge)`: Tells the preferred browser to
+  use. Webhint will search the executable for the given one and fail
+  if it does not find one. Keep in mind that not all browsers are
+  available in all platforms and that you need to **manually install
+  the browser**.
+* `ignoreHTTPSError (boolean)`: Indicates if errors with certificates
+  should be ignored. Use this when checking self-signed certificates.
+  It is `false` by default.
+* `waitUntil (dom|loaded|networkidle0|networkidle2)`: Is the waiting
+  strategy to decide when a page is considered loaded. See the
+  [puppeteer options][puppeteer options] to know more.
 
 ### Website authentication
 
@@ -90,3 +107,4 @@ The properties of `auth` are:
 [connectors]: https://webhint.io/docs/user-guide/concepts/connectors/
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [puppeteer]: https://pptr.dev/
+[puppeteer options]: https://pptr.dev/#?product=Puppeteer&version=v1.16.0&show=api-pagegotourl-options
