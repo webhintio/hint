@@ -43,9 +43,19 @@ const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion
         return Support.Unknown;
     }
 
-    // Ignore support that doesn't match the same prefix.
+    // If feature doesn't match the same prefix, then it's not supported.
     if (prefix !== (support.prefix || '')) {
-        return Support.Unknown;
+        return Support.No;
+    }
+
+    // If feature was never added, then it's not supported.
+    if (support.version_added === false) {
+        return Support.No;
+    }
+
+    // If a feature was removed before the target version, it's not supported.
+    if (typeof support.version_removed === 'string' && semver.lte(coerce(support.version_removed), version)) {
+        return Support.No;
     }
 
     /*
@@ -58,16 +68,6 @@ const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion
      */
     if (support.version_added === true) {
         return Support.Yes;
-    }
-
-    // If feature was never added, then it's not supported.
-    if (support.version_added === false) {
-        return Support.No;
-    }
-
-    // If a feature was removed before the target version, it's not supported.
-    if (typeof support.version_removed === 'string' && semver.lte(coerce(support.version_removed), version)) {
-        return Support.No;
     }
 
     // If feature was added by the target version, it's supported; if after it's not.
@@ -94,7 +94,7 @@ const isBrowserUnsupported = (support: SupportStatement, prefix: string, version
                 return false;
             case Support.No:
                 status = Support.No;
-                break; // Keep looking in case a feature was temporarily removed.
+                break; // Keep looking in case a feature was temporarily removed or is prefixed.
             case Support.Unknown:
             default:
                 break;
@@ -121,12 +121,19 @@ export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: 
     const unsupported: string[] = [];
 
     for (const browser of browsers) {
-        const [name, version] = browser.split(' ');
+        const [name, versionStr] = browser.split(' ');
         const mdnBrowser = browserToMDN.get(name)!;
         const browserSupport = support[mdnBrowser];
+        const versions = versionStr.split('-'); // Handle 'android 4.4.3-4.4.4'.
 
-        if (browserSupport && isBrowserUnsupported(browserSupport, prefix, version)) {
-            unsupported.push(browser);
+        if (browserSupport) {
+            const isUnsupported = versions.some((version) => {
+                return isBrowserUnsupported(browserSupport, prefix, version);
+            });
+
+            if (isUnsupported) {
+                unsupported.push(browser);
+            }
         }
     }
 

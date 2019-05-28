@@ -116,7 +116,7 @@ export const getDeclarationUnsupported = (feature: DeclarationQuery, browsers: s
     return getCachedValue(key, browsers, () => {
         const [data, prefix] = getFeatureData(mdn.css.properties, feature.property);
 
-        if (feature.value) {
+        if (data && feature.value) {
             return getValueUnsupported(data, feature.value, browsers);
         }
 
