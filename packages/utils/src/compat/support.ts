@@ -48,6 +48,20 @@ export const getUnsupported = (feature: FeatureQuery, browsers: string[]): Unsup
     return exhaustiveCheck;
 };
 
+export const getSupported = (feature: FeatureQuery, browsers: string[]): string[] | null => {
+    const unsupported = getUnsupported(feature, browsers);
+
+    if (!unsupported) {
+        return browsers;
+    }
+
+    const supported = browsers.filter((browser) => {
+        return !unsupported.includes(browser);
+    });
+
+    return supported.length ? supported : null;
+};
+
 export const isSupported = (feature: FeatureQuery, browsers: string[]): boolean => {
     return !getUnsupported(feature, browsers);
 };
