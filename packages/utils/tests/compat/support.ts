@@ -38,6 +38,17 @@ test('Attribute value query works', (t) => {
     t.is(unsupported && unsupported[0], 'firefox 51');
 });
 
+test('Input type query works', (t) => {
+    const unsupported = getUnsupported({
+        attribute: 'type',
+        element: 'input',
+        value: 'color'
+    }, ['ie 11', 'edge 14']);
+
+    t.is(unsupported && unsupported.length, 1);
+    t.is(unsupported && unsupported[0], 'ie 11');
+});
+
 test('Property query works', (t) => {
     const unsupported = getUnsupported(
         { property: 'pointer-events' },

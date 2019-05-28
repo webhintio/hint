@@ -42,6 +42,11 @@ export const getAttributeUnsupported = (feature: AttributeQuery, browsers: strin
         // Search for a value if provided.
         if (feature.value) {
             [data, prefix] = getFeatureData(data, feature.value);
+
+            // Handle oddly stored input type data (mdn.html.elements.input['input-' + typeValue]).
+            if (!data && feature.element === 'input' && feature.attribute === 'type') {
+                [data, prefix] = getFeatureData(mdn.html.elements.input, `input-${feature.value}`);
+            }
         }
 
         return getUnsupportedBrowsers(data, prefix, browsers);
