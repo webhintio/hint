@@ -83,6 +83,7 @@ module.exports = (env) => {
         resolve: {
             alias: {
                 '@hint/utils/dist/src/network/request-async$': path.resolve(__dirname, 'dist/src/shims/request-async.js'),
+                'axe-core': require.resolve('axe-core/axe.min.js'),
                 url$: path.resolve(__dirname, 'dist/src/shims/url.js')
             }
         }
