@@ -9,7 +9,7 @@
   "dependencies": {
     "@hint/utils": "^2.1.0",
     "@hint/utils-connector-tools": "^4.0.2",
-    "jsdom": "^15.1.0",
+    "jsdom": "^15.1.1",
     "mutationobserver-shim": "^0.3.3",
     "whatwg-fetch": "^3.0.0"
   },
