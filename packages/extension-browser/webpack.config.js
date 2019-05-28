@@ -83,6 +83,7 @@ module.exports = (env) => {
         resolve: {
             alias: {
                 '@hint/utils/dist/src/network/request-async$': path.resolve(__dirname, 'dist/src/shims/request-async.js'),
+                'axe-core': path.resolve(__dirname, '../../node_modules/axe-core/axe.min.js'), // yarn 1.16 hoists the beta version
                 url$: path.resolve(__dirname, 'dist/src/shims/url.js')
             }
         }
