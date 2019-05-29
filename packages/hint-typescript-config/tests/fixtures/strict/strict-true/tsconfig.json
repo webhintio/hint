@@ -14,7 +14,8 @@
         "newLine": "lf",
         "removeComments": false,
         "target": "esnext",
-        "strict": true
+        "strict": true,
+        "tsBuildInfoFile": "./buildcache/tsconfig.tsbuildinfo"
     },
     "exclude": [
         "dist",

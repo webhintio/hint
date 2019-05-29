@@ -2,7 +2,8 @@
     "compilerOptions": {
         "outDir": "dist",
         "rootDir": ".",
-        "strict": true
+        "strict": true,
+        "tsBuildInfoFile": "./buildcache/tsconfig.tsbuildinfo"
     },
     "exclude": [
         "dist",

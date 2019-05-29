@@ -4,6 +4,7 @@
         "composite": true,
         "declaration": true,
         "declarationMap": true,
+        "incremental": true,
         "inlineSourceMap": true,
         "lib": [
             "dom",
