@@ -5,6 +5,7 @@ import { getMessage } from '../../../utils/i18n';
 import Button from '../../controls/button';
 
 import * as styles from './header.css';
+import Feedback from '../../controls/feedback';
 
 const ConfigHeader = () => {
     return (
@@ -15,6 +16,7 @@ const ConfigHeader = () => {
             <Button type="submit" primary={true}>
                 {getMessage('startScanButtonLabel')}
             </Button>
+            <Feedback></Feedback>
         </header>
     );
 };

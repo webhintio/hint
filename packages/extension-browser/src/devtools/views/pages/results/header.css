@@ -1,6 +1,7 @@
 .root {
     background-color: var(--base-bg);
     padding: 1rem 0 2.25rem;
+    position: relative;
 }
 
 .headerText {

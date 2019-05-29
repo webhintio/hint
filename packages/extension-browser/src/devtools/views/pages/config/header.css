@@ -5,4 +5,6 @@
 .help {
     font-size: var(--font-size);
     margin: 1rem 0; /* 16px 0 */
+    /* TODO: Remove when the feedback buttons is removed */
+    padding-right: 5.5rem;
 }

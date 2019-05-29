@@ -186,5 +186,9 @@
     "targetUrl": {
         "message": "URL: $1",
         "description": "Label for the result page with the url analyzed."
+    },
+    "feedback": {
+        "message": "Feedback",
+        "description": "Label for the feedback button"
     }
 }

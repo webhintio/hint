@@ -7,6 +7,7 @@ import Button from '../../controls/button';
 import Label from '../../controls/label';
 import LabelText from '../../controls/label-text';
 import Toggle from '../../controls/toggle';
+import Feedback from '../../controls/feedback';
 
 import * as styles from './header.css';
 
@@ -46,6 +47,7 @@ const ResultsHeader = ({ onConfigureClick, showPassed, setShowPassed, url }: Pro
                         {getMessage('showPassedHintsLabel')}
                     </LabelText>
                 </Label>
+                <Feedback></Feedback>
             </div>
         </header>
     );
