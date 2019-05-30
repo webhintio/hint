@@ -32,7 +32,7 @@
     "rxjs": "^6.5.2",
     "semver": "^6.1.1",
     "shelljs": "^0.8.3",
-    "typescript": "^3.4.5",
+    "typescript": "^3.5.1",
     "yargs": "^13.2.4"
   },
   "engines": {
