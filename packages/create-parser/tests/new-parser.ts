@@ -165,12 +165,12 @@ test('It should create a new official parser with no duplicate events.', async (
 
     const newParser = loadScript(t.context);
     const result = await newParser();
-    const questions = inquirerPromptStub.args[3][0];
+    const questions = inquirerPromptStub.args[3][0] as InquirerTypes.Question[];
 
-    const eventQuestion = questions.find((question: InquirerTypes.Question) => {
+    const eventQuestion = questions.find((question) => {
         return question.name === 'event';
     });
-    const eventList = eventQuestion!.choices as Array<string>;
+    const eventList = (eventQuestion as any).choices as Array<string>;
     const containFetchEnd = eventList!.includes('fetch::end::*');
     const containElement = eventList!.includes('element::');
     const data = t.context.handlebarsUtilsCompileTemplateStub.args[0][1];

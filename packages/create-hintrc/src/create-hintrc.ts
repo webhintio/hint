@@ -84,10 +84,10 @@ const extendConfig = async (): Promise<InitUserConfig | null> => {
 
 /** Prompts a series of questions to create a new configuration object based on the installed packages. */
 const customConfig = async (): Promise<InitUserConfig | null> => {
-    const connectorKeys: inquirer.ChoiceType[] = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
-    const formattersKeys: inquirer.ChoiceType[] = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
-    const parsersKeys: inquirer.ChoiceType[] = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
-    const hintsKeys: inquirer.ChoiceType[] = getInstalledResources(ResourceType.hint).concat(getCoreResources(ResourceType.hint));
+    const connectorKeys: inquirer.ChoiceType<string>[] = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
+    const formattersKeys: inquirer.ChoiceType<string>[] = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
+    const parsersKeys: inquirer.ChoiceType<string>[] = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
+    const hintsKeys: inquirer.ChoiceType<string>[] = getInstalledResources(ResourceType.hint).concat(getCoreResources(ResourceType.hint));
 
     if (!anyResources(connectorKeys, ResourceType.connector) ||
         !anyResources(formattersKeys, ResourceType.formatter) ||

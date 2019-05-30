@@ -214,7 +214,7 @@ const useCases = [
 ];
 
 /** List of questions to prompt the user. */
-export const questions = (type: QuestionsType) => {
+export const questions = (type: QuestionsType): inquirer.Question[] => {
     /* istanbul ignore next */
     const notEmpty = (value: string) => {
         return value.trim() !== '';

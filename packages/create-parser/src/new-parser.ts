@@ -150,7 +150,7 @@ const SHARED_TEMPLATE_PATH = './shared-templates';
 
 /* istanbul ignore next */
 /** Configure questions depending on what we need. */
-const questions = (repeat: boolean = false) => {
+const questions = (repeat: boolean = false): inquirer.Question[] => {
     return [
         {
             default: 'newParser',
