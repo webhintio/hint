@@ -38,16 +38,6 @@ const HINT_ROOT: string = findPackageRoot();
 const NODE_MODULES_ROOT: string = (() => {
     const root: string = findNodeModulesRoot();
 
-    // If the user is executing the command via `npx` or `npm init/create` we need to search in the globals folder
-    if (root.includes('_npx')) {
-        const npmPrefix = execSync('npm prefix -g')
-            .toString()
-            .trim();
-
-        // On Windows this should be something like C:\Users\USERNAME\AppData\Roaming\npm\node_modules
-        return path.join(npmPrefix, 'node_modules');
-    }
-
     return root;
 })();
 
