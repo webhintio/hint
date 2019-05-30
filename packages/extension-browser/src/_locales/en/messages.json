@@ -55,6 +55,10 @@
         "message": "There was an error running webhint. Please try again. If the error still occurs: ",
         "description": "Message informing users what to do when an error occurs."
     },
+    "feedback": {
+        "message": "Feedback",
+        "description": "Label for the feedback button"
+    },
     "hintCountLabel": {
         "message": "hint $1:",
         "description": "Label for a test result based on the order in which it is listed, e.g. 'hint 2:'."
@@ -186,9 +190,5 @@
     "targetUrl": {
         "message": "URL: $1",
         "description": "Label for the result page with the url analyzed."
-    },
-    "feedback": {
-        "message": "Feedback",
-        "description": "Label for the feedback button"
     }
 }

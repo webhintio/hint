@@ -11,14 +11,12 @@ const openIssueUrl = 'https://github.com/webhintio/hint/issues/new?labels=type%3
 /**
  * Link to github to give feedback.
  */
-const Feedback = () => {
+const FeedbackLink = () => {
     return (
-        <span className={styles.root}>
-            <ExternalLink href={openIssueUrl}>
-                {getMessage('feedback')}
-            </ExternalLink>
-        </span>
+        <ExternalLink className={styles.root} href={openIssueUrl}>
+            {getMessage('feedback')}
+        </ExternalLink>
     );
 };
 
-export default Feedback;
+export default FeedbackLink;
