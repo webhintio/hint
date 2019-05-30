@@ -43,6 +43,10 @@
         "message": "Development",
         "description": "Name of category for development tests."
     },
+    "didYouKnowThat": {
+        "message": "Did you know that...",
+        "description": "Label for the analyzing screen."
+    },
     "differentOriginLabel": {
         "message": "Different origin",
         "description": "Label for option to ignore only external resources on the page."
