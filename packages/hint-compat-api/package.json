@@ -28,7 +28,7 @@
     "nyc": "^14.1.0",
     "postcss": "^7.0.16",
     "rimraf": "^2.6.3",
-    "typescript": "^3.4.5"
+    "typescript": "^3.5.1"
   },
   "engines": {
     "node": ">=8.0.0"

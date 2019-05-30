@@ -42,11 +42,9 @@ const parseConnection = (configText: string): NetworkConfig => {
             return;
         }
 
-        if (numerics.includes(key)) {
-            config[key] = parseInt(value);
-        } else {
-            config[key] = value;
-        }
+        (config as any)[key] = numerics.includes(key) ?
+            parseInt(value) :
+            value;
     });
 
     return config;

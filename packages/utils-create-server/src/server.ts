@@ -289,7 +289,7 @@ IsW9AGST1xe4XVCLy+FIoo1RVpfJyp8h9zSzDASh/F1+5DY1PUJQ
          */
 
         for (const [k, v] of Object.entries(configuration)) {
-            for (const [key, value] of Object.entries(v)) {
+            for (const [key, value] of Object.entries(v as {})) {
                 config[key] = Object.assign({}, config[key], { [k]: value });
             }
         }

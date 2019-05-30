@@ -194,7 +194,7 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                     visitors.forEach((callbacks, name) => {
                         if (typeof allVisitors !== 'function') {
                             /* istanbul ignore next */
-                            allVisitors[name as keyof NodeVisitor] = (callbackNode: ESTree.Expression, ancestors?: ESTree.Node[]) => {
+                            (allVisitors as any)[name] = (callbackNode: ESTree.Expression, ancestors?: ESTree.Node[]) => {
                                 callbacks.forEach((callback: Function) => {
                                     callback(callbackNode, ancestors);
                                 });

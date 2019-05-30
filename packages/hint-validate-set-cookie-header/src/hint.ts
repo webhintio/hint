@@ -89,7 +89,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
                     throw new Error(`'${headerName}' header contains more than one ${directiveKey}.`);
                 }
 
-                setCookie[directiveKey] = directiveValue || true;
+                (setCookie as any)[directiveKey] = directiveValue || true;
 
             });
 
