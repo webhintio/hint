@@ -18,7 +18,7 @@ const debug: debug.IDebugger = d(__filename);
 export const generateBrowserslistConfig = (): Promise<string[]> => {
     debug('Initiating browserslist config generator');
 
-    const addBrowsersListOptions: inquirer.ChoiceType[] = [
+    const addBrowsersListOptions: inquirer.ChoiceType<string>[] = [
         { name: 'Default (last 2 versions of each browser, and browsers with globaly usage over 1%, plus Firefox ESR)', value: 'default' },
         { name: 'Custom (use browserslist format:  https://github.com/ai/browserslist#queries)', value: 'custom' }
     ];
