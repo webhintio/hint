@@ -6433,10 +6433,10 @@ is-stream@^1.0.0, is-stream@^1.0.1, is-stream@^1.1.0:
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
   integrity sha1-EtSj3U5o4Lec6428hBc66A2RykQ=
 
-is-svg@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/is-svg/-/is-svg-4.1.0.tgz#2145ca077e542bcf1d0eda76a27d929594ce0754"
-  integrity sha512-So9ZAeBKLyM7vzgBAQZTZe8FhiBFwJGNfZQ5dZrAEojHDij6uvQwg050gVUOugFwBz9DR7isn4w1D6ciN8JTEw==
+is-svg@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/is-svg/-/is-svg-4.2.0.tgz#3324896f8cc9c4f04b8435a5cf811593d72aa251"
+  integrity sha512-ZJ3FYzcq3cxJHvslBXQYoNHkdEr7QTjHS5+lMrD+QkZHQ9GFTGI22/Isd3PMleJbeSigfzL+F0kQNQcepvGibw==
   dependencies:
     html-comment-regex "^1.1.2"
 
