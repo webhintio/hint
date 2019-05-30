@@ -14,7 +14,6 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { execSync } from 'child_process';
 
 import { sync as globby } from 'globby';
 import * as semver from 'semver';
