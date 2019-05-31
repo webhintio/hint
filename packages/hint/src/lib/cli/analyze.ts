@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import boxen from 'boxen';
+import boxen = require('boxen');
 import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
 import { default as ora } from 'ora';
