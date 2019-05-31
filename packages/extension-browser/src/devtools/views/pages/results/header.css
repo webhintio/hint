@@ -3,6 +3,13 @@
     padding: 1rem 0 2.25rem;
 }
 
+.top {
+    align-items: start;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr auto;
+}
+
 .headerText {
     font-size: 0.875rem;
     margin: 0.5rem 0 0;

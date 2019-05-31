@@ -4,6 +4,7 @@ import { useCallback, FormEvent } from 'react';
 import { getMessage } from '../../../utils/i18n';
 
 import Button from '../../controls/button';
+import FeedbackLink from '../../controls/feedback-link';
 import Label from '../../controls/label';
 import LabelText from '../../controls/label-text';
 import Toggle from '../../controls/toggle';
@@ -27,8 +28,11 @@ const ResultsHeader = ({ onConfigureClick, showPassed, setShowPassed, url }: Pro
 
     return (
         <header className={styles.root}>
-            <div className={`${styles.title} ${styles.headerText}`}>
-                {getMessage('scanResultTitle')}
+            <div className={styles.top}>
+                <div className={`${styles.title} ${styles.headerText}`}>
+                    {getMessage('scanResultTitle')}
+                </div>
+                <FeedbackLink />
             </div>
             <div className={styles.headerText}>
                 {getMessage('targetUrl', url)}
