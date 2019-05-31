@@ -28,8 +28,11 @@ const ResultsHeader = ({ onConfigureClick, showPassed, setShowPassed, url }: Pro
 
     return (
         <header className={styles.root}>
-            <div className={`${styles.title} ${styles.headerText}`}>
-                {getMessage('scanResultTitle')}
+            <div className={styles.top}>
+                <div className={`${styles.title} ${styles.headerText}`}>
+                    {getMessage('scanResultTitle')}
+                </div>
+                <FeedbackLink />
             </div>
             <div className={styles.headerText}>
                 {getMessage('targetUrl', url)}
@@ -47,7 +50,6 @@ const ResultsHeader = ({ onConfigureClick, showPassed, setShowPassed, url }: Pro
                         {getMessage('showPassedHintsLabel')}
                     </LabelText>
                 </Label>
-                <FeedbackLink />
             </div>
         </header>
     );

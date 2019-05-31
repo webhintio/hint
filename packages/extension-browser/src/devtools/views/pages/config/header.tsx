@@ -13,10 +13,10 @@ const ConfigHeader = () => {
             <div className={styles.help}>
                 {getMessage('checkForBestPracticesDescription')}
             </div>
+            <FeedbackLink />
             <Button type="submit" primary={true}>
                 {getMessage('startScanButtonLabel')}
             </Button>
-            <FeedbackLink />
         </header>
     );
 };

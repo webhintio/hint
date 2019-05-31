@@ -1,10 +1,13 @@
 .root {
+    align-items: start;
     background-color: var(--base-bg);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr auto;
+    justify-items: start;
+    margin-top: 1rem;
 }
 
 .help {
     font-size: var(--font-size);
-    margin: 1rem 0; /* 16px 0 */
-    /* TODO: Remove when the feedback buttons is removed */
-    padding-right: 5.5rem;
 }

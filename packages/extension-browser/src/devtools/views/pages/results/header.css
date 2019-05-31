@@ -1,7 +1,13 @@
 .root {
     background-color: var(--base-bg);
     padding: 1rem 0 2.25rem;
-    position: relative;
+}
+
+.top {
+    align-items: start;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr auto;
 }
 
 .headerText {
