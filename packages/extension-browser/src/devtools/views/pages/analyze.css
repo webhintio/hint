@@ -41,7 +41,7 @@
     font-size: var(--font-size-sm);
 }
 
-.message-title {
+.messageTitle {
     font-size: var(--font-size);
     font-weight: var(--bold);
     margin: 0.2rem 0;

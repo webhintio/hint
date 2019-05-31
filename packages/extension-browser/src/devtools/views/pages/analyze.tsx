@@ -110,7 +110,7 @@ const Analyze = ({ config, onCancel, onError, onResults, onTimeout }: Props) => 
                 </h1>
                 <div className={styles.messages}>
                     <div className={styles.message}>
-                        <h2 className={styles['message-title']}>{getMessage('didYouKnowThat')}</h2>
+                        <h2 className={styles.messageTitle}>{getMessage('didYouKnowThat')}</h2>
                         <span>{status}</span>
                     </div>
                     <img className={styles.image} src={nellieWorkingSvg} />
