@@ -109,7 +109,10 @@ const Analyze = ({ config, onCancel, onError, onResults, onTimeout }: Props) => 
                     {getMessage('analyzingStatus')}
                 </h1>
                 <div className={styles.messages}>
-                    <div className={styles.message}>{status}</div>
+                    <div className={styles.message}>
+                        <h2 className={styles.messageTitle}>{getMessage('didYouKnowThat')}</h2>
+                        <span>{status}</span>
+                    </div>
                     <img className={styles.image} src={nellieWorkingSvg} />
                 </div>
                 <ProgressBar className={styles.progress} />
