@@ -5,34 +5,27 @@ import test from 'ava';
 import { Engine, Events, IConnector } from 'hint';
 
 import Connector from '../src/connector';
-import { runIfNoCiAndWindows } from './_run-if-no-ci-windows';
 
 const name = 'puppeteer';
 
-const tests = () => {
+test(`[${name}] Load an invalid url throws an error`, async (t) => {
+    const engine: Engine<Events> = {
+        emit(): boolean {
+            return false;
+        },
+        async emitAsync(): Promise<any> { },
+        on(): Engine {
+            return null as any;
+        }
+    } as any;
 
-    test(`[${name}] Load an invalid url throws an error`, async (t) => {
-        const engine: Engine<Events> = {
-            emit(): boolean {
-                return false;
-            },
-            async emitAsync(): Promise<any> { },
-            on(): Engine {
-                return null as any;
-            }
-        } as any;
+    const connector: IConnector = new Connector(engine, { detached: true });
 
-        const connector: IConnector = new Connector(engine, { detached: true });
+    // Target doesn't exist
+    await t.throwsAsync(connector.collect(new URL('https://localhome')));
 
-        // Target doesn't exist
-        await t.throwsAsync(connector.collect(new URL('https://localhome')));
+    // Target is not http(s)
+    await t.throwsAsync(connector.collect(new URL('file://bla')));
 
-        // Target is not http(s)
-        await t.throwsAsync(connector.collect(new URL('file://bla')));
-
-        await connector.close();
-    });
-
-};
-
-runIfNoCiAndWindows(tests);
+    await connector.close();
+});

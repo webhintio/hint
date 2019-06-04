@@ -8,93 +8,86 @@ import { test as testUtils } from '@hint/utils';
 import { Engine, Events } from 'hint';
 
 import Connector from '../src/connector';
-import { runIfNoCiAndWindows } from './_run-if-no-ci-windows';
 import { validEvent } from './_valid-event';
 
 const { generateHTMLPage } = testUtils;
 const name = 'puppeteer';
 
-const tests = () => {
+test(`[${name}] Authenticate on a page works`, async (t) => {
+    const user = 'user';
+    const password = 'password';
 
-    test(`[${name}] Authenticate on a page works`, async (t) => {
-        const user = 'user';
-        const password = 'password';
+    const events = [
+        [
+            'fetch::start::target',
+            { resource: 'http://localhost/' }
+        ],
+        [
+            'fetch::start::target',
+            { resource: `http://localhost/authed?user=${user}&password=${password}` }
+        ],
+        [
+            'scan::end',
+            { resource: `http://localhost/authed?user=${user}&password=${password}` }
+        ]
+    ];
 
-        const events = [
-            [
-                'fetch::start::target',
-                { resource: 'http://localhost/' }
-            ],
-            [
-                'fetch::start::target',
-                { resource: `http://localhost/authed?user=${user}&password=${password}` }
-            ],
-            [
-                'scan::end',
-                { resource: `http://localhost/authed?user=${user}&password=${password}` }
-            ]
-        ];
+    const engine: Engine<Events> = {
+        emit(): boolean {
+            return false;
+        },
+        async emitAsync(): Promise<any> { },
+        on(): Engine {
+            return null as any;
+        },
+        timeout: 10000
+    } as any;
 
-        const engine: Engine<Events> = {
-            emit(): boolean {
-                return false;
-            },
-            async emitAsync(): Promise<any> { },
-            on(): Engine {
-                return null as any;
-            },
-            timeout: 10000
-        } as any;
-
-        const server = await Server.create({
-            configuration: {
-                '/': generateHTMLPage('', `
+    const server = await Server.create({
+        configuration: {
+            '/': generateHTMLPage('', `
 <form action="/authed" method="get">
     <input type="text" name="user" id="user">
     <input type="password" name="password" id="password">
     <input type="submit" class="submit" value="Sign in">
 </form>`),
-                '/authed': generateHTMLPage('', '')
-            }
-        });
-
-        const engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
-
-        const connector = new Connector(engine, {
-            auth: {
-                password: {
-                    selector: '#password',
-                    value: password
-                },
-                submit: { selector: '.submit' },
-                user: {
-                    selector: '#user',
-                    value: user
-                }
-            },
-            detached: true
-        });
-
-        await connector.collect(new URL(`http://localhost:${server.port}/`));
-
-        const updatedEvents = events.map((event) => {
-            return Server.updateLocalhost(event, server.port);
-        });
-        const invokes: any[] = [];
-
-        for (let i = 0; i < engineEmitAsyncSpy.callCount; i++) {
-            invokes.push(engineEmitAsyncSpy.getCall(i).args);
+            '/authed': generateHTMLPage('', '')
         }
-
-        updatedEvents.forEach((event) => {
-            t.true(validEvent(invokes, event), `Event ${event[0]}/${event[1].resource} has the same properties`);
-        });
-
-        engineEmitAsyncSpy.restore();
-
-        await Promise.all([connector.close(), server.stop()]);
     });
 
-};
+    const engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
 
-runIfNoCiAndWindows(tests);
+    const connector = new Connector(engine, {
+        auth: {
+            password: {
+                selector: '#password',
+                value: password
+            },
+            submit: { selector: '.submit' },
+            user: {
+                selector: '#user',
+                value: user
+            }
+        },
+        detached: true
+    });
+
+    await connector.collect(new URL(`http://localhost:${server.port}/`));
+
+    const updatedEvents = events.map((event) => {
+        return Server.updateLocalhost(event, server.port);
+    });
+    const invokes: any[] = [];
+
+    for (let i = 0; i < engineEmitAsyncSpy.callCount; i++) {
+        invokes.push(engineEmitAsyncSpy.getCall(i).args);
+    }
+
+    updatedEvents.forEach((event) => {
+        t.true(validEvent(invokes, event), `Event ${event[0]}/${event[1].resource} has the same properties`);
+    });
+
+    engineEmitAsyncSpy.restore();
+
+    await Promise.all([connector.close(), server.stop()]);
+});

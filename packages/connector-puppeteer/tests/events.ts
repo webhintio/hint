@@ -16,7 +16,6 @@ import { Server } from '@hint/utils-create-server';
 import { Engine, Events, IConnector } from 'hint';
 
 import Connector from '../src/connector';
-import { runIfNoCiAndWindows } from './_run-if-no-ci-windows';
 import { validEvent } from './_valid-event';
 
 type EventsContext = {
@@ -157,92 +156,86 @@ const events = [
 ];
 /* eslint-enable sort-keys */
 
-const tests = () => {
+test.beforeEach((t) => {
+    const engine: Engine<Events> = {
+        emit(): boolean {
+            return false;
+        },
+        async emitAsync(): Promise<any> { },
+        on(): Engine {
+            return null as any;
+        }
+    } as any;
 
-    test.beforeEach((t) => {
-        const engine: Engine<Events> = {
-            emit(): boolean {
-                return false;
+    t.context.engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
+    t.context.engineEmitSpy = sinon.spy(engine, 'emit');
+
+    t.context.engine = engine;
+});
+
+test.afterEach.always((t) => {
+    t.context.engineEmitAsyncSpy.restore();
+    t.context.engineEmitSpy.restore();
+});
+
+test(`[${name}] Events`, async (t) => {
+    const { engine } = t.context;
+    const connector: IConnector = new Connector(engine, { detached: true });
+
+    t.context.connector = connector;
+
+    const server = await Server.create({
+        configuration: {
+            '/': fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf-8'),
+            '/nellie.png': { content: fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png')) },
+            '/script.js': { content: '' },
+            '/script2.js': {
+                content: 'script.js',
+                status: 302
             },
-            async emitAsync(): Promise<any> { },
-            on(): Engine {
-                return null as any;
-            }
-        } as any;
-
-        t.context.engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
-        t.context.engineEmitSpy = sinon.spy(engine, 'emit');
-
-        t.context.engine = engine;
-    });
-
-    test.afterEach.always((t) => {
-        t.context.engineEmitAsyncSpy.restore();
-        t.context.engineEmitSpy.restore();
-    });
-
-    test(`[${name}] Events`, async (t) => {
-        const { engine } = t.context;
-        const connector: IConnector = new Connector(engine, { detached: true });
-
-        t.context.connector = connector;
-
-        const server = await Server.create({
-            configuration: {
-                '/': fs.readFileSync(path.join(__dirname, './fixtures/common/index.html'), 'utf-8'),
-                '/nellie.png': { content: fs.readFileSync(path.join(__dirname, './fixtures/common/nellie.png')) },
-                '/script.js': { content: '' },
-                '/script2.js': {
-                    content: 'script.js',
-                    status: 302
-                },
-                '/script3.js': {
-                    content: 'script2.js',
-                    status: 302
-                },
-                '/script4.js': {
-                    content: 'script4.js',
-                    status: 404
-                },
-                '/script5.js': null,
-                '/style.css': { content: '' }
-            }
-        });
-
-        const pendingEvents: any[] = events.map((event) => {
-            return Server.updateLocalhost(event, server.port);
-        });
-
-        await connector.collect(new URL(`http://localhost:${server.port}/`));
-
-        const { engineEmitSpy, engineEmitAsyncSpy } = t.context;
-        const invokes: any[] = [];
-
-        for (let i = 0; i < engineEmitAsyncSpy.callCount; i++) {
-            invokes.push(engineEmitAsyncSpy.getCall(i).args);
+            '/script3.js': {
+                content: 'script2.js',
+                status: 302
+            },
+            '/script4.js': {
+                content: 'script4.js',
+                status: 404
+            },
+            '/script5.js': null,
+            '/style.css': { content: '' }
         }
-
-        for (let i = 0; i < engineEmitSpy.callCount; i++) {
-            invokes.push(engineEmitSpy.getCall(i).args);
-        }
-
-        // List of events that only have to be called once per execution
-        const singles = ['scan::start', 'scan::end', 'fetch::end::html'];
-        const groupedEvents = groupBy(invokes, (invoke) => {
-            return invoke[0];
-        });
-
-        singles.forEach((single) => {
-            t.is(groupedEvents[single] && groupedEvents[single].length, 1, `${single} should be called once`);
-        });
-
-        pendingEvents.forEach((event) => {
-            t.true(validEvent(invokes, event), `Event ${event[0]}/${event[1].resource} has the same properties`);
-        });
-
-        await Promise.all([connector.close(), server.stop()]);
     });
 
-};
+    const pendingEvents: any[] = events.map((event) => {
+        return Server.updateLocalhost(event, server.port);
+    });
 
-runIfNoCiAndWindows(tests);
+    await connector.collect(new URL(`http://localhost:${server.port}/`));
+
+    const { engineEmitSpy, engineEmitAsyncSpy } = t.context;
+    const invokes: any[] = [];
+
+    for (let i = 0; i < engineEmitAsyncSpy.callCount; i++) {
+        invokes.push(engineEmitAsyncSpy.getCall(i).args);
+    }
+
+    for (let i = 0; i < engineEmitSpy.callCount; i++) {
+        invokes.push(engineEmitSpy.getCall(i).args);
+    }
+
+    // List of events that only have to be called once per execution
+    const singles = ['scan::start', 'scan::end', 'fetch::end::html'];
+    const groupedEvents = groupBy(invokes, (invoke) => {
+        return invoke[0];
+    });
+
+    singles.forEach((single) => {
+        t.is(groupedEvents[single] && groupedEvents[single].length, 1, `${single} should be called once`);
+    });
+
+    pendingEvents.forEach((event) => {
+        t.true(validEvent(invokes, event), `Event ${event[0]}/${event[1].resource} has the same properties`);
+    });
+
+    await Promise.all([connector.close(), server.stop()]);
+});
