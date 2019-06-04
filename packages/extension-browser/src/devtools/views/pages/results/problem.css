@@ -59,16 +59,3 @@
 .codeWrapper {
     position: relative;
 }
-
-.code,
-.code:global(.hljs) {
-    background-color: var(--code-bg) !important;
-    border-radius: var(--rounding);
-    box-shadow: 0px 0.3px 0.9px rgba(0, 0, 0, 0.18), 0px 1.6px 3.6px rgba(0, 0, 0, 0.22);
-    box-sizing: border-box;
-    font-size: 12px; /* rem units are incorrect here at runtime?!? */
-    margin: 0.375rem 0; /* 6px 0 */
-    padding: 1rem; /* 16px */
-    white-space: pre-wrap;
-    word-break: break-all;
-}

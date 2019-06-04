@@ -25,7 +25,6 @@ module.exports = (env) => {
                 },
                 // Automatically bundle and inject referenced CSS files.
                 {
-                    exclude: /highlight\.js[/\\]styles/,
                     test: /\.css$/,
                     use: [
                         'style-loader',
@@ -41,14 +40,6 @@ module.exports = (env) => {
                                 }
                             }
                         }
-                    ]
-                },
-                // Bundle highlight.js styles with `Useable` so they can be turned on/off.
-                {
-                    test: /highlight\.js[/\\]styles/,
-                    use: [
-                        'style-loader/useable',
-                        'css-loader'
                     ]
                 },
                 {

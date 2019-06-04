@@ -25,8 +25,74 @@
     --status-bg-warn: #f2c811;
 
     --shadow-color: #00000080;
+
+    /* Syntax highlighting colors */
+    --hljs-attr-color: #132C79;
+    --hljs-built_in-color: #dc322f;
+    --hljs-bullet-color: #cb4b16;
+    --hljs-class-title-color: #b58900;
+    --hljs-comment-color: #008000;
+    --hljs-doctag-color: #2aa198;
+    --hljs-keyword-color: #569cd6;
+    --hljs-link-color: #cb4b16;
+    --hljs-literal-color: #2aa198;
+    --hljs-meta-color: #cb4b16;
+    --hljs-meta-keyword-color: #cb4b16;
+    --hljs-meta-string-color: #2aa198;
+    --hljs-name-color: #268bd2;
+    --hljs-number-color: #09885a;
+    --hljs-quote-color: #bf49da;
+    --hljs-regexp-color: #d16969;
+    --hljs-section-color: #268bd2;
+    --hljs-selector-id: #9e3379;
+    --hljs-selector-attr-color: #5070d6;
+    --hljs-selector-class: #9e3379;
+    --hljs-selector-pseudo-color: #9e3379;
+    --hljs-selector-tag-color: #9e3379;
+    --hljs-string-color: #bf49da;
+    --hljs-subst-color: #cb4b16;
+    --hljs-symbol-color: #cb4b16;
+    --hljs-tag-color: #807864;
+    --hljs-tag-name-color: #5070d6;
+    --hljs-template-variable-color: #b58900;
+    --hljs-title-color: #268bd2;
+    --hljs-type-color: #b58900;
+    --hljs-variable-color: #132C79;
 }
 
 .root[data-theme='dark'] {
     --input-text-bg: rgba(0, 0, 0, 0.3);
+
+    /* Syntax highlighting colors */
+    --hljs-attr-color: #9cdcfe;
+    --hljs-built_in-color: #dc322f;
+    --hljs-bullet-color: #cb4b16;
+    --hljs-class-title-color: #b58900;
+    --hljs-comment-color: #6A9955;
+    --hljs-doctag-color: #2aa198;
+    --hljs-keyword-color: #569cd6;
+    --hljs-link-color: #cb4b16;
+    --hljs-literal-color: #2aa198;
+    --hljs-meta-color: #cb4b16;
+    --hljs-meta-keyword-color: #cb4b16;
+    --hljs-meta-string-color: #2aa198;
+    --hljs-name-color: #268bd2;
+    --hljs-number-color: #b5cea8;
+    --hljs-quote-color: #ce9178;
+    --hljs-regexp-color: #d16969;
+    --hljs-section-color: #268bd2;
+    --hljs-selector-id: #d7ba7d;
+    --hljs-selector-attr-color: #569cd6;
+    --hljs-selector-class: #d7ba7d;
+    --hljs-selector-pseudo-color: #d7ba7d;
+    --hljs-selector-tag-color: #d7ba7d;
+    --hljs-string-color: #ce9178;
+    --hljs-subst-color: #cb4b16;
+    --hljs-symbol-color: #cb4b16;
+    --hljs-tag-color: #807864;
+    --hljs-tag-name-color: #569cd6;
+    --hljs-template-variable-color: #b58900;
+    --hljs-title-color: #268bd2;
+    --hljs-type-color: #b58900;
+    --hljs-variable-color: #b58900;
 }
