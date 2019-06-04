@@ -8,14 +8,3 @@ declare module 'highlight.js/lib/languages/*' {
     const language: (hljs?: hljs.HLJSStatic) => hljs.IModeBase;
     export = language;
 }
-
-declare module 'highlight.js/styles/*.css' {
-    type Usable = {
-        use(): void;
-        unuse(): void;
-    };
-
-    const styles: Usable;
-
-    export = styles;
-}
