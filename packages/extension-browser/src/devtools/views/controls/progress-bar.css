@@ -35,7 +35,7 @@
 
 .root:indeterminate::-moz-progress-bar {
     animation: slide ease-in-out 2s infinite;
-    width: 50% !important;
+    width: 50%;
 }
 
 /* Can't animate `-webkit-progress-value` so using `after` instead. */
@@ -49,5 +49,5 @@
     left: 0;
     position: absolute;
     top: 0;
-    width: 50% !important;
+    width: 50%;
 }
