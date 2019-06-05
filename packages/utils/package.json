@@ -23,7 +23,7 @@
     "parse5": "^5.1.0",
     "parse5-htmlparser2-tree-adapter": "^5.1.0",
     "postcss-selector-parser": "^6.0.2",
-    "postcss-value-parser": "^3.3.1",
+    "postcss-value-parser": "^4.0.0",
     "request": "^2.88.0",
     "semver": "^6.1.1",
     "strip-bom": "^4.0.0",
