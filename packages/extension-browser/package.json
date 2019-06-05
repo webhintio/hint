@@ -112,7 +112,8 @@
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm-run-all build:* && webpack",
-    "build-release": "npm run clean && npm run bump-version && npm run build:assets && tsc --inlineSourceMap false --removeComments true && npm-run-all build-release:*",
+    "build-release": "npm run clean && npm run bump-version && npm run build-release-packages",
+    "build-release-packages": "npm run build:assets && tsc --inlineSourceMap false --removeComments true && npm-run-all build-release:*",
     "build-release:chromium": "webpack --env.release --env.design=fluent && web-ext build -s ./dist/bundle -a ./dist/chromium --overwrite-dest && npm run lint-bundle-size ./dist/chromium",
     "build-release:firefox": "webpack --env.release --env.design=photon && web-ext build -s ./dist/bundle -a ./dist/firefox --overwrite-dest && npm run lint-bundle-size ./dist/firefox",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts),!(*.tsx),.!(tsx)}\" dist && npm-run-all prebuild:*",
@@ -131,7 +132,7 @@
     "release": "npm run build-release && node scripts/submit-packages.js && npm publish",
     "stats": "webpack --json > stats.json",
     "stats-release": "webpack --env.release --json > release-stats.json",
-    "test": "npm run lint && npm run build && npm run test-only && npm run build-release",
+    "test": "npm run lint && npm run build && npm run test-only && npm run build-release-packages",
     "test-only": "nyc ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:css": "tcm src -w",
