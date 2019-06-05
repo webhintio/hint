@@ -7,6 +7,11 @@ steps:
   - script: brew update && brew cask install google-chrome
     condition: eq(variables['Agent.OS'], 'Darwin')
     displayName: 'Update Chrome on macOS'
+  - script: |
+      choco install googlechrome
+      type C:\ProgramData\chocolatey\logs\chocolatey.log
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
+    displayName: 'Update Chrome on Windows'
   - task: NodeTool@0
     inputs:
       versionSpec: $(node_version)
