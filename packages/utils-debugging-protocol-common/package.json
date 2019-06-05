@@ -3,7 +3,7 @@
     "@hint/utils": "^2.1.0",
     "@hint/utils-connector-tools": "^4.0.2",
     "abab": "^2.0.0",
-    "chrome-remote-interface": "^0.27.1",
+    "chrome-remote-interface": "^0.27.2",
     "lockfile": "^1.0.4",
     "lodash": "^4.17.11"
   },

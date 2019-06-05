@@ -2677,10 +2677,10 @@ chrome-remote-debug-protocol@^1.2.20180422:
   resolved "https://registry.yarnpkg.com/chrome-remote-debug-protocol/-/chrome-remote-debug-protocol-1.2.20180422.tgz#535846acbd3d6663e68301276372a2d02eb79e20"
   integrity sha512-3bLGk/0DdclMn+5M7ZVegsgtyLNMPYcrP/mZx4ZooVyzA/OC7lFD9S2E/LGXh+oMbH9bD7X4YIXt3ARqWO0WTg==
 
-chrome-remote-interface@^0.27.1:
-  version "0.27.1"
-  resolved "https://registry.yarnpkg.com/chrome-remote-interface/-/chrome-remote-interface-0.27.1.tgz#d1f876b5433b87c00a6ce459b4c6ed60d8a36fb8"
-  integrity sha512-aX3Q7QQyZ66JFuwYbL2UdumfR6m1rfBFkUBEK2/Xcg74JlrG0n1x0/4DL5VOtnK4Vd3ZScOh6S5T9lnck2T2Yw==
+chrome-remote-interface@^0.27.2:
+  version "0.27.2"
+  resolved "https://registry.yarnpkg.com/chrome-remote-interface/-/chrome-remote-interface-0.27.2.tgz#e5605605f092b7ef8575d95304e004039c9d0ab9"
+  integrity sha512-pVLljQ29SAx8KIv5tSa9sIf8GrEsAZdPJoeWOmY3/nrIzFmE+EryNNHvDkddGod0cmAFTv+GmPG0uvzxi2NWsA==
   dependencies:
     commander "2.11.x"
     ws "^6.1.0"
