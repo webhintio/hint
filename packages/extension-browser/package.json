@@ -75,7 +75,7 @@
     "nyc": "^14.1.0",
     "proxyquire": "2.0.0",
     "puppeteer-core": "^1.17.0",
-    "raw-loader": "^2.0.0",
+    "raw-loader": "^3.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-syntax-highlighter": "^10.3.0",
