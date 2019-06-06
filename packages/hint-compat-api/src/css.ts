@@ -23,7 +23,7 @@ type ReportData = {
     unsupported: string[];
 };
 
-type ReportMap = Map<string, ReportData[]>;
+type ReportMap = Map<string, ReportData[] | 'supported'>;
 
 type Context = {
     browsers: string[];
@@ -126,6 +126,9 @@ const validateRule = (node: Rule, context: Context): void => {
  */
 const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
     for (const reports of reportsMap.values()) {
+        if (reports === 'supported') {
+            continue;
+        }
 
         // Remove browsers not included in ALL reports for this property.
         const unsupported = intersection(...reports.map((report) => {
@@ -191,9 +194,21 @@ const walk = (ast: ContainerBase, context: Context) => {
                 throw new Error('Unrecognized node type');
         }
 
-        if (report) {
-            const reports = reportsMap.get(key) || [];
+        // Only track block-level reports if a feature key was provided.
+        if (!key) {
+            continue;
+        }
 
+        // No report means a given feature is fully supported for this block.
+        if (!report) {
+            reportsMap.set(key, 'supported');
+            continue;
+        }
+
+        const reports = reportsMap.get(key) || [];
+
+        // Track reports unless a feature is fully supported for this block.
+        if (reports !== 'supported') {
             reports.push(report);
             reportsMap.set(key, reports);
         }

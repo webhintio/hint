@@ -123,6 +123,19 @@ testHint(hintPath,
 testHint(hintPath,
     [
         {
+            name: 'Does not report prefixed CSS at-rules if unprefixed support exists',
+            serverConfig: generateCSSConfig('atrules')
+        }
+    ],
+    {
+        browserslist: ['ie 11'],
+        parsers: ['css']
+    }
+);
+
+testHint(hintPath,
+    [
+        {
             name: 'Reports overridden ignored CSS features',
             reports: [
                 {
