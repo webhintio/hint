@@ -12,7 +12,7 @@
   "description": "hint that that checks if disallowed response headers are sent",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^5.0.0",
-    "@types/node": "^12.0.4",
+    "@types/node": "^12.0.5",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
     "ava": "^1.4.1",
