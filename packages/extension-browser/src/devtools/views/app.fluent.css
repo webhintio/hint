@@ -29,72 +29,78 @@
     --text-bg: var(--base-bg);
 
     /* Syntax highlighting colors */
-    --hljs-attr-color: #132C79;
-    --hljs-built_in-color: #dc322f;
-    --hljs-bullet-color: #cb4b16;
-    --hljs-class-title-color: #b58900;
-    --hljs-comment-color: #008000;
-    --hljs-doctag-color: #2aa198;
-    --hljs-keyword-color: #569cd6;
-    --hljs-link-color: #cb4b16;
-    --hljs-literal-color: #2aa198;
-    --hljs-meta-color: #cb4b16;
-    --hljs-meta-keyword-color: #cb4b16;
-    --hljs-meta-string-color: #2aa198;
-    --hljs-name-color: #268bd2;
-    --hljs-number-color: #09885a;
-    --hljs-quote-color: #bf49da;
-    --hljs-regexp-color: #d16969;
-    --hljs-section-color: #268bd2;
-    --hljs-selector-id: #9e3379;
-    --hljs-selector-attr-color: #5070d6;
-    --hljs-selector-class: #9e3379;
-    --hljs-selector-pseudo-color: #9e3379;
-    --hljs-selector-tag-color: #9e3379;
-    --hljs-string-color: #bf49da;
-    --hljs-subst-color: #cb4b16;
-    --hljs-symbol-color: #cb4b16;
-    --hljs-tag-color: #807864;
-    --hljs-tag-name-color: #5070d6;
-    --hljs-template-variable-color: #b58900;
-    --hljs-title-color: #268bd2;
-    --hljs-type-color: #b58900;
-    --hljs-variable-color: #132C79;
+    /* JS */
+    --code-boolean-color: #0000ff;
+    --code-class-name-color: #267f99;
+    --code-comment-color: #008000;
+    --code-default-color: #001080;
+    --code-function-color: #795e26;
+    --code-function-variable-color: #795e26;
+    --code-keyword-color: #0000ff;
+    --code-operator-color: #000000;
+    --code-parameter-color: #001080;
+    --code-punctuation-color: #000000;
+    --code-number-color: #09885a;
+    --code-string-color: #a31515;
+
+    /* html */
+    --code-attr-name-color: #ff0000;
+    --code-attr-value-color: #0000ff;
+    --code-attr-value-punctuation-color: #0000ff;
+    --code-doctype-color: #800000;
+    --code-doctype-font-style: normal;
+    --code-entity-color: #0000ff;
+    --code-html-default-color: #000000;
+    --code-tag-color: #800000;
+    --code-tag-punctuation-color: #800000;
+
+    /* CSS */
+    --code-atrule-color: #af00db;
+    --code-css-default-color: #09885a;
+    --code-property-color: #ff0000;
+    --code-selector-color: #800000;
+    --code-css-string-color: #a31515 ;
+    --code-css-function-color: #795e26;
+
+    /* HTTP */
+    --code-header-name-color: var(--code-tag-color);
+    --code-header-name-font-weight: bold;
+    --code-http-default-color: var(--code-attr-name-color);
 }
 
 .root[data-theme='dark'] {
     --input-bg: rgba(0, 0, 0, 0.3);
 
     /* Syntax highlighting colors */
-    --hljs-attr-color: #9cdcfe;
-    --hljs-built_in-color: #dc322f;
-    --hljs-bullet-color: #cb4b16;
-    --hljs-class-title-color: #b58900;
-    --hljs-comment-color: #6A9955;
-    --hljs-doctag-color: #2aa198;
-    --hljs-keyword-color: #569cd6;
-    --hljs-link-color: #cb4b16;
-    --hljs-literal-color: #2aa198;
-    --hljs-meta-color: #cb4b16;
-    --hljs-meta-keyword-color: #cb4b16;
-    --hljs-meta-string-color: #2aa198;
-    --hljs-name-color: #268bd2;
-    --hljs-number-color: #b5cea8;
-    --hljs-quote-color: #ce9178;
-    --hljs-regexp-color: #d16969;
-    --hljs-section-color: #268bd2;
-    --hljs-selector-id: #d7ba7d;
-    --hljs-selector-attr-color: #569cd6;
-    --hljs-selector-class: #d7ba7d;
-    --hljs-selector-pseudo-color: #d7ba7d;
-    --hljs-selector-tag-color: #d7ba7d;
-    --hljs-string-color: #ce9178;
-    --hljs-subst-color: #cb4b16;
-    --hljs-symbol-color: #cb4b16;
-    --hljs-tag-color: #807864;
-    --hljs-tag-name-color: #569cd6;
-    --hljs-template-variable-color: #b58900;
-    --hljs-title-color: #268bd2;
-    --hljs-type-color: #b58900;
-    --hljs-variable-color: #b58900;
+    /* JS */
+    --code-boolean-color: #569cd6;
+    --code-class-name-color: #4ec9b0;
+    --code-comment-color: #608b4e;
+    --code-default-color: #9cdcfe;
+    --code-function-color: #dcdcaa;
+    --code-function-variable-color: #dcdcaa;
+    --code-keyword-color: #569cd6;
+    --code-operator-color: #d4d4d4;
+    --code-parameter-color: #9cdcfe;
+    --code-punctuation-color: #d4d4d4;
+    --code-number-color: #b5cea8;
+    --code-string-color: #ce9178;
+
+    /* html */
+    --code-attr-name-color: #9cdcfe;
+    --code-attr-value-color: #ce9178;
+    --code-attr-value-punctuation-color: #ce9178;
+    --code-doctype-color: #808080;
+    --code-entity-color: #569cd6;
+    --code-html-default-color: #d4d4d4;
+    --code-tag-color: #569cd6;
+    --code-tag-punctuation-color: #808080;
+
+    /* CSS */
+    --code-atrule-color: #c586c0;
+    --code-css-default-color: #b5cea8;
+    --code-property-color: #9cdcfe;
+    --code-selector-color: #d7ba7d;
+    --code-css-string-color: #ce9178 ;
+    --code-css-function-color: #dcdcaa;
 }

@@ -45,7 +45,7 @@ const Problem = ({ problem, index }: Props) => {
                     </svg>
                 </button>
             }
-            <SourceCode>
+            <SourceCode language={problem.codeLanguage}>
                 {problem.sourceCode}
             </SourceCode>
         </div>
