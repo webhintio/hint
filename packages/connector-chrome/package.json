@@ -19,7 +19,7 @@
     "@types/lodash": "^4.14.133",
     "@types/node": "^12.0.4",
     "@types/sinon": "^7.0.12",
-    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.7.0",
     "ava": "^1.4.1",
     "cpx": "^1.5.0",

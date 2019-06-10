@@ -51,7 +51,7 @@
     "@types/react-dom": "^16.8.4",
     "@types/semver": "^6.0.0",
     "@types/sinon": "^7.0.12",
-    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.7.0",
     "ava": "^1.4.1",
     "axe-core": "3.2.2-canary.55820cf",
