@@ -12,7 +12,7 @@
   "dependencies": {},
   "description": "webhint's hint initializer package",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.7.0",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "^12.0.4",
