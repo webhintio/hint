@@ -239,7 +239,7 @@ export default class CSSCompatHint implements IHint {
                 const codeSnippet = getCSSCodeSnippet(node);
                 const location = getLocationFromNode(node);
 
-                context.report(resource, message, { codeSnippet, element, location });
+                context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
             };
 
             walk(ast, { browsers, ignore, report, walk });

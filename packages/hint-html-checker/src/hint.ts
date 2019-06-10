@@ -99,6 +99,7 @@ export default class HtmlCheckerHint implements IHint {
                 };
 
                 context.report(resource, messageItem.message, {
+                    codeLanguage: 'html',
                     codeSnippet: messageItem.extract,
                     location: position,
                     severity: Severity[messageItem.subType]
