@@ -50,6 +50,7 @@ export default class CustomResourceLoader extends ResourceLoader {
         }
 
         // Ignore if the resource has already been fetched.
+        /* istanbul ignore if */
         if (this._connector.fetchedHrefs.has(resourceUrl)) {
             return null;
         }
@@ -97,8 +98,7 @@ export default class CustomResourceLoader extends ResourceLoader {
                     element: element!,
                     error: err.error,
                     hops,
-                    /* istanbul ignore next */
-                    resource: err.uri || resourceUrl
+                    resource: /* istanbul ignore next */ err.uri || resourceUrl
                 };
 
                 await this._connector.server.emitAsync('fetch::error', fetchError);
