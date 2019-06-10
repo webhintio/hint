@@ -12,7 +12,7 @@
   "description": "hint for best practices related to the usage of the Set-Cookie response header.",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^5.0.0",
-    "@types/node": "^12.0.4",
+    "@types/node": "^12.0.7",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
     "ava": "^1.4.1",
