@@ -14,7 +14,7 @@
     "@types/lodash": "^4.14.134",
     "@types/node": "^12.0.4",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
-    "@typescript-eslint/parser": "^1.7.0",
+    "@typescript-eslint/parser": "^1.10.2",
     "chrome-remote-debug-protocol": "^1.2.20180422",
     "cpx": "^1.5.0",
     "eslint": "^5.15.1",
