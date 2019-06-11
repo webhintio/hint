@@ -4,8 +4,8 @@
 
 .summary {
     cursor: pointer;
-    display: inline-block;
     line-height: 1.5rem; /* 24px */
+    width: max-content;
 }
 
 .summary:focus {
