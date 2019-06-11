@@ -29,7 +29,7 @@ type Key = {
  * In case of method used is `full` or `fullAncestor`, the map will
  * have an only key `callbacks`.
  */
-type WalkArray = Array<[Key, Map<string, Array<Function>>]>;
+type WalkArray = Array<[Key, Map<keyof NodeVisitor | 'callbacks', Function[]>]>;
 
 export default class JavascriptParser extends WebhintParser<ScriptEvents> {
     public constructor(engine: Engine<ScriptEvents>) {
@@ -57,12 +57,17 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
             const defaultCallbacksProperty = 'callbacks';
 
             // Store a WalkArray for each method supported.
-            const walkArrays: { [t: string]: WalkArray } = {};
+            const walkArrays: { [key in keyof Walk]: WalkArray } = {
+                ancestor: [],
+                full: [],
+                fullAncestor: [],
+                simple: []
+            };
 
             /**
              * Create a method that will create a WalkArray for a walk method (simple, full, etc.).
              */
-            const getWalkAccumulator = (methodName: string) => {
+            const getWalkAccumulator = <K extends keyof Walk>(methodName: K): Walk[K] => {
                 if (!walkArrays[methodName]) {
                     walkArrays[methodName] = [];
                 }
@@ -122,31 +127,23 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                     }
 
                     if (typeof visitorsOrCallback === 'function') {
+                        // `full` and `fullAncestor` only track an array of callbacks.
                         const name = defaultCallbacksProperty;
-
-                        let visitorCallbacks = currentVisitors.get(name);
-
-                        if (!visitorCallbacks) {
-                            visitorCallbacks = [];
-                        }
+                        const visitorCallbacks = currentVisitors.get(name) || [];
 
                         visitorCallbacks.push(visitorsOrCallback);
-
                         currentVisitors.set(name, visitorCallbacks);
 
                         return;
                     }
 
                     for (const [name, callback] of Object.entries(visitorsOrCallback)) {
-                        let visitorCallbacks = currentVisitors.get(name);
-
-                        if (!visitorCallbacks) {
-                            visitorCallbacks = [];
-                        }
+                        // `ancestor` and `simple` track an array of NodeVisitors.
+                        const mapName = name as keyof NodeVisitor;
+                        const visitorCallbacks = currentVisitors.get(mapName) || [];
 
                         visitorCallbacks.push(callback!);
-
-                        currentVisitors.set(name, visitorCallbacks);
+                        currentVisitors.set(mapName, visitorCallbacks);
                     }
                 };
             };
@@ -184,7 +181,7 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
              *     }
              * });
              *
-             * acornWalk.ful(ast, (node) => {
+             * acornWalk.full(ast, (node) => {
              *     // code from callback in hint 4
              * });
              */
@@ -192,17 +189,9 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                 walkArray.forEach(([{ node, state, base }, visitors]) => {
                     let allVisitors: NodeVisitor | Function = {};
 
-                    visitors.forEach((callbacks, name) => {
-                        if (name !== defaultCallbacksProperty) {
-                            /* istanbul ignore next */
-                            (allVisitors as any)[name] = (callbackNode: ESTree.Expression, ancestors?: ESTree.Node[]) => {
-                                callbacks.forEach((callback: Function) => {
-                                    callback(callbackNode, ancestors);
-                                });
-                            };
-
-                            return;
-                        }
+                    if (visitors.has(defaultCallbacksProperty)) {
+                        // `full` and `fullAncestor` only track an array of callbacks.
+                        const callbacks = visitors.get(defaultCallbacksProperty)!;
 
                         /* istanbul ignore next */
                         allVisitors = (callbackNode: ESTree.Node, callbackState: any, typeOrAncestors: string | ESTree.Node[]) => {
@@ -210,7 +199,17 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                                 callback(callbackNode, callbackState, typeOrAncestors);
                             });
                         };
-                    });
+                    } else {
+                        // `ancestor` and `simple` track an array of NodeVisitors which need merged.
+                        for (const [name, callbacks] of visitors) {
+                            /* istanbul ignore next */
+                            (allVisitors as any)[name] = (callbackNode: ESTree.Expression, ancestors?: ESTree.Node[]) => {
+                                callbacks.forEach((callback: Function) => {
+                                    callback(callbackNode, ancestors);
+                                });
+                            };
+                        }
+                    }
 
                     acornWalk[methodName](node, allVisitors, base, state);
                 });
