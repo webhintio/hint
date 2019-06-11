@@ -6,10 +6,11 @@ import { debug as d } from '@hint/utils/dist/src/debug';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isHTTPS } from '@hint/utils/dist/src/network/is-https';
 import { isRegularProtocol } from '@hint/utils/dist/src/network/is-regular-protocol';
-import { FetchEnd, IHint, Severity } from 'hint/dist/src/lib/types';
-import { ParsedSetCookieHeader } from './types';
-import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { capitalizeHeaderName } from '@hint/utils/dist/src/network/capitalize-header-name';
+import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
+import { HintContext, CodeLanguage } from 'hint/dist/src/lib/hint-context';
 
+import { ParsedSetCookieHeader } from './types';
 import meta from './meta';
 
 const debug = d(__filename);
@@ -282,20 +283,30 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             /**  The `chrome` connector concatenates all `set-cookie` headers to one string. */
             const setCookieHeaders: string[] = Array.isArray(rawSetCookieHeaders) ? rawSetCookieHeaders : rawSetCookieHeaders.split(/\n|\r\n/);
 
-            const reportBatch = (errorMessages: ValidationMessages, severity?: Severity) => {
+            const reportBatch = (errorMessages: ValidationMessages, codeLanguage: CodeLanguage, codeSnippet: string) => {
                 errorMessages.forEach((error) => {
-                    context.report(resource, error, { element, severity });
+                    context.report(resource, error, {
+                        codeLanguage,
+                        codeSnippet,
+                        element
+                    });
                 });
             };
 
             for (const setCookieHeader of setCookieHeaders) {
                 let parsedSetCookie: ParsedSetCookieHeader;
+                const codeSnippet = `${capitalizeHeaderName('set-cookie')}: ${setCookieHeader}`;
+                const codeLanguage = 'http';
 
                 try {
                     parsedSetCookie = parse(setCookieHeader);
                     parsedSetCookie.resource = resource;
                 } catch (err) {
-                    context.report(resource, err.message, { element });
+                    context.report(resource, err.message, {
+                        codeLanguage,
+                        codeSnippet,
+                        element
+                    });
 
                     return;
                 }
@@ -304,7 +315,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
                     const messages: ValidationMessages = defaultValidator(parsedSetCookie);
 
                     if (messages.length) {
-                        reportBatch(messages);
+                        reportBatch(messages, codeLanguage, codeSnippet);
 
                         return false;
                     }

@@ -9,7 +9,7 @@ import { FetchEnd, HintContext, IHint, NetworkData } from 'hint';
 
 import meta from './meta';
 
-const { isRegularProtocol } = network;
+const { capitalizeHeaderName, isRegularProtocol } = network;
 const debug = d(__filename);
 
 /*
@@ -160,7 +160,11 @@ export default class StrictTransportSecurityHint implements IHint {
             if (!isHTTPS(resource) && headerValue) {
                 const message = `'strict-transport-security' header should't be specified in pages served over HTTP.`;
 
-                context.report(resource, message, { element });
+                context.report(resource, message, {
+                    codeLanguage: 'http',
+                    codeSnippet: `${capitalizeHeaderName('strict-transport-security')}: ${headerValue}`,
+                    element
+                });
 
                 return;
             }
@@ -248,7 +252,11 @@ export default class StrictTransportSecurityHint implements IHint {
             if (isUnderAgeLimit(maxAge, minMaxAgeValue)) {
                 const message = `'strict-transport-security' header 'max-age' value should be more than ${minMaxAgeValue}`;
 
-                context.report(resource, message, { element });
+                context.report(resource, message, {
+                    codeLanguage: 'http',
+                    codeSnippet: `${capitalizeHeaderName('strict-transport-security')}: ${headerValue}`,
+                    element
+                });
 
                 return;
             }

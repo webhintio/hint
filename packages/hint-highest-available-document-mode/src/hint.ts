@@ -13,6 +13,7 @@ import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isLocalFile } from '@hint/utils/dist/src/network/is-local-file';
 import { HTMLDocument, HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { capitalizeHeaderName } from '@hint/utils/dist/src/network/capitalize-header-name';
 import { IHint, TraverseEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
@@ -68,6 +69,8 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                 return;
             }
 
+            const codeSnippet = `${capitalizeHeaderName('content-type')}: ${originalHeaderValue}`;
+            const codeLanguage = 'http';
             /*
              * If the HTTP response header is included, but the targeted
              * browsers don't include the browser that support document
@@ -75,13 +78,13 @@ export default class HighestAvailableDocumentModeHint implements IHint {
              */
 
             if (suggestRemoval) {
-                context.report(resource, `Response should not include unneeded 'x-ua-compatible' header.`);
+                context.report(resource, `Response should not include unneeded 'x-ua-compatible' header.`, { codeLanguage, codeSnippet });
 
                 return;
             }
 
             if (headerValue !== 'ie=edge') {
-                context.report(resource, `'x-ua-compatible' header value should be 'ie=edge', not '${!originalHeaderValue ? '' : originalHeaderValue}'.`);
+                context.report(resource, `'x-ua-compatible' header value should be 'ie=edge', not '${!originalHeaderValue ? '' : originalHeaderValue}'.`, { codeLanguage, codeSnippet });
             }
 
             /*
