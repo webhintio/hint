@@ -54,6 +54,7 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
             const options: Options = { locations: true };
             const ast = parse(sourceCode, options) as ESTree.Node;
             const tokens = [...tokenizer(sourceCode, options)];
+            const defaultCallbacksProperty = 'callbacks';
 
             // Store a WalkArray for each method supported.
             const walkArrays: { [t: string]: WalkArray } = {};
@@ -96,7 +97,7 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                  *     }
                  * });
                  *
-                 * hint 3: call to walk.full(ast, (node) => {
+                 * hint 4: call to walk.full(ast, (node) => {
                  *   // Callback code here.
                  * });
                  *
@@ -121,7 +122,7 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                     }
 
                     if (typeof visitorsOrCallback === 'function') {
-                        const name = 'callbacks';
+                        const name = defaultCallbacksProperty;
 
                         let visitorCallbacks = currentVisitors.get(name);
 
@@ -192,7 +193,7 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
                     let allVisitors: NodeVisitor | Function = {};
 
                     visitors.forEach((callbacks, name) => {
-                        if (typeof allVisitors !== 'function') {
+                        if (name !== defaultCallbacksProperty) {
                             /* istanbul ignore next */
                             (allVisitors as any)[name] = (callbackNode: ESTree.Expression, ancestors?: ESTree.Node[]) => {
                                 callbacks.forEach((callback: Function) => {
