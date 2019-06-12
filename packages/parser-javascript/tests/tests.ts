@@ -6,7 +6,7 @@ import { EventEmitter2 } from 'eventemitter2';
 import { ElementFound, Engine, FetchEnd } from 'hint';
 import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 
-import { ScriptEvents, ScriptParse } from '../src/parser';
+import { ScriptEvents, ScriptParse, NodeVisitor } from '../src/parser';
 
 type Acorn = {
     parse: (code: string, options: any) => {};
@@ -14,10 +14,10 @@ type Acorn = {
 };
 
 type AcornWalk = {
-    ancestor: () => void;
-    full: () => void;
-    fullAncestor: () => void;
-    simple: () => void;
+    ancestor: (node: any, visitors: NodeVisitor) => void;
+    full: (node: any, callback: Function) => void;
+    fullAncestor: (node: any, callback: Function) => void;
+    simple: (node: any, visitors: NodeVisitor) => void;
 };
 
 type ParseJavascriptContext = {
@@ -226,6 +226,11 @@ test('If the tree walked is always the same, acorn-walk will be called just once
             }
         });
 
+        data.walk.simple(data.ast, {
+            Literal(node) {
+            }
+        });
+
         data.walk.ancestor(data.ast, {
             CallExpression(node) {
             }
@@ -254,6 +259,12 @@ test('If the tree walked is always the same, acorn-walk will be called just once
     t.true(walkAncestorSpy.calledOnce);
     t.true(walkFullAncestorSpy.calledOnce);
     t.true(walkFullSpy.calledOnce);
+
+    t.is(typeof walkFullSpy.args[0][1], 'function');
+    t.is(typeof walkFullAncestorSpy.args[0][1], 'function');
+    t.truthy(walkSimpleSpy.args[0][1].CallExpression);
+    t.truthy(walkSimpleSpy.args[0][1].Literal);
+    t.truthy(walkAncestorSpy.args[0][1].CallExpression);
 });
 
 test('acorn-walk will be called once per javascript file and method', async (t) => {
