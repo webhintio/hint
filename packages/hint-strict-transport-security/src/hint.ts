@@ -9,7 +9,7 @@ import { FetchEnd, HintContext, IHint, NetworkData } from 'hint';
 
 import meta from './meta';
 
-const { capitalizeHeaderName, isRegularProtocol } = network;
+const { isRegularProtocol } = network;
 const debug = d(__filename);
 
 /*
@@ -162,7 +162,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
                 context.report(resource, message, {
                     codeLanguage: 'http',
-                    codeSnippet: `${capitalizeHeaderName('strict-transport-security')}: ${headerValue}`,
+                    codeSnippet: `Strict-Transport-Security: ${headerValue}`,
                     element
                 });
 
@@ -254,7 +254,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
                 context.report(resource, message, {
                     codeLanguage: 'http',
-                    codeSnippet: `${capitalizeHeaderName('strict-transport-security')}: ${headerValue}`,
+                    codeSnippet: `Strict-Transport-Security: ${headerValue}`,
                     element
                 });
 

@@ -6,7 +6,6 @@ import { debug as d } from '@hint/utils/dist/src/debug';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isHTTPS } from '@hint/utils/dist/src/network/is-https';
 import { isRegularProtocol } from '@hint/utils/dist/src/network/is-regular-protocol';
-import { capitalizeHeaderName } from '@hint/utils/dist/src/network/capitalize-header-name';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import { HintContext, CodeLanguage } from 'hint/dist/src/lib/hint-context';
 
@@ -295,7 +294,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
             for (const setCookieHeader of setCookieHeaders) {
                 let parsedSetCookie: ParsedSetCookieHeader;
-                const codeSnippet = `${capitalizeHeaderName('set-cookie')}: ${setCookieHeader}`;
+                const codeSnippet = `Set-Cookie: ${setCookieHeader}`;
                 const codeLanguage = 'http';
 
                 try {

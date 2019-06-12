@@ -13,7 +13,6 @@ import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isLocalFile } from '@hint/utils/dist/src/network/is-local-file';
 import { HTMLDocument, HTMLElement } from '@hint/utils/dist/src/dom/html';
-import { capitalizeHeaderName } from '@hint/utils/dist/src/network/capitalize-header-name';
 import { IHint, TraverseEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
@@ -69,7 +68,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                 return;
             }
 
-            const codeSnippet = `${capitalizeHeaderName('content-type')}: ${originalHeaderValue}`;
+            const codeSnippet = `Content-Type: ${originalHeaderValue}`;
             const codeLanguage = 'http';
             /*
              * If the HTTP response header is included, but the targeted

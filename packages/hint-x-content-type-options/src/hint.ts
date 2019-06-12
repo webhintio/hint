@@ -12,7 +12,6 @@
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
-import { capitalizeHeaderName } from '@hint/utils/dist/src/network/capitalize-header-name';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import meta from './meta';
@@ -49,7 +48,7 @@ export default class XContentTypeOptionsHint implements IHint {
             if (headerValue !== 'nosniff') {
                 context.report(resource, `'x-content-type-options' header value should be 'nosniff', not '${headerValue}'.`, {
                     codeLanguage: 'http',
-                    codeSnippet: `${capitalizeHeaderName('x-content-type-options')}: ${headerValue}`,
+                    codeSnippet: `X-Content-Type-Options: ${headerValue}`,
                     element
                 });
 
