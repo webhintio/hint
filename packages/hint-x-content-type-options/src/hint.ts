@@ -46,7 +46,11 @@ export default class XContentTypeOptionsHint implements IHint {
             }
 
             if (headerValue !== 'nosniff') {
-                context.report(resource, `'x-content-type-options' header value should be 'nosniff', not '${headerValue}'.`, { element });
+                context.report(resource, `'x-content-type-options' header value should be 'nosniff', not '${headerValue}'.`, {
+                    codeLanguage: 'http',
+                    codeSnippet: `X-Content-Type-Options: ${headerValue}`,
+                    element
+                });
 
                 return;
             }

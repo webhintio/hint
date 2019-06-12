@@ -4,7 +4,6 @@
 
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
-import { capitalizeHeaderName } from '@hint/utils/dist/src/network/capitalize-header-name';
 import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -263,7 +262,7 @@ export default class HttpCacheHint implements IHint {
         const hasInvalidDirectives = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { header, invalidDirectives, invalidValues } = directives;
             const { resource } = fetchEnd;
-            const codeSnippet = `${capitalizeHeaderName('cache-control')}: ${header}`;
+            const codeSnippet = `Cache-Control: ${header}`;
             const codeLanguage = 'http';
 
             if (invalidDirectives.size > 0) {
@@ -296,7 +295,7 @@ export default class HttpCacheHint implements IHint {
             if (nonRecommendedDirective) {
                 const message: string = `The directive "${nonRecommendedDirective}" is not recommended`;
 
-                context.report(resource, message, { codeLanguage: 'http', codeSnippet: `${capitalizeHeaderName('cache-control')}: ${header}` });
+                context.report(resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control: ${header}` });
 
                 return false;
             }
@@ -317,7 +316,7 @@ export default class HttpCacheHint implements IHint {
                 if (hasMaxAge) {
                     const message: string = `The following Cache-Control header is using a wrong combination of directives:\n${header}`;
 
-                    context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `${capitalizeHeaderName('cache-control')}: ${header}` });
+                    context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control: ${header}` });
 
                     return false;
                 }
@@ -341,7 +340,7 @@ export default class HttpCacheHint implements IHint {
             if (!isValidCache) {
                 const message: string = `The target should not be cached, or have a small "max-age" value (${maxAgeTarget}):\n${header}`;
 
-                context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `${capitalizeHeaderName('cache-control')}: ${header}` });
+                context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control')}: ${header}` });
 
                 return false;
             }
@@ -355,7 +354,7 @@ export default class HttpCacheHint implements IHint {
         const hasLongCache = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { header, usedDirectives } = directives;
             const { resource } = fetchEnd;
-            const codeSnippet = `${capitalizeHeaderName('cache-control')}: ${header}`;
+            const codeSnippet = `Cache-Control: ${header}`;
             const codeLanguage = 'http';
 
             const longCache = compareToMaxAge(usedDirectives, maxAgeResource) >= 0;

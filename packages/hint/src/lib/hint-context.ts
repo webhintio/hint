@@ -19,6 +19,8 @@ import { ProblemLocation, Severity } from '@hint/utils/dist/src/types/problems';
 import { Category } from '@hint/utils/dist/src/types/category';
 import { getHTMLCodeSnippet } from '@hint/utils/dist/src/report/get-html-code-snippet';
 
+export type CodeLanguage = 'css' | 'html' | 'http' | 'javascript';
+
 export type ReportOptions = {
     /** The source code to display (defaults to the `outerHTML` of `element`). */
     codeSnippet?: string;
@@ -34,7 +36,7 @@ export type ReportOptions = {
     /** The `Severity` to report the issue as (overrides default settings for a hint). */
     severity?: Severity;
     /** Indicate the language of the codeSnippet */
-    codeLanguage?: string;
+    codeLanguage?: CodeLanguage;
 };
 
 /** Acts as an abstraction layer between hints and the main hint object. */

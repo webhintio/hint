@@ -57,7 +57,17 @@ export default class NoP3pHint implements IHint {
             const numberOfHeaders: number = headers.length;
 
             if (numberOfHeaders > 0) {
-                context.report(resource, errorMessage, { element });
+                let codeSnippet = '';
+
+                for (const header of headers) {
+                    codeSnippet += `P3P: ${response.headers[header]}\n`;
+                }
+
+                context.report(resource, errorMessage, {
+                    codeLanguage: 'http',
+                    codeSnippet: codeSnippet.trim(),
+                    element
+                });
             }
         };
 

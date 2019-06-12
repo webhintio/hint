@@ -68,6 +68,8 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                 return;
             }
 
+            const codeSnippet = `Content-Type: ${originalHeaderValue}`;
+            const codeLanguage = 'http';
             /*
              * If the HTTP response header is included, but the targeted
              * browsers don't include the browser that support document
@@ -75,13 +77,13 @@ export default class HighestAvailableDocumentModeHint implements IHint {
              */
 
             if (suggestRemoval) {
-                context.report(resource, `Response should not include unneeded 'x-ua-compatible' header.`);
+                context.report(resource, `Response should not include unneeded 'x-ua-compatible' header.`, { codeLanguage, codeSnippet });
 
                 return;
             }
 
             if (headerValue !== 'ie=edge') {
-                context.report(resource, `'x-ua-compatible' header value should be 'ie=edge', not '${!originalHeaderValue ? '' : originalHeaderValue}'.`);
+                context.report(resource, `'x-ua-compatible' header value should be 'ie=edge', not '${!originalHeaderValue ? '' : originalHeaderValue}'.`, { codeLanguage, codeSnippet });
             }
 
             /*

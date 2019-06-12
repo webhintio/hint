@@ -8,6 +8,7 @@ import { vendor, Declaration, Rule } from 'postcss';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils/dist/src/debug';
+import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
 
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 
@@ -121,8 +122,9 @@ export default class CssPrefixOrderHint implements IHint {
                 for (const invalidPair of validateRule(rule)) {
                     const message = formatMessage(invalidPair);
                     const location = getLocation(invalidPair.unprefixed);
+                    const codeSnippet = getCSSCodeSnippet(invalidPair.unprefixed);
 
-                    context.report(resource, message, { element, location });
+                    context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
                 }
             });
         });
