@@ -1,37 +1,18 @@
 import { ChildNode } from 'postcss';
 
-const getCodeSnippetPrefix = (node: ChildNode): string => {
-    if (node.type === 'rule') {
-        return `${node.selector} {`;
+const getNodeCodeSnippet = (node: ChildNode): string => {
+    switch (node.type) {
+        case 'rule':
+            return `${node.selector.split(/,\s*/).join(`,\n`)}`;
+        case 'decl':
+            return `${node.prop}: ${node.value}`;
+        case 'atrule':
+            return `@${node.name} ${node.params}`;
+        case 'comment':
+            return `/* ${node.text} */`;
+        default:
+            return '';
     }
-
-    if (node.type === 'atrule') {
-        return `@${node.name} ${node.params} {`;
-    }
-
-    return '';
-};
-
-const getCodeSnippetContent = (node: ChildNode, content: string): string => {
-    let numberOfSpaces = 4;
-    const grandpa = node.parent ? node.parent.parent : null;
-
-    if (grandpa && grandpa.type === 'atrule') {
-        numberOfSpaces = 8;
-    }
-
-    return content.padStart(content.length + numberOfSpaces, ' ');
-};
-
-const getCodeSnippetPostfix = (node: ChildNode): string => {
-    let numberOfSpaces = 0;
-    const grandpa = node.parent ? node.parent.parent : null;
-
-    if (grandpa) {
-        numberOfSpaces = 4;
-    }
-
-    return '}'.padStart(numberOfSpaces + 1, ' ');
 };
 
 /**
@@ -73,33 +54,18 @@ const getCodeSnippetPostfix = (node: ChildNode): string => {
  * @param node - Node to generate the snippet code
  */
 export const getCSSCodeSnippet = (node: ChildNode): string => {
-    let result = '';
+    const hasChildren = 'nodes' in node && node.nodes && node.nodes.length;
+    const defaultSuffix = node.type === 'comment' ? '' : ';';
+    const suffix = hasChildren ? ' { }' : defaultSuffix;
 
-    switch (node.type) {
-        case 'rule':
-            result = `${node.selector} { }`;
-            break;
-        case 'decl':
-            result = `${node.prop}: ${node.value};`;
-            break;
-        case 'atrule':
-            result = `@${node.name} ${node.params} { }`;
-            break;
-        case 'comment':
-            result = `/* ${node.text} */`;
-            break;
-        default:
-    }
-
+    let result = `${getNodeCodeSnippet(node)}${suffix}`;
     let parent = node.parent;
-    let child = node;
 
     while (parent && parent.type !== 'root') {
-        result = `${getCodeSnippetPrefix(parent)}
-${getCodeSnippetContent(child, result)}
-${getCodeSnippetPostfix(parent)}`;
+        // Indent all child content by four spaces.
+        const content = result.replace(/^/gm, '    ');
 
-        child = parent;
+        result = `${getNodeCodeSnippet(parent)} {\n${content}\n}`;
         parent = parent.parent;
     }
 
