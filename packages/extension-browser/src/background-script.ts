@@ -38,7 +38,15 @@ const injectContentScript = (tabId: number, retries = 0) => {
                 injectContentScript(tabId, retries + 1);
             } else {
                 // Give up if retrying still doesn't inject the content script.
-                console.error('Failed to inject content script after retrying.');
+                const port = devtoolsPorts.get(tabId);
+                const message = 'Failed to inject content script after retrying.';
+                const event: Events = { error: { message, stack: '' } };
+
+                console.error(message);
+
+                if (port) {
+                    port.postMessage(event);
+                }
             }
         }
     });
