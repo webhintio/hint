@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* comment */
 .selector {
     color: #000;
@@ -11,3 +13,14 @@
     }
 }
 
+.selector1, .selector2 {
+    color: #000;
+}
+
+@media all and (min-width:29.9385em) {
+    @supports (display:flex) {
+        .document-head .center .document-actions {
+            flex-grow: 9999;
+        }
+    }
+}
