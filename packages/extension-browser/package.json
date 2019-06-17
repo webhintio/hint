@@ -50,7 +50,7 @@
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
     "@types/semver": "^6.0.0",
-    "@types/sinon": "^7.0.12",
+    "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
     "ava": "^1.4.1",
