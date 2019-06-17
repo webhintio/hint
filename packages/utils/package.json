@@ -9,7 +9,7 @@
   "dependencies": {
     "ajv": "^6.10.0",
     "applicationinsights": "^1.4.0",
-    "configstore": "^4.0.0",
+    "configstore": "^5.0.0",
     "content-type": "^1.0.4",
     "css-select": "^2.0.2",
     "debug": "^4.1.1",
