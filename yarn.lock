@@ -11392,12 +11392,12 @@ type-is@~1.6.17, type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typed-css-modules@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.4.2.tgz#eb9416a847c6ab9869fbd3a21de9d69566787f09"
-  integrity sha512-8L6efZplgnraEw1RWz1Nc6swfLm6PAawivvdwFhzkFa3CJu+cPbK9712i4CAAf+JA0/Ufe19iDTPIk1WSpoz/w==
+typed-css-modules@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.5.0.tgz#90508785b37f49f547553efccf7f7067c7b063b5"
+  integrity sha512-B/Z3E82APHoJrN+fpePwbMG8AeAejpMX+EVR/xvjGDEbwu00ze5UGwdqZZ0Jo59sggFezCjxwsmDVJacuNRZiw==
   dependencies:
-    camelcase "^4.1.0"
+    camelcase "^5.3.1"
     chalk "^2.1.0"
     chokidar "^2.1.2"
     css-modules-loader-core "^1.1.0"
