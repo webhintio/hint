@@ -14,7 +14,7 @@ import { useCurrentDesignStyles, useCurrentTheme, withCurrentDesign } from '../u
 import * as fluent from './app.fluent.css';
 import * as photon from './app.photon.css';
 
-const enum Page {
+export const enum Page {
     Config,
     Error,
     Results
@@ -22,12 +22,20 @@ const enum Page {
 
 const emptyResults: ResultsData = { categories: [], url: '' };
 
-const App = () => {
-    const [page, setPage] = useState(Page.Config);
-    const [error, setError] = useState({} as ErrorData);
-    const [config, setConfig] = useState({} as ConfigData);
-    const [results, setResults] = useState(emptyResults);
-    const [isAnalyzing, setIsAnalyzing] = useState(false);
+export type Props = {
+    config?: ConfigData;
+    error?: ErrorData;
+    isAnalyzing?: boolean;
+    page?: Page;
+    results?: ResultsData;
+};
+
+const App = (props: Props) => {
+    const [page, setPage] = useState(props.page || Page.Config);
+    const [error, setError] = useState(props.error || {} as ErrorData);
+    const [config, setConfig] = useState(props.config || {} as ConfigData);
+    const [results, setResults] = useState(props.results || emptyResults);
+    const [isAnalyzing, setIsAnalyzing] = useState(props.isAnalyzing || false);
 
     const styles = useCurrentDesignStyles({ fluent, photon });
     const theme = useCurrentTheme();
