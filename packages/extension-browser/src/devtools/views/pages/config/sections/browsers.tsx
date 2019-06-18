@@ -19,7 +19,7 @@ type Props = {
     onChange: (query?: string) => void;
 };
 
-const placeholder = '> 1%, IE 10';
+const placeholder = 'defaults, not IE 11';
 
 /** Check if a user's custom `browserslist` query is valid, notifying them if it is not. */
 const validate = (value?: string): string => {
