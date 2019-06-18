@@ -61,7 +61,7 @@ const mockContext = () => {
                     rawResponse: null as any
                 },
                 charset: '',
-                headers: {} as any,
+                headers: { 'content-type': 'text/html' } as any,
                 hops: [],
                 mediaType: '',
                 statusCode: 200,
@@ -260,4 +260,32 @@ test('It handles invalid browserslist queries', async (t) => {
     const results = await resultsPromise;
 
     t.not(results.categories.length, 0);
+});
+
+test('It returns the right position when a base tag is present', async (t) => {
+    const url = 'http://localhost/';
+    const html = await readFixture('base.html');
+    const { stubContext, stubEvents, sendFetch } = mockContext();
+
+    const resultsPromise = stubEvents({}, () => {
+        sendFetch(url, html);
+        sendFetch(`${url}resources/image.png`, 'imagecontent');
+    });
+
+    stubContext(url, html);
+
+    const results = await resultsPromise;
+
+    t.not(results.categories.length, 0);
+    t.true(results.categories.some((category) => {
+        return category.hints.some((hint) => {
+            return hint.problems.some((problem) => {
+                if (problem.message === 'Images must have alternate text') {
+                    return problem.location.column !== -1 && problem.location.line !== -1;
+                }
+
+                return false;
+            });
+        });
+    }), 'base');
 });

@@ -418,6 +418,7 @@ Actual:   ${integrities.join(', ')}`;
             response.body.content = await requestAsync({
                 gzip: true,
                 method: 'GET',
+                rejectUnauthorized: false,
                 url: resource
             });
 
@@ -482,7 +483,9 @@ Actual:   ${integrities.join(', ')}`;
          * 'this.isScriptOrLink' has already checked
          * that the src or href attribute exists, so it is safe to use !.
          */
-        evt.resource = new URL(evt.element.getAttribute('src')! || evt.element.getAttribute('href')!, evt.resource).href;
+        const elementUrl = evt.element.getAttribute('src')! || evt.element.getAttribute('href')!;
+
+        evt.resource = evt.element.resolveUrl(elementUrl);
 
         const content: NetworkData = {
             request: {} as Request,

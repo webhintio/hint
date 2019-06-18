@@ -5,9 +5,10 @@ import * as Chokidar from 'chokidar';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 import * as proxyquire from 'proxyquire';
+import { EventEmitter2 } from 'eventemitter2';
 
 import { fs, logger, misc, network } from '@hint/utils';
-import { Engine, FetchEnd, Problem } from 'hint';
+import { Engine, FetchEnd } from 'hint';
 import { HTMLEvents } from '@hint/parser-html';
 
 const { delay } = misc;
@@ -21,15 +22,17 @@ type SandboxContext = {
 const test = anyTest as TestInterface<SandboxContext>;
 
 const mockContext = (context: SandboxContext) => {
-    const engine = {
-        clean() { },
-        clear() { },
-        async emitAsync(event: Event, data: Problem[]): Promise<any> { },
-        async notify() { },
-        on(): Engine<HTMLEvents> {
-            return null as any;
-        }
-    } as Partial<Engine<HTMLEvents>>;
+    const engine = new EventEmitter2({
+        delimiter: '::',
+        maxListeners: 0,
+        wildcard: true
+    }) as Engine<HTMLEvents>;
+
+    engine.clear = () => { };
+    engine.clean = () => { };
+    engine.notify = () => {
+        return Promise.resolve();
+    };
 
     const chokidar = {
         watch(target: string, options: Chokidar.WatchOptions): Stream {

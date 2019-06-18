@@ -20,7 +20,7 @@ test('If `fetch::end::html` is received, then the code should be parsed and the 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
     await engine.emitAsync('fetch::end::html', {
-        resource: 'test.html',
+        resource: 'http://example.com/test.html',
         response: {
             body: { content: code },
             mediaType: 'text/html',
@@ -45,7 +45,7 @@ test('If `fetch::end::html` is received, then the code should be parsed and the 
 
     t.is(args[1][0], 'parse::start::html');
     t.is(args[2][0], 'parse::end::html');
-    t.is((args[2][1] as HTMLParse).resource, 'test.html');
+    t.is((args[2][1] as HTMLParse).resource, 'http://example.com/test.html');
     t.is((args[2][1] as HTMLParse).html, code);
     t.is(document.pageHTML(), '<!DOCTYPE html><html><head></head><body><div id="test">Test</div></body></html>');
     t.is(div.outerHTML, '<div id="test">Test</div>');

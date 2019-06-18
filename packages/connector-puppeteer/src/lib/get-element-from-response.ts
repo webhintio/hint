@@ -5,7 +5,7 @@ import { dom, HTMLElement, HTMLDocument } from '@hint/utils';
 const { getElementByUrl } = dom;
 
 /** Returns the HTMLElement that initiated a request */
-export const getElementFromResponse = (source: puppeteer.Response | puppeteer.Request, baseUrl: string, dom?: HTMLDocument): HTMLElement | null => {
+export const getElementFromResponse = (source: puppeteer.Response | puppeteer.Request, dom?: HTMLDocument): HTMLElement | null => {
     const request = 'request' in source ?
         source.request() :
         source;
@@ -25,7 +25,7 @@ export const getElementFromResponse = (source: puppeteer.Response | puppeteer.Re
      */
     // The doesn't seem to be an initiator in puppeteer :/
     if (dom && requestUrl.startsWith('http')) {
-        return getElementByUrl(dom, requestUrl, baseUrl);
+        return getElementByUrl(dom, requestUrl);
     }
 
     return null;

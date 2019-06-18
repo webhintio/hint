@@ -35,6 +35,7 @@ try {
  */
 
 import * as url from 'url';
+import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types
 import * as path from 'path';
 import { readFile } from 'fs';
 import { promisify } from 'util';
@@ -365,7 +366,7 @@ export default class LocalConnector implements IConnector {
         };
     }
 
-    public async collect(target: url.URL, options?: IFetchOptions) {
+    public async collect(target: URL, options?: IFetchOptions) {
         /** The target in string format */
         const href: string = this._href = target.href;
         const initialEvent: Event = { resource: href };
