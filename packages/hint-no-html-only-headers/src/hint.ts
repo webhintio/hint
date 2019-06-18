@@ -101,7 +101,12 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             }
 
             if (!willBeTreatedAsHTML(response)) {
-                const headers: string[] = includedHeaders(response.headers, unneededHeaders);
+                let headersToValidate: string[] = unneededHeaders;
+
+                if (response.mediaType === 'text/javascript') {
+                    headersToValidate = mergeIgnoreIncludeArrays(headersToValidate, ['content-security-policy', 'x-content-security-policy'], []);
+                }
+                const headers: string[] = includedHeaders(response.headers, headersToValidate);
                 const numberOfHeaders: number = headers.length;
 
                 if (numberOfHeaders > 0) {

@@ -21,24 +21,6 @@ const testsForDefaults: HintTest[] = [
                     'X-Frame-Options': 'SAMEORIGIN'
                 }
             },
-            '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }
-        }
-    },
-    {
-        name: `Non HTML resource is specified as a data URI`,
-        serverConfig: { '/': generateHTMLPage(undefined, '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">') }
-    },
-    {
-        name: `Non HTML resource is served with unneeded header`,
-        reports: [{ message: generateMessage(['content-security-policy']) }],
-        serverConfig: {
-            '/': {
-                content: htmlPage,
-                headers: {
-                    'Content-Type': 'text/html; charset=utf-8',
-                    'X-Frame-Options': 'SAMEORIGIN'
-                }
-            },
             '/test.js': {
                 headers: {
                     'Content-Security-Policy': 'default-src "none"',
@@ -48,13 +30,15 @@ const testsForDefaults: HintTest[] = [
         }
     },
     {
+        name: `Non HTML resource is specified as a data URI`,
+        serverConfig: { '/': generateHTMLPage(undefined, '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">') }
+    },
+    {
         name: `Non HTML resource is served with multiple unneeded headers`,
         reports: [
             {
                 message: generateMessage([
-                    'content-security-policy',
                     'feature-policy',
-                    'x-content-security-policy',
                     'x-frame-options',
                     'x-ua-compatible',
                     'x-webkit-csp',
@@ -159,7 +143,6 @@ const testsForIncludeConfigs: HintTest[] = [
         reports: [
             {
                 message: generateMessage([
-                    'content-security-policy',
                     'x-test-1',
                     'x-ua-compatible'
                 ])
@@ -193,7 +176,6 @@ const testsForConfigs: HintTest[] = [
         reports: [
             {
                 message: generateMessage([
-                    'content-security-policy',
                     'x-test-1',
                     'x-ua-compatible'
                 ])
@@ -223,8 +205,8 @@ const testsForConfigs: HintTest[] = [
 ];
 
 testHint(hintPath, testsForDefaults);
-testHint(hintPath, testsForIgnoreConfigs, { hintOptions: { ignore: ['Content-Security-Policy', 'X-UA-Compatible', 'X-Test-1'] } });
-testHint(hintPath, testsForIncludeConfigs, { hintOptions: { include: ['Content-Security-Policy', 'X-Test-1', 'X-Test-2'] } });
+testHint(hintPath, testsForIgnoreConfigs, { hintOptions: { ignore: ['X-UA-Compatible', 'X-Test-1'] } });
+testHint(hintPath, testsForIncludeConfigs, { hintOptions: { include: ['X-Test-1', 'X-Test-2'] } });
 testHint(hintPath, testsForConfigs, {
     hintOptions: {
         ignore: ['X-Frame-Options', 'X-Test-2', 'X-Test-3'],
