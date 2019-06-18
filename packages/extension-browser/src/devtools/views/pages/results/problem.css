@@ -1,6 +1,8 @@
 .root {
     margin: 1.5rem 0; /* 24px */
     padding-left: 0.5rem; /* 8px */
+    -webkit-user-select: text;
+    user-select: text;
 }
 
 .header {
