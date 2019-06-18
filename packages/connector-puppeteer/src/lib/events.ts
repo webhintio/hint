@@ -27,7 +27,7 @@ export const onRequestHandler = (request: puppeteer.Request): EventResult<'fetch
     };
 };
 
-export const onRequestFailedHandler = (request: puppeteer.Request, baseUrl: string, dom?: HTMLDocument): EventResult<'fetch::error'> | null => {
+export const onRequestFailedHandler = (request: puppeteer.Request, dom?: HTMLDocument): EventResult<'fetch::error'> | null => {
     const resource = request.url();
 
     if (!dom) {
@@ -37,7 +37,7 @@ export const onRequestFailedHandler = (request: puppeteer.Request, baseUrl: stri
 
     debug(`Request failed: ${resource}`);
 
-    const element = getElementFromResponse(request, baseUrl, dom);
+    const element = getElementFromResponse(request, dom);
     const hops = request.redirectChain()
         .map((redirect) => {
             return redirect.url();
@@ -56,7 +56,7 @@ export const onRequestFailedHandler = (request: puppeteer.Request, baseUrl: stri
     };
 };
 
-export const onResponseHandler = async (response: puppeteer.Response, baseUrl: string, fetchContent: Fetcher, dom?: HTMLDocument): Promise<EventResult<'fetch::end::html' | 'fetch::end::*'> | null> => {
+export const onResponseHandler = async (response: puppeteer.Response, fetchContent: Fetcher, dom?: HTMLDocument): Promise<EventResult<'fetch::end::html' | 'fetch::end::*'> | null> => {
     const resource = response.url();
     const isTarget = response.request().isNavigationRequest();
 
@@ -67,7 +67,7 @@ export const onResponseHandler = async (response: puppeteer.Response, baseUrl: s
         return null;
     }
 
-    const payload = await createFetchEndPayload(response, fetchContent, baseUrl, dom);
+    const payload = await createFetchEndPayload(response, fetchContent, dom);
     /*
      * If the target has a weird value like `application/x-httpd-php`
      * (which translates into `unknown`) or is detected as `xml`.

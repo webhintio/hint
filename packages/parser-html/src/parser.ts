@@ -48,7 +48,7 @@ export default class HTMLParser extends Parser<HTMLEvents> {
 
         const html = fetchEnd.response.body.content;
 
-        const document = createHTMLDocument(html);
+        const document = createHTMLDocument(html, fetchEnd.resource);
 
         await this.engine.emitAsync('parse::end::html', { document, html, resource });
     }

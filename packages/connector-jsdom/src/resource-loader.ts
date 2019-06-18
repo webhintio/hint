@@ -7,25 +7,23 @@ import { FetchEnd, FetchError, NetworkData } from 'hint';
 
 import JSDOMConnector from './connector';
 
-const { createHTMLDocument, getElementByUrl } = dom;
+const { getElementByUrl } = dom;
 const { getContentTypeData, getType } = contentType;
 
 const debug: debug.IDebugger = d(__filename);
 
 export default class CustomResourceLoader extends ResourceLoader {
     private _connector: JSDOMConnector;
-    private _finalHref: string;
     private _HTMLDocument: HTMLDocument;
 
-    public constructor(connector: JSDOMConnector, html: string, finalHref: string) {
+    public constructor(connector: JSDOMConnector, htmlDocument: HTMLDocument) {
         super();
 
         this._connector = connector;
-        this._finalHref = finalHref;
-        this._HTMLDocument = createHTMLDocument(html);
+        this._HTMLDocument = htmlDocument;
     }
 
-    public async fetch(url: string, options: any): Promise<Buffer | null> {
+    public async fetch(url: string): Promise<Buffer | null> {
         /* istanbul ignore if */
         if (!url) {
             const promise = Promise.resolve(null);
@@ -40,7 +38,7 @@ export default class CustomResourceLoader extends ResourceLoader {
          * To do so, we create a query from the element returned by jsdom and
          * look for it in our `HTMLDocument`.
          */
-        const element = getElementByUrl(this._HTMLDocument, url, this._finalHref);
+        const element = getElementByUrl(this._HTMLDocument, url);
         const urlAsUrl = new URL(url);
         let resourceUrl: string = urlAsUrl.href;
 

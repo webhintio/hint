@@ -1,4 +1,4 @@
-import * as url from 'url';
+import { URL } from 'url';
 
 import { Engine } from 'hint';
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
@@ -38,11 +38,13 @@ export default class WebExtensionConnector implements IConnector {
         this._engine = engine;
         this._options = options || {};
 
+        /* istanbul ignore else */
         if (!this._options.waitFor) {
             this._options.waitFor = 1000;
         }
 
         (engine as Engine<import('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
+            /* istanbul ignore else */
             if (event.resource === location.href) {
                 this._originalDocument = event.document;
             }
@@ -57,7 +59,7 @@ export default class WebExtensionConnector implements IConnector {
                     await this._engine.emitAsync('fetch::start', events.fetchStart);
                 }
                 // TODO: Trigger 'fetch::start::target'.
-            } catch (err) {
+            } catch (err) /* istanbul ignore next */ {
                 this._onComplete(err);
             }
         });
@@ -73,7 +75,7 @@ export default class WebExtensionConnector implements IConnector {
 
                     restoreReferences(snapshot);
 
-                    this._document = new HTMLDocument(snapshot, this._originalDocument);
+                    this._document = new HTMLDocument(snapshot, location.href, this._originalDocument);
 
                     await this.sendFetchEndEvents();
 
@@ -87,7 +89,7 @@ export default class WebExtensionConnector implements IConnector {
 
                     this._onComplete(null, resource);
 
-                } catch (err) {
+                } catch (err) /* istanbul ignore next */ {
                     this._onComplete(err);
                 }
             }, this._options.waitFor);
@@ -114,7 +116,7 @@ export default class WebExtensionConnector implements IConnector {
         const url = event.request.url;
 
         if (this._document) {
-            event.element = getElementByUrl(this._document, url, location.href);
+            event.element = getElementByUrl(this._document, url);
         }
     }
 
@@ -179,7 +181,7 @@ export default class WebExtensionConnector implements IConnector {
         });
     }
 
-    public async collect(target: url.URL) {
+    public async collect(target: URL) {
         const resource = target.href;
 
         await this._engine.emitAsync('scan::start', { resource });
@@ -188,6 +190,7 @@ export default class WebExtensionConnector implements IConnector {
 
         return new Promise((resolve, reject) => {
             this._onComplete = async (err: Error | null, resource = '') => {
+                /* istanbul ignore if */
                 if (err) {
                     reject(err);
 
@@ -198,7 +201,7 @@ export default class WebExtensionConnector implements IConnector {
                     await this._engine.emitAsync('scan::end', { resource });
                     resolve();
                     this.sendMessage({ done: true });
-                } catch (e) {
+                } catch (e) /* istanbul ignore next */ {
                     reject(e);
                 }
             };
@@ -228,6 +231,7 @@ export default class WebExtensionConnector implements IConnector {
             const callback = (mutationsList: MutationRecord[], observer: MutationObserver) => {
                 try {
                     mutationsList.forEach((mutation: MutationRecord) => {
+                        /* istanbul ignore if */
                         if (mutation.type !== 'attributes' || !(/^data-(error|result)$/).test(mutation.attributeName || '')) {
                             return;
                         }
@@ -240,13 +244,14 @@ export default class WebExtensionConnector implements IConnector {
 
                         if (error) {
                             reject(JSON.parse(error));
+                            /* istanbul ignore else*/
                         } else if (result) {
                             resolve(JSON.parse(result));
                         } else {
                             reject(new Error('No error or result returned from evaluate.'));
                         }
                     });
-                } catch (err) {
+                } catch (err) /* istanbul ignore next */ {
                     reject(err);
                 }
             };

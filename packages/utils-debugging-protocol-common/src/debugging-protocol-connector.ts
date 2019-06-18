@@ -140,7 +140,7 @@ export class Connector implements IConnector {
          * `type` can be "parser", "script", "preload", and "other": https://chromedevtools.github.io/debugger-protocol-viewer/tot/Network/#type-Initiator
          */
         if (['parser', 'other'].includes(type) && requestUrl.startsWith('http')) {
-            return getElementByUrl(dom, requestUrl, this._finalHref);
+            return getElementByUrl(dom, requestUrl);
         }
 
         return null;
@@ -608,7 +608,7 @@ export class Connector implements IConnector {
 
                 const node = await this._client.DOM.getDocument!({ depth: -1 });
                 const html = (await this._client.DOM.getOuterHTML!({ nodeId: node.root.nodeId })).outerHTML;
-                const dom = createHTMLDocument(html, this._originalDocument);
+                const dom = createHTMLDocument(html, this._finalHref, this._originalDocument);
 
                 this._dom = dom;
 
@@ -803,7 +803,7 @@ export class Connector implements IConnector {
          */
         const href: string = typeof target === 'string' ? target : target.href;
         const options = {
-            headers: customHeaders || { },
+            headers: customHeaders || {},
             // we sync the ignore SSL error options with `request`. This is neeeded for local https tests
             rejectUnauthorized: !this._options.ignoreHTTPSErrors,
             strictSSL: !this._options.ignoreHTTPSErrors

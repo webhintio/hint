@@ -76,7 +76,7 @@ const getRawResponse = (response: puppeteer.Response, fetchContent: Fetcher) => 
 };
 
 /** Creates a full `fetch::end` payload for the given `response`. */
-export const createFetchEndPayload = async (response: puppeteer.Response, fetchContent: Fetcher, baseUrl: string, dom?: HTMLDocument): Promise<FetchEnd> => {
+export const createFetchEndPayload = async (response: puppeteer.Response, fetchContent: Fetcher, dom?: HTMLDocument): Promise<FetchEnd> => {
     const resourceUrl = response.url();
     const hops = response.request()
         .redirectChain()
@@ -90,7 +90,7 @@ export const createFetchEndPayload = async (response: puppeteer.Response, fetchC
         url: originalUrl
     };
 
-    const element = await getElementFromResponse(response, baseUrl, dom);
+    const element = await getElementFromResponse(response, dom);
     const [content, rawContent] = await Promise.all([
         response.text(),
         response.buffer()

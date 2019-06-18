@@ -100,6 +100,7 @@ export default class JSDOMConnector implements IConnector {
         this._subprocesses = new Set();
 
         (server as Engine<import('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
+            /* istanbul ignore if */
             if (!this._originalDocument) {
                 this._originalDocument = event.document;
             }
@@ -246,7 +247,9 @@ export default class JSDOMConnector implements IConnector {
                 debug(`Console: ${err}`);
             });
 
-            this._resourceLoader = new CustomResourceLoader(this, fetchEnd.response.body.content, this.finalHref);
+            const initialDocument = createHTMLDocument(fetchEnd.response.body.content, this.finalHref);
+
+            this._resourceLoader = new CustomResourceLoader(this, initialDocument);
 
             const jsdom = new JSDOM(this._targetNetworkData.response.body.content, {
                 beforeParse: beforeParse(this.finalHref),
@@ -275,7 +278,7 @@ export default class JSDOMConnector implements IConnector {
                         // TODO: Use a DOM snapshot and copy node locations insead of serializing.
                         const html = this._window.document.documentElement.outerHTML;
 
-                        const htmlDocument = createHTMLDocument(html, this._originalDocument);
+                        const htmlDocument = createHTMLDocument(html, this.finalHref, this._originalDocument);
 
                         this._document = htmlDocument;
 

@@ -123,6 +123,16 @@ Actual:   sha512-thisIsAnInvalidHash`
         }
     },
     {
+        name: `Page with multiple same origin resources with SRI and a base element passes`,
+        serverConfig: {
+            '/': generateHTMLPage(`<base href="./resources/">
+            <link rel="stylesheet" href="./styles.css" integrity="sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4">
+            <script src="./scripts.js" integrity="sha384-pQX+4NYW2Uc78yUOI1PYa8QHSkDEyT8/OBEM8jNTyydo8iazY/SC6DfPqMJypplx"></script>`),
+            '/resources/scripts.js': scripts,
+            '/resources/styles.css': styles
+        }
+    },
+    {
         name: `Page with cross-origin script with SRI and not "crossorigin" fails`,
         reports: [{ message: 'Cross-origin resource https://code.jquery.com/jquery-3.3.1.slim.min.js needs a "crossorigin" attribute to be eligible for integrity validation' }],
         serverConfig: {

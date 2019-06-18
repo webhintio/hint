@@ -3,7 +3,6 @@
  * uses are available online. Checks for 404, 410, 500 or 503 status
  */
 
-import { URL } from 'url';
 import {
     ElementFound,
     HintContext,
@@ -11,7 +10,7 @@ import {
     NetworkData,
     TraverseEnd
 } from 'hint';
-import { debug as d, HTMLDocument, HTMLElement, network } from '@hint/utils';
+import { debug as d, HTMLElement, network } from '@hint/utils';
 import { Requester } from '@hint/utils-connector-tools';
 import { CoreOptions } from 'request';
 
@@ -42,7 +41,9 @@ export default class NoBrokenLinksHint implements IHint {
         const fetchedURLs: any[] = [];
 
         /** Returns an array with all the URLs in the given `srcset` attribute or an empty string if none. */
-        const parseSrcSet = (srcset: string | null): string[] => {
+        const parseSrcSet = (element: HTMLElement): string[] => {
+            const srcset = element.getAttribute('srcset');
+
             if (!srcset) {
                 return [];
             }
@@ -50,7 +51,7 @@ export default class NoBrokenLinksHint implements IHint {
             const urls = srcset
                 .split(',')
                 .map((entry) => {
-                    return entry.trim().split(' ')[0].trim();
+                    return element.resolveUrl((entry.trim().split(' ')[0].trim()));
                 });
 
             return urls;
@@ -136,13 +137,22 @@ export default class NoBrokenLinksHint implements IHint {
                 const value: string | null = element.getAttribute(attribute);
 
                 if (value) {
-                    found.push(value);
+                    try {
+                        const url = element.resolveUrl(value);
+
+                        found.push(url);
+                    } catch (err) {
+                        // `url` is malformed, e.g.: just "http://`
+                        debug(err);
+
+                        context.report(value, `Broken link found (invalid URL).`);
+                    }
                 }
 
                 return found;
             }, []);
 
-            const srcset: string[] = parseSrcSet(element.getAttribute('srcset'));
+            const srcset: string[] = parseSrcSet(element);
 
             if (srcset.length > 0) {
                 urls.push(...srcset);
@@ -159,56 +169,35 @@ export default class NoBrokenLinksHint implements IHint {
             fetchedURLs.push({ statusCode: fetchEnd.response.statusCode, url: fetchEnd.resource });
         };
 
-        const createResourceURL = (resource: string) => {
-            const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
-            const baseTags: HTMLElement[] = pageDOM.querySelectorAll('base');
-            const hrefAttribute = (baseTags.length === 0) ? null : baseTags[0].getAttribute('href');
-
-            return (hrefAttribute === null) ? new URL(resource) : new URL(hrefAttribute, new URL(resource));
-        };
-
-        const createReports = (element: HTMLElement, urls: string[], resourceURL: URL): Promise<void>[] => {
+        const createReports = (element: HTMLElement, urls: string[]): Promise<void>[] => {
             return urls.map((url) => {
-                let fullURL: string;
-
-                try {
-                    fullURL = (new URL(url, resourceURL)).toString();
-                } catch (error) {
-                    // `url` is malformed, e.g.: just "http://`
-                    debug(error);
-
-                    context.report(url, `Broken link found (invalid URL).`);
-
-                    return Promise.resolve();
-                }
-
                 /*
                  * If the URL is not HTTP or HTTPS (e.g. `mailto:`),
                  * there is no need to validate.
                  */
-                if (!isRegularProtocol(fullURL)) {
+                if (!isRegularProtocol(url)) {
                     return Promise.resolve();
                 }
 
-                const fetched = getFetchedURL(fullURL);
+                const fetched = getFetchedURL(url);
 
                 if (fetched) {
                     const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
 
                     if (statusIndex > -1) {
-                        context.report(fullURL, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                        context.report(url, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
 
                         return Promise.resolve();
                     }
                 } else {
                     // An element which was not present in the fetch end results
                     return requester
-                        .get(fullURL)
+                        .get(url)
                         .then((value: NetworkData) => {
-                            handleSuccess(value, fullURL, element);
+                            handleSuccess(value, url, element);
                         })
                         .catch((error: any) => {
-                            return handleRejection(error, fullURL, element);
+                            return handleRejection(error, url, element);
                         });
                 }
 
@@ -217,10 +206,8 @@ export default class NoBrokenLinksHint implements IHint {
         };
 
         const validateCollectedURLs = async (event: TraverseEnd) => {
-            const resourceURL = createResourceURL(event.resource);
-
             const reports: Promise<void>[] = collectedElementsWithURLs.reduce<Promise<void>[]>((accumulatedReports, [element, urls]) => {
-                return [...accumulatedReports, ...createReports(element, urls, resourceURL)];
+                return [...accumulatedReports, ...createReports(element, urls)];
             }, []);
 
             await Promise.all(reports);

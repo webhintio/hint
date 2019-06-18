@@ -19,6 +19,7 @@ export type ElementEvents = {
     'element::aside': ElementFound;
     'element::audio': ElementFound;
     'element::b': ElementFound;
+    'element::base': ElementFound;
     'element::basefont': ElementFound;
     'element::bdi': ElementFound;
     'element::bdo': ElementFound;

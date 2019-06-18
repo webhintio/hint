@@ -1,3 +1,5 @@
+import { URL } from 'url';
+
 import * as isCI from 'is-ci';
 import compact = require('lodash/compact');
 import * as puppeteer from 'puppeteer-core';
@@ -185,7 +187,7 @@ export default class PuppeteerConnector implements IConnector {
             return;
         }
 
-        const event = onRequestFailedHandler(request, this._finalHref, this._dom);
+        const event = onRequestFailedHandler(request, this._dom);
 
         if (request.isNavigationRequest() && this._targetFailed) {
             this._targetFailed();
@@ -212,7 +214,7 @@ export default class PuppeteerConnector implements IConnector {
             return;
         }
 
-        const event = (await onResponseHandler(response, this._finalHref, this.fetchContent.bind(this), this._dom))!;
+        const event = (await onResponseHandler(response, this.fetchContent.bind(this), this._dom));
 
         if (!event) {
             this._pendingRequests.push(this.onResponse.bind(this, response));
@@ -227,7 +229,7 @@ export default class PuppeteerConnector implements IConnector {
             this._targetNetworkData = payload;
 
             if (name === 'fetch::end::html') {
-                this._originalDocument = createHTMLDocument(this._targetBody!);
+                this._originalDocument = createHTMLDocument(this._targetBody!, resource);
             }
         }
 
@@ -308,7 +310,7 @@ export default class PuppeteerConnector implements IConnector {
 
         const html = await this._page.content();
 
-        this._dom = createHTMLDocument(html, this._originalDocument);
+        this._dom = createHTMLDocument(html, this._finalHref, this._originalDocument);
 
         // Process pending requests now that the dom is ready
         while (this._pendingRequests.length > 0) {
