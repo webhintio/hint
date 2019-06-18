@@ -27,9 +27,8 @@ const getSrcsetUrls = (srcset: string): string[] => {
  * Get an HTMLElement given a URL.
  * @param {HTMLDocument} dom - HTMLDocument to perform the search.
  * @param {string} url - URL that the element has to contain.
- * @param {string} base - Base URL to create the final url.
  */
-export const getElementByUrl = (dom: HTMLDocument, url: string, base: string): HTMLElement | null => {
+export const getElementByUrl = (dom: HTMLDocument, url: string): HTMLElement | null => {
     // TODO: Cache dom.querySelectorAll?.
     const elements = dom.querySelectorAll('[href],[src],[poster],[srcset]').filter((element: any) => {
         const elementUrl = element.getAttribute('href') || element.getAttribute('src') || element.getAttribute('poster');
@@ -47,7 +46,7 @@ export const getElementByUrl = (dom: HTMLDocument, url: string, base: string): H
              * (e.g.: just `http://`), creating a new `URL` will fail.
              */
             try {
-                const { href } = new URL(relativeUrl, base);
+                const { href } = new URL(relativeUrl, dom.base);
 
                 return href;
             } catch (e) {

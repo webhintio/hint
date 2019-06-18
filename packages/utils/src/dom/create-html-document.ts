@@ -9,11 +9,11 @@ import { HTMLDocument } from './html';
  * @param {string} html - html to create the object HTMLDocument
  * @param originalDocument - Previous snatshop of the html.
  */
-export const createHTMLDocument = (html: string, originalDocument?: HTMLDocument): HTMLDocument => {
+export const createHTMLDocument = (html: string, finalHref: string, originalDocument?: HTMLDocument): HTMLDocument => {
     const dom = parse5.parse(html, {
         sourceCodeLocationInfo: !originalDocument,
         treeAdapter: htmlparser2Adapter
     }) as DocumentData;
 
-    return new HTMLDocument(dom, originalDocument);
+    return new HTMLDocument(dom, finalHref, originalDocument);
 };

@@ -1,3 +1,5 @@
+import { URL } from 'url';
+
 import * as parse5 from 'parse5';
 import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
 import * as cssSelect from 'css-select';
@@ -9,11 +11,11 @@ import { INamedNodeMap } from '../types/html';
 import { DocumentData, ElementData } from '../types/snapshot';
 
 export class HTMLElement {
-    public ownerDocument?: HTMLDocument;
+    public ownerDocument: HTMLDocument;
 
     private _element: ElementData;
 
-    public constructor(element: ElementData | HTMLElement, ownerDocument?: HTMLDocument) {
+    public constructor(element: ElementData | HTMLElement, ownerDocument: HTMLDocument) {
         this._element = element instanceof HTMLElement ? element._element : element;
         this.ownerDocument = ownerDocument;
     }
@@ -67,7 +69,7 @@ export class HTMLElement {
         }
 
         // If not, try to match an element in the original document to use it's location.
-        if (this.ownerDocument && this.ownerDocument.originalDocument) {
+        if (this.ownerDocument.originalDocument) {
             const match = findOriginalElement(this.ownerDocument.originalDocument, this);
 
             if (match) {
@@ -164,18 +166,35 @@ export class HTMLElement {
 
         return result;
     }
+
+    public resolveUrl(url: string) {
+        return this.ownerDocument.resolveUrl(url);
+    }
 }
 
 export class HTMLDocument {
     private _document: DocumentData;
     private _pageHTML = '';
+    private _base: string;
 
     public originalDocument?: HTMLDocument;
 
-    public constructor(document: DocumentData, originalDocument?: HTMLDocument) {
+    public constructor(document: DocumentData, finalHref: string, originalDocument?: HTMLDocument) {
         this._document = document;
         this.originalDocument = originalDocument;
         this._pageHTML = parse5.serialize(document, { treeAdapter: htmlparser2Adapter });
+        this._base = this.getBaseUrl(finalHref);
+    }
+
+    private getBaseUrl(finalHref: string): string {
+        const baseElement = this.querySelectorAll('base[href]')[0];
+        const baseHref = baseElement ? baseElement.getAttribute('href') : null;
+
+        if (!baseHref) {
+            return new URL(finalHref).href;
+        }
+
+        return new URL(baseHref, finalHref).href;
     }
 
     public get documentElement(): HTMLElement {
@@ -184,6 +203,10 @@ export class HTMLDocument {
         }) as ElementData;
 
         return new HTMLElement(htmlNode, this);
+    }
+
+    public get base(): string {
+        return this._base;
     }
 
     public pageHTML(): string {
@@ -198,5 +221,9 @@ export class HTMLDocument {
         });
 
         return result;
+    }
+
+    public resolveUrl(url: string) {
+        return new URL(url, this._base).href;
     }
 }
