@@ -115,6 +115,10 @@
         "message": "Performance",
         "description": "Name of category for performance tests."
     },
+    "pictureOfMascot": {
+        "message": "A picture of webhint's mascot, Nellie the Narwhal, working at a computer.",
+        "description": "Description for image shown while analyzing."
+    },
     "pitfalls": {
         "message": "Pitfalls",
         "description": "Name of category for tests which identify common mistakes."
