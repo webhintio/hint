@@ -3,8 +3,8 @@ import test from 'ava';
 import { createHTMLDocument, findOriginalElement } from '../../src/dom/';
 
 const compare = (originalSource: string, snapshotSource: string) => {
-    const originalDocument = createHTMLDocument(originalSource);
-    const snapshotDocument = createHTMLDocument(snapshotSource);
+    const originalDocument = createHTMLDocument(originalSource, 'http://example.com');
+    const snapshotDocument = createHTMLDocument(snapshotSource, 'http://example.com');
 
     const originalElement = originalDocument.querySelectorAll('[data-original]')[0] || null;
     const snapshotElement = snapshotDocument.querySelectorAll('[data-snapshot]')[0];

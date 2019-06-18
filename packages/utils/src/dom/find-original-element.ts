@@ -34,7 +34,7 @@ const findMatch = (document: HTMLDocument, element: HTMLElement, query: string, 
     let matchIndex = 0;
 
     // Handle duplicates by aligning on the nth match across current and original docs.
-    if (matches.length > 1 && element.ownerDocument) {
+    if (matches.length > 1) {
         const ownerMatches = findMatches(element.ownerDocument, query, test);
 
         matchIndex = ownerMatches.findIndex((match) => {

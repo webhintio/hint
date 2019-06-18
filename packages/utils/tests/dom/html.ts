@@ -15,13 +15,17 @@ const html = fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'test-html.h
 const serializedHTML = fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'serialized-test-html.html'), 'utf-8'); // eslint-disable-line no-sync
 
 test.beforeEach((t) => {
-    t.context.document = createHTMLDocument(html);
+    t.context.document = createHTMLDocument(html, 'http://example.com');
 });
 
 test('HTMLDocument.dom() should return the html node', (t) => {
     const dom = t.context.document.documentElement;
 
     t.is(dom.nodeName, 'html');
+});
+
+test('HTMLDocument.base should return the base url', (t) => {
+    t.is(t.context.document.base, 'http://example.com/resources/');
 });
 
 test('HTMLDocument.pageHTML() should return the html code', (t) => {
@@ -68,7 +72,7 @@ test('HTMLElement.getLocation() should return the element location', (t) => {
     const item = t.context.document.querySelectorAll('.title')[0];
     const location = item.getLocation();
 
-    t.is(location && location.line, 3);
+    t.is(location && location.line, 6);
     t.is(location && location.column, 9);
 });
 

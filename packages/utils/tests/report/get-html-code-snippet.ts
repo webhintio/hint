@@ -8,7 +8,7 @@ import { getHTMLCodeSnippet } from '../../src/report/get-html-code-snippet';
 
 const html = fs.readFileSync(path.join(__dirname, '..', 'fixtures', 'html-report.html'), 'utf-8'); // eslint-disable-line no-sync
 
-const htmlDocument = createHTMLDocument(html);
+const htmlDocument = createHTMLDocument(html, 'http://example.com');
 
 test('If opening tag is bigger than threshold, nothing happend', (t) => {
     const element = htmlDocument.querySelectorAll('meta')[0];
