@@ -1,7 +1,7 @@
 # Unneeded HTTP headers (`no-html-only-headers`)
 
 `no-html-only-headers` warns against responding with HTTP headers that
-are not needed for non-HTML resources.
+are not needed for non-HTML (or non-XML) resources.
 
 ## Why is this important?
 
@@ -21,6 +21,9 @@ HTTP headers:
 * `X-WebKit-CSP`
 * `X-XSS-Protection`
 
+In case of a JavaScript file, `Content-Security-Policy` and
+`X-Content-Security-Policy` will be ignored.
+
 ### Examples that **trigger** the hint
 
 Response for `/test.js`:
@@ -30,8 +33,6 @@ HTTP/... 200 OK
 
 Content-Type: text/javascript; charset=utf-8
 ...
-Content-Security-Policy: default-src 'none'
-X-Content-Security-Policy: default-src 'none'
 X-Frame-Options: DENY
 X-UA-Compatible: IE=Edge,
 X-WebKit-CSP: default-src 'none'
@@ -63,6 +64,8 @@ Response for `/test.js`:
 HTTP/... 200 OK
 
 Content-Type: text/javascript; charset=utf-8
+Content-Security-Policy: default-src 'none'
+X-Content-Security-Policy: default-src 'none'
 ...
 ```
 
@@ -72,6 +75,22 @@ Response for `/test.html`:
 HTTP/... 200 OK
 
 Content-Type: text/html
+...
+Content-Security-Policy: default-src 'none'
+X-Content-Security-Policy: default-src 'none'
+X-Frame-Options: DENY
+X-UA-Compatible: IE=Edge,
+X-WebKit-CSP: default-src 'none'
+X-XSS-Protection: 1; mode=block
+...
+```
+
+Response for `/test.xml`:
+
+```text
+HTTP/... 200 OK
+
+Content-Type: application/xhtml+xml
 ...
 Content-Security-Policy: default-src 'none'
 X-Content-Security-Policy: default-src 'none'
