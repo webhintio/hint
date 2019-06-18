@@ -72,8 +72,10 @@
  * Dark scrollbar styles for Firefox.
  * https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color
  */
-.root[data-theme='dark'] {
-    scrollbar-color: #737373 #3c3c3d;
+@supports (scrollbar-color: #737373 #3c3c3d) {
+    .root[data-theme='dark'] {
+        scrollbar-color: #737373 #3c3c3d;
+    }
 }
 
 /*
