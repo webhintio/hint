@@ -106,6 +106,36 @@ const checkSecoundLine = (line) => {
     return issues;
 };
 
+const checkPackagesModified = (files) => {
+    const issues = [];
+    const packages = files.reduce((pkgs, file) => {
+        const pathParts = file.split('/');
+
+        if (pathParts[0] === 'packages') {
+            pkgs.add(pathParts[1]);
+        }
+
+        return pkgs;
+    }, new Set());
+
+    if (packages.size > 1) {
+        issues.push(`[Line 1] A breaking change cannot affect to more than one package. Packages affected:\n    - ${[...packages].join('\n    - ')}`);
+    }
+
+    return issues;
+};
+
+const checkBreakingChange = (line, files) => {
+    let issues = [];
+    const isBreakingChange = line.startsWith('Breaking:');
+
+    if (isBreakingChange) {
+        issues = checkPackagesModified(files);
+    }
+
+    return issues;
+};
+
 const checkLine = (line, lineNumber) => {
     const chars = ucs2.decode(line);
     let issues = [];
@@ -132,6 +162,18 @@ const getUncommentedLines = (lines) => {
     });
 };
 
+const getCommittedFiles = () => {
+    const filesString = shell.exec('git diff --name-only --cached').toString();
+
+    return filesString.split('\n').reduce((files, file) => {
+        if (file) {
+            files.push(file.trim());
+        }
+
+        return files;
+    }, []);
+};
+
 const getCommitData = () => {
     const commits = [];
 
@@ -143,6 +185,7 @@ const getCommitData = () => {
 
     if (shell.test('-f', COMMIT_MESSAGE_FILE)) {
         commits.push({
+            files: getCommittedFiles(),
             message: shell.cat(COMMIT_MESSAGE_FILE),
             sha: null
         });
@@ -202,7 +245,7 @@ const checkCommit = (commit) => {
     const commitMsgLines = getUncommentedLines(commit.message.split('\n'));
     let issues = [];
 
-    issues = [...checkFirstLine(commitMsgLines[0]), ...checkSecoundLine(commitMsgLines[1])];
+    issues = [...checkFirstLine(commitMsgLines[0]), ...checkSecoundLine(commitMsgLines[1]), ...checkBreakingChange(commitMsgLines[0], commit.files)];
 
     for (let i = 2; i < commitMsgLines.length; i++) {
         issues = [...issues, ...checkLine(commitMsgLines[i], i + 1)];
@@ -215,7 +258,7 @@ const checkCommit = (commit) => {
             commitMsg += `  > ${line}\n`;
         });
 
-        console.error(`\n* The commit message${commit.sha ? ` (for ${commit.sha})`: ''}:
+        console.error(`\n* The commit message${commit.sha ? ` (for ${commit.sha})` : ''}:
 
 ${commitMsg}
   does not respect the conventions, namely:
