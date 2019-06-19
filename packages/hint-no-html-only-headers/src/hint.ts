@@ -37,10 +37,21 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             'content-security-policy',
             'feature-policy',
             'x-content-security-policy',
-            'x-frame-options',
             'x-ua-compatible',
             'x-webkit-csp',
             'x-xss-protection'
+        ];
+
+        const exceptionHeaders: string[] = [
+            'content-security-policy',
+            'x-content-security-policy',
+            'x-webkit-csp'
+        ];
+
+        const exceptionMediaTypes: string[] = [
+            'application/pdf',
+            'image/svg+xml',
+            'text/javascript'
         ];
 
         const loadHintConfigs = () => {
@@ -103,8 +114,8 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             if (!willBeTreatedAsHTML(response)) {
                 let headersToValidate: string[] = unneededHeaders;
 
-                if (response.mediaType === 'text/javascript') {
-                    headersToValidate = mergeIgnoreIncludeArrays(headersToValidate, ['content-security-policy', 'x-content-security-policy'], []);
+                if (exceptionMediaTypes.includes(response.mediaType)) {
+                    headersToValidate = mergeIgnoreIncludeArrays(headersToValidate, exceptionHeaders, []);
                 }
                 const headers: string[] = includedHeaders(response.headers, headersToValidate);
                 const numberOfHeaders: number = headers.length;

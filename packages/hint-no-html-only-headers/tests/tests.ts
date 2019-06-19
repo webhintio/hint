@@ -15,7 +15,7 @@ const testsForDefaults: HintTest[] = [
         name: `Non HTML resource is served without unneeded headers`,
         serverConfig: {
             '/': {
-                content: htmlPage,
+                content: generateHTMLPage(undefined, '<img src="test.svg"/><script src="test.js"></script><embed src="test.pdf" type="application/pdf">'),
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',
                     'X-Frame-Options': 'SAMEORIGIN'
@@ -24,7 +24,25 @@ const testsForDefaults: HintTest[] = [
             '/test.js': {
                 headers: {
                     'Content-Security-Policy': 'default-src "none"',
-                    'Content-Type': 'application/javascript; charset=utf-8'
+                    'Content-Type': 'application/javascript; charset=utf-8',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            },
+            '/test.pdf': {
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'application/pdf',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            },
+            '/test.svg': {
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'image/svg+xml',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
                 }
             }
         }
@@ -39,9 +57,7 @@ const testsForDefaults: HintTest[] = [
             {
                 message: generateMessage([
                     'feature-policy',
-                    'x-frame-options',
                     'x-ua-compatible',
-                    'x-webkit-csp',
                     'x-xss-protection'
                 ])
             }
