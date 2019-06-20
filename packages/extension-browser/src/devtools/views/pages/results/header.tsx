@@ -46,7 +46,7 @@ const ResultsHeader = ({ onConfigureClick, showPassed, setShowPassed, url }: Pro
                 </Button>
                 <Label className={styles.showPassedHints}>
                     <Toggle checked={showPassed} onChange={onShowPassedChange} />
-                    <LabelText>
+                    <LabelText className={styles.showPassedHintsLabel}>
                         {getMessage('showPassedHintsLabel')}
                     </LabelText>
                 </Label>

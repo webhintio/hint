@@ -32,3 +32,7 @@
 .showPassedHints {
     text-align: right;
 }
+
+.showPassedHintsLabel {
+    margin-bottom: 0.125rem;
+}
