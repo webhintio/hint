@@ -25,7 +25,7 @@ export default class CreateElementSvgHint implements IHint {
          * the correct identifier property for creating SVG elements is
          * 'createElementNS'
          */
-        context.on('parse::end::javascript', ({ ast, element, resource, walk }) => {
+        context.on('parse::end::javascript', ({ ast, element, resource, sourceCode, walk }) => {
 
             debug(`Validating hint create-element-svg`);
 
@@ -43,12 +43,21 @@ export default class CreateElementSvgHint implements IHint {
 
                     if (arg && 'value' in arg && typeof arg.value === 'string' && svgElements.has(arg.value.toLowerCase())) {
                         const message = 'SVG elements cannot be created with createElement; use createElementNS instead';
-                        const location = node.callee.property.loc ? {
-                            column: node.callee.property.loc.start.column,
-                            line: node.callee.property.loc.start.line - 1
-                        } : null;
+                        const loc = node.callee.property.loc;
+                        const codeLanguage = 'javascript';
 
-                        context.report(resource, message, { element, location });
+                        let codeSnippet = '';
+                        let location = null;
+
+                        if (loc) {
+                            codeSnippet = sourceCode.substring((node as any).start, (node as any).end);
+                            location = {
+                                column: loc.start.column,
+                                line: loc.start.line - 1
+                            };
+                        }
+
+                        context.report(resource, message, { codeLanguage, codeSnippet, element, location });
                     }
                 }
             });
