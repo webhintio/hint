@@ -119,7 +119,7 @@ const checkPackagesModified = (files) => {
     }, new Set());
 
     if (packages.size > 1) {
-        issues.push(`[Line 1] A breaking change cannot affect to more than one package. Packages affected:\n    - ${[...packages].join('\n    - ')}`);
+        issues.push(`A breaking change cannot affect to more than one package. Packages affected:\n    - ${[...packages].join('\n    - ')}`);
     }
 
     return issues;
