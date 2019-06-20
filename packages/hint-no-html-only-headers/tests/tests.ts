@@ -17,8 +17,10 @@ const testsForDefaults: HintTest[] = [
             '/': {
                 content: generateHTMLPage(undefined, '<img src="test.svg"/><script src="test.js"></script><embed src="test.pdf" type="application/pdf">'),
                 headers: {
+                    'Content-Security-Policy': 'default-src "none"',
                     'Content-Type': 'text/html; charset=utf-8',
-                    'X-Frame-Options': 'SAMEORIGIN'
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
                 }
             },
             '/test.js': {
@@ -48,6 +50,50 @@ const testsForDefaults: HintTest[] = [
         }
     },
     {
+        name: `Non HTML resource is served without unneeded headers and with application/xhtml+xml content type`,
+        serverConfig: {
+            '/': {
+                content: generateHTMLPage(undefined, '<script src="test.js"></script>'),
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'application/xhtml+xml; charset=utf-8',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            },
+            '/test.js': {
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'application/javascript; charset=utf-8',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            }
+        }
+    },
+    {
+        name: `Non HTML resource is served without unneeded headers and with text/xml content type`,
+        serverConfig: {
+            '/': {
+                content: generateHTMLPage(undefined, '<script src="test.js"></script>'),
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'text/xml; charset=utf-8',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            },
+            '/test.js': {
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'application/javascript; charset=utf-8',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            }
+        }
+    },
+    {
         name: `Non HTML resource is specified as a data URI`,
         serverConfig: { '/': generateHTMLPage(undefined, '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">') }
     },
@@ -68,7 +114,6 @@ const testsForDefaults: HintTest[] = [
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',
                     'X-Content-Security-Policy': 'default-src "none"',
-                    'X-Frame-Options': 'DENY',
                     'X-UA-Compatible': 'IE=Edge',
                     'X-WebKit-CSP': 'default-src "none"',
                     'X-XSS-Protection': '1; mode=block'
@@ -80,7 +125,6 @@ const testsForDefaults: HintTest[] = [
                     'Content-Type': 'application/javascript; charset=utf-8',
                     'Feature-Policy': `geolocation 'self'`,
                     'X-Content-Security-Policy': 'default-src "none"',
-                    'X-Frame-Options': 'DENY',
                     'X-UA-Compatible': 'IE=Edge',
                     'X-WebKit-CSP': 'default-src "none"',
                     'X-XSS-Protection': '1; mode=block'
@@ -138,7 +182,6 @@ const testsForIgnoreConfigs: HintTest[] = [
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',
                     'Feature-Policy': `geolocation 'self'`,
-                    'X-Frame-Options': 'SAMEORIGIN',
                     'X-UA-Compatible': 'IE=Edge'
                 }
             },
@@ -169,7 +212,6 @@ const testsForIncludeConfigs: HintTest[] = [
                 content: htmlPage,
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',
-                    'X-Frame-Options': 'SAMEORIGIN',
                     'X-Test-1': 'test',
                     'X-Test-2': 'test'
                 }
@@ -202,7 +244,6 @@ const testsForConfigs: HintTest[] = [
                 content: htmlPage,
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',
-                    'X-Frame-Options': 'SAMEORIGIN',
                     'X-Test-1': 'test',
                     'X-Test-2': 'test'
                 }
@@ -225,7 +266,7 @@ testHint(hintPath, testsForIgnoreConfigs, { hintOptions: { ignore: ['X-UA-Compat
 testHint(hintPath, testsForIncludeConfigs, { hintOptions: { include: ['X-Test-1', 'X-Test-2'] } });
 testHint(hintPath, testsForConfigs, {
     hintOptions: {
-        ignore: ['X-Frame-Options', 'X-Test-2', 'X-Test-3'],
+        ignore: ['X-Test-2', 'X-Test-3'],
         include: ['X-Test-1', 'X-Test-2', 'X-UA-Compatible']
     }
 });
