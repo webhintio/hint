@@ -33,14 +33,27 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        let unneededHeaders: string[] = [
+        let unneededHeaders = [
             'content-security-policy',
             'feature-policy',
             'x-content-security-policy',
-            'x-frame-options',
             'x-ua-compatible',
             'x-webkit-csp',
             'x-xss-protection'
+        ];
+
+        // TODO: Remove once https://github.com/webhintio/hint/issues/25 is implemented.
+        const exceptionHeaders = [
+            'content-security-policy',
+            'x-content-security-policy',
+            'x-webkit-csp'
+        ];
+
+        // TODO: Remove once https://github.com/webhintio/hint/issues/25 is implemented.
+        const exceptionMediaTypes = [
+            'application/pdf',
+            'image/svg+xml',
+            'text/javascript'
         ];
 
         const loadHintConfigs = () => {
@@ -51,8 +64,8 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
         };
 
         const willBeTreatedAsHTML = (response: Response): boolean => {
-            const contentTypeHeader: string | undefined = response.headers['content-type'];
-            const mediaType: string = contentTypeHeader ? contentTypeHeader.split(';')[0].trim() : '';
+            const contentTypeHeader = response.headers['content-type'];
+            const mediaType = contentTypeHeader ? contentTypeHeader.split(';')[0].trim() : '';
 
             /*
              * By default, browsers will treat resource sent with the
@@ -61,6 +74,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
 
             if ([
                 'text/html',
+                'text/xml',
                 'application/xhtml+xml'
             ].includes(mediaType)) {
                 return true;
@@ -101,8 +115,13 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             }
 
             if (!willBeTreatedAsHTML(response)) {
-                const headers: string[] = includedHeaders(response.headers, unneededHeaders);
-                const numberOfHeaders: number = headers.length;
+                let headersToValidate = unneededHeaders;
+
+                if (exceptionMediaTypes.includes(response.mediaType)) {
+                    headersToValidate = mergeIgnoreIncludeArrays(headersToValidate, exceptionHeaders, []);
+                }
+                const headers = includedHeaders(response.headers, headersToValidate);
+                const numberOfHeaders = headers.length;
 
                 if (numberOfHeaders > 0) {
                     const message = `Response should not include unneeded ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`;
