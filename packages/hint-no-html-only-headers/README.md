@@ -113,12 +113,12 @@ you can do something such as the following:
     # Because `mod_headers` cannot match based on the content-type,
     # the following workaround needs to be used.
 
-    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|m?js|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|m?js|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xpi)$">
         Header unset X-UA-Compatible
         Header unset X-XSS-Protection
     </FilesMatch>
 
-    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|mjs|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|png|rdf|rss|safariextz|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|png|rdf|rss|safariextz|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xpi)$">
         Header unset Content-Security-Policy
         Header unset X-Content-Security-Policy
         Header unset X-WebKit-CSP
@@ -160,14 +160,14 @@ any resource whose `Content-Type` header isn't `text/html`:
                  <rule name="Content-Security-Policy">
                     <match serverVariable="RESPONSE_Content_Security_Policy" pattern=".*" />
                     <conditions>
-                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^(text/html|text/javascript|application/pdf|image/svg+xml)" negate="true" />
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^(text/html|text/xml|application/xhtml+xml|text/javascript|application/pdf|image/svg+xml)" negate="true" />
                     </conditions>
                     <action type="Rewrite" value=""/>
                 </rule>
                 <rule name="X-Content-Security-Policy">
                     <match serverVariable="RESPONSE_X_Content_Security_Policy" pattern=".*" />
                     <conditions>
-                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^(text/html|text/javascript|application/pdf|image/svg+xml)" negate="true" />
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^(text/html|text/xml|application/xhtml+xml|text/javascript|application/pdf|image/svg+xml)" negate="true" />
                     </conditions>
                     <action type="Rewrite" value=""/>
                 </rule>
@@ -181,7 +181,7 @@ any resource whose `Content-Type` header isn't `text/html`:
                 <rule name="X-WebKit-CSP">
                     <match serverVariable="RESPONSE_X_Webkit_csp" pattern=".*" />
                     <conditions>
-                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^(text/html|text/javascript|application/pdf|image/svg+xml)" negate="true" />
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^(text/html|text/xml|application/xhtml+xml|text/javascript|application/pdf|image/svg+xml)" negate="true" />
                     </conditions>
                     <action type="Rewrite" value=""/>
                 </rule>
