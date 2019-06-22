@@ -433,7 +433,7 @@ In the [`.hintrc`][hintrc] file:
 }
 ```
 
-Note: You can also use the [`ignoredUrls`][hint configuration]
+Note: You can also use the [`ignoredUrls`][ignoring domains]
 property from the `.hintrc` file to exclude domains you don’t control
 (e.g.: CDNs) from these checks.
 
@@ -501,4 +501,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [mimeMap]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/staticcontent/mimemap
 [x content type options]: https://webhint.io/docs/user-guide/hints/hint-x-content-type-options/
 [meta charset hint]: https://webhint.io/docs/user-guide/hints/hint-meta-charset-utf-8/
-[hint configuration]: https://webhint.io/docs/user-guide/concepts/hints/#hint-configuration
+[ignoring domains]: https://webhint.io/docs/user-guide/configuring-webhint/ignoring-domains/
