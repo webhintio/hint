@@ -150,4 +150,4 @@ bogus element was used.
 [browser-compat]: https://github.com/mdn/browser-compat-data
 [browser-context]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
 [browserslist]: https://github.com/browserslist/browserslist#readme
-[target-browsers]: ../../hint/docs/user-guide/configuring-webhint/browser-context.md
+[target-browsers]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
