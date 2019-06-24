@@ -1,0 +1,10 @@
+{
+    "@hint/hint-button-type/attributeNotSet": {
+        "message": "Button type attribute has not been set",
+        "description": "Message to show when a button doesn't have a type attribute."
+    },
+    "@hint/hint-button-type/invalidType": {
+        "message": "Invalid button type: %s",
+        "description": "Message to show when a button type attribute is not valid."
+    }
+}

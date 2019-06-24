@@ -48,12 +48,13 @@ export type IgnoredUrl = {
 };
 
 export type UserConfig = {
+    browserslist?: string | string[];
     connector?: ConnectorConfig | string;
     extends?: string[];
-    parsers?: string[];
-    hints?: HintsConfigObject | [HintSeverity, HintConfig][];
-    browserslist?: string | string[];
-    hintsTimeout?: number;
     formatters?: string[];
+    hints?: HintsConfigObject | [HintSeverity, HintConfig][];
+    hintsTimeout?: number;
     ignoredUrls?: IgnoredUrl[];
+    language?: string;
+    parsers?: string[];
 };

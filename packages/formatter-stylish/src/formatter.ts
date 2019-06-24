@@ -22,6 +22,8 @@ const stripAnsi = require('strip-ansi');
 import { debug as d, fs, logger, misc } from '@hint/utils';
 import { FormatterOptions, IFormatter, Problem, Severity } from 'hint';
 
+import { getMessage } from './i18n.import';
+
 const { cutString } = misc;
 
 const _ = {
@@ -30,7 +32,7 @@ const _ = {
     reduce,
     sortBy
 };
-const {writeFileAsync} = fs;
+const { writeFileAsync } = fs;
 const debug = d(__filename);
 
 const printPosition = (position: number, text: string) => {
@@ -79,8 +81,8 @@ export default class StylishFormatter implements IFormatter {
                     warnings++;
                 }
 
-                const line: string = printPosition(msg.location.line, 'line');
-                const column: string = printPosition(msg.location.column, 'col');
+                const line: string = printPosition(msg.location.line, getMessage('@hint/formatter-stylish/line', { language: options.language }));
+                const column: string = printPosition(msg.location.column, getMessage('@hint/formatter-stylish/col', { language: options.language }));
 
                 if (line) {
                     hasPosition = true;
@@ -106,15 +108,34 @@ export default class StylishFormatter implements IFormatter {
             totalErrors += errors;
             totalWarnings += warnings;
 
-            partialResult += color.bold(`${logSymbols.error} Found ${errors} ${errors === 1 ? 'error' : 'errors'} and ${warnings} ${warnings === 1 ? 'warning' : 'warnings'}`);
+            const foundMessage = getMessage('@hint/formatter-stylish/partialFound', {
+                language: options.language,
+                substitutions: [
+                    errors.toString(),
+                    errors === 1 ? getMessage('@hint/formatter-stylish/error') : getMessage('@hint/formatter-stylish/errors'),
+                    warnings.toString(),
+                    warnings === 1 ? getMessage('@hint/formatter-stylish/warning') : getMessage('@hint/formatter-stylish/warnings')
+                ]
+            });
+
+            partialResult += color.bold(`${logSymbols.error} ${foundMessage}`);
             partialResult += '\n\n';
 
             return total + partialResult;
         }, '');
 
         const color: typeof chalk = totalErrors > 0 ? chalk.red : /* istanbul ignore next */ chalk.yellow;
+        const foundTotalMessage = getMessage('@hint/formatter-stylish/totalFound', {
+            language: options.language,
+            substitutions: [
+                totalErrors.toString(),
+                totalErrors === 1 ? getMessage('@hint/formatter-stylish/error') : getMessage('@hint/formatter-stylish/errors'),
+                totalWarnings.toString(),
+                totalWarnings === 1 ? getMessage('@hint/formatter-stylish/warning') : getMessage('@hint/formatter-stylish/warnings')
+            ]
+        });
 
-        result += color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? /* istanbul ignore next */ 'warning' : 'warnings'}`);
+        result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);
 
         if (!options.output) {
             logger.log(result);

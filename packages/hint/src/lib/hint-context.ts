@@ -35,7 +35,7 @@ export type ReportOptions = {
     location?: ProblemLocation | null;
     /** The `Severity` to report the issue as (overrides default settings for a hint). */
     severity?: Severity;
-    /** Indicate the language of the codeSnippet */
+    /** Indicate the language of the codeSnippet. */
     codeLanguage?: CodeLanguage;
 };
 
@@ -156,5 +156,9 @@ export class HintContext<E extends Events = Events> {
         return this.ignoredUrls.some((urlIgnored: RegExp) => {
             return urlIgnored.test(resource);
         });
+    }
+
+    public get language() {
+        return this.engine.language;
     }
 }

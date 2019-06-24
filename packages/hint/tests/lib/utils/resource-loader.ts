@@ -332,6 +332,7 @@ test('loadResources loads all the resources of a given config', async (t) => {
         hints: { hint1: 'error' },
         hintsTimeout: 1000,
         ignoredUrls: new Map(),
+        language: '',
         parsers: []
     };
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');

@@ -24,3 +24,4 @@ package-lock.json
 packages/*/yarn.lock
 yarn-error.log
 !packages/utils/tests/fixtures/packages/node_modules
+i18n.import.ts

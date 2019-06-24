@@ -142,6 +142,7 @@ test(`If config.hints has some hints "off", we shouldn't create those hints`, (t
         },
         hintsTimeout: 60000,
         ignoredUrls: new Map(),
+        language: '',
         parsers: []
     } as Configuration, {
         connector: FakeConnector,

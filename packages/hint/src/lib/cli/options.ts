@@ -84,6 +84,12 @@ export const options = optionator({
             description: `Save the formatter output to a file, in case of 'html' or 'excel' formatter, save the result with the name specified`,
             option: 'output',
             type: 'String'
+        },
+        {
+            alias: 'l',
+            description: 'Explicity specify the language to use',
+            option: 'language',
+            type: 'String'
         }
     ],
     prepend: 'hint [options] https://url.com'

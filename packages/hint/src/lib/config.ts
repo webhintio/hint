@@ -172,6 +172,12 @@ const updateConfigWithOptionsValues = (config: UserConfig, options: CreateAnalyz
         config.hints = buildHintsConfigFromHintNames(options.hints, 'error');
         debug(`Using hints option provided from command line: ${options.hints.join(', ')}`);
     }
+
+    // If language is provided, use it
+    if (options.language) {
+        config.language = options.language;
+        debug(`Using language option provided from command line: ${options.language}`);
+    }
 };
 
 export class Configuration {
@@ -183,6 +189,7 @@ export class Configuration {
     public readonly hints: HintsConfigObject;
     public readonly hintsTimeout: number;
     public readonly extends: string[] | undefined;
+    public readonly language: string | undefined;
 
     private constructor(userConfig: UserConfig, browsers: string[], ignoredUrls: Map<string, RegExp[]>, hints: HintsConfigObject) {
         this.browserslist = browsers;
@@ -191,6 +198,7 @@ export class Configuration {
         this.parsers = userConfig.parsers;
         this.hints = hints;
         this.extends = userConfig.extends;
+        this.language = userConfig.language;
 
         this.hintsTimeout = userConfig.hintsTimeout || 60000;
 

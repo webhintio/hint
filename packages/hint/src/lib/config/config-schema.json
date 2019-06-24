@@ -129,6 +129,10 @@
                 ]
             },
             "uniqueItems": true
+        },
+        "language": {
+            "description": "Localization language",
+            "type": "string"
         }
     },
     "anyOf": [

@@ -7,6 +7,7 @@ import { IHint, ElementFound } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils/dist/src/debug';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -33,9 +34,12 @@ export default class ButtonTypeHint implements IHint {
             const elementType = element.getAttribute('type');
 
             if (elementType === null || elementType === '') {
-                context.report(resource, 'Button type attribute has not been set', { element });
+                context.report(resource, getMessage('@hint/hint-button-type/attributeNotSet', { language: context.language }), { element });
             } else if (!allowedTypes.includes(elementType.toLowerCase())) {
-                context.report(resource, `Invalid button type: ${elementType}`, { element });
+                context.report(resource, getMessage('@hint/hint-button-type/invalidType', {
+                    language: context.language,
+                    substitutions: elementType
+                }), { element });
             }
         };
 
