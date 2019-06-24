@@ -29,7 +29,7 @@
     "nyc": "^14.1.0",
     "postcss": "^7.0.17",
     "rimraf": "^2.6.3",
-    "semver": "^6.1.1",
+    "semver": "^6.1.2",
     "typescript": "^3.5.1"
   },
   "engines": {
