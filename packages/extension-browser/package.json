@@ -6,6 +6,7 @@
     ],
     "timeout": "1m"
   },
+  "browserslist": "last 2 chrome versions, last 2 firefox versions",
   "bundleSize": 620000,
   "description": "webhint browser extension",
   "devDependencies": {
