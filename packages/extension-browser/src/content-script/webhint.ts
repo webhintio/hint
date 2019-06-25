@@ -81,6 +81,7 @@ const main = async (userConfig: Config) => {
         hints: hintsConfig,
         hintsTimeout: 10000,
         ignoredUrls: determineIgnoredUrls(userConfig.ignoredUrls),
+        language: 'en-US',
         parsers: ['css', 'html', 'javascript', 'manifest']
     };
 

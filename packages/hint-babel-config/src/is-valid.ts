@@ -6,6 +6,7 @@ import { HintContext, IHint } from 'hint';
 import { BabelConfigEvents, BabelConfigExtendsError, BabelConfigInvalidJSON, BabelConfigInvalidSchema } from '@hint/parser-babel-config';
 
 import meta from './meta/is-valid';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -21,7 +22,7 @@ export default class BabelConfigIsValidHint implements IHint {
         const invalidJSONFile = (babelConfigInvalid: BabelConfigInvalidJSON, event: string) => {
             const { error, resource } = babelConfigInvalid;
 
-            debug(`${event} received`);
+            debug(getMessage('eventReceived', context.language, event));
 
             context.report(resource, error.message);
         };
@@ -29,7 +30,7 @@ export default class BabelConfigIsValidHint implements IHint {
         const invalidExtends = (babelConfigInvalid: BabelConfigExtendsError, event: string) => {
             const { error, resource, getLocation } = babelConfigInvalid;
 
-            debug(`${event} received`);
+            debug(getMessage('eventReceived', context.language, event));
 
             context.report(resource, error.message, { location: getLocation('extends') });
         };
@@ -37,7 +38,7 @@ export default class BabelConfigIsValidHint implements IHint {
         const invalidSchema = (fetchEnd: BabelConfigInvalidSchema) => {
             const { groupedErrors, resource } = fetchEnd;
 
-            debug(`parse::error::babel-config::schema received`);
+            debug(getMessage('eventReceived', context.language, 'parse::error::babel-config::schema'));
 
             for (let i = 0; i < groupedErrors.length; i++) {
                 const groupedError = groupedErrors[i];

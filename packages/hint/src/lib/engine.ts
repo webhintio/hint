@@ -61,7 +61,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
     private ignoredUrls: Map<string, RegExp[]>;
     private _formatters: IFormatter[]
     private _timeout: number = 60000;
-    private _lang?: string;
+    private _lang: string;
 
     /** The DOM of the loaded page. */
     public get pageDOM(): HTMLDocument | undefined {
@@ -115,7 +115,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
         this.messages = [];
         this.browserslist = config.browserslist;
         this.ignoredUrls = config.ignoredUrls;
-        this._lang = config.language;
+        this._lang = config.language!;
 
         const Connector: IConnectorConstructor | null = resources.connector;
         const connectorId = config.connector && config.connector.name;

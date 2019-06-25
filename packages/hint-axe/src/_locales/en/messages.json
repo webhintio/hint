@@ -1,0 +1,23 @@
+{
+
+    "errorExecuting": {
+        "description": "Message to show when the execution of the script fails",
+        "message": "Error executing script: '%s'"
+    },
+    "noIssuesFound": {
+        "description": "Debug information to show when axe doesn't found any issue",
+        "message": "No accessibility issues found"
+    },
+    "notFastEnough": {
+        "description": "Message to show when the result from axe takes too long",
+        "message": "webhint did not return the result fast enough"
+    },
+    "tryAgainLater": {
+        "description": "Message to show when there is an error running the script",
+        "message": "%s. Please try again later, or report an issue if this problem persists."
+    },
+    "unableToParse": {
+        "description": "Debug information to show when there are errors parsing the result from axe",
+        "message": "Unable to parse axe results %s"
+    }
+}

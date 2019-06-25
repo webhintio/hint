@@ -1,7 +1,4 @@
-import * as path from 'path';
 import { format } from 'util';
-
-import { loadJSONFile } from '../fs';
 
 export type GetMessageOptions = {
     language?: string;
@@ -18,19 +15,6 @@ type Messages = {
 }
 
 const cache = new Map<string, Messages>();
-
-/**
- * Returns the package name give a key.
- * The key should have this structure:
- *     packageid/key
- *
- *     @hint/hint-button-type/attributeNotSet
- */
-const getPackage = (key: string) => {
-    const packageName = key.substr(0, key.lastIndexOf('/'));
-
-    return packageName;
-};
 
 /**
  * Return a list with the selected language
@@ -66,10 +50,8 @@ const getMessages = (packageName: string, language: string): Messages => {
             return result;
         }
 
-        const jsonPath = path.join(require.resolve(packageName), '..', '_locales', lang, 'messages.json');
-
         try {
-            const json = loadJSONFile(jsonPath);
+            const json = require(`${packageName}/dist/src/_locales/${lang}/messages.json`);
 
             return json;
         } catch (e) {
@@ -86,12 +68,11 @@ const getMessages = (packageName: string, language: string): Messages => {
     return json;
 };
 
-export const getMessage = (key: string, options?: GetMessageOptions) => {
+export const getMessage = (key: string, packageName: string, options?: GetMessageOptions) => {
     const language = (options && options.language) || 'en';
     const substitutions = options && options.substitutions;
 
-    const pacakgeName = getPackage(key);
-    const messages = getMessages(pacakgeName, language);
+    const messages = getMessages(packageName, language);
 
     /*
      * format always print the extra parameters even if this is

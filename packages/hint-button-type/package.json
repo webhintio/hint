@@ -56,7 +56,7 @@
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
-    "i18n": "node ../../scripts/validate-i18n.js && node ../../scripts/create-i18n.js",
+    "i18n": "node ../../scripts/create-i18n.js",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",

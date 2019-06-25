@@ -28,18 +28,15 @@ export default class ButtonTypeHint implements IHint {
             const { resource } = elementFound;
             const allowedTypes = ['submit', 'reset', 'button'];
 
-            debug(`Validating hint button-type`);
+            debug(getMessage('validating', context.language));
 
             const element = elementFound.element;
             const elementType = element.getAttribute('type');
 
             if (elementType === null || elementType === '') {
-                context.report(resource, getMessage('@hint/hint-button-type/attributeNotSet', { language: context.language }), { element });
+                context.report(resource, getMessage('attributeNotSet', context.language), { element });
             } else if (!allowedTypes.includes(elementType.toLowerCase())) {
-                context.report(resource, getMessage('@hint/hint-button-type/invalidType', {
-                    language: context.language,
-                    substitutions: elementType
-                }), { element });
+                context.report(resource, getMessage('invalidType', context.language, elementType), { element });
             }
         };
 

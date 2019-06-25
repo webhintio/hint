@@ -52,6 +52,7 @@ const printPosition = (position: number, text: string) => {
 export default class StylishFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
     public async format(messages: Problem[], options: FormatterOptions = {}) {
+        const language: string = options.language!;
 
         debug('Formatting results');
 
@@ -81,8 +82,8 @@ export default class StylishFormatter implements IFormatter {
                     warnings++;
                 }
 
-                const line: string = printPosition(msg.location.line, getMessage('@hint/formatter-stylish/line', { language: options.language }));
-                const column: string = printPosition(msg.location.column, getMessage('@hint/formatter-stylish/col', { language: options.language }));
+                const line: string = printPosition(msg.location.line, getMessage('line', language));
+                const column: string = printPosition(msg.location.column, getMessage('col', language));
 
                 if (line) {
                     hasPosition = true;
@@ -108,15 +109,12 @@ export default class StylishFormatter implements IFormatter {
             totalErrors += errors;
             totalWarnings += warnings;
 
-            const foundMessage = getMessage('@hint/formatter-stylish/partialFound', {
-                language: options.language,
-                substitutions: [
-                    errors.toString(),
-                    errors === 1 ? getMessage('@hint/formatter-stylish/error') : getMessage('@hint/formatter-stylish/errors'),
-                    warnings.toString(),
-                    warnings === 1 ? getMessage('@hint/formatter-stylish/warning') : getMessage('@hint/formatter-stylish/warnings')
-                ]
-            });
+            const foundMessage = getMessage('partialFound', language, [
+                errors.toString(),
+                errors === 1 ? getMessage('error', language) : getMessage('errors', language),
+                warnings.toString(),
+                warnings === 1 ? getMessage('warning', language) : getMessage('warnings', language)
+            ]);
 
             partialResult += color.bold(`${logSymbols.error} ${foundMessage}`);
             partialResult += '\n\n';
@@ -125,15 +123,12 @@ export default class StylishFormatter implements IFormatter {
         }, '');
 
         const color: typeof chalk = totalErrors > 0 ? chalk.red : /* istanbul ignore next */ chalk.yellow;
-        const foundTotalMessage = getMessage('@hint/formatter-stylish/totalFound', {
-            language: options.language,
-            substitutions: [
-                totalErrors.toString(),
-                totalErrors === 1 ? getMessage('@hint/formatter-stylish/error') : getMessage('@hint/formatter-stylish/errors'),
-                totalWarnings.toString(),
-                totalWarnings === 1 ? getMessage('@hint/formatter-stylish/warning') : getMessage('@hint/formatter-stylish/warnings')
-            ]
-        });
+        const foundTotalMessage = getMessage('totalFound', language, [
+            totalErrors.toString(),
+            totalErrors === 1 ? getMessage('error', language) : getMessage('errors', language),
+            totalWarnings.toString(),
+            totalWarnings === 1 ? getMessage('warning', language) : getMessage('warnings', language)
+        ]);
 
         result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);
 

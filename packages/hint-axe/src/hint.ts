@@ -18,6 +18,7 @@ import { IHint, Severity, CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -81,28 +82,28 @@ export default class AxeHint implements IHint {
                 let message: string;
 
                 if (e.message.includes('evaluation exceeded')) {
-                    message = `webhint did not return the result fast enough`;
+                    message = getMessage('notFastEnough', context.language);
                 } else {
-                    message = `Error executing script: '${e.message}'`;
+                    message = getMessage('errorExecuting', context.language, e.message);
                 }
 
-                message = `${message}. Please try again later, or report an issue if this problem persists.`;
+                message = getMessage('tryAgainLater', context.language, message);
 
                 context.report(resource, message, { severity: Severity.warning });
-                debug('Error executing script %O', e);
+                debug(getMessage('errorExecuting', context.language, e.toString()));
 
                 return;
             }
 
             /* istanbul ignore next */
             if (!result || !Array.isArray(result.violations)) {
-                debug(`Unable to parse axe results ${result}`);
+                debug(getMessage('unableToParse', context.language, result ? result.toString() : ''));
 
                 return;
             }
 
             if (result.violations.length === 0) {
-                debug('No accessibility issues found');
+                debug(getMessage('noIssuesFound', context.language));
 
                 return;
             }

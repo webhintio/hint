@@ -1,33 +1,33 @@
 {
-    "@hint/formatter-stylish/line": {
+    "line": {
         "message": "line",
         "description": "Indiates the line of an error."
     },
-    "@hint/formatter-stylish/col": {
+    "col": {
         "message": "col",
         "description": "Indicates the column of an error."
     },
-    "@hint/formatter-stylish/error": {
+    "error": {
         "message": "error",
         "description": "Show error text."
     },
-    "@hint/formatter-stylish/errors": {
+    "errors": {
         "message": "errors",
         "description": "Show errors text."
     },
-    "@hint/formatter-stylish/warning": {
+    "warning": {
         "message": "warning",
         "description": "Show warning text."
     },
-    "@hint/formatter-stylish/warnings": {
+    "warnings": {
         "message": "warnings",
         "description": "Show warnings text."
     },
-    "@hint/formatter-stylish/partialFound": {
+    "partialFound": {
         "message": "Found %d %s and %d %s",
         "description": "Show a summary of errors and warnings in a hint."
     },
-    "@hint/formatter-stylish/totalFound": {
+    "totalFound": {
         "message": "Found a total of %d %s and %d %s",
         "description": "Show a summary of errors and warnings in a hint."
     }

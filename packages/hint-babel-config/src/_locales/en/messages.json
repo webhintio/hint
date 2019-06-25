@@ -1,0 +1,6 @@
+{
+    "eventReceived": {
+        "description":"Debug information to show when an event is received",
+        "message":"%s received"
+    }
+}

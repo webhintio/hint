@@ -1,0 +1,6 @@
+{
+    "featureNotSupported": {
+        "description": "Message to show when a feature is not supported",
+        "message": "%s is not supported by %."
+    }
+}
