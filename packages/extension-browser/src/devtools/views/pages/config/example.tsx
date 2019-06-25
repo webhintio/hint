@@ -4,14 +4,15 @@ import * as styles from './example.css';
 
 type Props = {
     children: any;
+    id?: string;
 }
 
 /**
  * Reference examples of valid configuration inputs with common styles.
  */
-const ConfigExample = ({ children }: Props) => {
+const ConfigExample = ({ children, id }: Props) => {
     return (
-        <div className={styles.root}>
+        <div id={id} className={styles.root}>
             {children}
         </div>
     );

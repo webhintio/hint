@@ -3,6 +3,7 @@ import { useCallback, FormEvent } from 'react';
 import escapeRegExp = require('lodash/escapeRegExp');
 
 import { getMessage } from '../../../../utils/i18n';
+import { useUniqueId } from '../../../../utils/ids';
 import { evaluate } from '../../../../utils/inject';
 
 import ExternalLink from '../../../controls/external-link';
@@ -100,19 +101,55 @@ const ResourcesSection = ({ className, query, onChange }: Props) => {
         }
     }, [customValue, onChange]);
 
+    const groupLabelId = useUniqueId(),
+        noneLabelId = useUniqueId(),
+        originLabelId = useUniqueId(),
+        customLabelId = useUniqueId();
+
     return (
-        <ConfigSection className={className} title={getMessage('ignoredResourcesTitle')}>
+        <ConfigSection className={className} title={getMessage('ignoredResourcesTitle')} titleId={groupLabelId}>
             <ConfigLabel>
-                <Radio name="resources" checked={!query} onChange={onDefaultSelected} />
-                <LabelText>{getMessage('noneLabel')}</LabelText>
+                <Radio
+                    aria-labelledby={`${groupLabelId} ${noneLabelId}`}
+                    name="resources"
+                    checked={!query}
+                    onChange={onDefaultSelected}
+                />
+                <LabelText id={noneLabelId}>
+                    {getMessage('noneLabel')}
+                </LabelText>
             </ConfigLabel>
             <ConfigLabel>
-                <Radio name="resources" checked={query === Ignore.ThirdParty} onChange={onThirdPartySelected} />
-                <LabelText>{getMessage('differentOriginLabel')}</LabelText>
+                <Radio
+                    aria-labelledby={`${groupLabelId} ${originLabelId}`}
+                    checked={query === Ignore.ThirdParty}
+                    name="resources"
+                    onChange={onThirdPartySelected}
+                />
+                <LabelText id={originLabelId}>
+                    {getMessage('differentOriginLabel')}
+                </LabelText>
             </ConfigLabel>
             <ConfigLabel>
-                <Radio name="resources" checked={!!customValue} onChange={onCustomSelected} />
-                <ValidInput type="text" tabIndex={customValue ? 0 : -1} placeholder={placeholder} value={customValue} validate={validate} onChange={onCustomChange} onFocus={onCustomFocus} />
+                <span id={customLabelId} hidden>
+                    {getMessage('customResourcesLabel')}
+                </span>
+                <Radio
+                    aria-labelledby={`${groupLabelId} ${customLabelId}`}
+                    checked={!!customValue}
+                    name="resources"
+                    onChange={onCustomSelected}
+                />
+                <ValidInput
+                    aria-label={getMessage('customResourcesValueLabel')}
+                    onChange={onCustomChange}
+                    onFocus={onCustomFocus}
+                    placeholder={placeholder}
+                    tabIndex={customValue ? 0 : -1}
+                    type="text"
+                    validate={validate}
+                    value={customValue}
+                />
                 <ConfigExample>
                     <ExternalLink href="https://webhint.io/docs/user-guide/configuring-webhint/ignoring-domains/">
                         {getMessage('seeExpressionInstructionsLabel')}
