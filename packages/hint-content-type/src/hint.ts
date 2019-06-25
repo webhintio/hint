@@ -88,7 +88,7 @@ export default class ContentTypeHint implements IHint {
 
             if (userDefinedMediaType) {
                 if (normalizeString(userDefinedMediaType) !== contentTypeHeaderValue) {
-                    context.report(resource, `'content-type' header value should be '${userDefinedMediaType}'.`, { codeLanguage, codeSnippet });
+                    context.report(resource, getMessage('contentTypeValueShouldBe', context.language, userDefinedMediaType), { codeLanguage, codeSnippet });
                 }
 
                 return;
@@ -100,12 +100,12 @@ export default class ContentTypeHint implements IHint {
 
             try {
                 if (contentTypeHeaderValue === '') {
-                    throw new TypeError('invalid media type');
+                    throw new TypeError(getMessage('invalidMediaType', context.language));
                 }
 
                 contentType = parse(contentTypeHeaderValue);
             } catch (e) {
-                context.report(resource, `'content-type' header value should be valid (${e.message}).`, { codeLanguage, codeSnippet });
+                context.report(resource, getMessage('contentTypeValueInvalid', context.language, e.message), { codeLanguage, codeSnippet });
 
                 return;
             }
@@ -140,21 +140,25 @@ export default class ContentTypeHint implements IHint {
             // * media type
 
             if (mediaType && mediaType !== originalMediaType && !allowApplicationJavaScript) {
-                context.report(resource, `'content-type' header media type value should be '${mediaType}', not '${originalMediaType}'.`, { codeLanguage, codeSnippet });
+                context.report(resource, getMessage('contentTypeValueShoudBeNot', context.language, [mediaType, originalMediaType]), { codeLanguage, codeSnippet });
             }
 
             // * charset value
 
             if (charset) {
                 if (!originalCharset || (charset !== originalCharset)) {
-                    context.report(resource, `'content-type' header charset value should be '${charset}'${originalCharset ? `, not '${originalCharset}'` : ''}.`, { codeLanguage, codeSnippet });
+                    const message: string = originalCharset ?
+                        getMessage('contentTypeCharsetShouldBeNot', context.language, [charset, originalCharset]) :
+                        getMessage('contentTypeCharsetShouldBe', context.language, charset);
+
+                    context.report(resource, message, { codeLanguage, codeSnippet });
                 }
             } else if (originalCharset &&
                 ![
                     'text/html',
                     'application/xhtml+xml'
                 ].includes(originalMediaType)) {
-                context.report(resource, `'content-type' header value should not contain 'charset=${originalCharset}'.`, { codeLanguage, codeSnippet });
+                context.report(resource, getMessage('contentTypeValueShouldNotContaint', context.language, originalCharset), { codeLanguage, codeSnippet });
             }
         };
 

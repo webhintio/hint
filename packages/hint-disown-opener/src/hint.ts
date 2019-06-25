@@ -23,6 +23,7 @@ import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -53,7 +54,11 @@ export default class DisownOpenerHint implements IHint {
             });
 
             if (requiredValues.length !== 0) {
-                const message = `'${cutString(element.outerHTML, 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`;
+                const message = getMessage('shouldHaveRel', context.language, [
+                    cutString(element.outerHTML, 100),
+                    prettyPrintArray(requiredValues),
+                    requiredValues.length === 1 ? getMessage('keyword', context.language) : getMessage('keywords', context.language)
+                ]);
 
                 context.report(resource, message, { content: hrefValue, element });
             }
@@ -71,7 +76,7 @@ export default class DisownOpenerHint implements IHint {
                  */
 
                 if ((new URL(resource).origin === new URL(fullURL).origin) && !includeSameOriginURLs) {
-                    debug('Is same origin');
+                    debug(getMessage('isSameOrigin', context.language));
 
                     return false;
                 }
@@ -90,7 +95,7 @@ export default class DisownOpenerHint implements IHint {
                 return true;
             }
 
-            debug(`'href' is not specified`);
+            debug(getMessage('hrefNotSpecified', context.language));
 
             return false;
         };
@@ -106,7 +111,7 @@ export default class DisownOpenerHint implements IHint {
                 return true;
             }
 
-            debug('No `target="_blank"` found');
+            debug(getMessage('noTargetBlankFound', context.language));
 
             return false;
         };

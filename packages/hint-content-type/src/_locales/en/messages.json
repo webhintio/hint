@@ -7,6 +7,14 @@
         "description": "Debug information to show if the resource is a DataURI",
         "message": "Check does not apply for data URIs"
     },
+    "contentTypeCharsetShouldBe": {
+        "description": "Report message when the charset in the content type is not valid",
+        "message": "'content-type' header charset value should be '$1'."
+    },
+    "contentTypeCharsetShouldBeNot": {
+        "description": "Report message when the charset in the content type is not valid",
+        "message": "'content-type' header charset value should be '$1', not '$2'."
+    },
     "contentTypeValueInvalid": {
         "description": "Report message when content type value fails to parse",
         "message": "'content-type' header value should be valid ($1)."

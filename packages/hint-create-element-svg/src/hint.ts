@@ -9,6 +9,7 @@ import { ScriptEvents } from '@hint/parser-javascript';
 
 import meta from './meta';
 import svgElements from './svgElements';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -27,7 +28,7 @@ export default class CreateElementSvgHint implements IHint {
          */
         context.on('parse::end::javascript', ({ ast, element, resource, sourceCode, walk }) => {
 
-            debug(`Validating hint create-element-svg`);
+            debug(getMessage('validating', context.language));
 
             walk.simple(ast, {
                 CallExpression(node) {
@@ -42,7 +43,7 @@ export default class CreateElementSvgHint implements IHint {
                     const arg = node.arguments[0];
 
                     if (arg && 'value' in arg && typeof arg.value === 'string' && svgElements.has(arg.value.toLowerCase())) {
-                        const message = 'SVG elements cannot be created with createElement; use createElementNS instead';
+                        const message = getMessage('svgElementCannotBeCreated', context.language);
                         const loc = node.callee.property.loc;
                         const codeLanguage = 'javascript';
 

@@ -1,0 +1,10 @@
+{
+    "shouldBeListed": {
+        "description": "Report message to show when the validation fails",
+        "message": "'$1' should be listed after '$2'."
+    },
+    "validating": {
+        "description": "Debug information to show when the validation starts",
+        "message": "Validating hint css-prefix-order"
+    }
+}
