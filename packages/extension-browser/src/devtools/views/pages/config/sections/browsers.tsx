@@ -3,6 +3,7 @@ import { useCallback, FormEvent } from 'react';
 import browserslist = require('browserslist');
 
 import { getMessage } from '../../../../utils/i18n';
+import { useUniqueId } from '../../../../utils/ids';
 
 import ExternalLink from '../../../controls/external-link';
 import LabelText from '../../../controls/label-text';
@@ -60,16 +61,48 @@ const BrowsersSection = ({ className, query, onChange }: Props) => {
         }
     }, [onChange, query]);
 
+    const groupLabelId = useUniqueId(),
+        defaultLabelId = useUniqueId(),
+        defaultDescId = useUniqueId(),
+        customLabelId = useUniqueId();
+
     return (
-        <ConfigSection className={className} title={getMessage('targetBrowsersTitle')}>
+        <ConfigSection className={className} title={getMessage('targetBrowsersTitle')} titleId={groupLabelId}>
             <ConfigLabel>
-                <Radio name="browsers" checked={!query} onChange={onDefaultSelected} />
-                <LabelText>{getMessage('recommendedSettingsLabel')}</LabelText>
-                <ConfigExample>&gt; 0.5%, last 2 versions, Firefox ESR, not dead</ConfigExample>
+                <Radio
+                    aria-labelledby={`${groupLabelId} ${defaultLabelId}`}
+                    aria-describedby={defaultDescId}
+                    checked={!query}
+                    name="browsers"
+                    onChange={onDefaultSelected}
+                />
+                <LabelText id={defaultLabelId}>
+                    {getMessage('recommendedSettingsLabel')}
+                </LabelText>
+                <ConfigExample id={defaultDescId}>
+                    &gt; 0.5%, last 2 versions, Firefox ESR, not dead
+                </ConfigExample>
             </ConfigLabel>
             <ConfigLabel>
-                <Radio name="browsers" checked={!!query} onChange={onCustomSelected} />
-                <ValidInput type="text" tabIndex={query ? 0 : -1} placeholder={placeholder} value={query || ''} validate={validate} onChange={onCustomChange} onFocus={onCustomFocus} />
+                <span id={customLabelId} hidden>
+                    {getMessage('customBrowsersLabel')}
+                </span>
+                <Radio
+                    aria-labelledby={`${groupLabelId} ${customLabelId}`}
+                    checked={!!query}
+                    name="browsers"
+                    onChange={onCustomSelected}
+                />
+                <ValidInput
+                    aria-label={getMessage('customBrowsersValueLabel')}
+                    onChange={onCustomChange}
+                    onFocus={onCustomFocus}
+                    placeholder={placeholder}
+                    tabIndex={query ? 0 : -1}
+                    type="text"
+                    validate={validate}
+                    value={query || ''}
+                />
                 <ConfigExample>
                     <ExternalLink href="https://github.com/browserslist/browserslist#full-list">
                         {getMessage('seeQueryInstructionsLabel')}
