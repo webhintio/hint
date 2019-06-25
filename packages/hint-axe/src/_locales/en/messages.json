@@ -2,7 +2,7 @@
 
     "errorExecuting": {
         "description": "Message to show when the execution of the script fails",
-        "message": "Error executing script: '%s'"
+        "message": "Error executing script: '$1'"
     },
     "noIssuesFound": {
         "description": "Debug information to show when axe doesn't found any issue",
@@ -14,10 +14,10 @@
     },
     "tryAgainLater": {
         "description": "Message to show when there is an error running the script",
-        "message": "%s. Please try again later, or report an issue if this problem persists."
+        "message": "$1. Please try again later, or report an issue if this problem persists."
     },
     "unableToParse": {
         "description": "Debug information to show when there are errors parsing the result from axe",
-        "message": "Unable to parse axe results %s"
+        "message": "Unable to parse axe results $1"
     }
 }

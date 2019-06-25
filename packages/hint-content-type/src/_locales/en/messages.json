@@ -1,0 +1,34 @@
+{
+    "checkDoesNotApplyStatusCode": {
+        "description": "Debug information to show if the status code is not 200",
+        "message": "Check does not apply to status code !== 200"
+    },
+    "checkDoesNotApplyUri": {
+        "description": "Debug information to show if the resource is a DataURI",
+        "message": "Check does not apply for data URIs"
+    },
+    "contentTypeValueInvalid": {
+        "description": "Report message when content type value fails to parse",
+        "message": "'content-type' header value should be valid ($1)."
+    },
+    "contentTypeValueShouldBe": {
+        "description": "Report message when content type value is not valid",
+        "message": "'content-type' header value should be '$1'."
+    },
+    "contentTypeValueShoudBeNot": {
+        "description": "Report message when a content type is not the right one",
+        "message": "'content-type' header media type value should be '$1', not '$2'."
+    },
+    "responseShouldIncludeContentType": {
+        "description": "Report message when response doesn't include the content type header",
+        "message": "Response should include 'content-type' header."
+    },
+    "invalidMediaType": {
+        "description": "Error message for invalid media type",
+        "message": "invalid media type"
+    },
+    "contentTypeValueShouldNotContaint": {
+        "description": "Report message when the content type shouldn't contain a charset",
+        "message": "'content-type' header value should not contain 'charset=$1'."
+    }
+}

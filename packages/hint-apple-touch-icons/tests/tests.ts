@@ -20,7 +20,7 @@ const imageWithIncorrectFileFormat = fs.readFileSync(`${__dirname}/fixtures/inco
 
 const elementAlreadySpecifiedErrorMessage = `'apple-touch-icon' link element is not needed as one was already specified.`;
 const elementHasEmptyHrefAttributeErrorMessage = `'apple-touch-icon' link element should have non-empty 'href' attribute.`;
-const elementHasIncorrectRelAttributeErrorMessage = `'apple-touch-icon' link element should have 'rel="apple-touch-icon".`;
+const elementHasIncorrectRelAttributeErrorMessage = `'apple-touch-icon' link element should have 'rel="apple-touch-icon"'.`;
 const elementHasUnneededSizesAttributeErrorMessage = `'apple-touch-icon' link element should not have 'sizes' attribute.`;
 const elementNotSpecifiedErrorMessage = `'apple-touch-icon' link element was not specified.`;
 const elementNotSpecifiedInHeadErrorMessage = `'apple-touch-icon' link element should be specified in the '<head>'.`;

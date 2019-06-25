@@ -20,6 +20,7 @@ import { isTextMediaType } from '@hint/utils/dist/src/content-type';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -54,14 +55,14 @@ export default class ContentTypeHint implements IHint {
 
         const validate = ({ resource, response }: FetchEnd) => {
             if (response.statusCode !== 200) {
-                debug(`Check does not apply to status code !== 200`);
+                debug(getMessage('checkDoesNotApplyStatusCode', context.language));
 
                 return;
             }
 
             // This check does not make sense for data URIs.
             if (isDataURI(resource)) {
-                debug(`Check does not apply for data URIs`);
+                debug(getMessage('checkDoesNotApplyUri', context.language));
 
                 return;
             }
@@ -73,7 +74,7 @@ export default class ContentTypeHint implements IHint {
             // Check if the `Content-Type` header was sent.
 
             if (contentTypeHeaderValue === null) {
-                context.report(resource, `Response should include 'content-type' header.`);
+                context.report(resource, getMessage('responseShouldIncludeContentType', context.language));
 
                 return;
             }

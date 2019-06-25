@@ -24,11 +24,11 @@
         "description": "Show warnings text."
     },
     "partialFound": {
-        "message": "Found %d %s and %d %s",
+        "message": "Found $1 $2 and $3 $4",
         "description": "Show a summary of errors and warnings in a hint."
     },
     "totalFound": {
-        "message": "Found a total of %d %s and %d %s",
+        "message": "Found a total of $1 $2 and $3 $4",
         "description": "Show a summary of errors and warnings in a hint."
     }
 }

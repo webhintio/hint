@@ -5,7 +5,7 @@
     },
     "invalidType": {
         "description": "Message to show when a button type attribute is not valid.",
-        "message": "Invalid button type: %s"
+        "message": "Invalid button type: $1"
     },
     "validating": {
         "description": "Debug information to show when a validation starts",

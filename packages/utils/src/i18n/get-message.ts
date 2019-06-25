@@ -1,5 +1,3 @@
-import { format } from 'util';
-
 export type GetMessageOptions = {
     language?: string;
     substitutions?: string | string[];
@@ -15,6 +13,30 @@ type Messages = {
 }
 
 const cache = new Map<string, Messages>();
+
+const format = (text: string, substitutions?: string | string[]) => {
+    if (!substitutions) {
+        return text;
+    }
+
+    const substs = Array.isArray(substitutions) ? substitutions : [substitutions];
+
+    const substitutionsRegex = /(\$(\d+))|(\${2,})/g;
+
+    const result = text.replace(substitutionsRegex, (fullMatch: string, substitution: string, substitutionIndex: string, dollarSymbols: string) => {
+        if (typeof substitutionIndex !== 'undefined') {
+            return substs[parseInt(substitutionIndex, 10) - 1];
+        }
+
+        if (typeof dollarSymbols !== 'undefined') {
+            return ''.padStart(dollarSymbols.length - 1, '$');
+        }
+
+        return fullMatch;
+    });
+
+    return result;
+};
 
 /**
  * Return a list with the selected language
@@ -73,24 +95,6 @@ export const getMessage = (key: string, packageName: string, options?: GetMessag
     const substitutions = options && options.substitutions;
 
     const messages = getMessages(packageName, language);
-
-    /*
-     * format always print the extra parameters even if this is
-     * null or undefined, and if you don't have any format
-     * specifier.
-     * e.g:
-     *     format('test string', undefined)
-     *
-     *     output => test string undefined
-     *
-     * And that is why we need to check if substitutions is
-     * defined or not.
-     */
-    if (!substitutions) {
-        return messages[key].message;
-    } else if (Array.isArray(substitutions)) {
-        return format(messages[key].message, ...substitutions);
-    }
 
     return format(messages[key].message, substitutions);
 };
