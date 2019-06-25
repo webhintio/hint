@@ -126,13 +126,19 @@ export default class ContentTypeHint implements IHint {
             const charset: string = isTextMediaType(mediaType) ? 'utf-8' : response.charset;
 
             /*
+             * Allow `application/javascript` for JavaScript resources.
+             * See https://github.com/webhintio/hint/issues/2621
+             */
+            const allowApplicationJavaScript = mediaType === 'text/javascript' && originalMediaType === 'application/javascript';
+
+            /*
              * Check if the determined values differ
              * from the ones from the `Content-Type` header.
              */
 
             // * media type
 
-            if (mediaType && (mediaType !== originalMediaType)) {
+            if (mediaType && mediaType !== originalMediaType && !allowApplicationJavaScript) {
                 context.report(resource, `'content-type' header media type value should be '${mediaType}', not '${originalMediaType}'.`, { codeLanguage, codeSnippet });
             }
 

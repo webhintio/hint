@@ -27,6 +27,20 @@ The hint checks if responses include the `Content-Type` HTTP response
 header and its value contains the appropriate media type and charset
 for the response.
 
+### A note about `application/javascript`
+
+This hint recommends using a `Content-Type` of `text/javascript` for
+JavaScript resources as [noted in the HTML standard][html js mime].
+However this hint also allows `application/javascript` because that
+value was previously recommended by the IETF in [RFC 4329][rfc 4329].
+RFC 4329 has [an active draft proposed][ietf js mime draft] to also
+recommend `text/javascript` in the future.
+
+See the section
+[Can the hint be configured](#can-the-hint-be-configured) below for an
+example of how to require a specific `Content-Type` value for
+JavaScript resources if desired.
+
 ### Examples that **trigger** the hint
 
 `Content-Type` response header is not sent:
@@ -458,9 +472,12 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 <!-- Link labels: -->
 
 [blocked resources]: https://www.fxsitecompat.com/en-CA/docs/2016/javascript-served-with-wrong-mime-type-will-be-blocked/
+[html js mime]: https://html.spec.whatwg.org/multipage/infrastructure.html#dependencies:mime-type
+[ietf js mime draft]: https://tools.ietf.org/html/draft-ietf-dispatch-javascript-mjs
 [incorrect rendering]: https://www.w3.org/International/questions/qa-what-is-encoding
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
 [required media type]: https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache#Referencing_a_cache_manifest_file
+[rfc 4329]: https://tools.ietf.org/html/rfc4329
 [server configs]: https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Configuring_server_MIME_types
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 

@@ -177,10 +177,10 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `Script is served with 'Content-Type' header with the wrong media type`,
-        reports: [{ message: generateIncorrectMediaTypeErrorMessage('text/javascript', 'application/javascript') }],
+        reports: [{ message: generateIncorrectMediaTypeErrorMessage('text/javascript', 'application/x-javascript') }],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
-            '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }
+            '/test.js': { headers: { 'Content-Type': 'application/x-javascript; charset=utf-8' } }
         }
     },
     {
@@ -284,6 +284,13 @@ const testsForDefaults: HintTest[] = [
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
             '/test.js': { headers: { 'content-type': '   Text/JavaScript;   Charset=UTF-8' } }
+        }
+    },
+    {
+        name: `Script is served with allowed value for 'Content-Type' header`,
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<script src="test.js"></script>')),
+            '/test.js': { headers: { 'content-type': 'application/javascript; charset=utf-8' } }
         }
     },
     {
