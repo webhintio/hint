@@ -32,6 +32,9 @@ const ErrorPage = ({ disabled, error, onConfigure, onRestart }: Props) => {
     return (
         <Page disabled={disabled} onAction={onRestart}>
             <section className={styles.content}>
+                <h1 className={styles.title}>
+                    {getMessage('errorTitle')}
+                </h1>
                 <p>
                     {getMessage('errorMessage')}
                     <ExternalLink href={openIssueUrl}>

@@ -7,7 +7,6 @@
                 // TODO: Resolve issues and enable these rules.
                 "bypass": { "enabled": false },
                 "landmark-one-main": { "enabled": false },
-                "page-has-heading-one": { "enabled": false },
                 "region": { "enabled": false }
             }
         }],

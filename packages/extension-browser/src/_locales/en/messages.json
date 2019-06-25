@@ -75,6 +75,10 @@
         "message": "There was an error running webhint. Please try again. If the error still occurs: ",
         "description": "Message informing users what to do when an error occurs."
     },
+    "errorTitle": {
+        "message": "Scan Error",
+        "description": "Title of page displayed after an error occurs."
+    },
     "feedback": {
         "message": "Feedback",
         "description": "Label for the feedback button"

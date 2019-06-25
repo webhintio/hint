@@ -29,9 +29,9 @@ const ResultsHeader = ({ onConfigureClick, showPassed, setShowPassed, url }: Pro
     return (
         <header className={styles.root}>
             <div className={styles.top}>
-                <div className={`${styles.title} ${styles.headerText}`}>
+                <h1 className={`${styles.title} ${styles.headerText}`}>
                     {getMessage('scanResultTitle')}
-                </div>
+                </h1>
                 <FeedbackLink />
             </div>
             <div className={styles.headerText}>
