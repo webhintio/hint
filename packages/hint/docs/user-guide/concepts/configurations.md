@@ -10,17 +10,18 @@ should be installed automatically as well.
 
 To use a `configuration`, you have to:
 
-1. After installing `webhint`, install a configuration package. When
+1. After installing `hint`, install a configuration package. When
    running `npm create hintrc`, the wizard will list you the official
    configuration packages but you can search on `npm`. Any package
    `@hint/configuration-` or `webhint-configuration-` should be a valid
    candidate.
 2. Once installed, update your `.hintrc` to use it (this step is not
-   needed if you are using the wizard):
+   needed if you are using the wizard). Given an npm package called
+   `webhint-configuration-example1`, add the following:
 
 ```json
 {
-    "extends": ["configuration1"]
+    "extends": ["example1"]
 }
 ```
 
@@ -31,7 +32,7 @@ multiple configuration packages:
 
 ```json
 {
-    "extends": ["configuration1", "configuration2"]
+    "extends": ["example1", "example2"]
 }
 ```
 
@@ -41,7 +42,7 @@ the `summary` formatter:
 
 ```json
 {
-    "extends": ["configuration1", "configuration2"],
+    "extends": ["example1", "example2"],
     "formatters": ["summary"]
 }
 ```
@@ -50,8 +51,8 @@ Notes:
 
 * If you define the property `formatters` when extending
   a configuration, the formatters in the configuration will be
-  replaced with the value you have defined.
+  _replaced_ with the value you have defined.
 
 * If you define the property `parsers` when extending a
-  configuration, the parsers in the configuration will be appended
+  configuration, the parsers in the configuration will be _appended_
   to the values you have defined.
