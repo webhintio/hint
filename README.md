@@ -32,6 +32,21 @@ instructions:
 npm create hintrc
 ```
 
+Choose configurations:
+
+```bash
+❯ predefined
+  custom
+```
+
+Choose the configuration you want to extend from:
+
+```bash
+❯ development
+  web-recommended
+  progressive-web-apps
+```
+
 Scan a website:
 
 ```bash
