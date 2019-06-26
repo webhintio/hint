@@ -261,7 +261,7 @@ const getResource = (source: string, type: ResourceType, name: string) => {
  */
 const generateConfigPathsToResources = (configurations: string[], name: string, type: ResourceType) => {
     return configurations.reduce((total: string[], configuration: string) => {
-        const basePackagePaths = ['@hint/configuration-', 'webhint-configuration-'];
+        const basePackagePaths = ['@hint/configuration-', 'webhint-configuration-', ''];
 
         let result = total;
 
@@ -271,7 +271,7 @@ const generateConfigPathsToResources = (configurations: string[], name: string, 
             try {
                 const packagePath = path.dirname(resolvePackage(packageName));
 
-                const resourcePackages = globby.sync(`node_modules/{@hint/,webhint-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
+                const resourcePackages = globby.sync(`node_modules/{@hint/,webhint-,@*/webhint-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
                     return path.dirname(pkg);
                 });
 
@@ -302,10 +302,11 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
     const isSource = fs.existsSync(name); // eslint-disable-line no-sync
     const nameSplitted = name.split('/');
 
-    const packageName = nameSplitted[0];
+    const scope = nameSplitted[0][0] === '@' ? `${nameSplitted[0]}/` : '';
+    const packageName = (scope ? nameSplitted[1] : nameSplitted[0]).replace(/^webhint-[^-]+-/, '');
     const resourceName = isSource ?
         name :
-        nameSplitted[1] || packageName;
+        (scope ? nameSplitted[2] : nameSplitted[1]) || packageName;
 
     const key: string = isSource ?
         name :
@@ -332,7 +333,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
         [path.resolve(currentProcessDir, name)] : // If the name is direct path to the source we should only check that
         [
             `@hint/${type}-${packageName}`, // Officially supported package
-            `webhint-${type}-${packageName}`, // Third party package
+            `${scope}webhint-${type}-${packageName}`, // Third party package
             path.normalize(`${HINT_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
             path.normalize(currentProcessDir) // External hints.
             // path.normalize(`${path.resolve(HINT_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/hint-http-cache`
@@ -360,7 +361,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
                 try {
                     const packageConfig = getPackage(source);
 
-                    if (!normalizeIncludes(packageConfig.name, packageName)) {
+                    if (!normalizeIncludes(packageConfig.name, scope ? `${scope}webhint-${type}-${packageName}` : packageName)) {
                         return false;
                     }
                 } catch (e) {
