@@ -9,20 +9,23 @@
     grid-template-columns: auto 1fr;
 }
 
-.summary {
+.nav {
     display: none;
+    min-width: 10rem; /* 160px */
+    position: sticky;
+    top: 1rem; /* 16px */
 }
 
 @media (min-width: 48rem /* 768px */) {
-    .summary {
+    .nav {
         display: block;
-        list-style: none;
-        margin: 0;
-        min-width: 10rem; /* 160px */
-        padding: 0;
-        position: sticky;
-        top: 1rem; /* 16px */
     }
+}
+
+.summary {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .poweredBy {

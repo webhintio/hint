@@ -79,16 +79,19 @@ const ConfigPage = ({ disabled, onStart }: Props) => {
     return (
         <Page className={styles.root} disabled={disabled} onAction={onAnalyzeClick}>
             <ConfigHeader />
-            <div className={styles.categories}>
-                <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange} />
-                <BrowsersConfig query={config.browserslist} onChange={onBrowsersChange} />
-                <ResourcesConfig query={config.ignoredUrls} onChange={onResourcesChange} />
-            </div>
-            <Button onClick={onRestoreClick}>
-                {getMessage('restoreDefaultsLabel')}
-            </Button>
-            {' '}
-            <PoweredBy className={styles.poweredBy} />
+            <main>
+                <div className={styles.categories}>
+                    <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange} />
+                    <BrowsersConfig query={config.browserslist} onChange={onBrowsersChange} />
+                    <ResourcesConfig query={config.ignoredUrls} onChange={onResourcesChange} />
+                </div>
+                <Button onClick={onRestoreClick}>
+                    {getMessage('restoreDefaultsLabel')}
+                </Button>
+            </main>
+            <footer>
+                <PoweredBy className={styles.poweredBy} />
+            </footer>
         </Page>
     );
 };

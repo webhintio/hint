@@ -2,14 +2,7 @@
     "extends": ["web-recommended"],
     "formatters": [],
     "hints": {
-        "axe": ["error", {
-            "rules": {
-                // TODO: Resolve issues and enable these rules.
-                "bypass": { "enabled": false },
-                "landmark-one-main": { "enabled": false },
-                "region": { "enabled": false }
-            }
-        }],
+        "axe": "error",
         // TODO: Remove `ignore` after MDN data is up-to-date
         "compat-api/css": ["error", { "ignore": ["mask-size", "word-break"] }],
         "compat-api/html": "error",
