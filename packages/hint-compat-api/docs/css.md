@@ -112,7 +112,8 @@ default value is:
     "-moz-appearance: none",
     "-webkit-appearance: none",
     "appearance: none",
-    "cursor"
+    "cursor",
+    "zoom: 1"
 ]
 ```
 

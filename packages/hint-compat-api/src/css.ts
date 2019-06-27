@@ -225,7 +225,8 @@ export default class CSSCompatHint implements IHint {
             '-moz-appearance: none',
             '-webkit-appearance: none',
             'appearance: none',
-            'cursor'
+            'cursor',
+            'zoom: 1'
         ], context.hintOptions);
 
         context.on('parse::end::css', ({ ast, element, resource }) => {
