@@ -1,13 +1,21 @@
 import { ApplicationInsights } from '@microsoft/applicationinsights-web-basic';
 
+import { Config, ErrorData, Results } from '../../shared/types';
+
+import { determineHintStatus } from './hints';
+
+const manifest = require('../../manifest.json');
+
 const instrumentationKey = '8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d';
 
 let appInsights: ApplicationInsights;
 
-const trackEvent = (name: string, properties?: { [key: string]: string }, measurements?: { [key: string]: number }) => {
+const trackEvent = (name: string, properties: { [key: string]: string } = {}, measurements?: { [key: string]: number }) => {
     if (!appInsights) {
         return;
     }
+
+    properties['extension-version'] = manifest.version;
 
     appInsights.track({
         baseData: {
@@ -19,8 +27,6 @@ const trackEvent = (name: string, properties?: { [key: string]: string }, measur
         name: `Microsoft.ApplicationInsights.${instrumentationKey}.Event`
     });
 };
-
-import { ErrorData } from '../../shared/types';
 
 /** Called to initialize the underlying analytics library. */
 export const setup = () => {
@@ -39,8 +45,11 @@ export const trackError = (error: ErrorData) => {
 };
 
 /** Called when analysis finished. */
-export const trackFinish = (duration: number) => {
-    trackEvent('f12-finish', undefined, { 'f12-finish-duration': duration });
+export const trackFinish = (config: Config, results: Results, duration: number) => {
+    // Extract hint status from config and results, discarding user-provided data.
+    const properties = determineHintStatus(config, results);
+
+    trackEvent('f12-finish', properties, { 'f12-finish-duration': duration });
 };
 
 /** Called when the "Hints" tab was opened by the user. */

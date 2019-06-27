@@ -74,8 +74,8 @@ const App = (props: Props) => {
         setIsAnalyzing(false);
         setPage(Page.Results);
         setResults(results);
-        trackFinish(duration);
-    }, []);
+        trackFinish(config, results, duration);
+    }, [config]);
 
     const onStart = useCallback((newConfig: ConfigData) => {
         setConfig(newConfig);
