@@ -110,6 +110,12 @@ test(`If config.hints has some hints "off", we shouldn't create those hints`, (t
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -123,6 +129,12 @@ test(`If config.hints has some hints "off", we shouldn't create those hints`, (t
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'manifest-exists',
             schema: [],
             scope: HintScope.any
@@ -167,6 +179,12 @@ test(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't ignore
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -182,6 +200,12 @@ test(`If a hint has the metadata "ignoredConnectors" set up, we shouldn't ignore
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'manifest-exists',
             schema: [],
             scope: HintScope.any
@@ -232,6 +256,12 @@ test(`If a hint has the metadata "ignoredConnectors" set up, we should ignore th
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             ignoredConnectors: ['puppeteer'],
             schema: [],
@@ -248,6 +278,12 @@ test(`If a hint has the metadata "ignoredConnectors" set up, we should ignore th
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'manifest-exists',
             schema: [],
             scope: HintScope.any
@@ -289,6 +325,12 @@ test(`If the hint scope is 'local' and the connector isn't local the hint should
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -304,6 +346,12 @@ test(`If the hint scope is 'local' and the connector isn't local the hint should
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'manifest-exists',
             schema: [],
             scope: HintScope.local
@@ -345,6 +393,12 @@ test(`If the hint scope is 'site' and the connector is local the hint should be 
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.site
@@ -360,6 +414,12 @@ test(`If the hint scope is 'site' and the connector is local the hint should be 
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'manifest-exists',
             schema: [],
             scope: HintScope.local
@@ -401,6 +461,12 @@ test(`If the hint scope is 'any' and the connector is local the hint should be u
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -416,6 +482,12 @@ test(`If the hint scope is 'any' and the connector is local the hint should be u
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'manifest-exists',
             schema: [],
             scope: HintScope.any
@@ -459,6 +531,12 @@ test(`If the hint scope is 'any' and the connector isn't local the hint should b
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -474,6 +552,12 @@ test(`If the hint scope is 'any' and the connector isn't local the hint should b
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'manifest-exists',
             schema: [],
             scope: HintScope.any
@@ -546,6 +630,12 @@ test(`If a hint is ignoring some url, it shouldn't run the event`, (t) => {
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -595,6 +685,12 @@ test(`If a hint is taking too much time, it should be ignored after the configur
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any

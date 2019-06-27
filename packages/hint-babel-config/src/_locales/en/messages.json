@@ -1,6 +1,14 @@
 {
+    "is-valid/description": {
+        "description": "is-valid hint metadata description",
+        "message": "'babel-config/is-valid' warns against providing an invalid babel configuration file `.babelrc`"
+    },
     "eventReceived": {
         "description":"Debug information to show when an event is received",
         "message":"$1 received"
+    },
+    "is-valid/name": {
+        "description": "is-valid hint metadata name",
+        "message": "Valid Babel configuration"
     }
 }

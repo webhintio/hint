@@ -1,0 +1,50 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Require highest available document mode"
+    },
+    "headerValueShouldBe": {
+        "description": "Report message when 'x-ua-compatible' doesn't have the value 'ie=edge'",
+        "message": "'x-ua-compatible' header value should be 'ie=edge', not '$1'."
+    },
+    "metaElementDuplicated": {
+        "description": "Report emssage when the 'x-ua-compatible' meta element is duplicated",
+        "message": "'x-ua-compatible' meta element is not needed as one was already specified."
+    },
+    "metaElementNotBody": {
+        "description": "Report message when the 'x-ua-compatible' meta element is in <body>",
+        "message": "'x-ua-compatible' meta element should be specified in the '<head>', not '<body>'."
+    },
+    "metaElementShouldBeSpecified": {
+        "description": "Report message when the 'x-ua-compatible' element should be specified",
+        "message": "'x-ua-compatible' meta element should be specified."
+    },
+    "metaElementShouldNotBeSpecified": {
+        "description": "Report message when 'x-ua-compatible' meta element is not needed",
+        "message": "'x-ua-compatible' meta element should not be specified as it is not needed."
+    },
+    "metaElementShouldNotBeSpecifiedUseHeader": {
+        "description": "Report message to suggest using HTTP header instead of meta element",
+        "message": "'x-ua-compatible' meta element should not be specified, and instead, equivalent HTTP header should be used."
+    },
+    "metaElementValueShouldBe": {
+        "description": "Report message when the 'x-ua-compatible' meta element has the wrong value",
+        "message": "'x-ua-compatible' meta element 'content' attribute value should be 'ie=edge', not '$1'."
+    },
+    "metaElementWrongPosition": {
+        "description": "Report message when the 'x-ua-compatible' meta element is in the wrong position",
+        "message": "'x-ua-compatible' meta element should be specified before all other elements except for '<title>' and other '<meta>' elements."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Highest document mode"
+    },
+    "responseShouldInclude": {
+        "description": "Report message when 'x-ua-compatible' is not included",
+        "message": "Response should include 'x-ua-compatible' header."
+    },
+    "responseUnneeded": {
+        "description": "Report message when 'x-ua-compatible' is unneeded",
+        "message": "Response should not include unneeded 'x-ua-compatible' header."
+    }
+}

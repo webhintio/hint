@@ -18,6 +18,7 @@ import { HintContext, IHint, ProblemLocation, Severity } from 'hint';
 import { HTMLEvents, HTMLParse } from '@hint/parser-html';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -108,8 +109,8 @@ export default class HtmlCheckerHint implements IHint {
         };
 
         const notifyError = (resource: string, error: any) => {
-            debug(`Error getting HTML checker result for ${resource}.`, error);
-            context.report(resource, `Could not get results from HTML checker for '${resource}'. Error: '${error}'.`);
+            debug(getMessage('errorGettingResult', context.language, resource), error);
+            context.report(resource, getMessage('couldNotGetResult', context.language, [resource, error.toString()]));
         };
 
         const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {
@@ -160,7 +161,7 @@ export default class HtmlCheckerHint implements IHint {
                 const locateAndReportByResource = locateAndReport(resource);
                 let result;
 
-                debug(`Waiting for HTML checker results for ${resource}`);
+                debug(getMessage('waitingForHTMLResult', context.language, resource));
                 try {
                     result = JSON.parse(await check.promise);
                 } catch (e) {
@@ -169,7 +170,7 @@ export default class HtmlCheckerHint implements IHint {
                     return;
                 }
 
-                debug(`Received HTML checker results for ${resource}`);
+                debug(getMessage('receivedHTML', context.language, resource));
 
                 const filteredMessages: HtmlError[] = filter(result.messages);
 
@@ -178,7 +179,7 @@ export default class HtmlCheckerHint implements IHint {
                         locateAndReportByResource(messageItem);
                     });
                 } catch (e) {
-                    debug(`Error reporting the HTML checker results.`, e);
+                    debug(getMessage('errorReporting', context.language), e);
 
                     return;
                 }

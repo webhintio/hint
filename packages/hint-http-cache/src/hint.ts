@@ -7,8 +7,14 @@ import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
 import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+/*
+ * Discussion: I don't think this is worthy. Even if some messages are the same, it doesn't mean
+ * that in the future, that message is going to be the same.
+ */
+import { getMessage as contentTypeGetMessage } from '@hint/hint-content-type/dist/src/i18n.import';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -248,7 +254,7 @@ export default class HttpCacheHint implements IHint {
             const cacheControl: string | null = headers && headers['cache-control'] || null;
 
             if (!cacheControl) {
-                context.report(resource, `No "cache-control" header or empty value found. It should have a value`);
+                context.report(resource, getMessage('noHeaderFound', context.language));
 
                 return false;
             }
@@ -266,7 +272,11 @@ export default class HttpCacheHint implements IHint {
             const codeLanguage = 'http';
 
             if (invalidDirectives.size > 0) {
-                const message: string = `The ${invalidDirectives.size === 1 ? 'directive' : 'directives'} ${Array.from(invalidDirectives.keys()).join(', ')} ${invalidDirectives.size === 1 ? 'is' : 'are'} invalid`;
+                const message: string = getMessage('directiveInvalid', context.language, [
+                    invalidDirectives.size === 1 ? 'directive' : 'directives',
+                    Array.from(invalidDirectives.keys()).join(', '),
+                    invalidDirectives.size === 1 ? 'is' : 'are'
+                ]);
 
                 context.report(resource, message, { codeLanguage, codeSnippet });
 
@@ -274,7 +284,10 @@ export default class HttpCacheHint implements IHint {
             }
 
             if (invalidValues.size > 0) {
-                const message: string = `The following ${invalidValues.size === 1 ? 'directive has' : 'directives have'} an invalid value:\n${directivesToString(invalidValues)}`;
+                const message: string = getMessage('directiveInvalidValue', context.language, [
+                    invalidValues.size === 1 ? 'directive has' : 'directives have',
+                    directivesToString(invalidValues)
+                ]);
 
                 context.report(resource, message, { codeLanguage, codeSnippet });
 
@@ -293,7 +306,7 @@ export default class HttpCacheHint implements IHint {
             const nonRecommendedDirective = nonRecommendedDirectives(usedDirectives);
 
             if (nonRecommendedDirective) {
-                const message: string = `The directive "${nonRecommendedDirective}" is not recommended`;
+                const message: string = getMessage('directiveNotRecomended', context.language, nonRecommendedDirective);
 
                 context.report(resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control: ${header}` });
 
@@ -314,7 +327,7 @@ export default class HttpCacheHint implements IHint {
                 const hasMaxAge = (usedDirectives.has('max-age') || usedDirectives.has('s-maxage'));
 
                 if (hasMaxAge) {
-                    const message: string = `The following Cache-Control header is using a wrong combination of directives:\n${header}`;
+                    const message: string = getMessage('wrongCombination', context.language, header);
 
                     context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control: ${header}` });
 
@@ -338,7 +351,7 @@ export default class HttpCacheHint implements IHint {
             const isValidCache = compareToMaxAge(usedDirectives, maxAgeTarget) <= 0;
 
             if (!isValidCache) {
-                const message: string = `The target should not be cached, or have a small "max-age" value (${maxAgeTarget}):\n${header}`;
+                const message: string = getMessage('targetShouldNotBeCached', context.language, [maxAgeTarget, header]);
 
                 context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control')}: ${header}` });
 
@@ -363,7 +376,7 @@ export default class HttpCacheHint implements IHint {
 
             // We want long caches with "immutable" for static resources
             if (usedDirectives.has('no-cache') || !longCache) {
-                const message: string = `Static resources should have a long cache value (${maxAgeResource}):\nDirectives used: ${header}`;
+                const message: string = getMessage('staticResourceCacheValue', context.language, [maxAgeResource, header]);
 
                 context.report(resource, message, { codeLanguage, codeSnippet });
 
@@ -371,7 +384,7 @@ export default class HttpCacheHint implements IHint {
             }
 
             if (!immutable) {
-                const message: string = `Static resources should use the "immutable" directive:\nDirectives used: ${header}`;
+                const message: string = getMessage('staticNotImmutable', context.language, header);
 
                 context.report(resource, message, { codeLanguage, codeSnippet });
 
@@ -391,7 +404,7 @@ export default class HttpCacheHint implements IHint {
             });
 
             if (!matches) {
-                const message: string = `No configured patterns for cache busting match ${resource}. See docs to add a custom one.`;
+                const message: string = getMessage('noCacheBustingPattern', context.language, resource);
 
                 context.report(resource, message, { element });
 
@@ -408,7 +421,7 @@ export default class HttpCacheHint implements IHint {
             // This check does not make sense for data URIs.
 
             if (isDataURI(resource)) {
-                debug(`Check does not apply for data URIs`);
+                debug(contentTypeGetMessage('checkDoesNotApplyUri', context.language));
 
                 return;
             }

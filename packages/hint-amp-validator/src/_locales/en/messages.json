@@ -1,4 +1,12 @@
 {
+    "description": {
+        "description": "Metadata description",
+        "message": "Require HTML page to be AMP valid."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "AMP HTML validator"
+    },
     "no-valid-content": {
         "description": "Debug message when the content is not valid",
         "message": "No valid content"

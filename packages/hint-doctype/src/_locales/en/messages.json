@@ -1,0 +1,30 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "This hint checks if the HTML is using the most modern DOCTYPE."
+    },
+    "doctypeNotDuplicated": {
+        "description": "Report message when a doctype is duplicated",
+        "message": "'doctype' is not needed as one was already specified."
+    },
+    "doctypeNotSpecified": {
+        "description": "Report message when a doctype is not specified",
+        "message": "'doctype' was not specified."
+    },
+    "doctypeSpecifiedAs": {
+        "description": "Report message when a doctype is not specified as '<!doctype html>'",
+        "message": "'doctype' should be specified as '<!doctype html>'."
+    },
+    "doctypeSpecifiedBefore": {
+        "description": "Report message when a doctype is not the first thing in the html",
+        "message": "'doctype' should be specified before anything else."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Modern DOCTYPE"
+    },
+    "resourceNoContent": {
+        "description": "Report message when the resource has no content",
+        "message": "Resource has no content."
+    }
+}

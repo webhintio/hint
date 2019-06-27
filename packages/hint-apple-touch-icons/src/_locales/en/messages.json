@@ -7,6 +7,10 @@
         "description": "Message to show when the icon request fail",
         "message": "'$1' could not be fetched (status code: $2)."
     },
+    "description": {
+        "description": "Metadata description",
+        "message": "Require an 'apple-touch-icon'"
+    },
     "elementDuplicated": {
         "description": "Message to show when the 'apple-touch-icon' element is duplicated",
         "message": "'apple-touch-icon' link element is not needed as one was already specified."
@@ -26,6 +30,10 @@
     "invalidPNG": {
         "description": "Message to show when the icon is an invalid PNG",
         "message": "'$1' should be a valid PNG image."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Use Apple touch icon"
     },
     "noElement": {
         "description": "Message to show when a link element doesn't exist",

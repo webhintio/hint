@@ -15,7 +15,7 @@ type Messages = {
 const cache = new Map<string, Messages>();
 
 const format = (text: string, substitutions?: string | string[]) => {
-    if (!substitutions) {
+    if (typeof substitutions === 'undefined') {
         return text;
     }
 
@@ -95,6 +95,11 @@ export const getMessage = (key: string, packageName: string, options?: GetMessag
     const substitutions = options && options.substitutions;
 
     const messages = getMessages(packageName, language);
+    const message = messages[key].message;
 
-    return format(messages[key].message, substitutions);
+    if (!message) {
+        return key;
+    }
+
+    return format(message, substitutions);
 };

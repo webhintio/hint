@@ -1,4 +1,8 @@
 {
+    "description": {
+        "description": "Metadata description",
+        "message": "Require `noopener` (and `noreferrer`) on `a` and `area` element with target=\"_blank\""
+    },
     "hrefNotSpecified": {
         "description": "Debug information to show when the href is not specified",
         "message": "'href' is not specified"
@@ -14,6 +18,10 @@
     "keywords": {
         "description": "Word keyword in plural",
         "message": "keywords"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "External links disown opener"
     },
     "noTargetBlankFound": {
         "description": "Debug information to show when the target=\"blank\" is not found",
