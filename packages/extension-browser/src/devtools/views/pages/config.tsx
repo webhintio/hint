@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import { Config as ConfigData } from '../../../shared/types';
 
 import { getMessage } from '../../utils/i18n';
+import { getItem, setItem } from '../../utils/storage';
 
 import Button from '../controls/button';
 
@@ -23,20 +24,12 @@ const configKey = 'webhint-config';
 
 /** Get a saved configuration from a previous session. */
 const loadConfig = (): ConfigData => {
-    const configStr = localStorage.getItem(configKey);
-
-    try {
-        return configStr ? JSON.parse(configStr) : {};
-    } catch (e) {
-        console.warn(`Ignoring malformed configuration: ${configStr}`);
-
-        return {};
-    }
+    return getItem(configKey) || {};
 };
 
 /** Persist the provided configuration for future sessions. */
 const saveConfig = (config: ConfigData) => {
-    localStorage.setItem(configKey, JSON.stringify(config));
+    setItem(configKey, config);
 };
 
 type Props = {
