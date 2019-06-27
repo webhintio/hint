@@ -7,7 +7,7 @@ import { IHint } from 'hint/dist/src/lib/types';
 import { HTMLAttribute, HTMLElement } from '@hint/utils';
 import { getUnsupported } from '@hint/utils/dist/src/compat';
 
-import { joinBrowsers } from './utils/browsers';
+import { filterBrowsers, joinBrowsers } from './utils/browsers';
 import { resolveIgnore } from './utils/ignore';
 
 import meta from './meta/html';
@@ -80,7 +80,7 @@ export default class HTMLCompatHint implements IHint {
         ], context.hintOptions);
 
         context.on('element::*', ({ element, resource }) => {
-            const browsers = context.targetedBrowsers;
+            const browsers = filterBrowsers(context.targetedBrowsers);
 
             const report = ({ feature, unsupported }: ReportData) => {
                 const message = `${feature} is not supported by ${joinBrowsers(unsupported)}.`;

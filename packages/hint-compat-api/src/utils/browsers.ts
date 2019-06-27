@@ -5,6 +5,33 @@ const coerce = (version: string): semver.SemVer | string => {
 };
 
 /**
+ * Apply temporary filters to the list of target browsers to reduce
+ * false-positives due to incorrect/outdated data. Each of these
+ * should be removed once the affected data sources have been updated.
+ */
+export const filterBrowsers = (browsers: string[]): string[] => {
+    return browsers.filter((browser) => {
+
+        // Ignore Android WebView due to outdated data in both browserslist and MDN.
+        if (browser.startsWith('android')) {
+            return false;
+        }
+
+        // Ignore Samsung 4 due to outdated data in MDN.
+        if (browser === 'samsung 4') {
+            return false;
+        }
+
+        // Ignore Safari 5.1 due to `caniuse` reporting incorrect usage data.
+        if (browser === 'safari 5.1') {
+            return false;
+        }
+
+        return true;
+    });
+};
+
+/**
  * Serialize condensed version ranges for provided browsers.
  *
  * ```js

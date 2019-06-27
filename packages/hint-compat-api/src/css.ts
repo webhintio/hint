@@ -11,7 +11,7 @@ import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupported } from '@hint/utils/dist/src/compat';
 import { getCSSCodeSnippet } from '@hint/utils/dist/src/report';
 
-import { joinBrowsers } from './utils/browsers';
+import { filterBrowsers, joinBrowsers } from './utils/browsers';
 import { filterSupports } from './utils/filter-supports';
 import { resolveIgnore } from './utils/ignore';
 
@@ -230,10 +230,7 @@ export default class CSSCompatHint implements IHint {
         ], context.hintOptions);
 
         context.on('parse::end::css', ({ ast, element, resource }) => {
-            // Ignore Android WebView due to outdated data in both browserslist and MDN.
-            const browsers = context.targetedBrowsers.filter((browser) => {
-                return !browser.startsWith('android');
-            });
+            const browsers = filterBrowsers(context.targetedBrowsers);
 
             const report = ({feature, node, unsupported}: ReportData) => {
                 const message = `${feature} is not supported by ${joinBrowsers(unsupported)}.`;
