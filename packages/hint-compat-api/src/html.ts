@@ -75,7 +75,7 @@ export default class HTMLCompatHint implements IHint {
             'crossorigin',
             'integrity',
             'link[rel=manifest]',
-            'main[role=main]',
+            'main',
             'spellcheck'
         ], context.hintOptions);
 
