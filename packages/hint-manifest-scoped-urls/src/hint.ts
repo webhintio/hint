@@ -9,6 +9,7 @@ import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { debug as d } from '@hint/utils';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -30,8 +31,8 @@ export default class ManifestScopedUrlsHint implements IHint {
             try {
                 networkData = await context.fetchContent(startUrl);
             } catch (e) {
-                debug(`Failed to fetch ${startUrl}`);
-                const message = `Request failed for 'start_url'`;
+                debug(getMessage('failedToFetch', context.language, startUrl));
+                const message = getMessage('requestFailedFor', context.language);
 
                 context.report(resource, message, { location: startUrllocation });
 
@@ -41,7 +42,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             const response = networkData.response;
 
             if (response.statusCode !== 200) {
-                const message = `Specified 'start_url' is not accessible. (status code: ${response.statusCode}).`;
+                const message = getMessage('specifiedStartUrlNotAccessible', context.language, response.statusCode.toString());
 
                 context.report(resource, message, { location: startUrllocation });
 
@@ -66,7 +67,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             }
 
             if (!inScope) {
-                const message = `'start_url' is not in scope of the app.`;
+                const message = getMessage('startUrlNotInScope', context.language);
 
                 context.report(resource, message, { location: startUrllocation });
 
@@ -80,7 +81,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             const resourceURL = new URL(resource);
             const hostnameWithProtocol = `${resourceURL.protocol}//${resourceURL.host}`;
 
-            debug(`Validating hint manifest-scoped-urls`);
+            debug(getMessage('validating', context.language));
 
             if (startURL) {
                 const startUrlLocation = getLocation('start_url')!;
@@ -88,7 +89,7 @@ export default class ManifestScopedUrlsHint implements IHint {
                 const computedScope = scope || `${resource}/`;
 
                 if (notSameOrigin) {
-                    const message = `'start_url' must have same origin as the manifest file.`;
+                    const message = getMessage('startUrlMustHaveSameOrigin', context.language);
 
                     context.report(resource, message, { location: startUrlLocation });
 
@@ -101,7 +102,7 @@ export default class ManifestScopedUrlsHint implements IHint {
 
                 await startUrlAccessible(absoluteStartUrl, resource, startUrlLocation);
             } else {
-                const message = `Property 'start_url' not found in manifest file`;
+                const message = getMessage('propertyNotFound', context.language);
 
                 context.report(resource, message);
             }

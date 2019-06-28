@@ -1,0 +1,22 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Require web application name to be specified in the web app manifest file"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Manifest has name"
+    },
+    "shouldHaveNonEmptyProperty": {
+        "description": "Report message when a property is empty",
+        "message": "Web app manifest should have non-empty '$1' property value."
+    },
+    "shouldHaveProperty": {
+        "description": "Report message when a property doesn't exists",
+        "message": "Web app manifest should have '$1' property."
+    },
+    "shouldHavePropertyShort": {
+        "description": "Report message when a property value is too long",
+        "message": "Web app manifest should have '$1' property value under $2 characters."
+    }
+}

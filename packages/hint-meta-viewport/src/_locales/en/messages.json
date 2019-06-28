@@ -1,0 +1,46 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Require viewport meta element"
+    },
+    "metaElementDisallowedValues": {
+        "description": "Report message when the 'viewport' meta element has disallowed values in 'content'",
+        "message": "'viewport' meta element 'content' attribute value should not contain disallowed property '$1'."
+    },
+    "metaElementDuplicated": {
+        "description": "Report message when the 'viewport' meta element is duplciated",
+        "message": "'viewport' meta element is not needed as one was already specified."
+    },
+    "metaElementInBody": {
+        "description": "Report message when the 'viewport' meta element is specified inside '<body>'",
+        "message": "'viewport' meta element should be specified in the '<head>', not '<body>'."
+    },
+    "metaElementInvalidValues": {
+        "description": "Report message when the 'viewport' meta element has invalid values in 'content'",
+        "message": "'viewport' meta element 'content' attribute value should not contain invalid value '$1' for property '$2'."
+    },
+    "metaElementNoDeviceWidth": {
+        "description": "Report message when the 'viewport' meta element doesn't contain 'width=device-width' in 'content'",
+        "message": "'viewport' meta element 'content' attribute value should contain 'width=device-width'."
+    },
+    "metaElementNoInitialScale": {
+        "description": "Report message when the 'viewport' meta element doesn't contain 'initial-scale=1' in 'content'",
+        "message": "'viewport' meta element 'content' attribute value should contain 'initial-scale=1'."
+    },
+    "metaElementNonEmptyContent": {
+        "description": "Report message when the 'viewport' meta element has an empty 'content'",
+        "message": "'viewport' meta element should have non-empty 'content' attribute."
+    },
+    "metaElementNotSpecified": {
+        "description": "Report message when the 'viewport' meta element was not specified",
+        "message": "'viewport' meta element was not specified."
+    },
+    "metaElementUnknownProperty": {
+        "description": "Report message when the 'viewport' meta element has unknown properties in 'content'",
+        "message": "'viewport' meta element 'content' attribute value should not contain unknown property '$1'."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Correct viewport"
+    }
+}

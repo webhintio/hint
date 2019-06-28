@@ -9,6 +9,7 @@ import { ManifestEvents, ManifestParsed, ManifestImageResource } from '@hint/par
 import { debug as d } from '@hint/utils';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -33,8 +34,8 @@ export default class ManifestIconHint implements IHint {
             try {
                 networkData = await context.fetchContent(iconPath);
             } catch (e) {
-                debug(`Failed to fetch the ${iconPath} file`);
-                const message = `Icon could not be fetched (request failed).`;
+                debug(getMessage('failedToFetch', context.language, iconPath));
+                const message = getMessage('iconCouldNotBeFetched', context.language);
 
                 context.report(resource, message, { location: iconSrcLocation });
 
@@ -46,7 +47,7 @@ export default class ManifestIconHint implements IHint {
             const response = networkData.response;
 
             if (response.statusCode !== 200) {
-                const message = `Icon could not be fetched (status code: ${response.statusCode}).`;
+                const message = getMessage('iconCouldNotBeFetchedStatusCode', context.language, response.statusCode.toString());
 
                 context.report(resource, message, { location: iconSrcLocation });
 
@@ -72,7 +73,7 @@ export default class ManifestIconHint implements IHint {
             const iconTypeLocation = getLocation(`icons[${index}].type`);
 
             if (!iconType) {
-                const message = `Icon type was not specified.`;
+                const message = getMessage('iconTypeNotSpecified', context.language);
                 const iconLocation = getLocation(`icons[${index}]`);
 
                 context.report(resource, message, { location: iconLocation });
@@ -91,11 +92,11 @@ export default class ManifestIconHint implements IHint {
                     const isValidType = allowedTypes.includes(image.ext);
 
                     if (specifiedType !== image.ext) {
-                        const message = `Real image type (${image.ext}) do not match with specified type (${specifiedType})`;
+                        const message = getMessage('realImageType', context.language, [image.ext, specifiedType]);
 
                         context.report(resource, message, { location: iconTypeLocation });
                     } else if (specifiedType !== specifiedMIMEType) {
-                        const message = `MIME type (${specifiedMIMEType}) do not match with specified type (${specifiedType})`;
+                        const message = getMessage('mimeTypeNotMatch', context.language, [specifiedMIMEType, specifiedType]);
 
                         context.report(resource, message, { location: iconTypeLocation });
                     }
@@ -105,7 +106,7 @@ export default class ManifestIconHint implements IHint {
                     }
                 }
 
-                const message = `Icon should be a valid image type ${JSON.stringify(allowedTypes)}`;
+                const message = getMessage('iconShouldBeValidImageType', context.language, JSON.stringify(allowedTypes));
 
                 context.report(resource, message, { location: iconTypeLocation });
 
@@ -125,7 +126,7 @@ export default class ManifestIconHint implements IHint {
             const iconSizelocation = getLocation(`icons[${index}].sizes`);
 
             if (!iconSizes) {
-                context.report(resource, `Sizes not specifed for icon`, { location: iconSizelocation });
+                context.report(resource, getMessage('sizesNotSpecified', context.language), { location: iconSizelocation });
 
                 return false;
             }
@@ -154,7 +155,7 @@ export default class ManifestIconHint implements IHint {
             });
 
             if (!sizesMatch) {
-                const message = `Real image size (${realImage.width}x${realImage.height}) do not match with specified size(s) (${specifiedSizes})`;
+                const message = getMessage('realImageSizeNotMatch', context.language, [realImage.width.toString(), realImage.height.toString(), specifiedSizes.toString()]);
 
                 context.report(resource, message, { location: iconSizelocation });
 
@@ -171,7 +172,7 @@ export default class ManifestIconHint implements IHint {
             });
 
             if (requiredSizesNotFound.length > 0) {
-                const message = `Required sizes ${JSON.stringify(requiredSizesNotFound)} not found.`;
+                const message = getMessage('requiredSizes', context.language, JSON.stringify(requiredSizesNotFound));
 
                 context.report(resource, message, { location });
             }
@@ -204,7 +205,7 @@ export default class ManifestIconHint implements IHint {
                 }
             }
 
-            debug(`Found ValidSizes: ${validSizes}`);
+            debug(getMessage('foundValidSizes', context.language, validSizes));
 
             return validSizes;
         };
@@ -213,10 +214,10 @@ export default class ManifestIconHint implements IHint {
             const resourceURL = new URL(resource);
             const hostnameWithProtocol = `${resourceURL.protocol}//${resourceURL.host}`;
 
-            debug(`Validating hint manifest-icon`);
+            debug(getMessage('validating', context.language));
 
             if (icons && icons.length > 0) {
-                debug(`Validating if manifest-icon file exists`);
+                debug(getMessage('validatingIfExists', context.language));
                 const validSizes = await validateIcons(icons, hostnameWithProtocol, resource, getLocation);
 
                 if (validSizes.length > 0) {
@@ -225,7 +226,7 @@ export default class ManifestIconHint implements IHint {
                     hasRequiredSizes(validSizes, resource, iconlocation);
                 }
             } else {
-                const message = `Valid icons property was not found in the web app manifest`;
+                const message = getMessage('validIconsNotFound', context.language);
 
                 context.report(resource, message);
             }

@@ -1,0 +1,22 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Require valid web app manifest"
+    },
+    "invalidValue": {
+        "description": "Report message when a property has an invalid value",
+        "message": "Web app manifest should not have invalid value '$1' for property '$2'."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Valid manifest"
+    },
+    "unsupportedValue": {
+        "description": "Report message when a property has an unsupported value",
+        "message": "Web app manifest should not have unsupported value '$1' for property '$2'."
+    },
+    "validJSON": {
+        "description": "Report message when the web app manifest is not a valid JSON",
+        "message": "Web app manifest should contain valid JSON."
+    }
+}

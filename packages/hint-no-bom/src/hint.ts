@@ -5,6 +5,7 @@ import { FetchEnd, HintContext, IHint, NetworkData } from 'hint';
 import { asyncTry, contentType, debug as d, network } from '@hint/utils';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { isTextMediaType } = contentType;
 const { isRegularProtocol } = network;
@@ -23,7 +24,7 @@ export default class implements IHint {
     public constructor(context: HintContext) {
 
         const validateFetchEnd = async (fetchEnd: FetchEnd) => {
-            debug(`Validating hint no-bom`);
+            debug(getMessage('validating', context.language));
 
             const { resource, element } = fetchEnd;
 
@@ -39,9 +40,9 @@ export default class implements IHint {
             const request = await safeFetch(resource);
 
             if (!request) {
-                context.report(resource, 'Content could not be fetched.', { element });
+                context.report(resource, getMessage('couldNotBeFetched', context.language), { element });
 
-                debug(`Error requesting the resource: ${resource}`);
+                debug(getMessage('errorRequesting', context.language, resource));
 
                 return;
             }
@@ -52,7 +53,7 @@ export default class implements IHint {
                 content[1] === 0xBB &&
                 content[2] === 0xBF
             ) {
-                context.report(resource, `Text-based resource should not start with BOM character.`, { element });
+                context.report(resource, getMessage('textBased', context.language), { element });
             }
 
         };

@@ -1,0 +1,38 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Checks if URLs in the manifest are in scope and accessible"
+    },
+    "failedToFetch": {
+        "description": "Debug information to show when the request start_url fails",
+        "message": "Failed to fetch $1"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Manifest has scoped `start_url`"
+    },
+    "propertyNotFound": {
+        "description": "Report message when the property 'start_url' not found in manifest file",
+        "message": "Property 'start_url' not found in manifest file"
+    },
+    "requestFailedFor": {
+        "description": "Report message when the request for 'start_url' fails",
+        "message": "Request failed for 'start_url'"
+    },
+    "specifiedStartUrlNotAccessible": {
+        "description": "Report message when the response for 'start_url' has a status code !== 200",
+        "message": "Specified 'start_url' is not accessible. (status code: $1)."
+    },
+    "startUrlNotInScope": {
+        "description": "Report message when the 'start_url' is not in the scope of the app",
+        "message": "'start_url' is not in scope of the app."
+    },
+    "startUrlMustHaveSameOrigin": {
+        "description": "Report message when the 'start_url' doesn't have the same origin as the manifest file",
+        "message": "'start_url' must have same origin as the manifest file."
+    },
+    "validating": {
+        "description": "Debug information to show when the validation starts",
+        "message": "Validating hint manifest-scoped-urls"
+    }
+}

@@ -27,6 +27,7 @@ import {
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 /*
  * ---------------------------------------------------------------------
@@ -89,7 +90,7 @@ export default class ManifestIsValidHint implements IHint {
 
                 if (color === null) {
                     const location = getLocation(property);
-                    const message = `Web app manifest should not have invalid value '${colorValue}' for property '${property}'.`;
+                    const message = getMessage('invalidValue', context.language, [colorValue, property]);
 
                     context.report(resource, message, { location });
 
@@ -98,7 +99,7 @@ export default class ManifestIsValidHint implements IHint {
 
                 if (isNotSupportedColorValue(color, normalizedColorValue)) {
                     const location = getLocation(property);
-                    const message = `Web app manifest should not have unsupported value '${colorValue}' for property '${property}'.`;
+                    const message = getMessage('unsupportedValue', context.language, [colorValue, property]);
 
                     context.report(resource, message, { location });
                 }
@@ -110,7 +111,7 @@ export default class ManifestIsValidHint implements IHint {
 
             if (lang && !bcp47(lang)) {
                 const location = getLocation('lang');
-                const message = `Web app manifest should not have invalid value '${manifest.lang}' for property 'lang'.`;
+                const message = getMessage('invalidValue', context.language, [lang, 'lang']);
 
                 context.report(resource, message, { location });
             }
@@ -119,7 +120,7 @@ export default class ManifestIsValidHint implements IHint {
         const handleInvalidJSON = (manifestInvalidJSON: ManifestInvalidJSON) => {
             const { resource } = manifestInvalidJSON;
 
-            context.report(resource, `Web app manifest should contain valid JSON.`);
+            context.report(resource, getMessage('validJSON', context.language));
         };
 
         const handleInvalidSchema = (manifestInvalidSchemaEvent: ManifestInvalidSchema) => {

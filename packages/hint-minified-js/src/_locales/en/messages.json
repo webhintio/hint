@@ -1,0 +1,18 @@
+{
+    "calculatedImprovementIndex": {
+        "description": "Debug information to show the improvementIndex",
+        "message": "Calculated improvementIndex for $1: $2"
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Hint to check script is minified or not"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Minify JavaScript"
+    },
+    "shouldBeMinified": {
+        "description": "Report message when a JavaScript can be minified",
+        "message": "JavaScript content should be minified."
+    }
+}

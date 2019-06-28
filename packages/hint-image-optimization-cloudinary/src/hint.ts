@@ -13,6 +13,7 @@ import { logger, misc } from '@hint/utils';
 import { cloudinaryResult } from './cloudinary-types';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { cutString } = misc;
 /*
@@ -66,7 +67,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
 
                 return result;
             } catch (error) {
-                logger.error(`Error processing image ${cutString(data.resource)} with cloudinary`);
+                logger.error(getMessage('errorProcessingImage', context.language, cutString(data.resource)));
                 logger.error(error);
 
                 // We still want to complete the test
@@ -89,7 +90,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
             }
 
             if (!apiKey || !apiSecret || !cloudName) {
-                logger.error('No configuration found for cloudinary');
+                logger.error(getMessage('noConfigFound', context.language));
 
                 return false;
             }
@@ -127,7 +128,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
         /** Waits to gather the results of all the images and notifies if there is any possible savings. */
         const end = async (data: ScanEnd) => {
             if (!configured) {
-                context.report('', `No valid configuration for Cloudinary found. Hint could not run.`);
+                context.report('', getMessage('noValidConfig', context.language));
 
                 return;
             }
@@ -153,12 +154,12 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
 
                 if (sizeDiff >= sizeThreshold) {
                     reported = true;
-                    context.report(file.originalUrl, `'${cutString(file.originalUrl)}' could be around ${sizeDiff.toFixed(2)}kB (${percentageDiff}%) smaller.`, { element: file.element });
+                    context.report(file.originalUrl, getMessage('imageCouldBeSmaller', context.language, [cutString(file.originalUrl), sizeDiff.toFixed(2), percentageDiff.toString()]), { element: file.element });
                 }
             }
 
             if (!reported && totalSavings > sizeThreshold) {
-                context.report('', `Total size savings optimizing the images on '${data.resource}' could be of around ${totalSavings.toFixed(0)}kB.`);
+                context.report('', getMessage('totalSize', context.language, [data.resource, totalSavings.toFixed(0)]));
             }
 
             // uploads needs to be cleaned at the end to work propertly with the local connector + watcher

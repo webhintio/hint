@@ -264,7 +264,7 @@ const testsForBrotli: HintTest[] = [
             mock('@hint/utils', utils);
         },
         name: `If a request throws an exception, if should be managed and report an error (brotli)`,
-        reports: [{ message: `Could not be fetched when requested compressed with Brotli` }],
+        reports: [{ message: `Could not be fetched when requested compressed with Brotli.` }],
         serverConfig: createBrotliServerConfig({
             scriptFileContent: scriptFile.brotli,
             scriptFileHeaders: brotliConfigs.scriptFileHeaders
@@ -501,7 +501,7 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
                 mock('@hint/utils', utils);
             },
             name: `If a request throws an exception, if should be managed and report an error (Gzip)`,
-            reports: [{ message: 'Could not be fetched when requested compressed with gzip' }],
+            reports: [{ message: 'Could not be fetched when requested compressed with gzip.' }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
