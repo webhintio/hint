@@ -1,10 +1,20 @@
 import { Category, HintMetadata, HintScope } from 'hint';
 
+import { getMessage } from '../i18n.import';
+
 const meta: HintMetadata = {
     docs: {
         category: Category.development,
-        description: '`typescript-config/target` warns against providing a `compilerOptions.target` in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined `browserslist` values.',
-        name: 'TypeScript target'
+        description: getMessage('target/description', 'en'),
+        name: getMessage('target/name', 'en')
+    },
+    /* istanbul ignore next */
+    getDescription(language: string) {
+        return getMessage('target/description', language);
+    },
+    /* istanbul ignore next */
+    getName(language: string) {
+        return getMessage('target/name', language);
     },
     id: 'typescript-config/target',
     schema: [],

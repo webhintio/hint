@@ -8,6 +8,7 @@ import { ElementFound, FetchEnd, HintContext, IHint, ScanStart } from 'hint';
 import { debug as d, misc, network } from '@hint/utils';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { normalizeString } = misc;
 const { includedHeaders } = network;
@@ -25,7 +26,7 @@ export default class NoP3pHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        const errorMessage = 'P3P should not be used as it is deprecated.';
+        const errorMessage = getMessage('p3pDeprecated', context.language);
         /**
          * Verifies the server doesn't respond with any content to the well-known location
          * (/w3c/p3p.xml) defined in the spec https://www.w3.org/TR/P3P11/#Well_Known_Location

@@ -1,12 +1,21 @@
 import { Category, HintMetadata, HintScope } from 'hint';
 
 import * as Connections from './connections';
+import { getMessage } from './i18n.import';
 
 const meta: HintMetadata = {
     docs: {
         category: Category.performance,
-        description: `Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed`,
-        name: 'Performance budget'
+        description: getMessage('description', 'en'),
+        name: getMessage('name', 'en')
+    },
+    /* istanbul ignore next */
+    getDescription(language: string) {
+        return getMessage('description', language);
+    },
+    /* istanbul ignore next */
+    getName(language: string) {
+        return getMessage('name', language);
     },
     id: 'performance-budget',
     schema: [{

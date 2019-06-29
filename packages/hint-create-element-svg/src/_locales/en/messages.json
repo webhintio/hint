@@ -12,7 +12,7 @@
         "message": "SVG elements cannot be created with createElement; use createElementNS instead"
     },
     "validating": {
-        "description": "Debug message to show when a validation starts",
+        "description": "Debug information to show when a validation starts",
         "message": "Validating hint create-element-svg"
     }
 }

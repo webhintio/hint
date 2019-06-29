@@ -7,6 +7,7 @@ import { debug as d } from '@hint/utils';
 import { WebpackConfigEvents } from '@hint/parser-webpack-config';
 
 import meta from './meta/config-exists';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -22,9 +23,9 @@ export default class WebpackConfigConfigExists implements IHint {
     public constructor(context: HintContext<WebpackConfigEvents>) {
 
         const notFound = () => {
-            debug(`parse::error::webpack-config::not-found received`);
+            debug(getMessage('eventReceived', context.language, 'parse::error::webpack-config::not-found'));
 
-            context.report('', 'webpack configuration file not found in your project.');
+            context.report('', getMessage('configExists', context.language));
         };
 
         context.on('parse::error::webpack-config::not-found', notFound);

@@ -18,6 +18,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, Response, IHint } from 'hint/dist/src/lib/types';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -109,7 +110,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
-                debug(`Check does not apply for data URI: ${resource}`);
+                debug(getMessage('checkDoesNotApply', context.language, resource));
 
                 return;
             }
@@ -124,7 +125,13 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
                 const numberOfHeaders = headers.length;
 
                 if (numberOfHeaders > 0) {
-                    const message = `Response should not include unneeded ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`;
+                    let message: string;
+
+                    if (numberOfHeaders === 1) {
+                        message = getMessage('unneededHeader', context.language, prettyPrintArray(headers));
+                    } else {
+                        message = getMessage('unneededHeaders', context.language, prettyPrintArray(headers));
+                    }
 
                     context.report(resource, message, { element });
                 }

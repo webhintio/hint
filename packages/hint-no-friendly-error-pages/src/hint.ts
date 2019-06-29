@@ -16,6 +16,7 @@ import { debug as d, network } from '@hint/utils';
 import { FetchEnd, HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { isDataURI } = network;
 const debug = d(__filename);
@@ -37,7 +38,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
         if (!['ie 5', 'ie 6', 'ie 7', 'ie 8', 'ie 9', 'ie 10', 'ie 11'].some((e) => {
             return context.targetedBrowsers.includes(e);
         })) {
-            debug(`Hint does not apply for targeted browsers`);
+            debug(getMessage('hintDoesNotApply', context.language));
 
             return;
         }
@@ -56,7 +57,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
-                debug(`Check does not apply for data URI: ${resource}`);
+                debug(getMessage('checkDoesNotApply', context.language, resource));
 
                 return;
             }
@@ -115,7 +116,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
                 });
             } catch (e) {
                 // This will most likely fail because target is a local file.
-                debug(`Custom request to generate error response failed for: ${targetURL}`);
+                debug(getMessage('customRequestFailed', context.language, targetURL));
             }
 
         };
@@ -136,7 +137,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             for (const key of Object.keys(foundErrorPages)) {
                 const threshold = statusCodesWith512Threshold.includes(Number.parseInt(key)) ? 512 : 256;
 
-                context.report(href, `Response with status code ${key} should have more than ${threshold} bytes.`);
+                context.report(href, getMessage('responseWithStatus', context.language, [key, threshold.toString()]));
             }
         };
 

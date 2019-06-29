@@ -1,0 +1,22 @@
+{
+    "analyzing": {
+        "description": "Debug information to show when the validation starts",
+        "message": "Analyzing link\n$1"
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Disallow protocol relative URLs"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "No protocol-relative URLs"
+    },
+    "noProtocolRelativeUrl": {
+        "description": "Report message when a protocol relative URL is found",
+        "message": "'$1' should not be specified as a protocol-relative URL."
+    },
+    "protocolRelativeFound": {
+        "description": "Debug information to show when a protocol relative URL is found",
+        "message": "Protocol relative URL found"
+    }
+}

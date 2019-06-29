@@ -1,10 +1,20 @@
 import { Category, HintMetadata, HintScope } from 'hint';
 
+import { getMessage } from '../i18n.import';
+
 const meta: HintMetadata = {
     docs: {
         category: Category.development,
-        description: '`webpack-config/modules-false-babel` warns against not having set the propety `modules` to `false` in presets in babel configuration file',
-        name: 'No Babel `modules` with webpack'
+        description: getMessage('modules-false-babel/description', 'en'),
+        name: getMessage('modules-false-babel/name', 'en')
+    },
+    /* istanbul ignore next */
+    getDescription(language: string) {
+        return getMessage('modules-false-babel/description', language);
+    },
+    /* istanbul ignore next */
+    getName(language: string) {
+        return getMessage('modules-false-babel/name', language);
     },
     id: 'webpack-config/modules-false-babel',
     schema: [],

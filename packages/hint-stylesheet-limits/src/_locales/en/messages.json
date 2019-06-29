@@ -1,0 +1,22 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Checks if CSS exceeds known stylesheet limits."
+    },
+    "maximumNested": {
+        "description": "Report message when the maximum of nested imports is reached",
+        "message": "Maximum of $1 nested imports reached ($2)"
+    },
+    "maximumRules": {
+        "description": "Report message when the maximum of CSS rules is reached",
+        "message": "Maximum of $1 CSS rules reached ($2)"
+    },
+    "maximumStylesheets": {
+        "description": "Report message when the maximum of stylesheets is reached",
+        "message": "Maximum of $1 stylesheets reached ($2)"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Avoid CSS limits"
+    }
+}

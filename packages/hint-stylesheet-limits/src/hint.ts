@@ -6,6 +6,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, CanEvaluateScript } from 'hint/dist/src/lib/types';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 /*
  * ------------------------------------------------------------------------------
@@ -136,15 +137,15 @@ export default class StylesheetLimitsHint implements IHint {
 
             // Only check `maxImports` if a limit has been specified
             if (hasImportLimit && results.imports >= maxImports) {
-                context.report(event.resource, `Maximum of ${maxImports} nested imports reached (${results.imports})`);
+                context.report(event.resource, getMessage('maximumNested', context.language, [maxImports.toString(), results.imports.toString()]));
             }
 
             if (hasRuleLimit && results.rules >= maxRules) {
-                context.report(event.resource, `Maximum of ${maxRules} CSS rules reached (${results.rules})`);
+                context.report(event.resource, getMessage('maximumRules', context.language, [maxRules.toString(), results.rules.toString()]));
             }
 
             if (hasSheetLimit && results.sheets >= maxSheets) {
-                context.report(event.resource, `Maximum of ${maxSheets} stylesheets reached (${results.sheets})`);
+                context.report(event.resource, getMessage('maximumStylesheets', context.language, [maxSheets.toString(), results.sheets.toString()]));
             }
         };
 

@@ -7,6 +7,7 @@ import { debug as d } from '@hint/utils';
 import { WebpackConfigEvents } from '@hint/parser-webpack-config';
 
 import meta from './meta/is-installed';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -22,9 +23,9 @@ export default class WebpackConfigIsInstalled implements IHint {
     public constructor(context: HintContext<WebpackConfigEvents>) {
 
         const notInstall = () => {
-            debug(`parse::error::webpack-config::not-install received`);
+            debug(getMessage('eventReceived', context.language, 'parse::error::webpack-config::not-install'));
 
-            context.report('', 'webpack is not installed in your project.');
+            context.report('', getMessage('isInstalled', context.language));
         };
 
         context.on('parse::error::webpack-config::not-install', notInstall);

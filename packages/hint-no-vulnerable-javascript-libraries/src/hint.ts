@@ -19,6 +19,7 @@ import { Library, Vulnerability } from './types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -41,7 +42,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
          * using [`js-library-detector`](https://npmjs.com/package/js-library-detector).
          */
         const createScript = async (): Promise<string> => {
-            debug('Creating script to inject');
+            debug(getMessage('creatingScript', context.language));
             const libraryDetector = await readFileAsync(require.resolve('js-library-detector'));
 
             const script = `/*RunInPageContext*/
@@ -94,15 +95,15 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 // We check if the file is older than 24h to update it
                 /* istanbul ignore if */
                 if (now - modified > oneDay) {
-                    debug('snkyDB is older than 24h.');
-                    debug('Updating snykDB');
+                    debug(getMessage('snkyDBIsOlder', context.language));
+                    debug(getMessage('updatingSnykDB', context.language));
                     const res = await requestAsync('https://snyk.io/partners/api/v2/vulndb/clientside.json');
 
                     await writeFileAsync(snykDBPath, res);
                 }
             } catch (e) /* istanbul ignore next */ {
                 debug(e);
-                debug(`Error loading snyk's data`);
+                debug(getMessage('errorLoadingSnyk', context.language));
             }
 
             return require('./snyk-snapshot.json');
@@ -113,7 +114,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
             let vulnerabilities = vulns;
 
 
-            debug('Filtering vulnerabilities');
+            debug(getMessage('filteringVulnerabilities', context.language));
             vulnerabilities = vulnerabilities.filter((vulnerability) => {
                 const { severity } = vulnerability;
                 let fails = false;
@@ -147,7 +148,15 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 .join(', ');
 
             if (detail) {
-                context.report(resource, `'${library.name}@${library.version}' has ${vulnerabilities.length} known ${vulnerabilities.length === 1 ? 'vulnerability' : 'vulnerabilities'} (${detail}). See '${link}' for more information.`);
+                let message: string;
+
+                if (vulnerabilities.length === 1) {
+                    message = getMessage('vulnerability', context.language, [library.name, library.version, vulnerabilities.length.toString(), detail, link]);
+                } else {
+                    message = getMessage('vulnerabilities', context.language, [library.name, library.version, vulnerabilities.length.toString(), detail, link]);
+                }
+
+                context.report(resource, message);
             }
         };
 
@@ -181,7 +190,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                             }
                         });
                     } catch (e) {
-                        logger.error(`Version ${version} of ${lib.name} isn't semver compliant`);
+                        logger.error(getMessage('versionNotCompliant', context.language, [version, lib.name]));
                     }
 
                     return vulns;
@@ -203,15 +212,15 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 let message: string;
 
                 if (e.message.includes('evaluation exceeded')) {
-                    message = `webhint did not return the result fast enough`;
+                    message = getMessage('notFastEnough', context.language);
                 } else {
-                    message = `Error executing script: '${e.message}'`;
+                    message = getMessage('errorExecuting', context.language, e.message);
                 }
 
-                message = `${message}. Please try again later, or report an issue if this problem persists.`;
+                message = getMessage('tryAgainLater', context.language, message);
 
                 context.report(resource, message, { severity: Severity.warning });
-                debug('Error executing script', e);
+                debug(getMessage('errorExecutingScript', context.language), e);
 
                 return;
             }

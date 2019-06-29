@@ -1,0 +1,86 @@
+{
+    "consistent-casing/description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/consistent-casing` checks if the property `forceConsistentCasingInFileNames` is enabled in the TypeScript configuration file (i.e `tsconfig.json`)"
+    },
+    "consistent-casing/name": {
+        "description": "Metadata name",
+        "message": "TypeScript consistent casing"
+    },
+    "couldNotFindTSLib": {
+        "description": "",
+        "message": "Couldn't find package \"tslib\"."
+    },
+    "eventReceived": {
+        "description": "Debug information to show when an event is received",
+        "message": "$1 received"
+    },
+    "forceConsistentCasingInFileNames": {
+        "description": "Report message when the option 'forceConsistentCasingInFileNames' is not enabled",
+        "message": "The compiler option \"forceConsistentCasingInFileNames\" should be enabled to reduce issues when working with different OSes."
+    },
+    "import-helpers/description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/import-helpers` checks if the property `importHelpers` is enabled in the TypeScript configuration file (i.e `tsconfig.json`) to reduce the output size."
+    },
+    "import-helpers/name": {
+        "description": "Metadata name",
+        "message": "TypeScript import helpers"
+    },
+    "importHelpers": {
+        "description": "Report message when the option 'importHelpers' is not enabled",
+        "message": "The compiler option \"importHelpers\" should be enabled to reduce the output size."
+    },
+    "is-valid/description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/is-valid` warns against providing an invalid TypeScript configuration file `tsconfig.json`"
+    },
+    "is-valid/name": {
+        "description": "Metadata name",
+        "message": "Valid TypeScript configuration"
+    },
+    "no-comments/description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/no-comments` checks if the property `removeComments` is enabled in the TypeScript configuration file (i.e `tsconfig.json`)"
+    },
+    "no-comments/name": {
+        "description": "Metadata name",
+        "message": "TypeScript remove comments"
+    },
+    "removeComments": {
+        "description": "Report message when 'removeComments' is not enabled",
+        "message": "The compiler option \"removeComments\" should be enabled to reduce the output size."
+    },
+    "searchingTSLib": {
+        "description": "Debug information to show where we the hint is searching the tslib",
+        "message": "Searching \"tslib\" in ${pathToTslib}"
+    },
+    "strict": {
+        "description": "Report message when 'strict' is not enabled",
+        "message": "The compiler option \"strict\" should be enabled to reduce type errors."
+    },
+    "strict/description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/strict` checks if the property `strict` is enabled in the TypeScript configuration file (i.e `tsconfig.json`)."
+    },
+    "strict/name": {
+        "description": "Metadata name",
+        "message": "TypeScript strict"
+    },
+    "target/description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/target` warns against providing a `compilerOptions.target` in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined `browserslist` values."
+    },
+    "target/name": {
+        "description": "Metadata name",
+        "message": "TypeScript target"
+    },
+    "tsLibFound": {
+        "description": "Debug information to show when tslib is found",
+        "message": "\"tslib\" found"
+    },
+    "target": {
+        "description": "Report message when the 'compilerOptions.target' is not configured correctly for the user target browsers",
+        "message": "Based on your browser configuration your \"compilerOptions.target\" should be \"$1\". Current one is \"$2\""
+    }
+}

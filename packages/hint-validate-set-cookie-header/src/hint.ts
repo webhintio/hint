@@ -11,6 +11,7 @@ import { HintContext, CodeLanguage } from 'hint/dist/src/lib/hint-context';
 
 import { ParsedSetCookieHeader } from './types';
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -75,18 +76,18 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             };
 
             if (directivePairs[directivePairs.length - 1] === '') {
-                throw new Error(`'${headerName}' header to set '${setCookie.name}' has trailing ';'`);
+                throw new Error(getMessage('noTrilingSemicolon', context.language, [headerName, setCookie.name]));
             }
 
             directivePairs.forEach((part) => {
                 const [directiveKey, directiveValue] = normalizeAfterSplitByEqual(part.split('=')) as [keyof ParsedSetCookieHeader, string];
 
                 if (!acceptedCookieAttributes.includes(directiveKey)) {
-                    throw new Error(`'${headerName}' header contains unknown attribute '${directiveKey}'.`);
+                    throw new Error(getMessage('unknownAttribute', context.language, [headerName, directiveKey]));
                 }
 
                 if (setCookie[directiveKey]) {
-                    throw new Error(`'${headerName}' header contains more than one ${directiveKey}.`);
+                    throw new Error(getMessage('duplicatedDirective', context.language, [headerName, directiveKey]));
                 }
 
                 (setCookie as any)[directiveKey] = directiveValue || true;
@@ -118,9 +119,9 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const cookieName: string = parsedSetCookie.name;
             const errors: ValidationMessages = [];
 
-            const noNameValueStringError: string = `'${headerName}' header doesn't contain a cookie name-value string.`;
-            const invalidNameError: string = `'${headerName}' header to set '${cookieName}' has an invalid cookie name.`;
-            const invalidValueError: string = `'${headerName}' header to set '${cookieName}' has an invalid cookie value.`;
+            const noNameValueStringError: string = getMessage('noNameValueString', context.language, headerName);
+            const invalidNameError: string = getMessage('invalidName', context.language, [headerName, cookieName]);
+            const invalidValueError: string = getMessage('invalidValue', context.language, [headerName, cookieName]);
 
             // Check name-value-string exists and it is before the first `;`.
             if (!cookieName || acceptedCookieAttributes.includes(cookieName)) {
@@ -148,9 +149,9 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const resource: string = parsedSetCookie.resource || '';
             const errors: ValidationMessages = [];
 
-            const hasPrefixHttpError: string = `'${headerName}' header contains prefixes but is from an insecure page.`;
-            const noPathHasHostPrefixError: string = `${headerName} header contains '__Host-' prefix but the 'path' directive doesn't have a value of '/'.`;
-            const hasDomainHostPrefixError: string = `${headerName} header contains '__Host-' prefix but the 'domain' directive is set.`;
+            const hasPrefixHttpError: string = getMessage('hasPrefixHttp', context.language, headerName);
+            const noPathHasHostPrefixError: string = getMessage('noPathHasHostPrefix', context.language, headerName);
+            const hasDomainHostPrefixError: string = getMessage('hasDomainHostPrefix', context.language, headerName);
 
             if ((cookieName.startsWith('__secure-') || cookieName.startsWith('__host-')) && !isHTTPS(resource)) {
                 errors.push(hasPrefixHttpError);
@@ -175,9 +176,9 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const resource: string = parsedSetCookie.resource || '';
             const errors: ValidationMessages = [];
 
-            const hasSecureHttpError: string = `Insecure sites (${resource}) can't set cookies with the 'secure' directive.`;
-            const noSecureError: string = `'${headerName}' header to set '${cookieName}' doesn't have the 'secure' directive.`;
-            const noHttpOnlyError: string = `'${headerName}' header to set '${cookieName}' doesn't have the 'httponly' directive.`;
+            const hasSecureHttpError: string = getMessage('hasSecureHttp', context.language, resource);
+            const noSecureError: string = getMessage('noSecure', context.language, [headerName, cookieName]);
+            const noHttpOnlyError: string = getMessage('noHttpOnly', context.language, [headerName, cookieName]);
 
             // Check against `Secure` directive if sites are insecure.
             if (!isHTTPS(resource) && parsedSetCookie.secure) {
@@ -210,8 +211,8 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
             // Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Date
             const utcTimeString: string = new Date(parsedSetCookie.expires).toUTCString();
-            const invalidDateError: string = `Invalid date in 'expires' value of the '${headerName}' header to set '${cookieName}'.`;
-            const invalidDateFormatError: string = `Invalid date format in 'expires' value of the '${headerName}' header to set '${cookieName}'. The recommended format is: ${utcTimeString}`;
+            const invalidDateError: string = getMessage('invalidDate', context.language, [headerName, cookieName]);
+            const invalidDateFormatError: string = getMessage('invalidDateFormat', context.language, [headerName, cookieName, utcTimeString]);
 
             if (utcTimeString === 'Invalid Date') {
                 errors.push(invalidDateError);
@@ -230,8 +231,8 @@ export default class ValidateSetCookieHeaderHint implements IHint {
         const validateMaxAgeAndExpires = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
             const cookieName: string = parsedSetCookie.name;
             const errors: ValidationMessages = [];
-            const maxAgeCompatibilityMessage: string = `Internet Explorer (IE 6, IE 7, and IE 8) doesn't support 'max-age' directive in the '${headerName}' header to set '${cookieName}'.`;
-            const maxAgeAndExpireDuplicateMessage: string = `The 'max-age' attribute takes precedence when both 'expires' and 'max-age' both exist.`;
+            const maxAgeCompatibilityMessage: string = getMessage('maxAgeCompatibility', context.language, [headerName, cookieName]);
+            const maxAgeAndExpireDuplicateMessage: string = getMessage('maxAgeAndExpireDuplicate', context.language);
 
             if (supportOlderBrowsers) {
                 /*
@@ -268,7 +269,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
             // This check does not apply if URI starts with protocols others than http/https.
             if (!isRegularProtocol(resource)) {
-                debug(`Check does not apply for URI: ${resource}`);
+                debug(getMessage('checkDoesNotApply', context.language, resource));
 
                 return;
             }

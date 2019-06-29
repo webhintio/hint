@@ -1,10 +1,21 @@
 import { Category, HintMetadata, HintScope } from 'hint';
 
+import { getMessage } from './i18n.import';
+
 const meta: HintMetadata = {
     docs: {
         category: Category.performance,
-        description: `Hint to flag broken links in the page`,
-        name: 'No broken links'
+
+        description: getMessage('description', 'en'),
+        name: getMessage('name', 'en')
+    },
+    /* istanbul ignore next */
+    getDescription(language: string) {
+        return getMessage('description', language);
+    },
+    /* istanbul ignore next */
+    getName(language: string) {
+        return getMessage('name', language);
     },
     id: 'no-broken-links',
     schema: [{

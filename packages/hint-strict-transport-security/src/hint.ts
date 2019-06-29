@@ -8,6 +8,7 @@ import { debug as d, network } from '@hint/utils';
 import { FetchEnd, HintContext, IHint, NetworkData } from 'hint';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { isRegularProtocol } = network;
 const debug = d(__filename);
@@ -70,14 +71,14 @@ export default class StrictTransportSecurityHint implements IHint {
                 const match = tokenRegex.exec(directive) || nameValuePairRegex.exec(directive);
 
                 if (!match) {
-                    throw new Error(`'strict-transport-security' header has the wrong format: ${directive}`);
+                    throw new Error(getMessage('wrongFormat', context.language, directive));
                 }
 
                 const [matchString, key, value] = match;
                 const name = key || matchString.trim();
 
                 if (parsedHeader[name]) {
-                    throw new Error(`'strict-transport-security' header contains more than one '${name}'`);
+                    throw new Error(getMessage('moreThanOneName', context.language, name));
                 }
 
                 parsedHeader[name] = value || 'true';
@@ -91,13 +92,13 @@ export default class StrictTransportSecurityHint implements IHint {
         };
 
         const isPreloaded = (hostname: string): Promise<{ [key: string]: any }> => {
-            debug(`Waiting to get preload status for ${hostname}`);
+            debug(getMessage('waitingPreloadStatus', context.language, hostname));
 
             return requestJSONAsync(`${statusApiEndPoint}${hostname}`);
         };
 
         const issuesToPreload = (hostname: string): Promise<{ [key: string]: any }> => {
-            debug(`Waiting to get preload eligibility for ${hostname}`);
+            debug(getMessage('waitingPreloadEligibility', context.language, hostname));
 
             return requestJSONAsync(`${preloadableApiEndPoint}${hostname}`);
         };
@@ -112,7 +113,7 @@ export default class StrictTransportSecurityHint implements IHint {
             try {
                 ({ status } = await isPreloaded(mainDomain) || await isPreloaded(originalDomain));
             } catch (err) {
-                const message = `Error with getting preload status for ${resource}.`;
+                const message = getMessage('errorPreloadStatus', context.language, resource);
 
                 debug(message, err);
                 context.report(resource, message);
@@ -120,10 +121,10 @@ export default class StrictTransportSecurityHint implements IHint {
                 return issues;
             }
 
-            debug(`Received preload status for ${resource}.`);
+            debug(getMessage('receivedPreloadStatus', context.language, resource));
 
             if (!status) {
-                const message = `Error with getting preload status for ${resource}. There might be something wrong with the verification endpoint.`;
+                const message = getMessage('wrongVerification', context.language, getMessage('errorPreloadStatus', context.language, resource));
 
                 debug(message);
                 context.report(resource, message);
@@ -135,13 +136,13 @@ export default class StrictTransportSecurityHint implements IHint {
                 try {
                     issues = await issuesToPreload(mainDomain);
                 } catch (err) {
-                    const message = `Error with getting preload eligibility for ${resource}.`;
+                    const message = getMessage('errorPreloadEligibility', context.language, resource);
 
                     debug(message, err);
                     context.report(resource, message);
                 }
 
-                debug(`Received preload eligibility for ${resource}.`);
+                debug(getMessage('receivedPreloadEligibility', context.language, resource));
             }
 
             return issues;
@@ -149,7 +150,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
         const validate = async ({ element, resource, response }: FetchEnd) => {
             if (!isRegularProtocol(resource)) {
-                debug(`Check does not apply for non HTTP(s) URIs`);
+                debug(getMessage('checkNotApply', context.language));
 
                 return;
             }
@@ -158,7 +159,7 @@ export default class StrictTransportSecurityHint implements IHint {
             let parsedHeader;
 
             if (!isHTTPS(resource) && headerValue) {
-                const message = `'strict-transport-security' header should't be specified in pages served over HTTP.`;
+                const message = getMessage('noOverHTTP', context.language);
 
                 context.report(resource, message, {
                     codeLanguage: 'http',
@@ -173,7 +174,7 @@ export default class StrictTransportSecurityHint implements IHint {
                 const urlObject = new URL(resource);
 
                 if (unsupportedDomains.has(urlObject.host)) {
-                    debug(`${resource} ignored because the domain ${urlObject.host} does not support HTTPS.`);
+                    debug(getMessage('ignoreBecauseNoHTTPS', context.language, [resource, urlObject.host]));
 
                     return;
                 }
@@ -197,7 +198,7 @@ export default class StrictTransportSecurityHint implements IHint {
                     }
                 } catch (err) {
                     // HTTPS site can't be fetched, do nothing.
-                    debug(`${resource} doesn't support HTTPS`);
+                    debug(getMessage('doesNotSupportHTTPS', context.language, resource));
 
                     /*
                      * If the HTTPS resource can't be fetched,
@@ -211,7 +212,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
             // Check if the header `Strict-Transport-Security` is sent for resources served over HTTPS.
             if (!headerValue) {
-                context.report(resource, `'strict-transport-security' header was not specified`, { element });
+                context.report(resource, getMessage('noHeader', context.language), { element });
 
                 return;
             }
@@ -241,7 +242,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
             // Check if header `Strict-Transport-Security` contains `max-age` directive.
             if (!maxAge) {
-                const message = `'strict-transport-security' header requires 'max-age' directive`;
+                const message = getMessage('requiresMaxAge', context.language);
 
                 context.report(resource, message, { element });
 
@@ -250,7 +251,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
             // Check if the `max-age` value is smaller than the minimum of max-age defined
             if (isUnderAgeLimit(maxAge, minMaxAgeValue)) {
-                const message = `'strict-transport-security' header 'max-age' value should be more than ${minMaxAgeValue}`;
+                const message = getMessage('wrongMaxAge', context.language, minMaxAgeValue.toString());
 
                 context.report(resource, message, {
                     codeLanguage: 'http',

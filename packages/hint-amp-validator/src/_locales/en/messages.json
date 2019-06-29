@@ -8,11 +8,11 @@
         "message": "AMP HTML validator"
     },
     "no-valid-content": {
-        "description": "Debug message when the content is not valid",
+        "description": "Debug information to show when the content is not valid",
         "message": "No valid content"
     },
     "not-meet-threshold": {
-        "description": "Debug message when AMP doesn't meet the threshold",
+        "description": "Debug information to show when AMP doesn't meet the threshold",
         "message": "AMP error doesn't meet threshold for reporting"
     }
 }

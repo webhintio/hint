@@ -1,0 +1,46 @@
+{
+    "couldNotGetResults": {
+        "description": "Report message when SSL Labs cannot get results",
+        "message": "Could not get results from SSL Labs for '$1'."
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Strength of your SSL configuration"
+    },
+    "doesNotSupportHTTPS": {
+        "description": "Report message when the resources doesn't support HTTPS",
+        "message": "'$1' does not support HTTPS."
+    },
+    "errorGettingData": {
+        "description": "Debug information when SSL Labs endpoint fails",
+        "message": "Error getting data for $1 $2"
+    },
+    "gradeNotMeetTheMinimum": {
+        "description": "Report message when the server doesn't meet the minimum grade required",
+        "message": "$1's grade $2 does not meet the minimum $3 required."
+    },
+    "gradeOk": {
+        "description": "Debug information to show when the server grade is ok",
+        "message": "Grade $1 for $2 is ok."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "SSL server test"
+    },
+    "noResults": {
+        "description": "Report message when there is no results from SSL Labs",
+        "message": "Didn't get any result for $1.\nThere might be something wrong with SSL Labs servers."
+    },
+    "receivedResult": {
+        "description": "Debug information to show when the result from SSL Labs is received",
+        "message": "Received SSL Labs results for $1"
+    },
+    "startingScan": {
+        "description": "Debug information to show when the scan is going to start",
+        "message": "Starting SSL Labs scan for $1"
+    },
+    "waitingForSSL": {
+        "description": "Debug information to show when the hint is waiting for the result.",
+        "message": "Waiting for SSL Labs results for $1"
+    }
+}
