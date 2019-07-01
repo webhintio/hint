@@ -69,27 +69,63 @@ test.serial('tryToLoadFrom does nothing if the package itself is missing', async
     sandbox.restore();
 });
 
-// TODO: Add tests to verify the order of loading is the right one: core -> scoped -> prefixed. This only checks core resources
-test('loadResource looks for resources in the right order (core > @hint > hint- ', async (t) => {
+test('loadResource looks for resources in the right order (@hint > webhint- > core)', async (t) => {
     cleanCache();
 
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
     const resourceName = 'missing-hint';
-    const resourceType: ResourceType = ResourceType.hint;
+    const resourceType = ResourceType.hint;
 
-    tryToLoadFromStub.onFirstCall().returns(null);
-    tryToLoadFromStub.onSecondCall().returns(null);
-    tryToLoadFromStub.onThirdCall().returns(null);
     tryToLoadFromStub.returns(null);
 
     t.throws(() => {
         resourceLoader.loadResource(resourceName, resourceType);
     });
 
-    t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(`${resourceName}`), 'Tries to load scoped package second');
-    t.true((tryToLoadFromStub.secondCall.args[0] as string).endsWith(`hint-${resourceName}`), 'Tries to load prefixed package third');
+    t.is(tryToLoadFromStub.firstCall.args[0], `@hint/${resourceType}-${resourceName}`, 'Tries to load scoped package second');
+    t.is(tryToLoadFromStub.secondCall.args[0], `webhint-${resourceType}-${resourceName}`, 'Tries to load prefixed package third');
     t.true((tryToLoadFromStub.thirdCall.args[0] as string).endsWith(path.normalize(`/dist/src/lib/${resourceType}s/${resourceName}/${resourceName}.js`)), 'Tries to load core first');
+
+    tryToLoadFromStub.restore();
+});
+
+test('loadResource looks for resources with full package names by their full name only', async (t) => {
+    cleanCache();
+
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
+    const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
+    const resourceName = '@example/webhint-hint-missing';
+    const resourceType = ResourceType.hint;
+
+    tryToLoadFromStub.returns(null);
+
+    t.throws(() => {
+        resourceLoader.loadResource(resourceName, resourceType);
+    });
+
+    t.true(tryToLoadFromStub.calledOnce);
+    t.is(tryToLoadFromStub.firstCall.args[0], resourceName);
+
+    tryToLoadFromStub.restore();
+});
+
+test('loadResource looks for first-party resources with full package names by their full name only', async (t) => {
+    cleanCache();
+
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
+    const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
+    const resourceName = '@hint/hint-missing';
+    const resourceType = ResourceType.hint;
+
+    tryToLoadFromStub.returns(null);
+
+    t.throws(() => {
+        resourceLoader.loadResource(resourceName, resourceType);
+    });
+
+    t.true(tryToLoadFromStub.calledOnce);
+    t.is(tryToLoadFromStub.firstCall.args[0], resourceName);
 
     tryToLoadFromStub.restore();
 });
