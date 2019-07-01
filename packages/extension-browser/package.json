@@ -128,7 +128,7 @@
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ext tsx --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
-    "prebuild:assets": "cpx \"./src/**/*.{html,json,png,svg}\" dist/bundle",
+    "prebuild:assets": "cpx \"./src/**/*.{html,json,png}\" dist/bundle && cpx \"./src/*.svg\" dist/bundle",
     "prebuild:css": "tcm src",
     "prebuild:hints": "node ./scripts/import-hints.js",
     "prebuild:i18n": "node ./scripts/create-i18n.js",
