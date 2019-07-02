@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { CategoryResults } from '../../../../shared/types';
+import { getCategoryName } from '@hint/utils/dist/src/i18n/get-category-name';
 
-import { getMessage } from '../../../utils/i18n';
+import { CategoryResults } from '../../../../shared/types';
 
 import Hint from './hint';
 
@@ -21,7 +21,7 @@ const Category = ({ name, hints, showPassed }: Props) => {
         <div className={styles.root}>
             <div id={`results-category-${name}`} className={styles.summary}>
                 <span className={styles.name}>
-                    {getMessage(name)}
+                    {getCategoryName(name)}
                 </span>
             </div>
             <div className={styles.results}>

@@ -131,7 +131,7 @@
     "prebuild:assets": "cpx \"./src/**/*.{html,json,png}\" dist/bundle && cpx \"./src/*.svg\" dist/bundle",
     "prebuild:css": "tcm src",
     "prebuild:hints": "node ./scripts/import-hints.js",
-    "prebuild:i18n": "node ./scripts/create-i18n.js",
+    "prebuild:i18n": "node ./scripts/create-i18n.js && node ./scripts/merge-i18n.js",
     "release": "npm run build-release && node scripts/submit-packages.js && npm publish",
     "stats": "webpack --json > stats.json",
     "stats-release": "webpack --env.release --json > release-stats.json",

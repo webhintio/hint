@@ -1,8 +1,4 @@
 {
-    "accessibility": {
-        "message": "Accessibility",
-        "description": "Name of category for accessibility tests."
-    },
     "analyzeAgainButtonLabel": {
         "message": "Analyze again",
         "description": "Label for button to restart analysis."
@@ -35,10 +31,6 @@
         "message": "Check for best practices and common errors with your site's accessibility, speed, security, and more.",
         "description": "Brief description of what webhint does."
     },
-    "compatibility": {
-        "message": "Compatibility",
-        "description": "Name of category for compatibility tests."
-    },
     "customBrowsersLabel": {
         "message": "Custom query",
         "description": "Label for target browsers option to use a custom query string."
@@ -54,10 +46,6 @@
     "customResourcesValueLabel": {
         "message": "Ignored resources custom expression value",
         "description": "Label for ignored resources custom expression input field."
-    },
-    "development": {
-        "message": "Development",
-        "description": "Name of category for development tests."
     },
     "didYouKnowThat": {
         "message": "Did you know that...",
@@ -127,33 +115,17 @@
         "message": "open an issue",
         "description": "Text for a link to open an issue."
     },
-    "other": {
-        "message": "Other",
-        "description": "Name of category for miscellaneous tests."
-    },
     "passedStatus": {
         "message": "PASSED",
         "description": "Message shown when all tests have passed."
-    },
-    "performance": {
-        "message": "Performance",
-        "description": "Name of category for performance tests."
     },
     "pictureOfMascot": {
         "message": "A picture of webhint's mascot, Nellie the Narwhal, working at a computer.",
         "description": "Description for image shown while analyzing."
     },
-    "pitfalls": {
-        "message": "Pitfalls",
-        "description": "Name of category for tests which identify common mistakes."
-    },
     "poweredByLabel": {
         "message": "Powered by",
         "description": "Label displayed before link to the webhint website."
-    },
-    "pwa": {
-        "message": "PWA",
-        "description": "Name of category for progressive web app (PWA) tests."
     },
     "recommendedSettingsLabel": {
         "message": "Recommended settings",
@@ -162,10 +134,6 @@
     "restoreDefaultsLabel": {
         "message": "Restore defaults",
         "description": "Label for button to restore default settings."
-    },
-    "security": {
-        "message": "Security",
-        "description": "Name of category for security tests."
     },
     "seeExpressionInstructionsLabel": {
         "message": "See expression instructions",
