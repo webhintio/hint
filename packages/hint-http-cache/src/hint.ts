@@ -7,11 +7,6 @@ import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
 import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-/*
- * Discussion: I don't think this is worthy. Even if some messages are the same, it doesn't mean
- * that in the future, that message is going to be the same.
- */
-import { getMessage as contentTypeGetMessage } from '@hint/hint-content-type/dist/src/i18n.import';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -421,7 +416,7 @@ export default class HttpCacheHint implements IHint {
             // This check does not make sense for data URIs.
 
             if (isDataURI(resource)) {
-                debug(contentTypeGetMessage('checkDoesNotApplyUri', context.language));
+                debug(getMessage('checkDoesNotApplyUri', context.language));
 
                 return;
             }

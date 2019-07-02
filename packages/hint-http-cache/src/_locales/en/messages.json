@@ -1,4 +1,8 @@
 {
+    "checkDoesNotApplyUri": {
+        "description": "Debug information to show if the resource is a DataURI",
+        "message": "Check does not apply for data URIs"
+    },
     "description": {
         "description": "Metadata description",
         "message": "Checks if your cache-control header and asset strategy follows best practices"
