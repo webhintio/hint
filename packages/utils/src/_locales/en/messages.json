@@ -1,0 +1,34 @@
+{
+    "accessibility": {
+        "message": "Accessibility",
+        "description": "Name of category for accessibility tests."
+    },
+    "compatibility": {
+        "message": "Compatibility",
+        "description": "Name of category for compatibility tests."
+    },
+    "development": {
+        "message": "Development",
+        "description": "Name of category for development tests."
+    },
+    "other": {
+        "message": "Other",
+        "description": "Name of category for miscellaneous tests."
+    },
+    "performance": {
+        "message": "Performance",
+        "description": "Name of category for performance tests."
+    },
+    "pitfalls": {
+        "message": "Pitfalls",
+        "description": "Name of category for tests which identify common mistakes."
+    },
+    "pwa": {
+        "message": "PWA",
+        "description": "Name of category for progressive web app (PWA) tests."
+    },
+    "security": {
+        "message": "Security",
+        "description": "Name of category for security tests."
+    }
+}

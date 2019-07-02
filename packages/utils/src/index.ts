@@ -13,7 +13,7 @@ import * as testUtils from './test';
 import * as domUtils from './dom';
 import * as reportUtils from './report';
 import * as chromiumFinderUtils from './chromium-finder';
-import * as i18nUtils from './i18n/get-message';
+import * as i18nUtils from './i18n';
 
 export * from './types/config';
 export * from './types/http-header';
