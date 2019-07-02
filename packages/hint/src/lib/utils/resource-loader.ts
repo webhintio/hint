@@ -335,7 +335,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
     const resourceName = isSource ?
         name : nameSplitted[1] || packageName;
 
-    const key = isSource ?
+    const key = isPackage || isSource ?
         name :
         `${type}-${name}`;
 
@@ -354,7 +354,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
      * i.e.
      * if we want to load the hint `hint-typescript-config/is-valid` the key for the cache
      * has to be `hint-typescript-config/is-valid`.
-     * But we need to load the package `typescript-config`.
+     * But we need to load the package `hint-typescript-config`.
      */
     let sources: string[];
 
@@ -450,10 +450,12 @@ const loadListOfResources = (list: string[] | Object = [], type: ResourceType, c
 
             loaded.push(resource);
         } catch (e) {
+            const name = isFullPackageName(resourceId, type) ? resourceId : `${type}-${resourceId}`;
+
             if (e.status === ResourceErrorStatus.NotCompatible) {
-                incompatible.push(`${type}-${resourceId}`);
+                incompatible.push(name);
             } else if (e.status === ResourceErrorStatus.NotFound) {
-                missing.push(`${type}-${resourceId}`);
+                missing.push(name);
             } else {
                 throw e;
             }
