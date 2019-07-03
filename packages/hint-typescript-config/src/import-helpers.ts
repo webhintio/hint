@@ -33,7 +33,7 @@ export default class TypeScriptConfigImportHelpers implements IHint {
 
             const pathToTslib = path.join(process.cwd(), 'node_modules', 'tslib');
 
-            debug(getMessage('searchingTSLib', context.language, pathToTslib));
+            debug(`Searching "tslib" in ${pathToTslib}`);
 
             try {
                 /*
@@ -41,7 +41,7 @@ export default class TypeScriptConfigImportHelpers implements IHint {
                  * when testing the hint.
                  */
                 (await import('@hint/utils/dist/src/packages/load-package')).loadPackage(pathToTslib);
-                debug(getMessage('tsLibFound', context.language));
+                debug(`"tslib" found`);
             } catch (e) {
                 debug(e);
 

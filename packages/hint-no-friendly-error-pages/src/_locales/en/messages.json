@@ -1,19 +1,7 @@
 {
-    "checkDoesNotApply": {
-        "description": "Debug information to show when the resource is a data URI",
-        "message": "Check does not apply for data URI: $1"
-    },
-    "customRequestFailed": {
-        "description": "Debug information to show when the custom request fails",
-        "message": "Custom request to generate error response failed for: ${targetURL}"
-    },
     "description": {
         "description": "Metadata description",
         "message": "Disallow small error pages"
-    },
-    "hintDoesNotApply": {
-        "description": "Debug information to show when the hint doesn't apply for targeted browsers",
-        "message": "Hint does not apply for targeted browsers"
     },
     "name": {
         "description": "Metadata name",

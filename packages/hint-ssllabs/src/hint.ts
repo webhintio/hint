@@ -74,12 +74,12 @@ export default class SSLLabsHint implements IHint {
                 debug(message);
                 context.report(resource, message);
             } else {
-                debug(getMessage('gradeOk', context.language, [grade, resource]));
+                debug(`Grade ${grade} for ${resource} is ok.`);
             }
         };
 
         const notifyError = (resource: string, error: any) => {
-            debug(getMessage('errorGettingData', context.language, [resource, JSON.stringify(error)]));
+            debug(`Error getting data for ${resource} %O`, error);
             context.report(resource, getMessage('couldNotGetResults', context.language, resource));
         };
 
@@ -96,7 +96,7 @@ export default class SSLLabsHint implements IHint {
             const ssl = await import('node-ssllabs');
             const ssllabs: Function = promisify(ssl.scan);
 
-            debug(getMessage('startingScan', context.language, resource));
+            debug(`Starting SSL Labs scan for ${resource}`);
             scanOptions.host = resource;
 
             promise = ssllabs(scanOptions)
@@ -111,7 +111,7 @@ export default class SSLLabsHint implements IHint {
                 return;
             }
 
-            debug(getMessage('waitingForSSL', context.language, resource));
+            debug(`Waiting for SSL Labs results for ${resource}`);
             let host: SSLLabsResult;
 
             try {
@@ -122,7 +122,7 @@ export default class SSLLabsHint implements IHint {
                 return;
             }
 
-            debug(getMessage('receivedResult', context.language, resource));
+            debug(`Received SSL Labs results for ${resource}`);
 
             if (!host || !host.endpoints || host.endpoints.length === 0) {
                 const msg = getMessage('noResults', context.language, resource);

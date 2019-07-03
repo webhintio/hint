@@ -1,8 +1,4 @@
 {
-    "calculatedImprovementIndex": {
-        "description": "Debug information to show the improvementIndex",
-        "message": "Calculated improvementIndex for $1: $2"
-    },
     "description": {
         "description": "Metadata description",
         "message": "Hint to check script is minified or not"

@@ -116,7 +116,7 @@ export default class AppleTouchIconsHint implements IHint {
             try {
                 networkData = await context.fetchContent(appleTouchIconURL);
             } catch (e) {
-                debug(getMessage('failedToFecth', context.language, appleTouchIconHref));
+                debug(`Failed to fetch the ${appleTouchIconHref} file`);
 
                 const message = getMessage('couldNotBeFetch', context.language, appleTouchIconHref);
 
@@ -160,7 +160,7 @@ export default class AppleTouchIconsHint implements IHint {
 
                     context.report(resource, message, { element: appleTouchIcon });
                 } else {
-                    debug(getMessage('getImageDataFailed', context.language, appleTouchIconURL));
+                    debug(`'getImageData' failed for '${appleTouchIconURL}'`);
                 }
 
                 return;

@@ -23,7 +23,7 @@ export default class WebpackConfigConfigExists implements IHint {
     public constructor(context: HintContext<WebpackConfigEvents>) {
 
         const notFound = () => {
-            debug(getMessage('eventReceived', context.language, 'parse::error::webpack-config::not-found'));
+            debug(`'parse::error::webpack-config::not-found' received`);
 
             context.report('', getMessage('configExists', context.language));
         };

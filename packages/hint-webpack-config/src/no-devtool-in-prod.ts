@@ -25,7 +25,7 @@ export default class WebpackConfigNoDevtoolInProd implements IHint {
         const configReceived = (webpackConfigEvent: WebpackConfigParse) => {
             const { config, resource } = webpackConfigEvent;
 
-            debug(getMessage('eventReceived', context.language, 'parse::end::webpack-config'));
+            debug(`'parse::end::webpack-config' received`);
 
             if (config.devtool && config.devtool.toString().includes('eval')) {
                 context.report(resource, getMessage('noEval', context.language, config.devtool.toString()));

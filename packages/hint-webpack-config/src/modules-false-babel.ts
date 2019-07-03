@@ -27,13 +27,13 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
         let babelEvent: BabelConfigParsed;
 
         const webpackConfigReceived = (webpackConfigEvent: WebpackConfigParse) => {
-            debug(getMessage('eventReceived', context.language, 'parse::end::webpack-config'));
+            debug(`'parse::end::webpack-config' received`);
 
             webpackEvent = webpackConfigEvent;
         };
 
         const babelConfigReceived = (babelConfigEvent: BabelConfigParsed) => {
-            debug(getMessage('eventReceived', context.language, 'parse::end::babel-config'));
+            debug(`'parse::end::babel-config' received`);
 
             babelEvent = babelConfigEvent;
         };

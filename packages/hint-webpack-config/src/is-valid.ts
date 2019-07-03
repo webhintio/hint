@@ -7,7 +7,6 @@ import { debug as d } from '@hint/utils';
 import { WebpackConfigEvents, WebpackConfigInvalidConfiguration } from '@hint/parser-webpack-config';
 
 import meta from './meta/is-valid';
-import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -25,7 +24,7 @@ export default class WebpackConfigIsValid implements IHint {
         const invalidConfigurationFile = (webpackConfigInvalid: WebpackConfigInvalidConfiguration) => {
             const { error, resource } = webpackConfigInvalid;
 
-            debug(getMessage('eventReceived', context.language, 'parse::error::webpack-config::configuration'));
+            debug(`'parse::error::webpack-config::configuration' received`);
 
             context.report(resource, error.message);
         };

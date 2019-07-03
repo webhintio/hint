@@ -1,8 +1,4 @@
 {
-    "checkDoesNotApply": {
-        "description": "Debug information to show when the hint doesn't apply for the resource",
-        "message": "Check does not apply for URI: ${resource}"
-    },
     "description": {
         "description": "Metadata description",
         "message": "This hint validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS."

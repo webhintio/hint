@@ -38,7 +38,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
         if (!['ie 5', 'ie 6', 'ie 7', 'ie 8', 'ie 9', 'ie 10', 'ie 11'].some((e) => {
             return context.targetedBrowsers.includes(e);
         })) {
-            debug(getMessage('hintDoesNotApply', context.language));
+            debug(`Hint does not apply for targeted browsers`);
 
             return;
         }
@@ -57,7 +57,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
-                debug(getMessage('checkDoesNotApply', context.language, resource));
+                debug(`Check does not apply for data URI: ${resource}`);
 
                 return;
             }
@@ -116,7 +116,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
                 });
             } catch (e) {
                 // This will most likely fail because target is a local file.
-                debug(getMessage('customRequestFailed', context.language, targetURL));
+                debug(`Custom request to generate error response failed for: ${targetURL}`);
             }
 
         };

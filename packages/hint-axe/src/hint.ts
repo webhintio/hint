@@ -90,20 +90,20 @@ export default class AxeHint implements IHint {
                 message = getMessage('tryAgainLater', context.language, message);
 
                 context.report(resource, message, { severity: Severity.warning });
-                debug(getMessage('errorExecuting', context.language, e.toString()));
+                debug('Error executing script %O', e);
 
                 return;
             }
 
             /* istanbul ignore next */
             if (!result || !Array.isArray(result.violations)) {
-                debug(getMessage('unableToParse', context.language, result ? result.toString() : ''));
+                debug(`Unable to parse axe results ${result}`);
 
                 return;
             }
 
             if (result.violations.length === 0) {
-                debug(getMessage('noIssuesFound', context.language));
+                debug('No accessibility issues found');
 
                 return;
             }

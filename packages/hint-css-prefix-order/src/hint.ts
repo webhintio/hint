@@ -117,7 +117,7 @@ export default class CssPrefixOrderHint implements IHint {
         };
 
         context.on('parse::end::css', ({ ast, element, resource }: StyleParse) => {
-            debug(getMessage('validating', context.language));
+            debug('Validating hint css-prefix-order');
 
             ast.walkRules((rule) => {
                 for (const invalidPair of validateRule(rule)) {

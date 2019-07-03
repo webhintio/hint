@@ -1,15 +1,7 @@
 {
-    "checkNotApply": {
-        "description": "Debug information to show when the resource is not HTTP(s)",
-        "message": "Check does not apply for non HTTP(s) URIs"
-    },
     "description": {
         "description": "Metadata description",
         "message": "Require 'Strict-Transport-Security' header"
-    },
-    "doesNotSupportHTTPS": {
-        "description": "Debug information to show when the resource doesn't support HTTPS",
-        "message": "$1 doesn't support HTTPS"
     },
     "errorPreloadEligibility": {
         "description": "Report message when there is an error getting the preload eligibility",
@@ -19,12 +11,8 @@
         "description": "Report message when there is an error getting the preload status",
         "message": "Error with getting preload status for $1."
     },
-    "ignoreBecauseNoHTTPS": {
-        "description": "Debug information when the resource host doesn't support HTTPS",
-        "message": "$1 ignored because the domain $2 does not support HTTPS."
-    },
     "moreThanOneName": {
-        "description": "eport message when a 'strict-transport-security' header has more than one 'name'",
+        "description": "Report message when a 'strict-transport-security' header has more than one 'name'",
         "message": "'strict-transport-security' header contains more than one '$1'"
     },
     "name": {
@@ -39,25 +27,9 @@
         "description": "Report message when the 'strict-transport-security' header is served over HTTP",
         "message": "'strict-transport-security' header should't be specified in pages served over HTTP."
     },
-    "receivedPreloadEligibility": {
-        "description": "Debug information to show when the preload eligibility is received",
-        "message": "Received preload eligibility for $1."
-    },
-    "receivedPreloadStatus": {
-        "description": "Debug information to show when the preload status is received",
-        "message": "Received preload status for $1."
-    },
     "requiresMaxAge": {
         "description": "Report message when the 'strict-transport-security' header doesn't contain the required 'max-age' directive",
         "message": "'strict-transport-security' header requires 'max-age' directive"
-    },
-    "waitingPreloadEligibility": {
-        "description": "Debug information to show when we are waiting for the preload eligibility",
-        "message": "Waiting to get preload eligibility for $1"
-    },
-    "waitingPreloadStatus": {
-        "description": "Debug information to show when we are waiting for the preload status",
-        "message": "Waiting to get preload status for $1"
     },
     "wrongFormat": {
         "description": "Report message when a 'strict-transport-security' header has a wrong format",

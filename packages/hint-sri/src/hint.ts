@@ -58,7 +58,7 @@ export default class SRIHint implements IHint {
      */
 
     private isScriptOrLink(evt: FetchEnd): Promise<boolean> {
-        debug(getMessage('isScriptOrLink', this.context.language));
+        debug('Is <script> or <link>?');
         const { element } = evt;
 
         /*
@@ -118,7 +118,7 @@ export default class SRIHint implements IHint {
      * More info in https://w3c.github.io/webappsec-subresource-integrity/#is-response-eligible
      */
     private isEligibleForIntegrityValidation(evt: FetchEnd, urls: URLs): Promise<boolean> {
-        debug(getMessage('isElegibleForValidation', this.context.language));
+        debug('Is eligible for integrity validation?');
 
         const { element, resource } = evt;
         const resourceOrigin: string = new URL(resource).origin;
@@ -154,7 +154,7 @@ export default class SRIHint implements IHint {
      * attribute if required based on the selected origin criteria.
      */
     private hasIntegrityAttribute(evt: FetchEnd, urls: URLs): Promise<boolean> {
-        debug(getMessage('hasIntegrityAttribute', this.context.language));
+        debug('has integrity attribute?');
         const { element, resource } = evt;
         const integrity = element && element.getAttribute('integrity');
         const resourceOrigin: string = new URL(resource).origin;
@@ -187,7 +187,7 @@ export default class SRIHint implements IHint {
      * https://w3c.github.io/webappsec-subresource-integrity/#agility
      */
     private isIntegrityFormatValid(evt: FetchEnd, urls: URLs): Promise<boolean> {
-        debug(getMessage('isIntegrityValid', this.context.language));
+        debug('Is integrity attribute valid?');
         const { element, resource } = evt;
         const integrity = element && element.getAttribute('integrity');
         const integrityRegExp = /^sha(256|384|512)-/;
@@ -239,7 +239,7 @@ export default class SRIHint implements IHint {
      * More info: https://w3c.github.io/webappsec-subresource-integrity/#non-secure-contexts
      */
     private isSecureContext(evt: FetchEnd, urls: URLs): Promise<boolean> {
-        debug(getMessage('isDeliveredSecure', this.context.language));
+        debug('Is delivered on a secure context?');
         const { element, resource } = evt;
         const protocol = new URL(resource).protocol;
         const isSecure = protocol === 'https:';
@@ -262,7 +262,7 @@ export default class SRIHint implements IHint {
      * More info: https://w3c.github.io/webappsec-subresource-integrity/#does-response-match-metadatalist
      */
     private hasRightHash(evt: FetchEnd, urls: URLs): Promise<boolean> {
-        debug(getMessage('rightHash', this.context.language));
+        debug('Does it have the right hash?');
         const { element, resource, response } = evt;
         const integrity = element && element.getAttribute('integrity');
         const integrities = integrity ? integrity.split(/\s+/) : [];
@@ -347,7 +347,7 @@ export default class SRIHint implements IHint {
         const { resource } = evt;
 
         if (resource.startsWith('file://')) {
-            debug(getMessage('ignoringLocal', this.context.language, resource));
+            debug(`Ignoring local resource: ${resource}`);
 
             return Promise.resolve(false);
         }
@@ -423,7 +423,7 @@ export default class SRIHint implements IHint {
 
             return true;
         } catch (e) {
-            debug(getMessage('errorAccessing', this.context.language, [resource, JSON.stringify(e)]));
+            debug(`Error accessing ${resource}. ${JSON.stringify(e)}`);
 
             this.context.report(urls.final, getMessage('canNotGetResource', this.context.language, resource), { element });
 
@@ -453,7 +453,7 @@ export default class SRIHint implements IHint {
             return fn.bind(this);
         });
 
-        debug(getMessage('validating', this.context.language, evt.resource));
+        debug(`Validating integrity of: ${evt.resource}`);
 
         for (const validation of validations) {
             const valid = await validation(evt, urls);

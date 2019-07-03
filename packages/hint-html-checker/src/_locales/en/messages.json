@@ -7,24 +7,8 @@
         "description": "Metadata description",
         "message": "Validate HTML using 'the Nu HTML checker'"
     },
-    "errorGettingResult": {
-        "description": "Debug information to show when there is an error getting the HTML checker result",
-        "message": "Error getting HTML checker result for $1."
-    },
-    "errorReporting": {
-        "description": "Debug information to notify that there was a problem locating and reporting the result",
-        "message": "Error reporting the HTML checker results."
-    },
     "name": {
         "description": "Metadata name",
         "message": "Nu HTML test"
-    },
-    "receivedHTML": {
-        "description": "Debug information to notify that we have already received the result from the checker",
-        "message": "Received HTML checker results for $1"
-    },
-    "waitingForHTMLResult": {
-        "description": "Debug information to show that we are waiting for the HTML checker result",
-        "message": "Waiting for HTML checker results for $1"
     }
 }

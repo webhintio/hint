@@ -23,10 +23,6 @@
         "description": "Report message when the compilerOptions.module doesn't have esnext configured",
         "message": "TypeScript `compilerOptions.module` option should be `esnext`"
     },
-    "eventReceived": {
-        "description": "Debug information to show when an event is received",
-        "message": "$1 received"
-    },
     "isInstalled_description": {
         "description": "Metadata description",
         "message": "`webpack-config/is-installed` warns against not having webpack installed"

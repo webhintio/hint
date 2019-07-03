@@ -34,7 +34,7 @@ export default class ManifestIconHint implements IHint {
             try {
                 networkData = await context.fetchContent(iconPath);
             } catch (e) {
-                debug(getMessage('failedToFetch', context.language, iconPath));
+                debug(`Failed to fetch the ${iconPath} file`);
                 const message = getMessage('iconCouldNotBeFetched', context.language);
 
                 context.report(resource, message, { location: iconSrcLocation });
@@ -205,7 +205,7 @@ export default class ManifestIconHint implements IHint {
                 }
             }
 
-            debug(getMessage('foundValidSizes', context.language, validSizes));
+            debug(`Found ValidSizes: ${validSizes}`);
 
             return validSizes;
         };
@@ -214,10 +214,10 @@ export default class ManifestIconHint implements IHint {
             const resourceURL = new URL(resource);
             const hostnameWithProtocol = `${resourceURL.protocol}//${resourceURL.host}`;
 
-            debug(getMessage('validating', context.language));
+            debug(`Validating hint manifest-icon`);
 
             if (icons && icons.length > 0) {
-                debug(getMessage('validatingIfExists', context.language));
+                debug(`Validating if manifest-icon file exists`);
                 const validSizes = await validateIcons(icons, hostnameWithProtocol, resource, getLocation);
 
                 if (validSizes.length > 0) {

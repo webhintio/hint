@@ -10,9 +10,5 @@
     "svgElementCannotBeCreated": {
         "description": "Report message when the validation fails",
         "message": "SVG elements cannot be created with createElement; use createElementNS instead"
-    },
-    "validating": {
-        "description": "Debug information to show when a validation starts",
-        "message": "Validating hint create-element-svg"
     }
 }

@@ -1,8 +1,4 @@
 {
-    "creatingScript": {
-        "description": "Degub information to show when the hint is creating the script to inject",
-        "message": "Creating script to inject"
-    },
     "description": {
         "description": "Metadata description",
         "message": "This hint checks if the site is running any vulnerable library using https://snyk.io database"
@@ -10,18 +6,6 @@
     "errorExecuting": {
         "description": "Report message when the execution of the script fails",
         "message": "Error executing script: '$1'"
-    },
-    "errorExecutingScript": {
-        "description": "Debug information to show when the execution of the script fails",
-        "message": "Error executing script"
-    },
-    "errorLoadingSnyk": {
-        "description": "Debug information to show when there is an error loading snyk's data",
-        "message": "Error loading snyk's data"
-    },
-    "filteringVulnerabilities": {
-        "description": "Debug information to show when the hint is filtering vulnerabilities",
-        "message": "Filtering vulnerabilities"
     },
     "name": {
         "description": "Metadata name",
@@ -31,17 +15,9 @@
         "description": "Report message when evaluating the script takes too long",
         "message": "webhint did not return the result fast enough"
     },
-    "snkyDBIsOlder": {
-        "description": "Debug information to show when the snkyDB is old",
-        "message": "snkyDB is older than 24h."
-    },
     "tryAgainLater": {
         "description": "Report message when there is an error running the script",
         "message": "$1. Please try again later, or report an issue if this problem persists."
-    },
-    "updatingSnykDB": {
-        "description": "Debug information to show when the snykDB is going to be updated",
-        "message": "Updating snykDB"
     },
     "versionNotCompliant": {
         "description": "Logger error message to show when a package version is not semver compliantff",

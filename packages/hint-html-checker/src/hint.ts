@@ -109,7 +109,7 @@ export default class HtmlCheckerHint implements IHint {
         };
 
         const notifyError = (resource: string, error: any) => {
-            debug(getMessage('errorGettingResult', context.language, resource), error);
+            debug(`Error getting HTML checker result for ${resource}.`, error);
             context.report(resource, getMessage('couldNotGetResult', context.language, [resource, error.toString()]));
         };
 
@@ -161,7 +161,7 @@ export default class HtmlCheckerHint implements IHint {
                 const locateAndReportByResource = locateAndReport(resource);
                 let result;
 
-                debug(getMessage('waitingForHTMLResult', context.language, resource));
+                debug(`Waiting for HTML checker results for ${resource}`);
                 try {
                     result = JSON.parse(await check.promise);
                 } catch (e) {
@@ -170,7 +170,7 @@ export default class HtmlCheckerHint implements IHint {
                     return;
                 }
 
-                debug(getMessage('receivedHTML', context.language, resource));
+                debug(`Received HTML checker results for ${resource}`);
 
                 const filteredMessages: HtmlError[] = filter(result.messages);
 
@@ -179,7 +179,7 @@ export default class HtmlCheckerHint implements IHint {
                         locateAndReportByResource(messageItem);
                     });
                 } catch (e) {
-                    debug(getMessage('errorReporting', context.language), e);
+                    debug(`Error reporting the HTML checker results.`, e);
 
                     return;
                 }

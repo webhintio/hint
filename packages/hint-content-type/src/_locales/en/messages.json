@@ -1,12 +1,4 @@
 {
-    "checkDoesNotApplyStatusCode": {
-        "description": "Debug information to show if the status code is not 200",
-        "message": "Check does not apply to status code !== 200"
-    },
-    "checkDoesNotApplyUri": {
-        "description": "Debug information to show if the resource is a DataURI",
-        "message": "Check does not apply for data URIs"
-    },
     "contentTypeCharsetShouldBe": {
         "description": "Report message when the charset in the content type is not valid",
         "message": "'content-type' header charset value should be '$1'."

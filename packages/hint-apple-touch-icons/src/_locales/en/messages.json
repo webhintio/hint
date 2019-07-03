@@ -19,14 +19,6 @@
         "description": "Message to show when the element is not in the head",
         "message": "'apple-touch-icon' link element should be specified in the '<head>'."
     },
-    "failedToFecth": {
-        "description": "Debug information to show when fetch fails",
-        "message": "Failed to fetch the $1 file"
-    },
-    "getImageDataFailed": {
-        "description": "Debug information to show when getImageData fails",
-        "message": "'getImageData' failed for '$1'"
-    },
     "invalidPNG": {
         "description": "Message to show when the icon is an invalid PNG",
         "message": "'$1' should be a valid PNG image."

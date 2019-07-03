@@ -76,7 +76,7 @@ export default class DisownOpenerHint implements IHint {
                  */
 
                 if ((new URL(resource).origin === new URL(fullURL).origin) && !includeSameOriginURLs) {
-                    debug(getMessage('isSameOrigin', context.language));
+                    debug('Is same origin');
 
                     return false;
                 }
@@ -95,7 +95,7 @@ export default class DisownOpenerHint implements IHint {
                 return true;
             }
 
-            debug(getMessage('hrefNotSpecified', context.language));
+            debug(`'href' is not specified`);
 
             return false;
         };
@@ -111,7 +111,7 @@ export default class DisownOpenerHint implements IHint {
                 return true;
             }
 
-            debug(getMessage('noTargetBlankFound', context.language));
+            debug('No `target="_blank"` found');
 
             return false;
         };

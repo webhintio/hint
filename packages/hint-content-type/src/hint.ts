@@ -55,14 +55,14 @@ export default class ContentTypeHint implements IHint {
 
         const validate = ({ resource, response }: FetchEnd) => {
             if (response.statusCode !== 200) {
-                debug(getMessage('checkDoesNotApplyStatusCode', context.language));
+                debug('Check does not apply to status code !== 200');
 
                 return;
             }
 
             // This check does not make sense for data URIs.
             if (isDataURI(resource)) {
-                debug(getMessage('checkDoesNotApplyUri', context.language));
+                debug('Check does not apply for data URIs');
 
                 return;
             }

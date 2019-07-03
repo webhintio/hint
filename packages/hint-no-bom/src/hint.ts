@@ -24,7 +24,7 @@ export default class implements IHint {
     public constructor(context: HintContext) {
 
         const validateFetchEnd = async (fetchEnd: FetchEnd) => {
-            debug(getMessage('validating', context.language));
+            debug(`Validating hint no-bom`);
 
             const { resource, element } = fetchEnd;
 
@@ -42,7 +42,7 @@ export default class implements IHint {
             if (!request) {
                 context.report(resource, getMessage('couldNotBeFetched', context.language), { element });
 
-                debug(getMessage('errorRequesting', context.language, resource));
+                debug(`Error requesting the resource: ${resource}`);
 
                 return;
             }

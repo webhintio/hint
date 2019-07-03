@@ -27,13 +27,13 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
         let typescriptEvent: TypeScriptConfigParse;
 
         const webpackConfigReceived = (webpackConfigEvent: WebpackConfigParse) => {
-            debug(getMessage('eventReceived', context.language, 'parse::end::webpack-config'));
+            debug(`'parse::end::webpack-config' received`);
 
             webpackEvent = webpackConfigEvent;
         };
 
         const typescriptConfigReceived = (typescriptConfigEvent: TypeScriptConfigParse) => {
-            debug(getMessage('eventReceived', context.language, 'parse::end::typescript-config'));
+            debug(`'parse::end::typescript-config' received`);
 
             typescriptEvent = typescriptConfigEvent;
         };

@@ -32,14 +32,14 @@ export default class HttpsOnlyHint implements IHint {
             const { resource } = fetchEvent;
 
             if (!isHTTPS(resource)) {
-                debug(getMessage('httpsNoDetected', context.language));
+                debug('HTTPS no detected');
 
                 context.report(resource, getMessage('siteShouldBeHTTPS', context.language));
 
                 return;
             }
 
-            debug(getMessage('httpsDetected', context.language));
+            debug('HTTPS detected');
 
             this.targetIsServedOverHTTPS = true;
         };

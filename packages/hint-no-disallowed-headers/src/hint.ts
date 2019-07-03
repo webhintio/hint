@@ -107,7 +107,7 @@ export default class NoDisallowedHeadersHint implements IHint {
             // This check does not make sense for data URI.
 
             if (isDataURI(resource)) {
-                debug(getMessage('checkDoesNotApply', context.language, resource));
+                debug(`Check does not apply for data URI: ${resource}`);
 
                 return;
             }

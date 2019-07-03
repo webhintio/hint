@@ -11,10 +11,6 @@
         "description": "",
         "message": "Couldn't find package \"tslib\"."
     },
-    "eventReceived": {
-        "description": "Debug information to show when an event is received",
-        "message": "$1 received"
-    },
     "forceConsistentCasingInFileNames": {
         "description": "Report message when the option 'forceConsistentCasingInFileNames' is not enabled",
         "message": "The compiler option \"forceConsistentCasingInFileNames\" should be enabled to reduce issues when working with different OSes."
@@ -51,10 +47,6 @@
         "description": "Report message when 'removeComments' is not enabled",
         "message": "The compiler option \"removeComments\" should be enabled to reduce the output size."
     },
-    "searchingTSLib": {
-        "description": "Debug information to show where we the hint is searching the tslib",
-        "message": "Searching \"tslib\" in ${pathToTslib}"
-    },
     "strict": {
         "description": "Report message when 'strict' is not enabled",
         "message": "The compiler option \"strict\" should be enabled to reduce type errors."
@@ -74,10 +66,6 @@
     "target_name": {
         "description": "Metadata name",
         "message": "TypeScript target"
-    },
-    "tsLibFound": {
-        "description": "Debug information to show when tslib is found",
-        "message": "\"tslib\" found"
     },
     "target": {
         "description": "Report message when the 'compilerOptions.target' is not configured correctly for the user target browsers",

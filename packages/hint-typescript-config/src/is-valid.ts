@@ -12,7 +12,6 @@ import {
 } from '@hint/parser-typescript-config';
 
 import meta from './meta/is-valid';
-import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -30,7 +29,7 @@ export default class TypeScriptConfigIsValid implements IHint {
         const invalidJSONFile = (typeScriptConfigInvalid: TypeScriptConfigInvalidJSON, event: string) => {
             const { error, resource } = typeScriptConfigInvalid;
 
-            debug(getMessage('eventReceived', context.language, event));
+            debug(`${event} received`);
 
             context.report(resource, error.message);
         };
@@ -38,7 +37,7 @@ export default class TypeScriptConfigIsValid implements IHint {
         const invalidExtends = (typeScriptConfigInvalid: TypeScriptConfigExtendsError, event: string) => {
             const { error, resource, getLocation } = typeScriptConfigInvalid;
 
-            debug(getMessage('eventReceived', context.language, event));
+            debug(`${event} received`);
 
             context.report(resource, error.message, { location: getLocation('extends') });
         };
@@ -46,7 +45,7 @@ export default class TypeScriptConfigIsValid implements IHint {
         const invalidSchema = (fetchEnd: TypeScriptConfigInvalidSchema) => {
             const { groupedErrors, resource } = fetchEnd;
 
-            debug(getMessage('eventReceived', context.language, 'parse::error::typescript-config::schema'));
+            debug(`'parse::error::typescript-config::schema' received`);
 
             groupedErrors.forEach((groupedError: any) => {
                 context.report(resource, groupedError.message, { location: groupedError.location });

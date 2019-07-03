@@ -34,7 +34,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
             if (debug.enabled) {
                 const html = element.outerHTML;
 
-                debug(getMessage('analyzing', context.language, cutString(html, 50)));
+                debug(`Analyzing link\n${cutString(html, 50)}`);
             }
 
             /*
@@ -46,7 +46,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
             const url: string = (element.getAttribute('src') || element.getAttribute('href') || '').trim();
 
             if (url.startsWith('//')) {
-                debug(getMessage('protocolRelativeFound', context.language));
+                debug('Protocol relative URL found');
 
                 const message = getMessage('noProtocolRelativeUrl', context.language, url);
 

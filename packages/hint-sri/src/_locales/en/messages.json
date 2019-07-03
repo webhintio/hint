@@ -19,41 +19,13 @@
         "description": "Metadata description",
         "message": "Require scripts and link elements to use Subresource Integrity"
     },
-    "errorAccessing": {
-        "description": "Debug information to show when a resources can't be downloaded",
-        "message": "Error accessing $1. $2"
-    },
     "hashDoesNotMatch": {
         "description": "Report message when the 'integrity' hash doesn't match the received payload",
         "message": "The hash in the \"integrity\" attribute in resource $1 doesn't match the received payload.\nExpected: $2\nActual:   $3"
     },
-    "hasIntegrityAttribute": {
-        "description": "Debug information to show when checking if the element has the 'integrity' attribute",
-        "message": "has integrity attribute?"
-    },
-    "ignoringLocal": {
-        "description": "Debug information to show when a local resource is detected",
-        "message": "Ignoring local resource: $1"
-    },
     "invalidIntegrity": {
         "description": "Report message when the 'integrity' attribute value is not valid",
         "message": "The format of the \"integrity\" attribute for resource $1 should be \"sha(256|384|512)-HASH\": $2…"
-    },
-    "isDeliveredSecure": {
-        "description": "Debug information to show when checking if it is delivered in a secure context",
-        "message": "Is delivered on a secure context?"
-    },
-    "isElegibleForValidation": {
-        "description": "Debug information to show when checking if the element is elegible for validation",
-        "message": "Is eligible for integrity validation?"
-    },
-    "isIntegrityValid": {
-        "description": "Debug information to show when checking if the 'integrity' attribute is valid",
-        "message": "Is integrity attribute valid?"
-    },
-    "isScriptOrLink": {
-        "description": "Debug information to show when checking if the element is script or link",
-        "message": "'Is <script> or <link>?'"
     },
     "name": {
         "description": "Metadata name",
@@ -66,13 +38,5 @@
     "resourceNotSecure": {
         "description": "Report message when the resource is not delivered via a secure context",
         "message": "The resource $1 is not delivered via a secure context"
-    },
-    "rightHash": {
-        "description": "Debug information to show when checking the hash starts",
-        "message": "Does it have the right hash?"
-    },
-    "validating": {
-        "description": "Debug information to show when the validation starts",
-        "message": "Validating integrity of: $1"
     }
 }

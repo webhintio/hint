@@ -11,16 +11,8 @@
         "description": "Metadata name",
         "message": "No byte-order mark"
     },
-    "errorRequesting": {
-        "description": "Debug information when a resource can't be fetched",
-        "message": "Error requesting the resource: $1"
-    },
     "textBased": {
         "description": "Report message when a text-based resource start with BOM character",
         "message": "Text-based resource should not start with BOM character."
-    },
-    "validating": {
-        "description": "Debug informatino to show when the validation starts",
-        "message": "Validating hint no-bom"
     }
 }

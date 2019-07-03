@@ -92,13 +92,13 @@ export default class StrictTransportSecurityHint implements IHint {
         };
 
         const isPreloaded = (hostname: string): Promise<{ [key: string]: any }> => {
-            debug(getMessage('waitingPreloadStatus', context.language, hostname));
+            debug(`Waiting to get preload status for ${hostname}`);
 
             return requestJSONAsync(`${statusApiEndPoint}${hostname}`);
         };
 
         const issuesToPreload = (hostname: string): Promise<{ [key: string]: any }> => {
-            debug(getMessage('waitingPreloadEligibility', context.language, hostname));
+            debug(`Waiting to get preload eligibility for ${hostname}`);
 
             return requestJSONAsync(`${preloadableApiEndPoint}${hostname}`);
         };
@@ -121,7 +121,7 @@ export default class StrictTransportSecurityHint implements IHint {
                 return issues;
             }
 
-            debug(getMessage('receivedPreloadStatus', context.language, resource));
+            debug(`Received preload status for ${resource}.`);
 
             if (!status) {
                 const message = getMessage('wrongVerification', context.language, getMessage('errorPreloadStatus', context.language, resource));
@@ -142,7 +142,7 @@ export default class StrictTransportSecurityHint implements IHint {
                     context.report(resource, message);
                 }
 
-                debug(getMessage('receivedPreloadEligibility', context.language, resource));
+                debug(`Received preload eligibility for ${resource}.`);
             }
 
             return issues;
@@ -150,7 +150,7 @@ export default class StrictTransportSecurityHint implements IHint {
 
         const validate = async ({ element, resource, response }: FetchEnd) => {
             if (!isRegularProtocol(resource)) {
-                debug(getMessage('checkNotApply', context.language));
+                debug(`Check does not apply for non HTTP(s) URIs`);
 
                 return;
             }
@@ -174,7 +174,7 @@ export default class StrictTransportSecurityHint implements IHint {
                 const urlObject = new URL(resource);
 
                 if (unsupportedDomains.has(urlObject.host)) {
-                    debug(getMessage('ignoreBecauseNoHTTPS', context.language, [resource, urlObject.host]));
+                    debug(`${resource} ignored because the domain ${urlObject.host} does not support HTTPS.`);
 
                     return;
                 }
@@ -198,7 +198,7 @@ export default class StrictTransportSecurityHint implements IHint {
                     }
                 } catch (err) {
                     // HTTPS site can't be fetched, do nothing.
-                    debug(getMessage('doesNotSupportHTTPS', context.language, resource));
+                    debug(`${resource} doesn't support HTTPS`);
 
                     /*
                      * If the HTTPS resource can't be fetched,

@@ -416,7 +416,7 @@ export default class HttpCacheHint implements IHint {
             // This check does not make sense for data URIs.
 
             if (isDataURI(resource)) {
-                debug(getMessage('checkDoesNotApplyUri', context.language));
+                debug(`Check does not apply for data URIs`);
 
                 return;
             }

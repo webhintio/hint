@@ -7,14 +7,6 @@
         "description": "Metadata name",
         "message": "Use HTTPS"
     },
-    "httpsDetected": {
-        "description": "Debug information to show when HTTPS is detected",
-        "message": "HTTPS detected"
-    },
-    "httpsNoDetected": {
-        "description": "Debug information to show when HTTPS is not detected",
-        "message": "HTTPS no detected"
-    },
     "shouldBeHTTPS": {
         "description": "Report message when the site is not serverd over HTTPS",
         "message": "Should be served over HTTPS."

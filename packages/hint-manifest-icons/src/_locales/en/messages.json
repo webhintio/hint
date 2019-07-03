@@ -3,14 +3,6 @@
         "description": "Metadata description",
         "message": "Ensures that required icons are specified in the web app manifest"
     },
-    "failedToFetch": {
-        "description": "Debug information when the icon can't be fetched",
-        "message": "Failed to fetch the $1 file"
-    },
-    "foundValidSizes": {
-        "description": "Debug information to show when the we found the valid sizes",
-        "message": "Found ValidSizes: $1"
-    },
     "iconCouldNotBeFetched": {
         "description": "Report message when an icon can't be fetched",
         "message": "Icon could not be fetched (request failed)."
@@ -50,14 +42,6 @@
     "sizesNotSpecified": {
         "description": "Report message when the sizes are not specified",
         "message": "Sizes not specifed for icon"
-    },
-    "validating": {
-        "description": "Debug information to show when the validation starts",
-        "message": "Validating hint manifest-icon"
-    },
-    "validatingIfExists": {
-        "description": "Debug information to show when the icon exists and the validation starts",
-        "message": "Validating if manifest-icon file exists"
     },
     "validIconsNotFound": {
         "description": "Report message when ",

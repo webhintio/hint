@@ -42,7 +42,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
          * using [`js-library-detector`](https://npmjs.com/package/js-library-detector).
          */
         const createScript = async (): Promise<string> => {
-            debug(getMessage('creatingScript', context.language));
+            debug('Creating script to inject');
             const libraryDetector = await readFileAsync(require.resolve('js-library-detector'));
 
             const script = `/*RunInPageContext*/
@@ -95,15 +95,15 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 // We check if the file is older than 24h to update it
                 /* istanbul ignore if */
                 if (now - modified > oneDay) {
-                    debug(getMessage('snkyDBIsOlder', context.language));
-                    debug(getMessage('updatingSnykDB', context.language));
+                    debug('snkyDB is older than 24h.');
+                    debug('Updating snykDB');
                     const res = await requestAsync('https://snyk.io/partners/api/v2/vulndb/clientside.json');
 
                     await writeFileAsync(snykDBPath, res);
                 }
             } catch (e) /* istanbul ignore next */ {
                 debug(e);
-                debug(getMessage('errorLoadingSnyk', context.language));
+                debug(`Error loading snyk's data`);
             }
 
             return require('./snyk-snapshot.json');
@@ -114,7 +114,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
             let vulnerabilities = vulns;
 
 
-            debug(getMessage('filteringVulnerabilities', context.language));
+            debug('Filtering vulnerabilities');
             vulnerabilities = vulnerabilities.filter((vulnerability) => {
                 const { severity } = vulnerability;
                 let fails = false;
@@ -220,7 +220,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 message = getMessage('tryAgainLater', context.language, message);
 
                 context.report(resource, message, { severity: Severity.warning });
-                debug(getMessage('errorExecutingScript', context.language), e);
+                debug('Error executing script', e);
 
                 return;
             }

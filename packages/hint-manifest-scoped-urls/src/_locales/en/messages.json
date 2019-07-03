@@ -3,10 +3,6 @@
         "description": "Metadata description",
         "message": "Checks if URLs in the manifest are in scope and accessible"
     },
-    "failedToFetch": {
-        "description": "Debug information to show when the request start_url fails",
-        "message": "Failed to fetch $1"
-    },
     "name": {
         "description": "Metadata name",
         "message": "Manifest has scoped `start_url`"
@@ -30,9 +26,5 @@
     "startUrlMustHaveSameOrigin": {
         "description": "Report message when the 'start_url' doesn't have the same origin as the manifest file",
         "message": "'start_url' must have same origin as the manifest file."
-    },
-    "validating": {
-        "description": "Debug information to show when the validation starts",
-        "message": "Validating hint manifest-scoped-urls"
     }
 }

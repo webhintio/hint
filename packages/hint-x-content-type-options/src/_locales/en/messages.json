@@ -1,8 +1,4 @@
 {
-    "checkDoesNotApply": {
-        "description": "Debug information to show when the resource is a data URI",
-        "message": "Check does not apply for data URI: $1"
-    },
     "description": {
         "description": "Metadata description",
         "message": "Require 'X-Content-Type-Options' header"

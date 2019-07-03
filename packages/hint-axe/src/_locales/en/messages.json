@@ -11,10 +11,6 @@
         "description": "Metadata name",
         "message": "axe accessibility check"
     },
-    "noIssuesFound": {
-        "description": "Debug information to show when axe doesn't found any issue",
-        "message": "No accessibility issues found"
-    },
     "notFastEnough": {
         "description": "Message to show when the result from axe takes too long",
         "message": "webhint did not return the result fast enough"
@@ -22,9 +18,5 @@
     "tryAgainLater": {
         "description": "Message to show when there is an error running the script",
         "message": "$1. Please try again later, or report an issue if this problem persists."
-    },
-    "unableToParse": {
-        "description": "Debug information to show when there are errors parsing the result from axe",
-        "message": "Unable to parse axe results $1"
     }
 }

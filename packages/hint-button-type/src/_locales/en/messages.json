@@ -14,9 +14,5 @@
     "name": {
         "description": "Metadata name",
         "message": "Specify button type"
-    },
-    "validating": {
-        "description": "Debug information to show when a validation starts",
-        "message": "Validating hint button-type"
     }
 }

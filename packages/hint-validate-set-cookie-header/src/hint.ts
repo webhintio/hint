@@ -269,7 +269,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
             // This check does not apply if URI starts with protocols others than http/https.
             if (!isRegularProtocol(resource)) {
-                debug(getMessage('checkDoesNotApply', context.language, resource));
+                debug(`Check does not apply for URI: ${resource}`);
 
                 return;
             }

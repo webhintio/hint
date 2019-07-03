@@ -30,7 +30,7 @@ const main = async () => {
                     messages[`${prefix}_${key}`] = { message: value.message };
                 }
             } catch (e) {
-                console.log(`No '${locale}' strings found for ${module}.`);
+                // No strings defined for this package.
             }
         }
 

@@ -3,14 +3,6 @@
         "description": "Metadata description",
         "message": "Require `noopener` (and `noreferrer`) on `a` and `area` element with target=\"_blank\""
     },
-    "hrefNotSpecified": {
-        "description": "Debug information to show when the href is not specified",
-        "message": "'href' is not specified"
-    },
-    "isSameOrigin": {
-        "description": "Debug information to show when the origin is the same",
-        "message": "Is same origin"
-    },
     "keyword": {
         "description": "Word keyword in singular",
         "message": "keyword"
@@ -22,10 +14,6 @@
     "name": {
         "description": "Metadata name",
         "message": "External links disown opener"
-    },
-    "noTargetBlankFound": {
-        "description": "Debug information to show when the target=\"blank\" is not found",
-        "message": "No `target=\"_blank\"` found"
     },
     "shouldHaveRel": {
         "description": "Report message to show when the validation fails",

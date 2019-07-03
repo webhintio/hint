@@ -45,7 +45,7 @@ export default class MinifiedJsHint implements IHint {
         const validateContentMinified = (scriptData: ScriptParse) => {
             const improvementIndex = getImprovementIndex(scriptData);
 
-            debug(getMessage('calculatedImprovementIndex', context.language, [scriptData.resource, improvementIndex.toString()]));
+            debug(`Calculated improvementIndex for ${scriptData.resource}: ${improvementIndex}`);
 
             if (improvementIndex > threshold) {
                 context.report(scriptData.resource, getMessage('shouldBeMinified', context.language));

@@ -84,7 +84,7 @@ export default class PerformanceBudgetHint implements IHint {
                 try {
                     sentSize = (await response.body.rawResponse()).byteLength;
                 } catch (e) /* istanbul ignore next */ {
-                    debug(getMessage('errorTryingToGet', context.language, resource));
+                    debug(`Error trying to get the \`rawResponse\` for ${resource}. Using uncompressedSize instead`);
                     debug(e);
 
                     sentSize = uncompressedSize;
@@ -101,7 +101,7 @@ export default class PerformanceBudgetHint implements IHint {
         };
 
         const onFetchEnd = async (fetchEnd: FetchEnd) => {
-            debug(getMessage('validating', context.language));
+            debug(`Validating hint Performance budget`);
             const { resource, response } = fetchEnd;
 
             updateDomainsInfo(resource);
@@ -136,7 +136,7 @@ export default class PerformanceBudgetHint implements IHint {
             const dnsLookUpTime = config.latency;
             const total = domains.size * dnsLookUpTime / 1000;
 
-            debug(getMessage('totalDNS', context.language, total.toString()));
+            debug(`Total DNS lookup time: ${total}`);
 
             return total;
         };
@@ -171,7 +171,7 @@ export default class PerformanceBudgetHint implements IHint {
             const tlsHandshakingTime = config.latency;
             const total = domains.size * tlsHandshakingTime / 1000;
 
-            debug(getMessage('totalTLS', context.language, total.toString()));
+            debug(`Total TLS handshake time: ${total}`);
 
             return total;
         };
@@ -186,7 +186,7 @@ export default class PerformanceBudgetHint implements IHint {
             // Perfect scenario for a redirect is 1 round trip in cold
             const total = redirects * config.latency / 1000;
 
-            debug(getMessage('totalRedirect', context.language, total.toString()));
+            debug(`Total redirect time: ${total}`);
 
             return total;
         };
@@ -277,7 +277,7 @@ export default class PerformanceBudgetHint implements IHint {
 
             const loadTime = getBestCaseScenario(config);
 
-            debug(getMessage('totalRedirect', context.language, loadTime.toString()));
+            debug(`Ideal load time: ${loadTime}s`);
 
             if (typeof config.load === 'number' && loadTime > config.load) {
                 context.report(resource, getMessage('toLoadAllResources', context.language, [config.id, loadTime.toFixed(1), (loadTime - config.load).toFixed(1), config.load.toString()]));

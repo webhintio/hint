@@ -3,14 +3,6 @@
         "description": "Metadata description",
         "message": "Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed"
     },
-    "errorTryingToGet": {
-        "description": "Debug infomration to show when there is an error getting the rawResponse",
-        "message": "Error trying to get the `rawResponse` for $1. Using uncompressedSize instead"
-    },
-    "idealTotalTime": {
-        "description": "Debug information to show the ideal total time",
-        "message": "Ideal load time: $1s"
-    },
     "name": {
         "description": "Metadata name",
         "message": "Performance budget"
@@ -18,21 +10,5 @@
     "toLoadAllResources": {
         "description": "Report message when the validation fails",
         "message": "To load all the resources on a $1 network, it will take about $2s in optimal conditions (that is $3s more than the $4s target)."
-    },
-    "totalDNS": {
-        "description": "Debug information to show when the DNS lookup time is calculated",
-        "message": "Total DNS lookup time: $1"
-    },
-    "totalRedirect": {
-        "description": "Debug information to show when the redirect time is calculated",
-        "message": "Total redirect time: $1"
-    },
-    "totalTLS": {
-        "description": "Debug information to show when the TLS handshake time is calculated",
-        "message": "Total TLS handshake time: $1"
-    },
-    "validating": {
-        "description": "Debug information to show when the validation starts",
-        "message": "Validating hint Performance budget"
     }
 }

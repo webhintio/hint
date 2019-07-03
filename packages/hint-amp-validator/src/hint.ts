@@ -11,7 +11,6 @@ import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
-import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -46,7 +45,7 @@ export default class AmpValidatorHint implements IHint {
 
         const onScanEnd = async () => {
             if (!events || events.length === 0) {
-                debug(getMessage('no-valid-content', context.language));
+                debug('No valid content');
 
                 return;
             }
@@ -70,7 +69,7 @@ export default class AmpValidatorHint implements IHint {
                      */
                     /* istanbul ignore if */
                     if (errorsOnly && /* istanbul ignore next */ error.severity !== 'ERROR') {
-                        debug(getMessage('not-meet-threshold', context.language));
+                        debug(`AMP error doesn't meet threshold for reporting`);
                     } else {
                         const location = {
                             column: error.col,

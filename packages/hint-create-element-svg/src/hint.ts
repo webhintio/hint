@@ -28,7 +28,7 @@ export default class CreateElementSvgHint implements IHint {
          */
         context.on('parse::end::javascript', ({ ast, element, resource, sourceCode, walk }) => {
 
-            debug(getMessage('validating', context.language));
+            debug('Validating hint create-element-svg');
 
             walk.simple(ast, {
                 CallExpression(node) {

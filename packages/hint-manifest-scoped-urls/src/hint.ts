@@ -31,7 +31,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             try {
                 networkData = await context.fetchContent(startUrl);
             } catch (e) {
-                debug(getMessage('failedToFetch', context.language, startUrl));
+                debug(`Failed to fetch ${startUrl}`);
                 const message = getMessage('requestFailedFor', context.language);
 
                 context.report(resource, message, { location: startUrllocation });
@@ -81,7 +81,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             const resourceURL = new URL(resource);
             const hostnameWithProtocol = `${resourceURL.protocol}//${resourceURL.host}`;
 
-            debug(getMessage('validating', context.language));
+            debug(`Validating hint manifest-scoped-urls`);
 
             if (startURL) {
                 const startUrlLocation = getLocation('start_url')!;
