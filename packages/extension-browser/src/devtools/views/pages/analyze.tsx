@@ -13,7 +13,7 @@ import ProgressBar from '../controls/progress-bar';
 
 import * as styles from './analyze.css';
 
-import * as nellieWorkingSvg from '../../../nellie-working.svg';
+import * as nellieWorkingSvg from '../../../images/nellie-working.svg';
 
 const maxRunTime = 3 * 60 * 1000; // Three minutes.
 

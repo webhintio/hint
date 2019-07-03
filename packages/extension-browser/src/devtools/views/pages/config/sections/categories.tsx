@@ -13,6 +13,8 @@ import LabelText from '../../../controls/label-text';
 import ConfigLabel from '../label';
 import ConfigSection from '../section';
 
+import * as styles from './categories.css';
+
 type Props = {
     className?: string;
     disabled?: string[];
@@ -54,7 +56,9 @@ const CategoriesSection = ({ className, disabled, onChange }: Props) => {
         return (
             <ConfigLabel key={category}>
                 <Checkbox value={category} checked={!isDisabled} onChange={onCategoryChange} />
-                <LabelText>{getMessage(category)}</LabelText>
+                <LabelText className={styles.label} data-icon={category}>
+                    {getMessage(category)}
+                </LabelText>
             </ConfigLabel>
         );
     });

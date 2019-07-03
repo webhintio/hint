@@ -26,6 +26,14 @@
 
     --shadow-color: #00000080;
 
+    /* Category icons */
+    --icon-accessibility-url: url(../../images/icon-accessibility.svg);
+    --icon-compatibility-url: url(../../images/icon-compatibility.svg);
+    --icon-performance-url: url(../../images/icon-performance.svg);
+    --icon-pitfalls-url: url(../../images/icon-pitfalls.svg);
+    --icon-pwa-url: url(../../images/icon-pwa.svg);
+    --icon-security-url: url(../../images/icon-security.svg);
+
     /* Syntax highlighting colors */
     /* JS */
     --code-boolean-color: #0000ff;
