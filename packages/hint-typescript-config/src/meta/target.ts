@@ -5,16 +5,16 @@ import { getMessage } from '../i18n.import';
 const meta: HintMetadata = {
     docs: {
         category: Category.development,
-        description: getMessage('target/description', 'en'),
-        name: getMessage('target/name', 'en')
+        description: getMessage('target_description', 'en'),
+        name: getMessage('target_name', 'en')
     },
     /* istanbul ignore next */
     getDescription(language: string) {
-        return getMessage('target/description', language);
+        return getMessage('target_description', language);
     },
     /* istanbul ignore next */
     getName(language: string) {
-        return getMessage('target/name', language);
+        return getMessage('target_name', language);
     },
     id: 'typescript-config/target',
     schema: [],

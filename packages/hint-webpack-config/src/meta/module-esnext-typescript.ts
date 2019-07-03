@@ -5,16 +5,16 @@ import { getMessage } from '../i18n.import';
 const meta: HintMetadata = {
     docs: {
         category: Category.development,
-        description: getMessage('module-esnext-typescript/description', 'en'),
-        name: getMessage('module-esnext-typescript/name', 'en')
+        description: getMessage('moduleEsnextTypescript_description', 'en'),
+        name: getMessage('moduleEsnextTypescript_name', 'en')
     },
     /* istanbul ignore next */
     getDescription(language: string) {
-        return getMessage('module-esnext-typescript/description', language);
+        return getMessage('moduleEsnextTypescript_description', language);
     },
     /* istanbul ignore next */
     getName(language: string) {
-        return getMessage('module-esnext-typescript/name', language);
+        return getMessage('moduleEsnextTypescript_name', language);
     },
     id: 'webpack-config/module-esnext-typescript',
     schema: [],

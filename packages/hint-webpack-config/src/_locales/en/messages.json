@@ -7,11 +7,11 @@
         "description": "Report message when the babel-config parser is not activated",
         "message": "The parser babel-config should be activated"
     },
-    "config-exists/description": {
+    "configExists_description": {
         "description": "Metadata description",
         "message": "`webpack-config/config-exists` warns against not having a webpack configuration file"
     },
-    "config-exists/name": {
+    "configExists_name": {
         "description": "Metadata name",
         "message": "Has webpack configuration"
     },
@@ -27,19 +27,19 @@
         "description": "Debug information to show when an event is received",
         "message": "$1 received"
     },
-    "is-installed/description": {
+    "isInstalled_description": {
         "description": "Metadata description",
         "message": "`webpack-config/is-installed` warns against not having webpack installed"
     },
-    "is-installed/name": {
+    "isInstalled_name": {
         "description": "Metadata name",
         "message": "Has webpack"
     },
-    "is-valid/description": {
+    "isValid_description": {
         "description": "Metadata description",
         "message": "`webpack-config/is-valid` warns against providing an invalid webpack configuration file `webpack.config.js`"
     },
-    "is-valid/name": {
+    "isValid_name": {
         "description": "Metadata name",
         "message": "Valid webpack configuration"
     },
@@ -47,27 +47,27 @@
         "description": "Report message when webpack is not installed in your project",
         "message": "webpack is not installed in your project."
     },
-    "module-esnext-typescript/description": {
+    "moduleEsnextTypescript_description": {
         "description": "Metadata description",
         "message": "`webpack-config/module-esnext-typescript` warns against not having set the propety `compilerOptions.module` to `esnext` in typescript configuration file"
     },
-    "module-esnext-typescript/name": {
+    "moduleEsnextTypescript_name": {
         "description": "Metadata name",
         "message": "webpack compatible TypeScript `module`"
     },
-    "modules-false-babel/description": {
+    "modulesFalseBabel_description": {
         "description": "Metadata description",
         "message": "`webpack-config/modules-false-babel` warns against not having set the propety `modules` to `false` in presets in babel configuration file"
     },
-    "modules-false-babel/name": {
+    "modulesFalseBabel_name": {
         "description": "Metadata name",
         "message": "No Babel `modules` with webpack"
     },
-    "no-devtool-in-prod/description": {
+    "noDevtoolInProd_description": {
         "description": "Metadata description",
         "message": "`webpack-config/no-devtool-in-prod` warns against having set the propety `devtool` to `eval`"
     },
-    "no-devtool-in-prod/name": {
+    "noDevtoolInProd_name": {
         "description": "Metadata name",
         "message": "No production `devtool` in webpack"
     },

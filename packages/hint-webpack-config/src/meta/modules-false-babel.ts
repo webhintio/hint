@@ -5,16 +5,16 @@ import { getMessage } from '../i18n.import';
 const meta: HintMetadata = {
     docs: {
         category: Category.development,
-        description: getMessage('modules-false-babel/description', 'en'),
-        name: getMessage('modules-false-babel/name', 'en')
+        description: getMessage('modulesFalseBabel_description', 'en'),
+        name: getMessage('modulesFalseBabel_name', 'en')
     },
     /* istanbul ignore next */
     getDescription(language: string) {
-        return getMessage('modules-false-babel/description', language);
+        return getMessage('modulesFalseBabel_description', language);
     },
     /* istanbul ignore next */
     getName(language: string) {
-        return getMessage('modules-false-babel/name', language);
+        return getMessage('modulesFalseBabel_name', language);
     },
     id: 'webpack-config/modules-false-babel',
     schema: [],

@@ -5,16 +5,16 @@ import { getMessage } from '../i18n.import';
 const meta: HintMetadata = {
     docs: {
         category: Category.development,
-        description: getMessage('consistent-casing/description', 'en'),
-        name: getMessage('consistent-casing/name', 'en')
+        description: getMessage('consistentCasing_description', 'en'),
+        name: getMessage('consistentCasing_name', 'en')
     },
     /* istanbul ignore next */
     getDescription(language: string) {
-        return getMessage('consistent-casing/description', language);
+        return getMessage('consistentCasing_description', language);
     },
     /* istanbul ignore next */
     getName(language: string) {
-        return getMessage('consistent-casing/name', language);
+        return getMessage('consistentCasing_name', language);
     },
     id: 'typescript-config/consistent-casing',
     schema: [],

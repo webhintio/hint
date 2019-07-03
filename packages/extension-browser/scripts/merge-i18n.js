@@ -26,14 +26,15 @@ const main = async () => {
 
                 for (const [key, value] of Object.entries(moduleMessages)) {
                     const prefix = lodash.camelCase(module.replace('@hint/', ''));
-                    messages[`${prefix}_${key}`] = value;
+
+                    messages[`${prefix}_${key}`] = { message: value.message };
                 }
             } catch (e) {
                 console.log(`No '${locale}' strings found for ${module}.`);
             }
         }
 
-        fs.writeFile(filename, JSON.stringify(messages, null, 4), (err) => {
+        fs.writeFile(filename, JSON.stringify(messages), (err) => {
             if (err) {
                 throw err;
             } else {

@@ -9,16 +9,16 @@ const schema = require('./compat-hint-schema.json');
 const meta: HintMetadata = {
     docs: {
         category: Category.compatibility,
-        description: getMessage('html/description', 'en'),
-        name: getMessage('html/name', 'en')
+        description: getMessage('html_description', 'en'),
+        name: getMessage('html_name', 'en')
     },
     /* istanbul ignore next */
     getDescription(language: string) {
-        return getMessage('html/description', language);
+        return getMessage('html_description', language);
     },
     /* istanbul ignore next */
     getName(language: string) {
-        return getMessage('html/name', language);
+        return getMessage('html_name', language);
     },
     id: 'compat-api/html',
     schema: [schema],

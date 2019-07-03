@@ -5,16 +5,16 @@ import { getMessage } from '../i18n.import';
 const meta: HintMetadata = {
     docs: {
         category: Category.development,
-        description: getMessage('is-installed/description', 'en'),
-        name: getMessage('is-installed/name', 'en')
+        description: getMessage('isInstalled_description', 'en'),
+        name: getMessage('isInstalled_name', 'en')
     },
     /* istanbul ignore next */
     getDescription(language: string) {
-        return getMessage('is-installed/description', language);
+        return getMessage('isInstalled_description', language);
     },
     /* istanbul ignore next */
     getName(language: string) {
-        return getMessage('is-installed/name', language);
+        return getMessage('isInstalled_name', language);
     },
     id: 'webpack-config/is-installed',
     schema: [],

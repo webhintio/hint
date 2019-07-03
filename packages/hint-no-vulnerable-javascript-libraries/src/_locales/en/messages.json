@@ -49,10 +49,10 @@
     },
     "vulnerabilities": {
         "description": "Report message when more than one vulnerability is found in a package",
-        "message": "'$1@$2' has $3 known vulnerabilities ($4). See '$5' for more information."
+        "message": "'$1 @ $2' has $3 known vulnerabilities ($4). See '$5' for more information."
     },
     "vulnerability": {
         "description": "Report message when a vulnerability is found in a package",
-        "message": "'$1@$2' has $3 known vulnerability ($4). See '$5' for more information."
+        "message": "'$1 @ $2' has $3 known vulnerability ($4). See '$5' for more information."
     }
 }

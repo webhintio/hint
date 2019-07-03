@@ -17,7 +17,7 @@
     },
     "headerValueShouldOnlyContain": {
         "description": "Report message when the 'server' header contains more than the server name",
-        "message": "'server' header value should only contain the server name, not '${(response.headers as any).server}'."
+        "message": "'server' header value should only contain the server name, not '$1'."
     },
     "name": {
         "description": "Metadata name",
