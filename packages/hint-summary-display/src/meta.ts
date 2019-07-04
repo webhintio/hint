@@ -5,9 +5,9 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 const meta: HintMetadata = {
     docs: {
         category: Category.compatibility,
-        description: `check for summary tag and show a warning if the display attribute is not list-item`
+        description: `Checks if display applied to a summary tag will hide the open/close icon`
     },
-    id: 'validate-summary',
+    id: 'summary-display',
     schema: [
         /*
          * If you want to allow the user to configure your hint

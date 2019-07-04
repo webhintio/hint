@@ -91,7 +91,7 @@
         { "path": "packages/hint-stylesheet-limits" },
         { "path": "packages/hint-typescript-config" },
         { "path": "packages/hint-validate-set-cookie-header" },
-        { "path": "packages/hint-validate-summary" },
+        { "path": "packages/hint-summary-display" },
         { "path": "packages/hint-webpack-config" },
         { "path": "packages/hint-x-content-type-options" },
         { "path": "packages/parser-babel-config" },

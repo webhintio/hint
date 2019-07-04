@@ -3,8 +3,7 @@
         "name": "puppeteer",
         "options": {
             "waitUntil": "networkidle2"
-        },
-        "parsers": ["webpack-config"]
+        }
     },
     "hintsTimeout": 120000,
     "hints": {
@@ -42,7 +41,6 @@
         "stylesheet-limits": "warning",
         "validate-set-cookie-header": "warning",
         "x-content-type-options": "warning",
-        "validate-summary": "warning"
-    },
-    "extends": ["development"]
+        "summary-display": "warning"
+    }
 }
