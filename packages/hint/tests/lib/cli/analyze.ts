@@ -16,7 +16,7 @@ import {
 } from '../../../src/lib/types';
 import { AnalyzerErrorStatus } from '../../../src/lib/enums/error-status';
 
-const actions = { _: ['http://localhost/'] } as CLIOptions;
+const actions = { _: ['http://localhost/'], language: 'en-US' } as CLIOptions;
 
 class FakeAnalyzer {
     public constructor() {
@@ -184,7 +184,7 @@ test('If there is no valid user config, it should use `web-recommended` as defau
     await analyze(actions);
 
     t.true(createAnalyzerStub.calledOnce);
-    t.deepEqual(createAnalyzerStub.args[0][0], { extends: ['web-recommended'] });
+    t.deepEqual(createAnalyzerStub.args[0][0], { extends: ['web-recommended'], language: 'en-US' });
 });
 
 test('If there is no valid user config and user refuses to use the default or to create a configuration file, it should exit with code 1', async (t) => {
