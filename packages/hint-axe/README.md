@@ -1,8 +1,8 @@
 # axe accessibility check (`axe`)
 
 `axe` is the accessibility engine for automated testing of HTML-based
-user interfaces. This hint performs the default accessibility tests
-(WCAG 2.0 Level A and Level AA rules) and alerts if something fails.
+user interfaces. These hints run the recommended set of WCAG 2.1
+Level A and Level AA rules from [axe-core][axe core].
 
 ## Why is this important?
 
@@ -31,33 +31,51 @@ accessibility is required by laws and policies in some cases.
 
 ## What does the hint check?
 
-By default, this hint runs all the [WCAG 2.0][wcag 2.0] Level A and
-Level AA rules included in [axe-core][axe core] with `document` as
-the target. Visit the [full list of default enabled rules][axe rules]
-for more information of what they do.
+By default, `hint-axe` contains hints which run all the
+[WCAG 2.1][wcag 2.1] Level A and Level AA rules included in
+[axe-core][axe core] with `document` as the target. These rules are
+grouped into hints based on their assigned category within `axe-core`.
+See each contained hint for the specific list of enabled rules within
+that group and more information about each rule.
+
+## Hints
+
+<!-- start hints -->
+* [ARIA (axe/aria)][axe/aria]
+* [Color (axe/color)][axe/color]
+* [Forms (axe/forms)][axe/forms]
+* [Keyboard (axe/keyboard)][axe/keyboard]
+* [Language (axe/language)][axe/language]
+* [Name Role Value (axe/name-role-value)][axe/name-role-value]
+* [Other (axe/other)][axe/other]
+* [Parsing (axe/parsing)][axe/parsing]
+* [Semantics (axe/semantics)][axe/semantics]
+* [Sensory and Visual Cues (axe/sensory-and-visual-cues)][axe/sensory-and-visual-cues]
+* [Structure (axe/structure)][axe/structure]
+* [Tables (axe/tables)][axe/tables]
+* [Text Alternatives (axe/text-alternatives)][axe/text-alternatives]
+* [Time and Media (axe/time-and-media)][axe/time-and-media]
+<!-- end hints -->
 
 ## Can the hint be configured?
 
 This hint uses [`axe.run`][axe.run] and the default values ([WCAG
-2.0][wcag 2.0] Level A and Level AA rules) over the `document`.
+2.1][wcag 2.1] Level A and Level AA rules) over the `document`.
 You can modify what rules or categories are executed via an `options`
 object that follows [axe’s documentation][axe docs].
 
 Some examples of hint configurations that you can have in the
 [`.hintrc`][hintrc] file:
 
-Run only WCAG 2.0 Level A rules:
+Disable a rule included in the default configuration:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
     "hints": {
-        "axe": ["error", {
-            "runOnly": {
-                "type": "tag",
-                "values": ["wcag2a"]
-            }
+        "axe/language": ["error", {
+            "html-has-lang": "off"
         }],
         ...
     },
@@ -65,18 +83,15 @@ Run only WCAG 2.0 Level A rules:
 }
 ```
 
-Run only a specified set of rules:
+Enable a rule excluded from the default configuration:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
     "hints": {
-        "axe": ["error", {
-            "runOnly": {
-                "type": "rule",
-                "values": ["ruleId1", "ruleId2", "ruleId3" ]
-            }
+        "axe/keyboard": ["error", {
+            "tabindex": "error"
         }],
         ...
     },
@@ -84,18 +99,15 @@ Run only a specified set of rules:
 }
 ```
 
-Run all enabled rules except for a list of rules:
+Change the severity of an individual rule:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
     "hints": {
-        "axe": ["error", {
-            "rules": {
-                "color-contrast": { "enabled": false },
-                "valid-lang": { "enabled": false }
-            }
+        "axe/color": ["error", {
+            "color-contrast": "warning"
         }],
         ...
     },
@@ -116,14 +128,16 @@ Note: You can make `npm` install it as a `devDependency` using the
 `-g` parameter. For other options see [`npm`'s
 documentation](https://docs.npmjs.com/cli/install).
 
-And then activate it via the [`.hintrc`][hintrc] configuration file:
+And then activate each hint via the [`.hintrc`][hintrc] configuration
+file:
 
 ```json
 {
     "connector": {...},
     "formatters": [...],
     "hints": {
-        "axe": "error",
+        "axe/aria": "error",
+        "axe/color": "error",
         ...
     },
     "parsers": [...],
@@ -146,4 +160,20 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [wai soc]: https://www.w3.org/WAI/bcase/soc
 [wai]: https://www.w3.org/WAI/intro/accessibility.php
-[wcag 2.0]: https://www.w3.org/TR/WCAG20/
+[wcag 2.1]: https://www.w3.org/TR/WCAG21/
+<!-- start hint links -->
+[axe/aria]: ./docs/aria.md
+[axe/color]: ./docs/color.md
+[axe/forms]: ./docs/forms.md
+[axe/keyboard]: ./docs/keyboard.md
+[axe/language]: ./docs/language.md
+[axe/name-role-value]: ./docs/name-role-value.md
+[axe/other]: ./docs/other.md
+[axe/parsing]: ./docs/parsing.md
+[axe/semantics]: ./docs/semantics.md
+[axe/sensory-and-visual-cues]: ./docs/sensory-and-visual-cues.md
+[axe/structure]: ./docs/structure.md
+[axe/tables]: ./docs/tables.md
+[axe/text-alternatives]: ./docs/text-alternatives.md
+[axe/time-and-media]: ./docs/time-and-media.md
+<!-- end hint links -->
