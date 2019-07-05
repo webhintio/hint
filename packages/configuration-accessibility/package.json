@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "@hint/connector-puppeteer": "^1.0.0",
+    "@hint/formatter-html": "^4.0.2",
+    "@hint/formatter-summary": "^3.0.2",
+    "@hint/hint-axe": "^3.0.2"
+  },
+  "description": "webhint's axe-based accessibility configuration for WCAG 2.1 Level A and Level AA requirements",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "index.json"
+  ],
+  "keywords": [
+    "a11y",
+    "accessibility",
+    "webhint",
+    "webhint-configuration"
+  ],
+  "license": "Apache-2.0",
+  "main": "index.json",
+  "name": "@hint/configuration-accessibility",
+  "peerDependencies": {
+    "hint": "^5.0.2"
+  },
+  "private": true,
+  "repository": "webhintio/hint",
+  "version": "1.0.0"
+}
