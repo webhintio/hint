@@ -151,9 +151,9 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 let message: string;
 
                 if (vulnerabilities.length === 1) {
-                    message = getMessage('vulnerability', context.language, [library.name, library.version, vulnerabilities.length.toString(), detail, link]);
+                    message = getMessage('vulnerability', context.language, [`${library.name}@${library.version}`, vulnerabilities.length.toString(), detail, link]);
                 } else {
-                    message = getMessage('vulnerabilities', context.language, [library.name, library.version, vulnerabilities.length.toString(), detail, link]);
+                    message = getMessage('vulnerabilities', context.language, [`${library.name}@${library.version}`, vulnerabilities.length.toString(), detail, link]);
                 }
 
                 context.report(resource, message);
