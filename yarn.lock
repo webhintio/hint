@@ -599,6 +599,13 @@
   resolved "https://registry.yarnpkg.com/@types/content-type/-/content-type-1.1.3.tgz#3688bd77fc12f935548eef102a4e34c512b03a07"
   integrity sha512-pv8VcFrZ3fN93L4rTNIbbUzdkzjEyVMp5mPVjsFfOYTDOZMZiZ8P1dhu+kEv3faYyKzZgLlSvnyQNFg+p/v5ug==
 
+"@types/css-modules-loader-core@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/css-modules-loader-core/-/css-modules-loader-core-1.1.0.tgz#67af15aa16603ac2ffc1d3a7f08547ac809c3005"
+  integrity sha512-LMbyf7THPqLCPHIXAj79v9Pa193MeOHgp1fBFRR6s6VvEVHUFIcM5bc/WttslOf+lao4TURNN1X1zfW5wr2CHQ==
+  dependencies:
+    postcss "7.x.x"
+
 "@types/debug@0.0.31":
   version "0.0.31"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-0.0.31.tgz#bac8d8aab6a823e91deb7f79083b2a35fa638f33"
@@ -9147,6 +9154,15 @@ postcss@7.0.14:
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
+postcss@7.x.x, postcss@^7.0.0, postcss@^7.0.14, postcss@^7.0.16, postcss@^7.0.17, postcss@^7.0.5, postcss@^7.0.6:
+  version "7.0.17"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.17.tgz#4da1bdff5322d4a0acaab4d87f3e782436bad31f"
+  integrity sha512-546ZowA+KZ3OasvQZHsbuEpysvwTZNGJv9EfyCQdsIDltPSWHAeTQ5fQy/Npi2ZDtLI3zs7Ps/p6wThErhm9fQ==
+  dependencies:
+    chalk "^2.4.2"
+    source-map "^0.6.1"
+    supports-color "^6.1.0"
+
 postcss@^6.0.1:
   version "6.0.23"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
@@ -9155,15 +9171,6 @@ postcss@^6.0.1:
     chalk "^2.4.1"
     source-map "^0.6.1"
     supports-color "^5.4.0"
-
-postcss@^7.0.0, postcss@^7.0.14, postcss@^7.0.16, postcss@^7.0.17, postcss@^7.0.5, postcss@^7.0.6:
-  version "7.0.17"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.17.tgz#4da1bdff5322d4a0acaab4d87f3e782436bad31f"
-  integrity sha512-546ZowA+KZ3OasvQZHsbuEpysvwTZNGJv9EfyCQdsIDltPSWHAeTQ5fQy/Npi2ZDtLI3zs7Ps/p6wThErhm9fQ==
-  dependencies:
-    chalk "^2.4.2"
-    source-map "^0.6.1"
-    supports-color "^6.1.0"
 
 prebuild-install@^5.3.0:
   version "5.3.0"
@@ -11439,12 +11446,13 @@ type-is@~1.6.17, type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typed-css-modules@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.4.2.tgz#eb9416a847c6ab9869fbd3a21de9d69566787f09"
-  integrity sha512-8L6efZplgnraEw1RWz1Nc6swfLm6PAawivvdwFhzkFa3CJu+cPbK9712i4CAAf+JA0/Ufe19iDTPIk1WSpoz/w==
+typed-css-modules@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.6.0.tgz#12fedde8f45cc5d9716bf495cc4ae1c9195da34c"
+  integrity sha512-SmbEfvHkaTdEYIzOHMsJ/pWOAknyPWvYFLyQvWfpYF+BOxNHzxruuUIbcS8BWYdnIPuMKxAWHnmAyMY2CjtWhw==
   dependencies:
-    camelcase "^4.1.0"
+    "@types/css-modules-loader-core" "^1.1.0"
+    camelcase "^5.3.1"
     chalk "^2.1.0"
     chokidar "^2.1.2"
     css-modules-loader-core "^1.1.0"
