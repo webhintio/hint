@@ -9,7 +9,7 @@
   "dependencies": {
     "@hint/utils": "^2.1.0",
     "data-urls": "^1.1.0",
-    "iconv-lite": "^0.4.24",
+    "iconv-lite": "^0.5.0",
     "iltorb": "^2.4.3",
     "request": "^2.88.0"
   },
