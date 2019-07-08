@@ -95,7 +95,7 @@ export const getMessage = (key: string, packageName: string, options?: GetMessag
     const substitutions = options && options.substitutions;
 
     const messages = getMessages(packageName, language);
-    const message = messages[key].message;
+    const message = messages[key] && messages[key].message;
 
     if (!message) {
         return key;
