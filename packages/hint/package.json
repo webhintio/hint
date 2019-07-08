@@ -10,7 +10,7 @@
   "dependencies": {
     "@hint/utils": "^2.1.0",
     "boxen": "^4.1.0",
-    "browserslist": "^4.6.3",
+    "browserslist": "^4.6.4",
     "chalk": "^2.4.2",
     "configstore": "^5.0.0",
     "content-type": "^1.0.4",
