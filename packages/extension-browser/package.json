@@ -56,7 +56,7 @@
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.10.2",
     "ava": "^1.4.1",
-    "axe-core": "3.2.2-canary.55820cf",
+    "axe-core": "3.3.0",
     "browserslist": "^4.6.4",
     "cpx": "^1.5.0",
     "css-loader": "^3.0.0",
