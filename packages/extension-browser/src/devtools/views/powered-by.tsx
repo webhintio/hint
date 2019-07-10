@@ -8,6 +8,8 @@ type Props = {
     className?: string;
 };
 
+const { version } = require('../../manifest.json');
+
 const PoweredBy = ({ className }: Props) => {
     return (
         <div className={className || ''}>
@@ -16,6 +18,8 @@ const PoweredBy = ({ className }: Props) => {
             <ExternalLink href="https://webhint.io">
                 webhint
             </ExternalLink>
+            {' '}
+            v{version}
         </div>
     );
 };
