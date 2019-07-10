@@ -87,6 +87,10 @@
         "message": "hint $1:",
         "description": "Label for a test result based on the order in which it is listed, e.g. 'hint 2:'."
     },
+    "inspectElement": {
+        "message": "Inspect Element",
+        "description": "Label for a button to link to a specific element in the Elements panel."
+    },
     "scanResultTitle": {
         "message": "Hints: Scan Results",
         "description": "Label for the title in the header in the result page."

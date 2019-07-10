@@ -13,8 +13,9 @@
 
 .problemLink {
     color: var(--link-alt-color);
+    overflow-wrap: break-word;
     text-decoration: none;
-    word-break: break-word;
+    vertical-align: middle;
 }
 
 .problemLink:focus {
@@ -28,36 +29,4 @@
 
 .number {
     font-weight: var(--bold);
-}
-
-.button {
-    background-color: var(--highlight-bg);
-    border: none;
-    border-radius: 0 var(--rounding) 0 var(--rounding);
-    color: var(--light-color);
-    cursor: pointer;
-    fill: var(--light-color);
-    height: 1.125rem; /* 18px */
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.button:focus {
-    outline: var(--focus-outline);
-}
-
-.button:global(:not(.focus-visible)) {
-    outline: none;
-}
-
-.icon {
-    height: 0.95rem;
-    margin-right: -0.2rem;
-    position: relative;
-    top: 0.075rem;
-}
-
-.codeWrapper {
-    position: relative;
 }
