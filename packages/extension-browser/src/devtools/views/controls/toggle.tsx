@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import { ElementProps, Omit } from '../../utils/types';
 
 import * as styles from './toggle.css';
 
-type BaseProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
-type Props = Pick<BaseProps, Exclude<keyof BaseProps, 'type'>>;
+type Props = Omit<'type', ElementProps<'input'>>;
 
 /**
  * Toggle input with common styles.
