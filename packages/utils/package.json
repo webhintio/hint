@@ -18,7 +18,7 @@
     "is-svg": "^4.2.0",
     "is-wsl": "^2.1.0",
     "jsonc-parser": "^2.1.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "npm-registry-fetch": "^3.9.1",
     "parse5": "^5.1.0",
     "parse5-htmlparser2-tree-adapter": "^5.1.0",
