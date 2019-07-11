@@ -89,6 +89,7 @@
         { "path": "packages/hint-ssllabs" },
         { "path": "packages/hint-strict-transport-security" },
         { "path": "packages/hint-stylesheet-limits" },
+        { "path": "packages/hint-summary-display" },
         { "path": "packages/hint-typescript-config" },
         { "path": "packages/hint-validate-set-cookie-header" },
         { "path": "packages/hint-webpack-config" },
