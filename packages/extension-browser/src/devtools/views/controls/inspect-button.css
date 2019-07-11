@@ -1,0 +1,33 @@
+.root {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    height: 0.75rem; /* 12px */
+    margin-left: 0.5rem; /* 8px */
+    padding: 0;
+    vertical-align: middle;
+    width: 0.75rem; /* 12px */
+}
+
+.root:focus {
+    outline: var(--focus-outline);
+}
+
+.root:global(:not(.focus-visible)) {
+    outline: none;
+}
+
+.root:after {
+    --mask: url('./inspect-button.icon.svg');
+
+    background-color: var(--base-color);
+    content: '';
+    display: block;
+    height: 100%;
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    width: 100%;
+}
