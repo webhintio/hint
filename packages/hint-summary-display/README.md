@@ -1,15 +1,14 @@
 # summary-display (`@hint/hint-summary-display`)
 
-Summary tag should have `display: list-item` only.
+Summary tag should have `display: list-item` to avoid hiding open/close icon.
 
 ## Why is this important?
 
 Changing the display on a summary tag to anything other than list-item
 will cause the open/close icon to disappear in browsers which implement
-the latest version of the standard (eg: Firefox).
-Chrome has
-[a bug open][chrome bug]
-to track aligning with the spec and Firefox in the future.
+the latest version of the standard (e.g. Firefox).
+Chrome has [a bug open][chrome bug] to track aligning with the spec and
+Firefox in the future.
 
 ## What does the hint check?
 

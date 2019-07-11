@@ -6,10 +6,7 @@ const hintPath = getHintPath(__filename);
 
 const { readFile } = fs;
 
-
 const generateConfig = (fileName: string) => {
-
-
     const styles = readFile(`${__dirname}/fixtures/${fileName}.css`);
 
     return {
@@ -68,7 +65,7 @@ const tests: HintTest[] = [
         serverConfig: summary.summaryTest5
     },
     {
-        name: 'Child Selector',
+        name: 'Child selector',
         reports: [{ message: `Changing display of a summary tag hides open/close icon` }],
         serverConfig: summary.summaryTest6
     },
@@ -76,7 +73,6 @@ const tests: HintTest[] = [
         name: 'Summary does not change the display',
         serverConfig: summary.summaryTest7
     }
-
 ];
 
 testHint(hintPath, tests, { parsers: ['css'] });
