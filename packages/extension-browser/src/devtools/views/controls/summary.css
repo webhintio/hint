@@ -1,0 +1,13 @@
+.summary {
+  cursor: pointer;
+  line-height: 1.5rem; /* 24px */
+  width: max-content;
+}
+
+.summary:focus {
+  outline: var(--focus-outline);
+}
+
+.summary:global(:not(.focus-visible)) {
+  outline: none;
+}

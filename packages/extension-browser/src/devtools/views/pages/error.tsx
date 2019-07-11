@@ -7,6 +7,7 @@ import { getMessage } from '../../utils/i18n';
 import Button from '../controls/button';
 import ExternalLink from '../controls/external-link';
 import Page from '../page';
+import Summary from '../controls/summary';
 
 import * as styles from './error.css';
 
@@ -47,9 +48,9 @@ const ErrorPage = ({ disabled, error, onConfigure, onRestart }: Props) => {
                     </Button>
                 </div>
                 <details>
-                    <summary>
+                    <Summary>
                         {getMessage('errorDetails')}
-                    </summary>
+                    </Summary>
                     <pre>
                         {error.message}
                     </pre>
