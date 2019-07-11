@@ -37,20 +37,20 @@
     ],
     "homepage": "https://webhint.io/",
     "keywords": [
-        "validate-summary",
-        "validate-summary-hint",
-        "test",
-        "test-hint"
+        "summary-display",
+        "summary-display-hint",
+        "webhint",
+        "webhint-hint"
     ],
     "license": "Apache-2.0",
     "main": "dist/src/hint.js",
-    "name": "@hint/hint-test",
+    "name": "@hint/hint-summary-display",
     "nyc": {
         "extends": "../../.nycrc"
     },
     "peerDependencies": {
-        "hint": "^5.0.2",
-        "@hint/parser-css": "^3.0.2"
+        "@hint/parser-css": "^3.0.2",
+        "hint": "^5.0.2"
     },
     "private": true,
     "repository": "webhintio/hint",
