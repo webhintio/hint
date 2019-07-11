@@ -11,7 +11,7 @@
     "@hint/utils": "^2.1.0",
     "ejs": "^2.6.2",
     "fs-extra": "^8.0.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "moment": "^2.24.0"
   },
   "devDependencies": {

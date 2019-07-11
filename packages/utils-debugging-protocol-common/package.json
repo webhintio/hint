@@ -5,7 +5,7 @@
     "abab": "^2.0.0",
     "chrome-remote-interface": "^0.27.2",
     "lockfile": "^1.0.4",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.13"
   },
   "description": "hint debugging protocol common functionality",
   "devDependencies": {

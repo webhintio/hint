@@ -10,7 +10,7 @@
   "dependencies": {
     "@hint/utils": "^2.1.0",
     "chalk": "^2.4.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "log-symbols": "^3.0.0",
     "strip-ansi": "^5.1.0"
   },

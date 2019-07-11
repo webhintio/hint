@@ -17,7 +17,7 @@
     "eventemitter2": "^5.0.1",
     "globby": "^9.2.0",
     "is-ci": "^2.0.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "optionator": "^0.8.2",
     "ora": "^3.4.0",
     "semver": "^6.1.2",
