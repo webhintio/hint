@@ -10,9 +10,9 @@ import * as styles from './header.css';
 const ConfigHeader = () => {
     return (
         <header className={styles.root}>
-            <div className={styles.help}>
+            <h1 className={styles.help}>
                 {getMessage('checkForBestPracticesDescription')}
-            </div>
+            </h1>
             <FeedbackLink />
             <Button type="submit" primary={true}>
                 {getMessage('startScanButtonLabel')}

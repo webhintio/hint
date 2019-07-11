@@ -13,7 +13,7 @@ import ProgressBar from '../controls/progress-bar';
 
 import * as styles from './analyze.css';
 
-import * as nellieWorkingSvg from '../../../nellie-working.svg';
+import * as nellieWorkingSvg from '../../../images/nellie-working.svg';
 
 const maxRunTime = 3 * 60 * 1000; // Three minutes.
 
@@ -104,7 +104,7 @@ const Analyze = ({ config, onCancel, onError, onResults, onTimeout }: Props) => 
 
     return (
         <div className={styles.root}>
-            <section className={styles.status}>
+            <section role="dialog" className={styles.status} aria-label={getMessage('analyzingStatus')}>
                 <h1 className={styles.header}>
                     {getMessage('analyzingStatus')}
                 </h1>
@@ -116,7 +116,7 @@ const Analyze = ({ config, onCancel, onError, onResults, onTimeout }: Props) => 
                     <img className={styles.image} src={nellieWorkingSvg} alt={getMessage('pictureOfMascot')} />
                 </div>
                 <ProgressBar className={styles.progress} />
-                <Button primary={true} onClick={onCancelClick}>
+                <Button autoFocus={true} primary={true} onClick={onCancelClick}>
                     {getMessage('cancelAnalysisButtonLabel')}
                 </Button>
             </section>

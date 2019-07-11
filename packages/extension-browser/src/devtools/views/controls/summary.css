@@ -1,13 +1,13 @@
-.summary {
+.root {
   cursor: pointer;
   line-height: 1.5rem; /* 24px */
   width: max-content;
 }
 
-.summary:focus {
+.root:focus {
   outline: var(--focus-outline);
 }
 
-.summary:global(:not(.focus-visible)) {
+.root:global(:not(.focus-visible)) {
   outline: none;
 }

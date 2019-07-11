@@ -33,31 +33,38 @@ const ErrorPage = ({ disabled, error, onConfigure, onRestart }: Props) => {
     return (
         <Page disabled={disabled} onAction={onRestart}>
             <section className={styles.content}>
-                <p>
-                    {getMessage('errorMessage')}
-                    <ExternalLink href={openIssueUrl}>
-                        {getMessage('openAnIssue')}
-                    </ExternalLink>
-                </p>
-                <div className={styles.actions}>
-                    <Button type="submit" primary={true}>
-                        {getMessage('scanAgainButtonLabel')}
-                    </Button>
-                    <Button type="button" onClick={onConfigure}>
-                        {getMessage('newScanButtonLabel')}
-                    </Button>
-                </div>
-                <details>
-                    <Summary>
-                        {getMessage('errorDetails')}
-                    </Summary>
-                    <pre>
-                        {error.message}
-                    </pre>
-                    <pre className={styles.stack}>
-                        {error.stack}
-                    </pre>
-                </details>
+                <header>
+                    <h1 className={styles.title}>
+                        {getMessage('errorTitle')}
+                    </h1>
+                    <p>
+                        {getMessage('errorMessage')}
+                        <ExternalLink href={openIssueUrl}>
+                            {getMessage('openAnIssue')}
+                        </ExternalLink>
+                    </p>
+                    <div className={styles.actions}>
+                        <Button type="submit" primary={true}>
+                            {getMessage('scanAgainButtonLabel')}
+                        </Button>
+                        <Button type="button" onClick={onConfigure}>
+                            {getMessage('newScanButtonLabel')}
+                        </Button>
+                    </div>
+                </header>
+                <main>
+                    <details>
+                        <Summary>
+                            {getMessage('errorDetails')}
+                        </Summary>
+                        <pre>
+                            {error.message}
+                        </pre>
+                        <pre className={styles.stack}>
+                            {error.stack}
+                        </pre>
+                    </details>
+                </main>
             </section>
         </Page>
     );

@@ -10,4 +10,6 @@
 
 .help {
     font-size: var(--font-size);
+    font-weight: normal;
+    margin: 0;
 }

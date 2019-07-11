@@ -12,7 +12,7 @@ export type Props = ElementProps<'summary'>;
 
 const Summary = ({ className, ...props }: Props) => {
     return (
-        <summary className={styles.summary}{...props} />
+        <summary className={`${styles.root} ${className || ''}`} {...props} />
     );
 };
 

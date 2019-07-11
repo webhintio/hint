@@ -2,6 +2,11 @@
     margin: 1.5rem 2rem;
 }
 
+.title {
+    font-size: 0.875rem;
+    margin: 0;
+}
+
 .actions {
     display: inline-grid;
     gap: 0.5rem; /* 8px */

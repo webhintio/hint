@@ -38,20 +38,26 @@ const ResultsPage = ({ disabled, onConfigure, onRestart, results }: Props) => {
         <Page className={styles.root} disabled={disabled} onAction={onRestart}>
             <ResultsHeader showPassed={showPassed} url={results.url} onConfigureClick={onConfigure} setShowPassed={setShowPassed} />
             <div className={styles.results}>
-                <ul className={styles.summary}>
-                    {results.categories.map((category) => {
-                        return (
-                            <li key={category.name}>
-                                <CategorySummary {...category} />
-                            </li>
-                        );
-                    })}
-                </ul>
+                <nav className={styles.nav}>
+                    <ul className={styles.summary}>
+                        {results.categories.map((category) => {
+                            return (
+                                <li key={category.name}>
+                                    <CategorySummary {...category} />
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </nav>
                 <div>
-                    {shownCategories.map((category) => {
-                        return <CategoryResults key={category.name} showPassed={showPassed} {...category} />;
-                    })}
-                    <PoweredBy className={styles.poweredBy} />
+                    <main>
+                        {shownCategories.map((category) => {
+                            return <CategoryResults key={category.name} showPassed={showPassed} {...category} />;
+                        })}
+                    </main>
+                    <footer>
+                        <PoweredBy className={styles.poweredBy} />
+                    </footer>
                 </div>
             </div>
         </Page>

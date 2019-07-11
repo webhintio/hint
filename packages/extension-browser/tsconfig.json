@@ -20,6 +20,7 @@
         { "path": "../hint-button-type" },
         { "path": "../hint-compat-api" },
         { "path": "../hint-content-type" },
+        { "path": "../hint-create-element-svg" },
         { "path": "../hint-css-prefix-order" },
         { "path": "../hint-disown-opener" },
         { "path": "../hint-highest-available-document-mode" },

@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import { Config as ConfigData } from '../../../shared/types';
 
 import { getMessage } from '../../utils/i18n';
+import { getItem, setItem } from '../../utils/storage';
 
 import Button from '../controls/button';
 
@@ -23,20 +24,12 @@ const configKey = 'webhint-config';
 
 /** Get a saved configuration from a previous session. */
 const loadConfig = (): ConfigData => {
-    const configStr = localStorage.getItem(configKey);
-
-    try {
-        return configStr ? JSON.parse(configStr) : {};
-    } catch (e) {
-        console.warn(`Ignoring malformed configuration: ${configStr}`);
-
-        return {};
-    }
+    return getItem(configKey) || {};
 };
 
 /** Persist the provided configuration for future sessions. */
 const saveConfig = (config: ConfigData) => {
-    localStorage.setItem(configKey, JSON.stringify(config));
+    setItem(configKey, config);
 };
 
 type Props = {
@@ -79,16 +72,19 @@ const ConfigPage = ({ disabled, onStart }: Props) => {
     return (
         <Page className={styles.root} disabled={disabled} onAction={onAnalyzeClick}>
             <ConfigHeader />
-            <div className={styles.categories}>
-                <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange} />
-                <BrowsersConfig query={config.browserslist} onChange={onBrowsersChange} />
-                <ResourcesConfig query={config.ignoredUrls} onChange={onResourcesChange} />
-            </div>
-            <Button onClick={onRestoreClick}>
-                {getMessage('restoreDefaultsLabel')}
-            </Button>
-            {' '}
-            <PoweredBy className={styles.poweredBy} />
+            <main>
+                <div className={styles.categories}>
+                    <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange} />
+                    <BrowsersConfig query={config.browserslist} onChange={onBrowsersChange} />
+                    <ResourcesConfig query={config.ignoredUrls} onChange={onResourcesChange} />
+                </div>
+                <Button onClick={onRestoreClick}>
+                    {getMessage('restoreDefaultsLabel')}
+                </Button>
+            </main>
+            <footer>
+                <PoweredBy className={styles.poweredBy} />
+            </footer>
         </Page>
     );
 };

@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@hint/utils": "^2.1.0",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.13"
   },
   "description": "hint that that validates HTML pages using the Nu HTML checker",
   "devDependencies": {
@@ -17,7 +17,7 @@
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.0.7",
     "@types/request": "^2.48.1",
-    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.10.2",
     "ava": "^1.4.1",
     "cpx": "^1.5.0",
