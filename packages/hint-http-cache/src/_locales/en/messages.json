@@ -19,6 +19,10 @@
         "description": "Metadata name",
         "message": "HTTP cache"
     },
+    "noCacheBustingPattern": {
+        "description": "Report message when a cache busting pattern is not configured",
+        "message": "No configured patterns for cache busting match $1. See docs to add a custom one."
+    },
     "noHeaderFound": {
         "description": "Report message when the header \"cache-control\" doesn't exists or is empty",
         "message": "No \"cache-control\" header or empty value found. It should have a value"
@@ -34,10 +38,6 @@
     "targetShouldNotBeCached": {
         "description": "Report message when the target shouldn't be cached",
         "message": "The target should not be cached, or have a small \"max-age\" value ($1):\n$2"
-    },
-    "noCacheBustingPattern": {
-        "description": "Report message when a cache busting pattern is not configured",
-        "message": "No configured patterns for cache busting match $1. See docs to add a custom one."
     },
     "wrongCombination": {
         "description": "Report message when the Cache-Control header is using a wrong combination of directives",
