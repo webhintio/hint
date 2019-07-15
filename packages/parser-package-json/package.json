@@ -11,7 +11,7 @@
     "@hint/utils": "^2.1.0"
   },
   "devDependencies": {
-    "@types/node": "^12.0.7",
+    "@types/node": "^12.6.2",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.12.0",
