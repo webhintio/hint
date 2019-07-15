@@ -5,7 +5,6 @@ import { getMessage } from './i18n.import';
 const meta: HintMetadata = {
     docs: {
         category: Category.compatibility,
-
         description: getMessage('description', 'en'),
         name: getMessage('name', 'en')
     },
