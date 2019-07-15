@@ -1,7 +1,6 @@
 {
   "title": "JSON schema for the TypeScript compiler's configuration file",
   "$schema": "http://json-schema.org/draft-04/schema#",
-
   "definitions": {
     "filesDefinition": {
       "properties": {
@@ -94,7 +93,6 @@
               "description": "Specify file to store incremental compilation information.",
               "type": "string"
             },
-
             "inlineSourceMap": {
               "description": "Emit a single file with source maps instead of having a separate file.",
               "type": "boolean"
