@@ -826,10 +826,10 @@
   dependencies:
     "@types/parse5" "*"
 
-"@types/parse5@*", "@types/parse5@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.0.tgz#9ae2106efc443d7c1e26570aa8247828c9c80f11"
-  integrity sha512-J5D3z703XTDIGQFYXsnU9uRCW9e9mMEFO0Kpe6kykyiboqziru/RlZ0hM2P+PKTG4NHG1SjLrqae/NrV2iJApQ==
+"@types/parse5@*", "@types/parse5@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.1.tgz#8b1f968560f0001737b471bba7ab8a8f29221ad6"
+  integrity sha512-Boo2F4FH53jv9jBhIrAVqDCTaQ4c28RYza0lGrFpL/M0pyJxPZSBRpAToFQnaVvwe6SBMNDrq/HPhkb1uVvkgQ==
 
 "@types/prop-types@*":
   version "15.7.0"
