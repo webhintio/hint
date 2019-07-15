@@ -84,7 +84,7 @@
   "scripts": {
     "ava": "ava",
     "build": "npm run i18n && npm-run-all build:*",
-    "build-release": "npm run clean && npm run prebuild && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build-release": "npm run clean && npm run prebuild && npm run i18n && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
