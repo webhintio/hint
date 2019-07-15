@@ -33,19 +33,19 @@ export default class ValidateSetCookieHeaderHint implements IHint {
          * A collection of accepted attributes
          * See https://stackoverflow.com/questions/19792038/what-does-priority-high-mean-in-the-set-cookie-header for details about the `priority` attribute.
          */
-        const acceptedCookieAttributes: string[] = ['expires', 'max-age', 'domain', 'path', 'secure', 'httponly', 'samesite', 'priority'];
+        const acceptedCookieAttributes = ['expires', 'max-age', 'domain', 'path', 'secure', 'httponly', 'samesite', 'priority'];
         /**
          * A collection of illegal characters in cookie name
          * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
          */
-        const illegalCookieNameChars: string = '()<>@,;:\"/[]?={}'; // eslint-disable-line no-useless-escape
+        const illegalCookieNameChars = '()<>@,;:\"/[]?={}'; // eslint-disable-line no-useless-escape
         /**
          * A collection of illegal characters in cookie value
          * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
          */
-        const illegalCookieValueChars: string = ',;"/';
+        const illegalCookieValueChars = ',;"/';
         /** Header name used in report */
-        const headerName: string = 'set-cookie';
+        const headerName = 'set-cookie';
 
         type ValidationMessages = string[];
         type Validator = (parsedSetCookie: ParsedSetCookieHeader) => ValidationMessages;
@@ -57,7 +57,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Normalize the string before the first `=`, concat and unquote the strings after the first `=`. */
         const normalizeAfterSplitByEqual = (splitResult: string[]): string[] => {
-            const [key, ...value]: string[] = splitResult;
+            const [key, ...value] = splitResult;
 
             return [normalizeString(key)!, unquote(value.join('='))];
         };
@@ -67,8 +67,8 @@ export default class ValidateSetCookieHeaderHint implements IHint {
          * https://tools.ietf.org/html/rfc6265#section-5.2.1
          */
         const parse = (setCookieValue: string): ParsedSetCookieHeader => {
-            const [nameValuePair, ...directivePairs]: string[] = setCookieValue.split(';');
-            const [cookieName, cookieValue]: string[] = normalizeAfterSplitByEqual(nameValuePair.split('='));
+            const [nameValuePair, ...directivePairs] = setCookieValue.split(';');
+            const [cookieName, cookieValue] = normalizeAfterSplitByEqual(nameValuePair.split('='));
 
             const setCookie: ParsedSetCookieHeader = {
                 name: cookieName,
@@ -116,12 +116,12 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Validate cookie name-value string. */
         const validateNameAndValue = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
-            const cookieName: string = parsedSetCookie.name;
+            const cookieName = parsedSetCookie.name;
             const errors: ValidationMessages = [];
 
-            const noNameValueStringError: string = getMessage('noNameValueString', context.language, headerName);
-            const invalidNameError: string = getMessage('invalidName', context.language, [headerName, cookieName]);
-            const invalidValueError: string = getMessage('invalidValue', context.language, [headerName, cookieName]);
+            const noNameValueStringError = getMessage('noNameValueString', context.language, headerName);
+            const invalidNameError = getMessage('invalidName', context.language, [headerName, cookieName]);
+            const invalidValueError = getMessage('invalidValue', context.language, [headerName, cookieName]);
 
             // Check name-value-string exists and it is before the first `;`.
             if (!cookieName || acceptedCookieAttributes.includes(cookieName)) {
@@ -145,13 +145,13 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Validate cookie name prefixes. */
         const validatePrefixes = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
-            const cookieName: string = parsedSetCookie.name;
-            const resource: string = parsedSetCookie.resource || '';
+            const cookieName = parsedSetCookie.name;
+            const resource = parsedSetCookie.resource || '';
             const errors: ValidationMessages = [];
 
-            const hasPrefixHttpError: string = getMessage('hasPrefixHttp', context.language, headerName);
-            const noPathHasHostPrefixError: string = getMessage('noPathHasHostPrefix', context.language, headerName);
-            const hasDomainHostPrefixError: string = getMessage('hasDomainHostPrefix', context.language, headerName);
+            const hasPrefixHttpError = getMessage('hasPrefixHttp', context.language, headerName);
+            const noPathHasHostPrefixError = getMessage('noPathHasHostPrefix', context.language, headerName);
+            const hasDomainHostPrefixError = getMessage('hasDomainHostPrefix', context.language, headerName);
 
             if ((cookieName.startsWith('__secure-') || cookieName.startsWith('__host-')) && !isHTTPS(resource)) {
                 errors.push(hasPrefixHttpError);
@@ -172,13 +172,13 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Validate `Secure` and `HttpOnly` attributes. */
         const validateSecurityAttributes = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
-            const cookieName: string = parsedSetCookie.name;
-            const resource: string = parsedSetCookie.resource || '';
+            const cookieName = parsedSetCookie.name;
+            const resource = parsedSetCookie.resource || '';
             const errors: ValidationMessages = [];
 
-            const hasSecureHttpError: string = getMessage('hasSecureHttp', context.language, resource);
-            const noSecureError: string = getMessage('noSecure', context.language, [headerName, cookieName]);
-            const noHttpOnlyError: string = getMessage('noHttpOnly', context.language, [headerName, cookieName]);
+            const hasSecureHttpError = getMessage('hasSecureHttp', context.language, resource);
+            const noSecureError = getMessage('noSecure', context.language, [headerName, cookieName]);
+            const noHttpOnlyError = getMessage('noHttpOnly', context.language, [headerName, cookieName]);
 
             // Check against `Secure` directive if sites are insecure.
             if (!isHTTPS(resource) && parsedSetCookie.secure) {
@@ -202,7 +202,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Validate `Expire` date format. */
         const validateExpireDate = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
-            const cookieName: string = parsedSetCookie.name;
+            const cookieName = parsedSetCookie.name;
             const errors: ValidationMessages = [];
 
             if (!parsedSetCookie.expires) {
@@ -210,9 +210,9 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             }
 
             // Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Date
-            const utcTimeString: string = new Date(parsedSetCookie.expires).toUTCString();
-            const invalidDateError: string = getMessage('invalidDate', context.language, [headerName, cookieName]);
-            const invalidDateFormatError: string = getMessage('invalidDateFormat', context.language, [headerName, cookieName, utcTimeString]);
+            const utcTimeString = new Date(parsedSetCookie.expires).toUTCString();
+            const invalidDateError = getMessage('invalidDate', context.language, [headerName, cookieName]);
+            const invalidDateFormatError = getMessage('invalidDateFormat', context.language, [headerName, cookieName, utcTimeString]);
 
             if (utcTimeString === 'Invalid Date') {
                 errors.push(invalidDateError);
@@ -229,10 +229,10 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Validate the usage of `Max-Age` and `Expires` based on users' browser support matrix */
         const validateMaxAgeAndExpires = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
-            const cookieName: string = parsedSetCookie.name;
+            const cookieName = parsedSetCookie.name;
             const errors: ValidationMessages = [];
-            const maxAgeCompatibilityMessage: string = getMessage('maxAgeCompatibility', context.language, [headerName, cookieName]);
-            const maxAgeAndExpireDuplicateMessage: string = getMessage('maxAgeAndExpireDuplicate', context.language);
+            const maxAgeCompatibilityMessage = getMessage('maxAgeCompatibility', context.language, [headerName, cookieName]);
+            const maxAgeAndExpireDuplicateMessage = getMessage('maxAgeAndExpireDuplicate', context.language);
 
             if (supportOlderBrowsers) {
                 /*
