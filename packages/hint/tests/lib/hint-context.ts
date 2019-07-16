@@ -70,3 +70,7 @@ test('hintContext.hintOptions() should return the second item of the options in 
 
     t.is(hintOptions, 'hint-options', `hintContext.hintOptions() doesn't return the second item of the options`);
 });
+
+test('hintContext.engineKey() should map to the underlying engine', (t) => {
+    t.is(context.engineKey, engine);
+});

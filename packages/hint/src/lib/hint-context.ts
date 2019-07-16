@@ -60,6 +60,11 @@ export class HintContext<E extends Events = Events> {
         Object.freeze(this);
     }
 
+    /** A unique reference to identify the shared `Engine` between contexts. */
+    public get engineKey(): object {
+        return this.engine;
+    }
+
     /** The DOM of the page. */
     public get pageDOM() {
         return this.engine.pageDOM;
