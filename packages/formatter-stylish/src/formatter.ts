@@ -74,7 +74,7 @@ export default class StylishFormatter implements IFormatter {
             let partialResult = `${chalk.cyan(cutString(resource, 80))}\n`;
 
             _.forEach(sortedMessages, (msg: Problem) => {
-                const severity: string = Severity.error === msg.severity ? chalk.red('Error') : chalk.yellow('Warning');
+                const severity = Severity.error === msg.severity ? chalk.red(getMessage('capitalizedError', language)) : chalk.yellow(getMessage('capitalizedWarning', language));
 
                 if (Severity.error === msg.severity) {
                     errors++;
