@@ -8,6 +8,8 @@ import { getMessage } from '../../../utils/i18n';
 
 import ExternalLink from '../../controls/external-link';
 
+import Summary from '../../controls/summary';
+
 import Problem from './problem';
 
 import * as styles from './hint.css';
@@ -27,7 +29,7 @@ const Hint = ({ name, problems, helpURL }: HintResults) => {
 
     return (
         <details className={styles.root}>
-            <summary className={styles.summary}>
+            <Summary>
                 <span>
                     {name}
                 </span>
@@ -35,7 +37,7 @@ const Hint = ({ name, problems, helpURL }: HintResults) => {
                 <span className={`${styles.status} ${statusStyle}`}>
                     {!problems.length ? getMessage('noIssuesLabel') : getMessage('hintIssuesLabel', problems.length.toString())}
                 </span>
-            </summary>
+            </Summary>
             <div className={styles.results}>
                 <ExternalLink href={helpURL}>
                     {!problems.length ? getMessage('learnWhyLabel') : getMessage('learnWhyAndHowLabel')}

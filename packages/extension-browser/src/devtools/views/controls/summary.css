@@ -1,0 +1,13 @@
+.root {
+  cursor: pointer;
+  line-height: 1.5rem; /* 24px */
+  width: max-content;
+}
+
+.root:focus {
+  outline: var(--focus-outline);
+}
+
+.root:global(:not(.focus-visible)) {
+  outline: none;
+}
