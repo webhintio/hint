@@ -1,10 +1,10 @@
 {
   "dependencies": {
+    "@hint/configuration-accessibility": "^1.0.0",
     "@hint/configuration-progressive-web-apps": "^5.1.1",
     "@hint/connector-local": "^3.0.2",
     "@hint/formatter-html": "^4.0.2",
     "@hint/formatter-summary": "^3.0.2",
-    "@hint/hint-axe": "^3.0.2",
     "@hint/hint-babel-config": "^2.2.2",
     "@hint/hint-button-type": "^2.1.2",
     "@hint/hint-create-element-svg": "^1.1.1",
