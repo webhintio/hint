@@ -44,13 +44,16 @@ export class HintResult {
     public hasDoc: boolean;
 
     public constructor(name: string, status: string, url: string, isScanner: boolean) {
+        const baseName = name.split('/')[0];
+
         this.problems = [];
 
         this.name = name;
         this.status = status;
         this.count = 0;
 
-        this.thirdPartyInfo = thirdPartyServices[name] ? cloneDeep(thirdPartyServices[name]) : null;
+        // Use `baseName` so multi-hints like `axe/aria` map to `axe`.
+        this.thirdPartyInfo = thirdPartyServices[baseName] ? cloneDeep(thirdPartyServices[baseName]) : null;
 
         if (this.thirdPartyInfo) {
             this.thirdPartyInfo.link.replace(/%URL%/, url);
