@@ -14,11 +14,13 @@ import * as domUtils from './dom';
 import * as reportUtils from './report';
 import * as chromiumFinderUtils from './chromium-finder';
 
+export * from './types/config';
 export * from './types/http-header';
 export * from './types/npm';
 export * from './types/html';
 export * from './types/problem-location';
 export * from './compat';
+export * from './config';
 export * from './dom/html';
 export * from './has-yarnlock';
 export * from './chromium-finder';
