@@ -1,0 +1,14 @@
+{
+    "changingDisplay": {
+        "description": "Report message when a change of the diplay property is detected in a summary element",
+        "message": "Changing display of a summary tag hides open/close icon"
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Checks if display applied to a summary tag will hide the open/close icon"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Avoid change display in summary"
+    }
+}

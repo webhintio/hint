@@ -5,8 +5,10 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
-import meta from './meta';
 import selectorParser = require('postcss-selector-parser');
+
+import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const parser = selectorParser();
 const requiredAttribute = 'display';
@@ -54,7 +56,7 @@ export default class ValidateSummaryHint implements IHint {
                         const value = decl.value;
 
                         if (attribute === requiredAttribute && value !== requiredValue) {
-                            context.report(resource, `Changing display of a summary tag hides open/close icon`);
+                            context.report(resource, getMessage('changingDisplay', context.language));
                         }
                     });
                 }
