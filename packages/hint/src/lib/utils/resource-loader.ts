@@ -202,6 +202,7 @@ export const tryToLoadFrom = (resourcePath: string): any => {
     } catch (e) {
         debug(`Can't require ${resourcePath}`);
 
+        /* istanbul ignore else */
         if (e.code === 'MODULE_NOT_FOUND') {
             /*
              * This get the name of the missed module
