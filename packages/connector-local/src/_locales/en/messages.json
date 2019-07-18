@@ -1,0 +1,26 @@
+{
+    "error": {
+        "description": "Error message shown when there is an error with the watcher",
+        "message": "error"
+    },
+    "errorReading": {
+        "description": "Error message shown when there is an error reading the file .gitignore",
+        "message": "Error reading .gitignore"
+    },
+    "fileAdded": {
+        "description": "Info message shown when the watcher detect a new file",
+        "message": "File $1 added"
+    },
+    "fileChanged": {
+        "description": "Info message shown when the watcher detect a file change",
+        "message": "File $1 changed"
+    },
+    "fileDeleted": {
+        "description": "Info message shown when the watcher detect a file is deleted",
+        "message": "File $1 deleted"
+    },
+    "watchingForChanges": {
+        "description": "Info message shown when the cli is watching for file changes",
+        "message": "Watching for file changes."
+    }
+}

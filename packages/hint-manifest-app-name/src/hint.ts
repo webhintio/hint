@@ -16,6 +16,7 @@ import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 /*
  * ------------------------------------------------------------------------------
@@ -31,13 +32,13 @@ export default class ManifestAppNameHint implements IHint {
 
         const checkIfPropertyExists = (resource: string, content: string | undefined, propertyName: string) => {
             if (typeof content === 'undefined') {
-                context.report(resource, `Web app manifest should have '${propertyName}' property.`);
+                context.report(resource, getMessage('shouldHaveProperty', context.language, propertyName));
             }
         };
 
         const checkIfPropertyValueIsNotEmpty = (resource: string, content: string | undefined, propertyName: string, getLocation: IJSONLocationFunction) => {
             if (typeof content === 'string' && (content.trim() === '')) {
-                const message = `Web app manifest should have non-empty '${propertyName}' property value.`;
+                const message = getMessage('shouldHaveNonEmptyProperty', context.language, propertyName);
                 const location = getLocation(propertyName);
 
                 context.report(resource, message, { location });
@@ -46,7 +47,7 @@ export default class ManifestAppNameHint implements IHint {
 
         const checkIfPropertyValueIsUnderLimit = (resource: string, content: string | undefined, propertyName: string, shortNameLengthLimit: number, getLocation: IJSONLocationFunction) => {
             if (content && (ucs2.decode(content).length > shortNameLengthLimit)) {
-                const message = `Web app manifest should have '${propertyName}' property value under ${shortNameLengthLimit} characters.`;
+                const message = getMessage('shouldHavePropertyShort', context.language, [propertyName, shortNameLengthLimit.toString()]);
                 const location = getLocation(propertyName);
 
                 context.report(resource, message, { location });

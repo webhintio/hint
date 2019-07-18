@@ -1,0 +1,38 @@
+{
+    "errorSaving": {
+        "description": "Logging error when there is a problem saving the excel file",
+        "message": "Error saving XSLX file"
+    },
+    "hintId": {
+        "description": "Table header for the hint id",
+        "message": "Hint id"
+    },
+    "issue": {
+        "description": "Table header for the issue reported",
+        "message": "Issue"
+    },
+    "maybeIsOpened": {
+        "description": "Logging error when there is a problem saving the excel file becouse the file is already open",
+        "message": "Maybe it's opened somewhere else?"
+    },
+    "numberOfIssues": {
+        "description": "Table header for the number of issues",
+        "message": "# of issues"
+    },
+    "resourceName": {
+        "description": "Worksheet name for the resources",
+        "message": "resource-$1"
+    },
+    "resourceUrl": {
+        "description": "Table header for the resource url",
+        "message": "Resource url"
+    },
+    "summary": {
+        "description": "Worksheet name for the summary",
+        "message": "summary"
+    },
+    "summaryFor": {
+        "description": "Show the url analyzed",
+        "message": "Summary for $1"
+    }
+}

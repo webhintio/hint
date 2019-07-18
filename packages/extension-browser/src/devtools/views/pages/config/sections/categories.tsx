@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useCallback, FormEvent } from 'react';
 
 import { Category } from 'hint/dist/src/lib/enums/category';
+import { getCategoryName } from '@hint/utils/dist/src/i18n/get-category-name';
 
 import metas from '../../../../../shared/metas.import';
 
@@ -57,7 +58,7 @@ const CategoriesSection = ({ className, disabled, onChange }: Props) => {
             <ConfigLabel key={category}>
                 <Checkbox value={category} checked={!isDisabled} onChange={onCategoryChange} />
                 <LabelText className={styles.label} data-icon={category}>
-                    {getMessage(category)}
+                    {getCategoryName(category)}
                 </LabelText>
             </ConfigLabel>
         );

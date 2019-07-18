@@ -1,0 +1,14 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Performance budget checks if your site will load fast enough based on the size of your resources and a given connection speed"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Performance budget"
+    },
+    "toLoadAllResources": {
+        "description": "Report message when the validation fails",
+        "message": "To load all the resources on a $1 network, it will take about $2s in optimal conditions (that is $3s more than the $4s target)."
+    }
+}

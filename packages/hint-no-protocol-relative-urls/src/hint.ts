@@ -14,6 +14,7 @@ import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -47,7 +48,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
             if (url.startsWith('//')) {
                 debug('Protocol relative URL found');
 
-                const message = `'${url}' should not be specified as a protocol-relative URL.`;
+                const message = getMessage('noProtocolRelativeUrl', context.language, url);
 
                 context.report(resource, message, { content: url, element });
             }

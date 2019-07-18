@@ -1,0 +1,22 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Require `noopener` (and `noreferrer`) on `a` and `area` element with target=\"_blank\""
+    },
+    "keyword": {
+        "description": "Word keyword in singular",
+        "message": "keyword"
+    },
+    "keywords": {
+        "description": "Word keyword in plural",
+        "message": "keywords"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "External links disown opener"
+    },
+    "shouldHaveRel": {
+        "description": "Report message to show when the validation fails",
+        "message": "'$1' should have 'rel' attribute value include $2 $3."
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "couldNotGetResults": {
+        "description": "Report message when SSL Labs cannot get results",
+        "message": "Could not get results from SSL Labs for '$1'."
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Strength of your SSL configuration"
+    },
+    "doesNotSupportHTTPS": {
+        "description": "Report message when the resources doesn't support HTTPS",
+        "message": "'$1' does not support HTTPS."
+    },
+    "gradeNotMeetTheMinimum": {
+        "description": "Report message when the server doesn't meet the minimum grade required",
+        "message": "$1's grade $2 does not meet the minimum $3 required."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "SSL server test"
+    },
+    "noResults": {
+        "description": "Report message when there is no results from SSL Labs",
+        "message": "Didn't get any result for $1.\nThere might be something wrong with SSL Labs servers."
+    }
+}

@@ -1,0 +1,86 @@
+{
+    "compressedWithBrotliOverHTTPS": {
+        "description": "Report message when response is not compressed with Brotli over HTTPS",
+        "message": "Response should be compressed with Brotli when Brotli compression is requested over HTTPS."
+    },
+    "compressedWithBrotliOverHTTPSAgent": {
+        "description": "Report message when response is not compressed with Brotli over HTTPS, regardless of the user agent",
+        "message": "Response should be compressed with Brotli when Brotli compression is requested over HTTPS, regardless of the user agent."
+    },
+    "compressedWithGzipAgent": {
+        "description": "Report message when the response should be compressed with gzip when requested, regardless of the user agent",
+        "message": "Response should be compressed with gzip when gzip compression is requested, regardless of the user agent."
+    },
+    "compressedWithZopfliAgent": {
+        "description": "Report message when the response should be compressed with Zopfli when requested, regardless of the user agent",
+        "message": "Response should be compressed with Zopfli when gzip compression is requested, regardless of the user agent."
+    },
+    "couldNotBeFetched": {
+        "description": "Report message when a resource can't be fetched",
+        "message": "Could not be fetched."
+    },
+    "couldNotBeFetchedBrotli": {
+        "description": "Report message when a resource can't be fetched when requested compressed with Brotli",
+        "message": "Could not be fetched when requested compressed with Brotli."
+    },
+    "couldNotBeFetchedGzip": {
+        "description": "Report message when a resource can't be fetched when requested compressed with gzip",
+        "message": "Could not be fetched when requested compressed with gzip."
+    },
+    "couldNotBeFetchedUncompressed": {
+        "description": "Report message when a resource can't be fetched uncompressed",
+        "message": "Could not be fetched when requested uncompressed"
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Require resources to be served compressed"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Optimal compression"
+    },
+    "noCompressedBrotliOverHTTP": {
+        "description": "Report message when the response is requested over HTTP",
+        "message": "Response should not be compressed with Brotli over HTTP."
+    },
+    "responseBiggerThan": {
+        "description": "Report message when the compressed size is bigger than the uncompressed",
+        "message": "Response should not be served compressed with $1 as the compressed size is bigger than the uncompressed one."
+    },
+    "responseSameSize": {
+        "description": "Report message when the compressed size is the same as the uncompressed",
+        "message": "Response should not be served compressed with $1 as the compressed size is the same size as the uncompressed one."
+    },
+    "responseShouldBeCompressedGzip": {
+        "description": "Report message when the response is not compressed with gzip",
+        "message": "Response should be compressed with $1 when gzip compression is requested."
+    },
+    "responseShouldIncludeContentEncoding": {
+        "description": "Report message when the response should include the 'content-enconding' header",
+        "message": "Response should include 'content-encoding: $1' header."
+    },
+    "responseShouldIncludeVary": {
+        "description": "Report message when the 'vary' header is not included in the response",
+        "message": "Response should include 'vary' header containing 'accept-encoding' value."
+    },
+    "responseShouldNotBeCompressed": {
+        "description": "Report message when a compression method is disallowed",
+        "message": "Response should not be compressed with disallowed '$1' compression method."
+    },
+    "shouldNotBeCompressed": {
+        "description": "Report message when a resource should not be compressed",
+        "message": "Response should not be compressed."
+    },
+    "shouldNotBeCompressedWithIdentity": {
+        "description": "Report message when a resource is compressed but it was requested with 'accept-encoding: identity'",
+        "message": "Response should not be compressed for requests made with 'accept-encoding: identity'."
+    },
+    "shouldNotIncludeContentEncoding": {
+        "description": "Report message when a resource should not include the 'content-encoding' header",
+        "message": "Response should not include 'content-encoding' header."
+    },
+    "shouldNotIncludeWithIdentity": {
+        "description": "Report message when a resource includes 'content-encoding' but it was requested with 'accept-encoding: identity'",
+        "message": "Response should not include 'content-encoding' header for requests made with 'accept-encoding: identity'."
+    }
+}

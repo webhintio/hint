@@ -1,0 +1,18 @@
+{
+    "couldNotBeFetched": {
+        "description": "Report message when a resource can't be fetched",
+        "message": "Content could not be fetched."
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Warns against using the BOM (byte-order marker) character at the beginning of a text based file"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "No byte-order mark"
+    },
+    "textBased": {
+        "description": "Report message when a text-based resource start with BOM character",
+        "message": "Text-based resource should not start with BOM character."
+    }
+}

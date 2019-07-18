@@ -1,0 +1,46 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Checks if your cache-control header and asset strategy follows best practices"
+    },
+    "directiveInvalid": {
+        "description": "Report message when the directives are invalid",
+        "message": "The $1 $2 $3 invalid"
+    },
+    "directiveInvalidValue": {
+        "description": "Report message when the directives have invalid value",
+        "message": "The following $1 an invalid value:\n$2"
+    },
+    "directiveNotRecomended": {
+        "description": "Report message when a directive is not recomended",
+        "message": "The directive \"$1\" is not recommended"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "HTTP cache"
+    },
+    "noCacheBustingPattern": {
+        "description": "Report message when a cache busting pattern is not configured",
+        "message": "No configured patterns for cache busting match $1. See docs to add a custom one."
+    },
+    "noHeaderFound": {
+        "description": "Report message when the header \"cache-control\" doesn't exists or is empty",
+        "message": "No \"cache-control\" header or empty value found. It should have a value"
+    },
+    "staticNotImmutable": {
+        "description": "Report message when an static resource is not using the directive 'immutable'",
+        "message": "Static resources should use the \"immutable\" directive:\nDirectives used: $1"
+    },
+    "staticResourceCacheValue": {
+        "description": "Report message when a static resource has an short cache value",
+        "message": "Static resources should have a long cache value ($1):\nDirectives used: $2"
+    },
+    "targetShouldNotBeCached": {
+        "description": "Report message when the target shouldn't be cached",
+        "message": "The target should not be cached, or have a small \"max-age\" value ($1):\n$2"
+    },
+    "wrongCombination": {
+        "description": "Report message when the Cache-Control header is using a wrong combination of directives",
+        "message": "The following Cache-Control header is using a wrong combination of directives:\n$1"
+    }
+}

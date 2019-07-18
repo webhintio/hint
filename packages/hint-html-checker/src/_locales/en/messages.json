@@ -1,0 +1,14 @@
+{
+    "couldNotGetResult": {
+        "description": "Report message when there is an error getting the HTML checker result",
+        "message": "Could not get results from HTML checker for '$1'. Error: '$2'."
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Validate HTML using 'the Nu HTML checker'"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Nu HTML test"
+    }
+}

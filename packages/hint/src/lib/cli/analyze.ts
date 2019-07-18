@@ -4,6 +4,7 @@ import boxen = require('boxen');
 import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
 import { default as ora } from 'ora';
+import * as osLocale from 'os-locale';
 
 import { appInsights, configStore, debug as d, fs, logger, misc, network, npm } from '@hint/utils';
 
@@ -180,14 +181,16 @@ const askUserToInstallDependencies = async (resources: HintResources): Promise<b
     return answer;
 };
 
-const loadUserConfig = (actions?: CLIOptions): UserConfig | null => {
+const loadUserConfig = async (actions?: CLIOptions): Promise<UserConfig> => {
     let userConfig = getUserConfig(actions && actions.config);
 
-    userConfig = mergeEnvWithOptions(userConfig);
-
     if (!userConfig) {
-        return getDefaultConfiguration();
+        userConfig = getDefaultConfiguration();
     }
+
+    // If language is not in the config file, get the language configure in the OS.
+    userConfig.language = userConfig.language || await osLocale();
+    userConfig = mergeEnvWithOptions(userConfig) as UserConfig;
 
     return userConfig;
 };
@@ -278,6 +281,7 @@ const actionsToOptions = (actions: CLIOptions): CreateAnalyzerOptions => {
     const options: CreateAnalyzerOptions = {
         formatters: actions.formatters ? actions.formatters.split(',') : undefined,
         hints: actions.hints ? actions.hints.split(',') : undefined,
+        language: actions.language,
         watch: actions.watch
     };
 
@@ -304,7 +308,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     let webhint: Analyzer;
 
     try {
-        webhint = await getAnalyzer(userConfig!, createAnalyzerOptions);
+        webhint = await getAnalyzer(userConfig, createAnalyzerOptions);
     } catch (e) {
         return false;
     }

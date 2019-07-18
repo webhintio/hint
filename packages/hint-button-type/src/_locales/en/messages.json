@@ -1,0 +1,18 @@
+{
+    "attributeNotSet": {
+        "description": "Message to show when a button doesn't have a type attribute.",
+        "message": "Button type attribute has not been set"
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Check if button has type attribute set"
+    },
+    "invalidType": {
+        "description": "Message to show when a button type attribute is not valid.",
+        "message": "Invalid button type: $1"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Specify button type"
+    }
+}

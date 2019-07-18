@@ -1,0 +1,74 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "This hint validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS."
+    },
+    "duplicatedDirective": {
+        "description": "Report message when the header contains duplicated directives",
+        "message": "'$1' header contains more than one $2."
+    },
+    "hasDomainHostPrefix": {
+        "description": "Report message when the header contains prefix but the domain directive is set",
+        "message": "$1 header contains '__Host-' prefix but the 'domain' directive is set."
+    },
+    "hasPrefixHttp": {
+        "description": "Report message when the header contains prefixes from an insecure page",
+        "message": "'$1' header contains prefixes but is from an insecure page."
+    },
+    "hasSecureHttp": {
+        "description": "Report message when the cookies have the 'secure' directive, but the site is insecure",
+        "message": "Insecure sites ($1) can't set cookies with the 'secure' directive."
+    },
+    "invalidDate": {
+        "description": "Report message when the cookie have an invalid 'expires' date",
+        "message": "Invalid date in 'expires' value of the '$1' header to set '$2'."
+    },
+    "invalidDateFormat": {
+        "description": "Report message when the cookie have an invalid 'expires' date format",
+        "message": "Invalid date format in 'expires' value of the '$1' header to set '$2'. The recommended format is: $3"
+    },
+    "invalidName": {
+        "description": "Report message when the header contains an invalid cookie name",
+        "message": "'$1' header to set '$2' has an invalid cookie name."
+    },
+    "invalidValue": {
+        "description": "Report message when the header has an invalid cookie value",
+        "message": "'$1' header to set '$2' has an invalid cookie value."
+    },
+    "maxAgeAndExpireDuplicate": {
+        "description": "Report message when 'max-age' and 'expires' exists in a cookie",
+        "message": "The 'max-age' attribute takes precedence when both 'expires' and 'max-age' both exist."
+    },
+    "maxAgeCompatibility": {
+        "description": "Report message when max-age is not supported by a target browser",
+        "message": "Internet Explorer (IE 6, IE 7, and IE 8) doesn't support 'max-age' directive in the '$1' header to set '$2'."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Valid `Set-Cookie` header"
+    },
+    "noHttpOnly": {
+        "description": "Report message when the cookie doesn't have the 'httponly' directive",
+        "message": "'$1' header to set '$2' doesn't have the 'httponly' directive."
+    },
+    "noNameValueString": {
+        "description": "Report message when the header doesn't contain a cookie name-value string",
+        "message": "'$1' header doesn't contain a cookie name-value string."
+    },
+    "noPathHasHostPrefix": {
+        "description": "Report message when the header contains prefix but not the right value for path",
+        "message": "$1 header contains '__Host-' prefix but the 'path' directive doesn't have a value of '/'."
+    },
+    "noSecure": {
+        "description": "Report message when a cookie doesn't have the 'secure' directive",
+        "message": "'$1' header to set '$2' doesn't have the 'secure' directive."
+    },
+    "noTrilingSemicolon": {
+        "description": "Report message when the header to set a cookie has a trailing ';'",
+        "message": "'$1' header to set '$2' has trailing ';'"
+    },
+    "unknownAttribute": {
+        "description": "Report message when the header contains an unknown attribute",
+        "message": "'$1' header contains unknown attribute '$2'."
+    }
+}

@@ -1,13 +1,23 @@
 import test from 'ava';
 
 import * as configHints from '../../../src/lib/config/config-hints';
-import { HintConfig, IHint } from '../../../src/lib/types';
+import { HintConfig, IHint, HintMetadata } from '../../../src/lib/types';
 import { HintScope } from '../../../src/lib/enums/hint-scope';
 import { HintContext } from '../../../src/lib/hint-context';
 
 class HintEmptySchema implements IHint {
 
-    public static readonly meta = { id: '', schema: [], scope: HintScope.site }
+    public static readonly meta = {
+        getDescription(language: string) {
+            return '';
+        },
+        getName(language: string) {
+            return '';
+        },
+        id: '',
+        schema: [],
+        scope: HintScope.site
+    };
 
     public constructor(context: HintContext) {
         context.on('scan::start', () => { });
@@ -17,6 +27,12 @@ class HintEmptySchema implements IHint {
 class HintWithSchema implements IHint {
 
     public static readonly meta = {
+        getDescription(language: string) {
+            return '';
+        },
+        getName(language: string) {
+            return '';
+        },
         id: 'hint',
         schema: [{
             additionalProperties: false,
@@ -35,7 +51,7 @@ class HintWithSchema implements IHint {
             type: 'object'
         }],
         scope: HintScope.site
-    }
+    } as HintMetadata;
 
     public constructor(context: HintContext) {
         context.on('scan::start', () => { });

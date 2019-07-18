@@ -24,7 +24,7 @@ export default class WebpackConfigIsValid implements IHint {
         const invalidConfigurationFile = (webpackConfigInvalid: WebpackConfigInvalidConfiguration) => {
             const { error, resource } = webpackConfigInvalid;
 
-            debug(`parse::error::webpack-config::configuration received`);
+            debug(`'parse::error::webpack-config::configuration' received`);
 
             context.report(resource, error.message);
         };

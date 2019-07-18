@@ -10,6 +10,7 @@ import { TypeScriptConfigEvents, TypeScriptConfigParse } from '@hint/parser-type
 const debug: debug.IDebugger = d(__filename);
 
 import meta from './meta/module-esnext-typescript';
+import { getMessage } from './i18n.import';
 
 /*
  * ------------------------------------------------------------------------------
@@ -26,26 +27,26 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
         let typescriptEvent: TypeScriptConfigParse;
 
         const webpackConfigReceived = (webpackConfigEvent: WebpackConfigParse) => {
-            debug(`parse::end::webpack-config received`);
+            debug(`'parse::end::webpack-config' received`);
 
             webpackEvent = webpackConfigEvent;
         };
 
         const typescriptConfigReceived = (typescriptConfigEvent: TypeScriptConfigParse) => {
-            debug(`parse::end::typescript-config received`);
+            debug(`'parse::end::typescript-config' received`);
 
             typescriptEvent = typescriptConfigEvent;
         };
 
         const validate = () => {
             if (!webpackEvent) {
-                context.report('', 'The parser webpack-config should be activated');
+                context.report('', getMessage('webpackParserActivated', context.language));
 
                 return;
             }
 
             if (!typescriptEvent) {
-                context.report('', 'The parser typescript-config should be activated');
+                context.report('', getMessage('typeScriptParserActivated', context.language));
 
                 return;
             }
@@ -57,7 +58,7 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
             }
 
             if (typescriptEvent.config.compilerOptions && (typescriptEvent.config.compilerOptions.module as any).toLowerCase() !== 'esnext') {
-                context.report(typescriptEvent.resource, 'TypeScript `compilerOptions.module` option should be `esnext`');
+                context.report(typescriptEvent.resource, getMessage('esnext', context.language));
             }
         };
 

@@ -1,0 +1,22 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Require a web app manifest"
+    },
+    "manifestDuplicated": {
+        "description": "Report message when there are more than one manifest",
+        "message": "'manifest' link element is not needed as one was already specified."
+    },
+    "manifestNonEmptyHref": {
+        "description": "Report message when the manifest has an empty href attribute",
+        "message": "'manifest' link element should have non-empty 'href' attribute."
+    },
+    "manifestNotSpecified": {
+        "description": "Report message when the manifest link element is not specified",
+        "message": "'manifest' link element was not specified."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Has web app manifest"
+    }
+}

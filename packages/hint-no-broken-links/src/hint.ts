@@ -15,6 +15,7 @@ import { Requester } from '@hint/utils-connector-tools';
 import { CoreOptions } from 'request';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
@@ -68,7 +69,7 @@ export default class NoBrokenLinksHint implements IHint {
                 return context.report(url, error, { element });
             }
 
-            return context.report(url, 'Broken link found (domain not found).', { element });
+            return context.report(url, getMessage('brokenLinkFound', context.language), { element });
         };
 
         const isDNSOnlyResourceHint = (element: HTMLElement): boolean => {
@@ -97,7 +98,7 @@ export default class NoBrokenLinksHint implements IHint {
             );
 
             if (statusIndex > -1) {
-                const message = `Broken link found (${brokenStatusCodes[statusIndex]} response).`;
+                const message = getMessage('brokenLinkFoundStatusCode', context.language, brokenStatusCodes[statusIndex].toString());
 
                 return context.report(url, message, { element });
             }
@@ -145,7 +146,7 @@ export default class NoBrokenLinksHint implements IHint {
                         // `url` is malformed, e.g.: just "http://`
                         debug(err);
 
-                        context.report(value, `Broken link found (invalid URL).`);
+                        context.report(value, getMessage('invalidURL', context.language));
                     }
                 }
 
@@ -185,7 +186,7 @@ export default class NoBrokenLinksHint implements IHint {
                     const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
 
                     if (statusIndex > -1) {
-                        context.report(url, `Broken link found (${brokenStatusCodes[statusIndex]} response).`);
+                        context.report(url, getMessage('brokenLinkFoundStatusCode', context.language, brokenStatusCodes[statusIndex].toString()));
 
                         return Promise.resolve();
                     }

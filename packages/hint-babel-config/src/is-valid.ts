@@ -37,7 +37,7 @@ export default class BabelConfigIsValidHint implements IHint {
         const invalidSchema = (fetchEnd: BabelConfigInvalidSchema) => {
             const { groupedErrors, resource } = fetchEnd;
 
-            debug(`parse::error::babel-config::schema received`);
+            debug(`'parse::error::babel-config::schema' received`);
 
             for (let i = 0; i < groupedErrors.length; i++) {
                 const groupedError = groupedErrors[i];

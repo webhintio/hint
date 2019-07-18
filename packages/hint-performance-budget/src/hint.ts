@@ -11,6 +11,7 @@ import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';
 import * as Connections from './connections';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { isHTTPS, normalizeHeaderValue } = network;
 const debug: debug.IDebugger = d(__filename);
@@ -279,7 +280,7 @@ export default class PerformanceBudgetHint implements IHint {
             debug(`Ideal load time: ${loadTime}s`);
 
             if (typeof config.load === 'number' && loadTime > config.load) {
-                context.report(resource, `To load all the resources on a ${config.id} network, it will take about ${loadTime.toFixed(1)}s in optimal conditions (that is ${(loadTime - config.load).toFixed(1)}s more than the ${config.load}s target).`);
+                context.report(resource, getMessage('toLoadAllResources', context.language, [config.id, loadTime.toFixed(1), (loadTime - config.load).toFixed(1), config.load.toString()]));
             }
         };
 

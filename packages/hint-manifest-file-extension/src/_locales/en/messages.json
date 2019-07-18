@@ -1,0 +1,18 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Require `.webmanifest` as the file extension for the web app manifest file"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Correct manifest extension"
+    },
+    "shouldHaveFileExtension": {
+        "description": "Report message when the file extension doesn't exists",
+        "message": "Web app manifest should have the filename extension '$1'."
+    },
+    "shouldHaveFileExtensionNot": {
+        "description": "Report message when the file extension is incorrect.",
+        "message": "Web app manifest should have the filename extension '$1', not '$2'."
+    }
+}

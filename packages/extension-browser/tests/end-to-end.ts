@@ -108,11 +108,20 @@ test('It runs end-to-end in a page', async (t) => {
 
     await page.goto(url);
 
+    page.on('pageerror', (e) => {
+        console.log('Page Error: ', e);
+    });
+
     const resultsPromise = page.evaluate(() => {
         return new Promise<Results>((resolve) => {
             let onMessage: ((events: Events) => void) = () => { };
 
             window.chrome = {
+                i18n: {
+                    getMessage(key: string) {
+                        return key;
+                    }
+                },
                 runtime: {
                     onMessage: {
                         addListener: (fn: () => void) => {

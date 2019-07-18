@@ -19,6 +19,7 @@ import { Library, Vulnerability } from './types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -147,7 +148,15 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 .join(', ');
 
             if (detail) {
-                context.report(resource, `'${library.name}@${library.version}' has ${vulnerabilities.length} known ${vulnerabilities.length === 1 ? 'vulnerability' : 'vulnerabilities'} (${detail}). See '${link}' for more information.`);
+                let message: string;
+
+                if (vulnerabilities.length === 1) {
+                    message = getMessage('vulnerability', context.language, [`${library.name}@${library.version}`, vulnerabilities.length.toString(), detail, link]);
+                } else {
+                    message = getMessage('vulnerabilities', context.language, [`${library.name}@${library.version}`, vulnerabilities.length.toString(), detail, link]);
+                }
+
+                context.report(resource, message);
             }
         };
 
@@ -181,7 +190,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                             }
                         });
                     } catch (e) {
-                        logger.error(`Version ${version} of ${lib.name} isn't semver compliant`);
+                        logger.error(getMessage('versionNotCompliant', context.language, [version, lib.name]));
                     }
 
                     return vulns;
@@ -203,12 +212,12 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 let message: string;
 
                 if (e.message.includes('evaluation exceeded')) {
-                    message = `webhint did not return the result fast enough`;
+                    message = getMessage('notFastEnough', context.language);
                 } else {
-                    message = `Error executing script: '${e.message}'`;
+                    message = getMessage('errorExecuting', context.language, e.message);
                 }
 
-                message = `${message}. Please try again later, or report an issue if this problem persists.`;
+                message = getMessage('tryAgainLater', context.language, message);
 
                 context.report(resource, message, { severity: Severity.warning });
                 debug('Error executing script', e);

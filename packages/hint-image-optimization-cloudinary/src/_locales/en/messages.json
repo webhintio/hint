@@ -1,0 +1,30 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Image optimization with cloudinary"
+    },
+    "errorProcessingImage": {
+        "description": "Log message when there is an error processing an image.",
+        "message": "Error processing image $1 with cloudinary"
+    },
+    "imageCouldBeSmaller": {
+        "description": "Report message when a image could be smaller",
+        "message": "'$1' could be around $2kB ($3%) smaller."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Optimize images"
+    },
+    "noConfigFound": {
+        "description": "Log messag when a configuration for cloudinary can't be found",
+        "message": "No configuration found for cloudinary"
+    },
+    "noValidConfig": {
+        "description": "Report message when a valid configuration for Cloudinary can't be found",
+        "message": "No valid configuration for Cloudinary found. Hint could not run."
+    },
+    "totalSize": {
+        "description": "Report message when the total size you can save is bigger than the threshold",
+        "message": "Total size savings optimizing the images on '$1' could be of around $2kB."
+    }
+}

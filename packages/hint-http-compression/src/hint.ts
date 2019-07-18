@@ -17,6 +17,7 @@ import { FetchEnd, HintContext, IHint, NetworkData, Response } from 'hint';
 import { CompressionCheckOptions } from './types';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { getFileExtension, isTextMediaType } = contentType;
 const { isHTTP, isRegularProtocol, normalizeHeaderValue } = network;
@@ -80,24 +81,30 @@ export default class HttpCompressionHint implements IHint {
                     codeSnippet += `Cache-Control: ${cacheControlValues.join(',')}`;
                 }
 
-                context.report(resource, `Response should include 'vary' header containing 'accept-encoding' value.`, { codeLanguage: 'http', codeSnippet: codeSnippet.trim() });
+                context.report(resource, getMessage('responseShouldIncludeVary', context.language), { codeLanguage: 'http', codeSnippet: codeSnippet.trim() });
             }
         };
 
         const generateDisallowedCompressionMessage = (encoding: string) => {
-            return `Response should not be compressed with disallowed '${encoding}' compression method.`;
+            return getMessage('responseShouldNotBeCompressed', context.language, encoding);
         };
 
-        const generateContentEncodingMessage = (encoding: string, notRequired?: boolean, suffix?: string) => {
-            return `Response should${notRequired ? ' not' : ''} include 'content-encoding${encoding ? `: ${encoding}` : ''}' header${suffix ? ` ${suffix}` : ''}.`;
+        const generateContentEncodingMessage = (encoding: string) => {
+            return getMessage('responseShouldIncludeContentEncoding', context.language, encoding);
         };
 
-        const generateCompressionMessage = (encoding: string, notRequired?: boolean, suffix?: string) => {
-            return `Response should${notRequired ? ' not' : ''} be compressed${encoding ? ` with ${encoding}` : ''}${notRequired ? '' : ` when ${['Zopfli', 'gzip'].includes(encoding) ? 'gzip' : encoding} compression is requested`}${suffix ? `${!suffix.startsWith(',') ? ' ' : ''}${suffix}` : ''}.`;
+        const generateGzipCompressionMessage = (encoding: string) => {
+            return getMessage('responseShouldBeCompressedGzip', context.language, encoding);
         };
 
         const generateSizeMessage = (resource: string, element: HTMLElement | null, encoding: string, sizeDifference: number) => {
-            const message = `Response should not be served compressed with ${encoding} as the compressed size is ${sizeDifference > 0 ? 'bigger than' : 'the same size as'} the uncompressed one.`;
+            let message: string;
+
+            if (sizeDifference > 0) {
+                message = getMessage('responseBiggerThan', context.language, encoding);
+            } else {
+                message = getMessage('responseSameSize', context.language, encoding);
+            }
 
             context.report(resource, message, { element });
         };
@@ -263,7 +270,7 @@ export default class HttpCompressionHint implements IHint {
             let networkData = await getNetworkData(resource, { 'Accept-Encoding': 'br' });
 
             if (!networkData) {
-                context.report(resource, `Could not be fetched when requested compressed with Brotli`, { element });
+                context.report(resource, getMessage('couldNotBeFetchedBrotli', context.language), { element });
 
                 return;
             }
@@ -277,7 +284,7 @@ export default class HttpCompressionHint implements IHint {
 
             if (isHTTP(resource)) {
                 if (compressedWithBrotli) {
-                    context.report(resource, generateCompressionMessage('Brotli', true, 'over HTTP'), { element });
+                    context.report(resource, getMessage('noCompressedBrotliOverHTTP', context.language), { element });
                 }
 
                 return;
@@ -307,7 +314,7 @@ export default class HttpCompressionHint implements IHint {
             // Check if compressed.
 
             if (!compressedWithBrotli) {
-                context.report(resource, generateCompressionMessage('Brotli', false, 'over HTTPS'), { element });
+                context.report(resource, getMessage('compressedWithBrotliOverHTTPS', context.language), { element });
 
                 return;
             }
@@ -332,7 +339,7 @@ export default class HttpCompressionHint implements IHint {
             });
 
             if (!networkData) {
-                context.report(resource, `Could not be fetched when requested compressed with Brotli.`, { element });
+                context.report(resource, getMessage('couldNotBeFetchedBrotli', context.language), { element });
 
                 return;
             }
@@ -340,7 +347,7 @@ export default class HttpCompressionHint implements IHint {
             const { rawResponse: uaRawResponse } = networkData;
 
             if (!(await isCompressedWithBrotli(uaRawResponse))) {
-                context.report(resource, generateCompressionMessage('Brotli', false, `over HTTPS, regardless of the user agent`), { element });
+                context.report(resource, getMessage('compressedWithBrotliOverHTTPSAgent', context.language), { element });
             }
         };
 
@@ -348,7 +355,7 @@ export default class HttpCompressionHint implements IHint {
             let networkData = await getNetworkData(resource, { 'Accept-Encoding': 'gzip' });
 
             if (!networkData) {
-                context.report(resource, `Could not be fetched when requested compressed with gzip`, { element });
+                context.report(resource, getMessage('couldNotBeFetchedGzip', context.language), { element });
 
                 return;
             }
@@ -375,13 +382,13 @@ export default class HttpCompressionHint implements IHint {
             // Check if compressed.
 
             if (!compressedWithGzip && shouldCheckIfCompressedWith.gzip) {
-                context.report(resource, generateCompressionMessage('gzip'), { element });
+                context.report(resource, generateGzipCompressionMessage('gzip'), { element });
 
                 return;
             }
 
             if (notCompressedWithZopfli && shouldCheckIfCompressedWith.zopfli) {
-                context.report(resource, generateCompressionMessage('Zopfli'), { element });
+                context.report(resource, generateGzipCompressionMessage('Zopfli'), { element });
             }
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -407,7 +414,7 @@ export default class HttpCompressionHint implements IHint {
             });
 
             if (!networkData) {
-                context.report(resource, `Could not be fetched when requested compressed with gzip.`, { element });
+                context.report(resource, getMessage('couldNotBeFetchedGzip', context.language), { element });
 
                 return;
             }
@@ -416,7 +423,7 @@ export default class HttpCompressionHint implements IHint {
 
             if (!isCompressedWithGzip(uaRawResponse) &&
                 shouldCheckIfCompressedWith.gzip) {
-                context.report(resource, generateCompressionMessage('gzip', false, ', regardless of the user agent'), { element });
+                context.report(resource, getMessage('compressedWithGzipAgent', context.language), { element });
 
                 return;
             }
@@ -424,7 +431,7 @@ export default class HttpCompressionHint implements IHint {
             if (isNotCompressedWithZopfli(uaRawResponse) &&
                 !notCompressedWithZopfli &&
                 shouldCheckIfCompressedWith.zopfli) {
-                context.report(resource, generateCompressionMessage('Zopfli', false, ', regardless of the user agent'), { element });
+                context.report(resource, getMessage('compressedWithZopfliAgent', context.language), { element });
             }
 
         };
@@ -493,7 +500,7 @@ export default class HttpCompressionHint implements IHint {
                     const rawResponse: Buffer | null = await safeRawResponse();
 
                     if (!rawResponse) {
-                        context.report(resource, `Could not be fetched`, { element });
+                        context.report(resource, getMessage('couldNotBeFetched', context.language), { element });
 
                         return;
                     }
@@ -546,7 +553,7 @@ export default class HttpCompressionHint implements IHint {
             const networkData = await getNetworkData(resource, { 'Accept-Encoding': 'identity' });
 
             if (!networkData) {
-                context.report(resource, `Could not be fetched when requested uncompressed`, { element });
+                context.report(resource, getMessage('couldNotBeFetchedUncompressed', context.language), { element });
 
                 return;
             }
@@ -554,11 +561,11 @@ export default class HttpCompressionHint implements IHint {
             const { contentEncodingHeaderValue, rawResponse } = networkData;
 
             if (await responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {
-                context.report(resource, generateCompressionMessage('', true, `for requests made with 'accept-encoding: identity'`), { element });
+                context.report(resource, getMessage('shouldNotBeCompressedWithIdentity', context.language), { element });
             }
 
             if (contentEncodingHeaderValue) {
-                context.report(resource, generateContentEncodingMessage('', true, `for requests made with 'accept-encoding: identity'`), { element });
+                context.report(resource, getMessage('shouldNotIncludeWithIdentity', context.language), { element });
             }
         };
 
@@ -614,7 +621,7 @@ export default class HttpCompressionHint implements IHint {
             const rawResponse: Buffer | null = await safeRawResponse();
 
             if (!rawResponse) {
-                context.report(resource, `Could not be fetched`, { element });
+                context.report(resource, getMessage('couldNotBeFetched', context.language), { element });
 
                 return false;
             }
@@ -671,7 +678,7 @@ export default class HttpCompressionHint implements IHint {
                 const rawResponse: Buffer | null = await safeRawResponse();
 
                 if (!rawResponse) {
-                    context.report(resource, `Could not be fetched`, { element });
+                    context.report(resource, getMessage('couldNotBeFetched', context.language), { element });
 
                     return;
                 }
@@ -680,12 +687,12 @@ export default class HttpCompressionHint implements IHint {
 
                 // * Check if the resource is actually compressed.
                 if (await responseIsCompressed(rawResponse, contentEncodingHeaderValue)) {
-                    context.report(resource, generateCompressionMessage('', true), { element });
+                    context.report(resource, getMessage('shouldNotBeCompressed', context.language), { element });
                 }
 
                 // * Check if resource is sent with the `Content-Encoding` header.
                 if (contentEncodingHeaderValue) {
-                    context.report(resource, `Response should not include 'content-encoding' header.`, { codeLanguage: 'http', codeSnippet: `Content-Encoding: ${contentEncodingHeaderValue}` });
+                    context.report(resource, getMessage('shouldNotIncludeContentEncoding', context.language), { codeLanguage: 'http', codeSnippet: `Content-Encoding: ${contentEncodingHeaderValue}` });
                 }
 
                 return;

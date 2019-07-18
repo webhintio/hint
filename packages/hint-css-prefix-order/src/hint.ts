@@ -13,6 +13,7 @@ import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snip
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -36,21 +37,6 @@ const getLocation = (decl: Declaration): ProblemLocation => {
         column: 0,
         line: 0
     };
-};
-
-/** Generate a report message from an invalid pair. */
-const formatMessage = (invalidPair: DeclarationPair): string => {
-    // Handle prefixed properties (e.g. `appearance` and `-webkit-appearance`).
-    let name = invalidPair.unprefixed.prop;
-    let prefixedName = invalidPair.lastPrefixed.prop;
-
-    // Handle prefixed values (e.g. `display: grid` and `display: -ms-grid`).
-    if (name === prefixedName) {
-        name = `${invalidPair.unprefixed}`;
-        prefixedName = `${invalidPair.lastPrefixed}`;
-    }
-
-    return `'${name}' should be listed after '${prefixedName}'.`;
 };
 
 /** Determine if the order of a prefixed/unprefixed pair is valid. */
@@ -115,8 +101,23 @@ export default class CssPrefixOrderHint implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<StyleEvents>) {
+        /** Generate a report message from an invalid pair. */
+        const formatMessage = (invalidPair: DeclarationPair): string => {
+            // Handle prefixed properties (e.g. `appearance` and `-webkit-appearance`).
+            let name = invalidPair.unprefixed.prop;
+            let prefixedName = invalidPair.lastPrefixed.prop;
+
+            // Handle prefixed values (e.g. `display: grid` and `display: -ms-grid`).
+            if (name === prefixedName) {
+                name = `${invalidPair.unprefixed}`;
+                prefixedName = `${invalidPair.lastPrefixed}`;
+            }
+
+            return getMessage('shouldBeListed', context.language, [name, prefixedName]);
+        };
+
         context.on('parse::end::css', ({ ast, element, resource }: StyleParse) => {
-            debug(`Validating hint css-prefix-order`);
+            debug('Validating hint css-prefix-order');
 
             ast.walkRules((rule) => {
                 for (const invalidPair of validateRule(rule)) {

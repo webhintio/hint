@@ -8,6 +8,7 @@ import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-co
 import { BabelConfigEvents, BabelConfigParsed } from '@hint/parser-babel-config';
 
 import meta from './meta/modules-false-babel';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -26,26 +27,26 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
         let babelEvent: BabelConfigParsed;
 
         const webpackConfigReceived = (webpackConfigEvent: WebpackConfigParse) => {
-            debug(`parse::end::webpack-config received`);
+            debug(`'parse::end::webpack-config' received`);
 
             webpackEvent = webpackConfigEvent;
         };
 
         const babelConfigReceived = (babelConfigEvent: BabelConfigParsed) => {
-            debug(`parse::end::babel-config received`);
+            debug(`'parse::end::babel-config' received`);
 
             babelEvent = babelConfigEvent;
         };
 
         const validate = () => {
             if (!webpackEvent) {
-                context.report('', 'The parser webpack-config should be activated');
+                context.report('', getMessage('webpackParserActivated', context.language));
 
                 return;
             }
 
             if (!babelEvent) {
-                context.report('', 'The parser babel-config should be activated');
+                context.report('', getMessage('babelParserActivated', context.language));
 
                 return;
             }
@@ -62,7 +63,7 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
             });
 
             if (modulesFalse.length === 0) {
-                context.report(babelEvent.resource, 'Babel presets `modules` option should be `false`');
+                context.report(babelEvent.resource, getMessage('babelModules', context.language));
             }
         };
 

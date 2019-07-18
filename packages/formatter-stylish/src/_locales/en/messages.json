@@ -1,0 +1,42 @@
+{
+    "line": {
+        "message": "line",
+        "description": "Indiates the line of an error."
+    },
+    "capitalizedError": {
+        "description": "Show error text.",
+        "message": "Error"
+    },
+    "capitalizedWarning": {
+        "description": "Show warning text.",
+        "message": "Warning"
+    },
+    "col": {
+        "message": "col",
+        "description": "Indicates the column of an error."
+    },
+    "error": {
+        "message": "error",
+        "description": "Show error text."
+    },
+    "errors": {
+        "message": "errors",
+        "description": "Show errors text."
+    },
+    "partialFound": {
+        "message": "Found $1 $2 and $3 $4",
+        "description": "Show a summary of errors and warnings in a hint."
+    },
+    "totalFound": {
+        "message": "Found a total of $1 $2 and $3 $4",
+        "description": "Show a summary of errors and warnings in a hint."
+    },
+    "warning": {
+        "message": "warning",
+        "description": "Show warning text."
+    },
+    "warnings": {
+        "message": "warnings",
+        "description": "Show warnings text."
+    }
+}

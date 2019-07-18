@@ -1,0 +1,14 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Ensure vendor-prefixed versions of a CSS property are listed before the unprefixed version."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Prefixed CSS first"
+    },
+    "shouldBeListed": {
+        "description": "Report message to show when the validation fails",
+        "message": "'$1' should be listed after '$2'."
+    }
+}

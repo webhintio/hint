@@ -262,6 +262,10 @@ export class Analyzer {
      * @param {FormatterOptions} options Options for the formatters.
      */
     public async format(problems: Problem[], options?: FormatterOptions): Promise<void> {
+        if (options) {
+            options.language = options.language || this.configuration.language;
+        }
+
         for (const formatter of this.formatters) {
             await formatter.format(problems, options);
         }

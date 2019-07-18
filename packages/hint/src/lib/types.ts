@@ -25,6 +25,7 @@ export type CLIOptions = {
     config: string;
     debug: boolean;
     help: boolean;
+    language: string;
     output: string;
     tracking: string; // 'on' or 'off'
     version: boolean;

@@ -1,0 +1,14 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Disallow small error pages"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "No small error pages"
+    },
+    "responseWithStatus": {
+        "description": "Report message when the error page is under the threshold",
+        "message": "Response with status code $1 should have more than $2 bytes."
+    }
+}

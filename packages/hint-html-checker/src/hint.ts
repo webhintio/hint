@@ -18,6 +18,7 @@ import { HintContext, IHint, ProblemLocation, Severity } from 'hint';
 import { HTMLEvents, HTMLParse } from '@hint/parser-html';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -109,7 +110,7 @@ export default class HtmlCheckerHint implements IHint {
 
         const notifyError = (resource: string, error: any) => {
             debug(`Error getting HTML checker result for ${resource}.`, error);
-            context.report(resource, `Could not get results from HTML checker for '${resource}'. Error: '${error}'.`);
+            context.report(resource, getMessage('couldNotGetResult', context.language, [resource, error.toString()]));
         };
 
         const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {

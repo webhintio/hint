@@ -6,6 +6,8 @@ export type FormatterOptions = {
     /** Start time (queued in online scanner) ISO string */
     date?: string;
     isScanner?: boolean;
+    /** Language used for localization */
+    language?: string;
     noGenerateFiles?: boolean;
     /** The file to use to output the results requested by the user */
     output?: string;

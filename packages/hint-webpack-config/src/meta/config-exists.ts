@@ -1,10 +1,20 @@
 import { Category, HintMetadata, HintScope } from 'hint';
 
+import { getMessage } from '../i18n.import';
+
 const meta: HintMetadata = {
     docs: {
         category: Category.development,
-        description: '`webpack-config/config-exists` warns against not having a webpack configuration file',
-        name: 'Has webpack configuration'
+        description: getMessage('configExists_description', 'en'),
+        name: getMessage('configExists_name', 'en')
+    },
+    /* istanbul ignore next */
+    getDescription(language: string) {
+        return getMessage('configExists_description', language);
+    },
+    /* istanbul ignore next */
+    getName(language: string) {
+        return getMessage('configExists_name', language);
     },
     id: 'webpack-config/config-exists',
     schema: [],

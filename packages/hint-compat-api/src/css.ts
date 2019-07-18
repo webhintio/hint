@@ -16,6 +16,7 @@ import { filterSupports } from './utils/filter-supports';
 import { resolveIgnore } from './utils/ignore';
 
 import meta from './meta/css';
+import { getMessage } from './i18n.import';
 
 type ReportData = {
     feature: string;
@@ -141,7 +142,7 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
         }
 
         // Prefer reporting unprefixed reports (if any).
-        const unprefixedReports = reports.filter(({node}) => {
+        const unprefixedReports = reports.filter(({ node }) => {
             switch (node.type) {
                 case 'atrule':
                     return !vendor.prefix(node.name);
@@ -232,8 +233,8 @@ export default class CSSCompatHint implements IHint {
         context.on('parse::end::css', ({ ast, element, resource }) => {
             const browsers = filterBrowsers(context.targetedBrowsers);
 
-            const report = ({feature, node, unsupported}: ReportData) => {
-                const message = `${feature} is not supported by ${joinBrowsers(unsupported)}.`;
+            const report = ({ feature, node, unsupported }: ReportData) => {
+                const message = getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]);
                 const codeSnippet = getCSSCodeSnippet(node);
                 const location = getLocationFromNode(node);
 

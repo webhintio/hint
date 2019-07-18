@@ -19,6 +19,8 @@ import sortBy = require('lodash/sortBy');
 import { debug as d, fs, logger } from '@hint/utils';
 import { FormatterOptions, IFormatter, Problem } from 'hint';
 
+import { getMessage } from './i18n.import';
+
 const _ = {
     forEach,
     groupBy,
@@ -40,6 +42,7 @@ export default class ExcelFormatter implements IFormatter {
             return;
         }
 
+        const language = options.language!;
         const target = options.target || '';
         const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'resource');
         const workbook = new Excel.Workbook();
@@ -78,7 +81,7 @@ export default class ExcelFormatter implements IFormatter {
                 return names.get(name);
             }
 
-            const finalName = `resource-${names.size}`;
+            const finalName = getMessage('resourceName', language, names.size.toString());
 
             names.set(name, finalName);
 
@@ -109,11 +112,11 @@ export default class ExcelFormatter implements IFormatter {
 
             applyToCell(
                 sheet.getCell(`E${counter}`),
-                { value: 'Hint id' },
+                { value: getMessage('hintId', language)},
                 tableHeader);
             applyToCell(
                 sheet.getCell(`F${counter}`),
-                { value: 'Issue' },
+                { value: getMessage('issue', language) },
                 tableHeader);
             counter++;
 
@@ -137,7 +140,7 @@ export default class ExcelFormatter implements IFormatter {
 
         /** Creates the summary sheet with the list of resources with issues. */
         const createSummary = (resourcesList: string[], scannedUrl: string) => {
-            const sheet = workbook.addWorksheet('summary');
+            const sheet = workbook.addWorksheet(getMessage('summary', language));
             let counter = startRow;
 
             sheet.getColumn('E').width = 50;
@@ -146,18 +149,18 @@ export default class ExcelFormatter implements IFormatter {
             // Title of the sheet
             applyToCell(
                 sheet.getCell(`E${counter}`),
-                { value: `Summary for ${scannedUrl}` },
+                { value: getMessage('summaryFor', language, scannedUrl) },
                 bold);
             counter += 2;
 
             // Header with summary
             applyToCell(
                 sheet.getCell(`E${counter}`),
-                { value: `Resource url` },
+                { value: getMessage('resourceUrl', language) },
                 tableHeader);
             applyToCell(
                 sheet.getCell(`F${counter}`),
-                { value: `# of issues` },
+                { value: getMessage('numberOfIssues', language) },
                 rightAlign,
                 tableHeader);
             counter++;
@@ -206,10 +209,10 @@ export default class ExcelFormatter implements IFormatter {
         } catch (e) {
             /* istanbul ignore next */
             { // eslint-disable-line
-                logger.error('Error saving XSLX file');
+                logger.error(getMessage('errorSaving', language));
 
                 if (e.message.includes('EBUSY')) {
-                    logger.error(`Maybe it's opened somewhere else?`);
+                    logger.error(getMessage('maybeIsOpened', language));
                 }
             }
         }

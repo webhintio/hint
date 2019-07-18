@@ -23,6 +23,7 @@ import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -53,7 +54,11 @@ export default class DisownOpenerHint implements IHint {
             });
 
             if (requiredValues.length !== 0) {
-                const message = `'${cutString(element.outerHTML, 100)}' should have 'rel' attribute value include ${prettyPrintArray(requiredValues)} ${requiredValues.length === 1 ? 'keyword' : 'keywords'}.`;
+                const message = getMessage('shouldHaveRel', context.language, [
+                    cutString(element.outerHTML, 100),
+                    prettyPrintArray(requiredValues),
+                    requiredValues.length === 1 ? getMessage('keyword', context.language) : getMessage('keywords', context.language)
+                ]);
 
                 context.report(resource, message, { content: hrefValue, element });
             }

@@ -1,8 +1,10 @@
 import { TypeScriptConfigParse } from '@hint/parser-typescript-config';
 import { HintContext } from 'hint';
 
+import { getMessage, MessageName } from '../i18n.import';
+
 /** Helper method to check if a property matches the desired value and report an issue if not. */
-const configChecker = (property: string, desiredValue: boolean, message: string, context: HintContext) => {
+const configChecker = (property: string, desiredValue: boolean, messageName: MessageName, context: HintContext) => {
 
     return (evt: TypeScriptConfigParse) => {
         const { config, getLocation, resource } = evt;
@@ -15,7 +17,7 @@ const configChecker = (property: string, desiredValue: boolean, message: string,
         }
 
         if (current !== desiredValue) {
-            context.report(resource, message, { location: getLocation(property) });
+            context.report(resource, getMessage(messageName, context.language), { location: getLocation(property) });
         }
     };
 };

@@ -1,0 +1,22 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Runs axe-core tests in the target"
+    },
+    "errorExecuting": {
+        "description": "Message to show when the execution of the script fails",
+        "message": "Error executing script: '$1'"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "axe accessibility check"
+    },
+    "notFastEnough": {
+        "description": "Message to show when the result from axe takes too long",
+        "message": "webhint did not return the result fast enough"
+    },
+    "tryAgainLater": {
+        "description": "Message to show when there is an error running the script",
+        "message": "$1. Please try again later, or report an issue if this problem persists."
+    }
+}

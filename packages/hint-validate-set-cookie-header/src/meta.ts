@@ -2,11 +2,21 @@ import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hint-scope';
 import { HintMetadata } from 'hint/dist/src/lib/types';
 
+import { getMessage } from './i18n.import';
+
 const meta: HintMetadata = {
     docs: {
         category: Category.security,
-        description: 'This hint validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.',
-        name: 'Valid `Set-Cookie` header'
+        description: getMessage('description', 'en'),
+        name: getMessage('name', 'en')
+    },
+    /* istanbul ignore next */
+    getDescription(language: string) {
+        return getMessage('description', language);
+    },
+    /* istanbul ignore next */
+    getName(language: string) {
+        return getMessage('name', language);
     },
     id: 'validate-set-cookie-header',
     ignoredConnectors: [],

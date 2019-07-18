@@ -11,6 +11,7 @@ import { filterBrowsers, joinBrowsers } from './utils/browsers';
 import { resolveIgnore } from './utils/ignore';
 
 import meta from './meta/html';
+import { getMessage } from './i18n.import';
 
 type ReportData = {
     feature: string;
@@ -83,7 +84,7 @@ export default class HTMLCompatHint implements IHint {
             const browsers = filterBrowsers(context.targetedBrowsers);
 
             const report = ({ feature, unsupported }: ReportData) => {
-                const message = `${feature} is not supported by ${joinBrowsers(unsupported)}.`;
+                const message = getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]);
 
                 context.report(resource, message, { element });
             };

@@ -1,0 +1,18 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Require 'X-Content-Type-Options' header"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Use `X-Content-Type-Options` header"
+    },
+    "nosniff": {
+        "description": "Report message when the 'x-content-type-options' header value is not 'nosniff'",
+        "message": "'x-content-type-options' header value should be 'nosniff', not '$1'."
+    },
+    "shouldInclude": {
+        "description": "Report message when the response doesn't include the header 'x-content-type-options'",
+        "message": "Response should include 'x-content-type-options' header."
+    }
+}

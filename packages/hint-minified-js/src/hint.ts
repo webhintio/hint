@@ -11,6 +11,7 @@ import { debug as d } from '@hint/utils/dist/src/debug';
 import { ScriptEvents, ScriptParse } from '@hint/parser-javascript';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -47,7 +48,7 @@ export default class MinifiedJsHint implements IHint {
             debug(`Calculated improvementIndex for ${scriptData.resource}: ${improvementIndex}`);
 
             if (improvementIndex > threshold) {
-                context.report(scriptData.resource, 'JavaScript content should be minified.');
+                context.report(scriptData.resource, getMessage('shouldBeMinified', context.language));
             }
         };
 
