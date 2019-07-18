@@ -159,6 +159,7 @@ const loadScript = (context: AnalyzeContext) => {
             npm: utils.npm,
             packages: utils.packages
         },
+        'is-ci': false,
         ora: context.ora
     });
 
