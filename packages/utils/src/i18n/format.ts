@@ -13,13 +13,14 @@
  * @param {string} text Text to format
  * @param {string | string[] | undefined} substitutions Substitutions to apply to the text
  */
-export const format = function (text: string, substitutions?: string | string[]): string {
+/* eslint-disable no-var, prefer-arrow-callback */
+export var format = function (text: string, substitutions?: string | string[]): string {
     if (typeof substitutions === 'undefined') {
         return text;
     }
-    const substs = Array.isArray(substitutions) ? substitutions : [substitutions];
-    const substitutionsRegex = /(\$(\d+))|(\${2,})/g;
-    const result = text.replace(substitutionsRegex, (fullMatch: string, substitution: string, substitutionIndex: string, dollarSymbols: string) => {
+    var substs = Array.isArray(substitutions) ? substitutions : [substitutions];
+    var substitutionsRegex = /(\$(\d+))|(\${2,})/g;
+    var result = text.replace(substitutionsRegex, function (fullMatch: string, substitution: string, substitutionIndex: string, dollarSymbols: string) {
         if (typeof substitutionIndex !== 'undefined') {
             return substs[parseInt(substitutionIndex, 10) - 1];
         }

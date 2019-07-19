@@ -2,14 +2,14 @@
 
 (function () {
 
-    /* eslint-disable padding-line-between-statements */
-    const format = function (text, substitutions) {
+    /* eslint-disable padding-line-between-statements, no-var, prefer-arrow-callback */
+    var format = function (text, substitutions) {
         if (typeof substitutions === 'undefined') {
             return text;
         }
-        const substs = Array.isArray(substitutions) ? substitutions : [substitutions];
-        const substitutionsRegex = /(\$(\d+))|(\${2,})/g;
-        const result = text.replace(substitutionsRegex, (fullMatch, substitution, substitutionIndex, dollarSymbols) => {
+        var substs = Array.isArray(substitutions) ? substitutions : [substitutions];
+        var substitutionsRegex = /(\$(\d+))|(\${2,})/g;
+        var result = text.replace(substitutionsRegex, function (fullMatch, substitution, substitutionIndex, dollarSymbols) {
             if (typeof substitutionIndex !== 'undefined') {
                 return substs[parseInt(substitutionIndex, 10) - 1];
             }
@@ -22,8 +22,8 @@
     };
     /* eslint-enable padding-line-between-statements */
 
-    window.getMessage = (key, substitutions) => {
-        const localeString = window.localeStrings && window.localeStrings[key];
+    window.getMessage = function (key, substitutions) {
+        var localeString = window.localeStrings && window.localeStrings[key];
 
         if (!localeString) {
             return key;
