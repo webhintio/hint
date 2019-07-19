@@ -2,73 +2,72 @@
     <div class="scan-overview" data-id="<%= result.id %>" id="main">
         <div class="scan-overview__status">
             <div id="scan-percentage-bar" class="scan-overview__progress-bar<% if (result.percentage === 100) { %> end-animation<% } %>" style="width: <%= result.percentage %>%"></div>
-            <p>scanning <span id="scan-percentage"><%= result.percentage %>%</span></p>
+            <p><%= getMessage('scanning'); %> <span id="scan-percentage"><%= result.percentage %>%</span></p>
             <p class="scan-overview__scan-time">
-                scan time: <span id="scan-time"><%= result.scanTime %></span>
+                <%= getMessage('scanTime'); %>: <span id="scan-time"><%= result.scanTime %></span>
             </p>
         </div>
         <div class="scan-overview--details">
             <div class="scan-overview--hints">
-                <p class="scan-overview__subheader">hints</p>
+                <p class="scan-overview__subheader"><%= getMessage('hints'); %></p>
                 <p class="scan-overview__body--purple large" id="total-hints"><%= result.hintsCount %></p>
             </div>
             <div class="scan-overview--more-details">
                 <div class="scan-overview--scan-links">
                     <div class="scan-overview--url">
-                        <p class="scan-overview__subheader">url: <span class="overview--url__url"><%= result.url %></span></p>
+                        <p class="scan-overview__subheader"><%= getMessage('url'); %>: <span class="overview--url__url"><%= result.url %></span></p>
                     </div>
                     <% if (result.permalink) { %>
                         <div class="scan-overview--permalink">
-                            <p class="scan-overview__subheader scan-overview__body__permalink">Your scan result link:
+                            <p class="scan-overview__subheader scan-overview__body__permalink"><%= getMessage('yourScanResultLink'); %>:
                                 <span class="permalink-content"><a href="<%= result.permalink %>"><%= result.permalink %></a></span>
                                 <button class="permalink-copy">
-                                    <img src="/images/scan/permalink-icon.svg">
+                                    <img src="/images/scan/permalink-icon.svg" alt="<%= getMessage('copy'); %>">
                                 </button>
                             </p>
                         </div>
                     <% } else { %>
                         <div class="scan-overview--time-stamp">
-                            <p class="scan-overview__subheader">Date: <span id="scan-date" class="overview--time-stamp__time-stamp" data-date="<%= result.date %>"><%= result.date %></span></p>
+                            <p class="scan-overview__subheader"><%= getMessage('date'); %>: <span id="scan-date" class="overview--time-stamp__time-stamp" data-date="<%= result.date %>"><%= result.date %></span></p>
                         </div>
                     <% } %>
                 </div>
                 <% if (result.permalink) { %>
                     <div class="scan-overview--time-stamp">
-                        <p class="scan-overview__subheader">Date: <span id="scan-date" class="overview--time-stamp__time-stamp" data-date="<%= result.date %>"><%= result.date %></span></p>
+                        <p class="scan-overview__subheader"><%= getMessage('date'); %>: <span id="scan-date" class="overview--time-stamp__time-stamp" data-date="<%= result.date %>"><%= result.date %></span></p>
                     </div>
                 <% } %>
             </div>
             <div class="scan-overview--debug-details">
                 <div class="scan-overview--version">
-                    <p class="scan-overview__subheader">webhint version: <span id="version"><%= result.version %></span></p>
+                    <p class="scan-overview__subheader"><%= getMessage('webhintVersion'); %>: <span id="version"><%= result.version %></span></p>
                 </div>
                 <div class="scan-overview--config">
-                    <p class="scan-overview__subheader"><a class="scan-overview__body__link" href="config/<%= result.id %>">Configuration
-                            JSON</a></p>
+                    <p class="scan-overview__subheader"><a class="scan-overview__body__link" href="config/<%= result.id %>"><%= getMessage('configuartionJSON'); %></a></p>
                 </div>
             </div>
         </div>
     </div>
     <% if(!result.showError) { %>
     <section id="results-container" class="section container" aria-labelledby="hints" aria-live="polite">
-        <h2 id="hints">Hints</h2>
+        <h2 id="hints"><%= getMessage('capitalizedHints'); %></h2>
         <div class="layout layout--basic--offset--alt">
             <div class="module module--secondary module--categories">
-                <button aria-control="categories-list" class="show-categories" id="show-categories">Jump to category</button>
+                <button aria-control="categories-list" class="show-categories" id="show-categories"><%= getMessage('jumpToCategory'); %></button>
                 <div class="rule-categories" id="categories-list">
                     <% result.categories.forEach((category) => { -%>
-                        <%- include('scan-category-summary', { category }) %>
+                        <%- include('scan-category-summary', { category, getMessage }) %>
                     <% }); %>
                 </div>
             </div>
             <div class="module module--primary module--results">
                 <% result.categories.forEach((category) => { -%>
-                    <%- include('scan-result-category-item', { category, utils, isScanner: result.isScanner }) %>
+                    <%- include('scan-result-category-item', { category, getMessage, isScanner: result.isScanner, utils }) %>
                 <% }); %>
             </div>
         </div>
     </section>
     <% } else { %>
-        <%- include('scan-error-message', { result }) %>
+        <%- include('scan-error-message', { getMessage, result }) %>
     <% } %>
 </div>

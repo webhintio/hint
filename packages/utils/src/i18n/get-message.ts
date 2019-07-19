@@ -1,3 +1,5 @@
+import { format } from "./format";
+
 export type GetMessageOptions = {
     language?: string;
     substitutions?: string | string[];
@@ -13,30 +15,6 @@ type Messages = {
 }
 
 const cache = new Map<string, Messages>();
-
-const format = (text: string, substitutions?: string | string[]) => {
-    if (typeof substitutions === 'undefined') {
-        return text;
-    }
-
-    const substs = Array.isArray(substitutions) ? substitutions : [substitutions];
-
-    const substitutionsRegex = /(\$(\d+))|(\${2,})/g;
-
-    const result = text.replace(substitutionsRegex, (fullMatch: string, substitution: string, substitutionIndex: string, dollarSymbols: string) => {
-        if (typeof substitutionIndex !== 'undefined') {
-            return substs[parseInt(substitutionIndex, 10) - 1];
-        }
-
-        if (typeof dollarSymbols !== 'undefined') {
-            return ''.padStart(dollarSymbols.length - 1, '$');
-        }
-
-        return fullMatch;
-    });
-
-    return result;
-};
 
 /**
  * Return a list with the selected language
