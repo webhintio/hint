@@ -13,9 +13,9 @@
 
 .problemLink {
     color: var(--link-alt-color);
-    overflow-wrap: break-word;
     text-decoration: none;
     vertical-align: middle;
+    word-break: break-all;
 }
 
 .problemLink:focus {
