@@ -15,7 +15,13 @@ const InspectButton = ({ target }: Props) => {
     const onClick = useCallback(() => {
         // Verify target is actually a number since it originates from untrusted snapshot data.
         if (typeof target === 'number') {
-            evaluate(`inspect(__webhint.findNode(${target}))`);
+            evaluate(`(function() {
+                var node = __webhint.findNode(${target});
+                inspect(node);
+                if (node && node.scrollIntoView) {
+                    node.scrollIntoView();
+                }
+            })()`);
         }
     }, [target]);
 
