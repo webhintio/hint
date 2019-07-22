@@ -1,0 +1,9 @@
+{
+    "connector": "jsdom",
+    "formatters": ["json"],
+    "hints": {
+        "@example/webhint-hint-example": "error",
+        "@example2/webhint-hint-example2": "error",
+        "webhint-hint-example3": "error"
+    }
+}

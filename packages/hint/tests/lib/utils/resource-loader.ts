@@ -3,8 +3,10 @@
  * missing packages.
  */
 import * as path from 'path';
+import { promisify } from 'util';
 
 import test from 'ava';
+import * as cpx from 'cpx';
 import * as sinon from 'sinon';
 import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
@@ -15,6 +17,8 @@ import { Configuration } from '../../../src/lib/config';
 import { ResourceType } from '../../../src/lib/enums/resource-type';
 import { ResourceError } from '../../../src/lib/types/resource-error';
 import { ResourceErrorStatus } from '../../../src/lib/enums/error-status';
+
+const copy = promisify(cpx.copy);
 
 const cacheKey = path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js');
 
@@ -376,6 +380,42 @@ test('loadResources loads all the resources of a given config', async (t) => {
 
     t.true(resources.missing.length > 0, `Found all resources`);
 });
+
+test('loadResources loads all the resources of a given config (full package name)', async (t) => {
+    cleanCache();
+
+    // Make hints under `test_modules` nested dependencies of `webhint-configuration-example`.
+    await copy('tests/lib/utils/fixtures/@example/webhint-configuration-example/test_modules/**', 'tests/lib/utils/fixtures/@example/webhint-configuration-example/node_modules');
+
+    // Put `webhint-configuration-example` in the `require` path.
+    await copy('tests/lib/utils/fixtures/@example/**', 'node_modules/@example');
+
+    const config: Configuration = {
+        browserslist: [],
+        connector: {
+            name: 'jsdom',
+            options: {}
+        },
+        extends: ['@example/webhint-configuration-example'],
+        formatters: ['json'],
+        hints: {
+            '@example/webhint-hint-example': 'error',
+            '@example2/webhint-hint-example2': 'error',
+            'webhint-hint-example3': 'error'
+        },
+        hintsTimeout: 1000,
+        ignoredUrls: new Map(),
+        language: '',
+        parsers: []
+    };
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
+    const resources = resourceLoader.loadResources(config);
+
+    t.is(resources.hints.length, 3);
+    t.is(resources.incompatible.length, 0);
+    t.is(resources.missing.length, 0);
+});
+
 /**
  * More tests:
  *
