@@ -8,7 +8,12 @@ const fsExtra = require('fs-extra');
 const writeFileAsync = util.promisify(fs.writeFile);
 const readFileAsync = util.promisify(fs.readFile);
 
-
+/**
+ * Creates a js file for each locale file so we can use
+ * them in the browser.
+ * The formatter-html will use these files in the CLI and
+ * in the online-scanner.
+ */
 const compile = async () => {
     const locales = await globby(['src/_locales/*/messages.json'], { absolute: true });
 
