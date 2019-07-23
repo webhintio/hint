@@ -1,3 +1,26 @@
+# 3.0.2 (July 23, 2019)
+
+## Bug fixes / Improvements
+
+* [[`9124f1e0cb`](https://github.com/webhintio/hint/commit/9124f1e0cb1d54152163978cb95ae73a82b4d639)] - Fix: Correctly support `<base>`   in all connectors (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2465`](https://github.com/webhintio/hint/issues/2465)).
+
+## Chores
+
+* [[`26a226d4ac`](https://github.com/webhintio/hint/commit/26a226d4acee71dcea4b04764911e0dda0cc41e2)] - Upgrade: Bump @types/node from 12.0.7 to 12.6.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`622dcbb407`](https://github.com/webhintio/hint/commit/622dcbb40758c9f9033680056d0201fde71a8ee6)] - Upgrade: Bump @typescript-eslint/parser from 1.10.2 to 1.12.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bf33fb1365`](https://github.com/webhintio/hint/commit/bf33fb1365c5c4ead9e0ec9ce658129c09d1f92d)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.11.0 to 1.12.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`355fdfbcdc`](https://github.com/webhintio/hint/commit/355fdfbcdc4634c4985e765a060f23574c77658a)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.10.2 to 1.11.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`85fcfa5908`](https://github.com/webhintio/hint/commit/85fcfa59082c645f59ebca3992c3e973ebd9a9e4)] - Upgrade: Bump @types/sinon from 7.0.12 to 7.0.13 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`fa8e060ffd`](https://github.com/webhintio/hint/commit/fa8e060ffda4011de97ab9bc72a8b055f6e7ca3e)] - Upgrade: Bump @types/node from 12.0.4 to 12.0.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`d0b50953a5`](https://github.com/webhintio/hint/commit/d0b50953a58d06b71c5a86a24ba1f58b8451e9c7)] - Upgrade: Bump @typescript-eslint/parser from 1.9.0 to 1.10.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a1068ac463`](https://github.com/webhintio/hint/commit/a1068ac463ef63bc38b6c9294d63cb84a3969a25)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.9.0 to 1.10.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`43730f7122`](https://github.com/webhintio/hint/commit/43730f7122b5f0e345fe2cf7f49c530e1ffdee87)] - Upgrade: Bump @types/node from 12.0.3 to 12.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`67a656aa93`](https://github.com/webhintio/hint/commit/67a656aa936d4b37f2c50b5eb9aa0494778bf542)] - Upgrade: Bump typescript from 3.4.5 to 3.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#2529`](https://github.com/webhintio/hint/issues/2529)).
+* [[`97c82af5a9`](https://github.com/webhintio/hint/commit/97c82af5a9702c1990abd5f221f4c5f0366b2a1c)] - Upgrade: Bump @types/node from 12.0.2 to 12.0.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6ac7ee2246`](https://github.com/webhintio/hint/commit/6ac7ee2246b4397c91762581f37358055d2527b8)] - Upgrade: Bump jsdom from 15.1.0 to 15.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`fc6cd186fc`](https://github.com/webhintio/hint/commit/fc6cd186fce15ea262e919eb876245872b3153d5)] - Upgrade: Bump @types/sinon from 7.0.11 to 7.0.12 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.0.1 (May 23, 2019)
 
 ## Chores

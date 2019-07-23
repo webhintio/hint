@@ -1,3 +1,10 @@
+# 7.0.0 (July 23, 2019)
+
+## Breaking Changes
+
+* [[`b78f08ad91`](https://github.com/webhintio/hint/commit/b78f08ad919773108598901e82c13b4a2563dc00)] - Breaking: Extend configuration-accessibility (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 6.2.2 (May 23, 2019)
 
 ## Chores

@@ -1,3 +1,57 @@
+# 3.0.0 (July 23, 2019)
+
+## Breaking Changes
+
+* [[`e642c9dbfb`](https://github.com/webhintio/hint/commit/e642c9dbfbeefba1ebc500b5f8edb73f9b602038)] - Breaking: Add `resolveUrl` to `HTMLDocument` and `HTMLElement` (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`08a33bd4d2`](https://github.com/webhintio/hint/commit/08a33bd4d22a0be257a123d929aea341e45a3fd8)] - Breaking: Refactor and streamline hint-compat-api (by [`Tony Ross`](https://github.com/antross) / see also: [`#2114`](https://github.com/webhintio/hint/issues/2114), [`#2516`](https://github.com/webhintio/hint/issues/2516), and [`#2518`](https://github.com/webhintio/hint/issues/2518)).
+
+## Bug fixes / Improvements
+
+* [[`5cd68cd0eb`](https://github.com/webhintio/hint/commit/5cd68cd0eb3f768db4bd3e4e3f8425afac168bc2)] - Fix: Improve formatting for CSS code snippets (by [`Tony Ross`](https://github.com/antross) / see also: [`#2597`](https://github.com/webhintio/hint/issues/2597)).
+* [[`fc10faa0bf`](https://github.com/webhintio/hint/commit/fc10faa0bf05981f97f27b7da1ce0cd18061d430)] - Fix: Minor issues querying MDN browser compat data (by [`Tony Ross`](https://github.com/antross)).
+
+## New features
+
+* [[`c0898120c1`](https://github.com/webhintio/hint/commit/c0898120c1d0cb2f6760814e687605aba45175be)] - New: Make CLI, hints, and formatters localizable (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2620`](https://github.com/webhintio/hint/issues/2620)).
+* [[`b35926c68a`](https://github.com/webhintio/hint/commit/b35926c68a6ec4dcd3312d06600a004b2b67417e)] - New: Add `getSupported` compat helper API (by [`Tony Ross`](https://github.com/antross)).
+* [[`5fcbb12d6a`](https://github.com/webhintio/hint/commit/5fcbb12d6a0cf9387366db608d5eb843cff35601)] - New: Util to merge process.env with an options object (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2500`](https://github.com/webhintio/hint/issues/2500)).
+* [[`3ba6b22e9b`](https://github.com/webhintio/hint/commit/3ba6b22e9b07a5cef83a9190514ace0718cdcde5)] - New: Find Edge on macOS (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2476`](https://github.com/webhintio/hint/issues/2476)).
+
+## Chores
+
+* [[`036bd3312b`](https://github.com/webhintio/hint/commit/036bd3312b9513d1e93eaeea6fac1bcd917d064f)] - Chore: Migrate more utilities from hint to @hint/utils (by [`Tony Ross`](https://github.com/antross) / see also: [`#2703`](https://github.com/webhintio/hint/issues/2703)).
+* [[`fe62c2058f`](https://github.com/webhintio/hint/commit/fe62c2058f17b57a4a415a43c3093b0cb5456d24)] - Upgrade: Bump semver from 6.1.2 to 6.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`aa388341c9`](https://github.com/webhintio/hint/commit/aa388341c9ef09878892436f0fc1c4061e606e9d)] - Upgrade: Bump @types/parse5 from 5.0.0 to 5.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`31def165bc`](https://github.com/webhintio/hint/commit/31def165bc3dcfca6e1fadcd2048310935c434e3)] - Upgrade: Bump mdn-browser-compat-data from 0.0.84 to 0.0.86 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`622dcbb407`](https://github.com/webhintio/hint/commit/622dcbb40758c9f9033680056d0201fde71a8ee6)] - Upgrade: Bump @typescript-eslint/parser from 1.10.2 to 1.12.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bf33fb1365`](https://github.com/webhintio/hint/commit/bf33fb1365c5c4ead9e0ec9ce658129c09d1f92d)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.11.0 to 1.12.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4b54156479`](https://github.com/webhintio/hint/commit/4b54156479d8bcb415945544d4561a0162e2694e)] - Upgrade: [Security] Bump lodash from 4.17.11 to 4.17.13 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#2676`](https://github.com/webhintio/hint/issues/2676)).
+* [[`355fdfbcdc`](https://github.com/webhintio/hint/commit/355fdfbcdc4634c4985e765a060f23574c77658a)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.10.2 to 1.11.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a06455ba0`](https://github.com/webhintio/hint/commit/6a06455ba0c4685b79a0c69437a8c6243d3d850a)] - Upgrade: Bump ajv from 6.10.0 to 6.10.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`24c9ec8e76`](https://github.com/webhintio/hint/commit/24c9ec8e76d49d2fa459e47e50735bb8825736e7)] - Upgrade: Bump npm-registry-fetch from 3.9.0 to 3.9.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f5b23ed7e9`](https://github.com/webhintio/hint/commit/f5b23ed7e9c308ad8ef030f05db8512369c8e860)] - Upgrade: Bump is-wsl from 2.0.0 to 2.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`73662175a9`](https://github.com/webhintio/hint/commit/73662175a90d290c8799c98bbe787853c31ce8c8)] - Upgrade: Bump @types/semver from 6.0.0 to 6.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`72fecbed29`](https://github.com/webhintio/hint/commit/72fecbed29ca19936d7ad5e57925f44c4339d7af)] - Upgrade: Bump semver from 6.1.1 to 6.1.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7d0f594c5a`](https://github.com/webhintio/hint/commit/7d0f594c5aedee2e3c6602005ac8b85bda5565b0)] - Upgrade: Bump configstore from 4.0.0 to 5.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e58b635c43`](https://github.com/webhintio/hint/commit/e58b635c43b912527d03aade98d07e036f11276d)] - Upgrade: Bump mdn-browser-compat-data from 0.0.83 to 0.0.84 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8bd2b6e6f0`](https://github.com/webhintio/hint/commit/8bd2b6e6f06fed428ed5b36e27ae7393934f8aeb)] - Upgrade: Bump file-type from 11.1.0 to 12.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`da6b295de9`](https://github.com/webhintio/hint/commit/da6b295de91c3a7667479cf4858cc8e4d01ce515)] - Upgrade: Bump mdn-browser-compat-data from 0.0.82 to 0.0.83 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`d0b50953a5`](https://github.com/webhintio/hint/commit/d0b50953a58d06b71c5a86a24ba1f58b8451e9c7)] - Upgrade: Bump @typescript-eslint/parser from 1.9.0 to 1.10.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a1068ac463`](https://github.com/webhintio/hint/commit/a1068ac463ef63bc38b6c9294d63cb84a3969a25)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.9.0 to 1.10.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8a52673647`](https://github.com/webhintio/hint/commit/8a5267364716f07f72ae0abd6d474500df8b6204)] - Upgrade: Bump postcss from 7.0.16 to 7.0.17 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1cbdd7958b`](https://github.com/webhintio/hint/commit/1cbdd7958b81e40f032c3a0f0b152e30abd186b8)] - Upgrade: Bump mdn-browser-compat-data from 0.0.81 to 0.0.82 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`865b78b01f`](https://github.com/webhintio/hint/commit/865b78b01f48a7a9ba1407f847fd376739bb2897)] - Upgrade: Bump applicationinsights from 1.3.1 to 1.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`99d530159e`](https://github.com/webhintio/hint/commit/99d530159e7f9f457bc6f7804a10ae7b502607bb)] - Upgrade: Bump postcss-value-parser from 3.3.1 to 4.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`67a656aa93`](https://github.com/webhintio/hint/commit/67a656aa936d4b37f2c50b5eb9aa0494778bf542)] - Upgrade: Bump typescript from 3.4.5 to 3.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#2529`](https://github.com/webhintio/hint/issues/2529)).
+* [[`aec9bbc812`](https://github.com/webhintio/hint/commit/aec9bbc8124d313985c04bbbbe45cf7de633d6ed)] - Upgrade: Bump is-svg from 4.1.0 to 4.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5f4634568e`](https://github.com/webhintio/hint/commit/5f4634568eb2ce8fe0a3a5b2caea4064539a1b3e)] - Upgrade: Bump semver from 6.1.0 to 6.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6ac7ee2246`](https://github.com/webhintio/hint/commit/6ac7ee2246b4397c91762581f37358055d2527b8)] - Upgrade: Bump jsdom from 15.1.0 to 15.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`557a8554de`](https://github.com/webhintio/hint/commit/557a8554de588527f8a75695c0946b86589c713e)] - Upgrade: Bump eslint-plugin-import from 2.17.2 to 2.17.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5e6087594d`](https://github.com/webhintio/hint/commit/5e6087594d4be0edac67b1ee7d7e125cd82ebe00)] - Upgrade: Bump mdn-browser-compat-data from 0.0.80 to 0.0.81 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`e14720cff1`](https://github.com/webhintio/hint/commit/e14720cff139bb6683533a44893202ca50856520)] - Upgrade: Bump file-type from 11.0.0 to 11.1.0 (by [`Dependabot`](https://github.com/dependabot-bot)).
+* [[`ffd441b15f`](https://github.com/webhintio/hint/commit/ffd441b15f02f66b9468f90726e53d5b17345a4f)] - Chore: Increase coverage (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 2.1.0 (May 23, 2019)
 
 ## Bug fixes / Improvements

@@ -1,3 +1,10 @@
+# 6.0.0 (July 23, 2019)
+
+## Breaking Changes
+
+* [[`5466120986`](https://github.com/webhintio/hint/commit/5466120986bb51c461afa1681c54836562c1fbde)] - Breaking: Replace `chrome` with `puppeteer` and make it the default (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2254`](https://github.com/webhintio/hint/issues/2254)).
+
+
 # 5.1.1 (May 23, 2019)
 
 ## Chores
