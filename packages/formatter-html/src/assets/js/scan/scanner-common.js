@@ -25,6 +25,7 @@
         };
     }
 
+    var getMessage = window.getMessage;
     var categoriesListElement = document.getElementById('categories-list');
     var showMenuElement = document.getElementById('show-categories');
     var header = document.querySelector('.header');
@@ -57,11 +58,11 @@
         var expanded = typeof closeAll !== 'undefined' ? closeAll : childRulesExpanded(element);
 
         if (expanded) {
-            element.textContent = 'close all';
+            element.textContent = getMessage('closeAll');
             element.classList.remove('closed');
             element.classList.add('expanded');
         } else {
-            element.textContent = 'expand all';
+            element.textContent = getMessage('expandAll');
             element.classList.remove('expanded');
             element.classList.add('closed');
         }
@@ -348,7 +349,7 @@
         });
 
         expandAllButtons.forEach(function (element) {
-            element.textContent = 'expand all';
+            element.textContent = getMessage('expandAll');
             element.classList.add('closed');
             element.classList.remove('expanded');
         });

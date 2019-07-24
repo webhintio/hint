@@ -4,9 +4,10 @@ import * as moment from 'moment';
 
 import cloneDeep = require('lodash/cloneDeep');
 
-import { fs } from '@hint/utils';
+import { fs, i18n, Category } from '@hint/utils';
 import { FormatterOptions, Severity, Problem } from 'hint';
 
+const { getCategoryName } = i18n;
 const { loadJSONFile } = fs;
 const thirdPartyServices = loadJSONFile(path.join(__dirname, 'configs', 'third-party-service-config.json'));
 const categoryImages = loadJSONFile(path.join(__dirname, 'configs', 'category-images.json'));
@@ -87,6 +88,8 @@ export class CategoryResult {
     public hints: HintResult[];
     /** Category name. */
     public name: string;
+    /** Localized category name. */
+    public localizedName: string;
     /** Category image. */
     public image: string;
     /** Category status. */
@@ -98,10 +101,11 @@ export class CategoryResult {
     /** Is the result generated for the online scanner. */
     private isScanner: boolean;
 
-    public constructor(name: string, url: string, isScanner: boolean) {
+    public constructor(name: string, url: string, isScanner: boolean, language?: string) {
         this.hints = [];
         this.passed = [];
         this.name = name;
+        this.localizedName = getCategoryName(name.toLowerCase() as Category, language);
 
         this.hintsCount = 0;
 
@@ -288,13 +292,13 @@ export default class AnalysisResult {
      * Add a suggestion to the result.
      * @param problem New suggestion.
      */
-    public addProblem(problem: Problem): void {
+    public addProblem(problem: Problem, language?: string): void {
         const categoryName: string = problem.category;
 
         let category: CategoryResult | undefined = this.getCategoryByName(categoryName);
 
         if (!category) {
-            category = new CategoryResult(categoryName, this.url, this.isScanner);
+            category = new CategoryResult(categoryName, this.url, this.isScanner, language);
 
             this.categories.push(category);
         }
@@ -310,14 +314,14 @@ export default class AnalysisResult {
      * Add a new category to the result.
      * @param categoryName Category name.
      */
-    public addCategory(categoryName: string): void {
+    public addCategory(categoryName: string, language?: string): void {
         let category = this.getCategoryByName(categoryName);
 
         if (category) {
             return;
         }
 
-        category = new CategoryResult(categoryName, this.url, this.isScanner);
+        category = new CategoryResult(categoryName, this.url, this.isScanner, language);
 
         this.categories.push(category);
     }

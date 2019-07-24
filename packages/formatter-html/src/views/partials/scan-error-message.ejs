@@ -1,5 +1,5 @@
 <div id="scan-error" class="scan-error">
     <p>
-        There was an error and we were not able to complete the scan. <% if(result.isScanner) { %><a href="/scanner/">Perform another scan</a><% } else { %>Run webhint again<% } %>.
+        <%= getMessage('thereWasAnError'); %> <% if(result.isScanner) { %><a href="/scanner/"><%= getMessage('performScan'); %></a><% } else { %><%= getMessage('runWebhintAgain'); %><% } %>
     <p>
 </div>

@@ -1,0 +1,118 @@
+{
+    "backToTop": {
+        "description": "Aria label for the button to go top",
+        "message": "back to top"
+    },
+    "capitalizedHints": {
+        "description": "Text for hints",
+        "message": "Hints"
+    },
+    "closeAll": {
+        "description": "Close all button text",
+        "message": "close all"
+    },
+    "configuartionJSON": {
+        "description": "Text for the link to the configuration used for the scan",
+        "message": "Configuration JSON"
+    },
+    "copy": {
+        "description": "Alt text for the button to copy the permalink",
+        "message": "Copy"
+    },
+    "date": {
+        "description": "Label text to show the date of the scan",
+        "message": "Date"
+    },
+    "expand": {
+        "description": "Text for the expand button",
+        "message": "expand"
+    },
+    "expandAll": {
+        "description": "Text for the expand all button",
+        "message": "expand all"
+    },
+    "gatheringResults": {
+        "description": "Text to show when the category is waiting for results",
+        "message": "Gathering results"
+    },
+    "hintNumber": {
+        "description": "Text to indicate the index of a hint",
+        "message": "hint #$1"
+    },
+    "hints": {
+        "description": "Text for hints",
+        "message": "hints"
+    },
+    "howToFixIt": {
+        "description": "Text for the message How to fix it",
+        "message": "How to fix it"
+    },
+    "jumpToCategory": {
+        "description": "Text for the button to jump to a category",
+        "message": "Jump to category"
+    },
+    "noIssues": {
+        "description": "Message to show when there is no issues in a category",
+        "message": "No issues"
+    },
+    "passed": {
+        "description": "Text indicating that a hint has passed",
+        "message": "Passed"
+    },
+    "performScan": {
+        "description": "Error message when there is an error scanning an URL and the scan is running in the online scanner",
+        "message": "Perform another scan."
+    },
+    "runWebhintAgain": {
+        "description": "Error message when there is an error scanning an URL and the scan is running in the CLI",
+        "message": "Run webhint again."
+    },
+    "scanning": {
+        "description": "Error message when there is an error scanning an URL and the scan is running in the CLI",
+        "message": "scanning"
+    },
+    "scanTime": {
+        "description": "Text to show how much time the scan is taking.",
+        "message": "scan time"
+    },
+    "showHintResultDetails": {
+        "description": "Title for the summary element of a hint",
+        "message": "show $1's result details"
+    },
+    "thereWasAnError": {
+        "description": "Error message when there is a problem scanning an URL",
+        "message": "There was an error and we were not able to complete the scan."
+    },
+    "toLearnMore": {
+        "description": "Text to show when a third party library has details on",
+        "message": "To learn more visit"
+    },
+    "top": {
+        "description": "Text for the button to go top",
+        "message": "top"
+    },
+    "url": {
+        "description": "Text for url",
+        "message": "url"
+    },
+    "webhintVersion": {
+        "description": "Text for the label indicating the version of webhint used for the scan",
+        "message": "webhint version"
+    },
+    "whyIsThisImportant": {
+        "description": "Text for the message Why is this important",
+        "message": "Why is this important"
+    },
+    "withTheHelpOf": {
+        "description": "Text to show when a third party library doesn't have details on",
+        "message": "With the help of"
+    },
+    "youCanView": {
+        "description": "Logging message to show to the user where the report was generated",
+        "message": "You can view the HTML report in \"$1\""
+    },
+    "yourScanResultLink": {
+        "description": "Text for the label with the permalink",
+        "message": "Your scan result link"
+    }
+}
