@@ -1,3 +1,6 @@
+# 3.0.4 (July 24, 2019)
+
+
 # 3.0.3 (July 23, 2019)
 
 ## Bug fixes / Improvements

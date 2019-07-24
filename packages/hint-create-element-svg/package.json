@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^3.0.0"
+    "@hint/utils": "^3.1.0"
   },
   "description": "Infrom users that they need to use createElementNS to create SVG elements instead of createElement",
   "devDependencies": {
@@ -71,5 +71,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.2.0"
+  "version": "1.2.1"
 }

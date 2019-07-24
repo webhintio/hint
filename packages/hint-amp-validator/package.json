@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "amphtml-validator": "^1.0.21"
   },
   "description": "hint that that validates AMP HTML pages using the AMP Validator",
@@ -71,5 +71,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.9.0"
+  "version": "2.9.1"
 }

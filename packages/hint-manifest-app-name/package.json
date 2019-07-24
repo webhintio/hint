@@ -12,7 +12,7 @@
   "description": "hint for best practices related to the web app manifest's name and short_name members",
   "devDependencies": {
     "@hint/parser-manifest": "^2.2.1",
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "@hint/utils-tests-helpers": "^5.0.1",
     "@types/node": "^12.6.2",
     "@typescript-eslint/eslint-plugin": "^1.12.0",
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.0"
+  "version": "2.3.1"
 }

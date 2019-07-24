@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "chokidar": "^3.0.2",
     "globby": "^9.2.0",
     "jsdom": "^15.1.1"
@@ -77,5 +77,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.0"
+  "version": "3.1.1"
 }

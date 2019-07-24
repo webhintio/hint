@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "content-type": "^1.0.4"
   },
   "description": "hint for media types (f.k.a. MIME types) related best practices",
@@ -72,5 +72,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.0"
+  "version": "4.1.1"
 }

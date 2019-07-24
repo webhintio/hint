@@ -8,7 +8,7 @@
   },
   "description": "A hint formatter that outputs the issues in an HTML file.",
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "ejs": "^2.6.2",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.13",
@@ -81,5 +81,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.3"
+  "version": "4.1.0"
 }

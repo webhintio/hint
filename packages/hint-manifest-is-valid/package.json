@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "bcp47": "^1.1.2",
     "color-string": "^1.5.3"
   },
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.2.0"
+  "version": "3.2.1"
 }

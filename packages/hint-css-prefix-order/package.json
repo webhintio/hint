@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "postcss": "^7.0.17"
   },
   "description": "Ensure vendor-prefixed versions of a CSS property are listed before the unprefixed version.",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.2.0"
+  "version": "1.2.1"
 }

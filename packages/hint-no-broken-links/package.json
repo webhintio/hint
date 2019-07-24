@@ -8,7 +8,7 @@
   },
   "description": "Verify that all links and resources the page uses are available online.",
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "@hint/utils-connector-tools": "^4.0.3"
   },
   "devDependencies": {
@@ -72,5 +72,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.0"
+  "version": "4.1.1"
 }

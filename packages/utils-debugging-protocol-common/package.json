@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "@hint/utils-connector-tools": "^4.0.3",
     "abab": "^2.0.0",
     "chrome-remote-interface": "^0.27.2",
@@ -63,5 +63,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.3"
+  "version": "4.0.4"
 }

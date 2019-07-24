@@ -8,7 +8,7 @@
   },
   "description": "webhint formatter that prints the JSON object of the results",
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "lodash": "^4.17.13"
   },
   "devDependencies": {
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.0"
+  "version": "3.1.1"
 }

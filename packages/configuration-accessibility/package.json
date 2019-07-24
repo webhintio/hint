@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@hint/connector-puppeteer": "^2.0.0",
-    "@hint/formatter-html": "^4.0.3",
+    "@hint/formatter-html": "^4.1.0",
     "@hint/formatter-summary": "^3.0.3",
     "@hint/hint-axe": "^4.0.0"
   },
@@ -25,5 +25,5 @@
     "hint": "^5.1.0"
   },
   "repository": "webhintio/hint",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

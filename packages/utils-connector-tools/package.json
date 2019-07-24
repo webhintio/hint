@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "data-urls": "^1.1.0",
     "iconv-lite": "^0.5.0",
     "iltorb": "^2.4.3",
@@ -69,5 +69,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.3"
+  "version": "4.0.4"
 }

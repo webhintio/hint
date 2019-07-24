@@ -1,3 +1,10 @@
+# 4.1.0 (July 24, 2019)
+
+## New features
+
+* [[`b68b7386c7`](https://github.com/webhintio/hint/commit/b68b7386c742fc4c0c9fc8f1b064791a412c0a95)] - New: Add Localization to formatter-html (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2710`](https://github.com/webhintio/hint/issues/2710)).
+
+
 # 4.0.3 (July 23, 2019)
 
 ## Bug fixes / Improvements

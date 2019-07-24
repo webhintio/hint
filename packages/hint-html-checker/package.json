@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^3.0.0",
+    "@hint/utils": "^3.1.0",
     "lodash": "^4.17.13"
   },
   "description": "hint that that validates HTML pages using the Nu HTML checker",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.2.0"
+  "version": "3.2.1"
 }

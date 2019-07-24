@@ -2,7 +2,7 @@
   "dependencies": {
     "@hint/connector-puppeteer": "^2.0.0",
     "@hint/connector-jsdom": "^4.0.3",
-    "@hint/formatter-html": "^4.0.3",
+    "@hint/formatter-html": "^4.1.0",
     "@hint/formatter-summary": "^3.0.3",
     "@hint/hint-apple-touch-icons": "^3.1.0",
     "@hint/hint-manifest-app-name": "^2.3.0",
@@ -32,5 +32,5 @@
     "hint": "^5.1.0"
   },
   "repository": "webhintio/hint",
-  "version": "6.0.0"
+  "version": "6.0.1"
 }
