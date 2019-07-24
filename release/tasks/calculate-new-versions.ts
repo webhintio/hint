@@ -13,6 +13,7 @@ const getBumpTypeForTag = (tag: Tag): Bump => {
     switch (tag) {
         case 'Docs': return Bump.none;
         case 'Build': return Bump.none;
+        case 'Update': return Bump.patch;
         case 'Upgrade': return Bump.patch;
         case 'Chore': return Bump.patch;
         case 'Fix': return Bump.patch;
@@ -75,11 +76,11 @@ export const calculateNewVersions = (ctx: Context) => {
     updateDependencies(ctx);
 
     /*
-     * Step 3: Update the versions of all the packages (`patch`) that do not have any commits but
+     * Step 3: Update the versions of all the packages (`patch`) that have not been bumped but
      * have changed versions in their dependencies
      */
     packages.forEach((pkg) => {
-        if (pkg.commits.length === 0 && pkg.updated) {
+        if (pkg.oldVersion === pkg.content.version && pkg.updated) {
             pkg.content.version = calculatePackageNewVersion(pkg, Bump.patch);
         }
     });
