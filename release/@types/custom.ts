@@ -9,6 +9,7 @@ export type GitHubAuth = {
 }
 
 export type Package = {
+    bump?: Bump;
     commits: Commit[];
     content: any;
     ignore: boolean;

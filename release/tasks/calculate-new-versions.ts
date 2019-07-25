@@ -1,8 +1,7 @@
-import { Context, Bump, Tag, Package } from '../@types/custom';
-import * as semver from 'semver';
+import { Context, Bump, Tag } from '../@types/custom';
 
-import { debug } from '../lib/utils';
 import updateDependencies from '../lib/update-dependencies';
+import calculatePackageNewVersion from '../lib/calculate-package-new-version';
 
 /**
  *
@@ -21,26 +20,6 @@ const getBumpTypeForTag = (tag: Tag): Bump => {
         case 'Breaking': return Bump.major;
         default: return Bump.none;
     }
-};
-
-
-const calculatePackageNewVersion = (pkg: Package, bump: Bump): string => {
-
-    if (pkg.ignore) {
-        return pkg.content.version;
-    }
-
-    if (!pkg.publishedVersion) {
-        debug(`${pkg.name} will be published with initial version ${pkg.content.version}`);
-
-        return pkg.content.version;
-    }
-
-    const newVersion = semver.inc(pkg.oldVersion, Bump[bump] as semver.ReleaseType)!;
-
-    debug(`Bumping ${pkg.name} from ${pkg.oldVersion} to ${newVersion}`);
-
-    return newVersion;
 };
 
 /**
@@ -63,6 +42,8 @@ export const calculateNewVersions = (ctx: Context) => {
 
             return Math.max(currentBump, bump);
         }, Bump.none);
+
+        pkg.bump = bumpType;
 
         if (bumpType === Bump.none) {
             return;
