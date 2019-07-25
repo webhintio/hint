@@ -57,7 +57,7 @@ etc.) you can do something like:
 ```
 
 Note: Not all the hints can be use for all connectors,
-you will be warning when a hint is going to be ignored
+you will be warned when a hint is going to be ignored
 for a connector.
 
 e.g.

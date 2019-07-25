@@ -43,8 +43,6 @@ export const calculateNewVersions = (ctx: Context) => {
             return Math.max(currentBump, bump);
         }, Bump.none);
 
-        pkg.bump = bumpType;
-
         if (bumpType === Bump.none) {
             return;
         }

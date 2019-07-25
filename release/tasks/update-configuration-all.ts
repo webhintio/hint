@@ -3,9 +3,8 @@ import * as path from 'path';
 import * as globby from 'globby';
 import * as fs from 'fs-extra';
 
-import { Context, Bump, Package } from '../@types/custom';
+import { Context, Package } from '../@types/custom';
 import { readFile } from '../lib/utils';
-import calculatePackageNewVersion from '../lib/calculate-package-new-version';
 
 const ignorePrefixes = ['@hint/configuration-', '@hint/connector-chrome', 'create-', '@hint/utils-'];
 
@@ -57,44 +56,36 @@ const getHints = async (pkg: Package) => {
  * 5. Add packages to `package.json` and rules to `index.json`.
  * 6. Save `index.json`.
  */
-export const updateConfigurationAll = (ignoredPackages: string[]) => {
-    return async (ctx: Context) => {
-        const { packages } = ctx;
+export const updateConfigurationAll = async (ctx: Context) => {
+    const { packages } = ctx;
 
-        const pkgConfigAll = packages.get('@hint/configuration-all')!;
-        const indexPath = path.join(pkgConfigAll.path, '..', 'index.json');
+    const pkgConfigAll = packages.get('@hint/configuration-all')!;
+    const indexPath = path.join(pkgConfigAll.path, '..', 'index.json');
 
-        // Step 1: Load current `configuration-all` package.
-        const configAll = pkgConfigAll.content;
-        // Step 2: Load current `index.json`
-        const index = require(indexPath);
+    // Step 1: Load current `configuration-all` package.
+    const configAll = pkgConfigAll.content;
+    // Step 2: Load current `index.json`
+    const index = require(indexPath);
 
-        // Step 3: Clean current dependencies.
-        configAll.dependencies = {};
-        // Step 4: Clean current hints in `index.json`.
-        index.hints = {};
+    // Step 3: Clean current dependencies.
+    configAll.dependencies = {};
+    // Step 4: Clean current hints in `index.json`.
+    index.hints = {};
 
-        let currentBump = Bump.none;
-
-        // Step 5: Add packages to `package.json` and rules to `index.json`.
-        for (const [, pkg] of packages) {
-            // Ignore private packages
-            if (ignorePackage(pkg)) {
-                continue;
-            }
-
-            currentBump = Math.max(currentBump, pkg.bump || Bump.none);
-            configAll.dependencies[pkg.name] = `^${pkg.content.version}`;
-
-            if (isHint(pkg)) {
-                index.hints = Object.assign(index.hints, await getHints(pkg));
-            }
+    // Step 5: Add packages to `package.json` and rules to `index.json`.
+    for (const [, pkg] of packages) {
+        // Ignore private packages
+        if (ignorePackage(pkg)) {
+            continue;
         }
 
-        pkgConfigAll.updated = true;
-        pkgConfigAll.content.version = calculatePackageNewVersion(pkgConfigAll, currentBump);
+        configAll.dependencies[pkg.name] = `^${pkg.content.version}`;
 
-        // Step 6: Save `index.json`.
-        await fs.writeFile(indexPath, JSON.stringify(index, null, 4), 'utf-8');
-    };
+        if (isHint(pkg)) {
+            index.hints = Object.assign(index.hints, await getHints(pkg));
+        }
+    }
+
+    // Step 6: Save `index.json`.
+    await fs.writeFile(indexPath, `${JSON.stringify(index, null, 4)}\n`, 'utf-8');
 };

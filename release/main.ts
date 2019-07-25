@@ -57,14 +57,14 @@ const tasks = new Listr([
         task: taskErrorWrapper(calculateChangedPackages)
     },
     {
+        title: 'Update configuration-all',
+        skip: skipReasons(skipIfError, skipIfJustRelease),
+        task: updateConfigurationAll
+    },
+    {
         title: 'Calculate new versions',
         skip: skipReasons(skipIfError, skipIfJustRelease),
         task: calculateNewVersions
-    },
-    {
-        title: 'Update configuration-all',
-        skip: skipReasons(skipIfError, skipIfJustRelease),
-        task: updateConfigurationAll(ignoredPackages)
     },
     {
         title: 'Update changelogs',
