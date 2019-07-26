@@ -6,7 +6,7 @@ import * as fs from 'fs-extra';
 import { Context, Package } from '../@types/custom';
 import { readFile } from '../lib/utils';
 
-const ignorePrefixes = ['@hint/configuration-', '@hint/connector-chrome', 'create-', '@hint/utils-'];
+const ignorePrefixes = ['hint', '@hint/configuration-', '@hint/connector-chrome', 'create-', '@hint/utils'];
 
 const ignorePackage = (pkg: Package): boolean => {
     if (pkg.ignore) {
@@ -82,7 +82,9 @@ export const updateConfigurationAll = async (ctx: Context) => {
         configAll.dependencies[pkg.name] = `^${pkg.content.version}`;
 
         if (isHint(pkg)) {
-            index.hints = Object.assign(index.hints, await getHints(pkg));
+            const hints = await getHints(pkg);
+
+            index.hints = { ...index.hints, ...hints };
         }
     }
 
