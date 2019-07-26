@@ -6,7 +6,7 @@ import * as isCI from 'is-ci';
 import { default as ora } from 'ora';
 import * as osLocale from 'os-locale';
 
-import { appInsights, configStore, debug as d, fs, logger, misc, network, npm } from '@hint/utils';
+import { appInsights, configStore, debug as d, fs, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity } from '@hint/utils';
 
 import {
     AnalyzerError,
@@ -77,6 +77,34 @@ or set the flag --tracking=on|off`;
     printFrame(message);
 };
 
+const getHintsForTelemetry = (userConfig: UserConfig) => {
+    if (!userConfig.hints) {
+        return null;
+    }
+
+    const hints = normalizeHints(userConfig.hints);
+    const result = {} as HintsConfigObject;
+
+    for (const [hintId, severity] of Object.entries(hints)) {
+        result[hintId] = typeof severity === 'string' ? severity : (severity as [HintSeverity, any])[0];
+    }
+
+    return result;
+};
+
+const pruneUserConfig = (userConfig: UserConfig) => {
+    return {
+        browserslist: userConfig.browserslist,
+        connector: (userConfig.connector as ConnectorConfig).name || userConfig.connector,
+        extends: userConfig.extends,
+        formatters: userConfig.formatters,
+        hints: getHintsForTelemetry(userConfig),
+        hintsTimeout: userConfig.hintsTimeout,
+        language: userConfig.language,
+        parsers: userConfig.parsers
+    };
+};
+
 /** Ask user if he wants to activate the telemetry or not. */
 const askForTelemetryConfirmation = async (userConfig: UserConfig) => {
     if (appInsights.isConfigured()) {
@@ -111,7 +139,7 @@ const askForTelemetryConfirmation = async (userConfig: UserConfig) => {
         appInsights.enable();
 
         appInsights.trackEvent('SecondRun');
-        appInsights.trackEvent('analyze', userConfig);
+        appInsights.trackEvent('analyze', pruneUserConfig(userConfig));
 
         return;
     }
@@ -332,7 +360,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    appInsights.trackEvent('analyze', userConfig!);
+    appInsights.trackEvent('analyze', pruneUserConfig(userConfig));
 
     const start = Date.now();
     let exitCode = 0;
