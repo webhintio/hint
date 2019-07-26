@@ -10,7 +10,6 @@
     ],
     "hints": {
         "apple-touch-icons": "off",
-        "axe": "error",
         "babel-config/is-valid": "error",
         "button-type": "error",
         "create-element-svg": "error",
