@@ -37,6 +37,7 @@
     },
     "hintsTimeout": 120000,
     "parsers": [
-        "css"
+        "css",
+        "javascript"
     ]
 }
