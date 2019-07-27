@@ -188,8 +188,8 @@ const loadUserConfig = async (actions?: CLIOptions): Promise<UserConfig> => {
         userConfig = getDefaultConfiguration();
     }
 
-    // If language is not in the config file, get the language configure in the OS.
-    userConfig.language = userConfig.language || await osLocale();
+    // If language is not in the config file or CLI options, get the language configure in the OS.
+    userConfig.language = (actions && actions.language) || userConfig.language || await osLocale();
     userConfig = mergeEnvWithOptions(userConfig) as UserConfig;
 
     return userConfig;
