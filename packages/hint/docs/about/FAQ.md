@@ -45,7 +45,7 @@ Also don’t hesitate to ask for help.
 
 `webhint` currently supports [jsdom][jsdom], Chrome, and Edge 15.
 We hope to add support for Firefox soon. If your favorite browser
-is not supported you can always [develop a connector][new issue]
+is not supported you can always [develop a connector][connector docs]
 for it!
 
 ## Is there a plugin for my favorite editor?
@@ -92,7 +92,7 @@ telling us what you think can be improved.
 <!-- Link labels: -->
 
 [axe]: https://axe-core.org/
-[connector docs]: /docs/contributor-guide/connectors/
+[connector docs]: https://webhint.io/docs/contributor-guide/how-to/connector/
 [issues]: https://github.com/webhintio/hint/issues
 [jsdom]: https://github.com/tmpvar/jsdom
 [narwhal echolocation]: http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162069

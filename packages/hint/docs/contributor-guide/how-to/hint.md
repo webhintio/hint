@@ -13,7 +13,7 @@ how to do it, please [open an issue][new issue].
 
 ## Using the `CLI` to create a hint
 
-The easiest wait to create a new hint is via the `create-hint` package:
+The easiest way to create a new hint is via the `create-hint` package:
 
 ```bash
 npm init hint
@@ -25,9 +25,11 @@ related to this new hint. A complete list of the questions is shown below:
 * What’s the name of this new hint?
 * Please select the category of this new hint:
   * accessibility
+  * development
   * compatibility
   * performance
   * pwa
+  * pitfalls
   * security
 * What’s the description of this new hint?
 * Please select the category of use case:

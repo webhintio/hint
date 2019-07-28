@@ -6,7 +6,7 @@
 
 ## Quick start user guide
 
-Once you have [`Node.js`][node] v8.x on your machine, you can use
+Once you have [`Node.js`][node] (v8.x or later) on your machine, you can use
 [`npx`][npx] or install `hint` globally to use it.
 
 ### Using `npx`
