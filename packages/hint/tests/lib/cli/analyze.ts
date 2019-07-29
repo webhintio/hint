@@ -66,10 +66,16 @@ type AppInsight = {
     trackEvent: (event: string, data: any) => void;
 };
 
+type ConfigStore = {
+    get: (key: string) => any;
+    set: (key: string, value: any) => void;
+};
+
 type AnalyzeContext = {
     analyzer: Analyzer;
     appInsight: AppInsight;
     askQuestion: AskQuestion;
+    configStore: ConfigStore;
     errorSpy: sinon.SinonSpy<[string]>;
     failSpy: sinon.SinonSpy<[]>;
     logger: Logger;
@@ -135,9 +141,15 @@ const initContext = (t: ExecutionContext<AnalyzeContext>) => {
         },
         trackEvent(event: string, data: any) { }
     };
+    t.context.configStore = {
+        get(key: string) {
+            return false;
+        },
+        set(key: string, value: any) { }
+    };
 };
 
-const loadScript = (context: AnalyzeContext) => {
+const loadScript = (context: AnalyzeContext, isCi: boolean = false) => {
     const script = proxyquire('../../../src/lib/cli/analyze', {
         '../': {
             createAnalyzer: (context.analyzer.Analyzer as any).create,
@@ -159,7 +171,7 @@ const loadScript = (context: AnalyzeContext) => {
             npm: utils.npm,
             packages: utils.packages
         },
-        'is-ci': false,
+        'is-ci': isCi,
         ora: context.ora
     });
 
@@ -173,7 +185,7 @@ test.afterEach.always((t) => {
 });
 
 test('If there is no valid user config, it should use `web-recommended` as default configuration', async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
 
     const createAnalyzerStub = sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(new FakeAnalyzer());
 
@@ -189,7 +201,7 @@ test('If there is no valid user config, it should use `web-recommended` as defau
 });
 
 test('If there is no valid user config and user refuses to use the default or to create a configuration file, it should exit with code 1', async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
 
     sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns(null as any);
     const createAnalyzerStub = sandbox.stub(t.context.analyzer.Analyzer as any, 'create')
@@ -207,7 +219,7 @@ test('If there is no valid user config and user refuses to use the default or to
 });
 
 test('If configuration file exists, it should use it', async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
 
     const createAnalyzerSpy = sandbox.stub(t.context.analyzer.Analyzer as any, 'create');
 
@@ -223,7 +235,7 @@ test('If configuration file exists, it should use it', async (t) => {
 });
 
 test('If executeOn returns an error, it should exit with code 1 and call to analyzer.format', async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
     const fakeAnalyzer = new FakeAnalyzer();
 
     sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
@@ -248,7 +260,7 @@ test('If executeOn returns an error, it should exit with code 1 and call to anal
 });
 
 test('If executeOn returns an error, it should call to spinner.fail()', async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
 
     const fakeAnalyzer = new FakeAnalyzer();
 
@@ -272,7 +284,7 @@ test('If executeOn returns an error, it should call to spinner.fail()', async (t
 });
 
 test('If executeOn throws an exception, it should exit with code 1', async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
     const fakeAnalyzer = new FakeAnalyzer();
 
     sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
@@ -285,7 +297,7 @@ test('If executeOn throws an exception, it should exit with code 1', async (t) =
 });
 
 test('If executeOn throws an exception, it should call to spinner.fail()', async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
     const fakeAnalyzer = new FakeAnalyzer();
 
     sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
@@ -300,7 +312,7 @@ test('If executeOn throws an exception, it should call to spinner.fail()', async
 });
 
 test('If executeOn returns no errors, it should exit with code 0 and call analyzer.format', async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
     const fakeAnalyzer = new FakeAnalyzer();
 
     sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
@@ -323,8 +335,8 @@ test('If executeOn returns no errors, it should exit with code 0 and call analyz
     t.true(analyzerFormatSpy.calledOnce);
 });
 
-test('If executeOn returns no errors, it should call to spinner.succeed()', async (t) => {
-    const sandbox = sinon.createSandbox();
+test('If there is no errors analyzing the url, it should call to spinner.succeed()', async (t) => {
+    const sandbox = t.context.sandbox;
     const fakeAnalyzer = new FakeAnalyzer();
 
     sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
@@ -347,7 +359,7 @@ test('If executeOn returns no errors, it should call to spinner.succeed()', asyn
 });
 
 test('updateCallback should write a message in the spinner', async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
     const fakeAnalyzer = new FakeAnalyzer();
 
     sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
@@ -370,7 +382,7 @@ test('updateCallback should write a message in the spinner', async (t) => {
 });
 
 test('If there is missing or incompatible packages, they should be tracked', async (t) => {
-    const sandbox = sinon.createSandbox();
+    const sandbox = t.context.sandbox;
     const fakeAnalyzer = new FakeAnalyzer();
 
     sandbox.stub(t.context.analyzer.Analyzer as any, 'create').throws(new AnalyzerError('error', AnalyzerErrorStatus.ResourceError, { connector: null, formatters: [], hints: [], incompatible: ['hint2'], missing: ['hint1'], parsers: [] }));
@@ -408,4 +420,43 @@ test('If no sites are defined, it should return false', async (t) => {
     const result = await analyze({ _: [] } as any);
 
     t.false(result);
+});
+
+test('If there is no errors analyzing the url, and it is the second time running a scan, and the user confirm telemetry, telemetry should be enabled', async (t) => {
+    const sandbox = t.context.sandbox;
+    const fakeAnalyzer = new FakeAnalyzer();
+
+    sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
+    sandbox.stub(fakeAnalyzer, 'analyze').resolves();
+
+    sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns({
+        connector: {
+            name: 'puppeteer',
+            options: {
+                auth: {
+                    password: 'passwordInput',
+                    submit: 'submitButton',
+                    user: 'userInput'
+                }
+            }
+        }
+    });
+    sandbox.stub(t.context.appInsight, 'isConfigured').returns(false);
+    sandbox.stub(t.context.configStore, 'get').returns(true);
+    sandbox.stub(t.context, 'askQuestion').resolves(true);
+
+    const appInsightEnableSpy = sandbox.spy(t.context.appInsight, 'enable');
+    const appInsightTrackEventSpy = sandbox.spy(t.context.appInsight, 'trackEvent');
+
+    const analyze = loadScript(t.context);
+
+    await analyze(actions);
+
+    const args = appInsightTrackEventSpy.args;
+
+    t.true(appInsightEnableSpy.calledOnce);
+    t.true(appInsightTrackEventSpy.calledThrice);
+    t.is(args[1][0], 'SecondRun');
+    t.is(args[2][0], 'analyze');
+    t.falsy(args[2][1].connector.options);
 });

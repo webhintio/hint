@@ -95,7 +95,7 @@ const getHintsForTelemetry = (userConfig: UserConfig) => {
 const pruneUserConfig = (userConfig: UserConfig) => {
     return {
         browserslist: userConfig.browserslist,
-        connector: (userConfig.connector as ConnectorConfig).name || userConfig.connector,
+        connector: userConfig.connector ? (userConfig.connector as ConnectorConfig).name || userConfig.connector : undefined,
         extends: userConfig.extends,
         formatters: userConfig.formatters,
         hints: getHintsForTelemetry(userConfig),
@@ -397,6 +397,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             updateCallback: undefined
         };
 
+        /* istanbul ignore else */
         if (!actions.debug) {
             analyzerOptions.updateCallback = (update) => {
                 spinner.text = update.message;
