@@ -172,12 +172,6 @@ const updateConfigWithOptionsValues = (config: UserConfig, options: CreateAnalyz
         config.hints = buildHintsConfigFromHintNames(options.hints, 'error');
         debug(`Using hints option provided from command line: ${options.hints.join(', ')}`);
     }
-
-    // If language is provided, use it
-    if (options.language) {
-        config.language = options.language;
-        debug(`Using language option provided from command line: ${options.language}`);
-    }
 };
 
 export class Configuration {

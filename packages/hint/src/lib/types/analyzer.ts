@@ -3,7 +3,6 @@ import { Problem } from '@hint/utils/dist/src/types/problems';
 export type CreateAnalyzerOptions = {
     formatters?: string[];
     hints?: string[];
-    language?: string;
     watch?: boolean;
 }
 

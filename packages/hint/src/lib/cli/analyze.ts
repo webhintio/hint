@@ -189,7 +189,13 @@ const loadUserConfig = async (actions?: CLIOptions): Promise<UserConfig> => {
     }
 
     // If language is not in the config file or CLI options, get the language configure in the OS.
-    userConfig.language = (actions && actions.language) || userConfig.language || await osLocale();
+    if (actions && actions.language) {
+        userConfig.language = actions.language;
+        debug(`Using language option provided from command line: ${actions.language}`);
+    } else {
+        userConfig.language = userConfig.language || await osLocale();
+    }
+
     userConfig = mergeEnvWithOptions(userConfig) as UserConfig;
 
     return userConfig;
@@ -281,7 +287,6 @@ const actionsToOptions = (actions: CLIOptions): CreateAnalyzerOptions => {
     const options: CreateAnalyzerOptions = {
         formatters: actions.formatters ? actions.formatters.split(',') : undefined,
         hints: actions.hints ? actions.hints.split(',') : undefined,
-        language: actions.language,
         watch: actions.watch
     };
 
