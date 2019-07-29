@@ -15,7 +15,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { sync as globby } from 'globby';
+import * as globby from 'globby';
 import * as semver from 'semver';
 
 import { debug as d, fs as fsUtils, misc, packages } from '@hint/utils';
@@ -106,7 +106,7 @@ export const getCoreResources = (type: string): string[] => {
         return resourceIds.get(type)!;
     }
 
-    const resourcesFiles: string[] = globby(`dist/src/lib/${type}s/**/*.js`, { cwd: HINT_ROOT });
+    const resourcesFiles: string[] = globby.sync(`dist/src/lib/${type}s/**/*.js`, { cwd: HINT_ROOT });
     const ids: string[] = resourcesFiles.reduce((list: string[], resourceFile: string) => {
         const resourceName: string = path.basename(resourceFile, '.js');
 
@@ -143,7 +143,7 @@ export const getInstalledResources = (type: ResourceType): string[] => {
         return resourceIds.get(installedType)!;
     }
 
-    const resourcesFiles: string[] = globby(`${NODE_MODULES_ROOT}/@hint/${type}-*/package.json`);
+    const resourcesFiles: string[] = globby.sync(`${NODE_MODULES_ROOT.replace(/\\/g, '/')}/@hint/${type}-*/package.json`);
 
     const ids: string[] = resourcesFiles.reduce((list: string[], resourceFile: string) => {
         const resource = loadPackage(path.dirname(resourceFile));
@@ -271,7 +271,7 @@ const generateConfigPathsToResources = (configurations: string[], name: string, 
             try {
                 const packagePath = path.dirname(resolvePackage(packageName));
 
-                const resourcePackages = globby(`node_modules/{@hint/,hint-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
+                const resourcePackages = globby.sync(`node_modules/{@hint/,hint-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
                     return path.dirname(pkg);
                 });
 

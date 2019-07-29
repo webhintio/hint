@@ -1,5 +1,4 @@
 const globby = require('globby');
-const path = require('path');
 const { createConfig } = require('./create/create-config');
 const { createDocs } = require('./create/create-docs');
 const { createHints } = require('./create/create-hints');
@@ -38,7 +37,7 @@ const getCategories = (rules) => {
 const main = async () => {
     const axePath = require.resolve('axe-core').replace(/axe.js$/, '');
     const axePackage = require('axe-core/package.json');
-    const rulePaths = await globby(path.normalize(`${axePath}lib/rules/*.json`));
+    const rulePaths = await globby(`${axePath.replace(/\\/g, '/')}lib/rules/*.json`);
 
     const rules = rulePaths.map((rulePath) => {
         return /** @type {RuleMeta} */ (require(rulePath));
