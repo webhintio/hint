@@ -29,7 +29,7 @@
     "postcss-selector-parser": "^6.0.2",
     "postcss-value-parser": "^4.0.0",
     "request": "^2.88.0",
-    "semver": "^6.2.0",
+    "semver": "^6.3.0",
     "strip-bom": "^4.0.0",
     "strip-json-comments": "^3.0.1"
   },
