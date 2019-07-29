@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@types/parse5": "^5.0.1",
+    "@types/parse5": "^5.0.2",
     "ajv": "^6.10.1",
     "applicationinsights": "^1.4.0",
     "configstore": "^5.0.0",
