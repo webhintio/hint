@@ -192,8 +192,13 @@ const loadUserConfig = async (actions?: CLIOptions): Promise<UserConfig> => {
     if (actions && actions.language) {
         userConfig.language = actions.language;
         debug(`Using language option provided from command line: ${actions.language}`);
+    } else if (userConfig.language) {
+        debug(`Using language option provided in user config file: ${userConfig.language}`);
     } else {
-        userConfig.language = userConfig.language || await osLocale();
+        const osLanguage = await osLocale();
+
+        userConfig.language = osLanguage;
+        debug(`Using language option configured in the OS: ${osLanguage}`);
     }
 
     userConfig = mergeEnvWithOptions(userConfig) as UserConfig;
