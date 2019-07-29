@@ -22,6 +22,10 @@ const isHint = (pkg: Package): boolean => {
     return pkg.name.startsWith('@hint/hint-');
 };
 
+const isParser = (pkg: Package): boolean => {
+    return pkg.name.startsWith('@hint/parser-');
+};
+
 const getHints = async (pkg: Package) => {
     const hints: any = {};
 
@@ -52,7 +56,7 @@ const getHints = async (pkg: Package) => {
  * 1. Load current `configuration-all` package.
  * 2. Load current `index.json`.
  * 3. Clean current dependencies in `package.json`.
- * 4. Clean current hints in `index.json`.
+ * 4. Clean current hints and parsers in `index.json`.
  * 5. Add packages to `package.json` and rules to `index.json`.
  * 6. Save `index.json`.
  */
@@ -69,8 +73,9 @@ export const updateConfigurationAll = async (ctx: Context) => {
 
     // Step 3: Clean current dependencies.
     configAll.dependencies = {};
-    // Step 4: Clean current hints in `index.json`.
+    // Step 4: Clean current hints and parsers in `index.json`.
     index.hints = {};
+    index.parsers = [];
 
     // Step 5: Add packages to `package.json` and rules to `index.json`.
     for (const [, pkg] of packages) {
@@ -85,6 +90,10 @@ export const updateConfigurationAll = async (ctx: Context) => {
             const hints = await getHints(pkg);
 
             index.hints = { ...index.hints, ...hints };
+        }
+
+        if (isParser(pkg)) {
+            index.parsers.push(pkg.name.replace('@hint/parser-', ''));
         }
     }
 

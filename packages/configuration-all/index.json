@@ -8,8 +8,8 @@
         "amp-validator": "error",
         "apple-touch-icons": "error",
         "axe/aria": "error",
-        "axe/forms": "error",
         "axe/color": "error",
+        "axe/forms": "error",
         "axe/keyboard": "error",
         "axe/language": "error",
         "axe/name-role-value": "error",
@@ -17,10 +17,10 @@
         "axe/parsing": "error",
         "axe/semantics": "error",
         "axe/sensory-and-visual-cues": "error",
-        "axe/tables": "error",
         "axe/structure": "error",
-        "axe/text-alternatives": "error",
+        "axe/tables": "error",
         "axe/time-and-media": "error",
+        "axe/text-alternatives": "error",
         "babel-config/is-valid": "error",
         "button-type": "error",
         "compat-api/css": "error",
@@ -60,9 +60,9 @@
         "stylesheet-limits": "error",
         "typescript-config/consistent-casing": "error",
         "typescript-config/import-helpers": "error",
-        "typescript-config/is-valid": "error",
-        "typescript-config/strict": "error",
         "typescript-config/no-comments": "error",
+        "typescript-config/strict": "error",
+        "typescript-config/is-valid": "error",
         "typescript-config/target": "error",
         "validate-set-cookie-header": "error",
         "webpack-config/config-exists": "error",
@@ -74,5 +74,14 @@
         "x-content-type-options": "error"
     },
     "hintsTimeout": 120000,
-    "parsers": []
+    "parsers": [
+        "babel-config",
+        "css",
+        "html",
+        "javascript",
+        "manifest",
+        "package-json",
+        "typescript-config",
+        "webpack-config"
+    ]
 }

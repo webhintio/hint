@@ -61,7 +61,7 @@
     "@hint/parser-typescript-config": "^2.3.0",
     "@hint/parser-webpack-config": "^2.1.3"
   },
-  "description": "webhint's all configuration that includes all the published packages",
+  "description": "webhint's configuration that includes all the published packages",
   "engines": {
     "node": ">=8.0.0"
   },
