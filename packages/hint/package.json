@@ -21,7 +21,7 @@
     "optionator": "^0.8.2",
     "ora": "^3.4.0",
     "os-locale": "^4.0.0",
-    "semver": "^6.2.0",
+    "semver": "^6.3.0",
     "update-notifier": "^3.0.1"
   },
   "description": "The linting tool for the web",
