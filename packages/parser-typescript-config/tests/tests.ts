@@ -85,6 +85,20 @@ test(`If the resource doesn't match the regex, nothing should happen`, async (t)
     t.true(engineEmitAsyncSpy.calledOnce);
 });
 
+test(`If the resource is a tsconfig.schema.json file, nothing should happen`, async (t) => {
+    const sandbox = t.context.sandbox;
+    const { engine, TypeScriptConfigParser } = mockContext(t.context);
+
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
+
+    new TypeScriptConfigParser(engine); // eslint-disable-line no-new
+
+    await engine.emitAsync('fetch::end::json', { resource: 'tsconfig.schema.json' } as FetchEnd);
+
+    // The previous call.
+    t.true(engineEmitAsyncSpy.calledOnce);
+});
+
 test('If the file contains an invalid json, it should fail', async (t) => {
     const sandbox = t.context.sandbox;
     const { engine, TypeScriptConfigParser } = mockContext(t.context);
