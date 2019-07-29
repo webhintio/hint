@@ -181,6 +181,27 @@ const askUserToInstallDependencies = async (resources: HintResources): Promise<b
     return answer;
 };
 
+/** Get language. If language is not in the config file or CLI options, get the language configure in the OS. */
+const getLanguage = async (userConfig?: UserConfig, actions?: CLIOptions): Promise<string> => {
+    if (actions && actions.language) {
+        debug(`Using language option provided from command line: ${actions.language}`);
+
+        return actions.language;
+    }
+
+    if (userConfig && userConfig.language) {
+        debug(`Using language option provided in user config file: ${userConfig.language}`);
+
+        return userConfig.language;
+    }
+
+    const osLanguage = await osLocale();
+
+    debug(`Using language option configured in the OS: ${osLanguage}`);
+
+    return osLanguage;
+};
+
 const loadUserConfig = async (actions?: CLIOptions): Promise<UserConfig> => {
     let userConfig = getUserConfig(actions && actions.config);
 
@@ -188,19 +209,7 @@ const loadUserConfig = async (actions?: CLIOptions): Promise<UserConfig> => {
         userConfig = getDefaultConfiguration();
     }
 
-    // If language is not in the config file or CLI options, get the language configure in the OS.
-    if (actions && actions.language) {
-        userConfig.language = actions.language;
-        debug(`Using language option provided from command line: ${actions.language}`);
-    } else if (userConfig.language) {
-        debug(`Using language option provided in user config file: ${userConfig.language}`);
-    } else {
-        const osLanguage = await osLocale();
-
-        userConfig.language = osLanguage;
-        debug(`Using language option configured in the OS: ${osLanguage}`);
-    }
-
+    userConfig.language = await getLanguage(userConfig, actions);
     userConfig = mergeEnvWithOptions(userConfig) as UserConfig;
 
     return userConfig;
