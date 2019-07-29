@@ -42,7 +42,7 @@ import { promisify } from 'util';
 const readFileAsBuffer = promisify(readFile);
 
 import * as chokidar from 'chokidar';
-import globby from 'globby';
+import * as globby from 'globby';
 import { JSDOM } from 'jsdom';
 
 import { contentType, dom, fs, HTMLDocument, HTMLElement, logger, network } from '@hint/utils';

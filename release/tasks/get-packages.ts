@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import globby from 'globby';
+import * as globby from 'globby';
 import latest from 'latest-version';
 
 import { Context, Reference } from '../@types/custom';
