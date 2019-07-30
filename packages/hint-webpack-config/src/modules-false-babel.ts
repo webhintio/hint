@@ -40,13 +40,13 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
 
         const validate = () => {
             if (!webpackEvent) {
-                context.report('', getMessage('webpackParserActivated', context.language));
+                debug(`no 'parse::end::webpack-config' received`);
 
                 return;
             }
 
             if (!babelEvent) {
-                context.report('', getMessage('babelParserActivated', context.language));
+                debug(`no 'parse::end::babel-config' received`);
 
                 return;
             }

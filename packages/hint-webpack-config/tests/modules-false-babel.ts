@@ -50,7 +50,7 @@ const tests: HintLocalTest[] = [
     }
 ];
 
-const generateTest = (message: string, testName: string): HintLocalTest[] => {
+const generateTest = (testName: string): HintLocalTest[] => {
     return [
         {
             before() {
@@ -61,8 +61,7 @@ const generateTest = (message: string, testName: string): HintLocalTest[] => {
                 mock('@hint/utils/dist/src/packages/load-package', { loadPackage });
             },
             name: testName,
-            path: path.join(__dirname, 'fixtures', 'babelvalid'),
-            reports: [{ message }]
+            path: path.join(__dirname, 'fixtures', 'babelvalid')
         }
     ];
 };
@@ -71,11 +70,11 @@ testLocalHint(hintPath, tests, {
     parsers: ['webpack-config', 'babel-config'],
     serial: true
 });
-testLocalHint(hintPath, generateTest('The parser webpack-config should be activated', `If 'webpack-config' parser is not in the configuration it should fail`), {
+testLocalHint(hintPath, generateTest(`If 'webpack-config' parser is not in the configuration it should pass`), {
     parsers: [],
     serial: true
 });
-testLocalHint(hintPath, generateTest('The parser babel-config should be activated', `If 'babel-config' parser is not in the configuration it should fail`), {
+testLocalHint(hintPath, generateTest(`If 'babel-config' parser is not in the configuration it should pass`), {
     parsers: ['webpack-config'],
     serial: true
 });
