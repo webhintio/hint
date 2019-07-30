@@ -40,13 +40,13 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
 
         const validate = () => {
             if (!webpackEvent) {
-                context.report('', getMessage('webpackParserActivated', context.language));
+                debug(`no 'parse::end::webpack-config' received`);
 
                 return;
             }
 
             if (!typescriptEvent) {
-                context.report('', getMessage('typeScriptParserActivated', context.language));
+                debug(`no 'parse::end::typescript-config' received`);
 
                 return;
             }
