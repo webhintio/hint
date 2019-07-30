@@ -25,6 +25,7 @@ import { cleanWorkspace } from './tasks/clean-workspace';
 import { deauthenticateGitHub } from './tasks/deauthenticate-github';
 import { pushChanges } from './tasks/push-changes';
 import { installDependencies } from './tasks/install-dependencies';
+import { updateConfigurationAll } from './tasks/update-configuration-all';
 import { Parameters } from './@types/custom';
 
 const ignoredPackages = ['extension-vscode', 'extension-browser'];
@@ -54,6 +55,11 @@ const tasks = new Listr([
         title: 'Calculating changes',
         skip: skipReasons(skipIfError, skipIfJustRelease),
         task: taskErrorWrapper(calculateChangedPackages)
+    },
+    {
+        title: 'Update configuration-all',
+        skip: skipReasons(skipIfError, skipIfJustRelease),
+        task: updateConfigurationAll
     },
     {
         title: 'Calculate new versions',

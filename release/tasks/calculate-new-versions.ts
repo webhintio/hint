@@ -23,7 +23,6 @@ const getBumpTypeForTag = (tag: Tag): Bump => {
     }
 };
 
-
 const calculatePackageNewVersion = (pkg: Package, bump: Bump): string => {
 
     if (pkg.ignore) {

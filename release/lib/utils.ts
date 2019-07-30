@@ -44,6 +44,10 @@ export const updatePkgJson = (pkg: Package) => {
     return fs.writeFile(pkg.path, `${JSON.stringify(pkg.content, null, 2)}\n`, 'utf-8');
 };
 
+export const readFile = (filePath: string) => {
+    return fs.readFile(filePath, 'utf-8');
+};
+
 const TEST_RETRIES = 3;
 
 /** Execute a `command` retrying if `exitCode` is different than 0. */
