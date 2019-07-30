@@ -1,3 +1,10 @@
+# 7.0.2 (July 30, 2019)
+
+## Bug fixes / Improvements
+
+* [[`3dc308e43a`](https://github.com/webhintio/hint/commit/3dc308e43a18ba003bb5b4f20508b1ac26155c53)] - Fix: Enable JavaScript parser for related hints (by [`Tony Ross`](https://github.com/antross) / see also: [`#2739`](https://github.com/webhintio/hint/issues/2739)).
+
+
 # 7.0.1 (July 24, 2019)
 
 

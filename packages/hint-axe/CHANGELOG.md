@@ -1,3 +1,15 @@
+# 4.0.2 (July 30, 2019)
+
+## Chores
+
+* [[`023c02e35d`](https://github.com/webhintio/hint/commit/023c02e35d817467fe561a84863801ea26fb42f2)] - Chore: Fix test failures due to `globby` type updates (by [`Tony Ross`](https://github.com/antross) / see also: [`#2766`](https://github.com/webhintio/hint/issues/2766)).
+* [[`201e80b1bb`](https://github.com/webhintio/hint/commit/201e80b1bb0e9086ab477bf9e901d279ab3b89c9)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.12.0 to 1.13.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bf2fde6a8f`](https://github.com/webhintio/hint/commit/bf2fde6a8f9696e83c05051d16b3d0cd7fc5398a)] - Upgrade: Bump axe-core from 3.3.0 to 3.3.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a80bb3bc6`](https://github.com/webhintio/hint/commit/6a80bb3bc6b517d7463a3884757aacbaf00d53af)] - Upgrade: Bump eslint-plugin-import from 2.18.0 to 2.18.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c8f3297b39`](https://github.com/webhintio/hint/commit/c8f3297b399ba0b9efbbea21dcf66ba37f3f33b3)] - Upgrade: Bump globby from 9.2.0 to 10.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`809d784591`](https://github.com/webhintio/hint/commit/809d784591cb5bee32916408749aba6c03282da6)] - Upgrade: Bump @types/node from 12.6.4 to 12.6.8 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.0.1 (July 24, 2019)
 
 

@@ -1,3 +1,16 @@
+# 2.3.2 (July 30, 2019)
+
+## Bug fixes / Improvements
+
+* [[`9c9ad06d74`](https://github.com/webhintio/hint/commit/9c9ad06d7442d96508825dc9e0b733702a0e90c3)] - Fix: Ignore tsconfig.schema.json files (by [`Tony Ross`](https://github.com/antross) / see also: [`#2747`](https://github.com/webhintio/hint/issues/2747)).
+
+## Chores
+
+* [[`201e80b1bb`](https://github.com/webhintio/hint/commit/201e80b1bb0e9086ab477bf9e901d279ab3b89c9)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.12.0 to 1.13.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a80bb3bc6`](https://github.com/webhintio/hint/commit/6a80bb3bc6b517d7463a3884757aacbaf00d53af)] - Upgrade: Bump eslint-plugin-import from 2.18.0 to 2.18.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`809d784591`](https://github.com/webhintio/hint/commit/809d784591cb5bee32916408749aba6c03282da6)] - Upgrade: Bump @types/node from 12.6.4 to 12.6.8 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.3.1 (July 24, 2019)
 
 

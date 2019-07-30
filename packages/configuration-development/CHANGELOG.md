@@ -1,3 +1,10 @@
+# 7.0.2 (July 30, 2019)
+
+## Bug fixes / Improvements
+
+* [[`293ee7ff6c`](https://github.com/webhintio/hint/commit/293ee7ff6ca4d771622cb5e24ecbf1fc97360247)] - Fix: Remove old `axe` hint reference (by [`Tony Ross`](https://github.com/antross) / see also: [`#2738`](https://github.com/webhintio/hint/issues/2738)).
+
+
 # 7.0.1 (July 24, 2019)
 
 

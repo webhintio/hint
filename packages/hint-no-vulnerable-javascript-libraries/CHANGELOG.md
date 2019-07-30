@@ -1,3 +1,17 @@
+# 2.9.2 (July 30, 2019)
+
+## New features
+
+* [[`e7079acc52`](https://github.com/webhintio/hint/commit/e7079acc52d8baad37686902689314a1540c7e42)] - Update: 'snyk-snapshot.json'.
+
+## Chores
+
+* [[`d10b4ec7b0`](https://github.com/webhintio/hint/commit/d10b4ec7b04d5aca9f8334165fe1303d3914af5d)] - Upgrade: Bump semver from 6.2.0 to 6.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`201e80b1bb`](https://github.com/webhintio/hint/commit/201e80b1bb0e9086ab477bf9e901d279ab3b89c9)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.12.0 to 1.13.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a80bb3bc6`](https://github.com/webhintio/hint/commit/6a80bb3bc6b517d7463a3884757aacbaf00d53af)] - Upgrade: Bump eslint-plugin-import from 2.18.0 to 2.18.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`809d784591`](https://github.com/webhintio/hint/commit/809d784591cb5bee32916408749aba6c03282da6)] - Upgrade: Bump @types/node from 12.6.4 to 12.6.8 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.9.1 (July 24, 2019)
 
 ## New features

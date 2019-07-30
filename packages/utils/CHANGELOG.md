@@ -1,3 +1,19 @@
+# 3.1.1 (July 30, 2019)
+
+## Bug fixes / Improvements
+
+* [[`79ee648fec`](https://github.com/webhintio/hint/commit/79ee648fecc7be6939fe1ffe0f6dcd27c084a54d)] - Fix: Move packages included in exported types to `dependencies` (by [`Tony Ross`](https://github.com/antross) / see also: [`#2732`](https://github.com/webhintio/hint/issues/2732)).
+
+## Chores
+
+* [[`bd8499a953`](https://github.com/webhintio/hint/commit/bd8499a953ef8371e0e8ddc1f2fdc6c31c76ceab)] - Upgrade: Bump mdn-browser-compat-data from 0.0.86 to 0.0.87 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`d10b4ec7b0`](https://github.com/webhintio/hint/commit/d10b4ec7b04d5aca9f8334165fe1303d3914af5d)] - Upgrade: Bump semver from 6.2.0 to 6.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`201e80b1bb`](https://github.com/webhintio/hint/commit/201e80b1bb0e9086ab477bf9e901d279ab3b89c9)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 1.12.0 to 1.13.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2d2b70ef33`](https://github.com/webhintio/hint/commit/2d2b70ef33438a341b32aab6e8eb3e0d999286c8)] - Upgrade: Bump file-type from 12.0.1 to 12.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e60d4af8c2`](https://github.com/webhintio/hint/commit/e60d4af8c27f374e15761e9f57f91509ad7d92ac)] - Upgrade: Bump @types/parse5 from 5.0.1 to 5.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a80bb3bc6`](https://github.com/webhintio/hint/commit/6a80bb3bc6b517d7463a3884757aacbaf00d53af)] - Upgrade: Bump eslint-plugin-import from 2.18.0 to 2.18.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.1.0 (July 24, 2019)
 
 ## New features
