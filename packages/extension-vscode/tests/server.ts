@@ -17,6 +17,7 @@ const mockContext = () => {
     const mocks = mock.mocks();
 
     proxyquire('../src/server', {
+        './utils/analytics': mocks.analytics,
         '@hint/utils': mocks.hintUtils,
         child_process: mocks.child_process, // eslint-disable-line camelcase
         'vscode-languageserver': {

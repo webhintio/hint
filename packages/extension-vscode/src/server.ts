@@ -11,13 +11,15 @@ import {
     ProposedFeatures
 } from 'vscode-languageserver';
 
-import * as notifications from './notifications';
-
 import * as hint from 'hint';
 import { HintsConfigObject, Problem, Severity, UserConfig } from 'hint';
-import { hasYarnLock } from '@hint/utils';
+import { appInsights, hasYarnLock } from '@hint/utils';
+
+import * as notifications from './notifications';
+import { trackClose, trackResult, trackSave } from './utils/analytics';
 
 let workspace = '';
+let openExternalCompleteListener: Function | null = null;
 
 // Connect to the language client.
 const connection = createConnection(ProposedFeatures.all);
@@ -158,6 +160,34 @@ const loadWebhint = async (directory: string): Promise<hint.Analyzer | null> => 
     }
 };
 
+/* istanbul ignore next */
+const showTelemetryMessage = async () => {
+    if (appInsights.isConfigured()) {
+        return;
+    }
+
+    const yesResponse = 'Yes';
+    const noResponse = 'No';
+    const learnResponse = 'Learn more';
+    const answer = await connection.window.showInformationMessage(
+        'Help us improve webhint by sending limited usage information (no personal information or URLs will be sent).',
+        { title: yesResponse },
+        { title: noResponse },
+        { title: learnResponse }
+    );
+
+    if (answer && answer.title === yesResponse) {
+        appInsights.enable();
+    } else if (answer && answer.title === noResponse) {
+        appInsights.disable();
+    } else if (answer && answer.title === learnResponse) {
+        connection.sendNotification(notifications.openExternal, 'https://webhint.io/docs/user-guide/telemetry/summary/');
+        openExternalCompleteListener = () => {
+            showTelemetryMessage();
+        };
+    }
+};
+
 let webhint: hint.Analyzer | null = null;
 let loaded = false;
 let validating = false;
@@ -171,6 +201,15 @@ connection.onInitialize((params) => {
 
     // TODO: Support multiple workspaces (`params.workspaceFolders`).
     workspace = params.rootPath || '';
+
+    showTelemetryMessage();
+
+    connection.onNotification(notifications.openExternalComplete, () => {
+        if (openExternalCompleteListener) {
+            openExternalCompleteListener();
+            openExternalCompleteListener = null;
+        }
+    });
 
     return { capabilities: { textDocumentSync: documents.syncKind } };
 });
@@ -253,15 +292,20 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
 
         // Pass content directly to validate unsaved changes.
         const content = textDocument.getText();
-        const AnalzyerResult = await webhint.analyze({
+        const results = await webhint.analyze({
             content,
             url
         });
 
         // Send the computed diagnostics to VSCode.
         connection.sendDiagnostics({
-            diagnostics: AnalzyerResult.length > 0 ? AnalzyerResult[0].problems.map(problemToDiagnostic) : [],
+            diagnostics: results.length > 0 ? results[0].problems.map(problemToDiagnostic) : [],
             uri: textDocument.uri
+        });
+
+        trackResult(textDocument.uri, {
+            hints: webhint.resources.hints,
+            problems: results.length > 0 ? results[0].problems : []
         });
 
     } finally {
@@ -285,6 +329,16 @@ connection.onDidChangeWatchedFiles(async () => {
 // Re-validate the document whenever the content changes.
 documents.onDidChangeContent(async (change) => {
     await validateTextDocument(change.document);
+});
+
+// Clean up cached results when a document is closed to avoid leaking memory.
+documents.onDidClose(({ document }) => {
+    trackClose(document.uri);
+});
+
+// Report deltas in cached results when a document is saved.
+documents.onDidSave(({ document }) => {
+    trackSave(document.uri);
 });
 
 // Listen on the text document manager and connection.
