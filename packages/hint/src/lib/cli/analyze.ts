@@ -181,6 +181,27 @@ const askUserToInstallDependencies = async (resources: HintResources): Promise<b
     return answer;
 };
 
+/** Get language. If language is not in the config file or CLI options, get the language configure in the OS. */
+const getLanguage = async (userConfig?: UserConfig, actions?: CLIOptions): Promise<string> => {
+    if (actions && actions.language) {
+        debug(`Using language option provided from command line: ${actions.language}`);
+
+        return actions.language;
+    }
+
+    if (userConfig && userConfig.language) {
+        debug(`Using language option provided in user config file: ${userConfig.language}`);
+
+        return userConfig.language;
+    }
+
+    const osLanguage = await osLocale();
+
+    debug(`Using language option configured in the OS: ${osLanguage}`);
+
+    return osLanguage;
+};
+
 const loadUserConfig = async (actions?: CLIOptions): Promise<UserConfig> => {
     let userConfig = getUserConfig(actions && actions.config);
 
@@ -188,8 +209,7 @@ const loadUserConfig = async (actions?: CLIOptions): Promise<UserConfig> => {
         userConfig = getDefaultConfiguration();
     }
 
-    // If language is not in the config file, get the language configure in the OS.
-    userConfig.language = userConfig.language || await osLocale();
+    userConfig.language = await getLanguage(userConfig, actions);
     userConfig = mergeEnvWithOptions(userConfig) as UserConfig;
 
     return userConfig;
@@ -281,7 +301,6 @@ const actionsToOptions = (actions: CLIOptions): CreateAnalyzerOptions => {
     const options: CreateAnalyzerOptions = {
         formatters: actions.formatters ? actions.formatters.split(',') : undefined,
         hints: actions.hints ? actions.hints.split(',') : undefined,
-        language: actions.language,
         watch: actions.watch
     };
 
