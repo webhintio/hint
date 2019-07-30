@@ -24,6 +24,7 @@ export type Connection = {
     listen: () => void;
     onDidChangeWatchedFiles: (fn: FileWatcher) => void;
     onInitialize: (fn: Initializer) => void;
+    onNotification: () => void;
     sendDiagnostics: (params: PublishDiagnosticsParams) => void;
     sendNotification: () => void;
     window: Window;
@@ -48,10 +49,17 @@ export type FilesType = {
 };
 
 export const mocks = () => {
+    const analytics = {
+        trackClose() { },
+        trackResult() { },
+        trackSave() { }
+    };
+
     const analyzer = {
         analyze(endpoints: Endpoint): Promise<AnalyzerResult[]> {
             return Promise.resolve([]);
-        }
+        },
+        resources: { hints: [] }
     };
 
     class Analyzer {
@@ -84,6 +92,11 @@ export const mocks = () => {
     };
 
     const hintUtils = {
+        appInsights: {
+            isConfigured() {
+                return true;
+            }
+        },
         hasYarnLock(directory: string): Promise<boolean> {
             return Promise.resolve(false);
         }
@@ -100,6 +113,7 @@ export const mocks = () => {
         onInitialize(fn: typeof initializer) {
             initializer = fn;
         },
+        onNotification() {},
         sendDiagnostics(params: PublishDiagnosticsParams) { },
         sendNotification() { },
         window: {
@@ -149,7 +163,9 @@ export const mocks = () => {
         listen() { },
         onDidChangeContent(fn: typeof contentWatcher) {
             contentWatcher = fn;
-        }
+        },
+        onDidClose() { },
+        onDidSave() { }
     };
 
     return {
@@ -162,6 +178,7 @@ export const mocks = () => {
          */
         Analyzer: Analyzer as any,
         analyzer,
+        analytics,
         child_process,
         connection,
         createConnection,

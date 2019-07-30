@@ -1,4 +1,6 @@
-import { workspace, ExtensionContext } from 'vscode';
+import { env, workspace, ExtensionContext, Uri } from 'vscode';
+
+import * as vscode from 'vscode';
 
 import {
     LanguageClient,
@@ -49,6 +51,18 @@ export const activate = (context: ExtensionContext) => {
     client = new LanguageClient('webhint', serverOptions, clientOptions);
 
     client.onReady().then(() => {
+
+        // Listen for requests to open a URI for this extension.
+        client.onNotification(notifications.openExternal, (uri: string) => {
+            env.openExternal(Uri.parse(uri));
+
+            const listener = vscode.window.onDidChangeWindowState((e) => {
+                if (e.focused) {
+                    client.sendNotification(notifications.openExternalComplete);
+                    listener.dispose();
+                }
+            });
+        });
 
         // Listen for requests to show the output panel for this extension.
         client.onNotification(notifications.showOutput, () => {
