@@ -1,7 +1,10 @@
-import { Fetcher } from './create-fetchend-payload';
+import { URL } from 'url';
 
 import { debug as d, HTMLDocument } from '@hint/utils';
 import { Engine } from 'hint';
+
+import { Fetcher } from './create-fetchend-payload';
+
 const debug: debug.IDebugger = d(__filename);
 
 /**
