@@ -323,17 +323,19 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
     debug(`Searching ${name}…`);
     const isSource = fs.existsSync(name); // eslint-disable-line no-sync
     const isPackage = isFullPackageName(name, type);
-    const nameSplitted = name.split('/');
+    const nameParts = name.split('/');
 
     let scope = '';
+    let unscopedNameParts = nameParts;
 
-    if (isPackage && nameSplitted[0].startsWith('@')) {
-        scope = `${nameSplitted.shift()!}/`;
+    if (isPackage && nameParts[0].startsWith('@')) {
+        scope = `${nameParts[0]}/`;
+        unscopedNameParts = nameParts.slice(1);
     }
 
-    const packageName = `${scope}${nameSplitted[0]}`;
+    const packageName = `${scope}${unscopedNameParts[0]}`;
     const resourceName = isSource ?
-        name : nameSplitted[1] || packageName;
+        name : unscopedNameParts[1] || packageName;
 
     const key = isPackage || isSource ?
         name :
