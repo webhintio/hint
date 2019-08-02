@@ -118,11 +118,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 ## Further Reading
 
 * [Cloudinary][cloudinary]
-* [Images comprise 62% of a page’s total weight][62percent]
 
 <!-- Link labels: -->
 
-[62percent]: https://www.soasta.com/blog/page-bloat-average-web-page-2-mb/
 [bytes-per-content-type]: https://chart.googleapis.com/chart?chs=400x225&cht=p&chco=007099&chd=t:1810,52,89,454,109,789,16&chds=0,1810&chdlp=b&chdl=total%203376%20kB&chl=Images+-+1810+kB%7CHTML+-+52+kB%7CStylesheets+-+89+kB%7CScripts+-+454+kB%7CFonts+-+109+kB%7CVideo+-+789+kB%7COther+-+16+kB&chma=|5&chtt=Average+Bytes+per+Page+by+Content+Type
 [cloudinary]: https://cloudinary.com
 [environment-variable]: https://www.npmjs.com/package/cloudinary#configuration
