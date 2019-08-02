@@ -97,20 +97,26 @@ const getHintsFromConfiguration = (configName: string, parentConfigs: string[] =
     try {
         const configuration = loadConfiguration(configName, parentConfigs);
 
-        return { ...getHintsFromConfigurations(configuration.extends, [configName, ...parentConfigs]), ...getHintsForTelemetry(configuration.hints) }; // eslint-disable-line no-use-before-define,@typescript-eslint/no-use-before-define
+        return {
+            ...getHintsFromConfigurations(configuration.extends, [configName, ...parentConfigs]), // eslint-disable-line no-use-before-define,@typescript-eslint/no-use-before-define
+            ...getHintsForTelemetry(configuration.hints)
+        };
     } catch (e) { // If the configuration doesn't exists, ignore it and returns an empty object.
         return {};
     }
 };
 
-const getHintsFromConfigurations = (configurations?: string[], parentConfigs: string[] = [], index: number = 0): any => {
+const getHintsFromConfigurations = (configurations?: string[], parentConfigs: string[] = []): any => {
     if (!configurations || configurations.length === 0) {
         return {};
     }
 
     const config = configurations[0];
 
-    return { ...getHintsFromConfiguration(config, parentConfigs), ...getHintsFromConfigurations(configurations.slice(1), parentConfigs) };
+    return {
+        ...getHintsFromConfiguration(config, parentConfigs),
+        ...getHintsFromConfigurations(configurations.slice(1), parentConfigs)
+    };
 };
 
 const pruneUserConfig = (userConfig: UserConfig) => {
