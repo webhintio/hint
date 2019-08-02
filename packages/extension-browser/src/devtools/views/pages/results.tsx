@@ -12,6 +12,9 @@ import ResultsHeader from './results/header';
 import * as styles from './results.css';
 
 type Props = {
+    /** Configuration used for the analysis. */
+    config: Config;
+
     disabled?: boolean;
 
     /** Listener for when the user decides to configure a new scan. */
@@ -22,9 +25,6 @@ type Props = {
 
     /** A grouped set of the reported problems to render from a scan. */
     results: ResultsData;
-
-    /** Configuration used for the analysis. */
-    config: Config;
 };
 
 /**

@@ -13,11 +13,11 @@ import { Config } from '../../../../shared/types';
 import * as styles from './header.css';
 
 type Props = {
+    config: Config;
     onConfigureClick: () => void;
     setShowPassed: (showPassed: boolean) => void;
     showPassed: boolean;
     url: string;
-    config: Config;
 };
 
 const ResultsHeader = ({ config, onConfigureClick, showPassed, setShowPassed, url }: Props) => {

@@ -40,7 +40,9 @@ const ErrorPage = ({ disabled, error, onConfigure, onRestart, config }: Props) =
                     </h1>
                     <p>
                         {getMessage('errorMessage')}
-                        <FeedbackLink config={config} error={error} altText={getMessage('openAnIssue')} />
+                        <FeedbackLink config={config} error={error}>
+                            {getMessage('openAnIssue')}
+                        </FeedbackLink>
                     </p>
                     <div className={styles.actions}>
                         <Button type="submit" primary={true}>
