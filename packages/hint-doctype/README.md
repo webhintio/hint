@@ -38,8 +38,8 @@ in the document.
 Although an alternative legacy compatibility `doctype` is available,
 this hint does not recommend it. It is a common misconception that
 the legacy compatibility `doctype` refers to compatibility with
-legacy browsers, when, in fact, it is used to deal with [compatibility
-issues with outdated XML tools][compat issue].
+legacy browsers, when, in fact, it is used to deal with compatibility
+issues with outdated XML tools.
 
 ### Examples that **trigger** the hint
 
@@ -126,7 +126,6 @@ configuration file:
 
 <!-- Link labels: -->
 
-[compat issue]: http://bugzilla.bluegriffon.org/show_bug.cgi?id=634#c0
 [docmdn]: https://developer.mozilla.org/en-US/docs/Glossary/DOCTYPE
 [docwiki]: https://en.wikipedia.org/wiki/Document_type_declaration
 [hsivonen]: https://hsivonen.fi/doctype/
