@@ -8,6 +8,7 @@ import FeedbackLink from '../../controls/feedback-link';
 import Label from '../../controls/label';
 import LabelText from '../../controls/label-text';
 import Toggle from '../../controls/toggle';
+import { Config } from '../../../../shared/types';
 
 import * as styles from './header.css';
 
@@ -16,9 +17,10 @@ type Props = {
     setShowPassed: (showPassed: boolean) => void;
     showPassed: boolean;
     url: string;
+    config: Config;
 };
 
-const ResultsHeader = ({ onConfigureClick, showPassed, setShowPassed, url }: Props) => {
+const ResultsHeader = ({ config, onConfigureClick, showPassed, setShowPassed, url }: Props) => {
 
     const onShowPassedChange = useCallback((event: FormEvent<HTMLInputElement>) => {
         const input = (event.target as HTMLInputElement);
@@ -32,7 +34,7 @@ const ResultsHeader = ({ onConfigureClick, showPassed, setShowPassed, url }: Pro
                 <h1 className={`${styles.title} ${styles.headerText}`}>
                     {getMessage('scanResultTitle')}
                 </h1>
-                <FeedbackLink />
+                <FeedbackLink config={config}/>
             </div>
             <div className={styles.headerText}>
                 {getMessage('targetUrl', url)}

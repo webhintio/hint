@@ -48,6 +48,10 @@ module.exports = (env) => {
                         loader: 'svg-url-loader',
                         options: { noquotes: true }
                     }
+                },
+                {
+                    test: /\.md$/,
+                    use: 'raw-loader'
                 }
             ]
         },
