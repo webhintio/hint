@@ -6,7 +6,8 @@ import * as isCI from 'is-ci';
 import { default as ora } from 'ora';
 import * as osLocale from 'os-locale';
 
-import { appInsights, configStore, debug as d, fs, logger, misc, network, npm } from '@hint/utils';
+import { appInsights, configStore, debug as d, fs, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity } from '@hint/utils';
+import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
 
 import {
     AnalyzerError,
@@ -17,11 +18,11 @@ import {
     UserConfig
 } from '../types';
 import { loadHintPackage } from '../utils/packages/load-hint-package';
-import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
 
 import { createAnalyzer, getUserConfig } from '../';
 import { Analyzer } from '../analyzer';
 import { AnalyzerErrorStatus } from '../enums/error-status';
+import { loadConfiguration } from '../utils';
 
 const { getAsUris } = network;
 const { askQuestion, mergeEnvWithOptions } = misc;
@@ -77,6 +78,63 @@ or set the flag --tracking=on|off`;
     printFrame(message);
 };
 
+const getHintsForTelemetry = (hints?: HintsConfigObject | (string | any)[]) => {
+    if (!hints) {
+        return null;
+    }
+
+    const normalizedHints = normalizeHints(hints);
+    const result = {} as HintsConfigObject;
+
+    for (const [hintId, severity] of Object.entries(normalizedHints)) {
+        result[hintId] = typeof severity === 'string' ? severity : (severity as [HintSeverity, any])[0];
+    }
+
+    return result;
+};
+
+const getHintsFromConfiguration = (configName: string, parentConfigs: string[] = []) => {
+    try {
+        const configuration = loadConfiguration(configName, parentConfigs);
+
+        return {
+            ...getHintsFromConfigurations(configuration.extends, [configName, ...parentConfigs]), // eslint-disable-line no-use-before-define,@typescript-eslint/no-use-before-define
+            ...getHintsForTelemetry(configuration.hints)
+        };
+    } catch (e) { // If the configuration doesn't exists, ignore it and returns an empty object.
+        return {};
+    }
+};
+
+const getHintsFromConfigurations = (configurations?: string[], parentConfigs: string[] = []): any => {
+    if (!configurations || configurations.length === 0) {
+        return {};
+    }
+
+    const config = configurations[0];
+
+    return {
+        ...getHintsFromConfiguration(config, parentConfigs),
+        ...getHintsFromConfigurations(configurations.slice(1), parentConfigs)
+    };
+};
+
+const pruneUserConfig = (userConfig: UserConfig) => {
+    return {
+        browserslist: userConfig.browserslist,
+        connector: userConfig.connector ? (userConfig.connector as ConnectorConfig).name || userConfig.connector : undefined,
+        extends: userConfig.extends,
+        formatters: userConfig.formatters,
+        hints: {
+            ...getHintsFromConfigurations(userConfig.extends),
+            ...getHintsForTelemetry(userConfig.hints)
+        },
+        hintsTimeout: userConfig.hintsTimeout,
+        language: userConfig.language,
+        parsers: userConfig.parsers
+    };
+};
+
 /** Ask user if he wants to activate the telemetry or not. */
 const askForTelemetryConfirmation = async (userConfig: UserConfig) => {
     if (appInsights.isConfigured()) {
@@ -111,7 +169,7 @@ const askForTelemetryConfirmation = async (userConfig: UserConfig) => {
         appInsights.enable();
 
         appInsights.trackEvent('SecondRun');
-        appInsights.trackEvent('analyze', userConfig);
+        appInsights.trackEvent('analyze', pruneUserConfig(userConfig));
 
         return;
     }
@@ -332,7 +390,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    appInsights.trackEvent('analyze', userConfig!);
+    appInsights.trackEvent('analyze', pruneUserConfig(userConfig));
 
     const start = Date.now();
     let exitCode = 0;
@@ -369,6 +427,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             updateCallback: undefined
         };
 
+        /* istanbul ignore else */
         if (!actions.debug) {
             analyzerOptions.updateCallback = (update) => {
                 spinner.text = update.message;
