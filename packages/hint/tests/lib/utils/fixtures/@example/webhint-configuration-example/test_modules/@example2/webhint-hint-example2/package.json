@@ -1,0 +1,6 @@
+{
+  "main": "index.js",
+  "name": "@example2/webhint-hint-example2",
+  "private": true,
+  "version": "1.0.0"
+}

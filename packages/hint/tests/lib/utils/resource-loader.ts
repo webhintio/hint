@@ -3,8 +3,10 @@
  * missing packages.
  */
 import * as path from 'path';
+import { promisify } from 'util';
 
 import test from 'ava';
+import * as cpx from 'cpx';
 import * as sinon from 'sinon';
 import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
@@ -15,6 +17,8 @@ import { Configuration } from '../../../src/lib/config';
 import { ResourceType } from '../../../src/lib/enums/resource-type';
 import { ResourceError } from '../../../src/lib/types/resource-error';
 import { ResourceErrorStatus } from '../../../src/lib/enums/error-status';
+
+const copy = promisify(cpx.copy);
 
 const cacheKey = path.resolve(__dirname, '../../../src/lib/utils/resource-loader.js');
 
@@ -69,27 +73,63 @@ test.serial('tryToLoadFrom does nothing if the package itself is missing', async
     sandbox.restore();
 });
 
-// TODO: Add tests to verify the order of loading is the right one: core -> scoped -> prefixed. This only checks core resources
-test('loadResource looks for resources in the right order (core > @hint > hint- ', async (t) => {
+test('loadResource looks for resources in the right order (@hint > webhint- > core)', async (t) => {
     cleanCache();
 
     const resourceLoader = await import('../../../src/lib/utils/resource-loader');
     const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
     const resourceName = 'missing-hint';
-    const resourceType: ResourceType = ResourceType.hint;
+    const resourceType = ResourceType.hint;
 
-    tryToLoadFromStub.onFirstCall().returns(null);
-    tryToLoadFromStub.onSecondCall().returns(null);
-    tryToLoadFromStub.onThirdCall().returns(null);
     tryToLoadFromStub.returns(null);
 
     t.throws(() => {
         resourceLoader.loadResource(resourceName, resourceType);
     });
 
-    t.true((tryToLoadFromStub.firstCall.args[0] as string).endsWith(`${resourceName}`), 'Tries to load scoped package second');
-    t.true((tryToLoadFromStub.secondCall.args[0] as string).endsWith(`hint-${resourceName}`), 'Tries to load prefixed package third');
+    t.is(tryToLoadFromStub.firstCall.args[0], `@hint/${resourceType}-${resourceName}`, 'Tries to load scoped package second');
+    t.is(tryToLoadFromStub.secondCall.args[0], `webhint-${resourceType}-${resourceName}`, 'Tries to load prefixed package third');
     t.true((tryToLoadFromStub.thirdCall.args[0] as string).endsWith(path.normalize(`/dist/src/lib/${resourceType}s/${resourceName}/${resourceName}.js`)), 'Tries to load core first');
+
+    tryToLoadFromStub.restore();
+});
+
+test('loadResource looks for resources with full package names by their full name only', async (t) => {
+    cleanCache();
+
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
+    const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
+    const resourceName = '@example/webhint-hint-missing';
+    const resourceType = ResourceType.hint;
+
+    tryToLoadFromStub.returns(null);
+
+    t.throws(() => {
+        resourceLoader.loadResource(resourceName, resourceType);
+    });
+
+    t.true(tryToLoadFromStub.calledOnce);
+    t.is(tryToLoadFromStub.firstCall.args[0], resourceName);
+
+    tryToLoadFromStub.restore();
+});
+
+test('loadResource looks for first-party resources with full package names by their full name only', async (t) => {
+    cleanCache();
+
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
+    const tryToLoadFromStub = sinon.stub(resourceLoader, 'tryToLoadFrom');
+    const resourceName = '@hint/hint-missing';
+    const resourceType = ResourceType.hint;
+
+    tryToLoadFromStub.returns(null);
+
+    t.throws(() => {
+        resourceLoader.loadResource(resourceName, resourceType);
+    });
+
+    t.true(tryToLoadFromStub.calledOnce);
+    t.is(tryToLoadFromStub.firstCall.args[0], resourceName);
 
     tryToLoadFromStub.restore();
 });
@@ -340,6 +380,42 @@ test('loadResources loads all the resources of a given config', async (t) => {
 
     t.true(resources.missing.length > 0, `Found all resources`);
 });
+
+test('loadResources loads all the resources of a given config (full package name)', async (t) => {
+    cleanCache();
+
+    // Make hints under `test_modules` nested dependencies of `webhint-configuration-example`.
+    await copy('tests/lib/utils/fixtures/@example/webhint-configuration-example/test_modules/**', 'tests/lib/utils/fixtures/@example/webhint-configuration-example/node_modules');
+
+    // Put `webhint-configuration-example` in the `require` path.
+    await copy('tests/lib/utils/fixtures/@example/**', 'node_modules/@example');
+
+    const config: Configuration = {
+        browserslist: [],
+        connector: {
+            name: 'jsdom',
+            options: {}
+        },
+        extends: ['@example/webhint-configuration-example'],
+        formatters: ['json'],
+        hints: {
+            '@example/webhint-hint-example': 'error',
+            '@example2/webhint-hint-example2': 'error',
+            'webhint-hint-example3': 'error'
+        },
+        hintsTimeout: 1000,
+        ignoredUrls: new Map(),
+        language: '',
+        parsers: []
+    };
+    const resourceLoader = await import('../../../src/lib/utils/resource-loader');
+    const resources = resourceLoader.loadResources(config);
+
+    t.is(resources.hints.length, 3);
+    t.is(resources.incompatible.length, 0);
+    t.is(resources.missing.length, 0);
+});
+
 /**
  * More tests:
  *

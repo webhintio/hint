@@ -257,11 +257,30 @@ const getResource = (source: string, type: ResourceType, name: string) => {
 };
 
 /**
+ * Check if a name represents a full package name for the specified resource type.
+ * E.g. for `hint` allowed values would be `@example/webhint-hint-foo` or
+ * `webhint-hint-foo` (where `example` and `foo` are custom). Also allows internal
+ * resource references for multi-hint scenarios (e.g. `webhint-hint-foo/subhint`).
+ */
+const isFullPackageName = (packageName: string, type: ResourceType): boolean => {
+    const parts = packageName.split('/');
+    const name = parts.length >= 2 && parts[0].startsWith('@') ? parts[1] : packageName;
+
+    if (parts[0] === '@hint') {
+        return name.startsWith(`${type}-`);
+    }
+
+    return name.startsWith(`webhint-${type}-`);
+};
+
+/**
  * Looks inside the configurations looking for resources.
  */
 const generateConfigPathsToResources = (configurations: string[], name: string, type: ResourceType) => {
     return configurations.reduce((total: string[], configuration: string) => {
-        const basePackagePaths = ['@hint/configuration-', 'hint-configuration-'];
+        const basePackagePaths = isFullPackageName(configuration, ResourceType.configuration) ?
+            [''] :
+            ['@hint/configuration-', 'webhint-configuration-'];
 
         let result = total;
 
@@ -270,8 +289,11 @@ const generateConfigPathsToResources = (configurations: string[], name: string, 
 
             try {
                 const packagePath = path.dirname(resolvePackage(packageName));
+                const resourceGlob = isFullPackageName(name, type) ?
+                    name :
+                    `{@hint/,webhint-}${type}-${name}`;
 
-                const resourcePackages = globby.sync(`node_modules/{@hint/,hint-}${type}-${name}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
+                const resourcePackages = globby.sync(`node_modules/${resourceGlob}/package.json`, { absolute: true, cwd: packagePath }).map((pkg) => {
                     return path.dirname(pkg);
                 });
 
@@ -293,21 +315,29 @@ const generateConfigPathsToResources = (configurations: string[], name: string, 
  *
  * 1. core resource
  * 2. `@hint/` scoped package
- * 3. `hint-` prefixed package
+ * 3. `webhint-` prefixed package
  * 4. external hints
  *
  */
 export const loadResource = (name: string, type: ResourceType, configurations: string[] = [], verifyVersion = false) => {
     debug(`Searching ${name}…`);
     const isSource = fs.existsSync(name); // eslint-disable-line no-sync
-    const nameSplitted = name.split('/');
+    const isPackage = isFullPackageName(name, type);
+    const nameParts = name.split('/');
 
-    const packageName = nameSplitted[0];
+    let scope = '';
+    let unscopedNameParts = nameParts;
+
+    if (isPackage && nameParts[0].startsWith('@')) {
+        scope = `${nameParts[0]}/`;
+        unscopedNameParts = nameParts.slice(1);
+    }
+
+    const packageName = `${scope}${unscopedNameParts[0]}`;
     const resourceName = isSource ?
-        name :
-        nameSplitted[1] || packageName;
+        name : unscopedNameParts[1] || packageName;
 
-    const key: string = isSource ?
+    const key = isPackage || isSource ?
         name :
         `${type}-${name}`;
 
@@ -326,17 +356,22 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
      * i.e.
      * if we want to load the hint `hint-typescript-config/is-valid` the key for the cache
      * has to be `hint-typescript-config/is-valid`.
-     * But we need to load the package `typescript-config`.
+     * But we need to load the package `hint-typescript-config`.
      */
-    const sources: string[] = isSource ?
-        [path.resolve(currentProcessDir, name)] : // If the name is direct path to the source we should only check that
-        [
+    let sources: string[];
+
+    if (isSource) {
+        sources = [path.resolve(currentProcessDir, name)]; // If the name is direct path to the source we should only check that.
+    } else if (isPackage) {
+        sources = [packageName].concat(configPathsToResources); // If the name is a full package name we should only check that, but look for it in config paths as well.
+    } else {
+        sources = [
             `@hint/${type}-${packageName}`, // Officially supported package
             `webhint-${type}-${packageName}`, // Third party package
             path.normalize(`${HINT_ROOT}/dist/src/lib/${type}s/${packageName}/${packageName}.js`), // Part of core. E.g.: built-in formatters, parsers, connectors
             path.normalize(currentProcessDir) // External hints.
-            // path.normalize(`${path.resolve(HINT_ROOT, '..')}/${key}`) // Things under `/packages/` for when we are developing something official. E.g.: `/packages/hint-http-cache`
         ].concat(configPathsToResources);
+    }
 
     let resource: any;
     let loadedSource: string;
@@ -417,10 +452,12 @@ const loadListOfResources = (list: string[] | Object = [], type: ResourceType, c
 
             loaded.push(resource);
         } catch (e) {
+            const name = isFullPackageName(resourceId, type) ? resourceId : `${type}-${resourceId}`;
+
             if (e.status === ResourceErrorStatus.NotCompatible) {
-                incompatible.push(`${type}-${resourceId}`);
+                incompatible.push(name);
             } else if (e.status === ResourceErrorStatus.NotFound) {
-                missing.push(`${type}-${resourceId}`);
+                missing.push(name);
             } else {
                 throw e;
             }
