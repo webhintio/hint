@@ -61,6 +61,7 @@ you will be warned when a hint is going to be ignored
 for a connector.
 
 e.g.
+
 ```text
 Warning: The hint "babel-config/is-valid" will be ignored for the connector "puppeteer"
 ```

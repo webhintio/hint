@@ -94,9 +94,9 @@ const App = (props: Props) => {
             case Page.Config:
                 return <ConfigPage disabled={isAnalyzing} onStart={onStart}/>;
             case Page.Error:
-                return <ErrorPage disabled={isAnalyzing} error={error} onConfigure={onConfigure} onRestart={onRestart}/>;
+                return <ErrorPage config={config} disabled={isAnalyzing} error={error} onConfigure={onConfigure} onRestart={onRestart}/>;
             case Page.Results:
-                return <ResultsPage disabled={isAnalyzing} results={results} onConfigure={onConfigure} onRestart={onRestart}/>;
+                return <ResultsPage disabled={isAnalyzing} config={config} results={results} onConfigure={onConfigure} onRestart={onRestart}/>;
             default:
                 throw new Error(`Unknown page: ${page}`);
         }

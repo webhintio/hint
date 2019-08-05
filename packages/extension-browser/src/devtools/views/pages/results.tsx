@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 
-import { Results as ResultsData } from '../../../shared/types';
+import { Results as ResultsData, Config } from '../../../shared/types';
 
 import PoweredBy from '../powered-by';
 import Page from '../page';
@@ -12,6 +12,9 @@ import ResultsHeader from './results/header';
 import * as styles from './results.css';
 
 type Props = {
+    /** Configuration used for the analysis. */
+    config: Config;
+
     disabled?: boolean;
 
     /** Listener for when the user decides to configure a new scan. */
@@ -27,7 +30,7 @@ type Props = {
 /**
  * Display problems reported by a scan.
  */
-const ResultsPage = ({ disabled, onConfigure, onRestart, results }: Props) => {
+const ResultsPage = ({ config, disabled, onConfigure, onRestart, results }: Props) => {
     const [showPassed, setShowPassed] = useState(true);
 
     const shownCategories = results.categories.filter((category) => {
@@ -36,7 +39,7 @@ const ResultsPage = ({ disabled, onConfigure, onRestart, results }: Props) => {
 
     return (
         <Page className={styles.root} disabled={disabled} onAction={onRestart}>
-            <ResultsHeader showPassed={showPassed} url={results.url} onConfigureClick={onConfigure} setShowPassed={setShowPassed} />
+            <ResultsHeader showPassed={showPassed} url={results.url} onConfigureClick={onConfigure} setShowPassed={setShowPassed} config={config} />
             <div className={styles.results}>
                 <nav className={styles.nav}>
                     <ul className={styles.summary}>

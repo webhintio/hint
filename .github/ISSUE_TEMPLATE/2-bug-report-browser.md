@@ -28,7 +28,6 @@ resolution, or progress updates.
 
 * __webhint version:__ <!-- ✍️ Menu > Add-ons / Extensions -->
 * __Browser version:__ <!-- ✍️ Menu > Help > About  -->
-* __Operating system:__ <!-- ✍️ -->
 * __URL for which webhint failed:__ <!-- ✍️ -->
 
 ## `webhint` configuration
@@ -46,12 +45,12 @@ Categories:
 
 Your target browsers:
 * [x] Recommended settings
-* [ ] Custom: <!-- ✍️ -->
+* [ ] Custom: <!-- Custom target browsers -->
 
 Ignored resources:
 * [x] None
 * [ ] Different origin
-* [ ] Custom: <!-- ✍️ -->
+* [ ] Custom: <!-- Custom ignored resources -->
 
 </details>
 

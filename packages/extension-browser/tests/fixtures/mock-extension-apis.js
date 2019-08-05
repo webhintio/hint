@@ -1,7 +1,9 @@
 (function() {
     window.browser = {
         devtools: {
-            inspectedWindow: { tabId: 1 },
+            inspectedWindow: {
+                eval() {},
+                tabId: 1 },
             network: {
                 getHAR: () => {},
                 onRequestFinished: {

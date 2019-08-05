@@ -26,12 +26,15 @@ const mockExtensionAPIs = (results: Results) => {
 
         (window as any).browser = {
             devtools: {
-                inspectedWindow: { tabId: 1 },
+                inspectedWindow: {
+                    eval() { },
+                    tabId: 1
+                },
                 network: {
-                    getHAR: () => {},
+                    getHAR: () => { },
                     onRequestFinished: {
-                        addListener: () => {},
-                        removeListener: () => {}
+                        addListener: () => { },
+                        removeListener: () => { }
                     }
                 },
                 panels: { themeName: 'dark' }

@@ -71,7 +71,7 @@ const ConfigPage = ({ disabled, onStart }: Props) => {
 
     return (
         <Page className={styles.root} disabled={disabled} onAction={onAnalyzeClick}>
-            <ConfigHeader />
+            <ConfigHeader config={config} />
             <main>
                 <div className={styles.categories}>
                     <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange} />

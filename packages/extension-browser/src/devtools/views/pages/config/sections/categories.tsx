@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { useCallback, FormEvent } from 'react';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
 import { getCategoryName } from '@hint/utils/dist/src/i18n/get-category-name';
 
-import metas from '../../../../../shared/metas.import';
-
 import { getMessage } from '../../../../utils/i18n';
+import { getCategories } from '../../../../utils/categories';
 
 import Checkbox from '../../../controls/checkbox';
 import LabelText from '../../../controls/label-text';
@@ -22,10 +20,7 @@ type Props = {
     onChange: (disabled?: string[]) => void;
 };
 
-// Extract category names from bundled hint metadata.
-const categories = [...new Set(metas.map((meta) => {
-    return (meta.docs && meta.docs.category || Category.other);
-}))].sort();
+const categories = getCategories();
 
 /**
  * Display options to include/exclude entire categories of hints from a scan.
