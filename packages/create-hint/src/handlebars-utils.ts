@@ -1,23 +1,21 @@
 import * as Handlebars from 'handlebars';
-
 import { fs } from '@hint/utils';
-import { utils } from 'hint';
+import { loadCreateHintPackage } from './utils';
 
-const { packages: { loadHintPackage } } = utils;
 const { readFileAsync } = fs;
 
-const pkg = loadHintPackage();
+const pkg = loadCreateHintPackage();
 
 /**
- * Searches the current version used for a package in `hint` and uses that version or the `defaultVersion`.
+ * Searches package version in `create-hint/package.json` for given `packageName` and uses that version or the `defaultVersion`.
+ *
+ * It is recommended to add package as `devDependencies` in `create-hint/package.json` whenever new `package` is added to `package.hbs` template.
  *
  * This is used when creating a new hint via the CLI to make sure the dependencies are up-to-date in the moment
  * of creation.
  */
 Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): string => {
-    const version = packageName === 'hint' ?
-        `^${pkg.version}` :
-        pkg.dependencies[packageName] ||
+    const version = pkg.dependencies[packageName] ||
         pkg.devDependencies[packageName] ||
         defaultVersion;
 
