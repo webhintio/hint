@@ -19,7 +19,6 @@ import * as notifications from './notifications';
 import { trackClose, trackResult, trackSave } from './utils/analytics';
 
 let workspace = '';
-let openExternalCompleteListener: Function | null = null;
 
 // Connect to the language client.
 const connection = createConnection(ProposedFeatures.all);
@@ -166,25 +165,18 @@ const showTelemetryMessage = async () => {
         return;
     }
 
-    const yesResponse = 'Yes';
-    const noResponse = 'No';
-    const learnResponse = 'Learn more';
+    const yesResponse = 'Enable telemetry';
+    const noResponse = 'No thanks';
     const answer = await connection.window.showInformationMessage(
-        'Help us improve webhint by sending limited usage information (no personal information or URLs will be sent).',
+        'Help us improve webhint by sending [limited usage information](https://webhint.io/docs/user-guide/telemetry/summary/) (no personal information or URLs will be sent).',
         { title: yesResponse },
-        { title: noResponse },
-        { title: learnResponse }
+        { title: noResponse }
     );
 
     if (answer && answer.title === yesResponse) {
         appInsights.enable();
     } else if (answer && answer.title === noResponse) {
         appInsights.disable();
-    } else if (answer && answer.title === learnResponse) {
-        connection.sendNotification(notifications.openExternal, 'https://webhint.io/docs/user-guide/telemetry/summary/');
-        openExternalCompleteListener = () => {
-            showTelemetryMessage();
-        };
     }
 };
 
@@ -203,13 +195,6 @@ connection.onInitialize((params) => {
     workspace = params.rootPath || '';
 
     showTelemetryMessage();
-
-    connection.onNotification(notifications.openExternalComplete, () => {
-        if (openExternalCompleteListener) {
-            openExternalCompleteListener();
-            openExternalCompleteListener = null;
-        }
-    });
 
     return { capabilities: { textDocumentSync: documents.syncKind } };
 });
