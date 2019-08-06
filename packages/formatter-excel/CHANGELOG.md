@@ -1,3 +1,11 @@
+# 3.1.3 (August 6, 2019)
+
+## Chores
+
+* [[`93322e50e3`](https://github.com/webhintio/hint/commit/93322e50e3b5ac067934bf952f980531b3687233)] - Upgrade: Bump @types/node from 12.6.8 to 12.6.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0d710cdb51`](https://github.com/webhintio/hint/commit/0d710cdb51b0f7c7ac1d09d73f319cc59800f03c)] - Upgrade: Bump exceljs from 1.13.0 to 1.14.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.1.2 (July 30, 2019)
 
 ## Chores

@@ -1,3 +1,10 @@
+# 7.0.3 (August 6, 2019)
+
+## Bug fixes / Improvements
+
+* [[`4028147d82`](https://github.com/webhintio/hint/commit/4028147d8266430a935c09c8143c84ea791fce8d)] - Fix: Disable hints which only check for existence (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 7.0.2 (July 30, 2019)
 
 ## Bug fixes / Improvements

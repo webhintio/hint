@@ -1,3 +1,14 @@
+# 1.2.3 (August 6, 2019)
+
+## Bug fixes / Improvements
+
+* [[`88c2f2b881`](https://github.com/webhintio/hint/commit/88c2f2b8814b8e956539f1f16f1290e887037ef4)] - Fix: False positives for React.createElement (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2706`](https://github.com/webhintio/hint/issues/2706)).
+
+## Chores
+
+* [[`93322e50e3`](https://github.com/webhintio/hint/commit/93322e50e3b5ac067934bf952f980531b3687233)] - Upgrade: Bump @types/node from 12.6.8 to 12.6.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.2.2 (July 30, 2019)
 
 ## Chores

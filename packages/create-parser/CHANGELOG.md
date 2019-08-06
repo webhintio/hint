@@ -1,3 +1,11 @@
+# 2.1.6 (August 6, 2019)
+
+## Chores
+
+* [[`93322e50e3`](https://github.com/webhintio/hint/commit/93322e50e3b5ac067934bf952f980531b3687233)] - Upgrade: Bump @types/node from 12.6.8 to 12.6.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e01a9c0585`](https://github.com/webhintio/hint/commit/e01a9c05856802bc6d8b94a8cc9016d08d5fa830)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 1.4.3 to 1.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.1.5 (July 30, 2019)
 
 ## Chores

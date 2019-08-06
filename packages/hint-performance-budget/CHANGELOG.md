@@ -1,3 +1,10 @@
+# 2.3.3 (August 6, 2019)
+
+## Chores
+
+* [[`93322e50e3`](https://github.com/webhintio/hint/commit/93322e50e3b5ac067934bf952f980531b3687233)] - Upgrade: Bump @types/node from 12.6.8 to 12.6.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.3.2 (July 30, 2019)
 
 ## Chores

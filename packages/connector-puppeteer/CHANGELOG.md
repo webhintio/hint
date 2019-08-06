@@ -1,3 +1,15 @@
+# 2.0.3 (August 6, 2019)
+
+## Bug fixes / Improvements
+
+* [[`909aa2f839`](https://github.com/webhintio/hint/commit/909aa2f839fe6f994f77d6601ef13f13819c2143)] - Fix: Error getting favicon with puppeteer in node 8 with headless (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2775`](https://github.com/webhintio/hint/issues/2775)).
+* [[`98b25bafbb`](https://github.com/webhintio/hint/commit/98b25bafbb51dd9a83d88ebcbe951352a70a3f31)] - Docs: Add documentation for `puppeteerOptions` (by [`Tony Ross`](https://github.com/antross) / see also: [`#2772`](https://github.com/webhintio/hint/issues/2772)).
+
+## Chores
+
+* [[`93322e50e3`](https://github.com/webhintio/hint/commit/93322e50e3b5ac067934bf952f980531b3687233)] - Upgrade: Bump @types/node from 12.6.8 to 12.6.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.0.2 (July 30, 2019)
 
 ## Chores

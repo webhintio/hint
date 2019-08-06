@@ -8,7 +8,7 @@
   },
   "description": "A hint formatter that outputs the issues in an HTML file.",
   "dependencies": {
-    "@hint/utils": "^3.1.1",
+    "@hint/utils": "^3.1.2",
     "ejs": "^2.6.2",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.13",
@@ -29,7 +29,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-markdown": "^1.0.0",
     "globby": "^10.0.1",
-    "hint": "^5.1.2",
+    "hint": "^5.2.0",
     "npm-link-check": "^3.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.1.0",
@@ -59,7 +59,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.1.2"
+    "hint": "^5.2.0"
   },
   "repository": "webhintio/hint",
   "scripts": {
@@ -81,5 +81,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.1"
+  "version": "4.1.2"
 }

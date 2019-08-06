@@ -7,14 +7,14 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^3.1.1",
+    "@hint/utils": "^3.1.2",
     "js-library-detector": "^5.4.0",
     "lodash": "^4.17.13",
     "semver": "^6.3.0"
   },
   "description": "hint that that checks using Snyk for vulnerable JavaScript libraries",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.3",
+    "@hint/utils-tests-helpers": "^5.0.4",
     "@types/node": "^12.6.9",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -24,7 +24,7 @@
     "eslint": "^5.15.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-markdown": "^1.0.0",
-    "hint": "^5.1.2",
+    "hint": "^5.2.0",
     "jquery": "2.1.4",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
     "moment": "2.24.0",
@@ -55,7 +55,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.1.2"
+    "hint": "^5.2.0"
   },
   "repository": "webhintio/hint",
   "scripts": {
@@ -78,5 +78,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.9.2"
+  "version": "2.9.3"
 }

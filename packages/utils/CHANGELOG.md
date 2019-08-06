@@ -1,3 +1,10 @@
+# 3.1.2 (August 6, 2019)
+
+## Chores
+
+* [[`7b3d1fe737`](https://github.com/webhintio/hint/commit/7b3d1fe737559e01b9ff5e486341e88e4b705726)] - Upgrade: Bump mdn-browser-compat-data from 0.0.87 to 0.0.88 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.1.1 (July 30, 2019)
 
 ## Bug fixes / Improvements

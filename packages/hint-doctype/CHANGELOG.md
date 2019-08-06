@@ -1,3 +1,14 @@
+# 3.2.3 (August 6, 2019)
+
+## Bug fixes / Improvements
+
+* [[`29e8909dde`](https://github.com/webhintio/hint/commit/29e8909ddec170289b64e24f085a11ba05d11ae9)] - Fix: Broken links in documentation (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2778`](https://github.com/webhintio/hint/issues/2778)).
+
+## Chores
+
+* [[`93322e50e3`](https://github.com/webhintio/hint/commit/93322e50e3b5ac067934bf952f980531b3687233)] - Upgrade: Bump @types/node from 12.6.8 to 12.6.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.2.2 (July 30, 2019)
 
 ## Chores

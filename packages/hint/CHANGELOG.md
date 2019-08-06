@@ -1,3 +1,21 @@
+# 5.2.0 (August 6, 2019)
+
+## Bug fixes / Improvements
+
+* [[`3d8981f1a9`](https://github.com/webhintio/hint/commit/3d8981f1a94ce56e3206d9b352389d74c2887609)] - Fix: Prune UserConfig data (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2742`](https://github.com/webhintio/hint/issues/2742)).
+* [[`b486402c32`](https://github.com/webhintio/hint/commit/b486402c3240fd90c840232c65251c02d4795ffb)] - Docs: Update documentation to specify scan result status data (by [`Tony Ross`](https://github.com/antross)).
+* [[`68b632d68b`](https://github.com/webhintio/hint/commit/68b632d68b998e75c8027776cf96d58ed1961a6e)] - Docs: Update readme and docs with missing information (by [`Jaspreet Singh`](https://github.com/jaspreet57) / see also: [`#2770`](https://github.com/webhintio/hint/issues/2770)).
+
+## New features
+
+* [[`f36055c685`](https://github.com/webhintio/hint/commit/f36055c685d7f7361dc84556e44a78ccbca246be)] - New: Allow full package names in .hintrc (by [`Tony Ross`](https://github.com/antross) / see also: [`#2654`](https://github.com/webhintio/hint/issues/2654)).
+
+## Chores
+
+* [[`b7caa53fe6`](https://github.com/webhintio/hint/commit/b7caa53fe6c381e554833a4cce522dcc5e3a0935)] - Chore: Update resource loader test to not depend on peer packages.
+* [[`93322e50e3`](https://github.com/webhintio/hint/commit/93322e50e3b5ac067934bf952f980531b3687233)] - Upgrade: Bump @types/node from 12.6.8 to 12.6.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 5.1.2 (July 30, 2019)
 
 ## Bug fixes / Improvements

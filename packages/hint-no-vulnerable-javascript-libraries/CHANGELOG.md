@@ -1,3 +1,14 @@
+# 2.9.3 (August 6, 2019)
+
+## New features
+
+* [[`98b872ff0e`](https://github.com/webhintio/hint/commit/98b872ff0e0bd18722f2568ddafa381877063c5e)] - Update: 'snyk-snapshot.json'.
+
+## Chores
+
+* [[`93322e50e3`](https://github.com/webhintio/hint/commit/93322e50e3b5ac067934bf952f980531b3687233)] - Upgrade: Bump @types/node from 12.6.8 to 12.6.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.9.2 (July 30, 2019)
 
 ## New features
