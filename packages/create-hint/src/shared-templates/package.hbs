@@ -65,11 +65,12 @@
   "repository": "webhintio/hint",{{else}}
   "repository": "",{{/if}}
   "scripts": {
-    "build": "npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build": "{{#if official}}npm run i18n && {{/if}}npm-run-all build:*",
+    "build-release": "npm run clean && {{#if official}}npm run i18n && {{/if}}npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist",{{#if official}}
+    "i18n": "node ../../scripts/create-i18n.js",{{/if}}
     "lint": "npm-run-all lint:*",{{#if official}}
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",

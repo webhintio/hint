@@ -385,7 +385,11 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
     }
 
     for (const hint of data.hints) {
-        const [hintContent, testContent, metaContent] = await Promise.all([compileTemplate(hintFile.path, hint), compileTemplate(testFile.path, hint), compileTemplate(metaFile.path, hint)]);
+        const [hintContent, testContent, metaContent] = await Promise.all([
+            compileTemplate(hintFile.path, { hint, packageData: data }),
+            compileTemplate(testFile.path, hint),
+            compileTemplate(metaFile.path, { hint, packageData: data })
+        ]);
         const { metaPath, hintPath, testPath } = data.isMulti ?
             {
                 hintPath: join(hintFile.destination, `${hint.normalizedName}.ts`),
@@ -411,6 +415,19 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
             await mkdirpAsync(dirname(docPath));
             await writeFileAsync(docPath, docContent);
         }
+    }
+
+    // Create `_locales` directory
+    if (data.official) {
+        const localeDir = {
+            destination: join(destination, 'src', '_locales', 'en', 'messages.json'),
+            path: join(__dirname, TEMPLATE_PATH, 'locales-messages.json.hbs')
+        };
+
+        const localesContent = await compileTemplate(localeDir.path, data);
+
+        await mkdirpAsync(dirname(localeDir.destination));
+        await writeFileAsync(localeDir.destination, localesContent);
     }
 };
 

@@ -1,13 +1,35 @@
 import { Category } from 'hint/dist/src/lib/enums/category';
 import { HintScope } from 'hint/dist/src/lib/enums/hint-scope';
 import { HintMetadata } from 'hint/dist/src/lib/types';
+{{#if packageData.official}}
+
+import { getMessage } from './i18n.import';{{/if}}
 
 const meta: HintMetadata = {
     docs: {
-        category: Category.{{category}},
-        description: `{{description}}`
+        category: Category.{{hint.category}},{{#if packageData.official}}
+        description: getMessage('{{#if packageData.isMulti}}{{toCamelCase hint.normalizedName}}_{{/if}}description', 'en'),
+        name: getMessage('{{#if packageData.isMulti}}{{toCamelCase hint.normalizedName}}_{{/if}}name', 'en'){{else}}
+        description: `{{hint.description}}`,
+        name: `{{hint.normalizedName}}`{{/if}}
+    },{{#if packageData.official}}
+    /* istanbul ignore next */
+    getDescription(language: string) {
+        return getMessage('{{#if packageData.isMulti}}{{toCamelCase hint.normalizedName}}_{{/if}}description', language);
     },
-    id: '{{#if parentName}}{{parentName}}/{{/if}}{{normalizedName}}',
+    /* istanbul ignore next */
+    getName(language: string) {
+        return getMessage('{{#if packageData.isMulti}}{{toCamelCase hint.normalizedName}}_{{/if}}name', language);
+    },{{else}}
+    /* istanbul ignore next */
+    getDescription(language: string) {
+        return `{{hint.description}}`;
+    },
+    /* istanbul ignore next */
+    getName(language: string) {
+        return `{{hint.normalizedName}}`;
+    },{{/if}}
+    id: '{{#if hint.parentName}}{{hint.parentName}}/{{/if}}{{hint.normalizedName}}',
     schema: [
         /*
          * If you want to allow the user to configure your hint
@@ -15,7 +37,7 @@ const meta: HintMetadata = {
          * https://webhint.io/docs/contributor-guide/hints/#themetaproperty
          */
     ],
-    scope: HintScope.{{scope}}
+    scope: HintScope.{{hint.scope}}
 };
 
 export default meta;
