@@ -42,7 +42,11 @@ export default class CreateElementSvgHint implements IHint {
 
                     const arg = node.arguments[0];
 
-                    if (arg && 'value' in arg && typeof arg.value === 'string' && svgElements.has(arg.value.toLowerCase())) {
+                    /*
+                     * We are checking also the number of arguments to avoid some false positives.
+                     * For more info: https://github.com/webhintio/hint/issues/2706
+                     */
+                    if (arg && 'value' in arg && typeof arg.value === 'string' && svgElements.has(arg.value.toLowerCase()) && node.arguments.length === 1) {
                         const message = getMessage('svgElementCannotBeCreated', context.language);
                         const loc = node.callee.property.loc;
                         const codeLanguage = 'javascript';

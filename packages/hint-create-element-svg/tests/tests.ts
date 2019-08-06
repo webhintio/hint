@@ -29,6 +29,12 @@ const invalidCircleCreate = `const container = document.getElementById('containe
                              container.appendChild(circle);`;
 const invalidSvgCreate = `document.getElementById('container').appendChild(document.createElement('svg'));`;
 const validSvgCreate = `document.getElementById('container').appendChild(document.createElementNS('http://www.w3.org/2000/svg', 'svg'));`;
+const validSvgCreateNotDocument = `const tools = {
+        createElement(tag, options) { }
+    };
+
+    tools.createElement('svg', {});
+`;
 
 const tests: HintTest[] = [
     {
@@ -46,6 +52,10 @@ const tests: HintTest[] = [
     {
         name: 'Can use createElementNS to create SVG element',
         serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(validSvgCreate))
+    },
+    {
+        name: 'Can use createElement to create SVG element if is not document.createElement',
+        serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(validSvgCreateNotDocument))
     },
     {
         name: 'Should not use createElement to create Circle SVG element',
