@@ -393,11 +393,11 @@ test('loadResources loads all the resources of a given config (full package name
     const config: Configuration = {
         browserslist: [],
         connector: {
-            name: 'jsdom',
+            name: '@example/webhint-connector-example',
             options: {}
         },
         extends: ['@example/webhint-configuration-example'],
-        formatters: ['json'],
+        formatters: [],
         hints: {
             '@example/webhint-hint-example': 'error',
             '@example2/webhint-hint-example2': 'error',
