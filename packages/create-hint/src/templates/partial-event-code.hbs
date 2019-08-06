@@ -1,6 +1,6 @@
 const { resource } = {{event}};
 
-debug(`Validating hint {{name}}`);
+debug(`Validating hint {{hint.name}}`);
 
 /*
  * This is where all the magic happens. Any errors found should be
@@ -12,5 +12,9 @@ debug(`Validating hint {{name}}`);
  */
 
 if (Math.ceil(Math.random()) === 0) {
+    {{#if packageData.official}}
+    context.report(resource, getMessage('reportMessage', context.language));
+    {{else}}
     context.report(resource, 'Add error message here.');
+    {{/if}}
 }

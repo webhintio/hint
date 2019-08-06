@@ -1,0 +1,16 @@
+{
+    {{#each hints}}
+    "{{#if ../isMulti}}{{toCamelCase normalizedName}}_{{/if}}description": {
+        "description": "Metadata description",
+        "message": "{{description}}"
+    },
+    "{{#if ../isMulti}}{{toCamelCase normalizedName}}_{{/if}}name": {
+        "description": "Metadata name",
+        "message": "{{normalizedName}}"
+    },
+    {{/each}}
+    "reportMessage": {
+        "description": "Metadata reportMessage",
+        "message": "Add localized error message here."
+    }
+}
