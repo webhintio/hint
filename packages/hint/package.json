@@ -21,7 +21,6 @@
     "optionator": "^0.8.2",
     "ora": "^3.4.0",
     "os-locale": "^4.0.0",
-    "semver": "^6.3.0",
     "update-notifier": "^3.0.1"
   },
   "description": "The linting tool for the web",
@@ -31,7 +30,6 @@
     "@types/cpx": "^1.5.0",
     "@types/lodash": "^4.14.136",
     "@types/node": "^12.6.9",
-    "@types/semver": "^6.0.1",
     "@types/sinon": "^7.0.13",
     "@types/update-notifier": "^2.5.0",
     "@typescript-eslint/eslint-plugin": "^1.13.0",

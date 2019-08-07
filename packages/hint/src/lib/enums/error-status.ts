@@ -1,9 +1,4 @@
-export enum ResourceErrorStatus {
-    DependencyError = 'DependencyError',
-    NotCompatible = 'NotCompatible',
-    NotFound = 'NotFound',
-    Unknown = 'Unknown'
-}
+export * from '@hint/utils/dist/src/types/resource-error-status';
 
 export enum AnalyzerErrorStatus {
     AnalyzeError = 'AnalyzeError',

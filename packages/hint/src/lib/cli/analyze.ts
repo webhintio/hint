@@ -6,7 +6,7 @@ import * as isCI from 'is-ci';
 import { default as ora } from 'ora';
 import * as osLocale from 'os-locale';
 
-import { appInsights, configStore, debug as d, fs, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity } from '@hint/utils';
+import { appInsights, configStore, debug as d, fs, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity, packages } from '@hint/utils';
 import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
 
 import {
@@ -17,7 +17,6 @@ import {
     HintResources,
     UserConfig
 } from '../types';
-import { loadHintPackage } from '../utils/packages/load-hint-package';
 
 import { createAnalyzer, getUserConfig } from '../';
 import { Analyzer } from '../analyzer';
@@ -28,6 +27,7 @@ const { getAsUris } = network;
 const { askQuestion, mergeEnvWithOptions } = misc;
 const { installPackages } = npm;
 const { cwd } = fs;
+const { loadHintPackage } = packages;
 const debug: debug.IDebugger = d(__filename);
 const configStoreKey: string = 'run';
 const spinner = ora({ spinner: 'line' });
