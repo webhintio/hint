@@ -31,7 +31,7 @@ export const getMessage = (message: MessageName, language: string, substitutions
         substitutions
     };
 
-    return getMessageGlobal(message, '${packageJSON.name}', options);
+    return getMessageGlobal(message, __dirname, options);
 };
 `;
 

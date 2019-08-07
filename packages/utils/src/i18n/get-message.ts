@@ -36,8 +36,8 @@ const getLanguages = (language: string) => {
     return languages;
 };
 
-const getMessages = (packageName: string, language: string): Messages => {
-    const cacheKey = `${packageName}-${language}`;
+const getMessages = (path: string, language: string): Messages => {
+    const cacheKey = `${path}-${language}`;
     const messages = cache.get(cacheKey);
 
     if (messages) {
@@ -51,7 +51,7 @@ const getMessages = (packageName: string, language: string): Messages => {
         }
 
         try {
-            const json = require(`${packageName}/dist/src/_locales/${lang}/messages.json`);
+            const json = require(`${path}/_locales/${lang}/messages.json`);
 
             return json;
         } catch (e) {
@@ -60,7 +60,7 @@ const getMessages = (packageName: string, language: string): Messages => {
     }, null as Messages | null);
 
     if (!json) {
-        throw new Error(`Localization file not found for ${packageName} and language: ${language}`);
+        throw new Error(`Localization file not found for ${path} and language: ${language}`);
     }
 
     cache.set(cacheKey, json);
@@ -68,11 +68,11 @@ const getMessages = (packageName: string, language: string): Messages => {
     return json;
 };
 
-export const getMessage = (key: string, packageName: string, options?: GetMessageOptions) => {
+export const getMessage = (key: string, path: string, options?: GetMessageOptions) => {
     const language = (options && options.language) || 'en';
     const substitutions = options && options.substitutions;
 
-    const messages = getMessages(packageName, language);
+    const messages = getMessages(path, language);
     const message = messages[key] && messages[key].message;
 
     if (!message) {
