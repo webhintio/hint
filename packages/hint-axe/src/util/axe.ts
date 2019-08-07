@@ -1,4 +1,4 @@
-import { AxeResults, ImpactValue, NodeResult as AxeNodeResult } from 'axe-core';
+import { CheckResult, AxeResults, ImpactValue, NodeResult as AxeNodeResult } from 'axe-core';
 
 import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
@@ -37,6 +37,35 @@ const getElement = (context: HintContext, node: AxeNodeResult): HTMLElement => {
     const elements = context.querySelectorAll(selector);
 
     return elements[0];
+};
+
+/** Validate if an axe check result has data associated with it. */
+const hasCheckData = (result: CheckResult): boolean => {
+    return !!result.data;
+};
+
+/** Retrieve the message from an axe check result. */
+const toCheckMessage = (result: CheckResult): string => {
+    return result.message;
+};
+
+/**
+ * Combine only the node sub-check results containing data to
+ * create a summary. This avoids including sub-check messages
+ * stating static facts which are typically redundant with the
+ * help text for a rule.
+ *
+ * E.g. color contrast includes specific data about the calculated
+ * contrast value whereas checking for the lang on <html> just
+ * restates that the lang attribute was not found.
+ */
+const getSummary = (node: AxeNodeResult): string => {
+    const summary = [...node.all, ...node.any, ...node.none]
+        .filter(hasCheckData)
+        .map(toCheckMessage)
+        .join(' ');
+
+    return summary;
 };
 
 /**
@@ -172,11 +201,13 @@ export const register = (context: HintContext, rules: string[], disabled: string
 
         for (const violation of result.violations) {
             for (const node of violation.nodes) {
+                const summary = getSummary(node);
+                const message = summary ? `${violation.help}: ${summary}` : violation.help;
                 const registration = ruleToRegistration.get(violation.id)!;
                 const element = getElement(context, node);
                 const severity = Severity[registration.options[violation.id]] || toSeverity(violation.impact);
 
-                registration.context.report(resource, violation.help, { element, severity });
+                registration.context.report(resource, message, { element, severity });
             }
         }
     });
