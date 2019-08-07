@@ -201,7 +201,7 @@ export const register = (context: HintContext, rules: string[], disabled: string
 
         for (const violation of result.violations) {
             for (const node of violation.nodes) {
-                const summary= getSummary(node);
+                const summary = getSummary(node);
                 const message = summary ? `${violation.help}: ${summary}` : violation.help;
                 const registration = ruleToRegistration.get(violation.id)!;
                 const element = getElement(context, node);
