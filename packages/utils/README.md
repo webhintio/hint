@@ -164,6 +164,11 @@ as a dependency or returns the hint node_modules folder if not.
 official.
 * `loadPackage`: Returns the package found in the given `pathString` or an
 exception if no package is found.
+* `hasMultipleResources`: Returns true if a hint package is a multi-hint.
+* `isFullPackageName`: Returns true if the name is a full package name.
+* `loadHintPackage`: Returns the package `hint`.
+* `loadResource`: Returns a resource if it exists.
+* `requirePackage`: Require a package, compatible with webpack.
 
 ### report
 
