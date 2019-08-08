@@ -258,7 +258,7 @@ export const loadResource = (name: string, type: ResourceType, configurations: s
 
             if (source === currentProcessDir) {
                 try {
-                    const packageConfig = getPackage(source);
+                    const packageConfig = loadPackage(source);
 
                     if (!normalizeIncludes(packageConfig.name, packageName)) {
                         return false;

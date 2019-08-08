@@ -9,4 +9,6 @@ export const hasMultipleResources = (resource: any, type: ResourceType) => {
         // In a simple hint, the property meta should exist.
         return !resource.meta;
     }
+
+    return false;
 };
