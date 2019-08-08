@@ -1,0 +1,9 @@
+{
+    "extends": [
+        "configurationWithLoop2"
+    ],
+    "hints": {
+        "hint1": "warning",
+        "hint2": "warning"
+    }
+}

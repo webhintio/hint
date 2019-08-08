@@ -17,6 +17,8 @@ The tools included in this package are:
 * `asyncTry`: Wrap an async function, returning null if the evaluation throws
 and exception.
 * `debug`: Initialize the debug messaging system.
+* `get-hints-from-extends`: Returns all hints in a configuration, including
+hints inside the extended configurations.
 
 ### appInsights
 
