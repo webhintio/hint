@@ -8,12 +8,12 @@ import { cwd, loadJSONFile } from '../fs';
 import { debug as d } from '../debug';
 import { isFullPackageName } from './is-full-package-name';
 import { ResourceType } from '../types/resource-type';
-import { loadPackage as getPackage } from './load-package';
+import { loadPackage } from './load-package';
 import { loadHintPackage } from './load-hint-package';
 import { requirePackage } from './require-package';
 import { hasMultipleResources } from './has-multiple-resources';
 import { normalizeIncludes } from '../misc';
-import { toAbsolutePaths } from '../config/to-absolute-path';
+import { toAbsolutePaths } from '../config/to-absolute-paths';
 import { ResourceErrorStatus } from '../types/resource-error-status';
 import { ResourceError } from '../types/resource-error';
 
@@ -29,7 +29,7 @@ const moduleNameRegex: RegExp = /[^']*'([^']*)'/g;
  */
 const isVersionValid = (resourcePath: string): boolean => {
     try {
-        const pkg = getPackage(resourcePath);
+        const pkg = loadPackage(resourcePath);
         const hintPkg = loadHintPackage();
 
         return semver.satisfies(hintPkg.version, pkg.peerDependencies.hint);
