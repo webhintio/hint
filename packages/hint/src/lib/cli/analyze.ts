@@ -6,7 +6,7 @@ import * as isCI from 'is-ci';
 import { default as ora } from 'ora';
 import * as osLocale from 'os-locale';
 
-import { appInsights, configStore, debug as d, fs, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity } from '@hint/utils';
+import { appInsights, configStore, debug as d, fs, getHintsFromConfiguration, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity } from '@hint/utils';
 import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
 
 import {
@@ -21,7 +21,6 @@ import { loadHintPackage } from '../utils/packages/load-hint-package';
 import { createAnalyzer, getUserConfig } from '../';
 import { Analyzer } from '../analyzer';
 import { AnalyzerErrorStatus } from '../enums/error-status';
-import { loadConfiguration } from '../utils';
 
 const { getAsUris } = network;
 const { askQuestion, mergeEnvWithOptions } = misc;
@@ -92,42 +91,13 @@ const getHintsForTelemetry = (hints?: HintsConfigObject | (string | any)[]) => {
     return result;
 };
 
-const getHintsFromConfiguration = (configName: string, parentConfigs: string[] = []) => {
-    try {
-        const configuration = loadConfiguration(configName, parentConfigs);
-
-        return {
-            ...getHintsFromConfigurations(configuration.extends, [configName, ...parentConfigs]), // eslint-disable-line no-use-before-define,@typescript-eslint/no-use-before-define
-            ...getHintsForTelemetry(configuration.hints)
-        };
-    } catch (e) { // If the configuration doesn't exists, ignore it and returns an empty object.
-        return {};
-    }
-};
-
-const getHintsFromConfigurations = (configurations?: string[], parentConfigs: string[] = []): any => {
-    if (!configurations || configurations.length === 0) {
-        return {};
-    }
-
-    const config = configurations[0];
-
-    return {
-        ...getHintsFromConfiguration(config, parentConfigs),
-        ...getHintsFromConfigurations(configurations.slice(1), parentConfigs)
-    };
-};
-
 const pruneUserConfig = (userConfig: UserConfig) => {
     return {
         browserslist: userConfig.browserslist,
         connector: userConfig.connector ? (userConfig.connector as ConnectorConfig).name || userConfig.connector : undefined,
         extends: userConfig.extends,
         formatters: userConfig.formatters,
-        hints: {
-            ...getHintsFromConfigurations(userConfig.extends),
-            ...getHintsForTelemetry(userConfig.hints)
-        },
+        hints: getHintsForTelemetry(getHintsFromConfiguration(userConfig)),
         hintsTimeout: userConfig.hintsTimeout,
         language: userConfig.language,
         parsers: userConfig.parsers

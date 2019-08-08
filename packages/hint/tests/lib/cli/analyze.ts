@@ -12,7 +12,8 @@ import {
     CLIOptions,
     CreateAnalyzerOptions,
     Endpoint,
-    UserConfig
+    UserConfig,
+    HintsConfigObject
 } from '../../../src/lib/types';
 import { AnalyzerErrorStatus } from '../../../src/lib/enums/error-status';
 
@@ -79,7 +80,7 @@ type AnalyzeContext = {
     configStore: ConfigStore;
     errorSpy: sinon.SinonSpy<[string]>;
     failSpy: sinon.SinonSpy<[]>;
-    loadConfiguration: (configuration: string, parentConfigs: string[]) => any;
+    getHintsFromConfiguration: (userConfig: UserConfig) => HintsConfigObject;
     logger: Logger;
     logSpy: sinon.SinonSpy<[string]>;
     ora: Ora;
@@ -117,6 +118,9 @@ const initContext = (t: ExecutionContext<AnalyzeContext>) => {
     t.context.succeedSpy = sandbox.spy(spinner, 'succeed');
     t.context.askQuestion = () => { };
     t.context.sandbox = sandbox;
+    t.context.getHintsFromConfiguration = (userConfig: UserConfig) => {
+        return {};
+    };
 
     const analyzer: Analyzer = { Analyzer: function Analyzer() { } };
 
@@ -149,9 +153,6 @@ const initContext = (t: ExecutionContext<AnalyzeContext>) => {
         },
         set(key: string, value: any) { }
     };
-    t.context.loadConfiguration = (configuration: string, parentConfigs: string[]) => {
-        return {};
-    };
 };
 
 const loadScript = (context: AnalyzeContext, isCi: boolean = false) => {
@@ -160,11 +161,11 @@ const loadScript = (context: AnalyzeContext, isCi: boolean = false) => {
             createAnalyzer: (context.analyzer.Analyzer as any).create,
             getUserConfig: (context.analyzer.Analyzer as any).getUserConfig
         },
-        '../utils': { loadConfiguration: context.loadConfiguration },
         '@hint/utils': {
             appInsights: context.appInsight,
             configStore: utils.configStore,
             debug: utils.debug,
+            getHintsFromConfiguration: context.getHintsFromConfiguration,
             logger: context.logger,
             misc: {
                 askQuestion: context.askQuestion,
@@ -509,13 +510,15 @@ test('Telemetry should remove properties from rules', async (t) => {
 
     sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns({
         connector: { name: 'puppeteer' },
-        hints: {
-            hint1: ['error', {
-                options1: 'value1',
-                options2: 'value2'
-            }],
-            hint2: ['warning', { option: false }]
-        }
+        hints: {}
+    });
+
+    sandbox.stub(t.context, 'getHintsFromConfiguration').returns({
+        hint1: ['error', {
+            options1: 'value1',
+            options2: 'value2'
+        }],
+        hint2: ['warning', { option: false }]
     });
     sandbox.stub(t.context.appInsight, 'isConfigured').returns(false);
     sandbox.stub(t.context.configStore, 'get').returns(true);
@@ -531,78 +534,4 @@ test('Telemetry should remove properties from rules', async (t) => {
 
     t.is(hints.hint1, 'error');
     t.is(hints.hint2, 'warning');
-});
-
-test('Telemetry should normalize rules', async (t) => {
-    const sandbox = t.context.sandbox;
-    const fakeAnalyzer = new FakeAnalyzer();
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
-    sandbox.stub(fakeAnalyzer, 'analyze').resolves();
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns({
-        connector: { name: 'puppeteer' },
-        hints: ['hint1:warning', 'hint2', 'hint3:error']
-    });
-    sandbox.stub(t.context.appInsight, 'isConfigured').returns(false);
-    sandbox.stub(t.context.configStore, 'get').returns(true);
-    sandbox.stub(t.context, 'askQuestion').resolves(true);
-
-    const appInsightTrackEventSpy = sandbox.spy(t.context.appInsight, 'trackEvent');
-
-    const analyze = loadScript(t.context);
-
-    await analyze(actions);
-
-    const hints = appInsightTrackEventSpy.args[0][1].hints;
-
-    t.is(hints.hint1, 'warning');
-    t.is(hints.hint2, 'error');
-    t.is(hints.hint3, 'error');
-});
-
-test('Telemetry should expand configurations', async (t) => {
-    const sandbox = t.context.sandbox;
-    const fakeAnalyzer = new FakeAnalyzer();
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
-    sandbox.stub(fakeAnalyzer, 'analyze').resolves();
-
-    const loadConfigurationStub = sandbox.stub(t.context, 'loadConfiguration')
-        .onFirstCall()
-        .returns({
-            hints: {
-                hint1: 'error',
-                hint4: ['warning', { option: false }]
-            }
-        })
-        .onSecondCall()
-        .returns({
-            hints: {
-                hint3: 'off',
-                hint5: ['error', { option: false }]
-            }
-        });
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns({
-        connector: { name: 'puppeteer' },
-        extends: ['extend1', 'extend2'],
-        hints: ['hint1:warning', 'hint2', 'hint3:error']
-    });
-
-    const appInsightTrackEventSpy = sandbox.spy(t.context.appInsight, 'trackEvent');
-
-    const analyze = loadScript(t.context);
-
-    await analyze(actions);
-
-    const hints = appInsightTrackEventSpy.args[0][1].hints;
-
-    t.is(hints.hint1, 'warning');
-    t.is(hints.hint2, 'error');
-    t.is(hints.hint3, 'error');
-    t.is(hints.hint4, 'warning');
-    t.true(loadConfigurationStub.calledTwice);
-    t.is(loadConfigurationStub.args[0][0], 'extend1');
-    t.is(loadConfigurationStub.args[1][0], 'extend2');
 });
