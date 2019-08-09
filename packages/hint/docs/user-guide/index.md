@@ -82,12 +82,22 @@ to report the results.
 ### Default configuration
 
 To run `webhint` you need a `.hintrc` file. If you do not have one,
-`webhint` will use the [`web-recommended` set of hints][web recommended].
+`webhint` will use the [`web-recommended` set of hints][web recommended]
+to analyze an URL or [`development`][development] if you are analyzing
+an existing directory or file in your filesystem.
 This configuration will be equivalent to the following `.hintrc`:
 
 ```json
 {
     "extends": ["web-recommended"]
+}
+```
+
+or
+
+```json
+{
+    "extends": ["development"]
 }
 ```
 
@@ -106,4 +116,5 @@ about the different pieces:
 
 [nodejs]: https://nodejs.org/en/download/current/
 [web recommended]: https://github.com/webhintio/hint/blob/master/packages/configuration-web-recommended/index.json
+[development]: https://github.com/webhintio/hint/blob/master/packages/configuration-development/index.json
 [ssl labs]: https://webhint.io/docs/user-guide/hints/hint-ssllabs/
