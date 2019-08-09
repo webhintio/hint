@@ -1,5 +1,5 @@
 import { IHintConstructor, Problem } from 'hint';
-import { appInsights } from '@hint/utils';
+import { trackEvent } from './app-insights';
 
 export type ResultData = {
     hints: IHintConstructor[];
@@ -67,7 +67,7 @@ const toTrackedResult = (data: ResultData) => {
 };
 
 const trackOpen = (result: ProblemCountMap) => {
-    appInsights.trackEvent('vscode-open', determineHintStatus({}, result));
+    trackEvent('vscode-open', determineHintStatus({}, result));
 };
 
 export const trackClose = (uri: string) => {
@@ -105,7 +105,7 @@ export const trackSave = (uri: string) => {
     prevProblems.set(uri, next);
     nextProblems.delete(uri);
 
-    appInsights.trackEvent('vscode-save', determineHintStatus(prev, next));
+    trackEvent('vscode-save', determineHintStatus(prev, next));
 
     lastSaveTimes.set(uri, now);
 };

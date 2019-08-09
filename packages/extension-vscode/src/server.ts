@@ -1,101 +1,85 @@
-import { spawn } from 'child_process';
+import * as fs from 'fs';
 import { URL } from 'url';
 
-import {
-    createConnection,
-    Files,
-    TextDocuments,
-    TextDocument,
-    Diagnostic,
-    DiagnosticSeverity,
-    ProposedFeatures
-} from 'vscode-languageserver';
+import { createConnection, ProposedFeatures, TextDocuments, TextDocument } from 'vscode-languageserver';
 
 import * as hint from 'hint';
-import { HintsConfigObject, Problem, Severity, UserConfig } from 'hint';
-import { appInsights, hasYarnLock } from '@hint/utils';
+import { HintsConfigObject, UserConfig } from 'hint';
 
-import * as notifications from './notifications';
+import { initTelemetry, updateTelemetry } from './utils/app-insights';
 import { trackClose, trackResult, trackSave } from './utils/analytics';
+import * as notifications from './utils/notifications';
+import { hasFile, installPackages, loadPackage } from './utils/packages';
+import { problemToDiagnostic } from './utils/problems';
 
-let workspace = '';
-
-// Connect to the language client.
+const [,, globalStoragePath, telemetryEnabled ] = process.argv;
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments();
 const defaultConfig: UserConfig = { extends: ['development'] };
+const instrumentationKey = '8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d';
+const defaultProperties = { 'extension-version': '1.0.5' };
 
-// Adds webhint and configuration-development to the current workspace.
-const installWebhint = (): Promise<void> => {
-    return new Promise(async (resolve, reject) => {
-        connection.sendNotification(notifications.showOutput);
+let workspace = '';
 
-        // Build the installation commands.
-        const packages = 'hint @hint/configuration-development';
-        const cmd = process.platform === 'win32' ? '.cmd' : '';
-        const npm = `npm${cmd} install ${packages} --save-dev --verbose`;
-        const yarn = `yarn${cmd} add ${packages} --dev`;
+const promptToAddWebhint = async () => {
+    const addWebhint = 'Add webhint';
+    const cancel = 'Cancel';
+    const answer = await connection.window.showWarningMessage(
+        'A local `.hintrc` was found. Add webhint to this project?',
+        { title: addWebhint },
+        { title: cancel }
+    );
 
-        // Install via `yarn` if `yarn.lock` is present, `npm` otherwise.
-        const isUsingYarn = await hasYarnLock(workspace);
-        const command = isUsingYarn ? yarn : npm;
-        const parts = command.split(' ');
-
-        // Actually start the installation.
-        const child = spawn(parts[0], parts.slice(1));
-
-        // Show progress in the output window for the extension.
-        child.stdout!.pipe(process.stdout);
-        child.stderr!.pipe(process.stderr);
-
-        child.on('exit', (code) => {
-            if (code) {
-                connection.window.showErrorMessage(`Unable to install webhint. ${code}`);
-                reject(code);
-            } else {
-                connection.window.showInformationMessage('Finished installing webhint!');
-                resolve();
-            }
-        });
-    });
-};
-
-/* istanbul ignore next */
-const trace = (message: string): void => {
-    return console.log(message);
-};
-
-const loadModule = async <T>(context: string, name: string): Promise<T | null> => {
-    let module: T | null = null;
-
-    try {
-        module = await Files.resolveModule2(context, name, '', trace);
-    } catch (e) {
-        const addWebHintLocally = 'Add webhint';
-        const cancel = 'Cancel';
-        const answer = await connection.window.showWarningMessage(
-            'Unable to find webhint. Add it to this project?',
-            { title: addWebHintLocally },
-            { title: cancel }
-        );
-
-        if (answer && answer.title !== cancel) {
-            try {
-                await installWebhint();
-
-                return loadModule<T>(context, name);
-            } catch (err) {
-                connection.window.showErrorMessage(`Unable to install webhint:\n${err}`);
-            }
+    if (answer && answer.title === addWebhint) {
+        try {
+            connection.sendNotification(notifications.showOutput);
+            await installPackages(['hint', '@hint/configuration-development'], { cwd: workspace });
+            connection.window.showInformationMessage('Finished installing webhint!');
+        } catch (err) {
+            connection.window.showErrorMessage(`Unable to install webhint:\n${err}`);
         }
     }
+};
 
-    return module;
+const loadSharedWebhint = async (): Promise<typeof hint | null> => {
+    /* 
+     * Per VS Code docs globalStoragePath may not exist but parent folder will.
+     * https://code.visualstudio.com/api/references/vscode-api#ExtensionContext.globalStoragePath
+     */
+    if (!await hasFile(globalStoragePath)) {
+        await fs.promises.mkdir(globalStoragePath);
+    }
+
+    try {
+        return loadPackage('hint', { paths: [globalStoragePath] });
+    } catch (e) {
+        connection.sendNotification(notifications.showOutput);
+        try {
+            await installPackages(['hint', '@hint/configuration-development'], { cwd: globalStoragePath });
+            return loadPackage('hint', { paths: [globalStoragePath] });
+        } catch (err) {
+            console.error('Unable to install or load a shared webhint instance', err);
+            return null;
+        }
+    }
+};
+
+const loadWebhint = async (directory: string, prompt = true): Promise<typeof hint | null> => {
+    try {
+        return loadPackage('hint', { paths: [directory] });
+    } catch (e) {
+        if (prompt && await hasFile('.hintrc', directory)) {
+            await promptToAddWebhint();
+            return loadWebhint(directory, false);
+        }
+
+        return loadSharedWebhint();
+    }
 };
 
 // Load both webhint and a configuration, adjusting it as needed for this extension.
-const loadWebhint = async (directory: string): Promise<hint.Analyzer | null> => {
-    const hintModule = await loadModule<typeof hint>(directory, 'hint');
+const initWebhint = async (directory: string): Promise<hint.Analyzer | null> => {
+    const hintModule = await loadWebhint(directory);
 
     // If no module was returned, the user cancelled installing webhint.
     if (!hintModule) {
@@ -152,31 +136,10 @@ const loadWebhint = async (directory: string): Promise<hint.Analyzer | null> => 
 
         // Retry if asked.
         if (answer && answer.title === retry) {
-            return await loadWebhint(directory);
+            return await initWebhint(directory);
         }
 
         return null;
-    }
-};
-
-/* istanbul ignore next */
-const showTelemetryMessage = async () => {
-    if (appInsights.isConfigured()) {
-        return;
-    }
-
-    const yesResponse = 'Enable telemetry';
-    const noResponse = 'No thanks';
-    const answer = await connection.window.showInformationMessage(
-        'Help us improve webhint by sending [limited usage information](https://webhint.io/docs/user-guide/telemetry/summary/) (no personal information or URLs will be sent).',
-        { title: yesResponse },
-        { title: noResponse }
-    );
-
-    if (answer && answer.title === yesResponse) {
-        appInsights.enable();
-    } else if (answer && answer.title === noResponse) {
-        appInsights.disable();
     }
 };
 
@@ -194,44 +157,12 @@ connection.onInitialize((params) => {
     // TODO: Support multiple workspaces (`params.workspaceFolders`).
     workspace = params.rootPath || '';
 
-    showTelemetryMessage();
-
     return { capabilities: { textDocumentSync: documents.syncKind } };
 });
 
-// Translate a webhint severity into the VSCode DiagnosticSeverity format.
-const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity => {
-    switch (severity) {
-        case 2:
-            return DiagnosticSeverity.Error;
-        case 1:
-            return DiagnosticSeverity.Warning;
-        default:
-            return DiagnosticSeverity.Hint;
-    }
-};
-
-// Translate a webhint problem into the VSCode diagnostic format.
-const problemToDiagnostic = (problem: Problem): Diagnostic => {
-
-    let { column: character, line } = problem.location;
-
-    // Move (-1, -1) or similar to (0, 0) so VSCode underlines the start of the document.
-    if (character < 0 || line < 0) {
-        character = 0;
-        line = 0;
-    }
-
-    return {
-        message: `${problem.message}\n(${problem.hintId})`,
-        range: {
-            end: { character, line },
-            start: { character, line }
-        },
-        severity: webhintToDiagnosticServerity(problem.severity),
-        source: 'webhint'
-    };
-};
+connection.onNotification(notifications.telemetryEnabledChanged, (telemetryEnabled: 'ask' | 'enabled' | 'disabled') => {
+    updateTelemetry(telemetryEnabled === 'enabled');
+});
 
 // Queue a document to validate later (if needed). Returns `true` if queued.
 const queueValidationIfNeeded = (textDocument: TextDocument): boolean => {
@@ -252,7 +183,6 @@ const queueValidationIfNeeded = (textDocument: TextDocument): boolean => {
 };
 
 const validateTextDocument = async (textDocument: TextDocument): Promise<void> => {
-
     // Wait if another doc is validating to avoid interleaving errors.
     if (queueValidationIfNeeded(textDocument)) {
         return;
@@ -264,7 +194,7 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
         // Try to load webhint if this is the first validation.
         if (!loaded) {
             loaded = true;
-            webhint = await loadWebhint(workspace);
+            webhint = await initWebhint(workspace);
         }
 
         // Gracefully exit if all attempts to get an engine failed.
@@ -305,7 +235,7 @@ const validateTextDocument = async (textDocument: TextDocument): Promise<void> =
 
 // A watched .hintrc has changed. Reload the engine and re-validate documents.
 connection.onDidChangeWatchedFiles(async () => {
-    webhint = await loadWebhint(workspace);
+    webhint = await initWebhint(workspace);
     await Promise.all(documents.all().map((doc) => {
         return validateTextDocument(doc);
     }));
@@ -329,3 +259,5 @@ documents.onDidSave(({ document }) => {
 // Listen on the text document manager and connection.
 documents.listen(connection);
 connection.listen();
+
+initTelemetry(instrumentationKey, defaultProperties, telemetryEnabled === 'enabled');

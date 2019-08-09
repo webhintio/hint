@@ -16,6 +16,28 @@
   "categories": [
     "Linters"
   ],
+  "contributes": {
+    "configuration": {
+      "title": "webhint",
+      "properties": {
+        "webhint.enableTelemetry": {
+          "type": "string",
+          "default": "ask",
+          "enum": [
+            "ask",
+            "enabled",
+            "disabled"
+          ],
+          "enumDescriptions": [
+            "Prompt to share limited usage data",
+            "Share limited usage data",
+            "Don't share limited usage data"
+          ],
+          "markdownDescription": "Controls whether to share [limited usage data](https://webhint.io/docs/user-guide/telemetry/summary/) to help improve webhint."
+        }
+      }
+    }
+  },
   "dependencies": {
     "vscode-languageclient": "^5.2.1",
     "vscode-languageserver": "^5.2.1"
