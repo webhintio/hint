@@ -215,7 +215,7 @@ const getDefaultConfiguration = (targets: URL[]) => {
 
     if (!targetsAreFiles && anyFile(targets)) {
         // TODO: Improve this message.
-        throw new Error('You can not mix file system with urls in the analysis');
+        throw new Error('You cannot mix file system with urls in the analysis');
     }
 
     const ext = targetsAreFiles ? 'development' : 'web-recommended';
