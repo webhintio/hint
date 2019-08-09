@@ -193,22 +193,42 @@ ${chalk.default.green('https://webhint.io/docs/user-guide/')}`;
     printFrame(defaultMessage);
 };
 
-/**
- * Prints a message to the screen alerting the user the defautl configuration
- * will be used and returns the default configuration.
- */
-const getDefaultConfiguration = () => {
-    showDefaultMessage();
-
-    return { extends: ['web-recommended'] };
+const areFiles = (targets: URL[]) => {
+    return targets.every((target) => {
+        return target.protocol === 'file:';
+    });
 };
 
-const askUserToUseDefaultConfiguration = async (): Promise<UserConfig | null> => {
+const anyFile = (targets: URL[]) => {
+    return targets.some((target) => {
+        return target.protocol === 'file:';
+    });
+};
+
+/**
+ * Prints a message to the screen alerting the user the default configuration
+ * will be used and returns the default configuration.
+ */
+const getDefaultConfiguration = (targets: URL[]) => {
+    showDefaultMessage();
+    const targetsAreFiles = areFiles(targets);
+
+    if (!targetsAreFiles && anyFile(targets)) {
+        // TODO: Improve this message.
+        throw new Error('You can not mix file system with urls in the analysis');
+    }
+
+    const ext = targetsAreFiles ? 'development' : 'web-recommended';
+
+    return { extends: [ext] };
+};
+
+const askUserToUseDefaultConfiguration = async (targets: URL[]): Promise<UserConfig | null> => {
     const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://webhint.io/docs/user-guide/#default-configuration`;
     const confirmation: boolean = await askQuestion(question);
 
     if (confirmation) {
-        return getDefaultConfiguration();
+        return getDefaultConfiguration(targets);
     }
 
     return null;
@@ -260,11 +280,11 @@ const getLanguage = async (userConfig?: UserConfig, actions?: CLIOptions): Promi
     return osLanguage;
 };
 
-const loadUserConfig = async (actions?: CLIOptions): Promise<UserConfig> => {
-    let userConfig = getUserConfig(actions && actions.config);
+const loadUserConfig = async (actions: CLIOptions, targets: URL[]): Promise<UserConfig> => {
+    let userConfig = getUserConfig(actions.config);
 
     if (!userConfig) {
-        userConfig = getDefaultConfiguration();
+        userConfig = getDefaultConfiguration(targets);
     }
 
     userConfig.language = await getLanguage(userConfig, actions);
@@ -303,7 +323,7 @@ const askToInstallPackages = async (resources: HintResources): Promise<boolean> 
     return true;
 };
 
-const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOptions): Promise<Analyzer> => {
+const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOptions, targets: URL[]): Promise<Analyzer> => {
     let webhint: Analyzer;
 
     try {
@@ -312,13 +332,13 @@ const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOption
         const error = e as AnalyzerError;
 
         if (error.status === AnalyzerErrorStatus.ConfigurationError) {
-            const config = await askUserToUseDefaultConfiguration();
+            const config = await askUserToUseDefaultConfiguration(targets);
 
             if (!config) {
                 throw e;
             }
 
-            return getAnalyzer(config, options);
+            return getAnalyzer(config, options, targets);
         }
 
         if (error.status === AnalyzerErrorStatus.ResourceError) {
@@ -328,7 +348,7 @@ const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOption
                 throw e;
             }
 
-            return getAnalyzer(userConfig, options);
+            return getAnalyzer(userConfig, options, targets);
         }
 
         if (error.status === AnalyzerErrorStatus.HintError) {
@@ -379,13 +399,13 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    const userConfig = await loadUserConfig(actions);
+    const userConfig = await loadUserConfig(actions, targets);
 
     const createAnalyzerOptions = actionsToOptions(actions);
     let webhint: Analyzer;
 
     try {
-        webhint = await getAnalyzer(userConfig, createAnalyzerOptions);
+        webhint = await getAnalyzer(userConfig, createAnalyzerOptions, targets);
     } catch (e) {
         return false;
     }
