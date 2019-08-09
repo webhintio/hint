@@ -18,7 +18,6 @@ import {
     UserConfig
 } from '../types';
 import { loadHintPackage } from '../utils/packages/load-hint-package';
-
 import { createAnalyzer, getUserConfig } from '../';
 import { Analyzer } from '../analyzer';
 import { AnalyzerErrorStatus } from '../enums/error-status';

@@ -1,6 +1,0 @@
-{
-  "main": "index.json",
-  "name": "@example/webhint-configuration-example",
-  "private": true,
-  "version": "1.0.0"
-}
