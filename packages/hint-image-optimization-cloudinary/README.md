@@ -11,9 +11,8 @@ the hint’s configuration. You can create a [free account here][signup].
 
 ## Why is this important?
 
-As of September 15th, 2017, and based on [HTTP Archive][httparchive-report],
-images account for a bit over 53% of the size of a website in average,
-or 1,810kB.
+As of June 1st, 2017, and based on [HTTP Archive][httparchive-report],
+images account for a bit over 47% of the size of a website in average.
 
 !["Average Bytes per Page by Content Type"][bytes-per-content-type]
 
@@ -124,6 +123,6 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [bytes-per-content-type]: https://chart.googleapis.com/chart?chs=400x225&cht=p&chco=007099&chd=t:1810,52,89,454,109,789,16&chds=0,1810&chdlp=b&chdl=total%203376%20kB&chl=Images+-+1810+kB%7CHTML+-+52+kB%7CStylesheets+-+89+kB%7CScripts+-+454+kB%7CFonts+-+109+kB%7CVideo+-+789+kB%7COther+-+16+kB&chma=|5&chtt=Average+Bytes+per+Page+by+Content+Type
 [cloudinary]: https://cloudinary.com
 [environment-variable]: https://www.npmjs.com/package/cloudinary#configuration
-[httparchive-report]: http://httparchive.org/interesting.php?a=All&l=Sep%2015%202017#bytesperpage
+[httparchive-report]: https://httparchive.org/reports/page-weight?start=2019_06_01&view=list
 [signup]: https://cloudinary.com/users/register/free
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
