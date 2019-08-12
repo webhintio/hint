@@ -73,6 +73,7 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
+    "@hint/configuration-development": "^7.0.3",
     "@hint/configuration-web-recommended": "^7.0.2"
   },
   "repository": "https://github.com/webhintio/hint",
