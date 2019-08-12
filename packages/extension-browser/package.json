@@ -40,7 +40,7 @@
     "@hint/parser-manifest": "^2.2.4",
     "@hint/utils": "^3.1.2",
     "@hint/utils-create-server": "^3.1.6",
-    "@microsoft/applicationinsights-web-basic": "^2.1.0",
+    "@microsoft/applicationinsights-web-basic": "^2.1.1",
     "@types/chrome": "^0.0.86",
     "@types/har-format": "^1.2.4",
     "@types/highlight.js": "^9.12.3",
