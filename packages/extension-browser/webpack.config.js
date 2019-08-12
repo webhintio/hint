@@ -4,6 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env) => {
     return {
+        context: __dirname,
         entry: {
             'background-script': './dist/src/background-script.js',
             'content-script/webhint': './dist/src/content-script/webhint.js',
@@ -55,7 +56,10 @@ module.exports = (env) => {
                 }
             ]
         },
-        node: { fs: 'empty' },
+        node: {
+            __dirname: true,
+            fs: 'empty'
+        },
         optimization: {
             minimizer: [
                 /*
