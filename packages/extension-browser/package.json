@@ -68,7 +68,7 @@
     "focus-visible": "^5.0.2",
     "glob": "^7.1.4",
     "globby": "^10.0.1",
-    "highlight.js": "^9.15.8",
+    "highlight.js": "^9.15.9",
     "hint": "^5.2.0",
     "html-minifier": "^4.0.0",
     "is-ci": "^2.0.0",
