@@ -11,7 +11,7 @@ the hint’s configuration. You can create a [free account here][signup].
 
 ## Why is this important?
 
-As of June 1st, 2017, and based on [HTTP Archive][httparchive-report],
+As of June 1st, 2019, and based on [HTTP Archive][httparchive-report],
 images account for a bit over 47% of the size of a website in average.
 
 !["Average Bytes per Page by Content Type"][bytes-per-content-type]
