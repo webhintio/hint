@@ -34,7 +34,8 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist/src"
+    "dist/src",
+    "docs"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
