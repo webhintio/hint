@@ -27,7 +27,8 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist/src"
+    "dist/src"{{#if isMulti}},
+    "docs"{{/if}}
   ],{{#if official}}
   "homepage": "https://webhint.io/",{{else}}
   "homepage": "",{{/if}}
