@@ -6,7 +6,7 @@ import * as fs from 'fs-extra';
 import { Context, Package } from '../@types/custom';
 import { readFile } from '../lib/utils';
 
-const ignorePrefixes = ['hint', '@hint/configuration-', '@hint/connector-chrome', 'create-', '@hint/utils'];
+const ignorePrefixes = ['hint', '@hint/configuration-all', '@hint/connector-chrome', 'create-', '@hint/utils'];
 
 const ignorePackage = (pkg: Package): boolean => {
     if (pkg.ignore) {
