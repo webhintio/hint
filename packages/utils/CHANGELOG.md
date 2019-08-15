@@ -1,3 +1,23 @@
+# 4.0.0 (August 15, 2019)
+
+## Breaking Changes
+
+* [[`5be6e93192`](https://github.com/webhintio/hint/commit/5be6e93192014ae35aac615cce8c33889d971dde)] - Breaking: Use __dirname to find the locale file. (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2794`](https://github.com/webhintio/hint/issues/2794)).
+
+## Bug fixes / Improvements
+
+* [[`23300153b8`](https://github.com/webhintio/hint/commit/23300153b8798bc10e70e0e1ab96eed35ccef069)] - Fix: Error building create-hint release package (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2819`](https://github.com/webhintio/hint/issues/2819)).
+
+## New features
+
+* [[`459ee2284c`](https://github.com/webhintio/hint/commit/459ee2284c92e9482b27cb2527fc16b04e8ee7f0)] - New: Add utils to get all hints from a configuration, including extends (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+## Chores
+
+* [[`fa170b5323`](https://github.com/webhintio/hint/commit/fa170b5323df88c7119a6d5c9f1b4c4caa4039a9)] - Upgrade: Bump postcss-value-parser from 4.0.0 to 4.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`351eaa5e02`](https://github.com/webhintio/hint/commit/351eaa5e02b5a7e5e79de7163b636fc89690fbe5)] - Chore: Move `load-resource` and its dependencies to `utils` (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2797`](https://github.com/webhintio/hint/issues/2797)).
+
+
 # 3.1.2 (August 6, 2019)
 
 ## Chores

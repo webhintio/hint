@@ -1,3 +1,10 @@
+# 3.0.7 (August 15, 2019)
+
+## Chores
+
+* [[`fc3255d71b`](https://github.com/webhintio/hint/commit/fc3255d71bba1a528d93f98dfc435701e3a1e471)] - Upgrade: Bump acorn from 6.2.0 to 6.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.0.6 (August 6, 2019)
 
 ## Chores

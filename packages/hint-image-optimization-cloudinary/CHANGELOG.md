@@ -1,3 +1,10 @@
+# 3.1.4 (August 15, 2019)
+
+## Bug fixes / Improvements
+
+* [[`ae0fee96f1`](https://github.com/webhintio/hint/commit/ae0fee96f13dad26210379cdd60f54adcfbd7276)] - Docs: Update outdated HTTP Archive links (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2731`](https://github.com/webhintio/hint/issues/2731)).
+
+
 # 3.1.3 (August 6, 2019)
 
 ## Bug fixes / Improvements

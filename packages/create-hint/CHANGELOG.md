@@ -1,3 +1,18 @@
+# 3.2.0 (August 15, 2019)
+
+## Bug fixes / Improvements
+
+* [[`d2d0a47d57`](https://github.com/webhintio/hint/commit/d2d0a47d578961ec0d12493bc7ae90363e447562)] - Fix: Docs not published in multi-hint packages (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2816`](https://github.com/webhintio/hint/issues/2816)).
+
+## New features
+
+* [[`9824adc114`](https://github.com/webhintio/hint/commit/9824adc114f3a33b6679c59f873b7160f483582b)] - New: Add localization `i18n` support to create-hint package (by [`Jaspreet Singh`](https://github.com/jaspreet57)).
+
+## Chores
+
+* [[`7e9c81d216`](https://github.com/webhintio/hint/commit/7e9c81d216fe9af4c6ff8b1a9fa800a1d7270063)] - Upgrade: Bump webpack from 4.35.3 to 4.39.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.1.6 (August 6, 2019)
 
 ## Bug fixes / Improvements

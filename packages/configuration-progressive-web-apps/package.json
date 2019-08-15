@@ -29,8 +29,8 @@
   "main": "index.json",
   "name": "@hint/configuration-progressive-web-apps",
   "peerDependencies": {
-    "hint": "^5.2.0"
+    "hint": "^5.2.1"
   },
   "repository": "webhintio/hint",
-  "version": "6.0.3"
+  "version": "6.0.4"
 }

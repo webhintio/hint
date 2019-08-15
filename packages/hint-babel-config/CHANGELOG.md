@@ -1,3 +1,10 @@
+# 2.3.4 (August 15, 2019)
+
+## Bug fixes / Improvements
+
+* [[`d2d0a47d57`](https://github.com/webhintio/hint/commit/d2d0a47d578961ec0d12493bc7ae90363e447562)] - Fix: Docs not published in multi-hint packages (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2816`](https://github.com/webhintio/hint/issues/2816)).
+
+
 # 2.3.3 (August 6, 2019)
 
 ## Chores

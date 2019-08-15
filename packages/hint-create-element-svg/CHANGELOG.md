@@ -1,3 +1,6 @@
+# 1.2.4 (August 15, 2019)
+
+
 # 1.2.3 (August 6, 2019)
 
 ## Bug fixes / Improvements

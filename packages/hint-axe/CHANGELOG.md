@@ -1,3 +1,14 @@
+# 4.1.0 (August 15, 2019)
+
+## Bug fixes / Improvements
+
+* [[`d2d0a47d57`](https://github.com/webhintio/hint/commit/d2d0a47d578961ec0d12493bc7ae90363e447562)] - Fix: Docs not published in multi-hint packages (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2816`](https://github.com/webhintio/hint/issues/2816)).
+
+## New features
+
+* [[`8d8d70d1c2`](https://github.com/webhintio/hint/commit/8d8d70d1c24441fd101a2cc0420a3b713e5ecb53)] - New: Include additional check data from axe when available (by [`Tony Ross`](https://github.com/antross) / see also: [`#2746`](https://github.com/webhintio/hint/issues/2746)).
+
+
 # 4.0.3 (August 6, 2019)
 
 ## Chores

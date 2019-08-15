@@ -1,3 +1,16 @@
+# 5.2.1 (August 15, 2019)
+
+## Bug fixes / Improvements
+
+* [[`3a40d601d1`](https://github.com/webhintio/hint/commit/3a40d601d17fab84daeaffce1a32cf5b1e21909b)] - Fix: Use utils to get hints for telemetry (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`98d159d126`](https://github.com/webhintio/hint/commit/98d159d12675b3660d43e62ce47a1cc66f951473)] - Fix: Make default CLI configuration work with the filesystem (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2728`](https://github.com/webhintio/hint/issues/2728)).
+* [[`c48b3738a7`](https://github.com/webhintio/hint/commit/c48b3738a7f037079adb72cde9c4b5a33bda8a73)] - Docs: Update steps to `create hint` for main repo (by [`Jaspreet Singh`](https://github.com/jaspreet57)).
+
+## Chores
+
+* [[`351eaa5e02`](https://github.com/webhintio/hint/commit/351eaa5e02b5a7e5e79de7163b636fc89690fbe5)] - Chore: Move `load-resource` and its dependencies to `utils` (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2797`](https://github.com/webhintio/hint/issues/2797)).
+
+
 # 5.2.0 (August 6, 2019)
 
 ## Bug fixes / Improvements

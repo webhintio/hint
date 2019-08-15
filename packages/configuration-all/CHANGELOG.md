@@ -1,3 +1,6 @@
+# 1.0.2 (August 15, 2019)
+
+
 # 1.0.1 (August 6, 2019)
 
 ## Bug fixes / Improvements
