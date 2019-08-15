@@ -11,8 +11,8 @@ import updateDependencies from '../lib/update-dependencies';
 const getBumpTypeForTag = (tag: Tag): Bump => {
 
     switch (tag) {
-        case 'Docs': return Bump.none;
         case 'Build': return Bump.none;
+        case 'Docs': return Bump.patch;
         case 'Update': return Bump.patch;
         case 'Upgrade': return Bump.patch;
         case 'Chore': return Bump.patch;
