@@ -33,8 +33,18 @@
 .messages {
     align-items: center;
     display: grid;
-    grid-template-columns: 50% 50%;
-    width: 100%;
+    gap: 1.5rem; /* 24px */
+    margin: 1.5rem 0; /* 24px */
+}
+
+/* Horizontal layout */
+@media (min-width: 36rem /* 576px */) {
+    .messages {
+        gap: 0;
+        margin: 0;
+        grid-template-columns: 50% 50%;
+        width: 100%;
+    }
 }
 
 .message {

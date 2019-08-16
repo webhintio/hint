@@ -66,6 +66,8 @@
     bottom: 0;
     -webkit-user-select: none;
     user-select: none;
+    min-width: 240px;
+    overflow-x: auto;
 }
 
 /*
