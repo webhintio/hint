@@ -13,6 +13,7 @@
         "tests/**/*.ts"
     ],
     "references": [
+        { "path": "../configuration-development" },
         { "path": "../hint" }
     ]
 }
