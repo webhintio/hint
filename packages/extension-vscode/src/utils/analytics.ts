@@ -1,9 +1,8 @@
-import { IHintConstructor, Problem } from 'hint';
 import { trackEvent } from './app-insights';
 
 export type ResultData = {
-    hints: IHintConstructor[];
-    problems: Problem[];
+    hints: import('hint').IHintConstructor[];
+    problems: import('hint').Problem[];
 };
 
 const enum HintStatus {
