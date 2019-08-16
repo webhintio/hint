@@ -23,7 +23,20 @@ const stubConnection = () => {
 };
 
 const stubContext = () => {
-    const hint = proxyquire('hint', {});
+    const hint = {
+        createAnalyzer() {
+            return {
+                analyze() {
+                    return Promise.resolve([]);
+                },
+                resources: { hints: [] } as any
+            } as Partial<import('hint').Analyzer> as import('hint').Analyzer;
+        },
+        getUserConfig() {
+            return {};
+        }
+    } as Partial<typeof import('hint')>;
+
     const stubs = {
         './webhint-packages': {
             '@noCallThru': true,
