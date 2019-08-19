@@ -8,7 +8,7 @@
   "description": "hint create server util",
   "devDependencies": {
     "@types/async-retry": "^1.4.0",
-    "@types/express": "^4.17.0",
+    "@types/express": "^4.17.1",
     "@types/lodash": "^4.14.136",
     "@types/node": "^12.6.9",
     "@types/on-headers": "^1.0.0",
