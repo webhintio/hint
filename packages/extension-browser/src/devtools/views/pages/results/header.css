@@ -26,12 +26,14 @@
     display: grid;
     gap: 0.5rem; /* 8px */
     margin-top: 1.5rem; /* 24px */
-    justify-content: space-between;
-    grid-auto-flow: column;
+    grid-auto-columns: max-content;
 }
 
-.resultHeader {
-    text-align: center;
+/* Horizontal layout */
+@media (min-width: 36rem /* 576px */) {
+    .actions {
+        grid-template-columns: auto auto 1fr;
+    }
 }
 
 .showPassedHints {

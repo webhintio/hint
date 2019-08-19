@@ -46,10 +46,6 @@ const ResultsHeader = ({ config, onConfigureClick, showPassed, setShowPassed, ur
                 <Button type="button" onClick={onConfigureClick}>
                     {getMessage('newScanButtonLabel')}
                 </Button>
-            </div>
-            <hr />
-            <div className={styles.resultHeader}>
-                <span>All Hints</span>
                 <Label className={styles.showPassedHints}>
                     <Toggle checked={showPassed} onChange={onShowPassedChange} />
                     <LabelText className={styles.showPassedHintsLabel}>
