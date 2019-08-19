@@ -321,7 +321,7 @@ export default class PuppeteerConnector implements IConnector {
 
         if (this._options.headless) {
             // TODO: Check if browser downloads favicon even if there's no content
-            await getFavicon(this._finalHref, this._dom, this.fetchContent.bind(this), this._engine);
+            await getFavicon(this._dom, this.fetchContent.bind(this), this._engine);
         }
 
         if (this._targetBody) {
