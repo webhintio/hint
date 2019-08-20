@@ -1,6 +1,7 @@
 .root {
   cursor: pointer;
   line-height: 1.5rem; /* 24px */
+  width: fit-content;
 }
 
 .root:focus {
