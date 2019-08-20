@@ -85,6 +85,7 @@
         { "path": "packages/hint-no-protocol-relative-urls" },
         { "path": "packages/hint-no-vulnerable-javascript-libraries" },
         { "path": "packages/hint-performance-budget" },
+        { "path": "packages/hint-scoped-svg-styles" },
         { "path": "packages/hint-sri" },
         { "path": "packages/hint-ssllabs" },
         { "path": "packages/hint-strict-transport-security" },
