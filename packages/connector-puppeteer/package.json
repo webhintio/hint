@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@hint/utils": "^4.0.0",
+    "@hint/utils-connector-tools": "^4.0.6",
     "is-ci": "^2.0.0",
     "lockfile": "^1.0.4",
     "puppeteer-core": "^1.19.0"
@@ -15,7 +16,6 @@
   "description": "hint connector for browsers supported by Puppeteer",
   "devDependencies": {
     "@hint/parser-html": "^3.0.4",
-    "@hint/utils-connector-tools": "^4.0.6",
     "@hint/utils-create-server": "^3.1.6",
     "@types/is-ci": "^2.0.0",
     "@types/lockfile": "^1.0.1",
