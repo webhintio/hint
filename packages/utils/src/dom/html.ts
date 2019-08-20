@@ -43,6 +43,16 @@ export class HTMLElement {
         return result;
     }
 
+    public get parentElement(): HTMLElement | null {
+        const parent = this._element.parent;
+
+        if (!parent || (parent.type !== 'tag' && parent.type !== 'script' && parent.type !== 'style')) {
+            return null;
+        }
+
+        return new HTMLElement(parent, this.ownerDocument);
+    }
+
     public get nodeName(): string {
         return this._element.name;
     }
