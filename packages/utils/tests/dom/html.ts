@@ -93,3 +93,17 @@ test('HTMLElement.innerHTML should return the element content', (t) => {
 
     t.is(item.innerHTML, 'Title');
 });
+
+test('HTMLElement.parentElement should return the parent element if it exists', (t) => {
+    const item = t.context.document.querySelectorAll('.title')[0];
+
+    const parentNodeName = item.parentElement && item.parentElement.nodeName;
+
+    t.is(parentNodeName, 'body');
+});
+
+test('HTMLElement.parentElement should return `null` if parent doesn\'t exists (for root level elements)', (t) => {
+    const dom = t.context.document.documentElement;
+
+    t.is(dom.parentElement, null);
+});
