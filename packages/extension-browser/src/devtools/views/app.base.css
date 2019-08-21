@@ -57,6 +57,8 @@
     font-family: var(--font-family);
     font-size: var(--font-size);
     margin: 0;
+    min-width: 240px;
+    overflow-x: auto;
     overflow-y: scroll;
     padding: 0 2.5rem;
     position: absolute;
