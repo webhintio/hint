@@ -265,7 +265,7 @@
     };
 
     var checkClipboard = function (element) {
-        var parentElement = element.closest('.permalink-copy');
+        var parentElement = element.querySelector('.permalink-copy');
         var permalinkImageElement = parentElement.querySelector('img');
 
         if (!window.ejsPartials) {
@@ -286,7 +286,7 @@
 
         setClipboardText(permalink.trim());
 
-        checkClipboard(permalinkElement);
+        checkClipboard(parent);
     };
 
     copyButtons.forEach(function (copyButton) {
