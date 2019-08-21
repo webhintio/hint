@@ -19,7 +19,7 @@ const propertiesToUpdate = [
     'peerDependencies'
 ];
 
-const nonOptionalDependencyTypes = [
+const nonOptionalDependencyProperties = [
     'dependencies',
     'devDependencies',
     'peerDependencies'
@@ -57,12 +57,12 @@ const getPackagesSortedByDependencies = (ctx: Context): Package[] => {
          * Include all dependencies except `optionalDependencies` which is
          * used by `hint` to reference configurations, creating a cycle.
          */
-        for (const dependencyType of nonOptionalDependencyTypes) {
-            if (!pkg.content[dependencyType]) {
+        for (const property of nonOptionalDependencyProperties) {
+            if (!pkg.content[property]) {
                 continue;
             }
 
-            for (const dependency of Object.keys(pkg.content[dependencyType])) {
+            for (const dependency of Object.keys(pkg.content[property])) {
                 if (!ctx.packages.has(dependency)) {
                     continue; // Only first-party packages need to be sorted.
                 }
@@ -141,7 +141,7 @@ const updateProperty = (property: string) => {
              * Update the version of this package (`patch`) if it has not been bumped yet
              * (because it has changed versions in its dependencies).
              */
-            if (pkg.oldVersion === pkg.content.version && pkg.updated) {
+            if (pkg.oldVersion === pkg.content.version) {
                 pkg.content.version = calculatePackageNewVersion(pkg, Bump.patch);
             }
         });
