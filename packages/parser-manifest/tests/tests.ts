@@ -20,7 +20,10 @@ const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribu
 
                 return relAttribute;
             },
-            nodeName: 'LINK'
+            nodeName: 'LINK',
+            resolveUrl: (value: string) => {
+                return value;
+            }
         },
         resource: 'https://example.com'
     };

@@ -1,9 +1,6 @@
 /**
  * @fileoverview Check for correct usage of `apple-touch-icon`.
  */
-
-import { URL } from 'url';
-
 import * as getImageData from 'image-size';
 
 import { debug as d, misc, network } from '@hint/utils';
@@ -102,7 +99,7 @@ export default class AppleTouchIconsHint implements IHint {
              * to figure out the full URL of the `apple-touch-icon`.
              */
 
-            const appleTouchIconURL = new URL(appleTouchIconHref, resource).href;
+            const appleTouchIconURL = appleTouchIcon.resolveUrl(appleTouchIconHref);
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

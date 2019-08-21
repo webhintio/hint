@@ -1,5 +1,3 @@
-import { URL } from 'url';
-
 import {
     ElementFound,
     FetchEnd,
@@ -78,7 +76,7 @@ export default class ManifestParser extends Parser<ManifestEvents> {
 
         // Try to fetch the web app manifest.
 
-        const manifestURL: string = (new URL(hrefValue, resource)).href;
+        const manifestURL: string = element.resolveUrl(hrefValue);
 
         await this.engine.emitAsync(this.fetchStartEventName, { resource });
 
