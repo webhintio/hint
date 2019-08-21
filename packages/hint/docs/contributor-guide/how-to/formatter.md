@@ -30,7 +30,7 @@ A `message` looks like this:
         "line": "number", // The line number where the issue was found if applicable.
     },
     "message": "string", // The human friendly detail of the error.
-    "sourceCode": "string", // The html element code where the issue was found if applicable.
+    "sourceCode": "string", // The piece of code where the issue was found if applicable.
     "resource": "string", // The URL or name of the asset with the issue.
     "hintId": "string", // The name of the triggered hint.
     "category": "Category", // The category of the triggered hint. Where type `Category` is enum of values : 'accessibility', 'development', 'compatibility', 'other', 'pwa', 'performance', 'pitfalls' and 'security'.
