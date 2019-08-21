@@ -30,14 +30,19 @@ A `message` looks like this:
         "line": "number", // The line number where the issue was found if applicable.
     },
     "message": "string", // The human friendly detail of the error.
+    "sourceCode": "string", // The html element code where the issue was found if applicable.
     "resource": "string", // The URL or name of the asset with the issue.
-    "severity": "number" // 1 (warning), 2 (error).
+    "hintId": "string", // The name of the triggered hint.
+    "category": "Category", // The category of the triggered hint. Where type `Category` is enum of values : 'accessibility', 'development', 'compatibility', 'other', 'pwa', 'performance', 'pitfalls' and 'security'.
+    "severity": "Severity", // The severity of the hint based on the actual configuration. Where type `Severity` is enum of values : 'off', 'warning' and 'error'.
+    "codeLanguage": "string" // The language of the sourceCode if applicable.
 }
 ```
 
 With this, you can group the issues by `resource` and sort them by
 `location.line` and `location.column`.
-Using the previous example and `lodash` will look as follows:
+
+Using the previous example and `lodash`, `formatter` will look as follows:
 
 <!-- eslint-disable require-await -->
 
