@@ -5,6 +5,8 @@ export type ResultData = {
     problems: import('hint').Problem[];
 };
 
+export type TelemetryState = 'ask' | 'disabled' | 'enabled';
+
 const enum HintStatus {
     passed = 'passed',
     failed = 'failed',

@@ -2,7 +2,7 @@ import * as https from 'https';
 import { createConnection, ProposedFeatures, TextDocuments } from 'vscode-languageserver';
 
 import { initTelemetry, updateTelemetry } from './utils/app-insights';
-import { trackClose, trackSave } from './utils/analytics';
+import { trackClose, trackSave, TelemetryState } from './utils/analytics';
 import { Analyzer } from './utils/analyze';
 import * as notifications from './utils/notifications';
 
@@ -29,7 +29,7 @@ connection.onInitialize((params) => {
     return { capabilities: { textDocumentSync: documents.syncKind } };
 });
 
-connection.onNotification(notifications.telemetryEnabledChanged, (telemetryEnabled: 'ask' | 'enabled' | 'disabled') => {
+connection.onNotification(notifications.telemetryEnabledChanged, (telemetryEnabled: TelemetryState) => {
     updateTelemetry(telemetryEnabled === 'enabled');
 });
 

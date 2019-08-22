@@ -7,9 +7,8 @@ import {
     TransportKind
 } from 'vscode-languageclient';
 
+import { TelemetryState } from './utils/analytics';
 import * as notifications from './utils/notifications';
-
-type TelemetryState = 'ask' | 'disabled' | 'enabled';
 
 const telemetryKey = 'enableTelemetry';
 
