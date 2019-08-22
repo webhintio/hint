@@ -116,3 +116,11 @@
 .content {
     composes: content from './app.base.css';
 }
+
+.message {
+    composes: message from './app.base.css';
+}
+
+.actions {
+    composes: actions from './app.base.css';
+}

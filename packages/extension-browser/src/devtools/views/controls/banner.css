@@ -11,11 +11,6 @@
     display: none;
 }
 
-.message {
-    flex-grow: 1;
-    line-height: 1.4rem;
-}
-
 .root button:first-child {
     margin-right: 1rem;
 }
@@ -23,11 +18,5 @@
 @media (max-width: 64rem /* 1024px */) {
     .root {
         flex-direction: column;
-    }
-
-    .actions {
-        display:flex;
-        justify-content: center;
-        margin-top: 0.4rem;
     }
 }

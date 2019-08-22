@@ -60,7 +60,8 @@
     font-size: var(--font-size);
     margin: 0;
     min-width: 240px;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: scroll;
     padding: 0;
     position: absolute;
     top: 0;
@@ -103,4 +104,17 @@
 }
 .root[data-theme='dark']::-webkit-scrollbar-track {
     box-shadow: inset 0 0 1px var(--shadow-color);
+}
+
+.message {
+    flex-grow: 1;
+    line-height: 1.4rem;
+}
+
+@media (max-width: 64rem /* 1024px */) {
+    .actions {
+        display:flex;
+        justify-content: center;
+        margin-top: 0.4rem;
+    }
 }
