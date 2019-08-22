@@ -35,13 +35,19 @@ export default class ManifestParser extends Parser<ManifestEvents> {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private validatedManifests: Map<string, string> = new Map();
+    private fetchedManifests = new Set<string>();
 
     public constructor(engine: Engine<ManifestEvents>) {
         super(engine, 'manifest');
 
         engine.on('element::link', this.fetchManifest.bind(this));
         engine.on('fetch::end::manifest', this.validateManifest.bind(this));
+        engine.on('scan::end', this.onScanEnd.bind(this));
+    }
+
+    private onScanEnd() {
+        // Clear cached manifests so multiple runs work (e.g. in local connector).
+        this.fetchedManifests.clear();
     }
 
     private async fetchManifest(elementFound: ElementFound) {
@@ -78,6 +84,19 @@ export default class ManifestParser extends Parser<ManifestEvents> {
 
         const manifestURL: string = element.resolveUrl(hrefValue);
 
+        /*
+         * Don't fetch the manifest if it has already been fetched (as some
+         * connectors fetch automatically).
+         *
+         * Note: This expects manifest fetches by a connector to occur first.
+         * In theory a redundant fetch can still occur if the connector fetch
+         * occurs second. This does not happen in practice as this check runs
+         * after the page has been loaded (as part of the DOM traversal phase).
+         */
+        if (this.fetchedManifests.has(manifestURL)) {
+            return;
+        }
+
         await this.engine.emitAsync(this.fetchStartEventName, { resource });
 
         let manifestNetworkData: NetworkData | undefined;
@@ -113,7 +132,11 @@ export default class ManifestParser extends Parser<ManifestEvents> {
             return;
         }
 
-        // If the web app manifest was fetch successfully.
+        // If the web app manifest was fetched successfully and hasn't already been seen.
+
+        if (this.fetchedManifests.has(manifestURL)) {
+            return;
+        }
 
         await this.engine.emitAsync(this.fetchEndEventName, {
             element,
@@ -126,20 +149,11 @@ export default class ManifestParser extends Parser<ManifestEvents> {
     private async validateManifest(fetchEnd: FetchEnd) {
         const { resource, response } = fetchEnd;
 
-        /**
-         * Some connectors can download the manifest directly and thus
-         * triggering multiple validations of the same resource.
-         * Need to avoid that.
-         */
-        if (this.validatedManifests.has(resource)) {
-            const validatedBody = this.validatedManifests.get(resource);
-
-            if (validatedBody === response.body.content) {
-                return;
-            }
+        if (this.fetchedManifests.has(resource)) {
+            return;
         }
 
-        this.validatedManifests.set(resource, response.body.content);
+        this.fetchedManifests.add(resource);
 
         await this.engine.emitAsync(`parse::start::manifest`, { resource });
 
