@@ -1,7 +1,6 @@
 import { URL } from 'url';
 
 import { Engine } from 'hint';
-import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
 import { getElementByUrl, HTMLDocument, HTMLElement, traverse } from '@hint/utils/dist/src/dom';
 import { createHelpers, restoreReferences } from '@hint/utils/dist/src/dom/snapshot';
 import { DocumentData } from '@hint/utils/dist/src/types/snapshot';
@@ -15,11 +14,13 @@ import {
 
 import { browser, document, eval, location, MutationObserver, window } from '../shared/globals';
 import { Events } from '../shared/types';
+import { Fetcher } from './fetcher';
 
 export default class WebExtensionConnector implements IConnector {
     private _document: HTMLDocument | undefined;
     private _originalDocument: HTMLDocument | undefined;
     private _engine: Engine;
+    private _fetcher = new Fetcher();
     private _fetchEndQueue: FetchEnd[] = [];
     private _onComplete: (err: Error | null, resource?: string) => void = () => { };
     private _options: ConnectorOptionsConfig;
@@ -52,6 +53,9 @@ export default class WebExtensionConnector implements IConnector {
 
         browser.runtime.onMessage.addListener(async (events: Events) => {
             try {
+                if (this._fetcher.handle(events)) {
+                    return;
+                }
                 if (events.fetchEnd) {
                     await this.notifyFetch(events.fetchEnd);
                 }
@@ -146,39 +150,9 @@ export default class WebExtensionConnector implements IConnector {
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }
 
-    private mapResponseHeaders(headers: Headers): HttpHeaders {
-        const responseHeaders: HttpHeaders = {};
-
-        headers.forEach((val, key) => {
-            responseHeaders[key] = val;
-        });
-
-        return responseHeaders;
-    }
-
     /* istanbul ignore next */
-    public async fetchContent(target: string, headers?: any): Promise<NetworkData> {
-        return await fetch(target, { headers }).then(async (response) => {
-            const responseHeaders = this.mapResponseHeaders(response.headers);
-            const { charset, mediaType } = getContentTypeData(null, target, responseHeaders, null as any);
-
-            return {
-                request: { headers: headers as any, url: target },
-                response: {
-                    body: {
-                        content: await response.text(),
-                        rawContent: null as any, // TODO: Set once this supports `Blob`.
-                        rawResponse: null as any
-                    },
-                    charset: charset || '',
-                    headers: responseHeaders,
-                    hops: [],
-                    mediaType: mediaType || '',
-                    statusCode: response.status,
-                    url: target
-                }
-            };
-        });
+    public fetchContent(target: string, headers?: any): Promise<NetworkData> {
+        return this._fetcher.fetch(target, headers);
     }
 
     public async collect(target: URL) {
