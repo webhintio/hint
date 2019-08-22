@@ -34,20 +34,6 @@ export default class HighestAvailableDocumentModeHint implements IHint {
         let requireMetaElement: boolean = false;
         let suggestRemoval: boolean = false;
 
-        /*
-         * This function exists because not all connector (e.g.: jsdom)
-         * support matching attribute values case-insensitively.
-         *
-         * https://www.w3.org/TR/selectors4/#attribute-case
-         */
-
-        const getXUACompatibleMetaElements = (elements: HTMLElement[]): HTMLElement[] => {
-            return elements.filter((element: HTMLElement) => {
-                return (element.getAttribute('http-equiv') !== null &&
-                    normalizeString(element.getAttribute('http-equiv')) === 'x-ua-compatible');
-            });
-        };
-
         const checkHeader = (resource: string, responseHeaders: HttpHeaders) => {
             const originalHeaderValue = responseHeaders['x-ua-compatible'];
             const headerValue = normalizeString(originalHeaderValue);
@@ -98,7 +84,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
         const checkMetaElement = (resource: string) => {
 
             const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
-            const XUACompatibleMetaElements: HTMLElement[] = getXUACompatibleMetaElements(pageDOM.querySelectorAll('meta'));
+            const XUACompatibleMetaElements: HTMLElement[] = pageDOM.querySelectorAll('meta[http-equiv=x-ua-compatible i]');
 
             /*
              * By default, if the user did not request the meta
@@ -175,7 +161,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
 
             // * it's specified in the `<body>`.
 
-            const bodyMetaElements: HTMLElement[] = getXUACompatibleMetaElements(pageDOM.querySelectorAll('body meta'));
+            const bodyMetaElements: HTMLElement[] = pageDOM.querySelectorAll('body meta[http-equiv=x-ua-compatible i]');
 
             if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(XUACompatibleMetaElement)) {
                 const message = getMessage('metaElementNotBody', context.language);
