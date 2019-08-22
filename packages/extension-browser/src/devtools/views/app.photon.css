@@ -109,3 +109,7 @@
     --code-css-string-color: #6b89ff ;
     --code-css-function-color: #ff7dE9;
 }
+
+.content {
+    composes: content from './app.base.css';
+}

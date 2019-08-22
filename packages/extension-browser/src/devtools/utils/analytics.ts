@@ -3,8 +3,10 @@ import { ApplicationInsights } from '@microsoft/applicationinsights-web-basic';
 import { Config, ErrorData, Results } from '../../shared/types';
 
 import { determineHintStatus } from './hints';
+import * as storage from './storage';
 
 const manifest = require('../../manifest.json');
+const storageKey = 'webhint-telemetry';
 
 const instrumentationKey = '8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d';
 
@@ -28,9 +30,39 @@ const trackEvent = (name: string, properties: { [key: string]: string } = {}, me
     });
 };
 
+/**
+ * Return true if the user has not respond yet
+ * to opt-in.
+ */
+export const showOptIn = (s = storage) => {
+    return s.getItem(storageKey) === undefined;
+};
+
 /** Called to initialize the underlying analytics library. */
-export const setup = () => {
+export const setup = (s = storage) => {
+    const telemetry = s.getItem(storageKey);
+
+    if (!telemetry) {
+        console.log('telemetry disabled');
+
+        return;
+    }
+
+    console.log('telemetry enabled');
+
     appInsights = new ApplicationInsights({ instrumentationKey });
+};
+
+/** Enables telemetry */
+export const enable = (s = storage) => {
+    s.setItem(storageKey, true);
+
+    setup(s);
+};
+
+/** Disables telemetry */
+export const disable = (s = storage) => {
+    s.setItem(storageKey, false);
 };
 
 /** Called when analysis was canceled by the user. */

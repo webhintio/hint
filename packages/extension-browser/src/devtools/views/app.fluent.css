@@ -112,3 +112,7 @@
     --code-css-string-color: #ce9178 ;
     --code-css-function-color: #dcdcaa;
 }
+
+.content {
+    composes: content from './app.base.css';
+}

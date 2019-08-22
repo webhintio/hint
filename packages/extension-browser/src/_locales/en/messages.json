@@ -55,6 +55,10 @@
         "message": "Different origin",
         "description": "Label for option to ignore only external resources on the page."
     },
+    "enable": {
+        "message": "Enable",
+        "description": "Label for button to enable telemetry"
+    },
     "errorDetails": {
         "message": "Error details",
         "description": "Text displayed for option to expand and show error details."
@@ -70,6 +74,10 @@
     "feedback": {
         "message": "Feedback",
         "description": "Label for the feedback button"
+    },
+    "helpUs": {
+        "message": "Help us improve webhint by sending limited usage information (no personal information or URLs will be sent).",
+        "description": "Label for telemetry opt-in popup"
     },
     "hintCountLabel": {
         "message": "hint $1:",
@@ -103,6 +111,10 @@
         "message": "Learn why this is important and how to fix it",
         "description": "Label for link to additional documentation for a failed test."
     },
+    "moreInfo": {
+        "message": "More info.",
+        "description": "Label for link to additional information about information recollected for telemetry."
+    },
     "noIssuesLabel": {
         "message": "No issues",
         "description": "Label for a hint with no issues."
@@ -110,6 +122,10 @@
     "noneLabel": {
         "message": "None",
         "description": "Label for option to not ignore any resources on the page."
+    },
+    "noThanks": {
+        "message": "No Thanks",
+        "description": "Label for button to disable telemetry."
     },
     "openAnIssue": {
         "message": "open an issue",

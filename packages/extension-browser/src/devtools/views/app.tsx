@@ -7,6 +7,7 @@ import Analyze from './pages/analyze';
 import ConfigPage from './pages/config';
 import ErrorPage from './pages/error';
 import ResultsPage from './pages/results';
+import TelemetryOptIn from './controls/opt-in';
 
 import { trackCancel, trackError, trackFinish, trackStart, trackTimeout } from '../utils/analytics';
 import { useCurrentDesignStyles, useCurrentTheme, withCurrentDesign } from '../utils/themes';
@@ -104,8 +105,11 @@ const App = (props: Props) => {
 
     return (
         <div className={styles.root} data-theme={theme}>
-            {getCurrentPage()}
-            {isAnalyzing && <Analyze config={config} onCancel={onCancel} onError={onError} onResults={onResults} onTimeout={onTimeout}/>}
+            <TelemetryOptIn />
+            <div className={styles.content}>
+                {getCurrentPage()}
+                {isAnalyzing && <Analyze config={config} onCancel={onCancel} onError={onError} onResults={onResults} onTimeout={onTimeout}/>}
+            </div>
         </div>
     );
 };

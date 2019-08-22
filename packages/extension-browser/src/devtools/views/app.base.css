@@ -5,6 +5,7 @@
     --base-color: #000;
 
     --code-bg: var(--base-bg);
+    --popup-bg: #efefef;
 
     --dark-color: #000;
     --light-color: #fff;
@@ -37,6 +38,7 @@
     --base-color: #fff;
 
     --code-bg: #2d2d2d;
+    --popup-bg: #000;
 
     --button-bg: rgba(255, 255, 255, 0.08);
     --button-bg-hover: rgba(255, 255, 255, 0.065);
@@ -58,9 +60,8 @@
     font-size: var(--font-size);
     margin: 0;
     min-width: 240px;
-    overflow-x: auto;
-    overflow-y: scroll;
-    padding: 0 2.5rem;
+    overflow: auto;
+    padding: 0;
     position: absolute;
     top: 0;
     left: 0;
@@ -68,6 +69,10 @@
     bottom: 0;
     -webkit-user-select: none;
     user-select: none;
+}
+
+.content {
+    padding: 0 2.5rem;
 }
 
 /*
