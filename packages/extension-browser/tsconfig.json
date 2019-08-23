@@ -36,6 +36,7 @@
         { "path": "../hint-no-http-redirects" },
         { "path": "../hint-no-protocol-relative-urls" },
         { "path": "../hint-no-vulnerable-javascript-libraries" },
+        { "path": "../hint-scoped-svg-styles" },
         { "path": "../hint-sri" },
         { "path": "../hint-stylesheet-limits" },
         { "path": "../hint-validate-set-cookie-header" },

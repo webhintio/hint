@@ -51,7 +51,6 @@
     "@hint/parser-css": "^3.0.7",
     "hint": "^5.1.2"
   },
-  "private": true,
   "repository": "webhintio/hint",
   "scripts": {
     "build": "npm run i18n && npm-run-all build:*",
