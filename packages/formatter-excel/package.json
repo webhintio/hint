@@ -11,7 +11,7 @@
     "@hint/utils": "^4.0.0",
     "exceljs": "1.14.0",
     "fs-extra": "^8.0.1",
-    "lodash": "^4.17.13"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@types/node": "^12.6.9",
