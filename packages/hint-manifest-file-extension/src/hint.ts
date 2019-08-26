@@ -33,7 +33,8 @@ export default class ManifestFileExtensionHint implements IHint {
 
         const validate = ({ element, resource }: ElementFound) => {
             if (normalizeString(element.getAttribute('rel')) === 'manifest') {
-                const fileExtension: string = getFileExtension(normalizeString(element.getAttribute('href')) || /* istanbul ignore next */ '');
+                const href = element.resolveUrl(element.getAttribute('href') || /* istanbul ignore next */ '');
+                const fileExtension: string = getFileExtension(normalizeString(href) || /* istanbul ignore next */ '');
 
                 if (fileExtension !== standardManifestFileExtension) {
                     let message: string;
