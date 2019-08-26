@@ -27,6 +27,10 @@
         "message": "Categories",
         "description": "Title of the categories sub-section on the configuration page."
     },
+    "close": {
+        "message": "close",
+        "description": "Label for the close button in the notification"
+    },
     "checkForBestPracticesDescription": {
         "message": "Check for best practices and common errors with your site's accessibility, speed, security, and more.",
         "description": "Brief description of what webhint does."
@@ -111,9 +115,9 @@
         "message": "Learn why this is important and how to fix it",
         "description": "Label for link to additional documentation for a failed test."
     },
-    "moreInfo": {
-        "message": "More info.",
-        "description": "Label for link to additional information about information recollected for telemetry."
+    "learnMore": {
+        "message": "Learn more.",
+        "description": "Label for link to additional information about the information recollected for telemetry."
     },
     "noIssuesLabel": {
         "message": "No issues",

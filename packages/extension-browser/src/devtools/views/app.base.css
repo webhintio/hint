@@ -25,12 +25,18 @@
     --font-size-sm: 0.75rem; /* 12px */
     --font-size-xs: 0.625rem; /* 10px */
 
+    --info-color: #0060df;
+
     --input-size: 1rem; /* 16px */
     --rounding: 0.125rem; /* 2px */
 
     /* Styles */
     --border: var(--border-width) solid var(--border-color);
     --focus-outline: 2px solid var(--base-color);
+
+    /* Notification icon */
+    --icon-close: url(../../images/icon-close.svg);
+    --icon-info: url(../../images/icon-info.svg);
 }
 
 .root[data-theme='dark'] {
@@ -38,7 +44,7 @@
     --base-color: #fff;
 
     --code-bg: #2d2d2d;
-    --popup-bg: #000;
+    --popup-bg: #1a1a1a;
 
     --button-bg: rgba(255, 255, 255, 0.08);
     --button-bg-hover: rgba(255, 255, 255, 0.065);
@@ -46,6 +52,8 @@
     --border-color: rgba(255, 255, 255, 0.25);
 
     --example-color: #fff;
+
+    --info-color: #67b5ef;
 
     --link-color: #67b5ef;
     --link-alt-color: #ce9178;
@@ -62,7 +70,7 @@
     min-width: 240px;
     overflow-x: auto;
     overflow-y: scroll;
-    padding: 0;
+    padding: 0 2.5rem;
     position: absolute;
     top: 0;
     left: 0;
@@ -70,10 +78,6 @@
     bottom: 0;
     -webkit-user-select: none;
     user-select: none;
-}
-
-.content {
-    padding: 0 2.5rem;
 }
 
 /*
@@ -104,17 +108,4 @@
 }
 .root[data-theme='dark']::-webkit-scrollbar-track {
     box-shadow: inset 0 0 1px var(--shadow-color);
-}
-
-.message {
-    flex-grow: 1;
-    line-height: 1.4rem;
-}
-
-@media (max-width: 64rem /* 1024px */) {
-    .actions {
-        display:flex;
-        justify-content: center;
-        margin-top: 0.4rem;
-    }
 }

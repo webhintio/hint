@@ -1,0 +1,42 @@
+.root {
+    box-sizing: border-box;
+    display: flex;
+    padding: 0.7rem;
+    flex-direction: column;
+    width: 100%;
+}
+
+.message {
+    margin: 0;
+    padding: 0 0 0 1rem;
+    position: relative;
+}
+
+.message:before {
+    background-color: var(--info-color);
+    content: ' ';
+    display: block;
+    height: .75rem;
+    left: 0;
+    -webkit-mask: var(--icon-info);
+    mask: var(--icon-info);
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    position: absolute;
+    top: .25rem;
+    width: .75rem;
+}
+
+.actions {
+    display: flex;
+    margin-top: 1rem;
+    justify-content: flex-end;
+}
+
+.actions button:last-child {
+    margin-left: 1rem;
+}

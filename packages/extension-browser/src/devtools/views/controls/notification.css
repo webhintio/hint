@@ -1,0 +1,62 @@
+.root {
+    background-color: var(--popup-bg);
+    border: var(--border-width) solid var(--border-color);
+    bottom: 1rem;
+    box-sizing: border-box;
+    max-width: 28rem;
+    position: fixed;
+    right: 1rem;
+    transform: translateY(calc(100% + 1rem));
+    transition-duration: .3s;
+    transition-property: opacity, transform;
+    opacity: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.close {
+    background-color: transparent;
+    height: .75rem;
+    margin: 0;
+    min-width: .75rem;
+    padding: 0;
+    position: absolute;
+    right: .3rem;
+    top: .4rem;
+    width: .75rem;
+    z-index: 999;
+}
+
+.close:hover {
+    background-color: transparent;
+}
+
+.close:before {
+    background-color: var(--base-color);
+    content: ' ';
+    display: block;
+    height: .75rem;
+    -webkit-mask: var(--icon-close);
+    mask: var(--icon-close);
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    width: .75rem;
+}
+
+@media (max-width: 29rem /* 464px */) {
+    .root {
+        bottom: 0;
+        max-width: 29rem;
+        right: 0;
+        width: 100%;
+    }
+}

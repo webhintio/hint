@@ -4,16 +4,14 @@ import { useCallback, useState } from 'react';
 import { Config as ConfigData, ErrorData, Results as ResultsData } from '../../shared/types';
 
 import Analyze from './pages/analyze';
-import Banner from './controls/banner';
-import Button from './controls/button';
+
 import ConfigPage from './pages/config';
 import ErrorPage from './pages/error';
-import ExternalLink from './controls/external-link';
 import ResultsPage from './pages/results';
+import TelemetryNotification from './controls/telemetry-notification';
 
-import { trackCancel, trackError, trackFinish, trackStart, trackTimeout, showOptIn, enable as enableTelemetry, disable as disableTelemetry } from '../utils/analytics';
+import { trackCancel, trackError, trackFinish, trackStart, trackTimeout } from '../utils/analytics';
 import { useCurrentDesignStyles, useCurrentTheme, withCurrentDesign } from '../utils/themes';
-import { getMessage } from '../utils/i18n';
 
 import * as fluent from './app.fluent.css';
 import * as photon from './app.photon.css';
@@ -40,7 +38,6 @@ const App = (props: Props) => {
     const [config, setConfig] = useState(props.config || {} as ConfigData);
     const [results, setResults] = useState(props.results || emptyResults);
     const [isAnalyzing, setIsAnalyzing] = useState(props.isAnalyzing || false);
-    const [show, setShow] = useState(showOptIn());
 
     const styles = useCurrentDesignStyles({ fluent, photon });
     const theme = useCurrentTheme();
@@ -94,29 +91,6 @@ const App = (props: Props) => {
         trackTimeout(duration);
     }, []);
 
-    const onEnableTelementry = useCallback(() => {
-        setShow(false);
-        enableTelemetry();
-    }, []);
-
-    const onDisableTelemetry = useCallback(() => {
-        setShow(false);
-        disableTelemetry();
-    }, []);
-
-    const getBannerContent = () => {
-        return (<>
-            <span className={styles.message}>
-                {getMessage('helpUs')}
-                &nbsp;<ExternalLink href="https://webhint.io/docs/user-guide/telemetry/summary/">{getMessage('moreInfo')}</ExternalLink>
-            </span>
-            <div className={styles.actions}>
-                <Button primary={true} onClick={onEnableTelementry}>{getMessage('enable')}</Button>
-                <Button primary={true} onClick={onDisableTelemetry}>{getMessage('noThanks')}</Button>
-            </div>
-        </>);
-    };
-
     const getCurrentPage = () => {
         switch (page) {
             case Page.Config:
@@ -132,13 +106,9 @@ const App = (props: Props) => {
 
     return (
         <div className={styles.root} data-theme={theme}>
-            <Banner show={show}>
-                {getBannerContent()}
-            </Banner>
-            <div className={styles.content}>
-                {getCurrentPage()}
-                {isAnalyzing && <Analyze config={config} onCancel={onCancel} onError={onError} onResults={onResults} onTimeout={onTimeout} />}
-            </div>
+            {getCurrentPage()}
+            {isAnalyzing && <Analyze config={config} onCancel={onCancel} onError={onError} onResults={onResults} onTimeout={onTimeout} />}
+            <TelemetryNotification />
         </div>
     );
 };
