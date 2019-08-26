@@ -11,8 +11,11 @@ export const fileExtension = (resource: string): string => {
         /*
          * The url needs to be parsed first
          * otherwise the result from path.extname could be incorrect, e.g.: https://webhint.io => '.com'
+         *
+         * Adding 'http://example.com' as a base will avoid throwing an error
+         * in case the resource is a relative URL.
          */
-        url = new URL(resource);
+        url = new URL(resource, 'http://example.com');
     } catch (err) {
         return extname(resource).split('.')
             .pop() || '';
