@@ -1615,15 +1615,15 @@ append-transform@^1.0.0:
   dependencies:
     default-require-extensions "^2.0.0"
 
-applicationinsights@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.4.0.tgz#e17e436427b6e273291055181e29832cca978644"
-  integrity sha512-TV8MYb0Kw9uE2cdu4V/UvTKdOABkX2+Fga9iDz0zqV7FLrNXfmAugWZmmdTx4JoynYkln3d5CUHY3oVSUEbfFw==
+applicationinsights@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.4.1.tgz#da1abcafd289e4db06180dbf78ff08029bd2006a"
+  integrity sha512-qd+f07F39RxM2ET6azfIrr3NEjGGh2SzMHZHn4EtfqsQG80LFZs4BiCGIKS21W7JeUXCwK4tgyzQzRq20SGmsg==
   dependencies:
     cls-hooked "^4.2.2"
     continuation-local-storage "^3.2.1"
     diagnostic-channel "0.2.0"
-    diagnostic-channel-publishers "^0.3.2"
+    diagnostic-channel-publishers "^0.3.3"
 
 aproba@^1.0.3, aproba@^1.1.1:
   version "1.2.0"
@@ -3854,10 +3854,10 @@ detect-libc@^1.0.2, detect-libc@^1.0.3:
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
   integrity sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
 
-diagnostic-channel-publishers@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/diagnostic-channel-publishers/-/diagnostic-channel-publishers-0.3.2.tgz#c3d222e0588844b2caaf8b4bfeb98dda2eab0ff9"
-  integrity sha512-2hBlg1BtBT+nd04MGGGZinDv5gOTRQOCzdgk+KRQZ20XJ/uepC0B0rwWLQtz6Tk6InXymWqsk1sMC975cPEReA==
+diagnostic-channel-publishers@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/diagnostic-channel-publishers/-/diagnostic-channel-publishers-0.3.3.tgz#376b7798f4fa90f37eb4f94d2caca611b0e9c330"
+  integrity sha512-qIocRYU5TrGUkBlDDxaziAK1+squ8Yf2Ls4HldL3xxb/jzmWO2Enux7CvevNKYmF2kDXZ9HiRqwjPsjk8L+i2Q==
 
 diagnostic-channel@0.2.0:
   version "0.2.0"
