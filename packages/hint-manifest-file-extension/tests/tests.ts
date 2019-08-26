@@ -25,6 +25,11 @@ const tests: HintTest[] = [
         <link rel="stylesheet" href="style.css">`)
     },
     {
+        name: `Web app manifest file has correct file extension but it has query parameters`,
+        serverConfig: generateHTMLPage(`<link rel="manifest" href="site.webmanifest?v=0.1.2">
+        <link rel="stylesheet" href="style.css">`)
+    },
+    {
         name: `Web app manifest file has correct file extension being specified in a path that contains '.'`,
         serverConfig: generateHTMLPage(`<link rel="manifest" href="/.well-known/site.webmanifest">
         <link rel="stylesheet" href="style.css">`)
