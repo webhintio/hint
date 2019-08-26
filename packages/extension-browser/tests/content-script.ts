@@ -102,9 +102,19 @@ const mockContext = () => {
                 browser,
                 document: dom.window.document,
                 eval: dom.window.eval,
+                fetch() {},
                 location: dom.window.location,
                 MutationObserver: (dom.window as any).MutationObserver,
                 window: dom.window
+            },
+            './fetcher': {
+                '@noCallThru': true,
+                Fetcher: class {
+                    public fetch() {}
+                    public handle() {
+                        return false;
+                    }
+                }
             }
         };
 

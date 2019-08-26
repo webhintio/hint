@@ -33,8 +33,22 @@
 .messages {
     align-items: center;
     display: grid;
-    grid-template-columns: 50% 50%;
+    gap: 1.5rem; /* 24px */
+    margin: 1.5rem 0; /* 24px */
     width: 100%;
+}
+
+/* Horizontal layout */
+@media (min-width: 30rem /* 480px */) {
+    .image {
+        margin-top: -10%;
+    }
+
+    .messages {
+        gap: 0;
+        grid-template-columns: 50% 50%;
+        margin: 0;
+    }
 }
 
 .message {
@@ -45,10 +59,6 @@
     font-size: var(--font-size);
     font-weight: var(--bold);
     margin: 0.2rem 0;
-}
-
-.image {
-    margin-top: -10%;
 }
 
 .progress {

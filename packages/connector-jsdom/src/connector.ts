@@ -145,7 +145,7 @@ export default class JSDOMConnector implements IConnector {
         const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
-            await this._resourceLoader!.fetch(new URL(href, this.finalHref).href, { element });
+            await this._resourceLoader!.fetch(this._document.resolveUrl(href), { element });
         } catch (e) {
             /* istanbul ignore next */
             debug('Error loading ${href}', e);

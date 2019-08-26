@@ -5,13 +5,13 @@
     "abab": "^2.0.0",
     "chrome-remote-interface": "^0.27.2",
     "lockfile": "^1.0.4",
-    "lodash": "^4.17.13"
+    "lodash": "^4.17.15"
   },
   "description": "hint debugging protocol common functionality",
   "devDependencies": {
     "@hint/parser-html": "^3.0.4",
     "@types/lockfile": "^1.0.1",
-    "@types/lodash": "^4.14.136",
+    "@types/lodash": "^4.14.137",
     "@types/node": "^12.6.9",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",

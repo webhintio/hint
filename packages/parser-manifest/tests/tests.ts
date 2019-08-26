@@ -20,7 +20,10 @@ const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribu
 
                 return relAttribute;
             },
-            nodeName: 'LINK'
+            nodeName: 'LINK',
+            resolveUrl: (value: string) => {
+                return new url.URL(value, 'https://example.com').href;
+            }
         },
         resource: 'https://example.com'
     };
@@ -40,7 +43,7 @@ const getEngine = (): Engine<ManifestEvents> => {
     return engine;
 };
 
-const fetchEndEventName: string = 'fetch::end::manifest';
+const fetchEndEventName = 'fetch::end::manifest';
 const fetchErrorEventName: string = 'fetch::error::manifest';
 const fetchStartEventName: string = 'fetch::start::manifest';
 
@@ -309,4 +312,32 @@ test(`'${parseErrorSchemaEventName}' event includes location information`, async
             tt.is(error.location && error.location.column, expectedLocation.column);
         });
     });
+});
+
+test('It does not emit redundant fetch events', async (t: ExecutionContext) => {
+    const elementEventValue = getElementLinkEventValue();
+    const sandbox = sinon.createSandbox();
+    const engine = getEngine();
+    const networkData = createNetworkDataObject(`{ "name": "5" };`);
+
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
+    const engineFetchContentStub = sandbox.stub(engine, 'fetchContent');
+
+    engineFetchContentStub.onCall(0)
+        .resolves(networkData);
+
+    new Parser(engine); // eslint-disable-line no-new
+
+    await engine.emitAsync(fetchEndEventName, { element: null, ...networkData, resource: 'https://example.com/site.webmanifest' });
+    await engine.emitAsync(elementLinkEventName, elementEventValue as ElementFound);
+
+    t.log(engineEmitAsyncSpy.args);
+
+    t.is(engineEmitAsyncSpy.callCount, 4);
+    t.is(engineEmitAsyncSpy.args[0][0], fetchEndEventName);
+    t.is(engineEmitAsyncSpy.args[1][0], parseStartEventName);
+    t.is(engineEmitAsyncSpy.args[2][0], parseEndEventName);
+    t.is(engineEmitAsyncSpy.args[3][0], elementLinkEventName);
+
+    sandbox.restore();
 });
