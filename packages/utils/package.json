@@ -15,7 +15,7 @@
     "css-select": "^2.0.2",
     "debug": "^4.1.1",
     "eventemitter2": "^5.0.1",
-    "file-type": "^12.1.0",
+    "file-type": "^12.2.0",
     "file-url": "^3.0.0",
     "globby": "^10.0.1",
     "is-svg": "^4.2.0",
