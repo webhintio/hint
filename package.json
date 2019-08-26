@@ -34,7 +34,7 @@
     "shelljs": "^0.8.3",
     "tsort": "^0.0.1",
     "typescript": "^3.5.1",
-    "yargs": "^13.2.4"
+    "yargs": "^14.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
