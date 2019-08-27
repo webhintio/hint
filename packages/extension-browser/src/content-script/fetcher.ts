@@ -46,6 +46,7 @@ export class Fetcher {
      */
     public fetch(target: string, headers?: any): Promise<NetworkData> {
         return new Promise(async (resolve, reject) => {
+            this._fetches.set(target, resolve);
 
             /*
              * Trigger a fetch, but only resolve the response if it is not
@@ -60,14 +61,14 @@ export class Fetcher {
             try {
                 const response = await fetch(target, { headers });
 
-                if (response.type === 'basic') {
+                if (this._fetches.has(target) && response.type === 'basic') {
                     // Firefox code-path (can't use other path as fetch doesn't trigger onRequestFinished).
                     const data = await toNetworkData(target, headers, response);
 
                     resolve(data);
+                    this._fetches.delete(target);
                 } else {
                     // Chromium code-path (can't use other path as fetch applies CORS restrictions).
-                    this._fetches.set(target, resolve);
                 }
             } catch (err) {
                 reject(err);
