@@ -145,5 +145,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "0.0.6"
+  "version": "0.0.7"
 }
