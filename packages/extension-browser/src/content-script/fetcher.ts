@@ -14,8 +14,7 @@ const mapResponseHeaders = (headers: Headers): HttpHeaders => {
     });
 
     return responseHeaders;
-}
-
+};
 
 const toNetworkData = async (target: string, headers: any, response: Response): Promise<NetworkData> => {
     const responseHeaders = mapResponseHeaders(response.headers);
