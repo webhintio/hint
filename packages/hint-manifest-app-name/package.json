@@ -53,7 +53,11 @@
     "@hint/parser-manifest": "^2.2.6",
     "hint": "^5.2.2"
   },
-  "repository": "webhintio/hint",
+  "repository": {
+    "directory": "packages/hint-manifest-app-name",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
   "scripts": {
     "build": "npm run i18n && npm-run-all build:*",
     "build-release": "npm run clean && npm run i18n && npm run build:assets && tsc --inlineSourceMap false --removeComments true",

@@ -53,7 +53,11 @@
   "peerDependencies": {
     "hint": "^5.2.2"
   },
-  "repository": "webhintio/hint",
+  "repository": {
+    "directory": "packages/parser-typescript-config",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
   "scripts": {
     "build": "npm-run-all build:*",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",

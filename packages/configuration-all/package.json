@@ -84,6 +84,10 @@
   "peerDependencies": {
     "hint": "^5.2.2"
   },
-  "repository": "webhintio/hint",
+  "repository": {
+    "directory": "packages/configuration-all",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
   "version": "1.0.3"
 }
