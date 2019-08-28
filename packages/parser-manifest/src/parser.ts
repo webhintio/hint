@@ -99,33 +99,16 @@ export default class ManifestParser extends Parser<ManifestEvents> {
 
         await this.engine.emitAsync(this.fetchStartEventName, { resource });
 
-        let manifestNetworkData: NetworkData | undefined;
-        let error: Error | undefined;
+        let manifestNetworkData: NetworkData;
 
         try {
             manifestNetworkData = await this.engine.fetchContent(manifestURL);
-        } catch (e) {
-            error = e as Error;
-
-            /*
-             * Generic error message is used as it would be complicated
-             * to handle all the cases, and displaying the default error
-             * message wouldn't be very user friendly.
-             */
-
-            error.message = `'${hrefValue}' could not be fetched (request failed).`;
-        }
-
-        // TODO: Add check if manifest cannot be fetch because of CSP.
-
-        const statusCode: number | undefined = manifestNetworkData && manifestNetworkData.response.statusCode;
-
-        if (!manifestNetworkData || error || statusCode !== 200) {
+        } catch (error) {
 
             await this.engine.emitAsync(this.fetchErrorEventName, {
                 element,
-                error: error || new Error(`'${hrefValue}' could not be fetched (status code: ${statusCode}).`),
-                hops: (manifestNetworkData && manifestNetworkData.response.hops) || [manifestURL],
+                error,
+                hops: [manifestURL],
                 resource: manifestURL
             });
 
@@ -154,6 +137,10 @@ export default class ManifestParser extends Parser<ManifestEvents> {
         }
 
         this.fetchedManifests.add(resource);
+
+        if (response.statusCode >= 400) {
+            return;
+        }
 
         await this.engine.emitAsync(`parse::start::manifest`, { resource });
 

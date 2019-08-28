@@ -44,13 +44,13 @@ const getEngine = (): Engine<ManifestEvents> => {
 };
 
 const fetchEndEventName = 'fetch::end::manifest';
-const fetchErrorEventName: string = 'fetch::error::manifest';
-const fetchStartEventName: string = 'fetch::start::manifest';
+const fetchErrorEventName = 'fetch::error::manifest';
+const fetchStartEventName = 'fetch::start::manifest';
 
-const parseStartEventName: string = 'parse::start::manifest';
-const parseEndEventName: string = 'parse::end::manifest';
-const parseErrorSchemaEventName: string = 'parse::error::manifest::schema';
-const parseJSONErrorEventName: string = 'parse::error::manifest::json';
+const parseStartEventName = 'parse::start::manifest';
+const parseEndEventName = 'parse::end::manifest';
+const parseErrorSchemaEventName = 'parse::error::manifest::schema';
+const parseJSONErrorEventName = 'parse::error::manifest::json';
 
 const scanEndEventName = 'scan::end';
 const scanEndEventValue = { resource: 'https://example.com' };
@@ -176,7 +176,7 @@ test(`'${fetchErrorEventName}' event is emitted when the manifest cannot be fetc
     sandbox.restore();
 });
 
-test(`'${fetchErrorEventName}' event is emitted when the response for the web app manifest has a status code differenr the 200`, async (t) => {
+test(`'${fetchEndEventName}' event is emitted when the response for the web app manifest has a failure status code`, async (t) => {
     const elementEventValue = getElementLinkEventValue();
     const manifestContent = '500 Internal Server Error';
     const sandbox = sinon.createSandbox();
@@ -196,8 +196,7 @@ test(`'${fetchErrorEventName}' event is emitted when the response for the web ap
     t.is(engineEmitAsyncSpy.callCount, 4);
     t.is(engineEmitAsyncSpy.args[0][0], elementLinkEventName);
     t.is(engineEmitAsyncSpy.args[1][0], fetchStartEventName);
-    t.is(engineEmitAsyncSpy.args[2][0], fetchErrorEventName);
-    t.not(typeof (engineEmitAsyncSpy.args[2][1] as any).error, 'undefined');
+    t.is(engineEmitAsyncSpy.args[2][0], fetchEndEventName);
     t.is(engineEmitAsyncSpy.args[3][0], scanEndEventName);
 
     sandbox.restore();

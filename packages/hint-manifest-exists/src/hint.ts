@@ -11,6 +11,7 @@
 
 import {
     ElementFound,
+    FetchEnd,
     FetchError,
     HintContext,
     IHint,
@@ -70,13 +71,20 @@ export default class ManifestExistsHint implements IHint {
             }
         };
 
-        const handleFetchErrors = (fetchErrorEvent: FetchError) => {
-            const { resource, element, error } = fetchErrorEvent;
+        const handleFetchEnd = ({ element, resource, response }: FetchEnd) => {
+            if (response.statusCode >= 400) {
+                context.report(resource, getMessage('manifestNotFetchedStatus', context.language, `${response.statusCode}`), { element });
+            }
+        };
 
-            context.report(resource, error.message, { element });
+        const handleFetchErrors = (fetchErrorEvent: FetchError) => {
+            const { resource, element } = fetchErrorEvent;
+
+            context.report(resource, getMessage('manifestNotFetched', context.language), { element });
         };
 
         context.on('element::link', checkIfManifest);
+        context.on('fetch::end::manifest', handleFetchEnd);
         context.on('fetch::error::manifest', handleFetchErrors);
         context.on('scan::end', checkIfManifestWasSpecified);
     }
