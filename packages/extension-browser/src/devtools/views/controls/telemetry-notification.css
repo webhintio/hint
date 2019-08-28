@@ -1,12 +1,5 @@
-.root {
-    box-sizing: border-box;
-    display: flex;
-    padding: 0.7rem;
-    flex-direction: column;
-    width: 100%;
-}
-
 .message {
+    display: block;
     margin: 0;
     padding: 0 0 0 1rem;
     position: relative;
@@ -29,14 +22,4 @@
     position: absolute;
     top: .25rem;
     width: .75rem;
-}
-
-.actions {
-    display: flex;
-    margin-top: 1rem;
-    justify-content: flex-end;
-}
-
-.actions button:last-child {
-    margin-left: 1rem;
 }

@@ -3,13 +3,18 @@
     border: var(--border-width) solid var(--border-color);
     bottom: 1rem;
     box-sizing: border-box;
-    max-width: 28rem;
+    display: grid;
+    grid-gap: .7rem 1rem;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr auto;
+    max-width: 29rem;
+    opacity: 0;
+    padding: 0.7rem;
     position: fixed;
     right: 1rem;
     transform: translateY(calc(100% + 1rem));
     transition-duration: .3s;
     transition-property: opacity, transform;
-    opacity: 0;
     width: 100%;
     z-index: 10;
 }
@@ -21,15 +26,12 @@
 
 .close {
     background-color: transparent;
+    grid-column: 2;
     height: .75rem;
-    margin: 0;
+    margin: .25rem 0 0 0;
     min-width: .75rem;
     padding: 0;
-    position: absolute;
-    right: .3rem;
-    top: .4rem;
     width: .75rem;
-    z-index: 999;
 }
 
 .close:hover {
@@ -52,10 +54,31 @@
     width: .75rem;
 }
 
-@media (max-width: 29rem /* 464px */) {
+.content {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.actions {
+    display: flex;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.actions > * {
+    margin-left: 1rem
+}
+
+.actions > *:first-child {
+    margin-left: 0;
+}
+
+@media (max-width: 30rem /* 480px */) {
     .root {
         bottom: 0;
-        max-width: 29rem;
+        max-width: 30rem;
         right: 0;
         width: 100%;
     }

@@ -23,18 +23,19 @@ const TelemetryNotification = () => {
         disableTelemetry();
     }, []);
 
+    const getActions = () => {
+        return (<>
+            <Button primary={true} onClick={onEnableTelementry}>{getMessage('enable')}</Button>
+            <Button primary={true} onClick={onDisableTelemetry}>{getMessage('noThanks')}</Button>
+            </>);
+    };
+
     return (
-        <Notification show={show}>
-            <div className={styles.root}>
-                <span className={styles.message}>
-                    {getMessage('helpUs')}
-                    &nbsp;<ExternalLink href="https://webhint.io/docs/user-guide/telemetry/summary/">{getMessage('learnMore')}</ExternalLink>
-                </span>
-                <div className={styles.actions}>
-                    <Button primary={true} onClick={onEnableTelementry}>{getMessage('enable')}</Button>
-                    <Button primary={true} onClick={onDisableTelemetry}>{getMessage('noThanks')}</Button>
-                </div>
-            </div>
+        <Notification show={show} actions={getActions()}>
+            <span className={styles.message}>
+                {getMessage('helpUs')}
+                &nbsp;<ExternalLink href="https://webhint.io/docs/user-guide/telemetry/summary/">{getMessage('learnMore')}</ExternalLink>
+            </span>
         </Notification>
     );
 };

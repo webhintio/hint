@@ -8,11 +8,12 @@ import Button from './button';
 import { getMessage } from '../../utils/i18n';
 
 type Props = {
+    actions: JSX.Element;
+    children: any;
     show: boolean;
-    children?: any;
 }
 
-const Notification = ({ show, children }: Props) => {
+const Notification = ({ actions, children, show }: Props) => {
     const [showNotification, setShow] = useState(false);
     const [discarted, setDiscarted] = useState(false);
     const closeMessage = getMessage('close');
@@ -33,8 +34,11 @@ const Notification = ({ show, children }: Props) => {
     }, [show, discarted]);
 
     return (<div className={`${styles.root} ${showNotification ? styles.visible : ''}`}>
+        <div className={styles.content}>
+            {children}
+        </div>
+        {actions && <div className={styles.actions}>{actions}</div>}
         <Button className={styles.close} title={closeMessage} aria-label={closeMessage} onClick={onDiscardNotification} />
-        {children}
     </div>);
 };
 
