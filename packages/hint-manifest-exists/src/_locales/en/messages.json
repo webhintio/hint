@@ -11,6 +11,14 @@
         "description": "Report message when the manifest has an empty href attribute",
         "message": "'manifest' link element should have non-empty 'href' attribute."
     },
+    "manifestNotFetched": {
+        "description": "Report message when the manifest file cannot be loaded due to network failure.",
+        "message": "'manifest' could not be fetched. Request failed."
+    },
+    "manifestNotFetchedStatus": {
+        "description": "Report message when the manifest file cannot be loaded due to server failure.",
+        "message": "'manifest' could not be fetched. Status code: $1"
+    },
     "manifestNotSpecified": {
         "description": "Report message when the manifest link element is not specified",
         "message": "'manifest' link element was not specified."
