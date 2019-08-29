@@ -63,7 +63,7 @@ process.once('uncaughtException', async (err) => {
     console.error(err.message);
     console.error(err.stack);
     trackException(err);
-    await sendPendingData();
+    await sendPendingData(true);
     process.exit(1);
 });
 
@@ -73,7 +73,7 @@ process.once('unhandledRejection', async (r) => {
     const source = reason && reason instanceof Error ? reason : reason.error;
 
     trackException(source);
-    await sendPendingData();
+    await sendPendingData(true);
     console.error(`Unhandled rejection promise:
     uri: ${source.uri}
     message: ${source.message}
