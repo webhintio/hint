@@ -35,7 +35,8 @@ the server won't start.
 
 Full instructions available at the [Publishing Extensions][publishing]
 page in the Visual Studio Code documentation. You must be a member of
-the [`webhint` Azure DevOps organization][webhint org] to publish.
+the [`webhint` Visual Studio Marketplace publisher][webhint pub] to
+publish.
 
 * Install the packager via `npm install -g vsce`
 * Run `npm install` from this directory (cannot publish `yarn` install)
@@ -49,5 +50,5 @@ Note `vsce` saves your login information so only `npm install` and
 <!-- Link labels: -->
 
 [publishing]: https://code.visualstudio.com/docs/extensions/publish-extension
-[webhint org]: https://dev.azure.com/webhint/webhint
+[webhint pub]: https://marketplace.visualstudio.com/manage/publishers/webhint
 [token]: https://code.visualstudio.com/docs/extensions/publish-extension#_get-a-personal-access-token
