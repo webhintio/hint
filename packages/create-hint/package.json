@@ -60,7 +60,11 @@
   "nyc": {
     "extends": "../../.nycrc"
   },
-  "repository": "webhintio/hint",
+  "repository": {
+    "directory": "packages/create-hint",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
   "scripts": {
     "build": "npm-run-all build:*",
     "build-release": "npm run clean && npm run build:assets && webpack",
