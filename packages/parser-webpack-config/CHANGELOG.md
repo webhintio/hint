@@ -1,3 +1,10 @@
+# 2.1.8 (August 29, 2019)
+
+## Chores
+
+* [[`8bf645e15f`](https://github.com/webhintio/hint/commit/8bf645e15f84e69218e1ce25a5a759109de83cc4)] - Upgrade: Bump @types/webpack from 4.32.1 to 4.32.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.1.7 (August 15, 2019)
 
 ## Chores

@@ -1,3 +1,22 @@
+# 4.1.0 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`d01eb29b7e`](https://github.com/webhintio/hint/commit/d01eb29b7ee9ea385252fc2a35f2cd93ffb88fc2)] - Fix: Method file-extension to support relative URLs (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+## New features
+
+* [[`154eda8463`](https://github.com/webhintio/hint/commit/154eda8463175eba424c552016fccb96a45e5992)] - New: Add `parentElement` property to the `HTMLElement` class (by [`Jaspreet Singh`](https://github.com/jaspreet57)).
+
+## Chores
+
+* [[`2048485aff`](https://github.com/webhintio/hint/commit/2048485affe6af0cd8cc48f03f7a3f62398bf330)] - Upgrade: Bump mdn-browser-compat-data from 0.0.88 to 0.0.91 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2835406ca7`](https://github.com/webhintio/hint/commit/2835406ca7db6ca4926b6d55f15ee84f96f98748)] - Upgrade: Bump jsonc-parser from 2.1.0 to 2.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`dc17c7661b`](https://github.com/webhintio/hint/commit/dc17c7661bc8564467a3bde1b4e2c0dbebfcb510)] - Upgrade: Bump lodash from 4.17.14 to 4.17.15 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`acdc82165d`](https://github.com/webhintio/hint/commit/acdc82165d85a49f2aa275db09bb742afef67b97)] - Upgrade: Bump file-type from 12.1.0 to 12.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`72b18d08b2`](https://github.com/webhintio/hint/commit/72b18d08b27a785e3070d1278ec059fbf119e862)] - Upgrade: Bump applicationinsights from 1.4.0 to 1.4.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.0.0 (August 15, 2019)
 
 ## Breaking Changes

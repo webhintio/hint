@@ -1,3 +1,10 @@
+# 2.9.5 (August 29, 2019)
+
+## New features
+
+* [[`c4568667c6`](https://github.com/webhintio/hint/commit/c4568667c6a1458a2def026dbd321a19f2c3409b)] - Update: 'validator'.
+
+
 # 2.9.4 (August 15, 2019)
 
 ## New features

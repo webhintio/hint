@@ -1,3 +1,6 @@
+# 3.1.5 (August 29, 2019)
+
+
 # 3.1.4 (August 15, 2019)
 
 ## Bug fixes / Improvements

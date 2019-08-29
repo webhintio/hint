@@ -1,3 +1,12 @@
+# 2.2.6 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`fc2d5aacc0`](https://github.com/webhintio/hint/commit/fc2d5aacc09a39d67539c71628ada9fddb886913)] - Fix: Align manual manifest fetch behavior with connectors (by [`Tony Ross`](https://github.com/antross) / see also: [`#2882`](https://github.com/webhintio/hint/issues/2882)).
+* [[`425b389b7f`](https://github.com/webhintio/hint/commit/425b389b7f30f66fed34213d918107819aae45cc)] - Fix: Avoid redundant 'fetch::end::manifest' events (by [`Tony Ross`](https://github.com/antross)).
+* [[`6b26a320a7`](https://github.com/webhintio/hint/commit/6b26a320a7777090a6ef82901d073c131d9672ec)] - Fix: Use <base> element to resolve the url (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 2.2.5 (August 15, 2019)
 
 

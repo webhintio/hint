@@ -1,3 +1,14 @@
+# 2.9.5 (August 29, 2019)
+
+## New features
+
+* [[`6a4c1eb37c`](https://github.com/webhintio/hint/commit/6a4c1eb37cd03606154ce1f2dcca8cfaf2637ebc)] - Update: 'snyk-snapshot.json'.
+
+## Chores
+
+* [[`dc17c7661b`](https://github.com/webhintio/hint/commit/dc17c7661bc8564467a3bde1b4e2c0dbebfcb510)] - Upgrade: Bump lodash from 4.17.14 to 4.17.15 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.9.4 (August 15, 2019)
 
 ## New features

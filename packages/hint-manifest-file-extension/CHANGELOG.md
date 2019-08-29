@@ -1,3 +1,10 @@
+# 2.3.5 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`3666ea86c3`](https://github.com/webhintio/hint/commit/3666ea86c3424426a3664d7a82c2512c17663cfa)] - Fix: PWA manifest-file-extension is wrong (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2849`](https://github.com/webhintio/hint/issues/2849)).
+
+
 # 2.3.4 (August 15, 2019)
 
 

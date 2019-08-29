@@ -12,7 +12,7 @@
   "dependencies": {},
   "description": "webhint's hint initializer package",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.4",
+    "@hint/utils-tests-helpers": "^5.0.6",
     "@types/debug": "^4.1.4",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -20,7 +20,7 @@
     "@types/node": "^12.6.9",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.0.13",
-    "@hint/utils": "^4.0.0",
+    "@hint/utils": "^4.1.0",
     "ava": "^1.4.1",
     "cpx": "^1.5.0",
     "eslint": "^5.15.1",
@@ -29,7 +29,7 @@
     "fork-ts-checker-webpack-plugin": "^1.5.0",
     "fs-extra": "^8.0.1",
     "handlebars": "^4.1.2",
-    "hint": "^5.2.1",
+    "hint": "^5.2.2",
     "inquirer": "^6.5.0",
     "mkdirp": "^0.5.1",
     "npm-link-check": "^3.0.0",
@@ -80,5 +80,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "3.2.0"
+  "version": "3.2.1"
 }

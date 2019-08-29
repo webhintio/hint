@@ -1,3 +1,14 @@
+# 4.1.4 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`f6b7cd9cb8`](https://github.com/webhintio/hint/commit/f6b7cd9cb8083d90fb6290d1970989e7fb2b38e1)] - Fix: Show check mark after copy to clipboard (by [`Jaspreet Singh`](https://github.com/jaspreet57) / see also: [`#2705`](https://github.com/webhintio/hint/issues/2705)).
+
+## Chores
+
+* [[`dc17c7661b`](https://github.com/webhintio/hint/commit/dc17c7661bc8564467a3bde1b4e2c0dbebfcb510)] - Upgrade: Bump lodash from 4.17.14 to 4.17.15 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.1.3 (August 15, 2019)
 
 

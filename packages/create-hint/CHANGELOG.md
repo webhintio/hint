@@ -1,3 +1,10 @@
+# 3.2.1 (August 29, 2019)
+
+## Chores
+
+* [[`8d2c4a238a`](https://github.com/webhintio/hint/commit/8d2c4a238aa46d0acf95a1f915c256b55ac181a3)] - Upgrade: Bump webpack-cli from 3.3.6 to 3.3.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.2.0 (August 15, 2019)
 
 ## Bug fixes / Improvements

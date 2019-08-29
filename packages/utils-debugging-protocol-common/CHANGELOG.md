@@ -1,3 +1,15 @@
+# 4.0.8 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`6b26a320a7`](https://github.com/webhintio/hint/commit/6b26a320a7777090a6ef82901d073c131d9672ec)] - Fix: Use <base> element to resolve the url (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+## Chores
+
+* [[`4aded29827`](https://github.com/webhintio/hint/commit/4aded29827590a7d3a51431dfbfe48a1843e12f1)] - Upgrade: Bump @types/lodash from 4.14.136 to 4.14.137 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`dc17c7661b`](https://github.com/webhintio/hint/commit/dc17c7661bc8564467a3bde1b4e2c0dbebfcb510)] - Upgrade: Bump lodash from 4.17.14 to 4.17.15 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.0.7 (August 15, 2019)
 
 

@@ -1,3 +1,10 @@
+# 4.1.5 (August 29, 2019)
+
+## Chores
+
+* [[`2508c04f58`](https://github.com/webhintio/hint/commit/2508c04f5802f442ef46ebb7cddfafce1190474a)] - Chore: Remove iterating over elements and use direct selector (by [`Jaspreet Singh`](https://github.com/jaspreet57) / see also: [`#2033`](https://github.com/webhintio/hint/issues/2033)).
+
+
 # 4.1.4 (August 15, 2019)
 
 

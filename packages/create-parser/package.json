@@ -12,7 +12,7 @@
   "dependencies": {},
   "description": "webhint's parser initializer package",
   "devDependencies": {
-    "@hint/utils": "^4.0.0",
+    "@hint/utils": "^4.1.0",
     "@types/inquirer": "^6.0.3",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "^12.6.9",
@@ -28,7 +28,7 @@
     "fork-ts-checker-webpack-plugin": "^1.5.0",
     "fs-extra": "^8.0.1",
     "handlebars": "^4.1.2",
-    "hint": "^5.2.1",
+    "hint": "^5.2.2",
     "inquirer": "^6.5.0",
     "mkdirp": "^0.5.1",
     "npm-link-check": "^3.0.0",
@@ -81,5 +81,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "2.1.7"
+  "version": "2.1.8"
 }

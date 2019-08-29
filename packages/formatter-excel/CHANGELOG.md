@@ -1,3 +1,10 @@
+# 3.1.5 (August 29, 2019)
+
+## Chores
+
+* [[`dc17c7661b`](https://github.com/webhintio/hint/commit/dc17c7661bc8564467a3bde1b4e2c0dbebfcb510)] - Upgrade: Bump lodash from 4.17.14 to 4.17.15 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.1.4 (August 15, 2019)
 
 

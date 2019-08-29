@@ -1,3 +1,10 @@
+# 2.3.5 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`fc2d5aacc0`](https://github.com/webhintio/hint/commit/fc2d5aacc09a39d67539c71628ada9fddb886913)] - Fix: Align manual manifest fetch behavior with connectors (by [`Tony Ross`](https://github.com/antross) / see also: [`#2882`](https://github.com/webhintio/hint/issues/2882)).
+
+
 # 2.3.4 (August 15, 2019)
 
 

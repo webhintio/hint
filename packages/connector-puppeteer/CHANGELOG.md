@@ -1,3 +1,16 @@
+# 2.0.5 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`c5a6c4adc4`](https://github.com/webhintio/hint/commit/c5a6c4adc49298c62e80607b9098f1a2bdc8fde4)] - Fix: Favicon url when a base element is present. (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2829`](https://github.com/webhintio/hint/issues/2829)).
+* [[`22d32a6a0a`](https://github.com/webhintio/hint/commit/22d32a6a0a59cb32050762268a0bc9a41319a68e)] - Fix: Dependencies (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2835`](https://github.com/webhintio/hint/issues/2835)).
+
+## Chores
+
+* [[`4aded29827`](https://github.com/webhintio/hint/commit/4aded29827590a7d3a51431dfbfe48a1843e12f1)] - Upgrade: Bump @types/lodash from 4.14.136 to 4.14.137 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`dc17c7661b`](https://github.com/webhintio/hint/commit/dc17c7661bc8564467a3bde1b4e2c0dbebfcb510)] - Upgrade: Bump lodash from 4.17.14 to 4.17.15 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.0.4 (August 15, 2019)
 
 

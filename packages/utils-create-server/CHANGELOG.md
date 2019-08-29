@@ -1,3 +1,12 @@
+# 3.1.8 (August 29, 2019)
+
+## Chores
+
+* [[`4aded29827`](https://github.com/webhintio/hint/commit/4aded29827590a7d3a51431dfbfe48a1843e12f1)] - Upgrade: Bump @types/lodash from 4.14.136 to 4.14.137 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`dc17c7661b`](https://github.com/webhintio/hint/commit/dc17c7661bc8564467a3bde1b4e2c0dbebfcb510)] - Upgrade: Bump lodash from 4.17.14 to 4.17.15 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5100cf1f5d`](https://github.com/webhintio/hint/commit/5100cf1f5dd3ecbd37a3aed61370795d16936f48)] - Upgrade: Bump @types/express from 4.17.0 to 4.17.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.1.7 (August 15, 2019)
 
 

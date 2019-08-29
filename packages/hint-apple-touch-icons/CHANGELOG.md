@@ -1,3 +1,10 @@
+# 3.1.5 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`6b26a320a7`](https://github.com/webhintio/hint/commit/6b26a320a7777090a6ef82901d073c131d9672ec)] - Fix: Use <base> element to resolve the url (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 3.1.4 (August 15, 2019)
 
 

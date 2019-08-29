@@ -1,3 +1,16 @@
+# 5.2.2 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`3aba15082b`](https://github.com/webhintio/hint/commit/3aba15082be60e6f1a5743850901227751ff1a8b)] - Docs: Update `formatterOptions` in `formatter` documentation (by [`Jaspreet Singh`](https://github.com/jaspreet57) / see also: [`#2820`](https://github.com/webhintio/hint/issues/2820)).
+* [[`8554d62b71`](https://github.com/webhintio/hint/commit/8554d62b712d2aa5656f94e9ad197e65e72ea2d7)] - Docs: Add browser extension documentation (by [`Rachel Simone Weil`](https://github.com/hxlnt) / see also: [`#2780`](https://github.com/webhintio/hint/issues/2780)).
+
+## Chores
+
+* [[`4aded29827`](https://github.com/webhintio/hint/commit/4aded29827590a7d3a51431dfbfe48a1843e12f1)] - Upgrade: Bump @types/lodash from 4.14.136 to 4.14.137 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`dc17c7661b`](https://github.com/webhintio/hint/commit/dc17c7661bc8564467a3bde1b4e2c0dbebfcb510)] - Upgrade: Bump lodash from 4.17.14 to 4.17.15 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 5.2.1 (August 15, 2019)
 
 ## Bug fixes / Improvements

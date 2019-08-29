@@ -103,5 +103,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.0"
+  "version": "4.1.0"
 }
