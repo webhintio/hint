@@ -28,7 +28,7 @@
         "description": "Title of the categories sub-section on the configuration page."
     },
     "close": {
-        "message": "close",
+        "message": "Close",
         "description": "Label for the close button in the notification"
     },
     "checkForBestPracticesDescription": {
@@ -117,7 +117,7 @@
     },
     "learnMore": {
         "message": "Learn more.",
-        "description": "Label for link to additional information about the information recollected for telemetry."
+        "description": "Label for link to additional information about the information collected for telemetry."
     },
     "noIssuesLabel": {
         "message": "No issues",

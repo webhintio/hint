@@ -1,13 +1,14 @@
 .message {
     display: block;
     margin: 0;
-    padding: 0 0 0 1rem;
+    padding: 0;
+    padding-left: 1rem; /* 16px */
     position: relative;
 }
 
 .message:before {
     background-color: var(--info-color);
-    content: ' ';
+    content: '';
     display: block;
     height: .75rem;
     left: 0;

@@ -24,10 +24,10 @@ const TelemetryNotification = () => {
     }, []);
 
     const getActions = () => {
-        return (<>
-            <Button primary={true} onClick={onEnableTelementry}>{getMessage('enable')}</Button>
-            <Button primary={true} onClick={onDisableTelemetry}>{getMessage('noThanks')}</Button>
-            </>);
+        return ([
+            <Button key="1" primary={true} onClick={onEnableTelementry}>{getMessage('enable')}</Button>,
+            <Button key="2" primary={true} onClick={onDisableTelemetry}>{getMessage('noThanks')}</Button>
+        ]);
     };
 
     return (
