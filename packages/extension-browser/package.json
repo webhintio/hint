@@ -100,7 +100,8 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "dist/src"
+    "dist/src",
+    "images"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
