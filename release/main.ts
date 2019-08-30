@@ -5,7 +5,7 @@
 import * as Listr from 'listr';
 import { Arguments } from 'yargs';
 
-import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease } from './lib/skippers';
+import { skipReasons, skipInstallation, skipIfAborted, skipIfBrowserSame, skipIfError, skipIfForced, skipIfJustRelease } from './lib/skippers';
 import { taskErrorWrapper } from './lib/utils';
 import { updateChangelogs } from './tasks/update-changelogs';
 import { updateThirdPartyResources } from './lib/update-3rd-party';
@@ -18,7 +18,7 @@ import { cleanUp } from './tasks/clean-up';
 import { runTests } from './tasks/run-tests';
 import { validateChanges } from './tasks/validate-changes';
 import { validateEnvironment } from './tasks/validate-environment';
-import { confirmRelease, release } from './tasks/release';
+import { confirmRelease, release, releaseForBrowser } from './tasks/release';
 import { commitPackagesChanges } from './tasks/commit-packages-changes';
 import { authenticateGitHub } from './tasks/authenticate-github';
 import { cleanWorkspace } from './tasks/clean-workspace';
@@ -28,7 +28,7 @@ import { installDependencies } from './tasks/install-dependencies';
 import { updateConfigurationAll } from './tasks/update-configuration-all';
 import { Parameters } from './@types/custom';
 
-const ignoredPackages = ['extension-vscode', 'extension-browser'];
+const ignoredPackages = ['extension-vscode'];
 
 /** The tasks to be executed in sequential order. */
 const tasks = new Listr([
@@ -116,6 +116,21 @@ const tasks = new Listr([
         title: 'Publish on npm',
         skip: skipReasons(skipIfError, skipIfAborted),
         task: release()
+    },
+    {
+        title: 'Submit extension-browser for Chrome',
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfBrowserSame),
+        task: releaseForBrowser('https://chrome.google.com/webstore/developer/dashboard')
+    },
+    {
+        title: 'Submit extension-browser for Edge (Chromium)',
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfBrowserSame),
+        task: releaseForBrowser('TBD')
+    },
+    {
+        title: 'Submit extension-browser for Firefox',
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfBrowserSame),
+        task: releaseForBrowser('https://addons.mozilla.org/en-US/developers/addons')
     },
     {
         title: 'Publish changes in GitHub',

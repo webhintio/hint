@@ -57,3 +57,20 @@ export const release = () => {
         }
     });
 };
+
+export const releaseForBrowser = (url: string) => {
+    return () => {
+        const questions = [{
+            choices: [{ name: url }],
+            message: `Did you submit extension-browser?`,
+            name: 'submitted',
+            type: 'checkbox'
+        }];
+
+        return inquirer(questions, async (answers: import('inquirer').Answers) => { // eslint-disable-line
+            if (!answers.submitted.length) {
+                throw new Error(`Package not submitted`);
+            }
+        });
+    };
+};
