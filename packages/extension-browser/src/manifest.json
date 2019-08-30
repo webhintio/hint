@@ -18,5 +18,5 @@
     "<all_urls>",
     "webNavigation"
   ],
-  "version": "0.0.7"
+  "version": "(set by scripts/copy-version.js)"
 }
