@@ -188,8 +188,13 @@ const getDefaultConfiguration = (targets: URL[]) => {
     }
 
     const ext = targetsAreFiles ? 'development' : 'web-recommended';
+    const config = { extends: [ext] } as UserConfig;
 
-    return { extends: [ext] };
+    if (isCI) {
+        config.formatters = ['html', 'stylish'];
+    }
+
+    return config;
 };
 
 const askUserToUseDefaultConfiguration = async (targets: URL[]): Promise<UserConfig | null> => {

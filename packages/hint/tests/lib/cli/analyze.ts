@@ -207,6 +207,22 @@ test('If there is no valid user config, it should use `web-recommended` as defau
     t.deepEqual(createAnalyzerStub.args[0][0], { extends: ['web-recommended'], language: 'en-US' });
 });
 
+test('If there is no valid user config, it should use `web-recommended` as default configuration and use formatters `stylish` and `html` if it is running in CI', async (t) => {
+    const sandbox = t.context.sandbox;
+
+    const createAnalyzerStub = sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(new FakeAnalyzer());
+
+    sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns(null as any);
+    sandbox.stub(t.context, 'askQuestion').resolves(false);
+
+    const analyze = loadScript(t.context, true);
+
+    await analyze(actions);
+
+    t.true(createAnalyzerStub.calledOnce);
+    t.deepEqual(createAnalyzerStub.args[0][0], { extends: ['web-recommended'], formatters: ['html', 'stylish'], language: 'en-US' });
+});
+
 test('If there is no valid user config and the target is an existing filesystem path, it should use `development` as default configuration', async (t) => {
     const sandbox = t.context.sandbox;
 
@@ -221,6 +237,22 @@ test('If there is no valid user config and the target is an existing filesystem 
 
     t.true(createAnalyzerStub.calledOnce);
     t.deepEqual(createAnalyzerStub.args[0][0], { extends: ['development'], language: 'en-US' });
+});
+
+test('If there is no valid user config and the target is an existing filesystem path, it should use `development` as default configuration and use formatters `stylish` and `html` if it is running in CI', async (t) => {
+    const sandbox = t.context.sandbox;
+
+    const createAnalyzerStub = sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(new FakeAnalyzer());
+
+    sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns(null as any);
+    sandbox.stub(t.context, 'askQuestion').resolves(false);
+
+    const analyze = loadScript(t.context, true);
+
+    await analyze(actionsFS);
+
+    t.true(createAnalyzerStub.calledOnce);
+    t.deepEqual(createAnalyzerStub.args[0][0], { extends: ['development'], formatters: ['html', 'stylish'], language: 'en-US' });
 });
 
 test('If there is no valid user config and user refuses to use the default or to create a configuration file, it should exit with code 1', async (t) => {

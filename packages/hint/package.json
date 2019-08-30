@@ -73,8 +73,9 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
-    "@hint/configuration-development": "^7.0.3",
-    "@hint/configuration-web-recommended": "^7.0.3"
+    "@hint/configuration-development": "^7.1.0",
+    "@hint/configuration-web-recommended": "^7.1.0",
+    "@hint/formatter-stylish": "^3.1.5"
   },
   "repository": {
     "directory": "packages/hint",
