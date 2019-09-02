@@ -2,7 +2,7 @@
   "dependencies": {
     "@hint/utils": "^4.1.0",
     "@hint/utils-connector-tools": "^4.0.8",
-    "abab": "^2.0.0",
+    "abab": "^2.0.1",
     "chrome-remote-interface": "^0.27.2",
     "lockfile": "^1.0.4",
     "lodash": "^4.17.15"
