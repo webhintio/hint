@@ -20,7 +20,7 @@
     "@types/is-ci": "^2.0.0",
     "@types/lockfile": "^1.0.1",
     "@types/lodash": "^4.14.137",
-    "@types/node": "^12.6.9",
+    "@types/node": "^12.7.3",
     "@types/puppeteer-core": "^1.9.0",
     "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
