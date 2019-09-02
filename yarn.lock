@@ -2493,16 +2493,17 @@ bytes@3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
-cacache@^11.3.3:
-  version "11.3.3"
-  resolved "https://registry.yarnpkg.com/cacache/-/cacache-11.3.3.tgz#8bd29df8c6a718a6ebd2d010da4d7972ae3bbadc"
-  integrity sha512-p8WcneCytvzPxhDvYp31PD039vi77I12W+/KfR9S8AZbaiARFBCpsPJS+9uhWfeBfeAtW7o/4vt3MUqLkbY6nA==
+cacache@^12.0.0:
+  version "12.0.3"
+  resolved "https://registry.yarnpkg.com/cacache/-/cacache-12.0.3.tgz#be99abba4e1bf5df461cd5a2c1071fc432573390"
+  integrity sha512-kqdmfXEGFepesTuROHMs3MpFLWrPkSSpRqOw80RCflZXy/khxaArvFrQ7uJxSUduzAufc6G0g1VUCOZXxWavPw==
   dependencies:
     bluebird "^3.5.5"
     chownr "^1.1.1"
     figgy-pudding "^3.5.1"
     glob "^7.1.4"
     graceful-fs "^4.1.15"
+    infer-owner "^1.0.3"
     lru-cache "^5.1.1"
     mississippi "^3.0.0"
     mkdirp "^0.5.1"
@@ -7678,13 +7679,13 @@ make-dir@^3.0.0:
   dependencies:
     semver "^6.0.0"
 
-make-fetch-happen@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/make-fetch-happen/-/make-fetch-happen-4.0.2.tgz#2d156b11696fb32bffbafe1ac1bc085dd6c78a79"
-  integrity sha512-YMJrAjHSb/BordlsDEcVcPyTbiJKkzqMf48N8dAJZT9Zjctrkb6Yg4TY9Sq2AwSIQJFn5qBBKVTYt3vP5FMIHA==
+make-fetch-happen@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/make-fetch-happen/-/make-fetch-happen-5.0.0.tgz#a8e3fe41d3415dd656fe7b8e8172e1fb4458b38d"
+  integrity sha512-nFr/vpL1Jc60etMVKeaLOqfGjMMb3tAHFVJWxHOFCFS04Zmd7kGlMxo0l1tzfhoQje0/UPnd0X8OeGUiXXnfPA==
   dependencies:
     agentkeepalive "^3.4.1"
-    cacache "^11.3.3"
+    cacache "^12.0.0"
     http-cache-semantics "^3.8.1"
     http-proxy-agent "^2.1.0"
     https-proxy-agent "^2.2.1"
@@ -8536,16 +8537,16 @@ npm-packlist@^1.1.6:
     ignore-walk "^3.0.1"
     npm-bundled "^1.0.1"
 
-npm-registry-fetch@^3.9.1:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-3.9.1.tgz#00ff6e4e35d3f75a172b332440b53e93f4cb67de"
-  integrity sha512-VQCEZlydXw4AwLROAXWUR7QDfe2Y8Id/vpAgp6TI1/H78a4SiQ1kQrKZALm5/zxM5n4HIi+aYb+idUAV/RuY0Q==
+npm-registry-fetch@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-4.0.0.tgz#5ef75845b605855c7964472542c25da172af8677"
+  integrity sha512-Jllq35Jag8dtv0M17ue74XtdQTyqKzuAYGiX9mAjOhkmNjib3bBUgK6mUY61+AHnXeSRobQkpY3/xIOS/omptw==
   dependencies:
     JSONStream "^1.3.4"
     bluebird "^3.5.1"
     figgy-pudding "^3.4.1"
     lru-cache "^5.1.1"
-    make-fetch-happen "^4.0.2"
+    make-fetch-happen "^5.0.0"
     npm-package-arg "^6.1.0"
 
 npm-run-all@^4.1.5:
