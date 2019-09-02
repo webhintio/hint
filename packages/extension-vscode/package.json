@@ -62,7 +62,7 @@
     "rimraf": "^2.6.3",
     "sinon": "^7.3.2",
     "typescript": "^3.5.1",
-    "vscode": "^1.1.34"
+    "vscode": "^1.1.36"
   },
   "displayName": "webhint",
   "engines": {
