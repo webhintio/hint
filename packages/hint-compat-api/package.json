@@ -30,7 +30,7 @@
     "postcss": "^7.0.17",
     "rimraf": "^2.6.3",
     "semver": "^6.3.0",
-    "typescript": "^3.5.1"
+    "typescript": "^3.6.2"
   },
   "engines": {
     "node": ">=8.0.0"
