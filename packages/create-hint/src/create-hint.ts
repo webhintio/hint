@@ -187,10 +187,7 @@ for (const [, value] of Object.entries(Category)) {
 const scopes: any[] = [];
 
 for (const [, value] of Object.entries(HintScope)) {
-    /* istanbul ignore else */
-    if (value !== 'other') {
-        scopes.push({ name: value });
-    }
+    scopes.push({ name: value });
 }
 
 /** List of different use cases of a hint. */

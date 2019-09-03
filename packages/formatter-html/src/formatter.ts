@@ -53,12 +53,7 @@ const getCategoryList = (resources?: HintResources): string[] => {
 
     const result: string[] = [];
 
-    for (let [, value] of Object.entries(Category)) {
-        if (value === 'pwa') {
-            value = value.toUpperCase();
-        } else {
-            value = `${value[0].toUpperCase()}${value.substr(1)}`;
-        }
+    for (const [, value] of Object.entries(Category)) {
         result.push(value);
     }
 
