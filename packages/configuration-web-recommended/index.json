@@ -11,6 +11,8 @@
     ],
     "hints": {
         "button-type": "error",
+        "compat-api/css": "warning",
+        "compat-api/html": "warning",
         "content-type": "error",
         "create-element-svg": "error",
         "css-prefix-order": "error",
