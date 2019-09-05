@@ -101,6 +101,7 @@
         { "path": "packages/parser-javascript" },
         { "path": "packages/parser-manifest" },
         { "path": "packages/parser-package-json" },
+        { "path": "packages/parser-sass" },
         { "path": "packages/parser-typescript-config" },
         { "path": "packages/parser-webpack-config" },
         { "path": "packages/utils" },
