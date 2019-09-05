@@ -10,7 +10,7 @@ import ErrorPage from './pages/error';
 import ResultsPage from './pages/results';
 import TelemetryNotification from './controls/telemetry-notification';
 
-import { trackCancel, trackError, trackFinish, trackStart, trackTimeout } from '../utils/analytics';
+import { disable as disableTelemetry, enable as enableTelemetry, enabled as telemetryEnabled, showOptIn, trackCancel, trackError, trackFinish, trackStart, trackTimeout } from '../utils/analytics';
 import { useCurrentDesignStyles, useCurrentTheme, withCurrentDesign } from '../utils/themes';
 
 import * as fluent from './app.fluent.css';
@@ -32,12 +32,20 @@ export type Props = {
     results?: ResultsData;
 };
 
+/*
+ * If we need to show the notification, we don't want it to be removed
+ * from the dom after the status change so we don't lose the animation.
+ */
+const addNotification = showOptIn();
+
 const App = (props: Props) => {
     const [page, setPage] = useState(props.page || Page.Config);
     const [error, setError] = useState(props.error || {} as ErrorData);
     const [config, setConfig] = useState(props.config || {} as ConfigData);
     const [results, setResults] = useState(props.results || emptyResults);
     const [isAnalyzing, setIsAnalyzing] = useState(props.isAnalyzing || false);
+    const [isTelemetryEnabled, setIsTelemetryEnabled] = useState(telemetryEnabled());
+    const [showTelemetryNotification, setShowTelemetryNotification] = useState(showOptIn());
 
     const styles = useCurrentDesignStyles({ fluent, photon });
     const theme = useCurrentTheme();
@@ -91,10 +99,26 @@ const App = (props: Props) => {
         trackTimeout(duration);
     }, []);
 
+    const onTelemetryChange = useCallback((enable?: boolean) => {
+        setShowTelemetryNotification(false);
+
+        if (enable === undefined) {
+            return;
+        }
+
+        setIsTelemetryEnabled(enable);
+
+        if (enable) {
+            enableTelemetry();
+        } else {
+            disableTelemetry();
+        }
+    }, []);
+
     const getCurrentPage = () => {
         switch (page) {
             case Page.Config:
-                return <ConfigPage disabled={isAnalyzing} onStart={onStart} />;
+                return <ConfigPage disabled={isAnalyzing} onStart={onStart} onTelemetryChange={onTelemetryChange} isTelemetryEnabled={isTelemetryEnabled} />;
             case Page.Error:
                 return <ErrorPage config={config} disabled={isAnalyzing} error={error} onConfigure={onConfigure} onRestart={onRestart} />;
             case Page.Results:
@@ -108,7 +132,7 @@ const App = (props: Props) => {
         <div className={styles.root} data-theme={theme}>
             {getCurrentPage()}
             {isAnalyzing && <Analyze config={config} onCancel={onCancel} onError={onError} onResults={onResults} onTimeout={onTimeout} />}
-            <TelemetryNotification />
+            {addNotification && <TelemetryNotification show={showTelemetryNotification} onTelemetryChange={onTelemetryChange} />}
         </div>
     );
 };

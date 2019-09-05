@@ -10,7 +10,7 @@ const storageKey = 'webhint-telemetry';
 
 const instrumentationKey = '8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d';
 
-let appInsights: ApplicationInsights;
+let appInsights: ApplicationInsights | null = null;
 
 const trackEvent = (name: string, properties: { [key: string]: string } = {}, measurements?: { [key: string]: number }) => {
     if (!appInsights) {
@@ -44,6 +44,7 @@ export const setup = (s = storage) => {
 
     if (!telemetry) {
         console.log('telemetry disabled');
+        appInsights = null;
 
         return;
     }
@@ -51,6 +52,11 @@ export const setup = (s = storage) => {
     console.log('telemetry enabled');
 
     appInsights = new ApplicationInsights({ instrumentationKey });
+};
+
+/** Check if telemetry is enabled */
+export const enabled = (s = storage) => {
+    return !!s.getItem(storageKey);
 };
 
 /** Enables telemetry */
@@ -63,6 +69,8 @@ export const enable = (s = storage) => {
 /** Disables telemetry */
 export const disable = (s = storage) => {
     s.setItem(storageKey, false);
+
+    setup(s);
 };
 
 /** Called when analysis was canceled by the user. */

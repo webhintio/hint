@@ -163,6 +163,10 @@
         "message": "See query instructions",
         "description": "Label for link to instructions for selecting target browsers."
     },
+    "settings": {
+        "message": "Settings",
+        "description": "Label settings details/summary."
+    },
     "showPassedHintsLabel": {
         "message": "Show passed hints",
         "description": "Label for toggle to hide/show groups of hints which passed."
@@ -210,5 +214,9 @@
     "targetUrl": {
         "message": "URL: $1",
         "description": "Label for the result page with the url analyzed."
+    },
+    "telemetry": {
+        "message": "Enable telemetry",
+        "description": "Label for the setting to enable/disable telemetry."
     }
 }

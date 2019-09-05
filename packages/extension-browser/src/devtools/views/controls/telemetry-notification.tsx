@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 import * as styles from './telemetry-notification.css';
 
@@ -7,21 +7,21 @@ import Button from './button';
 import ExternalLink from './external-link';
 import Notification from './notification';
 
-import { enable as enableTelemetry, disable as disableTelemetry, showOptIn } from '../../utils/analytics';
 import { getMessage } from '../../utils/i18n';
 
-const TelemetryNotification = () => {
-    const [show, setShow] = useState(showOptIn());
+type Props = {
+    show: boolean;
+    onTelemetryChange: (enable?: boolean) => void;
+}
 
+const TelemetryNotification = ({ onTelemetryChange, show }: Props) => {
     const onEnableTelementry = useCallback(() => {
-        setShow(false);
-        enableTelemetry();
-    }, []);
+        onTelemetryChange(true);
+    }, [onTelemetryChange]);
 
     const onDisableTelemetry = useCallback(() => {
-        setShow(false);
-        disableTelemetry();
-    }, []);
+        onTelemetryChange(false);
+    }, [onTelemetryChange]);
 
     const getActions = () => {
         return ([
