@@ -7,6 +7,7 @@
     "@hint/formatter-summary": "^3.0.8",
     "@hint/hint-babel-config": "^2.3.5",
     "@hint/hint-button-type": "^2.2.5",
+    "@hint/hint-compat-api": "^4.0.5",
     "@hint/hint-create-element-svg": "^1.2.5",
     "@hint/hint-css-prefix-order": "^1.2.5",
     "@hint/hint-disown-opener": "^3.2.5",
