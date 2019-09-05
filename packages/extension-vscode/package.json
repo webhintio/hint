@@ -4,7 +4,9 @@
     "onLanguage:html",
     "onLanguage:javascript",
     "onLanguage:json",
-    "onLanguage:jsonc"
+    "onLanguage:jsonc",
+    "onLanguage:sass",
+    "onLanguage:scss"
   ],
   "ava": {
     "failFast": false,
