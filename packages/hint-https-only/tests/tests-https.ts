@@ -79,7 +79,8 @@ const testsHTTPS: HintTest[] = [
         Your browser doesn't support HTML5 video tag.
     </video>`)
             }
-        }
+        },
+        skip: true
     },
     {
         name: `Resource is not an HTML document`,
