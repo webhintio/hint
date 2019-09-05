@@ -42,6 +42,7 @@
         "css",
         "html",
         "typescript-config",
+        "sass",
         "webpack-config"
     ]
 }
