@@ -23,6 +23,9 @@ type AuthConfig = {
         selector: string;
         value: string;
     };
+    next?: {
+        selector: string;
+    };
     password: {
         selector: string;
         value: string;
@@ -82,6 +85,7 @@ export default class PuppeteerConnector implements IConnector {
             auth: {
                 additionalProperties: false,
                 properties: {
+                    next: { $ref: '#/definitions/submitInput' },
                     password: { $ref: '#/definitions/fieldInput' },
                     submit: { $ref: '#/definitions/submitInput' },
                     user: { $ref: '#/definitions/fieldInput' }
@@ -335,15 +339,35 @@ export default class PuppeteerConnector implements IConnector {
         if (!this._auth) {
             return;
         }
-        const { user, password, submit } = this._auth;
+        const { user, password, submit, next } = this._auth;
 
         await this._page.type(user.selector, user.value);
-        await this._page.type(password.selector, password.value);
 
         /**
-         * Example on how to do it available in:
-         * https://pptr.dev/#?product=Puppeteer&version=v1.16.0&show=api-pagewaitfornavigationoptions
+         * Some services do the authentication in 2 steps.
+         * E.g.: Azure Pipelines
+         *
+         * 1. Enter username/phone
+         * 2. Click next
+         * 3. Enter password (or 2FA)
+         * 4. Submit
+         *
+         * For automation purposes only the password scenario
+         * is covered with no redirect to other login pages.
          */
+        if (next) {
+            /**
+             * Example on how to do it available in:
+             * https://pptr.dev/#?product=Puppeteer&version=v1.16.0&show=api-pagewaitfornavigationoptions
+             */
+            await Promise.all([
+                this._page.waitForNavigation({ waitUntil: this._waitUntil }),
+                this._page.click(next.selector)
+            ]);
+        }
+
+        await this._page.type(password.selector, password.value);
+
         await Promise.all([
             this._page.waitForNavigation({ waitUntil: this._waitUntil }),
             this._page.click(submit.selector)

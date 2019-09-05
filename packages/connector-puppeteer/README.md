@@ -49,6 +49,9 @@ The set of settings supported by the Puppeteer connector are:
                     "selector": "string",
                     "value": "string"
                 },
+                "next": {
+                    "selector": "string"
+                },
                 "submit": {
                     "selector": "string"
                 }
@@ -98,6 +101,12 @@ The properties of `auth` are:
 * `password`: the information needed to identify the `input` element via
   a query `selector` (e.g.: `#password`) to type the `value` for the
   password in (e.g.: `P@ssw0rd`).
+* `next`: the information needed to identify the `input` (or `button`)
+  element via a query `selector` (e.g.: `input[type="submit"]`) to `click`
+  to get to the next step of the authentication process. This is an
+  optional property as not all services prompt first for the user name
+  before asking for the password in the following screen. An example of
+  such a service would be Azure Pipelines.
 * `submit`: the information needed to identify the `input` (or `button`)
   element via a query `selector` (e.g.: `input[type="submit"]`) to `click`
   to submit the crendentials.
