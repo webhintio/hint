@@ -23,6 +23,7 @@
     "@hint/parser-babel-config": "^2.1.8",
     "@hint/parser-css": "^3.0.8",
     "@hint/parser-html": "^3.0.6",
+    "@hint/parser-sass": "^1.0.0",
     "@hint/parser-typescript-config": "^2.3.5",
     "@hint/parser-webpack-config": "^2.1.8"
   },
