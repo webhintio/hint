@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "dbaeumer.vscode-eslint",
+        "eamodio.gitlens",
         "github.vscode-pull-request-github",
         "ms-vsliveshare.vsliveshare",
         "webhint.vscode-webhint"
