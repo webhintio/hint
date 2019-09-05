@@ -123,6 +123,11 @@ export default class HttpCacheHint implements IHint {
             const parsedCacheControlHeader = usedDirectives.reduce((parsed: ParsedDirectives, current: string) => {
                 const [directive, value] = current.split('=');
 
+                // Empty string, e.g. `cache-control: max-age=12345,` --> `['max-age=123456', '']`
+                if (!directive) {
+                    return parsed;
+                }
+
                 // Validate directive with value. E.g.: max-age=<seconds>
                 if (directive && value) {
                     /*
