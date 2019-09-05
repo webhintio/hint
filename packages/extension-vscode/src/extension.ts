@@ -10,16 +10,14 @@ import {
 import { TelemetryState } from './utils/analytics';
 import * as notifications from './utils/notifications';
 
+const { activationEvents } = require('../../package.json');
+
 const telemetryKey = 'enableTelemetry';
 
 // List of document types the extension will run against.
-const supportedDocuments = [
-    'css',
-    'html',
-    'javascript',
-    'json',
-    'jsonc'
-];
+const supportedDocuments = activationEvents.map((event: string) => {
+    return event.split(':')[1];
+});
 
 // Keep a reference to the client to stop it when deactivating.
 let client: LanguageClient;
