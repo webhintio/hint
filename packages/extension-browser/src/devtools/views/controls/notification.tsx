@@ -21,13 +21,15 @@ const Notification = ({ actions, children, show }: Props) => {
         setDismissed(true);
     }, []);
 
-    return (<div className={`${styles.root}`} hidden={!show || dismissed}>
-        <div>
-            {children}
+    return (
+        <div className={`${styles.root}`} hidden={!show || dismissed}>
+            <div>
+                {children}
+            </div>
+            <Button className={styles.close} title={closeMessage} onClick={onDismissNotification} />
+            {actions && <div className={styles.actions}>{actions}</div>}
         </div>
-        <Button className={styles.close} title={closeMessage} onClick={onDismissNotification} />
-        {actions && <div className={styles.actions}>{actions}</div>}
-    </div>);
+    );
 };
 
 export default Notification;

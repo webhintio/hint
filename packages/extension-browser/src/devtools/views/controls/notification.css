@@ -40,6 +40,8 @@
 
 .root[hidden] {
     animation: hideNotification .3s 0s linear both;
+    transition: visibility .3s 0s linear;
+    visibility: hidden;
 }
 
 .close {

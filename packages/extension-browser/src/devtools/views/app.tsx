@@ -32,12 +32,6 @@ export type Props = {
     results?: ResultsData;
 };
 
-/*
- * If we need to show the notification, we don't want it to be removed
- * from the dom after the status change so we don't lose the animation.
- */
-const addNotification = showOptIn();
-
 const App = (props: Props) => {
     const [page, setPage] = useState(props.page || Page.Config);
     const [error, setError] = useState(props.error || {} as ErrorData);
@@ -127,7 +121,7 @@ const App = (props: Props) => {
         <div className={styles.root} data-theme={theme}>
             {getCurrentPage()}
             {isAnalyzing && <Analyze config={config} onCancel={onCancel} onError={onError} onResults={onResults} onTimeout={onTimeout} />}
-            {addNotification && <TelemetryNotification show={showTelemetryNotification} onTelemetryChange={onTelemetryChange} />}
+            <TelemetryNotification show={showTelemetryNotification} onTelemetryChange={onTelemetryChange} />
         </div>
     );
 };

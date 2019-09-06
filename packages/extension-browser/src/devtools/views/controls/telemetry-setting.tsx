@@ -19,12 +19,14 @@ const TelemetrySetting = ({ isTelemetryEnabled, onTelemetryChange }: Props) => {
         onTelemetryChange(input.checked);
     }, [onTelemetryChange]);
 
-    return (<ConfigLabel>
-        <Checkbox value={'telemetry'} checked={isTelemetryEnabled} onChange={onEnabledChange} />
-        <LabelText>
-            {getMessage('telemetry')}
-        </LabelText>
-    </ConfigLabel>);
+    return (
+        <ConfigLabel>
+            <Checkbox checked={isTelemetryEnabled} onChange={onEnabledChange} />
+            <LabelText>
+                {getMessage('telemetry')}
+            </LabelText>
+        </ConfigLabel>
+    );
 };
 
 export default TelemetrySetting;

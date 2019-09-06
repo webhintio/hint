@@ -2,9 +2,8 @@ import * as React from 'react';
 
 import { getMessage } from '../../utils/i18n';
 
-import TelemetrySettings from './telemetry-setting';
-
 import Summary from './summary';
+import TelemetrySetting from './telemetry-setting';
 
 type Props = {
     isTelemetryEnabled: boolean;
@@ -15,7 +14,7 @@ const Settings = ({isTelemetryEnabled, onTelemetryChange}: Props) => {
     return (
         <details>
             <Summary>{getMessage('settings')}</Summary>
-            <TelemetrySettings onTelemetryChange={onTelemetryChange} isTelemetryEnabled={isTelemetryEnabled}/>
+            <TelemetrySetting onTelemetryChange={onTelemetryChange} isTelemetryEnabled={isTelemetryEnabled}/>
         </details>
     );
 };
