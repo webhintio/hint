@@ -5,6 +5,7 @@
     "onLanguage:javascript",
     "onLanguage:json",
     "onLanguage:jsonc",
+    "onLanguage:less",
     "onLanguage:sass",
     "onLanguage:scss"
   ],
