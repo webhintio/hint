@@ -43,8 +43,9 @@
         "babel-config",
         "css",
         "html",
-        "typescript-config",
+        "less",
         "sass",
+        "typescript-config",
         "webpack-config"
     ]
 }
