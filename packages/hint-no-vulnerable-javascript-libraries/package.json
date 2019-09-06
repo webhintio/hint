@@ -25,7 +25,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-markdown": "^1.0.0",
     "hint": "^5.2.2",
-    "jquery": "2.1.4",
+    "jquery": "3.4.0",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
     "moment": "2.24.0",
     "npm-link-check": "^3.0.0",
