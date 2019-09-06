@@ -99,13 +99,8 @@ const App = (props: Props) => {
         trackTimeout(duration);
     }, []);
 
-    const onTelemetryChange = useCallback((enable?: boolean) => {
+    const onTelemetryChange = useCallback((enable: boolean) => {
         setShowTelemetryNotification(false);
-
-        if (enable === undefined) {
-            return;
-        }
-
         setIsTelemetryEnabled(enable);
 
         if (enable) {

@@ -14,7 +14,7 @@ const settings = { telemetry: 'telemetry' };
 
 type Props = {
     isTelemetryEnabled: boolean;
-    onTelemetryChange: (enable?: boolean) => void;
+    onTelemetryChange: (enable: boolean) => void;
 };
 
 const Settings = ({isTelemetryEnabled, onTelemetryChange}: Props) => {

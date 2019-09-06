@@ -11,7 +11,7 @@ import { getMessage } from '../../utils/i18n';
 
 type Props = {
     show: boolean;
-    onTelemetryChange: (enable?: boolean) => void;
+    onTelemetryChange: (enable: boolean) => void;
 }
 
 const TelemetryNotification = ({ onTelemetryChange, show }: Props) => {
@@ -23,18 +23,17 @@ const TelemetryNotification = ({ onTelemetryChange, show }: Props) => {
         onTelemetryChange(false);
     }, [onTelemetryChange]);
 
-    const getActions = () => {
-        return ([
-            <Button key="1" primary={true} onClick={onEnableTelementry}>{getMessage('enable')}</Button>,
-            <Button key="2" primary={true} onClick={onDisableTelemetry}>{getMessage('noThanks')}</Button>
-        ]);
-    };
+    const actions = [
+        <Button key="1" primary={true} onClick={onEnableTelementry}>{getMessage('enable')}</Button>,
+        <Button key="2" primary={true} onClick={onDisableTelemetry}>{getMessage('noThanks')}</Button>
+    ];
 
     return (
-        <Notification show={show} actions={getActions()}>
+        <Notification show={show} actions={actions}>
             <span className={styles.message}>
                 {getMessage('helpUs')}
-                &nbsp;<ExternalLink href="https://webhint.io/docs/user-guide/telemetry/summary/">{getMessage('learnMore')}</ExternalLink>
+                {' '}
+                <ExternalLink href="https://webhint.io/docs/user-guide/telemetry/summary/">{getMessage('learnMore')}</ExternalLink>
             </span>
         </Notification>
     );

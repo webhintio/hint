@@ -22,7 +22,7 @@
 
 .root {
     animation: showNotification .3s 1s linear both;
-    background-color: var(--popup-bg);
+    background-color: var(--notification-bg);
     border: var(--border-width) solid var(--border-color);
     bottom: 1rem; /* 16px */
     box-sizing: border-box;

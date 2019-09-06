@@ -41,7 +41,7 @@ type Props = {
     /** Listener for when the user decides to run a scan. */
     onStart: (config: ConfigData) => void;
 
-    onTelemetryChange: (enable?: boolean) => void;
+    onTelemetryChange: (enable: boolean) => void;
 };
 
 /**

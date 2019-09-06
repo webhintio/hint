@@ -5,7 +5,7 @@
     --base-color: #000;
 
     --code-bg: var(--base-bg);
-    --popup-bg: #efefef;
+    --notification-bg: #efefef;
 
     --dark-color: #000;
     --light-color: #fff;
@@ -44,7 +44,7 @@
     --base-color: #fff;
 
     --code-bg: #2d2d2d;
-    --popup-bg: #1a1a1a;
+    --notification-bg: #1a1a1a;
 
     --button-bg: rgba(255, 255, 255, 0.08);
     --button-bg-hover: rgba(255, 255, 255, 0.065);

@@ -7,6 +7,7 @@ import * as storage from './storage';
 
 const manifest = require('../../manifest.json');
 const storageKey = 'webhint-telemetry';
+const alreadyOptInKey = 'webhint-already-opt-in';
 
 const instrumentationKey = '8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d';
 
@@ -64,6 +65,12 @@ export const enable = (s = storage) => {
     s.setItem(storageKey, true);
 
     setup(s);
+
+    // If it is the first time the user enable telemetry
+    if (!s.getItem(alreadyOptInKey)) {
+        s.setItem(alreadyOptInKey, true);
+        trackEvent('f12-telemetry');
+    }
 };
 
 /** Disables telemetry */
