@@ -6,11 +6,20 @@
     outline: 1px solid var(--border-invalid-color);
 }
 
+.main {
+    display: grid;
+    gap: 1.5rem; /* 24px */
+    margin-top: 1.5rem; /* 24px */
+}
+
 /* TODO: rename as this includes target browsers, etc */
 .categories {
     display: grid;
     gap: 1.5rem; /* 24px */
-    margin: 1.5rem 0; /* 24px */
+}
+
+.button {
+    justify-self: left;
 }
 
 /* Horizontal layout */

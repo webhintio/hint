@@ -77,13 +77,13 @@ const ConfigPage = ({ disabled, onStart, onTelemetryChange, isTelemetryEnabled }
     return (
         <Page className={styles.root} disabled={disabled} onAction={onAnalyzeClick}>
             <ConfigHeader config={config} />
-            <main>
+            <main className={styles.main}>
                 <div className={styles.categories}>
                     <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange} />
                     <BrowsersConfig query={config.browserslist} onChange={onBrowsersChange} />
                     <ResourcesConfig query={config.ignoredUrls} onChange={onResourcesChange} />
                 </div>
-                <Button onClick={onRestoreClick}>
+                <Button className={styles.button} onClick={onRestoreClick}>
                     {getMessage('restoreDefaultsLabel')}
                 </Button>
                 <Settings isTelemetryEnabled={isTelemetryEnabled} onTelemetryChange={onTelemetryChange}/>
