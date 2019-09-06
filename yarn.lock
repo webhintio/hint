@@ -1516,10 +1516,10 @@ amphtml-validator@^1.0.21:
     commander "2.9.0"
     promise "7.1.1"
 
-angular@1.4.9:
-  version "1.4.9"
-  resolved "https://registry.yarnpkg.com/angular/-/angular-1.4.9.tgz#e60c91d69b94cf1349ce38a04fa8f92d6003d2ac"
-  integrity sha1-5gyR1puUzxNJzjigT6j5LWAD0qw=
+angular@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/angular/-/angular-1.6.0.tgz#16c5edebd0a342046bd5281cca2decf04c40df76"
+  integrity sha1-FsXt69CjQgRr1Sgcyi3s8ExA33Y=
 
 ansi-align@^2.0.0:
   version "2.0.0"
