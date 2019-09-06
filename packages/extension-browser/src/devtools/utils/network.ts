@@ -80,9 +80,49 @@ const generateFetchEnd = async (entry: chrome.devtools.network.Request) => {
 };
 
 /**
+ * Checks if a request is comming from a Service|Web worker using the
+ * `referer` header to identify it.
+ *
+ * A Worker will change the referer to whatever is the URL of its script
+ * and thus usually having a `.js` extension.
+ * E.g.: `https://example.com/serviceworker.js`
+ */
+const isFromWorker = (request: chrome.devtools.network.Request) => {
+    const refererHeader = request.request.headers.find((header) => {
+        return header.name.toLowerCase() === 'referer';
+    });
+
+    if (refererHeader) {
+        try {
+            const referer = new URL(refererHeader.value);
+
+            if (referer.pathname.endsWith('.js')) {
+                // This is a request done by a Service|Web Worker and we want to ignore it
+
+                return true;
+            }
+        } catch (e) /* istanbul ignore next */ {
+            // silently fail
+        }
+    }
+
+    return false;
+};
+
+/**
  * Convert requests to `fetch::*` events and forward to the content-script via the background-script.
  */
 const onRequestFinished = (request: chrome.devtools.network.Request) => {
+
+    /**
+     * Ignore requests from workers as this can cause duplicate requests depending on
+     * how it is configured.
+     * The process already bypasses the cache so all resources should be fresh.
+     */
+    if (isFromWorker(request)) {
+        return;
+    }
+
     generateFetchStart(request);
     generateFetchEnd(request);
 };
