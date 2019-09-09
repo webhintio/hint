@@ -68,3 +68,15 @@ export const releaseForBrowser = (url: string) => {
         });
     };
 };
+
+export const releaseForVSCode = async (ctx: Context) => {
+    const pkg = ctx.packages.get('vscode-webhint');
+
+    if (!pkg) {
+        throw new Error(`Package 'vscode-webhint' not found`);
+    }
+
+    const { stdout } = await execa(`vsce publish`, { cwd: path.dirname(pkg.path) });
+
+    debug(stdout);
+};
