@@ -9,7 +9,7 @@
   "dependencies": {
     "@types/parse5": "^5.0.2",
     "ajv": "^6.10.1",
-    "applicationinsights": "^1.4.1",
+    "applicationinsights": "^1.4.2",
     "configstore": "^5.0.0",
     "content-type": "^1.0.4",
     "css-select": "^2.0.2",
