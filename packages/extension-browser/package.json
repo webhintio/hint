@@ -52,7 +52,7 @@
     "@types/puppeteer-core": "^1.9.0",
     "@types/react": "^16.8.22",
     "@types/react-dom": "^16.9.0",
-    "@types/semver": "^6.0.1",
+    "@types/semver": "^6.0.2",
     "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
