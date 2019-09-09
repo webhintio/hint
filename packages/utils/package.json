@@ -40,7 +40,7 @@
     "@types/debug": "^4.1.4",
     "@types/mime-db": "^1.27.0",
     "@types/parse5-htmlparser2-tree-adapter": "^5.0.1",
-    "@types/request": "^2.48.1",
+    "@types/request": "^2.48.3",
     "@types/semver": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
