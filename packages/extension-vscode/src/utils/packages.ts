@@ -28,7 +28,10 @@ export const installPackages = async (packages: string[], options?: InstallOptio
 
 /**
  * Load the provided packages from the specified location.
- * Always performs a dynamic load, even if bundled with webpack.
+ * Always performs a dynamic load, even if bundled with webpack, to ensure
+ * locally installed versions of packages such as `hint` are used instead of
+ * being bundle with the extension itself. This avoids needing to update the
+ * extension every time webhint updates.
  */
 /* istanbul ignore next */
 export const loadPackage = <T>(name: string, options?: LoadOptions): T => {
