@@ -93,7 +93,7 @@
     "typescript": "^3.6.2",
     "util.promisify": "^1.0.0",
     "web-ext": "^3.1.1",
-    "webpack": "^4.39.1",
+    "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7"
   },
   "engines": {
