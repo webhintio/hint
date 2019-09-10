@@ -201,12 +201,21 @@ export default class WebExtensionConnector implements IConnector {
                 childList: false,
                 subtree: false
             };
+            const injectTimeout = setTimeout(() => {
+                reject(new Error('Cannot run analysis scripts. Page may have CSP restrictions.'));
+            }, 100);
 
             const callback = (mutationsList: MutationRecord[], observer: MutationObserver) => {
                 try {
                     mutationsList.forEach((mutation: MutationRecord) => {
                         /* istanbul ignore if */
-                        if (mutation.type !== 'attributes' || !(/^data-(error|result)$/).test(mutation.attributeName || '')) {
+                        if (mutation.type !== 'attributes' || !(/^data-(error|result|start)$/).test(mutation.attributeName || '')) {
+                            return;
+                        }
+
+                        if (mutation.attributeName === 'data-start') {
+                            clearTimeout(injectTimeout);
+
                             return;
                         }
 
@@ -237,6 +246,8 @@ export default class WebExtensionConnector implements IConnector {
             script.textContent = `(async () => {
     const scriptElement = document.currentScript;
     try {
+        scriptElement.setAttribute('data-start', 'true');
+
         const result = await ${source}
 
         scriptElement.setAttribute('data-result', JSON.stringify(result) || null);
