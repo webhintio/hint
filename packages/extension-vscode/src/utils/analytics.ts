@@ -71,6 +71,12 @@ const trackOpen = (result: ProblemCountMap) => {
     trackEvent('vscode-open', determineHintStatus({}, result));
 };
 
+export const trackOptIn = (telemetryEnabled: TelemetryState, everEnabledTelemetry: boolean) => {
+    if (telemetryEnabled === 'enabled' && !everEnabledTelemetry) {
+        trackEvent('vscode-telemetry');
+    }
+};
+
 export const trackClose = (uri: string) => {
     prevProblems.delete(uri);
     nextProblems.delete(uri);

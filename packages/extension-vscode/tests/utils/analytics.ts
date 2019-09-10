@@ -10,6 +10,33 @@ const stubContext = () => {
     return { module, stubs };
 };
 
+test('It tracks when telemetry is first enabled', (t) => {
+    const sandbox = sinon.createSandbox();
+    const { module, stubs } = stubContext();
+    const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
+
+    module.trackOptIn('ask', true);
+    t.true(trackEventSpy.notCalled);
+
+    module.trackOptIn('ask', false);
+    t.true(trackEventSpy.notCalled);
+
+    module.trackOptIn('disabled', true);
+    t.true(trackEventSpy.notCalled);
+
+    module.trackOptIn('disabled', false);
+    t.true(trackEventSpy.notCalled);
+
+    module.trackOptIn('enabled', true);
+    t.true(trackEventSpy.notCalled);
+
+    module.trackOptIn('enabled', false);
+    t.true(trackEventSpy.calledOnce);
+    t.is(trackEventSpy.firstCall.args[0], 'vscode-telemetry');
+
+    sandbox.restore();
+});
+
 test('It tracks the first result for each document when opened', (t) => {
     const sandbox = sinon.createSandbox();
     const { module, stubs } = stubContext();

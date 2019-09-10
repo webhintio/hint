@@ -1,4 +1,4 @@
-import { window, workspace, ExtensionContext, WorkspaceConfiguration } from 'vscode';
+import { window, workspace, ExtensionContext, Memento, WorkspaceConfiguration } from 'vscode';
 
 import {
     LanguageClient,
@@ -13,6 +13,7 @@ import * as notifications from './utils/notifications';
 const { activationEvents } = require('../../package.json');
 
 const telemetryKey = 'enableTelemetry';
+const everEnabledTelemetryKey = 'everEnabledTelemetry';
 
 // List of document types the extension will run against.
 const supportedDocuments = activationEvents.map((event: string) => {
@@ -28,8 +29,12 @@ const configureTelemetry = (config: WorkspaceConfiguration, enableTelemetry: Tel
 };
 
 /* istanbul ignore next */
-const showTelemetryMessage = async (config: WorkspaceConfiguration, enableTelemetry: TelemetryState) => {
+const showTelemetryMessage = async (config: WorkspaceConfiguration, enableTelemetry: TelemetryState, state: Memento) => {
     if (enableTelemetry !== 'ask') {
+        if (enableTelemetry === 'enabled') {
+            state.update(everEnabledTelemetryKey, true);
+        }
+
         return;
     }
 
@@ -43,6 +48,7 @@ const showTelemetryMessage = async (config: WorkspaceConfiguration, enableTeleme
 
     if (answer && answer.title === yesResponse) {
         configureTelemetry(config, 'enabled');
+        state.update(everEnabledTelemetryKey, true);
     } else if (answer && answer.title === noResponse) {
         configureTelemetry(config, 'disabled');
     }
@@ -50,8 +56,9 @@ const showTelemetryMessage = async (config: WorkspaceConfiguration, enableTeleme
 
 export const activate = (context: ExtensionContext) => {
     const config = workspace.getConfiguration('webhint', null);
+    const everEnabledTelemetry = context.globalState.get<boolean>(everEnabledTelemetryKey, false);
     const enableTelemetry: TelemetryState = config.get('enableTelemetry') || 'ask';
-    const args = [context.globalStoragePath, enableTelemetry];
+    const args = [context.globalStoragePath, enableTelemetry, `${everEnabledTelemetry}`];
     const module = context.asAbsolutePath('dist/src/server.js');
     const transport = TransportKind.ipc;
 
@@ -81,7 +88,7 @@ export const activate = (context: ExtensionContext) => {
     client = new LanguageClient('webhint', serverOptions, clientOptions);
 
     client.onReady().then(() => {
-        showTelemetryMessage(config, enableTelemetry);
+        showTelemetryMessage(config, enableTelemetry, context.globalState);
 
         // Listen for requests to show the output panel for this extension.
         client.onNotification(notifications.showOutput, () => {
