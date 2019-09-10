@@ -2,7 +2,7 @@ import * as https from 'https';
 import { createConnection, ProposedFeatures, TextDocuments } from 'vscode-languageserver';
 
 import { initTelemetry, updateTelemetry } from './utils/app-insights';
-import { trackClose, trackSave, TelemetryState } from './utils/analytics';
+import { trackClose, trackSave, trackOptIn, TelemetryState } from './utils/analytics';
 import { Analyzer } from './utils/analyze';
 import * as notifications from './utils/notifications';
 
@@ -12,7 +12,8 @@ const { version } = require('../../package.json');
 const instrumentationKey = '8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d';
 const defaultProperties = { 'extension-version': version };
 
-const [,, globalStoragePath, telemetryEnabled] = process.argv;
+const [,, globalStoragePath, telemetryEnabled, everEnabledTelemetryStr] = process.argv;
+const everEnabledTelemetry = everEnabledTelemetryStr === 'true';
 const connection = createConnection(ProposedFeatures.all);
 const analyzer = new Analyzer(globalStoragePath, connection);
 const documents = new TextDocuments();
@@ -31,6 +32,7 @@ connection.onInitialize((params) => {
 
 connection.onNotification(notifications.telemetryEnabledChanged, (telemetryEnabled: TelemetryState) => {
     updateTelemetry(telemetryEnabled === 'enabled');
+    trackOptIn(telemetryEnabled, everEnabledTelemetry);
 });
 
 // A watched .hintrc has changed. Reload the engine and re-validate documents.
@@ -79,3 +81,6 @@ initTelemetry({
         });
     }
 });
+
+// Handle telemetry opt-in via direct changes to settings between launches.
+trackOptIn(telemetryEnabled as TelemetryState, everEnabledTelemetry);
