@@ -97,14 +97,24 @@ const deleteBrowserInfo = async () => {
     }
 };
 
+/**
+ * Connects to an existing browser and creates a new page that will disable the cache and
+ * use a new incognito context. This is not needed in regular mode as `puppeteer` creates
+ * a new temporary profile each time.
+ *
+ * This should only be used when running in `detached` mode.
+ */
 const connectToBrowser = async (currentInfo: BrowserInfo, options: LifecycleLaunchOptions) => {
     const connectOptions = { ...currentInfo, ...options };
 
     const browser = await puppeteer.connect(connectOptions);
 
     debug(`Creating new page in existing browser`);
-    const page = await browser.newPage();
 
+    const context = await browser.createIncognitoBrowserContext();
+    const page = await context.newPage();
+
+    page.setCacheEnabled(false);
     page.setDefaultTimeout(options.timeout || TIMEOUT);
 
     return { browser, page };
