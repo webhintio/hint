@@ -23,7 +23,6 @@ the server won't start.
 ## Packaging
 
 * Install the packager via `npm install -g vsce`.
-* Run `npm install` from this directory (cannot package `yarn` install).
 * Run `vsce package`.
 * Install the generated `*.vsix` package in VSCode:
   * Go to `View > Extensions`.
@@ -39,7 +38,6 @@ the [`webhint` Visual Studio Marketplace publisher][webhint pub] to
 publish.
 
 * Install the packager via `npm install -g vsce`
-* Run `npm install` from this directory (cannot publish `yarn` install)
 * Run `vsce login webhint`
 * Provide your [Personal Access Token][token]
 * Run the release script
