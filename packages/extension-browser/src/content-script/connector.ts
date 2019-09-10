@@ -54,12 +54,19 @@ export default class WebExtensionConnector implements IConnector {
 
         browser.runtime.onMessage.addListener(async (events: Events) => {
             try {
+                /** Extension resources cause overhead and noise to the user so they are ignored. */
+                if (this.isExtensionResource(events)) {
+                    return;
+                }
+
                 if (this._fetcher.handle(events)) {
                     return;
                 }
+
                 if (events.fetchEnd) {
                     await this.notifyFetch(events.fetchEnd);
                 }
+
                 if (events.fetchStart) {
                     await this._engine.emitAsync('fetch::start', events.fetchStart);
                 }
@@ -105,6 +112,20 @@ export default class WebExtensionConnector implements IConnector {
         } else {
             window.addEventListener('load', onLoad);
         }
+    }
+
+    private isExtensionResource(events: Events) {
+        /** Only chromium resources seem to get tracked but just in case we add the Firefox protocol as well. */
+
+        const event = events.fetchStart || events.fetchEnd;
+
+        if (!event) {
+            return false;
+        }
+
+        const resource = event.resource;
+
+        return resource.startsWith('chrome-extension:') || resource.startsWith('moz-extension:');
     }
 
     private sendMessage(message: Events) {
