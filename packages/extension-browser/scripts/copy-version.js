@@ -14,17 +14,21 @@ const writeFile = util.promisify(fs.writeFile);
  */
 const updateFile = async (file, version) => {
     const content = require(file);
+    const filename = path.join(__dirname, file);
 
     content.version = version;
-    await writeFile(path.join(__dirname, file), `${JSON.stringify(content, null, 2)}\n`, 'utf-8');
+    await writeFile(filename, `${JSON.stringify(content, null, 2)}\n`, 'utf-8');
+    console.log(`Set version to ${version} in ${filename}`);
 };
 
 const start = async () => {
     const pkgPath = '../package.json';
-    const manifestPath = '../dist/bundle/manifest.json';
+    const manifestPaths = ['../dist/bundle/manifest.json', '../dist/src/manifest.json'];
     const { version } = require(pkgPath);
 
-    await updateFile(manifestPath, version);
+    for (const manifestPath of manifestPaths) {
+        await updateFile(manifestPath, version);
+    }
 };
 
 start();
