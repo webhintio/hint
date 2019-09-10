@@ -5,7 +5,7 @@
 import * as Listr from 'listr';
 import { Arguments } from 'yargs';
 
-import { skipReasons, skipInstallation, skipIfAborted, skipIfBrowserSame, skipIfError, skipIfForced, skipIfJustRelease, skipIfVSCodeSame } from './lib/skippers';
+import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease, skipIfSameVersion } from './lib/skippers';
 import { taskErrorWrapper } from './lib/utils';
 import { updateChangelogs } from './tasks/update-changelogs';
 import { updateThirdPartyResources } from './lib/update-3rd-party';
@@ -119,22 +119,22 @@ const tasks = new Listr([
     },
     {
         title: 'Publish extension on Visual Studio Marketplace',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfVSCodeSame),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('vscode-webhint')),
         task: releaseForVSCode
     },
     {
         title: 'Submit extension-browser for Chrome',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfBrowserSame),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('extension-browser')),
         task: releaseForBrowser('https://chrome.google.com/webstore/developer/dashboard')
     },
     {
         title: 'Submit extension-browser for Edge (Chromium)',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfBrowserSame),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('extension-browser')),
         task: releaseForBrowser('TBD')
     },
     {
         title: 'Submit extension-browser for Firefox',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfBrowserSame),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('extension-browser')),
         task: releaseForBrowser('https://addons.mozilla.org/en-US/developers/addons')
     },
     {

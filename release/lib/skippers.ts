@@ -1,27 +1,17 @@
 import { Context } from '../@types/custom';
 
-export const skipIfBrowserSame = ({ packages }: Context) => {
-    const pkg = packages && packages.get('extension-browser');
-    const version = pkg && pkg.content.version;
-    const oldVersion = pkg && pkg.oldVersion;
+export const skipIfSameVersion = (pkgName: string) => {
+    return ({ packages }: Context) => {
+        const pkg = packages && packages.get(pkgName);
+        const version = pkg && pkg.content.version;
+        const oldVersion = pkg && pkg.oldVersion;
 
-    if (version === oldVersion) {
-        return 'Browser extension is unchanged';
-    }
+        if (version === oldVersion) {
+            return `Package '${pkgName}' is unchanged`;
+        }
 
-    return '';
-};
-
-export const skipIfVSCodeSame = ({ packages }: Context) => {
-    const pkg = packages && packages.get('vscode-webhint');
-    const version = pkg && pkg.content.version;
-    const oldVersion = pkg && pkg.oldVersion;
-
-    if (version === oldVersion) {
-        return 'VS Code extension is unchanged';
-    }
-
-    return '';
+        return '';
+    };
 };
 
 export const skipReasons = (...args: Function[]) => {
