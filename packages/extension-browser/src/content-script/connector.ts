@@ -4,7 +4,7 @@ import { Engine } from 'hint';
 import { getElementByUrl, HTMLDocument, HTMLElement, traverse } from '@hint/utils/dist/src/dom';
 import { createHelpers, restoreReferences } from '@hint/utils/dist/src/dom/snapshot';
 import { DocumentData } from '@hint/utils/dist/src/types/snapshot';
-import { getContentTypeData, getType } from '@hint/utils/dist/src/content-type';
+
 import {
     ConnectorOptionsConfig,
     IConnector,
@@ -15,6 +15,7 @@ import {
 import { browser, document, eval, location, MutationObserver, window } from '../shared/globals';
 import { Events } from '../shared/types';
 import { Fetcher } from './fetcher';
+import { setFetchType } from './set-fetch-type';
 
 export default class WebExtensionConnector implements IConnector {
     private _document: HTMLDocument | undefined;
@@ -124,15 +125,6 @@ export default class WebExtensionConnector implements IConnector {
         }
     }
 
-    private setFetchType(event: FetchEnd): string {
-        const { charset, mediaType } = getContentTypeData(null, event.response.url, event.response.headers, null as any);
-
-        event.response.charset = charset || '';
-        event.response.mediaType = mediaType || '';
-
-        return getType(mediaType || '');
-    }
-
     private async notifyFetch(event: FetchEnd) {
         /*
          * Delay dispatching FetchEnd until we have the DOM snapshot to populate `element`.
@@ -145,7 +137,7 @@ export default class WebExtensionConnector implements IConnector {
         }
 
         this.setFetchElement(event);
-        const type = this.setFetchType(event);
+        const type = setFetchType(event);
 
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }
