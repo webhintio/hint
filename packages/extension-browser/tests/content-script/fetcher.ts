@@ -8,7 +8,7 @@ test('Fetcher can match requests to responses', async (t) => {
     const missFetchStart = { resource: 'http://example.com/index.htm' } as FetchStart;
     const matchFetchStart = { resource } as FetchStart;
     const missFetchEnd = { request: {}, resource: 'http://example.com/index.htm', response: {} } as FetchEnd;
-    const matchFetchEnd = { request: {}, resource, response: { body: { content: 'test content' }} } as FetchEnd;
+    const matchFetchEnd = { request: {}, resource, response: { body: { content: 'test content' }, url: resource} } as FetchEnd;
     const fetchStub = sinon.stub().resolves({});
     const { Fetcher } = proxyquire(
         '../../src/content-script/fetcher', {

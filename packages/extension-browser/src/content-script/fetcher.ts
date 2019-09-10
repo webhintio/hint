@@ -1,8 +1,10 @@
 import { FetchEnd, NetworkData } from 'hint/dist/src/lib/types';
-import { fetch } from '../shared/globals';
-import { Events } from '../shared/types';
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
 import { getContentTypeData } from '@hint/utils/dist/src/content-type';
+
+import { fetch } from '../shared/globals';
+import { Events } from '../shared/types';
+import { setFetchType } from './set-fetch-type';
 
 type ResolveNetworkData = (data: NetworkData) => void;
 
@@ -107,6 +109,8 @@ export class Fetcher {
      */
     private resolveFetch(event: FetchEnd) {
         const resolve = this._fetches.get(event.resource);
+
+        setFetchType(event);
 
         if (resolve) {
             resolve(event);
