@@ -3,8 +3,11 @@
 **/tsconfig.base.json
 **/tsconfig.json
 **/tsconfig.tsbuildinfo
-.vscode/**
-.nyc_output/**
-coverage/**
-dist/tests/**
 .eslintcache
+.nyc_output/**
+.vscode/**
+coverage/**
+dist/src/**
+dist/tests/**
+node_modules
+webpack.config.js

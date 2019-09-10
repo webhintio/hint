@@ -9,6 +9,9 @@ export type InstallOptions = {
     cwd?: string;
 };
 
+// Use `eval('require')` to keep this dynamic even after bundling with webpack.
+const _require = eval('require'); // eslint-disable-line no-eval
+
 /**
  * Install the provided packages to the specified location.
  * Uses `yarn` if `yarn.lock` exists, `npm` otherwise.
@@ -25,12 +28,16 @@ export const installPackages = async (packages: string[], options?: InstallOptio
 
 /**
  * Load the provided packages from the specified location.
+ * Always performs a dynamic load, even if bundled with webpack, to ensure
+ * locally installed versions of packages such as `hint` are used instead of
+ * being bundle with the extension itself. This avoids needing to update the
+ * extension every time webhint updates.
  */
 /* istanbul ignore next */
 export const loadPackage = <T>(name: string, options?: LoadOptions): T => {
-    const path = require.resolve(name, { paths: options && options.paths });
+    const path = _require.resolve(name, { paths: options && options.paths });
 
     console.log(`Found ${name} at ${path}`);
 
-    return require(path);
+    return _require(path);
 };

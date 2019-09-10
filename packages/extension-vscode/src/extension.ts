@@ -59,7 +59,7 @@ export const activate = (context: ExtensionContext) => {
     const everEnabledTelemetry = context.globalState.get<boolean>(everEnabledTelemetryKey, false);
     const enableTelemetry: TelemetryState = config.get('enableTelemetry') || 'ask';
     const args = [context.globalStoragePath, enableTelemetry, `${everEnabledTelemetry}`];
-    const module = context.asAbsolutePath('dist/src/server.js');
+    const module = context.asAbsolutePath('dist/bundle/server.js');
     const transport = TransportKind.ipc;
 
     const serverOptions: ServerOptions = {
