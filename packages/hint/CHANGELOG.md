@@ -1,3 +1,24 @@
+# 5.2.3 (September 11, 2019)
+
+## Bug fixes / Improvements
+
+* [[`e0fbc2f732`](https://github.com/webhintio/hint/commit/e0fbc2f7325ab045db0c17ea9b0e7d287e84ecee)] - Docs: Clarify package name usage; edit concepts for clarity (by [`Aki`](https://github.com/gesa) / see also: [`#2774`](https://github.com/webhintio/hint/issues/2774)).
+* [[`efe23136c6`](https://github.com/webhintio/hint/commit/efe23136c613114f7ec95e013bd37cce9e0dcbdd)] - Fix: Using `formatter-stylish` in CI by default (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2892`](https://github.com/webhintio/hint/issues/2892)).
+* [[`5603617df9`](https://github.com/webhintio/hint/commit/5603617df96def7c2571c8e94d595b76ec4633ec)] - Fix: Reference correct package directory in monorepo (by [`Tony Ross`](https://github.com/antross) / see also: [`#2873`](https://github.com/webhintio/hint/issues/2873)).
+* [[`9493b6e172`](https://github.com/webhintio/hint/commit/9493b6e1723cbcc630cc28d5d8f75b59df17299d)] - Fix: Parameter isAppCrashing in sendPendingData defaults to false (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2878`](https://github.com/webhintio/hint/issues/2878)).
+
+## Chores
+
+* [[`81622b8dba`](https://github.com/webhintio/hint/commit/81622b8dbaa9ffc5ba1bc3057b76868d3b3e54c5)] - Upgrade: Bump @types/lodash from 4.14.137 to 4.14.138 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a52ef4fb5`](https://github.com/webhintio/hint/commit/6a52ef4fb50931921be5da4c4cacd8760a3de887)] - Upgrade: Bump rimraf from 2.6.3 to 3.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c2b32de999`](https://github.com/webhintio/hint/commit/c2b32de9997a922a4744991306a9bf9b22e3910f)] - Upgrade: Bump @types/node from 12.7.3 to 12.7.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a2d1f0fce1`](https://github.com/webhintio/hint/commit/a2d1f0fce1e1689fe75c22e7d3a8f1aa7b8339f9)] - Upgrade: Bump browserslist from 4.6.6 to 4.7.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8d5e1927fe`](https://github.com/webhintio/hint/commit/8d5e1927fed14c2f7629912a5715b272664ea727)] - Chore: Move browser extension docs to own package (by [`Tony Ross`](https://github.com/antross) / see also: [`#2874`](https://github.com/webhintio/hint/issues/2874)).
+* [[`bbe99e3292`](https://github.com/webhintio/hint/commit/bbe99e329240a17e5f60c6c6261b0b9c2bd1774a)] - Upgrade: Bump typescript from 3.5.3 to 3.6.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c94b993bab`](https://github.com/webhintio/hint/commit/c94b993babb99a9b49cc795fbf80663c4750ba93)] - Upgrade: Bump @types/node from 12.7.1 to 12.7.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`aab7643c70`](https://github.com/webhintio/hint/commit/aab7643c70042a5e7d2da9684844277d707854fe)] - Upgrade: Bump sinon from 7.3.2 to 7.4.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 5.2.2 (August 29, 2019)
 
 ## Bug fixes / Improvements

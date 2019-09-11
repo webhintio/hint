@@ -1,3 +1,24 @@
+# 4.1.1 (September 11, 2019)
+
+## Bug fixes / Improvements
+
+* [[`5603617df9`](https://github.com/webhintio/hint/commit/5603617df96def7c2571c8e94d595b76ec4633ec)] - Fix: Reference correct package directory in monorepo (by [`Tony Ross`](https://github.com/antross) / see also: [`#2873`](https://github.com/webhintio/hint/issues/2873)).
+* [[`9493b6e172`](https://github.com/webhintio/hint/commit/9493b6e1723cbcc630cc28d5d8f75b59df17299d)] - Fix: Parameter isAppCrashing in sendPendingData defaults to false (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2878`](https://github.com/webhintio/hint/issues/2878)).
+
+## Chores
+
+* [[`83039130c4`](https://github.com/webhintio/hint/commit/83039130c445b550a3cf51eb6876028ed111a76b)] - Upgrade: Bump @types/semver from 6.0.1 to 6.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4d79bf84b2`](https://github.com/webhintio/hint/commit/4d79bf84b2075459ef359cd9a5a27b0edd9e4be9)] - Upgrade: Bump @types/request from 2.48.2 to 2.48.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a52ef4fb5`](https://github.com/webhintio/hint/commit/6a52ef4fb50931921be5da4c4cacd8760a3de887)] - Upgrade: Bump rimraf from 2.6.3 to 3.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`372da26e10`](https://github.com/webhintio/hint/commit/372da26e1045ee1c9c45df9eee4aebd63abc223e)] - Upgrade: Bump mdn-browser-compat-data from 0.0.92 to 0.0.93 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f3c69a5934`](https://github.com/webhintio/hint/commit/f3c69a5934cce2db04ba5e105347ca9681f27f33)] - Upgrade: Bump applicationinsights from 1.4.1 to 1.4.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bbe99e3292`](https://github.com/webhintio/hint/commit/bbe99e329240a17e5f60c6c6261b0b9c2bd1774a)] - Upgrade: Bump typescript from 3.5.3 to 3.6.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8f6939fe8f`](https://github.com/webhintio/hint/commit/8f6939fe8f6aa87e265f3a25bc79d7c226eb9e41)] - Upgrade: Bump mdn-browser-compat-data from 0.0.91 to 0.0.92 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`aab7643c70`](https://github.com/webhintio/hint/commit/aab7643c70042a5e7d2da9684844277d707854fe)] - Upgrade: Bump sinon from 7.3.2 to 7.4.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9c320e1fa3`](https://github.com/webhintio/hint/commit/9c320e1fa3d832e5937d7867e92b70d268be6086)] - Upgrade: Bump npm-registry-fetch from 3.9.1 to 4.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e3dafa8657`](https://github.com/webhintio/hint/commit/e3dafa8657e0f0f737c0557b7f0c41d10c5f0137)] - Chore: Fix type inconsistency affecting extension-vscode builds (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 4.1.0 (August 29, 2019)
 
 ## Bug fixes / Improvements

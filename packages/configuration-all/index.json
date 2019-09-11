@@ -22,10 +22,10 @@
         "axe/text-alternatives": "error",
         "axe/time-and-media": "error",
         "babel-config/is-valid": "error",
+        "button-type": "error",
         "compat-api/css": "error",
         "compat-api/html": "error",
         "content-type": "error",
-        "button-type": "error",
         "create-element-svg": "error",
         "css-prefix-order": "error",
         "disown-opener": "error",
@@ -80,8 +80,10 @@
         "css",
         "html",
         "javascript",
+        "less",
         "manifest",
         "package-json",
+        "sass",
         "typescript-config",
         "webpack-config"
     ]

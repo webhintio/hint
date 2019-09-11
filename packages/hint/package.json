@@ -8,7 +8,7 @@
   },
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
-    "@hint/utils": "^4.1.0",
+    "@hint/utils": "^4.1.1",
     "boxen": "^4.1.0",
     "browserslist": "^4.7.0",
     "chalk": "^2.4.2",
@@ -102,5 +102,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "5.2.2"
+  "version": "5.2.3"
 }
