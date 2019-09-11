@@ -78,7 +78,6 @@
   "main": "./dist/bundle/extension",
   "name": "vscode-webhint",
   "preview": true,
-  "private": true,
   "publisher": "webhint",
   "repository": {
     "directory": "packages/extension-vscode",

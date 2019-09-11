@@ -34,17 +34,11 @@ export const release = () => {
 
         // In case we are doing just publishing because the process failed earlier
         if (pkg.publishedVersion !== pkg.content.version) {
-
-            let message = `Bulding ${pkg.name} for release`;
-
-            debug(message);
-            observer.next(message);
-
             const dryRun = ctx.argv.dryRun ?
                 ' --dry-run' :
                 '';
 
-            message = `Publishing ${pkg.name}`;
+            const message = `Publishing ${pkg.name}`;
 
             debug(message);
             observer.next(message);
@@ -73,4 +67,16 @@ export const releaseForBrowser = (url: string) => {
             }
         });
     };
+};
+
+export const releaseForVSCode = async (ctx: Context) => {
+    const pkg = ctx.packages.get('vscode-webhint');
+
+    if (!pkg) {
+        throw new Error(`Package 'vscode-webhint' not found`);
+    }
+
+    const { stdout } = await execa(`vsce publish`, { cwd: path.dirname(pkg.path) });
+
+    debug(stdout);
 };

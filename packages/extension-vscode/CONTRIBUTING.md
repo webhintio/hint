@@ -23,7 +23,6 @@ the server won't start.
 ## Packaging
 
 * Install the packager via `npm install -g vsce`.
-* Run `npm install` from this directory (cannot package `yarn` install).
 * Run `vsce package`.
 * Install the generated `*.vsix` package in VSCode:
   * Go to `View > Extensions`.
@@ -39,10 +38,13 @@ the [`webhint` Visual Studio Marketplace publisher][webhint pub] to
 publish.
 
 * Install the packager via `npm install -g vsce`
-* Run `npm install` from this directory (cannot publish `yarn` install)
 * Run `vsce login webhint`
 * Provide your [Personal Access Token][token]
-* Run `vsce publish` from this directory
+* Run the release script
+  * Preferred: Run `npm run release` from the root of this repo
+    (publishes all webhint packages - automatically calculates version bump)
+  * Alternate: Run `vsce publish` from this directory
+    (publishes only this extension - requires manual version bump)
 
 Note `vsce` saves your login information so only `npm install` and
 `vsce publish` are necessary on subsequent attempts.
