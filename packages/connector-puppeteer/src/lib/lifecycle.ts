@@ -97,14 +97,24 @@ const deleteBrowserInfo = async () => {
     }
 };
 
+/**
+ * Connects to an existing browser and creates a new page that will disable the cache and
+ * use a new incognito context. This is not needed in regular mode as `puppeteer` creates
+ * a new temporary profile each time.
+ *
+ * This should only be used when running in `detached` mode.
+ */
 const connectToBrowser = async (currentInfo: BrowserInfo, options: LifecycleLaunchOptions) => {
     const connectOptions = { ...currentInfo, ...options };
 
     const browser = await puppeteer.connect(connectOptions);
 
     debug(`Creating new page in existing browser`);
-    const page = await browser.newPage();
 
+    const context = await browser.createIncognitoBrowserContext();
+    const page = await context.newPage();
+
+    page.setCacheEnabled(false);
     page.setDefaultTimeout(options.timeout || TIMEOUT);
 
     return { browser, page };
@@ -180,18 +190,26 @@ ${JSON.stringify(options, null, 2)}
 export const launch = async (options: LifecycleLaunchOptions) => {
     await lock();
 
-    const currentInfo = await getBrowserInfo();
+    /**
+     * Only try to connect to an existing browser when in detached mode,
+     * otherwise the browser will be closed when one of the puppeteer
+     * instances finishes.
+     */
+    if (options.detached) {
 
-    if (currentInfo) {
-        try {
-            const connection = await connectToBrowser(currentInfo, options);
+        const currentInfo = await getBrowserInfo();
 
-            await unlock();
+        if (currentInfo) {
+            try {
+                const connection = await connectToBrowser(currentInfo, options);
 
-            return connection;
-        } catch (e) {
-            // `currentInfo` contains outdated data: delete information and start fresh
-            await deleteBrowserInfo();
+                await unlock();
+
+                return connection;
+            } catch (e) {
+                // `currentInfo` contains outdated data: delete information and start fresh
+                await deleteBrowserInfo();
+            }
         }
     }
 
