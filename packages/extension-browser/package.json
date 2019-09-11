@@ -140,6 +140,7 @@
     "stats": "webpack --json > stats.json",
     "stats-release": "webpack --env.release --json > release-stats.json",
     "test": "npm run lint && npm run build && npm run test-only && npm run build-release-packages",
+    "test-release": "npm run clean && npm run test",
     "test-only": "nyc ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:css": "tcm src -w",
