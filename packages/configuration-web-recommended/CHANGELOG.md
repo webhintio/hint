@@ -1,3 +1,6 @@
+# 7.2.1 (September 12, 2019)
+
+
 # 7.2.0 (September 11, 2019)
 
 ## Bug fixes / Improvements

@@ -1,4 +1,4 @@
-# 0.0.7 (September 11, 2019)
+# 0.1.0 (September 12, 2019)
 
 ## Bug fixes / Improvements
 
@@ -15,6 +15,7 @@
 
 ## Chores
 
+* [[`7d2cb353a2`](https://github.com/webhintio/hint/commit/7d2cb353a22d2469f7c01a6ba3005c6ed61405da)] - Chore: Update dependencies and package version (by [`Antón Molleda`](https://github.com/molant)).
 * [[`412ad354f0`](https://github.com/webhintio/hint/commit/412ad354f0ad348db9b0fc04fc2a514cc2e195b1)] - Upgrade: Bump @types/chrome from 0.0.86 to 0.0.88 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
 * [[`0d569b797d`](https://github.com/webhintio/hint/commit/0d569b797dc91be5606dc76a7214c2ff2ffcbba7)] - Upgrade: Bump axe-core from 3.3.1 to 3.3.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
 * [[`83039130c4`](https://github.com/webhintio/hint/commit/83039130c445b550a3cf51eb6876028ed111a76b)] - Upgrade: Bump @types/semver from 6.0.1 to 6.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).

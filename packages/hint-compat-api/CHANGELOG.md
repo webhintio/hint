@@ -1,3 +1,10 @@
+# 4.0.7 (September 12, 2019)
+
+## Bug fixes / Improvements
+
+* [[`011cc18594`](https://github.com/webhintio/hint/commit/011cc185943922593c0695e6748086c8dcf8fea3)] - Fix: Ignore `link[rel]` values as they are progressive enhancements (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2935`](https://github.com/webhintio/hint/issues/2935)).
+
+
 # 4.0.6 (September 11, 2019)
 
 ## Bug fixes / Improvements

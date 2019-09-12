@@ -12,7 +12,7 @@
   "devDependencies": {
     "@hint/hint-axe": "^4.1.2",
     "@hint/hint-button-type": "^2.2.6",
-    "@hint/hint-compat-api": "^4.0.6",
+    "@hint/hint-compat-api": "^4.0.7",
     "@hint/hint-content-type": "^4.1.6",
     "@hint/hint-create-element-svg": "^1.2.6",
     "@hint/hint-css-prefix-order": "^1.2.6",
@@ -148,5 +148,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "0.0.7"
+  "version": "0.1.0"
 }

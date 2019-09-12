@@ -7,7 +7,7 @@
     "@hint/formatter-summary": "^3.0.9",
     "@hint/hint-babel-config": "^2.3.6",
     "@hint/hint-button-type": "^2.2.6",
-    "@hint/hint-compat-api": "^4.0.6",
+    "@hint/hint-compat-api": "^4.0.7",
     "@hint/hint-create-element-svg": "^1.2.6",
     "@hint/hint-css-prefix-order": "^1.2.6",
     "@hint/hint-disown-opener": "^3.2.6",
@@ -23,8 +23,8 @@
     "@hint/parser-babel-config": "^2.1.9",
     "@hint/parser-css": "^3.0.9",
     "@hint/parser-html": "^3.0.7",
-    "@hint/parser-less": "^1.0.0",
-    "@hint/parser-sass": "^1.0.0",
+    "@hint/parser-less": "^1.0.1",
+    "@hint/parser-sass": "^1.0.1",
     "@hint/parser-typescript-config": "^2.3.6",
     "@hint/parser-webpack-config": "^2.1.9"
   },
@@ -54,5 +54,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "7.2.0"
+  "version": "7.2.1"
 }

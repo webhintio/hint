@@ -1,26 +1,26 @@
 {
   "dependencies": {
-    "@hint/configuration-development": "^7.2.0",
     "@hint/configuration-accessibility": "^1.0.6",
+    "@hint/configuration-development": "^7.2.1",
     "@hint/configuration-progressive-web-apps": "^6.0.6",
-    "@hint/configuration-web-recommended": "^7.2.0",
+    "@hint/configuration-web-recommended": "^7.2.1",
     "@hint/connector-jsdom": "^4.0.9",
     "@hint/connector-local": "^3.1.6",
     "@hint/connector-puppeteer": "^2.1.0",
-    "@hint/extension-browser": "^0.0.7",
-    "vscode-webhint": "^1.1.0",
+    "@hint/extension-browser": "^0.1.0",
+    "vscode-webhint": "^1.2.0",
     "@hint/formatter-codeframe": "^3.1.6",
     "@hint/formatter-excel": "^3.1.6",
     "@hint/formatter-html": "^4.1.5",
     "@hint/formatter-json": "^3.1.6",
-    "@hint/formatter-stylish": "^3.1.6",
     "@hint/formatter-summary": "^3.0.9",
+    "@hint/formatter-stylish": "^3.1.6",
     "@hint/hint-amp-validator": "^2.9.6",
     "@hint/hint-apple-touch-icons": "^3.1.6",
     "@hint/hint-axe": "^4.1.2",
     "@hint/hint-babel-config": "^2.3.6",
     "@hint/hint-button-type": "^2.2.6",
-    "@hint/hint-compat-api": "^4.0.6",
+    "@hint/hint-compat-api": "^4.0.7",
     "@hint/hint-content-type": "^4.1.6",
     "@hint/hint-create-element-svg": "^1.2.6",
     "@hint/hint-css-prefix-order": "^1.2.6",
@@ -63,10 +63,10 @@
     "@hint/parser-css": "^3.0.9",
     "@hint/parser-html": "^3.0.7",
     "@hint/parser-javascript": "^3.0.9",
-    "@hint/parser-less": "^1.0.0",
+    "@hint/parser-less": "^1.0.1",
     "@hint/parser-manifest": "^2.2.7",
     "@hint/parser-package-json": "^1.1.9",
-    "@hint/parser-sass": "^1.0.0",
+    "@hint/parser-sass": "^1.0.1",
     "@hint/parser-typescript-config": "^2.3.6",
     "@hint/parser-webpack-config": "^2.1.9"
   },
@@ -93,5 +93,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "1.0.4"
+  "version": "1.0.5"
 }

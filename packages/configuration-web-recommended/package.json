@@ -9,7 +9,7 @@
     "@hint/formatter-summary": "^3.0.9",
     "@hint/hint-button-type": "^2.2.6",
     "@hint/hint-create-element-svg": "^1.2.6",
-    "@hint/hint-compat-api": "^4.0.6",
+    "@hint/hint-compat-api": "^4.0.7",
     "@hint/hint-content-type": "^4.1.6",
     "@hint/hint-css-prefix-order": "^1.2.6",
     "@hint/hint-disown-opener": "^3.2.6",
@@ -67,5 +67,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "7.2.0"
+  "version": "7.2.1"
 }
