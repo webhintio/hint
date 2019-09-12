@@ -1,4 +1,4 @@
-# VS Code
+# Webhint VS Code extension
 
 Use `webhint` to improve your website - during development.
 
