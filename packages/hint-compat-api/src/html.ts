@@ -75,8 +75,7 @@ export default class HTMLCompatHint implements IHint {
         const ignore = resolveIgnore([
             'crossorigin',
             'integrity',
-            'link[rel=manifest]',
-            'link[rel=preload]',
+            'link[rel]',
             'main',
             'spellcheck'
         ], context.hintOptions);
