@@ -133,7 +133,38 @@ will be turned on:
         "content-type",
         ...
         "no-vulnerable-javascript-libraries"
-        ]
-    }
+    ]
 }
 ```
+
+#### Exit code and verbosity level
+
+Because now hints will be responsible of setting the severity of each report,
+the user will need a way to filter out the messages they are not concerned about.
+To achieve that a new property `minimumSeverity` will be added to the `.hintrc`:
+
+```json
+{
+    "connector": {
+        "name": "puppeteer",
+        "options": {
+            "waitUntil": "networkidle2"
+        }
+    },
+    "hintsTimeout": 120000,
+    "hints": [
+        "apple-touch-icons",
+        "content-type",
+        ...
+        "no-vulnerable-javascript-libraries"
+    ],
+    "minimumSeverity": "error|warning|hint|information"
+}
+```
+
+If the user selects `error`, all reports with a different severity will not be
+outputed.
+If they select `warning`, `error` and `warning` errors will be reported.
+If a user selects `warning` and there are only `warning` reports, the
+exit code should be different than 0.
+
