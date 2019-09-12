@@ -48,18 +48,20 @@ vs code, browser extension, and online scanner) by:
 The idea is to get closer to the severity options available in
 [VS Code](https://code.visualstudio.com/api/references/vscode-api#DiagnosticSeverity):
 
-| Severity | Description |
-| -------- | ----------- |
-| off      | Disabled, no reporting will come from it |
-| error    | Something that the user should get fixed right away |
-| warning  | Something that the developer should probably look into |
-| hint*    | Something minor to look into if you have time |
-| information* | FYI for the user |
+| Severity | Description | VS Code | Browser |
+| -------- | ----------- | ------- | ------- |
+| off      | Disabled, no reporting will come from it | | |
+| error    | Something that the user should get fixed right away | ![vs code error](https://user-images.githubusercontent.com/606594/64741804-bf46d880-d4ae-11e9-91a1-1db1b60d29a5.png) | TBD |
+| warning  | Something that the developer should probably look into | ![vs code warning](https://user-images.githubusercontent.com/606594/64741875-ff0dc000-d4ae-11e9-8668-eecea56d418d.png) | TBD |
+| hint*    | Something minor to look into if you have time | ![vs code hint](https://user-images.githubusercontent.com/606594/64741963-6166c080-d4af-11e9-825e-47bb2ca60a26.png) | TBD |
+| information* | FYI for the user | ![vs code information](https://user-images.githubusercontent.com/606594/64741926-2cf30480-d4af-11e9-88fe-01e4d9d7d36c.png) | TBD |
 
 The new values are `hint` and `information`.
 
-**Note:** Not sure about the `information` value. Will revisit once we have the severity
-for each hint message
+**Notes:**
+
+* We don't have to add 2 new severity levels, we could decide after reviewing the reports of the hints if it makes sense.
+* In VS Code, `Hint` is less intrussive than `Information`. We will have to decide if we swap them or if we are ok as that (in the description about it doesn't quite match the expectations I think).
 
 ### Hint severity
 
@@ -98,14 +100,21 @@ The user configuration will then look like this:
         "amp-validator": "off",
         "apple-touch-icons": "on",
         "button-type": "off",
-        "content-type": "on",
+        "content-type": ["on", {
+            ".*\\.js": "application/javascript; charset=utf-8"
+        }],
         ...
-        "no-vulnerable-javascript-libraries": ["on", {
-            "severity": "high"
-        }]
+        "no-vulnerable-javascript-libraries": "on"
     }
 }
 ```
+
+If the value of a `hint` key is an array, then the first member should be "on|off"
+and the second and object with the specific configuration for that `hint`. Please
+note that not all hints accept further configurations.
+
+In the example above we are using `content-type` but other examples of hints that
+accept configurations are: `axe`, `http-compression`, `compat-api`, etc.
 
 As a shortcut, the property `hints` could accept an array of hint names that
 will be turned on:
