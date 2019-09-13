@@ -233,7 +233,7 @@ const removeFeatures = (data) => {
  */
 const removeBrowserDetails = (browsers) => {
     for (const browserName of Object.keys(browsers)) {
-        browsers[browserName] = /** @type {any} */({});
+        browsers[browserName] = /** @type {any} */({ name: browsers[browserName].name });
     }
 };
 
@@ -251,10 +251,10 @@ removeFeatures(data.css);
 removeFeatures(data.html);
 
 const code = `/* eslint-disable */
-import { PrimaryIdentifier } from 'mdn-browser-compat-data/types';
+import { Browsers, PrimaryIdentifier } from 'mdn-browser-compat-data/types';
 
 type Data = {
-    browsers: PrimaryIdentifier;
+    browsers: Browsers;
     css: PrimaryIdentifier;
     html: PrimaryIdentifier;
 }

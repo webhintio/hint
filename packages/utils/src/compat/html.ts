@@ -20,7 +20,7 @@ export type ElementQuery = {
  * a context element and/or value is supported (e.g. `{ attribute: 'hidden' }`
  * or `{ attribute: 'rel', element: 'link', value: 'stylesheet' }`).
  */
-export const getAttributeUnsupported = (feature: AttributeQuery, browsers: string[]): UnsupportedBrowsers => {
+export const getAttributeUnsupported = (feature: AttributeQuery, browsers: string[]): UnsupportedBrowsers | null => {
     const key = `html-attribute:${feature.element || ''}|${feature.attribute}|${feature.value || ''}`;
 
     return getCachedValue(key, browsers, () => {
@@ -56,7 +56,7 @@ export const getAttributeUnsupported = (feature: AttributeQuery, browsers: strin
 /**
  * Determine if the provided HTML element is supported (e.g. `details`).
  */
-export const getElementUnsupported = (feature: ElementQuery, browsers: string[]): UnsupportedBrowsers => {
+export const getElementUnsupported = (feature: ElementQuery, browsers: string[]): UnsupportedBrowsers | null => {
     return getCachedValue(`html-element:${feature.element}`, browsers, () => {
         const [data, prefix] = getFeatureData(mdn.html.elements, feature.element);
 
