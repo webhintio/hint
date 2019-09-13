@@ -8,7 +8,7 @@ import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'pos
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
-import { getUnsupported } from '@hint/utils/dist/src/compat';
+import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils/dist/src/compat';
 import { getCSSCodeSnippet } from '@hint/utils/dist/src/report';
 
 import { filterBrowsers, joinBrowsers } from './utils/browsers';
@@ -21,7 +21,7 @@ import { getMessage } from './i18n.import';
 type ReportData = {
     feature: string;
     node: ChildNode;
-    unsupported: string[];
+    unsupported: UnsupportedBrowsers;
 };
 
 type ReportMap = Map<string, ReportData[] | 'supported'>;
@@ -57,7 +57,7 @@ const validateAtRule = (node: AtRule, context: Context): ReportData | null => {
         return null;
     }
 
-    const unsupported = getUnsupported({ rule: node.name }, context.browsers);
+    const unsupported = getUnsupportedDetails({ rule: node.name }, context.browsers);
 
     if (unsupported) {
         return { feature: `@${node.name}`, node, unsupported };
@@ -69,7 +69,7 @@ const validateAtRule = (node: AtRule, context: Context): ReportData | null => {
 };
 
 const validateDeclValue = (node: Declaration, context: Context): ReportData | null => {
-    const unsupported = getUnsupported({ property: node.prop, value: node.value }, context.browsers);
+    const unsupported = getUnsupportedDetails({ property: node.prop, value: node.value }, context.browsers);
 
     if (unsupported) {
         return { feature: `${node.prop}: ${node.value}`, node, unsupported };
@@ -85,7 +85,7 @@ const validateDecl = (node: Declaration, context: Context): ReportData | null =>
         return null;
     }
 
-    const unsupported = getUnsupported({ property }, context.browsers);
+    const unsupported = getUnsupportedDetails({ property }, context.browsers);
 
     if (unsupported) {
         return { feature: `${property}`, node, unsupported };
@@ -132,12 +132,12 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
         }
 
         // Remove browsers not included in ALL reports for this property.
-        const unsupported = intersection(...reports.map((report) => {
-            return report.unsupported;
+        const browsers = intersection(...reports.map((report) => {
+            return report.unsupported.browsers;
         }));
 
         // Ignore if every browser passed at least one report for this property.
-        if (!unsupported.length) {
+        if (!browsers.length) {
             continue;
         }
 
@@ -156,6 +156,11 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
         const finalReports = unprefixedReports.length ? unprefixedReports : reports;
 
         for (const report of finalReports) {
+            const unsupported: UnsupportedBrowsers = {
+                browsers,
+                details: report.unsupported.details
+            };
+
             context.report({ ...report, unsupported });
         }
     }
