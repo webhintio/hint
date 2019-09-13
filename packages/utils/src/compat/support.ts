@@ -16,7 +16,31 @@ import {
     ElementQuery
 } from './html';
 
+export {
+    getFriendlyName,
+    UnsupportedBrowsers
+} from './browsers';
+
 export type FeatureQuery = AttributeQuery | DeclarationQuery | ElementQuery | RuleQuery | SelectorQuery;
+
+/**
+ * Similar to `getUnsupported`, but returns an object with both a list of
+ * `browsers` which were unsupported and a map of browsers to `browserDetails`
+ * to get additional information (e.g. what version the feature is added in).
+ */
+export const getUnsupportedDetails = (feature: FeatureQuery, browsers: string[]): UnsupportedBrowsers | null => {
+    if ('attribute' in feature) {
+        return getAttributeUnsupported(feature, browsers);
+    } else if ('element' in feature) {
+        return getElementUnsupported(feature, browsers);
+    } else if ('property' in feature) {
+        return getDeclarationUnsupported(feature, browsers);
+    } else if ('rule' in feature) {
+        return getRuleUnsupported(feature, browsers);
+    }
+
+    return getSelectorUnsupported(feature, browsers);
+};
 
 /**
  * ```js
@@ -30,18 +54,10 @@ export type FeatureQuery = AttributeQuery | DeclarationQuery | ElementQuery | Ru
  * getUnsupported({ selector: 'input:invalid' }, browsers);
  * ```
  */
-export const getUnsupported = (feature: FeatureQuery, browsers: string[]): UnsupportedBrowsers => {
-    if ('attribute' in feature) {
-        return getAttributeUnsupported(feature, browsers);
-    } else if ('element' in feature) {
-        return getElementUnsupported(feature, browsers);
-    } else if ('property' in feature) {
-        return getDeclarationUnsupported(feature, browsers);
-    } else if ('rule' in feature) {
-        return getRuleUnsupported(feature, browsers);
-    }
+export const getUnsupported = (feature: FeatureQuery, browsers: string[]): string[] | null => {
+    const data = getUnsupportedDetails(feature, browsers);
 
-    return getSelectorUnsupported(feature, browsers);
+    return data && data.browsers;
 };
 
 export const getSupported = (feature: FeatureQuery, browsers: string[]): string[] | null => {

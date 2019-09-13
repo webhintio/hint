@@ -33,7 +33,10 @@ hints inside the extended configurations.
 
 ### compat
 
+* `getFriendlyName`: Get the friendly name of a browser from an id.
 * `getUnsupported`: Get browsers without support for CSS or HTML features.
+* `getUnsupportedDetails`: Get browsers without support with details on
+  when support was added or removed.
 * `isSupported`: Query MDN for support of CSS or HTML features.
 
 ### configStore

@@ -1,13 +1,27 @@
 import { Identifier, SimpleSupportStatement, SupportStatement } from 'mdn-browser-compat-data/types';
 import * as semver from 'semver';
 
-export type UnsupportedBrowsers = string[] | null;
+import { mdn } from './browser-compat-data';
+
+export type SupportDetails = {
+    versionAdded?: string;
+    versionRemoved?: string;
+};
+
+export type UnsupportedBrowsers = {
+    browsers: string[];
+    details: Map<string, SupportDetails>;
+};
 
 const enum Support {
     No,
     Yes,
     Unknown
 }
+
+type SupportStatus = SupportDetails & {
+    support: Support;
+};
 
 // Map `browserslist` browser names to MDN ones.
 const browserToMDN = new Map([
@@ -32,30 +46,34 @@ const coerce = (version: string): string | semver.SemVer => {
     return semver.coerce(version) || version;
 };
 
+const normalizeBrowserName = (name: string) => {
+    return browserToMDN.get(name) || name;
+};
+
 /**
  * Intepret if the provided statement indicates support for the given browser version.
  */
-const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion: string): Support => {
+const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion: string): SupportStatus => {
     const version = coerce(rawVersion);
 
     // Ignore support that requires users to enable a flag.
     if (support.flags) {
-        return Support.Unknown;
+        return { support: Support.Unknown };
     }
 
     // If feature doesn't match the same prefix, then it's not supported.
     if (prefix !== (support.prefix || '')) {
-        return Support.No;
+        return { support: Support.No };
     }
 
     // If feature was never added, then it's not supported.
     if (support.version_added === false) {
-        return Support.No;
+        return { support: Support.No };
     }
 
     // If a feature was removed before the target version, it's not supported.
     if (typeof support.version_removed === 'string' && semver.lte(coerce(support.version_removed), version)) {
-        return Support.No;
+        return { support: Support.No, versionRemoved: support.version_removed };
     }
 
     /*
@@ -67,33 +85,41 @@ const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion
      * https://github.com/mdn/browser-compat-data/issues/3021
      */
     if (support.version_added === true) {
-        return Support.Yes;
+        return { support: Support.Yes };
     }
 
     // If feature was added by the target version, it's supported; if after it's not.
     if (typeof support.version_added === 'string') {
-        return semver.lte(coerce(support.version_added), version) ? Support.Yes : Support.No;
+        if (semver.lte(coerce(support.version_added), version)) {
+            return { support: Support.Yes };
+        }
+
+        return { support: Support.No, versionAdded: support.version_added };
     }
 
     // Ignore all other cases (e.g. if a feature was removed but we don't know when).
-    return Support.Unknown;
+    return { support: Support.Unknown };
 };
 
 /**
- * Interpret if the provided support statements indicate the given browser version in supported.
+ * Interpret if the provided support statements indicate the given browser version is supported.
  */
-const isBrowserUnsupported = (support: SupportStatement, prefix: string, version: string): boolean => {
+const isBrowserSupported = (support: SupportStatement, prefix: string, version: string): SupportStatus => {
     // Convert single entries to an array for consistent handling.
     const browserSupport = Array.isArray(support) ? support : [support];
-    let status = Support.Unknown;
+    const details: SupportStatus = { support: Support.Unknown };
 
     // Items are listed from newest to oldest. The first clear rule wins.
     for (const simpleSupport of browserSupport) {
-        switch (isSupported(simpleSupport, prefix, version)) {
+        const status = isSupported(simpleSupport, prefix, version);
+
+        switch (status.support) {
             case Support.Yes:
-                return false;
+                return { support: Support.Yes };
             case Support.No:
-                status = Support.No;
+                details.support = Support.No;
+                details.versionAdded = status.versionAdded || details.versionAdded;
+                details.versionRemoved = status.versionRemoved || details.versionRemoved;
                 break; // Keep looking in case a feature was temporarily removed or is prefixed.
             case Support.Unknown:
             default:
@@ -101,7 +127,22 @@ const isBrowserUnsupported = (support: SupportStatement, prefix: string, version
         }
     }
 
-    return status === Support.No;
+    if (details.support === Support.Unknown) {
+        details.support = Support.Yes;
+    }
+
+    return details;
+};
+
+/**
+ * Retrieve the friendly name of the provided browser
+ * (e.g. "Internet Explorer" for "ie").
+ */
+export const getFriendlyName = (browser: string): string => {
+    const [name] = browser.split(' ');
+    const data = mdn.browsers[normalizeBrowserName(name)];
+
+    return data.name;
 };
 
 /**
@@ -112,30 +153,45 @@ const isBrowserUnsupported = (support: SupportStatement, prefix: string, version
  * @param feature An MDN feature `Identifier` with `__compat` data.
  * @param browsers A list of target browsers (e.g. `['chrome 74', 'ie 11']`).
  */
-export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: string, browsers: string[]): UnsupportedBrowsers => {
+export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: string, browsers: string[]): UnsupportedBrowsers | null => {
     if (!feature || !feature.__compat) {
         return null; // Assume support if no matching feature was provided.
     }
 
     const support = feature.__compat.support;
     const unsupported: string[] = [];
+    const details = new Map<string, SupportDetails>();
 
     for (const browser of browsers) {
         const [name, versionStr] = browser.split(' ');
-        const mdnBrowser = browserToMDN.get(name)!;
+        const mdnBrowser = normalizeBrowserName(name);
         const browserSupport = support[mdnBrowser];
         const versions = versionStr.split('-'); // Handle 'android 4.4.3-4.4.4'.
 
-        if (browserSupport) {
-            const isUnsupported = versions.some((version) => {
-                return isBrowserUnsupported(browserSupport, prefix, version);
-            });
+        if (!browserSupport) {
+            continue;
+        }
 
-            if (isUnsupported) {
+        for (const version of versions) {
+            const status = isBrowserSupported(browserSupport, prefix, version);
+
+            if (status.support === Support.No) {
+                const supportDetails: SupportDetails = {};
+
+                if (status.versionAdded) {
+                    supportDetails.versionAdded = status.versionAdded;
+                }
+
+                if (status.versionRemoved) {
+                    supportDetails.versionRemoved = status.versionRemoved;
+                }
+
+                details.set(browser, supportDetails);
                 unsupported.push(browser);
+                break;
             }
         }
     }
 
-    return unsupported.length ? unsupported : null;
+    return unsupported.length ? { browsers: unsupported, details } : null;
 };

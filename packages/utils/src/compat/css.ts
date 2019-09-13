@@ -53,7 +53,7 @@ const getTokens = (nodes: any[]): [string, string][] => {
  * sub-features in the provided context, using `matches` data to test
  * each tokenized string from the value.
  */
-const getPartialValueUnsupported = (context: Identifier, value: string, browsers: string[]): UnsupportedBrowsers => {
+const getPartialValueUnsupported = (context: Identifier, value: string, browsers: string[]): UnsupportedBrowsers | null => {
     const prefix = vendor.prefix(value);
     const unprefixedValue = vendor.unprefixed(value);
     const tokens = getTokens(valueParser(value).nodes);
@@ -96,7 +96,7 @@ const getPartialValueUnsupported = (context: Identifier, value: string, browsers
  * Determine if the provided CSS value is supported, first by looking for an
  * exact match for the full value, falling back to search for a partial match.
  */
-const getValueUnsupported = (context: Identifier, value: string, browsers: string[]): UnsupportedBrowsers => {
+const getValueUnsupported = (context: Identifier, value: string, browsers: string[]): UnsupportedBrowsers | null => {
     const [data, prefix] = getFeatureData(context, value);
 
     if (data) {
@@ -110,7 +110,7 @@ const getValueUnsupported = (context: Identifier, value: string, browsers: strin
  * Determine if the provided CSS declaration consisting of a property
  * and optionally a value is supported (e.g. `border-radius` or `display: grid`).
  */
-export const getDeclarationUnsupported = (feature: DeclarationQuery, browsers: string[]): UnsupportedBrowsers => {
+export const getDeclarationUnsupported = (feature: DeclarationQuery, browsers: string[]): UnsupportedBrowsers | null => {
     const key = `css-declaration:${feature.property}|${feature.value || ''}`;
 
     return getCachedValue(key, browsers, () => {
@@ -127,7 +127,7 @@ export const getDeclarationUnsupported = (feature: DeclarationQuery, browsers: s
 /**
  * Determine if the provided CSS at-rule is supported (e.g. `keyframes`).
  */
-export const getRuleUnsupported = (feature: RuleQuery, browsers: string[]): UnsupportedBrowsers => {
+export const getRuleUnsupported = (feature: RuleQuery, browsers: string[]): UnsupportedBrowsers | null => {
     return getCachedValue(`css-rule:${feature.rule}`, browsers, () => {
         const [data, prefix] = getFeatureData(mdn.css['at-rules'], feature.rule);
 
@@ -135,7 +135,7 @@ export const getRuleUnsupported = (feature: RuleQuery, browsers: string[]): Unsu
     });
 };
 
-const getPseudoSelectorUnsupported = (value: string, browsers: string[]): UnsupportedBrowsers => {
+const getPseudoSelectorUnsupported = (value: string, browsers: string[]): UnsupportedBrowsers | null => {
     const name = value.replace(/^::?/, ''); // Strip leading `:` or `::`.
 
     return getCachedValue(`css-pseudo-selector:${name}`, browsers, () => {
@@ -153,20 +153,34 @@ const getPseudoSelectorUnsupported = (value: string, browsers: string[]): Unsupp
  * special cases (e.g. newer attribute and combinator selectors) need special
  * handling to map to the MDN data (which hasn't been done yet).
  */
-export const getSelectorUnsupported = (feature: SelectorQuery, browsers: string[]): UnsupportedBrowsers => {
+export const getSelectorUnsupported = (feature: SelectorQuery, browsers: string[]): UnsupportedBrowsers | null => {
     const parser = selectorParser();
     const root = parser.astSync(feature.selector); // eslint-disable-line no-sync
 
-    let unsupported: string[] = [];
+    const unsupported: UnsupportedBrowsers = {
+        browsers: [],
+        details: new Map()
+    };
 
     // https://github.com/postcss/postcss-selector-parser/blob/master/API.md#containerwalk-proxies
     root.walkPseudos((node: { value: string }) => {
         const result = getPseudoSelectorUnsupported(node.value, browsers);
 
         if (result) {
-            unsupported = [...unsupported, ...result];
+            unsupported.browsers = [...unsupported.browsers, ...result.browsers];
+
+            /*
+             * Note: Details can be incorrect if multiple parts of a selector
+             * are unsupported. Currently details will be set based on the
+             * last part of the selector which was unsupported.
+             *
+             * TODO: Fix by requiring callers to parse the selector instead.
+             */
+            for (const [browser, details] of result.details) {
+                unsupported.details.set(browser, details);
+            }
         }
     });
 
-    return unsupported.length ? unsupported : null;
+    return unsupported.browsers.length ? unsupported : null;
 };
