@@ -16,6 +16,7 @@
     ],
     "timeout": "1m"
   },
+  "bundleSize": 75000,
   "categories": [
     "Linters"
   ],
@@ -61,6 +62,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^7.4.2",
     "typescript": "^3.6.3",
+    "vsce": "^1.66.0",
     "vscode-languageclient": "^5.2.1",
     "vscode-languageserver": "^5.2.1",
     "webpack": "^4.39.3",
@@ -95,8 +97,9 @@
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "test": "npm run lint && npm run build && npm run test-only",
-    "test-only": "nyc ava",
-    "test-release": "npm run lint && npm run build-release && ava",
+    "test-only": "nyc ava && npm run build-release && vsce package && npm run validate-bundle-size",
+    "test-release": "npm run lint && npm run build-release && ava && vsce package && npm run validate-bundle-size",
+    "validate-bundle-size": "node ./scripts/bundle-size.js",
     "vscode:prepublish": "npm run build-release",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",
