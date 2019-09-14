@@ -81,7 +81,7 @@ guide][].
 
 <!-- Link labels: -->
 
-[connector-chrome]: https://webhint.io/docs/user-guide/connectors/connector-chrome/
+[connector-chrome]: https://www.npmjs.com/package/@hint/connector-chrome
 [connector-jsdom]: https://webhint.io/docs/user-guide/connectors/connector-jsdom/
 [connector-local]: https://webhint.io/docs/user-guide/connectors/connector-local/
 [connector-puppeteer]: https://webhint.io/docs/user-guide/connectors/connector-puppeteer/

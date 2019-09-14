@@ -58,7 +58,7 @@ export const getPackages = (ignoredPackages: string[]) => {
                 .map((reference) => {
                     /**
                      * The references are relative and we just need the last part
-                     * of the path to do the matchin later. E.g: connector-chrome
+                     * of the path to do the matchin later. E.g: connector-puppeteer
                      */
                     return reference.split('/').pop()!;
                 });
