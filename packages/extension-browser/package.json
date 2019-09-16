@@ -87,7 +87,7 @@
     "semver": "^6.3.0",
     "sinon": "^7.4.2",
     "style-loader": "^1.0.0",
-    "svg-url-loader": "^3.0.0",
+    "svg-url-loader": "^3.0.2",
     "terser-webpack-plugin": "^1.4.1",
     "typed-css-modules": "^0.6.0",
     "typescript": "^3.6.2",
