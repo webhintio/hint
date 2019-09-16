@@ -165,33 +165,6 @@ test(`Searches with the right priorities and throws an exception when nothing is
     }
 });
 
-test(`wsl sets missing env variables Windows`, (t) => {
-    const sandbox = t.context.sandbox;
-    const LOCAL_APP_DATA = 'LOCAL_APP_DATA';
-
-    sandbox.stub(t.context.getPlatform, 'getPlatform')
-        .returns('wsl');
-    sandbox.stub(t.context.environment, 'getVariable')
-        .returns(LOCAL_APP_DATA);
-    sandbox.stub(t.context.isFile, 'isFile')
-        .returns(false);
-
-    const setVariableSpy = sandbox.spy(t.context.environment, 'setVariable');
-
-    const chromiumFinder = loadDependency(t.context);
-
-    const error = t.throws(() => {
-        chromiumFinder.getInstallationPath({ browser: 'Chrome' });
-    });
-
-    t.is(error.message, 'No installation found');
-
-    t.true(setVariableSpy.calledThrice);
-    t.is(setVariableSpy.firstCall.args[0], 'LOCALAPPDATA');
-    t.is(setVariableSpy.secondCall.args[0], 'PROGRAMFILES');
-    t.is(setVariableSpy.thirdCall.args[0], 'PROGRAMFILES(X86)');
-});
-
 test(`(Linux) Does not have any information for Edge`, (t) => {
     const sandbox = t.context.sandbox;
 
