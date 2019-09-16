@@ -4,7 +4,7 @@ import * as isCI from 'is-ci';
 import compact = require('lodash/compact');
 import * as puppeteer from 'puppeteer-core';
 
-import { Browser, getInstallationPath, debug as d, dom, HTMLElement, network, HTMLDocument, HttpHeaders } from '@hint/utils';
+import { Browser, getInstallationPath, debug as d, dom, HTMLElement, HTMLDocument, HttpHeaders, misc, network } from '@hint/utils';
 import { normalizeHeaders, Requester } from '@hint/utils-connector-tools';
 import { IConnector, Engine, NetworkData } from 'hint';
 import { launch, close, LifecycleLaunchOptions } from './lib/lifecycle';
@@ -13,6 +13,7 @@ import { getFavicon } from './lib/get-favicon';
 import { onRequestHandler, onRequestFailedHandler, onResponseHandler } from './lib/events';
 
 const { createHTMLDocument, traverse } = dom;
+const { getPlatform } = misc;
 const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 
@@ -140,7 +141,9 @@ export default class PuppeteerConnector implements IConnector {
 
     /** Transform general options to more specific `puppeteer` ones if applicable. */
     private toPuppeteerOptions(options: ConnectorOptions = {}): LifecycleLaunchOptions {
-        const headless = 'headless' in options ? options.headless : isCI;
+        const headless = 'headless' in options ?
+            options.headless :
+            isCI || getPlatform() === 'wsl';
 
         const executablePath = 'browser' in options ?
             getInstallationPath({ browser: options.browser }) :

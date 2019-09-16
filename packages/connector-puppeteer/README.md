@@ -42,6 +42,7 @@ The set of settings supported by the Puppeteer connector are:
         "options": {
             "auth": AuthObject,
             "browser": "chrome|chromium|edge",
+            "headless": true|false,
             "ignoreHTTPSErrors": true|false,
             "puppeteerOptions": "object",
             "waitUntil": "dom|loaded|networkidle0|networkidle2"
@@ -60,6 +61,9 @@ All properties of `options` are optional.
   if it does not find one. Keep in mind that not all browsers are
   available in all platforms and that you need to **manually install
   the browser**.
+* `headless (boolean)`: Indicates if the browser should run in headless
+  mode or not. It is `true` by default when running on CI or
+  in WSL, `false` otherwise.
 * `ignoreHTTPSError (boolean)`: Indicates if errors with certificates
   should be ignored. Use this when checking self-signed certificates.
   It is `false` by default.
@@ -69,6 +73,26 @@ All properties of `options` are optional.
 * `waitUntil (dom|loaded|networkidle0|networkidle2)`: Is the waiting
   strategy to decide when a page is considered loaded. See the
   [puppeteer goto options][puppeteer goto options] to know more.
+
+### WSL support
+
+To use this connector when running `WSL` you will have to install a chromium
+browser on your distro (e.g.: `sudo apt-get install chromium-browser`).
+Because by default `WSL` does not support graphics, the `headless` mode will
+be enabled by default. If you have an X Server working you will have to
+manually disable this option via the connector's options. E.g.:
+
+```json
+{
+    "connector": {
+        "name": "puppeteer",
+        "options": {
+            "headless": false
+        }
+    },
+    ...
+}
+```
 
 ### Website authentication
 
