@@ -7,9 +7,13 @@
         "description": "css hint metadata name",
         "message": "Supported CSS features"
     },
+    "featureAlternate": {
+        "description": "Message showing a feature which can be added to enhance support.",
+        "message": "Add '$1' to support $2."
+    },
     "featureNotSupported": {
         "description": "Message to show when a feature is not supported",
-        "message": "$1 is not supported by $2."
+        "message": "'$1' is not supported by $2."
     },
     "html_description": {
         "description": "html hint metadata description",

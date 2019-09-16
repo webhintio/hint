@@ -28,6 +28,34 @@ export const filterBrowsers = (browsers: string[]): string[] => {
     });
 };
 
+export const formatSupported = (browser: string, versionAdded?: string, versionRemoved?: string): string => {
+    const name = getFriendlyName(browser);
+
+    if (versionAdded && versionRemoved) {
+        return `${name} ${versionAdded}-${versionRemoved}`;
+    } else if (versionAdded && parseFloat(versionAdded) !== 1) {
+        return `${name} ${versionAdded}+`;
+    } else if (versionRemoved) {
+        return `${name} < ${versionRemoved}`;
+    }
+
+    return name;
+};
+
+export const formatUnsupported = (browser: string, versionAdded?: string, versionRemoved?: string): string => {
+    const name = getFriendlyName(browser);
+
+    if (versionAdded && versionRemoved) {
+        return `${name} ${versionRemoved}-${versionAdded}`;
+    } else if (versionAdded) {
+        return `${name} < ${versionAdded}`;
+    } else if (versionRemoved) {
+        return `${name} ${versionRemoved}+`;
+    }
+
+    return name;
+};
+
 /**
  * Serialize summarized support ranges for provided browsers.
  *
@@ -38,22 +66,13 @@ export const filterBrowsers = (browsers: string[]): string[] => {
  */
 export const joinBrowsers = (unsupported: UnsupportedBrowsers): string => {
     const summaries = unsupported.browsers.map((browser) => {
-        const name = getFriendlyName(browser);
         const details = unsupported.details.get(browser);
 
         if (!details) {
             throw new Error(`No details provided for browser: ${name}`);
         }
 
-        if (details.versionAdded && details.versionRemoved) {
-            return `${name} ${details.versionRemoved}-${details.versionAdded}`;
-        } else if (details.versionAdded) {
-            return `${name} < ${details.versionAdded}`;
-        } else if (details.versionRemoved) {
-            return `${name} ${details.versionRemoved}+`;
-        }
-
-        return name;
+        return formatUnsupported(browser, details.versionAdded, details.versionRemoved);
     });
 
     return [...new Set(summaries)].sort().join(', ');

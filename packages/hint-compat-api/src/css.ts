@@ -8,18 +8,24 @@ import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'pos
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
-import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils/dist/src/compat';
+import { getUnsupportedDetails } from '@hint/utils/dist/src/compat';
+import { AlternateDetails, UnsupportedBrowsers } from '@hint/utils/dist/src/compat/browsers';
 import { getCSSCodeSnippet } from '@hint/utils/dist/src/report';
 
-import { filterBrowsers, joinBrowsers } from './utils/browsers';
+import { filterBrowsers, formatSupported, joinBrowsers } from './utils/browsers';
 import { filterSupports } from './utils/filter-supports';
 import { resolveIgnore } from './utils/ignore';
 
 import meta from './meta/css';
 import { getMessage } from './i18n.import';
 
+type BrowserAlternateDetails = AlternateDetails & {
+    browser: string;
+};
+
 type ReportData = {
     feature: string;
+    formatFeature?: (name: string) => string;
     node: ChildNode;
     unsupported: UnsupportedBrowsers;
 };
@@ -60,7 +66,11 @@ const validateAtRule = (node: AtRule, context: Context): ReportData | null => {
     const unsupported = getUnsupportedDetails({ rule: node.name }, context.browsers);
 
     if (unsupported) {
-        return { feature: `@${node.name}`, node, unsupported };
+        const formatFeature = (name: string) => {
+            return `@${name}`;
+        };
+
+        return { feature: formatFeature(node.name), formatFeature, node, unsupported };
     }
 
     context.walk(node, context);
@@ -72,7 +82,11 @@ const validateDeclValue = (node: Declaration, context: Context): ReportData | nu
     const unsupported = getUnsupportedDetails({ property: node.prop, value: node.value }, context.browsers);
 
     if (unsupported) {
-        return { feature: `${node.prop}: ${node.value}`, node, unsupported };
+        const formatFeature = (value: string) => {
+            return `${node.prop}: ${value}`;
+        };
+
+        return { feature: formatFeature(node.value), formatFeature, node, unsupported };
     }
 
     return null;
@@ -223,6 +237,37 @@ const walk = (ast: ContainerBase, context: Context) => {
     reportUnsupported(reportsMap, context);
 };
 
+export const formatAlternates = (language: string, unsupported: UnsupportedBrowsers, formatFeature?: (name: string) => string): string[] => {
+    const groupedAlternates = new Map<string, BrowserAlternateDetails[]>();
+
+    for (const browser of unsupported.browsers) {
+        const details = unsupported.details.get(browser);
+
+        if (details && details.alternate) {
+            const { name } = details.alternate;
+            const group = groupedAlternates.get(name) || [];
+
+            group.push({ browser, ...details.alternate });
+            groupedAlternates.set(name, group);
+        }
+    }
+
+    const alternateMessages = new Set<string>();
+
+    for (const [name, list] of groupedAlternates) {
+        const formattedName = formatFeature ? formatFeature(name) : name;
+        const browsers = list.map(({ browser, versionAdded, versionRemoved }) => {
+            return formatSupported(browser, versionAdded, versionRemoved);
+        });
+
+        const uniqueBrowsers = [...new Set(browsers)].sort();
+
+        alternateMessages.add(getMessage('featureAlternate', language, [formattedName, uniqueBrowsers.join(', ')]));
+    }
+
+    return [...alternateMessages];
+};
+
 export default class CSSCompatHint implements IHint {
     public static readonly meta = meta;
 
@@ -238,8 +283,11 @@ export default class CSSCompatHint implements IHint {
         context.on('parse::end::css', ({ ast, element, resource }) => {
             const browsers = filterBrowsers(context.targetedBrowsers);
 
-            const report = ({ feature, node, unsupported }: ReportData) => {
-                const message = getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]);
+            const report = ({ feature, formatFeature, node, unsupported }: ReportData) => {
+                const message = [
+                    getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]),
+                    ...formatAlternates(context.language, unsupported, formatFeature)
+                ].join(' ');
                 const codeSnippet = getCSSCodeSnippet(node);
                 const location = getLocationFromNode(node);
 
