@@ -35,9 +35,14 @@ type AuthConfig = {
     };
 };
 
+type HTTPAuthConfig = {
+    user: string;
+    password: string;
+}
+
 // TODO: keep in sync with the schema and take a look at #1594 and #1628
 type ConnectorOptions = {
-    auth?: AuthConfig;
+    auth?: AuthConfig | HTTPAuthConfig;
     browser?: Browser;
     detached?: boolean;
     headless?: boolean;
@@ -47,7 +52,7 @@ type ConnectorOptions = {
 };
 
 export default class PuppeteerConnector implements IConnector {
-    private _auth: AuthConfig | null;
+    private _auth: AuthConfig | HTTPAuthConfig | null;
     private _browser!: puppeteer.Browser;
     private _dom: HTMLDocument | undefined;
     private _engine: Engine;
@@ -67,22 +72,7 @@ export default class PuppeteerConnector implements IConnector {
     public static schema = {
         additionalProperties: false,
         definitions: {
-            fieldInput: {
-                properties: {
-                    selector: { types: 'string' },
-                    value: { types: 'string' }
-                },
-                required: ['selector', 'value'],
-                type: 'object'
-            },
-            submitInput: {
-                properties: { selector: { types: 'string' } },
-                required: ['selector'],
-                type: 'object'
-            }
-        },
-        properties: {
-            auth: {
+            authConfig: {
                 additionalProperties: false,
                 properties: {
                     next: { $ref: '#/definitions/submitInput' },
@@ -93,6 +83,31 @@ export default class PuppeteerConnector implements IConnector {
                 required: ['user', 'password', 'submit'],
                 type: 'object'
             },
+            fieldInput: {
+                properties: {
+                    selector: { types: 'string' },
+                    value: { types: 'string' }
+                },
+                required: ['selector', 'value'],
+                type: 'object'
+            },
+            httpAuthConfig: {
+                additionalProperties: false,
+                properties: {
+                    password: { types: 'string' },
+                    user: { types: 'string' }
+                },
+                required: ['user', 'password'],
+                type: 'object'
+            },
+            submitInput: {
+                properties: { selector: { types: 'string' } },
+                required: ['selector'],
+                type: 'object'
+            }
+        },
+        properties: {
+            auth: { oneOf: [{ $ref: '#/definitions/authConfig' }, { $ref: '#/definitions/httpAuthConfig' }] },
             browser: {
                 enum: ['Chrome', 'Chromium', 'Edge'],
                 type: 'string'
@@ -335,11 +350,8 @@ export default class PuppeteerConnector implements IConnector {
         }
     }
 
-    private async authenticate() {
-        if (!this._auth) {
-            return;
-        }
-        const { user, password, submit, next } = this._auth;
+    private async authenticateForm(auth: AuthConfig) {
+        const { user, password, submit, next } = auth;
 
         await this._page.type(user.selector, user.value);
 
@@ -393,9 +405,18 @@ export default class PuppeteerConnector implements IConnector {
         this.addListeners();
 
         debug(`Navigating to ${target.href}`);
-        await this._page.goto(target.href, { waitUntil: this._waitUntil });
 
-        await this.authenticate();
+        if (this._auth) {
+            if (typeof this._auth.user === 'string' && typeof this._auth.password === 'string') {
+                await this._page.authenticate({ password: this._auth.password, username: this._auth.user });
+                await this._page.goto(target.href, { waitUntil: this._waitUntil });
+            } else {
+                await this._page.goto(target.href, { waitUntil: this._waitUntil });
+                await this.authenticateForm(this._auth as AuthConfig);
+            }
+        } else {
+            await this._page.goto(target.href, { waitUntil: this._waitUntil });
+        }
 
         // This is the final URL
         this._finalHref = this._page.url();

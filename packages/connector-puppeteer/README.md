@@ -40,22 +40,7 @@ The set of settings supported by the Puppeteer connector are:
     "connector": {
         "name": "puppeteer",
         "options": {
-            "auth": {
-                "user": {
-                    "selector": "string",
-                    "value": "string"
-                },
-                "password": {
-                    "selector": "string",
-                    "value": "string"
-                },
-                "next": {
-                    "selector": "string"
-                },
-                "submit": {
-                    "selector": "string"
-                }
-            },
+            "auth": AuthObject,
             "browser": "chrome|chromium|edge",
             "ignoreHTTPSErrors": true|false,
             "puppeteerOptions": "object",
@@ -87,13 +72,28 @@ All properties of `options` are optional.
 
 ### Website authentication
 
-The `puppeteer` connector allows to authenticate on a website that:
+The `puppeteer` connector allows to authenticate on a website that
+supports Basic HTTP Authentication or:
 
 * uses user/password (i.e.: no MFA or captcha).
-* the website needs to redirect to the login page and to the initial
-  target after successful authentication.
+* redirects to the login page and to the initial target after successful
+  authentication.
 
-The properties of `auth` are:
+For Basic Authentication the `auth` object properties are:
+
+* `user`: a `string` with the user name to use
+* `password`: a `string` with the password to use
+
+E.g.:
+
+```json
+{
+    "user": "userName",
+    "password": "Passw0rd"
+}
+```
+
+Otherwise, `auth` properties are:
 
 * `user`: the information needed to identify the `input` element via
   a query `selector` (e.g.: `#login`) to type the `value` for the
@@ -110,6 +110,27 @@ The properties of `auth` are:
 * `submit`: the information needed to identify the `input` (or `button`)
   element via a query `selector` (e.g.: `input[type="submit"]`) to `click`
   to submit the crendentials.
+
+E.g.:
+
+```json
+{
+    "user": {
+        "selector": "string",
+        "value": "string"
+    },
+    "password": {
+        "selector": "string",
+        "value": "string"
+    },
+    "next": {
+        "selector": "string"
+    },
+    "submit": {
+        "selector": "string"
+    }
+}
+```
 
 ## Further Reading
 

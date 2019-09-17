@@ -340,6 +340,15 @@ IsW9AGST1xe4XVCLy+FIoo1RVpfJyp8h9zSzDASh/F1+5DY1PUJQ
                     return;
                 }
 
+                if (value && value.auth) {
+                    if (req.headers.authorization !== value.auth) {
+                        res.setHeader('WWW-Authorization', 'Basic realm="testing", charset="utf-8"');
+                        res.send();
+
+                        return;
+                    }
+                }
+
                 if (value && value.status) {
                     res.status(value.status);
                 }
