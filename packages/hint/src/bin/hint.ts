@@ -12,33 +12,22 @@
  * ------------------------------------------------------------------------------
  */
 
-const tracking = (/--tracking[=\s]+([^\s]*)/i).exec(process.argv.join(' '));
+const telemetry = (/--tracking[=\s]+([^\s]*)/i).exec(process.argv.join(' '));
 
-import { configStore, appInsights } from '@hint/utils';
+import { appInsights } from '@hint/utils';
 
-const trackingEnv = process.env.HINT_TRACKING;
-let enableTracking;
+const telemetryEnv = process.env.HINT_TRACKING;
+let enableTelemetry;
 
-if (tracking) {
-    enableTracking = tracking[1] === 'on';
-} else if (trackingEnv) {
-    enableTracking = trackingEnv === 'on';
+if (telemetry) {
+    enableTelemetry = telemetry[1] === 'on';
+} else if (telemetryEnv) {
+    enableTelemetry = telemetryEnv === 'on';
 }
 
-if (typeof enableTracking !== 'undefined') {
-    if (enableTracking) {
-        const alreadyRun: boolean = configStore.get('run');
-        const configured = appInsights.isConfigured();
-
+if (typeof enableTelemetry !== 'undefined') {
+    if (enableTelemetry) {
         appInsights.enable();
-
-        if (!configured) {
-            if (!alreadyRun) {
-                appInsights.trackEvent('FirstRun');
-            } else {
-                appInsights.trackEvent('SecondRun');
-            }
-        }
     } else {
         appInsights.disable();
     }
