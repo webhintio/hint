@@ -64,7 +64,7 @@ const defaults = {
     },
     jar: true,
     time: true,
-    timeout: 10000
+    timeout: 30000
 };
 
 export class Requester {
