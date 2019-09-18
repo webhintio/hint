@@ -83,10 +83,6 @@
         "message": "Help us improve webhint by sending limited usage information (no personal information or URLs will be sent).",
         "description": "Label for telemetry opt-in popup"
     },
-    "hintCountLabel": {
-        "message": "hint $1:",
-        "description": "Label for a test result based on the order in which it is listed, e.g. 'hint 2:'."
-    },
     "inspectElement": {
         "message": "Inspect Element",
         "description": "Label for a button to link to a specific element in the Elements panel."

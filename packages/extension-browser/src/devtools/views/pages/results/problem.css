@@ -1,16 +1,3 @@
-.root {
-    margin: 1.5rem 0; /* 24px */
-    padding-left: 0.5rem; /* 8px */
-    -webkit-user-select: text;
-    user-select: text;
-}
-
-.header {
-    font-size: var(--font-size);
-    margin-bottom: 0.75rem; /* 12px */
-    margin-left: -0.5rem; /* -8px */
-}
-
 .problemLink {
     color: var(--link-alt-color);
     text-decoration: none;
@@ -25,8 +12,4 @@
 
 .problemLink:global(:not(.focus-visible)) {
     border: none;
-}
-
-.number {
-    font-weight: var(--bold);
 }

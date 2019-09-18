@@ -18,6 +18,10 @@
 }
 
 .results {
-    padding-left: 1rem; /* 16px */
+    display: grid;
+    gap: 0.5625rem; /* 9px */
+    justify-items: start;
     margin-bottom: 1.25rem; /* 20px */
+    margin-top: 0.5625rem; /* 9px */
+    padding-left: 1rem; /* 16px */
 }

@@ -1,0 +1,17 @@
+.root {
+    -webkit-user-select: text;
+    user-select: text;
+    width: 100%;
+}
+
+.header {
+    font-size: var(--font-size);
+}
+
+.problems {
+    display: grid;
+    gap: 1.5rem; /* 24px */
+    margin-bottom: 1rem; /* 16px */
+    margin-top: 0.75rem; /* 12px */
+    padding-left: 1rem; /* 16px */
+}
