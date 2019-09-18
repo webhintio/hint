@@ -1,9 +1,8 @@
-.root {
-    margin: 0.5625rem 0;
-}
-
 .results {
+    display: grid;
     font-size: var(--font-size-sm);
+    gap: 0.5rem; /* 8px */
+    justify-items: start;
     padding-left: 1rem; /* 16px */
 }
 
