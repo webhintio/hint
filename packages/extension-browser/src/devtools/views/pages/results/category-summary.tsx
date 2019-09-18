@@ -25,7 +25,7 @@ const CategorySummary = ({ name, hints, passed }: CategoryResults) => {
     return (
         <a className={styles.root} href={`#results-category-${name}`} data-icon={name}>
             {getCategoryName(name)}
-            <span className={`${styles.status} ${statusStyle}`}>{passed}/{hints.length}</span>
+            <span className={`${styles.status} ${statusStyle}`}>{hints.length - passed}</span>
         </a>
     );
 };
