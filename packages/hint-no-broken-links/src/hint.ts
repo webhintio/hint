@@ -49,11 +49,44 @@ export default class NoBrokenLinksHint implements IHint {
                 return [];
             }
 
-            const urls = srcset
-                .split(',')
-                .map((entry) => {
-                    return element.resolveUrl((entry.trim().split(' ')[0].trim()));
-                });
+            /**
+             * If present, its value must consist of one or more image candidate strings, each separated from
+             * the next by a U+002C COMMA character (,). If an image candidate string contains no descriptors
+             * and no ASCII whitespace after the URL, the following image candidate string, if there is one,
+             * must begin with one or more ASCII whitespace.
+             * https://html.spec.whatwg.org/multipage/images.html#srcset-attributes
+             */
+            const urls: string[] = [];
+            const candidates = srcset.split(',');
+
+            for (let i = 0; i < candidates.length; i++) {
+                // First item is the URL, second the descriptor if present
+                const [imageCandidate] = candidates[i].trim().split(' ');
+
+                /**
+                 * `data:image/png;base64,PHN2ZyB4bWxucz0iaHR0`
+                 * In the case above `imageCandidate` will be
+                 * `data:image/png;base64` and there won't be
+                 * any descriptor as there are no spaces.
+                 *
+                 * The `data` will be the next item in `candidates`.
+                 * Because data URIs don't have to be checked
+                 * the next item can be skipped
+                 */
+                if (imageCandidate.startsWith('data:image')) {
+                    i++;
+
+                    continue;
+                }
+
+                const imageCandidateUrl = element.resolveUrl(imageCandidate.trim());
+
+                if (isRegularProtocol(imageCandidateUrl)) {
+                    urls.push(imageCandidateUrl);
+
+                    continue;
+                }
+            }
 
             return urls;
         };
