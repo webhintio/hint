@@ -4,7 +4,7 @@ import test from 'ava';
 import { IHintConstructor, Problem } from 'hint';
 
 const stubContext = () => {
-    const stubs = { './app-insights': {} as typeof import ('../../src/utils/app-insights') };
+    const stubs = { './app-insights': {} as typeof import('../../src/utils/app-insights') };
     const module = proxyquire('../../src/utils/analytics', stubs) as typeof import('../../src/utils/analytics');
 
     return { module, stubs };
@@ -73,9 +73,15 @@ test('It tracks the first result for each document when opened', (t) => {
 
     t.true(trackEventSpy.calledTwice);
     t.is(trackEventSpy.firstCall.args[0], 'vscode-open');
-    t.deepEqual(trackEventSpy.firstCall.args[1], { 'hint-foo': 'failed' });
+    t.deepEqual(trackEventSpy.firstCall.args[1], {
+        fileExtension: '.html',
+        'hint-foo': 'failed'
+    });
     t.is(trackEventSpy.secondCall.args[0], 'vscode-open');
-    t.deepEqual(trackEventSpy.secondCall.args[1], { 'hint-bar': 'passed' });
+    t.deepEqual(trackEventSpy.secondCall.args[1], {
+        fileExtension: '.css',
+        'hint-bar': 'passed'
+    });
 
     sandbox.restore();
 });
@@ -134,12 +140,14 @@ test('It tracks the delta between the first and last results on save', (t) => {
     t.true(trackEventSpy.calledTwice);
     t.is(trackEventSpy.firstCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.firstCall.args[1], {
+        fileExtension: '.html',
         'hint-bar': 'failed',
         'hint-baz': 'passed',
         'hint-foo': 'failed'
     });
     t.is(trackEventSpy.secondCall.args[0], 'vscode-save');
     t.deepEqual(trackEventSpy.secondCall.args[1], {
+        fileExtension: '.html',
         'hint-bar': 'fixed',
         'hint-baz': 'passed',
         'hint-foo': 'fixing'
@@ -179,7 +187,13 @@ test('It tracks results again for a document when re-opened', (t) => {
 
     t.true(trackEventSpy.calledTwice);
     t.is(trackEventSpy.firstCall.args[0], 'vscode-open');
-    t.deepEqual(trackEventSpy.firstCall.args[1], { 'hint-foo': 'failed' });
+    t.deepEqual(trackEventSpy.firstCall.args[1], {
+        fileExtension: '.html',
+        'hint-foo': 'failed'
+    });
     t.is(trackEventSpy.secondCall.args[0], 'vscode-open');
-    t.deepEqual(trackEventSpy.secondCall.args[1], { 'hint-foo': 'passed' });
+    t.deepEqual(trackEventSpy.secondCall.args[1], {
+        fileExtension: '.html',
+        'hint-foo': 'passed'
+    });
 });
