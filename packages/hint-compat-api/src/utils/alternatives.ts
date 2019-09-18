@@ -10,7 +10,7 @@ export type BrowserAlternativeDetails = AlternativeDetails & {
 
 /**
  * Sort alternatives into groups based on those recommending the same
- * alternate feature.
+ * alternative feature.
  *
  * E.g. if both "edge 12" and "ie 11" specify an alternative with the
  * name `-ms-grid`, then they will end up in the same group with
