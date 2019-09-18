@@ -10,7 +10,7 @@ interface IFlushOptions {
 const debug: debug.IDebugger = d(__filename);
 const configStoreKey: string = 'insight';
 
-let insightsEnabled = configStore.get(configStoreKey);
+let insightsEnabled: boolean | undefined = configStore.get(configStoreKey);
 
 let appInsightsClient: appInsights.TelemetryClient = {
     flush(options: IFlushOptions) {
