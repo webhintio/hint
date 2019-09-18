@@ -174,7 +174,7 @@ test('Includes accurate details', (t) => {
     /* eslint-enable */
 
     t.deepEqual(getUnsupportedBrowsers(keyframes, '', ['opera 12'], 'keyframes')!.details.get('opera 12'), {
-        alternate: {
+        alternative: {
             name: '-o-keyframes',
             versionAdded: '12',
             versionRemoved: '15'
@@ -183,7 +183,7 @@ test('Includes accurate details', (t) => {
     }, 'Before first unprefixed support');
 
     t.deepEqual(getUnsupportedBrowsers(keyframes, '', ['opera 15'], 'keyframes')!.details.get('opera 15'), {
-        alternate: {
+        alternative: {
             name: '-webkit-keyframes',
             versionAdded: '15'
         },
@@ -192,7 +192,7 @@ test('Includes accurate details', (t) => {
     }, 'After first unprefixed support');
 
     t.deepEqual(getUnsupportedBrowsers(keyframes, '', ['opera 29'], 'keyframes')!.details.get('opera 29'), {
-        alternate: {
+        alternative: {
             name: '-webkit-keyframes',
             versionAdded: '15'
         },
@@ -203,7 +203,7 @@ test('Includes accurate details', (t) => {
     t.deepEqual(getUnsupportedBrowsers(keyframes, '-o-', ['opera 11'], 'keyframes')!.details.get('opera 11'), { versionAdded: '12' }, 'Before -o- support');
 
     t.deepEqual(getUnsupportedBrowsers(keyframes, '-o-', ['opera 15'], 'keyframes')!.details.get('opera 15'), {
-        alternate: {
+        alternative: {
             name: '-webkit-keyframes',
             versionAdded: '15'
         },
@@ -211,7 +211,7 @@ test('Includes accurate details', (t) => {
     }, 'After -o- support');
 
     t.deepEqual(getUnsupportedBrowsers(keyframes, '-webkit-', ['opera 14'], 'keyframes')!.details.get('opera 14'), {
-        alternate: {
+        alternative: {
             name: 'keyframes',
             versionAdded: '12.1',
             versionRemoved: '15'

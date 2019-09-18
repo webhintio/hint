@@ -9,19 +9,16 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupportedDetails } from '@hint/utils/dist/src/compat';
-import { AlternateDetails, UnsupportedBrowsers } from '@hint/utils/dist/src/compat/browsers';
+import { UnsupportedBrowsers } from '@hint/utils/dist/src/compat/browsers';
 import { getCSSCodeSnippet } from '@hint/utils/dist/src/report';
 
-import { filterBrowsers, formatSupported, joinBrowsers } from './utils/browsers';
+import { formatAlternatives } from './utils/alternatives';
+import { filterBrowsers, joinBrowsers } from './utils/browsers';
 import { filterSupports } from './utils/filter-supports';
 import { resolveIgnore } from './utils/ignore';
 
 import meta from './meta/css';
 import { getMessage } from './i18n.import';
-
-type BrowserAlternateDetails = AlternateDetails & {
-    browser: string;
-};
 
 type ReportData = {
     feature: string;
@@ -237,37 +234,6 @@ const walk = (ast: ContainerBase, context: Context) => {
     reportUnsupported(reportsMap, context);
 };
 
-export const formatAlternates = (language: string, unsupported: UnsupportedBrowsers, formatFeature?: (name: string) => string): string[] => {
-    const groupedAlternates = new Map<string, BrowserAlternateDetails[]>();
-
-    for (const browser of unsupported.browsers) {
-        const details = unsupported.details.get(browser);
-
-        if (details && details.alternate) {
-            const { name } = details.alternate;
-            const group = groupedAlternates.get(name) || [];
-
-            group.push({ browser, ...details.alternate });
-            groupedAlternates.set(name, group);
-        }
-    }
-
-    const alternateMessages = new Set<string>();
-
-    for (const [name, list] of groupedAlternates) {
-        const formattedName = formatFeature ? formatFeature(name) : name;
-        const browsers = list.map(({ browser, versionAdded, versionRemoved }) => {
-            return formatSupported(browser, versionAdded, versionRemoved);
-        });
-
-        const uniqueBrowsers = [...new Set(browsers)].sort();
-
-        alternateMessages.add(getMessage('featureAlternate', language, [formattedName, uniqueBrowsers.join(', ')]));
-    }
-
-    return [...alternateMessages];
-};
-
 export default class CSSCompatHint implements IHint {
     public static readonly meta = meta;
 
@@ -286,7 +252,7 @@ export default class CSSCompatHint implements IHint {
             const report = ({ feature, formatFeature, node, unsupported }: ReportData) => {
                 const message = [
                     getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]),
-                    ...formatAlternates(context.language, unsupported, formatFeature)
+                    ...formatAlternatives(context.language, unsupported, formatFeature)
                 ].join(' ');
                 const codeSnippet = getCSSCodeSnippet(node);
                 const location = getLocationFromNode(node);

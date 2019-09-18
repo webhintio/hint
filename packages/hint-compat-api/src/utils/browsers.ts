@@ -28,32 +28,40 @@ export const filterBrowsers = (browsers: string[]): string[] => {
     });
 };
 
+/**
+ * Serialize a supported version range for the provided browser.
+ * E.g. when passed `"ie 9", "11"`, returns `"Internet Explorer 11+"`.
+ */
 export const formatSupported = (browser: string, versionAdded?: string, versionRemoved?: string): string => {
-    const name = getFriendlyName(browser);
+    const browserName = getFriendlyName(browser);
 
     if (versionAdded && versionRemoved) {
-        return `${name} ${versionAdded}-${versionRemoved}`;
+        return `${browserName} ${versionAdded}-${versionRemoved}`;
     } else if (versionAdded && parseFloat(versionAdded) !== 1) {
-        return `${name} ${versionAdded}+`;
+        return `${browserName} ${versionAdded}+`;
     } else if (versionRemoved) {
-        return `${name} < ${versionRemoved}`;
+        return `${browserName} < ${versionRemoved}`;
     }
 
-    return name;
+    return browserName;
 };
 
+/**
+ * Serialize an unsupported version range for the provided browser.
+ * E.g. when passed `"ie 9", "11"`, returns `"Internet Explorer < 11"`.
+ */
 export const formatUnsupported = (browser: string, versionAdded?: string, versionRemoved?: string): string => {
-    const name = getFriendlyName(browser);
+    const browserName = getFriendlyName(browser);
 
     if (versionAdded && versionRemoved) {
-        return `${name} ${versionRemoved}-${versionAdded}`;
+        return `${browserName} ${versionRemoved}-${versionAdded}`;
     } else if (versionAdded) {
-        return `${name} < ${versionAdded}`;
+        return `${browserName} < ${versionAdded}`;
     } else if (versionRemoved) {
-        return `${name} ${versionRemoved}+`;
+        return `${browserName} ${versionRemoved}+`;
     }
 
-    return name;
+    return browserName;
 };
 
 /**

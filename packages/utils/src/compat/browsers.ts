@@ -3,14 +3,14 @@ import * as semver from 'semver';
 
 import { mdn } from './browser-compat-data';
 
-export type AlternateDetails = {
+export type AlternativeDetails = {
     name: string;
     versionAdded?: string;
     versionRemoved?: string;
 };
 
 export type SupportDetails = {
-    alternate?: AlternateDetails;
+    alternative?: AlternativeDetails;
     versionAdded?: string;
     versionRemoved?: string;
 };
@@ -116,7 +116,7 @@ const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion
 /**
  * Check if another version of the same property is supported (e.g. with a different prefix).
  */
-const getAlternateDetails = (simpleSupport: SimpleSupportStatement, prefix: string, version: string, unprefixed: string): AlternateDetails | undefined => {
+const getAlternativeDetails = (simpleSupport: SimpleSupportStatement, prefix: string, version: string, unprefixed: string): AlternativeDetails | undefined => {
     const simpleSupportPrefix = simpleSupport.prefix || '';
 
     if (!simpleSupport.alternative_name && prefix === simpleSupportPrefix) {
@@ -130,7 +130,7 @@ const getAlternateDetails = (simpleSupport: SimpleSupportStatement, prefix: stri
     }
 
     const name = simpleSupport.alternative_name || `${simpleSupportPrefix}${unprefixed}`;
-    const details: AlternateDetails = { name };
+    const details: AlternativeDetails = { name };
 
     if (typeof simpleSupport.version_added === 'string') {
         details.versionAdded = simpleSupport.version_added;
@@ -149,7 +149,7 @@ const getAlternateDetails = (simpleSupport: SimpleSupportStatement, prefix: stri
 const isBrowserSupported = (statement: SupportStatement, prefix: string, version: string, unprefixed: string): SupportStatus => {
     // Convert single entries to an array for consistent handling.
     const browserSupport = Array.isArray(statement) ? statement : [statement];
-    let alternate: AlternateDetails | undefined;
+    let alternative: AlternativeDetails | undefined;
     let support = Support.Unknown;
     let versionAdded: string | undefined;
     let versionRemoved: string | undefined;
@@ -165,7 +165,7 @@ const isBrowserSupported = (statement: SupportStatement, prefix: string, version
                 support = Support.No;
                 versionAdded = status.versionAdded || versionAdded;
                 versionRemoved = status.versionRemoved || versionRemoved;
-                alternate = alternate || getAlternateDetails(simpleSupport, prefix, version, unprefixed);
+                alternative = alternative || getAlternativeDetails(simpleSupport, prefix, version, unprefixed);
                 break; // Keep looking in case a feature was temporarily removed or is prefixed.
             case Support.Unknown:
             default:
@@ -178,7 +178,7 @@ const isBrowserSupported = (statement: SupportStatement, prefix: string, version
     }
 
     return {
-        alternate,
+        alternative,
         support,
         versionAdded,
         versionRemoved
@@ -186,8 +186,9 @@ const isBrowserSupported = (statement: SupportStatement, prefix: string, version
 };
 
 /**
- * Retrieve the friendly name of the provided browser
- * (e.g. "Internet Explorer" for "ie").
+ * Retrieve the friendly name of the provided browser.
+ * This excludes any version contained in passed browser
+ * (e.g. "Internet Explorer" for "ie" or "ie 9").
  */
 export const getFriendlyName = (browser: string): string => {
     const [name] = browser.split(' ');
@@ -229,8 +230,8 @@ export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: 
             if (status.support === Support.No) {
                 const supportDetails: SupportDetails = {};
 
-                if (status.alternate) {
-                    supportDetails.alternate = status.alternate;
+                if (status.alternative) {
+                    supportDetails.alternative = status.alternative;
                 }
 
                 if (status.versionAdded) {
