@@ -1,4 +1,4 @@
-# webhint browser extension
+# Webhint browser extension
 
 The webhint browser extension surfaces webhint's best practices and hints
 directly in your browser's DevTools. It provides a visual interface that
