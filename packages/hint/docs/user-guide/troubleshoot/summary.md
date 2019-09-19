@@ -47,10 +47,11 @@ You can also compile it yourself by following the [instructions][canvas compile]
 
 ## Permission issues during installation
 
-If you receive an `EACCES` error when installing `webhint`, it is caused
-by installing packages globally. The recommended solution is to [change
-`npm`’s default directory][npm change default directory] and then try
-again. There have been reports of this issue when installing the
+If you receive an `EACCES` error when installing `webhint`, it is caused most
+likely because of a global install. The recommended way is to install it as a
+`devDependency` of your project (`npm install hint --save-dev`). If this is not
+possible could try [change `npm`’s default directory][npm change default directory]
+and then try again. There have been reports of this issue when installing the
 dependency `canvas` throws an `EACCES`. This [issue][permission
 issue] was resolved adopting the recommended solution. You can find
 detailed steps on how to change the npm default directory [here][npm

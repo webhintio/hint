@@ -8,13 +8,11 @@ This package will automatically install all the missing dependencies.
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @hint/configuration-all
+npm install @hint/configuration-all --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
+**Note:** The recommended way of running webhint is as a `devDependency` of
+your project.
 
 The minimum required [`.hintrc`][hintrc] file to use it is
 the following:

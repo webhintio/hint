@@ -4,19 +4,13 @@ The `manifest` parser detects if a [web app manifest file][manifest] was
 specified, and if so, it will try to fetch it, parse and check if its
 content is valid.
 
-## How to install and use it
-
-To use it you will have to install it via `npm`:
+This package is installed automatically by webhint:
 
 ```bash
-npm install @hint/parser-manifest
+npm install hint --save-dev
 ```
 
-If you want to install it globally, add the parameter `-g`. If you
-want to install it as a dev dependency, add the parameter `--save-dev`.
-
-And then activate it via the [`.hintrc`][hintrc]
-configuration file:
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
@@ -29,6 +23,9 @@ configuration file:
     ...
 }
 ```
+
+**Note**: The recommended way of running webhint is as a `devDependency` of
+your project.
 
 ## Events emitted
 

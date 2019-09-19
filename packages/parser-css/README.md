@@ -3,18 +3,13 @@
 The `CSS` parser is built on top of [PostCSS][postcss] so hints can
 analyze `CSS` files.
 
-To use it you will have to install it via `npm`:
+This package is installed automatically by webhint:
 
 ```bash
-npm install @hint/parser-css
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.hintrc`][hintrc] configuration file:
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
@@ -27,6 +22,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
     ...
 }
 ```
+
+**Note**: The recommended way of running webhint is as a `devDependency` of
+your project.
 
 ## Events emitted
 

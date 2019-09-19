@@ -57,13 +57,11 @@ If there is no summary tag in the css file:
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install @hint/hint-summary-display
+npm install @hint/hint-summary-display --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
-parameter, or to install it globally, you can use the `-g` parameter. For
-other options see
-[`npm`'s documentation](https://docs.npmjs.com/cli/install).
+**Note:** The recommended way of running webhint is as a `devDependency` of
+your project.
 
 And then activate it via the [`.hintrc`][hintrc]
 configuration file:

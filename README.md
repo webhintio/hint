@@ -7,9 +7,9 @@
 ## Quick start user guide
 
 Once you have [`Node.js`][node] (v8.x or later) on your machine, you can use
-[`npx`][npx] or install `hint` globally to use it.
+[`npx`][npx] to test it.
 
-### Using `npx`
+### Testing with `npx`
 
 Run the following command:
 
@@ -19,62 +19,41 @@ npx hint https://example.com
 
 This will analyze `https://example.com` using the default configuration.
 
-### Installing `webhint` globally
+### Installing `webhint` locally
+
+Install webhint as a `devDependency` of your project:
 
 ```bash
-npm install -g --engine-strict hint
+npm install hint --save-dev
 ```
 
-Create a `.hintrc` file by running this command and following the
-instructions:
+And then add a script task to your `package.json`:
+
+```json
+{
+    ...
+    "scripts": {
+        "webhint": "hint"
+    }
+}
+```
+
+And run it via:
 
 ```bash
-npm create hintrc
+npm run webhint -- http://localhost:8080
 ```
 
-Choose configurations:
+Or if you are using `yarn` you can skip the step to create a task and
+run directly:
 
 ```bash
-❯ predefined
-  custom
+yarn hint http://localhost:8080
 ```
 
-Choose the configuration you want to extend from:
-
-```bash
-❯ development
-  web-recommended
-  progressive-web-apps
-```
-
-Scan a website:
-
-```bash
-hint https://example.com
-```
-
-To use a different formatter than the one specified in your `.hintrc`
-file you can do the following:
-
-```bash
-hint https://example.com --formatters excel
-```
-
-To use a different hint than the one specified in your `.hintrc` file:
-
-```bash
-hint https://example.com --hints html-checker
-```
-
-Multiple hints can be specified as a comma separated string:
-
-```bash
-hint https://example.com --hints axe,html-checker
-```
-
-For more in depth information on how to get started, configurations,
-and more, see the online [user guide][user guide], or the [local
-version][local user guide] for the most recent (and unstable) content.
+To know more about webhint, how to configure it, etc. see the online
+[user guide][user guide], or the [local version][local user guide]
+for the most recent content.
 
 ## Contributing to webhint
 
