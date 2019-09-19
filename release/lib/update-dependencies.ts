@@ -128,9 +128,10 @@ const updateProperty = (property: string) => {
 
             /*
              * Ignore non-major optional dependency changes to avoid circular version updates.
-             * Otherwise these bump nearly all packages due to `hint` referencing configurations.
+             * Otherwise these bump nearly all packages due to `hint` referencing configurations,
+             * unless this package is already being updated.
              */
-            if (property === 'optionalDependencies' && !isMajorBump(pkgVersion, dependencyVersion)) {
+            if (property === 'optionalDependencies' && !isMajorBump(pkgVersion, dependencyVersion) && !pkg.updated) {
                 return;
             }
 
