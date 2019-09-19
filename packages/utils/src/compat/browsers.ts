@@ -3,7 +3,14 @@ import * as semver from 'semver';
 
 import { mdn } from './browser-compat-data';
 
+export type AlternativeDetails = {
+    name: string;
+    versionAdded?: string;
+    versionRemoved?: string;
+};
+
 export type SupportDetails = {
+    alternative?: AlternativeDetails;
     versionAdded?: string;
     versionRemoved?: string;
 };
@@ -53,7 +60,7 @@ const normalizeBrowserName = (name: string) => {
 /**
  * Intepret if the provided statement indicates support for the given browser version.
  */
-const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion: string): SupportStatus => {
+const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion: string, unprefixed: string): SupportStatus => {
     const version = coerce(rawVersion);
 
     // Ignore support that requires users to enable a flag.
@@ -63,6 +70,11 @@ const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion
 
     // If feature doesn't match the same prefix, then it's not supported.
     if (prefix !== (support.prefix || '')) {
+        return { support: Support.No };
+    }
+
+    // If feature doesn't match the alternative name, then it's not supported.
+    if (support.alternative_name && `${prefix}${unprefixed}` !== support.alternative_name) {
         return { support: Support.No };
     }
 
@@ -102,24 +114,58 @@ const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion
 };
 
 /**
+ * Check if another version of the same property is supported (e.g. with a different prefix).
+ */
+const getAlternativeDetails = (simpleSupport: SimpleSupportStatement, prefix: string, version: string, unprefixed: string): AlternativeDetails | undefined => {
+    const simpleSupportPrefix = simpleSupport.prefix || '';
+
+    if (!simpleSupport.alternative_name && prefix === simpleSupportPrefix) {
+        return undefined;
+    }
+
+    const status = isSupported(simpleSupport, simpleSupportPrefix, version, simpleSupport.alternative_name || unprefixed);
+
+    if (status.support !== Support.Yes) {
+        return undefined;
+    }
+
+    const name = simpleSupport.alternative_name || `${simpleSupportPrefix}${unprefixed}`;
+    const details: AlternativeDetails = { name };
+
+    if (typeof simpleSupport.version_added === 'string') {
+        details.versionAdded = simpleSupport.version_added;
+    }
+
+    if (typeof simpleSupport.version_removed === 'string') {
+        details.versionRemoved = simpleSupport.version_removed;
+    }
+
+    return details;
+};
+
+/**
  * Interpret if the provided support statements indicate the given browser version is supported.
  */
-const isBrowserSupported = (support: SupportStatement, prefix: string, version: string): SupportStatus => {
+const isBrowserSupported = (statement: SupportStatement, prefix: string, version: string, unprefixed: string): SupportStatus => {
     // Convert single entries to an array for consistent handling.
-    const browserSupport = Array.isArray(support) ? support : [support];
-    const details: SupportStatus = { support: Support.Unknown };
+    const browserSupport = Array.isArray(statement) ? statement : [statement];
+    let alternative: AlternativeDetails | undefined;
+    let support = Support.Unknown;
+    let versionAdded: string | undefined;
+    let versionRemoved: string | undefined;
 
     // Items are listed from newest to oldest. The first clear rule wins.
     for (const simpleSupport of browserSupport) {
-        const status = isSupported(simpleSupport, prefix, version);
+        const status = isSupported(simpleSupport, prefix, version, unprefixed);
 
         switch (status.support) {
             case Support.Yes:
                 return { support: Support.Yes };
             case Support.No:
-                details.support = Support.No;
-                details.versionAdded = status.versionAdded || details.versionAdded;
-                details.versionRemoved = status.versionRemoved || details.versionRemoved;
+                support = Support.No;
+                versionAdded = status.versionAdded || versionAdded;
+                versionRemoved = status.versionRemoved || versionRemoved;
+                alternative = alternative || getAlternativeDetails(simpleSupport, prefix, version, unprefixed);
                 break; // Keep looking in case a feature was temporarily removed or is prefixed.
             case Support.Unknown:
             default:
@@ -127,16 +173,22 @@ const isBrowserSupported = (support: SupportStatement, prefix: string, version: 
         }
     }
 
-    if (details.support === Support.Unknown) {
-        details.support = Support.Yes;
+    if (support === Support.Unknown) {
+        support = Support.Yes;
     }
 
-    return details;
+    return {
+        alternative,
+        support,
+        versionAdded,
+        versionRemoved
+    };
 };
 
 /**
- * Retrieve the friendly name of the provided browser
- * (e.g. "Internet Explorer" for "ie").
+ * Retrieve the friendly name of the provided browser.
+ * This excludes any version contained in passed browser
+ * (e.g. "Internet Explorer" for "ie" or "ie 9").
  */
 export const getFriendlyName = (browser: string): string => {
     const [name] = browser.split(' ');
@@ -153,7 +205,7 @@ export const getFriendlyName = (browser: string): string => {
  * @param feature An MDN feature `Identifier` with `__compat` data.
  * @param browsers A list of target browsers (e.g. `['chrome 74', 'ie 11']`).
  */
-export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: string, browsers: string[]): UnsupportedBrowsers | null => {
+export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: string, browsers: string[], unprefixed: string): UnsupportedBrowsers | null => {
     if (!feature || !feature.__compat) {
         return null; // Assume support if no matching feature was provided.
     }
@@ -173,10 +225,14 @@ export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: 
         }
 
         for (const version of versions) {
-            const status = isBrowserSupported(browserSupport, prefix, version);
+            const status = isBrowserSupported(browserSupport, prefix, version, unprefixed);
 
             if (status.support === Support.No) {
                 const supportDetails: SupportDetails = {};
+
+                if (status.alternative) {
+                    supportDetails.alternative = status.alternative;
+                }
 
                 if (status.versionAdded) {
                     supportDetails.versionAdded = status.versionAdded;

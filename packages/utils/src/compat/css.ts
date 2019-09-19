@@ -67,13 +67,13 @@ const getPartialValueUnsupported = (context: Identifier, value: string, browsers
         }
 
         if (matches.regex_value && new RegExp(matches.regex_value).exec(unprefixedValue)) {
-            return getUnsupportedBrowsers(entry, prefix, browsers);
+            return getUnsupportedBrowsers(entry, prefix, browsers, unprefixedValue);
         }
 
         if (matches.keywords) {
             for (const [tokenPrefix, tokenValue] of tokens) {
                 if (matches.keywords.includes(tokenValue)) {
-                    return getUnsupportedBrowsers(entry, tokenPrefix, browsers);
+                    return getUnsupportedBrowsers(entry, tokenPrefix, browsers, tokenValue);
                 }
             }
         }
@@ -83,7 +83,7 @@ const getPartialValueUnsupported = (context: Identifier, value: string, browsers
 
             for (const [tokenPrefix, tokenValue] of tokens) {
                 if (regexToken && regexToken.exec(tokenValue)) {
-                    return getUnsupportedBrowsers(entry, tokenPrefix, browsers);
+                    return getUnsupportedBrowsers(entry, tokenPrefix, browsers, tokenValue);
                 }
             }
         }
@@ -97,10 +97,10 @@ const getPartialValueUnsupported = (context: Identifier, value: string, browsers
  * exact match for the full value, falling back to search for a partial match.
  */
 const getValueUnsupported = (context: Identifier, value: string, browsers: string[]): UnsupportedBrowsers | null => {
-    const [data, prefix] = getFeatureData(context, value);
+    const [data, prefix, unprefixed] = getFeatureData(context, value);
 
     if (data) {
-        return getUnsupportedBrowsers(data, prefix, browsers);
+        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
     }
 
     return getPartialValueUnsupported(context, value, browsers);
@@ -114,13 +114,13 @@ export const getDeclarationUnsupported = (feature: DeclarationQuery, browsers: s
     const key = `css-declaration:${feature.property}|${feature.value || ''}`;
 
     return getCachedValue(key, browsers, () => {
-        const [data, prefix] = getFeatureData(mdn.css.properties, feature.property);
+        const [data, prefix, unprefixed] = getFeatureData(mdn.css.properties, feature.property);
 
         if (data && feature.value) {
             return getValueUnsupported(data, feature.value, browsers);
         }
 
-        return getUnsupportedBrowsers(data, prefix, browsers);
+        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
     });
 };
 
@@ -129,9 +129,9 @@ export const getDeclarationUnsupported = (feature: DeclarationQuery, browsers: s
  */
 export const getRuleUnsupported = (feature: RuleQuery, browsers: string[]): UnsupportedBrowsers | null => {
     return getCachedValue(`css-rule:${feature.rule}`, browsers, () => {
-        const [data, prefix] = getFeatureData(mdn.css['at-rules'], feature.rule);
+        const [data, prefix, unprefixed] = getFeatureData(mdn.css['at-rules'], feature.rule);
 
-        return getUnsupportedBrowsers(data, prefix, browsers);
+        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
     });
 };
 
@@ -139,9 +139,9 @@ const getPseudoSelectorUnsupported = (value: string, browsers: string[]): Unsupp
     const name = value.replace(/^::?/, ''); // Strip leading `:` or `::`.
 
     return getCachedValue(`css-pseudo-selector:${name}`, browsers, () => {
-        const [data, prefix] = getFeatureData(mdn.css.selectors, name);
+        const [data, prefix, unprefixed] = getFeatureData(mdn.css.selectors, name);
 
-        return getUnsupportedBrowsers(data, prefix, browsers);
+        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
     });
 };
 

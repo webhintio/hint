@@ -29,6 +29,42 @@ export const filterBrowsers = (browsers: string[]): string[] => {
 };
 
 /**
+ * Serialize a supported version range for the provided browser.
+ * E.g. when passed `"ie 9", "11"`, returns `"Internet Explorer 11+"`.
+ */
+export const formatSupported = (browser: string, versionAdded?: string, versionRemoved?: string): string => {
+    const browserName = getFriendlyName(browser);
+
+    if (versionAdded && versionRemoved) {
+        return `${browserName} ${versionAdded}-${versionRemoved}`;
+    } else if (versionAdded && parseFloat(versionAdded) !== 1) {
+        return `${browserName} ${versionAdded}+`;
+    } else if (versionRemoved) {
+        return `${browserName} < ${versionRemoved}`;
+    }
+
+    return browserName;
+};
+
+/**
+ * Serialize an unsupported version range for the provided browser.
+ * E.g. when passed `"ie 9", "11"`, returns `"Internet Explorer < 11"`.
+ */
+export const formatUnsupported = (browser: string, versionAdded?: string, versionRemoved?: string): string => {
+    const browserName = getFriendlyName(browser);
+
+    if (versionAdded && versionRemoved) {
+        return `${browserName} ${versionRemoved}-${versionAdded}`;
+    } else if (versionAdded) {
+        return `${browserName} < ${versionAdded}`;
+    } else if (versionRemoved) {
+        return `${browserName} ${versionRemoved}+`;
+    }
+
+    return browserName;
+};
+
+/**
  * Serialize summarized support ranges for provided browsers.
  *
  * ```js
@@ -38,22 +74,13 @@ export const filterBrowsers = (browsers: string[]): string[] => {
  */
 export const joinBrowsers = (unsupported: UnsupportedBrowsers): string => {
     const summaries = unsupported.browsers.map((browser) => {
-        const name = getFriendlyName(browser);
         const details = unsupported.details.get(browser);
 
         if (!details) {
             throw new Error(`No details provided for browser: ${name}`);
         }
 
-        if (details.versionAdded && details.versionRemoved) {
-            return `${name} ${details.versionRemoved}-${details.versionAdded}`;
-        } else if (details.versionAdded) {
-            return `${name} < ${details.versionAdded}`;
-        } else if (details.versionRemoved) {
-            return `${name} ${details.versionRemoved}+`;
-        }
-
-        return name;
+        return formatUnsupported(browser, details.versionAdded, details.versionRemoved);
     });
 
     return [...new Set(summaries)].sort().join(', ');
