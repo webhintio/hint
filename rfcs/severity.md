@@ -71,7 +71,7 @@ The new values are `hint` and `information`.
   decide if we swap them or if we are ok as that (in the description about it
   doesn't quite match the expectations I think).
 
-### Hint severity
+### Hint severity examples
 
 As mentioned previously, there are a few hints that report multiple things
 were the relevance is not the same. An example would be `http-compression`
@@ -89,7 +89,21 @@ Having all the reports with the same severity does not help the user focus on
 what's important (have compression enabled for only text based resources
 ([see GitHub comment](https://github.com/webhintio/hint/issues/2919#issuecomment-530190038))
 
-> Other examples here
+Another example will be with the `compat-api` hint.
+Any reports coming from this hint are marked as a "warning" in the default
+configurations. This will be the default with the new schema with the caveat
+that if we feel highly confident a feature may cause a compatibility issue,
+it could be upgraded to be an "error".
+
+On the other side, the hint has a list of "ignored feautes". These are
+features that are considered safe for graceful degradation (e.g. `integrity`
+attribute) and do not trigger any report. When one of this features is found,
+instead of ignoring it a report with the severity "hint" could be created.
+
+There is also an on going conversation to
+[annotate features which can be used safely without support](https://github.com/mdn/browser-compat-data/issues/3365).
+Having this information will help automate and make more accurate the
+scenarios described above for `compat-api`.
 
 ### User configuration
 
@@ -120,7 +134,12 @@ enabled or not. The user configuration will then look like this:
 
 If the value of a `hint` key is an array, then the first member should be
 `"on|off"` and the second and object with the specific configuration for
-that `hint`. Please note that not all hints accept further configurations.
+that `hint`.
+
+Also, if the value is an object, webhint will assume the status is `"on"`
+and that object will be the configuration for that hint.
+
+**Note:** Please note that not all hints accept further configurations.
 
 In the example above we are using `content-type` but other examples of hints
 that accept configurations are: `axe`, `http-compression`, `compat-api`, etc.
