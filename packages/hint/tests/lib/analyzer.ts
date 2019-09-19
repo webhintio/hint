@@ -279,6 +279,24 @@ test('If the target is an URL, it will analyze it', async (t) => {
     t.is(engineExecuteOnStub.args[0][0].href, 'http://example.com/');
 });
 
+test('.close() will close the engine', async (t) => {
+    const sandbox = t.context.sandbox;
+
+    const { Analyzer, engine } = loadScript(t.context);
+
+    const engineExecuteOnStub = sandbox.stub(engine, 'executeOn').resolves([]);
+    const engineCloseStub = sandbox.stub(engine, 'close').resolves();
+    const webhint = new Analyzer({}, {}, []);
+
+    await webhint.analyze(new URL('http://example.com/'));
+
+    await webhint.close();
+
+    t.true(engineExecuteOnStub.calledOnce);
+    t.true(engineCloseStub.calledTwice);
+    t.is(engineExecuteOnStub.args[0][0].href, 'http://example.com/');
+});
+
 test('If the target is a Target with a string url, it will analyze it', async (t) => {
     const sandbox = t.context.sandbox;
 
