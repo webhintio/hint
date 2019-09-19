@@ -1,3 +1,10 @@
+# 3.1.7 (September 19, 2019)
+
+## Chores
+
+* [[`c5e66947d4`](https://github.com/webhintio/hint/commit/c5e66947d494771b487c5d45a477069c61c9ed0b)] - Upgrade: Bump typescript from 3.6.2 to 3.6.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.1.6 (September 11, 2019)
 
 ## Bug fixes / Improvements

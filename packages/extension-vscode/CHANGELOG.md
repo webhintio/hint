@@ -1,3 +1,19 @@
+# 1.3.0 (September 19, 2019)
+
+## Bug fixes / Improvements
+
+* [[`65a3918894`](https://github.com/webhintio/hint/commit/65a3918894b7df50c5d2cfdeb96319828ba5362a)] - Fix: Remove unused devDependency (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`ed793034ed`](https://github.com/webhintio/hint/commit/ed793034eddf3786795004b5baee4af5e93e9a3f)] - New: Log file extension in telemetry (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2967`](https://github.com/webhintio/hint/issues/2967)).
+
+## Chores
+
+* [[`488fa0380d`](https://github.com/webhintio/hint/commit/488fa0380d006c09f71004d1cf51a5045c0d5bbc)] - Chore: Validate size of VS Code extension bundle (by [`Tony Ross`](https://github.com/antross) / see also: [`#2955`](https://github.com/webhintio/hint/issues/2955)).
+* [[`c5e66947d4`](https://github.com/webhintio/hint/commit/c5e66947d494771b487c5d45a477069c61c9ed0b)] - Upgrade: Bump typescript from 3.6.2 to 3.6.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.2.0 (September 12, 2019)
 
 ## Bug fixes / Improvements

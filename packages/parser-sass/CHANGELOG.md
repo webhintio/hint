@@ -1,3 +1,15 @@
+# 1.0.2 (September 19, 2019)
+
+## Bug fixes / Improvements
+
+* [[`806ada52fd`](https://github.com/webhintio/hint/commit/806ada52fd58b14e7b7f7fdb09e3ef38f863f2a5)] - Fix: References (by [`Antón Molleda`](https://github.com/molant)).
+* [[`65a3918894`](https://github.com/webhintio/hint/commit/65a3918894b7df50c5d2cfdeb96319828ba5362a)] - Fix: Remove unused devDependency (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`c5e66947d4`](https://github.com/webhintio/hint/commit/c5e66947d494771b487c5d45a477069c61c9ed0b)] - Upgrade: Bump typescript from 3.6.2 to 3.6.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.1 (September 12, 2019)
 
 ## Chores

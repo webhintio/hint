@@ -1,3 +1,6 @@
+# 6.0.7 (September 19, 2019)
+
+
 # 6.0.6 (September 11, 2019)
 
 ## Bug fixes / Improvements

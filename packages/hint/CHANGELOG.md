@@ -1,3 +1,15 @@
+# 5.2.4 (September 19, 2019)
+
+## Bug fixes / Improvements
+
+* [[`9f8af13472`](https://github.com/webhintio/hint/commit/9f8af134727a795379e004c163598315a2537f64)] - Fix: Refactor telemetry events logic (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2962`](https://github.com/webhintio/hint/issues/2962)).
+* [[`55c611802e`](https://github.com/webhintio/hint/commit/55c611802e9eeee67b847aaf5e0daea0d6841986)] - Fix: Deprecate `connector-chrome` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2814`](https://github.com/webhintio/hint/issues/2814)).
+
+## Chores
+
+* [[`c5e66947d4`](https://github.com/webhintio/hint/commit/c5e66947d494771b487c5d45a477069c61c9ed0b)] - Upgrade: Bump typescript from 3.6.2 to 3.6.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 5.2.3 (September 11, 2019)
 
 ## Bug fixes / Improvements

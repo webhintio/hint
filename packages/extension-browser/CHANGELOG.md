@@ -1,3 +1,24 @@
+# 1.0.0 (September 19, 2019)
+
+## Breaking Changes
+
+* [[`697adb3ec1`](https://github.com/webhintio/hint/commit/697adb3ec10e6cbf3700c622569f1014be74b820)] - Breaking: Prepare for v1 (by [`Tony Ross`](https://github.com/antross)).
+
+## Bug fixes / Improvements
+
+* [[`373ec1d101`](https://github.com/webhintio/hint/commit/373ec1d101c68697375e6c1479cc432a8087ce5a)] - Fix: Show failure count in sidebar summary (by [`Tony Ross`](https://github.com/antross) / see also: [`#3001`](https://github.com/webhintio/hint/issues/3001)).
+* [[`401496c53d`](https://github.com/webhintio/hint/commit/401496c53d598a01b7ae931255038cf204332164)] - Fix: Avoid layout jump when links get keyboard focus (by [`Tony Ross`](https://github.com/antross)).
+
+## New features
+
+* [[`90aa913615`](https://github.com/webhintio/hint/commit/90aa913615f3a3f3b4bb6ec8877a28742935bc0f)] - New: Group hint reports with the same message text (by [`Tony Ross`](https://github.com/antross) / see also: [`#2970`](https://github.com/webhintio/hint/issues/2970)).
+
+## Chores
+
+* [[`c5e66947d4`](https://github.com/webhintio/hint/commit/c5e66947d494771b487c5d45a477069c61c9ed0b)] - Upgrade: Bump typescript from 3.6.2 to 3.6.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e6a35633f3`](https://github.com/webhintio/hint/commit/e6a35633f32e6d5924f404283e8bdb5740e3f602)] - Upgrade: Bump svg-url-loader from 3.0.0 to 3.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 0.1.0 (September 12, 2019)
 
 ## Bug fixes / Improvements

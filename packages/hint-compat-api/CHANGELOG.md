@@ -1,3 +1,20 @@
+# 4.1.0 (September 19, 2019)
+
+## Bug fixes / Improvements
+
+* [[`65a3918894`](https://github.com/webhintio/hint/commit/65a3918894b7df50c5d2cfdeb96319828ba5362a)] - Fix: Remove unused devDependency (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`ce0addd3cb`](https://github.com/webhintio/hint/commit/ce0addd3cbd0e29df3059424b9281bd5d18fa063)] - New: Suggest alternate support when available (by [`Tony Ross`](https://github.com/antross) / see also: [`#2644`](https://github.com/webhintio/hint/issues/2644)).
+* [[`d185ac5e12`](https://github.com/webhintio/hint/commit/d185ac5e12421472b44c66044de10355e228e6e8)] - New: Use user-friendly browser names/versions in reports (by [`Tony Ross`](https://github.com/antross) / see also: [`#2896`](https://github.com/webhintio/hint/issues/2896)).
+
+## Chores
+
+* [[`0d3a13c722`](https://github.com/webhintio/hint/commit/0d3a13c722ebe89eea1378f7276d30f350924f87)] - Upgrade: Bump @types/debug from 4.1.4 to 4.1.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c5e66947d4`](https://github.com/webhintio/hint/commit/c5e66947d494771b487c5d45a477069c61c9ed0b)] - Upgrade: Bump typescript from 3.6.2 to 3.6.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.0.7 (September 12, 2019)
 
 ## Bug fixes / Improvements

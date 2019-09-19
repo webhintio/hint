@@ -7,11 +7,11 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^4.1.1"
+    "@hint/utils": "^5.0.0"
   },
   "description": "hint that that checks if protocol relative URLs are used",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.7",
+    "@hint/utils-tests-helpers": "^5.0.8",
     "@types/node": "^12.7.4",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -20,7 +20,7 @@
     "eslint": "^5.15.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-markdown": "^1.0.0",
-    "hint": "^5.2.3",
+    "hint": "^5.2.4",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.1.0",
     "rimraf": "^3.0.0",
@@ -47,7 +47,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.3"
+    "hint": "^5.2.4"
   },
   "repository": {
     "directory": "packages/hint-no-protocol-relative-urls",
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.6"
+  "version": "2.3.7"
 }

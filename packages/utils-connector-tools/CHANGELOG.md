@@ -1,3 +1,11 @@
+# 4.0.10 (September 19, 2019)
+
+## Chores
+
+* [[`15726eca82`](https://github.com/webhintio/hint/commit/15726eca827c4c0db9cb490dec39bd945d03d6d2)] - Chore: Increase timeout of requester (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3002`](https://github.com/webhintio/hint/issues/3002)).
+* [[`c5e66947d4`](https://github.com/webhintio/hint/commit/c5e66947d494771b487c5d45a477069c61c9ed0b)] - Upgrade: Bump typescript from 3.6.2 to 3.6.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.0.9 (September 11, 2019)
 
 ## Bug fixes / Improvements
