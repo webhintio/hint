@@ -402,38 +402,44 @@ export default class PuppeteerConnector implements IConnector {
     public async collect(target: URL): Promise<void> {
         await this.initiate(target);
 
-        await this._engine.emit('scan::start', { resource: target.href });
+        try {
+            await this._engine.emit('scan::start', { resource: target.href });
 
-        // TODO: Figure out how to execute the user tasks in here and when to subscribe to events
-        this.addListeners();
+            // TODO: Figure out how to execute the user tasks in here and when to subscribe to events
+            this.addListeners();
 
-        debug(`Navigating to ${target.href}`);
+            debug(`Navigating to ${target.href}`);
 
-        if (this._auth) {
-            if (typeof this._auth.user === 'string' && typeof this._auth.password === 'string') {
-                await this._page.authenticate({ password: this._auth.password, username: this._auth.user });
-                await this._page.goto(target.href, { waitUntil: this._waitUntil });
+            if (this._auth) {
+                if (typeof this._auth.user === 'string' && typeof this._auth.password === 'string') {
+                    await this._page.authenticate({ password: this._auth.password, username: this._auth.user });
+                    await this._page.goto(target.href, { waitUntil: this._waitUntil });
+                } else {
+                    await this._page.goto(target.href, { waitUntil: this._waitUntil });
+                    await this.authenticateForm(this._auth as AuthConfig);
+                }
             } else {
                 await this._page.goto(target.href, { waitUntil: this._waitUntil });
-                await this.authenticateForm(this._auth as AuthConfig);
             }
-        } else {
-            await this._page.goto(target.href, { waitUntil: this._waitUntil });
+
+            // This is the final URL
+            this._finalHref = this._page.url();
+
+            debug(`Navigation complete`);
+
+            // Stop network events after navigation is considered complete so no more issues are reported
+            this.removeListeners(['request', 'requestfailed', 'response']);
+
+            await this.processTarget();
+
+            // Some other timeouts or awaits here?
+
+            await this._engine.emitAsync('scan::end', { resource: this._finalHref });
+        } catch (e) {
+            debug('Error collecting results', e);
+            await this.close();
+            throw e;
         }
-
-        // This is the final URL
-        this._finalHref = this._page.url();
-
-        debug(`Navigation complete`);
-
-        // Stop network events after navigation is considered complete so no more issues are reported
-        this.removeListeners(['request', 'requestfailed', 'response']);
-
-        await this.processTarget();
-
-        // Some other timeouts or awaits here?
-
-        await this._engine.emitAsync('scan::end', { resource: this._finalHref });
     }
 
     public fetchContent(target: URL | string, customHeaders?: object): Promise<NetworkData> {
