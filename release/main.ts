@@ -64,7 +64,7 @@ const tasks = new Listr([
     {
         title: 'Calculate new versions',
         skip: skipReasons(skipIfError, skipIfJustRelease),
-        task: calculateNewVersions
+        task: taskErrorWrapper(calculateNewVersions)
     },
     {
         title: 'Update changelogs',
