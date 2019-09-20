@@ -60,6 +60,7 @@ const validateConnector = (configuration: Configuration) => {
  */
 export class Analyzer {
     private configuration: Configuration;
+    private engine?: Engine;
     private _resources: HintResources;
     private formatters: IFormatter[];
     private watch: boolean | undefined;
@@ -218,9 +219,9 @@ export class Analyzer {
                 throw new AnalyzerError(`Property 'content' is only supported in formatter local. Webhint will analyze the url ${url.href}`, AnalyzerErrorStatus.AnalyzeError);
             }
 
-            const engine = new Engine(this.configuration, this._resources);
+            this.engine = new Engine(this.configuration, this._resources);
 
-            this.configureEngine(engine, url.href, options);
+            this.configureEngine(this.engine, url.href, options);
 
             let problems: Problem[] | null = null;
 
@@ -228,12 +229,11 @@ export class Analyzer {
                 if (options.targetStartCallback) {
                     await options.targetStartCallback({ url: url.href });
                 }
-                problems = await engine.executeOn(url, { content: target.content });
+                problems = await this.engine.executeOn(url, { content: target.content });
             } catch (e) {
                 throw new AnalyzerError(e, AnalyzerErrorStatus.AnalyzeError);
             } finally {
-                // TODO: Try if this is executed.
-                await engine.close();
+                await this.engine.close();
             }
 
             if (options.targetEndCallback) {
@@ -269,6 +269,19 @@ export class Analyzer {
         for (const formatter of this.formatters) {
             await formatter.format(problems, options);
         }
+    }
+
+    /**
+     * Close the engine if a scan is still in progress.
+     * To avoid unexpected behavior, use this method
+     * only if `analyze` throws an unhandled exception.
+     */
+    public close(): Promise<void> {
+        if (this.engine) {
+            return this.engine.close();
+        }
+
+        return Promise.resolve();
     }
 
     /**
