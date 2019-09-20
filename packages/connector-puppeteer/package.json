@@ -62,10 +62,8 @@
   "main": "./dist/src/connector.js",
   "name": "@hint/connector-puppeteer",
   "nyc": {
-    "extends": "../../.nycrc",
-    "include": [
-      "dist/src/**/*.js"
-    ]
+    "branches": 75,
+    "extends": "../../.nycrc"
   },
   "peerDependencies": {
     "hint": "^5.2.4"
