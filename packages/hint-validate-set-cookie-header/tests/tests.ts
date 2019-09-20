@@ -194,31 +194,21 @@ const oldAndNewBrowsersTest = [
     }
 ];
 
-testHint(hintPath, defaultTests, {
-    https: true,
-    /*
-     * Tests are skipped in `chrome` due to the absence of 'Set-Cookie' header.
-     * Issue: https://bugs.chromium.org/p/chromium/issues/detail?id=692090.
-     * TODO: Update the tests once the issue above is fixed.
-     */
-    ignoredConnectors: ['puppeteer']
-});
+testHint(hintPath, defaultTests, { https: true });
 
 testHint(hintPath, newBrowserOnlyTests, {
     browserslist: [
         '> 1%',
         'last 2 versions'
     ],
-    https: true,
-    ignoredConnectors: ['puppeteer']
+    https: true
 });
 
 testHint(hintPath, olderBrowserOnlyTests, {
     browserslist: [
         'ie 6', 'ie 7'
     ],
-    https: true,
-    ignoredConnectors: ['puppeteer']
+    https: true
 });
 
 testHint(hintPath, oldAndNewBrowsersTest, {
@@ -226,6 +216,5 @@ testHint(hintPath, oldAndNewBrowsersTest, {
         'ie >= 6',
         'last 2 versions'
     ],
-    https: true,
-    ignoredConnectors: ['chrompuppeteerium']
+    https: true
 });
