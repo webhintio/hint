@@ -60,7 +60,7 @@ const validateConnector = (configuration: Configuration) => {
  */
 export class Analyzer {
     private configuration: Configuration;
-    private engine!: Engine;
+    private engine?: Engine;
     private _resources: HintResources;
     private formatters: IFormatter[];
     private watch: boolean | undefined;
