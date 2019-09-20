@@ -233,9 +233,7 @@ export class Analyzer {
             } catch (e) {
                 throw new AnalyzerError(e, AnalyzerErrorStatus.AnalyzeError);
             } finally {
-                if (this.engine) {
-                    await this.engine.close();
-                }
+                await this.engine.close();
             }
 
             if (options.targetEndCallback) {
