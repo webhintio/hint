@@ -296,7 +296,7 @@ test('.close() will close the engine', async (t) => {
     /*
      * Engine close will be called twice, one when the analysis finish
      * and one more time when we call close.
-     * `close` is meant to be call when the is an unhandled exception
+     * `close` is meant to be called when there is an unhandled exception
      * otherwise `analyze` is going to capture the exception and call
      * to `engince.close()`.
      */
