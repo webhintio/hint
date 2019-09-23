@@ -28,18 +28,10 @@ type Props = {
 const placeholder = 'google-analytics.com';
 
 /** Create a regular expression to exclude URLs not part of the current origin. */
-const buildIgnoreThirdParty = (): Promise<string> => {
-    return new Promise((resolve, reject) => {
+const buildIgnoreThirdParty = async (): Promise<string> => {
+    const origin = await evaluate('location.origin');
 
-        evaluate('location.origin', (origin: string, err) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(`^(?!${escapeRegExp(origin)})`);
-            }
-        });
-
-    });
+    return `^(?!${escapeRegExp(origin)})`;
 };
 
 /** Check if a user's custom ignore regex is valid, notifying them if it is not. */

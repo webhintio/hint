@@ -12,8 +12,9 @@ import {
     NetworkData
 } from 'hint/dist/src/lib/types';
 
-import { browser, document, eval, location, MutationObserver, window } from '../shared/globals';
+import { browser, document, eval, location, window } from '../shared/globals';
 import { Events } from '../shared/types';
+import { Evaluator } from './evaluator';
 import { Fetcher } from './fetcher';
 import { setFetchType } from './set-fetch-type';
 
@@ -21,6 +22,7 @@ export default class WebExtensionConnector implements IConnector {
     private _document: HTMLDocument | undefined;
     private _originalDocument: HTMLDocument | undefined;
     private _engine: Engine;
+    private _evaluator = new Evaluator();
     private _fetcher = new Fetcher();
     private _fetchEndQueue: FetchEnd[] = [];
     private _onComplete: (err: Error | null, resource?: string) => void = () => { };
@@ -207,70 +209,7 @@ export default class WebExtensionConnector implements IConnector {
      * of the website.
      */
     private evaluateInPage(source: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            const config = {
-                attributes: true,
-                childList: false,
-                subtree: false
-            };
-            const injectTimeout = setTimeout(() => {
-                reject(new Error('Cannot run analysis scripts. Page may have CSP restrictions.'));
-            }, 100);
-
-            const callback = (mutationsList: MutationRecord[], observer: MutationObserver) => {
-                try {
-                    mutationsList.forEach((mutation: MutationRecord) => {
-                        /* istanbul ignore if */
-                        if (mutation.type !== 'attributes' || !(/^data-(error|result|start)$/).test(mutation.attributeName || '')) {
-                            return;
-                        }
-
-                        if (mutation.attributeName === 'data-start') {
-                            clearTimeout(injectTimeout);
-
-                            return;
-                        }
-
-                        const error = script.getAttribute('data-error');
-                        const result = script.getAttribute('data-result');
-
-                        document.body.removeChild(script);
-                        observer.disconnect();
-
-                        if (error) {
-                            reject(JSON.parse(error));
-                            /* istanbul ignore else*/
-                        } else if (result) {
-                            resolve(JSON.parse(result));
-                        } else {
-                            reject(new Error('No error or result returned from evaluate.'));
-                        }
-                    });
-                } catch (err) /* istanbul ignore next */ {
-                    reject(err);
-                }
-            };
-
-            const observer = new MutationObserver(callback);
-
-            observer.observe(script, config);
-
-            script.textContent = `(async () => {
-    const scriptElement = document.currentScript;
-    try {
-        scriptElement.setAttribute('data-start', 'true');
-
-        const result = await ${source}
-
-        scriptElement.setAttribute('data-result', JSON.stringify(result) || null);
-    } catch (err) {
-        scriptElement.setAttribute('data-error', JSON.stringify({ message: err.message, stack: err.stack }));
-    }
-})();`;
-
-            document.body.appendChild(script);
-        });
+        return this._evaluator.evaluateInPage(source);
     }
 
     public evaluate(source: string): Promise<any> {

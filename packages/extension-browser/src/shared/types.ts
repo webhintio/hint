@@ -34,10 +34,23 @@ export type Results = {
     url: string;
 };
 
+export type EvaluateRequest = {
+    id: string;
+    code: string;
+};
+
+export type EvaluateResult = {
+    id: string;
+    err?: any;
+    value?: any;
+}
+
 export type Events = {
     config?: Config;
     enable?: InjectDetails;
     error?: ErrorData;
+    evaluate?: EvaluateRequest;
+    evaluateResult?: EvaluateResult;
     fetchEnd?: FetchEnd;
     fetchStart?: FetchStart;
     done?: boolean;

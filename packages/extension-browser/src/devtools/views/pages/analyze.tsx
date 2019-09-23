@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 
-import { Config, ErrorData, Results } from '../../../shared/types';
+import { Config, ErrorData, EvaluateRequest, Results } from '../../../shared/types';
 
 import { getMessage } from '../../utils/i18n';
+import { evaluate } from '../../utils/inject';
 import { useRotatingInspiration } from '../../utils/inspire';
 import { sendMessage, useMessageListener } from '../../utils/messaging';
 import { addNetworkListeners, removeNetworkListeners } from '../../utils/network';
@@ -19,6 +20,16 @@ const maxRunTime = 3 * 60 * 1000; // Three minutes.
 
 const getScanDuration = (scanStart: number) => {
     return Math.round(performance.now() - scanStart);
+};
+
+const handleEvaluateRequest = async ({ id, code }: EvaluateRequest) => {
+    try {
+        const value = await evaluate(code);
+
+        sendMessage({ evaluateResult: { id, value } });
+    } catch (err) {
+        sendMessage({ evaluateResult: { err, id } });
+    }
 };
 
 type Props = {
@@ -75,6 +86,12 @@ const Analyze = ({ config, onCancel, onError, onResults, onTimeout }: Props) => 
     useMessageListener((message) => {
         if (message.error) {
             onError(message.error);
+
+            return;
+        }
+
+        if (message.evaluate) {
+            handleEvaluateRequest(message.evaluate);
 
             return;
         }

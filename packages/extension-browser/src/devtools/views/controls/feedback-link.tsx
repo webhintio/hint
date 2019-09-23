@@ -52,7 +52,8 @@ const FeedbackLink = ({ config, error, children }: Props) => {
             body = body.replace('<!-- ✍️ Paste the error details here -->', `${error.message}\n${error.stack}`);
         }
 
-        evaluate('window.location', (loc) => {
+        const getLocation = async () => {
+            const loc = await evaluate('window.location');
             const origin = loc.origin;
             const noIgnored = ignoredUrls === undefined;
             const isSameOrigin = !noIgnored && (ignoredUrls === '--webhint-third-party' || ignoredUrls === `^(?!${escapeRegExp(origin)})`);
@@ -64,7 +65,9 @@ const FeedbackLink = ({ config, error, children }: Props) => {
             body = body.replace('`__URL for which webhint failed:__', `__URL for which webhint failed:__ ${loc.href}`);
 
             setIssueUrl(`https://github.com/webhintio/hint/issues/new?labels=${encodeURIComponent(labels)}&template=2-bug-report-browser.md&body=${encodeURIComponent(body)}&title=${encodeURIComponent(title)}`);
-        });
+        };
+
+        getLocation();
     });
 
     return (
