@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@hint/utils": "^5.0.0",
-    "postcss": "^7.0.17",
+    "postcss": "^7.0.18",
     "postcss-scss": "^2.0.0",
     "postcss-sass": "^0.4.1"
   },
