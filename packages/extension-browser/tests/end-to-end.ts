@@ -114,7 +114,13 @@ test('It runs end-to-end in a page', async (t) => {
 
     const resultsPromise = page.evaluate(() => {
         return new Promise<Results>((resolve) => {
-            let onMessage: ((events: Events) => void) = () => { };
+            const listeners: (((events: Events) => void))[] = [];
+
+            const onMessage = (events: Events) => {
+                for (const listener of listeners) {
+                    listener(events);
+                }
+            };
 
             window.chrome = {
                 i18n: {
@@ -125,11 +131,24 @@ test('It runs end-to-end in a page', async (t) => {
                 runtime: {
                     onMessage: {
                         addListener: (fn: () => void) => {
-                            onMessage = fn;
+                            listeners.push(fn);
                         },
                         removeListener: () => { }
                     },
                     sendMessage: (event: Events) => {
+                        if (event.evaluate) {
+                            const { code, id } = event.evaluate;
+
+                            setTimeout(() => {
+                                try {
+                                    const value = eval(code); // eslint-disable-line
+
+                                    onMessage({ evaluateResult: { id, value } });
+                                } catch (err) {
+                                    onMessage({ evaluateResult: { err, id } });
+                                }
+                            }, 0);
+                        }
                         if (event.requestConfig) {
                             onMessage({ config: {} });
                         }
