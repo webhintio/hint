@@ -5,7 +5,7 @@
     "@types/execa": "^2.0.0",
     "@types/fs-extra": "^8.0.0",
     "@types/listr": "^0.14.2",
-    "@types/node": "^12.7.4",
+    "@types/node": "^12.7.5",
     "@types/semver": "^6.0.2",
     "@types/shelljs": "^0.8.5",
     "@types/yargs": "^13.0.2",

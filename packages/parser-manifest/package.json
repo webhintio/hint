@@ -11,7 +11,7 @@
   },
   "description": "webhint parser for web app manifest files",
   "devDependencies": {
-    "@types/node": "^12.7.4",
+    "@types/node": "^12.7.5",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
