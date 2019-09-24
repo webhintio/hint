@@ -137,13 +137,24 @@ export const execa = (command: string, options?: execasync.Options) => {
 type CustomTask = (ctx: any, task: ListrTaskWrapper) => Promise<any> | any;
 
 export const taskErrorWrapper = (f: CustomTask) => {
-    return async (ctx: Context, task: ListrTaskWrapper) => {
+    return (ctx: Context, task: ListrTaskWrapper) => {
+        let result: any;
+
         try {
-            await f(ctx, task);
-        } catch (err) {
-            ctx.error = err;
-            throw err;
+            result = f(ctx, task);
+        } catch (error) {
+            ctx.error = error;
+
+            throw error;
         }
+
+        if (result && result.then) {
+            result.catch((error: Error) => {
+                ctx.error = error;
+            });
+        }
+
+        return result;
     };
 };
 
