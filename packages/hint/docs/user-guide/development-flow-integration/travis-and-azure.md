@@ -119,7 +119,7 @@ are:
 First thing you have to do is add `webhint` to your project:
 
 ```bash
-npm install --save-dev webhint
+npm install hint --save-dev
 ```
 
 Then you need a valid `.hintrc` file. For a starter file, use the

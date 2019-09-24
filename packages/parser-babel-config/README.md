@@ -3,16 +3,13 @@
 The `babel-config` parser allows the user to analyze the Babel
 configuration in their projects.
 
-To use it you will have to install it via `npm`:
+This package is installed automatically by webhint:
 
 ```bash
-npm install @hint/parser-babel-config
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 
 And then activate it via the [`.hintrc`][hintrc] configuration file:
 
@@ -31,6 +28,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 This parser detects if a `.babelrc` configuration file is present,
 or if the Babel configuration is specified in `package.json`, and
 validates the Babel configuration against the schema.
+
+**Note**: The recommended way of running webhint is as a `devDependency` of
+your project.
 
 ## Events emitted
 

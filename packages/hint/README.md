@@ -11,16 +11,32 @@ you can use the following command:
 npx hint https://example.com
 ```
 
-Alternatively, you can install it globally with:
+The recommended way of running webhint is as a `devDependency` of
+your project.
 
 ```bash
-npm install -g --engine-strict hint
-
-hint https://example.com
+npm install hint --save-dev
 ```
 
-You can also install it as a `devDependency` if you prefer not to
-have it globally (which is the team's preferred option).
+And then add a script task to your `package.json`:
+
+```json
+{
+    ...
+    "scripts": {
+        "webhint": "hint http://localhost:8080"
+    }
+}
+```
+
+And run it via:
+
+```bash
+npm run webhint
+```
+
+You can also run webhint from within [VS Code][] and as a
+[browser extension][].
 
 **NOTE**: If you run into any issues during the install process
 please check the [troubleshoot section](./docs/user-guide/troubleshoot/summary.md).
@@ -53,3 +69,8 @@ By participating in this project you agree to abide by its terms.
 ## License
 
 The code is available under the [Apache 2.0 license](LICENSE.txt).
+
+<!-- Link labels -->
+
+[VS Code]: https://webhint.io/docs/user-guide/extensions/vscode-webhint/
+[browser extension]: https://webhint.io/docs/user-guide/extensions/extension-browser/

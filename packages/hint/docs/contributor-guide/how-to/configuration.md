@@ -14,7 +14,7 @@ To use them you install one (or more) in your project using npmn and
 `extend` them, e.g.:
 
 ```bash
-npm install --save-dev `@hint/configuration-web-recommended`
+npm install `@hint/configuration-web-recommended` --save-dev
 ```
 
 And in your `.hintrc` add:
