@@ -1,3 +1,11 @@
+# 5.0.1 (September 24, 2019)
+
+## Chores
+
+* [[`c8fc30b71a`](https://github.com/webhintio/hint/commit/c8fc30b71a7782c9128edcc5f467c7f96641be23)] - Upgrade: Bump file-type from 12.2.0 to 12.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`13da907c26`](https://github.com/webhintio/hint/commit/13da907c2617f71f0c9412bb2c05dfaed8a9fe23)] - Upgrade: Bump postcss from 7.0.17 to 7.0.18 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 5.0.0 (September 19, 2019)
 
 ## Breaking Changes

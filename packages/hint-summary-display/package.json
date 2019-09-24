@@ -8,8 +8,8 @@
   },
   "description": "Hint to check if display applied to a summary tag will hide the open/close icon",
   "devDependencies": {
-    "@hint/parser-css": "^3.0.10",
-    "@hint/utils-tests-helpers": "^5.0.8",
+    "@hint/parser-css": "^3.0.11",
+    "@hint/utils-tests-helpers": "^5.0.9",
     "@types/debug": "^4.1.5",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -24,7 +24,7 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.0",
+    "@hint/utils": "^5.0.1",
     "postcss-selector-parser": "^6.0.2"
   },
   "engines": {
@@ -47,8 +47,8 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-css": "^3.0.10",
-    "hint": "^5.2.4"
+    "@hint/parser-css": "^3.0.0",
+    "hint": "^5.0.0"
   },
   "private": true,
   "repository": {

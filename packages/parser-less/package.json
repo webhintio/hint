@@ -7,13 +7,13 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.0",
+    "@hint/utils": "^5.0.1",
     "postcss": "^7.0.18",
     "postcss-less": "^3.1.4"
   },
   "description": "webhint parser needed to analyze LESS files",
   "devDependencies": {
-    "@hint/parser-css": "^3.0.10",
+    "@hint/parser-css": "^3.0.11",
     "@types/node": "^12.7.5",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.0.13",
@@ -51,7 +51,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.4"
+    "hint": "^5.0.0"
   },
   "repository": {
     "directory": "packages/parser-less",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.2"
+  "version": "1.0.3"
 }

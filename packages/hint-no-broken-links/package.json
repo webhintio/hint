@@ -8,11 +8,11 @@
   },
   "description": "Verify that all links and resources the page uses are available online.",
   "dependencies": {
-    "@hint/utils": "^5.0.0",
-    "@hint/utils-connector-tools": "^4.0.10"
+    "@hint/utils": "^5.0.1",
+    "@hint/utils-connector-tools": "^4.0.11"
   },
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.8",
+    "@hint/utils-tests-helpers": "^5.0.9",
     "@types/debug": "^4.1.5",
     "@types/node": "^12.7.5",
     "@types/request": "^2.48.3",
@@ -47,7 +47,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.4"
+    "hint": "^5.0.0"
   },
   "repository": {
     "directory": "packages/hint-no-broken-links",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.7"
+  "version": "4.1.8"
 }

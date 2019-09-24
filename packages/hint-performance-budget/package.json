@@ -7,11 +7,11 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.0"
+    "@hint/utils": "^5.0.1"
   },
   "description": "hint that that checks if a page passes a set performance budget",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.8",
+    "@hint/utils-tests-helpers": "^5.0.9",
     "@types/debug": "^4.1.5",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -47,7 +47,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.4"
+    "hint": "^5.0.0"
   },
   "repository": {
     "directory": "packages/hint-performance-budget",
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.7"
+  "version": "2.3.8"
 }

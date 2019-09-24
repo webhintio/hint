@@ -1,3 +1,16 @@
+# 1.0.1 (September 24, 2019)
+
+## Bug fixes / Improvements
+
+* [[`e03a664f41`](https://github.com/webhintio/hint/commit/e03a664f41bfcca774ef514bb1d99b5a41f2cd7d)] - Fix: Work around CSP restrictions in Firefox (by [`Tony Ross`](https://github.com/antross) / see also: [`#3014`](https://github.com/webhintio/hint/issues/3014)).
+
+## Chores
+
+* [[`53edf270f8`](https://github.com/webhintio/hint/commit/53edf270f84ead765bb981345d5321568ac69142)] - Upgrade: Bump @types/node from 12.7.4 to 12.7.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`150a37d902`](https://github.com/webhintio/hint/commit/150a37d902fcb37ccbfea50861336bfd1bbb9b70)] - Upgrade: Bump puppeteer-core from 1.19.0 to 1.20.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7f9dd770ec`](https://github.com/webhintio/hint/commit/7f9dd770ec0350d7f50137d322159a07a3b203da)] - Upgrade: Bump webpack-cli from 3.3.7 to 3.3.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.0 (September 19, 2019)
 
 ## Breaking Changes

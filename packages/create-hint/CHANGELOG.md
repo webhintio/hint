@@ -1,3 +1,13 @@
+# 3.2.4 (September 24, 2019)
+
+## Chores
+
+* [[`53edf270f8`](https://github.com/webhintio/hint/commit/53edf270f84ead765bb981345d5321568ac69142)] - Upgrade: Bump @types/node from 12.7.4 to 12.7.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7f9dd770ec`](https://github.com/webhintio/hint/commit/7f9dd770ec0350d7f50137d322159a07a3b203da)] - Upgrade: Bump webpack-cli from 3.3.7 to 3.3.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6c7cec0761`](https://github.com/webhintio/hint/commit/6c7cec07610c0fe793155c821773c420ff47c681)] - Upgrade: Bump ts-loader from 6.1.0 to 6.1.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`77a5d8c023`](https://github.com/webhintio/hint/commit/77a5d8c02341dcb071e58d0c345161b099bc1491)] - Upgrade: Bump handlebars from 4.2.0 to 4.2.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.2.3 (September 19, 2019)
 
 ## Bug fixes / Improvements

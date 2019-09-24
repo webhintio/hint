@@ -1,3 +1,16 @@
+# 2.2.1 (September 24, 2019)
+
+## Bug fixes / Improvements
+
+* [[`9f13687ebb`](https://github.com/webhintio/hint/commit/9f13687ebbd3d929875cab5a9b9084cf608fa21f)] - Docs: Remove references to global install (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2974`](https://github.com/webhintio/hint/issues/2974)).
+* [[`6a0c1f2779`](https://github.com/webhintio/hint/commit/6a0c1f2779dd2c94ea3f096d5b6ecfabdf01eefe)] - Fix: Test coverage not being reported (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3011`](https://github.com/webhintio/hint/issues/3011)).
+
+## Chores
+
+* [[`53edf270f8`](https://github.com/webhintio/hint/commit/53edf270f84ead765bb981345d5321568ac69142)] - Upgrade: Bump @types/node from 12.7.4 to 12.7.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`150a37d902`](https://github.com/webhintio/hint/commit/150a37d902fcb37ccbfea50861336bfd1bbb9b70)] - Upgrade: Bump puppeteer-core from 1.19.0 to 1.20.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.2.0 (September 19, 2019)
 
 ## New features

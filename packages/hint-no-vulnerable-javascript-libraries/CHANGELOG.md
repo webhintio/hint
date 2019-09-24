@@ -1,3 +1,18 @@
+# 2.9.8 (September 24, 2019)
+
+## Bug fixes / Improvements
+
+* [[`9f13687ebb`](https://github.com/webhintio/hint/commit/9f13687ebbd3d929875cab5a9b9084cf608fa21f)] - Docs: Remove references to global install (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2974`](https://github.com/webhintio/hint/issues/2974)).
+
+## New features
+
+* [[`692a742a75`](https://github.com/webhintio/hint/commit/692a742a75cb8e9f942ef59ea4e3c7486ff0b155)] - Update: 'snyk-snapshot.json'.
+
+## Chores
+
+* [[`53edf270f8`](https://github.com/webhintio/hint/commit/53edf270f84ead765bb981345d5321568ac69142)] - Upgrade: Bump @types/node from 12.7.4 to 12.7.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.9.7 (September 19, 2019)
 
 ## Bug fixes / Improvements

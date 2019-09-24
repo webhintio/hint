@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.0",
+    "@hint/utils": "^5.0.1",
     "lodash": "^4.17.15"
   },
   "description": "webhint parser needed to analyze TypeScript config files",
@@ -49,7 +49,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.4"
+    "hint": "^5.0.0"
   },
   "repository": {
     "directory": "packages/parser-typescript-config",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.7"
+  "version": "2.3.8"
 }

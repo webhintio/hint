@@ -1,3 +1,12 @@
+# 2.1.11 (September 24, 2019)
+
+## Chores
+
+* [[`53edf270f8`](https://github.com/webhintio/hint/commit/53edf270f84ead765bb981345d5321568ac69142)] - Upgrade: Bump @types/node from 12.7.4 to 12.7.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7f9dd770ec`](https://github.com/webhintio/hint/commit/7f9dd770ec0350d7f50137d322159a07a3b203da)] - Upgrade: Bump webpack-cli from 3.3.7 to 3.3.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6c7cec0761`](https://github.com/webhintio/hint/commit/6c7cec07610c0fe793155c821773c420ff47c681)] - Upgrade: Bump ts-loader from 6.1.0 to 6.1.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.1.10 (September 19, 2019)
 
 ## Bug fixes / Improvements

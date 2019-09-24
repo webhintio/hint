@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.0"
+    "@hint/utils": "^5.0.1"
   },
   "description": "webhint parser for web app manifest files",
   "devDependencies": {
@@ -50,7 +50,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.4"
+    "hint": "^5.0.0"
   },
   "repository": {
     "directory": "packages/parser-manifest",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.2.8"
+  "version": "2.2.9"
 }

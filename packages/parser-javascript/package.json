@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.0",
+    "@hint/utils": "^5.0.1",
     "acorn": "^7.0.0",
     "acorn-walk": "^7.0.0"
   },
@@ -51,7 +51,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.4"
+    "hint": "^5.0.0"
   },
   "repository": {
     "directory": "packages/parser-javascript",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.10"
+  "version": "3.0.11"
 }

@@ -7,14 +7,14 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.0",
+    "@hint/utils": "^5.0.1",
     "cloudinary": "^1.15.0",
     "fs-extra": "^8.0.1",
     "image-size": "^0.7.4"
   },
   "description": "hint that that checks using Cloudinary's API if images are optimized",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.8",
+    "@hint/utils-tests-helpers": "^5.0.9",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -50,7 +50,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.4"
+    "hint": "^5.0.0"
   },
   "repository": {
     "directory": "packages/hint-image-optimization-cloudinary",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.7"
+  "version": "3.1.8"
 }

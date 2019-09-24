@@ -7,13 +7,13 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.0",
+    "@hint/utils": "^5.0.1",
     "lodash": "^4.17.15"
   },
   "description": "hint that that validates HTML pages using the Nu HTML checker",
   "devDependencies": {
-    "@hint/parser-html": "^3.0.8",
-    "@hint/utils-tests-helpers": "^5.0.8",
+    "@hint/parser-html": "^3.0.9",
+    "@hint/utils-tests-helpers": "^5.0.9",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",
     "@types/request": "^2.48.3",
@@ -51,7 +51,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.4"
+    "hint": "^5.0.0"
   },
   "repository": {
     "directory": "packages/hint-html-checker",
@@ -77,5 +77,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.2.7"
+  "version": "3.2.8"
 }

@@ -7,12 +7,12 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.0",
+    "@hint/utils": "^5.0.1",
     "node-ssllabs": "^1.1.2"
   },
   "description": "hint that that checks using SSL Labs for best practices related to the website's SSL configuration",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.8",
+    "@hint/utils-tests-helpers": "^5.0.9",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -48,7 +48,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.4"
+    "hint": "^5.0.0"
   },
   "repository": {
     "directory": "packages/hint-ssllabs",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.7"
+  "version": "2.3.8"
 }
