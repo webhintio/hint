@@ -107,6 +107,14 @@ const mockContext = () => {
                 MutationObserver: (dom.window as any).MutationObserver,
                 window: dom.window
             },
+            './evaluator': {
+                '@noCallThru': true,
+                Evaluator: class {
+                    public evaluateInPage(code: string) {
+                        return dom.window.eval(code);
+                    }
+                }
+            },
             './fetcher': {
                 '@noCallThru': true,
                 Fetcher: class {
