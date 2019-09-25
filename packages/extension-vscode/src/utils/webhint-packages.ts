@@ -47,16 +47,19 @@ const loadSharedWebhint = async (globalStoragePath: string): Promise<typeof impo
  * Load webhint, installing it if needed.
  * Will prompt to install a local copy if `.hintrc` is present.
  */
-export const loadWebhint = async (directory: string, globalStoragePath: string, promptToInstall?: (install: () => Promise<void>) => Promise<void>): Promise<typeof import('hint') | null> => {
+export const loadWebhint = async (directory: string, globalStoragePath: string, promptToInstall: (install: () => Promise<void>) => Promise<void>): Promise<typeof import('hint') | null> => {
     try {
         return loadPackage('hint', { paths: [directory] });
     } catch (e) {
         if (promptToInstall && await hasFile('.hintrc', directory)) {
-            await promptToInstall(async () => {
+            /**
+             * Prompt to install, but don't wait in case the user ignores.
+             * Load the shared copy for now until the install is done.
+             * Caller is expected to reload once install is complete.
+             */
+            promptToInstall(async () => {
                 await installWebhint({ cwd: directory });
             });
-
-            return loadWebhint(directory, globalStoragePath);
         }
 
         return loadSharedWebhint(globalStoragePath);
