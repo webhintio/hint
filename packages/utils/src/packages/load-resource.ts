@@ -174,6 +174,16 @@ const generateConfigPathsToResources = (configurations: string[], name: string, 
 };
 
 /**
+ * Accepts:
+ * * Relative paths (./foo)
+ * * Unix-style absolute paths (/foo)
+ * * Windows-style absolute paths (c:/foo)
+ */
+const isFilesystemPath = (filename: string) => {
+    return filename[0] === '.' || filename[0] === '/' || filename[1] === ':';
+};
+
+/**
  * Looks for a hint resource with the given `name` and tries to load it.
  * If no valid resource is found, it throws an `Error`.
  *
@@ -187,7 +197,7 @@ const generateConfigPathsToResources = (configurations: string[], name: string, 
  */
 export const loadResource = (name: string, type: ResourceType, configurations: string[] = [], verifyVersion = false) => {
     debug(`Searching ${name}…`);
-    const isSource = fs.existsSync(name); // eslint-disable-line no-sync
+    const isSource = isFilesystemPath(name) && fs.existsSync(name); // eslint-disable-line no-sync
     const isPackage = isFullPackageName(name, type);
     const nameParts = name.split('/');
 
