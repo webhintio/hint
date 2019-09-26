@@ -52,6 +52,7 @@ const lock = async () => {
 };
 
 const unlock = async () => {
+    /* istanbul ignore else */
     if (isLocked) {
         const start = Date.now();
 
@@ -80,6 +81,7 @@ const getBrowserInfo = async (): Promise<BrowserInfo | null> => {
 };
 
 /** Stores the `BrowserInfo` into a file. */
+/* istanbul ignore next */
 const writeBrowserInfo = async (browser: puppeteer.Browser) => {
     const browserWSEndpoint = browser.wsEndpoint();
     const browserInfo = { browserWSEndpoint };
@@ -88,6 +90,7 @@ const writeBrowserInfo = async (browser: puppeteer.Browser) => {
 };
 
 /** Deletes the file containing the `BrowserInfo`. */
+/* istanbul ignore next */
 const deleteBrowserInfo = async () => {
     try {
         await deleteFile(infoFile);
@@ -121,6 +124,7 @@ const connectToBrowser = async (currentInfo: BrowserInfo, options: LifecycleLaun
 };
 
 /** Spawns a new detached process that will start a browser using puppeteer. */
+/* istanbul ignore next */
 const startDetached = (options: LifecycleLaunchOptions): Promise<puppeteer.Browser> => {
     return new Promise((resolve) => {
         const launcherProcess = spawn(
@@ -145,6 +149,7 @@ const startDetached = (options: LifecycleLaunchOptions): Promise<puppeteer.Brows
     });
 };
 
+/* istanbul ignore next */
 const startBrowser = async (options: LifecycleLaunchOptions) => {
     debug(`Launching new browser instance`);
 
@@ -195,10 +200,12 @@ export const launch = async (options: LifecycleLaunchOptions) => {
      * otherwise the browser will be closed when one of the puppeteer
      * instances finishes.
      */
+    /* istanbul ignore else */
     if (options.detached) {
 
         const currentInfo = await getBrowserInfo();
 
+        /* istanbul ignore else */
         if (currentInfo) {
             try {
                 const connection = await connectToBrowser(currentInfo, options);
@@ -206,7 +213,7 @@ export const launch = async (options: LifecycleLaunchOptions) => {
                 await unlock();
 
                 return connection;
-            } catch (e) {
+            } catch (e) /* istanbul ignore next */ {
                 // `currentInfo` contains outdated data: delete information and start fresh
                 await deleteBrowserInfo();
             }
@@ -224,7 +231,7 @@ export const launch = async (options: LifecycleLaunchOptions) => {
         await unlock();
 
         return connection;
-    } catch (e) /* istanbul ignore next */ {
+    } catch (e) {
         debug('Error launching browser');
         debug(e);
 
@@ -251,6 +258,7 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) =>
         debug(`Closing page`);
         debug(`Remaining pages: ${pages.length - 1}`);
 
+        /* istanbul ignore if */
         if (pages.length === 1) {
             /**
              * We have to manually close the browser because on macOS non headless
@@ -262,7 +270,7 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) =>
         } else {
             await page.close();
         }
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         debug(`Error closing page`);
         debug(e);
     } finally {

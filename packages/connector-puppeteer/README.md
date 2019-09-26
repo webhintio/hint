@@ -148,6 +148,100 @@ E.g.:
 }
 ```
 
+### User actions
+
+Sometimes you might need the browser to interact in some way with the
+content before starting the analysis. For example, in the case of
+a SPA you might want to click in certain elements to get to the right
+state.
+
+Sometimes, this actions need to be done before navigating to the page
+to analyze.
+
+To achieve this, you can use "user actions". "User actions" are
+defined as follows:
+
+```json
+{
+    "connector": {
+        "name": "puppeteer",
+        "options": {
+            "actions": [
+                {
+                    "file": "pathToUserAction1.js",
+                    "on": "beforeTargetNavigation|afterTargetNavigation"
+                },
+                {
+                    "file": "pathToUserAction2.js",
+                    "on": "beforeTargetNavigation|afterTargetNavigation"
+                },
+                ...
+            ],
+            "actionsOptions": { },
+            ...
+        }
+    },
+    ...
+}
+```
+
+There's a property `actions` in the connector configuration that's an array
+of `Action`. You can define as many actions as you want.
+
+An `Action` is an object with two properties:
+
+* `file`: Absolute or relative path from the execution path to the file
+  containing the action to execute.
+* `on`: A string that indicates when the action needs to be executed:
+  * `beforeTargetNavigation`: The action will be executed before navigating
+    to the target. If you need to set up special headers you will have to
+    do it at this moment.
+  * `afterTargetNavigation`: The action will be executed after the target
+    has been loaded. If the website is a SPA and you need to get to a certain
+    state, this is the moment to use.
+
+The file that contains the action needs to be written in JavaScript and export
+an object with an `action` property with the following signature:
+
+```js
+module.exports = {
+    action: async (page, options) => {
+        // your actions here
+    }
+};
+```
+
+The parameters the function receives are:
+
+* `page`: The [puppeteer `Page`][puppeteer page] with the tag used to navigate
+  to the target. This gives you full control to do anything you need with the
+  page (click, type, navigate elsewhere, etc.).
+* `options`: The connector options. This allows you access to `waitFor` values
+  and any other user configuration. If you need to pass anything specifically
+  to the actions you can use `options.actionOptions` property to do so.
+
+#### User action example
+
+The following is an example of an action that does Basic HTTP Authentication,
+please look at the source code of `connector-puppeteer` for other built-in
+actions:
+
+```ts
+export const basicHTTPAuth = async (page: puppeteer.Page, config: ConnectorOptions) => {
+    if (!(config && config.auth &&
+        typeof config.auth.user === 'string' &&
+        typeof config.auth.password === 'string')) {
+
+        return;
+    }
+
+    await page.authenticate({
+        password: config.auth.password,
+        username: config.auth.user
+    });
+};
+```
+
 ## Further Reading
 
 * [Connectors][connectors]
@@ -159,3 +253,4 @@ E.g.:
 [puppeteer]: https://pptr.dev/
 [puppeteer goto options]: https://pptr.dev/#?product=Puppeteer&version=master&show=api-pagegotourl-options
 [puppeteer launch options]: https://pptr.dev/#?product=Puppeteer&version=master&show=api-puppeteerlaunchoptions
+[puppeteer page]: https://pptr.dev/#?product=Puppeteer&version=v1.20.0&show=api-class-page
