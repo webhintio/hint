@@ -52,7 +52,7 @@ export const loadWebhint = async (directory: string, globalStoragePath: string, 
     try {
         return loadPackage('hint', { paths: [directory] });
     } catch (e) {
-        if (promptToInstall && await hasFile('.hintrc', directory)) {
+        if (await hasFile('.hintrc', directory)) {
             /**
              * Prompt to install, but don't wait in case the user ignores.
              * Load the shared copy for now until the install is done.
