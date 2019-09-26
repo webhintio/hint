@@ -1,3 +1,10 @@
+# 3.1.9 (September 26, 2019)
+
+## Bug fixes / Improvements
+
+* [[`b6044078f7`](https://github.com/webhintio/hint/commit/b6044078f7de8d830a193a9d76e28619315972a9)] - Fix: Optimize images (by [`Christian Oliff`](https://github.com/coliff) / see also: [`#2999`](https://github.com/webhintio/hint/issues/2999)).
+
+
 # 3.1.8 (September 24, 2019)
 
 ## Bug fixes / Improvements

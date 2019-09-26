@@ -1,3 +1,6 @@
+# 2.1.12 (September 26, 2019)
+
+
 # 2.1.11 (September 24, 2019)
 
 ## Bug fixes / Improvements

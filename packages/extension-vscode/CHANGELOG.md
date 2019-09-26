@@ -1,3 +1,10 @@
+# 1.3.2 (September 26, 2019)
+
+## Bug fixes / Improvements
+
+* [[`0ed84ba7c8`](https://github.com/webhintio/hint/commit/0ed84ba7c8022f3cd20b9127a451c563e11c5f66)] - Fix: Load shared webhint when prompting to install locally () (by [`Tony Ross`](https://github.com/antross) / see also: [`#3031`](https://github.com/webhintio/hint/issues/3031)).
+
+
 # 1.3.1 (September 24, 2019)
 
 ## Chores

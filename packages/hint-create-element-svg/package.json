@@ -7,12 +7,12 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.1"
+    "@hint/utils": "^5.0.2"
   },
   "description": "Infrom users that they need to use createElementNS to create SVG elements instead of createElement",
   "devDependencies": {
-    "@hint/parser-javascript": "^3.0.11",
-    "@hint/utils-tests-helpers": "^5.0.9",
+    "@hint/parser-javascript": "^3.0.12",
+    "@hint/utils-tests-helpers": "^5.0.10",
     "@types/debug": "^4.1.5",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.2.8"
+  "version": "1.2.9"
 }

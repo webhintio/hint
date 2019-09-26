@@ -7,12 +7,12 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.1"
+    "@hint/utils": "^5.0.2"
   },
   "description": "hint that that checks if the JavaScript used by the web page is minified",
   "devDependencies": {
-    "@hint/parser-javascript": "^3.0.11",
-    "@hint/utils-tests-helpers": "^5.0.9",
+    "@hint/parser-javascript": "^3.0.12",
+    "@hint/utils-tests-helpers": "^5.0.10",
     "@types/debug": "^4.1.5",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.8"
+  "version": "2.3.9"
 }

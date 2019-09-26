@@ -1,3 +1,6 @@
+# 4.1.2 (September 26, 2019)
+
+
 # 4.1.1 (September 24, 2019)
 
 ## Bug fixes / Improvements

@@ -1,3 +1,6 @@
+# 2.2.9 (September 26, 2019)
+
+
 # 2.2.8 (September 24, 2019)
 
 ## Bug fixes / Improvements

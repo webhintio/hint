@@ -7,8 +7,8 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.1",
-    "@hint/utils-connector-tools": "^4.0.11",
+    "@hint/utils": "^5.0.2",
+    "@hint/utils-connector-tools": "^4.0.12",
     "jsdom": "^15.1.1",
     "mutationobserver-shim": "^0.3.3",
     "whatwg-fetch": "^3.0.0"
@@ -16,7 +16,7 @@
   "description": "hint connector for JSDOM",
   "devDependencies": {
     "@hint/parser-html": "^3.0.9",
-    "@hint/utils-create-server": "^3.2.1",
+    "@hint/utils-create-server": "^3.2.2",
     "@types/jsdom": "^12.2.3",
     "@types/lodash": "^4.14.138",
     "@types/node": "^12.7.5",
@@ -83,5 +83,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.11"
+  "version": "4.0.12"
 }

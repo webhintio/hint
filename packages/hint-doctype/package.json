@@ -8,8 +8,8 @@
   },
   "description": "this hint checks if the HTML is using the most modern DOCTYPE.",
   "devDependencies": {
-    "@hint/utils": "^5.0.1",
-    "@hint/utils-tests-helpers": "^5.0.9",
+    "@hint/utils": "^5.0.2",
+    "@hint/utils-tests-helpers": "^5.0.10",
     "@types/debug": "^4.1.5",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -70,5 +70,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.2.8"
+  "version": "3.2.9"
 }

@@ -7,12 +7,12 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.1",
+    "@hint/utils": "^5.0.2",
     "amphtml-validator": "^1.0.21"
   },
   "description": "hint that that validates AMP HTML pages using the AMP Validator",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.9",
+    "@hint/utils-tests-helpers": "^5.0.10",
     "@types/amphtml-validator": "^1.0.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.9.8"
+  "version": "2.9.9"
 }

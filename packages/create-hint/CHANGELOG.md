@@ -1,3 +1,6 @@
+# 3.2.5 (September 26, 2019)
+
+
 # 3.2.4 (September 24, 2019)
 
 ## Chores

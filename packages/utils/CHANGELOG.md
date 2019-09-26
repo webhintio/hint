@@ -1,3 +1,10 @@
+# 5.0.2 (September 26, 2019)
+
+## Bug fixes / Improvements
+
+* [[`61b3d666f2`](https://github.com/webhintio/hint/commit/61b3d666f2a245f3b8278333e972c508edc9451a)] - Fix: Disallow simple names as filesystem paths (by [`Tony Ross`](https://github.com/antross) / see also: [`#3030`](https://github.com/webhintio/hint/issues/3030)).
+
+
 # 5.0.1 (September 24, 2019)
 
 ## Chores
