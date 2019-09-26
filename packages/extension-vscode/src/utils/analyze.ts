@@ -45,6 +45,7 @@ export class Analyzer {
             return promptAddWebhint(this.connection.window, async () => {
                 this.connection.sendNotification(notifications.showOutput);
                 await install();
+                this.onConfigurationChanged();
             });
         });
 
