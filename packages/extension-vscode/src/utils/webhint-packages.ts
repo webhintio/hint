@@ -1,8 +1,9 @@
 import { hasFile, mkdir } from './fs';
 import { installPackages, loadPackage, InstallOptions } from './packages';
 
+/* istanbul ignore next */
 const installWebhint = (options: InstallOptions) => {
-    return installPackages(['hint', '@hint/configuration-development'], options);
+    return installPackages(['hint'], options);
 };
 
 /**
