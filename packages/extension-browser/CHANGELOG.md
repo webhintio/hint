@@ -1,3 +1,10 @@
+# 1.0.3 (September 27, 2019)
+
+## Bug fixes / Improvements
+
+* [[`8857d73e6c`](https://github.com/webhintio/hint/commit/8857d73e6cfa0a2a826f5e2be6f0cff4dc75bc41)] - Fix: Add missing browser action (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3041`](https://github.com/webhintio/hint/issues/3041)).
+
+
 # 1.0.2 (September 26, 2019)
 
 
