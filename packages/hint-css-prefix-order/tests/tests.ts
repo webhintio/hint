@@ -10,6 +10,18 @@ const generateConfig = (fileName: string) => {
         return readFile(`${__dirname}/fixtures/${fileName}`);
     }
 
+    if (fileName.endsWith('.scss')) {
+        const styles = readFile(`${__dirname}/fixtures/${fileName}`);
+
+        return {
+            '/': generateHTMLPage(`<link rel="stylesheet" href="styles/${fileName}">`),
+            [`/styles/${fileName}`]: {
+                content: styles,
+                headers: { 'Content-Type': 'text/x-scss' }
+            }
+        };
+    }
+
     const styles = readFile(`${__dirname}/fixtures/${fileName}.css`);
 
     return {
@@ -147,7 +159,15 @@ const tests: HintTest[] = [
     {
         name: `Unprefixed property without any prefixed properties pass`,
         serverConfig: generateConfig('unprefixed-only')
+    },
+    {
+        name: 'Prefixed properties in nested blocks only report once',
+        reports: [{
+            message: `'appearance' should be listed after '-webkit-appearance'.`,
+            position: { match: 'appearance: none' }
+        }],
+        serverConfig: generateConfig('prefixes-nested-blocks.scss')
     }
 ];
 
-testHint(hintPath, tests, { parsers: ['css'] });
+testHint(hintPath, tests, { parsers: ['css', 'sass'] });
