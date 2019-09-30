@@ -67,7 +67,11 @@ const validatePair = (pair: Partial<DeclarationPair>): boolean => {
 const validateRule = (rule: Rule): DeclarationPair[] => {
     const map = new Map<string, Partial<DeclarationPair>>();
 
-    rule.walkDecls((decl) => {
+    rule.each((decl) => {
+        if (!('prop' in decl)) {
+            return;
+        }
+
         const name = decl.prop;
         const baseName = vendor.unprefixed(name);
 
