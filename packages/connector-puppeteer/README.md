@@ -33,7 +33,7 @@ The set of settings supported by the Puppeteer connector are:
         "name": "puppeteer",
         "options": {
             "auth": AuthObject,
-            "browser": "chrome|chromium|edge",
+            "browser": "Chrome|Chromium|Edge",
             "headless": true|false,
             "ignoreHTTPSErrors": true|false,
             "puppeteerOptions": "object",
@@ -48,7 +48,7 @@ All properties of `options` are optional.
 
 * `auth`: The credentials and elements to authenticate on a website.
   See next section for further details.
-* `browser (chrome|chromium|edge)`: Tells the preferred browser to
+* `browser (Chrome|Chromium|Edge)`: Tells the preferred browser to
   use. Webhint will search the executable for the given one and fail
   if it does not find one. Keep in mind that not all browsers are
   available in all platforms and that you need to **manually install
