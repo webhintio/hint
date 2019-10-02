@@ -80,5 +80,8 @@
     "packages": [
       "packages/*"
     ]
+  },
+  "dependencies": {
+    "unzipper": "^0.10.5"
   }
 }

@@ -18,3 +18,14 @@ steps:
     displayName: 'Install dependencies'
   - script: yarn test
     displayName: 'Test'
+  - script: ./scripts/dist-management/pack-and-upload.sh
+    condition: >
+      and(
+        eq(variables['Agent.OS'], 'Linux'),
+        eq(variables['Build.SourceBranch'], 'refs/heads/master'),
+        not(eq(variables['Build.Reason'], 'Schedule')),
+        eq(variables['node_version'], '12.x')
+      )
+    env:
+      GITHUB_TOKEN: $(GITHUB_TOKEN)
+    displayName: 'Publish resources'
