@@ -4,6 +4,8 @@ const path = require('path');
 const chalk = require('chalk');
 const pRetry = require('p-retry');
 
+const { downloadBuild } = require('./dist-management/download-dist');
+
 const ALREADY_BUILD_DEPENDENCIES = new Set();
 const TEST_RETRIES = 2; // Will retry 2 times on top of the regular one
 
@@ -107,11 +109,21 @@ const main = async () => {
     const references = loadReferences('tsconfig.json');
     const start = Date.now();
 
-    console.log(chalk.green.bold(`Testing all packages`));
+    console.log(chalk.green.bold(`${action} all packages`));
 
-    await testAllPackages(references);
+    if (action === 'build') {
+        try {
+            await downloadBuild();
+        } catch (e) {
+            console.log(chalk.red.bold(`Couldn't get precompiled assets, building from local sources`));
 
-    console.log(chalk.green.bold(`Test time: ${formatDuration(Date.now() - start)}`));
+            await testAllPackages(references);
+        }
+    } else {
+        await testAllPackages(references);
+    }
+
+    console.log(chalk.green.bold(`${action} time: ${formatDuration(Date.now() - start)}`));
 };
 
 main();
