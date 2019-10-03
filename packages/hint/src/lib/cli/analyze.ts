@@ -404,10 +404,16 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         }
     };
 
-    const hasError = (reports: Problem[]): boolean => {
-        return reports.some((result: Problem) => {
-            return result.severity === Severity.error;
-        });
+    const hasIssues = (reports: Problem[]): boolean => {
+        const threshold = userConfig.severityThreshold || Severity.error;
+
+        for (const result of reports) {
+            if (result.severity >= threshold) {
+                return true;
+            }
+        }
+
+        return false;
     };
 
     const print = async (reports: Problem[], target?: string, scanTime?: number, date?: string): Promise<void> => {
@@ -447,7 +453,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             const scanEnd = Date.now();
             const start = scanStart.get(end.url) || 0;
 
-            if (hasError(end.problems)) {
+            if (hasIssues(end.problems)) {
                 exitCode = 1;
             }
 
