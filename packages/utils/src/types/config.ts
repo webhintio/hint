@@ -57,4 +57,5 @@ export type UserConfig = {
     ignoredUrls?: IgnoredUrl[];
     language?: string;
     parsers?: string[];
+    severityThreshold?: HintSeverity;
 };

@@ -5,10 +5,14 @@ import { Problem, Severity } from 'hint';
 // Translate a webhint severity into the VSCode DiagnosticSeverity format.
 const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity => {
     switch (severity) {
-        case 2:
+        case 4:
             return DiagnosticSeverity.Error;
-        case 1:
+        case 3:
             return DiagnosticSeverity.Warning;
+        case 2:
+            return DiagnosticSeverity.Information;
+        case 1:
+            return DiagnosticSeverity.Hint;
         default:
             return DiagnosticSeverity.Hint;
     }

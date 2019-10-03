@@ -61,8 +61,10 @@ class HintWithSchema implements IHint {
 test('getSeverity with an string should return the right value', (t) => {
     const data = new Map([
         ['off', 0],
-        ['warning', 1],
-        ['error', 2],
+        ['hint', 1],
+        ['information', 2],
+        ['warning', 3],
+        ['error', 4],
         ['invalid', null],
         ['', null]
     ]);
@@ -79,7 +81,8 @@ test('getSeverity with a number should return the right value', (t) => {
         [0, 0],
         [1, 1],
         [2, 2],
-        [3, null],
+        [3, 3],
+        [4, 4],
         [-1, null]
     ]);
 
@@ -93,13 +96,16 @@ test('getSeverity with a number should return the right value', (t) => {
 test('getSeverity with an array should return the right value', (t) => {
     const data: Map<HintConfig, number | null> = new Map([
         [(['off', {}] as HintConfig), 0],
-        [(['warning', {}] as HintConfig), 1],
-        [(['error', {}] as HintConfig), 2],
+        [(['hint', {}] as HintConfig), 1],
+        [(['information', {}] as HintConfig), 2],
+        [(['warning', {}] as HintConfig), 3],
+        [(['error', {}] as HintConfig), 4],
         [(['invalid' as any, {}] as HintConfig), null],
         [([0, {}] as HintConfig), 0],
         [([1, {}] as HintConfig), 1],
         [([2, {}] as HintConfig), 2],
-        [([3, {}] as HintConfig), null],
+        [([3, {}] as HintConfig), 3],
+        [([4, {}] as HintConfig), 4],
         [([-1, {}] as HintConfig), null]
     ]);
 
