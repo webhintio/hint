@@ -67,8 +67,8 @@ export const getElementByUrl = (dom: HTMLDocument, url: string): HTMLElement | n
             } catch (e) {
                 // Ignore
             }
-        };
-    };
+        }
+    }
 
     return null;
 };
