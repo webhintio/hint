@@ -26,13 +26,13 @@ export const group = (actions: ActionConfig[] = []): UserActions => {
     const afterTargetNavigation: Action[] = [];
 
     for (const actionConfig of actions) {
-        let loadedAction: { action: Action};
+        let loadedAction: { action: Action };
         const pathToUserAction = resolve(process.cwd(), actionConfig.file);
 
         try {
-            loadedAction = require(pathToUserAction) as any;
+            loadedAction = require(pathToUserAction);
         } catch (e) {
-            throw new Error(`Couldn't load user action in "${pathToUserAction}".${e.message}`);
+            throw new Error(`Couldn't load user action in "${pathToUserAction}". ${e.message}`);
         }
 
         if (typeof loadedAction.action !== 'function') {

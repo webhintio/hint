@@ -213,38 +213,81 @@ module.exports = {
 
 The parameters the function receives are:
 
-* `page`: The [puppeteer `Page`][puppeteer page] with the tag used to navigate
+* `page`: The [puppeteer `Page`][puppeteer page] with the tab used to navigate
   to the target. This gives you full control to do anything you need with the
   page (click, type, navigate elsewhere, etc.).
 * `options`: The connector options. This allows you access to `waitFor` values
   and any other user configuration. If you need to pass anything specifically
   to the actions you can use `options.actionOptions` property to do so.
 
-#### User action example
+#### User action examples
 
-The following is an example of an action that does Basic HTTP Authentication,
-please look at the source code of `connector-puppeteer` for other built-in
-actions:
+The connector's authentication mechanisms rely on the user actions API.
+The following is the code for the Basic HTTP Auth (transpiled to JS):
 
-```ts
-export const basicHTTPAuth = async (page: puppeteer.Page, config: ConnectorOptions) => {
-    if (!(config && config.auth &&
-        typeof config.auth.user === 'string' &&
-        typeof config.auth.password === 'string')) {
+```js
+module.exports = {
+    action: async (page, config) => {
+        if (!config || !config.auth) {
+            return;
+        }
 
-        return;
+        if (typeof config.auth.user !== 'string' || typeof config.auth.password !== 'string') {
+            return;
+        }
+
+        await page.authenticate({
+            password: config.auth.password,
+            username: config.auth.user
+        });
     }
-
-    await page.authenticate({
-        password: config.auth.password,
-        username: config.auth.user
-    });
-};
+}
 ```
+
+**Note:** This user action users `options.auth` which is already
+predefined. If your user action needs another type of user information you can
+use `options.actionsOptions`.
+
+The following is an example of a user action that will click on an element
+configured via `options.actionsOptions`:
+
+```json
+{
+    "connector": {
+        "name": "puppeteer",
+        "options": {
+            "actions": [
+                {
+                    "file": "clickElement.js",
+                    "on": "afterTargetNavigation"
+                }
+            ],
+            "actionsOptions": {
+                "elementId": "#id"
+            }
+        }
+    },
+    ...
+}
+```
+
+```js
+module.exports = {
+    action: async (page, config) => {
+        const selector = config.actionsOptions.elementId;
+
+        await page.click(selector);
+    }
+}
+```
+
+Please look at the source code of `connector-puppeteer` for other built-in
+actions.
 
 ## Further Reading
 
 * [Connectors][connectors]
+* [Puppeteer documentation][puppeteer]
 
 <!-- Link labels: -->
 

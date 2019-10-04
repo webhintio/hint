@@ -28,10 +28,11 @@ export type AuthConfig = {
  * To be used on `beforeTargetNavigation`.
  */
 export const basicHTTPAuth = async (page: puppeteer.Page, config: ConnectorOptions) => {
-    if (!(config && config.auth &&
-        typeof config.auth.user === 'string' &&
-        typeof config.auth.password === 'string')) {
+    if (!config || !config.auth) {
+        return;
+    }
 
+    if (typeof config.auth.user !== 'string' || typeof config.auth.password !== 'string') {
         return;
     }
 
@@ -43,10 +44,10 @@ export const basicHTTPAuth = async (page: puppeteer.Page, config: ConnectorOptio
  * To be used on `afterTargetNavigation`.
  */
 export const formAuth = async (page: puppeteer.Page, config: ConnectorOptions) => {
-    if (!(config && config.auth &&
-        typeof config.auth.user !== 'string' &&
-        typeof config.auth.password !== 'string')) {
-
+    if (!config || !config.auth) {
+        return;
+    }
+    if (typeof config.auth.user === 'string' || typeof config.auth.password === 'string') {
         return;
     }
 
