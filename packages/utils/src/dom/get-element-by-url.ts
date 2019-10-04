@@ -2,7 +2,7 @@ import { URL } from 'url';
 
 import { HTMLDocument, HTMLElement } from './html';
 
-const getSrcsetUrls = (srcset: string): string[] => {
+const getSrcsetUrls = (srcset: string | null): string[] => {
     if (!srcset) {
         return [];
     }
@@ -30,15 +30,28 @@ const getSrcsetUrls = (srcset: string): string[] => {
  */
 export const getElementByUrl = (dom: HTMLDocument, url: string): HTMLElement | null => {
     // TODO: Cache dom.querySelectorAll?.
-    const elements = dom.querySelectorAll('[href],[src],[poster],[srcset]').filter((element: any) => {
+    const elements = dom.querySelectorAll('[href],[src],[poster],[srcset]');
+
+    /*
+     * Even if there are multiple elements with the same URL,
+     * it's the first one that triggers the download in the browser
+     * and thus the one we should be reporting.
+     */
+    for (let i = 0; i < elements.length; ++i) {
+        const element = elements[i];
         const elementUrl = element.getAttribute('href') || element.getAttribute('src') || element.getAttribute('poster');
         const elementUrls = [elementUrl, ...getSrcsetUrls(element.getAttribute('srcset'))];
 
         if (elementUrls.includes(url)) {
-            return true;
+            return element;
         }
 
-        const absoluteUrls = elementUrls.map((relativeUrl) => {
+        for (let k = 0; k < elementUrls.length; ++k) {
+            const relativeUrl = elementUrls[k];
+
+            if (relativeUrl === null) {
+                continue;
+            }
             // TODO: Cache the absolute URL, so we don't run new URL() for the same URL.
 
             /**
@@ -48,27 +61,14 @@ export const getElementByUrl = (dom: HTMLDocument, url: string): HTMLElement | n
             try {
                 const { href } = new URL(relativeUrl, dom.base);
 
-                return href;
+                if (href === url) {
+                    return element;
+                }
             } catch (e) {
-                return 'invalid';
+                // Ignore
             }
-        });
-
-        if (absoluteUrls.includes(url)) {
-            return true;
-        }
-
-        return false;
-    });
-
-    /*
-     * Even if there are multiple elements with the same URL,
-     * it's the first one that triggers the download in the browser
-     * and thus the one we should be reporting.
-     */
-    if (elements.length > 0) {
-        return elements[0];
-    }
+        };
+    };
 
     return null;
 };
