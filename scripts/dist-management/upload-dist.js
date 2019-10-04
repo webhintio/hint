@@ -15,7 +15,7 @@ const throttling = require('@octokit/plugin-throttling');
 const Client = Octokit.plugin(throttling);
 
 const octokitOptions = {
-    auth: `token ${process.env.GITHUB_TOKEN}`, // eslint-disable-line
+    auth: `token ${process.env.GITHUB_TOKEN}`, // eslint-disable-line no-process-env
     throttle: {
         onAbuseLimit: (retryAfter, options) => {
             // does not retry, only logs a warning
@@ -36,12 +36,13 @@ const octokitOptions = {
     userAgent: 'Nellie The Narwhal'
 };
 
-const kit = new Client(octokitOptions); //eslint-disable-line
+const kit = new Client(octokitOptions);
 const name = process.argv[2];
 
-const data = fs.readFileSync(path.join(process.cwd(), name)); // eslint-disable-line
+const data = fs.readFileSync(path.join(process.cwd(), name)); // eslint-disable-line no-sync
 
 const upload = async () => {
+    console.log('Uploading');
 
     await kit.repos.uploadReleaseAsset({
         file: data,
@@ -56,5 +57,4 @@ const upload = async () => {
     console.log('File uploaded');
 };
 
-console.log('uploading');
 upload();

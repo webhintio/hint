@@ -34,6 +34,7 @@
     "shelljs": "^0.8.3",
     "tsort": "^0.0.1",
     "typescript": "^3.6.3",
+    "unzipper": "^0.10.5",
     "yargs": "^14.0.0"
   },
   "engines": {
@@ -48,7 +49,7 @@
   "name": "@hint/monorepo",
   "private": true,
   "scripts": {
-    "build": "yarn clean && yarn update:references && node scripts/test-all.js build",
+    "build": "yarn clean && yarn update:references && node scripts/build-or-test-all.js build",
     "build:scripts": "npm run clean:root && npm run lint:scripts && npm-run-all --parallel build:scripts:*",
     "build:scripts:non-ts": "cpx \"./scripts/{!(*.ts),.!(ts)}\" dist/scripts",
     "build:scripts:ts": "tsc",
@@ -64,7 +65,7 @@
     "lint:scripts": "eslint scripts release --cache --ext js --ext ts --report-unused-disable-directives",
     "release": "npm run clean:packages && npm run build:scripts && node dist/release/main.js",
     "test": "npm run clean && node scripts/test.js",
-    "test-all": "yarn clean && node scripts/test-all.js",
+    "test-all": "yarn clean && node scripts/build-or-test-all.js",
     "test-root": "npm run clean && npm run lint && npm-run-all --parallel build:scripts:*",
     "update:references": "npm run build:scripts && node dist/scripts/update-tsconfig-references.js",
     "watch:scripts": "npm run clean && npm-run-all --continue-on-error --parallel watch:scripts:*",
@@ -80,8 +81,5 @@
     "packages": [
       "packages/*"
     ]
-  },
-  "dependencies": {
-    "unzipper": "^0.10.5"
   }
 }

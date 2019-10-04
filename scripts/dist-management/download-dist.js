@@ -43,7 +43,7 @@ const unzip = (fileName) => {
     return new Promise((resolve, reject) => {
 
         fs.createReadStream(path.join(process.cwd(), fileName))
-            .pipe(unzipper.Extract({ path: process.cwd() })) // eslint-disable-line
+            .pipe(unzipper.Extract({ path: process.cwd() })) // eslint-disable-line new-cap
             .on('finish', resolve)
             .on('error', reject);
     });
@@ -79,14 +79,14 @@ const downloadBuild = async () => {
 
         await unzip(fileName);
     } catch (e) {
-        console.error(`Couldn't unzip the contents. Please run "yarn build"`);
+        console.error(`Couldn't unzip the contents.`);
 
         throw e;
     }
 
     console.log(`Deleting ${fileName}`);
 
-    fs.unlinkSync(fileName); // eslint-disable-line
+    fs.unlinkSync(fileName); // eslint-disable-line no-sync
 
     console.log(`Done!`);
 };

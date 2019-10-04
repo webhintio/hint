@@ -18,6 +18,14 @@ steps:
     displayName: 'Install dependencies'
   - script: yarn test
     displayName: 'Test'
+  # The only assets that will be stored for faster "build times" are
+  # the ones generated:
+  # * on Linux with the latest node version
+  # * from the master branch
+  # * each time that we merge something (not scheduled)
+  #
+  # Otherwise we will be rewritting the file multiple times as the
+  # hash of the commit is used for the zip name (hash.zip)
   - script: ./scripts/dist-management/pack-and-upload.sh
     condition: >
       and(
