@@ -12,6 +12,8 @@ following information:
 
 * The configuration used.
 * Scan status of individual hints: `"passed"|"failed"|"fixing"|"fixed"`.
+* A [log of days used](https://github.com/webhintio/hint/issues/3056#issuecomment-538142964)
+  over the past 28 days.
 * Unhandled/Uncaught exceptions when running `webhint`.
 * Missed or incompatible packages.
 * When a new hint is created using `npm create hint`.
