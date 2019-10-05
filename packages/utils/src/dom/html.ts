@@ -10,6 +10,9 @@ import { INamedNodeMap } from '../types/html';
 
 import { DocumentData, ElementData } from '../types/snapshot';
 
+// TODO: Use quick-lru so that it doesn't grow without bounds
+const CACHED_CSS_SELECTORS: { [key: string]: cssSelect.CompiledQuery } = { };
+
 export class HTMLElement {
     public ownerDocument: HTMLDocument;
 
@@ -224,7 +227,11 @@ export class HTMLDocument {
     }
 
     public querySelectorAll(selector: string): HTMLElement[] {
-        const matches: any[] = cssSelect(selector, this._document.children);
+        if (!(selector in CACHED_CSS_SELECTORS)) {
+            CACHED_CSS_SELECTORS[selector] = cssSelect.compile(selector);
+        }
+
+        const matches: any[] = cssSelect(CACHED_CSS_SELECTORS[selector], this._document.children);
 
         const result = matches.map((element) => {
             return new HTMLElement(element, this);

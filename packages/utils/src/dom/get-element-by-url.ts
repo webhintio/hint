@@ -2,6 +2,12 @@ import { URL } from 'url';
 
 import { HTMLDocument, HTMLElement } from './html';
 
+/**
+ * Two level cache: doc.base / url
+ * TODO: Use quick-lru so that it doesn't grow without bounds
+ */
+const CACHED_URLS: { [key: string]: { [key: string]: URL } } = { };
+
 const getSrcsetUrls = (srcset: string | null): string[] => {
     if (!srcset) {
         return [];
@@ -29,8 +35,13 @@ const getSrcsetUrls = (srcset: string | null): string[] => {
  * @param {string} url - URL that the element has to contain.
  */
 export const getElementByUrl = (dom: HTMLDocument, url: string): HTMLElement | null => {
-    // TODO: Cache dom.querySelectorAll?.
-    const elements = dom.querySelectorAll('[href],[src],[poster],[srcset]');
+    const elements = dom.querySelectorAll('a[href],link[href],audio[src],iframe[src],script[src],source[src],track[src],frame[src],img[src],video[poster],img[srcset],source[srcset]');
+
+    if (!(dom.base in CACHED_URLS)) {
+        CACHED_URLS[dom.base] = { };
+    }
+
+    const urlCache = CACHED_URLS[dom.base];
 
     /*
      * Even if there are multiple elements with the same URL,
@@ -59,7 +70,12 @@ export const getElementByUrl = (dom: HTMLDocument, url: string): HTMLElement | n
              * (e.g.: just `http://`), creating a new `URL` will fail.
              */
             try {
-                const { href } = new URL(relativeUrl, dom.base);
+
+                if (!(relativeUrl in urlCache)) {
+                    urlCache[relativeUrl] = new URL(relativeUrl, dom.base);
+                }
+
+                const { href } = urlCache[relativeUrl];
 
                 if (href === url) {
                     return element;
