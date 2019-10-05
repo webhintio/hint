@@ -241,10 +241,10 @@ module.exports = {
             username: config.auth.user
         });
     }
-}
+};
 ```
 
-**Note:** This user action users `options.auth` which is already
+**Note:** This user action uses `options.auth` which is already
 predefined. If your user action needs another type of user information you can
 use `options.actionsOptions`.
 
@@ -278,7 +278,7 @@ module.exports = {
 
         await page.click(selector);
     }
-}
+};
 ```
 
 Please look at the source code of `connector-puppeteer` for other built-in
