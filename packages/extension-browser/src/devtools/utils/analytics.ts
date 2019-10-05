@@ -2,10 +2,12 @@ import { ApplicationInsights } from '@microsoft/applicationinsights-web-basic';
 
 import { Config, ErrorData, Results } from '../../shared/types';
 
+import { getUpdatedActivity } from './activity';
 import { determineHintStatus } from './hints';
 import * as storage from './storage';
 
 const manifest = require('../../manifest.json');
+const activityKey = 'webhint-activity';
 const storageKey = 'webhint-telemetry';
 const alreadyOptInKey = 'webhint-already-opt-in';
 
@@ -80,6 +82,25 @@ export const disable = (s = storage) => {
     setup(s);
 };
 
+/**
+ * Report once per UTC day that a user is active (has run a scan).
+ * Data includes `last28Days` (e.g. `"1001100110011001100110011001"`)
+ * and `lastUpdated` (e.g. `"2019-10-04T00:00:00.000Z"`).
+ */
+const trackActive = (s = storage) => {
+    // Don't count a user as active if telemetry is disabled.
+    if (!enabled(s)) {
+        return;
+    }
+
+    const activity = getUpdatedActivity(s.getItem(activityKey));
+
+    if (activity) {
+        s.setItem(activityKey, activity);
+        trackEvent('f12-activity', activity);
+    }
+};
+
 /** Called when analysis was canceled by the user. */
 export const trackCancel = (duration: number) => {
     trackEvent('f12-cancel', undefined, { 'f12-cancel-duration': duration });
@@ -107,6 +128,7 @@ export const trackShow = () => {
 /** Called when analysis was started by the user. */
 export const trackStart = () => {
     trackEvent('f12-start');
+    trackActive();
 };
 
 /** Called when analysis fails to complete in the allotted time. */
