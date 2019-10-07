@@ -62,7 +62,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^7.4.2",
     "typescript": "^3.6.3",
-    "vsce": "^1.66.0",
+    "vsce": "^1.67.1",
     "vscode-languageclient": "^5.2.1",
     "vscode-languageserver": "^5.2.1",
     "webpack": "^4.39.3",
