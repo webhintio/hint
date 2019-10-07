@@ -18,7 +18,7 @@
     "@hint/parser-html": "^3.0.9",
     "@hint/utils-create-server": "^3.2.2",
     "@types/jsdom": "^12.2.3",
-    "@types/lodash": "^4.14.138",
+    "@types/lodash": "^4.14.141",
     "@types/node": "^12.7.5",
     "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
