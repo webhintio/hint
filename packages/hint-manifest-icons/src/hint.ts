@@ -2,7 +2,7 @@
  * @fileoverview Checks usage of Web App Manifest icons
  */
 import { URL } from 'url';
-import * as getImageData from 'image-size';
+import { imageSize as getImageData } from 'image-size';
 import imageType from 'image-type';
 import { IHint, NetworkData, HintContext, ProblemLocation, IJSONLocationFunction } from 'hint';
 import { ManifestEvents, ManifestParsed, ManifestImageResource } from '@hint/parser-manifest';
@@ -154,7 +154,7 @@ export default class ManifestIconHint implements IHint {
                 return specifiedWidth === realImage.width && specifiedHeight === realImage.height;
             });
 
-            if (!sizesMatch) {
+            if (!sizesMatch && realImage.width && realImage.height) {
                 const message = getMessage('realImageSizeNotMatch', context.language, [realImage.width.toString(), realImage.height.toString(), specifiedSizes.toString()]);
 
                 context.report(resource, message, { location: iconSizelocation });

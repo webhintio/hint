@@ -8,7 +8,7 @@
   },
   "description": "Description for manifest-icons",
   "dependencies": {
-    "image-size": "^0.7.3",
+    "image-size": "^0.8.3",
     "image-type": "^4.1.0"
   },
   "devDependencies": {
