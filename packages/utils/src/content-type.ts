@@ -174,7 +174,7 @@ const determineMediaTypeBasedOnElement = (element: HTMLElement | null): string |
                     // See: https://w3c.github.io/manifest/#media-type-registration.
                     return 'application/manifest+json';
             }
-            /* eslint-enable no-default */
+            /* eslint-enable default-case */
         }
     }
 
@@ -246,7 +246,7 @@ const determineMediaTypeBasedOnFileExtension = (resource: string): string | null
             // See: https://tools.ietf.org/html/rfc3023#page-5.
             return 'text/xml';
     }
-    /* eslint-enable no-default */
+    /* eslint-enable default-case */
 
     // If the file extension is not in the list above, query `mime-db`.
 
@@ -448,6 +448,7 @@ const getType = (mediaType: string) => {
         return 'font';
     }
 
+    /* eslint-disable default-case */
     switch (mediaType) {
         case 'application/javascript':
         case 'text/javascript':
@@ -467,6 +468,7 @@ const getType = (mediaType: string) => {
         case 'text/plain':
             return 'txt';
     }
+    /* eslint-enable default-case */
 
     return 'unknown';
 };
