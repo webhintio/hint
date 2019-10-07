@@ -3,7 +3,7 @@ import * as path from 'path';
 import boxen = require('boxen');
 import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
-import { default as ora } from 'ora';
+import * as ora from 'ora';
 import * as osLocale from 'os-locale';
 
 import { appInsights, configStore, debug as d, fs, getHintsFromConfiguration, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity } from '@hint/utils';
