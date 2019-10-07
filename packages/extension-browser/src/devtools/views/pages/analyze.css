@@ -13,7 +13,7 @@
 .status {
     background-color: var(--base-bg);
     border-radius: calc(2 * var(--rounding));
-    box-shadow: 0 4.8px 14.4px rgba(0, 0, 0, 0.18), 0 25.6px 57.6px rgba(0, 0, 0, 0.22);
+    box-shadow: var(--analyze-shadow);
     box-sizing: border-box;
     display: grid;
     gap: 1rem; /* 16px */
