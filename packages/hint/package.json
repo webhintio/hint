@@ -19,7 +19,7 @@
     "is-ci": "^2.0.0",
     "lodash": "^4.17.15",
     "optionator": "^0.8.2",
-    "ora": "^3.4.0",
+    "ora": "^4.0.2",
     "os-locale": "^4.0.0",
     "update-notifier": "^3.0.1"
   },

@@ -52,9 +52,7 @@ type Spinner = {
     text: string;
 };
 
-type Ora = {
-    default: () => Spinner;
-};
+type Ora = () => Spinner;
 
 type Analyzer = {
     Analyzer: () => void;
@@ -108,10 +106,8 @@ const initContext = (t: ExecutionContext<AnalyzeContext>) => {
     t.context.logSpy = sandbox.spy(t.context.logger, 'log');
     t.context.errorSpy = sandbox.spy(t.context.logger, 'error');
     t.context.spinner = spinner;
-    t.context.ora = {
-        default() {
-            return spinner;
-        }
+    t.context.ora = () => {
+        return spinner;
     };
     t.context.startSpy = sandbox.spy(spinner, 'start');
     t.context.failSpy = sandbox.spy(spinner, 'fail');
