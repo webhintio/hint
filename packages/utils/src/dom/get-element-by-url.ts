@@ -63,7 +63,6 @@ export const getElementByUrl = (dom: HTMLDocument, url: string): HTMLElement | n
             if (relativeUrl === null) {
                 continue;
             }
-            // TODO: Cache the absolute URL, so we don't run new URL() for the same URL.
 
             /**
              * If `elementUrls` has an element with an invalid value
