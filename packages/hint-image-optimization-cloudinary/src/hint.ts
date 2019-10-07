@@ -6,7 +6,7 @@ import * as path from 'path';
 import { tmpdir } from 'os';
 
 import * as fs from 'fs-extra';
-import * as getImageData from 'image-size';
+import { imageSize as getImageData } from 'image-size';
 
 import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
 import { logger, misc } from '@hint/utils';
