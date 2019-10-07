@@ -19,7 +19,7 @@
     "@hint/utils-create-server": "^3.2.2",
     "@types/is-ci": "^2.0.0",
     "@types/lockfile": "^1.0.1",
-    "@types/lodash": "^4.14.138",
+    "@types/lodash": "^4.14.141",
     "@types/node": "^12.7.5",
     "@types/puppeteer-core": "^1.9.0",
     "@types/sinon": "^7.0.13",
