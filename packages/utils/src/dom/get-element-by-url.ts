@@ -6,7 +6,7 @@ import { HTMLDocument, HTMLElement } from './html';
  * Two level cache: doc.base / url
  * TODO: Use quick-lru so that it doesn't grow without bounds
  */
-const CACHED_URLS: { [key: string]: { [key: string]: URL } } = { };
+const CACHED_URLS: Map<string, Map<string, URL>> = new Map();
 
 const getSrcsetUrls = (srcset: string | null): string[] => {
     if (!srcset) {
@@ -35,13 +35,13 @@ const getSrcsetUrls = (srcset: string | null): string[] => {
  * @param {string} url - URL that the element has to contain.
  */
 export const getElementByUrl = (dom: HTMLDocument, url: string): HTMLElement | null => {
-    const elements = dom.querySelectorAll('a[href],link[href],audio[src],iframe[src],script[src],source[src],track[src],frame[src],img[src],video[poster],img[srcset],source[srcset]');
+    const elements = dom.querySelectorAll('a[href],audio[src],frame[src],img[src],img[srcset],iframe[src],link[href],script[src],source[src],source[srcset],track[src],video[poster]');
 
-    if (!(dom.base in CACHED_URLS)) {
-        CACHED_URLS[dom.base] = { };
+    if (!CACHED_URLS.has(dom.base)) {
+        CACHED_URLS.set(dom.base, new Map());
     }
 
-    const urlCache = CACHED_URLS[dom.base];
+    const urlCache = CACHED_URLS.get(dom.base) as Map<string, URL>;
 
     /*
      * Even if there are multiple elements with the same URL,
@@ -71,11 +71,11 @@ export const getElementByUrl = (dom: HTMLDocument, url: string): HTMLElement | n
              */
             try {
 
-                if (!(relativeUrl in urlCache)) {
-                    urlCache[relativeUrl] = new URL(relativeUrl, dom.base);
+                if (!urlCache.has(relativeUrl)) {
+                    urlCache.set(relativeUrl, new URL(relativeUrl, dom.base));
                 }
 
-                const { href } = urlCache[relativeUrl];
+                const { href } = urlCache.get(relativeUrl) as URL;
 
                 if (href === url) {
                     return element;
