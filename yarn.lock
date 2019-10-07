@@ -4201,6 +4201,11 @@ entities@^1.1.1, entities@~1.1.1:
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
   integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
 
+entities@~2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-2.0.0.tgz#68d6084cab1b079767540d80e56a39b423e4abf4"
+  integrity sha512-D9f7V0JSRwIxlRI2mjMqufDrRDnx8p+eEOz7aUM9SuvF8gsBzra0/6tbjl1m8eQHrZlYj6PxqE00hZ1SAIKPLw==
+
 equal-length@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/equal-length/-/equal-length-1.0.1.tgz#21ca112d48ab24b4e1e7ffc0e5339d31fdfc274c"
@@ -7763,13 +7768,13 @@ markdown-escapes@^1.0.0:
   resolved "https://registry.yarnpkg.com/markdown-escapes/-/markdown-escapes-1.0.3.tgz#6155e10416efaafab665d466ce598216375195f5"
   integrity sha512-XUi5HJhhV5R74k8/0H2oCbCiYf/u4cO/rX8tnGkRvrqhsr5BRNU6Mg0yt/8UIx1iIS8220BNJsDb7XnILhLepw==
 
-markdown-it@9.0.1:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-9.0.1.tgz#aafe363c43718720b6575fd10625cde6e4ff2d47"
-  integrity sha512-XC9dMBHg28Xi7y5dPuLjM61upIGPJG8AiHNHYqIaXER2KNnn7eKnM5/sF0ImNnyoV224Ogn9b1Pck8VH4k0bxw==
+markdown-it@10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-10.0.0.tgz#abfc64f141b1722d663402044e43927f1f50a8dc"
+  integrity sha512-YWOP1j7UbDNz+TumYP1kpwnP0aEa711cJjrAQrzd0UXlbJfc5aAq0F/PZHjiioqDC1NKgvIMX+o+9Bk7yuM2dg==
   dependencies:
     argparse "^1.0.7"
-    entities "~1.1.1"
+    entities "~2.0.0"
     linkify-it "^2.0.0"
     mdurl "^1.0.1"
     uc.micro "^1.0.5"
@@ -7798,12 +7803,12 @@ markdown-link-validator@^1.0.0:
     optionator "^0.8.2"
     uslug "^1.0.4"
 
-markdownlint@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.16.0.tgz#69f73cc755a44231fbe5dc7c37a5909cedc0ac6e"
-  integrity sha512-Zo+iPezP3eM6lLhKepkUw+X98H44lipIdx4d6faaugfB0+7VuDB3R0hXmx7z9F1N3/ypn46oOFgAD9iF++Ie6A==
+markdownlint@^0.17.0:
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.17.0.tgz#0c005a80e3deb1cd49e6b146fbfa5a50de582d44"
+  integrity sha512-X6ITzOCX+1u+fOc/tLbAz/Pjoz7Y5CpTuoZZMvBmg8HJa1Ui/ibL2MtmWnlGjZajpsv96dgRAZeOPfDVbrdpDQ==
   dependencies:
-    markdown-it "9.0.1"
+    markdown-it "10.0.0"
 
 matcher@^1.1.1:
   version "1.1.1"
