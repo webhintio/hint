@@ -62,7 +62,6 @@ To know more about webhint, how to configure it, etc. see the online
 [user guide][user guide], or the [local version][local user guide]
 for the most recent content.
 
-
 ## Contributing to webhint
 
 This project follows a monorepo pattern. That means that the code
@@ -81,15 +80,15 @@ yarn build
 
 This can take a bit so please be patient.
 
-To know more about the internals of `webhint`, the structure of the
-project, how to create new hints, collectors, formatters, etc, take
+To learn more about the internals of `webhint`, the structure of the
+project, how to create new hints, parsers, formatters, etc, take
 a look at the online [contributor guide][contributor guide] (or the
 [local version][local contributor guide]).
 
 ### Contributing to the browser and VS Code extensions
 
-To know more about how to build only the extensions please check
-the `CONTRIBUTING.md` files of each one of this packages:
+To learn about how to build one of the extensions please check
+the `CONTRIBUTING.md` files for each of these packages:
 
 * [`packages/extension-browser/CONTRIBUTING.md`][contrib browser]
   for the browser extension.
