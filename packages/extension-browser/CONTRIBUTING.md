@@ -4,18 +4,31 @@
 
 ### Build after initial checkout
 
-* `cd ../../` (repo root)
-* `yarn`
-* `yarn build`
-* `cd packages/extension-browser`
+From the root of the repo run the following:
+
+```bash
+yarn
+yarn build
+cd packages/extension-browser
+```
 
 ### Rebuild after changes
 
-* `yarn build` or `yarn build --env.design=photon`
+To rebuild just the browser extension you can
+
+```bash
+yarn build
+```
+
+from `/packages/extension-browser`.
 
 ### Test development build
 
-* Side-load `"dist/bundle/"` in target browser
+To locally test your changes you will have to sideload the extension.
+The generated files are under `"dist/bundle/"`.
+
+* [Chrome sideload extension][chrome sideload].
+* [Firefox temporary add-on installation][ff addon].
 
 ### Release builds
 
@@ -23,7 +36,26 @@ Running the release build command will generate zip files
 for both Chromium-based browsers and Firefox, found under
 `dist/chromium/` and `dist/firefox/` respectively.
 
-* `yarn build-release`
+```bash
+yarn build-release-packages
+```
+
+These are the packages that will be published to the stores. To test them
+you can sideload them using the same method as described earlier.
+
+### Exploring the used dependencies
+
+To know what dependencies are being bundled in the extension you can run
+the following from `/packages/extension-browser`:
+
+```bash
+yarn webpack-stats
+```
+
+This will generate a (big) `stats.json` file.
+
+Go to [webpack visualizer][] or a similar tool and drop that file there to
+explore all the dependencies in the package.
 
 ## High-level architecture
 
@@ -228,3 +260,9 @@ import NewParser from '@hint/parser-new';
         ]
     };
 ```
+
+<!-- Link labels -->
+
+[ff addon]: https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/
+[chrome sideload]: https://developer.chrome.com/extensions/getstarted#manifest
+[webpack visualizer]: https://chrisbateman.github.io/webpack-visualizer/

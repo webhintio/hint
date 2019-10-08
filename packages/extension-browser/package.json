@@ -146,7 +146,8 @@
     "watch:css": "tcm src -w",
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch",
-    "webpack": "webpack"
+    "webpack": "webpack",
+    "webpack-stats": "webpack --json > stats.json"
   },
   "version": "1.0.3"
 }
