@@ -1,9 +1,9 @@
 import { hasFile, mkdir } from './fs';
-import { installPackages, loadPackage, InstallOptions } from './packages';
+import { createPackageJson, installPackages, loadPackage, InstallOptions } from './packages';
 
 /* istanbul ignore next */
 const installWebhint = (options: InstallOptions) => {
-    return installPackages(['hint'], options);
+    return installPackages(['hint@latest'], options);
 };
 
 /**
@@ -12,16 +12,20 @@ const installWebhint = (options: InstallOptions) => {
  */
 /* istanbul ignore next */
 export const updateSharedWebhint = async (globalStoragePath: string) => {
-    /*
-     * Per VS Code docs globalStoragePath may not exist but parent folder will.
-     * https://code.visualstudio.com/api/references/vscode-api#ExtensionContext.globalStoragePath
-     */
-    if (!await hasFile(globalStoragePath)) {
-        await mkdir(globalStoragePath);
-        await updateSharedWebhint(globalStoragePath);
-    }
-
     try {
+        /*
+         * Per VS Code docs globalStoragePath may not exist but parent folder will.
+         * https://code.visualstudio.com/api/references/vscode-api#ExtensionContext.globalStoragePath
+         */
+        if (!await hasFile(globalStoragePath)) {
+            await mkdir(globalStoragePath);
+        }
+
+        // A package.json must exist for `npm` to prune packages in the future.
+        if (!await hasFile(`${globalStoragePath}/package.json`)) {
+            await createPackageJson(globalStoragePath);
+        }
+
         await installWebhint({ cwd: globalStoragePath });
     } catch (err) {
         console.warn('Unable to install shared webhint instance', err);
@@ -36,11 +40,16 @@ export const updateSharedWebhint = async (globalStoragePath: string) => {
 const loadSharedWebhint = async (globalStoragePath: string): Promise<typeof import('hint') | null> => {
     try {
         return loadPackage('hint', { paths: [globalStoragePath] });
-    } catch (err) {
-        await updateSharedWebhint(globalStoragePath);
-        console.error('Unable to load shared webhint instance', err);
+    } catch (e) {
+        try {
+            await updateSharedWebhint(globalStoragePath);
 
-        return null;
+            return loadPackage('hint', { paths: [globalStoragePath] });
+        } catch (err) {
+            console.error('Unable to load shared webhint instance', err);
+
+            return null;
+        }
     }
 };
 
