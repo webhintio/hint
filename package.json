@@ -75,6 +75,10 @@
   },
   "workspaces": {
     "nohoist": [
+      "**/acorn",
+      "**/acorn-jsx",
+      "**/acorn-jsx-walk",
+      "**/acorn-walk",
       "**/vscode",
       "**/vscode-languageclient",
       "**/vscode-languageserver"

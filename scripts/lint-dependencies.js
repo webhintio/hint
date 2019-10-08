@@ -11,7 +11,7 @@ const builtIn = require('builtin-modules');
 
 const typeDependencies = new Set([
     'har-format',
-    'estree',
+    'estree-jsx',
     'request',
     'tough-cookie',
     'vscode'

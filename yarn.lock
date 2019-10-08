@@ -631,7 +631,14 @@
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
   integrity sha512-OCutwjDZ4aFS6PB1UZ988C4YgwlBHJd6wCeQqaLdmadZ/7e+w79+hbMUFC1QXDNCmdyoRfAFdm0RypzwR+Qpag==
 
-"@types/estree@*", "@types/estree@^0.0.39":
+"@types/estree-jsx@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@types/estree-jsx/-/estree-jsx-0.0.0.tgz#41447d0019a12dd43986cd23ca1b10f9a350a178"
+  integrity sha512-qbF1vq7M/ACuNkA3fbLJY0o+O+Yy4TPICtu6bUfX1IBdSOxBDms9zAdbhSfYuHTmWLakWg5zOJ64JrJae1ksdg==
+  dependencies:
+    "@types/estree" "*"
+
+"@types/estree@*":
   version "0.0.39"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
   integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
@@ -1231,6 +1238,11 @@ acorn-globals@^4.3.2:
   dependencies:
     acorn "^6.0.1"
     acorn-walk "^6.0.1"
+
+acorn-jsx-walk@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/acorn-jsx-walk/-/acorn-jsx-walk-2.0.0.tgz#a5ed648264e68282d7c2aead80216bfdf232573a"
+  integrity sha512-uuo6iJj4D4ygkdzd6jPtcxs8vZgDX9YFIkqczGImoypX2fQ4dVImmu3UzA4ynixCIMTrEOWW+95M2HuBaCEOVA==
 
 acorn-jsx@^3.0.0:
   version "3.0.1"

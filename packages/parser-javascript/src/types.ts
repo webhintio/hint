@@ -1,8 +1,10 @@
 import { Token } from 'acorn';
-import { Node } from 'estree';
+import { Node } from 'estree-jsx';
 
 import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 import { Event, Events } from 'hint/dist/src/lib/types/events';
+
+export * from 'estree-jsx';
 
 /** All possible values for the Node `type` property. */
 type NodeTypes = Node['type'];
@@ -36,8 +38,10 @@ type NodeTypeForValue<N, T> = N extends { type: T } ? N : never;
  */
 export type NodeVisitor = { [T in NodeTypes]?: (node: NodeTypeForValue<Node, T>, ancestors?: Node[]) => void };
 
+export type WalkCompleteListener = () => Promise<void> | void;
+
 // TODO: Define types for all `acorn-walk` helpers and use them instead.
-export type Walk = {
+export type WalkMethods = {
     /**
      * Does a 'simple' walk over a tree. `node` should be the AST node to walk,
      * and `visitors` an object with properties whose names correspond to node
@@ -56,6 +60,17 @@ export type Walk = {
     full(node: Node, callback: (node: Node, state: any, type: string) => void, base?: NodeVisitor, state?: any): void;
     fullAncestor(node: Node, callback: (node: Node, state: any, ancestors: Node[]) => void, base?: NodeVisitor, state?: any): void;
 };
+
+export type WalkEvents = {
+    /**
+     * Register a callback to execute once the walks have actually been performed.
+     * Necessary because walks are performed slightly delayed so they can be
+     * batched across multiple listeners for performance.
+     */
+    onComplete: (listener: WalkCompleteListener) => void;
+};
+
+export type Walk = WalkMethods & WalkEvents;
 
 /** The object emitted by the `javascript` parser */
 export type ScriptParse = Event & {
