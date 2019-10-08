@@ -7,10 +7,14 @@ import * as puppeteer from 'puppeteer-core';
 import { Browser, getInstallationPath, debug as d, dom, HTMLElement, HTMLDocument, HttpHeaders, misc, network } from '@hint/utils';
 import { normalizeHeaders, Requester } from '@hint/utils-connector-tools';
 import { IConnector, Engine, NetworkData } from 'hint';
-import { launch, close, LifecycleLaunchOptions } from './lib/lifecycle';
 
+import { ActionConfig, UserActions, group as groupActions } from './lib/actions';
+import { AuthConfig, HTTPAuthConfig, basicHTTPAuth, formAuth } from './lib/authenticators';
+import { launch, close, LifecycleLaunchOptions } from './lib/lifecycle';
 import { getFavicon } from './lib/get-favicon';
 import { onRequestHandler, onRequestFailedHandler, onResponseHandler } from './lib/events';
+
+import { schema } from './lib/schema';
 
 const { createHTMLDocument, traverse } = dom;
 const { getPlatform } = misc;
@@ -19,30 +23,9 @@ const debug: debug.IDebugger = d(__filename);
 
 type EventName = keyof puppeteer.PageEventObj;
 
-type AuthConfig = {
-    user: {
-        selector: string;
-        value: string;
-    };
-    next?: {
-        selector: string;
-    };
-    password: {
-        selector: string;
-        value: string;
-    };
-    submit: {
-        selector: string;
-    };
-};
-
-type HTTPAuthConfig = {
-    user: string;
-    password: string;
-}
-
 // TODO: keep in sync with the schema and take a look at #1594 and #1628
-type ConnectorOptions = {
+export type ConnectorOptions = {
+    actions?: ActionConfig[];
     auth?: AuthConfig | HTTPAuthConfig;
     browser?: Browser;
     detached?: boolean;
@@ -53,8 +36,9 @@ type ConnectorOptions = {
 };
 
 export default class PuppeteerConnector implements IConnector {
-    private _auth: AuthConfig | HTTPAuthConfig | null;
+    private _actions: UserActions;
     private _browser!: puppeteer.Browser;
+    private _connectorOptions: ConnectorOptions;
     private _dom: HTMLDocument | undefined;
     private _engine: Engine;
     private _finalHref = '';
@@ -70,59 +54,7 @@ export default class PuppeteerConnector implements IConnector {
     private _targetNetworkData!: NetworkData;
     private _waitUntil: puppeteer.LoadEvent;
 
-    public static schema = {
-        additionalProperties: false,
-        definitions: {
-            authConfig: {
-                additionalProperties: false,
-                properties: {
-                    next: { $ref: '#/definitions/submitInput' },
-                    password: { $ref: '#/definitions/fieldInput' },
-                    submit: { $ref: '#/definitions/submitInput' },
-                    user: { $ref: '#/definitions/fieldInput' }
-                },
-                required: ['user', 'password', 'submit'],
-                type: 'object'
-            },
-            fieldInput: {
-                properties: {
-                    selector: { types: 'string' },
-                    value: { types: 'string' }
-                },
-                required: ['selector', 'value'],
-                type: 'object'
-            },
-            httpAuthConfig: {
-                additionalProperties: false,
-                properties: {
-                    password: { types: 'string' },
-                    user: { types: 'string' }
-                },
-                required: ['user', 'password'],
-                type: 'object'
-            },
-            submitInput: {
-                properties: { selector: { types: 'string' } },
-                required: ['selector'],
-                type: 'object'
-            }
-        },
-        properties: {
-            auth: { oneOf: [{ $ref: '#/definitions/authConfig' }, { $ref: '#/definitions/httpAuthConfig' }] },
-            browser: {
-                enum: ['Chrome', 'Chromium', 'Edge'],
-                type: 'string'
-            },
-            detached: { type: 'boolean' },
-            headless: { type: 'boolean' },
-            ignoreHTTPSErrors: { type: 'boolean' },
-            puppeteerOptions: { type: 'object' },
-            waitUntil: {
-                enum: ['load', 'domcontentloaded', 'networkidle0', 'networkidle2'],
-                type: 'string'
-            }
-        }
-    };
+    public static schema = schema;
 
     public constructor(engine: Engine, options: ConnectorOptions = {}) {
         this._engine = engine;
@@ -134,9 +66,16 @@ export default class PuppeteerConnector implements IConnector {
             }
         });
 
+        this._connectorOptions = options;
         this._waitUntil = options && options.waitUntil ? options.waitUntil : 'networkidle2';
         this._options = this.toPuppeteerOptions(options);
-        this._auth = options && options.auth ? options.auth : null;
+
+        this._actions = groupActions(options.actions);
+
+        if (options.auth) {
+            this._actions.beforeTargetNavigation.unshift(basicHTTPAuth);
+            this._actions.afterTargetNavigation.unshift(formAuth);
+        }
     }
 
     /** Transform general options to more specific `puppeteer` ones if applicable. */
@@ -353,42 +292,6 @@ export default class PuppeteerConnector implements IConnector {
         }
     }
 
-    private async authenticateForm(auth: AuthConfig) {
-        const { user, password, submit, next } = auth;
-
-        await this._page.type(user.selector, user.value);
-
-        /**
-         * Some services do the authentication in 2 steps.
-         * E.g.: Azure Pipelines
-         *
-         * 1. Enter username/phone
-         * 2. Click next
-         * 3. Enter password (or 2FA)
-         * 4. Submit
-         *
-         * For automation purposes only the password scenario
-         * is covered with no redirect to other login pages.
-         */
-        if (next) {
-            /**
-             * Example on how to do it available in:
-             * https://pptr.dev/#?product=Puppeteer&version=v1.16.0&show=api-pagewaitfornavigationoptions
-             */
-            await Promise.all([
-                this._page.waitForNavigation({ waitUntil: this._waitUntil }),
-                this._page.click(next.selector)
-            ]);
-        }
-
-        await this._page.type(password.selector, password.value);
-
-        await Promise.all([
-            this._page.waitForNavigation({ waitUntil: this._waitUntil }),
-            this._page.click(submit.selector)
-        ]);
-    }
-
     public async close() {
         this.removeListeners();
 
@@ -404,21 +307,19 @@ export default class PuppeteerConnector implements IConnector {
 
         await this._engine.emit('scan::start', { resource: target.href });
 
-        // TODO: Figure out how to execute the user tasks in here and when to subscribe to events
+        debug(`Executing "beforeTargetNavigation" actions`);
+        for (const action of this._actions.beforeTargetNavigation) {
+            await action(this._page, this._connectorOptions);
+        }
+
         this.addListeners();
 
         debug(`Navigating to ${target.href}`);
+        await this._page.goto(target.href, { waitUntil: this._waitUntil });
 
-        if (this._auth) {
-            if (typeof this._auth.user === 'string' && typeof this._auth.password === 'string') {
-                await this._page.authenticate({ password: this._auth.password, username: this._auth.user });
-                await this._page.goto(target.href, { waitUntil: this._waitUntil });
-            } else {
-                await this._page.goto(target.href, { waitUntil: this._waitUntil });
-                await this.authenticateForm(this._auth as AuthConfig);
-            }
-        } else {
-            await this._page.goto(target.href, { waitUntil: this._waitUntil });
+        debug(`Executing "afterTargetNavigation" actions`);
+        for (const action of this._actions.afterTargetNavigation) {
+            await action(this._page, this._connectorOptions);
         }
 
         // This is the final URL
