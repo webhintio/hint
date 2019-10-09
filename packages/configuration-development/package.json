@@ -23,6 +23,8 @@
     "@hint/parser-babel-config": "^2.1.13",
     "@hint/parser-css": "^3.0.13",
     "@hint/parser-html": "^3.0.10",
+    "@hint/parser-javascript": "^3.0.13",
+    "@hint/parser-jsx": "^1.0.0",
     "@hint/parser-less": "^1.0.5",
     "@hint/parser-sass": "^1.0.5",
     "@hint/parser-typescript-config": "^2.3.10",
