@@ -26,3 +26,12 @@ selecting which hint categories, browsers, or resources to include or exclude.
 Click "Start scan" to begin scanning the site.
 
 ![Choosing settings for a webhint site scan.](images/extension-browser-1.png)
+
+## Contributing to the extension
+
+To contribute to the extension please read the [`CONTRIBUTING.md`][contributing]
+file of the package.
+
+<!-- Link labels -->
+
+[contributing]: https://github.com/webhintio/hint/blob/master/packages/extension-browser/CONTRIBUTING.md

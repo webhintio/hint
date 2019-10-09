@@ -6,8 +6,15 @@
 
 ## Quick start user guide
 
-Once you have [`Node.js`][node] (v8.x or later) on your machine, you can use
-[`npx`][npx] to test it.
+webhint is a customizable linting tool that helps you improve your site's
+accessibility, speed, cross-browser compatibility, and more by checking your
+code for best practices and common errors.
+
+It can be run from the command line (CLI), via a [browser extension][], as a
+[VS Code extension][], and from the [online service][].
+
+To use it from the from the CLI you will need to install [`Node.js`][node]
+(v10.x or later) on your machine, and you can use [`npx`][npx] to test it.
 
 ### Testing with `npx`
 
@@ -57,10 +64,36 @@ for the most recent content.
 
 ## Contributing to webhint
 
-To know more about the internals of `webhint`, the structure of the
-project, how to create new hints, collectors, formatters, etc, take
+This project follows a monorepo pattern. That means that the code
+for all the webhint flavors (CLI, browser and VS Code extension,
+hints, formatters, etc.) are in here and are published as separate
+npm packages.
+
+To build the project from the source you will need to install
+a recent version of node and [yarn][]. Once you've done this run
+the following from the root of your cloned version:
+
+```bash
+yarn
+yarn build
+```
+
+This can take a bit so please be patient.
+
+To learn more about the internals of `webhint`, the structure of the
+project, how to create new hints, parsers, formatters, etc, take
 a look at the online [contributor guide][contributor guide] (or the
 [local version][local contributor guide]).
+
+### Contributing to the browser and VS Code extensions
+
+To learn about how to build one of the extensions please check
+the `CONTRIBUTING.md` files for each of these packages:
+
+* [`packages/extension-browser/CONTRIBUTING.md`][contrib browser]
+  for the browser extension.
+* [`packages/extension-vscode/CONTRIBUTING.md`][contrib vscode]
+  for the VS Code extension.
 
 ## Code of Conduct
 
@@ -75,11 +108,17 @@ The code is available under the [Apache 2.0 license][license].
 
 <!-- Link labels: -->
 
+[browser extension]: https://webhint.io/docs/user-guide/extensions/extension-browser/
 [coc]: https://js.foundation/community/code-of-conduct
+[contrib browser]: ./packages/extension-browser/CONTRIBUTING.md
+[contrib vscode]: ./packages/extension-vscode/CONTRIBUTING.md
 [contributor guide]: https://webhint.io/docs/contributor-guide/
+[license]: LICENSE.txt
 [local contributor guide]: ./packages/hint/docs/contributor-guide/index.md
 [local user guide]: ./packages/hint/docs/user-guide/index.md
 [node]: https://nodejs.org/en/download/current/
 [npx]: https://github.com/zkat/npx
+[online service]: https://webhint.io/scanner/
 [user guide]: https://webhint.io/docs/user-guide/
-[license]: LICENSE.txt
+[VS Code extension]: https://webhint.io/docs/user-guide/extensions/vscode-webhint/
+[yarn]: http://yarnpkg.com/
