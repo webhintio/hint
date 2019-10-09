@@ -3,6 +3,7 @@
     "onLanguage:css",
     "onLanguage:html",
     "onLanguage:javascript",
+    "onLanguage:javascriptreact",
     "onLanguage:json",
     "onLanguage:jsonc",
     "onLanguage:less",
