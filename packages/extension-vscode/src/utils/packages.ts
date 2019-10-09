@@ -13,6 +13,15 @@ export type InstallOptions = {
 const _require = eval('require'); // eslint-disable-line no-eval
 
 /**
+ * Initialize a package.json file in the specified directory.
+ */
+export const createPackageJson = async (cwd: string) => {
+    const cmd = process.platform === 'win32' ? '.cmd' : '';
+
+    await run(`npm${cmd} init -y`, { cwd });
+};
+
+/**
  * Install the provided packages to the specified location.
  * Uses `yarn` if `yarn.lock` exists, `npm` otherwise.
  */

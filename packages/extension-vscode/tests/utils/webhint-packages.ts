@@ -6,12 +6,18 @@ const stubContext = () => {
     const stubs = {
         './fs': {
             '@noCallThru': true,
-            hasFile() {
+            hasFile(path: string) {
                 return Promise.resolve(true);
+            },
+            mkdir(path: string) {
+                return Promise.resolve();
             }
         },
         './packages': {
             '@noCallThru': true,
+            createPackageJson(path: string) {
+                return Promise.resolve();
+            },
             loadPackage(name: string, opts: any) {
                 if (name !== 'hint' || !opts.paths || opts.paths[0] !== 'global') {
                     throw new Error('Not found');
@@ -26,6 +32,32 @@ const stubContext = () => {
 
     return { module, stubs };
 };
+
+test('It creates a directory for the shared instance if needed', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const { module, stubs } = stubContext();
+    const hasFileStub = sandbox.stub(stubs['./fs'], 'hasFile').resolves(false);
+    const mkdirSpy = sandbox.spy(stubs['./fs'], 'mkdir');
+
+    await module.updateSharedWebhint('global');
+
+    t.is(hasFileStub.firstCall.args[0], 'global');
+    t.true(mkdirSpy.calledOnce);
+    t.is(mkdirSpy.firstCall.args[0], 'global');
+});
+
+test('It creates a package.json file for the shared instance if needed', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const { module, stubs } = stubContext();
+    const hasFileStub = sandbox.stub(stubs['./fs'], 'hasFile').resolves(false);
+    const createPackageJsonSpy = sandbox.spy(stubs['./packages'], 'createPackageJson');
+
+    await module.updateSharedWebhint('global');
+
+    t.is(hasFileStub.firstCall.args[0], 'global');
+    t.true(createPackageJsonSpy.calledOnce);
+    t.is(createPackageJsonSpy.firstCall.args[0], 'global');
+});
 
 test('It loads shared webhint when prompting to install a local copy', async (t) => {
     const sandbox = sinon.createSandbox();

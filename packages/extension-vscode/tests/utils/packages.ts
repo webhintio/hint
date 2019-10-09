@@ -23,6 +23,20 @@ const stubContext = () => {
     return { module, stubs };
 };
 
+test('It uses npm with skipped prompts to create a package.json', async (t) => {
+    const sandbox = sinon.createSandbox();
+    const { module, stubs } = stubContext();
+
+    const runSpy = sandbox.spy(stubs['./process'], 'run');
+
+    await module.createPackageJson('global');
+
+    t.is(runSpy.callCount, 1);
+    t.regex(runSpy.firstCall.args[0], /^npm(\.cmd)? init -y$/);
+
+    sandbox.restore();
+});
+
 test('It installs via npm if `yarn.lock` is missing', async (t) => {
     const sandbox = sinon.createSandbox();
     const { module, stubs } = stubContext();
