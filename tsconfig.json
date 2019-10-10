@@ -98,6 +98,7 @@
         { "path": "packages/parser-css" },
         { "path": "packages/parser-html" },
         { "path": "packages/parser-javascript" },
+        { "path": "packages/parser-jsx" },
         { "path": "packages/parser-less" },
         { "path": "packages/parser-manifest" },
         { "path": "packages/parser-package-json" },
