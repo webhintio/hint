@@ -86,6 +86,7 @@ export const installPackages = async (packages: string[]): Promise<boolean> => {
          * There was an error installing packages.
          * Show message to install packages manually (maybe permissions error?).
          */
+        /* istanbul ignore next */
         logger.error(`
 There was a problem installing packages.
 Please try executing:

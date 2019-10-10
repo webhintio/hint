@@ -1,0 +1,76 @@
+{
+    "ava": {
+        "failFast": false,
+        "files": [
+            "dist/tests/**/*.js"
+        ],
+        "timeout": "1m"
+    },
+    "dependencies": {
+        "mdn-browser-compat-data": "^0.0.96",
+        "postcss": "^7.0.18",
+        "postcss-selector-parser": "^6.0.2",
+        "postcss-value-parser": "^4.0.2",
+        "semver": "^6.3.0"
+    },
+    "description": "hint tools",
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^1.13.0",
+        "@typescript-eslint/parser": "^1.12.0",
+        "ava": "^1.3.1",
+        "cpx": "^1.5.0",
+        "eslint": "^5.15.1",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-markdown": "^1.0.0",
+        "npm-run-all": "^4.1.5",
+        "nyc": "^14.1.0",
+        "rimraf": "^3.0.0",
+        "typescript": "^3.6.3"
+    },
+    "engines": {
+        "node": ">=8.0.0"
+    },
+    "files": [
+        "dist/src"
+    ],
+    "homepage": "https://webhint.io/",
+    "keywords": [
+        "hint",
+        "hint-utils",
+        "tools",
+        "utils",
+        "webhint"
+    ],
+    "license": "Apache-2.0",
+    "main": "./dist/src/index.js",
+    "name": "@hint/utils-compat-data",
+    "nyc": {
+        "extends": "../../.nycrc"
+    },
+    "peerDependencies": {},
+    "repository": {
+        "directory": "packages/utils-compat-data",
+        "type": "git",
+        "url": "https://github.com/webhintio/hint.git"
+    },
+    "scripts": {
+        "ava": "ava",
+        "build": "npm-run-all build:*",
+        "build-release": "npm run clean && npm run prebuild && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+        "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+        "build:ts": "tsc -b",
+        "clean": "rimraf dist",
+        "lint": "npm-run-all lint:*",
+        "lint:dependencies": "node ../../scripts/lint-dependencies.js",
+        "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+        "lint:md": "node ../../scripts/lint-markdown.js",
+        "prebuild": "npm-run-all prebuild:*",
+        "prebuild:mdn": "node ./scripts/mdn-browser-compat-data.js",
+        "test": "npm run lint && npm run build && npm run test-only",
+        "test-only": "nyc ava",
+        "test-release": "npm run lint && npm run build-release && ava",
+        "watch": "npm run build && npm-run-all --parallel -c watch:*",
+        "watch:ts": "npm run build:ts -- --watch"
+    },
+    "version": "1.0.0"
+}

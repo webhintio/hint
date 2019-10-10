@@ -15,7 +15,7 @@ const getHintsFromExtend = (extendName: string, parentConfigs: string[] = []) =>
             ...getHintsFromExtends(configuration.extends, [extendName, ...parentConfigs]), // eslint-disable-line no-use-before-define,@typescript-eslint/no-use-before-define
             ...normalizeHints(configuration.hints || {})
         };
-    } catch (e) { // If the configuration doesn't exists, ignore it and returns an empty object.
+    } catch (e) /* istanbul ignore next */ { // If the configuration doesn't exists, ignore it and returns an empty object.
         return {};
     }
 };

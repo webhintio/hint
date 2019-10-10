@@ -1,7 +1,7 @@
 const fs = require('fs');
 const mdn = require('mdn-browser-compat-data');
 const path = require('path');
-const filename = path.resolve(`${__dirname}/../src/compat/browser-compat-data.ts`);
+const filename = path.resolve(`${__dirname}/../src/browser-compat-data.ts`);
 
 /**
  * Determine if a given support statement qualifies as "always supported" by

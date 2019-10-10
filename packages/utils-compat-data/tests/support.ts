@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { getSupported, getUnsupported, isSupported } from '../../src/compat';
+import { getSupported, getUnsupported, isSupported } from '../src/';
 
 test('isSupported works', (t) => {
     t.true(isSupported({ element: 'details' }, ['chrome 74']));
