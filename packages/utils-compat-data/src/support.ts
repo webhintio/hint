@@ -17,6 +17,7 @@ import {
 } from './html';
 
 export {
+    AlternativeDetails,
     getFriendlyName,
     UnsupportedBrowsers
 } from './browsers';
@@ -60,6 +61,9 @@ export const getUnsupported = (feature: FeatureQuery, browsers: string[]): strin
     return data && data.browsers;
 };
 
+/**
+ * Using the given `browsers` list, returns those that support the given `feature`.
+ */
 export const getSupported = (feature: FeatureQuery, browsers: string[]): string[] | null => {
     const unsupported = getUnsupported(feature, browsers);
 
@@ -74,6 +78,10 @@ export const getSupported = (feature: FeatureQuery, browsers: string[]): string[
     return supported.length ? supported : null;
 };
 
+
+/**
+ * Returns `true` if all the `browsers` support the given `feature`, `false` otherwise.
+ */
 export const isSupported = (feature: FeatureQuery, browsers: string[]): boolean => {
     return !getUnsupported(feature, browsers);
 };

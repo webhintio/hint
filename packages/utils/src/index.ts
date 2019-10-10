@@ -21,7 +21,6 @@ export * from './types/npm';
 export * from './types/html';
 export * from './types/problem-location';
 export * from './types/category';
-export * from './compat';
 export * from './config';
 export * from './dom/html';
 export * from './has-yarnlock';

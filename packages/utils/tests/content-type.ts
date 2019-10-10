@@ -78,6 +78,7 @@ test('determineMediaTypeBasedOnFileExtension returns null if not recognized exte
 test('getType returns the right group for a variety of mediaTypes', (t) => {
     const mediaTypes = {
         '': 'unknown',
+        'application/javascript': 'script',
         'application/json': 'json',
         'application/manifest+json': 'manifest',
         'application/vnd.ms-fontobject': 'font',

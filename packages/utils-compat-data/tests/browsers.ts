@@ -1,7 +1,7 @@
 import test from 'ava';
 import { Identifier } from 'mdn-browser-compat-data/types';
 
-import { getUnsupportedBrowsers } from '../../src/compat/browsers';
+import { getUnsupportedBrowsers } from '../src/browsers';
 
 test('Handles complex support', (t) => {
     /* eslint-disable */

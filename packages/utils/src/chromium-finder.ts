@@ -102,6 +102,7 @@ const darwin = (browser: Browser) => {
     const platformBrowserInfo = browserVariables.get('darwin')!;
     const suffixes = platformBrowserInfo.get(browser);
 
+    /* istanbul ignore if */
     if (!suffixes) {
         throw new Error(ERRORS.NotSupportedBrowser);
     }
@@ -247,6 +248,7 @@ const win32 = (browser: Browser) => {
 
     const suffixes = info.get(browser);
 
+    /* istanbul ignore if */
     if (!suffixes) {
         throw new Error(ERRORS.NotSupportedBrowser);
     }
