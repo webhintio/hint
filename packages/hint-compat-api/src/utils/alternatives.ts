@@ -1,4 +1,4 @@
-import { AlternativeDetails, UnsupportedBrowsers } from '@hint/utils/dist/src/compat/browsers';
+import { AlternativeDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
 
 import { getMessage } from '../i18n.import';
 

@@ -15,7 +15,7 @@ import {
     IHint,
     IJSONLocationFunction
 } from 'hint/dist/src/lib/types';
-import { isSupported } from '@hint/utils/dist/src/compat';
+import { isSupported } from '@hint/utils-compat-data';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import {
     Manifest,

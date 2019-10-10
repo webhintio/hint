@@ -8,8 +8,7 @@ import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'pos
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
-import { getUnsupportedDetails } from '@hint/utils/dist/src/compat';
-import { UnsupportedBrowsers } from '@hint/utils/dist/src/compat/browsers';
+import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
 import { getCSSCodeSnippet } from '@hint/utils/dist/src/report';
 
 import { formatAlternatives } from './utils/alternatives';
