@@ -88,7 +88,7 @@
   },
   "scripts": {
     "ava": "ava",
-    "build": "npm run i18n && npm-run-all build:*",
+    "build": "npm run i18n && npm run prebuild && npm-run-all build:*",
     "build-release": "npm run clean && npm run prebuild && npm run i18n && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
@@ -101,7 +101,7 @@
     "prebuild": "npm-run-all prebuild:*",
     "prebuild:mdn": "node ./scripts/mdn-browser-compat-data.js",
     "prebuild:mime-db": "node ./scripts/mime-db.js",
-    "test": "npm run lint && npm run build && npm run test-only",
+    "test": "npm run prebuild && npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
     "test-release": "npm run lint && npm run build-release && ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",

@@ -69,7 +69,7 @@
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "prebuild": "node ./scripts/create.js",
-    "test": "npm run lint && npm run build && npm run test-only",
+    "test": "npm run prebuild && npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
     "test-release": "npm run lint && npm run build-release && ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",

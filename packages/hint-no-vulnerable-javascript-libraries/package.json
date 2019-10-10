@@ -61,9 +61,9 @@
     "url": "https://github.com/webhintio/hint.git"
   },
   "scripts": {
-    "build": "npm run i18n && npm-run-all build:*",
-    "build-release": "npm run clean && npm run i18n && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
-    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist && npm-run-all prebuild:*",
+    "build": "npm run i18n && npm run prebuild && npm-run-all build:*",
+    "build-release": "npm run clean && npm run i18n && npm run prebuild && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "i18n": "node ../../scripts/create-i18n.js",
@@ -71,8 +71,9 @@
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
+    "prebuild": "npm-run-all prebuild:*",
     "prebuild:snyk": "node ./scripts/pack-snyk.js",
-    "test": "npm run lint && npm run build && npm run test-only",
+    "test": "npm run prebuild && npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
     "test-release": "npm run lint && npm run build-release && ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
