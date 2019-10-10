@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@hint/utils": "^5.0.2",
+    "@hint/utils-compat-data": "^1.0.0",
     "bcp47": "^1.1.2",
     "color-string": "^1.5.3"
   },
