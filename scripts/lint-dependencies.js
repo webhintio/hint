@@ -55,7 +55,6 @@ const regexps = [
 const getPackages = async () => {
     const pkgs = await globby(['packages/*'], {
         absolute: true,
-        gitignore: true,
         onlyFiles: false
     });
 
@@ -78,7 +77,8 @@ const getDependencies = (pkg) => {
     return dependencies;
 };
 
-const getCodeContent = async (pkgPath) => {
+const getCodeContent = async (rawPkgPath) => {
+    const pkgPath = rawPkgPath.replace(/\\/g, '/');
     const files = await globby([
         `${pkgPath}/**/*.ts`,
         `${pkgPath}/**/*.tsx`,
