@@ -2,6 +2,6 @@
 
 declare -r HASH="$(git rev-parse --verify HEAD)"
 
-zip -R -y "$HASH" './packages/**/dist/**/*' dist/**/* './packages/**/dist/*' dist/*
+find packages -type f -path '*/dist/*' | zip "$HASH" -@
 
 node ./scripts/dist-management/upload-dist.js "$HASH.zip"
