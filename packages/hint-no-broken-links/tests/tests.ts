@@ -58,6 +58,10 @@ const bodyWithBrokenImageSrcSets = `<div>
 <img alt="test" src="/1.jpg" srcset="2.jpg 640w,3.jpg 750w , 4.jpg 1080w">
 </div>`;
 
+const bodyWithDataUriSrcSets = `<div>
+<img alt="test" src="/1.jpg" srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=,2.jpg 640w,data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII= 1024w">
+</div>`;
+
 const bodyWithBrokenVideo = `<div>
 <video controls src="/1.mp4" poster="/2.png">
 </div>`;
@@ -189,6 +193,14 @@ const tests: HintTest[] = [
             '/2.jpg': '',
             '/3.jpg': { status: 404 },
             '/4.jpg': { status: 404 }
+        }
+    },
+    {
+        name: `This test should pass as data uris in srcset should be ignored`,
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithDataUriSrcSets) },
+            '/1.jpg': '',
+            '/2.jpg': ''
         }
     },
     {

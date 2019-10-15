@@ -7,14 +7,14 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^4.0.0"
+    "@hint/utils": "^5.0.2"
   },
   "description": "webhint parser needed to analyze webpack config files",
   "devDependencies": {
-    "@types/node": "^12.6.9",
+    "@types/node": "^12.7.5",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.0.13",
-    "@types/webpack": "^4.32.2",
+    "@types/webpack": "^4.39.1",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "ava": "^1.4.1",
@@ -22,15 +22,13 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-markdown": "^1.0.0",
     "eventemitter2": "^5.0.1",
-    "hint": "^5.2.1",
-    "npm-link-check": "^3.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.1.0",
     "proxyquire": "2.0.0",
-    "rimraf": "^2.6.3",
-    "sinon": "^7.3.2",
-    "typescript": "^3.5.1",
-    "webpack": "^4.39.1"
+    "rimraf": "^3.0.0",
+    "sinon": "^7.4.2",
+    "typescript": "^3.6.3",
+    "webpack": "^4.39.3"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -51,9 +49,13 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.1"
+    "hint": "^5.0.0"
   },
-  "repository": "webhintio/hint",
+  "repository": {
+    "directory": "packages/parser-webpack-config",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
   "scripts": {
     "build": "npm-run-all build:*",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
@@ -72,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.1.7"
+  "version": "2.1.12"
 }

@@ -2,20 +2,15 @@
 
 This is a `webhint` configuration package to use for enabling
 accessibility hints based on [`axe-core`][axe core] provided
-via [hint-axe][hint axe].
-
-This package will automatically install all the missing dependencies.
-
-To use it you will have to install it via `npm`:
+via [hint-axe][hint axe] and it is installed automatically
+with webhint:
 
 ```bash
-npm install @hint/configuration-accessibility
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
+**Note:** The recommended way of running webhint is as a `devDependency` of
+your project.
 
 The minimum required [`.hintrc`][hintrc] file to use it is
 the following:

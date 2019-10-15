@@ -54,6 +54,7 @@
         "no-protocol-relative-urls": "error",
         "no-vulnerable-javascript-libraries": "error",
         "performance-budget": "error",
+        "scoped-svg-styles": "error",
         "sri": "error",
         "ssllabs": "error",
         "strict-transport-security": "error",
@@ -79,8 +80,10 @@
         "css",
         "html",
         "javascript",
+        "less",
         "manifest",
         "package-json",
+        "sass",
         "typescript-config",
         "webpack-config"
     ]

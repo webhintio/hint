@@ -7,35 +7,34 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^4.0.0",
-    "@hint/utils-connector-tools": "^4.0.6",
+    "@hint/utils": "^5.0.2",
+    "@hint/utils-connector-tools": "^4.0.12",
     "jsdom": "^15.1.1",
     "mutationobserver-shim": "^0.3.3",
     "whatwg-fetch": "^3.0.0"
   },
   "description": "hint connector for JSDOM",
   "devDependencies": {
-    "@hint/parser-html": "^3.0.4",
-    "@hint/utils-create-server": "^3.1.6",
+    "@hint/parser-html": "^3.0.9",
+    "@hint/utils-create-server": "^3.2.2",
     "@types/jsdom": "^12.2.3",
-    "@types/lodash": "^4.14.137",
-    "@types/node": "^12.6.9",
+    "@types/lodash": "^4.14.141",
+    "@types/node": "^12.7.5",
     "@types/sinon": "^7.0.13",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "ava": "^1.4.1",
     "cpx": "^1.5.0",
-    "eslint": "^5.15.1",
+    "eslint": "^6.5.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-markdown": "^1.0.0",
     "eventemitter2": "^5.0.1",
-    "hint": "^5.2.1",
     "lodash": "^4.17.15",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.1.0",
-    "rimraf": "^2.6.3",
-    "sinon": "^7.3.2",
-    "typescript": "^3.5.1"
+    "rimraf": "^3.0.0",
+    "sinon": "^7.4.2",
+    "typescript": "^3.6.3"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -61,9 +60,13 @@
     "canvas": "^2.6.0"
   },
   "peerDependencies": {
-    "hint": "^5.2.1"
+    "hint": "^5.0.0"
   },
-  "repository": "webhintio/hint",
+  "repository": {
+    "directory": "packages/connector-jsdom",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
   "scripts": {
     "build": "npm-run-all build:*",
     "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
@@ -80,5 +83,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.7"
+  "version": "4.0.12"
 }

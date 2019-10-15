@@ -77,6 +77,7 @@ test('determineMediaTypeBasedOnFileExtension returns null if not recognized exte
 
 test('getType returns the right group for a variety of mediaTypes', (t) => {
     const mediaTypes = {
+        '': 'unknown',
         'application/json': 'json',
         'application/manifest+json': 'manifest',
         'application/vnd.ms-fontobject': 'font',
@@ -90,8 +91,7 @@ test('getType returns the right group for a variety of mediaTypes', (t) => {
         'text/javascript': 'script',
         'text/json': 'json',
         'text/plain': 'txt',
-        'text/xml': 'xml',
-        '': 'unknown'
+        'text/xml': 'xml'
     };
 
     const associations = Object.entries(mediaTypes);

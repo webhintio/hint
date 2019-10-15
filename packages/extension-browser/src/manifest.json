@@ -9,8 +9,12 @@
   "icons": {
     "180": "icon.png"
   },
+  "browser_action": {
+      "default_title": "webhint",
+      "default_popup": "browser-action/browser-action.html"
+  },
   "default_locale": "en",
-  "description": "Run webhint in your browser.",
+  "description": "Quickly test your website to see if there are any issues with accessibility, browser compatibility, security, performance and more.",
   "devtools_page": "devtools/devtools.html",
   "manifest_version": 2,
   "name": "webhint",
@@ -18,5 +22,5 @@
     "<all_urls>",
     "webNavigation"
   ],
-  "version": "0.0.6"
+  "version": "(set by scripts/copy-version.js)"
 }

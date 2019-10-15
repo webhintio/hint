@@ -1,20 +1,11 @@
 # webhint's recommended progressive web apps configuration (`@hint/configuration-progressive-web-apps`)
 
 This packages is a `webhint`'s configuration package to use for
-checking progressive web apps (PWAs).
+checking progressive web apps (PWAs) and it is installed automatically
+by webhint:
 
-This package will automatically install all the missing dependencies.
-
-To use it you will have to install it via `npm`:
-
-```bash
-npm install @hint/configuration-progressive-web-apps
-```
-
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
+**Note:** The recommended way of running webhint is as a `devDependency` of
+your project.
 
 The minimum required [`.hintrc`][hintrc] file to use it is
 the following:
@@ -30,12 +21,10 @@ and it will be as if you had this:
 ```json
 {
     "connector": {
-        "name": "jsdom",
-        "options": {
-            "waitFor": 5000
-        }
+        "name": "puppeteer"
     },
     "formatters": [
+        "html",
         "summary"
     ],
     "hints": {

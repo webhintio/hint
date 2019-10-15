@@ -1,3 +1,53 @@
+# 3.2.5 (September 26, 2019)
+
+
+# 3.2.4 (September 24, 2019)
+
+## Chores
+
+* [[`53edf270f8`](https://github.com/webhintio/hint/commit/53edf270f84ead765bb981345d5321568ac69142)] - Upgrade: Bump @types/node from 12.7.4 to 12.7.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7f9dd770ec`](https://github.com/webhintio/hint/commit/7f9dd770ec0350d7f50137d322159a07a3b203da)] - Upgrade: Bump webpack-cli from 3.3.7 to 3.3.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6c7cec0761`](https://github.com/webhintio/hint/commit/6c7cec07610c0fe793155c821773c420ff47c681)] - Upgrade: Bump ts-loader from 6.1.0 to 6.1.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`77a5d8c023`](https://github.com/webhintio/hint/commit/77a5d8c02341dcb071e58d0c345161b099bc1491)] - Upgrade: Bump handlebars from 4.2.0 to 4.2.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 3.2.3 (September 19, 2019)
+
+## Bug fixes / Improvements
+
+* [[`65a3918894`](https://github.com/webhintio/hint/commit/65a3918894b7df50c5d2cfdeb96319828ba5362a)] - Fix: Remove unused devDependency (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`0d3a13c722`](https://github.com/webhintio/hint/commit/0d3a13c722ebe89eea1378f7276d30f350924f87)] - Upgrade: Bump @types/debug from 4.1.4 to 4.1.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c5e66947d4`](https://github.com/webhintio/hint/commit/c5e66947d494771b487c5d45a477069c61c9ed0b)] - Upgrade: Bump typescript from 3.6.2 to 3.6.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9f6b5cf4ab`](https://github.com/webhintio/hint/commit/9f6b5cf4abd810a69a9254c147ab70d9b356de48)] - Upgrade: Bump ts-loader from 6.0.4 to 6.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 3.2.2 (September 11, 2019)
+
+## Bug fixes / Improvements
+
+* [[`5603617df9`](https://github.com/webhintio/hint/commit/5603617df96def7c2571c8e94d595b76ec4633ec)] - Fix: Reference correct package directory in monorepo (by [`Tony Ross`](https://github.com/antross) / see also: [`#2873`](https://github.com/webhintio/hint/issues/2873)).
+
+## Chores
+
+* [[`6a52ef4fb5`](https://github.com/webhintio/hint/commit/6a52ef4fb50931921be5da4c4cacd8760a3de887)] - Upgrade: Bump rimraf from 2.6.3 to 3.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c2b32de999`](https://github.com/webhintio/hint/commit/c2b32de9997a922a4744991306a9bf9b22e3910f)] - Upgrade: Bump @types/node from 12.7.3 to 12.7.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4b80454f39`](https://github.com/webhintio/hint/commit/4b80454f39b2b12cc4d1cafe7766453f4ad66227)] - Upgrade: Bump webpack from 4.39.1 to 4.39.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`afba8473ed`](https://github.com/webhintio/hint/commit/afba8473ed4d727f108364fe040c1d515b1870aa)] - Upgrade: Bump handlebars from 4.1.2 to 4.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bbe99e3292`](https://github.com/webhintio/hint/commit/bbe99e329240a17e5f60c6c6261b0b9c2bd1774a)] - Upgrade: Bump typescript from 3.5.3 to 3.6.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c94b993bab`](https://github.com/webhintio/hint/commit/c94b993babb99a9b49cc795fbf80663c4750ba93)] - Upgrade: Bump @types/node from 12.7.1 to 12.7.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`aab7643c70`](https://github.com/webhintio/hint/commit/aab7643c70042a5e7d2da9684844277d707854fe)] - Upgrade: Bump sinon from 7.3.2 to 7.4.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 3.2.1 (August 29, 2019)
+
+## Chores
+
+* [[`8d2c4a238a`](https://github.com/webhintio/hint/commit/8d2c4a238aa46d0acf95a1f915c256b55ac181a3)] - Upgrade: Bump webpack-cli from 3.3.6 to 3.3.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.2.0 (August 15, 2019)
 
 ## Bug fixes / Improvements

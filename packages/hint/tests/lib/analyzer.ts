@@ -256,11 +256,11 @@ test('If the target is an string, it will analyze the url', async (t) => {
      */
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze('http://example.com/');
+    await webhint.analyze('https://example.com/');
 
     t.true(engineExecuteOnStub.calledOnce);
     t.true(engineCloseStub.calledOnce);
-    t.is(engineExecuteOnStub.args[0][0].href, 'http://example.com/');
+    t.is(engineExecuteOnStub.args[0][0].href, 'https://example.com/');
 });
 
 test('If the target is an URL, it will analyze it', async (t) => {
@@ -272,11 +272,36 @@ test('If the target is an URL, it will analyze it', async (t) => {
     const engineCloseStub = sandbox.stub(engine, 'close').resolves();
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze(new URL('http://example.com/'));
+    await webhint.analyze(new URL('https://example.com/'));
 
     t.true(engineExecuteOnStub.calledOnce);
     t.true(engineCloseStub.calledOnce);
-    t.is(engineExecuteOnStub.args[0][0].href, 'http://example.com/');
+    t.is(engineExecuteOnStub.args[0][0].href, 'https://example.com/');
+});
+
+test('.close() will close the engine', async (t) => {
+    const sandbox = t.context.sandbox;
+
+    const { Analyzer, engine } = loadScript(t.context);
+
+    const engineExecuteOnStub = sandbox.stub(engine, 'executeOn').resolves([]);
+    const engineCloseStub = sandbox.stub(engine, 'close').resolves();
+    const webhint = new Analyzer({}, {}, []);
+
+    await webhint.analyze(new URL('https://example.com/'));
+
+    await webhint.close();
+
+    t.true(engineExecuteOnStub.calledOnce);
+    /*
+     * Engine close will be called twice, one when the analysis finish
+     * and one more time when we call close.
+     * `close` is meant to be called when there is an unhandled exception
+     * otherwise `analyze` is going to capture the exception and call
+     * to `engince.close()`.
+     */
+    t.true(engineCloseStub.calledTwice);
+    t.is(engineExecuteOnStub.args[0][0].href, 'https://example.com/');
 });
 
 test('If the target is a Target with a string url, it will analyze it', async (t) => {
@@ -288,11 +313,11 @@ test('If the target is a Target with a string url, it will analyze it', async (t
     const engineCloseStub = sandbox.stub(engine, 'close').resolves();
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze({ url: 'http://example.com/' });
+    await webhint.analyze({ url: 'https://example.com/' });
 
     t.true(engineExecuteOnStub.calledOnce);
     t.true(engineCloseStub.calledOnce);
-    t.is(engineExecuteOnStub.args[0][0].href, 'http://example.com/');
+    t.is(engineExecuteOnStub.args[0][0].href, 'https://example.com/');
 });
 
 test('If the target is a Target with a URL, it will analyze it', async (t) => {
@@ -304,11 +329,11 @@ test('If the target is a Target with a URL, it will analyze it', async (t) => {
     const engineCloseStub = sandbox.stub(engine, 'close').resolves();
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze({ url: new URL('http://example.com/') });
+    await webhint.analyze({ url: new URL('https://example.com/') });
 
     t.true(engineExecuteOnStub.calledOnce);
     t.true(engineCloseStub.calledOnce);
-    t.is(engineExecuteOnStub.args[0][0].href, 'http://example.com/');
+    t.is(engineExecuteOnStub.args[0][0].href, 'https://example.com/');
 });
 
 test('If the target is an Array of strings, it will analyze all of them', async (t) => {
@@ -320,13 +345,13 @@ test('If the target is an Array of strings, it will analyze all of them', async 
     const engineCloseStub = sandbox.stub(engine, 'close').resolves();
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze(['http://example.com/', 'http://example2.com/', 'http://example3.com/']);
+    await webhint.analyze(['https://example.com/', 'https://example2.com/', 'https://example3.com/']);
 
     t.true(engineExecuteOnStub.calledThrice);
     t.true(engineCloseStub.calledThrice);
-    t.is(engineExecuteOnStub.args[0][0].href, 'http://example.com/');
-    t.is(engineExecuteOnStub.args[1][0].href, 'http://example2.com/');
-    t.is(engineExecuteOnStub.args[2][0].href, 'http://example3.com/');
+    t.is(engineExecuteOnStub.args[0][0].href, 'https://example.com/');
+    t.is(engineExecuteOnStub.args[1][0].href, 'https://example2.com/');
+    t.is(engineExecuteOnStub.args[2][0].href, 'https://example3.com/');
 });
 
 test('If the target is an Array of URLs, it will analyze all of them', async (t) => {
@@ -338,13 +363,13 @@ test('If the target is an Array of URLs, it will analyze all of them', async (t)
     const engineCloseStub = sandbox.stub(engine, 'close').resolves();
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze([new URL('http://example.com/'), new URL('http://example2.com/'), new URL('http://example3.com/')]);
+    await webhint.analyze([new URL('https://example.com/'), new URL('https://example2.com/'), new URL('https://example3.com/')]);
 
     t.true(engineExecuteOnStub.calledThrice);
     t.true(engineCloseStub.calledThrice);
-    t.is(engineExecuteOnStub.args[0][0].href, 'http://example.com/');
-    t.is(engineExecuteOnStub.args[1][0].href, 'http://example2.com/');
-    t.is(engineExecuteOnStub.args[2][0].href, 'http://example3.com/');
+    t.is(engineExecuteOnStub.args[0][0].href, 'https://example.com/');
+    t.is(engineExecuteOnStub.args[1][0].href, 'https://example2.com/');
+    t.is(engineExecuteOnStub.args[2][0].href, 'https://example3.com/');
 });
 
 test('If the target is an Array of Targets, it will analyze all of them', async (t) => {
@@ -356,13 +381,13 @@ test('If the target is an Array of Targets, it will analyze all of them', async 
     const engineCloseStub = sandbox.stub(engine, 'close').resolves();
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze([{ url: new URL('http://example.com/') }, { url: 'http://example2.com/' }, { url: new URL('http://example3.com/') }]);
+    await webhint.analyze([{ url: new URL('https://example.com/') }, { url: 'https://example2.com/' }, { url: new URL('https://example3.com/') }]);
 
     t.true(engineExecuteOnStub.calledThrice);
     t.true(engineCloseStub.calledThrice);
-    t.is(engineExecuteOnStub.args[0][0].href, 'http://example.com/');
-    t.is(engineExecuteOnStub.args[1][0].href, 'http://example2.com/');
-    t.is(engineExecuteOnStub.args[2][0].href, 'http://example3.com/');
+    t.is(engineExecuteOnStub.args[0][0].href, 'https://example.com/');
+    t.is(engineExecuteOnStub.args[1][0].href, 'https://example2.com/');
+    t.is(engineExecuteOnStub.args[2][0].href, 'https://example3.com/');
 });
 
 test('If the target is an Array of strings, URLs and Targets, it will analyze all of them', async (t) => {
@@ -374,13 +399,13 @@ test('If the target is an Array of strings, URLs and Targets, it will analyze al
     const engineCloseStub = sandbox.stub(engine, 'close').resolves();
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze([{ url: new URL('http://example.com/') }, 'http://example2.com/', new URL('http://example3.com/')]);
+    await webhint.analyze([{ url: new URL('https://example.com/') }, 'https://example2.com/', new URL('https://example3.com/')]);
 
     t.true(engineExecuteOnStub.calledThrice);
     t.true(engineCloseStub.calledThrice);
-    t.is(engineExecuteOnStub.args[0][0].href, 'http://example.com/');
-    t.is(engineExecuteOnStub.args[1][0].href, 'http://example2.com/');
-    t.is(engineExecuteOnStub.args[2][0].href, 'http://example3.com/');
+    t.is(engineExecuteOnStub.args[0][0].href, 'https://example.com/');
+    t.is(engineExecuteOnStub.args[1][0].href, 'https://example2.com/');
+    t.is(engineExecuteOnStub.args[2][0].href, 'https://example3.com/');
 });
 
 test('If options includes an updateCallback, it will call to engine.prependAny', async (t) => {
@@ -393,7 +418,7 @@ test('If options includes an updateCallback, it will call to engine.prependAny',
     const enginePrependAnySpy = sandbox.spy(engine, 'prependAny');
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze('http://example.com/', { updateCallback: () => { } });
+    await webhint.analyze('https://example.com/', { updateCallback: () => { } });
 
     t.true(enginePrependAnySpy.calledOnce);
 });
@@ -408,7 +433,7 @@ test(`If the option watch was configured in the connector, the analyzer will sub
     const engineOnSpy = sandbox.spy(engine, 'on');
     const webhint = new Analyzer({ connector: { options: { watch: true } } }, {}, []);
 
-    await webhint.analyze('http://example.com/');
+    await webhint.analyze('https://example.com/');
 
     t.true(engineOnSpy.calledOnce);
     t.is(engineOnSpy.args[0][0], 'print');
@@ -424,7 +449,7 @@ test(`If target.content is defined and the connector is not the local connector,
     const webhint = new Analyzer({ connector: { name: 'notLocal' } }, {}, []);
 
     const error: AnalyzerError = await t.throwsAsync(async () => {
-        await webhint.analyze({ content: '<html></html>', url: 'http://example.com/' });
+        await webhint.analyze({ content: '<html></html>', url: 'https://example.com/' });
     });
 
     t.false(engineCloseSpy.called);
@@ -445,7 +470,7 @@ test('If options includes a targetStartCallback, it will be call before engine.e
     const targetStartCallbackStub = sandbox.stub(options, 'targetStartCallback').resolves();
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze('http://example.com/', options);
+    await webhint.analyze('https://example.com/', options);
 
     t.true(targetStartCallbackStub.calledOnce);
     t.true(targetStartCallbackStub.calledBefore(engineExecuteOnStub));
@@ -463,7 +488,7 @@ test('If options includes a targetEndCallback, it will be call after engine.exec
     const targetEndCallbackStub = sandbox.stub(options, 'targetEndCallback').resolves();
     const webhint = new Analyzer({}, {}, []);
 
-    await webhint.analyze('http://example.com/', options);
+    await webhint.analyze('https://example.com/', options);
 
     t.true(targetEndCallbackStub.calledOnce);
     t.true(targetEndCallbackStub.calledAfter(engineExecuteOnStub));
@@ -480,7 +505,7 @@ test('If engine.executeOn throws an exception, it should close the engine', asyn
     const webhint = new Analyzer({}, {}, []);
 
     try {
-        await webhint.analyze('http://example.com/');
+        await webhint.analyze('https://example.com/');
     } catch {
         // do nothing.
     }
@@ -499,7 +524,7 @@ test('If the option watch was configured in the connector, and the connector is 
     const loggerWarn = sandbox.spy(t.context.logger, 'warn');
     const webhint = new Analyzer({ connector: { options: { watch: true } } }, {}, []);
 
-    await webhint.analyze('http://example.com/');
+    await webhint.analyze('https://example.com/');
 
     t.true(loggerWarn.calledOnce);
 });

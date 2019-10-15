@@ -19,10 +19,10 @@ const propertiesToUpdate = [
     'peerDependencies'
 ];
 
-const nonOptionalDependencyProperties = [
+const nonPeerDependencyProperties = [
     'dependencies',
     'devDependencies',
-    'peerDependencies'
+    'optionalDependencies'
 ];
 
 export const calculatePackageNewVersion = (pkg: Package, bump: Bump): string => {
@@ -57,7 +57,7 @@ const getPackagesSortedByDependencies = (ctx: Context): Package[] => {
          * Include all dependencies except `optionalDependencies` which is
          * used by `hint` to reference configurations, creating a cycle.
          */
-        for (const property of nonOptionalDependencyProperties) {
+        for (const property of nonPeerDependencyProperties) {
             if (!pkg.content[property]) {
                 continue;
             }
@@ -77,17 +77,6 @@ const getPackagesSortedByDependencies = (ctx: Context): Package[] => {
     return sortedPackageNames.map((name) => {
         return ctx.packages.get(name)!; // Names are only added above if in the packages collection.
     });
-};
-
-const isMajorBump = (pkgVersion: string, dependencyVersion: string): boolean => {
-    const v1 = semver.coerce(pkgVersion);
-    const v2 = semver.coerce(dependencyVersion);
-
-    if (!v1 || !v2) {
-        return false;
-    }
-
-    return semver.diff(v1, v2) === 'major';
 };
 
 /**
@@ -113,7 +102,13 @@ const updateProperty = (property: string) => {
                 return;
             }
 
-            const dependencyVersion = `^${dependency.content.version}`;
+            /**
+             * Reference peer dependencies via base major version so we
+             * only update in response to breaking changes.
+             */
+            const dependencyVersion = property === 'peerDependencies' ?
+                `^${semver.major(dependency.content.version)}.0.0` :
+                `^${dependency.content.version}`;
 
             /**
              * `version` is "pinned" in the `package.json` so we need to add `^` to do the match.
@@ -123,14 +118,6 @@ const updateProperty = (property: string) => {
              * wrong before or the user should make sure to rebase with the latest `master`.
              */
             if (pkgVersion === dependencyVersion) {
-                return;
-            }
-
-            /*
-             * Ignore non-major optional dependency changes to avoid circular version updates.
-             * Otherwise these bump nearly all packages due to `hint` referencing configurations.
-             */
-            if (property === 'optionalDependencies' && !isMajorBump(pkgVersion, dependencyVersion)) {
                 return;
             }
 

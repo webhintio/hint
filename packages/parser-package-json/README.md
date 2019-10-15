@@ -1,20 +1,15 @@
 # package.json config (`@hint/parser-package-json`)
 
-The `package-json` parser allows the user to analyze the package-json
-configuration in their projects.
+This parser detects if a `package.json` file is present in the project and
+validates its configuration against the `package.json` schema.
 
-To use it you will have to install it via `npm`:
+This package is installed automatically by webhint:
 
 ```bash
-npm install @hint/parser-package-json
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [the `npm`
-documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.hintrc`][hintrc] configuration file:
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
@@ -28,8 +23,8 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 }
 ```
 
-This parser detects if a `package.json` file is present in the project and
-validates its configuration against the `package.json` schema.
+**Note**: The recommended way of running webhint is as a `devDependency` of
+your project.
 
 ## Events emitted
 

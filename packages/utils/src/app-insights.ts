@@ -10,7 +10,7 @@ interface IFlushOptions {
 const debug: debug.IDebugger = d(__filename);
 const configStoreKey: string = 'insight';
 
-let insightsEnabled = configStore.get(configStoreKey);
+let insightsEnabled: boolean | undefined = configStore.get(configStoreKey);
 
 let appInsightsClient: appInsights.TelemetryClient = {
     flush(options: IFlushOptions) {
@@ -69,15 +69,13 @@ export const disable = () => {
 };
 
 /** Send pending data to Application Insights. */
-export const sendPendingData = (isAppCrashing = true) => {
+export const sendPendingData = (isAppCrashing = false) => {
     debug('Sending pending data to Application Insights');
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         appInsightsClient.flush({
-            callback: (error) => {
-                if (error) {
-                    return reject(error);
-                }
+            callback: (message) => {
+                debug(message);
 
                 return resolve();
             },

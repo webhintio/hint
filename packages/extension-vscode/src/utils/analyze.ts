@@ -32,6 +32,7 @@ export class Analyzer {
     private loaded = false;
     private validating = false;
     private validationQueue: TextDocument[] = [];
+    private didUpdateSharedWebhint = false;
     private webhint: import('hint').Analyzer | null = null;
 
     public constructor(_globalStoragePath: string, _connection: Connection) {
@@ -45,6 +46,7 @@ export class Analyzer {
             return promptAddWebhint(this.connection.window, async () => {
                 this.connection.sendNotification(notifications.showOutput);
                 await install();
+                this.onConfigurationChanged();
             });
         });
 
@@ -56,22 +58,27 @@ export class Analyzer {
         const userConfig = getUserConfig(hintModule, directory);
 
         try {
-            return hintModule.createAnalyzer(userConfig);
+            const webhint = hintModule.createAnalyzer(userConfig);
+
+            // After first load, ensure shared copy of webhint is up-to-date for next use.
+            if (!this.didUpdateSharedWebhint) {
+                this.didUpdateSharedWebhint = true;
+                updateSharedWebhint(this.globalStoragePath); // Does not `await` to avoid delaying startup.
+            }
+
+            return webhint;
         } catch (e) {
             // Instantiating webhint failed, log the error to the webhint output panel to aid debugging.
             console.error(e);
 
-            return await promptRetry(this.connection.window, () => {
+            return await promptRetry(this.connection.window, async () => {
                 this.connection.sendNotification(notifications.showOutput);
+
+                // Ensure shared instance is up-to-date before retrying.
+                await updateSharedWebhint(this.globalStoragePath);
 
                 return this.initWebhint(directory);
             });
-        } finally {
-            /*
-             * Ensure shared copy of webhint is up-to-date for next use.
-             * Done after attempting to load webhint to avoid delaying startup.
-             */
-            updateSharedWebhint(this.globalStoragePath);
         }
     }
 

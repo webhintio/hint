@@ -1,3 +1,37 @@
+# 7.2.4 (September 26, 2019)
+
+
+# 7.2.3 (September 24, 2019)
+
+## Bug fixes / Improvements
+
+* [[`9f13687ebb`](https://github.com/webhintio/hint/commit/9f13687ebbd3d929875cab5a9b9084cf608fa21f)] - Docs: Remove references to global install (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2974`](https://github.com/webhintio/hint/issues/2974)).
+
+
+# 7.2.2 (September 19, 2019)
+
+
+# 7.2.1 (September 12, 2019)
+
+
+# 7.2.0 (September 11, 2019)
+
+## Bug fixes / Improvements
+
+* [[`5603617df9`](https://github.com/webhintio/hint/commit/5603617df96def7c2571c8e94d595b76ec4633ec)] - Fix: Reference correct package directory in monorepo (by [`Tony Ross`](https://github.com/antross) / see also: [`#2873`](https://github.com/webhintio/hint/issues/2873)).
+
+## New features
+
+* [[`90fe6d9d60`](https://github.com/webhintio/hint/commit/90fe6d9d60fed837e9b7ab27c61165413d8d1d84)] - New: Enable compat hints in default configurations (by [`Tony Ross`](https://github.com/antross) / see also: [`#2925`](https://github.com/webhintio/hint/issues/2925)).
+
+
+# 7.1.0 (August 29, 2019)
+
+## New features
+
+* [[`12afa7fcce`](https://github.com/webhintio/hint/commit/12afa7fcce1cb9d06b3ec4f7c6d63ca79d3ec2f9)] - New: Enable `hint-scoped-svg-styles` in default configurations (by [`Jaspreet Singh`](https://github.com/jaspreet57) / see also: [`#2852`](https://github.com/webhintio/hint/issues/2852)).
+
+
 # 7.0.4 (August 15, 2019)
 
 

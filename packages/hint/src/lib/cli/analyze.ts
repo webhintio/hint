@@ -3,7 +3,7 @@ import * as path from 'path';
 import boxen = require('boxen');
 import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
-import { default as ora } from 'ora';
+import * as ora from 'ora';
 import * as osLocale from 'os-locale';
 
 import { appInsights, configStore, debug as d, fs, getHintsFromConfiguration, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity } from '@hint/utils';
@@ -27,7 +27,7 @@ const { askQuestion, mergeEnvWithOptions } = misc;
 const { installPackages } = npm;
 const { cwd } = fs;
 const debug: debug.IDebugger = d(__filename);
-const configStoreKey: string = 'run';
+const alreadyRunKey: string = 'run';
 const spinner = ora({ spinner: 'line' });
 
 /*
@@ -104,46 +104,57 @@ const pruneUserConfig = (userConfig: UserConfig) => {
     };
 };
 
-/** Ask user if he wants to activate the telemetry or not. */
-const askForTelemetryConfirmation = async (userConfig: UserConfig) => {
-    if (appInsights.isConfigured()) {
-        return;
-    }
-
-    if (isCI) {
-        if (!appInsights.isConfigured()) {
-            showCITelemetryMessage();
-        }
-
-        return;
-    }
-
-    const alreadyRun: boolean = configStore.get(configStoreKey);
-
-    if (!alreadyRun) { /* This is the first time, don't ask anything. */
-        configStore.set(configStoreKey, true);
-
-        return;
-    }
-
+const askForTelemetryConfirmation = async () => {
     showTelemetryMessage();
 
-    const message: string = `Do you want to opt-in?`;
+    const message = `Do you want to opt-in?`;
 
     debug(`Prompting telemetry permission.`);
 
-    const confirm: boolean = await askQuestion(message);
+    const telemetryEnabled = await askQuestion(message);
 
-    if (confirm) {
+    if (telemetryEnabled) {
         appInsights.enable();
+    } else {
+        appInsights.disable();
+    }
 
-        appInsights.trackEvent('SecondRun');
-        appInsights.trackEvent('analyze', pruneUserConfig(userConfig));
+    return telemetryEnabled;
+};
 
+/** Ask user if he wants to activate the telemetry or not. */
+const sendTelemetryIfEnabled = async (userConfig: UserConfig) => {
+    const telemetryConfigured = appInsights.isConfigured();
+    let telemetryEnabled = appInsights.isEnabled();
+    const alreadyRun: boolean = configStore.get(alreadyRunKey);
+
+    if (!alreadyRun) {
+        configStore.set(alreadyRunKey, true);
+    }
+
+    if (!telemetryConfigured) {
+        if (isCI) {
+            showCITelemetryMessage();
+            telemetryEnabled = false;
+        } else if (alreadyRun) {
+            /* Only prompt the user about opt-intelemetry if they have run webhint before. */
+            telemetryEnabled = await askForTelemetryConfirmation();
+
+            if (telemetryEnabled) {
+                appInsights.trackEvent('cli-telemetry');
+            }
+        }
+    }
+
+    if (!telemetryEnabled) {
         return;
     }
 
-    appInsights.disable();
+    appInsights.trackEvent('cli-analyze', {
+        ci: isCI,
+        previouslyRun: alreadyRun,
+        ...pruneUserConfig(userConfig)
+    });
 };
 
 /**
@@ -188,8 +199,13 @@ const getDefaultConfiguration = (targets: URL[]) => {
     }
 
     const ext = targetsAreFiles ? 'development' : 'web-recommended';
+    const config = { extends: [ext] } as UserConfig;
 
-    return { extends: [ext] };
+    if (isCI) {
+        config.formatters = ['html', 'stylish'];
+    }
+
+    return config;
 };
 
 const askUserToUseDefaultConfiguration = async (targets: URL[]): Promise<UserConfig | null> => {
@@ -264,11 +280,11 @@ const loadUserConfig = async (actions: CLIOptions, targets: URL[]): Promise<User
 
 const askToInstallPackages = async (resources: HintResources): Promise<boolean> => {
     if (resources.missing.length > 0) {
-        appInsights.trackEvent('missing', resources.missing);
+        appInsights.trackEvent('cli-missing', resources.missing);
     }
 
     if (resources.incompatible.length > 0) {
-        appInsights.trackEvent('incompatible', resources.incompatible);
+        appInsights.trackEvent('cli-incompatible', resources.incompatible);
     }
 
     const missingPackages = resources.missing.map((name) => {
@@ -379,8 +395,6 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    appInsights.trackEvent('analyze', pruneUserConfig(userConfig));
-
     const start = Date.now();
     let exitCode = 0;
 
@@ -448,7 +462,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     try {
         await webhint.analyze(targets, getAnalyzeOptions());
 
-        await askForTelemetryConfirmation(userConfig!);
+        await sendTelemetryIfEnabled(userConfig!);
     } catch (e) {
         exitCode = 1;
         endSpinner('fail');

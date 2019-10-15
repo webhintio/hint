@@ -3,18 +3,16 @@
 The `webpack-config` parser allows the user to analyze the webpack
 configuration in their projects.
 
-To use it you will have to install it via `npm`:
+It will detect if a webpack configuration file is present in your
+project, checking the name of the file (`webpack.config.json`).
+
+This package is installed automatically by webhint:
 
 ```bash
-npm install @hint/parser-webpack-config
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.hintrc`][hintrc] configuration file:
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
@@ -28,8 +26,8 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 }
 ```
 
-This parser detect if a webpack configuration file is present in your
-project, checking the name of the file (`webpack.config.json`).
+**Note**: The recommended way of running webhint is as a `devDependency` of
+your project.
 
 ## Events emitted
 

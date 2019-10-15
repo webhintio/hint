@@ -1,3 +1,5 @@
+import { extname } from 'path';
+
 import { trackEvent } from './app-insights';
 
 export type ResultData = {
@@ -28,7 +30,7 @@ const nextProblems = new Map<string, ProblemCountMap>();
 const lastSaveTimes = new Map<string, number>();
 const twoMinutes = 1000 * 60 * 2;
 
-const determineHintStatus = (prev: ProblemCountMap, next: ProblemCountMap) => {
+const determineHintStatus = (prev: ProblemCountMap, next: ProblemCountMap, uri: string) => {
     const status: HintStatusMap = {};
 
     for (const id of Object.keys(next)) {
@@ -49,7 +51,9 @@ const determineHintStatus = (prev: ProblemCountMap, next: ProblemCountMap) => {
         }
     }
 
-    return status;
+    const fileExtension = extname(uri);
+
+    return { fileExtension, ...status };
 };
 
 const toTrackedResult = (data: ResultData) => {
@@ -67,8 +71,14 @@ const toTrackedResult = (data: ResultData) => {
     return result;
 };
 
-const trackOpen = (result: ProblemCountMap) => {
-    trackEvent('vscode-open', determineHintStatus({}, result));
+const trackOpen = (result: ProblemCountMap, uri: string) => {
+    trackEvent('vscode-open', determineHintStatus({}, result, uri));
+};
+
+export const trackOptIn = (telemetryEnabled: TelemetryState, everEnabledTelemetry: boolean) => {
+    if (telemetryEnabled === 'enabled' && !everEnabledTelemetry) {
+        trackEvent('vscode-telemetry');
+    }
 };
 
 export const trackClose = (uri: string) => {
@@ -84,7 +94,7 @@ export const trackResult = (uri: string, result: ResultData) => {
         nextProblems.set(uri, problems);
     } else {
         prevProblems.set(uri, problems);
-        trackOpen(problems);
+        trackOpen(problems, uri);
     }
 };
 
@@ -106,7 +116,7 @@ export const trackSave = (uri: string) => {
     prevProblems.set(uri, next);
     nextProblems.delete(uri);
 
-    trackEvent('vscode-save', determineHintStatus(prev, next));
+    trackEvent('vscode-save', determineHintStatus(prev, next, uri));
 
     lastSaveTimes.set(uri, now);
 };

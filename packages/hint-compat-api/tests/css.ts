@@ -27,7 +27,7 @@ testHint(hintPath,
             name: 'Reports unsupported CSS at-rules',
             reports: [
                 {
-                    message: '@keyframes is not supported by ie 9.',
+                    message: `'@keyframes' is not supported by Internet Explorer < 10.`,
                     position: { match: '@keyframes' }
                 }
             ],
@@ -41,27 +41,27 @@ testHint(hintPath,
             name: 'Reports unsupported properties, respecting prefixes and fallback',
             reports: [
                 {
-                    message: 'appearance is not supported by ie 9-11.',
+                    message: `'appearance' is not supported by Internet Explorer.`,
                     position: { match: 'appearance: button; /* Report 1 */' }
                 },
                 {
-                    message: 'appearance is not supported by ie 9-11.',
+                    message: `'appearance' is not supported by Internet Explorer.`,
                     position: { match: 'appearance: button; /* Report 2 */' }
                 },
                 {
-                    message: '-webkit-appearance is not supported by ie 9-11.',
+                    message: `'-webkit-appearance' is not supported by Internet Explorer.`,
                     position: { match: '-webkit-appearance: button; /* Report 3 */' }
                 },
                 {
-                    message: '-moz-appearance is not supported by ie 9-11.',
+                    message: `'-moz-appearance' is not supported by Internet Explorer.`,
                     position: { match: '-moz-appearance: button; /* Report 4 */' }
                 },
                 {
-                    message: '-webkit-appearance is not supported by firefox 65-66, ie 9-11.',
+                    message: `'-webkit-appearance' is not supported by Firefox, Internet Explorer. Add '-moz-appearance' to support Firefox.`,
                     position: { match: '-webkit-appearance: button; /* Report 5 */' }
                 },
                 {
-                    message: 'appearance is not supported by chrome 73-74, edge 15-16, firefox 65-66, ie 9-11.',
+                    message: `'appearance' is not supported by Chrome, Edge, Firefox, Internet Explorer. Add '-webkit-appearance' to support Chrome, Edge 12+. Add '-moz-appearance' to support Firefox.`,
                     position: { match: 'appearance: button; /* Report 6 */' }
                 }
             ],
@@ -74,7 +74,7 @@ testHint(hintPath,
          *     name: 'Reports unsupported CSS selectors',
          *     reports: [
          *         {
-         *             message: ':valid is not supported by ie 9.',
+         *             message: ':valid is not supported by Internet Explorer < 10.',
          *             position: { match: ':valid' }
          *         }
          *     ],
@@ -85,7 +85,7 @@ testHint(hintPath,
             name: 'Respects CSS @supports rules when generating reports',
             reports: [
                 {
-                    message: 'display: grid is not supported by edge 15.',
+                    message: `'display: grid' is not supported by Edge < 16. Add 'display: -ms-grid' to support Edge 12+.`,
                     position: { match: 'display: grid; /* Report */' }
                 }
             ],
@@ -95,19 +95,19 @@ testHint(hintPath,
             name: 'Reports unsupported CSS property values, respecting prefixes and fallback',
             reports: [
                 {
-                    message: 'display: grid is not supported by ie 9.',
+                    message: `'display: grid' is not supported by Internet Explorer.`,
                     position: { match: 'display: grid; /* Report 1 */' }
                 },
                 {
-                    message: 'display: grid is not supported by ie 9.',
+                    message: `'display: grid' is not supported by Internet Explorer.`,
                     position: { match: 'display: grid; /* Report 2 */' }
                 },
                 {
-                    message: 'display: -ms-grid is not supported by chrome 73-74, firefox 65-66, ie 9.',
+                    message: `'display: -ms-grid' is not supported by Chrome, Firefox, Internet Explorer < 10. Add 'display: grid' to support Chrome 57+, Firefox 52+.`,
                     position: { match: 'display: -ms-grid; /* Report 3 */' }
                 },
                 {
-                    message: 'display: grid is not supported by edge 15, ie 9-11.',
+                    message: `'display: grid' is not supported by Edge < 16, Internet Explorer. Add 'display: -ms-grid' to support Edge 12+, Internet Explorer 10+.`,
                     position: { match: 'display: grid; /* Report 4 */' }
                 }
             ],
@@ -139,7 +139,7 @@ testHint(hintPath,
             name: 'Reports overridden ignored CSS features',
             reports: [
                 {
-                    message: 'appearance is not supported by ie 9-11.',
+                    message: `'appearance' is not supported by Internet Explorer.`,
                     position: { match: 'appearance: none; /* unprefixed */' }
                 }
             ],

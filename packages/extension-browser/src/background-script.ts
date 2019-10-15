@@ -97,6 +97,10 @@ browser.runtime.onMessage.addListener((message: Events, sender) => {
         enable(tabId);
     }
 
+    if (message.evaluateResult) {
+        browser.tabs.sendMessage(tabId, message);
+    }
+
     // Forward configuration to content-script when asked (happens before `message.ready`).
     if (message.requestConfig) {
         const configMessage: Events = { config: configs.get(tabId) || {} };
@@ -125,7 +129,7 @@ browser.runtime.onMessage.addListener((message: Events, sender) => {
     }
 
     // Forward errors or results from content-script to the associated devtools panel.
-    if (message.error || message.results) {
+    if (message.error || message.evaluate || message.results) {
         const port = devtoolsPorts.get(tabId);
 
         if (port) {

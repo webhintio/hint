@@ -1,4 +1,4 @@
-# VS Code
+# Webhint VS Code extension
 
 Use `webhint` to improve your website - during development.
 
@@ -20,6 +20,11 @@ If no `.hintrc` file is found it defaults to
 To create one, run `npm create hintrc` and choose `development` as the
 configuration to extend.
 
+## Contributing to the extension
+
+To contribute to the extension please read the [`CONTRIBUTING.md`][contributing]
+file of the package.
+
 ## Help
 
 Learn more about webhint at [webhint.io][site]. For help with output
@@ -28,6 +33,7 @@ from specific hints, see the [`webhint` user guide][hints].
 <!-- Link labels: -->
 
 [config]: https://github.com/webhintio/hint/blob/master/packages/configuration-development/index.json
+[contributing]: https://github.com/webhintio/hint/blob/master/packages/extension-vscode/CONTRIBUTING.md
 [hints]: https://webhint.io/docs/user-guide/hints/
 [issue github]: https://github.com/webhintio/hint/issues/new?labels=type%3Abug&template=1-bug-report.md&title=%5BBug%5D+Bug+description
 [site]: https://webhint.io

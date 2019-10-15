@@ -179,6 +179,17 @@ const defaultTests: HintTest[] = [
         }
     },
     {
+        name: `Asset with "Cache-Control: max-age=31536000," header fails`,
+        reports: [{ message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000,' }],
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico">'),
+            '/favicon.123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000,' }
+            }
+        }
+    },
+    {
         name: 'JS with "Cache-Control: no-cache" fails',
         reports: [
             { message: 'Static resources should have a long cache value (31536000):\nDirectives used: no-cache' },

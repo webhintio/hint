@@ -7,7 +7,7 @@
 import * as path from 'path';
 import { isFile } from './fs/is-file';
 import { isDirectory } from './fs/is-directory';
-import { getVariable, setVariable } from './misc/environment';
+import { getVariable } from './misc/environment';
 import { getPlatform } from './misc/get-platform';
 
 import { execSync, execFileSync } from 'child_process';
@@ -270,31 +270,11 @@ const win32 = (browser: Browser) => {
     return '';
 };
 
-/**
- * Returns the path to Local AppData using the given `path`.
- * This needs to be run under WSL.
- */
-const getLocalAppDataPath = (path: string) => {
-    const userRegExp = /\/mnt\/([a-z])\/Users\/([^/:]+)\/AppData\//;
-    const results = userRegExp.exec(path) || [];
-
-    return `/mnt/${results[1]}/Users/${results[2]}/AppData/Local`;
-};
-
-const wsl = (browser: Browser) => {
-    // Manually populate the environment variables assuming it's the default config
-    setVariable('LOCALAPPDATA', getLocalAppDataPath(`${getVariable('PATH')}`));
-    setVariable('PROGRAMFILES', '/mnt/c/Program Files');
-    setVariable('PROGRAMFILES(X86)', '/mnt/c/Program Files (x86)');
-
-    return win32(browser);
-};
-
 const finders = new Map([
-    ['wsl', wsl],
-    ['win32', win32],
     ['darwin', darwin],
-    ['linux', linux]
+    ['linux', linux],
+    ['win32', win32],
+    ['wsl', linux]
 ]);
 
 /** For the given `browser`, finds the executable in the current platform. */

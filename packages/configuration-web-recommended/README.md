@@ -1,20 +1,14 @@
 # webhint's recommended web configuration (`@hint/configuration-web-recommended`)
 
 This packages is a `webhint`'s configuration package to use in
-production websites.
-
-This package will automatically install all the missing dependencies.
-
-To use it you will have to install it via `npm`:
+production websites and it is installed automatically by webhint:
 
 ```bash
-npm install @hint/configuration-web-recommended
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
+**Note:** The recommended way of running webhint is as a `devDependency` of
+your project.
 
 The minimum required [`.hintrc`][hintrc] file to use it is
 the following:
@@ -30,12 +24,13 @@ and it will be as if you had this:
 ```json
 {
     "connector": {
-        "name": "jsdom",
-        "options": {
-            "waitFor": 5000
-        }
+        "name": "puppeteer"
     },
+    "extends": [
+        "accessibility"
+    ],
     "formatters": [
+        "html",
         "summary"
     ],
     "hints": {

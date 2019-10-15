@@ -1,5 +1,19 @@
 import { Context } from '../@types/custom';
 
+export const skipIfSameVersion = (pkgName: string) => {
+    return ({ packages }: Context) => {
+        const pkg = packages && packages.get(pkgName);
+        const version = pkg && pkg.content.version;
+        const oldVersion = pkg && pkg.oldVersion;
+
+        if (version === oldVersion) {
+            return `Package '${pkgName}' is unchanged`;
+        }
+
+        return '';
+    };
+};
+
 export const skipReasons = (...args: Function[]) => {
     return (ctx: Context) => {
         let reason = '';

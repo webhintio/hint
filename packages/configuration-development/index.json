@@ -12,6 +12,8 @@
         "apple-touch-icons": "off",
         "babel-config/is-valid": "error",
         "button-type": "error",
+        "compat-api/css": "warning",
+        "compat-api/html": "warning",
         "create-element-svg": "error",
         "css-prefix-order": "error",
         "disown-opener": "error",
@@ -41,6 +43,8 @@
         "babel-config",
         "css",
         "html",
+        "less",
+        "sass",
         "typescript-config",
         "webpack-config"
     ]

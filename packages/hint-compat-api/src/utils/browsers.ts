@@ -1,8 +1,5 @@
-import * as semver from 'semver';
-
-const coerce = (version: string): semver.SemVer | string => {
-    return semver.coerce(version) || /* istanbul ignore next */ version;
-};
+import { UnsupportedBrowsers } from '@hint/utils/dist/src/compat';
+import { getFriendlyName } from '@hint/utils/dist/src/compat/browsers';
 
 /**
  * Apply temporary filters to the list of target browsers to reduce
@@ -32,55 +29,59 @@ export const filterBrowsers = (browsers: string[]): string[] => {
 };
 
 /**
- * Serialize condensed version ranges for provided browsers.
+ * Serialize a supported version range for the provided browser.
+ * E.g. when passed `"ie 9", "11"`, returns `"Internet Explorer 11+"`.
+ */
+export const formatSupported = (browser: string, versionAdded?: string, versionRemoved?: string): string => {
+    const browserName = getFriendlyName(browser);
+
+    if (versionAdded && versionRemoved) {
+        return `${browserName} ${versionAdded}-${versionRemoved}`;
+    } else if (versionAdded && parseFloat(versionAdded) !== 1) {
+        return `${browserName} ${versionAdded}+`;
+    } else if (versionRemoved) {
+        return `${browserName} < ${versionRemoved}`;
+    }
+
+    return browserName;
+};
+
+/**
+ * Serialize an unsupported version range for the provided browser.
+ * E.g. when passed `"ie 9", "11"`, returns `"Internet Explorer < 11"`.
+ */
+export const formatUnsupported = (browser: string, versionAdded?: string, versionRemoved?: string): string => {
+    const browserName = getFriendlyName(browser);
+
+    if (versionAdded && versionRemoved) {
+        return `${browserName} ${versionRemoved}-${versionAdded}`;
+    } else if (versionAdded) {
+        return `${browserName} < ${versionAdded}`;
+    } else if (versionRemoved) {
+        return `${browserName} ${versionRemoved}+`;
+    }
+
+    return browserName;
+};
+
+/**
+ * Serialize summarized support ranges for provided browsers.
  *
  * ```js
- * joinBrowsers(['chrome 74', 'chrome 75', 'chrome 76', 'edge 15', 'edge 16', 'firefox 67']);
- * // returns 'chrome 74-76, edge 15-16, firefox 67';
+ * joinBrowsers({ browsers: ['edge 15'], browserDetails: new Map([['edge 15', { versionAdded: '18' }]]));
+ * // returns 'Edge < 18';
  * ```
  */
-export const joinBrowsers = (browsers: string[]): string => {
-    const versionsByName = new Map<string, string[]>();
+export const joinBrowsers = (unsupported: UnsupportedBrowsers): string => {
+    const summaries = unsupported.browsers.map((browser) => {
+        const details = unsupported.details.get(browser);
 
-    // Group browser versions by browser name.
-    for (const browser of browsers) {
-        const [name, version] = browser.split(' ');
-
-        if (!versionsByName.has(name)) {
-            versionsByName.set(name, []);
+        if (!details) {
+            throw new Error(`No details provided for browser: ${name}`);
         }
 
-        versionsByName.get(name)!.push(version);
-    }
+        return formatUnsupported(browser, details.versionAdded, details.versionRemoved);
+    });
 
-    const results: string[] = [];
-
-    // Sort and serialize version ranges for each browser name.
-    for (const [name, versions] of versionsByName) {
-        versions.sort((v1, v2) => {
-            return semver.compare(coerce(v1), coerce(v2));
-        });
-
-        const ranges: string[] = [];
-
-        for (let i = 0, start = versions[0]; i < versions.length; i++) {
-            if (parseInt(versions[i + 1]) - parseInt(versions[i]) <= 1) {
-                continue; // Continue until the end of a range.
-            }
-
-            // Format current range as either `start` or `start-end`.
-            if (start === versions[i]) {
-                ranges.push(start);
-            } else {
-                ranges.push(`${start}-${versions[i]}`);
-            }
-
-            // Remember the start of the next range.
-            start = versions[i + 1];
-        }
-
-        results.push(`${name} ${ranges.join(', ')}`);
-    }
-
-    return results.join(', ');
+    return [...new Set(summaries)].sort().join(', ');
 };

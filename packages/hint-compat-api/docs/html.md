@@ -87,7 +87,7 @@ default value is:
 [
     "crossorigin",
     "integrity",
-    "link[rel=manifest]",
+    "link[rel]",
     "main",
     "spellcheck"
 ]

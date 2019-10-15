@@ -1,4 +1,4 @@
-type Value = string[] | null;
+type Value = any | null;
 
 const cache = new Map<string, Map<string[], Value>>();
 

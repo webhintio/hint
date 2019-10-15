@@ -1,3 +1,79 @@
+# 5.0.2 (September 26, 2019)
+
+## Bug fixes / Improvements
+
+* [[`61b3d666f2`](https://github.com/webhintio/hint/commit/61b3d666f2a245f3b8278333e972c508edc9451a)] - Fix: Disallow simple names as filesystem paths (by [`Tony Ross`](https://github.com/antross) / see also: [`#3030`](https://github.com/webhintio/hint/issues/3030)).
+
+
+# 5.0.1 (September 24, 2019)
+
+## Chores
+
+* [[`c8fc30b71a`](https://github.com/webhintio/hint/commit/c8fc30b71a7782c9128edcc5f467c7f96641be23)] - Upgrade: Bump file-type from 12.2.0 to 12.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`13da907c26`](https://github.com/webhintio/hint/commit/13da907c2617f71f0c9412bb2c05dfaed8a9fe23)] - Upgrade: Bump postcss from 7.0.17 to 7.0.18 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 5.0.0 (September 19, 2019)
+
+## Breaking Changes
+
+* [[`2ec983b7a3`](https://github.com/webhintio/hint/commit/2ec983b7a336ec2cbf1bc418f7e55d92a2542783)] - Breaking: `chromium-finder` defaults to Linux when running on WSL (by [`Antón Molleda`](https://github.com/molant)).
+
+## Bug fixes / Improvements
+
+* [[`9f8af13472`](https://github.com/webhintio/hint/commit/9f8af134727a795379e004c163598315a2537f64)] - Fix: Refactor telemetry events logic (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2962`](https://github.com/webhintio/hint/issues/2962)).
+
+## New features
+
+* [[`ce0addd3cb`](https://github.com/webhintio/hint/commit/ce0addd3cbd0e29df3059424b9281bd5d18fa063)] - New: Suggest alternate support when available (by [`Tony Ross`](https://github.com/antross) / see also: [`#2644`](https://github.com/webhintio/hint/issues/2644)).
+* [[`5bab286a86`](https://github.com/webhintio/hint/commit/5bab286a8691bb6ca172b2494347c8ce93c70261)] - New: Add helpers to get browser names and support details (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`0d3a13c722`](https://github.com/webhintio/hint/commit/0d3a13c722ebe89eea1378f7276d30f350924f87)] - Upgrade: Bump @types/debug from 4.1.4 to 4.1.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c5e66947d4`](https://github.com/webhintio/hint/commit/c5e66947d494771b487c5d45a477069c61c9ed0b)] - Upgrade: Bump typescript from 3.6.2 to 3.6.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 4.1.1 (September 11, 2019)
+
+## Bug fixes / Improvements
+
+* [[`5603617df9`](https://github.com/webhintio/hint/commit/5603617df96def7c2571c8e94d595b76ec4633ec)] - Fix: Reference correct package directory in monorepo (by [`Tony Ross`](https://github.com/antross) / see also: [`#2873`](https://github.com/webhintio/hint/issues/2873)).
+* [[`9493b6e172`](https://github.com/webhintio/hint/commit/9493b6e1723cbcc630cc28d5d8f75b59df17299d)] - Fix: Parameter isAppCrashing in sendPendingData defaults to false (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2878`](https://github.com/webhintio/hint/issues/2878)).
+
+## Chores
+
+* [[`83039130c4`](https://github.com/webhintio/hint/commit/83039130c445b550a3cf51eb6876028ed111a76b)] - Upgrade: Bump @types/semver from 6.0.1 to 6.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4d79bf84b2`](https://github.com/webhintio/hint/commit/4d79bf84b2075459ef359cd9a5a27b0edd9e4be9)] - Upgrade: Bump @types/request from 2.48.2 to 2.48.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a52ef4fb5`](https://github.com/webhintio/hint/commit/6a52ef4fb50931921be5da4c4cacd8760a3de887)] - Upgrade: Bump rimraf from 2.6.3 to 3.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`372da26e10`](https://github.com/webhintio/hint/commit/372da26e1045ee1c9c45df9eee4aebd63abc223e)] - Upgrade: Bump mdn-browser-compat-data from 0.0.92 to 0.0.93 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f3c69a5934`](https://github.com/webhintio/hint/commit/f3c69a5934cce2db04ba5e105347ca9681f27f33)] - Upgrade: Bump applicationinsights from 1.4.1 to 1.4.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bbe99e3292`](https://github.com/webhintio/hint/commit/bbe99e329240a17e5f60c6c6261b0b9c2bd1774a)] - Upgrade: Bump typescript from 3.5.3 to 3.6.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8f6939fe8f`](https://github.com/webhintio/hint/commit/8f6939fe8f6aa87e265f3a25bc79d7c226eb9e41)] - Upgrade: Bump mdn-browser-compat-data from 0.0.91 to 0.0.92 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`aab7643c70`](https://github.com/webhintio/hint/commit/aab7643c70042a5e7d2da9684844277d707854fe)] - Upgrade: Bump sinon from 7.3.2 to 7.4.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9c320e1fa3`](https://github.com/webhintio/hint/commit/9c320e1fa3d832e5937d7867e92b70d268be6086)] - Upgrade: Bump npm-registry-fetch from 3.9.1 to 4.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e3dafa8657`](https://github.com/webhintio/hint/commit/e3dafa8657e0f0f737c0557b7f0c41d10c5f0137)] - Chore: Fix type inconsistency affecting extension-vscode builds (by [`Tony Ross`](https://github.com/antross)).
+
+
+# 4.1.0 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`d01eb29b7e`](https://github.com/webhintio/hint/commit/d01eb29b7ee9ea385252fc2a35f2cd93ffb88fc2)] - Fix: Method file-extension to support relative URLs (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+## New features
+
+* [[`154eda8463`](https://github.com/webhintio/hint/commit/154eda8463175eba424c552016fccb96a45e5992)] - New: Add `parentElement` property to the `HTMLElement` class (by [`Jaspreet Singh`](https://github.com/jaspreet57)).
+
+## Chores
+
+* [[`2048485aff`](https://github.com/webhintio/hint/commit/2048485affe6af0cd8cc48f03f7a3f62398bf330)] - Upgrade: Bump mdn-browser-compat-data from 0.0.88 to 0.0.91 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2835406ca7`](https://github.com/webhintio/hint/commit/2835406ca7db6ca4926b6d55f15ee84f96f98748)] - Upgrade: Bump jsonc-parser from 2.1.0 to 2.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`dc17c7661b`](https://github.com/webhintio/hint/commit/dc17c7661bc8564467a3bde1b4e2c0dbebfcb510)] - Upgrade: Bump lodash from 4.17.14 to 4.17.15 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`acdc82165d`](https://github.com/webhintio/hint/commit/acdc82165d85a49f2aa275db09bb742afef67b97)] - Upgrade: Bump file-type from 12.1.0 to 12.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`72b18d08b2`](https://github.com/webhintio/hint/commit/72b18d08b27a785e3070d1278ec059fbf119e862)] - Upgrade: Bump applicationinsights from 1.4.0 to 1.4.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.0.0 (August 15, 2019)
 
 ## Breaking Changes

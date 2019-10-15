@@ -55,6 +55,20 @@ const authenticatedOnNpm = async () => {
     }
 };
 
+const authenticatedOnVsce = async () => {
+    try {
+        const { stdout } = await execa('vsce ls-publishers');
+
+        if (!stdout.split('\n').includes('webhint')) {
+            throw new Error('No vsce publish access for webhint, run `vsce login webhint`');
+        }
+
+        debug(`User logged in to vsce with webhint publish access`);
+    } catch (e) {
+        throw new Error('Failed to find vsce, run `npm install -g vsce`');
+    }
+};
+
 const masterRemote = async () => {
     const { remoteBranch, remoteURL } = await getCurrentBranchRemoteInfo();
 
@@ -96,7 +110,8 @@ export const validateEnvironment = async (ctx: Context, task: ListrTaskWrapper) 
         gitAvailable,
         noUncommitedChanges,
         npmVersion,
-        authenticatedOnNpm
+        authenticatedOnNpm,
+        authenticatedOnVsce
     ];
 
     ctx.argv = argv as Arguments<Parameters>;

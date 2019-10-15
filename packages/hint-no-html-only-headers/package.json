@@ -7,25 +7,23 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^4.0.0"
+    "@hint/utils": "^5.0.2"
   },
   "description": "hint that that checks if HTML document only response headers are sent for other resources",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.4",
-    "@types/node": "^12.6.9",
+    "@hint/utils-tests-helpers": "^5.0.10",
+    "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "ava": "^1.4.1",
     "cpx": "^1.5.0",
-    "eslint": "^5.15.1",
+    "eslint": "^6.5.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-markdown": "^1.0.0",
-    "hint": "^5.2.1",
-    "npm-link-check": "^3.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.1.0",
-    "rimraf": "^2.6.3",
-    "typescript": "^3.5.1"
+    "rimraf": "^3.0.0",
+    "typescript": "^3.6.3"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -48,9 +46,13 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.2.1"
+    "hint": "^5.0.0"
   },
-  "repository": "webhintio/hint",
+  "repository": {
+    "directory": "packages/hint-no-html-only-headers",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
   "scripts": {
     "build": "npm run i18n && npm-run-all build:*",
     "build-release": "npm run clean && npm run i18n && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
@@ -70,5 +72,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.4"
+  "version": "2.3.9"
 }

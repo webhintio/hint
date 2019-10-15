@@ -1,29 +1,32 @@
 {
   "dependencies": {
-    "@hint/configuration-accessibility": "^1.0.3",
-    "@hint/configuration-progressive-web-apps": "^6.0.3",
-    "@hint/connector-local": "^3.1.3",
-    "@hint/formatter-html": "^4.1.2",
-    "@hint/formatter-summary": "^3.0.6",
-    "@hint/hint-babel-config": "^2.3.4",
-    "@hint/hint-button-type": "^2.2.3",
-    "@hint/hint-create-element-svg": "^1.2.3",
-    "@hint/hint-css-prefix-order": "^1.2.3",
-    "@hint/hint-disown-opener": "^3.2.3",
-    "@hint/hint-highest-available-document-mode": "^4.1.3",
-    "@hint/hint-meta-charset-utf-8": "^3.2.3",
-    "@hint/hint-meta-viewport": "^4.1.3",
-    "@hint/hint-no-bom": "^4.1.3",
-    "@hint/hint-no-protocol-relative-urls": "^2.3.3",
-    "@hint/hint-scoped-svg-styles": "^1.0.0",
-    "@hint/hint-sri": "^3.2.3",
-    "@hint/hint-typescript-config": "^2.3.4",
-    "@hint/hint-webpack-config": "^2.3.4",
-    "@hint/parser-babel-config": "^2.1.6",
-    "@hint/parser-css": "^3.0.6",
-    "@hint/parser-html": "^3.0.4",
-    "@hint/parser-typescript-config": "^2.3.3",
-    "@hint/parser-webpack-config": "^2.1.7"
+    "@hint/configuration-accessibility": "^1.0.9",
+    "@hint/configuration-progressive-web-apps": "^6.0.9",
+    "@hint/connector-local": "^3.1.9",
+    "@hint/formatter-html": "^4.1.8",
+    "@hint/formatter-summary": "^3.0.12",
+    "@hint/hint-babel-config": "^2.3.9",
+    "@hint/hint-button-type": "^2.2.9",
+    "@hint/hint-compat-api": "^4.1.2",
+    "@hint/hint-create-element-svg": "^1.2.9",
+    "@hint/hint-css-prefix-order": "^1.2.9",
+    "@hint/hint-disown-opener": "^3.2.9",
+    "@hint/hint-highest-available-document-mode": "^4.1.9",
+    "@hint/hint-meta-charset-utf-8": "^3.2.9",
+    "@hint/hint-meta-viewport": "^4.1.9",
+    "@hint/hint-no-bom": "^4.1.9",
+    "@hint/hint-no-protocol-relative-urls": "^2.3.9",
+    "@hint/hint-scoped-svg-styles": "^1.1.3",
+    "@hint/hint-sri": "^3.2.9",
+    "@hint/hint-typescript-config": "^2.3.9",
+    "@hint/hint-webpack-config": "^2.3.9",
+    "@hint/parser-babel-config": "^2.1.12",
+    "@hint/parser-css": "^3.0.12",
+    "@hint/parser-html": "^3.0.9",
+    "@hint/parser-less": "^1.0.4",
+    "@hint/parser-sass": "^1.0.4",
+    "@hint/parser-typescript-config": "^2.3.9",
+    "@hint/parser-webpack-config": "^2.1.12"
   },
   "description": "webhint's recommended hints configuration for development",
   "engines": {
@@ -44,8 +47,12 @@
   "main": "index.json",
   "name": "@hint/configuration-development",
   "peerDependencies": {
-    "hint": "^5.2.1"
+    "hint": "^5.0.0"
   },
-  "repository": "webhintio/hint",
-  "version": "7.0.4"
+  "repository": {
+    "directory": "packages/configuration-development",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
+  "version": "7.2.4"
 }

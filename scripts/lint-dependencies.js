@@ -12,7 +12,8 @@ const builtIn = require('builtin-modules');
 const typeDependencies = new Set([
     'har-format',
     'estree',
-    'request'
+    'request',
+    'vscode'
 ]);
 
 const getPackages = async () => {

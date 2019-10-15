@@ -47,7 +47,7 @@ const buildAndTestPackages = async (pkgNames: string[], pkgs: Map<string, Packag
         const buildScript = getScript(['build-release', 'build'], pkg);
         const testScript = getScript(['test-release', 'test'], pkg);
 
-        const command = skipTests ?
+        const command = skipTests || !pkg.updated ?
             `yarn ${buildScript}` :
             `yarn ${testScript}`;
 

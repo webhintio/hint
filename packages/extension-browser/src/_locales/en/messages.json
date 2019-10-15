@@ -27,6 +27,10 @@
         "message": "Categories",
         "description": "Title of the categories sub-section on the configuration page."
     },
+    "close": {
+        "message": "Close",
+        "description": "Label for the close button in the notification"
+    },
     "checkForBestPracticesDescription": {
         "message": "Check for best practices and common errors with your site's accessibility, speed, security, and more.",
         "description": "Brief description of what webhint does."
@@ -55,6 +59,10 @@
         "message": "Different origin",
         "description": "Label for option to ignore only external resources on the page."
     },
+    "enable": {
+        "message": "Enable",
+        "description": "Label for button to enable telemetry"
+    },
     "errorDetails": {
         "message": "Error details",
         "description": "Text displayed for option to expand and show error details."
@@ -71,9 +79,9 @@
         "message": "Feedback",
         "description": "Label for the feedback button"
     },
-    "hintCountLabel": {
-        "message": "hint $1:",
-        "description": "Label for a test result based on the order in which it is listed, e.g. 'hint 2:'."
+    "helpUs": {
+        "message": "Help us improve webhint by sending limited usage information (no personal information or URLs will be sent).",
+        "description": "Label for telemetry opt-in popup"
     },
     "inspectElement": {
         "message": "Inspect Element",
@@ -103,6 +111,10 @@
         "message": "Learn why this is important and how to fix it",
         "description": "Label for link to additional documentation for a failed test."
     },
+    "learnMore": {
+        "message": "Learn more.",
+        "description": "Label for link to additional information about the information collected for telemetry."
+    },
     "noIssuesLabel": {
         "message": "No issues",
         "description": "Label for a hint with no issues."
@@ -110,6 +122,10 @@
     "noneLabel": {
         "message": "None",
         "description": "Label for option to not ignore any resources on the page."
+    },
+    "noThanks": {
+        "message": "No Thanks",
+        "description": "Label for button to disable telemetry."
     },
     "openAnIssue": {
         "message": "open an issue",
@@ -142,6 +158,10 @@
     "seeQueryInstructionsLabel": {
         "message": "See query instructions",
         "description": "Label for link to instructions for selecting target browsers."
+    },
+    "settings": {
+        "message": "Settings",
+        "description": "Label settings details/summary."
     },
     "showPassedHintsLabel": {
         "message": "Show passed hints",
@@ -190,5 +210,9 @@
     "targetUrl": {
         "message": "URL: $1",
         "description": "Label for the result page with the url analyzed."
+    },
+    "telemetry": {
+        "message": "Enable telemetry",
+        "description": "Label for the setting to enable/disable telemetry."
     }
 }

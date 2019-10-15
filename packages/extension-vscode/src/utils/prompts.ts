@@ -23,7 +23,7 @@ export const promptRetry = async <T>(window: RemoteWindow, retry: () => Promise<
     // Prompt the user to retry after checking their configuration.
     const retryTitle = 'Retry';
     const answer = await window.showErrorMessage(
-        'Unable to start webhint. Ensure you are using the latest version of the `hint` and `@hint/configuration-development` packages.',
+        'Unable to start webhint. Ensure you are using the latest version of the `hint` package.',
         { title: retryTitle }
     );
 

@@ -1,3 +1,71 @@
+# 5.3.1 (September 26, 2019)
+
+## Bug fixes / Improvements
+
+* [[`b6044078f7`](https://github.com/webhintio/hint/commit/b6044078f7de8d830a193a9d76e28619315972a9)] - Fix: Optimize images (by [`Christian Oliff`](https://github.com/coliff) / see also: [`#2999`](https://github.com/webhintio/hint/issues/2999)).
+
+
+# 5.3.0 (September 24, 2019)
+
+## Bug fixes / Improvements
+
+* [[`9f13687ebb`](https://github.com/webhintio/hint/commit/9f13687ebbd3d929875cab5a9b9084cf608fa21f)] - Docs: Remove references to global install (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2974`](https://github.com/webhintio/hint/issues/2974)).
+
+## New features
+
+* [[`249758d167`](https://github.com/webhintio/hint/commit/249758d16710633dd56f5ac3bdd8eee62744c415)] - New: Add `close` to Node API (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3005`](https://github.com/webhintio/hint/issues/3005)).
+
+## Chores
+
+* [[`53edf270f8`](https://github.com/webhintio/hint/commit/53edf270f84ead765bb981345d5321568ac69142)] - Upgrade: Bump @types/node from 12.7.4 to 12.7.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 5.2.4 (September 19, 2019)
+
+## Bug fixes / Improvements
+
+* [[`9f8af13472`](https://github.com/webhintio/hint/commit/9f8af134727a795379e004c163598315a2537f64)] - Fix: Refactor telemetry events logic (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2962`](https://github.com/webhintio/hint/issues/2962)).
+* [[`55c611802e`](https://github.com/webhintio/hint/commit/55c611802e9eeee67b847aaf5e0daea0d6841986)] - Fix: Deprecate `connector-chrome` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2814`](https://github.com/webhintio/hint/issues/2814)).
+
+## Chores
+
+* [[`c5e66947d4`](https://github.com/webhintio/hint/commit/c5e66947d494771b487c5d45a477069c61c9ed0b)] - Upgrade: Bump typescript from 3.6.2 to 3.6.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 5.2.3 (September 11, 2019)
+
+## Bug fixes / Improvements
+
+* [[`e0fbc2f732`](https://github.com/webhintio/hint/commit/e0fbc2f7325ab045db0c17ea9b0e7d287e84ecee)] - Docs: Clarify package name usage; edit concepts for clarity (by [`Aki`](https://github.com/gesa) / see also: [`#2774`](https://github.com/webhintio/hint/issues/2774)).
+* [[`efe23136c6`](https://github.com/webhintio/hint/commit/efe23136c613114f7ec95e013bd37cce9e0dcbdd)] - Fix: Using `formatter-stylish` in CI by default (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2892`](https://github.com/webhintio/hint/issues/2892)).
+* [[`5603617df9`](https://github.com/webhintio/hint/commit/5603617df96def7c2571c8e94d595b76ec4633ec)] - Fix: Reference correct package directory in monorepo (by [`Tony Ross`](https://github.com/antross) / see also: [`#2873`](https://github.com/webhintio/hint/issues/2873)).
+* [[`9493b6e172`](https://github.com/webhintio/hint/commit/9493b6e1723cbcc630cc28d5d8f75b59df17299d)] - Fix: Parameter isAppCrashing in sendPendingData defaults to false (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2878`](https://github.com/webhintio/hint/issues/2878)).
+
+## Chores
+
+* [[`81622b8dba`](https://github.com/webhintio/hint/commit/81622b8dbaa9ffc5ba1bc3057b76868d3b3e54c5)] - Upgrade: Bump @types/lodash from 4.14.137 to 4.14.138 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a52ef4fb5`](https://github.com/webhintio/hint/commit/6a52ef4fb50931921be5da4c4cacd8760a3de887)] - Upgrade: Bump rimraf from 2.6.3 to 3.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c2b32de999`](https://github.com/webhintio/hint/commit/c2b32de9997a922a4744991306a9bf9b22e3910f)] - Upgrade: Bump @types/node from 12.7.3 to 12.7.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a2d1f0fce1`](https://github.com/webhintio/hint/commit/a2d1f0fce1e1689fe75c22e7d3a8f1aa7b8339f9)] - Upgrade: Bump browserslist from 4.6.6 to 4.7.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8d5e1927fe`](https://github.com/webhintio/hint/commit/8d5e1927fed14c2f7629912a5715b272664ea727)] - Chore: Move browser extension docs to own package (by [`Tony Ross`](https://github.com/antross) / see also: [`#2874`](https://github.com/webhintio/hint/issues/2874)).
+* [[`bbe99e3292`](https://github.com/webhintio/hint/commit/bbe99e329240a17e5f60c6c6261b0b9c2bd1774a)] - Upgrade: Bump typescript from 3.5.3 to 3.6.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c94b993bab`](https://github.com/webhintio/hint/commit/c94b993babb99a9b49cc795fbf80663c4750ba93)] - Upgrade: Bump @types/node from 12.7.1 to 12.7.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`aab7643c70`](https://github.com/webhintio/hint/commit/aab7643c70042a5e7d2da9684844277d707854fe)] - Upgrade: Bump sinon from 7.3.2 to 7.4.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 5.2.2 (August 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`3aba15082b`](https://github.com/webhintio/hint/commit/3aba15082be60e6f1a5743850901227751ff1a8b)] - Docs: Update `formatterOptions` in `formatter` documentation (by [`Jaspreet Singh`](https://github.com/jaspreet57) / see also: [`#2820`](https://github.com/webhintio/hint/issues/2820)).
+* [[`8554d62b71`](https://github.com/webhintio/hint/commit/8554d62b712d2aa5656f94e9ad197e65e72ea2d7)] - Docs: Add browser extension documentation (by [`Rachel Simone Weil`](https://github.com/hxlnt) / see also: [`#2780`](https://github.com/webhintio/hint/issues/2780)).
+
+## Chores
+
+* [[`4aded29827`](https://github.com/webhintio/hint/commit/4aded29827590a7d3a51431dfbfe48a1843e12f1)] - Upgrade: Bump @types/lodash from 4.14.136 to 4.14.137 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`dc17c7661b`](https://github.com/webhintio/hint/commit/dc17c7661bc8564467a3bde1b4e2c0dbebfcb510)] - Upgrade: Bump lodash from 4.17.14 to 4.17.15 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 5.2.1 (August 15, 2019)
 
 ## Bug fixes / Improvements
