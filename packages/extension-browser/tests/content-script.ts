@@ -129,6 +129,9 @@ const mockContext = () => {
         const connector = proxyquire(paths.connector, stubs);
         const formatter = proxyquire(paths.formatter, stubs);
 
+        connector['@noCallThru'] = true;
+        formatter['@noCallThru'] = true;
+
         proxyquire(paths.webhint, {
             './connector': connector,
             './formatter': formatter,
