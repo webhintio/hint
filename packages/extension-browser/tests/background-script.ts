@@ -49,7 +49,7 @@ const prepareContentScriptInjection = (sandbox: SinonSandbox, browser: typeof ch
     };
 };
 
-test.serial('It registers for messages.', async (t) => {
+test('It registers for messages.', async (t) => {
     const sandbox = createSandbox();
     const globals = stubGlobals();
     const { browser } = globals;
@@ -65,7 +65,7 @@ test.serial('It registers for messages.', async (t) => {
     sandbox.restore();
 });
 
-test.serial('It reloads the target when enabled.', async (t) => {
+test('It reloads the target when enabled.', async (t) => {
     const sandbox = createSandbox();
     const globals = stubGlobals();
     const { browser } = globals;
@@ -88,7 +88,7 @@ test.serial('It reloads the target when enabled.', async (t) => {
     sandbox.restore();
 });
 
-test.serial('It injects the content script when enabled.', async (t) => {
+test('It injects the content script when enabled.', async (t) => {
     const sandbox = createSandbox();
     const globals = stubGlobals();
     const { browser } = globals;
@@ -109,7 +109,7 @@ test.serial('It injects the content script when enabled.', async (t) => {
     sandbox.restore();
 });
 
-test.serial('It retries injecting the content script if it fails.', async (t) => {
+test('It retries injecting the content script if it fails.', async (t) => {
     const sandbox = createSandbox();
     const globals = stubGlobals();
     const { browser } = globals;
@@ -143,7 +143,7 @@ test.serial('It retries injecting the content script if it fails.', async (t) =>
     sandbox.restore();
 });
 
-test.serial('It passes provided configuration to the content script.', async (t) => {
+test('It passes provided configuration to the content script.', async (t) => {
     const sandbox = createSandbox();
     const globals = stubGlobals();
     const { browser } = globals;
@@ -174,7 +174,7 @@ test.serial('It passes provided configuration to the content script.', async (t)
     sandbox.restore();
 });
 
-test.serial('It forwards `fetch::*` events from the devtools panel.', async (t) => {
+test('It forwards `fetch::*` events from the devtools panel.', async (t) => {
     const sandbox = createSandbox();
     const globals = stubGlobals();
     const { browser } = globals;
@@ -207,7 +207,7 @@ test.serial('It forwards `fetch::*` events from the devtools panel.', async (t) 
     sandbox.restore();
 });
 
-test.serial('It sends queued events in response to `ready`.', async (t) => {
+test('It sends queued events in response to `ready`.', async (t) => {
     const sandbox = createSandbox();
     const globals = stubGlobals();
     const { browser } = globals;
@@ -236,7 +236,7 @@ test.serial('It sends queued events in response to `ready`.', async (t) => {
     sandbox.restore();
 });
 
-test.serial('It forwards results to the devtools panel.', async (t) => {
+test('It forwards results to the devtools panel.', async (t) => {
     const sandbox = createSandbox();
     const globals = stubGlobals();
     const { browser } = globals;
@@ -270,7 +270,7 @@ test.serial('It forwards results to the devtools panel.', async (t) => {
     sandbox.restore();
 });
 
-test.serial('It ignores results without a devtools panel.', async (t) => {
+test('It ignores results without a devtools panel.', async (t) => {
     const sandbox = createSandbox();
     const globals = stubGlobals();
     const { browser } = globals;
