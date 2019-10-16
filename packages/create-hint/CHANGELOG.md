@@ -1,3 +1,13 @@
+# 3.2.6 (October 16, 2019)
+
+## Chores
+
+* [[`99630d03dc`](https://github.com/webhintio/hint/commit/99630d03dc99cdb71a5010095a22b6908b6cdea5)] - Chore: Fix dependencies (by [`Antón Molleda`](https://github.com/molant)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+* [[`d1aacb3732`](https://github.com/webhintio/hint/commit/d1aacb373277c2759b46fbd587bc75807f85e62e)] - Upgrade: Bump handlebars from 4.2.1 to 4.4.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9f80d06452`](https://github.com/webhintio/hint/commit/9f80d0645212b6952a32fd85bacfacaffa99bad7)] - Upgrade: Bump inquirer from 6.5.0 to 7.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.2.5 (September 26, 2019)
 
 

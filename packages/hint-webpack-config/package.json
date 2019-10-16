@@ -7,14 +7,14 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.2"
+    "@hint/utils": "^6.0.0"
   },
   "description": "hint thats to check the webpack configuration.",
   "devDependencies": {
-    "@hint/parser-babel-config": "^2.1.12",
-    "@hint/parser-typescript-config": "^2.3.9",
-    "@hint/parser-webpack-config": "^2.1.12",
-    "@hint/utils-tests-helpers": "^5.0.10",
+    "@hint/parser-babel-config": "^2.1.13",
+    "@hint/parser-typescript-config": "^2.3.10",
+    "@hint/parser-webpack-config": "^2.1.13",
+    "@hint/utils-tests-helpers": "^5.0.11",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -80,5 +80,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.9"
+  "version": "2.3.10"
 }

@@ -1,3 +1,26 @@
+# 6.0.0 (October 16, 2019)
+
+## Breaking Changes
+
+* [[`56788d56a1`](https://github.com/webhintio/hint/commit/56788d56a12107abea37502f13c7012573677efb)] - Breaking: Extract compat information to new package (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3035`](https://github.com/webhintio/hint/issues/3035)).
+
+## Bug fixes / Improvements
+
+* [[`a46488f6a3`](https://github.com/webhintio/hint/commit/a46488f6a3706920b2bdef63e085899707f23f7a)] - Fix: Improve performance of getElementByUrl (by [`Sorin Davidoi`](https://github.com/sorin-davidoi) / see also: [`#3073`](https://github.com/webhintio/hint/issues/3073)).
+
+## Chores
+
+* [[`99630d03dc`](https://github.com/webhintio/hint/commit/99630d03dc99cdb71a5010095a22b6908b6cdea5)] - Chore: Fix dependencies (by [`Antón Molleda`](https://github.com/molant)).
+* [[`cdaa672fb1`](https://github.com/webhintio/hint/commit/cdaa672fb1ad081ee224aa339d2a48d468259061)] - Upgrade: Bump mdn-browser-compat-data from 0.0.95 to 0.0.96 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a1b619b18b`](https://github.com/webhintio/hint/commit/a1b619b18b873da1cd16ae8565bbe5f461ce5d79)] - Upgrade: Bump applicationinsights from 1.4.2 to 1.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`cf459099a6`](https://github.com/webhintio/hint/commit/cf459099a63788a4bd0e644ffd7b7021b2bf9e45)] - Chore: Linting issues (by [`Antón Molleda`](https://github.com/molant)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+* [[`abf0eab91a`](https://github.com/webhintio/hint/commit/abf0eab91a2436095d345aa1b0fabd6cdfa0e548)] - Upgrade: Bump is-wsl from 2.1.0 to 2.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`aaba5ba78d`](https://github.com/webhintio/hint/commit/aaba5ba78d143fa457c634a03ef5e2b97c249b57)] - Upgrade: Bump mdn-browser-compat-data from 0.0.94 to 0.0.95 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8ca4cb8b35`](https://github.com/webhintio/hint/commit/8ca4cb8b352da6f7aa0d5972aed988e7aee7224e)] - Upgrade: Bump npm-registry-fetch from 4.0.0 to 5.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`3d1d193e34`](https://github.com/webhintio/hint/commit/3d1d193e34ec7611f439223664dd6d0556360787)] - Upgrade: Bump mdn-browser-compat-data from 0.0.93 to 0.0.94 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 5.0.2 (September 26, 2019)
 
 ## Bug fixes / Improvements

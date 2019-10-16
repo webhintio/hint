@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.2"
+    "@hint/utils": "^6.0.0"
   },
   "description": "webhint parser for web app manifest files",
   "devDependencies": {
@@ -72,5 +72,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.2.10"
+  "version": "2.2.11"
 }

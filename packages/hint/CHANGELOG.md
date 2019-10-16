@@ -1,3 +1,18 @@
+# 5.3.2 (October 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`d6fbf1b7bc`](https://github.com/webhintio/hint/commit/d6fbf1b7bc2cc34fe6d10c0a522b883ded264e54)] - Docs: Add log of last 28 days to collected telemetry (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`99630d03dc`](https://github.com/webhintio/hint/commit/99630d03dc99cdb71a5010095a22b6908b6cdea5)] - Chore: Fix dependencies (by [`Antón Molleda`](https://github.com/molant)).
+* [[`8ffce8cdc7`](https://github.com/webhintio/hint/commit/8ffce8cdc7a37edba7635baf94e2ec9abe040328)] - Upgrade: Bump ora from 3.4.0 to 4.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3079`](https://github.com/webhintio/hint/issues/3079)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+* [[`427ca87b2a`](https://github.com/webhintio/hint/commit/427ca87b2ad63550fcf0c48d9f7624c28e419002)] - Upgrade: Bump @types/lodash from 4.14.138 to 4.14.141 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`91b2ae9b89`](https://github.com/webhintio/hint/commit/91b2ae9b89f84e4c5599bc07ca3daa42c7ec5d61)] - Upgrade: Bump @types/async from 3.0.1 to 3.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 5.3.1 (September 26, 2019)
 
 ## Bug fixes / Improvements

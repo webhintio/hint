@@ -7,12 +7,12 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.2",
+    "@hint/utils": "^6.0.0",
     "node-ssllabs": "^1.1.2"
   },
   "description": "hint that that checks using SSL Labs for best practices related to the website's SSL configuration",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.10",
+    "@hint/utils-tests-helpers": "^5.0.11",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.9"
+  "version": "2.3.10"
 }

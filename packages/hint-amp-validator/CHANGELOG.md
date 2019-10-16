@@ -1,3 +1,14 @@
+# 2.9.10 (October 16, 2019)
+
+## New features
+
+* [[`cb7006d81e`](https://github.com/webhintio/hint/commit/cb7006d81e259152cfafc2e6192ace6748f42f8a)] - Update: 'validator'.
+
+## Chores
+
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+
+
 # 2.9.9 (September 26, 2019)
 
 ## New features

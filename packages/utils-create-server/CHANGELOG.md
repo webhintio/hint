@@ -1,3 +1,12 @@
+# 3.2.3 (October 16, 2019)
+
+## Chores
+
+* [[`acc12c9a7e`](https://github.com/webhintio/hint/commit/acc12c9a7e5da73d355e72d00dd74dba9dbf35ad)] - Chore: Remove unused dependencies (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3122`](https://github.com/webhintio/hint/issues/3122)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+* [[`427ca87b2a`](https://github.com/webhintio/hint/commit/427ca87b2ad63550fcf0c48d9f7624c28e419002)] - Upgrade: Bump @types/lodash from 4.14.138 to 4.14.141 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.2.2 (September 26, 2019)
 
 

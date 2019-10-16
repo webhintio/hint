@@ -1,3 +1,17 @@
+# 1.3.3 (October 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`ab14e80a7c`](https://github.com/webhintio/hint/commit/ab14e80a7c6fc63c1e4c17ac57ef16c710549587)] - Fix: Ensure shared webhint installs/updates correctly (by [`Tony Ross`](https://github.com/antross) / see also: [`#2998`](https://github.com/webhintio/hint/issues/2998)).
+* [[`298fe8d97a`](https://github.com/webhintio/hint/commit/298fe8d97a8eb90f1b7901f3bc22d754ff2bdd7b)] - Docs: Improve information for contributors (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3095`](https://github.com/webhintio/hint/issues/3095)).
+
+## Chores
+
+* [[`2517e0ced7`](https://github.com/webhintio/hint/commit/2517e0ced7c2fbcc947f7b1d8adaf0b40f1b059e)] - Upgrade: Bump @types/vscode from 1.38.0 to 1.39.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3111`](https://github.com/webhintio/hint/issues/3111)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+* [[`3f9cbc6ad5`](https://github.com/webhintio/hint/commit/3f9cbc6ad5c16ce3f29632241a57397e44a43632)] - Upgrade: Bump vsce from 1.66.0 to 1.67.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.3.2 (September 26, 2019)
 
 ## Bug fixes / Improvements

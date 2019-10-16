@@ -1,3 +1,16 @@
+# 1.2.10 (October 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`aa8c0ab217`](https://github.com/webhintio/hint/commit/aa8c0ab217c18d96ef4635413adee55f564f2087)] - Fix: Update TS references (by [`Antón Molleda`](https://github.com/molant)).
+* [[`ce75546e6c`](https://github.com/webhintio/hint/commit/ce75546e6c7380afb3030a7f4c802246d5243b5f)] - Fix: Avoid duplicate reports in nested blocks (by [`Tony Ross`](https://github.com/antross) / see also: [`#3037`](https://github.com/webhintio/hint/issues/3037)).
+
+## Chores
+
+* [[`99630d03dc`](https://github.com/webhintio/hint/commit/99630d03dc99cdb71a5010095a22b6908b6cdea5)] - Chore: Fix dependencies (by [`Antón Molleda`](https://github.com/molant)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+
+
 # 1.2.9 (September 26, 2019)
 
 

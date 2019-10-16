@@ -1,3 +1,11 @@
+# 3.1.10 (October 16, 2019)
+
+## Chores
+
+* [[`a5768babe2`](https://github.com/webhintio/hint/commit/a5768babe2dba1b0b9f2deb41aa34460e26943b9)] - Upgrade: Bump image-size from 0.7.4 to 0.8.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3082`](https://github.com/webhintio/hint/issues/3082)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+
+
 # 3.1.9 (September 26, 2019)
 
 

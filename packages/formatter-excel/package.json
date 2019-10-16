@@ -8,7 +8,7 @@
   },
   "description": "webhint formatter that outputs the result in an Excel file (xlsx)",
   "dependencies": {
-    "@hint/utils": "^5.0.2",
+    "@hint/utils": "^6.0.0",
     "exceljs": "3.0.0",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.15"
@@ -79,5 +79,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.9"
+  "version": "3.1.10"
 }

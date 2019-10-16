@@ -1,3 +1,11 @@
+# 3.2.10 (October 16, 2019)
+
+## Chores
+
+* [[`fa357fd1de`](https://github.com/webhintio/hint/commit/fa357fd1ded2fb9648b71afa67b1773865b2cb30)] - Chore: Use new `utils-compat-data` package (by [`Antón Molleda`](https://github.com/molant)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+
+
 # 3.2.9 (September 26, 2019)
 
 

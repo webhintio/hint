@@ -7,7 +7,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.2",
+    "@hint/utils": "^6.0.0",
     "acorn": "^7.0.0",
     "acorn-walk": "^7.0.0"
   },
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.12"
+  "version": "3.0.13"
 }

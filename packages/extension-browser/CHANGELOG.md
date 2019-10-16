@@ -1,3 +1,31 @@
+# 1.1.0 (October 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`298fe8d97a`](https://github.com/webhintio/hint/commit/298fe8d97a8eb90f1b7901f3bc22d754ff2bdd7b)] - Docs: Improve information for contributors (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3095`](https://github.com/webhintio/hint/issues/3095)).
+
+## New features
+
+* [[`ac861cf976`](https://github.com/webhintio/hint/commit/ac861cf976579a5c76e9742c5aa7ca60c72a6d5f)] - New: Report active days in a rolling 28-day period (by [`Tony Ross`](https://github.com/antross) / see also: [`#3056`](https://github.com/webhintio/hint/issues/3056)).
+
+## Chores
+
+* [[`99630d03dc`](https://github.com/webhintio/hint/commit/99630d03dc99cdb71a5010095a22b6908b6cdea5)] - Chore: Fix dependencies (by [`Antón Molleda`](https://github.com/molant)).
+* [[`1c071e5aa9`](https://github.com/webhintio/hint/commit/1c071e5aa9e0187cf48bde513db545c2fbe3f126)] - Upgrade: Bump execa from 2.0.4 to 2.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`105ced1808`](https://github.com/webhintio/hint/commit/105ced18087727fe9621889738a6ef69a3a61b0e)] - Upgrade: Bump @types/react-dom from 16.9.0 to 16.9.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9197cbad9b`](https://github.com/webhintio/hint/commit/9197cbad9b09b1c306de0eacf762dd91dbf0016b)] - Upgrade: Bump web-ext from 3.1.1 to 3.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5bc90adc4a`](https://github.com/webhintio/hint/commit/5bc90adc4a31309bbad505378463b10d6a4756e7)] - Upgrade: Bump eslint-plugin-react-hooks from 2.0.1 to 2.1.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+* [[`4ce811f885`](https://github.com/webhintio/hint/commit/4ce811f885f2e44e71d4f95d0ab6973b50b8537b)] - Chore: Shadow styles as CSS variables in extension (by [`Akash Hamirwasia`](https://github.com/blenderskool) / see also: [`#2590`](https://github.com/webhintio/hint/issues/2590)).
+* [[`56470ea85a`](https://github.com/webhintio/hint/commit/56470ea85a52d2f255c5f2c6d1b44b7fe0410a1a)] - Upgrade: Bump @types/chrome from 0.0.88 to 0.0.89 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6dfffeeb08`](https://github.com/webhintio/hint/commit/6dfffeeb08c8a0864fcfab8683376b346555814f)] - Upgrade: Bump @types/react from 16.8.23 to 16.9.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1622a1295f`](https://github.com/webhintio/hint/commit/1622a1295f0526622dd182bcf77b0e995e016928)] - Upgrade: Bump react from 16.9.0 to 16.10.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`571a09ab89`](https://github.com/webhintio/hint/commit/571a09ab89b14ba0d721bc17d8cb0f521513156d)] - Upgrade: Bump react-dom from 16.10.1 to 16.10.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e4e942de73`](https://github.com/webhintio/hint/commit/e4e942de7353018170a2c8ea2133c282b31acfd9)] - Upgrade: Bump terser-webpack-plugin from 1.4.1 to 2.1.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`22a5fece9b`](https://github.com/webhintio/hint/commit/22a5fece9bc64c1030e8b031cb7a2f3af2a292ca)] - Upgrade: Bump typed-css-modules from 0.6.0 to 0.6.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8db1221f30`](https://github.com/webhintio/hint/commit/8db1221f30c3713ecff02033f5e9501de637746f)] - Upgrade: Bump react-dom from 16.9.0 to 16.10.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.3 (September 27, 2019)
 
 ## Bug fixes / Improvements

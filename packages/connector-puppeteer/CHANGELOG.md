@@ -1,3 +1,20 @@
+# 2.3.0 (October 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`c912cae69c`](https://github.com/webhintio/hint/commit/c912cae69cc498471b960cf77646a90b7356c89a)] - Docs: Fix browser option in connector-puppeteer (by [`Dimitar Nestorov`](https://github.com/dimitarnestorov) / see also: [`#3053`](https://github.com/webhintio/hint/issues/3053)).
+
+## New features
+
+* [[`80279dcdaa`](https://github.com/webhintio/hint/commit/80279dcdaa25306d5278f8f606fe3dda51bb54bc)] - New: Add "user actions" (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2249`](https://github.com/webhintio/hint/issues/2249), and [`#3032`](https://github.com/webhintio/hint/issues/3032)).
+
+## Chores
+
+* [[`99630d03dc`](https://github.com/webhintio/hint/commit/99630d03dc99cdb71a5010095a22b6908b6cdea5)] - Chore: Fix dependencies (by [`Antón Molleda`](https://github.com/molant)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+* [[`427ca87b2a`](https://github.com/webhintio/hint/commit/427ca87b2ad63550fcf0c48d9f7624c28e419002)] - Upgrade: Bump @types/lodash from 4.14.138 to 4.14.141 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.2.2 (September 26, 2019)
 
 

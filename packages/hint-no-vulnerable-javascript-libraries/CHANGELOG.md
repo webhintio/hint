@@ -1,3 +1,15 @@
+# 2.9.10 (October 16, 2019)
+
+## New features
+
+* [[`273d487882`](https://github.com/webhintio/hint/commit/273d4878824b43a5fa6d5f12af5732c2fecb0e0a)] - Update: 'snyk-snapshot.json'.
+
+## Chores
+
+* [[`6a885a2e43`](https://github.com/webhintio/hint/commit/6a885a2e43d608db2d9fb5755449a4604d757d39)] - Chore: Update test reports.
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+
+
 # 2.9.9 (September 26, 2019)
 
 ## New features
