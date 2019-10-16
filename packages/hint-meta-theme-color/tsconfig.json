@@ -15,6 +15,7 @@
     "references": [
         { "path": "../hint" },
         { "path": "../utils" },
+        { "path": "../utils-compat-data" },
         { "path": "../utils-tests-helpers" }
     ]
 }

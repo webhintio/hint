@@ -105,6 +105,7 @@
         { "path": "packages/parser-typescript-config" },
         { "path": "packages/parser-webpack-config" },
         { "path": "packages/utils" },
+        { "path": "packages/utils-compat-data" },
         { "path": "packages/utils-connector-tools" },
         { "path": "packages/utils-create-server" },
         { "path": "packages/utils-tests-helpers" }
