@@ -124,17 +124,17 @@ const tasks = new Listr([
     },
     {
         title: 'Submit extension-browser for Chrome',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('extension-browser')),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('@hint/extension-browser')),
         task: releaseForBrowser('https://chrome.google.com/webstore/developer/dashboard')
     },
     {
         title: 'Submit extension-browser for Edge (Chromium)',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('extension-browser')),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('@hint/extension-browser')),
         task: releaseForBrowser('TBD')
     },
     {
         title: 'Submit extension-browser for Firefox',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('extension-browser')),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('@hint/extension-browser')),
         task: releaseForBrowser('https://addons.mozilla.org/en-US/developers/addons')
     },
     {
