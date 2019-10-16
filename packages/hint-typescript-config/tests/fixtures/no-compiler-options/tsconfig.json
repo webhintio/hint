@@ -1,0 +1,3 @@
+{
+    "extends": "../no-comments/invalid/tsconfig.json"
+}
