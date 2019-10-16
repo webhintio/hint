@@ -21,7 +21,7 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'extends-with-error'),
         reports: [{
             message: 'The compiler option "removeComments" should be enabled to reduce the output size.',
-            position: { match: 'extends' }
+            position: { match: 'compilerOptions' }
         }]
     }
 ];
