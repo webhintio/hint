@@ -114,7 +114,7 @@ test('It creates a hint if the option multiple hints is false', async (t) => {
     const result = await newHint();
 
     t.true(fsExtraCopyStub.args[0][0].endsWith('files'), 'Unexpected path for official files');
-    t.is(fsExtraCopyStub.args[0][1], path.join(root, 'hint-awesome-hint'), 'Copy path is not the expected one');
+    t.is(fsExtraCopyStub.args[0][1], path.join(root, 'packages', 'hint-awesome-hint'), 'Copy path is not the expected one');
 
     // package.json, readme.md, tsconfig.json, hint.ts, meta.ts, tests/hint.ts
     t.is(handlebarsCompileTemplateStub.callCount, 7, `Handlebars doesn't complile the right number of files`);
@@ -167,8 +167,8 @@ test('It creates a package with multiple hints', async (t) => {
 
     t.true(fsExtraCopyStub.args[0][0].endsWith('no-official-files'), 'Unexpected path for non official files');
     t.true(fsExtraCopyStub.args[1][0].endsWith('files'), 'Unexpected path for official files');
-    t.is(fsExtraCopyStub.args[0][1], path.join(root, 'hint-awesome-package'), 'Copy path is not the expected one');
-    t.is(fsExtraCopyStub.args[1][1], path.join(root, 'hint-awesome-package'), 'Copy path is not the expected one');
+    t.is(fsExtraCopyStub.args[0][1], path.join(root, 'packages', 'hint-awesome-package'), 'Copy path is not the expected one');
+    t.is(fsExtraCopyStub.args[1][1], path.join(root, 'packages', 'hint-awesome-package'), 'Copy path is not the expected one');
 
     // index.ts, package.json, readme.md, tsconfig.json, .hintrc, hint.ts * 2, meta.ts * 2 (one for each rule) + 1 for the meta.ts (index), tests/hint.ts * 2, docs/hint.md * 2
     t.is(handlebarsCompileTemplateStub.callCount, 14, `Handlebars doesn't complile the right number of files`);

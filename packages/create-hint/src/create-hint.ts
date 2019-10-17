@@ -12,7 +12,7 @@ import Handlebars, { compileTemplate, escapeSafeString } from './handlebars-util
 
 const { isOfficial } = packages;
 const { cwd, readFile, writeFileAsync } = fs;
-const { normalizeStringByDelimiter, toCamelCase, toPascalCase} = misc;
+const { normalizeStringByDelimiter, toCamelCase, toPascalCase } = misc;
 
 /*
  * ------------------------------------------------------------------------------
@@ -155,7 +155,22 @@ class HintPackage {
             this.hints.push(new NewHint(data));
         }
 
-        this.destination = join(cwd(), `hint-${this.normalizedName}`);
+        if (isOfficial) {
+            /**
+             * If we are creating an official package it should be under `/packages/`
+             * but it is very common to run it from the root of the project so we
+             * take into account that scenario and add the folder if needed.
+             */
+            const root = cwd();
+
+            const packagesPath = root.endsWith('packages') ?
+                '' :
+                'packages';
+
+            this.destination = join(root, packagesPath, `hint-${this.normalizedName}`);
+        } else {
+            this.destination = join(cwd(), `hint-${this.normalizedName}`);
+        }
     }
 }
 
