@@ -4,13 +4,25 @@ import { JSDOM, VirtualConsole } from 'jsdom';
 import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
 
 import { debug as d } from '@hint/utils';
+import { Requester } from '@hint/utils-connector-tools';
 
 import { beforeParse } from './before-parse';
 
 const debug: debug.IDebugger = d(__filename);
 
-const run = async (data: { source: string }) => {
-    const { source } = data;
+const run = async (data: { options: any; source: string }) => {
+    const { options = {}, source } = data;
+    const requesterOptions = Object.assign(
+        {},
+        {
+            rejectUnauthorized: !options.ignoreHTTPSErrors,
+            strictSSL: !options.ignoreHTTPSErrors
+        },
+        options.requestOptions || {}
+    );
+
+    const requester = new Requester(requesterOptions);
+
     const result = {
         error: null as Error | null,
         evaluate: 'result'
@@ -28,7 +40,19 @@ const run = async (data: { source: string }) => {
         debug(err);
     });
 
-    const jsdom = await JSDOM.fromURL(url, {
+    let html = '';
+
+    try {
+        const networkData = await requester.get(url);
+
+        html = networkData.response.body.content;
+    } catch (error) {
+        process.send!({ error });
+
+        return;
+    }
+
+    const jsdom = new JSDOM(html, {
         beforeParse: beforeParse(url),
         pretendToBeVisual: true,
         resources: 'usable',
