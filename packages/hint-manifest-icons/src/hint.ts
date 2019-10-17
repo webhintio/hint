@@ -29,7 +29,7 @@ export default class ManifestIconHint implements IHint {
         const iconExists = async (iconPath: string, resource: string, index: number, getLocation: IJSONLocationFunction): Promise<{ iconRawData: Buffer | null; mediaType: string }> => {
             let networkData: NetworkData;
 
-            const iconSrcLocation = getLocation(`icons[${index}].src`);
+            const iconSrcLocation = getLocation(`icons[${index}].src`, { at: 'value' });
 
             try {
                 networkData = await context.fetchContent(iconPath);
@@ -70,7 +70,7 @@ export default class ManifestIconHint implements IHint {
          */
         const validateImageType = (iconType: string | undefined, mediaType: string, rawContent: Buffer, resource: string, index: number, getLocation: IJSONLocationFunction): boolean => {
             const allowedTypes = ['png', 'jpg'];
-            const iconTypeLocation = getLocation(`icons[${index}].type`);
+            const iconTypeLocation = getLocation(`icons[${index}].type`, { at: 'value' });
 
             if (!iconType) {
                 const message = getMessage('iconTypeNotSpecified', context.language);
@@ -123,7 +123,7 @@ export default class ManifestIconHint implements IHint {
          * @param iconPath full path to the icon file
          */
         const validateSizes = (iconSizes: string | undefined, iconRawData: Buffer, resource: string, index: number, getLocation: IJSONLocationFunction): boolean => {
-            const iconSizelocation = getLocation(`icons[${index}].sizes`);
+            const iconSizelocation = getLocation(`icons[${index}].sizes`, { at: 'value' });
 
             if (!iconSizes) {
                 context.report(resource, getMessage('sizesNotSpecified', context.language), { location: iconSizelocation });

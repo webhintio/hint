@@ -39,7 +39,7 @@ export default class ManifestAppNameHint implements IHint {
         const checkIfPropertyValueIsNotEmpty = (resource: string, content: string | undefined, propertyName: string, getLocation: IJSONLocationFunction) => {
             if (typeof content === 'string' && (content.trim() === '')) {
                 const message = getMessage('shouldHaveNonEmptyProperty', context.language, propertyName);
-                const location = getLocation(propertyName);
+                const location = getLocation(propertyName, { at: 'value' });
 
                 context.report(resource, message, { location });
             }
@@ -48,7 +48,7 @@ export default class ManifestAppNameHint implements IHint {
         const checkIfPropertyValueIsUnderLimit = (resource: string, content: string | undefined, propertyName: string, shortNameLengthLimit: number, getLocation: IJSONLocationFunction) => {
             if (content && (ucs2.decode(content).length > shortNameLengthLimit)) {
                 const message = getMessage('shouldHavePropertyShort', context.language, [propertyName, shortNameLengthLimit.toString()]);
-                const location = getLocation(propertyName);
+                const location = getLocation(propertyName, { at: 'value' });
 
                 context.report(resource, message, { location });
 
