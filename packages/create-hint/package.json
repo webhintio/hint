@@ -19,6 +19,7 @@
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.0.13",
     "@hint/utils": "^6.0.0",
+    "@hint/utils-tests-helpers": "^5.0.11",
     "ava": "^1.4.1",
     "cpx": "^1.5.0",
     "eslint": "^6.5.1",
