@@ -44,7 +44,7 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', 'tsconfig.circular.json')}`,
-                position: { match: 'extends' }
+                position: { match: '"../circular-2/tsconfig.circular.json"' }
             }
         ]
     },
@@ -54,7 +54,7 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `Unexpected token i in JSON at position 0`,
-                position: { match: 'extends' }
+                position: { match: '"../invalidjson/tsconfig.json"' }
             }
         ]
     }

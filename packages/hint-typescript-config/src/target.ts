@@ -236,7 +236,7 @@ export default class TypeScriptConfigTarget implements IHint {
 
             if (maxESVersion !== target) {
                 const message = getMessage('target', context.language, [maxESVersion, target]);
-                const location = getLocation('compilerOptions.target');
+                const location = getLocation('compilerOptions.target', { at: 'value' });
 
                 context.report(resource, message, { location });
             }
