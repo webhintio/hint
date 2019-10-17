@@ -1,3 +1,14 @@
+# 3.3.0 (October 17, 2019)
+
+## Bug fixes / Improvements
+
+* [[`daa819674e`](https://github.com/webhintio/hint/commit/daa819674e7c14e5edec0f1e9a762d239bb4c279)] - Fix: Update to latest patterns (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`2a0b362384`](https://github.com/webhintio/hint/commit/2a0b362384f04db10b130ac88432039363f806a6)] - New: Output to the right path when running from root project (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3127`](https://github.com/webhintio/hint/issues/3127)).
+
+
 # 3.2.6 (October 16, 2019)
 
 ## Chores

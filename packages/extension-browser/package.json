@@ -29,7 +29,7 @@
     "@hint/hint-no-html-only-headers": "^2.3.10",
     "@hint/hint-no-http-redirects": "^2.3.10",
     "@hint/hint-no-protocol-relative-urls": "^2.3.10",
-    "@hint/hint-no-vulnerable-javascript-libraries": "^2.9.10",
+    "@hint/hint-no-vulnerable-javascript-libraries": "^2.9.11",
     "@hint/hint-scoped-svg-styles": "^1.1.4",
     "@hint/hint-sri": "^3.2.10",
     "@hint/hint-stylesheet-limits": "^3.2.10",
@@ -66,7 +66,7 @@
     "focus-visible": "^5.0.2",
     "glob": "^7.1.4",
     "globby": "^10.0.1",
-    "hint": "^5.3.2",
+    "hint": "^5.3.3",
     "is-ci": "^2.0.0",
     "jsdom": "^15.1.1",
     "lodash": "^4.17.15",
@@ -145,5 +145,5 @@
     "webpack": "webpack",
     "webpack-stats": "webpack --json > stats.json"
   },
-  "version": "1.1.0"
+  "version": "1.1.1"
 }

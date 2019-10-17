@@ -1,3 +1,14 @@
+# 2.9.11 (October 17, 2019)
+
+## New features
+
+* [[`ed7f99aeca`](https://github.com/webhintio/hint/commit/ed7f99aeca6408b1a86062ba8038583826951042)] - Update: 'snyk-snapshot.json'.
+
+## Chores
+
+* [[`547714e0de`](https://github.com/webhintio/hint/commit/547714e0deef43f9f510131c97edb126890d71f3)] - Chore: Reduce size of snapshot (by [`Antón Molleda`](https://github.com/molant)).
+
+
 # 2.9.10 (October 16, 2019)
 
 ## New features

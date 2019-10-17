@@ -1,3 +1,10 @@
+# 2.9.11 (October 17, 2019)
+
+## New features
+
+* [[`7020131591`](https://github.com/webhintio/hint/commit/7020131591790e87c4c1fc20efe013187642e708)] - Update: 'validator'.
+
+
 # 2.9.10 (October 16, 2019)
 
 ## New features

@@ -1,3 +1,6 @@
+# 1.1.1 (October 17, 2019)
+
+
 # 1.1.0 (October 16, 2019)
 
 ## Bug fixes / Improvements
