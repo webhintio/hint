@@ -9,7 +9,6 @@
   "description": "{{description}}",
   "devDependencies": {
     {{{dependencyVersion "@hint/utils-tests-helpers"}}},
-    {{{dependencyVersion "@types/debug"}}},
     {{{dependencyVersion "@types/node"}}},
     {{{dependencyVersion "@typescript-eslint/eslint-plugin"}}},
     {{{dependencyVersion "@typescript-eslint/parser"}}},
@@ -20,7 +19,6 @@
     {{{dependencyVersion "npm-run-all"}}},
     {{{dependencyVersion "nyc"}}},
     {{{dependencyVersion "rimraf"}}},
-    {{{dependencyVersion "hint"}}},
     {{{dependencyVersion "typescript"}}}
   },
   "engines": {
@@ -33,7 +31,6 @@
   "homepage": "https://webhint.io/",{{else}}
   "homepage": "",{{/if}}
   "keywords": [
-    "hint",
     "hint",
     "{{normalizedName}}",{{#if isParser}}
     "{{normalizedName}}-parser"{{else}}

@@ -15,9 +15,14 @@ const pkg = loadCreateHintPackage();
  * of creation.
  */
 Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): string => {
-    const version = pkg.dependencies[packageName] ||
+    let version = pkg.dependencies[packageName] ||
         pkg.devDependencies[packageName] ||
         defaultVersion;
+
+    // hint is a `peerDependency` and should target only major versions
+    if (packageName === 'hint') {
+        version = `${version.split('.').shift()}.0.0`;
+    }
 
     return `"${packageName}": "${version}"`;
 });
