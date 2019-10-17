@@ -12,7 +12,6 @@ export class EvaluateCustomResourceLoader extends ResourceLoader {
     public constructor(options: any, url: string) {
         super();
 
-        console.log(JSON.stringify(options));
         this._requester = new Requester(options);
         this._baseUrl = url;
     }
@@ -45,8 +44,6 @@ export class EvaluateCustomResourceLoader extends ResourceLoader {
 
                 return resolve(resourceNetworkData.response.body.rawContent);
             } catch (err) {
-                console.log(JSON.stringify(err));
-
                 return reject(err);
             }
         });
