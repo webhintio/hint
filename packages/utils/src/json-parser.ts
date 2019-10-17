@@ -1,6 +1,6 @@
 import { findNodeAtLocation, Node, parse, parseTree, Segment } from 'jsonc-parser';
 import { IJSONLocationOptions, IJSONResult } from './types/json-parser';
-import { ProblemLocation} from './types/problem-location';
+import { ProblemLocation } from './types/problem-location';
 
 const rxIsNumber = /^[0-9]+$/;
 
@@ -27,7 +27,13 @@ class JSONResult implements IJSONResult {
 
     public getLocation(path: string, options?: IJSONLocationOptions): ProblemLocation | null {
         const segments = this.pathToSegments(path);
-        const node = findNodeAtLocation(this._root, segments) || null;
+        let node = null;
+
+        while (!node && segments.length > 0) {
+            node = findNodeAtLocation(this._root, segments) || null;
+
+            segments.pop();
+        }
 
         /**
          * The node isn't in the current file. Use alternative path if provided. This happens
