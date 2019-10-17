@@ -7,19 +7,18 @@ import { debug as d } from '@hint/utils';
 import { Requester } from '@hint/utils-connector-tools';
 
 import { beforeParse } from './before-parse';
+import { NetworkData } from 'hint';
+import { EvaluateCustomResourceLoader } from './evaluate-resource-loader';
 
 const debug: debug.IDebugger = d(__filename);
 
 const run = async (data: { options: any; source: string }) => {
     const { options = {}, source } = data;
-    const requesterOptions = Object.assign(
-        {},
-        {
-            rejectUnauthorized: !options.ignoreHTTPSErrors,
-            strictSSL: !options.ignoreHTTPSErrors
-        },
-        options.requestOptions || {}
-    );
+    const requesterOptions = {
+        rejectUnauthorized: !options.ignoreHTTPSErrors,
+        strictSSL: !options.ignoreHTTPSErrors,
+        ...options.requestOptions
+    };
 
     const requester = new Requester(requesterOptions);
 
@@ -41,9 +40,15 @@ const run = async (data: { options: any; source: string }) => {
     });
 
     let html = '';
+    let networkData: NetworkData;
 
     try {
-        const networkData = await requester.get(url);
+        /*
+         * we need to request the HTML separately instead of
+         * just using `JSDOM.fromURL` in order to respect
+         * user options to ignore HTTPS errors.
+         */
+        networkData = await requester.get(url);
 
         html = networkData.response.body.content;
     } catch (error) {
@@ -51,12 +56,14 @@ const run = async (data: { options: any; source: string }) => {
 
         return;
     }
+    const finalUrl = networkData.response.url;
 
     const jsdom = new JSDOM(html, {
-        beforeParse: beforeParse(url),
+        beforeParse: beforeParse(finalUrl),
         pretendToBeVisual: true,
-        resources: 'usable',
+        resources: new EvaluateCustomResourceLoader(requesterOptions, finalUrl),
         runScripts: 'dangerously',
+        url: finalUrl,
         virtualConsole
     });
 
