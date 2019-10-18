@@ -26,9 +26,6 @@
     "rimraf": "^3.0.0",
     "typescript": "^3.6.4"
   },
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "files": [
     "dist/src"
   ],

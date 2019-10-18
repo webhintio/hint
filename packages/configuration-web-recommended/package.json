@@ -39,9 +39,6 @@
     "@hint/parser-javascript": "^3.1.0"
   },
   "description": "webhint's recommended hints configuration for live websites",
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "files": [
     "index.json"
   ],

@@ -96,9 +96,6 @@
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.9"
   },
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "files": [
     "images"
   ],

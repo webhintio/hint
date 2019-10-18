@@ -6,9 +6,6 @@
     "@hint/hint-axe": "^4.2.0"
   },
   "description": "webhint's axe-based accessibility configuration for WCAG 2.1 Level A and Level AA requirements",
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "files": [
     "index.json"
   ],

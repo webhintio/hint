@@ -73,9 +73,6 @@
     "@hint/parser-webpack-config": "^2.1.14"
   },
   "description": "webhint's configuration that includes all the published packages",
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "files": [
     "index.json"
   ],

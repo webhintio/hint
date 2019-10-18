@@ -32,9 +32,6 @@
     "typescript": "^3.6.4",
     "webpack": "^4.39.3"
   },
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "files": [
     "dist/src"
   ],
