@@ -68,6 +68,16 @@ export class HTMLElement {
     }
 
     /**
+     * Check if the value of an attribute was provided as a template
+     * expression, meaning the exact value of the attribute is unknown.
+     */
+    public isAttributeAnExpression(attribute: string): boolean {
+        const value = this.getAttribute(attribute);
+
+        return value ? value.includes('{') : false;
+    }
+
+    /**
      * Helper to find the original location in source of an element.
      * Used when this element is part of a DOM snapshot to search the
      * original fetched document a similar element and use the location
@@ -187,6 +197,7 @@ export class HTMLElement {
 
 export class HTMLDocument {
     private _document: DocumentData;
+    private _documentElement: ElementData;
     private _pageHTML = '';
     private _base: string;
 
@@ -194,9 +205,16 @@ export class HTMLDocument {
 
     public constructor(document: DocumentData, finalHref: string, originalDocument?: HTMLDocument) {
         this._document = document;
+        this._documentElement = this.findDocumentElement();
         this.originalDocument = originalDocument;
         this._pageHTML = parse5.serialize(document, { treeAdapter: htmlparser2Adapter });
         this._base = this.getBaseUrl(finalHref);
+    }
+
+    private findDocumentElement() {
+        return this._document.children.find((node) => {
+            return node.type === 'tag' && node.name === 'html';
+        }) as ElementData;
     }
 
     private getBaseUrl(finalHref: string): string {
@@ -211,15 +229,19 @@ export class HTMLDocument {
     }
 
     public get documentElement(): HTMLElement {
-        const htmlNode = this._document.children.find((node) => {
-            return node.type === 'tag' && node.name === 'html';
-        }) as ElementData;
-
-        return new HTMLElement(htmlNode, this);
+        return new HTMLElement(this._documentElement, this);
     }
 
     public get base(): string {
         return this._base;
+    }
+
+    /**
+     * Check if this represents a template fragment as opposed to a full document.
+     */
+    public get isFragment(): boolean {
+        // Document is a fragment if `<html>` wasn't part of the original source.
+        return !this.originalDocument && !this._documentElement.sourceCodeLocation;
     }
 
     public pageHTML(): string {
