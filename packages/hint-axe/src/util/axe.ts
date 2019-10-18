@@ -1,8 +1,8 @@
 import { CheckResult, AxeResults, ImpactValue, NodeResult as AxeNodeResult } from 'axe-core';
 
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { HTMLDocument, HTMLElement } from '@hint/utils/dist/src/dom/html';
 import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
-import { Severity } from 'hint/dist/src/lib/types';
+import { Severity, CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import { getMessage } from '../i18n.import';
@@ -19,7 +19,7 @@ type Registration = {
     context: HintContext;
     enabledRules: string[];
     options: Options;
-    resource: string;
+    event: CanEvaluateScript;
 };
 
 type RegistrationMap = Map<EngineKey, Map<string, Registration[]>>;
@@ -73,7 +73,7 @@ const getSummary = (node: AxeNodeResult): string => {
  */
 const queueRegistration = (registration: Registration, map: RegistrationMap) => {
     const engineKey = registration.context.engineKey;
-    const resource = registration.resource;
+    const resource = registration.event.resource;
     const registrationsByResource = map.get(engineKey) || new Map();
     const registrations = registrationsByResource.get(resource) || [];
 
@@ -121,14 +121,20 @@ const withQuotes = (ruleId: string) => {
     return `'${ruleId}'`;
 };
 
-const run = async (context: HintContext, resource: string, rules: string[]): Promise<AxeResults | null> => {
+const run = async (context: HintContext, event: CanEvaluateScript, rules: string[]): Promise<AxeResults | null> => {
     const axeCoreSource = await axeCorePromise;
+    const { document, resource } = event;
 
     /* istanbul ignore next */
     try {
+        const target = document.isFragment ?
+            'document.body' :
+            'document';
+
         return await context.evaluate(`(function() {
             ${axeCoreSource}
-            return window.axe.run(document, {
+            var target = ${target};
+            return window.axe.run(target, {
                 runOnly: {
                     type: 'rule',
                     values: [${rules.map(withQuotes).join(',')}]
@@ -172,8 +178,8 @@ export const register = (context: HintContext, rules: string[], disabled: string
         return !disabled.includes(rule);
     });
 
-    context.on('can-evaluate::script', ({ resource }) => {
-        queueRegistration({ context, enabledRules, options, resource }, registrationMap);
+    context.on('can-evaluate::script', (event) => {
+        queueRegistration({ context, enabledRules, event, options }, registrationMap);
     });
 
     context.on('scan::end', async ({ resource }) => {
@@ -183,7 +189,14 @@ export const register = (context: HintContext, rules: string[], disabled: string
             return;
         }
 
+        // TS doesn't detect we are assigning during `reduce`
+        let document!: HTMLDocument;
+
         const ruleToRegistration = registrations.reduce((map, registration) => {
+
+            // `document` should be the same for all registrations of the same `resource`.
+            document = document || registration.event.document;
+
             registration.enabledRules.forEach((rule) => {
                 map.set(rule, registration);
             });
@@ -192,7 +205,7 @@ export const register = (context: HintContext, rules: string[], disabled: string
         }, new Map<string, Registration>());
 
         const rules = Array.from(ruleToRegistration.keys());
-        const result = await run(context, resource, rules);
+        const result = await run(context, { document, resource }, rules);
 
         /* istanbul ignore next */
         if (!result || !Array.isArray(result.violations)) {

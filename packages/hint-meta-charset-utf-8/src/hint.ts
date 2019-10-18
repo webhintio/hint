@@ -43,6 +43,10 @@ export default class MetaCharsetUTF8Hint implements IHint {
 
             validated = true;
 
+            if (document.isFragment) {
+                return;
+            }
+
             /*
              * There are 2 versions of the charset meta element:
              *
