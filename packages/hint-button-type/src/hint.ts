@@ -33,7 +33,9 @@ export default class ButtonTypeHint implements IHint {
             const element = elementFound.element;
             const elementType = element.getAttribute('type');
 
-            if (elementType === null || elementType === '') {
+            if (element.isAttributeAnExpression('type')) {
+                // Assume template expressions will map to a valid value.
+            } else if (elementType === null || elementType === '') {
                 context.report(resource, getMessage('attributeNotSet', context.language), { element });
             } else if (!allowedTypes.includes(elementType.toLowerCase())) {
                 context.report(resource, getMessage('invalidType', context.language, elementType), { element });

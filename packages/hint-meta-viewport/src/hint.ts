@@ -166,6 +166,11 @@ export default class MetaViewportHint implements IHint {
 
         const validate = ({ resource }: TraverseEnd) => {
             const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
+
+            if (pageDOM.isFragment) {
+                return;
+            }
+
             const viewportMetaElements: HTMLElement[] = getViewportMetaElements(pageDOM.querySelectorAll('meta'));
 
             if (viewportMetaElements.length === 0) {
