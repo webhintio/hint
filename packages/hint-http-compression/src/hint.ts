@@ -9,7 +9,7 @@
  */
 import { promisify } from 'util';
 
-import * as brotli from 'iltorb';
+import * as zlib from 'zlib';
 
 import {
     asyncTry,
@@ -28,7 +28,7 @@ import { CompressionCheckOptions } from './types';
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const decompressBrotli = promisify(brotli.decompress) as (buffer: Buffer) => Promise<Buffer>;
+const decompressBrotli = promisify(zlib.brotliDecompress) as (buffer: Buffer) => Promise<Buffer>;
 const uaString = 'Mozilla/5.0 Gecko';
 
 /*

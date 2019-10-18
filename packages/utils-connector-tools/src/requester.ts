@@ -11,7 +11,6 @@ import * as url from 'url';
 import { promisify } from 'util';
 import * as zlib from 'zlib';
 
-import * as brotli from 'iltorb';
 import * as request from 'request';
 import * as iconv from 'iconv-lite';
 import parseDataURL = require('data-urls'); // Using `require` as `data-urls` exports a function.
@@ -28,7 +27,7 @@ import { RedirectManager } from './redirects';
 interface IDecompressor { (content: Buffer): Promise<Buffer> }
 
 const debug = d(__filename);
-const decompressBrotli = promisify(brotli.decompress);
+const decompressBrotli = promisify(zlib.brotliDecompress);
 const decompressGzip = promisify(zlib.gunzip);
 const inflateAsync = promisify(zlib.inflate);
 const inflateRawAsync = promisify(zlib.inflateRaw);

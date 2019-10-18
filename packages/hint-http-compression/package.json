@@ -12,14 +12,12 @@
     "@hint/utils-i18n": "^1.0.0",
     "@hint/utils-network": "^1.0.0",
     "@hint/utils-string": "^1.0.0",
-    "@hint/utils-types": "^1.0.0",
-    "iltorb": "^2.4.4"
+    "@hint/utils-types": "^1.0.0"
   },
   "description": "hint for HTTP compression related best practices",
   "devDependencies": {
     "@hint/utils-dom": "^1.0.0",
     "@hint/utils-tests-helpers": "^5.1.0",
-    "@types/iltorb": "^2.3.0",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -34,9 +32,6 @@
     "nyc": "^14.1.0",
     "rimraf": "^3.0.0",
     "typescript": "^3.6.4"
-  },
-  "engines": {
-    "node": ">=8.0.0"
   },
   "files": [
     "dist/src"
