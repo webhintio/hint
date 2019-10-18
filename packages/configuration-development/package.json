@@ -32,9 +32,6 @@
     "@hint/parser-webpack-config": "^2.1.14"
   },
   "description": "webhint's recommended hints configuration for development",
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "files": [
     "index.json"
   ],
