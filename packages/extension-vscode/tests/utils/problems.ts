@@ -74,5 +74,5 @@ test('It translates missing endColumn and endLine properties correctly', (t) => 
     t.is(diagnostic.range.start.line, location.line);
     t.is(diagnostic.range.start.character, location.column);
     t.is(diagnostic.range.end.character, location.column);
-    t.is(diagnostic.range.end.line, location.column);
+    t.is(diagnostic.range.end.line, location.line);
 });
