@@ -97,7 +97,7 @@ export class Analyzer {
         try {
             configuration = Configuration.fromConfig(userConfiguration, options);
         } catch (e) {
-            throw new AnalyzerError('Invalid configuration', AnalyzerErrorStatus.ConfigurationError);
+            throw new AnalyzerError(`Invalid configuration. ${e.message}.`, AnalyzerErrorStatus.ConfigurationError);
         }
 
         const resources = loadResources(configuration!);
