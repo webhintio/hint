@@ -5,19 +5,46 @@ const execa = require('execa');
 const request = require('request');
 const unzipper = require('unzipper');
 
+// Files that can be updated via the prebuild step but are safe to ignore in the build process
+const thirdPartyFiles = [
+    'snyk-snapshot.json',
+    'validator'
+];
+
 const getCurrentCommitHash = async () => {
     const { stdout: hash } = await execa('git', ['rev-parse', '--verify', 'HEAD']);
 
     return hash;
 };
 
+/**
+ * Determines if a modified file is a safe third party one
+ * @param {string} line One line of the output of `git status --short`
+ */
+const isThirdPartyFile = (line) => {
+    const filePath = line.split(' ').pop();
+
+    for (const thirdPartyFile of thirdPartyFiles) {
+        if (filePath.endsWith(thirdPartyFile)) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
 const repoClean = async () => {
     const { stdout } = await execa('git', ['status', '--short']);
 
     if (stdout !== '') {
-        throw new Error('Repository is not clean');
-    }
+        const lines = stdout.trim().split('\n');
 
+        for (const line of lines) {
+            if (!isThirdPartyFile(line)) {
+                throw new Error('Repository is not clean');
+            }
+        }
+    }
 };
 
 const download = (fileName) => {
@@ -25,9 +52,15 @@ const download = (fileName) => {
 
     return new Promise((resolve, reject) => {
 
-        request(`https://github.com/webhintio/hint/releases/download/dist/${fileName}`, (err) => {
+        request(`https://github.com/webhintio/hint/releases/download/dist/${fileName}`, (err, res) => {
             if (err) {
                 reject(err);
+
+                return;
+            }
+
+            if (res.statusCode !== 200) {
+                reject(new Error(`Artifacts for ${fileName} aren't available`));
 
                 return;
             }
@@ -47,6 +80,14 @@ const unzip = (fileName) => {
             .on('finish', resolve)
             .on('error', reject);
     });
+};
+
+const deleteFile = (fileName) => {
+    console.log(`Deleting ${fileName}`);
+
+    fs.unlinkSync(fileName); // eslint-disable-line no-sync
+
+    console.log(`Done!`);
 };
 
 
@@ -71,6 +112,8 @@ const downloadBuild = async () => {
     } catch (e) {
         console.error(`Couldn't download revision. Maybe sources aren't available?`);
 
+        deleteFile(fileName);
+
         throw e;
     }
 
@@ -84,11 +127,7 @@ const downloadBuild = async () => {
         throw e;
     }
 
-    console.log(`Deleting ${fileName}`);
-
-    fs.unlinkSync(fileName); // eslint-disable-line no-sync
-
-    console.log(`Done!`);
+    deleteFile(fileName);
 };
 
 module.exports = { downloadBuild };
