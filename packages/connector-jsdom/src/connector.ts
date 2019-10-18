@@ -398,7 +398,10 @@ export default class JSDOMConnector implements IConnector {
                 return resolve(result.evaluate);
             });
 
-            runner.send({ source });
+            runner.send({
+                options: this._options,
+                source
+            });
 
             /* istanbul ignore next */
             timeoutId = setTimeout(() => {
