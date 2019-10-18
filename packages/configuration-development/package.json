@@ -26,6 +26,7 @@
     "@hint/parser-less": "^1.0.5",
     "@hint/parser-sass": "^1.0.5",
     "@hint/parser-typescript-config": "^2.3.10",
+    "@hint/parser-vue": "^1.0.0",
     "@hint/parser-webpack-config": "^2.1.13"
   },
   "description": "webhint's recommended hints configuration for development",

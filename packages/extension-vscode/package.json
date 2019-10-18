@@ -7,7 +7,8 @@
     "onLanguage:jsonc",
     "onLanguage:less",
     "onLanguage:sass",
-    "onLanguage:scss"
+    "onLanguage:scss",
+    "onLanguage:vue"
   ],
   "ava": {
     "failFast": false,

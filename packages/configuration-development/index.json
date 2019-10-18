@@ -46,6 +46,7 @@
         "less",
         "sass",
         "typescript-config",
+        "vue",
         "webpack-config"
     ]
 }
