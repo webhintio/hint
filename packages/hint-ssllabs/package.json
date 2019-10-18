@@ -2,7 +2,8 @@
   "ava": {
     "failFast": false,
     "files": [
-      "dist/tests/**/*.js"
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
     ],
     "timeout": "1m"
   },
