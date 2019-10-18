@@ -6,10 +6,10 @@ import intersection = require('lodash/intersection');
 import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
-import { getCSSCodeSnippet } from '@hint/utils/dist/src/report';
+import { getCSSCodeSnippet, getLocationFromNode } from '@hint/utils/dist/src/report';
 
 import { formatAlternatives } from './utils/alternatives';
 import { filterBrowsers, joinBrowsers } from './utils/browsers';
@@ -33,15 +33,6 @@ type Context = {
     ignore: Set<string>;
     report: (data: ReportData) => void;
     walk: (ast: ContainerBase, context: Context) => void;
-};
-
-const getLocationFromNode = (node: ChildNode): ProblemLocation | undefined => {
-    const start = node.source && node.source.start;
-
-    return start && {
-        column: start.column - 1,
-        line: start.line - 1
-    };
 };
 
 const validateAtSupports = (node: AtRule, context: Context): void => {

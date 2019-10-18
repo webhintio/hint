@@ -3,16 +3,16 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
-import { Rule } from 'postcss';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
+import { getLocationFromNode } from '@hint/utils/dist/src/report';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -41,19 +41,6 @@ const isOutsideParentSVG = (parentSVG: HTMLElement) => {
 
         return false;
     };
-};
-
-const getLocation = (rule: Rule): ProblemLocation | null => {
-    const start = rule.source && rule.source.start;
-
-    if (start) {
-        return {
-            column: start.column - 1,
-            line: start.line - 1
-        };
-    }
-
-    return null;
 };
 
 /*
@@ -103,7 +90,7 @@ export default class ScopedSvgStylesHint implements IHint {
 
                     if (matchingElementsOutsideParentSVG.length) {
                         const message = formatRuleMessage(matchingElementsOutsideParentSVG.length);
-                        const location = getLocation(rule);
+                        const location = getLocationFromNode(rule);
                         const codeSnippet = getCSSCodeSnippet(rule);
 
                         context.report(resource, message, {

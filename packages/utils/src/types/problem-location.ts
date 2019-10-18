@@ -10,4 +10,8 @@ export type ProblemLocation = {
     elementId?: number;
     /** The line number relative to the element where a Problem is */
     elementLine?: number;
+    /** The zero-based column number where a Problem ends */
+    endColumn?: number;
+    /** The zero-based line number where a Problem ends */
+    endLine?: number;
 };
