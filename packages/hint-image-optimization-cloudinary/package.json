@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@hint/utils": "^6.0.0",
-    "cloudinary": "^1.15.0",
+    "cloudinary": "^1.16.0",
     "fs-extra": "^8.0.1",
     "image-size": "^0.8.3"
   },
