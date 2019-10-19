@@ -31,7 +31,7 @@ export default class BabelConfigIsValidHint implements IHint {
 
             debug(`${event} received`);
 
-            context.report(resource, error.message, { location: getLocation('extends') });
+            context.report(resource, error.message, { location: getLocation('extends', { at: 'value' }) });
         };
 
         const invalidSchema = (fetchEnd: BabelConfigInvalidSchema) => {
