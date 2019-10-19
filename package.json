@@ -35,7 +35,7 @@
     "tsort": "^0.0.1",
     "typescript": "^3.6.3",
     "unzipper": "^0.10.5",
-    "yargs": "^14.0.0"
+    "yargs": "^14.2.0"
   },
   "engines": {
     "node": ">=8.0.0"
