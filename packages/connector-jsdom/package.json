@@ -10,7 +10,7 @@
     "@hint/utils": "^6.0.0",
     "@hint/utils-connector-tools": "^4.0.13",
     "@types/tough-cookie": "^2.3.5",
-    "jsdom": "^15.1.1",
+    "jsdom": "^15.2.0",
     "mutationobserver-shim": "^0.3.3"
   },
   "description": "hint connector for JSDOM",
