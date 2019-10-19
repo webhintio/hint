@@ -10,7 +10,7 @@
     "@hint/utils": "^6.0.0",
     "chokidar": "^3.0.2",
     "globby": "^10.0.1",
-    "jsdom": "^15.1.1"
+    "jsdom": "^15.2.0"
   },
   "description": "hint local connector",
   "devDependencies": {
