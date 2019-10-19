@@ -265,8 +265,6 @@ export default class PuppeteerConnector implements IConnector {
     private async processTarget() {
         await this.waitForTarget();
 
-        const event = { resource: this._finalHref };
-
         // QUESTION: Even if the content is blank we will receive a minimum HTML with this. Are we OK with the behavior?
 
         const html = await this._page.content();
@@ -287,6 +285,11 @@ export default class PuppeteerConnector implements IConnector {
 
         if (this._targetBody) {
             await traverse(this._dom, this._engine, this._page.url());
+
+            const event = {
+                document: this._dom,
+                resource: this._finalHref
+            };
 
             await this._engine.emitAsync('can-evaluate::script', event);
         }

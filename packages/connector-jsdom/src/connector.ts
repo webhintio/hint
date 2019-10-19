@@ -282,7 +282,10 @@ export default class JSDOMConnector implements IConnector {
 
                         this._document = htmlDocument;
 
-                        const evaluateEvent: Event = { resource: this.finalHref };
+                        const evaluateEvent = {
+                            document: htmlDocument,
+                            resource: this.finalHref
+                        };
 
                         await this.server.emitAsync('can-evaluate::script', evaluateEvent);
 
