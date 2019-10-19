@@ -99,7 +99,12 @@ export default class WebExtensionConnector implements IConnector {
                      * Evaluate after the traversing, just in case something goes wrong
                      * in any of the evaluation and some scripts are left in the DOM.
                      */
-                    await this._engine.emitAsync('can-evaluate::script', { resource });
+                    const event = {
+                        document: this._document,
+                        resource
+                    };
+
+                    await this._engine.emitAsync('can-evaluate::script', event);
 
                     this._onComplete(null, resource);
 

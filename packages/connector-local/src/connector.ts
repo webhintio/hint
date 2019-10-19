@@ -48,7 +48,6 @@ import { JSDOM } from 'jsdom';
 import { contentType, dom, fs, HTMLDocument, HTMLElement, logger, network } from '@hint/utils';
 
 import {
-    CanEvaluateScript,
     Engine,
     Event,
     FetchEnd,
@@ -151,7 +150,7 @@ export default class LocalConnector implements IConnector {
         };
     }
 
-    private async getGitIgnore () {
+    private async getGitIgnore() {
         try {
             const rawList = await readFileAsync(path.join(cwd(), '.gitignore'));
             const splitList = rawList.split('\n');
@@ -316,7 +315,12 @@ export default class LocalConnector implements IConnector {
 
         await traverse(this._document, this.engine, event.resource);
 
-        await this.engine.emitAsync('can-evaluate::script', { resource: this._href } as CanEvaluateScript);
+        const canEvaluateEvent = {
+            document: this._document,
+            resource: this._href
+        };
+
+        await this.engine.emitAsync('can-evaluate::script', canEvaluateEvent);
     }
 
     /*
