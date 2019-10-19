@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@hint/utils": "^6.0.0",
-    "acorn": "^7.0.0",
+    "acorn": "^7.1.0",
     "acorn-walk": "^7.0.0"
   },
   "description": "webhint parser needed to analyze JavaScript files",
