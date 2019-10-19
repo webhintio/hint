@@ -79,7 +79,7 @@
     "react-dom": "^16.10.2",
     "react-syntax-highlighter": "^11.0.2",
     "rimraf": "^3.0.0",
-    "sinon": "^7.4.2",
+    "sinon": "^7.5.0",
     "style-loader": "^1.0.0",
     "svg-url-loader": "^3.0.2",
     "terser-webpack-plugin": "^2.1.2",
