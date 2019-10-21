@@ -24,7 +24,7 @@ you can find some problems related to building those packages on WSL:
 > gyp ERR! stack Error: not found: make
 
 This is solved by installing the prerequisites of those packages [iltorb].
-**However, due to the hard dependency on Puppeter,
+**However, due to the hard dependency on Puppeteer,
  we do not recommend using WSL to run webhint.**
 
 If you want to run webhint on WSL, you need to create your own config
