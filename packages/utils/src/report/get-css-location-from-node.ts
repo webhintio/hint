@@ -11,8 +11,8 @@ export const getLocationFromNode = (node: ChildNode): ProblemLocation | undefine
             line: start.line - 1
         },
         ...end && {
-            endColumn: end.column,
-            endLine: end.line
+            endColumn: end.column - 1,
+            endLine: end.line - 1
         }
     };
 
