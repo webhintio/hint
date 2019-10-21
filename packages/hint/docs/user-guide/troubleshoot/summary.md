@@ -11,17 +11,6 @@ This section contains the most commons issues reported by users with
 potential fixes. If you run into something that is not documented
 here please [open an issue in the hint repo][new issue].
 
-## Windows Subsystem Linux
-
-Due to the project using binary packages (`canvas` and `iltorb`) you can find some problems related to building those packages on WSL:
-
-> Info looking for cached prebuild @ /home/mahome/.npm/_prebuilds/47fbee-iltorb-v2.4.3-node-v59-linux-x64.tar.gz
-> WARN install No prebuilt binaries found (target=9.10.0 runtime=node arch=x64 libc= platform=linux)
-> gyp ERR! build error 
-> gyp ERR! stack Error: not found: make
-
-This is solved by installing the prerequisites of those packages [iltorb]. **However, due to the hard dependency on Puppeter, we do not recommend using WSL to run webhint.**
-
 ## Building Windows packages
 
 Depending on your environment you could get an error similar to the
@@ -79,7 +68,6 @@ globally.
 [canvas compile]: https://github.com/Automattic/node-canvas#compiling
 [canvas x86]: https://github.com/node-gfx/node-canvas-prebuilt/issues/27#issuecomment-348037675
 [homebrew]: https://brew.sh/
-[iltorb]: https://www.npmjs.com/package/iltorb
 [new issue]: https://github.com/webhintio/hint/issues/new
 [npm change default directory]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-2-change-npms-default-directory-to-another-directory
 [npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
