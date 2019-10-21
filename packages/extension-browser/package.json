@@ -3,7 +3,8 @@
     "failFast": false,
     "files": [
       "dist/tests/**/*.js",
-      "!dist/tests/**/fixtures/**/*.js"
+      "!dist/tests/**/fixtures/**/*.js",
+      "!dist/tests/helpers/**/*.js"
     ],
     "timeout": "1m"
   },
