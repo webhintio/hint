@@ -20,7 +20,7 @@ const meta: HintMetadata = {
     },
     id: 'manifest-icons',
     schema: [],
-    scope: HintScope.site
+    scope: HintScope.any
 };
 
 export default meta;
