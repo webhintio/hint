@@ -13,10 +13,10 @@ export default class VueParser extends Parser<VueEvents> {
     public constructor(engine: Engine<VueEvents>) {
         super(engine, 'vue');
 
-        engine.on('fetch::end::unknown', async ({ resource, code }: FetchEnd) => {
+        engine.on('fetch::end::unknown', async ({ resource }: FetchEnd) => {
             await engine.emitAsync(`parse::start::vue`, { resource });
 
-            await engine.emitAsync(`parse::end::vue`, {});
+            await engine.emitAsync(`parse::end::vue`, { resource });
         });
     }
 }
