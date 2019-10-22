@@ -22,6 +22,7 @@ import { getMessage } from './i18n.import';
 type ReportData = {
     feature: string;
     formatFeature?: (name: string) => string;
+    isValue?: boolean;
     node: ChildNode;
     unsupported: UnsupportedBrowsers;
 };
@@ -73,7 +74,7 @@ const validateDeclValue = (node: Declaration, context: Context): ReportData | nu
             return `${node.prop}: ${value}`;
         };
 
-        return { feature: formatFeature(node.value), formatFeature, node, unsupported };
+        return { feature: formatFeature(node.value), formatFeature, isValue: true, node, unsupported };
     }
 
     return null;
@@ -239,13 +240,13 @@ export default class CSSCompatHint implements IHint {
         context.on('parse::end::css', ({ ast, element, resource }) => {
             const browsers = filterBrowsers(context.targetedBrowsers);
 
-            const report = ({ feature, formatFeature, node, unsupported }: ReportData) => {
+            const report = ({ feature, formatFeature, isValue, node, unsupported }: ReportData) => {
                 const message = [
                     getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]),
                     ...formatAlternatives(context.language, unsupported, formatFeature)
                 ].join(' ');
                 const codeSnippet = getCSSCodeSnippet(node);
-                const location = getLocationFromNode(node);
+                const location = getLocationFromNode(node, isValue);
 
                 context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
             };

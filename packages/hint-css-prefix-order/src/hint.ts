@@ -110,7 +110,8 @@ export default class CssPrefixOrderHint implements IHint {
             ast.walkRules((rule) => {
                 for (const invalidPair of validateRule(rule)) {
                     const message = formatMessage(invalidPair);
-                    const location = getLocationFromNode(invalidPair.unprefixed);
+                    const isValue = invalidPair.lastPrefixed.prop === invalidPair.unprefixed.prop;
+                    const location = getLocationFromNode(invalidPair.unprefixed, isValue);
                     const codeSnippet = getCSSCodeSnippet(invalidPair.unprefixed);
 
                     context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
