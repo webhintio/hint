@@ -56,7 +56,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Icon could not be fetched (status code: 404).`,
-                position: { match: 'src": "an-inaccessible-path.png"' }
+                position: { match: '"an-inaccessible-path.png"' }
             }
         ],
         serverConfig: {
@@ -91,7 +91,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Real image type (png) do not match with specified type (madeuptype)`,
-                position: { match: 'type": "image/madeuptype' }
+                position: { match: '"image/madeuptype"' }
             }
         ],
         serverConfig: {
@@ -127,7 +127,10 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Icon type was not specified.`,
-                position: { match: '{\n                            "src"' }
+                position: {
+                    match: `{
+                            "src": "fixtures/icon-192x192.png",`
+                }
             }
         ],
         serverConfig: {
@@ -150,7 +153,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Real image size (128x128) do not match with specified size(s) (128x121,128x122,128x123)`,
-                position: { match: 'sizes": "128x121 128x122 128x123' }
+                position: { match: '"128x121 128x122 128x123"' }
             }
         ],
         serverConfig: {
@@ -186,7 +189,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Required sizes ["512x512"] not found.`,
-                position: { match: 'icons' }
+                position: { match: `icons` }
             }
         ],
         serverConfig: {
