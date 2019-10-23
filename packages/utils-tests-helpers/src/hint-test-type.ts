@@ -5,6 +5,7 @@ import { ProblemLocation } from 'hint';
 export type MatchProblemLocation = {
     /** A substring matching the location of the problem. */
     match: string;
+    range?: string;
 };
 
 export type Report = {

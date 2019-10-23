@@ -12,7 +12,7 @@ import { fs, network } from '@hint/utils';
 import { Configuration, Engine, HintsConfigObject, IHintConstructor, Problem, ProblemLocation, utils } from 'hint';
 
 import { ids as connectors } from './connectors';
-import { HintTest, HintLocalTest, Report } from './hint-test-type';
+import { HintTest, HintLocalTest, Report, MatchProblemLocation } from './hint-test-type';
 
 const { resourceLoader } = utils;
 const { readFileAsync } = fs;
@@ -43,7 +43,8 @@ const determineParsers = (parsers?: string[]) => {
  * Generates a ProblemLocation based on the index of the first occurance
  * of the provided substring.
  */
-const findPosition = (source: string, match: string): ProblemLocation => {
+const findPosition = (source: string, position: MatchProblemLocation): ProblemLocation => {
+    const { match, range } = position;
     const lines = source.split('\n');
     const index = source.indexOf(match);
 
@@ -55,10 +56,21 @@ const findPosition = (source: string, match: string): ProblemLocation => {
         line++;
     }
 
-    return {
+    const result: ProblemLocation = {
         column,
         line
     };
+
+    if (range) {
+        const lineText = lines[line];
+
+        const rangeIndex = lineText.indexOf(range);
+
+        result.endColumn = rangeIndex + range.length;
+        result.endLine = line;
+    }
+
+    return result;
 };
 
 /**
@@ -166,12 +178,19 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
             }
 
             if (report.position && location) {
-                const position = 'match' in report.position ?
-                    findPosition(sources.get(resource) || '', report.position.match) :
-                    report.position;
+                let position: ProblemLocation | undefined;
+
+                if ('match' in report.position) {
+                    position = findPosition(sources.get(resource) || '', report.position);
+                } else {
+                    position = report.position;
+                }
 
                 return position.column === location.column &&
-                    position.line === location.line;
+                    position.line === location.line &&
+                    (!('range' in report.position) || (
+                        position.endLine === location.endLine &&
+                        position.endColumn === location.endColumn));
             }
 
             return true;
