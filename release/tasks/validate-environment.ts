@@ -8,6 +8,8 @@ import { debug, execa } from '../lib/utils';
 import { ListrTaskWrapper } from 'listr';
 import { getCurrentBranchRemoteInfo } from '../lib/git-helpers';
 
+const validRemoteBranches = ['master', 'servicing'];
+
 const runningInRoot = () => {
     const errorMessage = 'Not running from root of project';
     const pkg = require(path.join(process.cwd(), 'package.json'));
@@ -69,7 +71,7 @@ const authenticatedOnVsce = async () => {
     }
 };
 
-const masterRemote = async () => {
+const validRemote = async () => {
     const { remoteBranch, remoteURL } = await getCurrentBranchRemoteInfo();
 
     /*
@@ -89,8 +91,8 @@ const masterRemote = async () => {
         throw new Error(message);
     }
 
-    if (remoteBranch !== 'master') {
-        const message = `Current branch "${remoteBranch}" does not point to master`;
+    if (!validRemoteBranches.includes(remoteBranch)) {
+        const message = `Current branch "${remoteBranch}" does not point to any of the valid branches (${validRemoteBranches.join(', ')})`;
 
         debug(message);
 
@@ -118,7 +120,7 @@ export const validateEnvironment = async (ctx: Context, task: ListrTaskWrapper) 
 
     // We don't care about the branch when running on `--dryRun` mode
     if (!ctx.argv.dryRun) {
-        checks.push(masterRemote);
+        checks.push(validRemote);
     } else {
         debug('skipping branch check');
     }
