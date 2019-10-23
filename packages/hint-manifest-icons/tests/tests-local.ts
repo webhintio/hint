@@ -13,7 +13,7 @@ const localTests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'empty-icons.webmanifest'),
         reports: [{
             message: `Valid icons property was not found in the web app manifest`,
-            position: { match: '[' }
+            position: { match: 'icons' }
         }]
     },
     {

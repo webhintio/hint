@@ -249,7 +249,7 @@ export default class ManifestIconHint implements IHint {
                 } else {
                     // Empty array in `icons` property (otherwise the schema will not validate)
                     const message = getMessage('validIconsNotFound', context.language);
-                    const location = getLocation('icons', { at: 'value' });
+                    const location = getLocation('icons');
 
                     context.report(resource, message, { location });
                 }
