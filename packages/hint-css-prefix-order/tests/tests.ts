@@ -98,7 +98,7 @@ const tests: HintTest[] = [
         name: 'Prefixed values listed last fail',
         reports: [{
             message: `'display: grid' should be listed after 'display: -ms-grid'.`,
-            position: { match: 'display: grid; /* Report */' }
+            position: { match: 'grid; /* Report */' }
         }],
         serverConfig: generateConfig('prefixed-values-last')
     },

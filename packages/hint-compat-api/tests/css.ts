@@ -86,7 +86,7 @@ testHint(hintPath,
             reports: [
                 {
                     message: `'display: grid' is not supported by Edge < 16. Add 'display: -ms-grid' to support Edge 12+.`,
-                    position: { match: 'display: grid; /* Report */' }
+                    position: { match: 'grid; /* Report */' }
                 }
             ],
             serverConfig: generateCSSConfig('supports')
@@ -96,19 +96,19 @@ testHint(hintPath,
             reports: [
                 {
                     message: `'display: grid' is not supported by Internet Explorer.`,
-                    position: { match: 'display: grid; /* Report 1 */' }
+                    position: { match: 'grid; /* Report 1 */' }
                 },
                 {
                     message: `'display: grid' is not supported by Internet Explorer.`,
-                    position: { match: 'display: grid; /* Report 2 */' }
+                    position: { match: 'grid; /* Report 2 */' }
                 },
                 {
                     message: `'display: -ms-grid' is not supported by Chrome, Firefox, Internet Explorer < 10. Add 'display: grid' to support Chrome 57+, Firefox 52+.`,
-                    position: { match: 'display: -ms-grid; /* Report 3 */' }
+                    position: { match: '-ms-grid; /* Report 3 */' }
                 },
                 {
                     message: `'display: grid' is not supported by Edge < 16, Internet Explorer. Add 'display: -ms-grid' to support Edge 12+, Internet Explorer 10+.`,
-                    position: { match: 'display: grid; /* Report 4 */' }
+                    position: { match: 'grid; /* Report 4 */' }
                 }
             ],
             serverConfig: generateCSSConfig('values')
