@@ -26,14 +26,12 @@ const configChecker = (property: string, desiredValue: boolean, messageName: Mes
             const inOriginal = findValue(property, originalConfig);
 
             if (current !== inOriginal && 'extends' in originalConfig) {
-                return context.report(resource, getMessage(messageName, context.language), { location: getLocation('extends', { at: 'value' }) });
+                context.report(resource, getMessage(messageName, context.language), { location: getLocation('extends', { at: 'value' }) });
+            } else if (typeof inOriginal !== 'undefined') {
+                context.report(resource, getMessage(messageName, context.language), { location: getLocation(property, { at: 'value' }) });
+            } else {
+                context.report(resource, getMessage(messageName, context.language), { location: getLocation(property) });
             }
-
-            if (typeof inOriginal !== 'undefined') {
-                return context.report(resource, getMessage(messageName, context.language), { location: getLocation(property, { at: 'value' }) });
-            }
-
-            return context.report(resource, getMessage(messageName, context.language), { location: getLocation(property) });
         }
     };
 };
