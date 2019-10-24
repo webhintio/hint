@@ -8,10 +8,13 @@
     "timeout": "1m"
   },
   "dependencies": {
-    {{{dependencyVersion "@hint/utils-debug"}}}
+    {{{dependencyVersion "@hint/utils-debug"}}},{{#if packageData.official}}
+    {{{dependencyVersion "@hint/utils-i18n"}}},{{/if}}
+    {{{dependencyVersion "@hint/utils-types"}}}
   },
   "description": "{{description}}",
   "devDependencies": {
+    {{{dependencyVersion "@hint/utils"}}},
     {{{dependencyVersion "@hint/utils-tests-helpers"}}},
     {{{dependencyVersion "@types/node"}}},
     {{{dependencyVersion "@typescript-eslint/eslint-plugin"}}},
