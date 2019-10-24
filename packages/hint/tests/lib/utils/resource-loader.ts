@@ -34,15 +34,13 @@ const loadScript = (context: ResourceLoaderContext) => {
     return proxyquire('../../../src/lib/utils/resource-loader', {
         '@hint/utils': {
             debug: utils.debug,
-            fs: utils.fs,
-            packages: {
-                findNodeModulesRoot: utils.packages.findNodeModulesRoot,
-                findPackageRoot: utils.packages.findPackageRoot,
-                hasMultipleResources: utils.packages.hasMultipleResources,
-                isFullPackageName: utils.packages.isFullPackageName,
-                loadResource: context.loadResource,
-                requirePackage: utils.packages.requirePackage
-            }
+            findNodeModulesRoot: utils.findNodeModulesRoot,
+            findPackageRoot: utils.findPackageRoot,
+            hasMultipleResources: utils.hasMultipleResources,
+            isFullPackageName: utils.isFullPackageName,
+            loadResource: context.loadResource,
+            readFile: utils.readFile,
+            requirePackage: utils.requirePackage
         }
     });
 };

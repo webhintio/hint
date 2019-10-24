@@ -1,8 +1,6 @@
-import { fs, test } from '@hint/utils';
+import { generateHTMLPage, getHintPath, readFile } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { readFile } = fs;
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const styles = readFile(`${__dirname}/fixtures/styles.css`);

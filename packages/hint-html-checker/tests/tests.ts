@@ -5,7 +5,7 @@ import * as mock from 'mock-require';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
 import * as utils from '@hint/utils';
 
-const { getHintPath } = utils.test;
+const { getHintPath } = utils;
 const hintPath = getHintPath(__filename);
 const exampleUrl = 'https://empty.webhint.io/';
 const validatorError = 'error';
@@ -95,7 +95,7 @@ const htmlCheckerMock = (response: any) => {
         return Promise.reject(validatorError); // Error with the validator
     };
 
-    (utils.network as any).requestAsync = requestAsync;
+    (utils as any).requestAsync = requestAsync;
 
     mock('@hint/utils', utils);
 };

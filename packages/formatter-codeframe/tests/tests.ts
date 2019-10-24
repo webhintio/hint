@@ -34,10 +34,11 @@ const initContext = (t: ExecutionContext<CodeframeContext>) => {
 const loadScript = (context: CodeframeContext) => {
     const script = proxyquire('../src/formatter', {
         '@hint/utils': {
+            cutString: utils.cutString,
             debug: utils.debug,
-            fs: { writeFileAsync: context.writeFileAsync },
+            fs: { },
             logger: context.logging,
-            misc: utils.misc
+            writeFileAsync: context.writeFileAsync
         }
     });
 

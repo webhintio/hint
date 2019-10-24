@@ -5,13 +5,11 @@
 import { URL } from 'url';
 
 import { ElementFound, FetchEnd, HintContext, IHint, ScanStart } from 'hint';
-import { debug as d, misc, network } from '@hint/utils';
+import { debug as d, includedHeaders, normalizeString } from '@hint/utils';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { normalizeString } = misc;
-const { includedHeaders } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*

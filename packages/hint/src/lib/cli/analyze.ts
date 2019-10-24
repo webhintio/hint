@@ -6,7 +6,22 @@ import * as isCI from 'is-ci';
 import * as ora from 'ora';
 import * as osLocale from 'os-locale';
 
-import { appInsights, configStore, debug as d, fs, getHintsFromConfiguration, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity } from '@hint/utils';
+import {
+    appInsights,
+    askQuestion,
+    configStore,
+    ConnectorConfig,
+    cwd,
+    debug as d,
+    getAsUris,
+    getHintsFromConfiguration,
+    HintsConfigObject,
+    HintSeverity,
+    installPackages,
+    logger,
+    mergeEnvWithOptions,
+    normalizeHints
+} from '@hint/utils';
 import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
 
 import {
@@ -22,10 +37,6 @@ import { createAnalyzer, getUserConfig } from '../';
 import { Analyzer } from '../analyzer';
 import { AnalyzerErrorStatus } from '../enums/error-status';
 
-const { getAsUris } = network;
-const { askQuestion, mergeEnvWithOptions } = misc;
-const { installPackages } = npm;
-const { cwd } = fs;
 const debug: debug.IDebugger = d(__filename);
 const alreadyRunKey: string = 'run';
 const spinner = ora({ spinner: 'line' });

@@ -19,12 +19,10 @@ import * as logSymbols from 'log-symbols';
 import * as table from 'text-table';
 const stripAnsi = require('strip-ansi');
 
-import { debug as d, fs, logger, misc } from '@hint/utils';
+import { cutString, debug as d, logger, writeFileAsync } from '@hint/utils';
 import { FormatterOptions, IFormatter, Problem, Severity } from 'hint';
 
 import { getMessage } from './i18n.import';
-
-const { cutString } = misc;
 
 const _ = {
     forEach,
@@ -32,7 +30,6 @@ const _ = {
     reduce,
     sortBy
 };
-const { writeFileAsync } = fs;
 const debug = d(__filename);
 
 const printPosition = (position: number, text: string) => {

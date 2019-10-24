@@ -1,10 +1,8 @@
 import * as puppeteer from 'puppeteer-core';
-import { contentType, HTMLDocument, HttpHeaders } from '@hint/utils';
+import { getContentTypeData, HTMLDocument, HttpHeaders } from '@hint/utils';
 import { normalizeHeaders } from '@hint/utils-connector-tools';
 import { FetchEnd, NetworkData } from 'hint';
 import { getElementFromResponse } from './get-element-from-response';
-
-const { getContentTypeData } = contentType;
 
 export type Fetcher = (target: string | URL, customHeaders?: object) => Promise<NetworkData>;
 

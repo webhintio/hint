@@ -1,7 +1,6 @@
-import { test as testUtils } from '@hint/utils';
+import { generateHTMLPage, getHintPath } from '@hint/utils';
 import { testHint } from '@hint/utils-tests-helpers';
 
-const { generateHTMLPage, getHintPath } = testUtils;
 const hintPath = getHintPath(__filename);
 
 const generateCSSRules = (count = 1) => {

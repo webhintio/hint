@@ -1,4 +1,4 @@
-import { test } from '@hint/utils';
+import { getHintPath } from '@hint/utils';
 import { testHint } from '@hint/utils-tests-helpers';
 
 import {
@@ -14,7 +14,6 @@ import {
     testsForUserConfigs
 } from './_tests';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 /*

@@ -45,7 +45,20 @@ import * as chokidar from 'chokidar';
 import * as globby from 'globby';
 import { JSDOM } from 'jsdom';
 
-import { contentType, dom, fs, HTMLDocument, HTMLElement, logger, network } from '@hint/utils';
+import {
+    asPathString,
+    cwd,
+    getAsUri,
+    getContentTypeData,
+    getType,
+    HTMLDocument,
+    HTMLElement,
+    isFile,
+    isTextMediaType,
+    logger,
+    readFileAsync,
+    traverse
+} from '@hint/utils';
 
 import {
     Engine,
@@ -66,10 +79,6 @@ import { getMessage } from './i18n.import';
  * ------------------------------------------------------------------------------
  */
 
-const { traverse } = dom;
-const { getContentTypeData, getType, isTextMediaType } = contentType;
-const { cwd, isFile, readFileAsync } = fs;
-const { asPathString, getAsUri } = network;
 const defaultOptions = {};
 
 export default class LocalConnector implements IConnector {

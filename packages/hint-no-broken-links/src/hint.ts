@@ -10,14 +10,13 @@ import {
     NetworkData,
     TraverseEnd
 } from 'hint';
-import { debug as d, HTMLElement, network } from '@hint/utils';
+import { debug as d, HTMLElement, isRegularProtocol } from '@hint/utils';
 import { Requester } from '@hint/utils-connector-tools';
 import { CoreOptions } from 'request';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*

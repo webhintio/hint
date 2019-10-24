@@ -1,8 +1,6 @@
 import * as Handlebars from 'handlebars';
-import { fs } from '@hint/utils';
+import { readFileAsync } from '@hint/utils';
 import { loadCreateHintPackage } from './utils';
-
-const { readFileAsync } = fs;
 
 const pkg = loadCreateHintPackage();
 

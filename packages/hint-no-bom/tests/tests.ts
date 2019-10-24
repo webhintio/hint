@@ -5,8 +5,7 @@ import * as mock from 'mock-require';
 import * as utils from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { generateHTMLPage, getHintPath } = utils.test;
-const originalAsyncTry = utils.asyncTry;
+const { asyncTry: originalAsyncTry, generateHTMLPage, getHintPath } = utils;
 
 const hintPath = getHintPath(__filename);
 const bom = fs.readFileSync(`${__dirname}/fixtures/bom.html`); // eslint-disable-line no-sync

@@ -6,7 +6,7 @@ import { spawn } from 'child_process';
 import * as locker from 'lockfile';
 import * as puppeteer from 'puppeteer-core';
 
-import { debug as d, fs } from '@hint/utils';
+import { debug as d, readFileAsync, writeFileAsync } from '@hint/utils';
 import { LaunchOptions } from 'puppeteer-core';
 
 const debug: debug.IDebugger = d(__filename);
@@ -15,8 +15,6 @@ const lockFile = promisify(locker.lock) as (path: string, options: locker.Option
 const unlockFile = promisify(locker.unlock);
 const lockName = 'puppeteer-connector.lock';
 let isLocked = false;
-
-const { readFileAsync, writeFileAsync } = fs;
 
 const infoFile = 'browser.info';
 const TIMEOUT = 30000;

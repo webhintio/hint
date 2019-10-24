@@ -11,8 +11,7 @@ import { Engine, FetchEnd, ErrorEvent } from 'hint';
 
 import { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfigInvalidSchema } from '../src/parser';
 
-const { loadJSONFile, readFile } = utils.fs;
-const { getAsUri } = utils.network;
+const { getAsUri, loadJSONFile, readFile } = utils;
 
 type SandboxContext = {
     sandbox: sinon.SinonSandbox;
@@ -25,16 +24,16 @@ const schema = readFile(path.join(__dirname, 'fixtures', 'schema.json'));
 const mockContext = (context: SandboxContext) => {
     const statObject = { mtime: new Date() };
 
-    (utils.network as any).requestAsync = (url: string): Promise<string> => {
+    (utils as any).requestAsync = (url: string): Promise<string> => {
         return Promise.resolve(schema);
     };
 
-    (utils.fs as any).writeFileAsync = (path: string, content: string): Promise<void> => {
+    (utils as any).writeFileAsync = (path: string, content: string): Promise<void> => {
         return Promise.resolve();
     };
 
-    const requestAsyncStub = context.sandbox.stub(utils.network, 'requestAsync');
-    const writeFileAsyncStub = context.sandbox.stub(utils.fs, 'writeFileAsync');
+    const requestAsyncStub = context.sandbox.stub(utils, 'requestAsync');
+    const writeFileAsyncStub = context.sandbox.stub(utils, 'writeFileAsync');
 
     const fs = {
         stat(path: string, callback: Function): void {

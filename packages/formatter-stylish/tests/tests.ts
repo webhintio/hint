@@ -35,10 +35,10 @@ const initContext = (t: ExecutionContext<StylishContext>) => {
 const loadScript = (context: StylishContext) => {
     const script = proxyquire('../src/formatter', {
         '@hint/utils': {
+            cutString: utils.cutString,
             debug: utils.debug,
-            fs: { writeFileAsync: context.writeFileAsync },
             logger: context.logging,
-            misc: utils.misc
+            writeFileAsync: context.writeFileAsync
         }
     });
 

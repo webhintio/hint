@@ -4,7 +4,7 @@
 
 import { URL } from 'url';
 
-import { debug as d, network } from '@hint/utils';
+import { debug as d, isHTTPS, normalizeHeaderValue } from '@hint/utils';
 import { FetchEnd, HintContext, IHint, Response, ScanEnd } from 'hint';
 
 import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';
@@ -13,7 +13,6 @@ import * as Connections from './connections';
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { isHTTPS, normalizeHeaderValue } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /**

@@ -4,7 +4,18 @@ import * as isCI from 'is-ci';
 import compact = require('lodash/compact');
 import * as puppeteer from 'puppeteer-core';
 
-import { Browser, getInstallationPath, debug as d, dom, HTMLElement, HTMLDocument, HttpHeaders, misc, network } from '@hint/utils';
+import {
+    Browser,
+    getInstallationPath,
+    debug as d,
+    createHTMLDocument,
+    traverse,
+    HTMLElement,
+    HTMLDocument,
+    HttpHeaders,
+    getPlatform,
+    isRegularProtocol
+} from '@hint/utils';
 import { normalizeHeaders, Requester } from '@hint/utils-connector-tools';
 import { IConnector, Engine, NetworkData } from 'hint';
 
@@ -16,9 +27,6 @@ import { onRequestHandler, onRequestFailedHandler, onResponseHandler } from './l
 
 import { schema } from './lib/schema';
 
-const { createHTMLDocument, traverse } = dom;
-const { getPlatform } = misc;
-const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 
 type EventName = keyof puppeteer.PageEventObj;

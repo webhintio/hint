@@ -31,7 +31,17 @@ import { fork, ChildProcess } from 'child_process';
 
 import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
 
-import { contentType, debug as d, dom, HTMLElement, HTMLDocument, HttpHeaders, network } from '@hint/utils';
+import {
+    createHTMLDocument,
+    debug as d,
+    getContentTypeData,
+    getType,
+    HTMLDocument,
+    HTMLElement,
+    HttpHeaders,
+    isHTMLDocument,
+    traverse
+} from '@hint/utils';
 import { Engine, Event, FetchEnd, FetchError, IConnector, NetworkData } from 'hint';
 import { Requester } from '@hint/utils-connector-tools';
 
@@ -43,10 +53,6 @@ import { beforeParse } from './before-parse';
  * Defaults
  * ------------------------------------------------------------------------------
  */
-
-const { createHTMLDocument, traverse } = dom;
-const { getContentTypeData, getType } = contentType;
-const { isHTMLDocument } = network;
 const debug: debug.IDebugger = d(__filename);
 
 const defaultOptions = {

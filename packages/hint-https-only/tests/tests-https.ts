@@ -1,9 +1,8 @@
 import { readFileSync } from 'fs';
 
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
+import { generateHTMLPage, getHintPath } from '@hint/utils';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);

@@ -4,13 +4,12 @@ import test from 'ava';
 import * as sinon from 'sinon';
 
 import { Server } from '@hint/utils-create-server';
-import { test as testUtils } from '@hint/utils';
+import { generateHTMLPage } from '@hint/utils';
 import { Engine, Events } from 'hint';
 
 import Connector from '../src/connector';
 import { validEvent } from './_valid-event';
 
-const { generateHTMLPage } = testUtils;
 const name = 'puppeteer';
 
 test(`[${name}] Form authentication on a page works`, async (t) => {
