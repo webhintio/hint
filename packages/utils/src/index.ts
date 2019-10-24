@@ -13,7 +13,6 @@ export * from './test';
 export * from './dom';
 export * from './report';
 export * from './chromium-finder';
-export * from './i18n';
 
 export * from './chromium-finder';
 export * from './config';
