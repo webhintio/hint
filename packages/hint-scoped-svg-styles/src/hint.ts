@@ -12,7 +12,7 @@ import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snip
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
-import { getLocationFromNode } from '@hint/utils/dist/src/report';
+import { getCSSLocationFromNode } from '@hint/utils/dist/src/report';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -90,7 +90,7 @@ export default class ScopedSvgStylesHint implements IHint {
 
                     if (matchingElementsOutsideParentSVG.length) {
                         const message = formatRuleMessage(matchingElementsOutsideParentSVG.length);
-                        const location = getLocationFromNode(rule);
+                        const location = getCSSLocationFromNode(rule);
                         const codeSnippet = getCSSCodeSnippet(rule);
 
                         context.report(resource, message, {

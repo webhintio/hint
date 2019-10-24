@@ -14,7 +14,7 @@ import { StyleEvents, StyleParse } from '@hint/parser-css';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
-import { getLocationFromNode } from '@hint/utils/dist/src/report';
+import { getCSSLocationFromNode } from '@hint/utils/dist/src/report';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -30,8 +30,8 @@ const validatePair = (pair: Partial<DeclarationPair>): boolean => {
         return false;
     }
 
-    const prefixedLocation = getLocationFromNode(pair.lastPrefixed) || { column: 0, line: 0 };
-    const unprefixedLocation = getLocationFromNode(pair.unprefixed) || { column: 0, line: 0 };
+    const prefixedLocation = getCSSLocationFromNode(pair.lastPrefixed) || { column: 0, line: 0 };
+    const unprefixedLocation = getCSSLocationFromNode(pair.unprefixed) || { column: 0, line: 0 };
 
     // Valid if last prefixed line is before unprefixed line.
     if (prefixedLocation.line < unprefixedLocation.line) {
@@ -111,7 +111,7 @@ export default class CssPrefixOrderHint implements IHint {
                 for (const invalidPair of validateRule(rule)) {
                     const message = formatMessage(invalidPair);
                     const isValue = invalidPair.lastPrefixed.prop === invalidPair.unprefixed.prop;
-                    const location = getLocationFromNode(invalidPair.unprefixed, isValue);
+                    const location = getCSSLocationFromNode(invalidPair.unprefixed, { isValue });
                     const codeSnippet = getCSSCodeSnippet(invalidPair.unprefixed);
 
                     context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });

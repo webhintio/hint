@@ -9,7 +9,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
-import { getCSSCodeSnippet, getLocationFromNode } from '@hint/utils/dist/src/report';
+import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils/dist/src/report';
 
 import { formatAlternatives } from './utils/alternatives';
 import { filterBrowsers, joinBrowsers } from './utils/browsers';
@@ -246,7 +246,7 @@ export default class CSSCompatHint implements IHint {
                     ...formatAlternatives(context.language, unsupported, formatFeature)
                 ].join(' ');
                 const codeSnippet = getCSSCodeSnippet(node);
-                const location = getLocationFromNode(node, isValue);
+                const location = getCSSLocationFromNode(node, { isValue });
 
                 context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
             };

@@ -1,16 +1,16 @@
 import test from 'ava';
 import { ChildNode } from 'postcss';
 
-import { getLocationFromNode } from '../../src/report/get-css-location-from-node';
+import { getCSSLocationFromNode } from '../../src/report/get-css-location-from-node';
 
 test(`If node doesn't have any location info, it should return undefined`, (t) => {
-    const result = getLocationFromNode({ source: {} } as ChildNode);
+    const result = getCSSLocationFromNode({ source: {} } as ChildNode);
 
     t.is(result, undefined);
 });
 
 test(`If node type is 'atrule' it should return the same start and end position`, (t) => {
-    const result = getLocationFromNode({
+    const result = getCSSLocationFromNode({
         source: {
             start: {
                 column: 1,
@@ -27,7 +27,7 @@ test(`If node type is 'atrule' it should return the same start and end position`
 });
 
 test(`If node type is 'rule' it should return the same start and end position`, (t) => {
-    const result = getLocationFromNode({
+    const result = getCSSLocationFromNode({
         source: {
             start: {
                 column: 1,
@@ -44,7 +44,7 @@ test(`If node type is 'rule' it should return the same start and end position`, 
 });
 
 test(`If node type is 'comment' it should return the same start and end position`, (t) => {
-    const result = getLocationFromNode({
+    const result = getCSSLocationFromNode({
         source: {
             start: {
                 column: 1,
@@ -61,7 +61,7 @@ test(`If node type is 'comment' it should return the same start and end position
 });
 
 test(`If node type is decl and the second parameter is not present, it should return the position of the property`, (t) => {
-    const result = getLocationFromNode({
+    const result = getCSSLocationFromNode({
         prop: 'display',
         source: {
             start: {
@@ -83,7 +83,7 @@ test(`If node type is decl and between is in one single line, it should return t
      * display: -ms-grid;
      *          ^       ^
      */
-    const result = getLocationFromNode({
+    const result = getCSSLocationFromNode({
         prop: 'display',
         raws: { between: ': ' },
         source: {
@@ -94,7 +94,7 @@ test(`If node type is decl and between is in one single line, it should return t
         },
         type: 'decl',
         value: '-ms-grid'
-    } as ChildNode, true)!;
+    } as ChildNode, { isValue: true })!;
 
     t.is(result.column, 9);
     t.is(result.line, 4);
@@ -108,7 +108,7 @@ test(`If node type is decl and between the property and the value there is multi
      *    /* this is a comment *\/ -ms-grid; * using \/ to not break the multi line comment
      *                             ^       ^
      */
-    const result = getLocationFromNode({
+    const result = getCSSLocationFromNode({
         prop: 'display',
         raws: { between: ':\n   /* this is a comment */ ' },
         source: {
@@ -119,7 +119,7 @@ test(`If node type is decl and between the property and the value there is multi
         },
         type: 'decl',
         value: '-ms-grid'
-    } as ChildNode, true)!;
+    } as ChildNode, { isValue: true })!;
 
     t.is(result.column, 27);
     t.is(result.line, 5);

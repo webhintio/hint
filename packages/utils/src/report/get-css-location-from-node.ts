@@ -6,6 +6,10 @@ type Position = {
     line: number;
 }
 
+export type CSSLocationOptions = {
+    isValue?: boolean;
+}
+
 /**
  * Set the start and end position for a property value.
  */
@@ -34,7 +38,7 @@ const setValuePosition = (node: Declaration, start: Position, end: Position) => 
  * @param node postcss Node.
  * @param isValue Indicates if we need the location of the property value.
  */
-export const getLocationFromNode = (node: ChildNode, isValue?: boolean): ProblemLocation | undefined => {
+export const getCSSLocationFromNode = (node: ChildNode, options: CSSLocationOptions = {}): ProblemLocation | undefined => {
     if (!node.source || !node.source.start) {
         return undefined;
     }
@@ -47,7 +51,7 @@ export const getLocationFromNode = (node: ChildNode, isValue?: boolean): Problem
     };
 
     if (node.type === 'decl') {
-        if (isValue) {
+        if (options.isValue) {
             setValuePosition(node, start, end);
         } else {
             end.line = start.line;
