@@ -17,7 +17,7 @@ import { misc, network } from '@hint/utils';
 const { normalizeHeaderValue } = network;
 const { normalizeString } = misc;
 
-import { Message, ServerConfiguration, WebhintMessage } from './types';
+import { IServer, Message, ServerConfiguration, WebhintMessage } from './types';
 import { replacer, reviver } from './buffer-serialization';
 
 /**
@@ -28,7 +28,7 @@ const unsafePorts = [3659, 4045, 6000, 6665, 6666, 6667, 6668, 6669];
 
 
 /** A testing server for webhint's hints */
-export class Server {
+export class SameThreadServer implements IServer {
     private static usedPorts = new Set(unsafePorts);
     private static maxPort: number = 65535;
     private static minPort: number = 3000;
@@ -90,10 +90,10 @@ IsW9AGST1xe4XVCLy+FIoo1RVpfJyp8h9zSzDASh/F1+5DY1PUJQ
 -----END RSA PRIVATE KEY-----`;
 
     private getNewValidPort(): number {
-        let port = random(Server.minPort, Server.maxPort);
+        let port = random(SameThreadServer.minPort, SameThreadServer.maxPort);
 
-        while (Server.usedPorts.has(port)) {
-            port = random(Server.minPort, Server.maxPort);
+        while (SameThreadServer.usedPorts.has(port)) {
+            port = random(SameThreadServer.minPort, SameThreadServer.maxPort);
         }
 
         return port;
@@ -381,8 +381,8 @@ IsW9AGST1xe4XVCLy+FIoo1RVpfJyp8h9zSzDASh/F1+5DY1PUJQ
 
             if (this._isHTTPS) {
                 options = {
-                    cert: Server._cert,
-                    key: Server._key
+                    cert: SameThreadServer._cert,
+                    key: SameThreadServer._key
                 };
 
                 this._server = https.createServer(options, this._app);
@@ -421,6 +421,10 @@ IsW9AGST1xe4XVCLy+FIoo1RVpfJyp8h9zSzDASh/F1+5DY1PUJQ
         return Promise.resolve(null);
     }
 
+    public getPort() {
+        return this._port;
+    }
+
     public get port() {
         return this._port;
     }
@@ -432,7 +436,7 @@ IsW9AGST1xe4XVCLy+FIoo1RVpfJyp8h9zSzDASh/F1+5DY1PUJQ
  * `node server.js https` == `node server.js something`
  */
 const useHttps = !!process.argv[2];
-const server = new Server(useHttps);
+const server = new SameThreadServer(useHttps);
 
 type Action = (message: WebhintMessage) => Promise<any>;
 
