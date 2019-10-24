@@ -50,7 +50,7 @@ test.afterEach.always((t) => {
 const pathToFaviconInDir = path.join(__dirname, './fixtures/common/favicon.ico');
 const pathToFaviconInLinkElement = path.join(__dirname, './fixtures/common/favicon-32x32.png');
 
-const runTest = async (t: ExecutionContext<CollectContext>, Connector: IConnectorConstructor, serverConfig: ServerConfiguration): Promise<Server> => {
+const runTest = async (t: ExecutionContext<CollectContext>, Connector: IConnectorConstructor, serverConfig: ServerConfiguration) => {
     const server = await Server.create({ configuration: serverConfig });
     const { engine } = t.context;
     const connector = new Connector(engine, { detached: true });
