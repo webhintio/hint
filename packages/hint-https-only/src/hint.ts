@@ -5,7 +5,8 @@
 import * as URL from 'url';
 
 import { ElementFound, FetchEnd, HintContext, IHint, Response } from 'hint';
-import { debug as d, isDataURI, isHTTPS } from '@hint/utils';
+import { isDataURI, isHTTPS } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';

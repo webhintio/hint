@@ -12,7 +12,7 @@
 
 import { URL } from 'url';
 
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils-debug';
 import { isSupported } from '@hint/utils-compat-data';
 import { isRegularProtocol } from '@hint/utils/dist/src/network/is-regular-protocol';
 import { HTMLElement } from '@hint/utils/dist/src/dom/html';

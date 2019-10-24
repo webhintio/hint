@@ -9,7 +9,8 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d, logger } from '@hint/utils';
+import { logger } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import { validate } from '@hint/utils/dist/src/schema-validation/schema-validator';
 import { UserConfig } from '../types';

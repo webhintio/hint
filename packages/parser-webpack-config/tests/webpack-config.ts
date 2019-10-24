@@ -28,7 +28,6 @@ const mockContext = (context: SandboxContext) => {
         }
     };
 
-
     const loadPackageStub = context.sandbox.stub(packages, 'loadPackage');
 
     const script = proxyquire('../src/parser', {

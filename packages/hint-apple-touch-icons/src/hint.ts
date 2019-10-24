@@ -3,7 +3,8 @@
  */
 import { imageSize as getImageData } from 'image-size';
 
-import { debug as d, isRegularProtocol, normalizeString } from '@hint/utils';
+import { isRegularProtocol, normalizeString } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
 import { HTMLElement, HTMLDocument } from '@hint/utils/dist/src/dom/html';
 

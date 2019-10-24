@@ -15,6 +15,7 @@
     "references": [
         { "path": "../hint" },
         { "path": "../utils" },
-        { "path": "../utils-create-server" }
+        { "path": "../utils-create-server" },
+        { "path": "../utils-debug" }
     ]
 }

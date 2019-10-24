@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
+    "@hint/utils-debug": "^1.0.0",
     "@types/estree-jsx": "^0.0.0",
     "acorn": "^7.1.0",
     "acorn-jsx": "^5.0.2",

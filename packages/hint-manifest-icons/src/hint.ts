@@ -6,7 +6,7 @@ import { imageSize as getImageData } from 'image-size';
 import imageType from 'image-type';
 import { IHint, NetworkData, HintContext, ProblemLocation, IJSONLocationFunction } from 'hint';
 import { ManifestEvents, ManifestParsed, ManifestImageResource } from '@hint/parser-manifest';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';

@@ -4,8 +4,9 @@ import { promisify } from 'util';
 
 import { cloneDeep } from 'lodash';
 
-import { debug as d, loadJSONFile, requestAsync, writeFileAsync } from '@hint/utils';
+import { loadJSONFile, requestAsync, writeFileAsync } from '@hint/utils';
 import { IJSONResult } from '@hint/utils/dist/src/types/json-parser';
+import { debug as d } from '@hint/utils-debug';
 import { Engine, FetchEnd, Parser, SchemaValidationResult, utils } from 'hint';
 
 import { TypeScriptConfig, TypeScriptConfigEvents } from './types';

@@ -5,7 +5,6 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
 import { Severity } from 'hint';
-import * as utils from '@hint/utils';
 
 import * as problems from './fixtures/list-of-problems';
 
@@ -34,7 +33,6 @@ const initContext = (t: ExecutionContext<JSONContext>) => {
 const loadScript = (context: JSONContext) => {
     const script = proxyquire('../src/formatter', {
         '@hint/utils': {
-            debug: utils.debug,
             logger: context.logging,
             writeFileAsync: context.writeFileAsync
         }

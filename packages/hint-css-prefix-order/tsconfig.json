@@ -17,6 +17,7 @@
         { "path": "../parser-css" },
         { "path": "../parser-sass" },
         { "path": "../utils" },
+        { "path": "../utils-debug" },
         { "path": "../utils-tests-helpers" }
     ]
 }

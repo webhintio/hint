@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
-    "@hint/utils-compat-data": "^1.0.1"
+    "@hint/utils-compat-data": "^1.0.1",
+    "@hint/utils-debug": "^1.0.0"
   },
   "description": "hint that that checks if external links disown the opener",
   "devDependencies": {

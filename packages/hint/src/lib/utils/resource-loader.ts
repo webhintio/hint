@@ -16,7 +16,6 @@ import * as path from 'path';
 import * as globby from 'globby';
 
 import {
-    debug as d,
     findNodeModulesRoot,
     findPackageRoot,
     hasMultipleResources,
@@ -25,6 +24,7 @@ import {
     readFile,
     requirePackage
 } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import { IHintConstructor, HintResources } from '../types';
 import { Configuration } from '../config';

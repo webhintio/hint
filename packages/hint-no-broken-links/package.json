@@ -10,7 +10,8 @@
   "description": "Verify that all links and resources the page uses are available online.",
   "dependencies": {
     "@hint/utils": "^6.1.0",
-    "@hint/utils-connector-tools": "^4.0.14"
+    "@hint/utils-connector-tools": "^4.0.14",
+    "@hint/utils-debug": "^1.0.0"
   },
   "devDependencies": {
     "@hint/utils-tests-helpers": "^5.1.0",

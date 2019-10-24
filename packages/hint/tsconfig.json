@@ -13,6 +13,7 @@
         "tests/**/*.ts"
     ],
     "references": [
-        { "path": "../utils" }
+        { "path": "../utils" },
+        { "path": "../utils-debug" }
     ]
 }

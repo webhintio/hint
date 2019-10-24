@@ -10,6 +10,7 @@
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
     "@hint/utils": "^6.1.0",
+    "@hint/utils-debug": "^1.0.0",
     "boxen": "^4.1.0",
     "browserslist": "^4.7.2",
     "chalk": "^2.4.2",

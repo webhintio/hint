@@ -7,7 +7,7 @@ import { promisify } from 'util';
 import groupBy = require('lodash/groupBy');
 import * as semver from 'semver';
 
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils-debug';
 import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
 import { writeFileAsync } from '@hint/utils/dist/src/fs/write-file-async';
 import * as logger from '@hint/utils/dist/src/logging';

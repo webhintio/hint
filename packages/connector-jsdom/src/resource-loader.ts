@@ -1,12 +1,12 @@
 import { URL } from 'url';
 
 import {
-    debug as d,
     getContentTypeData,
     getElementByUrl,
     getType,
     HTMLDocument
 } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { ResourceLoader } from 'jsdom';
 
 import { FetchEnd, FetchError, NetworkData } from 'hint';
