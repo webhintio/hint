@@ -18,12 +18,12 @@ import { ResourceType, UserConfig, utils } from 'hint';
 import {
     appInsights,
     cwd,
-    debug as d,
     getOfficialPackages,
     installPackages,
     logger,
     NpmPackage
 } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import { generateBrowserslistConfig } from './browserslist';
 

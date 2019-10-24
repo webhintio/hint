@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils-debug';
 import { includedHeaders } from '@hint/utils/dist/src/network/included-headers';
 import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
 import { mergeIgnoreIncludeArrays } from '@hint/utils/dist/src/misc/merge-ignore-include-arrays';

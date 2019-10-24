@@ -12,7 +12,6 @@ import {
     configStore,
     ConnectorConfig,
     cwd,
-    debug as d,
     getAsUris,
     getHintsFromConfiguration,
     HintsConfigObject,
@@ -22,6 +21,7 @@ import {
     mergeEnvWithOptions,
     normalizeHints
 } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
 
 import {

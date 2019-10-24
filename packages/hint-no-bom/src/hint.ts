@@ -2,7 +2,8 @@
  * @fileoverview Warns against having the BOM character at the beginning of a text file
  */
 import { FetchEnd, HintContext, IHint, NetworkData } from 'hint';
-import { asyncTry, debug as d, isRegularProtocol, isTextMediaType } from '@hint/utils';
+import { asyncTry, isRegularProtocol, isTextMediaType } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';

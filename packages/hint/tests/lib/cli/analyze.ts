@@ -162,7 +162,6 @@ const loadScript = (context: AnalyzeContext, isCi: boolean = false) => {
             askQuestion: context.askQuestion,
             configStore: utils.configStore,
             cutString: utils.cutString,
-            debug: utils.debug,
             getAsUris: utils.getAsUris,
             getHintsFromConfiguration: context.getHintsFromConfiguration,
             installPackages: utils.installPackages,

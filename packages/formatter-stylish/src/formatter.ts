@@ -19,7 +19,8 @@ import * as logSymbols from 'log-symbols';
 import * as table from 'text-table';
 const stripAnsi = require('strip-ansi');
 
-import { cutString, debug as d, logger, writeFileAsync } from '@hint/utils';
+import { cutString, logger, writeFileAsync } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, IFormatter, Problem, Severity } from 'hint';
 
 import { getMessage } from './i18n.import';

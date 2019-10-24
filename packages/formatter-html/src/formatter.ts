@@ -13,7 +13,8 @@ import * as path from 'path';
 import * as ejs from 'ejs';
 import * as fs from 'fs-extra';
 
-import { cwd, Category, debug as d, logger } from '@hint/utils';
+import { cwd, Category, logger } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, HintResources, IFormatter, Problem } from 'hint';
 
 const utils = require('./utils');

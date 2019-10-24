@@ -6,7 +6,8 @@ import { spawn } from 'child_process';
 import * as locker from 'lockfile';
 import * as puppeteer from 'puppeteer-core';
 
-import { debug as d, readFileAsync, writeFileAsync } from '@hint/utils';
+import { readFileAsync, writeFileAsync } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { LaunchOptions } from 'puppeteer-core';
 
 const debug: debug.IDebugger = d(__filename);

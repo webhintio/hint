@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
+    "@hint/utils-debug": "^1.0.0",
     "postcss": "^7.0.21"
   },
   "description": "Ensure vendor-prefixed versions of a CSS property are listed before the unprefixed version.",

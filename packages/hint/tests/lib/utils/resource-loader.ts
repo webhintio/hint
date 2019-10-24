@@ -33,7 +33,6 @@ const test = anyTest as TestInterface<ResourceLoaderContext>;
 const loadScript = (context: ResourceLoaderContext) => {
     return proxyquire('../../../src/lib/utils/resource-loader', {
         '@hint/utils': {
-            debug: utils.debug,
             findNodeModulesRoot: utils.findNodeModulesRoot,
             findPackageRoot: utils.findPackageRoot,
             hasMultipleResources: utils.hasMultipleResources,

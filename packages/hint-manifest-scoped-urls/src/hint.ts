@@ -6,7 +6,7 @@ import { URL } from 'url';
 import { relative } from 'path';
 import { IHint, HintContext, NetworkData, ProblemLocation } from 'hint';
 import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';

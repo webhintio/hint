@@ -20,12 +20,12 @@ import browserslist = require('browserslist'); // `require` used because `browse
 import mergeWith = require('lodash/mergeWith');
 
 import {
-    debug as d,
     isFile,
     loadJSFile,
     loadJSONFile,
     toAbsolutePaths
 } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { validate as schemaValidator } from '@hint/utils/dist/src/schema-validation/schema-validator';
 
 import { UserConfig, IgnoredUrl, ConnectorConfig, HintsConfigObject, HintSeverity, CreateAnalyzerOptions } from './types';

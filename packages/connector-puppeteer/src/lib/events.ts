@@ -1,5 +1,6 @@
 import * as puppeteer from 'puppeteer-core';
-import { getType, debug as d, HTMLDocument } from '@hint/utils';
+import { getType, HTMLDocument } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { Events } from 'hint';
 import { createFetchEndPayload, Fetcher } from './create-fetchend-payload';
 import { getElementFromResponse } from './get-element-from-response';

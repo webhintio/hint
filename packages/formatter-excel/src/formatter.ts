@@ -16,7 +16,8 @@ import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
 import sortBy = require('lodash/sortBy');
 
-import { cwd, debug as d, logger } from '@hint/utils';
+import { cwd, logger } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, IFormatter, Problem } from 'hint';
 
 import { getMessage } from './i18n.import';

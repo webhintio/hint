@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils-debug';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';

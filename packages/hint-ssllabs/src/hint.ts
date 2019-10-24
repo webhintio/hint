@@ -13,7 +13,7 @@
 
 import { promisify } from 'util';
 
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
 import { Grades, SSLLabsEndpoint, SSLLabsOptions, SSLLabsResult } from './types';
 

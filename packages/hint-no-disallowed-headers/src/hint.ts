@@ -8,7 +8,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils-debug';
 import { mergeIgnoreIncludeArrays } from '@hint/utils/dist/src/misc/merge-ignore-include-arrays';
 import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
 import { toLowerCaseArray } from '@hint/utils/dist/src/misc/to-lowercase-array';

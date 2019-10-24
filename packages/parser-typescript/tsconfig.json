@@ -18,6 +18,7 @@
         { "path": "../parser-html" },
         { "path": "../parser-javascript" },
         { "path": "../parser-jsx" },
-        { "path": "../utils" }
+        { "path": "../utils" },
+        { "path": "../utils-debug" }
     ]
 }

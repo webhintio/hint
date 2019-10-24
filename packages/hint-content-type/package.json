@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
+    "@hint/utils-debug": "^1.0.0",
     "content-type": "^1.0.4"
   },
   "description": "hint for media types (f.k.a. MIME types) related best practices",

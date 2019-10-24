@@ -18,7 +18,8 @@ import sortBy = require('lodash/sortBy');
 import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
-import { cutString, debug as d, logger, writeFileAsync } from '@hint/utils';
+import { cutString, logger, writeFileAsync } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, IFormatter, Problem, ProblemLocation, Severity } from 'hint';
 
 import { getMessage } from './i18n.import';
