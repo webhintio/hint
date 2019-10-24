@@ -47,7 +47,7 @@ const ignoredDependencies = new Set([
 ]);
 
 const regexps = [
-    /import\s+.*?\s+'([a-z0-9_\-@/.]+)';/gi, // `import * as something from 'something';`
+    /import[\s\w\d{},*]*?'([a-z0-9_\-@/.]+)';/gi, // `import * as something from 'something';`
     /import\('([a-z0-9_\-@/.]+)'\)/gi, // `import('something');`
     /require(?:\.resolve)?\('([a-z0-9_\-@/.]+)'\)/gi, // `const something = require('something');` || `const something = require.resolve('something');`
     /(?:loader|use):\s+'([a-z0-9_\-@/.]+)'/gi, // webpack config: `loader: 'ts-loader'` `use: 'raw-loader'`
