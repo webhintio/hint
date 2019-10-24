@@ -3,19 +3,25 @@ import { spawn, ChildProcess, SpawnOptions } from 'child_process';
 import map = require('lodash/map');
 import reduce = require('lodash/reduce');
 
-import { Message, ServerConfiguration } from './types';
+import * as isCI from 'is-ci';
+
+import { IServer, Message, ServerConfiguration } from './types';
 import { replacer, reviver } from './buffer-serialization';
 
+import { Server as ServerProcess } from './server';
+
 export { ServerConfiguration };
+export { IServer };
 
 // Do all magic wit process here and maybe have a wrapper
 
 type ServerOptions = {
     configuration?: ServerConfiguration;
     isHTTPS?: boolean;
+    sameThread?: boolean;
 }
 
-export class Server {
+class IndependentServer implements IServer {
     private child: ChildProcess;
     private actions: Map<string, Function> = new Map();
     private _port = 0;
@@ -70,15 +76,15 @@ export class Server {
         });
     }
 
-    private start() {
+    public start() {
         return this.actionWrapper('start');
     }
 
-    private getPort() {
+    public getPort() {
         return this.actionWrapper('port');
     }
 
-    private constructor(isHTTPS?: boolean) {
+    public constructor(isHTTPS: boolean = false) {
         const pathToServer = `${__dirname}/server.js`;
         const serverArgs = isHTTPS ? 'https' : '';
         const opts = {
@@ -112,6 +118,10 @@ export class Server {
         return this.actionWrapper('stop');
     }
 
+    public set port(port: number) {
+        this._port = port;
+    }
+
     public get port() {
         return this._port;
     }
@@ -119,13 +129,15 @@ export class Server {
     public configure(configuration: ServerConfiguration) {
         return this.actionWrapper('configure', configuration);
     }
+}
 
+export class Server {
     /**
      * Updates all references to localhost to use the passed port.
      *
      * This does a deep search in all the object properties.
      */
-    public static updateLocalhost(content: any, port: any): any {
+    public static updateLocalhost(content: any, port: number): any {
         if (typeof content === 'string') {
             return content.replace(/localhost\//g, `localhost:${port}/`);
         }
@@ -156,16 +168,41 @@ export class Server {
         return transformed;
     }
 
-    public static async create(options?: ServerOptions) {
-        const server = new Server(options && options.isHTTPS);
+    private static async createIndependentServer(options: ServerOptions) {
+        const server = new IndependentServer(options.isHTTPS);
 
         await server.start();
-        server._port = await server.getPort() as unknown as number;
+        server.port = await server.getPort() as unknown as number;
 
         if (options && options.configuration) {
-            await server.configure(Server.updateLocalhost(options.configuration, server._port));
+            await server.configure(Server.updateLocalhost(options.configuration, server.port));
         }
 
         return server;
+    }
+
+    private static async createServer(options: ServerOptions) {
+        const server = new ServerProcess(options.isHTTPS);
+
+        await server.start();
+
+        if (options && options.configuration) {
+            server.configure(Server.updateLocalhost(options.configuration, server.getPort()));
+        }
+
+        return server;
+    }
+
+    public static create(options: ServerOptions = {}): Promise<IServer> {
+        const sameThread = typeof options.sameThread !== 'undefined' ?
+            options.sameThread :
+            isCI;
+
+        if (sameThread) {
+            return this.createServer(options);
+        }
+
+        return this.createIndependentServer(options);
+
     }
 }

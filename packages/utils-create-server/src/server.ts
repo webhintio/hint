@@ -17,7 +17,7 @@ import { misc, network } from '@hint/utils';
 const { normalizeHeaderValue } = network;
 const { normalizeString } = misc;
 
-import { Message, ServerConfiguration, WebhintMessage } from './types';
+import { IServer, Message, ServerConfiguration, WebhintMessage } from './types';
 import { replacer, reviver } from './buffer-serialization';
 
 /**
@@ -28,7 +28,7 @@ const unsafePorts = [3659, 4045, 6000, 6665, 6666, 6667, 6668, 6669];
 
 
 /** A testing server for webhint's hints */
-export class Server {
+export class Server implements IServer {
     private static usedPorts = new Set(unsafePorts);
     private static maxPort: number = 65535;
     private static minPort: number = 3000;
@@ -419,6 +419,10 @@ IsW9AGST1xe4XVCLy+FIoo1RVpfJyp8h9zSzDASh/F1+5DY1PUJQ
         this._server.close();
 
         return Promise.resolve(null);
+    }
+
+    public getPort() {
+        return this._port;
     }
 
     public get port() {
