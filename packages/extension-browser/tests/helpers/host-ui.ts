@@ -1,7 +1,7 @@
 import * as path from 'path';
 
 import { fs } from '@hint/utils';
-import { Server, ServerConfiguration } from '@hint/utils-create-server';
+import { IServer, Server, ServerConfiguration } from '@hint/utils-create-server';
 
 import { Page, Props as AppProps } from '../../src/devtools/views/app';
 
@@ -47,7 +47,7 @@ const states: (AppProps & State)[] = [
     }
 ];
 
-export const hostUI = async (): Promise<[Server, string[]]> => {
+export const hostUI = async (): Promise<[IServer, string[]]> => {
 
     const [rawHtmlSource, jsSource, apiSource] = await Promise.all([
         readFileAsync(path.resolve(__dirname, '../../bundle/devtools/panel.html')),
