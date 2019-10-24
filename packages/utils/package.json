@@ -8,14 +8,13 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@types/debug": "^4.1.5",
+    "@hint/utils-debug": "^1.0.0",
     "@types/parse5": "^5.0.2",
     "ajv": "^6.10.1",
     "applicationinsights": "^1.5.0",
     "configstore": "^5.0.0",
     "content-type": "^1.0.4",
     "css-select": "^2.0.2",
-    "debug": "^4.1.1",
     "eventemitter2": "^5.0.1",
     "file-type": "^12.3.0",
     "file-url": "^3.0.0",
