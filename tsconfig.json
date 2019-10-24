@@ -111,6 +111,7 @@
         { "path": "packages/utils-connector-tools" },
         { "path": "packages/utils-create-server" },
         { "path": "packages/utils-debug" },
+        { "path": "packages/utils-i18n" },
         { "path": "packages/utils-tests-helpers" }
     ]
 }
