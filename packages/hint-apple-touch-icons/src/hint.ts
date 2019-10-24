@@ -3,15 +3,13 @@
  */
 import { imageSize as getImageData } from 'image-size';
 
-import { debug as d, misc, network } from '@hint/utils';
+import { debug as d, isRegularProtocol, normalizeString } from '@hint/utils';
 import { HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
 import { HTMLElement, HTMLDocument } from '@hint/utils/dist/src/dom/html';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { normalizeString } = misc;
-const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*

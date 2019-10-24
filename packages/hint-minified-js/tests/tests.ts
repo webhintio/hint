@@ -1,7 +1,6 @@
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
+import { generateHTMLPage, getHintPath } from '@hint/utils';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const expectedMessageFromHint = 'JavaScript content should be minified.';

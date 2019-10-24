@@ -9,13 +9,12 @@ import * as fs from 'fs-extra';
 import { imageSize as getImageData } from 'image-size';
 
 import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
-import { logger, misc } from '@hint/utils';
+import { cutString, logger } from '@hint/utils';
 import { cloudinaryResult } from './cloudinary-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { cutString } = misc;
 /*
  * ------------------------------------------------------------------------------
  * Public

@@ -1,8 +1,5 @@
-import { fs, test } from '@hint/utils';
+import { generateHTMLPage, getHintPath, readFile } from '@hint/utils';
 import { testHint } from '@hint/utils-tests-helpers';
-
-const { generateHTMLPage, getHintPath } = test;
-const { readFile } = fs;
 
 const hintPath = getHintPath(__filename, true);
 

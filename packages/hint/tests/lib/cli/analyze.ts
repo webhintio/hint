@@ -159,20 +159,17 @@ const loadScript = (context: AnalyzeContext, isCi: boolean = false) => {
         },
         '@hint/utils': {
             appInsights: context.appInsight,
+            askQuestion: context.askQuestion,
             configStore: utils.configStore,
+            cutString: utils.cutString,
             debug: utils.debug,
+            getAsUris: utils.getAsUris,
             getHintsFromConfiguration: context.getHintsFromConfiguration,
+            installPackages: utils.installPackages,
             logger: context.logger,
-            misc: {
-                askQuestion: context.askQuestion,
-                cutString: utils.misc.cutString,
-                mergeEnvWithOptions: (options: any) => {
-                    return options;
-                }
-            },
-            network: utils.network,
-            npm: utils.npm,
-            packages: utils.packages
+            mergeEnvWithOptions: (options: any) => {
+                return options;
+            }
         },
         'is-ci': isCi,
         ora: context.ora

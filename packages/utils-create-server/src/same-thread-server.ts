@@ -12,10 +12,7 @@ import * as express from 'express';
 // to work with option 'strict', we can't use import.
 const onHeaders = require('on-headers');
 
-import { misc, network } from '@hint/utils';
-
-const { normalizeHeaderValue } = network;
-const { normalizeString } = misc;
+import { normalizeString, normalizeHeaderValue } from '@hint/utils';
 
 import { IServer, Message, ServerConfiguration, WebhintMessage } from './types';
 import { replacer, reviver } from './buffer-serialization';

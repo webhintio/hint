@@ -32,7 +32,10 @@ const mockContext = (context: SandboxContext) => {
     const loadPackageStub = context.sandbox.stub(packages, 'loadPackage');
 
     const script = proxyquire('../src/parser', {
-        '@hint/utils': { network: utils.network },
+        '@hint/utils': {
+            asPathString: utils.asPathString,
+            getAsUri: utils.getAsUri
+        },
         '@hint/utils/dist/src/packages/load-package': { loadPackage: loadPackageStub }
     });
 

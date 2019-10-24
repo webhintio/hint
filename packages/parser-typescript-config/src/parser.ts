@@ -4,7 +4,7 @@ import { promisify } from 'util';
 
 import { cloneDeep } from 'lodash';
 
-import { debug as d, fs as fsUtils, network } from '@hint/utils';
+import { debug as d, loadJSONFile, requestAsync, writeFileAsync } from '@hint/utils';
 import { IJSONResult } from '@hint/utils/dist/src/types/json-parser';
 import { Engine, FetchEnd, Parser, SchemaValidationResult, utils } from 'hint';
 
@@ -13,8 +13,6 @@ import { TypeScriptConfig, TypeScriptConfigEvents } from './types';
 export * from './types';
 
 const { jsonParser: { parseJSON }, schemaValidator: { validate } } = utils;
-const { loadJSONFile, writeFileAsync } = fsUtils;
-const { requestAsync } = network;
 const debug = d(__filename);
 const oneDay = 3600000 * 24;
 

@@ -1,9 +1,8 @@
 /* eslint sort-keys: 0 */
 
-import { test } from '@hint/utils';
+import { generateHTMLPage, getHintPath } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { generateHTMLPage, getHintPath } = test;
 const htmlWithManifestSpecified = generateHTMLPage(`<link rel="manifest" href="site.webmanifest">`);
 
 // Error messages.

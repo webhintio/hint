@@ -13,7 +13,7 @@ import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
 import sortBy = require('lodash/sortBy');
 
-import { debug as d, fs, logger } from '@hint/utils';
+import { debug as d, logger, writeFileAsync } from '@hint/utils';
 import { FormatterOptions, IFormatter, Problem } from 'hint';
 
 import { getMessage } from './i18n.import';
@@ -23,7 +23,6 @@ const _ = {
     reduce,
     sortBy
 };
-const { writeFileAsync } = fs;
 const debug = d(__filename);
 
 /*

@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { fs } from '@hint/utils';
+import { loadJSONFile } from '@hint/utils';
 import { Engine, FetchEnd, Parser, SchemaValidationResult, utils } from 'hint';
 
 import { PackageJsonEvents } from './types';
@@ -11,7 +11,6 @@ import { IJSONResult } from '@hint/utils/dist/src/types/json-parser';
 export * from './types';
 
 const { jsonParser: { parseJSON }, schemaValidator: { validate } } = utils;
-const { loadJSONFile } = fs;
 
 export default class PackageJsonParser extends Parser<PackageJsonEvents> {
     private schema: IJsonSchemaForNpmPackageJsonFiles;

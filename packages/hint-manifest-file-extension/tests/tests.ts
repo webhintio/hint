@@ -1,7 +1,6 @@
-import { test } from '@hint/utils';
+import { generateHTMLPage, getHintPath } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { generateHTMLPage, getHintPath } = test;
 const tests: HintTest[] = [
     {
         name: `Web app manifest file is not specified, so the hint does not apply and the test should pass`,

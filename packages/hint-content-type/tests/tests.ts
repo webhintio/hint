@@ -2,11 +2,9 @@ import * as fs from 'fs';
 
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
 
-import { test } from '@hint/utils';
+import { generateHTMLPage, getHintPath } from '@hint/utils';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const pngImage = fs.readFileSync(`${__dirname}/fixtures/image.png`); // eslint-disable-line no-sync

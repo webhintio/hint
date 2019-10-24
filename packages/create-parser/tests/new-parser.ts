@@ -80,16 +80,10 @@ const loadScript = (context: NewParserContext) => {
                 sendPendingData() { },
                 trackEvent() { }
             },
-            fs: {
-                readFileAsync: context.readFileAsync,
-                writeFileAsync: context.writeFileAsync
-            },
-            misc: {
-                normalizeStringByDelimiter: context.normalizeStringByDelimiter
-            },
-            packages: {
-                isOfficial: context.isOfficial
-            }
+            isOfficial: context.isOfficial,
+            normalizeStringByDelimiter: context.normalizeStringByDelimiter,
+            readFileAsync: context.readFileAsync,
+            writeFileAsync: context.writeFileAsync
         },
         'fs-extra': context.fsExtra,
         inquirer: context.inquirer,
