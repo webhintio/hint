@@ -46,6 +46,7 @@
         { "path": "../parser-javascript" },
         { "path": "../parser-manifest" },
         { "path": "../utils" },
-        { "path": "../utils-create-server" }
+        { "path": "../utils-create-server" },
+        { "path": "../utils-i18n" }
     ]
 }

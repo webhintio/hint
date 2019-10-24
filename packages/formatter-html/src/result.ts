@@ -4,7 +4,8 @@ import * as moment from 'moment';
 
 import cloneDeep = require('lodash/cloneDeep');
 
-import { Category, getCategoryName, loadJSONFile } from '@hint/utils';
+import { Category, loadJSONFile } from '@hint/utils';
+import { getCategoryName } from '@hint/utils-i18n';
 import { FormatterOptions, Severity, Problem } from 'hint';
 
 const thirdPartyServices = loadJSONFile(path.join(__dirname, 'configs', 'third-party-service-config.json'));

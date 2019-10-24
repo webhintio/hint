@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
+    "@hint/utils-i18n": "^1.0.0",
     "chokidar": "^3.2.3",
     "globby": "^10.0.1",
     "jsdom": "^15.2.0"
@@ -72,7 +73,7 @@
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
-    "test": "npm run lint && npm run build && npm run test-only",
+    "test": "npm run i18n && npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
     "test-release": "npm run lint && npm run build-release && ava",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",

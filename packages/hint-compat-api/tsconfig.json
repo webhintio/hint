@@ -17,6 +17,7 @@
         { "path": "../parser-css" },
         { "path": "../utils" },
         { "path": "../utils-compat-data" },
+        { "path": "../utils-i18n" },
         { "path": "../utils-tests-helpers" }
     ]
 }
