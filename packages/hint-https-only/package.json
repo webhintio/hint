@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
-    "@hint/utils-debug": "^1.0.0"
+    "@hint/utils-debug": "^1.0.0",
+    "@hint/utils-i18n": "^1.0.0"
   },
   "description": "hint that that checks if your site is using HTTPS and if it has mixed content.",
   "devDependencies": {
