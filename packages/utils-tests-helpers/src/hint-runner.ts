@@ -6,7 +6,7 @@ import { URL } from 'url';
 
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
-import { Server } from '@hint/utils-create-server';
+import { IServer, Server } from '@hint/utils-create-server';
 import { fs, network } from '@hint/utils';
 
 import { Configuration, Engine, HintsConfigObject, IHintConstructor, Problem, ProblemLocation, utils } from 'hint';
@@ -19,7 +19,7 @@ const { readFileAsync } = fs;
 const { asPathString, getAsUri, requestAsync } = network;
 
 type HintRunnerContext = {
-    server: Server;
+    server: IServer;
 };
 
 const test = anyTest as TestInterface<HintRunnerContext>;
