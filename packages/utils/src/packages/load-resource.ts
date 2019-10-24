@@ -5,7 +5,7 @@ import * as globby from 'globby';
 import * as semver from 'semver';
 
 import { cwd, loadJSONFile } from '../fs';
-import { debug as d } from '../debug';
+import { debug as d } from '@hint/utils-debug';
 import { isFullPackageName } from './is-full-package-name';
 import { ResourceType } from '../types/resource-type';
 import { loadPackage } from './load-package';
