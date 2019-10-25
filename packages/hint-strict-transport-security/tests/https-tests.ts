@@ -148,5 +148,6 @@ testHint(hintPath, configMaxAgeTests, {
 });
 testHint(hintPath, configPreloadTets, {
     hintOptions: { checkPreload: true },
-    https: true
+    https: true,
+    serial: true
 });
