@@ -215,6 +215,9 @@ const determineMediaTypeBasedOnFileExtension = (resource: string): string | null
             return 'application/xhtml+xml';
         case 'js':
             return 'text/javascript';
+        case 'ts':
+        case 'tsx':
+            return 'text/x-typescript';
         case 'css':
             return 'text/css';
         case 'ico':
