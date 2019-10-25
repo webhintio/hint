@@ -15,7 +15,7 @@ import { JSXAttribute, JSXElement, JSXExpressionContainer, JSXText, Node, Script
 type ChildMap = Map<JSXElement, Array<ElementData | TextData>>;
 type RootMap = Map<Node, ElementData>;
 
-const debug: debug.IDebugger = d(__filename);
+const debug = d(__filename);
 
 /**
  * Check if the provided `Node` is a native HTML element in JSX.
@@ -62,6 +62,21 @@ const mapLocation = (node: Node, { startColumnOffset = 0 } = {}): parse5.Locatio
 };
 
 /**
+ * Convert a JSX attribute name to its HTML equivalent.
+ */
+const mapAttributeName = (name: string) => {
+    if (name === 'className') {
+        return 'class';
+    }
+
+    if (name === 'htmlFor') {
+        return 'for';
+    }
+
+    return name;
+};
+
+/**
  * Translate collections of `JSXAttribute`s to their HTML AST equivalent.
  */
 const mapAttributes = (node: JSXElement) => {
@@ -81,7 +96,7 @@ const mapAttributes = (node: JSXElement) => {
             continue;
         }
 
-        const { name } = attribute.name;
+        const name = mapAttributeName(attribute.name.name);
 
         if (!attribute.value) {
             attribs[name] = '';

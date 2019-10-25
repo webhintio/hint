@@ -155,3 +155,11 @@ test('It translates source locations correctly', async (t) => {
     t.is(column, 13);
     t.is(line, 1);
 });
+
+test('It translates JSX attributes to HTML attributes', async (t) => {
+    const { document } = await parseJSX(`const jsx = <label className="foo" htmlFor="bar">Label</label>;`);
+    const label = document.querySelectorAll('label')[0];
+
+    t.is(label.getAttribute('class'), 'foo');
+    t.is(label.getAttribute('for'), 'bar');
+});
