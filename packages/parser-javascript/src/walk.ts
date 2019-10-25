@@ -12,6 +12,8 @@ type Key = {
     state?: any;
 };
 
+export const base = acornWalk.base;
+
 const getCurrentVisitorsOrCallback = (walkArray: WalkArray, node: Node, base?: NodeVisitor, state?: any) => {
     const item = walkArray.find(([key]) => {
         return key.node === node && key.base === base && key.state === state;
@@ -35,7 +37,6 @@ type WalkArray = Array<[Key, Map<keyof NodeVisitor | 'callbacks', Function[]>]>;
 type WalkArrays = { [key in keyof WalkMethods]: WalkArray };
 
 const defaultCallbacksProperty = 'callbacks';
-
 
 /**
  * After all the hints have registered their NodeVisitor or callback,
