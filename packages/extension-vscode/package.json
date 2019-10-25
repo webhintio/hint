@@ -8,7 +8,9 @@
     "onLanguage:jsonc",
     "onLanguage:less",
     "onLanguage:sass",
-    "onLanguage:scss"
+    "onLanguage:scss",
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact"
   ],
   "ava": {
     "failFast": false,
