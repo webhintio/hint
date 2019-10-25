@@ -6,10 +6,10 @@ import intersection = require('lodash/intersection');
 import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
-import { getCSSCodeSnippet } from '@hint/utils/dist/src/report';
+import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils/dist/src/report';
 
 import { formatAlternatives } from './utils/alternatives';
 import { filterBrowsers, joinBrowsers } from './utils/browsers';
@@ -22,6 +22,7 @@ import { getMessage } from './i18n.import';
 type ReportData = {
     feature: string;
     formatFeature?: (name: string) => string;
+    isValue?: boolean;
     node: ChildNode;
     unsupported: UnsupportedBrowsers;
 };
@@ -33,15 +34,6 @@ type Context = {
     ignore: Set<string>;
     report: (data: ReportData) => void;
     walk: (ast: ContainerBase, context: Context) => void;
-};
-
-const getLocationFromNode = (node: ChildNode): ProblemLocation | undefined => {
-    const start = node.source && node.source.start;
-
-    return start && {
-        column: start.column - 1,
-        line: start.line - 1
-    };
 };
 
 const validateAtSupports = (node: AtRule, context: Context): void => {
@@ -82,7 +74,7 @@ const validateDeclValue = (node: Declaration, context: Context): ReportData | nu
             return `${node.prop}: ${value}`;
         };
 
-        return { feature: formatFeature(node.value), formatFeature, node, unsupported };
+        return { feature: formatFeature(node.value), formatFeature, isValue: true, node, unsupported };
     }
 
     return null;
@@ -248,13 +240,13 @@ export default class CSSCompatHint implements IHint {
         context.on('parse::end::css', ({ ast, element, resource }) => {
             const browsers = filterBrowsers(context.targetedBrowsers);
 
-            const report = ({ feature, formatFeature, node, unsupported }: ReportData) => {
+            const report = ({ feature, formatFeature, isValue, node, unsupported }: ReportData) => {
                 const message = [
                     getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]),
                     ...formatAlternatives(context.language, unsupported, formatFeature)
                 ].join(' ');
                 const codeSnippet = getCSSCodeSnippet(node);
-                const location = getLocationFromNode(node);
+                const location = getCSSLocationFromNode(node, { isValue });
 
                 context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
             };

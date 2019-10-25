@@ -42,27 +42,27 @@ testHint(hintPath,
             reports: [
                 {
                     message: `'appearance' is not supported by Internet Explorer.`,
-                    position: { match: 'appearance: button; /* Report 1 */' }
+                    position: { match: 'appearance: button; /* Report 1 */', range: 'appearance' }
                 },
                 {
                     message: `'appearance' is not supported by Internet Explorer.`,
-                    position: { match: 'appearance: button; /* Report 2 */' }
+                    position: { match: 'appearance: button; /* Report 2 */', range: 'appearance' }
                 },
                 {
                     message: `'-webkit-appearance' is not supported by Internet Explorer.`,
-                    position: { match: '-webkit-appearance: button; /* Report 3 */' }
+                    position: { match: '-webkit-appearance: button; /* Report 3 */', range: '-webkit-appearance' }
                 },
                 {
                     message: `'-moz-appearance' is not supported by Internet Explorer.`,
-                    position: { match: '-moz-appearance: button; /* Report 4 */' }
+                    position: { match: '-moz-appearance: button; /* Report 4 */', range: '-moz-appearance' }
                 },
                 {
                     message: `'-webkit-appearance' is not supported by Firefox, Internet Explorer. Add '-moz-appearance' to support Firefox.`,
-                    position: { match: '-webkit-appearance: button; /* Report 5 */' }
+                    position: { match: '-webkit-appearance: button; /* Report 5 */', range: '-webkit-appearance' }
                 },
                 {
                     message: `'appearance' is not supported by Chrome, Edge, Firefox, Internet Explorer. Add '-webkit-appearance' to support Chrome, Edge 12+. Add '-moz-appearance' to support Firefox.`,
-                    position: { match: 'appearance: button; /* Report 6 */' }
+                    position: { match: 'appearance: button; /* Report 6 */', range: 'appearance' }
                 }
             ],
             serverConfig: generateCSSConfig('properties')
@@ -86,7 +86,7 @@ testHint(hintPath,
             reports: [
                 {
                     message: `'display: grid' is not supported by Edge < 16. Add 'display: -ms-grid' to support Edge 12+.`,
-                    position: { match: 'display: grid; /* Report */' }
+                    position: { match: 'grid; /* Report */', range: 'grid' }
                 }
             ],
             serverConfig: generateCSSConfig('supports')
@@ -96,19 +96,19 @@ testHint(hintPath,
             reports: [
                 {
                     message: `'display: grid' is not supported by Internet Explorer.`,
-                    position: { match: 'display: grid; /* Report 1 */' }
+                    position: { match: 'grid; /* Report 1 */', range: 'grid' }
                 },
                 {
                     message: `'display: grid' is not supported by Internet Explorer.`,
-                    position: { match: 'display: grid; /* Report 2 */' }
+                    position: { match: 'grid; /* Report 2 */', range: 'grid' }
                 },
                 {
                     message: `'display: -ms-grid' is not supported by Chrome, Firefox, Internet Explorer < 10. Add 'display: grid' to support Chrome 57+, Firefox 52+.`,
-                    position: { match: 'display: -ms-grid; /* Report 3 */' }
+                    position: { match: '-ms-grid; /* Report 3 */', range: '-ms-grid' }
                 },
                 {
                     message: `'display: grid' is not supported by Edge < 16, Internet Explorer. Add 'display: -ms-grid' to support Edge 12+, Internet Explorer 10+.`,
-                    position: { match: 'display: grid; /* Report 4 */' }
+                    position: { match: 'grid; /* Report 4 */', range: 'grid' }
                 }
             ],
             serverConfig: generateCSSConfig('values')
@@ -140,7 +140,7 @@ testHint(hintPath,
             reports: [
                 {
                     message: `'appearance' is not supported by Internet Explorer.`,
-                    position: { match: 'appearance: none; /* unprefixed */' }
+                    position: { match: 'appearance: none; /* unprefixed */', range: 'appearance' }
                 }
             ],
             serverConfig: generateCSSConfig('ignore')
