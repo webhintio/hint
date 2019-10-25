@@ -4,11 +4,12 @@
 [CircleCI][] is a CI/CD service you can use to run webhint
 to test your website.
 
-## Locally
+## Local testing
+You can integrate `webhint` by adding it to the `package.json` of a Node project as shown in the "For Node projects" section below. If you are not using Node or don't want to modify your project's `package.json`, you can use the instructions in the "For other project types" section.
 
-### Webhint is in the package.json
+### For Node projects
 
-Run in your project.
+In your project, run:
 
 ```bash
 npm install hint --save--dev
@@ -39,15 +40,14 @@ jobs:
       - run: npm run test-hint
 ```
 
-**Note:** In this case `hint` will use as default configuration
+**Note:** By default, `hint` will use 
 `configuration-development` if a `.hintrc` file is not present.
 
-### Project in another language or not included in package.json
+### For other project types
 
-When your project is not a `nodejs` project or you just doesn't want to/can
-modify your `package.json` you can do:
+If your project is not a Node project or you don't want to
+modify your `package.json` file, you can add a `.circleci/config.yml` to your project:
 
-Add a `.circleci/config.yml` to your project:
 
 ```yml
 version: 2.1
@@ -61,18 +61,18 @@ jobs:
       - run: node node_modules/hint/dist/src/bin/hint.js ./ # ./ or the path where the files to test are.
 ```
 
-In this case, we need `nodejs` to be install in the image. For the built-in
-images in circleci, you just need to add `-node` to the image tag, if you are
+In this case, we need `nodejs` to be included in the Docker image. For the pre-built 
+CircleCI images, you just need to add `-node` to the image tag. If you are
 using your own image, you need to update it to include `nodejs`. Once we have
-node in the image, we can install `hint` manually and run the scan.
+Node in the image, we can install `hint` manually and run the scan.
 
 As in the previous example, the default configuration will be `configuration-development`.
 
 ## Online
 
-### Webhint is in the package.json
+### For Node projects
 
-Run in your project.
+In your project, run:
 
 ```bash
 npm install hint --save--dev
@@ -104,21 +104,21 @@ jobs:
       - run: npm run test
 ```
 
-**Note:** In this case `hint` will use as default configuration
+**Note:** By default, `hint` will use 
 `configuration-web-recommended` if a `.hintrc` file is not present.
 
-**Note:** `configuration-web-recommended` use by default the connector
-`puppeteer` which requires a "chromium" browser to work. In you are using
-a `circleci` built-in image, you just need to add `-browsers` to the tag
-to have browsers installed. If you are using you custom image, you need
-to install a chromium browser in your image first.
+**Note:** By default, `configuration-web-recommended` uses the
+`puppeteer` connector, which requires a Chromium browser to work. If you are using
+a pre-built CircleCI image, you just need to add `-browsers` to the tag
+to have browsers installed. If you are using your own custom image, you need
+to install a Chromium browser in your image first.
 
-### Project in another language or hint not included in the package.json
+### For other project types
 
-When your project is not a `nodejs` project or you just doesn't want to/can
-modify your `package.json` you can do:
+If your project is not a Node project or you don't want to
+modify your `package.json`, you can
 
-Add the file `.circleci/config.yml` to your project:
+add `.circleci/config.yml` to your project:
 
 ```yml
 version: 2.1
@@ -133,19 +133,19 @@ jobs:
       - run: node node_modules/hint/dist/src/bin/hint.js https://url-to-your-project
 ```
 
-The default configuration in this case will be `configuration-web-recommended`
+The default configuration will be `configuration-web-recommended`.
 
-As you can notice, if you need `nodejs` + browsers in your circleci image, you
+In this case, we need `nodejs` and browsers to be included in the Docker image. For the pre-built CircleCI images, you 
 need to add `-node-browsers` to the image tag. If you are using a custom image,
-you will need to install node and a chromium browser in you image.
+you will need to install `nodejs` and a Chromium browser in your image.
 
 ## Common
 
 ### Enabling telemetry
 
-To enabling telemetry you have a couple of options:
+You can enable telemetry by adding either a parameter or an `env` variable.
 
-1. By parameter. You need to add the parameter to the script to your `package.json`
+1. By parameter: Add `--tracking=on` to the script in your `package.json`
 
     ```json
     …
@@ -156,7 +156,7 @@ To enabling telemetry you have a couple of options:
     …
     ```
 
-    or in you `.circleci/config.yml`:
+    or in your `.circleci/config.yml`:
 
     ```yml
     version: 2.1
@@ -171,8 +171,8 @@ To enabling telemetry you have a couple of options:
           - run: node node_modules/hint/dist/src/bin/hint.js https://url-to-your-project --tracking=on
     ```
 
-1. By env variable. You need to configure the env variable `HINT_TRACKING` in
-   your file `.circleci/config.yml`:
+2. By `env` variable: You need to configure the `env` variable `HINT_TRACKING` in
+   `.circleci/config.yml`:
 
     ```yml
     version: 2.1
@@ -190,7 +190,7 @@ To enabling telemetry you have a couple of options:
 ## Further configuration
 
 In order to change the output, severity of the hints, etc. you will have to
-use your own `.hintrc` file. Please check the section [configurating webhint]
+use your own `.hintrc` file. Please check the section [configuring webhint]
 for more details.
 
 <!-- Link labels -->

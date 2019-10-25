@@ -4,11 +4,12 @@
 [Travis CI][travisci] is a CI/CD service you can use to run webhint to test
 your website.
 
-## Locally
+## Local testing
+You can integrate `webhint` by adding it to the `package.json` of a Node project as shown in the "For Node projects" section below. If you are not using Node or don't want to modify your project's `package.json`, you can use the instructions in the "For other project types" section.
 
-### Webhint is in the package.json
+### For Node projects
 
-Run in your project.
+In your project, run:
 
 ```bash
 npm install hint --save--dev
@@ -37,15 +38,15 @@ script:
   - npm run test-hint
 ```
 
-**Note:** In this case `hint` will use as default configuration
+**Note:** By default, `hint` will use 
 `configuration-development` if a `.hintrc` file is not present.
 
-### Project in another language or not included in the package.json
+### For other project types
 
-When your project is not a `nodejs` project or you just doesn't want to/can
-modify your `package.json` you can do:
+If your project is not a Node project or you don't want to
+modify your `package.json`, you can
 
-Add a `.travis.yml` to your project:
+add a `.travis.yml` file to your project:
 
 ```yml
 language: python
@@ -58,18 +59,17 @@ script:
   - node node_modules/hint/dist/src/bin/hint.js ./ # ./ or the path where the files to test are.
 ```
 
-Travis CI includes node and npm by default but it could be outdated so it is
-recommended to install it manually via the `nvm install node` command in
-`.travis.yml`.
+Travis CI includes `nodejs` and `npm` by default, but it is
+recommended to install them manually via the `nvm install node` command to ensure you are using the latest versions.
 
 As in the previous example, the default configuration will be
 `configuration-development`.
 
 ## Online
 
-### Webhint is in the package.json
+### For Node projects
 
-Run in your project.
+In your project, run:
 
 ```bash
 npm install hint --save--dev
@@ -86,7 +86,7 @@ In the file `package.json` add a new script `test-hint`:
 ...
 ```
 
-Add the file `.travis.yml` to your project:
+Add a `.travis.yml` file to your project:
 
 ```yml
 language: node_js
@@ -101,16 +101,16 @@ script:
   - npm run test
 ```
 
-**Note:** In this case `hint` will use as default configuration
+**Note:** By default, `hint` will use 
 `configuration-web-recommended` if a `.hintrc` file is not present.
 
-**Note:** `configuration-web-recommended` use by default the connector
-`puppeteer` which requires a "chromium" browser to work. As you can notice,
-we are indicating to Travis CI to install `chrome` in our test environment.
+**Note:** By default, `configuration-web-recommended` uses the 
+`puppeteer` connector, which requires a Chromium browser to work.
+We install Chrome in our test environment by adding `chrome` to  `addons`.
 
-### Project in another language or hint not included in the package.json
+### For other project types
 
-When your project is not a `nodejs` project or you just do not want/can
+If your project is not a Node project or you don't want to
 modify your `package.json` you can add the file `.travis.yml` to your project:
 
 ```yml
@@ -134,23 +134,23 @@ In this case, we are telling to Travis CI to install `chrome` and `nodejs`.
 
 ## Common
 
-### Configuring telemetry
+### Enabling telemetry
 
-To configure the telemetry (`on` or `off`) you have a couple options:
+You can enable telemetry by adding either a parameter or an `env` variable.
 
-1. By parameter. You need to add the parameter to the script to your
+1. By parameter: Add `--tracking=on` to the script in your `package.json`
    `package.json`
 
     ```json
     …
     "scripts": {
         …
-        "test-hint": "hint https://webhint.io --debug --tracking=on|off"
+        "test-hint": "hint https://webhint.io --debug --tracking=on"
       },
     …
     ```
 
-    or in you `.travis.yml`:
+    or in your `.travis.yml`:
 
     ```yml
     language: python
@@ -164,11 +164,11 @@ To configure the telemetry (`on` or `off`) you have a couple options:
     script:
        # Add the necessary steps to deploy your website.
       - npm install hint --no-save
-      - node node_modules/hint/dist/src/bin/hint.js https://url-to-your-project --tracking=on|off
+      - node node_modules/hint/dist/src/bin/hint.js https://url-to-your-project --tracking=on
     ```
 
-1. By env variable. You need to configure the env variable `HINT_TRACKING` in
-   your file `.travis.yml`:
+2. By `env` variable: You need to configure the `env` variable `HINT_TRACKING` in
+   `.travis.yml`:
 
     ```yml
     language: node_js
@@ -179,19 +179,19 @@ To configure the telemetry (`on` or `off`) you have a couple options:
       chrome: stable
 
     env:
-      - HINT_TRACKING=on|off
+      - HINT_TRACKING=on
 
     script:
       - npm install
       - npm run test-hint
     ```
 
-**Note:** The value should be `on` or `off`, not `on|off`.
+**Note:** Supported values for `HINT_TRACKING` are `on` and `off`.
 
 ## Further configuration
 
 In order to change the output, severity of the hints, etc. you will have to
-use your own `.hintrc` file. Please check the section [configurating webhint]
+use your own `.hintrc` file. Please check the section [configuring webhint]
 for more details.
 
 <!-- Link labels -->
