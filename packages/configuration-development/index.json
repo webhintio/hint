@@ -47,6 +47,7 @@
         "jsx",
         "less",
         "sass",
+        "typescript",
         "typescript-config",
         "webpack-config"
     ]
