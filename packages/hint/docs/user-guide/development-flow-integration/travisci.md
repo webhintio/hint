@@ -111,7 +111,7 @@ We install Chrome in our test environment by adding `chrome` to  `addons`.
 ### For other project types
 
 If your project is not a Node project or you don't want to
-modify your `package.json` you can add the file `.travis.yml` to your project:
+modify your `package.json`, you can add a `.travis.yml` file to your project:
 
 ```yml
 language: python
