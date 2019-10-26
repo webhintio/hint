@@ -23,7 +23,7 @@
     "@types/lodash": "^4.14.141",
     "@types/node": "^12.7.5",
     "@types/puppeteer-core": "^1.9.0",
-    "@types/sinon": "^7.0.13",
+    "@types/sinon": "^7.5.0",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "ava": "^2.4.0",

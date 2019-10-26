@@ -18,7 +18,7 @@
     "@types/mkdirp": "^0.5.2",
     "@types/node": "^12.7.5",
     "@types/proxyquire": "^1.3.28",
-    "@types/sinon": "^7.0.13",
+    "@types/sinon": "^7.5.0",
     "@hint/utils": "^6.0.0",
     "@hint/utils-tests-helpers": "^5.0.11",
     "ava": "^2.4.0",
