@@ -27,7 +27,7 @@
     "npm-registry-fetch": "^5.0.0",
     "parse5": "^5.1.0",
     "parse5-htmlparser2-tree-adapter": "^5.1.0",
-    "postcss": "^7.0.18",
+    "postcss": "^7.0.21",
     "request": "^2.88.0",
     "semver": "^6.3.0",
     "strip-bom": "^4.0.0",

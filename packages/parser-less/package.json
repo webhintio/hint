@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hint/utils": "^6.0.0",
-    "postcss": "^7.0.18",
+    "postcss": "^7.0.21",
     "postcss-less": "^3.1.4"
   },
   "description": "webhint parser needed to analyze LESS files",
