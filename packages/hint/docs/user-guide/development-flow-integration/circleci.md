@@ -5,7 +5,11 @@
 to test your website.
 
 ## Local testing
-You can integrate `webhint` by adding it to the `package.json` of a Node project as shown in the "For Node projects" section below. If you are not using Node or don't want to modify your project's `package.json`, you can use the instructions in the "For other project types" section.
+
+You can integrate `webhint` by adding it to the `package.json` of a Node
+project as shown in the "For Node projects" section below. If you are not
+using Node or don't want to modify your project's `package.json`, you can
+use the instructions in the "For other project types" section.
 
 ### For Node projects
 
@@ -40,14 +44,13 @@ jobs:
       - run: npm run test-hint
 ```
 
-**Note:** By default, `hint` will use 
+**Note:** By default, `hint` will use
 `configuration-development` if a `.hintrc` file is not present.
 
 ### For other project types
 
 If your project is not a Node project or you don't want to
 modify your `package.json` file, you can add a `.circleci/config.yml` to your project:
-
 
 ```yml
 version: 2.1
@@ -61,7 +64,7 @@ jobs:
       - run: node node_modules/hint/dist/src/bin/hint.js ./ # ./ or the path where the files to test are.
 ```
 
-In this case, we need `nodejs` to be included in the Docker image. For the pre-built 
+In this case, we need `nodejs` to be included in the Docker image. For the pre-built
 CircleCI images, you just need to add `-node` to the image tag. If you are
 using your own image, you need to update it to include `nodejs`. Once we have
 Node in the image, we can install `hint` manually and run the scan.
@@ -104,7 +107,7 @@ jobs:
       - run: npm run test
 ```
 
-**Note:** By default, `hint` will use 
+**Note:** By default, `hint` will use
 `configuration-web-recommended` if a `.hintrc` file is not present.
 
 **Note:** By default, `configuration-web-recommended` uses the
@@ -135,9 +138,10 @@ jobs:
 
 The default configuration will be `configuration-web-recommended`.
 
-In this case, we need `nodejs` and browsers to be included in the Docker image. For the pre-built CircleCI images, you 
-need to add `-node-browsers` to the image tag. If you are using a custom image,
-you will need to install `nodejs` and a Chromium browser in your image.
+In this case, we need `nodejs` and browsers to be included in the Docker image.
+For the pre-built CircleCI images, you need to add `-node-browsers` to the
+image tag. If you are using a custom image, you will need to install `nodejs`
+and a Chromium browser in your image.
 
 ## Common
 

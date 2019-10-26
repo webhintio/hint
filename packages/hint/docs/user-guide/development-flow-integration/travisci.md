@@ -5,7 +5,11 @@
 your website.
 
 ## Local testing
-You can integrate `webhint` by adding it to the `package.json` of a Node project as shown in the "For Node projects" section below. If you are not using Node or don't want to modify your project's `package.json`, you can use the instructions in the "For other project types" section.
+
+You can integrate `webhint` by adding it to the `package.json` of a Node
+project as shown in the "For Node projects" section below. If you are not
+using Node or don't want to modify your project's `package.json`, you can
+use the instructions in the "For other project types" section.
 
 ### For Node projects
 
@@ -38,7 +42,7 @@ script:
   - npm run test-hint
 ```
 
-**Note:** By default, `hint` will use 
+**Note:** By default, `hint` will use
 `configuration-development` if a `.hintrc` file is not present.
 
 ### For other project types
@@ -60,7 +64,8 @@ script:
 ```
 
 Travis CI includes `nodejs` and `npm` by default, but it is
-recommended to install them manually via the `nvm install node` command to ensure you are using the latest versions.
+recommended to install them manually via the `nvm install node` command to
+ensure you are using the latest versions.
 
 As in the previous example, the default configuration will be
 `configuration-development`.
@@ -101,10 +106,10 @@ script:
   - npm run test
 ```
 
-**Note:** By default, `hint` will use 
+**Note:** By default, `hint` will use
 `configuration-web-recommended` if a `.hintrc` file is not present.
 
-**Note:** By default, `configuration-web-recommended` uses the 
+**Note:** By default, `configuration-web-recommended` uses the
 `puppeteer` connector, which requires a Chromium browser to work.
 We install Chrome in our test environment by adding `chrome` to  `addons`.
 
