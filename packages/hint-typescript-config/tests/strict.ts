@@ -14,13 +14,23 @@ const tests: HintLocalTest[] = [
     {
         name: 'Configuration with "compilerOptions.strict = false" should fail',
         path: path.join(__dirname, 'fixtures', 'strict', 'strict-false'),
-        reports: [{message: 'The compiler option "strict" should be enabled to reduce type errors.'}]
+        reports: [
+            {
+                message: 'The compiler option "strict" should be enabled to reduce type errors.',
+                position: { match: 'false' }
+            }
+        ]
     },
     {
         name: 'Configuration with no explicit "compilerOptions.strict" should fail',
         path: path.join(__dirname, 'fixtures', 'strict', 'no-strict'),
-        reports: [{message: 'The compiler option "strict" should be enabled to reduce type errors.'}]
+        reports: [
+            {
+                message: 'The compiler option "strict" should be enabled to reduce type errors.',
+                position: { match: 'compilerOptions' }
+            }
+        ]
     }
 ];
 
-testLocalHint(hintPath, tests, {parsers: ['typescript-config']});
+testLocalHint(hintPath, tests, { parsers: ['typescript-config'] });

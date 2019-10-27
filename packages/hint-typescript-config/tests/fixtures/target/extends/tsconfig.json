@@ -1,0 +1,3 @@
+{
+    "extends": "../es2016/tsconfig.json"
+}

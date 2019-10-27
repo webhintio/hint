@@ -1,0 +1,6 @@
+{
+    "compilerOptions": {
+        "target": "es3"
+    },
+    "extends": "../es2016/tsconfig.json"
+}
