@@ -148,7 +148,7 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
                 await this.updateSchema();
             }
 
-            result = parseJSON(fetchEnd.response.body.content, 'extends');
+            result = parseJSON(fetchEnd.response.body.content);
 
             const originalConfig = cloneDeep(result.data);
 

@@ -1,5 +1,5 @@
 import { TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript-config';
-import { HintContext } from 'hint';
+import { HintContext, IJSONLocationFunction } from 'hint';
 
 import { getMessage, MessageName } from '../i18n.import';
 
@@ -15,25 +15,46 @@ const findValue = (property: string, config: TypeScriptConfig) => {
     return current;
 };
 
+const findLocation = (propertyPath: string, mergedConfig: TypeScriptConfig, originalConfig: TypeScriptConfig, getLocation: IJSONLocationFunction) => {
+    const valueInOriginal = findValue(propertyPath, originalConfig);
+
+    if (typeof valueInOriginal !== 'undefined') {
+        return getLocation(propertyPath, { at: 'value' });
+    }
+
+    const valueInMerged = findValue(propertyPath, mergedConfig);
+
+    if (typeof valueInMerged !== 'undefined') {
+        return getLocation('extends', { at: 'value' });
+    }
+
+    const ancestors = propertyPath.split('.').slice(0, -1);
+
+    while (ancestors.length > 0) {
+        const ancestor = ancestors.pop();
+
+        if (ancestor && ancestor in originalConfig) {
+            return getLocation(ancestor);
+        }
+    }
+
+    return null;
+};
+
 /** Helper method to check if a property matches the desired value and report an issue if not. */
 const configChecker = (property: string, desiredValue: boolean, messageName: MessageName, context: HintContext) => {
 
     return (evt: TypeScriptConfigParse) => {
-        const { config, getLocation, originalConfig, resource } = evt;
+        const { config, getLocation, mergedConfig, originalConfig, resource } = evt;
         const current = findValue(property, config);
 
         if (current !== desiredValue) {
-            const inOriginal = findValue(property, originalConfig);
+            const location = findLocation(property, mergedConfig, originalConfig, getLocation);
+            const message = getMessage(messageName, context.language);
 
-            if (current !== inOriginal && 'extends' in originalConfig) {
-                context.report(resource, getMessage(messageName, context.language), { location: getLocation('extends', { at: 'value' }) });
-            } else if (typeof inOriginal !== 'undefined') {
-                context.report(resource, getMessage(messageName, context.language), { location: getLocation(property, { at: 'value' }) });
-            } else {
-                context.report(resource, getMessage(messageName, context.language), { location: getLocation(property) });
-            }
+            context.report(resource, message, { location });
         }
     };
 };
 
-export { configChecker };
+export { configChecker, findLocation, findValue };

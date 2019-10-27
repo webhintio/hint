@@ -10,6 +10,7 @@ import { TypeScriptConfigEvents, TypeScriptConfigParse } from '@hint/parser-type
 
 import meta from './meta/target';
 import { getMessage } from './i18n.import';
+import { findLocation } from './helpers/config-checker';
 
 /*
  * ------------------------------------------------------------------------------
@@ -227,16 +228,19 @@ export default class TypeScriptConfigTarget implements IHint {
         };
 
         const validate = (evt: TypeScriptConfigParse) => {
-            const { config, getLocation, resource } = evt;
+            const { config, getLocation, mergedConfig, originalConfig, resource } = evt;
             const { targetedBrowsers } = context;
+
             const target = normalizeScriptTarget(config.compilerOptions.target as any);
             const minimumBrowsers = toMiniumBrowser(targetedBrowsers);
+            const messageName = 'target';
+            const propertyPath = 'compilerOptions.target';
 
             const maxESVersion = getMaxVersion(minimumBrowsers);
 
             if (maxESVersion !== target) {
-                const message = getMessage('target', context.language, [maxESVersion, target]);
-                const location = getLocation('compilerOptions.target', { at: 'value' });
+                const location = findLocation(propertyPath, mergedConfig, originalConfig, getLocation);
+                const message = getMessage(messageName, context.language, [maxESVersion, target]);
 
                 context.report(resource, message, { location });
             }

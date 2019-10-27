@@ -18,15 +18,22 @@ const tests: HintLocalTest[] = [
     {
         name: 'Invalid JSON should fail',
         path: path.join(__dirname, 'fixtures', 'invalidjson'),
-        reports: [{ message: `Unexpected token i in JSON at position 0` }]
+        reports: [
+            {
+                message: `Unexpected token i in JSON at position 0`,
+                position: { column: -1, line: -1 }
+            }
+        ]
     },
     {
         name: 'Invalid schema should fail',
         path: path.join(__dirname, 'fixtures', 'invalidschemaenum'),
-        reports: [{
-            message: `'compilerOptions.lib[3]' should be equal to one of the allowed values 'es5, es6, es2015, es7, es2016, es2017, es2018, es2019, es2020, esnext, dom, dom.iterable, webworker, webworker.importscripts, scripthost, es2015.core, es2015.collection, es2015.generator, es2015.iterable, es2015.promise, es2015.proxy, es2015.reflect, es2015.symbol, es2015.symbol.wellknown, es2016.array.include, es2017.object, es2017.intl, es2017.sharedmemory, es2017.string, es2017.typedarrays, es2018.asynciterable, es2018.intl, es2018.promise, es2018.regexp, es2019.array, es2019.object, es2019.string, es2019.symbol, es2020.string, es2020.symbol.wellknown, esnext.asynciterable, esnext.array, esnext.bigint, esnext.intl, esnext.symbol'. Value found 'invalidlib'`,
-            position: { match: '"invalidlib"' }
-        }]
+        reports: [
+            {
+                message: `'compilerOptions.lib[3]' should be equal to one of the allowed values 'es5, es6, es2015, es7, es2016, es2017, es2018, es2019, es2020, esnext, dom, dom.iterable, webworker, webworker.importscripts, scripthost, es2015.core, es2015.collection, es2015.generator, es2015.iterable, es2015.promise, es2015.proxy, es2015.reflect, es2015.symbol, es2015.symbol.wellknown, es2016.array.include, es2017.object, es2017.intl, es2017.sharedmemory, es2017.string, es2017.typedarrays, es2018.asynciterable, es2018.intl, es2018.promise, es2018.regexp, es2019.array, es2019.object, es2019.string, es2019.symbol, es2020.string, es2020.symbol.wellknown, esnext.asynciterable, esnext.array, esnext.bigint, esnext.intl, esnext.symbol'. Value found 'invalidlib'`,
+                position: { match: '"invalidlib"' }
+            }
+        ]
     },
     {
         name: 'If schema has an invalid pattern, it should fail',

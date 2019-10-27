@@ -66,7 +66,12 @@ const tests: HintLocalTest[] = [
         },
         name: 'Configuration with "compilerOptions.importHelpers = false" should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'import-false'),
-        reports: [{ message: 'The compiler option "importHelpers" should be enabled to reduce the output size.' }]
+        reports: [
+            {
+                message: 'The compiler option "importHelpers" should be enabled to reduce the output size.',
+                position: { match: 'false' }
+            }
+        ]
     },
     {
         after: (t: ExecutionContext<ImportHelpersContext>) => {
@@ -83,7 +88,12 @@ const tests: HintLocalTest[] = [
         },
         name: 'Configuration with no explicit "compilerOptions.importHelpers" should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'no-import'),
-        reports: [{ message: 'The compiler option "importHelpers" should be enabled to reduce the output size.' }]
+        reports: [
+            {
+                message: 'The compiler option "importHelpers" should be enabled to reduce the output size.',
+                position: { match: 'compilerOptions' }
+            }
+        ]
     },
     {
         after: (t: ExecutionContext<ImportHelpersContext>) => {
@@ -101,7 +111,10 @@ const tests: HintLocalTest[] = [
         name: 'Configuration with no explicit "compilerOptions.importHelpers" and no "tslib" installed should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'no-import'),
         reports: [
-            { message: 'The compiler option "importHelpers" should be enabled to reduce the output size.' },
+            {
+                message: 'The compiler option "importHelpers" should be enabled to reduce the output size.',
+                position: { match: 'compilerOptions' }
+            },
             { message: `Couldn't find package "tslib".` }
         ]
     }
