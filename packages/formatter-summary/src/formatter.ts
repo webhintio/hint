@@ -17,7 +17,8 @@ const stripAnsi = require('strip-ansi');
 
 import { logger, writeFileAsync } from '@hint/utils';
 import { debug as d } from '@hint/utils-debug';
-import { FormatterOptions, IFormatter, Problem, Severity } from 'hint';
+import { FormatterOptions, IFormatter } from 'hint';
+import { Problem, Severity } from '@hint/utils-types';
 
 const _ = {
     forEach,

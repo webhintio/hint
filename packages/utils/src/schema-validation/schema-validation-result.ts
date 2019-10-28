@@ -1,5 +1,5 @@
 import * as ajv from 'ajv';
-import { ProblemLocation } from '../types/problems';
+import { ProblemLocation } from '@hint/utils-types';
 
 export interface ISchemaValidationError extends ajv.ErrorObject {
     location?: ProblemLocation;

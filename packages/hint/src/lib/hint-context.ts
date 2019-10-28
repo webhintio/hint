@@ -15,8 +15,9 @@ import {
     NetworkData,
     StringKeyOf
 } from './types';
-import { ProblemLocation, Severity } from '@hint/utils/dist/src/types/problems';
-import { Category } from '@hint/utils/dist/src/types/category';
+import { Severity } from '@hint/utils-types/dist/src/severity';
+import { ProblemLocation } from '@hint/utils-types/dist/src/problems';
+import { Category } from '@hint/utils-types/dist/src/category';
 import { getHTMLCodeSnippet } from '@hint/utils/dist/src/report/get-html-code-snippet';
 
 export type CodeLanguage = 'css' | 'html' | 'http' | 'javascript';

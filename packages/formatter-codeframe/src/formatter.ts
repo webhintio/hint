@@ -20,8 +20,8 @@ const stripAnsi = require('strip-ansi');
 
 import { cutString, logger, writeFileAsync } from '@hint/utils';
 import { debug as d } from '@hint/utils-debug';
-import { FormatterOptions, IFormatter, Problem, ProblemLocation, Severity } from 'hint';
-
+import { FormatterOptions, IFormatter } from 'hint';
+import { Problem, ProblemLocation, Severity } from '@hint/utils-types';
 import { getMessage } from './i18n.import';
 
 const _ = {

@@ -22,7 +22,7 @@ import {
     normalizeHints
 } from '@hint/utils';
 import { debug as d } from '@hint/utils-debug';
-import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
+import { Problem, Severity } from '@hint/utils-types';
 
 import {
     AnalyzerError,

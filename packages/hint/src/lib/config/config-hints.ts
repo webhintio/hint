@@ -12,7 +12,7 @@ import { debug as d } from '@hint/utils-debug';
 
 import { validate as schemaValidator } from '@hint/utils/dist/src/schema-validation/schema-validator';
 import { HintMetadata, HintConfig } from '../types';
-import { Severity } from '@hint/utils/dist/src/types/problems';
+import { Severity } from '@hint/utils-types/dist/src/severity';
 
 const debug = d(__filename);
 

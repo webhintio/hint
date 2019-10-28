@@ -34,6 +34,7 @@
   },
   "description": "hint tools",
   "devDependencies": {
+    "@hint/utils-types": "^1.0.0",
     "@types/configstore": "^4.0.0",
     "@types/mime-db": "^1.27.0",
     "@types/parse5-htmlparser2-tree-adapter": "^5.0.1",

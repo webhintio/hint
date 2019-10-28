@@ -8,6 +8,12 @@
     "timeout": "1m"
   },
   "description": "Hint to check if display applied to a summary tag will hide the open/close icon",
+  "dependencies": {
+    "@hint/utils": "^6.1.0",
+    "@hint/utils-i18n": "^1.0.0",
+    "@hint/utils-types": "^1.0.0",
+    "postcss-selector-parser": "^6.0.2"
+  },
   "devDependencies": {
     "@hint/parser-css": "^3.0.14",
     "@hint/utils-tests-helpers": "^5.1.0",
@@ -22,11 +28,6 @@
     "nyc": "^14.1.0",
     "rimraf": "^3.0.0",
     "typescript": "^3.6.4"
-  },
-  "dependencies": {
-    "@hint/utils": "^6.1.0",
-    "@hint/utils-i18n": "^1.0.0",
-    "postcss-selector-parser": "^6.0.2"
   },
   "engines": {
     "node": ">=8.0.0"

@@ -4,13 +4,14 @@
 import { URL } from 'url';
 import { imageSize as getImageData } from 'image-size';
 import imageType from 'image-type';
-import { IHint, NetworkData, HintContext, ProblemLocation, IJSONLocationFunction } from 'hint';
+import { IHint, NetworkData, HintContext, IJSONLocationFunction } from 'hint';
 import { ManifestEvents, ManifestParsed, ManifestImageResource } from '@hint/parser-manifest';
+import { ProblemLocation } from '@hint/utils-types';
 import { debug as d } from '@hint/utils-debug';
+import { determineMediaTypeBasedOnFileExtension } from '@hint/utils/dist/src/content-type';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
-import { determineMediaTypeBasedOnFileExtension } from '@hint/utils/dist/src/content-type';
 import { extname } from 'path';
 
 const debug: debug.IDebugger = d(__filename);

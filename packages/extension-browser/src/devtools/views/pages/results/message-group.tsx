@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Problem as ProblemData } from '@hint/utils/dist/src/types/problems';
+import { Problem as ProblemData } from '@hint/utils-types/dist/src/problems';
 
 import Summary from '../../controls/summary';
 

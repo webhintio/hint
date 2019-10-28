@@ -13,10 +13,11 @@ import { writeFileAsync } from '@hint/utils/dist/src/fs/write-file-async';
 import * as logger from '@hint/utils/dist/src/logging';
 import { requestAsync } from '@hint/utils/dist/src/network/request-async';
 
-import { IHint, CanEvaluateScript, Severity } from 'hint/dist/src/lib/types';
-import { Library, Vulnerability } from './types';
-
+import { IHint, CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { Severity } from '@hint/utils-types/dist/src/severity';
+
+import { Library, Vulnerability } from './types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
