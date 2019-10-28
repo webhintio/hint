@@ -10,10 +10,8 @@ export * from './network';
 export * from './npm';
 export * from './packages';
 export * from './test';
-export * from './report';
 export * from './chromium-finder';
 
-export * from './chromium-finder';
 export * from './config';
 export * from './has-yarnlock';
 export * from './types/config';
