@@ -69,7 +69,7 @@ export class Server {
         return server;
     }
 
-    private static async createServer(options: ServerOptions) {
+    private static async createSameThreadServer(options: ServerOptions) {
         const server = new SameThreadServer(options.isHTTPS);
 
         await server.start();
@@ -87,7 +87,7 @@ export class Server {
             isCI;
 
         if (sameThread) {
-            return this.createServer(options);
+            return this.createSameThreadServer(options);
         }
 
         return this.createIndependentServer(options);
