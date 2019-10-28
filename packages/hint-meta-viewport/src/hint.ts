@@ -12,6 +12,7 @@ import { IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 /*
  * ------------------------------------------------------------------------------
@@ -69,7 +70,7 @@ export default class MetaViewportHint implements IHint {
         const checkContentValue = (contentValue: string | null, resource: string, viewportMetaElement: HTMLElement) => {
 
             if (!contentValue) {
-                const message = `'viewport' meta element should have non-empty 'content' attribute.`;
+                const message = getMessage('metaElementNonEmptyContent', context.language);
 
                 context.report(resource, message, { element: viewportMetaElement });
 
@@ -81,13 +82,13 @@ export default class MetaViewportHint implements IHint {
             // Check for unknown properties and invalid values.
 
             for (const key of Object.keys(content.unknownProperties)) {
-                const message = `'viewport' meta element 'content' attribute value should not contain unknown property '${key}'.`;
+                const message = getMessage('metaElementUnknownProperty', context.language, key);
 
                 context.report(resource, message, { element: viewportMetaElement });
             }
 
             for (const key of Object.keys(content.invalidValues)) {
-                const message = `'viewport' meta element 'content' attribute value should not contain invalid value '${content.invalidValues[key]}' for property '${key}'.`;
+                const message = getMessage('metaElementInvalidValues', context.language, [content.invalidValues[key].toString(), key]);
 
                 context.report(resource, message, { element: viewportMetaElement });
             }
@@ -112,7 +113,7 @@ export default class MetaViewportHint implements IHint {
                     'minimum-scale',
                     'user-scalable'
                 ].includes(key)) {
-                    const message = `'viewport' meta element 'content' attribute value should not contain disallowed property '${key}'.`;
+                    const message = getMessage('metaElementDisallowedValues', context.language, key);
 
                     context.report(resource, message, { element: viewportMetaElement });
                 }
@@ -126,7 +127,7 @@ export default class MetaViewportHint implements IHint {
              */
 
             if (content.validProperties.width !== 'device-width') {
-                const message = `'viewport' meta element 'content' attribute value should contain 'width=device-width'.`;
+                const message = getMessage('metaElementNoDeviceWidth', context.language);
 
                 context.report(resource, message, { element: viewportMetaElement });
             }
@@ -157,7 +158,7 @@ export default class MetaViewportHint implements IHint {
             if ((initialScaleValue !== 1 && typeof initialScaleValue !== 'undefined') ||
                 (typeof initialScaleValue === 'undefined' && listIncludesBrowsersWithOrientationChangeBug(context.targetedBrowsers))) {
 
-                const message = `'viewport' meta element 'content' attribute value should contain 'initial-scale=1'.`;
+                const message = getMessage('metaElementNoInitialScale', context.language);
 
                 context.report(resource, message, { element: viewportMetaElement });
             }
@@ -165,10 +166,15 @@ export default class MetaViewportHint implements IHint {
 
         const validate = ({ resource }: TraverseEnd) => {
             const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
+
+            if (pageDOM.isFragment) {
+                return;
+            }
+
             const viewportMetaElements: HTMLElement[] = getViewportMetaElements(pageDOM.querySelectorAll('meta'));
 
             if (viewportMetaElements.length === 0) {
-                context.report(resource, `'viewport' meta element was not specified.`);
+                context.report(resource, getMessage('metaElementNotSpecified', context.language));
 
                 return;
             }
@@ -184,7 +190,7 @@ export default class MetaViewportHint implements IHint {
             const bodyMetaElements: HTMLElement[] = getViewportMetaElements(pageDOM.querySelectorAll('body meta'));
 
             if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(viewportMetaElement)) {
-                context.report(resource, `'viewport' meta element should be specified in the '<head>', not '<body>'.`, { element: viewportMetaElement });
+                context.report(resource, getMessage('metaElementInBody', context.language), { element: viewportMetaElement });
             }
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -207,7 +213,7 @@ export default class MetaViewportHint implements IHint {
                 const metaElements = viewportMetaElements.slice(1);
 
                 for (const metaElement of metaElements) {
-                    context.report(resource, `'viewport' meta element is not needed as one was already specified.`, { element: metaElement });
+                    context.report(resource, getMessage('metaElementDuplicated', context.language), { element: metaElement });
                 }
             }
 

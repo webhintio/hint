@@ -38,8 +38,8 @@ in the document.
 Although an alternative legacy compatibility `doctype` is available,
 this hint does not recommend it. It is a common misconception that
 the legacy compatibility `doctype` refers to compatibility with
-legacy browsers, when, in fact, it is used to deal with [compatibility
-issues with outdated XML tools][compat issue].
+legacy browsers, when, in fact, it is used to deal with compatibility
+issues with outdated XML tools.
 
 ### Examples that **trigger** the hint
 
@@ -91,19 +91,13 @@ A `doctype` in the first line.
 
 ## How to use this hint?
 
-To use it you will have to install it via `npm`:
+This package is installed automatically by webhint:
 
 ```bash
-npm install @hint/hint-doctype
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using
-the `--save-dev` parameter, or to install it globally, you can
-use the `-g` parameter. For other options see [**npm's**
-documentation][npm docs].
-
-And then activate it via the `.hintrc` or `hintrc`
-configuration file:
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
@@ -118,6 +112,9 @@ configuration file:
 }
 ```
 
+**Note**: The recommended way of running webhint is as a `devDependency` of
+your project.
+
 ## Further Reading
 
 * [`doctype` (Wikipedia)][docwiki]
@@ -126,8 +123,8 @@ configuration file:
 
 <!-- Link labels: -->
 
-[compat issue]: http://bugzilla.bluegriffon.org/show_bug.cgi?id=634#c0
 [docmdn]: https://developer.mozilla.org/en-US/docs/Glossary/DOCTYPE
 [docwiki]: https://en.wikipedia.org/wiki/Document_type_declaration
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [hsivonen]: https://hsivonen.fi/doctype/
 [npm docs]: https://docs.npmjs.com/cli/install

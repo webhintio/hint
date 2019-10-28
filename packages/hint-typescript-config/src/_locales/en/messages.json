@@ -1,0 +1,74 @@
+{
+    "consistentCasing_description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/consistent-casing` checks if the property `forceConsistentCasingInFileNames` is enabled in the TypeScript configuration file (i.e `tsconfig.json`)"
+    },
+    "consistentCasing_name": {
+        "description": "Metadata name",
+        "message": "TypeScript consistent casing"
+    },
+    "couldNotFindTSLib": {
+        "description": "",
+        "message": "Couldn't find package \"tslib\"."
+    },
+    "forceConsistentCasingInFileNames": {
+        "description": "Report message when the option 'forceConsistentCasingInFileNames' is not enabled",
+        "message": "The compiler option \"forceConsistentCasingInFileNames\" should be enabled to reduce issues when working with different OSes."
+    },
+    "importHelpers_description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/import-helpers` checks if the property `importHelpers` is enabled in the TypeScript configuration file (i.e `tsconfig.json`) to reduce the output size."
+    },
+    "importHelpers_name": {
+        "description": "Metadata name",
+        "message": "TypeScript import helpers"
+    },
+    "importHelpers": {
+        "description": "Report message when the option 'importHelpers' is not enabled",
+        "message": "The compiler option \"importHelpers\" should be enabled to reduce the output size."
+    },
+    "isValid_description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/is-valid` warns against providing an invalid TypeScript configuration file `tsconfig.json`"
+    },
+    "isValid_name": {
+        "description": "Metadata name",
+        "message": "Valid TypeScript configuration"
+    },
+    "noComments_description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/no-comments` checks if the property `removeComments` is enabled in the TypeScript configuration file (i.e `tsconfig.json`)"
+    },
+    "noComments_name": {
+        "description": "Metadata name",
+        "message": "TypeScript remove comments"
+    },
+    "removeComments": {
+        "description": "Report message when 'removeComments' is not enabled",
+        "message": "The compiler option \"removeComments\" should be enabled to reduce the output size."
+    },
+    "strict": {
+        "description": "Report message when 'strict' is not enabled",
+        "message": "The compiler option \"strict\" should be enabled to reduce type errors."
+    },
+    "strict_description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/strict` checks if the property `strict` is enabled in the TypeScript configuration file (i.e `tsconfig.json`)."
+    },
+    "strict_name": {
+        "description": "Metadata name",
+        "message": "TypeScript strict"
+    },
+    "target_description": {
+        "description": "Metadata description",
+        "message": "`typescript-config/target` warns against providing a `compilerOptions.target` in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined `browserslist` values."
+    },
+    "target_name": {
+        "description": "Metadata name",
+        "message": "TypeScript target"
+    },
+    "target": {
+        "description": "Report message when the 'compilerOptions.target' is not configured correctly for the user target browsers",
+        "message": "Based on your browser configuration your \"compilerOptions.target\" should be \"$1\". Current one is \"$2\""
+    }
+}

@@ -2,49 +2,45 @@
   "ava": {
     "failFast": false,
     "files": [
-      "dist/tests/**/*.js"
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
     ],
     "timeout": "1m"
   },
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
-    "@hint/utils": "^2.1.0",
+    "@hint/utils": "^6.0.0",
     "boxen": "^4.1.0",
-    "browserslist": "^4.6.2",
+    "browserslist": "^4.7.0",
     "chalk": "^2.4.2",
-    "configstore": "^5.0.0",
-    "content-type": "^1.0.4",
     "eventemitter2": "^5.0.1",
-    "globby": "^9.2.0",
+    "globby": "^10.0.1",
     "is-ci": "^2.0.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "optionator": "^0.8.2",
-    "ora": "^3.4.0",
-    "semver": "^6.1.1",
-    "update-notifier": "^3.0.0"
+    "ora": "^4.0.2",
+    "os-locale": "^4.0.0",
+    "update-notifier": "^3.0.1"
   },
   "description": "The linting tool for the web",
   "devDependencies": {
-    "@types/async": "^3.0.0",
-    "@types/content-type": "^1.1.3",
-    "@types/lodash": "^4.14.134",
-    "@types/node": "^12.0.7",
-    "@types/semver": "^6.0.0",
-    "@types/sinon": "^7.0.13",
+    "@types/lodash": "^4.14.141",
+    "@types/node": "^12.7.5",
+    "@types/sinon": "^7.5.0",
     "@types/update-notifier": "^2.5.0",
-    "@typescript-eslint/eslint-plugin": "^1.10.2",
-    "@typescript-eslint/parser": "^1.10.2",
-    "ava": "^1.4.1",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.12.0",
+    "ava": "^2.4.0",
     "cpx": "^1.5.0",
-    "eslint": "^5.15.1",
-    "eslint-plugin-import": "^2.17.3",
+    "eslint": "^6.5.1",
+    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-markdown": "^1.0.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.1.0",
-    "proxyquire": "2.0.0",
-    "rimraf": "^2.6.3",
-    "sinon": "^7.3.2",
-    "typescript": "^3.5.1"
+    "proxyquire": "^2.1.3",
+    "rimraf": "^3.0.0",
+    "sinon": "^7.5.0",
+    "typescript": "^3.6.4"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -73,9 +69,14 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
-    "@hint/configuration-web-recommended": "^6.2.2"
+    "@hint/configuration-development": "^7.2.5",
+    "@hint/configuration-web-recommended": "^7.2.6"
   },
-  "repository": "https://github.com/webhintio/hint",
+  "repository": {
+    "directory": "packages/hint",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
   "scripts": {
     "ava": "ava",
     "build": "npm-run-all build:*",
@@ -97,5 +98,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "5.0.2"
+  "version": "5.3.3"
 }

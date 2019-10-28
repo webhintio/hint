@@ -1,5 +1,3 @@
-import { URL } from 'url';
-
 import {
     ElementFound,
     FetchEnd,
@@ -37,13 +35,19 @@ export default class ManifestParser extends Parser<ManifestEvents> {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    private validatedManifests: Map<string, string> = new Map();
+    private fetchedManifests = new Set<string>();
 
     public constructor(engine: Engine<ManifestEvents>) {
         super(engine, 'manifest');
 
         engine.on('element::link', this.fetchManifest.bind(this));
         engine.on('fetch::end::manifest', this.validateManifest.bind(this));
+        engine.on('scan::end', this.onScanEnd.bind(this));
+    }
+
+    private onScanEnd() {
+        // Clear cached manifests so multiple runs work (e.g. in local connector).
+        this.fetchedManifests.clear();
     }
 
     private async fetchManifest(elementFound: ElementFound) {
@@ -78,44 +82,44 @@ export default class ManifestParser extends Parser<ManifestEvents> {
 
         // Try to fetch the web app manifest.
 
-        const manifestURL: string = (new URL(hrefValue, resource)).href;
+        const manifestURL: string = element.resolveUrl(hrefValue);
+
+        /*
+         * Don't fetch the manifest if it has already been fetched (as some
+         * connectors fetch automatically).
+         *
+         * Note: This expects manifest fetches by a connector to occur first.
+         * In theory a redundant fetch can still occur if the connector fetch
+         * occurs second. This does not happen in practice as this check runs
+         * after the page has been loaded (as part of the DOM traversal phase).
+         */
+        if (this.fetchedManifests.has(manifestURL)) {
+            return;
+        }
 
         await this.engine.emitAsync(this.fetchStartEventName, { resource });
 
-        let manifestNetworkData: NetworkData | undefined;
-        let error: Error | undefined;
+        let manifestNetworkData: NetworkData;
 
         try {
             manifestNetworkData = await this.engine.fetchContent(manifestURL);
-        } catch (e) {
-            error = e as Error;
-
-            /*
-             * Generic error message is used as it would be complicated
-             * to handle all the cases, and displaying the default error
-             * message wouldn't be very user friendly.
-             */
-
-            error.message = `'${hrefValue}' could not be fetched (request failed).`;
-        }
-
-        // TODO: Add check if manifest cannot be fetch because of CSP.
-
-        const statusCode: number | undefined = manifestNetworkData && manifestNetworkData.response.statusCode;
-
-        if (!manifestNetworkData || error || statusCode !== 200) {
+        } catch (error) {
 
             await this.engine.emitAsync(this.fetchErrorEventName, {
                 element,
-                error: error || new Error(`'${hrefValue}' could not be fetched (status code: ${statusCode}).`),
-                hops: (manifestNetworkData && manifestNetworkData.response.hops) || [manifestURL],
+                error,
+                hops: [manifestURL],
                 resource: manifestURL
             });
 
             return;
         }
 
-        // If the web app manifest was fetch successfully.
+        // If the web app manifest was fetched successfully and hasn't already been seen.
+
+        if (this.fetchedManifests.has(manifestURL)) {
+            return;
+        }
 
         await this.engine.emitAsync(this.fetchEndEventName, {
             element,
@@ -128,20 +132,15 @@ export default class ManifestParser extends Parser<ManifestEvents> {
     private async validateManifest(fetchEnd: FetchEnd) {
         const { resource, response } = fetchEnd;
 
-        /**
-         * Some connectors can download the manifest directly and thus
-         * triggering multiple validations of the same resource.
-         * Need to avoid that.
-         */
-        if (this.validatedManifests.has(resource)) {
-            const validatedBody = this.validatedManifests.get(resource);
-
-            if (validatedBody === response.body.content) {
-                return;
-            }
+        if (this.fetchedManifests.has(resource)) {
+            return;
         }
 
-        this.validatedManifests.set(resource, response.body.content);
+        this.fetchedManifests.add(resource);
+
+        if (response.statusCode >= 400) {
+            return;
+        }
 
         await this.engine.emitAsync(`parse::start::manifest`, { resource });
 

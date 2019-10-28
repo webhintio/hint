@@ -115,6 +115,31 @@ HTTP/... 404 OK
 ...
 ```
 
+## How to use this hint?
+
+This package is installed automatically by webhint:
+
+```bash
+npm install hint --save-dev
+```
+
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "hints": {
+        "no-p3p": "error",
+        ...
+    }
+    ...
+}
+```
+
+**Note**: The recommended way of running webhint is as a `devDependency` of
+your project.
+
 ## Further Reading
 
 * [Quick look at P3P][quick look]
@@ -122,6 +147,7 @@ HTTP/... 404 OK
 
 <!-- Link labels -->
 
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [p3p header]: https://www.w3.org/TR/P3P11/#syntax_ext
 [p3p link]: https://www.w3.org/TR/P3P11/#syntax_link
 [p3p spec]: https://www.w3.org/TR/P3P11/

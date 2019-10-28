@@ -24,9 +24,16 @@ a resource file.
 The recommended way to create a new hint is to use `npm create hint` from
 the CLI.
 
-**Note for core hints**: If you are creating a hint for the main repo you should
-use the same command from the `packages` folder. The generated files will be
-slighthly different (references and task will change a bit).
+>**Note for core hints**: If you are creating a hint for the main repo you should
+>follow the below steps:
+>
+>* Make sure to run `yarn` and `yarn build` in root directory.
+>* Then go to `create-hint` package ( `cd packages/create-hint` ).
+>* Make executable release. run `yarn webpack`.
+>* Now run `npm create hint` from `packages` folder.
+>
+>The generated files will be
+>slightly different (references and task will change a bit).
 
 At this point, a wizard will ask a series of questions relevant to the new hint,
 including the name, description, category, etc. In particular, you will be asked

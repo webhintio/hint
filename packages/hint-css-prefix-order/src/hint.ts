@@ -6,51 +6,21 @@
 import { vendor, Declaration, Rule } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
 
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
+import { getCSSLocationFromNode } from '@hint/utils/dist/src/report';
 
 const debug: debug.IDebugger = d(__filename);
 
 type DeclarationPair = {
     lastPrefixed: Declaration;
     unprefixed: Declaration;
-};
-
-/** Convert `NodeSource` details to a `ProblemLocation`. */
-const getLocation = (decl: Declaration): ProblemLocation => {
-    const start = decl.source && decl.source.start;
-
-    if (start) {
-        return {
-            column: start.column - 1,
-            line: start.line - 1
-        };
-    }
-
-    return {
-        column: 0,
-        line: 0
-    };
-};
-
-/** Generate a report message from an invalid pair. */
-const formatMessage = (invalidPair: DeclarationPair): string => {
-    // Handle prefixed properties (e.g. `appearance` and `-webkit-appearance`).
-    let name = invalidPair.unprefixed.prop;
-    let prefixedName = invalidPair.lastPrefixed.prop;
-
-    // Handle prefixed values (e.g. `display: grid` and `display: -ms-grid`).
-    if (name === prefixedName) {
-        name = `${invalidPair.unprefixed}`;
-        prefixedName = `${invalidPair.lastPrefixed}`;
-    }
-
-    return `'${name}' should be listed after '${prefixedName}'.`;
 };
 
 /** Determine if the order of a prefixed/unprefixed pair is valid. */
@@ -60,8 +30,8 @@ const validatePair = (pair: Partial<DeclarationPair>): boolean => {
         return false;
     }
 
-    const prefixedLocation = getLocation(pair.lastPrefixed);
-    const unprefixedLocation = getLocation(pair.unprefixed);
+    const prefixedLocation = getCSSLocationFromNode(pair.lastPrefixed) || { column: 0, line: 0 };
+    const unprefixedLocation = getCSSLocationFromNode(pair.unprefixed) || { column: 0, line: 0 };
 
     // Valid if last prefixed line is before unprefixed line.
     if (prefixedLocation.line < unprefixedLocation.line) {
@@ -81,7 +51,11 @@ const validatePair = (pair: Partial<DeclarationPair>): boolean => {
 const validateRule = (rule: Rule): DeclarationPair[] => {
     const map = new Map<string, Partial<DeclarationPair>>();
 
-    rule.walkDecls((decl) => {
+    rule.each((decl) => {
+        if (!('prop' in decl)) {
+            return;
+        }
+
         const name = decl.prop;
         const baseName = vendor.unprefixed(name);
 
@@ -115,13 +89,29 @@ export default class CssPrefixOrderHint implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<StyleEvents>) {
+        /** Generate a report message from an invalid pair. */
+        const formatMessage = (invalidPair: DeclarationPair): string => {
+            // Handle prefixed properties (e.g. `appearance` and `-webkit-appearance`).
+            let name = invalidPair.unprefixed.prop;
+            let prefixedName = invalidPair.lastPrefixed.prop;
+
+            // Handle prefixed values (e.g. `display: grid` and `display: -ms-grid`).
+            if (name === prefixedName) {
+                name = `${invalidPair.unprefixed}`;
+                prefixedName = `${invalidPair.lastPrefixed}`;
+            }
+
+            return getMessage('shouldBeListed', context.language, [name, prefixedName]);
+        };
+
         context.on('parse::end::css', ({ ast, element, resource }: StyleParse) => {
-            debug(`Validating hint css-prefix-order`);
+            debug('Validating hint css-prefix-order');
 
             ast.walkRules((rule) => {
                 for (const invalidPair of validateRule(rule)) {
                     const message = formatMessage(invalidPair);
-                    const location = getLocation(invalidPair.unprefixed);
+                    const isValue = invalidPair.lastPrefixed.prop === invalidPair.unprefixed.prop;
+                    const location = getCSSLocationFromNode(invalidPair.unprefixed, { isValue });
                     const codeSnippet = getCSSCodeSnippet(invalidPair.unprefixed);
 
                     context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });

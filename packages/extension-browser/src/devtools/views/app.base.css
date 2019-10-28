@@ -5,6 +5,7 @@
     --base-color: #000;
 
     --code-bg: var(--base-bg);
+    --notification-bg: #efefef;
 
     --dark-color: #000;
     --light-color: #fff;
@@ -24,12 +25,18 @@
     --font-size-sm: 0.75rem; /* 12px */
     --font-size-xs: 0.625rem; /* 10px */
 
+    --info-color: #0060df;
+
     --input-size: 1rem; /* 16px */
     --rounding: 0.125rem; /* 2px */
 
     /* Styles */
     --border: var(--border-width) solid var(--border-color);
     --focus-outline: 2px solid var(--base-color);
+
+    /* Notification icon */
+    --icon-close: url(../../images/icon-close.svg);
+    --icon-info: url(../../images/icon-info.svg);
 }
 
 .root[data-theme='dark'] {
@@ -37,6 +44,7 @@
     --base-color: #fff;
 
     --code-bg: #2d2d2d;
+    --notification-bg: #1a1a1a;
 
     --button-bg: rgba(255, 255, 255, 0.08);
     --button-bg-hover: rgba(255, 255, 255, 0.065);
@@ -44,6 +52,8 @@
     --border-color: rgba(255, 255, 255, 0.25);
 
     --example-color: #fff;
+
+    --info-color: #67b5ef;
 
     --link-color: #67b5ef;
     --link-alt-color: #ce9178;
@@ -57,6 +67,8 @@
     font-family: var(--font-family);
     font-size: var(--font-size);
     margin: 0;
+    min-width: 240px;
+    overflow-x: auto;
     overflow-y: scroll;
     padding: 0 2.5rem;
     position: absolute;
@@ -72,8 +84,10 @@
  * Dark scrollbar styles for Firefox.
  * https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color
  */
-.root[data-theme='dark'] {
-    scrollbar-color: #737373 #3c3c3d;
+@supports (scrollbar-color: #737373 #3c3c3d) {
+    .root[data-theme='dark'] {
+        scrollbar-color: #737373 #3c3c3d;
+    }
 }
 
 /*
@@ -90,8 +104,8 @@
 .root[data-theme='dark']::-webkit-scrollbar-thumb {
     border-radius: 0.125rem;
     background-color: var(--button-bg);
-    box-shadow: inset 0 0 1px var(--shadow-color);
+    box-shadow: var(--scrollbar-shadow);
 }
 .root[data-theme='dark']::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 1px var(--shadow-color);
+    box-shadow: var(--scrollbar-shadow);
 }

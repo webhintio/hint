@@ -18,6 +18,7 @@ import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
 import { Grades, SSLLabsEndpoint, SSLLabsOptions, SSLLabsResult } from './types';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -56,7 +57,7 @@ export default class SSLLabsHint implements IHint {
 
         const verifyEndpoint = (resource: string, { grade, serverName = resource, details }: SSLLabsEndpoint) => {
             if (!grade && details.protocols.length === 0) {
-                const message = `'${resource}' does not support HTTPS.`;
+                const message = getMessage('doesNotSupportHTTPS', context.language, resource);
 
                 debug(message);
                 context.report(resource, message);
@@ -68,7 +69,7 @@ export default class SSLLabsHint implements IHint {
             const calculatedMiniumGrade: Grades = Grades[minimumGrade];
 
             if (calculatedGrade > calculatedMiniumGrade) {
-                const message: string = `${serverName}'s grade ${grade} does not meet the minimum ${minimumGrade} required.`;
+                const message: string = getMessage('gradeNotMeetTheMinimum', context.language, [serverName, grade, minimumGrade]);
 
                 debug(message);
                 context.report(resource, message);
@@ -79,12 +80,12 @@ export default class SSLLabsHint implements IHint {
 
         const notifyError = (resource: string, error: any) => {
             debug(`Error getting data for ${resource} %O`, error);
-            context.report(resource, `Could not get results from SSL Labs for '${resource}'.`);
+            context.report(resource, getMessage('couldNotGetResults', context.language, resource));
         };
 
         const start = async ({ resource }: FetchEnd) => {
             if (!resource.startsWith('https://')) {
-                const message: string = `'${resource}' does not support HTTPS.`;
+                const message: string = getMessage('doesNotSupportHTTPS', context.language, resource);
 
                 debug(message);
                 context.report(resource, message);
@@ -124,8 +125,7 @@ export default class SSLLabsHint implements IHint {
             debug(`Received SSL Labs results for ${resource}`);
 
             if (!host || !host.endpoints || host.endpoints.length === 0) {
-                const msg = `Didn't get any result for ${resource}.
-There might be something wrong with SSL Labs servers.`;
+                const msg = getMessage('noResults', context.language, resource);
 
                 debug(msg);
                 context.report(resource, msg);

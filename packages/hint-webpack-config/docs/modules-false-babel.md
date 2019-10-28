@@ -13,21 +13,6 @@ are using webpack 2+.
 
 ### Example that **trigger** the hint
 
-`babel-config` parser not added to `.hintrc`.
-
-```json
-{
-    "connector": {...},
-    "formatters": [...],
-    "parsers": ["webpack-config"],
-    "hints": {
-        "webpack-config/module-esnext-typescript": "error",
-        ...
-    },
-    ...
-}
-```
-
 `babel-config` configured but `modules` has a value different to `esnext`
 
 ```json

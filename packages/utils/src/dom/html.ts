@@ -10,6 +10,9 @@ import { INamedNodeMap } from '../types/html';
 
 import { DocumentData, ElementData } from '../types/snapshot';
 
+// TODO: Use quick-lru so that it doesn't grow without bounds
+const CACHED_CSS_SELECTORS: Map<string, cssSelect.CompiledQuery> = new Map();
+
 export class HTMLElement {
     public ownerDocument: HTMLDocument;
 
@@ -43,6 +46,16 @@ export class HTMLElement {
         return result;
     }
 
+    public get parentElement(): HTMLElement | null {
+        const parent = this._element.parent;
+
+        if (!parent || (parent.type !== 'tag' && parent.type !== 'script' && parent.type !== 'style')) {
+            return null;
+        }
+
+        return new HTMLElement(parent, this.ownerDocument);
+    }
+
     public get nodeName(): string {
         return this._element.name;
     }
@@ -52,6 +65,16 @@ export class HTMLElement {
         const value = typeof attrib !== 'undefined' ? attrib : null;
 
         return value;
+    }
+
+    /**
+     * Check if the value of an attribute was provided as a template
+     * expression, meaning the exact value of the attribute is unknown.
+     */
+    public isAttributeAnExpression(attribute: string): boolean {
+        const value = this.getAttribute(attribute);
+
+        return value ? value.includes('{') : false;
     }
 
     /**
@@ -174,6 +197,7 @@ export class HTMLElement {
 
 export class HTMLDocument {
     private _document: DocumentData;
+    private _documentElement: ElementData;
     private _pageHTML = '';
     private _base: string;
 
@@ -181,9 +205,16 @@ export class HTMLDocument {
 
     public constructor(document: DocumentData, finalHref: string, originalDocument?: HTMLDocument) {
         this._document = document;
+        this._documentElement = this.findDocumentElement();
         this.originalDocument = originalDocument;
         this._pageHTML = parse5.serialize(document, { treeAdapter: htmlparser2Adapter });
         this._base = this.getBaseUrl(finalHref);
+    }
+
+    private findDocumentElement() {
+        return this._document.children.find((node) => {
+            return node.type === 'tag' && node.name === 'html';
+        }) as ElementData;
     }
 
     private getBaseUrl(finalHref: string): string {
@@ -198,15 +229,19 @@ export class HTMLDocument {
     }
 
     public get documentElement(): HTMLElement {
-        const htmlNode = this._document.children.find((node) => {
-            return node.type === 'tag' && node.name === 'html';
-        }) as ElementData;
-
-        return new HTMLElement(htmlNode, this);
+        return new HTMLElement(this._documentElement, this);
     }
 
     public get base(): string {
         return this._base;
+    }
+
+    /**
+     * Check if this represents a template fragment as opposed to a full document.
+     */
+    public get isFragment(): boolean {
+        // Document is a fragment if `<html>` wasn't part of the original source.
+        return !this.originalDocument && !this._documentElement.sourceCodeLocation;
     }
 
     public pageHTML(): string {
@@ -214,7 +249,14 @@ export class HTMLDocument {
     }
 
     public querySelectorAll(selector: string): HTMLElement[] {
-        const matches: any[] = cssSelect(selector, this._document.children);
+        if (!CACHED_CSS_SELECTORS.has(selector)) {
+            CACHED_CSS_SELECTORS.set(selector, cssSelect.compile(selector));
+        }
+
+        const matches: any[] = cssSelect(
+            CACHED_CSS_SELECTORS.get(selector) as cssSelect.CompiledQuery,
+            this._document.children
+        );
 
         const result = matches.map((element) => {
             return new HTMLElement(element, this);

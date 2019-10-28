@@ -68,8 +68,8 @@ export const withCurrentDesign = <P extends object>(Component: ComponentType<P>)
  * Falls back to the default design system if no matching styles were found.
  *
  * ```ts
- * import * as fluent from 'component.fluent.css';
- * import * as photon from 'component.photon.css';
+ * import * as fluent from './component.fluent.css';
+ * import * as photon from './component.photon.css';
  *
  * const styles = useCurrentDesign({ fluent, photon });
  * ```

@@ -3,14 +3,17 @@
 
     border-bottom: var(--border);
     color: var(--link-color);
+    padding-bottom: 1px;
     text-decoration: none;
 }
 
 .root:focus {
     border-bottom: 2px solid var(--base-color);
     outline: none;
+    padding-bottom: 0;
 }
 
 .root:global(:not(.focus-visible)) {
     border-bottom: var(--border);
+    padding-bottom: 1px;
 }

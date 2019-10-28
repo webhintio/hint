@@ -57,6 +57,7 @@ export type Commit = {
 
 export type Tag = 'Docs' |
     'Build' |
+    'Update' |
     'Upgrade' |
     'Chore' |
     'Fix' |

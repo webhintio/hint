@@ -1,0 +1,34 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Require `<meta charset=\"utf-8\">`"
+    },
+    "metaElementDuplicated": {
+        "description": "Report message when the 'charset' meta element is duplicated",
+        "message": "'charset' meta element is not needed as one was already specified."
+    },
+    "metaElementFirstThing": {
+        "description": "Report message when the 'charset' meta element is not the first element in '<head>'",
+        "message": "'charset' meta element should be the first thing in '<head>'."
+    },
+    "metaElementInBody": {
+        "description": "Report message when the 'charset' meta element is in the '<body>'",
+        "message": "'charset' meta element should be specified in the '<head>', not '<body>'."
+    },
+    "metaElementNotSpecified": {
+        "description": "Report message when the 'charset' meta element was not specified",
+        "message": "'charset' meta element was not specified."
+    },
+    "metaElementShorter": {
+        "description": "Report message when the 'charset' meta element is used in a long form",
+        "message": "'charset' meta element should be specified using shorter '<meta charset=\"utf-8\">' form."
+    },
+    "metaElementWrongValue": {
+        "description": "Report message when the 'charset' meta element has a wrong value",
+        "message": "'charset' meta element value should be 'utf-8', not '$1'."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Use charset `utf-8`"
+    }
+}

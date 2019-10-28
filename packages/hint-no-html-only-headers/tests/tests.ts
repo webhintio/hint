@@ -15,13 +15,82 @@ const testsForDefaults: HintTest[] = [
         name: `Non HTML resource is served without unneeded headers`,
         serverConfig: {
             '/': {
-                content: htmlPage,
+                content: generateHTMLPage(undefined, '<img src="test.svg"/><script src="test.js"></script><embed src="test.pdf" type="application/pdf">'),
                 headers: {
+                    'Content-Security-Policy': 'default-src "none"',
                     'Content-Type': 'text/html; charset=utf-8',
-                    'X-Frame-Options': 'SAMEORIGIN'
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
                 }
             },
-            '/test.js': { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }
+            '/test.js': {
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'application/javascript; charset=utf-8',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            },
+            '/test.pdf': {
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'application/pdf',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            },
+            '/test.svg': {
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'image/svg+xml',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            }
+        }
+    },
+    {
+        name: `Non HTML resource is served without unneeded headers and with application/xhtml+xml content type`,
+        serverConfig: {
+            '/': {
+                content: generateHTMLPage(undefined, '<script src="test.js"></script>'),
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'application/xhtml+xml; charset=utf-8',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            },
+            '/test.js': {
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'application/javascript; charset=utf-8',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            }
+        }
+    },
+    {
+        name: `Non HTML resource is served without unneeded headers and with text/xml content type`,
+        serverConfig: {
+            '/': {
+                content: generateHTMLPage(undefined, '<script src="test.js"></script>'),
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'text/xml; charset=utf-8',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            },
+            '/test.js': {
+                headers: {
+                    'Content-Security-Policy': 'default-src "none"',
+                    'Content-Type': 'application/javascript; charset=utf-8',
+                    'X-Content-Security-Policy': 'default-src "none"',
+                    'X-WebKit-CSP': 'default-src "none"'
+                }
+            }
         }
     },
     {
@@ -29,35 +98,12 @@ const testsForDefaults: HintTest[] = [
         serverConfig: { '/': generateHTMLPage(undefined, '<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==">') }
     },
     {
-        name: `Non HTML resource is served with unneeded header`,
-        reports: [{ message: generateMessage(['content-security-policy']) }],
-        serverConfig: {
-            '/': {
-                content: htmlPage,
-                headers: {
-                    'Content-Type': 'text/html; charset=utf-8',
-                    'X-Frame-Options': 'SAMEORIGIN'
-                }
-            },
-            '/test.js': {
-                headers: {
-                    'Content-Security-Policy': 'default-src "none"',
-                    'Content-Type': 'application/javascript; charset=utf-8'
-                }
-            }
-        }
-    },
-    {
         name: `Non HTML resource is served with multiple unneeded headers`,
         reports: [
             {
                 message: generateMessage([
-                    'content-security-policy',
                     'feature-policy',
-                    'x-content-security-policy',
-                    'x-frame-options',
                     'x-ua-compatible',
-                    'x-webkit-csp',
                     'x-xss-protection'
                 ])
             }
@@ -68,7 +114,6 @@ const testsForDefaults: HintTest[] = [
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',
                     'X-Content-Security-Policy': 'default-src "none"',
-                    'X-Frame-Options': 'DENY',
                     'X-UA-Compatible': 'IE=Edge',
                     'X-WebKit-CSP': 'default-src "none"',
                     'X-XSS-Protection': '1; mode=block'
@@ -80,7 +125,6 @@ const testsForDefaults: HintTest[] = [
                     'Content-Type': 'application/javascript; charset=utf-8',
                     'Feature-Policy': `geolocation 'self'`,
                     'X-Content-Security-Policy': 'default-src "none"',
-                    'X-Frame-Options': 'DENY',
                     'X-UA-Compatible': 'IE=Edge',
                     'X-WebKit-CSP': 'default-src "none"',
                     'X-XSS-Protection': '1; mode=block'
@@ -138,7 +182,6 @@ const testsForIgnoreConfigs: HintTest[] = [
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',
                     'Feature-Policy': `geolocation 'self'`,
-                    'X-Frame-Options': 'SAMEORIGIN',
                     'X-UA-Compatible': 'IE=Edge'
                 }
             },
@@ -159,7 +202,6 @@ const testsForIncludeConfigs: HintTest[] = [
         reports: [
             {
                 message: generateMessage([
-                    'content-security-policy',
                     'x-test-1',
                     'x-ua-compatible'
                 ])
@@ -170,7 +212,6 @@ const testsForIncludeConfigs: HintTest[] = [
                 content: htmlPage,
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',
-                    'X-Frame-Options': 'SAMEORIGIN',
                     'X-Test-1': 'test',
                     'X-Test-2': 'test'
                 }
@@ -193,7 +234,6 @@ const testsForConfigs: HintTest[] = [
         reports: [
             {
                 message: generateMessage([
-                    'content-security-policy',
                     'x-test-1',
                     'x-ua-compatible'
                 ])
@@ -204,7 +244,6 @@ const testsForConfigs: HintTest[] = [
                 content: htmlPage,
                 headers: {
                     'Content-Type': 'text/html; charset=utf-8',
-                    'X-Frame-Options': 'SAMEORIGIN',
                     'X-Test-1': 'test',
                     'X-Test-2': 'test'
                 }
@@ -223,11 +262,11 @@ const testsForConfigs: HintTest[] = [
 ];
 
 testHint(hintPath, testsForDefaults);
-testHint(hintPath, testsForIgnoreConfigs, { hintOptions: { ignore: ['Content-Security-Policy', 'X-UA-Compatible', 'X-Test-1'] } });
-testHint(hintPath, testsForIncludeConfigs, { hintOptions: { include: ['Content-Security-Policy', 'X-Test-1', 'X-Test-2'] } });
+testHint(hintPath, testsForIgnoreConfigs, { hintOptions: { ignore: ['X-UA-Compatible', 'X-Test-1'] } });
+testHint(hintPath, testsForIncludeConfigs, { hintOptions: { include: ['X-Test-1', 'X-Test-2'] } });
 testHint(hintPath, testsForConfigs, {
     hintOptions: {
-        ignore: ['X-Frame-Options', 'X-Test-2', 'X-Test-3'],
+        ignore: ['X-Test-2', 'X-Test-3'],
         include: ['X-Test-1', 'X-Test-2', 'X-UA-Compatible']
     }
 });

@@ -1,15 +1,15 @@
 {
   "dependencies": {
-    "@hint/connector-puppeteer": "^1.0.0",
-    "@hint/connector-jsdom": "^4.0.2",
-    "@hint/formatter-html": "^4.0.2",
-    "@hint/formatter-summary": "^3.0.2",
-    "@hint/hint-apple-touch-icons": "^3.0.2",
-    "@hint/hint-manifest-app-name": "^2.2.2",
-    "@hint/hint-manifest-exists": "^2.2.2",
-    "@hint/hint-manifest-file-extension": "^2.2.2",
-    "@hint/hint-manifest-is-valid": "^3.1.2",
-    "@hint/parser-manifest": "^2.2.0"
+    "@hint/connector-puppeteer": "^2.3.0",
+    "@hint/connector-jsdom": "^4.0.13",
+    "@hint/formatter-html": "^4.1.9",
+    "@hint/formatter-summary": "^3.0.13",
+    "@hint/hint-apple-touch-icons": "^3.1.10",
+    "@hint/hint-manifest-app-name": "^2.3.10",
+    "@hint/hint-manifest-exists": "^2.3.10",
+    "@hint/hint-manifest-file-extension": "^2.3.10",
+    "@hint/hint-manifest-is-valid": "^3.2.10",
+    "@hint/parser-manifest": "^2.2.11"
   },
   "description": "webhint's recommended hints configuration for progressive web apps (PWAs)",
   "engines": {
@@ -29,8 +29,12 @@
   "main": "index.json",
   "name": "@hint/configuration-progressive-web-apps",
   "peerDependencies": {
-    "hint": "^5.0.2"
+    "hint": "^5.0.0"
   },
-  "repository": "webhintio/hint",
-  "version": "5.1.1"
+  "repository": {
+    "directory": "packages/configuration-progressive-web-apps",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
+  "version": "6.0.10"
 }

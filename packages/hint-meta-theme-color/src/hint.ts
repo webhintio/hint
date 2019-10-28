@@ -17,9 +17,11 @@ import {
     IHint,
     TraverseEnd
 } from 'hint';
-import { HTMLElement, isSupported, misc } from '@hint/utils';
+import { HTMLElement, misc } from '@hint/utils';
+import { isSupported } from '@hint/utils-compat-data';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { normalizeString } = misc;
 /*
@@ -41,7 +43,7 @@ export default class MetaThemeColorHint implements IHint {
             const { resource } = event;
 
             if (!firstThemeColorMetaElement) {
-                context.report(resource, `'theme-color' meta element was not specified.`);
+                context.report(resource, getMessage('metaElementNotSpecified', context.language));
             }
         };
 
@@ -77,12 +79,12 @@ export default class MetaThemeColorHint implements IHint {
         };
 
         const checkContentAttributeValue = (resource: string, element: HTMLElement) => {
-            const contentValue = element.getAttribute('content');
+            const contentValue = element.getAttribute('content')!;
             const normalizedContentValue = normalizeString(contentValue, '')!; // Will not be null because default was provided.
             const color = parseColor(normalizedContentValue);
 
             if (color === null) {
-                const message = `'theme-color' meta element 'content' attribute should not have invalid value of '${contentValue}'.`;
+                const message = getMessage('metaElementInvalidContent', context.language, contentValue);
 
                 context.report(resource, message, { element });
 
@@ -90,7 +92,7 @@ export default class MetaThemeColorHint implements IHint {
             }
 
             if (isNotSupportedColorValue(color, normalizedContentValue)) {
-                const message = `'theme-color' meta element 'content' attribute should not have unsupported value of '${contentValue}'.`;
+                const message = getMessage('metaElementUnsupported', context.language, contentValue);
 
                 context.report(resource, message, { element });
             }
@@ -110,7 +112,7 @@ export default class MetaThemeColorHint implements IHint {
             const nameAttributeValue = element.getAttribute('name');
 
             if (nameAttributeValue && nameAttributeValue !== nameAttributeValue.trim()) {
-                const message = `'theme-color' meta element 'name' attribute value should be 'theme-color', not '${nameAttributeValue}'.`;
+                const message = getMessage('metaElementInvalidName', context.language, nameAttributeValue);
 
                 context.report(resource, message, { element });
             }
@@ -134,7 +136,7 @@ export default class MetaThemeColorHint implements IHint {
              */
 
             if (firstThemeColorMetaElement) {
-                context.report(resource, `'theme-color' meta element is not needed as one was already specified.`, { element });
+                context.report(resource, getMessage('metaElementDuplicated', context.language), { element });
 
                 return;
             }
@@ -146,7 +148,7 @@ export default class MetaThemeColorHint implements IHint {
             //  * was specified in the `<body>`
 
             if (bodyElementWasReached) {
-                context.report(resource, `'theme-color' meta element should be specified in the '<head>', not '<body>'.`, { element });
+                context.report(resource, getMessage('metaElementInBody', context.language), { element });
 
                 return;
             }

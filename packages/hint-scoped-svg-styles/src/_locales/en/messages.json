@@ -1,0 +1,18 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Scoped SVG Styles checks if SVG styles affect any other elements outside the svg."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Scoped SVG Styles"
+    },
+    "reportRuleImpacting": {
+        "description": "Report rule message when the validation fails",
+        "message": "A '<style>' inside '<svg>' should not affect elements outside of that subtree."
+    },
+    "reportImpactedElement": {
+        "description": "Report affected element message when the validation fails",
+        "message": "Styles from an unrelated SVG subtree matched this element using the following selector: '$1'"
+    }
+}

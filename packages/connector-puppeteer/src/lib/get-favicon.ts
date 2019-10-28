@@ -1,7 +1,10 @@
-import { Fetcher } from './create-fetchend-payload';
+import { URL } from 'url';
 
 import { debug as d, HTMLDocument } from '@hint/utils';
 import { Engine } from 'hint';
+
+import { Fetcher } from './create-fetchend-payload';
+
 const debug: debug.IDebugger = d(__filename);
 
 /**
@@ -10,13 +13,13 @@ const debug: debug.IDebugger = d(__filename);
  * * uses the `src` attribute of `<link rel="icon">` if present.
  * * uses `favicon.ico` and the final url after redirects.
  */
-export const getFavicon = async (baseUrl: string, dom: HTMLDocument, fetchContent: Fetcher, engine: Engine) => {
+export const getFavicon = async (dom: HTMLDocument, fetchContent: Fetcher, engine: Engine) => {
     const element = (await dom.querySelectorAll('link[rel~="icon"]'))[0];
     const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
     try {
         debug(`resource ${href} to be fetched`);
-        const fullFaviconUrl = baseUrl + href.substr(1);
+        const fullFaviconUrl = dom.resolveUrl(href);
 
         await engine.emitAsync('fetch::start', { resource: fullFaviconUrl });
 

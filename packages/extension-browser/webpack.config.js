@@ -4,6 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env) => {
     return {
+        context: __dirname,
         entry: {
             'background-script': './dist/src/background-script.js',
             'content-script/webhint': './dist/src/content-script/webhint.js',
@@ -48,10 +49,17 @@ module.exports = (env) => {
                         loader: 'svg-url-loader',
                         options: { noquotes: true }
                     }
+                },
+                {
+                    test: /\.md$/,
+                    use: 'raw-loader'
                 }
             ]
         },
-        node: { fs: 'empty' },
+        node: {
+            __dirname: true,
+            fs: 'empty'
+        },
         optimization: {
             minimizer: [
                 /*
@@ -74,7 +82,11 @@ module.exports = (env) => {
         ],
         resolve: {
             alias: {
+                './i18n/get-message$': path.resolve(__dirname, 'dist/src/shims/get-message.js'),
+                '@hint/utils/dist/src/i18n/get-message$': path.resolve(__dirname, 'dist/src/shims/get-message.js'),
                 '@hint/utils/dist/src/network/request-async$': path.resolve(__dirname, 'dist/src/shims/request-async.js'),
+                'acorn-jsx$': path.resolve(__dirname, 'dist/src/shims/acorn-jsx.js'),
+                'acorn-jsx-walk$': path.resolve(__dirname, 'dist/src/shims/acorn-jsx-walk.js'),
                 'axe-core': require.resolve('axe-core/axe.min.js'),
                 url$: path.resolve(__dirname, 'dist/src/shims/url.js')
             }

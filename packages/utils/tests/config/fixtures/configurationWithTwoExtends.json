@@ -1,0 +1,13 @@
+{
+    "extends": ["configurationWithHints", "configurationWithHints2"],
+    "hints": {
+        "hint1": "warning",
+        "hint4": [
+            "error",
+            {
+                "option1": "option1",
+                "options2": "option2"
+            }
+        ]
+    }
+}

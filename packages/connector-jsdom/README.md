@@ -4,29 +4,14 @@ A connector to use [jsdom][jsdom] in `webhint`.
 
 ## Installation
 
-First, you need to install [`webhint`](https://webhint.io/):
+This package is installed automatically when adding webhint to your project
+so running the following is enough:
 
 ```bash
-npm install hint
+npm install hint --save-dev
 ```
 
-Then, install the new connector:
-
-```bash
-npm install @hint/connector-jsdom
-```
-
-## Known issues
-
-* It will not send the events for:
-
-  * `element::#document`
-  * `element::#comment`
-
-## Usage
-
-Configure the connector name in your [`.hintrc`][hintrc]
-configuration file:
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {

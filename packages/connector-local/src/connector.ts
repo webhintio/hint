@@ -42,13 +42,12 @@ import { promisify } from 'util';
 const readFileAsBuffer = promisify(readFile);
 
 import * as chokidar from 'chokidar';
-import globby from 'globby';
+import * as globby from 'globby';
 import { JSDOM } from 'jsdom';
 
 import { contentType, dom, fs, HTMLDocument, HTMLElement, logger, network } from '@hint/utils';
 
 import {
-    CanEvaluateScript,
     Engine,
     Event,
     FetchEnd,
@@ -58,6 +57,8 @@ import {
     ScanEnd
 } from 'hint';
 import { HTMLParse, HTMLEvents } from '@hint/parser-html';
+
+import { getMessage } from './i18n.import';
 
 /*
  * ------------------------------------------------------------------------------
@@ -149,7 +150,7 @@ export default class LocalConnector implements IConnector {
         };
     }
 
-    private getGitIgnore = async () => {
+    private async getGitIgnore() {
         try {
             const rawList = await readFileAsync(path.join(cwd(), '.gitignore'));
             const splitList = rawList.split('\n');
@@ -174,7 +175,7 @@ export default class LocalConnector implements IConnector {
 
             return result;
         } catch (err) {
-            logger.error('Error reading .gitignore');
+            logger.error(getMessage('errorReading', this.engine.language));
 
             return [];
         }
@@ -187,7 +188,7 @@ export default class LocalConnector implements IConnector {
         await this.engine.emitAsync('scan::end', scanEndEvent);
         await this.engine.notify(href);
 
-        logger.log('Watching for file changes.');
+        logger.log(getMessage('watchingForChanges', this.engine.language));
     }
 
     private watch(targetString: string) {
@@ -228,7 +229,7 @@ export default class LocalConnector implements IConnector {
                 const file = getFile(filePath);
 
                 // TODO: Remove this log or change the message
-                logger.log(`File ${file} added`);
+                logger.log(getMessage('fileAdded', this.engine.language, file));
 
                 await this.fetch(file);
                 await this.notify();
@@ -238,7 +239,7 @@ export default class LocalConnector implements IConnector {
                 const file: string = getFile(filePath);
                 const fileUrl = getAsUri(file);
 
-                logger.log(`File ${file} changeg`);
+                logger.log(getMessage('fileChanged', this.engine.language, file));
                 // TODO: Manipulate the report if the file already have messages in the report.
                 if (fileUrl) {
                     this.engine.clean(fileUrl);
@@ -256,7 +257,7 @@ export default class LocalConnector implements IConnector {
                 }
 
                 // TODO: Do anything when a file is removed? Maybe check the current report and remove messages related to that file.
-                logger.log('onUnlink');
+                logger.log(getMessage('fileDeleted', this.engine.language, file));
 
                 await this.notify();
             };
@@ -266,7 +267,7 @@ export default class LocalConnector implements IConnector {
             };
 
             const onError = (err: any) => {
-                logger.error('error', err);
+                logger.error(getMessage('error', this.engine.language), err);
 
                 reject(err);
             };
@@ -314,7 +315,12 @@ export default class LocalConnector implements IConnector {
 
         await traverse(this._document, this.engine, event.resource);
 
-        await this.engine.emitAsync('can-evaluate::script', { resource: this._href } as CanEvaluateScript);
+        const canEvaluateEvent = {
+            document: this._document,
+            resource: this._href
+        };
+
+        await this.engine.emitAsync('can-evaluate::script', canEvaluateEvent);
     }
 
     /*

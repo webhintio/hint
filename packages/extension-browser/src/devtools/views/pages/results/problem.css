@@ -1,20 +1,8 @@
-.root {
-    margin: 1.5rem 0; /* 24px */
-    padding-left: 0.5rem; /* 8px */
-    -webkit-user-select: text;
-    user-select: text;
-}
-
-.header {
-    font-size: var(--font-size);
-    margin-bottom: 0.75rem; /* 12px */
-    margin-left: -0.5rem; /* -8px */
-}
-
 .problemLink {
     color: var(--link-alt-color);
     text-decoration: none;
-    word-break: break-word;
+    vertical-align: middle;
+    word-break: break-all;
 }
 
 .problemLink:focus {
@@ -24,40 +12,4 @@
 
 .problemLink:global(:not(.focus-visible)) {
     border: none;
-}
-
-.number {
-    font-weight: var(--bold);
-}
-
-.button {
-    background-color: var(--highlight-bg);
-    border: none;
-    border-radius: 0 var(--rounding) 0 var(--rounding);
-    color: var(--light-color);
-    cursor: pointer;
-    fill: var(--light-color);
-    height: 1.125rem; /* 18px */
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.button:focus {
-    outline: var(--focus-outline);
-}
-
-.button:global(:not(.focus-visible)) {
-    outline: none;
-}
-
-.icon {
-    height: 0.95rem;
-    margin-right: -0.2rem;
-    position: relative;
-    top: 0.075rem;
-}
-
-.codeWrapper {
-    position: relative;
 }

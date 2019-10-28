@@ -7,6 +7,7 @@ import { debug as d } from '@hint/utils';
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
 
 import meta from './meta/no-devtool-in-prod';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -24,10 +25,10 @@ export default class WebpackConfigNoDevtoolInProd implements IHint {
         const configReceived = (webpackConfigEvent: WebpackConfigParse) => {
             const { config, resource } = webpackConfigEvent;
 
-            debug(`parse::end::webpack-config received`);
+            debug(`'parse::end::webpack-config' received`);
 
             if (config.devtool && config.devtool.toString().includes('eval')) {
-                context.report(resource, `\`${config.devtool.toString()}\` not recommended for prodution`);
+                context.report(resource, getMessage('noEval', context.language, config.devtool.toString()));
             }
         };
 

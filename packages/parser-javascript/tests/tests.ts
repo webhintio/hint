@@ -8,9 +8,13 @@ import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 
 import { ScriptEvents, ScriptParse, NodeVisitor } from '../src/parser';
 
-type Acorn = {
+type AcornParser = {
     parse: (code: string, options: any) => {};
     tokenizer: (code: string, options: any) => any[];
+};
+
+type Acorn = {
+    Parser: { extend(from: any): AcornParser };
 };
 
 type AcornWalk = {
@@ -25,18 +29,35 @@ type ParseJavascriptContext = {
     acornWalk: AcornWalk;
     element: HTMLElement;
     engine: Engine<ScriptEvents>;
+    jsxParser: AcornParser;
+    parser: AcornParser;
     sandbox: sinon.SinonSandbox;
 };
 
 const test = anyTest as TestInterface<ParseJavascriptContext>;
 
 const initContext = (t: ExecutionContext<ParseJavascriptContext>) => {
-    t.context.acorn = {
+    t.context.parser = {
         parse(code: string) {
             return {};
         },
         tokenizer(code: string) {
             return [];
+        }
+    };
+    t.context.jsxParser = {
+        parse(code: string) {
+            return {};
+        },
+        tokenizer(code: string) {
+            return [];
+        }
+    };
+    t.context.acorn = {
+        Parser: {
+            extend(from) {
+                return from ? t.context.jsxParser : t.context.parser;
+            }
         }
     };
     t.context.element = {
@@ -62,8 +83,8 @@ const initContext = (t: ExecutionContext<ParseJavascriptContext>) => {
 
 const loadScript = (context: ParseJavascriptContext) => {
     const script = proxyquire('../src/parser', {
-        acorn: context.acorn,
-        'acorn-walk': context.acornWalk
+        './walk': proxyquire('../src/walk', { 'acorn-walk': context.acornWalk }),
+        acorn: context.acorn
     });
 
     return script.default;
@@ -81,8 +102,8 @@ test('If an script tag is an external javascript, then nothing happen', async (t
 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
-    const acornParseSpy = sandbox.spy(t.context.acorn, 'parse');
-    const acornTokenizeSpy = sandbox.spy(t.context.acorn, 'tokenizer');
+    const acornParseSpy = sandbox.spy(t.context.parser, 'parse');
+    const acornTokenizeSpy = sandbox.spy(t.context.parser, 'tokenizer');
     const elementGetAttributeStub = sandbox.stub(t.context.element, 'getAttribute').returns('http://script.url');
 
     await t.context.engine.emitAsync('element::script', { element: t.context.element } as ElementFound);
@@ -99,8 +120,8 @@ test('If an script tag is not a javascript, then nothing should happen', async (
 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
-    const acornParseSpy = sandbox.spy(t.context.acorn, 'parse');
-    const acornTokenizeSpy = sandbox.spy(t.context.acorn, 'tokenizer');
+    const acornParseSpy = sandbox.spy(t.context.parser, 'parse');
+    const acornTokenizeSpy = sandbox.spy(t.context.parser, 'tokenizer');
     const elementGetAttributeStub = sandbox.stub(t.context.element, 'getAttribute')
         .onFirstCall()
         .returns(null)
@@ -127,8 +148,8 @@ test('If an script tag is an internal javascript, then we should parse the code 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
     const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
-    const acornParseStub = sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
-    const acornTokenizeStub = sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
+    const acornParseStub = sandbox.stub(t.context.parser, 'parse').returns(parseObject);
+    const acornTokenizeStub = sandbox.stub(t.context.parser, 'tokenizer').returns(tokenList);
 
     sandbox.stub(t.context.element, 'innerHTML').value(code);
     const elementGetAttributeStub = sandbox.stub(t.context.element, 'getAttribute')
@@ -170,14 +191,54 @@ test('If fetch::end::script is received, then we should parse the code and emit 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
     const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
-    const acornParseStub = sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
-    const acornTokenizeStub = sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
+    const acornParseStub = sandbox.stub(t.context.parser, 'parse').returns(parseObject);
+    const acornTokenizeStub = sandbox.stub(t.context.parser, 'tokenizer').returns(tokenList);
 
     await t.context.engine.emitAsync('fetch::end::script', {
         resource: 'script.js',
         response: {
             body: { content: code },
             mediaType: 'text/javascript'
+        }
+    } as FetchEnd);
+
+    t.true(acornParseStub.calledOnce);
+    t.is(acornParseStub.args[0][0], code);
+    t.true(acornTokenizeStub.calledOnce);
+    t.is(acornTokenizeStub.args[0][0], code);
+    t.true(engineEmitAsyncSpy.calledThrice);
+
+    t.is(engineEmitAsyncSpy.args[1][0], 'parse::start::javascript');
+
+    const args = engineEmitAsyncSpy.args[2];
+    const data = args[1] as ScriptParse;
+
+    t.is(args[0], 'parse::end::javascript');
+    t.is(data.element, null);
+    t.is(data.ast, parseObject);
+    t.is(data.resource, 'script.js');
+    t.is(data.tokens[0], tokenList[0]);
+});
+
+test('If fetch::end::script is received for text/jsx, we should use the jsx parser', async (t) => {
+    const sandbox = t.context.sandbox;
+    const parseObject = {};
+    const tokenList: any[] = ['test'];
+    const code = 'var x = 8;';
+
+    const JavascriptParser = loadScript(t.context);
+
+    new JavascriptParser(t.context.engine); // eslint-disable-line
+
+    const engineEmitAsyncSpy = sandbox.spy(t.context.engine, 'emitAsync');
+    const acornParseStub = sandbox.stub(t.context.jsxParser, 'parse').returns(parseObject);
+    const acornTokenizeStub = sandbox.stub(t.context.jsxParser, 'tokenizer').returns(tokenList);
+
+    await t.context.engine.emitAsync('fetch::end::unknown', {
+        resource: 'script.js',
+        response: {
+            body: { content: code },
+            mediaType: 'text/jsx'
         }
     } as FetchEnd);
 
@@ -208,8 +269,8 @@ test('If the tree walked is always the same, acorn-walk will be called just once
 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
-    sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
-    sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
+    sandbox.stub(t.context.parser, 'parse').returns(parseObject);
+    sandbox.stub(t.context.parser, 'tokenizer').returns(tokenList);
     const walkSimpleSpy = sandbox.spy(t.context.acornWalk, 'simple');
     const walkAncestorSpy = sandbox.spy(t.context.acornWalk, 'ancestor');
     const walkFullSpy = sandbox.spy(t.context.acornWalk, 'full');
@@ -276,8 +337,8 @@ test('acorn-walk will be called once per javascript file and method', async (t) 
 
     new JavascriptParser(t.context.engine); // eslint-disable-line
 
-    sandbox.stub(t.context.acorn, 'parse').returns(parseObject);
-    sandbox.stub(t.context.acorn, 'tokenizer').returns(tokenList);
+    sandbox.stub(t.context.parser, 'parse').returns(parseObject);
+    sandbox.stub(t.context.parser, 'tokenizer').returns(tokenList);
     const walkSimpleSpy = sandbox.spy(t.context.acornWalk, 'simple');
     const walkAncestorSpy = sandbox.spy(t.context.acornWalk, 'ancestor');
     const walkFullSpy = sandbox.spy(t.context.acornWalk, 'full');

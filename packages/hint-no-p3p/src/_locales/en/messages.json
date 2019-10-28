@@ -1,0 +1,14 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Don't use P3P related headers or meta tags"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "No `P3P` headers"
+    },
+    "p3pDeprecated": {
+            "description": "Report message when P3P is detected",
+            "message": "P3P should not be used as it is deprecated."
+    }
+}

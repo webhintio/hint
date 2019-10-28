@@ -12,7 +12,7 @@ import Handlebars, { compileTemplate, escapeSafeString } from './handlebars-util
 
 const { isOfficial } = packages;
 const { cwd, readFile, writeFileAsync } = fs;
-const { normalizeStringByDelimiter, toCamelCase, toPascalCase} = misc;
+const { normalizeStringByDelimiter, toCamelCase, toPascalCase } = misc;
 
 /*
  * ------------------------------------------------------------------------------
@@ -155,7 +155,22 @@ class HintPackage {
             this.hints.push(new NewHint(data));
         }
 
-        this.destination = join(cwd(), `hint-${this.normalizedName}`);
+        if (isOfficial) {
+            /**
+             * If we are creating an official package it should be under `/packages/`
+             * but it is very common to run it from the root of the project so we
+             * take into account that scenario and add the folder if needed.
+             */
+            const root = cwd();
+
+            const packagesPath = root.endsWith('packages') ?
+                '' :
+                'packages';
+
+            this.destination = join(root, packagesPath, `hint-${this.normalizedName}`);
+        } else {
+            this.destination = join(cwd(), `hint-${this.normalizedName}`);
+        }
     }
 }
 
@@ -187,10 +202,7 @@ for (const [, value] of Object.entries(Category)) {
 const scopes: any[] = [];
 
 for (const [, value] of Object.entries(HintScope)) {
-    /* istanbul ignore else */
-    if (value !== 'other') {
-        scopes.push({ name: value });
-    }
+    scopes.push({ name: value });
 }
 
 /** List of different use cases of a hint. */
@@ -385,7 +397,11 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
     }
 
     for (const hint of data.hints) {
-        const [hintContent, testContent, metaContent] = await Promise.all([compileTemplate(hintFile.path, hint), compileTemplate(testFile.path, hint), compileTemplate(metaFile.path, hint)]);
+        const [hintContent, testContent, metaContent] = await Promise.all([
+            compileTemplate(hintFile.path, { hint, packageData: data }),
+            compileTemplate(testFile.path, hint),
+            compileTemplate(metaFile.path, { hint, packageData: data })
+        ]);
         const { metaPath, hintPath, testPath } = data.isMulti ?
             {
                 hintPath: join(hintFile.destination, `${hint.normalizedName}.ts`),
@@ -411,6 +427,19 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
             await mkdirpAsync(dirname(docPath));
             await writeFileAsync(docPath, docContent);
         }
+    }
+
+    // Create `_locales` directory
+    if (data.official) {
+        const localeDir = {
+            destination: join(destination, 'src', '_locales', 'en', 'messages.json'),
+            path: join(__dirname, TEMPLATE_PATH, 'locales-messages.json.hbs')
+        };
+
+        const localesContent = await compileTemplate(localeDir.path, data);
+
+        await mkdirpAsync(dirname(localeDir.destination));
+        await writeFileAsync(localeDir.destination, localesContent);
     }
 };
 

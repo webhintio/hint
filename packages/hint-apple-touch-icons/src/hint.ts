@@ -1,16 +1,14 @@
 /**
  * @fileoverview Check for correct usage of `apple-touch-icon`.
  */
-
-import { URL } from 'url';
-
-import * as getImageData from 'image-size';
+import { imageSize as getImageData } from 'image-size';
 
 import { debug as d, misc, network } from '@hint/utils';
 import { HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
 import { HTMLElement, HTMLDocument } from '@hint/utils/dist/src/dom/html';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { normalizeString } = misc;
 const { isRegularProtocol } = network;
@@ -77,7 +75,7 @@ export default class AppleTouchIconsHint implements IHint {
              */
 
             if (!appleTouchIconHref) {
-                const message = `'apple-touch-icon' link element should have non-empty 'href' attribute.`;
+                const message = getMessage('noEmptyHref', context.language);
 
                 context.report(resource, message, { element: appleTouchIcon });
 
@@ -101,7 +99,7 @@ export default class AppleTouchIconsHint implements IHint {
              * to figure out the full URL of the `apple-touch-icon`.
              */
 
-            const appleTouchIconURL = new URL(appleTouchIconHref, resource).href;
+            const appleTouchIconURL = appleTouchIcon.resolveUrl(appleTouchIconHref);
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -117,7 +115,7 @@ export default class AppleTouchIconsHint implements IHint {
             } catch (e) {
                 debug(`Failed to fetch the ${appleTouchIconHref} file`);
 
-                const message = `'${appleTouchIconHref}' could not be fetched (request failed).`;
+                const message = getMessage('couldNotBeFetch', context.language, appleTouchIconHref);
 
                 context.report(resource, message, { element: appleTouchIcon });
 
@@ -127,7 +125,7 @@ export default class AppleTouchIconsHint implements IHint {
             const response = networkData.response;
 
             if (response.statusCode !== 200) {
-                const message = `'${appleTouchIconHref}' could not be fetched (status code: ${response.statusCode}).`;
+                const message = getMessage('couldNotBeFetchErrorStatusCode', context.language, [appleTouchIconHref, response.statusCode.toString()]);
 
                 context.report(resource, message, { element: appleTouchIcon });
 
@@ -155,7 +153,7 @@ export default class AppleTouchIconsHint implements IHint {
                 image = getImageData(response.body.rawContent);
             } catch (e) {
                 if (e instanceof TypeError) {
-                    const message = `'${appleTouchIconHref}' should be a valid PNG image.`;
+                    const message = getMessage('invalidPNG', context.language, appleTouchIconHref);
 
                     context.report(resource, message, { element: appleTouchIcon });
                 } else {
@@ -168,7 +166,7 @@ export default class AppleTouchIconsHint implements IHint {
             // Check if the image is a PNG.
 
             if (image.type !== 'png') {
-                const message = `'${appleTouchIconHref}' should be a PNG image.`;
+                const message = getMessage('shouldBePNG', context.language, appleTouchIconHref);
 
                 context.report(resource, message, { element: appleTouchIcon });
             }
@@ -176,7 +174,7 @@ export default class AppleTouchIconsHint implements IHint {
             // Check if the image is 180x180px.
 
             if (image.width !== 180 || image.height !== 180) {
-                const message = `'${appleTouchIconHref}' should be 180x180px.`;
+                const message = getMessage('wrongResolution', context.language, appleTouchIconHref);
 
                 context.report(resource, message, { element: appleTouchIcon });
             }
@@ -218,13 +216,12 @@ export default class AppleTouchIconsHint implements IHint {
             return bestIcon || icons[0];
         };
 
-
         const validate = async ({ resource }: TraverseEnd) => {
             const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
             const appleTouchIcons: HTMLElement[] = getAppleTouchIcons(pageDOM.querySelectorAll('link'));
 
             if (appleTouchIcons.length === 0) {
-                context.report(resource, `'apple-touch-icon' link element was not specified.`);
+                context.report(resource, getMessage('noElement', context.language));
 
                 return;
             }
@@ -242,7 +239,7 @@ export default class AppleTouchIconsHint implements IHint {
              */
 
             if (normalizeString(appleTouchIcon.getAttribute('rel')) !== 'apple-touch-icon') {
-                const message = `'apple-touch-icon' link element should have 'rel="apple-touch-icon".`;
+                const message = getMessage('wrongRelAttribute', context.language);
 
                 context.report(resource, message, { element: appleTouchIcon });
             }
@@ -257,7 +254,7 @@ export default class AppleTouchIconsHint implements IHint {
              */
 
             if (appleTouchIcon.getAttribute('sizes')) {
-                const message = `'apple-touch-icon' link element should not have 'sizes' attribute.`;
+                const message = getMessage('sizesAttribute', context.language);
 
                 context.report(resource, message, { element: appleTouchIcon });
             }
@@ -277,7 +274,7 @@ export default class AppleTouchIconsHint implements IHint {
 
             for (const icon of bodyAppleTouchIcons) {
                 if (icon.isSame(appleTouchIcon)) {
-                    const message = `'apple-touch-icon' link element should be specified in the '<head>'.`;
+                    const message = getMessage('elementNotInHead', context.language);
 
                     context.report(resource, message, { element: appleTouchIcon });
                 }
@@ -289,7 +286,7 @@ export default class AppleTouchIconsHint implements IHint {
 
             for (const icon of appleTouchIcons) {
                 if (!icon.isSame(appleTouchIcon)) {
-                    const message = `'apple-touch-icon' link element is not needed as one was already specified.`;
+                    const message = getMessage('elementDuplicated', context.language);
 
                     context.report(resource, message, { element: icon });
                 }

@@ -1,10 +1,20 @@
 import { Category, HintMetadata, HintScope } from 'hint';
 
+import { getMessage } from '../i18n.import';
+
 const meta: HintMetadata = {
     docs: {
         category: Category.development,
-        description: '`typescript-config/is-valid` warns against providing an invalid TypeScript configuration file `tsconfig.json`',
-        name: 'Valid TypeScript configuration'
+        description: getMessage('isValid_description', 'en'),
+        name: getMessage('isValid_name', 'en')
+    },
+    /* istanbul ignore next */
+    getDescription(language: string) {
+        return getMessage('isValid_description', language);
+    },
+    /* istanbul ignore next */
+    getName(language: string) {
+        return getMessage('isValid_name', language);
     },
     id: 'typescript-config/is-valid',
     schema: [],

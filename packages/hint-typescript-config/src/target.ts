@@ -9,6 +9,7 @@ import { HintContext, IHint } from 'hint';
 import { TypeScriptConfigEvents, TypeScriptConfigParse } from '@hint/parser-typescript-config';
 
 import meta from './meta/target';
+import { getMessage } from './i18n.import';
 
 /*
  * ------------------------------------------------------------------------------
@@ -234,8 +235,8 @@ export default class TypeScriptConfigTarget implements IHint {
             const maxESVersion = getMaxVersion(minimumBrowsers);
 
             if (maxESVersion !== target) {
-                const message = `Based on your browser configuration your "compilerOptions.target" should be "${maxESVersion}". Current one is "${target}"`;
-                const location = getLocation('compilerOptions.target');
+                const message = getMessage('target', context.language, [maxESVersion, target]);
+                const location = getLocation('compilerOptions.target', { at: 'value' });
 
                 context.report(resource, message, { location });
             }

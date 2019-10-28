@@ -1,16 +1,15 @@
 import * as React from 'react';
 
-import { ErrorData } from '../../../shared/types';
+import { ErrorData, Config } from '../../../shared/types';
 
 import { getMessage } from '../../utils/i18n';
 
 import Button from '../controls/button';
-import ExternalLink from '../controls/external-link';
+import FeedbackLink from '../controls/feedback-link';
 import Page from '../page';
+import Summary from '../controls/summary';
 
 import * as styles from './error.css';
-
-const openIssueUrl = 'https://github.com/webhintio/hint/issues/new?labels=type%3Abug&amp;template=2-bug-report-browser.md&amp;title=%5BBug%5D+Bug+description';
 
 type Props = {
     disabled?: boolean;
@@ -23,40 +22,50 @@ type Props = {
 
     /** The error that occured when the scan failed. */
     error: ErrorData;
+
+    /** Configuration used for the analysis. */
+    config: Config;
 };
 
 /**
  * Display an error which occured during a scan.
  */
-const ErrorPage = ({ disabled, error, onConfigure, onRestart }: Props) => {
+const ErrorPage = ({ disabled, error, onConfigure, onRestart, config }: Props) => {
     return (
         <Page disabled={disabled} onAction={onRestart}>
             <section className={styles.content}>
-                <p>
-                    {getMessage('errorMessage')}
-                    <ExternalLink href={openIssueUrl}>
-                        {getMessage('openAnIssue')}
-                    </ExternalLink>
-                </p>
-                <div className={styles.actions}>
-                    <Button type="submit" primary={true}>
-                        {getMessage('scanAgainButtonLabel')}
-                    </Button>
-                    <Button type="button" onClick={onConfigure}>
-                        {getMessage('newScanButtonLabel')}
-                    </Button>
-                </div>
-                <details>
-                    <summary>
-                        {getMessage('errorDetails')}
-                    </summary>
-                    <pre>
-                        {error.message}
-                    </pre>
-                    <pre className={styles.stack}>
-                        {error.stack}
-                    </pre>
-                </details>
+                <header>
+                    <h1 className={styles.title}>
+                        {getMessage('errorTitle')}
+                    </h1>
+                    <p>
+                        {getMessage('errorMessage')}
+                        <FeedbackLink config={config} error={error}>
+                            {getMessage('openAnIssue')}
+                        </FeedbackLink>
+                    </p>
+                    <div className={styles.actions}>
+                        <Button type="submit" primary={true}>
+                            {getMessage('scanAgainButtonLabel')}
+                        </Button>
+                        <Button type="button" onClick={onConfigure}>
+                            {getMessage('newScanButtonLabel')}
+                        </Button>
+                    </div>
+                </header>
+                <main>
+                    <details>
+                        <Summary>
+                            {getMessage('errorDetails')}
+                        </Summary>
+                        <pre>
+                            {error.message}
+                        </pre>
+                        <pre className={styles.stack}>
+                            {error.stack}
+                        </pre>
+                    </details>
+                </main>
             </section>
         </Page>
     );

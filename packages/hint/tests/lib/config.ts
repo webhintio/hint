@@ -118,6 +118,12 @@ test(`if the config file doesn't have an extension, it should be parsed as JSON 
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -144,6 +150,12 @@ test(`if the config file is JavaScript, it should return the configuration part`
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -169,6 +181,12 @@ test(`if package.json contains a valid hint configuration, it should return it`,
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -195,6 +213,12 @@ test(`if package.json contains the property "ignoredUrls", it shold return them`
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -223,6 +247,12 @@ test(`if the configuration file contains an extends property, it should combine 
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [],
             scope: HintScope.any
@@ -270,6 +300,12 @@ test(`if a Hint has an invalid configuration, it should tell which ones are inva
         }
 
         public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
             id: 'disallowed-headers',
             schema: [{
                 additionalProperties: false,

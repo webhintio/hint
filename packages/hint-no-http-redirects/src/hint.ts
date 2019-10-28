@@ -8,6 +8,7 @@ import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { cutString } from '@hint/utils/dist/src/misc/cut-string';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 /*
  * ------------------------------------------------------------------------------
@@ -37,7 +38,13 @@ export default class NoHttpRedirectHint implements IHint {
             const { request, response, element } = fetchEnd;
 
             if (response.hops.length > maxHops) {
-                const message = `${response.hops.length} ${response.hops.length === 1 ? 'redirect' : 'redirects'} detected for '${cutString(request.url)}' (max is ${maxHops}).`;
+                let message: string;
+
+                if (response.hops.length === 1) {
+                    message = getMessage('redirectDectected', context.language, [response.hops.length.toString(), cutString(request.url), maxHops.toString()]);
+                } else {
+                    message = getMessage('redirectsDectected', context.language, [response.hops.length.toString(), cutString(request.url), maxHops.toString()]);
+                }
 
                 context.report(request.url, message, { element });
             }

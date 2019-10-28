@@ -16,6 +16,8 @@ import sortBy = require('lodash/sortBy');
 import { debug as d, fs, logger } from '@hint/utils';
 import { FormatterOptions, IFormatter, Problem } from 'hint';
 
+import { getMessage } from './i18n.import';
+
 const _ = {
     groupBy,
     reduce,
@@ -40,11 +42,12 @@ export default class JSONFormatter implements IFormatter {
             return;
         }
 
+        const language = options.language!;
         const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'resource');
 
         const result = _.reduce(resources, (total: string, msgs: Problem[], resource: string) => {
             const sortedMessages: Problem[] = _.sortBy(msgs, ['location.line', 'location.column']);
-            const result = `${total ? '\n\n' : ''}${resource}: ${msgs.length} issues
+            const result = `${total ? '\n\n' : ''}${resource}: ${getMessage('issues', language, msgs.length.toString())}
 ${JSON.stringify(sortedMessages, null, 2)}`;
 
             return total + result;

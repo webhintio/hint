@@ -13,12 +13,15 @@ import * as testUtils from './test';
 import * as domUtils from './dom';
 import * as reportUtils from './report';
 import * as chromiumFinderUtils from './chromium-finder';
+import * as i18nUtils from './i18n';
 
+export * from './types/config';
 export * from './types/http-header';
 export * from './types/npm';
 export * from './types/html';
 export * from './types/problem-location';
-export * from './compat';
+export * from './types/category';
+export * from './config';
 export * from './dom/html';
 export * from './has-yarnlock';
 export * from './chromium-finder';
@@ -36,6 +39,7 @@ export const test = testUtils;
 export const dom = domUtils;
 export const report = reportUtils;
 export const chromiumFinder = chromiumFinderUtils;
+export const i18n = i18nUtils;
 
 export {
     asyncTry,

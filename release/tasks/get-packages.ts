@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import globby from 'globby';
+import * as globby from 'globby';
 import latest from 'latest-version';
 
 import { Context, Reference } from '../@types/custom';
@@ -58,7 +58,7 @@ export const getPackages = (ignoredPackages: string[]) => {
                 .map((reference) => {
                     /**
                      * The references are relative and we just need the last part
-                     * of the path to do the matchin later. E.g: connector-chrome
+                     * of the path to do the matchin later. E.g: connector-puppeteer
                      */
                     return reference.split('/').pop()!;
                 });
@@ -104,6 +104,7 @@ export const getPackages = (ignoredPackages: string[]) => {
             try {
                 pkg.publishedVersion = await latest(pkg.name);
             } catch (e) {
+                debug(e);
                 debug(`Package ${pkg.name} is not published on npm`);
                 pkg.publishedVersion = '';
             }

@@ -1,23 +1,8 @@
-.root {
-    margin: 0.5625rem 0;
-}
-
-.summary {
-    cursor: pointer;
-    line-height: 1.5rem; /* 24px */
-    width: max-content;
-}
-
-.summary:focus {
-    outline: var(--focus-outline);
-}
-
-.summary:global(:not(.focus-visible)) {
-    outline: none;
-}
-
 .results {
+    display: grid;
     font-size: var(--font-size-sm);
+    gap: 0.5rem; /* 8px */
+    justify-items: start;
     padding-left: 1rem; /* 16px */
 }
 

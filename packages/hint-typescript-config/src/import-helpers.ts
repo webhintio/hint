@@ -12,6 +12,7 @@ import { debug as d } from '@hint/utils';
 import { configChecker } from './helpers/config-checker';
 
 import meta from './meta/import-helpers';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -25,7 +26,7 @@ export default class TypeScriptConfigImportHelpers implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
-        const validate = configChecker('compilerOptions.importHelpers', true, 'The compiler option "importHelpers" should be enabled to reduce the output size.', context);
+        const validate = configChecker('compilerOptions.importHelpers', true, 'importHelpers', context);
 
         const validateTslibInstalled = async (evt: ScanEnd) => {
             const { resource } = evt;
@@ -44,7 +45,7 @@ export default class TypeScriptConfigImportHelpers implements IHint {
             } catch (e) {
                 debug(e);
 
-                context.report(resource, `Couldn't find package "tslib".`);
+                context.report(resource, getMessage('couldNotFindTSLib', context.language));
             }
         };
 

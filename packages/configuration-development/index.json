@@ -1,6 +1,7 @@
 {
     "connector": "local",
     "extends": [
+        "accessibility",
         "progressive-web-apps"
     ],
     "formatters": [
@@ -9,9 +10,10 @@
     ],
     "hints": {
         "apple-touch-icons": "off",
-        "axe": "error",
         "babel-config/is-valid": "error",
         "button-type": "error",
+        "compat-api/css": "warning",
+        "compat-api/html": "warning",
         "create-element-svg": "error",
         "css-prefix-order": "error",
         "disown-opener": "error",
@@ -21,6 +23,7 @@
         "meta-viewport": "error",
         "no-bom": "error",
         "no-protocol-relative-urls": "error",
+        "scoped-svg-styles": "error",
         "sri": "error",
         "typescript-config/consistent-casing": "error",
         "typescript-config/import-helpers": "error",
@@ -28,9 +31,10 @@
         "typescript-config/no-comments": "error",
         "typescript-config/strict": "error",
         "typescript-config/target": "error",
-        "webpack-config/is-installed": "error",
+        "webpack-config/config-exists": "off",
+        "webpack-config/is-installed": "off",
         "webpack-config/is-valid": "error",
-        "webpack-config/module-esnext-typescript": "off",
+        "webpack-config/module-esnext-typescript": "error",
         "webpack-config/modules-false-babel": "error",
         "webpack-config/no-devtool-in-prod": "error"
     },
@@ -39,6 +43,11 @@
         "babel-config",
         "css",
         "html",
+        "javascript",
+        "jsx",
+        "less",
+        "sass",
+        "typescript",
         "typescript-config",
         "webpack-config"
     ]

@@ -16,6 +16,7 @@
         { "path": "../hint" },
         { "path": "../parser-manifest" },
         { "path": "../utils" },
+        { "path": "../utils-compat-data" },
         { "path": "../utils-tests-helpers" }
     ]
 }

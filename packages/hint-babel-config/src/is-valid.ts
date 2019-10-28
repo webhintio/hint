@@ -31,13 +31,13 @@ export default class BabelConfigIsValidHint implements IHint {
 
             debug(`${event} received`);
 
-            context.report(resource, error.message, { location: getLocation('extends') });
+            context.report(resource, error.message, { location: getLocation('extends', { at: 'value' }) });
         };
 
         const invalidSchema = (fetchEnd: BabelConfigInvalidSchema) => {
             const { groupedErrors, resource } = fetchEnd;
 
-            debug(`parse::error::babel-config::schema received`);
+            debug(`'parse::error::babel-config::schema' received`);
 
             for (let i = 0; i < groupedErrors.length; i++) {
                 const groupedError = groupedErrors[i];

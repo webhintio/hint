@@ -22,6 +22,7 @@ The ins and outs of the different parts that make `webhint` plus some common sce
 * [Develop a parser](./how-to/parser.md)
 * [Develop a hint](./how-to/hint.md)
 * [Implement common hint scenarios](./how-to/common-hint-scenarios.md)
+<!-- TODO * [Build the docs locally]() -->
 
 ## Guides
 

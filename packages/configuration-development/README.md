@@ -1,20 +1,14 @@
 # webhint's development configuration (`@hint/configuration-development`)
 
 This packages is a `webhint` configuration package to use during
-development.
-
-This package will automatically install all the missing dependencies.
-
-To use it you will have to install it via `npm`:
+development  and it is installed automatically by webhint:
 
 ```bash
-npm install @hint/configuration-development
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
+**Note:** The recommended way of running webhint is as a `devDependency` of
+your project.
 
 The minimum required [`.hintrc`][hintrc] file to use it is
 the following:
@@ -31,9 +25,11 @@ and it will be as if you had this:
 {
     "connector": "local",
     "extends": [
+        "accessibility",
         "progressive-web-apps"
     ],
     "formatters": [
+        "html",
         "summary"
     ],
     "hints": {

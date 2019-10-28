@@ -6,21 +6,25 @@ import intersection = require('lodash/intersection');
 import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
-import { getUnsupported } from '@hint/utils/dist/src/compat';
-import { getCSSCodeSnippet } from '@hint/utils/dist/src/report';
+import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
+import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils/dist/src/report';
 
-import { joinBrowsers } from './utils/browsers';
+import { formatAlternatives } from './utils/alternatives';
+import { filterBrowsers, joinBrowsers } from './utils/browsers';
 import { filterSupports } from './utils/filter-supports';
 import { resolveIgnore } from './utils/ignore';
 
 import meta from './meta/css';
+import { getMessage } from './i18n.import';
 
 type ReportData = {
     feature: string;
+    formatFeature?: (name: string) => string;
+    isValue?: boolean;
     node: ChildNode;
-    unsupported: string[];
+    unsupported: UnsupportedBrowsers;
 };
 
 type ReportMap = Map<string, ReportData[] | 'supported'>;
@@ -30,15 +34,6 @@ type Context = {
     ignore: Set<string>;
     report: (data: ReportData) => void;
     walk: (ast: ContainerBase, context: Context) => void;
-};
-
-const getLocationFromNode = (node: ChildNode): ProblemLocation | undefined => {
-    const start = node.source && node.source.start;
-
-    return start && {
-        column: start.column - 1,
-        line: start.line - 1
-    };
 };
 
 const validateAtSupports = (node: AtRule, context: Context): void => {
@@ -56,10 +51,14 @@ const validateAtRule = (node: AtRule, context: Context): ReportData | null => {
         return null;
     }
 
-    const unsupported = getUnsupported({ rule: node.name }, context.browsers);
+    const unsupported = getUnsupportedDetails({ rule: node.name }, context.browsers);
 
     if (unsupported) {
-        return { feature: `@${node.name}`, node, unsupported };
+        const formatFeature = (name: string) => {
+            return `@${name}`;
+        };
+
+        return { feature: formatFeature(node.name), formatFeature, node, unsupported };
     }
 
     context.walk(node, context);
@@ -68,10 +67,14 @@ const validateAtRule = (node: AtRule, context: Context): ReportData | null => {
 };
 
 const validateDeclValue = (node: Declaration, context: Context): ReportData | null => {
-    const unsupported = getUnsupported({ property: node.prop, value: node.value }, context.browsers);
+    const unsupported = getUnsupportedDetails({ property: node.prop, value: node.value }, context.browsers);
 
     if (unsupported) {
-        return { feature: `${node.prop}: ${node.value}`, node, unsupported };
+        const formatFeature = (value: string) => {
+            return `${node.prop}: ${value}`;
+        };
+
+        return { feature: formatFeature(node.value), formatFeature, isValue: true, node, unsupported };
     }
 
     return null;
@@ -84,7 +87,7 @@ const validateDecl = (node: Declaration, context: Context): ReportData | null =>
         return null;
     }
 
-    const unsupported = getUnsupported({ property }, context.browsers);
+    const unsupported = getUnsupportedDetails({ property }, context.browsers);
 
     if (unsupported) {
         return { feature: `${property}`, node, unsupported };
@@ -131,17 +134,17 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
         }
 
         // Remove browsers not included in ALL reports for this property.
-        const unsupported = intersection(...reports.map((report) => {
-            return report.unsupported;
+        const browsers = intersection(...reports.map((report) => {
+            return report.unsupported.browsers;
         }));
 
         // Ignore if every browser passed at least one report for this property.
-        if (!unsupported.length) {
+        if (!browsers.length) {
             continue;
         }
 
         // Prefer reporting unprefixed reports (if any).
-        const unprefixedReports = reports.filter(({node}) => {
+        const unprefixedReports = reports.filter(({ node }) => {
             switch (node.type) {
                 case 'atrule':
                     return !vendor.prefix(node.name);
@@ -155,6 +158,11 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
         const finalReports = unprefixedReports.length ? unprefixedReports : reports;
 
         for (const report of finalReports) {
+            const unsupported: UnsupportedBrowsers = {
+                browsers,
+                details: report.unsupported.details
+            };
+
             context.report({ ...report, unsupported });
         }
     }
@@ -225,19 +233,20 @@ export default class CSSCompatHint implements IHint {
             '-moz-appearance: none',
             '-webkit-appearance: none',
             'appearance: none',
-            'cursor'
+            'cursor',
+            'zoom: 1'
         ], context.hintOptions);
 
         context.on('parse::end::css', ({ ast, element, resource }) => {
-            // Ignore Android WebView due to outdated data in both browserslist and MDN.
-            const browsers = context.targetedBrowsers.filter((browser) => {
-                return !browser.startsWith('android');
-            });
+            const browsers = filterBrowsers(context.targetedBrowsers);
 
-            const report = ({feature, node, unsupported}: ReportData) => {
-                const message = `${feature} is not supported by ${joinBrowsers(unsupported)}.`;
+            const report = ({ feature, formatFeature, isValue, node, unsupported }: ReportData) => {
+                const message = [
+                    getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]),
+                    ...formatAlternatives(context.language, unsupported, formatFeature)
+                ].join(' ');
                 const codeSnippet = getCSSCodeSnippet(node);
-                const location = getLocationFromNode(node);
+                const location = getCSSLocationFromNode(node, { isValue });
 
                 context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
             };

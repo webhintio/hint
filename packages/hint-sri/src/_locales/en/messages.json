@@ -1,0 +1,42 @@
+{
+    "algorightmNotMeetBaseline": {
+        "description": "Report message when the algorightm used doesn't meet the baseline",
+        "message": "The hash algorithm \"$1\" doesn't meet the baseline \"$2\" in resource $3"
+    },
+    "canNotGetResource": {
+        "description": "Report message when a resource can't be downloaded",
+        "message": "Can't get the resource $1"
+    },
+    "crossoriginInvalid": {
+        "description": "Report message when the attribute crossorigin has an inavlid value",
+        "message": "Attribute \"crossorigin\" for resource $1 doesn't have a valid value, should \"anonymous\" or \"use-credentials\": crossorigin=\"$2\""
+    },
+    "crossoriginNeeded": {
+        "description": "Report message when the attribute crossorigin is not present",
+        "message": "Cross-origin resource $1 needs a \"crossorigin\" attribute to be eligible for integrity validation"
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Require scripts and link elements to use Subresource Integrity"
+    },
+    "hashDoesNotMatch": {
+        "description": "Report message when the 'integrity' hash doesn't match the received payload",
+        "message": "The hash in the \"integrity\" attribute in resource $1 doesn't match the received payload.\nExpected: $2\nActual:   $3"
+    },
+    "invalidIntegrity": {
+        "description": "Report message when the 'integrity' attribute value is not valid",
+        "message": "The format of the \"integrity\" attribute for resource $1 should be \"sha(256|384|512)-HASH\": $2…"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Use subresource integrity"
+    },
+    "noIntegrity": {
+        "description": "Report message when the element doesn't have the 'integrity' attribute",
+        "message": "Resource $1 requested without the \"integrity\" attribute"
+    },
+    "resourceNotSecure": {
+        "description": "Report message when the resource is not delivered via a secure context",
+        "message": "The resource $1 is not delivered via a secure context"
+    }
+}

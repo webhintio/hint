@@ -20,7 +20,10 @@ const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribu
 
                 return relAttribute;
             },
-            nodeName: 'LINK'
+            nodeName: 'LINK',
+            resolveUrl: (value: string) => {
+                return new url.URL(value, 'https://example.com').href;
+            }
         },
         resource: 'https://example.com'
     };
@@ -40,14 +43,14 @@ const getEngine = (): Engine<ManifestEvents> => {
     return engine;
 };
 
-const fetchEndEventName: string = 'fetch::end::manifest';
-const fetchErrorEventName: string = 'fetch::error::manifest';
-const fetchStartEventName: string = 'fetch::start::manifest';
+const fetchEndEventName = 'fetch::end::manifest';
+const fetchErrorEventName = 'fetch::error::manifest';
+const fetchStartEventName = 'fetch::start::manifest';
 
-const parseStartEventName: string = 'parse::start::manifest';
-const parseEndEventName: string = 'parse::end::manifest';
-const parseErrorSchemaEventName: string = 'parse::error::manifest::schema';
-const parseJSONErrorEventName: string = 'parse::error::manifest::json';
+const parseStartEventName = 'parse::start::manifest';
+const parseEndEventName = 'parse::end::manifest';
+const parseErrorSchemaEventName = 'parse::error::manifest::schema';
+const parseJSONErrorEventName = 'parse::error::manifest::json';
 
 const scanEndEventName = 'scan::end';
 const scanEndEventValue = { resource: 'https://example.com' };
@@ -173,7 +176,7 @@ test(`'${fetchErrorEventName}' event is emitted when the manifest cannot be fetc
     sandbox.restore();
 });
 
-test(`'${fetchErrorEventName}' event is emitted when the response for the web app manifest has a status code differenr the 200`, async (t) => {
+test(`'${fetchEndEventName}' event is emitted when the response for the web app manifest has a failure status code`, async (t) => {
     const elementEventValue = getElementLinkEventValue();
     const manifestContent = '500 Internal Server Error';
     const sandbox = sinon.createSandbox();
@@ -193,8 +196,7 @@ test(`'${fetchErrorEventName}' event is emitted when the response for the web ap
     t.is(engineEmitAsyncSpy.callCount, 4);
     t.is(engineEmitAsyncSpy.args[0][0], elementLinkEventName);
     t.is(engineEmitAsyncSpy.args[1][0], fetchStartEventName);
-    t.is(engineEmitAsyncSpy.args[2][0], fetchErrorEventName);
-    t.not(typeof (engineEmitAsyncSpy.args[2][1] as any).error, 'undefined');
+    t.is(engineEmitAsyncSpy.args[2][0], fetchEndEventName);
     t.is(engineEmitAsyncSpy.args[3][0], scanEndEventName);
 
     sandbox.restore();
@@ -309,4 +311,32 @@ test(`'${parseErrorSchemaEventName}' event includes location information`, async
             tt.is(error.location && error.location.column, expectedLocation.column);
         });
     });
+});
+
+test('It does not emit redundant fetch events', async (t: ExecutionContext) => {
+    const elementEventValue = getElementLinkEventValue();
+    const sandbox = sinon.createSandbox();
+    const engine = getEngine();
+    const networkData = createNetworkDataObject(`{ "name": "5" };`);
+
+    const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
+    const engineFetchContentStub = sandbox.stub(engine, 'fetchContent');
+
+    engineFetchContentStub.onCall(0)
+        .resolves(networkData);
+
+    new Parser(engine); // eslint-disable-line no-new
+
+    await engine.emitAsync(fetchEndEventName, { element: null, ...networkData, resource: 'https://example.com/site.webmanifest' });
+    await engine.emitAsync(elementLinkEventName, elementEventValue as ElementFound);
+
+    t.log(engineEmitAsyncSpy.args);
+
+    t.is(engineEmitAsyncSpy.callCount, 4);
+    t.is(engineEmitAsyncSpy.args[0][0], fetchEndEventName);
+    t.is(engineEmitAsyncSpy.args[1][0], parseStartEventName);
+    t.is(engineEmitAsyncSpy.args[2][0], parseEndEventName);
+    t.is(engineEmitAsyncSpy.args[3][0], elementLinkEventName);
+
+    sandbox.restore();
 });

@@ -1,0 +1,79 @@
+{
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "dependencies": {
+    "@hint/parser-javascript": "^3.0.13",
+    "@hint/utils": "^6.0.0",
+    "@typescript-eslint/typescript-estree": "^2.5.0"
+  },
+  "description": "webhint parser needed to analyze TypeScript files",
+  "devDependencies": {
+    "@hint/parser-html": "^3.0.10",
+    "@hint/parser-jsx": "^1.0.0",
+    "@types/node": "^12.7.5",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.12.0",
+    "ava": "^2.4.0",
+    "cpx": "^1.5.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-markdown": "^1.0.0",
+    "eventemitter2": "^5.0.1",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^14.1.0",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.6.4"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "dist/src"
+  ],
+  "homepage": "https://webhint.io/",
+  "keywords": [
+    "typescript",
+    "tsx",
+    "webhint",
+    "webhint-parser"
+  ],
+  "license": "Apache-2.0",
+  "main": "dist/src/parser.js",
+  "name": "@hint/parser-typescript",
+  "nyc": {
+    "extends": "../../.nycrc"
+  },
+  "peerDependencies": {
+    "@hint/parser-javascript": "^3.0.12",
+    "hint": "^5.0.0"
+  },
+  "repository": {
+    "directory": "packages/parser-typescript",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
+  "scripts": {
+    "build": "npm-run-all build:*",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc -b",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:dependencies": "node ../../scripts/lint-dependencies.js",
+    "lint:md": "node ../../scripts/lint-markdown.js",
+    "test": "npm run lint && npm run build && npm run test-only",
+    "test-only": "nyc ava",
+    "test-release": "npm run lint && npm run build-release && ava",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:assets": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "1.0.0"
+}

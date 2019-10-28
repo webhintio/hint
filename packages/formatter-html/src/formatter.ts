@@ -13,12 +13,13 @@ import * as path from 'path';
 import * as ejs from 'ejs';
 import * as fs from 'fs-extra';
 
-import { debug as d, fs as fsUtils, logger } from '@hint/utils';
-import { Category, FormatterOptions, HintResources, IFormatter, Problem } from 'hint';
+import { debug as d, fs as fsUtils, logger, Category } from '@hint/utils';
+import { FormatterOptions, HintResources, IFormatter, Problem } from 'hint';
 
 const utils = require('./utils');
 
 import AnalysisResult, { CategoryResult, HintResult } from './result';
+import { getMessage as getMessageFormatter, MessageName } from './i18n.import';
 
 const { cwd } = fsUtils;
 const debug = d(__filename);
@@ -52,16 +53,39 @@ const getCategoryList = (resources?: HintResources): string[] => {
 
     const result: string[] = [];
 
-    for (let [, value] of Object.entries(Category)) {
-        if (value === 'pwa') {
-            value = value.toUpperCase();
-        } else {
-            value = `${value[0].toUpperCase()}${value.substr(1)}`;
-        }
+    for (const [, value] of Object.entries(Category)) {
         result.push(value);
     }
 
     return result;
+};
+
+const getLanguageFile = (language: string = 'en') => {
+    const relativePath = path.join('js', 'scan', '_locales');
+    const languagesToCheck = [language];
+    const languageParts = language.split('-');
+
+    /*
+     * Add to the list the 'main' language.
+     * e.g. en-US => en
+     */
+    if (languageParts.length > 1) {
+        languagesToCheck.push(languageParts[0]);
+    }
+
+    // Default to 'en'.
+    let existingLanguage = 'en';
+
+    for (const lang of languagesToCheck) {
+        const file = path.join(__dirname, 'assets', relativePath, lang, 'messages.js');
+
+        if (fs.existsSync(file)) { // eslint-disable-line no-sync
+            existingLanguage = lang;
+            break;
+        }
+    }
+
+    return path.join(relativePath, existingLanguage, 'messages.js');
 };
 
 /*
@@ -89,16 +113,17 @@ export default class HTMLFormatter implements IFormatter {
 
         debug('Formatting results');
 
+        const language = options.language!;
         const target = options.target || '';
         const result = new AnalysisResult(target, options);
         const categoryList: string[] = getCategoryList(options.resources);
 
         categoryList.forEach((category) => {
-            result.addCategory(category);
+            result.addCategory(category, language);
         });
 
         problems.forEach((message) => {
-            result.addProblem(message);
+            result.addProblem(message, language);
         });
 
         /* istanbul ignore if */
@@ -122,7 +147,14 @@ export default class HTMLFormatter implements IFormatter {
                 result.id = Date.now().toString();
 
                 const htmlPath = path.join(__dirname, 'views', 'pages', 'report.ejs');
-                const html = await this.renderFile(htmlPath, { result, utils });
+                const html = await this.renderFile(htmlPath, {
+                    getMessage(key: MessageName, substitutions?: string | string[]) {
+                        return getMessageFormatter(key, language, substitutions);
+                    },
+                    languageFile: getLanguageFile(language),
+                    result,
+                    utils
+                });
                 // We save the result with the friendly target name
                 const name = target.replace(/:\/\//g, '-')
                     .replace(/:/g, '-')
@@ -167,7 +199,7 @@ export default class HTMLFormatter implements IFormatter {
 
                 await fs.outputFile(destination, html);
 
-                logger.log(`You can view the HTML report in "${destination}"`);
+                logger.log(getMessageFormatter('youCanView', language, destination));
             }
 
             return result;

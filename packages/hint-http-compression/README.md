@@ -1044,24 +1044,19 @@ use the following configuration in the [`.hintrc`][hintrc]:
 }
 ```
 
-Note: You can also use the [`ignoredUrls`][hint configuration]
+Note: You can also use the [`ignoredUrls`][ignoring domains]
 property from the `.hintrc` file to exclude domains you don’t control
 (e.g.: CDNs) from these checks.
 
 ## How to use this hint?
 
-To use it you will have to install it via `npm`:
+This package is installed automatically by webhint:
 
 ```bash
-npm install @hint/hint-http-compression
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.hintrc`][hintrc] configuration file:
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
@@ -1075,6 +1070,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
     ...
 }
 ```
+
+**Note**: The recommended way of running webhint is as a `devDependency` of
+your project.
 
 <!-- Link labels: -->
 
@@ -1111,4 +1109,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [iis config]: https://webhint.io/docs/user-guide/server-configurations/iis/
 [multiple compression schemes]: https://docs.microsoft.com/en-us/iis/extensions/iis-compression/using-iis-compression#enabling-multiple-compression-schemes
 [urlcompression]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/urlcompression
-[hint configuration]: https://webhint.io/docs/user-guide/concepts/hints/#hint-configuration
+[ignoring domains]: https://webhint.io/docs/user-guide/configuring-webhint/ignoring-domains/

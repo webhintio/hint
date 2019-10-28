@@ -75,8 +75,8 @@ const getResponseForCommitInfoRequest = async (commitSHA: string) => {
     try {
         const result = await octokit.repos.getCommit({
             owner: 'webhintio',
-            repo: 'hint',
-            sha: commitSHA
+            ref: commitSHA,
+            repo: 'hint'
         });
 
         const commitInfo = result.data;

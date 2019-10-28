@@ -16,6 +16,7 @@ import { debug as d, network } from '@hint/utils';
 import { FetchEnd, HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { isDataURI } = network;
 const debug = d(__filename);
@@ -136,7 +137,7 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             for (const key of Object.keys(foundErrorPages)) {
                 const threshold = statusCodesWith512Threshold.includes(Number.parseInt(key)) ? 512 : 256;
 
-                context.report(href, `Response with status code ${key} should have more than ${threshold} bytes.`);
+                context.report(href, getMessage('responseWithStatus', context.language, [key, threshold.toString()]));
             }
         };
 

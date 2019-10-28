@@ -145,7 +145,7 @@ export default class JSDOMConnector implements IConnector {
         const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
-            await this._resourceLoader!.fetch(new URL(href, this.finalHref).href, { element });
+            await this._resourceLoader!.fetch(this._document.resolveUrl(href), { element });
         } catch (e) {
             /* istanbul ignore next */
             debug('Error loading ${href}', e);
@@ -282,7 +282,10 @@ export default class JSDOMConnector implements IConnector {
 
                         this._document = htmlDocument;
 
-                        const evaluateEvent: Event = { resource: this.finalHref };
+                        const evaluateEvent = {
+                            document: htmlDocument,
+                            resource: this.finalHref
+                        };
 
                         await this.server.emitAsync('can-evaluate::script', evaluateEvent);
 
@@ -398,7 +401,10 @@ export default class JSDOMConnector implements IConnector {
                 return resolve(result.evaluate);
             });
 
-            runner.send({ source });
+            runner.send({
+                options: this._options,
+                source
+            });
 
             /* istanbul ignore next */
             timeoutId = setTimeout(() => {

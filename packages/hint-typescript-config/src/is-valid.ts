@@ -39,13 +39,13 @@ export default class TypeScriptConfigIsValid implements IHint {
 
             debug(`${event} received`);
 
-            context.report(resource, error.message, { location: getLocation('extends') });
+            context.report(resource, error.message, { location: getLocation('extends', { at: 'value' }) });
         };
 
         const invalidSchema = (fetchEnd: TypeScriptConfigInvalidSchema) => {
             const { groupedErrors, resource } = fetchEnd;
 
-            debug(`parse::error::typescript-config::schema received`);
+            debug(`'parse::error::typescript-config::schema' received`);
 
             groupedErrors.forEach((groupedError: any) => {
                 context.report(resource, groupedError.message, { location: groupedError.location });

@@ -1,0 +1,18 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Disallow unneeded HTTP headers for non-HTML resources"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Unneeded HTTP headers"
+    },
+    "unneededHeader": {
+        "description": "Report message when a response includes a unneeded header",
+        "message": "Response should not include unneeded $1 header."
+    },
+    "unneededHeaders": {
+        "description": "Report message when a response includes multiple unneeded headers",
+        "message": "Response should not include unneeded $1 headers."
+    }
+}

@@ -1,8 +1,4 @@
 {
-    "accessibility": {
-        "message": "Accessibility",
-        "description": "Name of category for accessibility tests."
-    },
     "analyzeAgainButtonLabel": {
         "message": "Analyze again",
         "description": "Label for button to restart analysis."
@@ -31,17 +27,29 @@
         "message": "Categories",
         "description": "Title of the categories sub-section on the configuration page."
     },
+    "close": {
+        "message": "Close",
+        "description": "Label for the close button in the notification"
+    },
     "checkForBestPracticesDescription": {
         "message": "Check for best practices and common errors with your site's accessibility, speed, security, and more.",
         "description": "Brief description of what webhint does."
     },
-    "compatibility": {
-        "message": "Compatibility",
-        "description": "Name of category for compatibility tests."
+    "customBrowsersLabel": {
+        "message": "Custom query",
+        "description": "Label for target browsers option to use a custom query string."
     },
-    "development": {
-        "message": "Development",
-        "description": "Name of category for development tests."
+    "customBrowsersValueLabel": {
+        "message": "Target browsers custom query value",
+        "description": "Label for target browsers custom query input field."
+    },
+    "customResourcesLabel": {
+        "message": "Custom expression",
+        "description": "Label for ignored resources option to use a custom regular expression."
+    },
+    "customResourcesValueLabel": {
+        "message": "Ignored resources custom expression value",
+        "description": "Label for ignored resources custom expression input field."
     },
     "didYouKnowThat": {
         "message": "Did you know that...",
@@ -51,6 +59,10 @@
         "message": "Different origin",
         "description": "Label for option to ignore only external resources on the page."
     },
+    "enable": {
+        "message": "Enable",
+        "description": "Label for button to enable telemetry"
+    },
     "errorDetails": {
         "message": "Error details",
         "description": "Text displayed for option to expand and show error details."
@@ -59,13 +71,21 @@
         "message": "There was an error running webhint. Please try again. If the error still occurs: ",
         "description": "Message informing users what to do when an error occurs."
     },
+    "errorTitle": {
+        "message": "Scan Error",
+        "description": "Title of page displayed after an error occurs."
+    },
     "feedback": {
         "message": "Feedback",
         "description": "Label for the feedback button"
     },
-    "hintCountLabel": {
-        "message": "hint $1:",
-        "description": "Label for a test result based on the order in which it is listed, e.g. 'hint 2:'."
+    "helpUs": {
+        "message": "Help us improve webhint by sending limited usage information (no personal information or URLs will be sent).",
+        "description": "Label for telemetry opt-in popup"
+    },
+    "inspectElement": {
+        "message": "Inspect Element",
+        "description": "Label for a button to link to a specific element in the Elements panel."
     },
     "scanResultTitle": {
         "message": "Hints: Scan Results",
@@ -91,6 +111,10 @@
         "message": "Learn why this is important and how to fix it",
         "description": "Label for link to additional documentation for a failed test."
     },
+    "learnMore": {
+        "message": "Learn more.",
+        "description": "Label for link to additional information about the information collected for telemetry."
+    },
     "noIssuesLabel": {
         "message": "No issues",
         "description": "Label for a hint with no issues."
@@ -99,33 +123,25 @@
         "message": "None",
         "description": "Label for option to not ignore any resources on the page."
     },
+    "noThanks": {
+        "message": "No Thanks",
+        "description": "Label for button to disable telemetry."
+    },
     "openAnIssue": {
         "message": "open an issue",
         "description": "Text for a link to open an issue."
-    },
-    "other": {
-        "message": "Other",
-        "description": "Name of category for miscellaneous tests."
     },
     "passedStatus": {
         "message": "PASSED",
         "description": "Message shown when all tests have passed."
     },
-    "performance": {
-        "message": "Performance",
-        "description": "Name of category for performance tests."
-    },
-    "pitfalls": {
-        "message": "Pitfalls",
-        "description": "Name of category for tests which identify common mistakes."
+    "pictureOfMascot": {
+        "message": "A picture of webhint's mascot, Nellie the Narwhal, working at a computer.",
+        "description": "Description for image shown while analyzing."
     },
     "poweredByLabel": {
         "message": "Powered by",
         "description": "Label displayed before link to the webhint website."
-    },
-    "pwa": {
-        "message": "PWA",
-        "description": "Name of category for progressive web app (PWA) tests."
     },
     "recommendedSettingsLabel": {
         "message": "Recommended settings",
@@ -135,10 +151,6 @@
         "message": "Restore defaults",
         "description": "Label for button to restore default settings."
     },
-    "security": {
-        "message": "Security",
-        "description": "Name of category for security tests."
-    },
     "seeExpressionInstructionsLabel": {
         "message": "See expression instructions",
         "description": "Label for link to instructions for ignoring page resources."
@@ -146,6 +158,10 @@
     "seeQueryInstructionsLabel": {
         "message": "See query instructions",
         "description": "Label for link to instructions for selecting target browsers."
+    },
+    "settings": {
+        "message": "Settings",
+        "description": "Label settings details/summary."
     },
     "showPassedHintsLabel": {
         "message": "Show passed hints",
@@ -194,5 +210,9 @@
     "targetUrl": {
         "message": "URL: $1",
         "description": "Label for the result page with the url analyzed."
+    },
+    "telemetry": {
+        "message": "Enable telemetry",
+        "description": "Label for the setting to enable/disable telemetry."
     }
 }

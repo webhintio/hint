@@ -1,0 +1,30 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Require a web app manifest"
+    },
+    "manifestDuplicated": {
+        "description": "Report message when there are more than one manifest",
+        "message": "'manifest' link element is not needed as one was already specified."
+    },
+    "manifestNonEmptyHref": {
+        "description": "Report message when the manifest has an empty href attribute",
+        "message": "'manifest' link element should have non-empty 'href' attribute."
+    },
+    "manifestNotFetched": {
+        "description": "Report message when the manifest file cannot be loaded due to network failure.",
+        "message": "'manifest' could not be fetched. Request failed."
+    },
+    "manifestNotFetchedStatus": {
+        "description": "Report message when the manifest file cannot be loaded due to server failure.",
+        "message": "'manifest' could not be fetched. Status code: $1"
+    },
+    "manifestNotSpecified": {
+        "description": "Report message when the manifest link element is not specified",
+        "message": "'manifest' link element was not specified."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Has web app manifest"
+    }
+}

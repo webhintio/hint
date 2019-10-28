@@ -13,6 +13,7 @@ import { requestAsync } from '@hint/utils/dist/src/network/request-async';
 
 import { Algorithms, OriginCriteria, ErrorData, URLs } from './types';
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -130,7 +131,7 @@ export default class SRIHint implements IHint {
         const crossorigin = normalizeString(element && element.getAttribute('crossorigin'));
 
         if (!crossorigin) {
-            const message = `Cross-origin resource ${resource} needs a "crossorigin" attribute to be eligible for integrity validation`;
+            const message = getMessage('crossoriginNeeded', this.context.language, resource);
 
             this.report(urls.final, message, { element }, evt);
 
@@ -140,7 +141,7 @@ export default class SRIHint implements IHint {
         const validCrossorigin = crossorigin === 'anonymous' || crossorigin === 'use-credentials';
 
         if (!validCrossorigin) {
-            const message = `Attribute "crossorigin" for resource ${resource} doesn't have a valid value, should "anonymous" or "use-credentials": crossorigin="${crossorigin}"`;
+            const message = getMessage('crossoriginInvalid', this.context.language, [resource, crossorigin]);
 
             this.report(urls.final, message, { element }, evt);
         }
@@ -162,7 +163,7 @@ export default class SRIHint implements IHint {
             urls.origin !== resourceOrigin;
 
         if (integrityRequired && !integrity) {
-            const message = `Resource ${resource} requested without the "integrity" attribute`;
+            const message = getMessage('noIntegrity', this.context.language, resource);
 
             this.report(urls.final, message, { element }, evt);
         }
@@ -200,7 +201,7 @@ export default class SRIHint implements IHint {
 
             if (!isValid) {
                 // integrity must exist since we're iterating over integrityValues
-                const message = `The format of the "integrity" attribute for resource ${resource} should be "sha(256|384|512)-HASH": ${integrity!.substr(0, 10)}…`;
+                const message = getMessage('invalidIntegrity', this.context.language, [resource, integrity!.substr(0, 10)]);
 
                 that.report(urls.final, message, { element }, evt);
 
@@ -224,7 +225,7 @@ export default class SRIHint implements IHint {
         const meetsBaseline = highestAlgorithmPriority >= baseline;
 
         if (!meetsBaseline) {
-            const message = `The hash algorithm "${Algorithms[highestAlgorithmPriority]}" doesn't meet the baseline "${this.baseline}" in resource ${resource}`;
+            const message = getMessage('algorightmNotMeetBaseline', this.context.language, [Algorithms[highestAlgorithmPriority], this.baseline, resource]);
 
             this.report(urls.final, message, { element }, evt);
         }
@@ -244,7 +245,7 @@ export default class SRIHint implements IHint {
         const isSecure = protocol === 'https:';
 
         if (!isSecure) {
-            const message = `The resource ${resource} is not delivered via a secure context`;
+            const message = getMessage('resourceNotSecure', this.context.language, resource);
 
             this.report(urls.final, message, { element }, evt);
         }
@@ -286,9 +287,7 @@ export default class SRIHint implements IHint {
                 hashes.push(`sha${key}-${value}`);
             });
 
-            const message = `The hash in the "integrity" attribute in resource ${resource} doesn't match the received payload.
-Expected: ${hashes.join(', ')}
-Actual:   ${integrities.join(', ')}`;
+            const message = getMessage('hashDoesNotMatch', this.context.language, [resource, hashes.join(', '), integrities.join(', ')]);
 
             this.report(urls.final, message, { element }, evt);
         }
@@ -426,7 +425,7 @@ Actual:   ${integrities.join(', ')}`;
         } catch (e) {
             debug(`Error accessing ${resource}. ${JSON.stringify(e)}`);
 
-            this.context.report(urls.final, `Can't get the resource ${resource}`, { element });
+            this.context.report(urls.final, getMessage('canNotGetResource', this.context.language, resource), { element });
 
             return false;
         }

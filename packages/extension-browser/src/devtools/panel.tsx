@@ -7,7 +7,9 @@ require('focus-visible');
 
 import App from './views/app';
 
-render(<App/>, document.getElementById('webhint-root'));
+const props = (window as any).initialState || {};
+
+render(<App {...props}/>, document.getElementById('webhint-root'));
 
 // Initialize analytics and increment count of the "Hints" tab being shown.
 setup();

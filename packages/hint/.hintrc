@@ -9,7 +9,6 @@
     "hints": {
         "amp-validator": "off",
         "apple-touch-icons": "warning",
-        "axe": "warning",
         "button-type": "warning",
         "content-type": "warning",
         "disown-opener": "warning",

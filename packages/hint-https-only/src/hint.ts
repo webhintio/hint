@@ -8,6 +8,7 @@ import { ElementFound, FetchEnd, HintContext, IHint, Response } from 'hint';
 import { debug as d, network } from '@hint/utils';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { isDataURI, isHTTPS } = network;
 const debug: debug.IDebugger = d(__filename);
@@ -33,7 +34,7 @@ export default class HttpsOnlyHint implements IHint {
             if (!isHTTPS(resource)) {
                 debug('HTTPS no detected');
 
-                context.report(resource, 'Site should be served over HTTPS.');
+                context.report(resource, getMessage('siteShouldBeHTTPS', context.language));
 
                 return;
             }
@@ -52,7 +53,7 @@ export default class HttpsOnlyHint implements IHint {
                 if (fails) {
                     reportedUrls.add(hop);
 
-                    context.report(hop, `Should not be redirected from HTTPS.`);
+                    context.report(hop, getMessage('shouldNotBeRedirected', context.language));
                 }
             });
         };
@@ -78,7 +79,7 @@ export default class HttpsOnlyHint implements IHint {
             if (!reportedUrls.has(resource) && !isHTTPS(resource) && !isDataURI(resource)) {
                 reportedUrls.add(resource);
 
-                context.report(resource, 'Should be served over HTTPS.');
+                context.report(resource, getMessage('shouldBeHTTPS', context.language));
             }
         };
 
@@ -160,7 +161,7 @@ export default class HttpsOnlyHint implements IHint {
                 if (!isHTTPS(fullUrl) && !isDataURI(fullUrl) && !reportedUrls.has(fullUrl)) {
                     reportedUrls.add(fullUrl);
 
-                    context.report(fullUrl, 'Should be served over HTTPS.');
+                    context.report(fullUrl, getMessage('shouldBeHTTPS', context.language));
                 }
             });
         };

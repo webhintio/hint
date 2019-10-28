@@ -31,7 +31,7 @@ export abstract class Parser<E extends Events = Events> {
             return config;
         }
 
-        const configIncludes = new Set();
+        const configIncludes = [];
 
         // `resource` has already been loaded to provide `config` so `getAsUri` won't be null.
         let configPath = asPathString(getAsUri(resource)!);
@@ -42,7 +42,7 @@ export abstract class Parser<E extends Events = Events> {
          * In case that we are running on Windows, we need
          * to normalize the path to c:\path before continue.
          */
-        configIncludes.add(path.normalize(configPath));
+        configIncludes.push(path.normalize(configPath));
 
         let finalConfigJSON: T = merge({}, config);
 
@@ -52,12 +52,12 @@ export abstract class Parser<E extends Events = Events> {
 
             configPath = path.resolve(configDir, finalConfigJSON.extends);
 
-            if (configIncludes.has(configPath)) {
+            if (configIncludes.includes(configPath)) {
 
                 const error = new Error(`Circular reference found in file ${lastPath}`) as IParsingError;
-                const lastPathUri = getAsUri(lastPath);
+                const originalPathUri = getAsUri(configIncludes[0]);
 
-                error.resource = lastPathUri && lastPathUri.toString() || lastPath;
+                error.resource = originalPathUri && originalPathUri.toString() || lastPath;
 
                 return error;
             }
@@ -67,8 +67,7 @@ export abstract class Parser<E extends Events = Events> {
             try {
                 const extendedConfig = loadJSONFile(configPath);
 
-                console.log(`adding: ${configPath}`);
-                configIncludes.add(configPath);
+                configIncludes.push(configPath);
 
                 finalConfigJSON = merge({}, extendedConfig, finalConfigJSON);
             } catch (err) {

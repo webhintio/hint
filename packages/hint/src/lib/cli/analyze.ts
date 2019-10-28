@@ -3,9 +3,11 @@ import * as path from 'path';
 import boxen = require('boxen');
 import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
-import { default as ora } from 'ora';
+import * as ora from 'ora';
+import * as osLocale from 'os-locale';
 
-import { appInsights, configStore, debug as d, fs, logger, misc, network, npm } from '@hint/utils';
+import { appInsights, configStore, debug as d, fs, getHintsFromConfiguration, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity } from '@hint/utils';
+import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
 
 import {
     AnalyzerError,
@@ -16,8 +18,6 @@ import {
     UserConfig
 } from '../types';
 import { loadHintPackage } from '../utils/packages/load-hint-package';
-import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
-
 import { createAnalyzer, getUserConfig } from '../';
 import { Analyzer } from '../analyzer';
 import { AnalyzerErrorStatus } from '../enums/error-status';
@@ -27,7 +27,7 @@ const { askQuestion, mergeEnvWithOptions } = misc;
 const { installPackages } = npm;
 const { cwd } = fs;
 const debug: debug.IDebugger = d(__filename);
-const configStoreKey: string = 'run';
+const alreadyRunKey: string = 'run';
 const spinner = ora({ spinner: 'line' });
 
 /*
@@ -76,46 +76,85 @@ or set the flag --tracking=on|off`;
     printFrame(message);
 };
 
-/** Ask user if he wants to activate the telemetry or not. */
-const askForTelemetryConfirmation = async (userConfig: UserConfig) => {
-    if (appInsights.isConfigured()) {
-        return;
+const getHintsForTelemetry = (hints?: HintsConfigObject | (string | any)[]) => {
+    if (!hints) {
+        return null;
     }
 
-    if (isCI) {
-        if (!appInsights.isConfigured()) {
-            showCITelemetryMessage();
-        }
+    const normalizedHints = normalizeHints(hints);
+    const result = {} as HintsConfigObject;
 
-        return;
+    for (const [hintId, severity] of Object.entries(normalizedHints)) {
+        result[hintId] = typeof severity === 'string' ? severity : (severity as [HintSeverity, any])[0];
     }
 
-    const alreadyRun: boolean = configStore.get(configStoreKey);
+    return result;
+};
 
-    if (!alreadyRun) { /* This is the first time, don't ask anything. */
-        configStore.set(configStoreKey, true);
+const pruneUserConfig = (userConfig: UserConfig) => {
+    return {
+        browserslist: userConfig.browserslist,
+        connector: userConfig.connector ? (userConfig.connector as ConnectorConfig).name || userConfig.connector : undefined,
+        extends: userConfig.extends,
+        formatters: userConfig.formatters,
+        hints: getHintsForTelemetry(getHintsFromConfiguration(userConfig)),
+        hintsTimeout: userConfig.hintsTimeout,
+        language: userConfig.language,
+        parsers: userConfig.parsers
+    };
+};
 
-        return;
-    }
-
+const askForTelemetryConfirmation = async () => {
     showTelemetryMessage();
 
-    const message: string = `Do you want to opt-in?`;
+    const message = `Do you want to opt-in?`;
 
     debug(`Prompting telemetry permission.`);
 
-    const confirm: boolean = await askQuestion(message);
+    const telemetryEnabled = await askQuestion(message);
 
-    if (confirm) {
+    if (telemetryEnabled) {
         appInsights.enable();
+    } else {
+        appInsights.disable();
+    }
 
-        appInsights.trackEvent('SecondRun');
-        appInsights.trackEvent('analyze', userConfig);
+    return telemetryEnabled;
+};
 
+/** Ask user if he wants to activate the telemetry or not. */
+const sendTelemetryIfEnabled = async (userConfig: UserConfig) => {
+    const telemetryConfigured = appInsights.isConfigured();
+    let telemetryEnabled = appInsights.isEnabled();
+    const alreadyRun: boolean = configStore.get(alreadyRunKey);
+
+    if (!alreadyRun) {
+        configStore.set(alreadyRunKey, true);
+    }
+
+    if (!telemetryConfigured) {
+        if (isCI) {
+            showCITelemetryMessage();
+            telemetryEnabled = false;
+        } else if (alreadyRun) {
+            /* Only prompt the user about opt-intelemetry if they have run webhint before. */
+            telemetryEnabled = await askForTelemetryConfirmation();
+
+            if (telemetryEnabled) {
+                appInsights.trackEvent('cli-telemetry');
+            }
+        }
+    }
+
+    if (!telemetryEnabled) {
         return;
     }
 
-    appInsights.disable();
+    appInsights.trackEvent('cli-analyze', {
+        ci: isCI,
+        previouslyRun: alreadyRun,
+        ...pruneUserConfig(userConfig)
+    });
 };
 
 /**
@@ -134,22 +173,47 @@ ${chalk.default.green('https://webhint.io/docs/user-guide/')}`;
     printFrame(defaultMessage);
 };
 
-/**
- * Prints a message to the screen alerting the user the defautl configuration
- * will be used and returns the default configuration.
- */
-const getDefaultConfiguration = () => {
-    showDefaultMessage();
-
-    return { extends: ['web-recommended'] };
+const areFiles = (targets: URL[]) => {
+    return targets.every((target) => {
+        return target.protocol === 'file:';
+    });
 };
 
-const askUserToUseDefaultConfiguration = async (): Promise<UserConfig | null> => {
+const anyFile = (targets: URL[]) => {
+    return targets.some((target) => {
+        return target.protocol === 'file:';
+    });
+};
+
+/**
+ * Prints a message to the screen alerting the user the default configuration
+ * will be used and returns the default configuration.
+ */
+const getDefaultConfiguration = (targets: URL[]) => {
+    showDefaultMessage();
+    const targetsAreFiles = areFiles(targets);
+
+    if (!targetsAreFiles && anyFile(targets)) {
+        // TODO: Improve this message.
+        throw new Error('You cannot mix file system with urls in the analysis');
+    }
+
+    const ext = targetsAreFiles ? 'development' : 'web-recommended';
+    const config = { extends: [ext] } as UserConfig;
+
+    if (isCI) {
+        config.formatters = ['html', 'stylish'];
+    }
+
+    return config;
+};
+
+const askUserToUseDefaultConfiguration = async (targets: URL[]): Promise<UserConfig | null> => {
     const question: string = `A valid configuration file can't be found. Do you want to use the default configuration? To know more about the default configuration see: https://webhint.io/docs/user-guide/#default-configuration`;
     const confirmation: boolean = await askQuestion(question);
 
     if (confirmation) {
-        return getDefaultConfiguration();
+        return getDefaultConfiguration(targets);
     }
 
     return null;
@@ -180,25 +244,47 @@ const askUserToInstallDependencies = async (resources: HintResources): Promise<b
     return answer;
 };
 
-const loadUserConfig = (actions?: CLIOptions): UserConfig | null => {
-    let userConfig = getUserConfig(actions && actions.config);
+/** Get language. If language is not in the config file or CLI options, get the language configure in the OS. */
+const getLanguage = async (userConfig?: UserConfig, actions?: CLIOptions): Promise<string> => {
+    if (actions && actions.language) {
+        debug(`Using language option provided from command line: ${actions.language}`);
 
-    userConfig = mergeEnvWithOptions(userConfig);
+        return actions.language;
+    }
+
+    if (userConfig && userConfig.language) {
+        debug(`Using language option provided in user config file: ${userConfig.language}`);
+
+        return userConfig.language;
+    }
+
+    const osLanguage = await osLocale();
+
+    debug(`Using language option configured in the OS: ${osLanguage}`);
+
+    return osLanguage;
+};
+
+const loadUserConfig = async (actions: CLIOptions, targets: URL[]): Promise<UserConfig> => {
+    let userConfig = getUserConfig(actions.config);
 
     if (!userConfig) {
-        return getDefaultConfiguration();
+        userConfig = getDefaultConfiguration(targets);
     }
+
+    userConfig.language = await getLanguage(userConfig, actions);
+    userConfig = mergeEnvWithOptions(userConfig) as UserConfig;
 
     return userConfig;
 };
 
 const askToInstallPackages = async (resources: HintResources): Promise<boolean> => {
     if (resources.missing.length > 0) {
-        appInsights.trackEvent('missing', resources.missing);
+        appInsights.trackEvent('cli-missing', resources.missing);
     }
 
     if (resources.incompatible.length > 0) {
-        appInsights.trackEvent('incompatible', resources.incompatible);
+        appInsights.trackEvent('cli-incompatible', resources.incompatible);
     }
 
     const missingPackages = resources.missing.map((name) => {
@@ -222,7 +308,7 @@ const askToInstallPackages = async (resources: HintResources): Promise<boolean> 
     return true;
 };
 
-const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOptions): Promise<Analyzer> => {
+const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOptions, targets: URL[]): Promise<Analyzer> => {
     let webhint: Analyzer;
 
     try {
@@ -231,13 +317,13 @@ const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOption
         const error = e as AnalyzerError;
 
         if (error.status === AnalyzerErrorStatus.ConfigurationError) {
-            const config = await askUserToUseDefaultConfiguration();
+            const config = await askUserToUseDefaultConfiguration(targets);
 
             if (!config) {
                 throw e;
             }
 
-            return getAnalyzer(config, options);
+            return getAnalyzer(config, options, targets);
         }
 
         if (error.status === AnalyzerErrorStatus.ResourceError) {
@@ -247,7 +333,7 @@ const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOption
                 throw e;
             }
 
-            return getAnalyzer(userConfig, options);
+            return getAnalyzer(userConfig, options, targets);
         }
 
         if (error.status === AnalyzerErrorStatus.HintError) {
@@ -298,18 +384,16 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         return false;
     }
 
-    const userConfig = await loadUserConfig(actions);
+    const userConfig = await loadUserConfig(actions, targets);
 
     const createAnalyzerOptions = actionsToOptions(actions);
     let webhint: Analyzer;
 
     try {
-        webhint = await getAnalyzer(userConfig!, createAnalyzerOptions);
+        webhint = await getAnalyzer(userConfig, createAnalyzerOptions, targets);
     } catch (e) {
         return false;
     }
-
-    appInsights.trackEvent('analyze', userConfig!);
 
     const start = Date.now();
     let exitCode = 0;
@@ -346,6 +430,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             updateCallback: undefined
         };
 
+        /* istanbul ignore else */
         if (!actions.debug) {
             analyzerOptions.updateCallback = (update) => {
                 spinner.text = update.message;
@@ -377,7 +462,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     try {
         await webhint.analyze(targets, getAnalyzeOptions());
 
-        await askForTelemetryConfirmation(userConfig!);
+        await sendTelemetryIfEnabled(userConfig!);
     } catch (e) {
         exitCode = 1;
         endSpinner('fail');

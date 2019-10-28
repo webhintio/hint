@@ -44,6 +44,10 @@ export const updatePkgJson = (pkg: Package) => {
     return fs.writeFile(pkg.path, `${JSON.stringify(pkg.content, null, 2)}\n`, 'utf-8');
 };
 
+export const readFile = (filePath: string) => {
+    return fs.readFile(filePath, 'utf-8');
+};
+
 const TEST_RETRIES = 3;
 
 /** Execute a `command` retrying if `exitCode` is different than 0. */
@@ -130,14 +134,27 @@ export const execa = (command: string, options?: execasync.Options) => {
     return execasync(program, groupArgs(args), options);
 };
 
-type CustomTask = (ctx: any, task: ListrTaskWrapper) => Promise<any>;
+type CustomTask = (ctx: any, task: ListrTaskWrapper) => Promise<any> | any;
 
 export const taskErrorWrapper = (f: CustomTask) => {
     return (ctx: Context, task: ListrTaskWrapper) => {
-        return f(ctx, task)
-            .catch((err: Error) => {
-                ctx.error = err;
+        let result: any;
+
+        try {
+            result = f(ctx, task);
+        } catch (error) {
+            ctx.error = error;
+
+            throw error;
+        }
+
+        if (result && result.then) {
+            result.catch((error: Error) => {
+                ctx.error = error;
             });
+        }
+
+        return result;
     };
 };
 

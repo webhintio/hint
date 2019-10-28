@@ -91,8 +91,8 @@ export const createHelpers = () => {
 
     type AttrData = {
         attribs: { [name: string]: string };
-        'x-attribsNamespace': { [name: string]: string | null };
-        'x-attribsPrefix': { [name: string]: string | null };
+        'x-attribsNamespace': { [name: string]: string };
+        'x-attribsPrefix': { [name: string]: string };
     };
 
     /**
@@ -102,8 +102,12 @@ export const createHelpers = () => {
      */
     const snapshotAttr = (data: AttrData, attr: Attr): AttrData => {
         data.attribs[attr.name] = attr.value;
-        data['x-attribsNamespace'][attr.name] = attr.namespaceURI;
-        data['x-attribsPrefix'][attr.name] = attr.prefix;
+        if (attr.namespaceURI !== null) {
+            data['x-attribsNamespace'][attr.name] = attr.namespaceURI;
+        }
+        if (attr.prefix !== null) {
+            data['x-attribsPrefix'][attr.name] = attr.prefix;
+        }
 
         return data;
     };

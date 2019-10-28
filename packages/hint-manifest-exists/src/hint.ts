@@ -11,6 +11,7 @@
 
 import {
     ElementFound,
+    FetchEnd,
     FetchError,
     HintContext,
     IHint,
@@ -20,6 +21,7 @@ import { misc } from '@hint/utils';
 import { ManifestEvents } from '@hint/parser-manifest';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const { normalizeString } = misc;
 /*
@@ -38,7 +40,7 @@ export default class ManifestExistsHint implements IHint {
 
         const checkIfManifestWasSpecified = (scanEndEvent: ScanEnd) => {
             if (!manifestIsSpecified) {
-                context.report(scanEndEvent.resource, `'manifest' link element was not specified.`);
+                context.report(scanEndEvent.resource, getMessage('manifestNotSpecified', context.language));
             }
         };
 
@@ -55,7 +57,7 @@ export default class ManifestExistsHint implements IHint {
              */
 
             if (manifestIsSpecified) {
-                context.report(resource, `'manifest' link element is not needed as one was already specified.`, { element });
+                context.report(resource, getMessage('manifestDuplicated', context.language), { element });
 
                 return;
             }
@@ -65,17 +67,24 @@ export default class ManifestExistsHint implements IHint {
             const href = normalizeString(element.getAttribute('href'));
 
             if (!href) {
-                context.report(resource, `'manifest' link element should have non-empty 'href' attribute.`, { element });
+                context.report(resource, getMessage('manifestNonEmptyHref', context.language), { element });
+            }
+        };
+
+        const handleFetchEnd = ({ element, resource, response }: FetchEnd) => {
+            if (response.statusCode >= 400) {
+                context.report(resource, getMessage('manifestNotFetchedStatus', context.language, `${response.statusCode}`), { element });
             }
         };
 
         const handleFetchErrors = (fetchErrorEvent: FetchError) => {
-            const { resource, element, error } = fetchErrorEvent;
+            const { resource, element } = fetchErrorEvent;
 
-            context.report(resource, error.message, { element });
+            context.report(resource, getMessage('manifestNotFetched', context.language), { element });
         };
 
         context.on('element::link', checkIfManifest);
+        context.on('fetch::end::manifest', handleFetchEnd);
         context.on('fetch::error::manifest', handleFetchErrors);
         context.on('scan::end', checkIfManifestWasSpecified);
     }

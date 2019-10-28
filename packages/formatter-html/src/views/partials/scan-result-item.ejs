@@ -1,23 +1,23 @@
 <details open class="rule-result--details" id="<%= hint.name %>" aria-expanded="true" role="group">
-    <summary class="rule-title" title="show <%= hint.name %>'s result details" role="button"><%= hint.name %>: <%= hint.count %> hints</summary>
+    <summary class="rule-title" title="<%= getMessage('showHintResultDetails', hint.name); %>" role="button"><%= hint.name %>: <%= hint.count %> <%= getMessage('hints'); %></summary>
     <div class="rule-content">
         <% if (hint.hasDoc) { %>
         <div class="rule-doc-buttons">
             <a class="rule-doc-button" rel="noopener noreferrer" target="_blank" href="https://webhint.io/docs/user-guide/hints/hint-<%= hint.name %>/#why-is-this-important"
-                title="<%= hint.name %> - Why is this important">
-                Why is this important <span class="rule-doc-icon"></span>
+                title="<%= hint.name %> - <%= getMessage('whyIsThisImportant'); %>">
+                <%= getMessage('whyIsThisImportant'); %> <span class="rule-doc-icon"></span>
             </a>
 
             <a class="rule-doc-button" rel="noopener noreferrer" target="_blank" href="https://webhint.io/docs/user-guide/hints/hint-<%= hint.name %>/#examples-that-pass-the-hint"
-                title="<%= hint.name %> - How to fix it">
-                How to fix this <span class="rule-doc-icon"></span>
+                title="<%= hint.name %> - <%= getMessage('howToFixIt'); %>">
+                <%= getMessage('howToFixIt'); %> <span class="rule-doc-icon"></span>
             </a>
         </div>
         <% } %>
         <% hint.problems.forEach(function (problem, index) { %>
             <div class="rule-result--details__body">
                 <p id="hint-<%= hint.name %>-<%= index + 1 %>">
-                    <span class="rule-result--details__hint-number">hint #<%= index + 1 %>:</span> <%= utils.linkify(problem.message); %> <a href="#hint-<%= hint.name %>-<%= index + 1 %>" class="hint-link" title="<%= hint.name %> hint #<%= index + 1 %>"></a>
+                    <span class="rule-result--details__hint-number"><%= getMessage('hintNumber', index + 1); %>:</span> <%= utils.linkify(problem.message); %> <a href="#hint-<%= hint.name %>-<%= index + 1 %>" class="hint-link" title="<%= hint.name %>: <%= getMessage('hintNumber', index + 1); %>"></a>
                 </p>
                 <% if (problem.resource) { %>
                 <p>
@@ -35,9 +35,9 @@
             <% if(hint.thirdPartyInfo) { %>
                 <div class="rule-result--details__footer-msg">
                     <% if (hint.thirdPartyInfo.details) { %>
-                        <p>To learn more visit </p>
+                        <p><%= getMessage('toLearnMore'); %> </p>
                     <% } else { %>
-                        <p>With the help of </p>
+                        <p><%= getMessage('withTheHelpOf'); %> </p>
                     <% } %>
 
                     <a href="<%= hint.thirdPartyInfo.link %>">

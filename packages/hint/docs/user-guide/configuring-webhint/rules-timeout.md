@@ -13,7 +13,7 @@ your `.hintrc` file. Value should be in milliseconds.
     "connector": {
         "name": "jsdom"
     },
-    "formatters": "stylish",
+    "formatters": ["stylish"],
     "hintsTimeout": 120000,
     "hints": {
         // ...

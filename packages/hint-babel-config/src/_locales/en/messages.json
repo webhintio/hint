@@ -1,0 +1,10 @@
+{
+    "isValid_description": {
+        "description": "is-valid hint metadata description",
+        "message": "'babel-config/is-valid' warns against providing an invalid babel configuration file `.babelrc`"
+    },
+    "isValid_name": {
+        "description": "is-valid hint metadata name",
+        "message": "Valid Babel configuration"
+    }
+}

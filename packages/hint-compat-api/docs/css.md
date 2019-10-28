@@ -112,7 +112,8 @@ default value is:
     "-moz-appearance: none",
     "-webkit-appearance: none",
     "appearance: none",
-    "cursor"
+    "cursor",
+    "zoom: 1"
 ]
 ```
 
@@ -175,4 +176,4 @@ currently checked.
 [browserslist]: https://github.com/browserslist/browserslist#readme
 [charset]: https://developer.mozilla.org/en-US/docs/Web/CSS/@charset
 [display]: https://developer.mozilla.org/en-US/docs/Web/CSS/display
-[target-browsers]: ../../hint/docs/user-guide/configuring-webhint/browser-context.md
+[target-browsers]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/

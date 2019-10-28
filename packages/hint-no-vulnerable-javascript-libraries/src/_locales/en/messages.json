@@ -1,0 +1,34 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "This hint checks if the site is running any vulnerable library using https://snyk.io database"
+    },
+    "errorExecuting": {
+        "description": "Report message when the execution of the script fails",
+        "message": "Error executing script: '$1'"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "No vulnerable libraries"
+    },
+    "notFastEnough": {
+        "description": "Report message when evaluating the script takes too long",
+        "message": "webhint did not return the result fast enough"
+    },
+    "tryAgainLater": {
+        "description": "Report message when there is an error running the script",
+        "message": "$1. Please try again later, or report an issue if this problem persists."
+    },
+    "versionNotCompliant": {
+        "description": "Logger error message to show when a package version is not semver compliantff",
+        "message": "Version $1 of $2 isn't semver compliant"
+    },
+    "vulnerabilities": {
+        "description": "Report message when more than one vulnerability is found in a package",
+        "message": "'$1' has $2 known vulnerabilities ($3). See '$4' for more information."
+    },
+    "vulnerability": {
+        "description": "Report message when a vulnerability is found in a package",
+        "message": "'$1' has $2 known vulnerability ($3). See '$4' for more information."
+    }
+}

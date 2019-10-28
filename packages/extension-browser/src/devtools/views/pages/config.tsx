@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import { Config as ConfigData } from '../../../shared/types';
 
 import { getMessage } from '../../utils/i18n';
+import { getItem, setItem } from '../../utils/storage';
 
 import Button from '../controls/button';
 
@@ -14,6 +15,7 @@ import BrowsersConfig from './config/sections/browsers';
 import CategoriesConfig from './config/sections/categories';
 import ResourcesConfig from './config/sections/resources';
 import ConfigHeader from './config/header';
+import Settings from '../controls/settings';
 
 import { resolveIgnoreQuery } from './config/sections/resources';
 
@@ -23,33 +25,29 @@ const configKey = 'webhint-config';
 
 /** Get a saved configuration from a previous session. */
 const loadConfig = (): ConfigData => {
-    const configStr = localStorage.getItem(configKey);
-
-    try {
-        return configStr ? JSON.parse(configStr) : {};
-    } catch (e) {
-        console.warn(`Ignoring malformed configuration: ${configStr}`);
-
-        return {};
-    }
+    return getItem(configKey) || {};
 };
 
 /** Persist the provided configuration for future sessions. */
 const saveConfig = (config: ConfigData) => {
-    localStorage.setItem(configKey, JSON.stringify(config));
+    setItem(configKey, config);
 };
 
 type Props = {
     disabled?: boolean;
 
+    isTelemetryEnabled: boolean;
+
     /** Listener for when the user decides to run a scan. */
     onStart: (config: ConfigData) => void;
+
+    onTelemetryChange: (enable: boolean) => void;
 };
 
 /**
  * Display options to configure and initialize a scan.
  */
-const ConfigPage = ({ disabled, onStart }: Props) => {
+const ConfigPage = ({ disabled, onStart, onTelemetryChange, isTelemetryEnabled }: Props) => {
     const [config, setConfig] = useState(loadConfig);
 
     const onAnalyzeClick = useCallback(async () => {
@@ -78,17 +76,21 @@ const ConfigPage = ({ disabled, onStart }: Props) => {
 
     return (
         <Page className={styles.root} disabled={disabled} onAction={onAnalyzeClick}>
-            <ConfigHeader />
-            <div className={styles.categories}>
-                <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange} />
-                <BrowsersConfig query={config.browserslist} onChange={onBrowsersChange} />
-                <ResourcesConfig query={config.ignoredUrls} onChange={onResourcesChange} />
-            </div>
-            <Button onClick={onRestoreClick}>
-                {getMessage('restoreDefaultsLabel')}
-            </Button>
-            {' '}
-            <PoweredBy className={styles.poweredBy} />
+            <ConfigHeader config={config} />
+            <main className={styles.main}>
+                <div className={styles.categories}>
+                    <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange} />
+                    <BrowsersConfig query={config.browserslist} onChange={onBrowsersChange} />
+                    <ResourcesConfig query={config.ignoredUrls} onChange={onResourcesChange} />
+                </div>
+                <Button className={styles.button} onClick={onRestoreClick}>
+                    {getMessage('restoreDefaultsLabel')}
+                </Button>
+                <Settings isTelemetryEnabled={isTelemetryEnabled} onTelemetryChange={onTelemetryChange}/>
+            </main>
+            <footer>
+                <PoweredBy className={styles.poweredBy} />
+            </footer>
         </Page>
     );
 };

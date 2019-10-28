@@ -102,14 +102,35 @@ const mockContext = () => {
                 browser,
                 document: dom.window.document,
                 eval: dom.window.eval,
+                fetch() {},
                 location: dom.window.location,
                 MutationObserver: (dom.window as any).MutationObserver,
                 window: dom.window
+            },
+            './evaluator': {
+                '@noCallThru': true,
+                Evaluator: class {
+                    public evaluateInPage(code: string) {
+                        return dom.window.eval(code);
+                    }
+                }
+            },
+            './fetcher': {
+                '@noCallThru': true,
+                Fetcher: class {
+                    public fetch() {}
+                    public handle() {
+                        return false;
+                    }
+                }
             }
         };
 
         const connector = proxyquire(paths.connector, stubs);
         const formatter = proxyquire(paths.formatter, stubs);
+
+        connector['@noCallThru'] = true;
+        formatter['@noCallThru'] = true;
 
         proxyquire(paths.webhint, {
             './connector': connector,

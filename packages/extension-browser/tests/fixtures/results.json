@@ -1,0 +1,241 @@
+{
+    "categories": [
+        {
+            "hints": [
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-axe/",
+                    "id": "axe",
+                    "name": "axe accessibility check",
+                    "problems": [
+                        {
+                            "category": "accessibility",
+                            "hintId": "axe",
+                            "location": {
+                                "column": 1,
+                                "elementId": 1148,
+                                "line": 12
+                            },
+                            "message": "Ensure that scrollable region has keyboard access",
+                            "resource": "https://webhint.io/docs/user-guide/connectors/connector-puppeteer/",
+                            "severity": 1,
+                            "sourceCode": "<figure class=\"highlight json\">"
+                        }
+                    ]
+                }
+            ],
+            "name": "accessibility",
+            "passed": 0
+        },
+        {
+            "hints": [
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-compat-api/css/",
+                    "id": "compat-api/css",
+                    "name": "Supported CSS features",
+                    "problems": [
+                        {
+                            "category": "compatibility",
+                            "codeLanguage": "css",
+                            "hintId": "compat-api/css",
+                            "location": {
+                                "column": 10655,
+                                "line": 0
+                            },
+                            "message": "position: sticky is not supported by chrome 49, ie 11, safari 12-12.1, samsung 4.",
+                            "resource": "https://webhint.io/static/styles/common-43c2b6a10c.css",
+                            "severity": 1,
+                            "sourceCode": "@media (max-width:63em) {\n    .header {\n        position: sticky;\n    }\n}"
+                        }
+                    ]
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-compat-api/html/",
+                    "id": "compat-api/html",
+                    "name": "Supported HTML features",
+                    "problems": [
+                        {
+                            "category": "compatibility",
+                            "hintId": "compat-api/html",
+                            "location": {
+                                "column": 548,
+                                "elementId": 15,
+                                "line": 0
+                            },
+                            "message": "link[rel=manifest] is not supported by android 4.4.3-4.4.4, chrome 49, 72-74, opera 57-58.",
+                            "resource": "https://webhint.io/docs/user-guide/connectors/connector-puppeteer/",
+                            "severity": 1,
+                            "sourceCode": "<link rel=\"manifest\" href=\"/static/site-191e52bc08.webmanifest\">"
+                        }
+                    ]
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-content-type/",
+                    "id": "content-type",
+                    "name": "Correct `Content-Type` header",
+                    "problems": [
+                        {
+                            "category": "compatibility",
+                            "codeLanguage": "http",
+                            "hintId": "content-type",
+                            "location": {
+                                "column": -1,
+                                "line": -1
+                            },
+                            "message": "'content-type' header media type value should be 'text/javascript', not 'application/javascript'.",
+                            "resource": "https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js",
+                            "severity": 1,
+                            "sourceCode": "Content-Type: application/javascript; charset=utf-8"
+                        }
+                    ]
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-highest-available-document-mode/",
+                    "id": "highest-available-document-mode",
+                    "name": "Highest document mode",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-meta-charset-utf-8/",
+                    "id": "meta-charset-utf-8",
+                    "name": "Use charset `utf-8`",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-meta-viewport/",
+                    "id": "meta-viewport",
+                    "name": "Correct viewport",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-stylesheet-limits/",
+                    "id": "stylesheet-limits",
+                    "name": "Avoid CSS limits",
+                    "problems": []
+                }
+            ],
+            "name": "compatibility",
+            "passed": 4
+        },
+        {
+            "hints": [
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-http-cache/",
+                    "id": "http-cache",
+                    "name": "HTTP cache",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-minified-js/",
+                    "id": "minified-js",
+                    "name": "Minify JavaScript",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-no-html-only-headers/",
+                    "id": "no-html-only-headers",
+                    "name": "Unneeded HTTP headers",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-no-http-redirects/",
+                    "id": "no-http-redirects",
+                    "name": "Avoid HTTP redirects",
+                    "problems": []
+                }
+            ],
+            "name": "performance",
+            "passed": 4
+        },
+        {
+            "hints": [
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-button-type/",
+                    "id": "button-type",
+                    "name": "Specify button type",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-css-prefix-order/",
+                    "id": "css-prefix-order",
+                    "name": "Prefixed CSS first",
+                    "problems": []
+                }
+            ],
+            "name": "pitfalls",
+            "passed": 2
+        },
+        {
+            "hints": [
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-manifest-app-name/",
+                    "id": "manifest-app-name",
+                    "name": "Manifest has name",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-manifest-file-extension/",
+                    "id": "manifest-file-extension",
+                    "name": "Correct manifest extension",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-manifest-is-valid/",
+                    "id": "manifest-is-valid",
+                    "name": "Valid manifest",
+                    "problems": []
+                }
+            ],
+            "name": "pwa",
+            "passed": 3
+        },
+        {
+            "hints": [
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-disown-opener/",
+                    "id": "disown-opener",
+                    "name": "External links disown opener",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-sri/",
+                    "id": "sri",
+                    "name": "Use subresource integrity",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-x-content-type-options/",
+                    "id": "x-content-type-options",
+                    "name": "Use `X-Content-Type-Options` header",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-no-disallowed-headers/",
+                    "id": "no-disallowed-headers",
+                    "name": "Disallowed HTTP headers",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-no-protocol-relative-urls/",
+                    "id": "no-protocol-relative-urls",
+                    "name": "No protocol-relative URLs",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-no-vulnerable-javascript-libraries/",
+                    "id": "no-vulnerable-javascript-libraries",
+                    "name": "No vulnerable libraries",
+                    "problems": []
+                },
+                {
+                    "helpURL": "https://webhint.io/docs/user-guide/hints/hint-validate-set-cookie-header/",
+                    "id": "validate-set-cookie-header",
+                    "name": "Valid `Set-Cookie` header",
+                    "problems": []
+                }
+            ],
+            "name": "security",
+            "passed": 7
+        }
+    ],
+    "url": "https://webhint.io/docs/user-guide/connectors/connector-puppeteer/"
+}

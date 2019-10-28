@@ -1,0 +1,13 @@
+{
+    "hints": {
+        "hint3": "error",
+        "hint4": [
+            "error",
+            {
+                "option1": "option1",
+                "options2": "option2"
+            }
+        ],
+        "hint5": ["warning"]
+    }
+}

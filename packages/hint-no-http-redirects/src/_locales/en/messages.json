@@ -1,0 +1,18 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Checks if there are unnecesary redirects when accessign resources"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Avoid HTTP redirects"
+    },
+    "redirectDectected": {
+        "description": "Report message when a redirect are detected",
+        "message": "$1 redirect detected for '$2' (max is $3)."
+    },
+    "redirectsDectected": {
+        "description": "Report message when a redirect are detected",
+        "message": "$1 redirects detected for '$2' (max is $3)."
+    }
+}

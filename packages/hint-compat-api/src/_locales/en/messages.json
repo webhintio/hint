@@ -1,0 +1,26 @@
+{
+    "css_description": {
+        "description": "css hint metadata description",
+        "message": "Validate if CSS features used are supported in target browsers"
+    },
+    "css_name": {
+        "description": "css hint metadata name",
+        "message": "Supported CSS features"
+    },
+    "featureAlternative": {
+        "description": "Message showing a feature which can be added to enhance support.",
+        "message": "Add '$1' to support $2."
+    },
+    "featureNotSupported": {
+        "description": "Message to show when a feature is not supported",
+        "message": "'$1' is not supported by $2."
+    },
+    "html_description": {
+        "description": "html hint metadata description",
+        "message": "Validate if HTML features used are supported in target browsers"
+    },
+    "html_name": {
+        "description": "html hint metadata name",
+        "message": "Supported HTML features"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "brokenLinkFound": {
+        "description": "Report message when a link is broken",
+        "message": "Broken link found (domain not found)."
+    },
+    "brokenLinkFoundStatusCode": {
+        "description": "Report message when a link return a 'broken' status code",
+        "message": "Broken link found ($1 response)."
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Hint to flag broken links in the page"
+    },
+    "invalidURL": {
+        "description": "Report message when a url is invalid",
+        "message": "Broken link found (invalid URL)."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "No broken links"
+    }
+}

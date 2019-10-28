@@ -17,6 +17,8 @@ The tools included in this package are:
 * `asyncTry`: Wrap an async function, returning null if the evaluation throws
 and exception.
 * `debug`: Initialize the debug messaging system.
+* `get-hints-from-extends`: Returns all hints in a configuration, including
+hints inside the extended configurations.
 
 ### appInsights
 
@@ -31,7 +33,10 @@ and exception.
 
 ### compat
 
+* `getFriendlyName`: Get the friendly name of a browser from an id.
 * `getUnsupported`: Get browsers without support for CSS or HTML features.
+* `getUnsupportedDetails`: Get browsers without support with details on
+  when support was added or removed.
 * `isSupported`: Query MDN for support of CSS or HTML features.
 
 ### configStore
@@ -164,6 +169,11 @@ as a dependency or returns the hint node_modules folder if not.
 official.
 * `loadPackage`: Returns the package found in the given `pathString` or an
 exception if no package is found.
+* `hasMultipleResources`: Returns true if a hint package is a multi-hint.
+* `isFullPackageName`: Returns true if the name is a full package name.
+* `loadHintPackage`: Returns the package `hint`.
+* `loadResource`: Returns a resource if it exists.
+* `requirePackage`: Require a package, compatible with webpack.
 
 ### report
 

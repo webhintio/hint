@@ -11,6 +11,7 @@ import { debug as d } from '@hint/utils/dist/src/debug';
 import { ScriptEvents, ScriptParse } from '@hint/parser-javascript';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -42,12 +43,19 @@ export default class MinifiedJsHint implements IHint {
         };
 
         const validateContentMinified = (scriptData: ScriptParse) => {
+            const { element, resource, sourceCode } = scriptData;
             const improvementIndex = getImprovementIndex(scriptData);
 
-            debug(`Calculated improvementIndex for ${scriptData.resource}: ${improvementIndex}`);
+            if (sourceCode.length < 1024) {
+                debug(`Ignoring minification for script under 1KB: ${resource}`);
+
+                return;
+            }
+
+            debug(`Calculated improvementIndex for ${resource}: ${improvementIndex}`);
 
             if (improvementIndex > threshold) {
-                context.report(scriptData.resource, 'JavaScript content should be minified.');
+                context.report(resource, getMessage('shouldBeMinified', context.language), { element });
             }
         };
 

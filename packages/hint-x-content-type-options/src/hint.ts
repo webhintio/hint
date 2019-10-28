@@ -15,6 +15,7 @@ import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -40,13 +41,13 @@ export default class XContentTypeOptionsHint implements IHint {
             const headerValue: string | null = normalizeString(response.headers && response.headers['x-content-type-options']);
 
             if (headerValue === null) {
-                context.report(resource, `Response should include 'x-content-type-options' header.`, { element });
+                context.report(resource, getMessage('shouldInclude', context.language), { element });
 
                 return;
             }
 
             if (headerValue !== 'nosniff') {
-                context.report(resource, `'x-content-type-options' header value should be 'nosniff', not '${headerValue}'.`, {
+                context.report(resource, getMessage('nosniff', context.language, headerValue), {
                     codeLanguage: 'http',
                     codeSnippet: `X-Content-Type-Options: ${headerValue}`,
                     element

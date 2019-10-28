@@ -1,0 +1,50 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Ensures that required icons are specified in the web app manifest"
+    },
+    "iconCouldNotBeFetched": {
+        "description": "Report message when an icon can't be fetched",
+        "message": "Icon could not be fetched (request failed)."
+    },
+    "iconCouldNotBeFetchedStatusCode": {
+        "description": "Report message when an icon request return an status code !== 200",
+        "message": "Icon could not be fetched (status code: $1)."
+    },
+    "iconShouldBeValidImageType": {
+        "description": "Report message when the image type is not valid",
+        "message": "Icon should be a valid image type $1"
+    },
+    "iconTypeNotSpecified": {
+        "description": "Report message when an icon type is not specified",
+        "message": "Icon type was not specified."
+    },
+    "mimeTypeNotMatch": {
+        "description": "Report message when the MIME type doesn't match the specified type",
+        "message": "MIME type ($1) do not match with specified type ($2)"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Manifest has icons"
+    },
+    "realImageSizeNotMatch": {
+        "description": "Report message when the real size image don't match the specified in sizes",
+        "message": "Real image size ($1x$2) do not match with specified size(s) ($3)"
+    },
+    "realImageType": {
+        "description": "Report message whe the type specified and the real type doesn't match",
+        "message": "Real image type ($1) do not match with specified type ($2)"
+    },
+    "requiredSizes": {
+        "description": "Report message when the required sizes are not found",
+        "message": "Required sizes $1 not found."
+    },
+    "sizesNotSpecified": {
+        "description": "Report message when the sizes are not specified",
+        "message": "Sizes not specifed for icon"
+    },
+    "validIconsNotFound": {
+        "description": "Report message when ",
+        "message": "Valid icons property was not found in the web app manifest"
+    }
+}

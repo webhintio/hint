@@ -1,10 +1,20 @@
 import { Category, HintMetadata, HintScope } from 'hint';
 
+import { getMessage } from '../i18n.import';
+
 const meta: HintMetadata = {
     docs: {
         category: Category.development,
-        description: '`webpack-config/no-devtool-in-prod` warns against having set the propety `devtool` to `eval`',
-        name: 'No production `devtool` in webpack'
+        description: getMessage('noDevtoolInProd_description', 'en'),
+        name: getMessage('noDevtoolInProd_name', 'en')
+    },
+    /* istanbul ignore next */
+    getDescription(language: string) {
+        return getMessage('noDevtoolInProd_description', language);
+    },
+    /* istanbul ignore next */
+    getName(language: string) {
+        return getMessage('noDevtoolInProd_name', language);
     },
     id: 'webpack-config/no-devtool-in-prod',
     schema: [],

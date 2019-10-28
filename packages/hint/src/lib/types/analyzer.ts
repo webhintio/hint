@@ -1,9 +1,9 @@
 import { Problem } from '@hint/utils/dist/src/types/problems';
 
 export type CreateAnalyzerOptions = {
-    watch?: boolean;
     formatters?: string[];
     hints?: string[];
+    watch?: boolean;
 }
 
 export type Target = {
@@ -32,6 +32,7 @@ export type AnalyzerTargetUpdate = AnalyzerTargetStart & {
 };
 
 export type AnalyzeOptions = {
+    language?: string;
     targetEndCallback?: (targetEvent: AnalyzerTargetEnd) => Promise<void> | void;
     targetStartCallback?: (targetEvent: AnalyzerTargetStart) => Promise<void> | void;
     updateCallback?: (update: AnalyzerTargetUpdate) => Promise<void> | void;

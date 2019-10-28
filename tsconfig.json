@@ -32,7 +32,6 @@
         "scripts/**/*.ts"
     ],
     "references": [
-        { "path": "packages/connector-chrome" },
         { "path": "packages/connector-jsdom" },
         { "path": "packages/connector-local" },
         { "path": "packages/connector-puppeteer" },
@@ -85,10 +84,12 @@
         { "path": "packages/hint-no-protocol-relative-urls" },
         { "path": "packages/hint-no-vulnerable-javascript-libraries" },
         { "path": "packages/hint-performance-budget" },
+        { "path": "packages/hint-scoped-svg-styles" },
         { "path": "packages/hint-sri" },
         { "path": "packages/hint-ssllabs" },
         { "path": "packages/hint-strict-transport-security" },
         { "path": "packages/hint-stylesheet-limits" },
+        { "path": "packages/hint-summary-display" },
         { "path": "packages/hint-typescript-config" },
         { "path": "packages/hint-validate-set-cookie-header" },
         { "path": "packages/hint-webpack-config" },
@@ -97,14 +98,18 @@
         { "path": "packages/parser-css" },
         { "path": "packages/parser-html" },
         { "path": "packages/parser-javascript" },
+        { "path": "packages/parser-jsx" },
+        { "path": "packages/parser-less" },
         { "path": "packages/parser-manifest" },
         { "path": "packages/parser-package-json" },
+        { "path": "packages/parser-sass" },
+        { "path": "packages/parser-typescript" },
         { "path": "packages/parser-typescript-config" },
         { "path": "packages/parser-webpack-config" },
         { "path": "packages/utils" },
+        { "path": "packages/utils-compat-data" },
         { "path": "packages/utils-connector-tools" },
         { "path": "packages/utils-create-server" },
-        { "path": "packages/utils-debugging-protocol-common" },
         { "path": "packages/utils-tests-helpers" }
     ]
 }

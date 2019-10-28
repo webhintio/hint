@@ -1,7 +1,7 @@
 # Unneeded HTTP headers (`no-html-only-headers`)
 
 `no-html-only-headers` warns against responding with HTTP headers that
-are not needed for non-HTML resources.
+are not needed for non-HTML (or non-XML) resources.
 
 ## Why is this important?
 
@@ -16,10 +16,13 @@ HTTP headers:
 
 * `Content-Security-Policy`
 * `X-Content-Security-Policy`
-* `X-Frame-Options`
 * `X-UA-Compatible`
 * `X-WebKit-CSP`
 * `X-XSS-Protection`
+
+In case of a JavaScript file, `Content-Security-Policy` and
+`X-Content-Security-Policy` will be ignored since CSP is
+also relevant to workers.
 
 ### Examples that **trigger** the hint
 
@@ -30,9 +33,6 @@ HTTP/... 200 OK
 
 Content-Type: text/javascript; charset=utf-8
 ...
-Content-Security-Policy: default-src 'none'
-X-Content-Security-Policy: default-src 'none'
-X-Frame-Options: DENY
 X-UA-Compatible: IE=Edge,
 X-WebKit-CSP: default-src 'none'
 X-XSS-Protection: 1; mode=block
@@ -48,7 +48,6 @@ Content-Type: x/y
 ...
 Content-Security-Policy: default-src 'none'
 X-Content-Security-Policy: default-src 'none'
-X-Frame-Options: DENY
 X-UA-Compatible: IE=Edge,
 X-WebKit-CSP: default-src 'none'
 X-XSS-Protection: 1; mode=block
@@ -63,6 +62,8 @@ Response for `/test.js`:
 HTTP/... 200 OK
 
 Content-Type: text/javascript; charset=utf-8
+Content-Security-Policy: default-src 'none'
+X-Content-Security-Policy: default-src 'none'
 ...
 ```
 
@@ -75,7 +76,21 @@ Content-Type: text/html
 ...
 Content-Security-Policy: default-src 'none'
 X-Content-Security-Policy: default-src 'none'
-X-Frame-Options: DENY
+X-UA-Compatible: IE=Edge,
+X-WebKit-CSP: default-src 'none'
+X-XSS-Protection: 1; mode=block
+...
+```
+
+Response for `/test.xml`:
+
+```text
+HTTP/... 200 OK
+
+Content-Type: application/xhtml+xml
+...
+Content-Security-Policy: default-src 'none'
+X-Content-Security-Policy: default-src 'none'
 X-UA-Compatible: IE=Edge,
 X-WebKit-CSP: default-src 'none'
 X-XSS-Protection: 1; mode=block
@@ -98,13 +113,15 @@ you can do something such as the following:
     # Because `mod_headers` cannot match based on the content-type,
     # the following workaround needs to be used.
 
-    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|m?js|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|m?js|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xpi)$">
+        Header unset X-UA-Compatible
+        Header unset X-XSS-Protection
+    </FilesMatch>
+
+    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|png|rdf|rss|safariextz|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xpi)$">
         Header unset Content-Security-Policy
         Header unset X-Content-Security-Policy
-        Header unset X-Frame-Options
-        Header unset X-UA-Compatible
         Header unset X-WebKit-CSP
-        Header unset X-XSS-Protection
     </FilesMatch>
 </IfModule>
 ```
@@ -143,21 +160,14 @@ any resource whose `Content-Type` header isn't `text/html`:
                  <rule name="Content-Security-Policy">
                     <match serverVariable="RESPONSE_Content_Security_Policy" pattern=".*" />
                     <conditions>
-                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^(text/html|text/xml|application/xhtml+xml|text/javascript|application/pdf|image/svg+xml)" negate="true" />
                     </conditions>
                     <action type="Rewrite" value=""/>
                 </rule>
                 <rule name="X-Content-Security-Policy">
                     <match serverVariable="RESPONSE_X_Content_Security_Policy" pattern=".*" />
                     <conditions>
-                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
-                    </conditions>
-                    <action type="Rewrite" value=""/>
-                </rule>
-                <rule name="X-Frame-Options">
-                    <match serverVariable="RESPONSE_X_Frame_Options" pattern=".*" />
-                    <conditions>
-                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^(text/html|text/xml|application/xhtml+xml|text/javascript|application/pdf|image/svg+xml)" negate="true" />
                     </conditions>
                     <action type="Rewrite" value=""/>
                 </rule>
@@ -171,7 +181,7 @@ any resource whose `Content-Type` header isn't `text/html`:
                 <rule name="X-WebKit-CSP">
                     <match serverVariable="RESPONSE_X_Webkit_csp" pattern=".*" />
                     <conditions>
-                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^text/html" negate="true" />
+                        <add input="{RESPONSE_CONTENT_TYPE}" pattern="^(text/html|text/xml|application/xhtml+xml|text/javascript|application/pdf|image/svg+xml)" negate="true" />
                     </conditions>
                     <action type="Rewrite" value=""/>
                 </rule>
@@ -232,18 +242,13 @@ file will make the hint allow non-HTML resources to be served with the
 
 ## How to use this hint?
 
-To use it you will have to install it via `npm`:
+This package is installed automatically by webhint:
 
 ```bash
-npm install @hint/hint-no-html-only-headers
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.hintrc`][hintrc] configuration file:
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
@@ -257,6 +262,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
     ...
 }
 ```
+
+**Note**: The recommended way of running webhint is as a `devDependency` of
+your project.
 
 <!-- Apache links -->
 

@@ -2,7 +2,8 @@
   "ava": {
     "failFast": false,
     "files": [
-      "dist/tests/**/*.js"
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
     ],
     "timeout": "1m"
   },
@@ -17,7 +18,7 @@
     {{{dependencyVersion "eslint" "^5.12.0"}}},
     {{{dependencyVersion "eslint-plugin-markdown" "^1.0.0"}}},
     {{{dependencyVersion "eventemitter2" "^5.0.1"}}},
-    {{{dependencyVersion "proxyquire" "2.0.0"}}},
+    {{{dependencyVersion "proxyquire" "^2.1.3"}}},
     {{{dependencyVersion "sinon" "^7.2.3"}}},
     {{{dependencyVersion "npm-run-all" "^4.1.5"}}},
     {{{dependencyVersion "nyc" "^13.1.0"}}},
@@ -79,7 +80,7 @@
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",{{/if}}
     "test": "npm run lint && npm run build && nyc ava",{{#if official}}
     "test-only": "nyc ava",
-    "test-release": "npm run lint && npm run clean && npm run build:assets && tsc && npm run test-only",{{/if}}
+    "test-release": "npm run lint && npm run build-release && ava",{{/if}}
     "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",

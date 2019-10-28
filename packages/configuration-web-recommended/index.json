@@ -2,13 +2,17 @@
     "connector": {
         "name": "puppeteer"
     },
+    "extends": [
+        "accessibility"
+    ],
     "formatters": [
         "html",
         "summary"
     ],
     "hints": {
-        "axe": "error",
         "button-type": "error",
+        "compat-api/css": "warning",
+        "compat-api/html": "warning",
         "content-type": "error",
         "create-element-svg": "error",
         "css-prefix-order": "error",
@@ -26,6 +30,7 @@
         "no-http-redirects": "error",
         "no-protocol-relative-urls": "error",
         "no-vulnerable-javascript-libraries": "error",
+        "scoped-svg-styles": "error",
         "sri": "error",
         "ssllabs": "error",
         "strict-transport-security": "error",
@@ -35,6 +40,7 @@
     },
     "hintsTimeout": 120000,
     "parsers": [
-        "css"
+        "css",
+        "javascript"
     ]
 }

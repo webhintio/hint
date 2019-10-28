@@ -21,6 +21,8 @@ const stripAnsi = require('strip-ansi');
 import { debug as d, fs, logger, misc } from '@hint/utils';
 import { FormatterOptions, IFormatter, Problem, ProblemLocation, Severity } from 'hint';
 
+import { getMessage } from './i18n.import';
+
 const { cutString } = misc;
 const _ = {
     groupBy,
@@ -84,7 +86,6 @@ const codeFrame = (code: string, location: ProblemLocation): string => {
                 markPosition += offsetColumn;
             }
 
-
             if (markPosition < 0) {
                 markPosition = 0;
             }
@@ -131,6 +132,8 @@ export default class CodeframeFormatter implements IFormatter {
     public async format(messages: Problem[], options: FormatterOptions = {}) {
         debug('Formatting results');
 
+        const language: string = options.language!;
+
         if (messages.length === 0) {
             return;
         }
@@ -145,7 +148,7 @@ export default class CodeframeFormatter implements IFormatter {
 
             const partialResult = _.reduce(sortedMessages, (subtotal: string, msg: Problem) => {
                 let partial: string;
-                const severity = Severity.error === msg.severity ? chalk.red('Error') : chalk.yellow('Warning');
+                const severity = Severity.error === msg.severity ? chalk.red(getMessage('capitalizedError', language)) : chalk.yellow(getMessage('capitalizedWarning', language));
                 const location = msg.location;
 
                 if (Severity.error === msg.severity) {
@@ -154,7 +157,13 @@ export default class CodeframeFormatter implements IFormatter {
                     totalWarnings++;
                 }
 
-                partial = `${severity}: ${msg.message} (${msg.hintId}) at ${resourceString}${(location.line !== -1 && location.column !== -1) ? `:${location.line}:${location.column}` : ''}\n`;
+                partial = `${getMessage('hintInfo', language, [
+                    severity,
+                    msg.message,
+                    msg.hintId,
+                    resourceString,
+                    (location.line !== -1 && location.column !== -1) ? `:${location.line}:${location.column}` : ''
+                ])}\n`;
 
                 if (msg.sourceCode) {
                     partial += codeFrame(msg.sourceCode, location);
@@ -169,8 +178,14 @@ export default class CodeframeFormatter implements IFormatter {
         }, '');
 
         const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
+        const foundTotalMessage = getMessage('totalFound', language, [
+            totalErrors.toString(),
+            totalErrors === 1 ? getMessage('error', language) : getMessage('errors', language),
+            totalWarnings.toString(),
+            totalWarnings === 1 ? getMessage('warning', language) : getMessage('warnings', language)
+        ]);
 
-        result += color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? 'warning' : 'warnings'}`);
+        result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);
 
         if (!options.output) {
             logger.log(result);

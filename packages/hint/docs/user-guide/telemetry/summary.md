@@ -11,7 +11,10 @@ If you answer `yes`, you will grant `webhint` permission to send the
 following information:
 
 * The configuration used.
-* Unhandled/Uncaught exceptions when runing `webhint`.
+* Scan status of individual hints: `"passed"|"failed"|"fixing"|"fixed"`.
+* A [log of days used](https://github.com/webhintio/hint/issues/3056#issuecomment-538142964)
+  over the past 28 days.
+* Unhandled/Uncaught exceptions when running `webhint`.
 * Missed or incompatible packages.
 * When a new hint is created using `npm create hint`.
 * When there is an error creating a hint using `npm create hint`.

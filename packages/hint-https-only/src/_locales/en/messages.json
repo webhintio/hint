@@ -1,0 +1,22 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Verifies if a website is using HTTPS and if it has mixed content."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Use HTTPS"
+    },
+    "shouldBeHTTPS": {
+        "description": "Report message when the site is not serverd over HTTPS",
+        "message": "Should be served over HTTPS."
+    },
+    "shouldNotBeRedirected": {
+        "description": "Report message when a redirect to a non HTTP is detected",
+        "message": "Should not be redirected from HTTPS."
+    },
+    "siteShouldBeHTTPS": {
+        "description": "Report message when the site is not serverd over HTTPS",
+        "message": "Site should be served over HTTPS."
+    }
+}

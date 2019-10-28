@@ -27,6 +27,20 @@ The hint checks if responses include the `Content-Type` HTTP response
 header and its value contains the appropriate media type and charset
 for the response.
 
+### A note about `application/javascript`
+
+This hint recommends using a `Content-Type` of `text/javascript` for
+JavaScript resources as [noted in the HTML standard][html js mime].
+However this hint also allows `application/javascript` because that
+value was previously recommended by the IETF in [RFC 4329][rfc 4329].
+RFC 4329 has [an active draft proposed][ietf js mime draft] to also
+recommend `text/javascript` in the future.
+
+See the section
+[Can the hint be configured](#can-the-hint-be-configured) below for an
+example of how to require a specific `Content-Type` value for
+JavaScript resources if desired.
+
 ### Examples that **trigger** the hint
 
 `Content-Type` response header is not sent:
@@ -419,24 +433,19 @@ In the [`.hintrc`][hintrc] file:
 }
 ```
 
-Note: You can also use the [`ignoredUrls`][hint configuration]
+Note: You can also use the [`ignoredUrls`][ignoring domains]
 property from the `.hintrc` file to exclude domains you don’t control
 (e.g.: CDNs) from these checks.
 
 ## How to use this hint?
 
-To use it you will have to install it via `npm`:
+This package is installed automatically by webhint:
 
 ```bash
-npm install @hint/hint-content-type
+npm install hint --save-dev
 ```
 
-Note: You can make `npm` install it as a `devDependency` using the
-`--save-dev` parameter, or to install it globally, you can use the
-`-g` parameter. For other options see [`npm`'s
-documentation](https://docs.npmjs.com/cli/install).
-
-And then activate it via the [`.hintrc`][hintrc] configuration file:
+To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 
 ```json
 {
@@ -451,6 +460,9 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 }
 ```
 
+**Note**: The recommended way of running webhint is as a `devDependency` of
+your project.
+
 ## Further Reading
 
 * [Setting the HTTP charset parameter](https://www.w3.org/International/articles/http-charset/index)
@@ -458,9 +470,12 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 <!-- Link labels: -->
 
 [blocked resources]: https://www.fxsitecompat.com/en-CA/docs/2016/javascript-served-with-wrong-mime-type-will-be-blocked/
+[html js mime]: https://html.spec.whatwg.org/multipage/infrastructure.html#dependencies:mime-type
+[ietf js mime draft]: https://tools.ietf.org/html/draft-ietf-dispatch-javascript-mjs
 [incorrect rendering]: https://www.w3.org/International/questions/qa-what-is-encoding
 [mime sniffing spec]: https://mimesniff.spec.whatwg.org/
 [required media type]: https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache#Referencing_a_cache_manifest_file
+[rfc 4329]: https://tools.ietf.org/html/rfc4329
 [server configs]: https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Configuring_server_MIME_types
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 
@@ -484,4 +499,4 @@ And then activate it via the [`.hintrc`][hintrc] configuration file:
 [mimeMap]: https://docs.microsoft.com/en-us/iis/configuration/system.webserver/staticcontent/mimemap
 [x content type options]: https://webhint.io/docs/user-guide/hints/hint-x-content-type-options/
 [meta charset hint]: https://webhint.io/docs/user-guide/hints/hint-meta-charset-utf-8/
-[hint configuration]: https://webhint.io/docs/user-guide/concepts/hints/#hint-configuration
+[ignoring domains]: https://webhint.io/docs/user-guide/configuring-webhint/ignoring-domains/

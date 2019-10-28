@@ -20,6 +20,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
@@ -139,13 +140,19 @@ export default class NoDisallowedHeadersHint implements IHint {
                 serverHeaderValue &&
                 serverHeaderContainsTooMuchInformation(serverHeaderValue)
             ) {
-                const message = `'server' header value should only contain the server name, not '${(response.headers as any).server}'.`;
+                const message = getMessage('headerValueShouldOnlyContain', context.language, response.headers.server);
 
                 context.report(resource, message, { codeLanguage, codeSnippet: `Server: ${serverHeaderValue}` });
             }
 
             if (numberOfHeaders > 0) {
-                const message = `Response should not include disallowed ${prettyPrintArray(headers)} ${numberOfHeaders === 1 ? 'header' : 'headers'}.`;
+                let message: string;
+
+                if (numberOfHeaders === 1) {
+                    message = getMessage('disallowedHeader', context.language, prettyPrintArray(headers));
+                } else {
+                    message = getMessage('disallowedHeaders', context.language, prettyPrintArray(headers));
+                }
 
                 const codeSnippet = headers.reduce((total, header) => {
                     return `${total}${total ? '\n' : ''}${header}: ${normalizeHeaderValue(response.headers, header)}`;

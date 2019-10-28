@@ -23,7 +23,6 @@ the server won't start.
 ## Packaging
 
 * Install the packager via `npm install -g vsce`.
-* Run `npm install` from this directory (cannot package `yarn` install).
 * Run `vsce package`.
 * Install the generated `*.vsix` package in VSCode:
   * Go to `View > Extensions`.
@@ -35,13 +34,17 @@ the server won't start.
 
 Full instructions available at the [Publishing Extensions][publishing]
 page in the Visual Studio Code documentation. You must be a member of
-the [`webhint` Azure DevOps organization][webhint org] to publish.
+the [`webhint` Visual Studio Marketplace publisher][webhint pub] to
+publish.
 
 * Install the packager via `npm install -g vsce`
-* Run `npm install` from this directory (cannot publish `yarn` install)
 * Run `vsce login webhint`
 * Provide your [Personal Access Token][token]
-* Run `vsce publish` from this directory
+* Run the release script
+  * Preferred: Run `npm run release` from the root of this repo
+    (publishes all webhint packages - automatically calculates version bump)
+  * Alternate: Run `vsce publish` from this directory
+    (publishes only this extension - requires manual version bump)
 
 Note `vsce` saves your login information so only `npm install` and
 `vsce publish` are necessary on subsequent attempts.
@@ -49,5 +52,5 @@ Note `vsce` saves your login information so only `npm install` and
 <!-- Link labels: -->
 
 [publishing]: https://code.visualstudio.com/docs/extensions/publish-extension
-[webhint org]: https://dev.azure.com/webhint/webhint
+[webhint pub]: https://marketplace.visualstudio.com/manage/publishers/webhint
 [token]: https://code.visualstudio.com/docs/extensions/publish-extension#_get-a-personal-access-token

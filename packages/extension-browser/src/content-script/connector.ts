@@ -1,11 +1,10 @@
 import { URL } from 'url';
 
 import { Engine } from 'hint';
-import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
 import { getElementByUrl, HTMLDocument, HTMLElement, traverse } from '@hint/utils/dist/src/dom';
 import { createHelpers, restoreReferences } from '@hint/utils/dist/src/dom/snapshot';
 import { DocumentData } from '@hint/utils/dist/src/types/snapshot';
-import { getContentTypeData, getType } from '@hint/utils/dist/src/content-type';
+
 import {
     ConnectorOptionsConfig,
     IConnector,
@@ -13,13 +12,18 @@ import {
     NetworkData
 } from 'hint/dist/src/lib/types';
 
-import { browser, document, eval, location, MutationObserver, window } from '../shared/globals';
+import { browser, document, eval, location, window } from '../shared/globals';
 import { Events } from '../shared/types';
+import { Evaluator } from './evaluator';
+import { Fetcher } from './fetcher';
+import { setFetchType } from './set-fetch-type';
 
 export default class WebExtensionConnector implements IConnector {
     private _document: HTMLDocument | undefined;
     private _originalDocument: HTMLDocument | undefined;
     private _engine: Engine;
+    private _evaluator = new Evaluator();
+    private _fetcher = new Fetcher();
     private _fetchEndQueue: FetchEnd[] = [];
     private _onComplete: (err: Error | null, resource?: string) => void = () => { };
     private _options: ConnectorOptionsConfig;
@@ -52,9 +56,19 @@ export default class WebExtensionConnector implements IConnector {
 
         browser.runtime.onMessage.addListener(async (events: Events) => {
             try {
+                /** Extension resources cause overhead and noise to the user so they are ignored. */
+                if (this.isExtensionResource(events)) {
+                    return;
+                }
+
+                if (this._fetcher.handle(events)) {
+                    return;
+                }
+
                 if (events.fetchEnd) {
                     await this.notifyFetch(events.fetchEnd);
                 }
+
                 if (events.fetchStart) {
                     await this._engine.emitAsync('fetch::start', events.fetchStart);
                 }
@@ -85,7 +99,12 @@ export default class WebExtensionConnector implements IConnector {
                      * Evaluate after the traversing, just in case something goes wrong
                      * in any of the evaluation and some scripts are left in the DOM.
                      */
-                    await this._engine.emitAsync('can-evaluate::script', { resource });
+                    const event = {
+                        document: this._document,
+                        resource
+                    };
+
+                    await this._engine.emitAsync('can-evaluate::script', event);
 
                     this._onComplete(null, resource);
 
@@ -100,6 +119,20 @@ export default class WebExtensionConnector implements IConnector {
         } else {
             window.addEventListener('load', onLoad);
         }
+    }
+
+    private isExtensionResource(events: Events) {
+        /** Only chromium resources seem to get tracked but just in case we add the Firefox protocol as well. */
+
+        const event = events.fetchStart || events.fetchEnd;
+
+        if (!event) {
+            return false;
+        }
+
+        const resource = event.resource;
+
+        return resource.startsWith('chrome-extension:') || resource.startsWith('moz-extension:');
     }
 
     private sendMessage(message: Events) {
@@ -120,15 +153,6 @@ export default class WebExtensionConnector implements IConnector {
         }
     }
 
-    private setFetchType(event: FetchEnd): string {
-        const { charset, mediaType } = getContentTypeData(null, event.response.url, event.response.headers, null as any);
-
-        event.response.charset = charset || '';
-        event.response.mediaType = mediaType || '';
-
-        return getType(mediaType || '');
-    }
-
     private async notifyFetch(event: FetchEnd) {
         /*
          * Delay dispatching FetchEnd until we have the DOM snapshot to populate `element`.
@@ -141,44 +165,14 @@ export default class WebExtensionConnector implements IConnector {
         }
 
         this.setFetchElement(event);
-        const type = this.setFetchType(event);
+        const type = setFetchType(event);
 
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }
 
-    private mapResponseHeaders(headers: Headers): HttpHeaders {
-        const responseHeaders: HttpHeaders = {};
-
-        headers.forEach((val, key) => {
-            responseHeaders[key] = val;
-        });
-
-        return responseHeaders;
-    }
-
     /* istanbul ignore next */
-    public async fetchContent(target: string, headers?: any): Promise<NetworkData> {
-        return await fetch(target, { headers }).then(async (response) => {
-            const responseHeaders = this.mapResponseHeaders(response.headers);
-            const { charset, mediaType } = getContentTypeData(null, target, responseHeaders, null as any);
-
-            return {
-                request: { headers: headers as any, url: target },
-                response: {
-                    body: {
-                        content: await response.text(),
-                        rawContent: null as any, // TODO: Set once this supports `Blob`.
-                        rawResponse: null as any
-                    },
-                    charset: charset || '',
-                    headers: responseHeaders,
-                    hops: [],
-                    mediaType: mediaType || '',
-                    statusCode: response.status,
-                    url: target
-                }
-            };
-        });
+    public fetchContent(target: string, headers?: any): Promise<NetworkData> {
+        return this._fetcher.fetch(target, headers);
     }
 
     public async collect(target: URL) {
@@ -220,59 +214,7 @@ export default class WebExtensionConnector implements IConnector {
      * of the website.
      */
     private evaluateInPage(source: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            const config = {
-                attributes: true,
-                childList: false,
-                subtree: false
-            };
-
-            const callback = (mutationsList: MutationRecord[], observer: MutationObserver) => {
-                try {
-                    mutationsList.forEach((mutation: MutationRecord) => {
-                        /* istanbul ignore if */
-                        if (mutation.type !== 'attributes' || !(/^data-(error|result)$/).test(mutation.attributeName || '')) {
-                            return;
-                        }
-
-                        const error = script.getAttribute('data-error');
-                        const result = script.getAttribute('data-result');
-
-                        document.body.removeChild(script);
-                        observer.disconnect();
-
-                        if (error) {
-                            reject(JSON.parse(error));
-                            /* istanbul ignore else*/
-                        } else if (result) {
-                            resolve(JSON.parse(result));
-                        } else {
-                            reject(new Error('No error or result returned from evaluate.'));
-                        }
-                    });
-                } catch (err) /* istanbul ignore next */ {
-                    reject(err);
-                }
-            };
-
-            const observer = new MutationObserver(callback);
-
-            observer.observe(script, config);
-
-            script.textContent = `(async () => {
-    const scriptElement = document.currentScript;
-    try {
-        const result = await ${source}
-
-        scriptElement.setAttribute('data-result', JSON.stringify(result) || null);
-    } catch (err) {
-        scriptElement.setAttribute('data-error', JSON.stringify({ message: err.message, stack: err.stack }));
-    }
-})();`;
-
-            document.body.appendChild(script);
-        });
+        return this._evaluator.evaluateInPage(source);
     }
 
     public evaluate(source: string): Promise<any> {

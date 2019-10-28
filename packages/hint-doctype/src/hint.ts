@@ -8,6 +8,7 @@ import { FetchEnd, HintContext, IHint, ProblemLocation } from 'hint';
 import { MatchInformation } from './types';
 
 import meta from './meta';
+import { getMessage, MessageName } from './i18n.import';
 
 /*
  * ------------------------------------------------------------------------------
@@ -29,8 +30,8 @@ export default class implements IHint {
             line: 0
         };
 
-        const report = (resource: string, message: string, location = defaultProblemLocation) => {
-            context.report(resource, message, { location });
+        const report = (resource: string, key: MessageName, location = defaultProblemLocation) => {
+            context.report(resource, getMessage(key, context.language), { location });
         };
 
         const getCurrentDoctypeProblemLocation = (text: string): ProblemLocation[] => {
@@ -64,12 +65,12 @@ export default class implements IHint {
             }
 
             if (!doctypeFlexibleRegExp.exec(content)) {
-                report(resource, `'doctype' was not specified.`);
+                report(resource, 'doctypeNotSpecified');
 
                 return false;
             }
 
-            report(resource, `'doctype' should be specified as '<!doctype html>'.`);
+            report(resource, 'doctypeSpecifiedAs');
 
             return false;
         };
@@ -80,7 +81,7 @@ export default class implements IHint {
                 return;
             }
 
-            report(resource, `'doctype' should be specified before anything else.`, matchInfo.locations[0]);
+            report(resource, 'doctypeSpecifiedBefore', matchInfo.locations[0]);
         };
 
         const checkDoctypeIsDuplicated = (matchInfo: MatchInformation, resource: string) => {
@@ -88,14 +89,14 @@ export default class implements IHint {
                 return;
             }
 
-            report(resource, `'doctype' is not needed as one was already specified.`, matchInfo.locations[matchInfo.locations.length - 1]);
+            report(resource, 'doctypeNotDuplicated', matchInfo.locations[matchInfo.locations.length - 1]);
         };
 
         const onFetchEndHTML = (fetchEnd: FetchEnd) => {
             const { resource, response } = fetchEnd;
 
             if (!response || !response.body || !response.body.content) {
-                context.report(resource, 'Resource has no content.');
+                context.report(resource, getMessage('resourceNoContent', context.language));
 
                 return;
             }

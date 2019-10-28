@@ -13,8 +13,8 @@
 .headerText {
     font-size: 0.875rem;
     margin: 0.5rem 0 0;
+    overflow-wrap: break-word;
     width: 100%;
-    word-break: break-word;
 }
 
 .title {
@@ -25,8 +25,15 @@
 .actions {
     display: grid;
     gap: 0.5rem; /* 8px */
-    grid-template-columns: auto auto 1fr;
     margin-top: 1.5rem; /* 24px */
+    grid-auto-columns: max-content;
+}
+
+/* Horizontal layout */
+@media (min-width: 36rem /* 576px */) {
+    .actions {
+        grid-template-columns: auto auto 1fr;
+    }
 }
 
 .showPassedHints {

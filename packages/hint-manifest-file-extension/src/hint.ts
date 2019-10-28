@@ -10,11 +10,12 @@
  */
 
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { fileExtension as getFileExtension} from '@hint/utils/dist/src/fs/file-extension';
+import { fileExtension as getFileExtension } from '@hint/utils/dist/src/fs/file-extension';
 import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { getMessage } from './i18n.import';
 
 /*
  * ------------------------------------------------------------------------------
@@ -32,10 +33,17 @@ export default class ManifestFileExtensionHint implements IHint {
 
         const validate = ({ element, resource }: ElementFound) => {
             if (normalizeString(element.getAttribute('rel')) === 'manifest') {
-                const fileExtension: string = getFileExtension(normalizeString(element.getAttribute('href')) || /* istanbul ignore next */ '');
+                const href = element.resolveUrl(element.getAttribute('href') || /* istanbul ignore next */ '');
+                const fileExtension: string = getFileExtension(normalizeString(href) || /* istanbul ignore next */ '');
 
                 if (fileExtension !== standardManifestFileExtension) {
-                    const message = `Web app manifest should have the filename extension '${standardManifestFileExtension}'${fileExtension ? `, not '${fileExtension}'` : ''}.`;
+                    let message: string;
+
+                    if (fileExtension) {
+                        message = getMessage('shouldHaveFileExtensionNot', context.language, [standardManifestFileExtension, fileExtension]);
+                    } else {
+                        message = getMessage('shouldHaveFileExtension', context.language, standardManifestFileExtension);
+                    }
 
                     context.report(resource, message, { content: fileExtension, element });
                 }

@@ -1,0 +1,22 @@
+{
+    "extends": ["web-recommended"],
+    "formatters": [],
+    "hints": {
+        // TODO: Remove `ignore` after MDN data is up-to-date
+        "compat-api/css": ["error", { "ignore": ["mask-size", "word-break"] }],
+        "compat-api/html": "error",
+        // Disable server-related hints (since extension is always local)
+        "content-type": "off",
+        "html-checker": "off",
+        "http-cache": "off",
+        "http-compression": "off",
+        "meta-viewport": "off",
+        "no-bom": "off",
+        "no-friendly-error-pages": "off",
+        "no-http-redirects": "off",
+        "ssllabs": "off",
+        "strict-transport-security": "off",
+        "validate-set-cookie-header": "off",
+        "x-content-type-options": "off"
+    }
+}

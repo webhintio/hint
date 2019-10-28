@@ -10,6 +10,10 @@ export type MetadataDocs = {
 export type HintMetadata = {
     /** Documentation related to the hint */
     docs?: MetadataDocs;
+    /** Returns the localized description */
+    getDescription: (language: string) => string;
+    /** Returns the localized name */
+    getName: (language: string) => string;
     /** The id of the hint */
     id: string;
     /** List of connectors that should not run the hint */

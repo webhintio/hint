@@ -1,0 +1,42 @@
+{
+    "contentTypeCharsetShouldBe": {
+        "description": "Report message when the charset in the content type is not valid",
+        "message": "'content-type' header charset value should be '$1'."
+    },
+    "contentTypeCharsetShouldBeNot": {
+        "description": "Report message when the charset in the content type is not valid",
+        "message": "'content-type' header charset value should be '$1', not '$2'."
+    },
+    "contentTypeValueInvalid": {
+        "description": "Report message when content type value fails to parse",
+        "message": "'content-type' header value should be valid ($1)."
+    },
+    "contentTypeValueShouldBe": {
+        "description": "Report message when content type value is not valid",
+        "message": "'content-type' header value should be '$1'."
+    },
+    "contentTypeValueShoudBeNot": {
+        "description": "Report message when a content type is not the right one",
+        "message": "'content-type' header media type value should be '$1', not '$2'."
+    },
+    "contentTypeValueShouldNotContaint": {
+        "description": "Report message when the content type shouldn't contain a charset",
+        "message": "'content-type' header value should not contain 'charset=$1'."
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Require `Content-Type` header with appropriate value"
+    },
+    "invalidMediaType": {
+        "description": "Error message for invalid media type",
+        "message": "invalid media type"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Correct `Content-Type` header"
+    },
+    "responseShouldIncludeContentType": {
+        "description": "Report message when response doesn't include the content type header",
+        "message": "Response should include 'content-type' header."
+    }
+}

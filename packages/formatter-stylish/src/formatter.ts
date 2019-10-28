@@ -22,6 +22,8 @@ const stripAnsi = require('strip-ansi');
 import { debug as d, fs, logger, misc } from '@hint/utils';
 import { FormatterOptions, IFormatter, Problem, Severity } from 'hint';
 
+import { getMessage } from './i18n.import';
+
 const { cutString } = misc;
 
 const _ = {
@@ -30,7 +32,7 @@ const _ = {
     reduce,
     sortBy
 };
-const {writeFileAsync} = fs;
+const { writeFileAsync } = fs;
 const debug = d(__filename);
 
 const printPosition = (position: number, text: string) => {
@@ -50,6 +52,7 @@ const printPosition = (position: number, text: string) => {
 export default class StylishFormatter implements IFormatter {
     /** Format the problems grouped by `resource` name and sorted by line and column number */
     public async format(messages: Problem[], options: FormatterOptions = {}) {
+        const language: string = options.language!;
 
         debug('Formatting results');
 
@@ -71,7 +74,7 @@ export default class StylishFormatter implements IFormatter {
             let partialResult = `${chalk.cyan(cutString(resource, 80))}\n`;
 
             _.forEach(sortedMessages, (msg: Problem) => {
-                const severity: string = Severity.error === msg.severity ? chalk.red('Error') : chalk.yellow('Warning');
+                const severity = Severity.error === msg.severity ? chalk.red(getMessage('capitalizedError', language)) : chalk.yellow(getMessage('capitalizedWarning', language));
 
                 if (Severity.error === msg.severity) {
                     errors++;
@@ -79,8 +82,8 @@ export default class StylishFormatter implements IFormatter {
                     warnings++;
                 }
 
-                const line: string = printPosition(msg.location.line, 'line');
-                const column: string = printPosition(msg.location.column, 'col');
+                const line: string = printPosition(msg.location.line, getMessage('line', language));
+                const column: string = printPosition(msg.location.column, getMessage('col', language));
 
                 if (line) {
                     hasPosition = true;
@@ -106,15 +109,28 @@ export default class StylishFormatter implements IFormatter {
             totalErrors += errors;
             totalWarnings += warnings;
 
-            partialResult += color.bold(`${logSymbols.error} Found ${errors} ${errors === 1 ? 'error' : 'errors'} and ${warnings} ${warnings === 1 ? 'warning' : 'warnings'}`);
+            const foundMessage = getMessage('partialFound', language, [
+                errors.toString(),
+                errors === 1 ? getMessage('error', language) : getMessage('errors', language),
+                warnings.toString(),
+                warnings === 1 ? getMessage('warning', language) : getMessage('warnings', language)
+            ]);
+
+            partialResult += color.bold(`${logSymbols.error} ${foundMessage}`);
             partialResult += '\n\n';
 
             return total + partialResult;
         }, '');
 
         const color: typeof chalk = totalErrors > 0 ? chalk.red : /* istanbul ignore next */ chalk.yellow;
+        const foundTotalMessage = getMessage('totalFound', language, [
+            totalErrors.toString(),
+            totalErrors === 1 ? getMessage('error', language) : getMessage('errors', language),
+            totalWarnings.toString(),
+            totalWarnings === 1 ? getMessage('warning', language) : getMessage('warnings', language)
+        ]);
 
-        result += color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? /* istanbul ignore next */ 'warning' : 'warnings'}`);
+        result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);
 
         if (!options.output) {
             logger.log(result);

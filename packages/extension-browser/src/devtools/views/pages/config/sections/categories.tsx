@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useCallback, FormEvent } from 'react';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
-
-import metas from '../../../../../shared/metas.import';
+import { getCategoryName } from '@hint/utils/dist/src/i18n/get-category-name';
 
 import { getMessage } from '../../../../utils/i18n';
+import { getCategories } from '../../../../utils/categories';
 
 import Checkbox from '../../../controls/checkbox';
 import LabelText from '../../../controls/label-text';
@@ -13,16 +12,15 @@ import LabelText from '../../../controls/label-text';
 import ConfigLabel from '../label';
 import ConfigSection from '../section';
 
+import * as styles from './categories.css';
+
 type Props = {
     className?: string;
     disabled?: string[];
     onChange: (disabled?: string[]) => void;
 };
 
-// Extract category names from bundled hint metadata.
-const categories = [...new Set(metas.map((meta) => {
-    return (meta.docs && meta.docs.category || Category.other);
-}))].sort();
+const categories = getCategories();
 
 /**
  * Display options to include/exclude entire categories of hints from a scan.
@@ -54,7 +52,9 @@ const CategoriesSection = ({ className, disabled, onChange }: Props) => {
         return (
             <ConfigLabel key={category}>
                 <Checkbox value={category} checked={!isDisabled} onChange={onCategoryChange} />
-                <LabelText>{getMessage(category)}</LabelText>
+                <LabelText className={styles.label} data-icon={category}>
+                    {getCategoryName(category)}
+                </LabelText>
             </ConfigLabel>
         );
     });

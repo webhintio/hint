@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" >
-    <title>Page Title</title>
+    <title>Webhint</title>
     <meta name="viewport" content="width=device-width">
     <%- include('../partials/browser-icon', { result }); %>
     <link rel="stylesheet" href="styles/fonts.css" >
@@ -17,14 +17,16 @@
     <link rel="stylesheet" href="styles/highlight/default.min.css">
 </head>
 <body>
-    <%- include('../partials/scan-result', { result, utils }); %>
-    <a href="#main" class="anchor-top" hidden aria-label="back to top">top</a>
+    <%- include('../partials/scan-result', { getMessage, result, utils }); %>
+    <a href="#main" class="anchor-top" hidden aria-label="<%= getMessage('backToTop'); %>"><%= getMessage('top'); %></a>
 
     <script src="js/highlight/highlight.min.js"></script>
     <script src="js/highlight/languages/xml.min.js"></script>
     <script src="js/polyfills/details.js"></script>
     <script src="js/anchor-top.js"></script>
 
+    <script src="<%= languageFile; %>"></script>
+    <script src="js/scan/get-message.js"></script>
     <script src="js/scan/scanner-common.js"></script>
 </body>
 </html>

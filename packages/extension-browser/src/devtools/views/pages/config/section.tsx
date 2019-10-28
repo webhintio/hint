@@ -6,15 +6,16 @@ type Props = {
     children: any;
     className?: string;
     title: string;
+    titleId?: string;
 }
 
 /**
  * Wrap related configuration items with a common container and styles.
  */
-const ConfigSection = ({ children, className, title }: Props) => {
+const ConfigSection = ({ children, className, title, titleId }: Props) => {
     return (
         <section className={className}>
-            <h1 className={styles.header}>
+            <h1 id={titleId} className={styles.header}>
                 {title}
             </h1>
             {children}

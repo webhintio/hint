@@ -10,6 +10,18 @@ const generateConfig = (fileName: string) => {
         return readFile(`${__dirname}/fixtures/${fileName}`);
     }
 
+    if (fileName.endsWith('.scss')) {
+        const styles = readFile(`${__dirname}/fixtures/${fileName}`);
+
+        return {
+            '/': generateHTMLPage(`<link rel="stylesheet" href="styles/${fileName}">`),
+            [`/styles/${fileName}`]: {
+                content: styles,
+                headers: { 'Content-Type': 'text/x-scss' }
+            }
+        };
+    }
+
     const styles = readFile(`${__dirname}/fixtures/${fileName}.css`);
 
     return {
@@ -30,7 +42,7 @@ const tests: HintTest[] = [
         name: `Some prefixed properties listed first, but others last fail`,
         reports: [{
             message: `'appearance' should be listed after '-webkit-appearance'.`,
-            position: { match: 'appearance: none; /* Report */' }
+            position: { match: 'appearance: none; /* Report */', range: 'appearance' }
         }],
         serverConfig: generateConfig('interleaved-prefixes')
     },
@@ -42,7 +54,7 @@ const tests: HintTest[] = [
         name: 'Prefixed properties listed last with other properties mixed in pass',
         reports: [{
             message: `'appearance' should be listed after '-webkit-appearance'.`,
-            position: { match: 'appearance: none; /* Report */' }
+            position: { match: 'appearance: none; /* Report */', range: 'appearance' }
         }],
         serverConfig: generateConfig('mixed-with-prefixes-last')
     },
@@ -51,11 +63,11 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `'appearance' should be listed after '-webkit-appearance'.`,
-                position: { match: 'appearance: none; /* Report 1 */' }
+                position: { match: 'appearance: none; /* Report 1 */', range: 'appearance' }
             },
             {
                 message: `'appearance' should be listed after '-webkit-appearance'.`,
-                position: { match: 'appearance: none; /* Report 2 */' }
+                position: { match: 'appearance: none; /* Report 2 */', range: 'appearance' }
             }
         ],
         serverConfig: generateConfig('multi-block')
@@ -65,11 +77,11 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `'appearance' should be listed after '-webkit-appearance'.`,
-                position: { match: 'appearance: none; /* Report 1 */' }
+                position: { match: 'appearance: none; /* Report 1 */', range: 'appearance' }
             },
             {
                 message: `'background-size' should be listed after '-moz-background-size'.`,
-                position: { match: 'background-size: cover; /* Report 2 */' }
+                position: { match: 'background-size: cover; /* Report 2 */', range: 'background-size' }
             }
         ],
         serverConfig: generateConfig('multi-property')
@@ -86,7 +98,7 @@ const tests: HintTest[] = [
         name: 'Prefixed values listed last fail',
         reports: [{
             message: `'display: grid' should be listed after 'display: -ms-grid'.`,
-            position: { match: 'display: grid; /* Report */' }
+            position: { match: 'grid; /* Report */', range: 'grid' }
         }],
         serverConfig: generateConfig('prefixed-values-last')
     },
@@ -102,7 +114,7 @@ const tests: HintTest[] = [
         name: 'Prefixed properties listed last fail (moz)',
         reports: [{
             message: `'appearance' should be listed after '-moz-appearance'.`,
-            position: { match: 'appearance: none; /* Report */' }
+            position: { match: 'appearance: none; /* Report */', range: 'appearance' }
         }],
         serverConfig: generateConfig('prefixes-last-moz')
     },
@@ -110,7 +122,7 @@ const tests: HintTest[] = [
         name: 'Prefixed properties listed last on same line fail',
         reports: [{
             message: `'appearance' should be listed after '-webkit-appearance'.`,
-            position: { match: 'appearance: none; /* Report */' }
+            position: { match: 'appearance: none; /* Report */', range: 'appearance' }
         }],
         serverConfig: generateConfig('prefixes-last-same-line')
     },
@@ -129,7 +141,7 @@ const tests: HintTest[] = [
         name: 'Prefixed properties listed last fail (webkit)',
         reports: [{
             message: `'appearance' should be listed after '-webkit-appearance'.`,
-            position: { match: 'appearance: none; /* Report */' }
+            position: { match: 'appearance: none; /* Report */', range: 'appearance' }
         }],
         serverConfig: generateConfig('prefixes-last-webkit')
     },
@@ -147,7 +159,15 @@ const tests: HintTest[] = [
     {
         name: `Unprefixed property without any prefixed properties pass`,
         serverConfig: generateConfig('unprefixed-only')
+    },
+    {
+        name: 'Prefixed properties in nested blocks only report once',
+        reports: [{
+            message: `'appearance' should be listed after '-webkit-appearance'.`,
+            position: { match: 'appearance: none', range: 'appearance' }
+        }],
+        serverConfig: generateConfig('prefixes-nested-blocks.scss')
     }
 ];
 
-testHint(hintPath, tests, { parsers: ['css'] });
+testHint(hintPath, tests, { parsers: ['css', 'sass'] });

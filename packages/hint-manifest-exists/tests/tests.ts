@@ -62,7 +62,7 @@ const tests: HintTest[] = [
     },
     {
         name: `Manifest is specified and request for file fails`,
-        reports: [{ message: `'site.webmanifest' could not be fetched (request failed).` }],
+        reports: [{ message: `'manifest' could not be fetched. Request failed.` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': null
@@ -70,7 +70,7 @@ const tests: HintTest[] = [
     },
     {
         name: `Manifest is specified and request for file fails with status code 404`,
-        reports: [{ message: `'site.webmanifest' could not be fetched (status code: 404).` }],
+        reports: [{ message: `'manifest' could not be fetched. Status code: 404` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { status: 404 }
@@ -78,7 +78,7 @@ const tests: HintTest[] = [
     },
     {
         name: `Manifest is specified and request for file fails with status code 500`,
-        reports: [{ message: `'site.webmanifest' could not be fetched (status code: 500).` }],
+        reports: [{ message: `'manifest' could not be fetched. Status code: 500` }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { status: 500 }

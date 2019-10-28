@@ -2,9 +2,46 @@
     color: var(--base-color);
     display: grid;
     gap: 0.5rem; /* 8px */
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1rem 1fr auto; /* 16px 1fr auto */
     line-height: 1.75rem; /* 28px */
     text-decoration: none;
+}
+
+.root:before {
+    background-color: var(--base-color);
+    content: '';
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+}
+
+.root[data-icon=accessibility]:before {
+    --mask: var(--icon-accessibility-url);
+}
+
+.root[data-icon=compatibility]:before {
+    --mask: var(--icon-compatibility-url);
+}
+
+.root[data-icon=performance]:before {
+    --mask: var(--icon-performance-url);
+}
+
+.root[data-icon=pitfalls]:before {
+    --mask: var(--icon-pitfalls-url);
+}
+
+.root[data-icon=pwa]:before {
+    --mask: var(--icon-pwa-url);
+}
+
+.root[data-icon=security]:before {
+    --mask: var(--icon-security-url);
 }
 
 .root:focus {

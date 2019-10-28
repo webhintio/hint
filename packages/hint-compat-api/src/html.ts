@@ -5,16 +5,17 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { HTMLAttribute, HTMLElement } from '@hint/utils';
-import { getUnsupported } from '@hint/utils/dist/src/compat';
+import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
 
-import { joinBrowsers } from './utils/browsers';
+import { filterBrowsers, joinBrowsers } from './utils/browsers';
 import { resolveIgnore } from './utils/ignore';
 
 import meta from './meta/html';
+import { getMessage } from './i18n.import';
 
 type ReportData = {
     feature: string;
-    unsupported: string[];
+    unsupported: UnsupportedBrowsers;
 };
 
 type Context = {
@@ -28,7 +29,7 @@ const validateAttributeValue = (element: string, attr: HTMLAttribute, context: C
         return;
     }
 
-    const unsupported = getUnsupported({ attribute: attr.name, element, value: attr.value }, context.browsers);
+    const unsupported = getUnsupportedDetails({ attribute: attr.name, element, value: attr.value }, context.browsers);
 
     if (unsupported) {
         context.report({ feature: `${element}[${attr.name}=${attr.value}]`, unsupported });
@@ -40,7 +41,7 @@ const validateAttribute = (element: string, attr: HTMLAttribute, context: Contex
         return;
     }
 
-    const unsupported = getUnsupported({ attribute: attr.name, element }, context.browsers);
+    const unsupported = getUnsupportedDetails({ attribute: attr.name, element }, context.browsers);
 
     if (unsupported) {
         context.report({ feature: `${element}[${attr.name}]`, unsupported });
@@ -56,7 +57,7 @@ const validateElement = (node: HTMLElement, context: Context) => {
         return;
     }
 
-    const unsupported = getUnsupported({ element }, context.browsers);
+    const unsupported = getUnsupportedDetails({ element }, context.browsers);
 
     if (unsupported) {
         context.report({ feature: element, unsupported });
@@ -74,14 +75,16 @@ export default class HTMLCompatHint implements IHint {
         const ignore = resolveIgnore([
             'crossorigin',
             'integrity',
+            'link[rel]',
+            'main',
             'spellcheck'
         ], context.hintOptions);
 
         context.on('element::*', ({ element, resource }) => {
-            const browsers = context.targetedBrowsers;
+            const browsers = filterBrowsers(context.targetedBrowsers);
 
             const report = ({ feature, unsupported }: ReportData) => {
-                const message = `${feature} is not supported by ${joinBrowsers(unsupported)}.`;
+                const message = getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]);
 
                 context.report(resource, message, { element });
             };

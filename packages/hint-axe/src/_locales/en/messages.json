@@ -1,0 +1,126 @@
+{
+    "aria_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'aria'"
+    },
+    "aria_name": {
+        "description": "Metadata name",
+        "message": "ARIA"
+    },
+    "color_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'color'"
+    },
+    "color_name": {
+        "description": "Metadata name",
+        "message": "Color"
+    },
+    "errorExecuting": {
+        "description": "Message to show when the execution of the script fails",
+        "message": "Error executing script: '$1'"
+    },
+    "forms_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'forms'"
+    },
+    "forms_name": {
+        "description": "Metadata name",
+        "message": "Forms"
+    },
+    "keyboard_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'keyboard'"
+    },
+    "keyboard_name": {
+        "description": "Metadata name",
+        "message": "Keyboard"
+    },
+    "language_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'language'"
+    },
+    "language_name": {
+        "description": "Metadata name",
+        "message": "Language"
+    },
+    "nameRoleValue_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'name-role-value'"
+    },
+    "nameRoleValue_name": {
+        "description": "Metadata name",
+        "message": "Name role value"
+    },
+    "notFastEnough": {
+        "description": "Message to show when the result from axe takes too long",
+        "message": "webhint did not return the result fast enough"
+    },
+    "other_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'other'"
+    },
+    "other_name": {
+        "description": "Metadata name",
+        "message": "Other"
+    },
+    "parsing_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'parsing'"
+    },
+    "parsing_name": {
+        "description": "Metadata name",
+        "message": "Parsing"
+    },
+    "semantics_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'semantics'"
+    },
+    "semantics_name": {
+        "description": "Metadata name",
+        "message": "Semantics"
+    },
+    "sensoryAndVisualCues_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'sensory-and-visual-cues'"
+    },
+    "sensoryAndVisualCues_name": {
+        "description": "Metadata name",
+        "message": "Sensory and visual cues"
+    },
+    "structure_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'structure'"
+    },
+    "structure_name": {
+        "description": "Metadata name",
+        "message": "Structure"
+    },
+    "tables_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'tables'"
+    },
+    "tables_name": {
+        "description": "Metadata name",
+        "message": "Tables"
+    },
+    "textAlternatives_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'text-alternatives'"
+    },
+    "textAlternatives_name": {
+        "description": "Metadata name",
+        "message": "Text alternatives"
+    },
+    "timeAndMedia_description": {
+        "description": "Metadata description",
+        "message": "Rules from axe category 'time-and-media'"
+    },
+    "timeAndMedia_name": {
+        "description": "Metadata name",
+        "message": "Time and media"
+    },
+    "tryAgainLater": {
+        "description": "Message to show when there is an error running the script",
+        "message": "$1. Please try again later, or report an issue if this problem persists."
+    }
+}

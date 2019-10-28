@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 
-import { Config, ErrorData, Results } from '../../../shared/types';
+import { Config, ErrorData, EvaluateRequest, Results } from '../../../shared/types';
 
 import { getMessage } from '../../utils/i18n';
+import { evaluate } from '../../utils/inject';
 import { useRotatingInspiration } from '../../utils/inspire';
 import { sendMessage, useMessageListener } from '../../utils/messaging';
 import { addNetworkListeners, removeNetworkListeners } from '../../utils/network';
@@ -13,12 +14,22 @@ import ProgressBar from '../controls/progress-bar';
 
 import * as styles from './analyze.css';
 
-import * as nellieWorkingSvg from '../../../nellie-working.svg';
+import * as nellieWorkingSvg from '../../../images/nellie-working.svg';
 
 const maxRunTime = 3 * 60 * 1000; // Three minutes.
 
 const getScanDuration = (scanStart: number) => {
     return Math.round(performance.now() - scanStart);
+};
+
+const handleEvaluateRequest = async ({ id, code }: EvaluateRequest) => {
+    try {
+        const value = await evaluate(code);
+
+        sendMessage({ evaluateResult: { id, value } });
+    } catch (err) {
+        sendMessage({ evaluateResult: { err, id } });
+    }
 };
 
 type Props = {
@@ -79,6 +90,12 @@ const Analyze = ({ config, onCancel, onError, onResults, onTimeout }: Props) => 
             return;
         }
 
+        if (message.evaluate) {
+            handleEvaluateRequest(message.evaluate);
+
+            return;
+        }
+
         if (!message.results) {
             return;
         }
@@ -104,7 +121,7 @@ const Analyze = ({ config, onCancel, onError, onResults, onTimeout }: Props) => 
 
     return (
         <div className={styles.root}>
-            <section className={styles.status}>
+            <section role="dialog" className={styles.status} aria-label={getMessage('analyzingStatus')}>
                 <h1 className={styles.header}>
                     {getMessage('analyzingStatus')}
                 </h1>
@@ -113,10 +130,10 @@ const Analyze = ({ config, onCancel, onError, onResults, onTimeout }: Props) => 
                         <h2 className={styles.messageTitle}>{getMessage('didYouKnowThat')}</h2>
                         <span>{status}</span>
                     </div>
-                    <img className={styles.image} src={nellieWorkingSvg} />
+                    <img className={styles.image} src={nellieWorkingSvg} alt={getMessage('pictureOfMascot')} />
                 </div>
                 <ProgressBar className={styles.progress} />
-                <Button primary={true} onClick={onCancelClick}>
+                <Button autoFocus={true} primary={true} onClick={onCancelClick}>
                     {getMessage('cancelAnalysisButtonLabel')}
                 </Button>
             </section>

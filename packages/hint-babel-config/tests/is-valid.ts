@@ -62,7 +62,7 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', '.babelrc')}`,
-                position: { match: 'extends' }
+                position: { match: '"../circular-2/.babelrc"' }
             }
         ]
     },
@@ -72,7 +72,7 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `Unexpected token ' in JSON at position 191`,
-                position: { match: 'extends' }
+                position: { match: '"../invalid/.babelrc"' }
             }
         ]
     }

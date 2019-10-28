@@ -133,8 +133,9 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
          * Not Match examples:
          * tsconfigimproved.json
          * anythingelse.json
+         * tsconfig.schema.json
          */
-        if (!fileName.match(/^tsconfig\.([^.]*\.)?json$/gi)) {
+        if (!fileName.match(/^tsconfig\.([^.]*\.)?json$/gi) || fileName === 'tsconfig.schema.json') {
             return;
         }
 
