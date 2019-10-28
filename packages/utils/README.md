@@ -163,10 +163,6 @@ exception if no package is found.
 * `loadResource`: Returns a resource if it exists.
 * `requirePackage`: Require a package, compatible with webpack.
 
-### report
-
-* `getCSSCodeSnippet`: Generate a Snippet code for a CSS node.
-
 ### test
 
 * `generateHTMLPage`: Creates a valid minimal HTML.
