@@ -1,5 +1,5 @@
 import { ChildNode, Declaration } from 'postcss';
-import { ProblemLocation } from '../types/problems';
+import { ProblemLocation } from '@hint/utils-types';
 
 type Position = {
     column: number;

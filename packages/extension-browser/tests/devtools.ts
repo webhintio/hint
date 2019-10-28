@@ -2,7 +2,7 @@ import * as path from 'path';
 import { launch } from 'puppeteer-core';
 import test from 'ava';
 
-import { Category } from 'hint';
+import { Category } from '@hint/utils-types';
 
 import { getInstallationPath, readFileAsync } from '@hint/utils';
 import { Server } from '@hint/utils-create-server';

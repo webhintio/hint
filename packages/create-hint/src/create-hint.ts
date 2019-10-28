@@ -15,7 +15,8 @@ import {
     toPascalCase,
     writeFileAsync
 } from '@hint/utils';
-import { Category, HintScope } from 'hint';
+import { Category } from '@hint/utils-types';
+import { HintScope } from 'hint';
 
 import Handlebars, { compileTemplate, escapeSafeString } from './handlebars-utils';
 

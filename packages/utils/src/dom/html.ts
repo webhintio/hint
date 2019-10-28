@@ -4,7 +4,7 @@ import * as parse5 from 'parse5';
 import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
 import * as cssSelect from 'css-select';
 
-import { ProblemLocation } from '../types/problem-location';
+import { ProblemLocation } from '@hint/utils-types';
 import { findOriginalElement } from './find-original-element';
 import { INamedNodeMap } from '../types/html';
 

@@ -17,6 +17,7 @@
         { "path": "../parser-html" },
         { "path": "../utils" },
         { "path": "../utils-i18n" },
-        { "path": "../utils-tests-helpers" }
+        { "path": "../utils-tests-helpers" },
+        { "path": "../utils-types" }
     ]
 }

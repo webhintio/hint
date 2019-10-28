@@ -1,4 +1,4 @@
-import { ProblemLocation } from './problem-location';
+import { ProblemLocation } from '@hint/utils-types';
 
 export interface IJSONLocationOptions {
     at?: 'name' | 'value';

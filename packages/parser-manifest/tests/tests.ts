@@ -6,8 +6,8 @@ import * as sinon from 'sinon';
 
 import Parser from '../src/parser';
 import { Manifest, ManifestInvalidJSON, ManifestInvalidSchema, ManifestParsed, ManifestEvents } from '../src/types';
-import { ProblemLocation, ISchemaValidationError, NetworkData, ElementFound } from 'hint/dist/src/lib/types';
-import { Engine } from 'hint';
+import { Engine, ISchemaValidationError, NetworkData, ElementFound } from 'hint';
+import { ProblemLocation } from '@hint/utils-types';
 
 const elementLinkEventName = 'element::link';
 const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribute: string = 'site.webmanifest') => {

@@ -1,5 +1,6 @@
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { FetchEnd, FetchStart, Problem } from 'hint/dist/src/lib/types';
+import { Category } from '@hint/utils-types/dist/src/category';
+import { Problem } from '@hint/utils-types/dist/src/problems';
+import { FetchEnd, FetchStart } from 'hint/dist/src/lib/types';
 
 export type Config = {
     disabledCategories?: string[];

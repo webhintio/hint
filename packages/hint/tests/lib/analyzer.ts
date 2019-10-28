@@ -14,7 +14,7 @@ import {
     UserConfig
 } from '../../src/lib/types';
 import { AnalyzerErrorStatus } from '../../src/lib/enums/error-status';
-import { Problem } from '@hint/utils/dist/src/types/problems';
+import { Problem } from '@hint/utils-types/dist/src/problems';
 
 type Logger = {
     warn: () => void;

@@ -23,9 +23,9 @@ import {
     cutString,
     cwd,
     isFile,
-    logger,
-    Problem
+    logger
 } from '@hint/utils';
+import { Problem } from '@hint/utils-types';
 
 const initFormatters = (formatters: IFormatterConstructor[]): IFormatter[] => {
     const result = formatters.map((FormatterConstructor) => {

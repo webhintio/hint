@@ -38,10 +38,8 @@ import {
 import { HintContext } from './hint-context';
 import { HintScope } from './enums/hint-scope';
 import { Configuration } from './config';
-import {
-    Problem,
-    Severity
-} from '@hint/utils/dist/src/types/problems';
+import { Problem } from '@hint/utils-types/dist/src/problems';
+import { Severity } from '@hint/utils-types/dist/src/severity';
 
 const debug: debug.IDebugger = d(__filename);
 

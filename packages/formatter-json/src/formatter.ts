@@ -15,7 +15,8 @@ import sortBy = require('lodash/sortBy');
 
 import { logger, writeFileAsync } from '@hint/utils';
 import { debug as d } from '@hint/utils-debug';
-import { FormatterOptions, IFormatter, Problem } from 'hint';
+import { FormatterOptions, IFormatter } from 'hint';
+import { Problem } from '@hint/utils-types';
 
 import { getMessage } from './i18n.import';
 
