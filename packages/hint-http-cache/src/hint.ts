@@ -353,7 +353,7 @@ export default class HttpCacheHint implements IHint {
             if (!isValidCache) {
                 const message: string = getMessage('targetShouldNotBeCached', context.language, [maxAgeTarget, header]);
 
-                context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control')}: ${header}` });
+                context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control: ${header}` });
 
                 return false;
             }
