@@ -74,17 +74,6 @@ hints inside the extended configurations.
   use (`getInstallationPath` will only verify it exists, not if it's actually
   a valid target).
 
-### dom
-
-* `createHTMLDocument`: Create an HTMLDocument object from an string.
-* `findOriginalElement`: Perform a best-effort search to find an element in
-the provided document which is likely the original source for the provided
-element. Used to resolve element locations to the original HTML when possible.
-* `getElementByUrl`: Get an HTMLElement given a URL.
-* `traverse`: Traverse an HTMLDocument.
-* `HTMLDocument`: Class representing a HTMLDocument.
-* `HTMLElement`: Class representing a HTMLElement.
-
 ### fs
 
 * `cwd`: Returns the current working directory. Same as `process.cwd()`.
@@ -177,7 +166,6 @@ exception if no package is found.
 ### report
 
 * `getCSSCodeSnippet`: Generate a Snippet code for a CSS node.
-* `getHTMLCodeSnippet`: Generate a Snippet code for a HTMLElement.
 
 ### test
 
