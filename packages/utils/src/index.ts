@@ -18,13 +18,10 @@ export * from './chromium-finder';
 export * from './config';
 export * from './dom/html';
 export * from './has-yarnlock';
-export * from './types/category';
 export * from './types/config';
 export * from './types/html';
 export * from './types/http-header';
 export * from './types/npm';
-export * from './types/problem-location';
-export * from './types/problems';
 
 export const appInsights = appInsightsUtils;
 export const logger = loggingUtils;
