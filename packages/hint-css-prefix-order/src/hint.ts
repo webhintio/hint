@@ -8,13 +8,12 @@ import { vendor, Declaration, Rule } from 'postcss';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
-import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
-
+import { getCSSCodeSnippet } from '@hint/utils-css/dist/src/get-css-code-snippet';
+import { getCSSLocationFromNode } from '@hint/utils-css/dist/src/get-css-location-from-node';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
-import { getCSSLocationFromNode } from '@hint/utils/dist/src/report';
 
 const debug: debug.IDebugger = d(__filename);
 

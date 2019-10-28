@@ -8,11 +8,12 @@ import { debug as d } from '@hint/utils-debug';
 import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 
 import { StyleEvents, StyleParse } from '@hint/parser-css';
-import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
+import { getCSSCodeSnippet } from '@hint/utils-css/dist/src/get-css-code-snippet';
+import { getCSSLocationFromNode } from '@hint/utils-css/dist/src/get-css-location-from-node';
+
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
-import { getCSSLocationFromNode } from '@hint/utils/dist/src/report';
 
 const debug: debug.IDebugger = d(__filename);
 
