@@ -10,7 +10,8 @@ import {
     NetworkData,
     TraverseEnd
 } from 'hint';
-import { HTMLElement, isRegularProtocol } from '@hint/utils';
+import { isRegularProtocol } from '@hint/utils';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 import { debug as d } from '@hint/utils-debug';
 import { Requester } from '@hint/utils-connector-tools';
 import { CoreOptions } from 'request';

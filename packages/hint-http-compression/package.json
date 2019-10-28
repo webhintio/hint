@@ -15,6 +15,7 @@
   },
   "description": "hint for HTTP compression related best practices",
   "devDependencies": {
+    "@hint/utils-dom": "^1.0.0",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/iltorb": "^2.3.0",
     "@types/mock-require": "^2.0.0",

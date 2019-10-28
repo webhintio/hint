@@ -32,15 +32,12 @@ import { fork, ChildProcess } from 'child_process';
 import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
 
 import {
-    createHTMLDocument,
     getContentTypeData,
     getType,
-    HTMLDocument,
-    HTMLElement,
     HttpHeaders,
-    isHTMLDocument,
-    traverse
+    isHTMLDocument
 } from '@hint/utils';
+import { createHTMLDocument, HTMLDocument, HTMLElement, traverse } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
 import { Engine, Event, FetchEnd, FetchError, IConnector, NetworkData } from 'hint';
 import { Requester } from '@hint/utils-connector-tools';

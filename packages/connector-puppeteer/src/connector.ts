@@ -7,14 +7,16 @@ import * as puppeteer from 'puppeteer-core';
 import {
     Browser,
     getInstallationPath,
-    createHTMLDocument,
-    traverse,
-    HTMLElement,
-    HTMLDocument,
     HttpHeaders,
     getPlatform,
     isRegularProtocol
 } from '@hint/utils';
+import {
+    createHTMLDocument,
+    HTMLElement,
+    HTMLDocument,
+    traverse
+} from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
 import { normalizeHeaders, Requester } from '@hint/utils-connector-tools';
 import { IConnector, Engine, NetworkData } from 'hint';

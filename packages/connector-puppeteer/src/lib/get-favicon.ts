@@ -1,6 +1,6 @@
 import { URL } from 'url';
 
-import { HTMLDocument } from '@hint/utils';
+import { HTMLDocument } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
 import { Engine } from 'hint';
 

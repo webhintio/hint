@@ -1,6 +1,7 @@
 import { CheckResult, AxeResults, ImpactValue, NodeResult as AxeNodeResult } from 'axe-core';
 
-import { HTMLDocument, HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
 import { CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';

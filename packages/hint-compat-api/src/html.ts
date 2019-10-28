@@ -4,7 +4,8 @@
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
-import { HTMLAttribute, HTMLElement } from '@hint/utils';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
+import { HTMLAttribute } from '@hint/utils-dom/dist/src/types';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
 
 import { filterBrowsers, joinBrowsers } from './utils/browsers';

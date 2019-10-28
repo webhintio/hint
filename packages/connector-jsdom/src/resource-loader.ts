@@ -2,10 +2,9 @@ import { URL } from 'url';
 
 import {
     getContentTypeData,
-    getElementByUrl,
-    getType,
-    HTMLDocument
+    getType
 } from '@hint/utils';
+import { getElementByUrl, HTMLDocument } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
 import { ResourceLoader } from 'jsdom';
 

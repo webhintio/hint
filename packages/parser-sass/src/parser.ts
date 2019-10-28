@@ -5,7 +5,7 @@ import * as postcss from 'postcss';
 
 import { debug as d } from '@hint/utils-debug';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 import { Parser } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css';
 import { Engine } from 'hint';
