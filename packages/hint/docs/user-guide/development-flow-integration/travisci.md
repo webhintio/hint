@@ -196,7 +196,7 @@ You can enable telemetry by adding either a parameter or an `env` variable.
 ## Further configuration
 
 In order to change the output, severity of the hints, etc. you will have to
-use your own `.hintrc` file. Please check the section [configuring webhint]
+use your own `.hintrc` file. Please check the [configuring webhint] section
 for more details.
 
 <!-- Link labels -->
