@@ -10,16 +10,13 @@ export * from './network';
 export * from './npm';
 export * from './packages';
 export * from './test';
-export * from './dom';
 export * from './report';
 export * from './chromium-finder';
 
 export * from './chromium-finder';
 export * from './config';
-export * from './dom/html';
 export * from './has-yarnlock';
 export * from './types/config';
-export * from './types/html';
 export * from './types/http-header';
 export * from './types/npm';
 
