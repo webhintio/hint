@@ -4,35 +4,41 @@ Create a server to run tests
 
 ## Installation
 
-To install the package, you need to run:
-
-```bash
-npm install @hint/utils-create-server
-```
+This package is installed automatically when using `npm create hint`,
+no need to do anything from your side.
 
 ## Architecture
 
-The test web server is `spawn`ed in a new thread. There reasons for this are:
+The test web server can run in a different thread (default) or the same one
+(when in CI or if indicated by the user ) as the tests.
+The following is a summary on the benefits of each one:
 
-* Better isolation
-* Improve the debugging experience
+* Independent:
+  * Better isolation
+  * Improve the debugging experience (website can load even if the execution
+    is stopped in a breakpoint)
+* Same thread:
+  * Less resources needed
+  * Faster execution
 
-With the current architecture knowing what is actually returned by the
-server is easier because a web browser can be used while debugging the
-code. Before if the code hit a breakpoint the webserver would be blocked
-as well and nothing will be returned.
+There main pieces are:
 
-There main 2 pieces are:
+* `index.ts`: This is what modules consume. Depending on the configuration
+  or the environment it will use one type of server or another.
+* `same-thread-server.ts`: The real web server. It uses `express` and listens
+  to the messages sent by `index.ts`. This will also be the class used when
+  running in CI. If `spawn`ed then it will listen for IPC messages for the
+  configuration.
+* `independent-thread-server.ts`: It is a "wrapper" on top of
+  `same-thread-server.ts`. It `spawn`s that process and handles the
+  communication with it asynchronously.
 
-* `index.ts`: This is what modules consume. It is in charge of `spawn`ing
-  the server process and handle the communication with it. All methods are
-  `async` to achive this.
-* `server.ts`: The real web server. It uses `express` and listens to the
-  messages sent by `index.ts`.
-
-The communication between both is done via IPC. Each message sent by
-`index.ts` needs a response to confirm the action has been completed, i.e.
-if it sends a `start` message it should receive a `start` message as well.
+When using a different process, each message sent needs a response to confirm
+the action has been completed, i.e. if it sends a `start` message it should
+receive a `start` message as well.
+In the case of same thread all the methods are `async` as well so both servers
+implement the same interface and the code does not need to special handle one
+or the other.
 
 The following is an example of messages used:
 
