@@ -10,9 +10,19 @@ import { base, combineWalk } from '@hint/parser-javascript/dist/src/walk';
 
 const debug = d(__filename);
 
-// Extend `walk` to skip over TS-specific nodes.
+// Extend `walk` to skip over most TS-specific nodes.
 for (const type of Object.keys(AST_NODE_TYPES)) {
-    if (type.startsWith('TS') && !base[type]) {
+    // Ensure `value` of `ClassProperty` instances is walked.
+    if (type === 'ClassProperty') {
+        base[type] = (node: any, st: any, c: any) => {
+            if (node.value) {
+                c(node.value, st);
+            }
+        };
+    }
+
+    // Just ignore anything else
+    if (!base[type]) {
         base[type] = base.Identifier;
     }
 }

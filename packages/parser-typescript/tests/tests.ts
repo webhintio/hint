@@ -1,8 +1,10 @@
+import { AST_NODE_TYPES } from '@typescript-eslint/typescript-estree';
 import test from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 import { Engine, FetchEnd } from 'hint';
 import { HTMLEvents, HTMLParse } from '@hint/parser-html';
 import { CallExpression, ScriptEvents } from '@hint/parser-javascript';
+import { base } from '@hint/parser-javascript/dist/src/walk';
 import JSXParser from '@hint/parser-jsx';
 
 import TypeScriptParser from '../src/parser';
@@ -23,6 +25,14 @@ const emitFetchEndTSX = async (engine: Engine<ScriptEvents & HTMLEvents>, conten
     } as FetchEnd);
 
     return event;
+};
+
+const getPropertyName = (node: CallExpression) => {
+    const callee = node.callee;
+    const property = callee.type === 'MemberExpression' && callee.property;
+    const propertyName = property && property.type === 'Identifier' && property.name;
+
+    return propertyName;
 };
 
 const mockEngine = () => {
@@ -46,19 +56,14 @@ const parseTSX = (content: string) => {
     return emitFetchEndTSX(engine, content);
 };
 
-test('It can parse and skip types to walk ESTree AST nodes', async (t) => {
-    const content = `type Foo = { bar: string };\nconst circle: Element = document.createElement('circle')`;
+const walkCallExpressions = async (content: string) => {
     const { engine } = mockContext();
+    const nodes: CallExpression[] = [];
 
-    let res = '';
-    let node: CallExpression | undefined;
-
-    engine.on('parse::end::javascript', ({ ast, walk, resource }) => {
-        res = resource;
-
+    engine.on('parse::end::javascript', ({ ast, walk }) => {
         walk.simple(ast, {
             CallExpression(n) {
-                node = n;
+                nodes.push(n);
             }
         });
     });
@@ -71,12 +76,31 @@ test('It can parse and skip types to walk ESTree AST nodes', async (t) => {
         }
     } as FetchEnd);
 
-    const callee = node && node.callee;
-    const property = callee && callee.type === 'MemberExpression' && callee.property;
-    const propertyName = property && property.type === 'Identifier' && property.name;
+    return nodes;
+};
 
-    t.is(res, 'https://webhint.io/test.ts');
-    t.is(propertyName, 'createElement');
+test('It can parse and skip types to walk ESTree AST nodes', async (t) => {
+    const nodes = await walkCallExpressions(`
+        type Foo = { bar: string };
+        const circle: Element = document.createElement('circle');
+    `);
+
+    t.is(nodes.length, 1);
+    t.is(getPropertyName(nodes[0]), 'createElement');
+});
+
+test('It can walk ClassProperty instances', async (t) => {
+    const nodes = await walkCallExpressions(`
+        class Foo {
+            public foo: string;
+            public bar = () => {
+                const circle = document.createElement('circle');
+            }
+        }
+    `);
+
+    t.is(nodes.length, 1);
+    t.is(getPropertyName(nodes[0]), 'createElement');
 });
 
 test('It can parse JSX content within TSX files', async (t) => {
@@ -95,4 +119,24 @@ test('It can parse JSX content within TSX files', async (t) => {
     t.false(button.isAttributeAnExpression('id'));
     t.true(button.isAttributeAnExpression('type'));
     t.is(button.innerHTML, 'Click Here');
+});
+
+test('All node types are known', (t) => {
+    const knownNodeTypes = [
+        'BigIntLiteral',
+        'ClassProperty',
+        'Decorator',
+        'ExportSpecifier',
+        'Import'
+    ];
+
+    for (const type of Object.keys(AST_NODE_TYPES)) {
+        const isKnown = type in base || type.startsWith('TS') || knownNodeTypes.includes(type);
+
+        if (!isKnown) {
+            t.log(type);
+        }
+
+        t.true(isKnown);
+    }
 });
