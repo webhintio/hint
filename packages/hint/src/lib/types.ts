@@ -9,7 +9,6 @@ export * from './types/events';
 export * from './types/formatters';
 export * from '@hint/utils/dist/src/types/json-parser';
 export * from './types/network';
-export * from '@hint/utils/dist/src/types/problems';
 export * from './types/hints';
 export * from './types/parser';
 export * from '@hint/utils/dist/src/schema-validation/schema-validation-result';
