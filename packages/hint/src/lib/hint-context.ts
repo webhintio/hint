@@ -6,7 +6,11 @@
  */
 import { URL } from 'url';
 
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { Severity } from '@hint/utils-types/dist/src/severity';
+import { ProblemLocation } from '@hint/utils-types/dist/src/problems';
+import { Category } from '@hint/utils-types/dist/src/category';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
+import { getHTMLCodeSnippet } from '@hint/utils-dom/dist/src/get-html-code-snippet';
 
 import { Engine } from './engine';
 import {
@@ -15,10 +19,6 @@ import {
     NetworkData,
     StringKeyOf
 } from './types';
-import { Severity } from '@hint/utils-types/dist/src/severity';
-import { ProblemLocation } from '@hint/utils-types/dist/src/problems';
-import { Category } from '@hint/utils-types/dist/src/category';
-import { getHTMLCodeSnippet } from '@hint/utils/dist/src/report/get-html-code-snippet';
 
 export type CodeLanguage = 'css' | 'html' | 'http' | 'javascript';
 

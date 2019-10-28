@@ -1,7 +1,7 @@
 import { Token } from 'acorn';
 import { Node } from 'estree-jsx';
 
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 import { Event, Events } from 'hint/dist/src/lib/types/events';
 
 export * from 'estree-jsx';

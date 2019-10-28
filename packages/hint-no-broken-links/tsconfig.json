@@ -17,6 +17,7 @@
         { "path": "../utils" },
         { "path": "../utils-connector-tools" },
         { "path": "../utils-debug" },
+        { "path": "../utils-dom" },
         { "path": "../utils-i18n" },
         { "path": "../utils-tests-helpers" },
         { "path": "../utils-types" }

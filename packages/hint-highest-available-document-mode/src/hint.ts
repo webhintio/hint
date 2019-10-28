@@ -12,7 +12,8 @@
 import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isLocalFile } from '@hint/utils/dist/src/network/is-local-file';
-import { HTMLDocument, HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
+import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
 import { IHint, TraverseEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 

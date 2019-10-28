@@ -17,7 +17,8 @@ import {
     IHint,
     TraverseEnd
 } from 'hint';
-import { HTMLElement, normalizeString } from '@hint/utils';
+import { normalizeString } from '@hint/utils';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 import { isSupported } from '@hint/utils-compat-data';
 
 import meta from './meta';

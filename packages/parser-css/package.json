@@ -12,9 +12,10 @@
     "@hint/utils": "^6.1.0",
     "postcss": "^7.0.21",
     "postcss-safe-parser": "^4.0.1"
-  },
-  "description": "webhint parser needed to analyze CSS files",
-  "devDependencies": {
+},
+"description": "webhint parser needed to analyze CSS files",
+"devDependencies": {
+    "@hint/utils-dom": "^1.0.0",
     "@types/node": "^12.7.5",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.5.0",

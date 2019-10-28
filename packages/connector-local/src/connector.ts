@@ -51,14 +51,17 @@ import {
     getAsUri,
     getContentTypeData,
     getType,
-    HTMLDocument,
-    HTMLElement,
+
     isFile,
     isTextMediaType,
     logger,
-    readFileAsync,
-    traverse
+    readFileAsync
 } from '@hint/utils';
+import {
+    HTMLDocument,
+    HTMLElement,
+    traverse
+} from '@hint/utils-dom';
 
 import {
     Engine,

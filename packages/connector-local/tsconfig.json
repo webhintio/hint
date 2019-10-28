@@ -16,6 +16,7 @@
         { "path": "../hint" },
         { "path": "../parser-html" },
         { "path": "../utils" },
+        { "path": "../utils-dom" },
         { "path": "../utils-i18n" }
     ]
 }

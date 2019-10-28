@@ -6,7 +6,8 @@ import { imageSize as getImageData } from 'image-size';
 import { isRegularProtocol, normalizeString } from '@hint/utils';
 import { debug as d } from '@hint/utils-debug';
 import { HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
-import { HTMLElement, HTMLDocument } from '@hint/utils/dist/src/dom/html';
+import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';

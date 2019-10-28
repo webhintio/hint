@@ -4,7 +4,7 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
 import { ElementFound, Engine, FetchEnd } from 'hint';
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 
 import { ScriptEvents, ScriptParse, NodeVisitor } from '../src/parser';
 

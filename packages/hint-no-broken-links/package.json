@@ -16,6 +16,7 @@
     "@hint/utils-types": "^1.0.0"
   },
   "devDependencies": {
+    "@hint/utils-dom": "^1.0.0",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",
     "@types/request": "^2.48.3",

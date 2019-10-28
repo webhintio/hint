@@ -15,6 +15,7 @@
     "references": [
         { "path": "../utils" },
         { "path": "../utils-debug" },
+        { "path": "../utils-dom" },
         { "path": "../utils-types" }
     ]
 }

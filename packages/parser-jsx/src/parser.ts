@@ -4,9 +4,9 @@
 import * as parse5 from 'parse5';
 import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
 import { debug as d } from '@hint/utils-debug';
-import { HTMLDocument } from '@hint/utils/dist/src/dom/html';
-import { restoreReferences } from '@hint/utils/dist/src/dom/snapshot';
-import { DocumentData, ElementData, TextData } from '@hint/utils/dist/src/types/snapshot';
+import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
+import { restoreReferences } from '@hint/utils-dom/dist/src/snapshot';
+import { DocumentData, ElementData, TextData } from '@hint/utils-dom/dist/src/types';
 import { Parser } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { HTMLEvents } from '@hint/parser-html';

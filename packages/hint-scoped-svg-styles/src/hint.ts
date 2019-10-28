@@ -5,7 +5,7 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
