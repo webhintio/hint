@@ -4,10 +4,10 @@ Set of common types used in webhint.
 
 ## Installation
 
-To install the package, you need to run:
+This package is installed automatically by webhint:
 
 ```bash
-npm install @hint/utils-types
+npm install hint --save-dev
 ```
 
 ## Types
