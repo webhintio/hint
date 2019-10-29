@@ -31,6 +31,7 @@ const meta: HintMetadata = {
             'aria-required-attr': { enum: ['off', 'warning', 'error'], type: 'string' },
             'aria-required-children': { enum: ['off', 'warning', 'error'], type: 'string' },
             'aria-required-parent': { enum: ['off', 'warning', 'error'], type: 'string' },
+            'aria-roledescription': { enum: ['off', 'warning', 'error'], type: 'string' },
             'aria-roles': { enum: ['off', 'warning', 'error'], type: 'string' },
             'aria-toggle-field-name': { enum: ['off', 'warning', 'error'], type: 'string' },
             'aria-valid-attr': { enum: ['off', 'warning', 'error'], type: 'string' },
