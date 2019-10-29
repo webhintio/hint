@@ -8,15 +8,15 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.0.0",
-    "@hint/utils-compat-data": "^1.0.0",
+    "@hint/utils": "^6.1.0",
+    "@hint/utils-compat-data": "^1.0.1",
     "bcp47": "^1.1.2",
     "color-string": "^1.5.3"
   },
   "description": "hint that that checks if the web app manifest file is valid",
   "devDependencies": {
-    "@hint/parser-manifest": "^2.2.11",
-    "@hint/utils-tests-helpers": "^5.0.11",
+    "@hint/parser-manifest": "^2.2.12",
+    "@hint/utils-tests-helpers": "^5.1.0",
     "@types/color-string": "^1.5.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -79,5 +79,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.2.10"
+  "version": "3.2.11"
 }

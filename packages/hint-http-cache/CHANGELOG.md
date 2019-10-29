@@ -1,3 +1,15 @@
+# 3.2.11 (October 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`3d346a6b08`](https://github.com/webhintio/hint/commit/3d346a6b0864f8a38f8cffefd83bfc185b4fdf40)] - Fix: Typo in error message (by [`Robert Linder`](https://github.com/Malvoz) / see also: [`#3200`](https://github.com/webhintio/hint/issues/3200)).
+
+## Chores
+
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.2.10 (October 16, 2019)
 
 ## Chores

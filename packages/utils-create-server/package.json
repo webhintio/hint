@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@hint/utils": "^6.0.0",
+    "@hint/utils": "^6.1.0",
     "express": "^4.17.1",
     "is-ci": "^2.0.0",
     "lodash": "^4.17.15",
@@ -60,5 +60,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.2.3"
+  "version": "3.3.0"
 }

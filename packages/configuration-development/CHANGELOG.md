@@ -1,3 +1,11 @@
+# 7.3.0 (October 29, 2019)
+
+## New features
+
+* [[`bcd750f84a`](https://github.com/webhintio/hint/commit/bcd750f84a757341a8c65a659c6f1ad2e4347de2)] - New: Enable TypeScript support by default (by [`Tony Ross`](https://github.com/antross)).
+* [[`6b19a53e90`](https://github.com/webhintio/hint/commit/6b19a53e90a309fc583cc866cb9dc060b09be93e)] - New: Enable parser-javascript and parser-jsx during development (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 7.2.5 (October 16, 2019)
 
 

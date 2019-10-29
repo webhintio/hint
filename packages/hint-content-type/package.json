@@ -8,12 +8,12 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.0.0",
+    "@hint/utils": "^6.1.0",
     "content-type": "^1.0.4"
   },
   "description": "hint for media types (f.k.a. MIME types) related best practices",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.11",
+    "@hint/utils-tests-helpers": "^5.1.0",
     "@types/content-type": "^1.1.3",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.10"
+  "version": "4.1.11"
 }

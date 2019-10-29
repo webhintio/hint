@@ -8,13 +8,13 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.0.0",
+    "@hint/utils": "^6.1.0",
     "lodash": "^4.17.15"
   },
   "description": "hint that that validates HTML pages using the Nu HTML checker",
   "devDependencies": {
-    "@hint/parser-html": "^3.0.10",
-    "@hint/utils-tests-helpers": "^5.0.11",
+    "@hint/parser-html": "^3.0.11",
+    "@hint/utils-tests-helpers": "^5.1.0",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",
     "@types/request": "^2.48.3",
@@ -78,5 +78,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.2.10"
+  "version": "3.2.11"
 }

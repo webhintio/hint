@@ -8,11 +8,11 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.0.0"
+    "@hint/utils": "^6.1.0"
   },
   "description": "hint that that warns against using the BOM character at the beginning of a text file.",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.11",
+    "@hint/utils-tests-helpers": "^5.1.0",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.10"
+  "version": "4.1.11"
 }

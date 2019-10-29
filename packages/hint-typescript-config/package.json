@@ -8,12 +8,12 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.0.0"
+    "@hint/utils": "^6.1.0"
   },
   "description": "hint that that checks if the TypeScript configuration is valid.",
   "devDependencies": {
-    "@hint/parser-typescript-config": "^2.3.10",
-    "@hint/utils-tests-helpers": "^5.0.11",
+    "@hint/parser-typescript-config": "^2.4.0",
+    "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -77,5 +77,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.10"
+  "version": "2.3.11"
 }

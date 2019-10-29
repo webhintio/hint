@@ -8,12 +8,12 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.0.0",
+    "@hint/utils": "^6.1.0",
     "iltorb": "^2.4.3"
   },
   "description": "hint for HTTP compression related best practices",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.11",
+    "@hint/utils-tests-helpers": "^5.1.0",
     "@types/iltorb": "^2.3.0",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",
@@ -77,5 +77,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "5.1.10"
+  "version": "5.1.11"
 }

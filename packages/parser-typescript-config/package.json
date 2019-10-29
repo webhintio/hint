@@ -8,7 +8,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.0.0",
+    "@hint/utils": "^6.1.0",
     "lodash": "^4.17.15"
   },
   "description": "webhint parser needed to analyze TypeScript config files",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.10"
+  "version": "2.4.0"
 }

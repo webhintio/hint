@@ -8,14 +8,14 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.0.0",
+    "@hint/utils": "^6.1.0",
     "cloudinary": "^1.16.0",
     "fs-extra": "^8.0.1",
     "image-size": "^0.8.3"
   },
   "description": "hint that that checks using Cloudinary's API if images are optimized",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.11",
+    "@hint/utils-tests-helpers": "^5.1.0",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -77,5 +77,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.10"
+  "version": "3.1.11"
 }

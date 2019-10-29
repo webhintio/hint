@@ -1,3 +1,16 @@
+# 2.10.0 (October 29, 2019)
+
+## New features
+
+* [[`7d00b75eb7`](https://github.com/webhintio/hint/commit/7d00b75eb73f25dd1fa45169101666803bfbee1f)] - Update: 'snyk-snapshot.json'.
+
+## Chores
+
+* [[`60a2c93a0c`](https://github.com/webhintio/hint/commit/60a2c93a0c6df633d2fd5c604793868ba8c8f415)] - Upgrade: Bump js-library-detector from 5.4.0 to 5.6.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.9.11 (October 17, 2019)
 
 ## New features

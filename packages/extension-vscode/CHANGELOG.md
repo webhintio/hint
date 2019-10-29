@@ -1,3 +1,21 @@
+# 1.4.0 (October 29, 2019)
+
+## New features
+
+* [[`e400f4a6e2`](https://github.com/webhintio/hint/commit/e400f4a6e2f85c072ced260181b1162681c89d39)] - New: Activate for TypeScript and TSX files (by [`Tony Ross`](https://github.com/antross)).
+* [[`de43df9bbd`](https://github.com/webhintio/hint/commit/de43df9bbd2178c6ae7d40156f485193a9b5218c)] - New: Allow ranged locations in CSS (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3130`](https://github.com/webhintio/hint/issues/3130)).
+* [[`fac5cb2a10`](https://github.com/webhintio/hint/commit/fac5cb2a108fa0206dbd30fb2f310497fbb39bb3)] - New: Register to analyze JSX files (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`6fdc164013`](https://github.com/webhintio/hint/commit/6fdc164013359ecf012fb9dcd5c0ef9ed5aca192)] - Upgrade: Bump @types/sinon from 7.0.13 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`b8ba2e17cd`](https://github.com/webhintio/hint/commit/b8ba2e17cdca7fccfd274b2ba250a96329b23fe8)] - Upgrade: Bump sinon from 7.4.2 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a9bd8358bd`](https://github.com/webhintio/hint/commit/a9bd8358bd257152a713b385b713bc334d84006e)] - Upgrade: Bump vsce from 1.67.1 to 1.68.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0cfa8ecfbf`](https://github.com/webhintio/hint/commit/0cfa8ecfbf23aa46fb3e88794531144ab262ca21)] - Chore: Update proxyquire and fix tests (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3121`](https://github.com/webhintio/hint/issues/3121)).
+
+
 # 1.3.4 (October 17, 2019)
 
 

@@ -1,3 +1,18 @@
+# 3.3.0 (October 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`390346d57b`](https://github.com/webhintio/hint/commit/390346d57bec71dd9b8b34d3c705b2e1c5ccf12a)] - Fix: Path to web server code (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`c0d58ae19e`](https://github.com/webhintio/hint/commit/c0d58ae19ec0209ec336498cc801a3838ef6a9f1)] - New: Option to run in the same thread (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1780`](https://github.com/webhintio/hint/issues/1780)).
+
+## Chores
+
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.2.3 (October 16, 2019)
 
 ## Chores

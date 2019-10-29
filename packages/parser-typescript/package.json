@@ -8,13 +8,13 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/parser-javascript": "^3.0.13",
-    "@hint/utils": "^6.0.0",
+    "@hint/parser-javascript": "^3.1.0",
+    "@hint/utils": "^6.1.0",
     "@typescript-eslint/typescript-estree": "^2.5.0"
   },
   "description": "webhint parser needed to analyze TypeScript files",
   "devDependencies": {
-    "@hint/parser-html": "^3.0.10",
+    "@hint/parser-html": "^3.0.11",
     "@hint/parser-jsx": "^1.0.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -49,7 +49,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "@hint/parser-javascript": "^3.0.12",
+    "@hint/parser-javascript": "^3.0.0",
     "hint": "^5.0.0"
   },
   "repository": {

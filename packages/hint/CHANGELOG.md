@@ -1,3 +1,26 @@
+# 5.4.0 (October 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`e191a3e012`](https://github.com/webhintio/hint/commit/e191a3e012670003c8eaf2f99e5ed823f57de352)] - Docs: How to integrate on CircleCI and Travis CI (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2713`](https://github.com/webhintio/hint/issues/2713), and [`#3124`](https://github.com/webhintio/hint/issues/3124)).
+* [[`0df8d196dc`](https://github.com/webhintio/hint/commit/0df8d196dc81432dc63172c1650c5a77971c209a)] - Fix: Return right path when extending JSONs (by [`Antón Molleda`](https://github.com/molant)).
+* [[`886d414b5d`](https://github.com/webhintio/hint/commit/886d414b5d78ee9c1c795c979ce8193dfaac6b91)] - Docs: Fix typo on 'Browser Configuration' docs (by [`Christian Oliff`](https://github.com/coliff) / see also: [`#3169`](https://github.com/webhintio/hint/issues/3169)).
+* [[`39b09ddbe2`](https://github.com/webhintio/hint/commit/39b09ddbe2bd1dd5010bd0eaa6a0a570a907b8ff)] - Docs: Add information about WSL (by [`mahomedalid`](https://github.com/mahomedalid) / see also: [`#3162`](https://github.com/webhintio/hint/issues/3162)).
+
+## New features
+
+* [[`214ad66898`](https://github.com/webhintio/hint/commit/214ad668983747424311cc7fb33e145c30ad1994)] - New: Enhance `can-evaluate::script` event (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`6fdc164013`](https://github.com/webhintio/hint/commit/6fdc164013359ecf012fb9dcd5c0ef9ed5aca192)] - Upgrade: Bump @types/sinon from 7.0.13 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`af5d9297c7`](https://github.com/webhintio/hint/commit/af5d9297c708bb626e431e74b83e7748abf81e87)] - Chore: Verbose configuration error (by [`mahomedalid`](https://github.com/mahomedalid) / see also: [`#3143`](https://github.com/webhintio/hint/issues/3143)).
+* [[`b8ba2e17cd`](https://github.com/webhintio/hint/commit/b8ba2e17cdca7fccfd274b2ba250a96329b23fe8)] - Upgrade: Bump sinon from 7.4.2 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0cfa8ecfbf`](https://github.com/webhintio/hint/commit/0cfa8ecfbf23aa46fb3e88794531144ab262ca21)] - Chore: Update proxyquire and fix tests (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3121`](https://github.com/webhintio/hint/issues/3121)).
+
+
 # 5.3.3 (October 17, 2019)
 
 

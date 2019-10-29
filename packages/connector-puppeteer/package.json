@@ -8,16 +8,16 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.0.0",
-    "@hint/utils-connector-tools": "^4.0.13",
+    "@hint/utils": "^6.1.0",
+    "@hint/utils-connector-tools": "^4.0.14",
     "is-ci": "^2.0.0",
     "lockfile": "^1.0.4",
     "puppeteer-core": "^1.20.0"
   },
   "description": "hint connector for browsers supported by Puppeteer",
   "devDependencies": {
-    "@hint/parser-html": "^3.0.10",
-    "@hint/utils-create-server": "^3.2.3",
+    "@hint/parser-html": "^3.0.11",
+    "@hint/utils-create-server": "^3.3.0",
     "@types/is-ci": "^2.0.0",
     "@types/lockfile": "^1.0.1",
     "@types/lodash": "^4.14.141",
@@ -88,5 +88,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.0"
+  "version": "2.4.0"
 }

@@ -1,3 +1,21 @@
+# 4.2.0 (October 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`aae99bcd7d`](https://github.com/webhintio/hint/commit/aae99bcd7dd886eea0bfabee1a20fe9102cedbfd)] - Docs: Ignore auto-generated files (by [`Antón Molleda`](https://github.com/molant)).
+* [[`4ec8e55720`](https://github.com/webhintio/hint/commit/4ec8e5572011bdafc60b6cc4e846cf99f8793974)] - Fix: Recognize fragment documents and template expressions (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`029fb6da5b`](https://github.com/webhintio/hint/commit/029fb6da5bbd8321d727410637560c9cdb41211f)] - New: Add `aria-roledescription` (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`a2dd8fa936`](https://github.com/webhintio/hint/commit/a2dd8fa93635434b750073ee99d5d594b278cd9a)] - Upgrade: Bump axe-core from 3.3.2 to 3.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.1.6 (October 16, 2019)
 
 ## Chores

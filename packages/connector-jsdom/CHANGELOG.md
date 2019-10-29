@@ -1,3 +1,23 @@
+# 4.1.0 (October 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`81d5f84f51`](https://github.com/webhintio/hint/commit/81d5f84f51596c24009089fb977e59fd05e0f28f)] - Fix: Unhandled promise rejections when self-signed in jsdom (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3128`](https://github.com/webhintio/hint/issues/3128)).
+
+## New features
+
+* [[`214ad66898`](https://github.com/webhintio/hint/commit/214ad668983747424311cc7fb33e145c30ad1994)] - New: Enhance `can-evaluate::script` event (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`2e2e67cff1`](https://github.com/webhintio/hint/commit/2e2e67cff1ca140a96fc2d0879113e34c08fd000)] - Chore: Remove unnecessary types (by [`Antón Molleda`](https://github.com/molant)).
+* [[`6fdc164013`](https://github.com/webhintio/hint/commit/6fdc164013359ecf012fb9dcd5c0ef9ed5aca192)] - Upgrade: Bump @types/sinon from 7.0.13 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`b8ba2e17cd`](https://github.com/webhintio/hint/commit/b8ba2e17cdca7fccfd274b2ba250a96329b23fe8)] - Upgrade: Bump sinon from 7.4.2 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`94e004be77`](https://github.com/webhintio/hint/commit/94e004be7773e4bf5b9381ab9147bc9423b89ee8)] - Upgrade: Bump jsdom from 15.1.1 to 15.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.0.13 (October 16, 2019)
 
 ## Chores

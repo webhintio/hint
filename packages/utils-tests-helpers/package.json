@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "@hint/connector-jsdom": "^4.0.13",
-    "@hint/connector-local": "^3.1.10",
-    "@hint/connector-puppeteer": "^2.3.0",
-    "@hint/utils": "^6.0.0",
-    "@hint/utils-create-server": "^3.2.3",
+    "@hint/connector-jsdom": "^4.1.0",
+    "@hint/connector-local": "^3.2.0",
+    "@hint/connector-puppeteer": "^2.4.0",
+    "@hint/utils": "^6.1.0",
+    "@hint/utils-create-server": "^3.3.0",
     "ava": "^2.4.0"
   },
   "description": "hint tests helpers",
@@ -61,5 +61,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "5.0.11"
+  "version": "5.1.0"
 }

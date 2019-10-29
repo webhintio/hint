@@ -8,11 +8,11 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.0.0"
+    "@hint/utils": "^6.1.0"
   },
   "description": "Check if button has type attribute set",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.11",
+    "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -72,5 +72,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.2.10"
+  "version": "2.2.11"
 }

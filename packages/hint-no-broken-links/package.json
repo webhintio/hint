@@ -9,11 +9,11 @@
   },
   "description": "Verify that all links and resources the page uses are available online.",
   "dependencies": {
-    "@hint/utils": "^6.0.0",
-    "@hint/utils-connector-tools": "^4.0.13"
+    "@hint/utils": "^6.1.0",
+    "@hint/utils-connector-tools": "^4.0.14"
   },
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^5.0.11",
+    "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",
     "@types/request": "^2.48.3",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.10"
+  "version": "4.1.11"
 }

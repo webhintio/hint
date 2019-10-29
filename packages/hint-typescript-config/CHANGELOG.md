@@ -1,3 +1,18 @@
+# 2.3.11 (October 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`99bf879993`](https://github.com/webhintio/hint/commit/99bf879993925f3511880c063b7248a29dd3ac6a)] - Fix: Edge error locations when using `extends` (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3196`](https://github.com/webhintio/hint/issues/3196)).
+* [[`0395b4b980`](https://github.com/webhintio/hint/commit/0395b4b980f2f34d182a06926ba4340ddf58c6f9)] - Fix: TypeScript error location (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3168`](https://github.com/webhintio/hint/issues/3168)).
+* [[`34438d81f7`](https://github.com/webhintio/hint/commit/34438d81f7ea1b25d2dc1e02c754714bce13e73a)] - Fix: Location for JSON errors (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2222`](https://github.com/webhintio/hint/issues/2222), and [`#3123`](https://github.com/webhintio/hint/issues/3123)).
+
+## Chores
+
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`b8ba2e17cd`](https://github.com/webhintio/hint/commit/b8ba2e17cdca7fccfd274b2ba250a96329b23fe8)] - Upgrade: Bump sinon from 7.4.2 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.3.10 (October 16, 2019)
 
 ## Chores

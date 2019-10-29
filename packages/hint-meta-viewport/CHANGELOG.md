@@ -1,3 +1,15 @@
+# 4.1.11 (October 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`4ec8e55720`](https://github.com/webhintio/hint/commit/4ec8e5572011bdafc60b6cc4e846cf99f8793974)] - Fix: Recognize fragment documents and template expressions (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.1.10 (October 16, 2019)
 
 ## Chores

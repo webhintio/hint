@@ -80,10 +80,12 @@
         "css",
         "html",
         "javascript",
+        "jsx",
         "less",
         "manifest",
         "package-json",
         "sass",
+        "typescript",
         "typescript-config",
         "webpack-config"
     ]

@@ -9,7 +9,7 @@
   },
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
-    "@hint/utils": "^6.0.0",
+    "@hint/utils": "^6.1.0",
     "boxen": "^4.1.0",
     "browserslist": "^4.7.0",
     "chalk": "^2.4.2",
@@ -69,8 +69,8 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
-    "@hint/configuration-development": "^7.2.5",
-    "@hint/configuration-web-recommended": "^7.2.6"
+    "@hint/configuration-development": "^7.3.0",
+    "@hint/configuration-web-recommended": "^7.2.7"
   },
   "repository": {
     "directory": "packages/hint",
@@ -98,5 +98,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "5.3.3"
+  "version": "5.4.0"
 }

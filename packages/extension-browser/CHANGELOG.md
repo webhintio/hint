@@ -1,3 +1,28 @@
+# 1.2.0 (October 29, 2019)
+
+## New features
+
+* [[`214ad66898`](https://github.com/webhintio/hint/commit/214ad668983747424311cc7fb33e145c30ad1994)] - New: Enhance `can-evaluate::script` event (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`5bb9b3eec7`](https://github.com/webhintio/hint/commit/5bb9b3eec7b17ba61c54db9da38c741eda934ab5)] - Chore: Bump max size for browser extension (by [`Antón Molleda`](https://github.com/molant)).
+* [[`a2dd8fa936`](https://github.com/webhintio/hint/commit/a2dd8fa93635434b750073ee99d5d594b278cd9a)] - Upgrade: Bump axe-core from 3.3.2 to 3.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`860904de59`](https://github.com/webhintio/hint/commit/860904de5944beeba2ed3c516bba6760559390d3)] - Chore: Use `IServer` instead of `Server` (by [`Antón Molleda`](https://github.com/molant)).
+* [[`6fdc164013`](https://github.com/webhintio/hint/commit/6fdc164013359ecf012fb9dcd5c0ef9ed5aca192)] - Upgrade: Bump @types/sinon from 7.0.13 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e8aa1098e5`](https://github.com/webhintio/hint/commit/e8aa1098e5483fea8de59b220675248fbe41b9e1)] - Chore: Omit JSX packages when bundling for the browser (by [`Tony Ross`](https://github.com/antross)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`1d9e43dd45`](https://github.com/webhintio/hint/commit/1d9e43dd453f7971cb801cfd4f73100621dcb375)] - Chore: Fix test case to simulate parsing HTML (by [`Tony Ross`](https://github.com/antross)).
+* [[`b8ba2e17cd`](https://github.com/webhintio/hint/commit/b8ba2e17cdca7fccfd274b2ba250a96329b23fe8)] - Upgrade: Bump sinon from 7.4.2 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`84741292b0`](https://github.com/webhintio/hint/commit/84741292b0a04f1b3bb5922bccd7c3494b86f09d)] - Upgrade: Bump @types/react-dom from 16.9.1 to 16.9.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`94e004be77`](https://github.com/webhintio/hint/commit/94e004be7773e4bf5b9381ab9147bc9423b89ee8)] - Upgrade: Bump jsdom from 15.1.1 to 15.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5c6f1dee6e`](https://github.com/webhintio/hint/commit/5c6f1dee6e35095caf958e296c7a349696e06efa)] - Upgrade: Bump @types/react from 16.9.5 to 16.9.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ac9f76a98d`](https://github.com/webhintio/hint/commit/ac9f76a98d3007b6717b8dd9e2aad641383fa5a5)] - Upgrade: Bump @types/chrome from 0.0.89 to 0.0.91 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1d9e33db15`](https://github.com/webhintio/hint/commit/1d9e33db15f12b571273479c00b344af972c7f25)] - Chore: Allow build-release to work if build hasn't been run yet (by [`Tony Ross`](https://github.com/antross) / see also: [`#3129`](https://github.com/webhintio/hint/issues/3129)).
+* [[`0cfa8ecfbf`](https://github.com/webhintio/hint/commit/0cfa8ecfbf23aa46fb3e88794531144ab262ca21)] - Chore: Update proxyquire and fix tests (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3121`](https://github.com/webhintio/hint/issues/3121)).
+
+
 # 1.1.1 (October 17, 2019)
 
 

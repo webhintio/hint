@@ -1,3 +1,16 @@
+# 2.9.12 (October 29, 2019)
+
+## New features
+
+* [[`b8b4e9ffc9`](https://github.com/webhintio/hint/commit/b8b4e9ffc95778806b396e657d4608f78641bcda)] - Update: 'validator'.
+
+## Chores
+
+* [[`3eb15e85b6`](https://github.com/webhintio/hint/commit/3eb15e85b6d677bf6b1cbf6c9c3f17b505f28553)] - Upgrade: Bump amphtml-validator from 1.0.23 to 1.0.28 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.9.11 (October 17, 2019)
 
 ## New features

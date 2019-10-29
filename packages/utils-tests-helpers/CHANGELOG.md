@@ -1,3 +1,16 @@
+# 5.1.0 (October 29, 2019)
+
+## New features
+
+* [[`de43df9bbd`](https://github.com/webhintio/hint/commit/de43df9bbd2178c6ae7d40156f485193a9b5218c)] - New: Allow ranged locations in CSS (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3130`](https://github.com/webhintio/hint/issues/3130)).
+
+## Chores
+
+* [[`860904de59`](https://github.com/webhintio/hint/commit/860904de5944beeba2ed3c516bba6760559390d3)] - Chore: Use `IServer` instead of `Server` (by [`Antón Molleda`](https://github.com/molant)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 5.0.11 (October 16, 2019)
 
 ## Chores
