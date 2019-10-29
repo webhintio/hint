@@ -70,7 +70,7 @@ export class IndependentServer implements IServer {
     }
 
     public constructor(isHTTPS: boolean = false) {
-        const pathToServer = `${__dirname}/server.js`;
+        const pathToServer = `${__dirname}/same-thread-server.js`;
         const serverArgs = isHTTPS ? 'https' : '';
         const opts = {
             cwd: __dirname,
