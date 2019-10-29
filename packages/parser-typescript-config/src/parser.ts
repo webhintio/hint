@@ -179,6 +179,7 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
             await this.engine.emitAsync(`parse::end::typescript-config`, {
                 config: validationResult.data,
                 getLocation: result.getLocation,
+                mergedConfig: config,
                 originalConfig,
                 resource
             });

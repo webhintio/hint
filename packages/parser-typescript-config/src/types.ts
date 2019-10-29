@@ -27,10 +27,12 @@ export type TypeScriptConfigParseStart = Event;
 
 /** The object emitted by the `typescript-config` parser */
 export type TypeScriptConfigParse = Event & {
-    /** The TypeScript config parsed */
+    /** The final TypeScript config after adding default values */
     config: TypeScriptConfig;
     /** Find the location of a path within the original JSON source */
     getLocation: IJSONLocationFunction;
+    /** The combined TypeScript config after inlining `extends` */
+    mergedConfig: TypeScriptConfig;
     /** The original TypeScript config */
     originalConfig: TypeScriptConfig;
 };

@@ -44,7 +44,12 @@ This `parser` emits the following events:
   which contains the following information:
 
   * `resource`: the parsed resource.
-  * `config`: an object with a valid configuration (`TypeScriptConfig`).
+  * `getLocation`: helper to find the location of a path within the original
+    JSON source.
+  * `config`: the final configuration after adding default values
+    (`TypeScriptConfig`).
+  * `mergedConfig`: the merged configuration after inlining `extends`.
+  * `originalConfig`: the original configuration before resolving `extends`.
 
 * `parse::error::typescript-config::json`, of type `TypeScriptConfigInvalidJSON`
   which contains the following information:
