@@ -4,7 +4,7 @@
 [CircleCI][] is a CI/CD service you can use to run webhint
 to test your website.
 
-## Local testing
+## Source code analysis
 
 You can integrate `webhint` by adding it to the `package.json` of a Node
 project as shown in the "For Node projects" section below. If you are not
@@ -71,7 +71,7 @@ Node in the image, we can install `hint` manually and run the scan.
 
 As in the previous example, the default configuration will be `configuration-development`.
 
-## Online
+## Live site analysis
 
 ### For Node projects
 
