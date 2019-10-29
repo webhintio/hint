@@ -86,7 +86,7 @@ or the following if custom:
 Then you have to run the following command to scan a website:
 
 ```bash
-hint https://example.com
+npx hint https://example.com
 ```
 
 Wait a few seconds and you will get something similar to the following:
