@@ -141,6 +141,9 @@ In this case, we are telling to Travis CI to install `chrome` and `nodejs`.
 
 ### Enabling telemetry
 
+**Note:** To know more about how webhint uses telemetry, please visit
+the [telemetry documentation][].
+
 You can enable telemetry by adding either a parameter or an `env` variable.
 
 1. By parameter: Add `--tracking=on` to the script in your `package.json`
@@ -202,4 +205,5 @@ for more details.
 <!-- Link labels -->
 
 [configuring webhint]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[telemetry documentation]: https://webhint.io/docs/user-guide/telemetry/summary/
 [travisci]: https://travis-ci.org/

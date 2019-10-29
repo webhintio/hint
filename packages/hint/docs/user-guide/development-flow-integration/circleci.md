@@ -147,6 +147,9 @@ and a Chromium browser in your image.
 
 ### Enabling telemetry
 
+**Note:** To know more about how webhint uses telemetry, please visit
+the [telemetry documentation][].
+
 You can enable telemetry by adding either a parameter or an `env` variable.
 
 1. By parameter: Add `--tracking=on` to the script in your `package.json`
@@ -201,3 +204,4 @@ for more details.
 
 [CircleCI]: https://circleci.com/
 [configuring webhint]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[telemetry documentation]: https://webhint.io/docs/user-guide/telemetry/summary/
