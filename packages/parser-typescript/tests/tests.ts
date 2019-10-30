@@ -7,6 +7,8 @@ import { CallExpression, ScriptEvents } from '@hint/parser-javascript';
 import { base } from '@hint/parser-javascript/dist/src/walk';
 import JSXParser from '@hint/parser-jsx';
 
+import proxyquire = require('proxyquire');
+
 import TypeScriptParser from '../src/parser';
 
 const emitFetchEndTSX = async (engine: Engine<ScriptEvents & HTMLEvents>, content: string) => {
@@ -78,6 +80,12 @@ const walkCallExpressions = async (content: string) => {
 
     return nodes;
 };
+
+test('It gracefully handles a missing TypeScript dependency', (t) => {
+    t.notThrows(() => {
+        proxyquire('../src/parser', { '@typescript-eslint/typescript-estree': null });
+    });
+});
 
 test('It can parse and skip types to walk ESTree AST nodes', async (t) => {
     const nodes = await walkCallExpressions(`
