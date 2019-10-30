@@ -1,21 +1,21 @@
 {
   "dependencies": {
+    "@hint/configuration-development": "^7.3.1",
     "@hint/configuration-accessibility": "^1.0.11",
-    "@hint/configuration-development": "^7.3.0",
     "@hint/configuration-progressive-web-apps": "^6.0.11",
     "@hint/configuration-web-recommended": "^7.2.7",
     "@hint/connector-jsdom": "^4.1.0",
     "@hint/connector-local": "^3.2.0",
     "@hint/connector-puppeteer": "^2.4.0",
-    "vscode-webhint": "^1.4.0",
+    "@hint/extension-browser": "^1.2.1",
+    "vscode-webhint": "^1.4.1",
     "@hint/formatter-codeframe": "^3.1.11",
-    "@hint/extension-browser": "^1.2.0",
     "@hint/formatter-excel": "^3.1.11",
     "@hint/formatter-html": "^4.1.10",
     "@hint/formatter-json": "^3.1.11",
     "@hint/formatter-stylish": "^3.1.11",
     "@hint/formatter-summary": "^3.0.14",
-    "@hint/hint-amp-validator": "^2.9.12",
+    "@hint/hint-amp-validator": "^2.9.13",
     "@hint/hint-apple-touch-icons": "^3.1.11",
     "@hint/hint-axe": "^4.2.0",
     "@hint/hint-babel-config": "^2.3.11",
@@ -63,12 +63,12 @@
     "@hint/parser-css": "^3.0.14",
     "@hint/parser-html": "^3.0.11",
     "@hint/parser-javascript": "^3.1.0",
-    "@hint/parser-jsx": "^1.0.0",
+    "@hint/parser-jsx": "^1.0.1",
     "@hint/parser-less": "^1.0.6",
     "@hint/parser-manifest": "^2.2.12",
     "@hint/parser-package-json": "^1.1.14",
     "@hint/parser-sass": "^1.0.6",
-    "@hint/parser-typescript": "^1.0.0",
+    "@hint/parser-typescript": "^1.0.1",
     "@hint/parser-typescript-config": "^2.4.0",
     "@hint/parser-webpack-config": "^2.1.14"
   },
@@ -95,5 +95,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "1.0.12"
+  "version": "1.0.13"
 }

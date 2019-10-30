@@ -24,10 +24,10 @@
     "@hint/parser-css": "^3.0.14",
     "@hint/parser-html": "^3.0.11",
     "@hint/parser-javascript": "^3.1.0",
-    "@hint/parser-jsx": "^1.0.0",
+    "@hint/parser-jsx": "^1.0.1",
     "@hint/parser-less": "^1.0.6",
     "@hint/parser-sass": "^1.0.6",
-    "@hint/parser-typescript": "^1.0.0",
+    "@hint/parser-typescript": "^1.0.1",
     "@hint/parser-typescript-config": "^2.4.0",
     "@hint/parser-webpack-config": "^2.1.14"
   },
@@ -57,5 +57,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "7.3.0"
+  "version": "7.3.1"
 }

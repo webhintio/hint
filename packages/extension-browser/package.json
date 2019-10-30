@@ -68,7 +68,7 @@
     "focus-visible": "^5.0.2",
     "glob": "^7.1.4",
     "globby": "^10.0.1",
-    "hint": "^5.4.0",
+    "hint": "^5.4.1",
     "is-ci": "^2.0.0",
     "jsdom": "^15.2.0",
     "lodash": "^4.17.15",
@@ -147,5 +147,5 @@
     "webpack": "webpack",
     "webpack-stats": "webpack --json > stats.json"
   },
-  "version": "1.2.0"
+  "version": "1.2.1"
 }

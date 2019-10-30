@@ -1,3 +1,10 @@
+# 1.4.1 (October 30, 2019)
+
+## Bug fixes / Improvements
+
+* [[`e78e12b04b`](https://github.com/webhintio/hint/commit/e78e12b04beff09f5734b679a67b725a0d348b62)] - Fix: Include TypeScript in shared install.
+
+
 # 1.4.0 (October 29, 2019)
 
 ## New features

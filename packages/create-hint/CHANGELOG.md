@@ -1,3 +1,6 @@
+# 3.3.2 (October 30, 2019)
+
+
 # 3.3.1 (October 29, 2019)
 
 ## Bug fixes / Improvements

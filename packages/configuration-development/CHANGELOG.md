@@ -1,3 +1,6 @@
+# 7.3.1 (October 30, 2019)
+
+
 # 7.3.0 (October 29, 2019)
 
 ## New features

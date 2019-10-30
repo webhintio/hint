@@ -1,3 +1,6 @@
+# 1.2.1 (October 30, 2019)
+
+
 # 1.2.0 (October 29, 2019)
 
 ## New features
