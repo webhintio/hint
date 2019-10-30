@@ -3,7 +3,7 @@ import { createPackageJson, installPackages, loadPackage, InstallOptions } from 
 
 /* istanbul ignore next */
 const installWebhint = (options: InstallOptions) => {
-    return installPackages(['hint@latest'], options);
+    return installPackages(['hint@latest', 'typescript@latest'], options);
 };
 
 /**
