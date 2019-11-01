@@ -18,12 +18,12 @@ We thank you for following these tips!
 
 ## Code of Conduct
 
-This project adheres to the [JS Foundation Code of
-Conduct](https://js.foundation/community/code-of-conduct). We kindly
-request that you read over our code of conduct before contributing.
+We kindly request that you read over our [code of conduct][coc]
+before contributing.
 
 <!-- Link labels -->
 
 [cla]: https://cla.js.foundation/webhintio/hint
+[coc]: https://github.com/webhintio/.github/blob/master/CODE_OF_CONDUCT
 [contributor guide]: https://webhint.io/docs/contributor-guide/
 [pr process]: https://webhint.io/docs/contributor-guide/getting-started/pull-requests/
