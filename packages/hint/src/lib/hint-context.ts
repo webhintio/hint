@@ -135,6 +135,15 @@ export class HintContext<E extends Events = Events> {
             sourceCode = getHTMLCodeSnippet(element);
         }
 
+        /**
+         * By default all hints get configured with `default` so they can
+         * decide the severity of each report unless it's overriden by the
+         * user.
+         */
+        const finalSeverity = this.severity !== Severity.default ?
+            this.severity :
+            severity;
+
         /*
          * If location is undefined or equal to null, `position` will be set as `{ column: -1, line: -1 }` later in `hint.report`.
          * So pass the `location` on as it is.
@@ -147,7 +156,7 @@ export class HintContext<E extends Events = Events> {
             location: position || { column: -1, line: -1 },
             message,
             resource,
-            severity: this.severity || severity,
+            severity: finalSeverity,
             sourceCode: codeSnippet || sourceCode || ''
         });
     }

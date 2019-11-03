@@ -7,7 +7,7 @@ import { Severity } from '../types/problems';
  * to objects or if an object is passed, it returns it.
  */
 
-const DEFAULT_HINT_LEVEL = 'error';
+const DEFAULT_HINT_LEVEL = Severity.default;
 
 const shortHandHintPrefixes: {[prefix: string]: keyof typeof Severity | undefined} = {
     '-': 'off',
@@ -47,7 +47,7 @@ const normalizeHint = (hint: string): NormalizedHint => {
 /**
  * Normalized all hints passed as configuration
  * Ex.:
- * * ["hint1"] => { "hint1": "error" }
+ * * ["hint1"] => { "hint1": "default" }
  * * { "hint1": "warning" } => { "hint1": "warning" }
  * * ["hint1:warning"] => { "hint1": "warning" }
  */
