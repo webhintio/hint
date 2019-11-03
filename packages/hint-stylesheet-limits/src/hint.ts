@@ -4,6 +4,7 @@
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, CanEvaluateScript } from 'hint/dist/src/lib/types';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -60,7 +61,7 @@ export default class StylesheetLimitsHint implements IHint {
 
         /* istanbul ignore next */
         // The following function will be evaluated in the context of the page.
-        const injectedCode = function() {
+        const injectedCode = function () {
 
             // Recursively count rules and imports in the passed stylesheet.
             const countRules = (styleSheet: CSSStyleSheet) => {
@@ -137,15 +138,27 @@ export default class StylesheetLimitsHint implements IHint {
 
             // Only check `maxImports` if a limit has been specified
             if (hasImportLimit && results.imports >= maxImports) {
-                context.report(event.resource, getMessage('maximumNested', context.language, [maxImports.toString(), results.imports.toString()]));
+                context.report(
+                    event.resource,
+                    getMessage('maximumNested', context.language, [maxImports.toString(), results.imports.toString()]),
+                    { severity: Severity.error }
+                );
             }
 
             if (hasRuleLimit && results.rules >= maxRules) {
-                context.report(event.resource, getMessage('maximumRules', context.language, [maxRules.toString(), results.rules.toString()]));
+                context.report(
+                    event.resource,
+                    getMessage('maximumRules', context.language, [maxRules.toString(), results.rules.toString()]),
+                    { severity: Severity.error }
+                );
             }
 
             if (hasSheetLimit && results.sheets >= maxSheets) {
-                context.report(event.resource, getMessage('maximumStylesheets', context.language, [maxSheets.toString(), results.sheets.toString()]));
+                context.report(
+                    event.resource,
+                    getMessage('maximumStylesheets', context.language, [maxSheets.toString(), results.sheets.toString()]),
+                    { severity: Severity.error }
+                );
             }
         };
 
