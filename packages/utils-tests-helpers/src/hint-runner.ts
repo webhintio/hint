@@ -105,9 +105,9 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
     const hints: HintsConfigObject = {};
 
     if (opts && opts.hintOptions) {
-        hints[id] = ['error', opts.hintOptions];
+        hints[id] = ['default', opts.hintOptions];
     } else {
-        hints[id] = 'error';
+        hints[id] = 'default';
     }
 
     const config = {
@@ -167,7 +167,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
     const reportsCopy = reports.slice(0);
 
     results.forEach((result) => {
-        const { location, message, resource } = result;
+        const { location, message, resource, severity } = result;
         let index = 0;
 
         const found = reportsCopy.some((report, i) => {
@@ -191,6 +191,10 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
                     (!('range' in report.position) || (
                         position.endLine === location.endLine &&
                         position.endColumn === location.endColumn));
+            }
+
+            if (typeof report.severity !== 'undefined' && severity !== report.severity) {
+                return false;
             }
 
             return true;
