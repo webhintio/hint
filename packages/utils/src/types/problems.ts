@@ -9,7 +9,8 @@ export enum Severity {
     hint = 1,
     information = 2,
     warning = 3,
-    error = 4
+    error = 4,
+    default = 5
 }
 
 /** A problem found by a hint  */

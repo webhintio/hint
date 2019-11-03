@@ -39,7 +39,7 @@ export const getSeverity = (config: HintConfig | HintConfig[]): Severity | null 
         configuredSeverity = getSeverity(config[0]);
     }
 
-    if (configuredSeverity !== null && configuredSeverity >= 0 && configuredSeverity <= 4) {
+    if (configuredSeverity !== null && configuredSeverity >= 0 && configuredSeverity <= 5) {
         return configuredSeverity;
     }
 
