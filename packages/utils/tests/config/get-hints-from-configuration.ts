@@ -49,8 +49,8 @@ test('If extends is not defined, it should return the hints normalized.', (t) =>
 
     const hints = getHintsFromConfiguration({ hints: ['hint1', 'hint2', 'hint3:warning'] });
 
-    t.is(hints.hint1, 'error');
-    t.is(hints.hint2, 'error');
+    t.is(hints.hint1, 'default');
+    t.is(hints.hint2, 'default');
     t.is(hints.hint3, 'warning');
 });
 
@@ -63,8 +63,8 @@ test(`If extends is defined, but it doesn't have any hint, should return only th
         hints: ['hint1', 'hint2', 'hint3:warning']
     });
 
-    t.is(hints.hint1, 'error');
-    t.is(hints.hint2, 'error');
+    t.is(hints.hint1, 'default');
+    t.is(hints.hint2, 'default');
     t.is(hints.hint3, 'warning');
     t.true(loadResourceStub.calledOnce);
 });

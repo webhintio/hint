@@ -11,7 +11,7 @@ test(`should normalize basic hints`, (t) => {
     ];
 
     const expected: HintsConfigObject = {
-        hint1: 'error',
+        hint1: 'default',
         hint2: 'error',
         hint3: 'warning',
         hint4: 'off'
@@ -27,8 +27,8 @@ test(`should normalize hints including array`, (t) => {
     ];
 
     const expected: HintsConfigObject = {
-        hint1: 'error',
-        hint2: ['error', { customization1: 'value1' }]
+        hint1: 'default',
+        hint2: ['default', { customization1: 'value1' }]
     };
 
     t.deepEqual(normalizeHints(hints), expected);

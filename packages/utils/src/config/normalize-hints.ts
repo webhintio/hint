@@ -7,7 +7,7 @@ import { Severity } from '../types/problems';
  * to objects or if an object is passed, it returns it.
  */
 
-const DEFAULT_HINT_LEVEL = Severity.default;
+const DEFAULT_HINT_LEVEL = 'default';
 
 const shortHandHintPrefixes: {[prefix: string]: keyof typeof Severity | undefined} = {
     '-': 'off',
