@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "rootDir": ".",
+        "strict": true
+    },
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
+    "extends": "../../tsconfig.json",
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts"
+    ],
+    "references": [
+        { "path": "../utils" },
+        { "path": "../utils-debug" },
+        { "path": "../utils-types" }
+    ]
+}
