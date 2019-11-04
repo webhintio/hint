@@ -1,5 +1,6 @@
 import { test, fs } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from 'hint';
 
 const { readFile } = fs;
 const { generateHTMLPage, getHintPath } = test;
@@ -37,15 +38,18 @@ const defaultTests: HintTest[] = [
         reports: [
             {
                 message: `A '<style>' inside '<svg>' should not affect elements outside of that subtree.`,
-                position: { match: '.test-html-class' }
+                position: { match: '.test-html-class' },
+                severity: Severity.error
             },
             {
                 message: `Styles from an unrelated SVG subtree matched this element using the following selector: '.test-html-class { }'`,
-                position: { match: 'p class="test-html-class"' }
+                position: { match: 'p class="test-html-class"' },
+                severity: Severity.error
             },
             {
                 message: `Styles from an unrelated SVG subtree matched this element using the following selector: '.test-html-class { }'`,
-                position: { match: 'h1 class="test-html-class"' }
+                position: { match: 'h1 class="test-html-class"' },
+                severity: Severity.error
             }
         ],
         serverConfig: generateConfig('elements-outside-svg.html')
@@ -55,11 +59,13 @@ const defaultTests: HintTest[] = [
         reports: [
             {
                 message: `A '<style>' inside '<svg>' should not affect elements outside of that subtree.`,
-                position: { match: '.test-another-svg-class' }
+                position: { match: '.test-another-svg-class' },
+                severity: Severity.error
             },
             {
                 message: `Styles from an unrelated SVG subtree matched this element using the following selector: '.test-another-svg-class { }'`,
-                position: { match: 'g class="test-another-svg-class"' }
+                position: { match: 'g class="test-another-svg-class"' },
+                severity: Severity.error
             }
         ],
         serverConfig: generateConfig('elements-inside-unrelated-svg.html')

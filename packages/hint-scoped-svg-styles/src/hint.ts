@@ -3,7 +3,7 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
+import { IHint, Severity } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { HTMLElement } from '@hint/utils/dist/src/dom/html';
 
@@ -97,7 +97,8 @@ export default class ScopedSvgStylesHint implements IHint {
                             codeLanguage: 'css',
                             codeSnippet,
                             element,
-                            location
+                            location,
+                            severity: Severity.error
                         });
 
                         let maxReportsPerCSSRule = Infinity;
@@ -107,7 +108,13 @@ export default class ScopedSvgStylesHint implements IHint {
                         }
 
                         for (let i = 0; (i < matchingElementsOutsideParentSVG.length && i < maxReportsPerCSSRule); i++) {
-                            context.report(resource, formatElementMessage(codeSnippet), { element: matchingElementsOutsideParentSVG[i] });
+                            context.report(
+                                resource,
+                                formatElementMessage(codeSnippet),
+                                {
+                                    element: matchingElementsOutsideParentSVG[i],
+                                    severity: Severity.error
+                                });
                         }
                     }
                 }
