@@ -3,8 +3,8 @@
  */
 
 import { debug as d } from '@hint/utils-debug';
-import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
-import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
+import { isDataURI } from '@hint/utils-network/dist/src/is-data-uri';
+import { normalizeHeaderValue } from '@hint/utils-network/dist/src/normalize-header-value';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 

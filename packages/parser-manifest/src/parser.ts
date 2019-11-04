@@ -7,8 +7,8 @@ import {
 } from 'hint/dist/src/lib/types';
 
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isHTTP } from '@hint/utils/dist/src/network/is-http';
-import { isHTTPS } from '@hint/utils/dist/src/network/is-https';
+import { isHTTP } from '@hint/utils-network/dist/src/is-http';
+import { isHTTPS } from '@hint/utils-network/dist/src/is-https';
 import { ManifestEvents } from './types';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { parseJSON } from '@hint/utils/dist/src/json-parser';

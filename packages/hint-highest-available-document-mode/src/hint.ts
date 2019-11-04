@@ -9,9 +9,9 @@
  * ------------------------------------------------------------------------------
  */
 
-import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
+import { HttpHeaders } from '@hint/utils-types/dist/src/http-headers';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isLocalFile } from '@hint/utils/dist/src/network/is-local-file';
+import { isLocalFile } from '@hint/utils-network/dist/src/is-local-file';
 import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
 import { IHint, TraverseEnd } from 'hint/dist/src/lib/types';

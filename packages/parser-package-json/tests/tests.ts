@@ -6,7 +6,8 @@ import { EventEmitter2 } from 'eventemitter2';
 import * as proxyquire from 'proxyquire';
 import anyTest, { TestInterface } from 'ava';
 
-import { getAsUri, loadJSONFile } from '@hint/utils';
+import { loadJSONFile } from '@hint/utils';
+import { getAsUri } from '@hint/utils-network';
 import { Engine, FetchEnd } from 'hint';
 
 import { PackageJsonEvents } from '../src/parser';

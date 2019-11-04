@@ -7,11 +7,13 @@ import anyTest, { TestInterface } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
 import * as utils from '@hint/utils';
+import * as network from '@hint/utils-network';
+import { getAsUri } from '@hint/utils-network';
 import { Engine, FetchEnd, ErrorEvent } from 'hint';
 
 import { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfigInvalidSchema } from '../src/parser';
 
-const { getAsUri, loadJSONFile, readFile } = utils;
+const { loadJSONFile, readFile } = utils;
 
 type SandboxContext = {
     sandbox: sinon.SinonSandbox;
@@ -24,7 +26,7 @@ const schema = readFile(path.join(__dirname, 'fixtures', 'schema.json'));
 const mockContext = (context: SandboxContext) => {
     const statObject = { mtime: new Date() };
 
-    (utils as any).requestAsync = (url: string): Promise<string> => {
+    (network as any).requestAsync = (url: string): Promise<string> => {
         return Promise.resolve(schema);
     };
 
@@ -32,7 +34,7 @@ const mockContext = (context: SandboxContext) => {
         return Promise.resolve();
     };
 
-    const requestAsyncStub = context.sandbox.stub(utils, 'requestAsync');
+    const requestAsyncStub = context.sandbox.stub(network, 'requestAsync');
     const writeFileAsyncStub = context.sandbox.stub(utils, 'writeFileAsync');
 
     const fs = {
@@ -49,6 +51,7 @@ const mockContext = (context: SandboxContext) => {
 
     const script = proxyquire('../src/parser', {
         '@hint/utils': utils,
+        '@hint/utils-network': network,
         fs
     });
 

@@ -11,6 +11,7 @@
     "@hint/utils": "^6.1.0",
     "@hint/utils-debug": "^1.0.0",
     "@hint/utils-i18n": "^1.0.0",
+    "@hint/utils-network": "^1.0.0",
     "@hint/utils-types": "^1.0.0",
     "js-library-detector": "^5.6.0",
     "lodash": "^4.17.15",

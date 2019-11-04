@@ -7,10 +7,10 @@ import * as puppeteer from 'puppeteer-core';
 import {
     Browser,
     getInstallationPath,
-    HttpHeaders,
-    getPlatform,
-    isRegularProtocol
+    getPlatform
 } from '@hint/utils';
+import { isRegularProtocol } from '@hint/utils-network';
+import { HttpHeaders } from '@hint/utils-types';
 import {
     createHTMLDocument,
     HTMLElement,

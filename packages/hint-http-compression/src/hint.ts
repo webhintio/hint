@@ -15,13 +15,11 @@ import {
     asyncTry,
     getFileExtension,
     isTextMediaType,
-    HttpHeaders,
-    isHTTP,
-    isRegularProtocol,
-    normalizeHeaderValue,
     normalizeString
 } from '@hint/utils';
+import { HttpHeaders } from '@hint/utils-types';
 import { HTMLElement } from '@hint/utils-dom';
+import { isHTTP, isRegularProtocol, normalizeHeaderValue } from '@hint/utils-network';
 import { FetchEnd, HintContext, IHint, NetworkData, Response } from 'hint';
 
 import { CompressionCheckOptions } from './types';

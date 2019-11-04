@@ -84,7 +84,7 @@ module.exports = (env) => {
             alias: {
                 './get-message$': path.resolve(__dirname, 'dist/src/shims/get-message.js'),
                 '@hint/utils-i18n/dist/src/get-message$': path.resolve(__dirname, 'dist/src/shims/get-message.js'),
-                '@hint/utils/dist/src/network/request-async$': path.resolve(__dirname, 'dist/src/shims/request-async.js'),
+                '@hint/utils-network/dist/src/request-async$': path.resolve(__dirname, 'dist/src/shims/request-async.js'),
                 'acorn-jsx$': path.resolve(__dirname, 'dist/src/shims/acorn-jsx.js'),
                 'acorn-jsx-walk$': path.resolve(__dirname, 'dist/src/shims/acorn-jsx-walk.js'),
                 'axe-core': require.resolve('axe-core/axe.min.js'),

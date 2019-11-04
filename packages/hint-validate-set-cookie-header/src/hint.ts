@@ -4,8 +4,8 @@
 
 import { debug as d } from '@hint/utils-debug';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isHTTPS } from '@hint/utils/dist/src/network/is-https';
-import { isRegularProtocol } from '@hint/utils/dist/src/network/is-regular-protocol';
+import { isHTTPS } from '@hint/utils-network/dist/src/is-https';
+import { isRegularProtocol } from '@hint/utils-network/dist/src/is-regular-protocol';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import { HintContext, CodeLanguage } from 'hint/dist/src/lib/hint-context';
 

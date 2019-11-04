@@ -1,4 +1,4 @@
-import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
+import { HttpHeaders } from '@hint/utils-types/dist/src/http-headers';
 
 /** Request data from fetching an item using a connector. */
 export type Request = {

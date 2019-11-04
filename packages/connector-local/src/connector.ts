@@ -46,17 +46,15 @@ import * as globby from 'globby';
 import { JSDOM } from 'jsdom';
 
 import {
-    asPathString,
     cwd,
-    getAsUri,
     getContentTypeData,
     getType,
-
     isFile,
     isTextMediaType,
     logger,
     readFileAsync
 } from '@hint/utils';
+import { asPathString, getAsUri} from '@hint/utils-network';
 import {
     HTMLDocument,
     HTMLElement,

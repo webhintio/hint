@@ -5,7 +5,8 @@ import * as sinon from 'sinon';
 import { EventEmitter2 } from 'eventemitter2';
 import test from 'ava';
 
-import { getAsUri, loadJSONFile, readFile } from '@hint/utils';
+import { loadJSONFile, readFile } from '@hint/utils';
+import { getAsUri } from '@hint/utils-network';
 import { Engine } from 'hint';
 import { FetchEnd } from 'hint/dist/src/lib/types';
 

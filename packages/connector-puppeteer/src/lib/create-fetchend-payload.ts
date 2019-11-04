@@ -1,5 +1,6 @@
 import * as puppeteer from 'puppeteer-core';
-import { getContentTypeData, HttpHeaders } from '@hint/utils';
+import { HttpHeaders } from '@hint/utils-types';
+import { getContentTypeData } from '@hint/utils';
 import { HTMLDocument } from '@hint/utils-dom';
 import { normalizeHeaders } from '@hint/utils-connector-tools';
 import { FetchEnd, NetworkData } from 'hint';

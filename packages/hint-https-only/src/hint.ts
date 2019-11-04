@@ -5,7 +5,7 @@
 import * as URL from 'url';
 
 import { ElementFound, FetchEnd, HintContext, IHint, Response } from 'hint';
-import { isDataURI, isHTTPS } from '@hint/utils';
+import { isDataURI, isHTTPS } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 
 import meta from './meta';

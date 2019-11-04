@@ -17,6 +17,7 @@
         { "path": "../parser-html" },
         { "path": "../utils" },
         { "path": "../utils-dom" },
-        { "path": "../utils-i18n" }
+        { "path": "../utils-i18n" },
+        { "path": "../utils-network" }
     ]
 }
