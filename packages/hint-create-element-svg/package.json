@@ -10,6 +10,7 @@
   "dependencies": {
     "@hint/utils": "^6.1.0",
     "@hint/utils-debug": "^1.0.0",
+    "@hint/utils-fs": "^1.0.0",
     "@hint/utils-i18n": "^1.0.0",
     "@hint/utils-types": "^1.0.0"
   },

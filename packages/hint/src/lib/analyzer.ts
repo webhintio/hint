@@ -21,10 +21,12 @@ import { loadResources } from './utils/resource-loader';
 
 import {
     cutString,
-    cwd,
-    isFile,
     logger
 } from '@hint/utils';
+import {
+    cwd,
+    isFile
+} from '@hint/utils-fs';
 import { Problem } from '@hint/utils-types';
 
 const initFormatters = (formatters: IFormatterConstructor[]): IFormatter[] => {

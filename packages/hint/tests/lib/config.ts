@@ -4,7 +4,7 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { readFileAsync } from '@hint/utils';
+import { readFileAsync } from '@hint/utils-fs';
 
 import { HintScope } from '../../src/lib/enums/hint-scope';
 import { IHint, HintMetadata } from '../../src/lib/types';

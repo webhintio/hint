@@ -32,10 +32,8 @@ const initContext = (t: ExecutionContext<JSONContext>) => {
 
 const loadScript = (context: JSONContext) => {
     const script = proxyquire('../src/formatter', {
-        '@hint/utils': {
-            logger: context.logging,
-            writeFileAsync: context.writeFileAsync
-        }
+        '@hint/utils': { logger: context.logging },
+        '@hint/utils-fs': { writeFileAsync: context.writeFileAsync }
     });
 
     return script.default;

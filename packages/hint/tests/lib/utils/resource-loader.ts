@@ -38,7 +38,6 @@ const loadScript = (context: ResourceLoaderContext) => {
             hasMultipleResources: utils.hasMultipleResources,
             isFullPackageName: utils.isFullPackageName,
             loadResource: context.loadResource,
-            readFile: utils.readFile,
             requirePackage: utils.requirePackage
         }
     });

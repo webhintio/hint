@@ -21,9 +21,9 @@ import {
     hasMultipleResources,
     isFullPackageName,
     loadResource,
-    readFile,
     requirePackage
 } from '@hint/utils';
+import { readFile } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 
 import { IHintConstructor, HintResources } from '../types';

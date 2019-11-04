@@ -10,6 +10,7 @@
   "description": "webhint parser to analyze the package.json file",
   "dependencies": {
     "@hint/utils": "^6.1.0",
+    "@hint/utils-fs": "^1.0.0",
     "@hint/utils-network": "^1.0.0"
   },
   "devDependencies": {

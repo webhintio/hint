@@ -86,7 +86,6 @@ const loadScript = (context: CreateHintRCContext): () => Promise<boolean> => {
                 sendPendingData() { },
                 trackEvent() { }
             },
-            cwd: utils.cwd,
             getOfficialPackages: context.npm.getOfficialPackages,
             installPackages: context.npm.installPackages,
             logger: context.logger

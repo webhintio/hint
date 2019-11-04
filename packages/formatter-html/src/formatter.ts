@@ -14,7 +14,8 @@ import * as ejs from 'ejs';
 import * as fs from 'fs-extra';
 
 import { Category, Problem } from '@hint/utils-types';
-import { cwd, logger } from '@hint/utils';
+import { logger } from '@hint/utils';
+import { cwd } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, HintResources, IFormatter } from 'hint';
 

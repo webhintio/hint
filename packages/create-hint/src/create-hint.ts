@@ -6,15 +6,17 @@ import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
 import {
-    cwd,
     logger,
     isOfficial,
     normalizeStringByDelimiter,
-    readFile,
     toCamelCase,
-    toPascalCase,
-    writeFileAsync
+    toPascalCase
 } from '@hint/utils';
+import {
+    cwd,
+    readFile,
+    writeFileAsync
+} from '@hint/utils-fs';
 import { Category } from '@hint/utils-types';
 import { HintScope } from 'hint';
 

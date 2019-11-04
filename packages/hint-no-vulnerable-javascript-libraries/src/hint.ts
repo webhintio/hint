@@ -8,8 +8,8 @@ import groupBy = require('lodash/groupBy');
 import * as semver from 'semver';
 
 import { debug as d } from '@hint/utils-debug';
-import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
-import { writeFileAsync } from '@hint/utils/dist/src/fs/write-file-async';
+import { readFileAsync } from '@hint/utils-fs/dist/src/read-file-async';
+import { writeFileAsync } from '@hint/utils-fs/dist/src/write-file-async';
 import * as logger from '@hint/utils/dist/src/logging';
 import { requestAsync } from '@hint/utils-network/dist/src/request-async';
 

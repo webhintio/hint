@@ -15,7 +15,8 @@ import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
-import { logger, writeFileAsync } from '@hint/utils';
+import { logger } from '@hint/utils';
+import { writeFileAsync } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, IFormatter } from 'hint';
 import { Problem, Severity } from '@hint/utils-types';

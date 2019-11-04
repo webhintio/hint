@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import cloneDeep = require('lodash/cloneDeep');
 
 import { Category, Problem, Severity } from '@hint/utils-types';
-import { loadJSONFile } from '@hint/utils';
+import { loadJSONFile } from '@hint/utils-fs';
 import { getCategoryName } from '@hint/utils-i18n';
 import { FormatterOptions } from 'hint';
 

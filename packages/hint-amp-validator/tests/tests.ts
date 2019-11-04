@@ -1,7 +1,8 @@
 /* eslint sort-keys: 0 */
 
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { getHintPath, readFile } from '@hint/utils';
+import { getHintPath } from '@hint/utils';
+import { readFile } from '@hint/utils-fs';
 
 const hintPath = getHintPath(__filename);
 

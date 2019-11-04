@@ -8,7 +8,7 @@ import * as path from 'path';
 import { DOMWindow } from 'jsdom';
 
 import * as jsdomutils from 'jsdom/lib/jsdom/living/generated/utils';
-import { readFile } from '@hint/utils';
+import { readFile } from '@hint/utils-fs';
 
 export const beforeParse = (finalHref: string) => {
     return (window: DOMWindow) => {

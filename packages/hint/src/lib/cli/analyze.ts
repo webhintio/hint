@@ -11,7 +11,6 @@ import {
     askQuestion,
     configStore,
     ConnectorConfig,
-    cwd,
     getHintsFromConfiguration,
     HintsConfigObject,
     HintSeverity,
@@ -20,6 +19,7 @@ import {
     mergeEnvWithOptions,
     normalizeHints
 } from '@hint/utils';
+import { cwd } from '@hint/utils-fs';
 import { getAsUris } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 import { Problem, Severity } from '@hint/utils-types';

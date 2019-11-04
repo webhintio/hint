@@ -7,7 +7,7 @@ import { URL } from 'url';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import { IServer, Server } from '@hint/utils-create-server';
-import { readFileAsync } from '@hint/utils';
+import { readFileAsync } from '@hint/utils-fs';
 import { asPathString, getAsUri, requestAsync } from '@hint/utils-network';
 
 import { Configuration, Engine, HintsConfigObject, IHintConstructor, utils } from 'hint';

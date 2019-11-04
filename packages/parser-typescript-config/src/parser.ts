@@ -4,7 +4,7 @@ import { promisify } from 'util';
 
 import { cloneDeep } from 'lodash';
 
-import { loadJSONFile, writeFileAsync } from '@hint/utils';
+import { loadJSONFile, writeFileAsync } from '@hint/utils-fs';
 import { requestAsync } from '@hint/utils-network';
 import { IJSONResult } from '@hint/utils/dist/src/types/json-parser';
 import { debug as d } from '@hint/utils-debug';

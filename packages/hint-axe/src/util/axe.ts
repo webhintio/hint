@@ -2,7 +2,7 @@ import { CheckResult, AxeResults, ImpactValue, NodeResult as AxeNodeResult } fro
 
 import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
 import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
-import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
+import { readFileAsync } from '@hint/utils-fs/dist/src/read-file-async';
 import { CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { Severity } from '@hint/utils-types/dist/src/severity';
