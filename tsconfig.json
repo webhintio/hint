@@ -113,6 +113,7 @@
         { "path": "packages/utils-css" },
         { "path": "packages/utils-debug" },
         { "path": "packages/utils-dom" },
+        { "path": "packages/utils-fs" },
         { "path": "packages/utils-i18n" },
         { "path": "packages/utils-network" },
         { "path": "packages/utils-tests-helpers" },
