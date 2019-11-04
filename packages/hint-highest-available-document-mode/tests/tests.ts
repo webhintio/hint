@@ -2,6 +2,7 @@
 
 import { test } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from 'hint';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -37,7 +38,10 @@ const generateIncorrectContentAttributeValueErrorMessage = (contentAttributeValu
 const testsForNonDocumentModeBrowsers: HintTest[] = [
     {
         name: `HTML page is served with 'X-UA-Compatible' header but the targeted browsers don't support document modes`,
-        reports: [{ message: unneededHeaderErrorMessage }],
+        reports: [{
+            message: unneededHeaderErrorMessage,
+            severity: Severity.hint
+        }],
         serverConfig: {
             '/': {
                 content: page,
@@ -47,7 +51,10 @@ const testsForNonDocumentModeBrowsers: HintTest[] = [
     },
     {
         name: `'X-UA-Compatible' meta element is not specified but the targeted browsers don't support document modes`,
-        reports: [{ message: metaElementIsNotNeededErrorMessage }],
+        reports: [{
+            message: metaElementIsNotNeededErrorMessage,
+            severity: Severity.hint
+        }],
         serverConfig: { '/': { content: generateHTMLPageWithMetaElement() } }
     },
     {
@@ -59,12 +66,19 @@ const testsForNonDocumentModeBrowsers: HintTest[] = [
 const testsForHeaders: HintTest[] = [
     {
         name: `HTML page is served without 'X-UA-Compatible' header`,
-        reports: [{ message: noHeaderErrorMessage }],
+        reports: [{
+            message: noHeaderErrorMessage,
+            severity: Severity.hint
+        }],
         serverConfig: { '/': page }
     },
     {
         name: `HTML page is served with 'X-UA-Compatible' header with a value different than 'ie=edge'`,
-        reports: [{ message: incorrectHeaderValueErrorMessage }],
+        reports: [{
+            message: incorrectHeaderValueErrorMessage,
+            severity: Severity.error
+
+        }],
         serverConfig: {
             '/': {
                 content: page,
@@ -83,7 +97,10 @@ const testsForHeaders: HintTest[] = [
     },
     {
         name: `HTML page is served with 'X-UA-Compatible' header and the meta element`,
-        reports: [{ message: metaElementUsageDiscouragedErrorMessage }],
+        reports: [{
+            message: metaElementUsageDiscouragedErrorMessage,
+            severity: Severity.hint
+        }],
         serverConfig: {
             '/': {
                 content: generateHTMLPageWithMetaElement(),
@@ -96,7 +113,11 @@ const testsForHeaders: HintTest[] = [
 const testsForRequireMetaElementConfig: HintTest[] = [
     {
         name: `'X-UA-Compatible' meta element is not specified`,
-        reports: [{ message: metaElementIsNotSpecifiedErrorMessage }],
+        reports: [{
+            message: metaElementIsNotSpecifiedErrorMessage,
+            severity: Severity.error
+
+        }],
         serverConfig: { '/': page }
     },
     {
@@ -105,32 +126,50 @@ const testsForRequireMetaElementConfig: HintTest[] = [
     },
     {
         name: `'X-UA-Compatible' meta element is specified with no 'content' attribute`,
-        reports: [{ message: generateIncorrectContentAttributeValueErrorMessage('') }],
+        reports: [{
+            message: generateIncorrectContentAttributeValueErrorMessage(''),
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage('<meta http-equiv="x-ua-compatible">')
     },
     {
         name: `'X-UA-Compatible' meta element is specified with an empty 'content' attribute`,
-        reports: [{ message: generateIncorrectContentAttributeValueErrorMessage('') }],
+        reports: [{
+            message: generateIncorrectContentAttributeValueErrorMessage(''),
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage('<meta http-equiv="x-ua-compatible" content>')
     },
     {
         name: `'X-UA-Compatible' meta element is specified with a value different than 'ie=edge'`,
-        reports: [{ message: generateIncorrectContentAttributeValueErrorMessage('IE=7,8 ,9') }],
+        reports: [{
+            message: generateIncorrectContentAttributeValueErrorMessage('IE=7,8 ,9'),
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPageWithMetaElement('IE=7,8 ,9')
     },
     {
         name: `'X-UA-Compatible' meta element is specified in the '<body>'`,
-        reports: [{ message: metaElementIsNotInHeadErrorMessage }],
+        reports: [{
+            message: metaElementIsNotInHeadErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage(undefined, `${metaElement}`)
     },
     {
         name: `'X-UA-Compatible' meta element is specified in the '<head>' but is not included before all other elements except for the '<title>' and the other '<meta>' elements`,
-        reports: [{ message: metaElementSpecifiedAfterOtherElementsErrorMessage }],
+        reports: [{
+            message: metaElementSpecifiedAfterOtherElementsErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage(`<meta charset="utf-8"><title>test</title><script src="test.js"></script>${metaElement}`)
     },
     {
         name: `Multiple 'X-UA-Compatible' meta elements are specified`,
-        reports: [{ message: metaElementAlreadySpecifiedErrorMessage }],
+        reports: [{
+            message: metaElementAlreadySpecifiedErrorMessage,
+            severity: Severity.warning
+        }],
         serverConfig: generateHTMLPage(`${metaElement}${metaElement}`)
     },
     {

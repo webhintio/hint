@@ -13,7 +13,7 @@ import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isLocalFile } from '@hint/utils/dist/src/network/is-local-file';
 import { HTMLDocument, HTMLElement } from '@hint/utils/dist/src/dom/html';
-import { IHint, TraverseEnd } from 'hint/dist/src/lib/types';
+import { IHint, TraverseEnd, Severity } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
@@ -49,7 +49,10 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                  */
 
                 if (!requireMetaElement && !suggestRemoval) {
-                    context.report(resource, getMessage('responseShouldInclude', context.language));
+                    context.report(
+                        resource,
+                        getMessage('responseShouldInclude', context.language),
+                        { severity: Severity.hint });
                 }
 
                 return;
@@ -64,13 +67,27 @@ export default class HighestAvailableDocumentModeHint implements IHint {
              */
 
             if (suggestRemoval) {
-                context.report(resource, getMessage('responseUnneeded', context.language), { codeLanguage, codeSnippet });
+                context.report(
+                    resource,
+                    getMessage('responseUnneeded', context.language),
+                    {
+                        codeLanguage,
+                        codeSnippet,
+                        severity: Severity.hint
+                    });
 
                 return;
             }
 
             if (headerValue !== 'ie=edge') {
-                context.report(resource, getMessage('headerValueShouldBe', context.language, !originalHeaderValue ? '' : originalHeaderValue), { codeLanguage, codeSnippet });
+                context.report(
+                    resource,
+                    getMessage('headerValueShouldBe', context.language, !originalHeaderValue ? '' : originalHeaderValue),
+                    {
+                        codeLanguage,
+                        codeSnippet,
+                        severity: Severity.error
+                    });
             }
 
             /*
@@ -101,7 +118,13 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                         getMessage('metaElementShouldNotBeSpecifiedUseHeader', context.language);
 
                     for (const metaElement of XUACompatibleMetaElements) {
-                        context.report(resource, errorMessage, { element: metaElement });
+                        context.report(
+                            resource,
+                            errorMessage,
+                            {
+                                element: metaElement,
+                                severity: Severity.hint
+                            });
                     }
                 }
 
@@ -111,7 +134,11 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             // If the user requested the meta element to be specified.
 
             if (XUACompatibleMetaElements.length === 0) {
-                context.report(resource, getMessage('metaElementShouldBeSpecified', context.language));
+                context.report(
+                    resource,
+                    getMessage('metaElementShouldBeSpecified', context.language),
+                    { severity: Severity.error }
+                );
 
                 return;
             }
@@ -129,7 +156,13 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             if (normalizeString(contentValue) !== 'ie=edge') {
                 const message = getMessage('metaElementValueShouldBe', context.language, !contentValue ? '' : contentValue);
 
-                context.report(resource, message, { element: XUACompatibleMetaElement });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element: XUACompatibleMetaElement,
+                        severity: Severity.error
+                    });
             }
 
             /*
@@ -146,9 +179,15 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             for (const headElement of headElements) {
                 if (headElement.isSame(XUACompatibleMetaElement)) {
                     if (!metaElementIsBeforeRequiredElements) {
-                        const message =getMessage('metaElementWrongPosition', context.language);
+                        const message = getMessage('metaElementWrongPosition', context.language);
 
-                        context.report(resource, message, { element: XUACompatibleMetaElement });
+                        context.report(
+                            resource,
+                            message,
+                            {
+                                element: XUACompatibleMetaElement,
+                                severity: Severity.error
+                            });
                     }
 
                     break;
@@ -166,7 +205,13 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(XUACompatibleMetaElement)) {
                 const message = getMessage('metaElementNotBody', context.language);
 
-                context.report(resource, message, { element: XUACompatibleMetaElement });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element: XUACompatibleMetaElement,
+                        severity: Severity.error
+                    });
 
                 return;
             }
@@ -179,7 +224,13 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                 for (const metaElement of metaElements) {
                     const message = getMessage('metaElementDuplicated', context.language);
 
-                    context.report(resource, message, { element: metaElement });
+                    context.report(
+                        resource,
+                        message,
+                        {
+                            element: metaElement,
+                            severity: Severity.warning
+                        });
                 }
             }
         };
