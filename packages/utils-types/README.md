@@ -17,3 +17,4 @@ npm install hint --save-dev
 * `Problem`: Type representing an Issue found in a Hints.
 * `ProblemLocation`: Type representing the location of a Problem.
 * `Severity`: Enum with the severities of a hint.
+* `HttpHeaders`: Type representing a HTTP Header.
