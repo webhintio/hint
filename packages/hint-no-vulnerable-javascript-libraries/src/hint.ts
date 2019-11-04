@@ -11,7 +11,7 @@ import { debug as d } from '@hint/utils-debug';
 import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
 import { writeFileAsync } from '@hint/utils/dist/src/fs/write-file-async';
 import * as logger from '@hint/utils/dist/src/logging';
-import { requestAsync } from '@hint/utils/dist/src/network/request-async';
+import { requestAsync } from '@hint/utils-network/dist/src/request-async';
 
 import { IHint, CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';

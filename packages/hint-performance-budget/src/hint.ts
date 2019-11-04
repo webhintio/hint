@@ -4,7 +4,7 @@
 
 import { URL } from 'url';
 
-import { isHTTPS, normalizeHeaderValue } from '@hint/utils';
+import { isHTTPS, normalizeHeaderValue } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, Response, ScanEnd } from 'hint';
 

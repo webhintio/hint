@@ -8,12 +8,11 @@ import * as proxyquire from 'proxyquire';
 import { EventEmitter2 } from 'eventemitter2';
 
 import {
-    asPathString,
     delay,
-    getAsUri,
     logger,
     readFileAsync
 } from '@hint/utils';
+import { asPathString, getAsUri} from '@hint/utils-network';
 import { Engine, FetchEnd } from 'hint';
 import { HTMLEvents } from '@hint/parser-html';
 
@@ -56,9 +55,7 @@ const mockContext = (context: SandboxContext) => {
 
     const script = proxyquire('../src/connector', {
         '@hint/utils': {
-            asPathString,
             cwd: cwdStub,
-            getAsUri,
             isFile: isFileStub,
             logger,
             readFileAsync

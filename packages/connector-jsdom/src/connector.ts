@@ -33,10 +33,10 @@ import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
 
 import {
     getContentTypeData,
-    getType,
-    HttpHeaders,
-    isHTMLDocument
+    getType
 } from '@hint/utils';
+import { HttpHeaders } from '@hint/utils-types';
+import { isHTMLDocument } from '@hint/utils-network';
 import { createHTMLDocument, HTMLDocument, HTMLElement, traverse } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
 import { Engine, Event, FetchEnd, FetchError, IConnector, NetworkData } from 'hint';

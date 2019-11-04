@@ -16,12 +16,12 @@ import * as request from 'request';
 import * as iconv from 'iconv-lite';
 import parseDataURL = require('data-urls'); // Using `require` as `data-urls` exports a function.
 
+import { HttpHeaders } from '@hint/utils-types';
 import {
     getContentTypeData,
-    HttpHeaders,
-    normalizeHeaderValue,
     toLowerCaseKeys
 } from '@hint/utils';
+import { normalizeHeaderValue } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 
 import { NetworkData } from 'hint';

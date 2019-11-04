@@ -16,6 +16,7 @@
         { "path": "../utils" },
         { "path": "../utils-debug" },
         { "path": "../utils-dom" },
+        { "path": "../utils-network" },
         { "path": "../utils-types" }
     ]
 }

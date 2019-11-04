@@ -14,7 +14,7 @@ import { URL } from 'url';
 
 import { debug as d } from '@hint/utils-debug';
 import { isSupported } from '@hint/utils-compat-data';
-import { isRegularProtocol } from '@hint/utils/dist/src/network/is-regular-protocol';
+import { isRegularProtocol } from '@hint/utils-network/dist/src/is-regular-protocol';
 import { cutString } from '@hint/utils/dist/src/misc/cut-string';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';

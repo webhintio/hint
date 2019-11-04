@@ -12,6 +12,8 @@
     "@hint/utils-connector-tools": "^4.0.14",
     "@hint/utils-debug": "^1.0.0",
     "@hint/utils-dom": "^1.0.0",
+    "@hint/utils-network": "^1.0.0",
+    "@hint/utils-types": "^1.0.0",
     "@types/tough-cookie": "^2.3.5",
     "jsdom": "^15.2.0",
     "mutationobserver-shim": "^0.3.3"

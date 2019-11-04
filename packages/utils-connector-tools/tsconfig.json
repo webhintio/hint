@@ -16,6 +16,8 @@
         { "path": "../hint" },
         { "path": "../utils" },
         { "path": "../utils-create-server" },
-        { "path": "../utils-debug" }
+        { "path": "../utils-debug" },
+        { "path": "../utils-network" },
+        { "path": "../utils-types" }
     ]
 }

@@ -115,7 +115,7 @@ export default class HtmlCheckerHint implements IHint {
         };
 
         const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {
-            const requestAsync = (await import('@hint/utils')).requestAsync;
+            const requestAsync = (await import('@hint/utils-network')).requestAsync;
             const delay = (await import('@hint/utils')).delay;
 
             try {

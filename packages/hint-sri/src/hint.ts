@@ -9,7 +9,7 @@ import { HintContext, ReportOptions } from 'hint/dist/src/lib/hint-context';
 import { IHint, FetchEnd, ElementFound, NetworkData, Request, Response } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { requestAsync } from '@hint/utils/dist/src/network/request-async';
+import { requestAsync } from '@hint/utils-network/dist/src/request-async';
 
 import { Algorithms, OriginCriteria, ErrorData, URLs } from './types';
 import meta from './meta';

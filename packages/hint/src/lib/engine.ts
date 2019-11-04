@@ -16,7 +16,7 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import remove = require('lodash/remove');
 
 import * as logger from '@hint/utils/dist/src/logging';
-import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
+import { HttpHeaders } from '@hint/utils-types/dist/src/http-headers';
 import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
 import { debug as d } from '@hint/utils-debug';

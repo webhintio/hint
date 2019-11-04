@@ -5,6 +5,7 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as utils from '@hint/utils';
 import { Problem } from '@hint/utils-types/dist/src/problems';
 import { Severity } from '@hint/utils-types/dist/src/severity';
+import * as network from '@hint/utils-network';
 
 import {
     AnalyzeOptions,
@@ -163,7 +164,6 @@ const loadScript = (context: AnalyzeContext, isCi: boolean = false) => {
             askQuestion: context.askQuestion,
             configStore: utils.configStore,
             cutString: utils.cutString,
-            getAsUris: utils.getAsUris,
             getHintsFromConfiguration: context.getHintsFromConfiguration,
             installPackages: utils.installPackages,
             logger: context.logger,
@@ -171,6 +171,7 @@ const loadScript = (context: AnalyzeContext, isCi: boolean = false) => {
                 return options;
             }
         },
+        '@hint/utils-network': network,
         'is-ci': isCi,
         ora: context.ora
     });

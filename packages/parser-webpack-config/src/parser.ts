@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as webpack from 'webpack'; // This is used just to have types.
 
 import { Engine, FetchEnd, Parser } from 'hint';
-import { asPathString, getAsUri } from '@hint/utils';
+import { asPathString, getAsUri } from '@hint/utils-network';
 
 import { WebpackConfigEvents } from './types';
 

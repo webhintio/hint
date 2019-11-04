@@ -1,6 +1,6 @@
 import * as url from 'url';
 
-import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
+import { HttpHeaders } from '@hint/utils-types/dist/src/http-headers';
 import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
 import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
 

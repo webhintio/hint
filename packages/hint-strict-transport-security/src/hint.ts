@@ -4,7 +4,7 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { isRegularProtocol } from '@hint/utils';
+import { isRegularProtocol } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, NetworkData } from 'hint';
 
@@ -40,9 +40,9 @@ export default class StrictTransportSecurityHint implements IHint {
          * HACK: Need to do a require here in order to be capable of mocking
          * when testing the hint and `import` doesn't work here.
          */
-        const { isHTTPS } = require('@hint/utils/dist/src/network/is-https');
+        const { isHTTPS } = require('@hint/utils-network/dist/src/is-https');
         const { normalizeString } = require('@hint/utils/dist/src/misc/normalize-string');
-        const { requestJSONAsync } = require('@hint/utils/dist/src/network/request-json-async');
+        const { requestJSONAsync } = require('@hint/utils-network/dist/src/request-json-async');
 
         const loadHintConfigs = () => {
             minMaxAgeValue = (context.hintOptions && context.hintOptions.minMaxAgeValue) || 10886400; // 18 weeks

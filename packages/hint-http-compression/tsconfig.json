@@ -17,6 +17,7 @@
         { "path": "../utils" },
         { "path": "../utils-dom" },
         { "path": "../utils-i18n" },
+        { "path": "../utils-network" },
         { "path": "../utils-tests-helpers" },
         { "path": "../utils-types" }
     ]
