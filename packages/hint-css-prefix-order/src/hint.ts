@@ -9,6 +9,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
+import { Severity } from '@hint/utils/dist/src/types/problems';
 
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 
@@ -113,8 +114,12 @@ export default class CssPrefixOrderHint implements IHint {
                     const isValue = invalidPair.lastPrefixed.prop === invalidPair.unprefixed.prop;
                     const location = getCSSLocationFromNode(invalidPair.unprefixed, { isValue });
                     const codeSnippet = getCSSCodeSnippet(invalidPair.unprefixed);
+                    const severity = Severity.error;
 
-                    context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
+                    context.report(
+                        resource,
+                        message,
+                        { codeLanguage: 'css', codeSnippet, element, location, severity });
                 }
             });
         });
