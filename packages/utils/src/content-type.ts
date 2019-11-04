@@ -6,7 +6,7 @@ import { parse, MediaType } from 'content-type';
 import { HTMLElement } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
 import mimeDB from './mime-db';
-import { HttpHeaders } from './types/http-header';
+import { HttpHeaders } from '@hint/utils-types';
 import { fileExtension as getFileExtension, fileName as getFileName } from './fs';
 import { normalizeString } from './misc/normalize-string';
 

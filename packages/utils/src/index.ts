@@ -6,7 +6,6 @@ export * from './async-wrapper';
 export * from './content-type';
 export * from './fs';
 export * from './misc';
-export * from './network';
 export * from './npm';
 export * from './packages';
 export * from './test';
@@ -15,7 +14,6 @@ export * from './chromium-finder';
 export * from './config';
 export * from './has-yarnlock';
 export * from './types/config';
-export * from './types/http-header';
 export * from './types/npm';
 
 export const appInsights = appInsightsUtils;
