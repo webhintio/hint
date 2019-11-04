@@ -17,12 +17,12 @@ import * as inquirer from 'inquirer';
 import { ResourceType, UserConfig, utils } from 'hint';
 import {
     appInsights,
-    cwd,
     getOfficialPackages,
     installPackages,
     logger,
     NpmPackage
 } from '@hint/utils';
+import { cwd } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 
 import { generateBrowserslistConfig } from './browserslist';

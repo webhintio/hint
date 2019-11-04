@@ -9,9 +9,9 @@ import {
     appInsights,
     isOfficial,
     logger,
-    normalizeStringByDelimiter,
-    writeFileAsync
+    normalizeStringByDelimiter
 } from '@hint/utils';
+import { writeFileAsync } from '@hint/utils-fs';
 
 import { escapeSafeString, compileTemplate } from './handlebars-utils';
 

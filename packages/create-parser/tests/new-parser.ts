@@ -82,6 +82,9 @@ const loadScript = (context: NewParserContext) => {
             },
             isOfficial: context.isOfficial,
             normalizeStringByDelimiter: context.normalizeStringByDelimiter,
+
+        },
+        '@hint/utils-fs': {
             readFileAsync: context.readFileAsync,
             writeFileAsync: context.writeFileAsync
         },

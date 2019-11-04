@@ -4,7 +4,8 @@ import test from 'ava';
 
 import { Category } from '@hint/utils-types';
 
-import { getInstallationPath, readFileAsync } from '@hint/utils';
+import { getInstallationPath } from '@hint/utils';
+import { readFileAsync } from '@hint/utils-fs';
 import { Server } from '@hint/utils-create-server';
 
 import { Events, InjectDetails, Results } from '../src/shared/types';

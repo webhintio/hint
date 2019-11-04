@@ -9,10 +9,10 @@ import { EventEmitter2 } from 'eventemitter2';
 
 import {
     delay,
-    logger,
-    readFileAsync
+    logger
 } from '@hint/utils';
-import { asPathString, getAsUri} from '@hint/utils-network';
+import { readFileAsync } from '@hint/utils-fs';
+import { asPathString, getAsUri } from '@hint/utils-network';
 import { Engine, FetchEnd } from 'hint';
 import { HTMLEvents } from '@hint/parser-html';
 
@@ -54,10 +54,10 @@ const mockContext = (context: SandboxContext) => {
     const isFileStub = context.sandbox.stub(fsMocks, 'isFile');
 
     const script = proxyquire('../src/connector', {
-        '@hint/utils': {
+        '@hint/utils': { logger },
+        '@hint/utils-fs': {
             cwd: cwdStub,
             isFile: isFileStub,
-            logger,
             readFileAsync
         },
         chokidar

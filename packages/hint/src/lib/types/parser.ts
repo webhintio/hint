@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import merge = require('lodash/merge');
 
-import { loadJSONFile } from '@hint/utils/dist/src/fs/load-json-file';
+import { loadJSONFile } from '@hint/utils-fs/dist/src/load-json-file';
 import { asPathString } from '@hint/utils-network/dist/src/as-path-string';
 import { getAsUri } from '@hint/utils-network/dist/src/as-uri';
 

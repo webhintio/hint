@@ -10,7 +10,9 @@
   "bin": {
     "create-parser": "./dist/src/create-parser.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@hint/utils-fs": "^1.0.0"
+  },
   "description": "webhint's parser initializer package",
   "devDependencies": {
     "@hint/utils": "^6.1.0",

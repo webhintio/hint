@@ -65,7 +65,7 @@ const initContext = (t: ExecutionContext<ParserContext>) => {
 
 const loadScript = (context: ParserContext) => {
     const script = proxyquire('../../../src/lib/types/parser', {
-        '@hint/utils/dist/src/fs/load-json-file': { loadJSONFile: context.loadJSONFileModule },
+        '@hint/utils-fs/dist/src/load-json-file': { loadJSONFile: context.loadJSONFileModule },
         '@hint/utils/dist/src/network/as-path-string': { asPathString: context.asPathString },
         '@hint/utils/dist/src/network/as-uri': asUri,
         path: context.path

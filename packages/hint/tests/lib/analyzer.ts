@@ -70,9 +70,11 @@ const loadScript = (context: AnalyzerContext) => {
         './utils/resource-loader': context.resourceLoader,
         '@hint/utils': {
             cutString,
-            cwd: context.fs.cwd,
-            isFile: context.fs.isFile,
             logger: context.logger
+        },
+        '@hint/utils-fs': {
+            cwd: context.fs.cwd,
+            isFile: context.fs.isFile
         }
     });
 

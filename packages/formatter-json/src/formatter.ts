@@ -13,7 +13,8 @@ import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
 import sortBy = require('lodash/sortBy');
 
-import { logger, writeFileAsync } from '@hint/utils';
+import { logger } from '@hint/utils';
+import { writeFileAsync } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, IFormatter } from 'hint';
 import { Problem } from '@hint/utils-types';

@@ -3,7 +3,7 @@ import * as path from 'path';
 import cloneDeep = require('lodash/cloneDeep');
 
 import { Engine, FetchEnd, IJSONResult, Parser, SchemaValidationResult, utils } from 'hint';
-import { loadJSONFile } from '@hint/utils';
+import { loadJSONFile } from '@hint/utils-fs';
 
 import { BabelConfig, BabelConfigEvents } from './types';
 

@@ -5,9 +5,9 @@ import * as fileUrl from 'file-url';
 import compact = require('lodash/compact'); // `require` used because `lodash/compact` exports a function
 
 import { debug as d } from '@hint/utils-debug';
-import { isDirectory } from '@hint/utils/dist/src/fs/is-directory';
-import { isFile } from '@hint/utils/dist/src/fs/is-file';
-import { pathExists } from '@hint/utils/dist/src/fs/path-exists';
+import { isDirectory } from '@hint/utils-fs/dist/src/is-directory';
+import { isFile } from '@hint/utils-fs/dist/src/is-file';
+import { pathExists } from '@hint/utils-fs/dist/src/path-exists';
 import * as logger from '@hint/utils/dist/src/logging';
 
 const debug: debug.IDebugger = d(__filename);

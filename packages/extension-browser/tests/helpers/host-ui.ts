@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { readFileAsync } from '@hint/utils';
+import { readFileAsync } from '@hint/utils-fs';
 import { IServer, Server, ServerConfiguration } from '@hint/utils-create-server';
 
 import { Page, Props as AppProps } from '../../src/devtools/views/app';

@@ -10,7 +10,7 @@
  */
 
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { fileExtension as getFileExtension } from '@hint/utils/dist/src/fs/file-extension';
+import { fileExtension as getFileExtension } from '@hint/utils-fs/dist/src/file-extension';
 import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 

@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { loadJSONFile } from '@hint/utils';
+import { loadJSONFile } from '@hint/utils-fs';
 import { Engine, FetchEnd, Parser, SchemaValidationResult, utils } from 'hint';
 
 import { PackageJsonEvents } from './types';

@@ -2,7 +2,7 @@
  * @fileoverview Loads the connections.ini and updates it if needed
  */
 
-import { readFile } from '@hint/utils';
+import { readFile } from '@hint/utils-fs';
 import { NetworkConfig } from './types';
 
 /**

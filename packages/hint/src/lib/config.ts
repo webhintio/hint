@@ -19,12 +19,12 @@ import * as path from 'path';
 import browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
 import mergeWith = require('lodash/mergeWith');
 
+import { toAbsolutePaths } from '@hint/utils';
 import {
     isFile,
     loadJSFile,
-    loadJSONFile,
-    toAbsolutePaths
-} from '@hint/utils';
+    loadJSONFile
+} from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 import { validate as schemaValidator } from '@hint/utils/dist/src/schema-validation/schema-validator';
 

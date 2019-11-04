@@ -6,7 +6,7 @@ import { spawn } from 'child_process';
 import * as locker from 'lockfile';
 import * as puppeteer from 'puppeteer-core';
 
-import { readFileAsync, writeFileAsync } from '@hint/utils';
+import { readFileAsync, writeFileAsync } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 import { LaunchOptions } from 'puppeteer-core';
 
