@@ -114,7 +114,7 @@ export default class CssPrefixOrderHint implements IHint {
                     const isValue = invalidPair.lastPrefixed.prop === invalidPair.unprefixed.prop;
                     const location = getCSSLocationFromNode(invalidPair.unprefixed, { isValue });
                     const codeSnippet = getCSSCodeSnippet(invalidPair.unprefixed);
-                    const severity = Severity.error;
+                    const severity = Severity.warning;
 
                     context.report(
                         resource,
