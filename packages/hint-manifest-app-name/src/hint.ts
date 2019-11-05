@@ -11,7 +11,8 @@
 
 import { ucs2 } from 'punycode';
 
-import { IHint, IJSONLocationFunction } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
+import { JSONLocationFunction } from '@hint/utils-json/dist/src/types';
 import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
@@ -36,7 +37,7 @@ export default class ManifestAppNameHint implements IHint {
             }
         };
 
-        const checkIfPropertyValueIsNotEmpty = (resource: string, content: string | undefined, propertyName: string, getLocation: IJSONLocationFunction) => {
+        const checkIfPropertyValueIsNotEmpty = (resource: string, content: string | undefined, propertyName: string, getLocation: JSONLocationFunction) => {
             if (typeof content === 'string' && (content.trim() === '')) {
                 const message = getMessage('shouldHaveNonEmptyProperty', context.language, propertyName);
                 const location = getLocation(propertyName, { at: 'value' });
@@ -45,7 +46,7 @@ export default class ManifestAppNameHint implements IHint {
             }
         };
 
-        const checkIfPropertyValueIsUnderLimit = (resource: string, content: string | undefined, propertyName: string, shortNameLengthLimit: number, getLocation: IJSONLocationFunction) => {
+        const checkIfPropertyValueIsUnderLimit = (resource: string, content: string | undefined, propertyName: string, shortNameLengthLimit: number, getLocation: JSONLocationFunction) => {
             if (content && (ucs2.decode(content).length > shortNameLengthLimit)) {
                 const message = getMessage('shouldHavePropertyShort', context.language, [propertyName, shortNameLengthLimit.toString()]);
                 const location = getLocation(propertyName, { at: 'value' });

@@ -6,15 +6,14 @@ import { cloneDeep } from 'lodash';
 
 import { loadJSONFile, writeFileAsync } from '@hint/utils-fs';
 import { requestAsync } from '@hint/utils-network';
-import { IJSONResult } from '@hint/utils/dist/src/types/json-parser';
+import { finalConfig, IJSONResult, parseJSON, SchemaValidationResult, validate } from '@hint/utils-json';
 import { debug as d } from '@hint/utils-debug';
-import { Engine, FetchEnd, Parser, SchemaValidationResult, utils } from 'hint';
+import { Engine, FetchEnd, Parser } from 'hint';
 
 import { TypeScriptConfig, TypeScriptConfigEvents } from './types';
 
 export * from './types';
 
-const { jsonParser: { parseJSON }, schemaValidator: { validate } } = utils;
 const debug = d(__filename);
 const oneDay = 3600000 * 24;
 
@@ -152,7 +151,7 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
 
             const originalConfig = cloneDeep(result.data);
 
-            const config = await this.finalConfig<TypeScriptConfig>(result.data, resource);
+            const config = await finalConfig<TypeScriptConfig>(result.data, resource);
 
             if (config instanceof Error) {
                 await this.engine.emitAsync(`parse::error::typescript-config::extends`,

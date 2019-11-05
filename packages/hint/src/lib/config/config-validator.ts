@@ -12,9 +12,10 @@
 import { logger } from '@hint/utils';
 import { debug as d } from '@hint/utils-debug';
 
-import { validate } from '@hint/utils/dist/src/schema-validation/schema-validator';
+import { validate } from '@hint/utils-json/dist/src/schema-validator';
+import { SchemaValidationResult, GroupedError } from '@hint/utils-json/dist/src/types';
+
 import { UserConfig } from '../types';
-import { SchemaValidationResult, GroupedError } from '@hint/utils/dist/src/schema-validation/schema-validation-result';
 
 const debug = d(__filename);
 const schema = require('./config-schema.json');

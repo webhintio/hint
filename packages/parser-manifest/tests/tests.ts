@@ -4,10 +4,12 @@ import test, { ExecutionContext } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 import * as sinon from 'sinon';
 
-import Parser from '../src/parser';
-import { Manifest, ManifestInvalidJSON, ManifestInvalidSchema, ManifestParsed, ManifestEvents } from '../src/types';
-import { Engine, ISchemaValidationError, NetworkData, ElementFound } from 'hint';
+import { Engine, NetworkData, ElementFound } from 'hint';
 import { ProblemLocation } from '@hint/utils-types';
+import { ISchemaValidationError } from '@hint/utils-json';
+
+import { Manifest, ManifestInvalidJSON, ManifestInvalidSchema, ManifestParsed, ManifestEvents } from '../src/types';
+import Parser from '../src/parser';
 
 const elementLinkEventName = 'element::link';
 const getElementLinkEventValue = (relAttribute: string = 'manifest', hrefAttribute: string = 'site.webmanifest') => {

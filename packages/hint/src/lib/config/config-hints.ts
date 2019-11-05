@@ -10,9 +10,10 @@
 
 import { debug as d } from '@hint/utils-debug';
 
-import { validate as schemaValidator } from '@hint/utils/dist/src/schema-validation/schema-validator';
-import { HintMetadata, HintConfig } from '../types';
+import { validate as schemaValidator } from '@hint/utils-json/dist/src/schema-validator';
 import { Severity } from '@hint/utils-types/dist/src/severity';
+
+import { HintMetadata, HintConfig } from '../types';
 
 const debug = d(__filename);
 

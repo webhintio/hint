@@ -11,10 +11,8 @@
 import { parse as bcp47 } from 'bcp47';
 import { get as parseColor, ColorDescriptor } from 'color-string';
 
-import {
-    IHint,
-    IJSONLocationFunction
-} from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
+import { JSONLocationFunction } from '@hint/utils-json/dist/src/types';
 import { isSupported } from '@hint/utils-compat-data';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import {
@@ -72,7 +70,7 @@ export default class ManifestIsValidHint implements IHint {
                 color.model === 'hwb';
         };
 
-        const checkColors = (resource: string, manifest: Manifest, getLocation: IJSONLocationFunction) => {
+        const checkColors = (resource: string, manifest: Manifest, getLocation: JSONLocationFunction) => {
             const colorProperties = [
                 'background_color',
                 'theme_color'
@@ -106,7 +104,7 @@ export default class ManifestIsValidHint implements IHint {
             }
         };
 
-        const checkLang = (resource: string, manifest: Manifest, getLocation: IJSONLocationFunction) => {
+        const checkLang = (resource: string, manifest: Manifest, getLocation: JSONLocationFunction) => {
             const lang = manifest.lang;
 
             if (lang && !bcp47(lang)) {

@@ -17,6 +17,7 @@
         { "path": "../parser-manifest" },
         { "path": "../utils" },
         { "path": "../utils-i18n" },
+        { "path": "../utils-json" },
         { "path": "../utils-tests-helpers" },
         { "path": "../utils-types" }
     ]
