@@ -3,9 +3,8 @@
  */
 
 import { debug as d } from '@hint/utils-debug';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isHTTPS } from '@hint/utils-network/dist/src/is-https';
-import { isRegularProtocol } from '@hint/utils-network/dist/src/is-regular-protocol';
+import { normalizeString } from '@hint/utils-string';
+import { isHTTPS, isRegularProtocol } from '@hint/utils-network';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import { HintContext, CodeLanguage } from 'hint/dist/src/lib/hint-context';
 

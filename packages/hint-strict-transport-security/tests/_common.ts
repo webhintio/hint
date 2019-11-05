@@ -87,9 +87,9 @@ export const requestJSONAsyncMock = (responseObject: any) => {
     };
 
     (utilsNetwork as any).isRegularProtocol = isRegularProtocol;
+    (utilsNetwork as any).isHTTPS = isHTTPS;
+    (utilsNetwork as any).requestJSONAsync = requestJSONAsync;
 
     mock('@hint/utils-network', utilsNetwork);
-    mock('@hint/utils-network/dist/src/is-https', { isHTTPS });
-    mock('@hint/utils/dist/src/misc/normalize-string', { normalizeString });
-    mock('@hint/utils-network/dist/src/request-json-async', { requestJSONAsync });
+    mock('@hint/utils-string', { normalizeString });
 };

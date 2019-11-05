@@ -26,7 +26,7 @@ import {
     loadJSONFile
 } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
-import { validate as schemaValidator } from '@hint/utils-json/dist/src/schema-validator';
+import { validate as schemaValidator } from '@hint/utils-json';
 
 import { UserConfig, IgnoredUrl, ConnectorConfig, HintsConfigObject, HintSeverity, CreateAnalyzerOptions } from './types';
 import { validateConfig } from './config/config-validator';

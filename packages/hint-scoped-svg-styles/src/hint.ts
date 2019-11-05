@@ -5,11 +5,10 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
-import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
+import { HTMLElement } from '@hint/utils-dom';
 
 import { StyleEvents, StyleParse } from '@hint/parser-css';
-import { getCSSCodeSnippet } from '@hint/utils-css/dist/src/get-css-code-snippet';
-import { getCSSLocationFromNode } from '@hint/utils-css/dist/src/get-css-location-from-node';
+import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
 
 
 import meta from './meta';

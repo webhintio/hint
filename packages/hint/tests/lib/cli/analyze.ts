@@ -3,8 +3,7 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import * as utils from '@hint/utils';
-import { Problem } from '@hint/utils-types/dist/src/problems';
-import { Severity } from '@hint/utils-types/dist/src/severity';
+import { Problem, Severity } from '@hint/utils-types';
 import * as network from '@hint/utils-network';
 
 import {

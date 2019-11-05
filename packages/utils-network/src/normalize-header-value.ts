@@ -1,5 +1,5 @@
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { HttpHeaders } from '@hint/utils-types/dist/src/http-headers';
+import { HttpHeaders } from '@hint/utils-types';
 
 /**
  * Remove whitespace from both ends of a header value and lowercase it.

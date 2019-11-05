@@ -7,8 +7,7 @@ import { normalizeString } from '@hint/utils';
 import { isRegularProtocol } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 import { HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
-import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
-import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';

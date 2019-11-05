@@ -40,9 +40,8 @@ export default class StrictTransportSecurityHint implements IHint {
          * HACK: Need to do a require here in order to be capable of mocking
          * when testing the hint and `import` doesn't work here.
          */
-        const { isHTTPS } = require('@hint/utils-network/dist/src/is-https');
-        const { normalizeString } = require('@hint/utils/dist/src/misc/normalize-string');
-        const { requestJSONAsync } = require('@hint/utils-network/dist/src/request-json-async');
+        const { isHTTPS, requestJSONAsync } = require('@hint/utils-network');
+        const { normalizeString } = require('@hint/utils-string');
 
         const loadHintConfigs = () => {
             minMaxAgeValue = (context.hintOptions && context.hintOptions.minMaxAgeValue) || 10886400; // 18 weeks

@@ -10,8 +10,8 @@
  */
 
 import { debug as d } from '@hint/utils-debug';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isDataURI } from '@hint/utils-network/dist/src/is-data-uri';
+import { normalizeString } from '@hint/utils-string';
+import { isDataURI } from '@hint/utils-network';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import meta from './meta';

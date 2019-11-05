@@ -12,7 +12,7 @@ import { parse as bcp47 } from 'bcp47';
 import { get as parseColor, ColorDescriptor } from 'color-string';
 
 import { IHint } from 'hint/dist/src/lib/types';
-import { JSONLocationFunction } from '@hint/utils-json/dist/src/types';
+import { JSONLocationFunction } from '@hint/utils-json';
 import { isSupported } from '@hint/utils-compat-data';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import {

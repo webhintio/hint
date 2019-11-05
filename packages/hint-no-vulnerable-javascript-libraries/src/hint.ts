@@ -8,14 +8,13 @@ import groupBy = require('lodash/groupBy');
 import * as semver from 'semver';
 
 import { debug as d } from '@hint/utils-debug';
-import { readFileAsync } from '@hint/utils-fs/dist/src/read-file-async';
-import { writeFileAsync } from '@hint/utils-fs/dist/src/write-file-async';
+import { readFileAsync, writeFileAsync } from '@hint/utils-fs';
 import * as logger from '@hint/utils/dist/src/logging';
-import { requestAsync } from '@hint/utils-network/dist/src/request-async';
+import { requestAsync } from '@hint/utils-network';
 
 import { IHint, CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { Severity } from '@hint/utils-types/dist/src/severity';
+import { Severity } from '@hint/utils-types';
 
 import { Library, Vulnerability } from './types';
 

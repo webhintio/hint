@@ -1,4 +1,4 @@
-import { HttpHeaders } from '@hint/utils-types/dist/src/http-headers';
+import { HttpHeaders } from '@hint/utils-types';
 import { FetchEnd, NetworkData } from 'hint/dist/src/lib/types';
 import { getContentTypeData } from '@hint/utils/dist/src/content-type';
 

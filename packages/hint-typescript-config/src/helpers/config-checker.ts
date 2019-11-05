@@ -1,6 +1,6 @@
 import { TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript-config';
 import { HintContext } from 'hint';
-import { JSONLocationFunction } from '@hint/utils-json/dist/src/types';
+import { JSONLocationFunction } from '@hint/utils-json';
 
 import { getMessage, MessageName } from '../i18n.import';
 

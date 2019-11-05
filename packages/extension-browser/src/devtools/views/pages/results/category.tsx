@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { getCategoryName } from '@hint/utils-i18n/dist/src/get-category-name';
+import { getCategoryName } from '@hint/utils-i18n';
 
 import { CategoryResults } from '../../../../shared/types';
 

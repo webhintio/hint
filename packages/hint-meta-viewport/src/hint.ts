@@ -5,8 +5,7 @@
 
 import { parseMetaViewPortContent } from 'metaviewport-parser';
 
-import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
-import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { TraverseEnd } from 'hint/dist/src/lib/types';
 import { IHint } from 'hint/dist/src/lib/types';

@@ -14,11 +14,9 @@ import { URL } from 'url';
 
 import { debug as d } from '@hint/utils-debug';
 import { isSupported } from '@hint/utils-compat-data';
-import { isRegularProtocol } from '@hint/utils-network/dist/src/is-regular-protocol';
-import { cutString } from '@hint/utils/dist/src/misc/cut-string';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
-import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
+import { isRegularProtocol } from '@hint/utils-network';
+import { cutString, normalizeString, prettyPrintArray } from '@hint/utils-string';
+import { HTMLElement } from '@hint/utils-dom';
 import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
