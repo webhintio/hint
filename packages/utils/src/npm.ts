@@ -4,10 +4,10 @@ import * as fs from 'fs';
 
 import * as npmRegistryFetch from 'npm-registry-fetch';
 
-import { NpmPackage, NpmSearchResults } from './types/npm';
 import { debug as d } from '@hint/utils-debug';
+import { cwd, loadJSONFile } from '@hint/utils-fs';
+import { NpmPackage, NpmSearchResults } from './types/npm';
 import * as logger from './logging';
-import { cwd, loadJSONFile } from './fs';
 import { findPackageRoot } from './packages';
 import { hasYarnLock } from './has-yarnlock';
 

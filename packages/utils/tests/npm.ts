@@ -3,8 +3,8 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
+import { readFile } from '@hint/utils-fs';
 import { delay } from '../src';
-import { readFile } from '../src/fs';
 
 type Fs = {
     existsSync: () => boolean;
@@ -94,13 +94,13 @@ const initContext = (t: ExecutionContext<NPMContext>) => {
 
 const loadScript = (context: NPMContext) => {
     return proxyquire('../src/npm', {
-        './fs': {
-            cwd: context.cwd,
-            loadJSONFile: context.loadJSONFileModule
-        },
         './has-yarnlock': context.hasYarnLock,
         './logging': context.logger,
         './packages': { findPackageRoot: context.findPackageRootModule },
+        '@hint/utils-fs': {
+            cwd: context.cwd,
+            loadJSONFile: context.loadJSONFileModule
+        },
         child_process: context.child, // eslint-disable-line camelcase
         fs: context.fs,
         'npm-registry-fetch': context.npmRegistryFetch
