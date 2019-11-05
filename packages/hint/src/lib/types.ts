@@ -7,11 +7,9 @@ export * from '@hint/utils/dist/src/types/config';
 export * from './types/connector';
 export * from './types/events';
 export * from './types/formatters';
-export * from '@hint/utils/dist/src/types/json-parser';
 export * from './types/network';
 export * from './types/hints';
 export * from './types/parser';
-export * from '@hint/utils/dist/src/schema-validation/schema-validation-result';
 export * from './types/analyzer';
 export * from './types/analyzer-error';
 
