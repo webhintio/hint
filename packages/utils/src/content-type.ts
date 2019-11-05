@@ -7,7 +7,7 @@ import { HTMLElement } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
 import mimeDB from './mime-db';
 import { HttpHeaders } from '@hint/utils-types';
-import { fileExtension as getFileExtension, fileName as getFileName } from './fs';
+import { fileExtension as getFileExtension, fileName as getFileName } from '@hint/utils-fs';
 import { normalizeString } from './misc/normalize-string';
 
 const debug = d(__filename);
