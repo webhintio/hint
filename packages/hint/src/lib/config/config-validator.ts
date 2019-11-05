@@ -12,8 +12,7 @@
 import { logger } from '@hint/utils';
 import { debug as d } from '@hint/utils-debug';
 
-import { validate } from '@hint/utils-json/dist/src/schema-validator';
-import { SchemaValidationResult, GroupedError } from '@hint/utils-json/dist/src/types';
+import { GroupedError, SchemaValidationResult, validate } from '@hint/utils-json';
 
 import { UserConfig } from '../types';
 

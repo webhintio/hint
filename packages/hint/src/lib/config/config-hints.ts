@@ -10,8 +10,8 @@
 
 import { debug as d } from '@hint/utils-debug';
 
-import { validate as schemaValidator } from '@hint/utils-json/dist/src/schema-validator';
-import { Severity } from '@hint/utils-types/dist/src/severity';
+import { validate as schemaValidator } from '@hint/utils-json';
+import { Severity } from '@hint/utils-types';
 
 import { HintMetadata, HintConfig } from '../types';
 

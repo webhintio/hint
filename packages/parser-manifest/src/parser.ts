@@ -5,14 +5,11 @@ import {
     Parser
 } from 'hint/dist/src/lib/types';
 
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isHTTP } from '@hint/utils-network/dist/src/is-http';
-import { isHTTPS } from '@hint/utils-network/dist/src/is-https';
+import { normalizeString } from '@hint/utils-string';
+import { isHTTP, isHTTPS } from '@hint/utils-network';
 import { ManifestEvents } from './types';
 import { Engine } from 'hint/dist/src/lib/engine';
-import { parseJSON } from '@hint/utils-json/dist/src/parse-json';
-import { IJSONResult, SchemaValidationResult } from '@hint/utils-json/dist/src/types';
-import { validate } from '@hint/utils-json/dist/src/schema-validator';
+import { IJSONResult, parseJSON, SchemaValidationResult, validate } from '@hint/utils-json';
 
 export * from './types';
 

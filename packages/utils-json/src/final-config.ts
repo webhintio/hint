@@ -2,9 +2,8 @@ import * as path from 'path';
 
 import merge = require('lodash/merge');
 
-import { asPathString } from '@hint/utils-network/dist/src/as-path-string';
-import { getAsUri } from '@hint/utils-network/dist/src/as-uri';
-import { loadJSONFile } from '@hint/utils-fs/dist/src/load-json-file';
+import { asPathString, getAsUri } from '@hint/utils-network';
+import { loadJSONFile } from '@hint/utils-fs';
 
 import { ExtendableConfiguration, IParsingError } from './types';
 

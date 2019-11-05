@@ -1,4 +1,4 @@
-import { Category } from '@hint/utils-types/dist/src/category';
+import { Category } from '@hint/utils-types';
 import { HintScope } from 'hint/dist/src/lib/enums/hint-scope';
 import { HintMetadata } from 'hint/dist/src/lib/types';
 

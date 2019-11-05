@@ -1,11 +1,10 @@
 import { CheckResult, AxeResults, ImpactValue, NodeResult as AxeNodeResult } from 'axe-core';
 
-import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
-import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
-import { readFileAsync } from '@hint/utils-fs/dist/src/read-file-async';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
+import { readFileAsync } from '@hint/utils-fs';
 import { CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { Severity } from '@hint/utils-types/dist/src/severity';
+import { Severity } from '@hint/utils-types';
 
 import { getMessage } from '../i18n.import';
 

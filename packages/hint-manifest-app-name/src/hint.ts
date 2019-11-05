@@ -12,7 +12,7 @@
 import { ucs2 } from 'punycode';
 
 import { IHint } from 'hint/dist/src/lib/types';
-import { JSONLocationFunction } from '@hint/utils-json/dist/src/types';
+import { JSONLocationFunction } from '@hint/utils-json';
 import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 

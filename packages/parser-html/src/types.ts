@@ -1,5 +1,5 @@
 import { Event, Events } from 'hint/dist/src/lib/types';
-import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
+import { HTMLDocument } from '@hint/utils-dom';
 
 /** The object emitted by the `html` parser */
 export type HTMLParse = Event & {

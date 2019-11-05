@@ -6,11 +6,9 @@
  */
 import { URL } from 'url';
 
-import { Severity } from '@hint/utils-types/dist/src/severity';
-import { ProblemLocation } from '@hint/utils-types/dist/src/problems';
-import { Category } from '@hint/utils-types/dist/src/category';
-import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
-import { getHTMLCodeSnippet } from '@hint/utils-dom/dist/src/get-html-code-snippet';
+import { ProblemLocation, Severity } from '@hint/utils-types';
+import { Category } from '@hint/utils-types';
+import { getHTMLCodeSnippet, HTMLElement } from '@hint/utils-dom';
 
 import { Engine } from './engine';
 import {

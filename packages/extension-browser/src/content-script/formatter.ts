@@ -1,5 +1,4 @@
-import { Category } from '@hint/utils-types/dist/src/category';
-import { Problem } from '@hint/utils-types/dist/src/problems';
+import { Category, Problem } from '@hint/utils-types';
 import { FormatterOptions, HintResources, IFormatter, IHintConstructor } from 'hint/dist/src/lib/types';
 
 import { browser } from '../shared/globals';

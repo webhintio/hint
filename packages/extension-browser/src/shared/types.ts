@@ -1,5 +1,4 @@
-import { Category } from '@hint/utils-types/dist/src/category';
-import { Problem } from '@hint/utils-types/dist/src/problems';
+import { Category, Problem } from '@hint/utils-types';
 import { FetchEnd, FetchStart } from 'hint/dist/src/lib/types';
 
 export type Config = {

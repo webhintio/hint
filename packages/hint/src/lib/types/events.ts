@@ -1,8 +1,7 @@
-import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
-import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
 import { Event } from './event';
 import { ElementEvents } from './element-events';
-import { Problem } from '@hint/utils-types/dist/src/problems';
+import { Problem } from '@hint/utils-types';
 import { Request, Response } from './network';
 
 export * from './event';

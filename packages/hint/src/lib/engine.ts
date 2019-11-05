@@ -16,9 +16,8 @@ import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import remove = require('lodash/remove');
 
 import * as logger from '@hint/utils/dist/src/logging';
-import { HttpHeaders } from '@hint/utils-types/dist/src/http-headers';
-import { HTMLElement } from '@hint/utils-dom/dist/src/htmlelement';
-import { HTMLDocument } from '@hint/utils-dom/dist/src/htmldocument';
+import { HttpHeaders, Problem, Severity } from '@hint/utils-types';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
 
 import { getSeverity } from './config/config-hints';
@@ -39,8 +38,6 @@ import {
 import { HintContext } from './hint-context';
 import { HintScope } from './enums/hint-scope';
 import { Configuration } from './config';
-import { Problem } from '@hint/utils-types/dist/src/problems';
-import { Severity } from '@hint/utils-types/dist/src/severity';
 
 const debug: debug.IDebugger = d(__filename);
 

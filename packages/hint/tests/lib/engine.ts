@@ -10,8 +10,8 @@ import { delay } from '@hint/utils';
 import { HintScope } from '../../src/lib/enums/hint-scope';
 import { Configuration } from '../../src/lib/config';
 import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata } from '../../src/lib/types';
-import { Problem } from '@hint/utils-types/dist/src/problems';
-import { Category } from '@hint/utils-types/dist/src/category';
+import { Problem } from '@hint/utils-types';
+import { Category } from '@hint/utils-types';
 import { HintContext } from '../../src/lib/hint-context';
 
 type EventEmitter2 = {

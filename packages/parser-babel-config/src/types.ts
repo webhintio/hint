@@ -1,5 +1,5 @@
 import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
-import { JSONLocationFunction, ISchemaValidationError, GroupedError } from '@hint/utils-json/dist/src/types';
+import { JSONLocationFunction, ISchemaValidationError, GroupedError } from '@hint/utils-json';
 
 export type BabelConfig = {
     ast: boolean;

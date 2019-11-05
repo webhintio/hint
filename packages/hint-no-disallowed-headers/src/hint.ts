@@ -9,12 +9,8 @@
  */
 
 import { debug as d } from '@hint/utils-debug';
-import { mergeIgnoreIncludeArrays } from '@hint/utils/dist/src/misc/merge-ignore-include-arrays';
-import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
-import { toLowerCaseArray } from '@hint/utils/dist/src/misc/to-lowercase-array';
-import { includedHeaders } from '@hint/utils-network/dist/src/included-headers';
-import { isDataURI } from '@hint/utils-network/dist/src/is-data-uri';
-import { normalizeHeaderValue } from '@hint/utils-network/dist/src/normalize-header-value';
+import { mergeIgnoreIncludeArrays, prettyPrintArray, toLowerCaseArray } from '@hint/utils-string';
+import { includedHeaders, isDataURI, normalizeHeaderValue } from '@hint/utils-network';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
