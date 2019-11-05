@@ -1,5 +1,6 @@
 import { TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript-config';
-import { HintContext, IJSONLocationFunction } from 'hint';
+import { HintContext } from 'hint';
+import { JSONLocationFunction } from '@hint/utils-json/dist/src/types';
 
 import { getMessage, MessageName } from '../i18n.import';
 
@@ -15,7 +16,7 @@ const findValue = (property: string, config: TypeScriptConfig) => {
     return current;
 };
 
-const findLocation = (propertyPath: string, mergedConfig: TypeScriptConfig, originalConfig: TypeScriptConfig, getLocation: IJSONLocationFunction) => {
+const findLocation = (propertyPath: string, mergedConfig: TypeScriptConfig, originalConfig: TypeScriptConfig, getLocation: JSONLocationFunction) => {
     const valueInOriginal = findValue(propertyPath, originalConfig);
 
     if (typeof valueInOriginal !== 'undefined') {

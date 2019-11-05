@@ -15,6 +15,7 @@
     "references": [
         { "path": "../hint" },
         { "path": "../utils" },
+        { "path": "../utils-json" },
         { "path": "../utils-network" },
         { "path": "../utils-types" }
     ]
