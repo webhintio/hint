@@ -115,6 +115,7 @@
         { "path": "packages/utils-dom" },
         { "path": "packages/utils-fs" },
         { "path": "packages/utils-i18n" },
+        { "path": "packages/utils-json" },
         { "path": "packages/utils-network" },
         { "path": "packages/utils-tests-helpers" },
         { "path": "packages/utils-types" }
