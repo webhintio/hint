@@ -10,7 +10,6 @@
   "dependencies": {
     "@hint/utils-debug": "^1.0.0",
     "@hint/utils-fs": "^1.0.0",
-    "ajv": "^6.10.1",
     "applicationinsights": "^1.5.0",
     "configstore": "^5.0.0",
     "content-type": "^1.0.4",
@@ -19,7 +18,6 @@
     "globby": "^10.0.1",
     "is-svg": "^4.2.0",
     "is-wsl": "^2.1.1",
-    "jsonc-parser": "^2.1.1",
     "lodash": "^4.17.15",
     "npm-registry-fetch": "^5.0.0",
     "semver": "^6.3.0"
