@@ -1,5 +1,6 @@
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
 import { test } from '@hint/utils';
+import { Severity } from 'hint';
 
 const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
@@ -46,7 +47,10 @@ const tests: HintTest[] = [
     },
     {
         name: 'Unminified content should fail',
-        reports: [{ message: expectedMessageFromHint }],
+        reports: [{
+            message: expectedMessageFromHint,
+            severity: Severity.warning
+        }],
         serverConfig: generateHTMLPage(generateScriptTag(unminifiedJS))
     },
     {

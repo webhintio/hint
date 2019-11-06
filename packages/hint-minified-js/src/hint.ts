@@ -6,7 +6,7 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
+import { IHint, Severity } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { ScriptEvents, ScriptParse } from '@hint/parser-javascript';
 
@@ -55,7 +55,13 @@ export default class MinifiedJsHint implements IHint {
             debug(`Calculated improvementIndex for ${resource}: ${improvementIndex}`);
 
             if (improvementIndex > threshold) {
-                context.report(resource, getMessage('shouldBeMinified', context.language), { element });
+                context.report(
+                    resource,
+                    getMessage('shouldBeMinified', context.language),
+                    {
+                        element,
+                        severity: Severity.warning
+                    });
             }
         };
 
