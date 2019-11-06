@@ -1,5 +1,6 @@
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
 import { test } from '@hint/utils';
+import { Severity } from '@hint/utils/dist/src/types/problems';
 
 const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
@@ -119,22 +120,34 @@ const tests: HintTest[] = [
     },
     {
         name: `This test should fail as it has a link with 404 href value(absolute)`,
-        reports: [{ message: `Broken link found (404 response).` }],
+        reports: [{
+            message: `Broken link found (404 response).`,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage('', bodyWithBrokenLinks)
     },
     {
         name: `This test should fail as it has an img with 404 src value(absolute)`,
-        reports: [{ message: `Broken link found (404 response).` }],
+        reports: [{
+            message: `Broken link found (404 response).`,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage('', bodyWithBrokenImageSource)
     },
     {
         name: `This test should fail as it has a valid link but it has also a link with 404 href value(absolute)`,
-        reports: [{ message: `Broken link found (404 response).` }],
+        reports: [{
+            message: `Broken link found (404 response).`,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage('', bodyWithValidLinksAndBrokenLinks)
     },
     {
         name: `This test should fail as it has a link with 500 href value(relative)`,
-        reports: [{ message: `Broken link found (500 response).` }],
+        reports: [{
+            message: `Broken link found (500 response).`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithRelative500Links) },
             '/500': { status: 500 }
@@ -142,7 +155,10 @@ const tests: HintTest[] = [
     },
     {
         name: `This test should fail as it has a link with 410 href value(relative)`,
-        reports: [{ message: `Broken link found (410 response).` }],
+        reports: [{
+            message: `Broken link found (410 response).`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithRelative410Links) },
             '/410': { status: 410 }
@@ -150,7 +166,10 @@ const tests: HintTest[] = [
     },
     {
         name: `This test should fail as it has a link with 404 href value(relative)`,
-        reports: [{ message: `Broken link found (404 response).` }],
+        reports: [{
+            message: `Broken link found (404 response).`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithRelative404Links) },
             '/404': { status: 404 }
@@ -158,7 +177,10 @@ const tests: HintTest[] = [
     },
     {
         name: `This test should fail as it has a link with 503 href value(relative)`,
-        reports: [{ message: `Broken link found (503 response).` }],
+        reports: [{
+            message: `Broken link found (503 response).`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithRelative503Links) },
             '/503': { status: 503 }
@@ -166,7 +188,10 @@ const tests: HintTest[] = [
     },
     {
         name: `This test should fail as it has a link with 404 href value`,
-        reports: [{ message: `Broken link found (404 response).` }],
+        reports: [{
+            message: `Broken link found (404 response).`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithBrokenScriptTag) },
             '/404': { status: 404 }
@@ -174,7 +199,10 @@ const tests: HintTest[] = [
     },
     {
         name: `This test should fail as it has a script with 404 src value`,
-        reports: [{ message: `Broken link found (404 response).` }],
+        reports: [{
+            message: `Broken link found (404 response).`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithBrokenLinkTag) },
             '/404': { status: 404 }
@@ -183,9 +211,9 @@ const tests: HintTest[] = [
     {
         name: `This test should fail as it has an img with 404 src and srcset values`,
         reports: [
-            { message: `Broken link found (404 response).` },
-            { message: `Broken link found (404 response).` },
-            { message: `Broken link found (404 response).` }
+            { message: `Broken link found (404 response).`, severity: Severity.error },
+            { message: `Broken link found (404 response).`, severity: Severity.error },
+            { message: `Broken link found (404 response).`, severity: Severity.error }
         ],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithBrokenImageSrcSets) },
@@ -206,8 +234,8 @@ const tests: HintTest[] = [
     {
         name: `This test should fail as it has a video tag broken poster and src`,
         reports: [
-            { message: `Broken link found (404 response).` },
-            { message: `Broken link found (404 response).` }
+            { message: `Broken link found (404 response).`, severity: Severity.error },
+            { message: `Broken link found (404 response).`, severity: Severity.error }
         ],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithBrokenVideo) },
@@ -224,7 +252,10 @@ const tests: HintTest[] = [
     },
     {
         name: `Invalid URL triggers an error`,
-        reports: [{ message: `Broken link found (invalid URL).` }],
+        reports: [{
+            message: `Broken link found (invalid URL).`,
+            severity: Severity.error
+        }],
         serverConfig: { '/': { content: generateHTMLPage('', bodyWithInvalidUrl) } }
     },
     {
@@ -243,19 +274,31 @@ const tests: HintTest[] = [
     },
     {
         name: `This test should fail as the domain is not found for the dns-prefetch link tag`,
-        reports: [{ message: `Broken link found (domain not found).` }],
+        reports: [{
+            message: `Broken link found (domain not found).`,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage('', bodyWithInvalidDomainDnsPrefetchLinkTag)
     },
     {
         name: `This test should fail as the domain is not found for the preconnect link tag`,
-        reports: [{ message: `Broken link found (domain not found).` }],
+        reports: [{
+            message: `Broken link found (domain not found).`,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage('', bodyWithInvalidDomainPreconnectLinkTag)
     },
     {
         name: `This test should fail as it has a loop`,
         reports: [
-            { message: `'http://localhost/1.mp4' could not be fetched using GET method (redirect loop detected).` },
-            { message: `Broken link found (404 response).` }
+            {
+                message: `'http://localhost/1.mp4' could not be fetched using GET method (redirect loop detected).`,
+                severity: Severity.error
+            },
+            {
+                message: `Broken link found (404 response).`,
+                severity: Severity.error
+            }
         ],
         serverConfig: {
             '/': { content: generateHTMLPage('', bodyWithBrokenVideo) },
@@ -269,7 +312,10 @@ const tests: HintTest[] = [
     {
         name: `This test should fail as it has a link with 404 href value(absolute with base tag)`,
         reports: [
-            { message: `Broken link found (404 response).` }
+            {
+                message: `Broken link found (404 response).`,
+                severity: Severity.error
+            }
         ],
         serverConfig: {
             '/': { content: generateHTMLPage('<base href="nested/">', bodyWithValidRelativeLink) },
