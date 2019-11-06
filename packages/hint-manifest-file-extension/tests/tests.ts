@@ -1,5 +1,6 @@
 import { test } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from 'hint';
 
 const { generateHTMLPage, getHintPath } = test;
 const tests: HintTest[] = [
@@ -9,13 +10,19 @@ const tests: HintTest[] = [
     },
     {
         name: `Web app manifest file has incorrect file extension`,
-        reports: [{ message: `Web app manifest should have the filename extension 'webmanifest', not 'json'.` }],
+        reports: [{
+            message: `Web app manifest should have the filename extension 'webmanifest', not 'json'.`,
+            severity: Severity.hint
+        }],
         serverConfig: generateHTMLPage(`<link rel="manifest" href="site.json">
         <link rel="stylesheet" href="style.css">`)
     },
     {
         name: `Web app manifest file is specified only as '.webmanifest'`,
-        reports: [{ message: `Web app manifest should have the filename extension 'webmanifest'.` }],
+        reports: [{
+            message: `Web app manifest should have the filename extension 'webmanifest'.`,
+            severity: Severity.warning
+        }],
         serverConfig: generateHTMLPage(`<link rel="manifest" href=".webmanifest">
         <link rel="stylesheet" href="style.css">`)
     },
