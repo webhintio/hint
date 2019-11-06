@@ -11,7 +11,7 @@
 
 import { ucs2 } from 'punycode';
 
-import { IHint, IJSONLocationFunction } from 'hint/dist/src/lib/types';
+import { IHint, IJSONLocationFunction, Severity } from 'hint/dist/src/lib/types';
 import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
@@ -32,7 +32,11 @@ export default class ManifestAppNameHint implements IHint {
 
         const checkIfPropertyExists = (resource: string, content: string | undefined, propertyName: string) => {
             if (typeof content === 'undefined') {
-                context.report(resource, getMessage('shouldHaveProperty', context.language, propertyName));
+                context.report(
+                    resource,
+                    getMessage('shouldHaveProperty', context.language, propertyName),
+                    { severity: Severity.error }
+                );
             }
         };
 
@@ -41,7 +45,7 @@ export default class ManifestAppNameHint implements IHint {
                 const message = getMessage('shouldHaveNonEmptyProperty', context.language, propertyName);
                 const location = getLocation(propertyName, { at: 'value' });
 
-                context.report(resource, message, { location });
+                context.report(resource, message, { location, severity: Severity.error });
             }
         };
 
@@ -50,7 +54,7 @@ export default class ManifestAppNameHint implements IHint {
                 const message = getMessage('shouldHavePropertyShort', context.language, [propertyName, shortNameLengthLimit.toString()]);
                 const location = getLocation(propertyName, { at: 'value' });
 
-                context.report(resource, message, { location });
+                context.report(resource, message, { location, severity: Severity.warning });
 
                 return false;
             }
