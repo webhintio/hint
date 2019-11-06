@@ -12,7 +12,7 @@
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
-import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
+import { FetchEnd, IHint, Severity } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -41,17 +41,27 @@ export default class XContentTypeOptionsHint implements IHint {
             const headerValue: string | null = normalizeString(response.headers && response.headers['x-content-type-options']);
 
             if (headerValue === null) {
-                context.report(resource, getMessage('shouldInclude', context.language), { element });
+                context.report(
+                    resource,
+                    getMessage('shouldInclude', context.language),
+                    {
+                        element,
+                        severity: Severity.error
+                    });
 
                 return;
             }
 
             if (headerValue !== 'nosniff') {
-                context.report(resource, getMessage('nosniff', context.language, headerValue), {
-                    codeLanguage: 'http',
-                    codeSnippet: `X-Content-Type-Options: ${headerValue}`,
-                    element
-                });
+                context.report(
+                    resource,
+                    getMessage('nosniff', context.language, headerValue),
+                    {
+                        codeLanguage: 'http',
+                        codeSnippet: `X-Content-Type-Options: ${headerValue}`,
+                        element,
+                        severity: Severity.error
+                    });
 
                 return;
             }
