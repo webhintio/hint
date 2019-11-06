@@ -64,7 +64,8 @@ export default class HtmlCheckerHint implements IHint {
             lastLine: number;
             hiliteStart: number;
             message: string;
-            subType: keyof typeof Severity;
+            subType: 'warning' | 'fatal';
+            type: 'info' | 'error' | 'non-document-error';
         };
 
         const loadHintConfig = () => {
@@ -90,6 +91,28 @@ export default class HtmlCheckerHint implements IHint {
             return uniqBy(noIgnoredMesssages, 'message');
         };
 
+        /**
+         * Transformation to severity follows the information from
+         * https://github.com/validator/validator/wiki/Output-%C2%BB-JSON#message-objects
+         */
+        const toSeverity = (message: HtmlError) => {
+            if (message.type === 'info') {
+                if (message.subType === 'warning') {
+                    return Severity.warning;
+                }
+
+                // "Otherwise, the message is taken to generally informative."
+                return Severity.information;
+            }
+
+            if (message.type === 'error') {
+                return Severity.error;
+            }
+
+            // Internal errors by the validator, io, etc.
+            return Severity.warning;
+        };
+
         const locateAndReport = (resource: string) => {
             return (messageItem: HtmlError): void => {
                 const position: ProblemLocation = {
@@ -103,14 +126,17 @@ export default class HtmlCheckerHint implements IHint {
                     codeLanguage: 'html',
                     codeSnippet: messageItem.extract,
                     location: position,
-                    severity: Severity[messageItem.subType]
+                    severity: toSeverity(messageItem)
                 });
             };
         };
 
         const notifyError = (resource: string, error: any) => {
             debug(`Error getting HTML checker result for ${resource}.`, error);
-            context.report(resource, getMessage('couldNotGetResult', context.language, [resource, error.toString()]));
+            context.report(
+                resource,
+                getMessage('couldNotGetResult', context.language, [resource, error.toString()]),
+                { severity: Severity.warning });
         };
 
         const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {
