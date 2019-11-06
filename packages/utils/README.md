@@ -124,8 +124,3 @@ exception if no package is found.
 * `loadHintPackage`: Returns the package `hint`.
 * `loadResource`: Returns a resource if it exists.
 * `requirePackage`: Require a package, compatible with webpack.
-
-### test
-
-* `generateHTMLPage`: Creates a valid minimal HTML.
-* `getHintPath`: Returns the name of the hint.

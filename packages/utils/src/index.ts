@@ -7,7 +7,6 @@ export * from './content-type';
 export * from './misc';
 export * from './npm';
 export * from './packages';
-export * from './test';
 export * from './chromium-finder';
 
 export * from './config';
