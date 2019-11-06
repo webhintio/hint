@@ -13,10 +13,13 @@ import { asPathString, getAsUri, requestAsync } from '@hint/utils-network';
 import { Configuration, Engine, HintsConfigObject, IHintConstructor, utils } from 'hint';
 import { Problem, ProblemLocation } from '@hint/utils-types';
 
-import { ids as connectors } from './connectors';
 import { HintTest, HintLocalTest, Report, MatchProblemLocation } from './hint-test-type';
 
 const { resourceLoader } = utils;
+const connectors = [
+    'puppeteer',
+    'jsdom'
+];
 
 type HintRunnerContext = {
     server: IServer;

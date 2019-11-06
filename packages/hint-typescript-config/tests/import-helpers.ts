@@ -5,9 +5,7 @@ import * as mock from 'mock-require';
 import * as sinon from 'sinon';
 
 import * as utils from '@hint/utils';
-import { HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
-
-const { getHintPath } = utils;
+import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
 
 type ImportHelpersContext = {
     sandbox: sinon.SinonSandbox;

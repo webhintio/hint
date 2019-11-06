@@ -1,5 +1,4 @@
-import { generateHTMLPage, getHintPath } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 const metaCharset = '<mEtA CHaRseT="UtF-8">';
 const metaHttpEquiv = '<MeTa HTTP-EquiV="ConTent-Type" Content="TexT/HTML; CharSet=UtF-8">';

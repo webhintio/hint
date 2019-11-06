@@ -1,5 +1,5 @@
-import { generateHTMLPage, getHintPath, prettyPrintArray } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { prettyPrintArray } from '@hint/utils';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 const hintPath = getHintPath(__filename);
 const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');

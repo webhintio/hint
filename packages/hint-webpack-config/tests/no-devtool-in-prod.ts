@@ -1,9 +1,8 @@
 import * as path from 'path';
 import * as mock from 'mock-require';
 
-import { getHintPath } from '@hint/utils';
+import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
 import { loadJSONFile } from '@hint/utils-fs';
-import { HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
 
 const webpackDestPath = path.join(__dirname, 'fixtures', 'valid', 'package.json');
 const webpackConfig = loadJSONFile(webpackDestPath);

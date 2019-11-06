@@ -15,7 +15,6 @@
     "references": [
         { "path": "../hint" },
         { "path": "../parser-javascript" },
-        { "path": "../utils" },
         { "path": "../utils-debug" },
         { "path": "../utils-i18n" },
         { "path": "../utils-tests-helpers" },

@@ -3,7 +3,7 @@ import { URL } from 'url';
 import test from 'ava';
 
 import { Server } from '@hint/utils-create-server';
-import { generateHTMLPage } from '@hint/utils';
+import { generateHTMLPage } from '@hint/utils-tests-helpers';
 import { Engine, Events, IConnector } from 'hint';
 
 import JSDOMConnector from '../src/connector';

@@ -1,7 +1,4 @@
-/* eslint sort-keys: 0 */
-
-import { generateHTMLPage, getHintPath } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
