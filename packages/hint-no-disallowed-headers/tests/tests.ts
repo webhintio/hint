@@ -1,5 +1,6 @@
 import { misc, test } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from 'hint';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -41,12 +42,12 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `HTML page is served with one disallowed header`,
-        reports: [{ message: generateErrorMessage(['x-powered-by']) }],
+        reports: [{ message: generateErrorMessage(['x-powered-by']), severity: Severity.warning }],
         serverConfig: { '/': { headers: { 'X-Powered-By': 'test' } } }
     },
     {
         name: `HTML page is served with multiple disallowed headers`,
-        reports: [{ message: generateErrorMessage(['x-aspnetmvc-version', 'x-powered-by']) }],
+        reports: [{ message: generateErrorMessage(['x-aspnetmvc-version', 'x-powered-by']), severity: Severity.warning }],
         serverConfig: {
             '/': {
                 headers: {
@@ -114,7 +115,10 @@ const testsForDifferentServerHeaderValues: HintTest[] = (() => {
     disallowedServerHeaderValues.forEach((value) => {
         tests.push({
             name: `HTML page is served with disallowed 'Server: ${value}'`,
-            reports: [{ message: `'server' header value should only contain the server name, not '${value}'.` }],
+            reports: [{
+                message: `'server' header value should only contain the server name, not '${value}'.`,
+                severity: Severity.warning
+            }],
             serverConfig: { '/': { headers: { Server: value } } }
         });
     });
@@ -140,7 +144,7 @@ const testsForIgnoreConfigs: HintTest[] = [
 const testsForIncludeConfigs: HintTest[] = [
     {
         name: `HTML page is served with disallowed headers that are enforced because of configs`,
-        reports: [{ message: generateErrorMessage(['server', 'x-test-2']) }],
+        reports: [{ message: generateErrorMessage(['server', 'x-test-2']), severity: Severity.warning }],
         serverConfig: {
             '/': htmlPageWithScript,
             '/test.js': {
@@ -156,7 +160,7 @@ const testsForIncludeConfigs: HintTest[] = [
 const testsForConfigs: HintTest[] = [
     {
         name: `HTML page is served with disallowed headers that are both ignored and enforced because of configs`,
-        reports: [{ message: generateErrorMessage(['x-powered-by', 'x-test-1']) }],
+        reports: [{ message: generateErrorMessage(['x-powered-by', 'x-test-1']), severity: Severity.warning }],
         serverConfig: {
             '/': {
                 headers: {
