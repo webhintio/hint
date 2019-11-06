@@ -20,17 +20,27 @@ const meta: HintMetadata = {
         return getMessage('tables_name', language);
     },
     id: 'axe/tables',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'scope-attr-valid': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'table-duplicate-name': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'table-fake-caption': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'td-has-header': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'td-headers-attr': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'th-has-data-cells': { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'scope-attr-valid': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'table-duplicate-name': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'table-fake-caption': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'td-has-header': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'td-headers-attr': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'th-has-data-cells': { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['scope-attr-valid', 'table-duplicate-name', 'table-fake-caption', 'td-has-header', 'td-headers-attr', 'th-has-data-cells'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

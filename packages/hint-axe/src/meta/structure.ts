@@ -20,18 +20,28 @@ const meta: HintMetadata = {
         return getMessage('structure_name', language);
     },
     id: 'axe/structure',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'css-orientation-lock': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'definition-list': { enum: ['off', 'warning', 'error'], type: 'string' },
-            dlitem: { enum: ['off', 'warning', 'error'], type: 'string' },
-            'frame-tested': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'hidden-content': { enum: ['off', 'warning', 'error'], type: 'string' },
-            list: { enum: ['off', 'warning', 'error'], type: 'string' },
-            listitem: { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'css-orientation-lock': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'definition-list': { enum: ['off', 'warning', 'error'], type: 'string' },
+                dlitem: { enum: ['off', 'warning', 'error'], type: 'string' },
+                'frame-tested': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'hidden-content': { enum: ['off', 'warning', 'error'], type: 'string' },
+                list: { enum: ['off', 'warning', 'error'], type: 'string' },
+                listitem: { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['css-orientation-lock', 'definition-list', 'dlitem', 'frame-tested', 'hidden-content', 'list', 'listitem'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

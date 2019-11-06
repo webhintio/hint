@@ -20,13 +20,23 @@ const meta: HintMetadata = {
         return getMessage('sensoryAndVisualCues_name', language);
     },
     id: 'axe/sensory-and-visual-cues',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'meta-viewport': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'meta-viewport-large': { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'meta-viewport': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'meta-viewport-large': { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['meta-viewport', 'meta-viewport-large'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

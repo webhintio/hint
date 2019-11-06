@@ -20,17 +20,27 @@ const meta: HintMetadata = {
         return getMessage('forms_name', language);
     },
     id: 'axe/forms',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'autocomplete-valid': { enum: ['off', 'warning', 'error'], type: 'string' },
-            checkboxgroup: { enum: ['off', 'warning', 'error'], type: 'string' },
-            'form-field-multiple-labels': { enum: ['off', 'warning', 'error'], type: 'string' },
-            label: { enum: ['off', 'warning', 'error'], type: 'string' },
-            'label-title-only': { enum: ['off', 'warning', 'error'], type: 'string' },
-            radiogroup: { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'autocomplete-valid': { enum: ['off', 'warning', 'error'], type: 'string' },
+                checkboxgroup: { enum: ['off', 'warning', 'error'], type: 'string' },
+                'form-field-multiple-labels': { enum: ['off', 'warning', 'error'], type: 'string' },
+                label: { enum: ['off', 'warning', 'error'], type: 'string' },
+                'label-title-only': { enum: ['off', 'warning', 'error'], type: 'string' },
+                radiogroup: { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['autocomplete-valid', 'checkboxgroup', 'form-field-multiple-labels', 'label', 'label-title-only', 'radiogroup'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

@@ -20,15 +20,25 @@ const meta: HintMetadata = {
         return getMessage('language_name', language);
     },
     id: 'axe/language',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'html-has-lang': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'html-lang-valid': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'html-xml-lang-mismatch': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'valid-lang': { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'html-has-lang': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'html-lang-valid': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'html-xml-lang-mismatch': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'valid-lang': { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['html-has-lang', 'html-lang-valid', 'html-xml-lang-mismatch', 'valid-lang'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

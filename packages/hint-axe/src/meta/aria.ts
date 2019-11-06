@@ -20,24 +20,34 @@ const meta: HintMetadata = {
         return getMessage('aria_name', language);
     },
     id: 'axe/aria',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'aria-allowed-attr': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-allowed-role': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-dpub-role-fallback': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-hidden-body': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-input-field-name': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-required-attr': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-required-children': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-required-parent': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-roledescription': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-roles': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-toggle-field-name': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-valid-attr': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'aria-valid-attr-value': { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'aria-allowed-attr': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-allowed-role': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-dpub-role-fallback': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-hidden-body': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-input-field-name': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-required-attr': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-required-children': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-required-parent': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-roledescription': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-roles': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-toggle-field-name': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-valid-attr': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'aria-valid-attr-value': { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['aria-allowed-attr', 'aria-allowed-role', 'aria-dpub-role-fallback', 'aria-hidden-body', 'aria-input-field-name', 'aria-required-attr', 'aria-required-children', 'aria-required-parent', 'aria-roledescription', 'aria-roles', 'aria-toggle-field-name', 'aria-valid-attr', 'aria-valid-attr-value'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

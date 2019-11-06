@@ -20,13 +20,23 @@ const meta: HintMetadata = {
         return getMessage('color_name', language);
     },
     id: 'axe/color',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'color-contrast': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'link-in-text-block': { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'color-contrast': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'link-in-text-block': { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['color-contrast', 'link-in-text-block'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

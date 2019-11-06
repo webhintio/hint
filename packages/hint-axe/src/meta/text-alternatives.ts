@@ -20,23 +20,33 @@ const meta: HintMetadata = {
         return getMessage('textAlternatives_name', language);
     },
     id: 'axe/text-alternatives',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'area-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'document-title': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'frame-title': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'frame-title-unique': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'image-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'image-redundant-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'input-image-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'object-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'role-img-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'server-side-image-map': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'video-caption': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'video-description': { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'area-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'document-title': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'frame-title': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'frame-title-unique': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'image-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'image-redundant-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'input-image-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'object-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'role-img-alt': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'server-side-image-map': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'video-caption': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'video-description': { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['area-alt', 'document-title', 'frame-title', 'frame-title-unique', 'image-alt', 'image-redundant-alt', 'input-image-alt', 'object-alt', 'role-img-alt', 'server-side-image-map', 'video-caption', 'video-description'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

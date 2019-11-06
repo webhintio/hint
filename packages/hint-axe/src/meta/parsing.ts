@@ -20,15 +20,25 @@ const meta: HintMetadata = {
         return getMessage('parsing_name', language);
     },
     id: 'axe/parsing',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'duplicate-id': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'duplicate-id-active': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'duplicate-id-aria': { enum: ['off', 'warning', 'error'], type: 'string' },
-            marquee: { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'duplicate-id': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'duplicate-id-active': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'duplicate-id-aria': { enum: ['off', 'warning', 'error'], type: 'string' },
+                marquee: { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['duplicate-id', 'duplicate-id-active', 'duplicate-id-aria', 'marquee'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 
