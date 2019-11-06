@@ -13,6 +13,7 @@ const configStoreKey: string = 'insight';
 let insightsEnabled: boolean | undefined = configStore.get(configStoreKey);
 
 let appInsightsClient: appInsights.TelemetryClient = {
+    /* istanbul ignore next */
     flush(options: IFlushOptions) {
         debug('Application Insights is not enabled.');
         options.callback();
