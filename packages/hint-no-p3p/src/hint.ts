@@ -4,7 +4,7 @@
 
 import { URL } from 'url';
 
-import { ElementFound, FetchEnd, HintContext, IHint, ScanStart } from 'hint';
+import { ElementFound, FetchEnd, HintContext, IHint, ScanStart, Severity } from 'hint';
 import { debug as d, misc, network } from '@hint/utils';
 
 import meta from './meta';
@@ -38,7 +38,7 @@ export default class NoP3pHint implements IHint {
                 const result = await context.fetchContent(wellKnown);
 
                 if (result.response.statusCode === 200) {
-                    context.report(wellKnown.toString(), errorMessage);
+                    context.report(wellKnown.toString(), errorMessage, { severity: Severity.error });
                 }
             } catch (e) {
                 /*
@@ -67,7 +67,8 @@ export default class NoP3pHint implements IHint {
                 context.report(resource, errorMessage, {
                     codeLanguage: 'http',
                     codeSnippet: codeSnippet.trim(),
-                    element
+                    element,
+                    severity: Severity.error
                 });
             }
         };
@@ -80,7 +81,7 @@ export default class NoP3pHint implements IHint {
             const rel: string | null = element.getAttribute('rel');
 
             if (rel && normalizeString(rel) === 'p3pv1') {
-                context.report(resource, errorMessage, { element });
+                context.report(resource, errorMessage, { element, severity: Severity.error });
             }
         };
 

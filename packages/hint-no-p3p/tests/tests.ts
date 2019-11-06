@@ -1,5 +1,6 @@
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
 import { test } from '@hint/utils';
+import { Severity } from 'hint';
 
 const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
@@ -9,7 +10,7 @@ const message = 'P3P should not be used as it is deprecated.';
 const testsForDefaults: HintTest[] = [
     {
         name: `HTML and JS with P3P headers should fail`,
-        reports: [{ message }, { message }],
+        reports: [{ message, severity: Severity.error }, { message, severity: Severity.error }],
         serverConfig: {
             '/': {
                 content: generateHTMLPage('<script src="test.js"></script>'),
@@ -27,7 +28,7 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `Link with rel="P3Pv1" should fail`,
-        reports: [{ message }],
+        reports: [{ message, severity: Severity.error }],
         serverConfig: { '/': generateHTMLPage('<link rel="P3Pv1">') }
     },
     {
@@ -36,7 +37,7 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `P3P well known location should fail`,
-        reports: [{ message }],
+        reports: [{ message, severity: Severity.error }],
         serverConfig: {
             '/': generateHTMLPage(''),
             '/w3c/p3p.xml': 'You should not have any p3p configuration'
