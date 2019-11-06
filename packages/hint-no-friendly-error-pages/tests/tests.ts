@@ -2,6 +2,7 @@
 
 import { test } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from 'hint';
 
 const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
@@ -37,7 +38,10 @@ const addTests = (t: HintTest[], statusCodes: number[], threshold: number) => {
     statusCodes.forEach((statusCode) => {
         t.push({
             name: `Response has status code ${statusCode} and less than ${threshold} bytes`,
-            reports: [{ message: generateErrorMessage(statusCode, threshold) }],
+            reports: [{
+                message: generateErrorMessage(statusCode, threshold),
+                severity: Severity.hint
+            }],
             serverConfig: {
                 '/': {
                     content: (threshold === 512 ? htmlPageWithLessThan512bytes : htmlPageWithLessThan256bytes),
@@ -79,7 +83,10 @@ addTests(tests, statusCodesWith512Threshold, 512);
 tests.push(
     {
         name: `Response has status code 200 and 404 page was generated and has less than 512 bytes`,
-        reports: [{ message: generateErrorMessage(404, 512) }],
+        reports: [{
+            message: generateErrorMessage(404, 512),
+            severity: Severity.hint
+        }],
         serverConfig: {
             '/': generateHTMLPage(),
             '*': {

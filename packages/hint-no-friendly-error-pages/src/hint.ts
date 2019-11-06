@@ -13,7 +13,7 @@ import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
 import { debug as d, network } from '@hint/utils';
-import { FetchEnd, HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
+import { FetchEnd, HintContext, IHint, NetworkData, TraverseEnd, Severity } from 'hint';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -137,7 +137,11 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             for (const key of Object.keys(foundErrorPages)) {
                 const threshold = statusCodesWith512Threshold.includes(Number.parseInt(key)) ? 512 : 256;
 
-                context.report(href, getMessage('responseWithStatus', context.language, [key, threshold.toString()]));
+                context.report(
+                    href,
+                    getMessage('responseWithStatus', context.language, [key, threshold.toString()]),
+                    { severity: Severity.hint }
+                );
             }
         };
 
