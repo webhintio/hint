@@ -43,7 +43,7 @@ test('It tracks the first result for each document when opened', (t) => {
     const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
 
     // First result should be tracked.
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'foo' } } as IHintConstructor
         ],
@@ -56,7 +56,7 @@ test('It tracks the first result for each document when opened', (t) => {
     });
 
     // Second result should not be tracked (will be cached for 'onSave').
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'foo' } } as IHintConstructor
         ],
@@ -64,7 +64,7 @@ test('It tracks the first result for each document when opened', (t) => {
     });
 
     // First result for another document should be tracked.
-    module.trackResult('test.css', {
+    module.trackResult('test.css', 'css', {
         hints: [
             { meta: { id: 'bar' } } as IHintConstructor
         ],
@@ -74,13 +74,13 @@ test('It tracks the first result for each document when opened', (t) => {
     t.true(trackEventSpy.calledTwice);
     t.is(trackEventSpy.firstCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.firstCall.args[1], {
-        fileExtension: '.html',
-        'hint-foo': 'failed'
+        'hint-foo': 'failed',
+        languageId: 'html'
     });
     t.is(trackEventSpy.secondCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.secondCall.args[1], {
-        fileExtension: '.css',
-        'hint-bar': 'passed'
+        'hint-bar': 'passed',
+        languageId: 'css'
     });
 
     sandbox.restore();
@@ -92,7 +92,7 @@ test('It tracks the delta between the first and last results on save', (t) => {
     const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
 
     // First result should be tracked.
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'bar' } } as IHintConstructor,
             { meta: { id: 'baz' } } as IHintConstructor,
@@ -108,7 +108,7 @@ test('It tracks the delta between the first and last results on save', (t) => {
     });
 
     // Second result should not be tracked (will be cached for 'onSave').
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'bar' } } as IHintConstructor,
             { meta: { id: 'baz' } } as IHintConstructor,
@@ -121,7 +121,7 @@ test('It tracks the delta between the first and last results on save', (t) => {
     });
 
     // First result for another document should be tracked.
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'bar' } } as IHintConstructor,
             { meta: { id: 'baz' } } as IHintConstructor,
@@ -132,25 +132,25 @@ test('It tracks the delta between the first and last results on save', (t) => {
         ]
     });
 
-    module.trackSave('test.html');
+    module.trackSave('test.html', 'html');
 
     // Verify multiple saves only submit once with no new results.
-    module.trackSave('test.html');
+    module.trackSave('test.html', 'html');
 
     t.true(trackEventSpy.calledTwice);
     t.is(trackEventSpy.firstCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.firstCall.args[1], {
-        fileExtension: '.html',
         'hint-bar': 'failed',
         'hint-baz': 'passed',
-        'hint-foo': 'failed'
+        'hint-foo': 'failed',
+        languageId: 'html'
     });
     t.is(trackEventSpy.secondCall.args[0], 'vscode-save');
     t.deepEqual(trackEventSpy.secondCall.args[1], {
-        fileExtension: '.html',
         'hint-bar': 'fixed',
         'hint-baz': 'passed',
-        'hint-foo': 'fixing'
+        'hint-foo': 'fixing',
+        languageId: 'html'
     });
 
     sandbox.restore();
@@ -162,7 +162,7 @@ test('It tracks results again for a document when re-opened', (t) => {
     const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
 
     // First result should be tracked.
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'foo' } } as IHintConstructor
         ],
@@ -178,7 +178,7 @@ test('It tracks results again for a document when re-opened', (t) => {
     module.trackClose('test.html');
 
     // Second result should be tracked because document was re-opened.
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'foo' } } as IHintConstructor
         ],
@@ -188,12 +188,12 @@ test('It tracks results again for a document when re-opened', (t) => {
     t.true(trackEventSpy.calledTwice);
     t.is(trackEventSpy.firstCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.firstCall.args[1], {
-        fileExtension: '.html',
-        'hint-foo': 'failed'
+        'hint-foo': 'failed',
+        languageId: 'html'
     });
     t.is(trackEventSpy.secondCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.secondCall.args[1], {
-        fileExtension: '.html',
-        'hint-foo': 'passed'
+        'hint-foo': 'passed',
+        languageId: 'html'
     });
 });
