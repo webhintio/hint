@@ -8,7 +8,7 @@ import { tmpdir } from 'os';
 import * as fs from 'fs-extra';
 import { imageSize as getImageData } from 'image-size';
 
-import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
+import { FetchEnd, HintContext, IHint, ScanEnd, Severity } from 'hint';
 import { logger, misc } from '@hint/utils';
 import { cloudinaryResult } from './cloudinary-types';
 
@@ -35,7 +35,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
         const cloudinary = require('cloudinary');
         let uploads: Promise<cloudinaryResult | null>[] = [];
         let configured = false;
-        let sizeThreshold = 0;
+        let sizeThreshold = 5;
 
         /* eslint-disable camelcase */
 
@@ -128,7 +128,7 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
         /** Waits to gather the results of all the images and notifies if there is any possible savings. */
         const end = async (data: ScanEnd) => {
             if (!configured) {
-                context.report('', getMessage('noValidConfig', context.language));
+                context.report('', getMessage('noValidConfig', context.language), { severity: Severity.error });
 
                 return;
             }
@@ -154,12 +154,21 @@ export default class ImageOptimizationCloudinaryHint implements IHint {
 
                 if (sizeDiff >= sizeThreshold) {
                     reported = true;
-                    context.report(file.originalUrl, getMessage('imageCouldBeSmaller', context.language, [cutString(file.originalUrl), sizeDiff.toFixed(2), percentageDiff.toString()]), { element: file.element });
+                    context.report(
+                        file.originalUrl,
+                        getMessage('imageCouldBeSmaller', context.language, [cutString(file.originalUrl), sizeDiff.toFixed(2), percentageDiff.toString()]),
+                        {
+                            element: file.element,
+                            severity: Severity.warning
+                        });
                 }
             }
 
             if (!reported && totalSavings > sizeThreshold) {
-                context.report('', getMessage('totalSize', context.language, [data.resource, totalSavings.toFixed(0)]));
+                context.report('',
+                    getMessage('totalSize', context.language, [data.resource, totalSavings.toFixed(0)]),
+                    { severity: Severity.warning }
+                );
             }
 
             // uploads needs to be cleaned at the end to work propertly with the local connector + watcher
