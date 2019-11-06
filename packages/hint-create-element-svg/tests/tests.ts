@@ -1,5 +1,6 @@
 import { fs, test } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils/dist/src/types/problems';
 
 const { generateHTMLPage, getHintPath } = test;
 const { readFile } = fs;
@@ -45,7 +46,8 @@ const tests: HintTest[] = [
         name: 'Should not use createElement to create SVG element',
         reports: [{
             message: 'SVG elements cannot be created with createElement; use createElementNS instead',
-            position: { match: `createElement('svg')` }
+            position: { match: `createElement('svg')` },
+            severity: Severity.error
         }],
         serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(invalidSvgCreate))
     },
@@ -61,7 +63,8 @@ const tests: HintTest[] = [
         name: 'Should not use createElement to create Circle SVG element',
         reports: [{
             message: 'SVG elements cannot be created with createElement; use createElementNS instead',
-            position: { match: `createElement('circle')` }
+            position: { match: `createElement('circle')` },
+            severity: Severity.error
         }],
         serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(invalidCircleCreate))
     },
@@ -69,7 +72,8 @@ const tests: HintTest[] = [
         name: 'External File: Should not use createElement to create Circle SVG element',
         reports: [{
             message: 'SVG elements cannot be created with createElement; use createElementNS instead',
-            position: { match: `createElement('svg')` }
+            position: { match: `createElement('svg')` },
+            severity: Severity.error
         }],
         serverConfig: generatePageWithExternalScript()
     }

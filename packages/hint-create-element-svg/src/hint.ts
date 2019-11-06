@@ -3,7 +3,7 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
+import { IHint, Severity } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils/dist/src/debug';
 import { ScriptEvents } from '@hint/parser-javascript';
 
@@ -62,7 +62,16 @@ export default class CreateElementSvgHint implements IHint {
                             };
                         }
 
-                        context.report(resource, message, { codeLanguage, codeSnippet, element, location });
+                        context.report(
+                            resource,
+                            message,
+                            {
+                                codeLanguage,
+                                codeSnippet,
+                                element,
+                                location,
+                                severity: Severity.error
+                            });
                     }
                 }
             });
