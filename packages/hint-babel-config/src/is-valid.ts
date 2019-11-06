@@ -2,7 +2,7 @@
  * @fileoverview `babel-config/is-valid` warns against providing an invalid babel configuration file.
  */
 import { debug as d } from '@hint/utils';
-import { HintContext, IHint } from 'hint';
+import { HintContext, IHint, Severity } from 'hint';
 import { BabelConfigEvents, BabelConfigExtendsError, BabelConfigInvalidJSON, BabelConfigInvalidSchema } from '@hint/parser-babel-config';
 
 import meta from './meta/is-valid';
@@ -23,7 +23,7 @@ export default class BabelConfigIsValidHint implements IHint {
 
             debug(`${event} received`);
 
-            context.report(resource, error.message);
+            context.report(resource, error.message, { severity: Severity.error });
         };
 
         const invalidExtends = (babelConfigInvalid: BabelConfigExtendsError, event: string) => {
@@ -31,7 +31,13 @@ export default class BabelConfigIsValidHint implements IHint {
 
             debug(`${event} received`);
 
-            context.report(resource, error.message, { location: getLocation('extends', { at: 'value' }) });
+            context.report(
+                resource,
+                error.message,
+                {
+                    location: getLocation('extends', { at: 'value' }),
+                    severity: Severity.error
+                });
         };
 
         const invalidSchema = (fetchEnd: BabelConfigInvalidSchema) => {
@@ -42,7 +48,13 @@ export default class BabelConfigIsValidHint implements IHint {
             for (let i = 0; i < groupedErrors.length; i++) {
                 const groupedError = groupedErrors[i];
 
-                context.report(resource, groupedError.message, { location: groupedError.location });
+                context.report(
+                    resource,
+                    groupedError.message,
+                    {
+                        location: groupedError.location,
+                        severity: Severity.error
+                    });
             }
         };
 
