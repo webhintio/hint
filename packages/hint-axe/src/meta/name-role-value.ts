@@ -20,16 +20,26 @@ const meta: HintMetadata = {
         return getMessage('nameRoleValue_name', language);
     },
     id: 'axe/name-role-value',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'aria-hidden-focus': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'button-name': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'empty-heading': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'input-button-name': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'link-name': { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'aria-hidden-focus': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'button-name': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'empty-heading': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'input-button-name': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'link-name': { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['aria-hidden-focus', 'button-name', 'empty-heading', 'input-button-name', 'link-name'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

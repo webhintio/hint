@@ -20,17 +20,27 @@ const meta: HintMetadata = {
         return getMessage('keyboard_name', language);
     },
     id: 'axe/keyboard',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            accesskeys: { enum: ['off', 'warning', 'error'], type: 'string' },
-            bypass: { enum: ['off', 'warning', 'error'], type: 'string' },
-            'focus-order-semantics': { enum: ['off', 'warning', 'error'], type: 'string' },
-            region: { enum: ['off', 'warning', 'error'], type: 'string' },
-            'skip-link': { enum: ['off', 'warning', 'error'], type: 'string' },
-            tabindex: { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                accesskeys: { enum: ['off', 'warning', 'error'], type: 'string' },
+                bypass: { enum: ['off', 'warning', 'error'], type: 'string' },
+                'focus-order-semantics': { enum: ['off', 'warning', 'error'], type: 'string' },
+                region: { enum: ['off', 'warning', 'error'], type: 'string' },
+                'skip-link': { enum: ['off', 'warning', 'error'], type: 'string' },
+                tabindex: { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['accesskeys', 'bypass', 'focus-order-semantics', 'region', 'skip-link', 'tabindex'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

@@ -20,14 +20,24 @@ const meta: HintMetadata = {
         return getMessage('timeAndMedia_name', language);
     },
     id: 'axe/time-and-media',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'audio-caption': { enum: ['off', 'warning', 'error'], type: 'string' },
-            blink: { enum: ['off', 'warning', 'error'], type: 'string' },
-            'meta-refresh': { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'audio-caption': { enum: ['off', 'warning', 'error'], type: 'string' },
+                blink: { enum: ['off', 'warning', 'error'], type: 'string' },
+                'meta-refresh': { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['audio-caption', 'blink', 'meta-refresh'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 

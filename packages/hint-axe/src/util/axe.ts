@@ -14,12 +14,12 @@ type EngineKey = object;
 
 type Options = {
     [ruleId: string]: keyof typeof Severity;
-};
+} | string[];
 
 type Registration = {
     context: HintContext;
     enabledRules: string[];
-    options: Options;
+    options: { [ruleId: string]: keyof typeof Severity };
     event: CanEvaluateScript;
 };
 
@@ -111,10 +111,19 @@ const useRegistrations = (engineKey: EngineKey, resource: string, map: Registrat
 
 /* istanbul ignore next */
 const toSeverity = (impact?: ImpactValue) => {
-    if (impact === 'serious' || impact === 'critical') {
+    if (impact === 'minor') {
+        return Severity.hint;
+    }
+
+    if (impact === 'moderate' || impact === 'serious') {
+        return Severity.warning;
+    }
+
+    if (impact === 'critical') {
         return Severity.error;
     }
 
+    // In case axe adds a new `impact` that is not tracked above
     return Severity.warning;
 };
 
@@ -160,6 +169,20 @@ const run = async (context: HintContext, event: CanEvaluateScript, rules: string
     }
 };
 
+const normalizeOptions = (options: Options) => {
+    if (Array.isArray(options)) {
+        const normalizedOptions = options.reduce((newOptions, axeRuleId) => {
+            (newOptions as any)[axeRuleId] = 'default';
+
+            return newOptions;
+        }, {});
+
+        return normalizedOptions;
+    }
+
+    return options || {};
+};
+
 /**
  * Register a given set of axe rules to be queued for evaluation on
  * `can-evaluate::script`. These rules will be aggregated across axe
@@ -168,7 +191,8 @@ const run = async (context: HintContext, event: CanEvaluateScript, rules: string
  * reported back via their original context.
  */
 export const register = (context: HintContext, rules: string[], disabled: string[]) => {
-    const options: Options = context.hintOptions || {};
+    const options = normalizeOptions(context.hintOptions);
+
     const { engineKey } = context;
 
     const enabledRules = rules.filter((rule) => {
@@ -219,7 +243,10 @@ export const register = (context: HintContext, rules: string[], disabled: string
                 const message = summary ? `${violation.help}: ${summary}` : violation.help;
                 const registration = ruleToRegistration.get(violation.id)!;
                 const element = getElement(context, node);
-                const severity = Severity[registration.options[violation.id]] || toSeverity(violation.impact);
+                const severity = Severity[registration.options[violation.id]] === Severity.default ?
+                    toSeverity(violation.impact) :
+                    Severity[registration.options[violation.id]];
+
 
                 registration.context.report(resource, message, { element, severity });
             }

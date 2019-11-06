@@ -1,5 +1,6 @@
 import { generateHTMLPage } from '@hint/utils-create-server';
 import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename, true);
 
@@ -21,10 +22,23 @@ const tests: HintTest[] = [
 
 const testsWithCustomConfiguration: HintTest[] = [
     {
-        name: `HTML has tabindex > 0 and fails because of custom config`,
+        name: `HTML has tabindex > 0 and fails with error because of custom config with object`,
         reports: [{
             message: 'Elements should not have tabindex greater than zero',
-            position: { match: 'a href="#skip" tabindex="4"' }
+            position: { match: 'a href="#skip" tabindex="4"' },
+            severity: Severity.error
+        }],
+        serverConfig: html.tabindex
+    }
+];
+
+const testsWithCustomConfigurationArrayFormat: HintTest[] = [
+    {
+        name: `HTML has tabindex > 0 and fails with warning because of custom config with array`,
+        reports: [{
+            message: 'Elements should not have tabindex greater than zero',
+            position: { match: 'a href="#skip" tabindex="4"' },
+            severity: Severity.warning
         }],
         serverConfig: html.tabindex
     }
@@ -32,3 +46,4 @@ const testsWithCustomConfiguration: HintTest[] = [
 
 testHint(hintPath, tests);
 testHint(hintPath, testsWithCustomConfiguration, { hintOptions: { tabindex: 'error' } });
+testHint(hintPath, testsWithCustomConfigurationArrayFormat, { hintOptions: ['tabindex'] });

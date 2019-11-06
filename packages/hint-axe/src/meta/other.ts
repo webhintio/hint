@@ -20,14 +20,24 @@ const meta: HintMetadata = {
         return getMessage('other_name', language);
     },
     id: 'axe/other',
-    schema: [{
-        additionalProperties: false,
-        properties: {
-            'avoid-inline-spacing': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'label-content-name-mismatch': { enum: ['off', 'warning', 'error'], type: 'string' },
-            'scrollable-region-focusable': { enum: ['off', 'warning', 'error'], type: 'string' }
+    schema: [
+        {
+            additionalProperties: false,
+            properties: {
+                'avoid-inline-spacing': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'label-content-name-mismatch': { enum: ['off', 'warning', 'error'], type: 'string' },
+                'scrollable-region-focusable': { enum: ['off', 'warning', 'error'], type: 'string' }
+            }
+        },
+        {
+            items: {
+                enum: ['avoid-inline-spacing', 'label-content-name-mismatch', 'scrollable-region-focusable'],
+                type: 'string'
+            },
+            typeof: 'array',
+            uniqueItems: true
         }
-    }],
+    ],
     scope: HintScope.any
 };
 
