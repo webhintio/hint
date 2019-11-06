@@ -1,5 +1,4 @@
-import { getHintPath } from '@hint/utils';
-import { testHint } from '@hint/utils-tests-helpers';
+import { getHintPath, testHint } from '@hint/utils-tests-helpers';
 
 import {
     testsForBrotliOverHTTP,

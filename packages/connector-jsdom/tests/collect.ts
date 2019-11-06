@@ -8,7 +8,7 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import { ServerConfiguration, Server } from '@hint/utils-create-server';
-import { generateHTMLPage } from '@hint/utils';
+import { generateHTMLPage } from '@hint/utils-tests-helpers';
 import { Engine, Events, IConnector, IConnectorConstructor } from 'hint';
 
 import JSDOMConnector from '../src/connector';

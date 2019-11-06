@@ -1,6 +1,5 @@
 import * as os from 'os';
-import { getHintPath } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 const hintPath = getHintPath(__filename);
 

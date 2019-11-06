@@ -2,8 +2,7 @@ import { readFileSync } from 'fs';
 
 import * as mock from 'mock-require';
 
-import { generateHTMLPage, getHintPath } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 import { cloudinaryResult } from '../src/cloudinary-types';
 

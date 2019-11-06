@@ -8,7 +8,6 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.1.0",
     "@hint/utils-css": "^1.0.0",
     "@hint/utils-debug": "^1.0.0",
     "@hint/utils-fs": "^1.0.0",

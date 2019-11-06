@@ -2,8 +2,7 @@
 
 import * as mock from 'mock-require';
 
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { getHintPath } from '@hint/utils';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 import * as utilsNetwork from '@hint/utils-network';
 
 const hintPath = getHintPath(__filename);

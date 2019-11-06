@@ -1,7 +1,6 @@
 import * as path from 'path';
 
-import { getHintPath } from '@hint/utils';
-import { HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
 
 const hintPath = getHintPath(__filename);
 

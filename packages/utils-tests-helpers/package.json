@@ -1,8 +1,5 @@
 {
   "dependencies": {
-    "@hint/connector-jsdom": "^4.1.0",
-    "@hint/connector-local": "^3.2.0",
-    "@hint/connector-puppeteer": "^2.4.0",
     "@hint/utils": "^6.1.0",
     "@hint/utils-create-server": "^3.3.0",
     "@hint/utils-fs": "^1.0.0",

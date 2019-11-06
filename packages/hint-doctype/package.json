@@ -13,7 +13,6 @@
   },
   "description": "this hint checks if the HTML is using the most modern DOCTYPE.",
   "devDependencies": {
-    "@hint/utils": "^6.1.0",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",

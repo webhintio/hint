@@ -9,7 +9,6 @@
   },
   "description": "Scoped SVG Styles checks if SVG styles affect any other elements outside the svg.",
   "dependencies": {
-    "@hint/utils": "^6.0.0",
     "@hint/utils-css": "^1.0.0",
     "@hint/utils-debug": "^1.0.0",
     "@hint/utils-fs": "^1.0.0",
