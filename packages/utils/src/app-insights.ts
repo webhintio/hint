@@ -70,6 +70,7 @@ export const disable = () => {
 };
 
 /** Send pending data to Application Insights. */
+/* istanbul ignore next */
 export const sendPendingData = (isAppCrashing = false) => {
     debug('Sending pending data to Application Insights');
 
@@ -98,6 +99,7 @@ export const trackEvent = (name: string, properties?: {}) => {
 };
 
 /** Return the Application Insights client. */
+/* istanbul ignore next */
 export const getClient = () => {
     debug('Getting Application Insights client');
 
@@ -105,6 +107,7 @@ export const getClient = () => {
 };
 
 /** Check if Application Insights is configured. */
+/* istanbul ignore next */
 export const isConfigured = (): boolean => {
     return typeof configStore.get(configStoreKey) !== 'undefined';
 };
