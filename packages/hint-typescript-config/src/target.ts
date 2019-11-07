@@ -5,7 +5,7 @@
  */
 
 import { HintContext, IHint } from 'hint';
-
+import { Severity } from '@hint/utils-types';
 import { TypeScriptConfigEvents, TypeScriptConfigParse } from '@hint/parser-typescript-config';
 
 import meta from './meta/target';
@@ -242,7 +242,14 @@ export default class TypeScriptConfigTarget implements IHint {
                 const location = findLocation(propertyPath, mergedConfig, originalConfig, getLocation);
                 const message = getMessage(messageName, context.language, [maxESVersion, target]);
 
-                context.report(resource, message, { location });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        location,
+                        severity: Severity.warning
+                    }
+                );
             }
         };
 
