@@ -175,20 +175,25 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
     const reportsCopy = reports.slice(0);
 
     results.forEach((result) => {
+        /**
+         * To validate a result is valid we do a "filtered approach" instead of trying to match
+         * all in one go so the error messages can help debug issues easier by reporting the
+         * information to the report that matches the closest.
+         */
+
         const { location, message, resource, severity } = result;
-        let index = 0;
 
-        const found = reportsCopy.some((report, i) => {
-            index = i;
+        const filteredByMessage = reportsCopy.filter((report) => {
+            return report.message === message;
+        });
 
-            if (report.message !== message) {
-                return false;
-            }
+        if (filteredByMessage.length === 0) {
+            t.fail(`No reports match "${message}"`);
 
-            if (typeof report.severity !== 'undefined' && severity !== report.severity) {
-                return false;
-            }
+            return;
+        }
 
+        const filteredByPosition = filteredByMessage.filter((report) => {
             if (report.position && location) {
                 let position: ProblemLocation | undefined;
 
@@ -205,14 +210,63 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
                         position.endColumn === location.endColumn));
             }
 
+            // Not all reports in the test have a location
             return true;
         });
 
-        if (found) {
-            reportsCopy.splice(index, 1);
+        // Check error location
+        if (filteredByPosition.length === 0) {
+            if (filteredByMessage.length === 1) {
+                /**
+                 * If there was only one matching message previously, we can provide the full diff.
+                 * We need to get the position again in case it was a `match`, otherwise the diff
+                 * will just be between the content of `match` and `column/position` so not useful.
+                 */
+                const report = filteredByMessage[0];
+                let position: ProblemLocation | undefined;
+
+                if (report.position && 'match' in report.position) {
+                    position = findPosition(sources.get(resource) || '', report.position);
+                } else {
+                    position = report.position;
+                }
+
+                t.is(JSON.stringify(position, null, 2), JSON.stringify(location, null, 2), `Location doesn't match for "${message}"`);
+            } else {
+                t.fail(`The location ${JSON.stringify(location)} does not match any report for "${message}"`);
+            }
+
+            return;
         }
 
-        t.true(found, `No reports match "${message}" or its location (${JSON.stringify(location)}).`);
+        const filteredBySeverity = filteredByPosition.filter((report) => {
+            // Not all reports in the test have a severity
+            if (typeof report.severity === 'undefined') {
+                return true;
+            }
+
+            return !(typeof report.severity !== 'undefined' && severity !== report.severity);
+        });
+
+        if (filteredBySeverity.length >= 1) {
+            // message, location and severity match at least 1 report so the test passes
+            t.pass();
+
+            // There might be multiple equal reports, so we remove one of them to make sure we match all the occurrences
+            for (let i = 0; i < reportsCopy.length; i++) {
+                if (reportsCopy[i] === filteredBySeverity[0]) {
+                    reportsCopy.splice(i, 1);
+                }
+            }
+
+            return;
+        }
+
+        if (filteredByPosition.length === 1) {
+            t.is(filteredByPosition[0].severity, severity, `Severities do not match for "${message}"`);
+        } else {
+            t.fail(`The severity "${severity}" does not match any report for "${message}"`);
+        }
     });
 };
 
