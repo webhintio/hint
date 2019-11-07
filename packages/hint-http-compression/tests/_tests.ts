@@ -4,6 +4,7 @@ import * as mock from 'mock-require';
 
 import { HintTest } from '@hint/utils-tests-helpers';
 import * as utils from '@hint/utils';
+import { Severity } from 'hint';
 
 const originalAsyncTry = utils.asyncTry;
 
@@ -229,7 +230,10 @@ const createBrotliServerConfig = (configs: {}) => {
 const testsForBrotli: HintTest[] = [
     {
         name: `Resource is not served compressed with Brotli when Brotli compression is requested`,
-        reports: [{ message: generateCompressionMessage('Brotli', false, 'over HTTPS') }],
+        reports: [{
+            message: generateCompressionMessage('Brotli', false, 'over HTTPS'),
+            severity: Severity.warning
+        }],
         serverConfig: createBrotliServerConfig({
             scriptFileContent: scriptFile.original,
             scriptFileHeaders: { 'Content-Encoding': null }
@@ -237,7 +241,10 @@ const testsForBrotli: HintTest[] = [
     },
     {
         name: `Resource is served compressed with Brotli and without the 'Content-Encoding' header when Brotli compression is requested`,
-        reports: [{ message: generateContentEncodingMessage('br') }],
+        reports: [{
+            message: generateContentEncodingMessage('br'),
+            severity: Severity.error
+        }],
         serverConfig: createBrotliServerConfig({
             scriptFileContent: scriptFile.brotli,
             scriptFileHeaders: {
@@ -264,7 +271,10 @@ const testsForBrotli: HintTest[] = [
             mock('@hint/utils', utils);
         },
         name: `If a request throws an exception, if should be managed and report an error (brotli)`,
-        reports: [{ message: `Could not be fetched when requested compressed with Brotli.` }],
+        reports: [{
+            message: `Could not be fetched when requested compressed with Brotli.`,
+            severity: Severity.error
+        }],
         serverConfig: createBrotliServerConfig({
             scriptFileContent: scriptFile.brotli,
             scriptFileHeaders: brotliConfigs.scriptFileHeaders
@@ -275,7 +285,10 @@ const testsForBrotli: HintTest[] = [
 const testsForBrotliOverHTTP: HintTest[] = [
     {
         name: `Resource is served compressed with Brotli over HTTP`,
-        reports: [{ message: 'Response should not be compressed with Brotli over HTTP.' }],
+        reports: [{
+            message: 'Response should not be compressed with Brotli over HTTP.',
+            severity: Severity.warning
+        }],
         serverConfig: createGzipZopfliServerConfig(
             Object.assign(
                 { request: { headers: { 'Accept-Encoding': 'br' } } },
@@ -294,7 +307,10 @@ const testsForBrotliOverHTTP: HintTest[] = [
 const testsForBrotliSmallSize: HintTest[] = [
     {
         name: `Resource is served compressed with Brotli when Brotli compression is requested but uncompressed size is smaller the compressed size`,
-        reports: [{ message: generateSizeMessage('Brotli', true) }],
+        reports: [{
+            message: generateSizeMessage('Brotli', true),
+            severity: Severity.warning
+        }],
         serverConfig: createBrotliServerConfig({ scriptFileContent: scriptSmallFile.brotli })
     }
 ];
@@ -312,7 +328,10 @@ const testsForBrotliUASniffing = (): HintTest[] => {
     return [
         {
             name: `Resource is not served compressed with Brotli when Brotli compression is requested with uncommon user agent string`,
-            reports: [{ message: generateCompressionMessage('Brotli', false, `over HTTPS, regardless of the user agent`) }],
+            reports: [{
+                message: generateCompressionMessage('Brotli', false, `over HTTPS, regardless of the user agent`),
+                severity: Severity.warning
+            }],
             serverConfig: createBrotliServerConfig(
                 Object.assign(
                     headersConfig,
@@ -337,7 +356,10 @@ const testsForDefaults = (https: boolean = false): HintTest[] => {
 
         {
             name: `Resource that should not be served compressed is served compressed.`,
-            reports: [{ message: generateCompressionMessage('', true) }],
+            reports: [{
+                message: generateCompressionMessage('', true),
+                severity: Severity.warning
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 { imageFileContent: imageFile.gzip },
                 https
@@ -358,8 +380,14 @@ const testsForDefaults = (https: boolean = false): HintTest[] => {
         {
             name: `Resource that should not be served compressed is served compressed and with the 'Content-Encoding' header`,
             reports: [
-                { message: generateCompressionMessage('', true) },
-                { message: generateContentEncodingMessage('', true) }
+                {
+                    message: generateCompressionMessage('', true),
+                    severity: Severity.warning
+                },
+                {
+                    message: generateContentEncodingMessage('', true),
+                    severity: Severity.warning
+                }
             ],
             serverConfig: createGzipZopfliServerConfig(
                 {
@@ -376,7 +404,10 @@ const testsForDisallowedCompressionMethods = (https: boolean = false): HintTest[
     return [
         {
             name: `Compressed resource is served with disallowed 'Content-Encoding: x-gzip' header`,
-            reports: [{ message: generateContentEncodingMessage('gzip') }],
+            reports: [{
+                message: generateContentEncodingMessage('gzip'),
+                severity: Severity.error
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     scriptFileHeaders: {
@@ -390,8 +421,14 @@ const testsForDisallowedCompressionMethods = (https: boolean = false): HintTest[
         {
             name: `Compressed resource is served with disallowed 'Content-Encoding: x-compress' header`,
             reports: [
-                { message: generateDisallowedCompressionMessage('x-compress') },
-                { message: generateCompressionMessage('gzip') }
+                {
+                    message: generateDisallowedCompressionMessage('x-compress'),
+                    severity: Severity.warning
+                },
+                {
+                    message: generateCompressionMessage('gzip'),
+                    severity: Severity.error
+                }
             ],
             serverConfig: createGzipZopfliServerConfig(
                 {
@@ -406,7 +443,10 @@ const testsForDisallowedCompressionMethods = (https: boolean = false): HintTest[
         },
         {
             name: `Compressed resource is served with 'Get-Dictionary' header`,
-            reports: [{ message: generateDisallowedCompressionMessage('sdch') }],
+            reports: [{
+                message: generateDisallowedCompressionMessage('sdch'),
+                severity: Severity.warning
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     scriptFileHeaders: {
@@ -425,7 +465,10 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
     return [
         {
             name: `Resource is not served compressed with gzip when gzip compression is requested`,
-            reports: [{ message: generateCompressionMessage('gzip') }],
+            reports: [{
+                message: generateCompressionMessage('gzip'),
+                severity: Severity.error
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
@@ -438,8 +481,14 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
         {
             name: `Resource is served compressed with gzip and without the 'Content-Encoding' header when gzip compression is requested`,
             reports: [
-                { message: generateCompressionMessage('Zopfli') },
-                { message: generateContentEncodingMessage('gzip') }
+                {
+                    message: generateCompressionMessage('Zopfli'),
+                    severity: Severity.hint
+                },
+                {
+                    message: generateContentEncodingMessage('gzip'),
+                    severity: Severity.error
+                }
             ],
             serverConfig: createGzipZopfliServerConfig(
                 {
@@ -455,7 +504,10 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
         },
         {
             name: `Resource is not served compressed with Zopfli when gzip compression is requested`,
-            reports: [{ message: generateCompressionMessage('Zopfli') }],
+            reports: [{
+                message: generateCompressionMessage('Zopfli'),
+                severity: Severity.hint
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
@@ -470,7 +522,10 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
         },
         {
             name: `Resource is served compressed with Zopfli and without the 'Content-Encoding' header when gzip compression is requested`,
-            reports: [{ message: generateContentEncodingMessage('gzip') }],
+            reports: [{
+                message: generateContentEncodingMessage('gzip'),
+                severity: Severity.error
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
@@ -501,7 +556,10 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
                 mock('@hint/utils', utils);
             },
             name: `If a request throws an exception, if should be managed and report an error (Gzip)`,
-            reports: [{ message: 'Could not be fetched when requested compressed with gzip.' }],
+            reports: [{
+                message: 'Could not be fetched when requested compressed with gzip.',
+                severity: Severity.error
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
@@ -517,7 +575,10 @@ const testsForGzipZopfliCaching = (https: boolean = false): HintTest[] => {
     return [
         {
             name: `Resource is served compressed with Zopfli and without the 'Vary' or 'Cache-Control' header when gzip compression is requested`,
-            reports: [{ message: varyMessage }],
+            reports: [{
+                message: varyMessage,
+                severity: Severity.warning
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
@@ -546,7 +607,10 @@ const testsForGzipZopfliCaching = (https: boolean = false): HintTest[] => {
         },
         {
             name: `Resource is served compressed with Zopfli and with 'Vary: user-agent' header when gzip compression is requested`,
-            reports: [{ message: varyMessage }],
+            reports: [{
+                message: varyMessage,
+                severity: Severity.warning
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
@@ -561,7 +625,10 @@ const testsForGzipZopfliCaching = (https: boolean = false): HintTest[] => {
         },
         {
             name: `Resource is served compressed with Zopfli and with 'Vary: user-agent, Accept-encoding' header when gzip compression is requested`,
-            reports: [{ message: varyMessage }],
+            reports: [{
+                message: varyMessage,
+                severity: Severity.warning
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
@@ -580,7 +647,10 @@ const testsForGzipZopfliSmallSize = (https: boolean = false): HintTest[] => {
     return [
         {
             name: `Resource is served compressed with gzip when gzip compression is requested but uncompressed size is smaller the compressed size`,
-            reports: [{ message: generateSizeMessage('gzip', true) }],
+            reports: [{
+                message: generateSizeMessage('gzip', true),
+                severity: Severity.warning
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
@@ -591,7 +661,10 @@ const testsForGzipZopfliSmallSize = (https: boolean = false): HintTest[] => {
         },
         {
             name: `Resource is served compressed with Zopfli when gzip compression is requested but uncompressed size is smaller the compressed size`,
-            reports: [{ message: generateSizeMessage('Zopfli', true) }],
+            reports: [{
+                message: generateSizeMessage('Zopfli', true),
+                severity: Severity.warning
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
@@ -616,7 +689,10 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): HintTest[] => {
     return [
         {
             name: `Resource is not served compressed with gzip when gzip compression is requested with uncommon user agent string`,
-            reports: [{ message: generateCompressionMessage('gzip', false, `, regardless of the user agent`) }],
+            reports: [{
+                message: generateCompressionMessage('gzip', false, `, regardless of the user agent`),
+                severity: Severity.error
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 Object.assign(
                     headersConfig,
@@ -630,7 +706,10 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): HintTest[] => {
         },
         {
             name: `Resource is not served compressed with Zopfli when Zopfli compression is requested with uncommon user agent string`,
-            reports: [{ message: generateCompressionMessage('Zopfli', false, `, regardless of the user agent`) }],
+            reports: [{
+                message: generateCompressionMessage('Zopfli', false, `, regardless of the user agent`),
+                severity: Severity.hint
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 Object.assign(
                     headersConfig,
@@ -650,8 +729,14 @@ const testsForNoCompression = (https: boolean = false): HintTest[] => {
         {
             name: `Resource is served compressed when requested uncompressed`,
             reports: [
-                { message: `Response should not be compressed for requests made with 'accept-encoding: identity'.` },
-                { message: `Response should not include 'content-encoding' header for requests made with 'accept-encoding: identity'.` }
+                {
+                    message: `Response should not be compressed for requests made with 'accept-encoding: identity'.`,
+                    severity: Severity.warning
+                },
+                {
+                    message: `Response should not include 'content-encoding' header for requests made with 'accept-encoding: identity'.`,
+                    severity: Severity.warning
+                }
             ],
             serverConfig: createGzipZopfliServerConfig(
                 {
@@ -667,7 +752,10 @@ const testsForNoCompression = (https: boolean = false): HintTest[] => {
         {
             name: `Resource is served uncompressed and with the 'Content-Encoding: identity' header when requested uncompressed`,
 
-            reports: [{ message: generateUnneededContentEncodingMessage('identity') }],
+            reports: [{
+                message: generateUnneededContentEncodingMessage('identity'),
+                severity: Severity.warning
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     faviconFileContent: faviconFile.original,
@@ -714,7 +802,10 @@ const testsForNoCompression = (https: boolean = false): HintTest[] => {
                 mock('@hint/utils', utils);
             },
             name: `If a request throws an exception, if should be managed and report an error (no compression)`,
-            reports: [{ message: 'Could not be fetched when requested uncompressed' }],
+            reports: [{
+                message: 'Could not be fetched when requested uncompressed',
+                severity: Severity.error
+            }],
             serverConfig: createGzipZopfliServerConfig(
                 {
                     faviconFileContent: faviconFile.original,
@@ -738,12 +829,18 @@ const testsForSpecialCases = (https: boolean = false): HintTest[] => {
 
         {
             name: `SVGZ image is served without the 'Content-Encoding: gzip' header`,
-            reports: [{ message: generateContentEncodingMessage('gzip') }],
+            reports: [{
+                message: generateContentEncodingMessage('gzip'),
+                severity: Severity.error
+            }],
             serverConfig: createServerConfig({ svgzFileHeaders: { 'Content-Encoding': null } }, https)
         },
         {
             name: `SVGZ image is served with the wrong 'Content-Encoding: br' header`,
-            reports: [{ message: generateContentEncodingMessage('gzip') }],
+            reports: [{
+                message: generateContentEncodingMessage('gzip'),
+                severity: Severity.error
+            }],
             serverConfig: createServerConfig({ svgzFileHeaders: { 'Content-Encoding': 'x-gzip' } }, https)
         }
     ];
