@@ -17,6 +17,7 @@ import {
     IHint,
     TraverseEnd
 } from 'hint';
+import { Severity } from '@hint/utils-types';
 import { normalizeString } from '@hint/utils-string';
 import { HTMLElement } from '@hint/utils-dom';
 import { isSupported } from '@hint/utils-compat-data';
@@ -43,7 +44,10 @@ export default class MetaThemeColorHint implements IHint {
             const { resource } = event;
 
             if (!firstThemeColorMetaElement) {
-                context.report(resource, getMessage('metaElementNotSpecified', context.language));
+                context.report(
+                    resource,
+                    getMessage('metaElementNotSpecified', context.language),
+                    { severity: Severity.warning });
             }
         };
 
@@ -86,7 +90,13 @@ export default class MetaThemeColorHint implements IHint {
             if (color === null) {
                 const message = getMessage('metaElementInvalidContent', context.language, contentValue);
 
-                context.report(resource, message, { element });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element,
+                        severity: Severity.error
+                    });
 
                 return;
             }
@@ -94,7 +104,13 @@ export default class MetaThemeColorHint implements IHint {
             if (isNotSupportedColorValue(color, normalizedContentValue)) {
                 const message = getMessage('metaElementUnsupported', context.language, contentValue);
 
-                context.report(resource, message, { element });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element,
+                        severity: Severity.error
+                    });
             }
         };
 
@@ -114,7 +130,13 @@ export default class MetaThemeColorHint implements IHint {
             if (nameAttributeValue && nameAttributeValue !== nameAttributeValue.trim()) {
                 const message = getMessage('metaElementInvalidName', context.language, nameAttributeValue);
 
-                context.report(resource, message, { element });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element,
+                        severity: Severity.warning
+                    });
             }
         };
 
@@ -136,7 +158,13 @@ export default class MetaThemeColorHint implements IHint {
              */
 
             if (firstThemeColorMetaElement) {
-                context.report(resource, getMessage('metaElementDuplicated', context.language), { element });
+                context.report(
+                    resource,
+                    getMessage('metaElementDuplicated', context.language),
+                    {
+                        element,
+                        severity: Severity.warning
+                    });
 
                 return;
             }
@@ -148,7 +176,13 @@ export default class MetaThemeColorHint implements IHint {
             //  * was specified in the `<body>`
 
             if (bodyElementWasReached) {
-                context.report(resource, getMessage('metaElementInBody', context.language), { element });
+                context.report(
+                    resource,
+                    getMessage('metaElementInBody', context.language),
+                    {
+                        element,
+                        severity: Severity.error
+                    });
 
                 return;
             }
