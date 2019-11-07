@@ -4,7 +4,7 @@
 import { URL } from 'url';
 import { imageSize as getImageData } from 'image-size';
 import imageType from 'image-type';
-import { IHint, NetworkData, HintContext, ProblemLocation, IJSONLocationFunction } from 'hint';
+import { IHint, NetworkData, HintContext, ProblemLocation, IJSONLocationFunction, Severity } from 'hint';
 import { ManifestEvents, ManifestParsed, ManifestImageResource } from '@hint/parser-manifest';
 import { debug as d } from '@hint/utils';
 
@@ -39,7 +39,11 @@ export default class ManifestIconHint implements IHint {
                 debug(`Failed to fetch the ${iconPath} file`);
                 const message = getMessage('iconCouldNotBeFetched', context.language);
 
-                context.report(resource, message, { location: iconSrcLocation });
+                context.report(
+                    resource,
+                    message,
+                    { location: iconSrcLocation, severity: Severity.error }
+                );
 
                 return null;
             }
@@ -48,7 +52,11 @@ export default class ManifestIconHint implements IHint {
             if (response.statusCode !== 200) {
                 const message = getMessage('iconCouldNotBeFetchedStatusCode', context.language, response.statusCode.toString());
 
-                context.report(resource, message, { location: iconSrcLocation });
+                context.report(
+                    resource,
+                    message,
+                    { location: iconSrcLocation, severity: Severity.error }
+                );
 
                 return null;
             }
@@ -73,7 +81,11 @@ export default class ManifestIconHint implements IHint {
                 const message = getMessage('iconTypeNotSpecified', context.language);
                 const iconLocation = getLocation(`icons[${index}]`);
 
-                context.report(resource, message, { location: iconLocation });
+                context.report(
+                    resource,
+                    message,
+                    { location: iconLocation, severity: Severity.error }
+                );
 
                 return false;
             }
@@ -97,11 +109,19 @@ export default class ManifestIconHint implements IHint {
             if (specifiedType !== ext) {
                 const message = getMessage('realImageType', context.language, [ext, specifiedType]);
 
-                context.report(resource, message, { location: iconTypeLocation });
+                context.report(
+                    resource,
+                    message,
+                    { location: iconTypeLocation, severity: Severity.warning }
+                );
             } else if (specifiedType !== specifiedMIMEType) {
                 const message = getMessage('mimeTypeNotMatch', context.language, [specifiedMIMEType, specifiedType]);
 
-                context.report(resource, message, { location: iconTypeLocation });
+                context.report(
+                    resource,
+                    message,
+                    { location: iconTypeLocation, severity: Severity.warning }
+                );
             }
 
 
@@ -111,7 +131,11 @@ export default class ManifestIconHint implements IHint {
 
             const message = getMessage('iconShouldBeValidImageType', context.language, JSON.stringify(allowedTypes));
 
-            context.report(resource, message, { location: iconTypeLocation });
+            context.report(
+                resource,
+                message,
+                { location: iconTypeLocation, severity: Severity.error }
+            );
 
             return false;
         };
@@ -126,7 +150,11 @@ export default class ManifestIconHint implements IHint {
             const iconSizelocation = getLocation(`icons[${index}].sizes`, { at: 'value' });
 
             if (!iconSizes) {
-                context.report(resource, getMessage('sizesNotSpecified', context.language), { location: iconSizelocation });
+                context.report(
+                    resource,
+                    getMessage('sizesNotSpecified', context.language),
+                    { location: iconSizelocation, severity: Severity.error }
+                );
 
                 return false;
             }
@@ -162,7 +190,11 @@ export default class ManifestIconHint implements IHint {
             if (!sizesMatch && realImage.width && realImage.height) {
                 const message = getMessage('realImageSizeNotMatch', context.language, [realImage.width.toString(), realImage.height.toString(), specifiedSizes.toString()]);
 
-                context.report(resource, message, { location: iconSizelocation });
+                context.report(
+                    resource,
+                    message,
+                    { location: iconSizelocation, severity: Severity.warning }
+                );
 
                 return false;
             }
@@ -179,7 +211,11 @@ export default class ManifestIconHint implements IHint {
             if (requiredSizesNotFound.length > 0) {
                 const message = getMessage('requiredSizes', context.language, JSON.stringify(requiredSizesNotFound));
 
-                context.report(resource, message, { location });
+                context.report(
+                    resource,
+                    message,
+                    { location, severity: Severity.error }
+                );
             }
         };
 
@@ -251,12 +287,16 @@ export default class ManifestIconHint implements IHint {
                     const message = getMessage('validIconsNotFound', context.language);
                     const location = getLocation('icons');
 
-                    context.report(resource, message, { location });
+                    context.report(
+                        resource,
+                        message,
+                        { location, severity: Severity.error }
+                    );
                 }
             } else {
                 const message = getMessage('validIconsNotFound', context.language);
 
-                context.report(resource, message);
+                context.report(resource, message, { severity: Severity.error });
             }
         };
 

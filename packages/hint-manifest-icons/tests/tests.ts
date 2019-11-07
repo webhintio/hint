@@ -2,6 +2,7 @@ import * as fs from 'fs';
 
 import { test } from '@hint/utils';
 import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from 'hint';
 
 const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
@@ -22,7 +23,10 @@ const generateImageData = (content: Buffer): Object => {
 const tests: HintTest[] = [
     {
         name: 'Web app manifest is specified with empty icons property',
-        reports: [{ message: `Valid icons property was not found in the web app manifest` }],
+        reports: [{
+            message: `Valid icons property was not found in the web app manifest`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': {
@@ -34,7 +38,10 @@ const tests: HintTest[] = [
     },
     {
         name: 'Web app manifest links to an invalid icon URL',
-        reports: [{ message: `Icon could not be fetched (request failed).` }],
+        reports: [{
+            message: `Icon could not be fetched (request failed).`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/fixtures/icon-192x192.png': null,
@@ -56,7 +63,8 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Icon could not be fetched (status code: 404).`,
-                position: { match: '"an-inaccessible-path.png"' }
+                position: { match: '"an-inaccessible-path.png"' },
+                severity: Severity.error
             }
         ],
         serverConfig: {
@@ -91,7 +99,8 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Real image type (png) do not match with specified type (madeuptype)`,
-                position: { match: '"image/madeuptype"' }
+                position: { match: '"image/madeuptype"' },
+                severity: Severity.warning
             }
         ],
         serverConfig: {
@@ -130,7 +139,8 @@ const tests: HintTest[] = [
                 position: {
                     match: `{
                             "src": "fixtures/icon-192x192.png",`
-                }
+                },
+                severity: Severity.error
             }
         ],
         serverConfig: {
@@ -153,7 +163,8 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Real image size (128x128) do not match with specified size(s) (128x121,128x122,128x123)`,
-                position: { match: '"128x121 128x122 128x123"' }
+                position: { match: '"128x121 128x122 128x123"' },
+                severity: Severity.warning
             }
         ],
         serverConfig: {
@@ -189,7 +200,8 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Required sizes ["512x512"] not found.`,
-                position: { match: `icons` }
+                position: { match: `icons` },
+                severity: Severity.error
             }
         ],
         serverConfig: {

@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import { test } from '@hint/utils';
 import { testLocalHint, HintLocalTest } from '@hint/utils-tests-helpers';
+import { Severity } from 'hint';
 
 const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
@@ -13,7 +14,8 @@ const localTests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'empty-icons.webmanifest'),
         reports: [{
             message: `Valid icons property was not found in the web app manifest`,
-            position: { match: 'icons' }
+            position: { match: 'icons' },
+            severity: Severity.error
         }]
     },
     {
@@ -22,7 +24,8 @@ const localTests: HintLocalTest[] = [
         reports: [
             {
                 message: `Real image type (png) do not match with specified type (jpg)`,
-                position: { match: '"image/jpg"' }
+                position: { match: '"image/jpg"' },
+                severity: Severity.warning
             }
         ]
     },
@@ -35,7 +38,8 @@ const localTests: HintLocalTest[] = [
                 position: {
                     match: `{
             "src"`
-                }
+                },
+                severity: Severity.error
             }
         ]
     },
@@ -45,7 +49,8 @@ const localTests: HintLocalTest[] = [
         reports: [
             {
                 message: `Required sizes ["512x512"] not found.`,
-                position: { match: `icons` }
+                position: { match: `icons` },
+                severity: Severity.error
             }
         ]
     },
