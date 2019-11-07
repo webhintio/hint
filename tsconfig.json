@@ -117,6 +117,7 @@
         { "path": "packages/utils-i18n" },
         { "path": "packages/utils-json" },
         { "path": "packages/utils-network" },
+        { "path": "packages/utils-string" },
         { "path": "packages/utils-tests-helpers" },
         { "path": "packages/utils-types" }
     ]
