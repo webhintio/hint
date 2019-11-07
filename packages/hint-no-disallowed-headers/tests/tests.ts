@@ -1,4 +1,4 @@
-import { prettyPrintArray } from '@hint/utils';
+import { prettyPrintArray } from '@hint/utils-string';
 import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

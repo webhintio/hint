@@ -5,8 +5,6 @@ import * as proxyquire from 'proxyquire';
 import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
-import * as utils from '@hint/utils';
-
 import * as problems from './fixtures/list-of-problems';
 
 type Logging = {
@@ -33,10 +31,7 @@ const initContext = (t: ExecutionContext<CodeframeContext>) => {
 
 const loadScript = (context: CodeframeContext) => {
     const script = proxyquire('../src/formatter', {
-        '@hint/utils': {
-            cutString: utils.cutString,
-            logger: context.logging
-        },
+        '@hint/utils': { logger: context.logging },
         '@hint/utils-fs': { writeFileAsync: context.writeFileAsync }
     });
 

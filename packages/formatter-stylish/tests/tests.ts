@@ -6,8 +6,6 @@ import * as sinon from 'sinon';
 import * as table from 'text-table';
 const stripAnsi = require('strip-ansi');
 
-import * as utils from '@hint/utils';
-
 import * as problems from './fixtures/list-of-problems';
 
 type Logging = {
@@ -34,10 +32,7 @@ const initContext = (t: ExecutionContext<StylishContext>) => {
 
 const loadScript = (context: StylishContext) => {
     const script = proxyquire('../src/formatter', {
-        '@hint/utils': {
-            cutString: utils.cutString,
-            logger: context.logging
-        },
+        '@hint/utils': { logger: context.logging },
         '@hint/utils-fs': { writeFileAsync: context.writeFileAsync }
     });
 

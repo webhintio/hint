@@ -17,7 +17,7 @@ import {
     IHint,
     ScanEnd
 } from 'hint';
-import { normalizeString } from '@hint/utils';
+import { normalizeString } from '@hint/utils-string';
 import { ManifestEvents } from '@hint/parser-manifest';
 
 import meta from './meta';

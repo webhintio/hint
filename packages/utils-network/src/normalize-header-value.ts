@@ -1,4 +1,4 @@
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
+import { normalizeString } from '@hint/utils-string';
 import { HttpHeaders } from '@hint/utils-types';
 
 /**

@@ -17,7 +17,7 @@ import {
     IHint,
     TraverseEnd
 } from 'hint';
-import { normalizeString } from '@hint/utils';
+import { normalizeString } from '@hint/utils-string';
 import { HTMLElement } from '@hint/utils-dom';
 import { isSupported } from '@hint/utils-compat-data';
 

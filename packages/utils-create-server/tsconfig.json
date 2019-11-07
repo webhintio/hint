@@ -14,7 +14,7 @@
         "tests/**/*.ts"
     ],
     "references": [
-        { "path": "../utils" },
-        { "path": "../utils-network" }
+        { "path": "../utils-network" },
+        { "path": "../utils-string" }
     ]
 }

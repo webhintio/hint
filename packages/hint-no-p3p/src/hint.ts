@@ -5,7 +5,7 @@
 import { URL } from 'url';
 
 import { ElementFound, FetchEnd, HintContext, IHint, ScanStart } from 'hint';
-import { normalizeString } from '@hint/utils';
+import { normalizeString } from '@hint/utils-string';
 import { includedHeaders } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 

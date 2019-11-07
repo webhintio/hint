@@ -1,5 +1,5 @@
 import { debug as d } from '@hint/utils-debug';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
+import { normalizeString } from '@hint/utils-string';
 
 const debug: debug.IDebugger = d(__filename);
 const protocolRegex = /([^:]*):.*/;

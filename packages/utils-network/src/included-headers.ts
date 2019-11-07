@@ -1,4 +1,4 @@
-import { toLowerCaseArray } from '@hint/utils/dist/src/misc/to-lowercase-array';
+import { toLowerCaseArray } from '@hint/utils-string';
 
 /** Returns a list of all the headers in `headerList` that are in `headers` sorted alphabetically. */
 export const includedHeaders = (headers: object, headerList: string[] = []): string[] => {

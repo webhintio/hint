@@ -7,16 +7,18 @@ import * as mkdirp from 'mkdirp';
 
 import {
     logger,
-    isOfficial,
-    normalizeStringByDelimiter,
-    toCamelCase,
-    toPascalCase
+    isOfficial
 } from '@hint/utils';
 import {
     cwd,
     readFile,
     writeFileAsync
 } from '@hint/utils-fs';
+import {
+    normalizeStringByDelimiter,
+    toCamelCase,
+    toPascalCase
+} from '@hint/utils-string';
 import { Category } from '@hint/utils-types';
 import { HintScope } from 'hint';
 

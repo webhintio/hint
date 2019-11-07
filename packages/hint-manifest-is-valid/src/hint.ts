@@ -14,7 +14,7 @@ import { get as parseColor, ColorDescriptor } from 'color-string';
 import { IHint } from 'hint/dist/src/lib/types';
 import { JSONLocationFunction } from '@hint/utils-json';
 import { isSupported } from '@hint/utils-compat-data';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
+import { normalizeString } from '@hint/utils-string';
 import {
     Manifest,
     ManifestEvents,
