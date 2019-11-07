@@ -3,8 +3,9 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ElementFound } from 'hint/dist/src/lib/types';
+import { IHint, ElementFound, Severity } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils/dist/src/debug';
+import { HTMLElement } from '@hint/utils';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -23,6 +24,20 @@ export default class ButtonTypeHint implements IHint {
 
     public constructor(context: HintContext) {
 
+        const inAForm = (element: HTMLElement): boolean => {
+            const parent = element.parentElement;
+
+            if (!parent) {
+                return false;
+            }
+
+            if (parent.nodeName === 'form') {
+                return true;
+            }
+
+            return inAForm(parent);
+        };
+
         const validateElement = (elementFound: ElementFound) => {
 
             const { resource } = elementFound;
@@ -36,9 +51,20 @@ export default class ButtonTypeHint implements IHint {
             if (element.isAttributeAnExpression('type')) {
                 // Assume template expressions will map to a valid value.
             } else if (elementType === null || elementType === '') {
-                context.report(resource, getMessage('attributeNotSet', context.language), { element });
+                const severity = inAForm(element) ?
+                    Severity.warning :
+                    Severity.hint;
+
+                context.report(
+                    resource,
+                    getMessage('attributeNotSet', context.language),
+                    { element, severity }
+                );
             } else if (!allowedTypes.includes(elementType.toLowerCase())) {
-                context.report(resource, getMessage('invalidType', context.language, elementType), { element });
+                context.report(
+                    resource,
+                    getMessage('invalidType', context.language, elementType),
+                    { element, severity: Severity.error });
             }
         };
 
