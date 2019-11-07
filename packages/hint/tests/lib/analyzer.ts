@@ -3,7 +3,6 @@ import { URL } from 'url';
 import anyTest, { TestInterface } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import { cutString } from '@hint/utils';
 
 import {
     AnalyzerError,
@@ -68,10 +67,7 @@ const loadScript = (context: AnalyzerContext) => {
         './config': context.configuration,
         './engine': engineWrapper,
         './utils/resource-loader': context.resourceLoader,
-        '@hint/utils': {
-            cutString,
-            logger: context.logger
-        },
+        '@hint/utils': { logger: context.logger },
         '@hint/utils-fs': {
             cwd: context.fs.cwd,
             isFile: context.fs.isFile

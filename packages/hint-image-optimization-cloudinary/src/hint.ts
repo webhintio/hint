@@ -9,7 +9,8 @@ import * as fs from 'fs-extra';
 import { imageSize as getImageData } from 'image-size';
 
 import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
-import { cutString, logger } from '@hint/utils';
+import { logger } from '@hint/utils';
+import { cutString } from '@hint/utils-string';
 import { cloudinaryResult } from './cloudinary-types';
 
 import meta from './meta';

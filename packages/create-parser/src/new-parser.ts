@@ -8,9 +8,9 @@ import * as mkdirp from 'mkdirp';
 import {
     appInsights,
     isOfficial,
-    logger,
-    normalizeStringByDelimiter
+    logger
 } from '@hint/utils';
+import { normalizeStringByDelimiter } from '@hint/utils-string';
 import { writeFileAsync } from '@hint/utils-fs';
 
 import { escapeSafeString, compileTemplate } from './handlebars-utils';

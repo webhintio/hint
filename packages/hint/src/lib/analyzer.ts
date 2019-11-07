@@ -19,10 +19,8 @@ import { AnalyzerErrorStatus } from './enums/error-status';
 import { IFormatterConstructor } from './types/formatters';
 import { loadResources } from './utils/resource-loader';
 
-import {
-    cutString,
-    logger
-} from '@hint/utils';
+import { logger } from '@hint/utils';
+import { cutString } from '@hint/utils-string';
 import {
     cwd,
     isFile

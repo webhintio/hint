@@ -1,4 +1,4 @@
-import { cutString, prettyPrintArray } from '@hint/utils';
+import { cutString, prettyPrintArray } from '@hint/utils-string';
 
 import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 

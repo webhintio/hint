@@ -16,6 +16,7 @@
         { "path": "../hint" },
         { "path": "../utils" },
         { "path": "../utils-fs" },
+        { "path": "../utils-string" },
         { "path": "../utils-tests-helpers" },
         { "path": "../utils-types" }
     ]

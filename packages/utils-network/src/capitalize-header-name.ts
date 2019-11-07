@@ -1,4 +1,4 @@
-import { toPascalCase } from '@hint/utils';
+import { toPascalCase } from '@hint/utils-string';
 
 /**
  * Capitalize a header name.
