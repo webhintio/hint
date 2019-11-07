@@ -4,7 +4,7 @@
 import { imageSize as getImageData } from 'image-size';
 
 import { debug as d, misc, network } from '@hint/utils';
-import { HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
+import { HintContext, IHint, NetworkData, TraverseEnd, Severity } from 'hint';
 import { HTMLElement, HTMLDocument } from '@hint/utils/dist/src/dom/html';
 
 import meta from './meta';
@@ -77,7 +77,10 @@ export default class AppleTouchIconsHint implements IHint {
             if (!appleTouchIconHref) {
                 const message = getMessage('noEmptyHref', context.language);
 
-                context.report(resource, message, { element: appleTouchIcon });
+                context.report(
+                    resource,
+                    message,
+                    { element: appleTouchIcon, severity: Severity.error });
 
                 return;
             }
@@ -117,7 +120,11 @@ export default class AppleTouchIconsHint implements IHint {
 
                 const message = getMessage('couldNotBeFetch', context.language, appleTouchIconHref);
 
-                context.report(resource, message, { element: appleTouchIcon });
+                context.report(
+                    resource,
+                    message,
+                    { element: appleTouchIcon, severity: Severity.error }
+                );
 
                 return;
             }
@@ -127,7 +134,11 @@ export default class AppleTouchIconsHint implements IHint {
             if (response.statusCode !== 200) {
                 const message = getMessage('couldNotBeFetchErrorStatusCode', context.language, [appleTouchIconHref, response.statusCode.toString()]);
 
-                context.report(resource, message, { element: appleTouchIcon });
+                context.report(
+                    resource,
+                    message,
+                    { element: appleTouchIcon, severity: Severity.error }
+                );
 
                 return;
             }
@@ -155,7 +166,11 @@ export default class AppleTouchIconsHint implements IHint {
                 if (e instanceof TypeError) {
                     const message = getMessage('invalidPNG', context.language, appleTouchIconHref);
 
-                    context.report(resource, message, { element: appleTouchIcon });
+                    context.report(
+                        resource,
+                        message,
+                        { element: appleTouchIcon, severity: Severity.error }
+                    );
                 } else {
                     debug(`'getImageData' failed for '${appleTouchIconURL}'`);
                 }
@@ -168,7 +183,11 @@ export default class AppleTouchIconsHint implements IHint {
             if (image.type !== 'png') {
                 const message = getMessage('shouldBePNG', context.language, appleTouchIconHref);
 
-                context.report(resource, message, { element: appleTouchIcon });
+                context.report(
+                    resource,
+                    message,
+                    { element: appleTouchIcon, severity: Severity.error }
+                );
             }
 
             // Check if the image is 180x180px.
@@ -176,7 +195,11 @@ export default class AppleTouchIconsHint implements IHint {
             if (image.width !== 180 || image.height !== 180) {
                 const message = getMessage('wrongResolution', context.language, appleTouchIconHref);
 
-                context.report(resource, message, { element: appleTouchIcon });
+                context.report(
+                    resource,
+                    message,
+                    { element: appleTouchIcon, severity: Severity.warning }
+                );
             }
 
             // TODO: Check if the image has some kind of transparency.
@@ -217,11 +240,18 @@ export default class AppleTouchIconsHint implements IHint {
         };
 
         const validate = async ({ resource }: TraverseEnd) => {
-            const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
-            const appleTouchIcons: HTMLElement[] = getAppleTouchIcons(pageDOM.querySelectorAll('link'));
+            const pageDOM = context.pageDOM as HTMLDocument;
+            const appleTouchIcons = getAppleTouchIcons(pageDOM.querySelectorAll('link'));
+
+            const linksToManifest = pageDOM.querySelectorAll('link[rel="manifest"]').length > 0;
 
             if (appleTouchIcons.length === 0) {
-                context.report(resource, getMessage('noElement', context.language));
+                if (linksToManifest) {
+                    context.report(
+                        resource,
+                        getMessage('noElement', context.language),
+                        { severity: Severity.error });
+                }
 
                 return;
             }
@@ -241,7 +271,11 @@ export default class AppleTouchIconsHint implements IHint {
             if (normalizeString(appleTouchIcon.getAttribute('rel')) !== 'apple-touch-icon') {
                 const message = getMessage('wrongRelAttribute', context.language);
 
-                context.report(resource, message, { element: appleTouchIcon });
+                context.report(
+                    resource,
+                    message,
+                    { element: appleTouchIcon, severity: Severity.warning }
+                );
             }
 
             /*
@@ -256,7 +290,11 @@ export default class AppleTouchIconsHint implements IHint {
             if (appleTouchIcon.getAttribute('sizes')) {
                 const message = getMessage('sizesAttribute', context.language);
 
-                context.report(resource, message, { element: appleTouchIcon });
+                context.report(
+                    resource,
+                    message,
+                    { element: appleTouchIcon, severity: Severity.warning }
+                );
             }
 
             /*
@@ -276,7 +314,11 @@ export default class AppleTouchIconsHint implements IHint {
                 if (icon.isSame(appleTouchIcon)) {
                     const message = getMessage('elementNotInHead', context.language);
 
-                    context.report(resource, message, { element: appleTouchIcon });
+                    context.report(
+                        resource,
+                        message,
+                        { element: appleTouchIcon, severity: Severity.error }
+                    );
                 }
             }
 
@@ -288,7 +330,11 @@ export default class AppleTouchIconsHint implements IHint {
                 if (!icon.isSame(appleTouchIcon)) {
                     const message = getMessage('elementDuplicated', context.language);
 
-                    context.report(resource, message, { element: icon });
+                    context.report(
+                        resource,
+                        message,
+                        { element: icon, severity: Severity.warning }
+                    );
                 }
             }
         };
