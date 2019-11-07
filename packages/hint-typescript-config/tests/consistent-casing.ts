@@ -1,6 +1,7 @@
 import * as path from 'path';
 
 import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename, true);
 
@@ -15,7 +16,8 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: 'The compiler option "forceConsistentCasingInFileNames" should be enabled to reduce issues when working with different OSes.',
-                position: { match: 'false' }
+                position: { match: 'false' },
+                severity: Severity.warning
             }]
     },
     {
@@ -23,7 +25,8 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'consistent-casing', 'no-consistent-casing'),
         reports: [{
             message: 'The compiler option "forceConsistentCasingInFileNames" should be enabled to reduce issues when working with different OSes.',
-            position: { match: 'compilerOptions' }
+            position: { match: 'compilerOptions' },
+            severity: Severity.warning
         }]
     }
 ];

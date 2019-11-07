@@ -1,6 +1,7 @@
 import * as path from 'path';
 
 import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename, true);
 
@@ -41,7 +42,8 @@ const tests: TestWithBrowserInfo[] = [
         reports: [
             {
                 message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "ES3"`,
-                position: { match: '"es3"' }
+                position: { match: '"es3"' },
+                severity: Severity.warning
             }
         ]
     },
@@ -62,7 +64,8 @@ const tests: TestWithBrowserInfo[] = [
         reports: [
             {
                 message: `Based on your browser configuration your "compilerOptions.target" should be "ES3". Current one is "ES2016"`,
-                position: { match: '"es2016"' }
+                position: { match: '"es2016"' },
+                severity: Severity.warning
             }
         ]
     },
@@ -73,7 +76,8 @@ const tests: TestWithBrowserInfo[] = [
         reports: [
             {
                 message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "ESNext"`,
-                position: { match: '"esnext"' }
+                position: { match: '"esnext"' },
+                severity: Severity.warning
             }
         ]
     },
@@ -89,7 +93,8 @@ const tests: TestWithBrowserInfo[] = [
         reports: [
             {
                 message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "ES3"`,
-                position: { match: 'compilerOptions' }
+                position: { match: 'compilerOptions' },
+                severity: Severity.warning
             }]
     },
     {
@@ -104,7 +109,8 @@ const tests: TestWithBrowserInfo[] = [
         reports: [
             {
                 message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "ES3"`,
-                position: { match: 'compilerOptions' }
+                position: { match: 'compilerOptions' },
+                severity: Severity.warning
             }]
     },
     {
@@ -114,7 +120,8 @@ const tests: TestWithBrowserInfo[] = [
         reports: [
             {
                 message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "ES3"`,
-                position: { match: '"../es3/tsconfig.json"' }
+                position: { match: '"../es3/tsconfig.json"' },
+                severity: Severity.warning
             }]
     },
     {
@@ -129,7 +136,8 @@ const tests: TestWithBrowserInfo[] = [
         reports: [
             {
                 message: `Based on your browser configuration your "compilerOptions.target" should be "ES2016". Current one is "ES3"`,
-                position: { match: '"es3"' }
+                position: { match: '"es3"' },
+                severity: Severity.warning
             }
         ]
     },
@@ -140,7 +148,8 @@ const tests: TestWithBrowserInfo[] = [
         reports: [
             {
                 message: `Based on your browser configuration your "compilerOptions.target" should be "ES3". Current one is "ES2016"`,
-                position: { match: '"../es2016/tsconfig.json"' }
+                position: { match: '"../es2016/tsconfig.json"' },
+                severity: Severity.warning
             }
         ]
     }
