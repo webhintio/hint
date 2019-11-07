@@ -23,6 +23,8 @@ import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
 
+type SnykSeverity = 'low' | 'medium' | 'high';
+
 /*
  * ------------------------------------------------------------------------------
  * Public
@@ -109,15 +111,28 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
             return require('./snyk-snapshot.json');
         };
 
+        const toSeverity = (severity: SnykSeverity) => {
+            switch (severity) {
+                case 'high': return Severity.error;
+                case 'medium': return Severity.warning;
+                default:
+                    return Severity.hint;
+            }
+        };
+
         /** If a used library has vulnerability that meets the minimum threshold, it gets reported.  */
         const reportLibrary = (library: Library, vulns: Vulnerability[], resource: string) => {
             let vulnerabilities = vulns;
 
 
             debug('Filtering vulnerabilities');
+            let maxSeverity = Severity.off;
+
             vulnerabilities = vulnerabilities.filter((vulnerability) => {
                 const { severity } = vulnerability;
                 let fails = false;
+
+                maxSeverity = Math.max(maxSeverity, toSeverity(severity as SnykSeverity));
 
                 switch (minimumSeverity) {
                     case 'medium':
@@ -156,7 +171,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     message = getMessage('vulnerabilities', context.language, [`${library.name}@${library.version}`, vulnerabilities.length.toString(), detail, link]);
                 }
 
-                context.report(resource, message);
+                context.report(resource, message, { severity: maxSeverity });
             }
         };
 
