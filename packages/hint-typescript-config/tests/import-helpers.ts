@@ -6,6 +6,7 @@ import * as sinon from 'sinon';
 
 import * as utils from '@hint/utils';
 import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 type ImportHelpersContext = {
     sandbox: sinon.SinonSandbox;
@@ -45,7 +46,10 @@ const tests: HintLocalTest[] = [
         },
         name: 'Configuration with "compilerOptions.importHelpers = true" but tslibs is not installed should fail',
         path: path.join(__dirname, 'fixtures', 'import-helpers', 'import'),
-        reports: [{ message: `Couldn't find package "tslib".` }]
+        reports: [{
+            message: `Couldn't find package "tslib".`,
+            severity: Severity.error
+        }]
     },
     {
         after: (t: ExecutionContext<ImportHelpersContext>) => {
@@ -65,7 +69,8 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: 'The compiler option "importHelpers" should be enabled to reduce the output size.',
-                position: { match: 'false' }
+                position: { match: 'false' },
+                severity: Severity.warning
             }
         ]
     },
@@ -87,7 +92,8 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: 'The compiler option "importHelpers" should be enabled to reduce the output size.',
-                position: { match: 'compilerOptions' }
+                position: { match: 'compilerOptions' },
+                severity: Severity.warning
             }
         ]
     },
@@ -109,9 +115,13 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: 'The compiler option "importHelpers" should be enabled to reduce the output size.',
-                position: { match: 'compilerOptions' }
+                position: { match: 'compilerOptions' },
+                severity: Severity.warning
             },
-            { message: `Couldn't find package "tslib".` }
+            {
+                message: `Couldn't find package "tslib".`,
+                severity: Severity.error
+            }
         ]
     }
 ];
