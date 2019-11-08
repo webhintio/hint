@@ -61,12 +61,16 @@ const generateTest = (colorValues: string[], valueType: string = 'valid', reason
 
 const defaultTests: HintTest[] = [
     {
+        name: `'theme-color' meta element is not specified, but there is no manifest`,
+        serverConfig: generateHTMLPage('<link>')
+    },
+    {
         name: `'theme-color' meta element is not specified`,
         reports: [{
             message: metaElementIsNotSpecifiedErrorMessage,
             severity: Severity.warning
         }],
-        serverConfig: generateHTMLPage('<meta name="viewport" content="width=device-width">')
+        serverConfig: generateHTMLPage('<link rel="manifest" href="manifest.webmanifest">')
     },
     {
         name: `'theme-color' meta element is specified with invalid 'name' value`,

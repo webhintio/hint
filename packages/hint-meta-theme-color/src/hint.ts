@@ -19,7 +19,7 @@ import {
 } from 'hint';
 import { Severity } from '@hint/utils-types';
 import { normalizeString } from '@hint/utils-string';
-import { HTMLElement } from '@hint/utils-dom';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
 import { isSupported } from '@hint/utils-compat-data';
 
 import meta from './meta';
@@ -41,9 +41,11 @@ export default class MetaThemeColorHint implements IHint {
         let firstThemeColorMetaElement: HTMLElement;
 
         const checkIfThemeColorMetaElementWasSpecified = (event: TraverseEnd) => {
+            const pageDOM = context.pageDOM as HTMLDocument;
             const { resource } = event;
+            const linksToManifest = pageDOM.querySelectorAll('link[rel="manifest"]').length > 0;
 
-            if (!firstThemeColorMetaElement) {
+            if (!firstThemeColorMetaElement && linksToManifest) {
                 context.report(
                     resource,
                     getMessage('metaElementNotSpecified', context.language),
