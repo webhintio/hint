@@ -4,14 +4,15 @@
 
 import { URL } from 'url';
 
-import { ElementFound, FetchEnd, HintContext, IHint, ScanStart, Severity } from 'hint';
-import { debug as d, misc, network } from '@hint/utils';
+import { ElementFound, FetchEnd, HintContext, IHint, ScanStart } from 'hint';
+import { normalizeString } from '@hint/utils-string';
+import { includedHeaders } from '@hint/utils-network';
+import { debug as d } from '@hint/utils-debug';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { normalizeString } = misc;
-const { includedHeaders } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*

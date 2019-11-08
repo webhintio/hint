@@ -1,7 +1,7 @@
 import { Requester } from '@hint/utils-connector-tools';
 import { ResourceLoader } from 'jsdom';
 import { NetworkData } from 'hint';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 const debug: debug.IDebugger = d(__filename);
 

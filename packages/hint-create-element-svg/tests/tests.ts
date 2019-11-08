@@ -1,8 +1,6 @@
-import { fs, test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { readFile } from '@hint/utils-fs';
 
-const { generateHTMLPage, getHintPath } = test;
-const { readFile } = fs;
 const hintPath = getHintPath(__filename);
 
 const generateHTMLPageWithDivTag = (head: string, body: string) => {
