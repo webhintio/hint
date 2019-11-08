@@ -5,14 +5,12 @@ import * as sinon from 'sinon';
 import { EventEmitter2 } from 'eventemitter2';
 import test from 'ava';
 
-import { fs, network } from '@hint/utils';
+import { loadJSONFile, readFile } from '@hint/utils-fs';
+import { getAsUri } from '@hint/utils-network';
 import { Engine } from 'hint';
 import { FetchEnd } from 'hint/dist/src/lib/types';
 
 import BabelConfigParser, { BabelConfigEvents, BabelConfigParsed } from '../src/parser';
-
-const { loadJSONFile, readFile } = fs;
-const { getAsUri } = network;
 
 test(`If the resource doesn't match the target file names, nothing should happen`, async (t) => {
     const sandbox = sinon.createSandbox();

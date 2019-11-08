@@ -2,9 +2,8 @@
  * @fileoverview Checks if your cache-control header and asset strategy follows best practices
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
-import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
+import { debug as d } from '@hint/utils-debug';
+import { isDataURI, normalizeHeaderValue } from '@hint/utils-network';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 

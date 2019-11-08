@@ -2,7 +2,7 @@
  * @fileoverview `webpack-config/is-installed` warns against not having webpack installed.
  */
 import { HintContext, IHint } from 'hint';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import { WebpackConfigEvents } from '@hint/parser-webpack-config';
 

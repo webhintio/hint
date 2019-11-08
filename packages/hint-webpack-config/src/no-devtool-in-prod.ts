@@ -2,7 +2,7 @@
  * @fileoverview `webpack-config/no-devtool-in-prod` warns against having set the propety `devtool` to `eval`.
  */
 import { HintContext, IHint } from 'hint';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
 

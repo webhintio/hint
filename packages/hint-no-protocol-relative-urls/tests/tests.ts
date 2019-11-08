@@ -1,7 +1,5 @@
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { generateHTMLPage, getHintPath } = test;
 const generateErrorMessage = (url: string): string => {
     return `'${url}' should not be specified as a protocol-relative URL.`;
 };

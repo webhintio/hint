@@ -7,16 +7,16 @@ import { promisify } from 'util';
 import groupBy = require('lodash/groupBy');
 import * as semver from 'semver';
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
-import { writeFileAsync } from '@hint/utils/dist/src/fs/write-file-async';
+import { debug as d } from '@hint/utils-debug';
+import { readFileAsync, writeFileAsync } from '@hint/utils-fs';
 import * as logger from '@hint/utils/dist/src/logging';
-import { requestAsync } from '@hint/utils/dist/src/network/request-async';
+import { requestAsync } from '@hint/utils-network';
 
-import { IHint, CanEvaluateScript, Severity } from 'hint/dist/src/lib/types';
-import { Library, Vulnerability } from './types';
-
+import { IHint, CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { Severity } from '@hint/utils-types';
+
+import { Library, Vulnerability } from './types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';

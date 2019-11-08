@@ -19,8 +19,14 @@ import * as path from 'path';
 import browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
 import mergeWith = require('lodash/mergeWith');
 
-import { debug as d, fs as fsUtils, toAbsolutePaths } from '@hint/utils';
-import { validate as schemaValidator } from '@hint/utils/dist/src/schema-validation/schema-validator';
+import { toAbsolutePaths } from '@hint/utils';
+import {
+    isFile,
+    loadJSFile,
+    loadJSONFile
+} from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
+import { validate as schemaValidator } from '@hint/utils-json';
 
 import { UserConfig, IgnoredUrl, ConnectorConfig, HintsConfigObject, HintSeverity, CreateAnalyzerOptions } from './types';
 import { validateConfig } from './config/config-validator';
@@ -29,8 +35,6 @@ import { validate as validateHint, getSeverity } from './config/config-hints';
 import * as resourceLoader from './utils/resource-loader';
 import { ResourceType } from './enums';
 import { IConnectorConstructor } from './types/connector';
-
-const { isFile, loadJSFile, loadJSONFile} = fsUtils;
 
 const debug: debug.IDebugger = d(__filename);
 

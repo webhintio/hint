@@ -11,7 +11,15 @@ import { promisify } from 'util';
 
 import * as brotli from 'iltorb';
 
-import { asyncTry, contentType, HTMLElement, HttpHeaders, misc, network } from '@hint/utils';
+import {
+    asyncTry,
+    getFileExtension,
+    isTextMediaType
+} from '@hint/utils';
+import { normalizeString } from '@hint/utils-string';
+import { HttpHeaders } from '@hint/utils-types';
+import { HTMLElement } from '@hint/utils-dom';
+import { isHTTP, isRegularProtocol, normalizeHeaderValue } from '@hint/utils-network';
 import { FetchEnd, HintContext, IHint, NetworkData, Response } from 'hint';
 
 import { CompressionCheckOptions } from './types';
@@ -19,9 +27,6 @@ import { CompressionCheckOptions } from './types';
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { getFileExtension, isTextMediaType } = contentType;
-const { isHTTP, isRegularProtocol, normalizeHeaderValue } = network;
-const { normalizeString } = misc;
 const decompressBrotli = promisify(brotli.decompress) as (buffer: Buffer) => Promise<Buffer>;
 const uaString = 'Mozilla/5.0 Gecko';
 
