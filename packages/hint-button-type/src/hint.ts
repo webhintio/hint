@@ -6,6 +6,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint, ElementFound } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
 import { Severity } from '@hint/utils-types';
+import { HTMLElement } from '@hint/utils-dom';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
