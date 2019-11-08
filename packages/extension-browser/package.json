@@ -9,7 +9,7 @@
     "timeout": "1m"
   },
   "browserslist": "last 2 chrome versions, last 2 firefox versions",
-  "bundleSize": 675000,
+  "bundleSize": 660000,
   "description": "webhint browser extension",
   "devDependencies": {
     "@hint/hint-axe": "^4.2.0",
@@ -46,8 +46,8 @@
     "@hint/utils-dom": "^1.0.0",
     "@hint/utils-fs": "^1.0.0",
     "@hint/utils-i18n": "^1.0.0",
+    "@hint/utils-telemetry": "^1.0.0",
     "@hint/utils-types": "^1.0.0",
-    "@microsoft/applicationinsights-web-basic": "^2.2.0",
     "@types/chrome": "^0.0.91",
     "@types/har-format": "^1.2.4",
     "@types/is-ci": "^2.0.0",
