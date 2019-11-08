@@ -1,7 +1,7 @@
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import { isFile } from '../src/fs';
+import * as fsUtils from '@hint/utils-fs';
 
 type Environment = {
     getVariable(name: string): string;
@@ -47,9 +47,12 @@ const initContext = (t: ExecutionContext<ChromiumFinderContext>) => {
 
 const loadDependency = (context: ChromiumFinderContext) => {
     return proxyquire('../src/chromium-finder', {
-        './fs/is-file': context.isFile,
         './misc/environment': context.environment,
-        './misc/get-platform': context.getPlatform
+        './misc/get-platform': context.getPlatform,
+        '@hint/utils-fs': {
+            isDirectory: fsUtils.isDirectory,
+            isFile: context.isFile.isFile
+        }
     });
 };
 

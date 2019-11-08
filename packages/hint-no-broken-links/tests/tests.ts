@@ -1,8 +1,6 @@
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
-import { Severity } from '@hint/utils/dist/src/types/problems';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const bodyWithValidLinks = `<div>

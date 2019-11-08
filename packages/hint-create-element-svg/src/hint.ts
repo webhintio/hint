@@ -4,7 +4,7 @@
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils-debug';
 import { ScriptEvents } from '@hint/parser-javascript';
 
 import meta from './meta';

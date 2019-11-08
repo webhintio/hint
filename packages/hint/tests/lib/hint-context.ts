@@ -1,7 +1,7 @@
 import test from 'ava';
 import * as sinon from 'sinon';
 
-import { Severity } from '@hint/utils/dist/src/types/problems';
+import { Severity } from '@hint/utils-types';
 
 const engine = {
 

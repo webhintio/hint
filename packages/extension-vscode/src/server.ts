@@ -55,7 +55,7 @@ documents.onDidClose(({ document }) => {
 
 // Report deltas in cached results when a document is saved.
 documents.onDidSave(({ document }) => {
-    trackSave(document.uri);
+    trackSave(document.uri, document.languageId);
 });
 
 // Listen on the text document manager and connection.
