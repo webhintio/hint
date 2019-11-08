@@ -1,5 +1,3 @@
-import { extname } from 'path';
-
 import { trackEvent } from './app-insights';
 
 export type ResultData = {
@@ -27,10 +25,11 @@ type ProblemCountMap = {
 // Remember per-document results for analytics.
 const prevProblems = new Map<string, ProblemCountMap>();
 const nextProblems = new Map<string, ProblemCountMap>();
+const languageIds = new Map<string, string>();
 const lastSaveTimes = new Map<string, number>();
 const twoMinutes = 1000 * 60 * 2;
 
-const determineHintStatus = (prev: ProblemCountMap, next: ProblemCountMap, uri: string) => {
+const determineHintStatus = (prev: ProblemCountMap, next: ProblemCountMap, languageId: string) => {
     const status: HintStatusMap = {};
 
     for (const id of Object.keys(next)) {
@@ -51,9 +50,7 @@ const determineHintStatus = (prev: ProblemCountMap, next: ProblemCountMap, uri: 
         }
     }
 
-    const fileExtension = extname(uri);
-
-    return { fileExtension, ...status };
+    return { languageId, ...status };
 };
 
 const toTrackedResult = (data: ResultData) => {
@@ -71,8 +68,8 @@ const toTrackedResult = (data: ResultData) => {
     return result;
 };
 
-const trackOpen = (result: ProblemCountMap, uri: string) => {
-    trackEvent('vscode-open', determineHintStatus({}, result, uri));
+const trackOpen = (result: ProblemCountMap, languageId: string) => {
+    trackEvent('vscode-open', determineHintStatus({}, result, languageId));
 };
 
 export const trackOptIn = (telemetryEnabled: TelemetryState, everEnabledTelemetry: boolean) => {
@@ -84,21 +81,24 @@ export const trackOptIn = (telemetryEnabled: TelemetryState, everEnabledTelemetr
 export const trackClose = (uri: string) => {
     prevProblems.delete(uri);
     nextProblems.delete(uri);
+    languageIds.delete(uri);
     lastSaveTimes.delete(uri);
 };
 
-export const trackResult = (uri: string, result: ResultData) => {
+export const trackResult = (uri: string, languageId: string, result: ResultData) => {
     const problems = toTrackedResult(result);
+
+    languageIds.set(uri, languageId);
 
     if (prevProblems.has(uri)) {
         nextProblems.set(uri, problems);
     } else {
         prevProblems.set(uri, problems);
-        trackOpen(problems, uri);
+        trackOpen(problems, languageId);
     }
 };
 
-export const trackSave = (uri: string) => {
+export const trackSave = (uri: string, languageId: string) => {
     const prev = prevProblems.get(uri);
     const next = nextProblems.get(uri);
     const lastSave = lastSaveTimes.get(uri);
@@ -116,7 +116,7 @@ export const trackSave = (uri: string) => {
     prevProblems.set(uri, next);
     nextProblems.delete(uri);
 
-    trackEvent('vscode-save', determineHintStatus(prev, next, uri));
+    trackEvent('vscode-save', determineHintStatus(prev, next, languageId));
 
     lastSaveTimes.set(uri, now);
 };
