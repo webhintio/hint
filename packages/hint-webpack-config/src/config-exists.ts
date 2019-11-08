@@ -2,7 +2,7 @@
  * @fileoverview `webpack-config/config-exists` warns against not having a webpack configuration file.
  */
 import { HintContext, IHint } from 'hint';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import { WebpackConfigEvents } from '@hint/parser-webpack-config';
 

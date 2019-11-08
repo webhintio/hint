@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { Problem, Severity } from 'hint';
+import { Problem, Severity } from '@hint/utils-types';
 import { DiagnosticSeverity } from 'vscode-languageserver';
 
 import { problemToDiagnostic } from '../../src/utils/problems';

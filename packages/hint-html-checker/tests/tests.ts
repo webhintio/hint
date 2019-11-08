@@ -2,11 +2,10 @@
 
 import * as mock from 'mock-require';
 
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import * as utils from '@hint/utils';
-import { Severity } from 'hint';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import * as utilsNetwork from '@hint/utils-network';
+import { Severity } from '@hint/utils-types';
 
-const { getHintPath } = utils.test;
 const hintPath = getHintPath(__filename);
 const exampleUrl = 'https://empty.webhint.io/';
 const validatorError = 'error';
@@ -95,9 +94,9 @@ const htmlCheckerMock = (response: any) => {
         return Promise.reject(validatorError); // Error with the validator
     };
 
-    (utils.network as any).requestAsync = requestAsync;
+    (utilsNetwork as any).requestAsync = requestAsync;
 
-    mock('@hint/utils', utils);
+    mock('@hint/utils-network', utilsNetwork);
 };
 
 const testsForDefaults: HintTest[] = [

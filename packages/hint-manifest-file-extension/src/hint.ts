@@ -9,8 +9,8 @@
  * ------------------------------------------------------------------------------
  */
 
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { fileExtension as getFileExtension } from '@hint/utils/dist/src/fs/file-extension';
+import { normalizeString } from '@hint/utils-string';
+import { fileExtension as getFileExtension } from '@hint/utils-fs';
 import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 

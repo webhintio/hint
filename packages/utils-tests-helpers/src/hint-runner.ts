@@ -7,16 +7,19 @@ import { URL } from 'url';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import { IServer, Server } from '@hint/utils-create-server';
-import { fs, network } from '@hint/utils';
+import { readFileAsync } from '@hint/utils-fs';
+import { asPathString, getAsUri, requestAsync } from '@hint/utils-network';
 
-import { Configuration, Engine, HintsConfigObject, IHintConstructor, Problem, ProblemLocation, utils } from 'hint';
+import { Configuration, Engine, HintsConfigObject, IHintConstructor, utils } from 'hint';
+import { Problem, ProblemLocation } from '@hint/utils-types';
 
-import { ids as connectors } from './connectors';
 import { HintTest, HintLocalTest, Report, MatchProblemLocation } from './hint-test-type';
 
 const { resourceLoader } = utils;
-const { readFileAsync } = fs;
-const { asPathString, getAsUri, requestAsync } = network;
+const connectors = [
+    'puppeteer',
+    'jsdom'
+];
 
 type HintRunnerContext = {
     server: IServer;
@@ -31,6 +34,7 @@ const localhostRegex = /(http|https):\/\/localhost[:]*[0-9]*\//g;
  * Determines which parsers to use based on provided options,
  * but always including 'html' (so individual tests don't have to).
  */
+/* istanbul ignore next */
 const determineParsers = (parsers?: string[]) => {
     if (!parsers) {
         return ['html'];
@@ -43,6 +47,7 @@ const determineParsers = (parsers?: string[]) => {
  * Generates a ProblemLocation based on the index of the first occurance
  * of the provided substring.
  */
+/* istanbul ignore next */
 const findPosition = (source: string, position: MatchProblemLocation): ProblemLocation => {
     const { match, range } = position;
     const lines = source.split('\n');
@@ -77,6 +82,7 @@ const findPosition = (source: string, position: MatchProblemLocation): ProblemLo
  * Get the source code for the provided resource.
  * Returns the empty string if resource was invalid.
  */
+/* istanbul ignore next */
 const requestSource = async (url: string, connector: string): Promise<string> => {
     try {
         if (connector === 'local') {
@@ -101,6 +107,7 @@ const requestSource = async (url: string, connector: string): Promise<string> =>
 /**
  * Creates a valid hint configuration.
  */
+/* istanbul ignore next */
 const createConfig = (id: string, connector: string, opts?: any): Configuration => {
     const hints: HintsConfigObject = {};
 
@@ -137,6 +144,7 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
 };
 
 /** Validates that the results from the execution match the expected ones. */
+/* istanbul ignore next */
 const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<string, string>, results: Problem[], reports?: Report[]) => {
     const server = t.context.server || {};
 
@@ -177,6 +185,10 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
                 return false;
             }
 
+            if (typeof report.severity !== 'undefined' && severity !== report.severity) {
+                return false;
+            }
+
             if (report.position && location) {
                 let position: ProblemLocation | undefined;
 
@@ -193,10 +205,6 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
                         position.endColumn === location.endColumn));
             }
 
-            if (typeof report.severity !== 'undefined' && severity !== report.severity) {
-                return false;
-            }
-
             return true;
         });
 
@@ -209,6 +217,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
 };
 
 /** Executes all the tests from `hintTests` in the hint whose id is `hintId` */
+/* istanbul ignore next */
 export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key: string]: any } = {}) => {
 
     /**
@@ -314,6 +323,7 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
     });
 };
 
+/* istanbul ignore next */
 export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], configs: { [key: string]: any } = {}) => {
     const Hint: IHintConstructor = resourceLoader.loadHint(hintId, []);
     const connector = 'local';
