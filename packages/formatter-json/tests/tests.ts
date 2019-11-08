@@ -4,8 +4,7 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { Severity } from 'hint';
-import * as utils from '@hint/utils';
+import { Severity } from '@hint/utils-types';
 
 import * as problems from './fixtures/list-of-problems';
 
@@ -33,11 +32,8 @@ const initContext = (t: ExecutionContext<JSONContext>) => {
 
 const loadScript = (context: JSONContext) => {
     const script = proxyquire('../src/formatter', {
-        '@hint/utils': {
-            debug: utils.debug,
-            fs: { writeFileAsync: context.writeFileAsync },
-            logger: context.logging
-        }
+        '@hint/utils': { logger: context.logging },
+        '@hint/utils-fs': { writeFileAsync: context.writeFileAsync }
     });
 
     return script.default;

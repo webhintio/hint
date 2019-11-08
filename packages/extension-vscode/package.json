@@ -46,6 +46,9 @@
       }
     }
   },
+  "dependencies": {
+    "@hint/utils-types": "^1.0.0"
+  },
   "description": "Run webhint in Visual Studio Code.",
   "devDependencies": {
     "@types/node": "^12.7.5",
@@ -82,6 +85,9 @@
   "license": "Apache-2.0",
   "main": "./dist/bundle/extension",
   "name": "vscode-webhint",
+  "nyc": {
+    "extends": "../../.nycrc"
+  },
   "preview": true,
   "publisher": "webhint",
   "repository": {
@@ -101,8 +107,8 @@
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "test": "npm run lint && npm run build:assets && npm run build:ts && npm run test-only",
-    "test-only": "nyc ava && npm run build-release && vsce package && npm run validate-bundle-size",
-    "test-release": "npm run lint && npm run build-release && ava && vsce package && npm run validate-bundle-size",
+    "test-only": "nyc ava && npm run build-release && vsce package --yarn && npm run validate-bundle-size",
+    "test-release": "npm run lint && npm run build-release && ava && vsce package --yarn && npm run validate-bundle-size",
     "validate-bundle-size": "node ./scripts/bundle-size.js",
     "vscode:prepublish": "npm run build-release",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",

@@ -8,7 +8,8 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.1.0"
+    "@hint/utils": "^6.1.0",
+    "@hint/utils-network": "^1.0.0"
   },
   "description": "webhint parser needed to analyze webpack config files",
   "devDependencies": {
