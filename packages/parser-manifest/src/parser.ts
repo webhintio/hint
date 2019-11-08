@@ -2,18 +2,14 @@ import {
     ElementFound,
     FetchEnd,
     NetworkData,
-    Parser,
-    SchemaValidationResult
+    Parser
 } from 'hint/dist/src/lib/types';
 
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isHTTP } from '@hint/utils/dist/src/network/is-http';
-import { isHTTPS } from '@hint/utils/dist/src/network/is-https';
+import { normalizeString } from '@hint/utils-string';
+import { isHTTP, isHTTPS } from '@hint/utils-network';
 import { ManifestEvents } from './types';
 import { Engine } from 'hint/dist/src/lib/engine';
-import { parseJSON } from '@hint/utils/dist/src/json-parser';
-import { IJSONResult } from '@hint/utils/dist/src/types/json-parser';
-import { validate } from '@hint/utils/dist/src/schema-validation/schema-validator';
+import { IJSONResult, parseJSON, SchemaValidationResult, validate } from '@hint/utils-json';
 
 export * from './types';
 

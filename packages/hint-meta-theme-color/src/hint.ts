@@ -17,13 +17,13 @@ import {
     IHint,
     TraverseEnd
 } from 'hint';
-import { HTMLElement, misc } from '@hint/utils';
+import { normalizeString } from '@hint/utils-string';
+import { HTMLElement } from '@hint/utils-dom';
 import { isSupported } from '@hint/utils-compat-data';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { normalizeString } = misc;
 /*
  * ------------------------------------------------------------------------------
  * Public

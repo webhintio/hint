@@ -1,7 +1,6 @@
 import * as mock from 'mock-require';
-import * as utils from '@hint/utils';
-
-const { generateHTMLPage } = utils.test;
+import { generateHTMLPage } from '@hint/utils-tests-helpers';
+import * as utilsNetwork from '@hint/utils-network';
 
 export const OkayMaxAge = 31536000; // a max-age value larger than the minimum
 export const smallMaxAge = 1; // a max-age value less than the minimum
@@ -62,9 +61,6 @@ export const htmlPageWithScriptData = generateHTMLPageData(generateHTMLPage(unde
 export const htmlPageWithManifestData = generateHTMLPageData(generateHTMLPage('<link rel="manifest" href="test.webmanifest">'));
 
 export const requestJSONAsyncMock = (responseObject: any) => {
-    const isDataURI = () => {
-        return false;
-    };
     const isHTTPS = () => {
         return true;
     };
@@ -90,11 +86,10 @@ export const requestJSONAsyncMock = (responseObject: any) => {
         return Promise.resolve(response);
     };
 
-    (utils.network as any).isDataURI = isDataURI;
-    (utils.network as any).isRegularProtocol = isRegularProtocol;
+    (utilsNetwork as any).isRegularProtocol = isRegularProtocol;
+    (utilsNetwork as any).isHTTPS = isHTTPS;
+    (utilsNetwork as any).requestJSONAsync = requestJSONAsync;
 
-    mock('@hint/utils', utils);
-    mock('@hint/utils/dist/src/network/is-https', { isHTTPS });
-    mock('@hint/utils/dist/src/misc/normalize-string', { normalizeString });
-    mock('@hint/utils/dist/src/network/request-json-async', { requestJSONAsync });
+    mock('@hint/utils-network', utilsNetwork);
+    mock('@hint/utils-string', { normalizeString });
 };

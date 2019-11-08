@@ -8,14 +8,17 @@ import { loadWebhint, updateSharedWebhint } from './webhint-packages';
 import { problemToDiagnostic } from './problems';
 import { promptAddWebhint, promptRetry } from './prompts';
 
-const analyze = async (uri: string, content: string, webhint: import('hint').Analyzer): Promise<PublishDiagnosticsParams> => {
+const analyze = async (textDocument: TextDocument, webhint: import('hint').Analyzer): Promise<PublishDiagnosticsParams> => {
+    const { languageId, uri } = textDocument;
+    const content = textDocument.getText();
+
     // In VSCode on Windows, the `:` is escaped after the drive letter in `textDocument.uri`.
     const url = new URL(unescape(uri));
 
     // Pass content directly to validate unsaved changes.
     const results = await webhint.analyze({ content, url });
 
-    trackResult(uri, {
+    trackResult(uri, languageId, {
         hints: webhint.resources.hints,
         problems: results.length > 0 ? results[0].problems : []
     });
@@ -125,7 +128,7 @@ export class Analyzer {
                 return;
             }
 
-            const diagnostics = await analyze(textDocument.uri, textDocument.getText(), this.webhint);
+            const diagnostics = await analyze(textDocument, this.webhint);
 
             this.connection.sendDiagnostics(diagnostics);
 

@@ -1,8 +1,8 @@
 import { Options, Parser } from 'acorn';
 import { Node } from 'estree-jsx';
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { HTMLElement } from '@hint/utils/dist/src/dom';
+import { debug as d } from '@hint/utils-debug';
+import { HTMLElement } from '@hint/utils-dom';
 import { determineMediaTypeForScript } from '@hint/utils/dist/src/content-type';
 import { ElementFound, FetchEnd, Parser as WebhintParser } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
