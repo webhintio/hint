@@ -4,8 +4,14 @@ Set of helpers to run tests in webhint
 
 ## Installation
 
-To install the package, you need to run:
+This package is installed automatically when adding webhint to your project
+so running the following is enough:
 
 ```bash
-npm install @hint/utils-tests-helpers
+npm install hint --save-dev
 ```
+
+### Utils
+
+* `generateHTMLPage`: Creates a valid minimal HTML.
+* `getHintPath`: Returns the name of the hint.

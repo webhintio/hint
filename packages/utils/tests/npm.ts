@@ -3,8 +3,8 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 
-import { misc } from '../src';
-import { readFile } from '../src/fs';
+import { readFile } from '@hint/utils-fs';
+import { delay } from '../src';
 
 type Fs = {
     existsSync: () => boolean;
@@ -94,13 +94,13 @@ const initContext = (t: ExecutionContext<NPMContext>) => {
 
 const loadScript = (context: NPMContext) => {
     return proxyquire('../src/npm', {
-        './fs': {
-            cwd: context.cwd,
-            loadJSONFile: context.loadJSONFileModule
-        },
         './has-yarnlock': context.hasYarnLock,
         './logging': context.logger,
         './packages': { findPackageRoot: context.findPackageRootModule },
+        '@hint/utils-fs': {
+            cwd: context.cwd,
+            loadJSONFile: context.loadJSONFileModule
+        },
         child_process: context.child, // eslint-disable-line camelcase
         fs: context.fs,
         'npm-registry-fetch': context.npmRegistryFetch
@@ -127,7 +127,7 @@ test('installPackages should run the right command `hint` is installed locally, 
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -150,7 +150,7 @@ test('installPackages should run the right command if `hint` is installed locall
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -174,7 +174,7 @@ test('installPackages should run `yarn` if yarn.lock is found, `hint` is install
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -198,7 +198,7 @@ test('installPackages should run `yarn` if yarn.lock is found, `hint` is install
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -219,7 +219,7 @@ test('installPackages should run the right command if `hint` is installed locall
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -242,7 +242,7 @@ test('installPackages should run the right command if `hint` is installed locall
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -262,7 +262,7 @@ test('installPackages should run the right command if `hint` is installed global
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 0);
 
@@ -286,7 +286,7 @@ test('installPackages should show the command to run if the installation fail an
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 1);
 
@@ -308,7 +308,7 @@ test('installPackages should show the command to run if the installation fail an
     const npmUtils = loadScript(t.context);
     const promise = npmUtils.installPackages(['hint1', '@hint/formatter-formatter1']);
 
-    await misc.delay(500);
+    await delay(500);
 
     emitter.emit('exit', 1);
 

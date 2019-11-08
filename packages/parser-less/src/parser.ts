@@ -2,9 +2,9 @@ const parser = require('postcss-less');
 
 import * as postcss from 'postcss';
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { debug as d } from '@hint/utils-debug';
+import { normalizeString } from '@hint/utils-string';
+import { HTMLElement } from '@hint/utils-dom';
 import { Parser } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css';
 import { Engine } from 'hint';
