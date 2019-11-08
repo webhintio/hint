@@ -3,7 +3,8 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import * as utils from '@hint/utils';
-import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
+import { Problem, Severity } from '@hint/utils-types';
+import * as network from '@hint/utils-network';
 
 import {
     AnalyzeOptions,
@@ -159,21 +160,16 @@ const loadScript = (context: AnalyzeContext, isCi: boolean = false) => {
         },
         '@hint/utils': {
             appInsights: context.appInsight,
+            askQuestion: context.askQuestion,
             configStore: utils.configStore,
-            debug: utils.debug,
             getHintsFromConfiguration: context.getHintsFromConfiguration,
+            installPackages: utils.installPackages,
             logger: context.logger,
-            misc: {
-                askQuestion: context.askQuestion,
-                cutString: utils.misc.cutString,
-                mergeEnvWithOptions: (options: any) => {
-                    return options;
-                }
-            },
-            network: utils.network,
-            npm: utils.npm,
-            packages: utils.packages
+            mergeEnvWithOptions: (options: any) => {
+                return options;
+            }
         },
+        '@hint/utils-network': network,
         'is-ci': isCi,
         ora: context.ora
     });

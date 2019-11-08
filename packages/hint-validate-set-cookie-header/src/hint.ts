@@ -2,10 +2,9 @@
  * @fileoverview This hint validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isHTTPS } from '@hint/utils/dist/src/network/is-https';
-import { isRegularProtocol } from '@hint/utils/dist/src/network/is-regular-protocol';
+import { debug as d } from '@hint/utils-debug';
+import { normalizeString } from '@hint/utils-string';
+import { isHTTPS, isRegularProtocol } from '@hint/utils-network';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import { HintContext, CodeLanguage } from 'hint/dist/src/lib/hint-context';
 
