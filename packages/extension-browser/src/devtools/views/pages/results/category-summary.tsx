@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { getCategoryName } from '@hint/utils/dist/src/i18n/get-category-name';
-import { Severity } from '@hint/utils/dist/src/types/problems';
+import { getCategoryName } from '@hint/utils-i18n';
+import { Severity } from '@hint/utils-types';
 
 import { CategoryResults, HintResults } from '../../../../shared/types';
 

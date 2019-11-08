@@ -16,6 +16,10 @@
         { "path": "../hint" },
         { "path": "../parser-html" },
         { "path": "../utils" },
-        { "path": "../utils-tests-helpers" }
+        { "path": "../utils-debug" },
+        { "path": "../utils-i18n" },
+        { "path": "../utils-network" },
+        { "path": "../utils-tests-helpers" },
+        { "path": "../utils-types" }
     ]
 }

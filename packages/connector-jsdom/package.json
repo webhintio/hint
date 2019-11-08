@@ -10,6 +10,11 @@
   "dependencies": {
     "@hint/utils": "^6.1.0",
     "@hint/utils-connector-tools": "^4.0.14",
+    "@hint/utils-debug": "^1.0.0",
+    "@hint/utils-dom": "^1.0.0",
+    "@hint/utils-fs": "^1.0.0",
+    "@hint/utils-network": "^1.0.0",
+    "@hint/utils-types": "^1.0.0",
     "@types/tough-cookie": "^2.3.5",
     "jsdom": "^15.2.0",
     "mutationobserver-shim": "^0.3.3"
@@ -18,6 +23,7 @@
   "devDependencies": {
     "@hint/parser-html": "^3.0.11",
     "@hint/utils-create-server": "^3.3.0",
+    "@hint/utils-tests-helpers": "^5.1.0",
     "@types/jsdom": "^12.2.3",
     "@types/lodash": "^4.14.141",
     "@types/node": "^12.7.5",
