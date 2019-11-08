@@ -3,7 +3,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
 
-import { Category } from 'hint/dist/src/lib/enums/category';
+import { Category } from '@hint/utils-types';
 import { FetchEnd } from 'hint/dist/src/lib/types';
 
 import { Config, Events, Results } from '../src/shared/types';

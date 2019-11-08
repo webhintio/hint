@@ -2,7 +2,7 @@
  * @fileoverview webhint parser needed to analyze HTML files
  */
 
-import { createHTMLDocument } from '@hint/utils/dist/src/dom/create-html-document';
+import { createHTMLDocument } from '@hint/utils-dom';
 import { Parser, FetchEnd } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { HTMLEvents } from './types';

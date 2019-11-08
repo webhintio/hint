@@ -8,13 +8,9 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { mergeIgnoreIncludeArrays } from '@hint/utils/dist/src/misc/merge-ignore-include-arrays';
-import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
-import { toLowerCaseArray } from '@hint/utils/dist/src/misc/to-lowercase-array';
-import { includedHeaders } from '@hint/utils/dist/src/network/included-headers';
-import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
-import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
+import { debug as d } from '@hint/utils-debug';
+import { mergeIgnoreIncludeArrays, prettyPrintArray, toLowerCaseArray } from '@hint/utils-string';
+import { includedHeaders, isDataURI, normalizeHeaderValue } from '@hint/utils-network';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, IHint, Severity } from 'hint/dist/src/lib/types';
