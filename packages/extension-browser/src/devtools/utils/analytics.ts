@@ -1,8 +1,6 @@
-import { ApplicationInsights } from '@microsoft/applicationinsights-web-basic';
-
 import { Config, ErrorData, Results } from '../../shared/types';
 
-import { getUpdatedActivity } from './activity';
+import { getUpdatedActivity, initTelemetry, updateTelemetry, trackEvent } from '@hint/utils-telemetry';
 import { determineHintStatus } from './hints';
 import * as storage from './storage';
 
@@ -13,25 +11,21 @@ const alreadyOptInKey = 'webhint-already-opt-in';
 
 const instrumentationKey = '8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d';
 
-let appInsights: ApplicationInsights | null = null;
-
-const trackEvent = (name: string, properties: { [key: string]: string } = {}, measurements?: { [key: string]: number }) => {
-    if (!appInsights) {
-        return;
-    }
-
-    properties['extension-version'] = manifest.version;
-
-    appInsights.track({
-        baseData: {
-            measurements,
-            name,
-            properties
-        },
-        baseType: 'EventData',
-        name: `Microsoft.ApplicationInsights.${instrumentationKey}.Event`
-    });
+/** Check if telemetry is enabled */
+export const enabled = (s = storage) => {
+    return !!s.getItem(storageKey);
 };
+
+initTelemetry({
+    defaultProperties: { 'extension-version': manifest.version },
+    enabled: enabled(),
+    instrumentationKey,
+    post: async (url, data) => {
+        const response = await fetch(url, { body: data, method: 'POST' });
+
+        return response.status;
+    }
+});
 
 /**
  * Return true if the user has not respond yet
@@ -47,19 +41,13 @@ export const setup = (s = storage) => {
 
     if (!telemetry) {
         console.log('telemetry disabled');
-        appInsights = null;
+        updateTelemetry(false);
 
         return;
     }
 
     console.log('telemetry enabled');
-
-    appInsights = new ApplicationInsights({ instrumentationKey });
-};
-
-/** Check if telemetry is enabled */
-export const enabled = (s = storage) => {
-    return !!s.getItem(storageKey);
+    updateTelemetry(true);
 };
 
 /** Enables telemetry */
