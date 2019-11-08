@@ -1,9 +1,15 @@
 import { URL } from 'url';
 
 import { Engine } from 'hint';
-import { getElementByUrl, HTMLDocument, HTMLElement, traverse } from '@hint/utils/dist/src/dom';
-import { createHelpers, restoreReferences } from '@hint/utils/dist/src/dom/snapshot';
-import { DocumentData } from '@hint/utils/dist/src/types/snapshot';
+import {
+    createHelpers,
+    DocumentData,
+    getElementByUrl,
+    HTMLDocument,
+    HTMLElement,
+    restoreReferences,
+    traverse
+} from '@hint/utils-dom';
 
 import {
     ConnectorOptionsConfig,

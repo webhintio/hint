@@ -1,4 +1,4 @@
-import { HttpHeaders } from '@hint/utils';
+import { HttpHeaders } from '@hint/utils-types';
 
 /** Normalize all keys of an `HttpHeader` to lowercase. */
 export const normalizeHeaders = (headers?: HttpHeaders | null) => {

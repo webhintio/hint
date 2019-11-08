@@ -1,12 +1,9 @@
 import * as fs from 'fs';
 
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { Severity } from 'hint';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 // Images

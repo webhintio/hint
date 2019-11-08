@@ -1,10 +1,8 @@
 /* eslint sort-keys: 0 */
 
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test, fs } from '@hint/utils';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { readFile } from '@hint/utils-fs';
 
-const { readFile } = fs;
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const validAMPHTML = readFile(`${__dirname}/fixtures/valid-amp.html`);

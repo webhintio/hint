@@ -4,13 +4,15 @@
 import { URL } from 'url';
 import { imageSize as getImageData } from 'image-size';
 import imageType from 'image-type';
-import { IHint, NetworkData, HintContext, ProblemLocation, IJSONLocationFunction } from 'hint';
+import { IHint, NetworkData, HintContext } from 'hint';
+import { JSONLocationFunction } from '@hint/utils-json';
 import { ManifestEvents, ManifestParsed, ManifestImageResource } from '@hint/parser-manifest';
-import { debug as d } from '@hint/utils';
+import { ProblemLocation } from '@hint/utils-types';
+import { debug as d } from '@hint/utils-debug';
+import { determineMediaTypeBasedOnFileExtension } from '@hint/utils/dist/src/content-type';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
-import { determineMediaTypeBasedOnFileExtension } from '@hint/utils/dist/src/content-type';
 import { extname } from 'path';
 
 const debug: debug.IDebugger = d(__filename);
@@ -28,7 +30,7 @@ export default class ManifestIconHint implements IHint {
          * See if the `icon` file actually
          * exists and is accessible.
          */
-        const iconExists = async (iconPath: string, resource: string, index: number, getLocation: IJSONLocationFunction): Promise<{ iconRawData: Buffer | null; mediaType: string } | null> => {
+        const iconExists = async (iconPath: string, resource: string, index: number, getLocation: JSONLocationFunction): Promise<{ iconRawData: Buffer | null; mediaType: string } | null> => {
             let networkData: NetworkData;
 
             const iconSrcLocation = getLocation(`icons[${index}].src`, { at: 'value' });
@@ -64,7 +66,7 @@ export default class ManifestIconHint implements IHint {
          * @param rawContent raw datastream
          * @param iconPath icon resource path
          */
-        const validateImageType = (icon: ManifestImageResource, mediaType: string, rawContent: Buffer | null, resource: string, index: number, getLocation: IJSONLocationFunction): boolean => {
+        const validateImageType = (icon: ManifestImageResource, mediaType: string, rawContent: Buffer | null, resource: string, index: number, getLocation: JSONLocationFunction): boolean => {
             const allowedTypes = ['png', 'jpg'];
             const iconTypeLocation = getLocation(`icons[${index}].type`, { at: 'value' });
             const { src, type: iconType } = icon;
@@ -122,7 +124,7 @@ export default class ManifestIconHint implements IHint {
          * @param iconRawData
          * @param iconPath full path to the icon file
          */
-        const validateSizes = (iconSizes: string | undefined, iconRawData: Buffer | null, resource: string, index: number, getLocation: IJSONLocationFunction): boolean => {
+        const validateSizes = (iconSizes: string | undefined, iconRawData: Buffer | null, resource: string, index: number, getLocation: JSONLocationFunction): boolean => {
             const iconSizelocation = getLocation(`icons[${index}].sizes`, { at: 'value' });
 
             if (!iconSizes) {
@@ -188,7 +190,7 @@ export default class ManifestIconHint implements IHint {
          * @param icons array of the icons properties
          * @param hostnameWithProtocol
          */
-        const validateIcons = async (icons: ManifestImageResource[], hostnameWithProtocol: string, resource: string, getLocation: IJSONLocationFunction): Promise<string[]> => {
+        const validateIcons = async (icons: ManifestImageResource[], hostnameWithProtocol: string, resource: string, getLocation: JSONLocationFunction): Promise<string[]> => {
             const validSizes: string[] = [];
 
             for (let index = 0; index < icons.length; index++) {

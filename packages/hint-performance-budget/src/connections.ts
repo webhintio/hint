@@ -2,10 +2,9 @@
  * @fileoverview Loads the connections.ini and updates it if needed
  */
 
-import { fs } from '@hint/utils';
+import { readFile } from '@hint/utils-fs';
 import { NetworkConfig } from './types';
 
-const { readFile } = fs;
 /**
  * Parses a string that contains a network configuration.
  *

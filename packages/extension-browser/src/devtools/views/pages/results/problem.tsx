@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, MouseEvent } from 'react';
 
-import { Problem as ProblemData } from '@hint/utils/dist/src/types/problems';
+import { Problem as ProblemData } from '@hint/utils-types';
 
 import { browser } from '../../../../shared/globals';
 

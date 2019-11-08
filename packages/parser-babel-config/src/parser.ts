@@ -2,15 +2,19 @@ import * as path from 'path';
 
 import cloneDeep = require('lodash/cloneDeep');
 
-import { Engine, FetchEnd, IJSONResult, Parser, SchemaValidationResult, utils } from 'hint';
-import { fs } from '@hint/utils';
+import { Engine, FetchEnd, Parser } from 'hint';
+import {
+    finalConfig as calculateFinalConfig,
+    IJSONResult,
+    parseJSON,
+    SchemaValidationResult,
+    validate
+} from '@hint/utils-json';
+import { loadJSONFile } from '@hint/utils-fs';
 
 import { BabelConfig, BabelConfigEvents } from './types';
 
 export * from './types';
-
-const { jsonParser: { parseJSON }, schemaValidator: { validate } } = utils;
-const { loadJSONFile } = fs;
 
 export default class BabelConfigParser extends Parser<BabelConfigEvents> {
     private schema: any;
@@ -72,7 +76,7 @@ export default class BabelConfigParser extends Parser<BabelConfigEvents> {
 
             const originalConfig: BabelConfig = cloneDeep(config);
 
-            const finalConfig = await this.finalConfig<BabelConfig>(config, resource);
+            const finalConfig = calculateFinalConfig<BabelConfig>(config, resource);
 
             if (finalConfig instanceof Error) {
                 await this.engine.emitAsync(`parse::error::babel-config::extends`,

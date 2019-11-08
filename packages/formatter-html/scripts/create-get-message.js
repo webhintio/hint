@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const { format } = require('@hint/utils/dist/src/i18n/format');
+const { format } = require('@hint/utils-i18n');
 
 const filename = path.join(process.cwd(), 'src', 'assets', 'js', 'scan', 'get-message.js');
 

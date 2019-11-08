@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@hint/parser-javascript": "^3.1.0",
-    "@hint/utils": "^6.1.0",
+    "@hint/utils-debug": "^1.0.0",
     "@typescript-eslint/typescript-estree": "^2.5.0"
   },
   "description": "webhint parser needed to analyze TypeScript files",
