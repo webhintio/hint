@@ -1,4 +1,12 @@
-import { trackEvent } from './app-insights';
+import * as Configstore from 'configstore';
+
+import {
+    determineHintStatus,
+    enabled,
+    getUpdatedActivity,
+    ProblemCountMap,
+    trackEvent
+} from '@hint/utils-telemetry';
 
 export type ResultData = {
     hints: import('hint').IHintConstructor[];
@@ -7,20 +15,8 @@ export type ResultData = {
 
 export type TelemetryState = 'ask' | 'disabled' | 'enabled';
 
-const enum HintStatus {
-    passed = 'passed',
-    failed = 'failed',
-    fixed = 'fixed',
-    fixing = 'fixing'
-}
-
-type HintStatusMap = {
-    [hintKey: string]: HintStatus;
-};
-
-type ProblemCountMap = {
-    [hintId: string]: number;
-};
+const activityKey = 'webhint-activity';
+const config = new Configstore('vscode-webhint');
 
 // Remember per-document results for analytics.
 const prevProblems = new Map<string, ProblemCountMap>();
@@ -28,30 +24,6 @@ const nextProblems = new Map<string, ProblemCountMap>();
 const languageIds = new Map<string, string>();
 const lastSaveTimes = new Map<string, number>();
 const twoMinutes = 1000 * 60 * 2;
-
-const determineHintStatus = (prev: ProblemCountMap, next: ProblemCountMap, languageId: string) => {
-    const status: HintStatusMap = {};
-
-    for (const id of Object.keys(next)) {
-        const hintKey = `hint-${id}`;
-        const prevCount = prev[id] || 0;
-        const nextCount = next[id] || 0;
-
-        if (nextCount) {
-            if (prevCount > nextCount) {
-                status[hintKey] = HintStatus.fixing;
-            } else {
-                status[hintKey] = HintStatus.failed;
-            }
-        } else if (prevCount > 0) {
-            status[hintKey] = HintStatus.fixed;
-        } else {
-            status[hintKey] = HintStatus.passed;
-        }
-    }
-
-    return { languageId, ...status };
-};
 
 const toTrackedResult = (data: ResultData) => {
     const result: ProblemCountMap = {};
@@ -68,8 +40,30 @@ const toTrackedResult = (data: ResultData) => {
     return result;
 };
 
-const trackOpen = (result: ProblemCountMap, languageId: string) => {
-    trackEvent('vscode-open', determineHintStatus({}, result, languageId));
+/**
+ * Report once per UTC day that a user is active (has opened a recognized file).
+ * Data includes `last28Days` (e.g. `"1001100110011001100110011001"`)
+ * and `lastUpdated` (e.g. `"2019-10-04T00:00:00.000Z"`).
+ */
+const trackActive = (s: Configstore) => {
+    // Don't count a user as active if telemetry is disabled.
+    if (!enabled()) {
+        return;
+    }
+
+    const activity = getUpdatedActivity(s.get(activityKey));
+
+    if (activity) {
+        s.set(activityKey, activity);
+        trackEvent('vscode-activity', activity);
+    }
+};
+
+const trackOpen = (result: ProblemCountMap, languageId: string, s: Configstore) => {
+    const status = determineHintStatus({}, result);
+
+    trackEvent('vscode-open', { ...status, languageId });
+    trackActive(s);
 };
 
 export const trackOptIn = (telemetryEnabled: TelemetryState, everEnabledTelemetry: boolean) => {
@@ -85,7 +79,7 @@ export const trackClose = (uri: string) => {
     lastSaveTimes.delete(uri);
 };
 
-export const trackResult = (uri: string, languageId: string, result: ResultData) => {
+export const trackResult = (uri: string, languageId: string, result: ResultData, s = config) => {
     const problems = toTrackedResult(result);
 
     languageIds.set(uri, languageId);
@@ -94,7 +88,7 @@ export const trackResult = (uri: string, languageId: string, result: ResultData)
         nextProblems.set(uri, problems);
     } else {
         prevProblems.set(uri, problems);
-        trackOpen(problems, languageId);
+        trackOpen(problems, languageId, s);
     }
 };
 
@@ -116,7 +110,9 @@ export const trackSave = (uri: string, languageId: string) => {
     prevProblems.set(uri, next);
     nextProblems.delete(uri);
 
-    trackEvent('vscode-save', determineHintStatus(prev, next, languageId));
+    const status = determineHintStatus(prev, next);
+
+    trackEvent('vscode-save', { ...status, languageId });
 
     lastSaveTimes.set(uri, now);
 };
