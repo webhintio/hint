@@ -177,6 +177,10 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
                 return false;
             }
 
+            if (typeof report.severity !== 'undefined' && severity !== report.severity) {
+                return false;
+            }
+
             if (report.position && location) {
                 let position: ProblemLocation | undefined;
 
@@ -191,10 +195,6 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
                     (!('range' in report.position) || (
                         position.endLine === location.endLine &&
                         position.endColumn === location.endColumn));
-            }
-
-            if (typeof report.severity !== 'undefined' && severity !== report.severity) {
-                return false;
             }
 
             return true;
