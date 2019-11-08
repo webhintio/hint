@@ -5,16 +5,38 @@ import { Problem } from '@hint/utils-types';
 import { IHintConstructor } from 'hint';
 
 const stubContext = () => {
-    const stubs = { './app-insights': {} as typeof import('../../src/utils/app-insights') };
+    let _enabled = false;
+    const config = {
+        get: () => {},
+        set: () => {}
+    };
+    const stubs = {
+        '@hint/utils-telemetry': {
+            enabled() {
+                return _enabled;
+            },
+            initTelemetry(opts) {
+                _enabled = opts.enabled || false;
+            },
+            updateTelemetry(enabled) {
+                _enabled = enabled;
+            }
+        } as typeof import('@hint/utils-telemetry'),
+        configstore: class {
+            public constructor() {
+                return config;
+            }
+        }
+    };
     const module = proxyquire('../../src/utils/analytics', stubs) as typeof import('../../src/utils/analytics');
 
-    return { module, stubs };
+    return { config, module, stubs };
 };
 
 test('It tracks when telemetry is first enabled', (t) => {
     const sandbox = sinon.createSandbox();
     const { module, stubs } = stubContext();
-    const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
+    const trackEventSpy = sandbox.spy(stubs['@hint/utils-telemetry'], 'trackEvent');
 
     module.trackOptIn('ask', true);
     t.true(trackEventSpy.notCalled);
@@ -41,7 +63,7 @@ test('It tracks when telemetry is first enabled', (t) => {
 test('It tracks the first result for each document when opened', (t) => {
     const sandbox = sinon.createSandbox();
     const { module, stubs } = stubContext();
-    const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
+    const trackEventSpy = sandbox.spy(stubs['@hint/utils-telemetry'], 'trackEvent');
 
     // First result should be tracked.
     module.trackResult('test.html', 'html', {
@@ -90,7 +112,7 @@ test('It tracks the first result for each document when opened', (t) => {
 test('It tracks the delta between the first and last results on save', (t) => {
     const sandbox = sinon.createSandbox();
     const { module, stubs } = stubContext();
-    const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
+    const trackEventSpy = sandbox.spy(stubs['@hint/utils-telemetry'], 'trackEvent');
 
     // First result should be tracked.
     module.trackResult('test.html', 'html', {
@@ -160,7 +182,7 @@ test('It tracks the delta between the first and last results on save', (t) => {
 test('It tracks results again for a document when re-opened', (t) => {
     const sandbox = sinon.createSandbox();
     const { module, stubs } = stubContext();
-    const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
+    const trackEventSpy = sandbox.spy(stubs['@hint/utils-telemetry'], 'trackEvent');
 
     // First result should be tracked.
     module.trackResult('test.html', 'html', {

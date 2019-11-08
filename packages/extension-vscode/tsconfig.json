@@ -14,6 +14,7 @@
     ],
     "references": [
         { "path": "../hint" },
+        { "path": "../utils-telemetry" },
         { "path": "../utils-types" }
     ]
 }

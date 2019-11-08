@@ -1,7 +1,7 @@
 import * as https from 'https';
 import { createConnection, ProposedFeatures, TextDocuments } from 'vscode-languageserver';
+import { initTelemetry, updateTelemetry } from '@hint/utils-telemetry';
 
-import { initTelemetry, updateTelemetry } from './utils/app-insights';
 import { trackClose, trackSave, trackOptIn, TelemetryState } from './utils/analytics';
 import { Analyzer } from './utils/analyze';
 import * as notifications from './utils/notifications';
