@@ -1,7 +1,8 @@
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
-import { IHintConstructor, Problem } from 'hint';
+import { Problem } from '@hint/utils-types';
+import { IHintConstructor } from 'hint';
 
 const stubContext = () => {
     const stubs = { './app-insights': {} as typeof import('../../src/utils/app-insights') };

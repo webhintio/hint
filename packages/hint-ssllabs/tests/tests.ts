@@ -2,11 +2,9 @@
 
 import * as mock from 'mock-require';
 
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
-import { Severity } from 'hint';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const ssllabsMock = (response: any) => {

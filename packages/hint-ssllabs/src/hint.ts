@@ -13,8 +13,9 @@
 
 import { promisify } from 'util';
 
-import { debug as d } from '@hint/utils';
-import { FetchEnd, HintContext, IHint, ScanEnd, Severity } from 'hint';
+import { debug as d } from '@hint/utils-debug';
+import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
+import { Severity } from '@hint/utils-types';
 import { Grades, SSLLabsEndpoint, SSLLabsOptions, SSLLabsResult } from './types';
 
 import meta from './meta';
