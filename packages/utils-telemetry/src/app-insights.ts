@@ -32,15 +32,18 @@ let options = {
     }
 };
 
+/** Check if telemetry is currently enabled */
 export const enabled = () => {
     return options.enabled;
 };
 
+/** Initialize telemetry with the provided options */
 export const initTelemetry = (opts: Partial<typeof options>) => {
     options = { ...options, ...opts };
     nameKey = options.instrumentationKey.replace(/-/g, '');
 };
 
+/** Enable or disable telemetry */
 export const updateTelemetry = (enabled: boolean) => {
     options.enabled = enabled;
 };
@@ -94,6 +97,7 @@ const track = async (type: string, data: TelemetryItem['data']['baseData']) => {
     }
 };
 
+/** Log a named custom event to Application Insights (if telemetry is enabled) */
 export const trackEvent = async (name: string, properties: Properties = {}, measurements: Measurements = {}) => {
     await track('Event', { measurements, name, properties });
 };
