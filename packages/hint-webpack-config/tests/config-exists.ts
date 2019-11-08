@@ -1,6 +1,7 @@
 import * as path from 'path';
 
 import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename, true);
 
@@ -16,7 +17,10 @@ const tests: HintLocalTest[] = [
     {
         name: 'If there is no config file, it should fail',
         path: path.join(__dirname, 'fixtures', 'noconfig'),
-        reports: [{ message: `webpack configuration file not found in your project.` }]
+        reports: [{
+            message: `webpack configuration file not found in your project.`,
+            severity: Severity.off
+        }]
     }
 ];
 

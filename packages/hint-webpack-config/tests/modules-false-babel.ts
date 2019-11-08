@@ -3,6 +3,7 @@ import * as mock from 'mock-require';
 
 import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
 import { loadJSONFile } from '@hint/utils-fs';
+import { Severity } from '@hint/utils-types';
 
 const webpackDestPath = path.join(__dirname, 'fixtures', 'babelvalid', 'package.json');
 const webpackV1DestPath = path.join(__dirname, 'fixtures', 'version1', 'package.json');
@@ -32,7 +33,10 @@ const tests: HintLocalTest[] = [
         },
         name: `If babel configuration is not valid, is should fail`,
         path: path.join(__dirname, 'fixtures', 'babelinvalid'),
-        reports: [{ message: 'Babel presets `modules` option should be `false`' }]
+        reports: [{
+            message: 'Babel presets `modules` option should be `false`',
+            severity: Severity.error
+        }]
     },
     {
         before() {
