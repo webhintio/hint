@@ -1,4 +1,4 @@
-import { debug as d } from './debug';
+import { debug as d } from '@hint/utils-debug';
 
 const debug: debug.IDebugger = d(__filename);
 

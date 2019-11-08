@@ -9,7 +9,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
-import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils/dist/src/report';
+import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
 
 import { formatAlternatives } from './utils/alternatives';
 import { filterBrowsers, joinBrowsers } from './utils/browsers';

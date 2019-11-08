@@ -8,11 +8,12 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils-debug';
 
-import { validate as schemaValidator } from '@hint/utils/dist/src/schema-validation/schema-validator';
+import { validate as schemaValidator } from '@hint/utils-json';
+import { Severity } from '@hint/utils-types';
+
 import { HintMetadata, HintConfig } from '../types';
-import { Severity } from '@hint/utils/dist/src/types/problems';
 
 const debug = d(__filename);
 

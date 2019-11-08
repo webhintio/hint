@@ -1,5 +1,5 @@
 import { Event, ErrorEvent, Events } from 'hint/dist/src/lib/types/events';
-import { IJSONLocationFunction, ISchemaValidationError, GroupedError } from 'hint/dist/src/lib/types';
+import { JSONLocationFunction, ISchemaValidationError, GroupedError } from '@hint/utils-json';
 
 export type BabelConfig = {
     ast: boolean;
@@ -39,7 +39,7 @@ export type BabelConfigParsed = Event & {
     /** The babel config parsed */
     config: BabelConfig;
     /** Find the location of a path within the original JSON source */
-    getLocation: IJSONLocationFunction;
+    getLocation: JSONLocationFunction;
     /** The original babel config */
     originalConfig: BabelConfig;
 };
@@ -51,7 +51,7 @@ export type BabelConfigInvalidSchema = ErrorEvent & {
 };
 
 export type BabelConfigExtendsError = ErrorEvent & {
-    getLocation: IJSONLocationFunction;
+    getLocation: JSONLocationFunction;
 }
 
 export type BabelConfigEvents = Events & {

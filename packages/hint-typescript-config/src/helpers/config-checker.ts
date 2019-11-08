@@ -1,5 +1,7 @@
 import { TypeScriptConfigParse, TypeScriptConfig } from '@hint/parser-typescript-config';
-import { HintContext, IJSONLocationFunction } from 'hint';
+import { HintContext } from 'hint';
+import { JSONLocationFunction } from '@hint/utils-json';
+import { Severity } from '@hint/utils-types';
 
 import { getMessage, MessageName } from '../i18n.import';
 
@@ -15,7 +17,7 @@ const findValue = (property: string, config: TypeScriptConfig) => {
     return current;
 };
 
-const findLocation = (propertyPath: string, mergedConfig: TypeScriptConfig, originalConfig: TypeScriptConfig, getLocation: IJSONLocationFunction) => {
+const findLocation = (propertyPath: string, mergedConfig: TypeScriptConfig, originalConfig: TypeScriptConfig, getLocation: JSONLocationFunction) => {
     const valueInOriginal = findValue(propertyPath, originalConfig);
 
     if (typeof valueInOriginal !== 'undefined') {
@@ -42,7 +44,7 @@ const findLocation = (propertyPath: string, mergedConfig: TypeScriptConfig, orig
 };
 
 /** Helper method to check if a property matches the desired value and report an issue if not. */
-const configChecker = (property: string, desiredValue: boolean, messageName: MessageName, context: HintContext) => {
+const configChecker = (property: string, desiredValue: boolean, messageName: MessageName, context: HintContext, severity: Severity) => {
 
     return (evt: TypeScriptConfigParse) => {
         const { config, getLocation, mergedConfig, originalConfig, resource } = evt;
@@ -52,7 +54,7 @@ const configChecker = (property: string, desiredValue: boolean, messageName: Mes
             const location = findLocation(property, mergedConfig, originalConfig, getLocation);
             const message = getMessage(messageName, context.language);
 
-            context.report(resource, message, { location });
+            context.report(resource, message, { location, severity });
         }
     };
 };

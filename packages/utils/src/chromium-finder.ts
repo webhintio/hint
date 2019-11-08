@@ -5,8 +5,8 @@
  */
 
 import * as path from 'path';
-import { isFile } from './fs/is-file';
-import { isDirectory } from './fs/is-directory';
+
+import { isDirectory, isFile } from '@hint/utils-fs';
 import { getVariable } from './misc/environment';
 import { getPlatform } from './misc/get-platform';
 

@@ -17,13 +17,12 @@ import {
     IHint,
     ScanEnd
 } from 'hint';
-import { misc } from '@hint/utils';
+import { normalizeString } from '@hint/utils-string';
 import { ManifestEvents } from '@hint/parser-manifest';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { normalizeString } = misc;
 /*
  * ------------------------------------------------------------------------------
  * Public
