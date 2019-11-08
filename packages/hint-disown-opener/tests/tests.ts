@@ -1,10 +1,7 @@
-import { misc, test } from '@hint/utils';
+import { cutString } from '@hint/utils-string';
+import { Severity } from '@hint/utils-types';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { Severity } from 'hint';
-
-const { generateHTMLPage, getHintPath } = test;
-const { cutString } = misc;
 const hintPath = getHintPath(__filename);
 
 const generateMissingMessage = (value: string, linkType: string): string => {

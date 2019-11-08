@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, FormEvent } from 'react';
 
-import { getCategoryName } from '@hint/utils/dist/src/i18n/get-category-name';
+import { getCategoryName } from '@hint/utils-i18n';
 
 import { getMessage } from '../../../../utils/i18n';
 import { getCategories } from '../../../../utils/categories';

@@ -1,4 +1,4 @@
-import { Severity } from './problems';
+import { Severity } from '@hint/utils-types';
 
 /**
  * The `Severity` of a hint.
