@@ -6,7 +6,7 @@ import intersection = require('lodash/intersection');
 import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint } from 'hint/dist/src/lib/types';
+import { IHint, Severity } from 'hint/dist/src/lib/types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
 import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
@@ -24,6 +24,7 @@ type ReportData = {
     formatFeature?: (name: string) => string;
     isValue?: boolean;
     node: ChildNode;
+    severity?: Severity;
     unsupported: UnsupportedBrowsers;
 };
 
@@ -163,7 +164,7 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
                 details: report.unsupported.details
             };
 
-            context.report({ ...report, unsupported });
+            context.report({ ...report, severity: Severity.warning, unsupported });
         }
     }
 };
@@ -240,7 +241,7 @@ export default class CSSCompatHint implements IHint {
         context.on('parse::end::css', ({ ast, element, resource }) => {
             const browsers = filterBrowsers(context.targetedBrowsers);
 
-            const report = ({ feature, formatFeature, isValue, node, unsupported }: ReportData) => {
+            const report = ({ feature, formatFeature, isValue, node, severity, unsupported }: ReportData) => {
                 const message = [
                     getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]),
                     ...formatAlternatives(context.language, unsupported, formatFeature)
@@ -248,7 +249,16 @@ export default class CSSCompatHint implements IHint {
                 const codeSnippet = getCSSCodeSnippet(node);
                 const location = getCSSLocationFromNode(node, { isValue });
 
-                context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        codeLanguage: 'css',
+                        codeSnippet,
+                        element,
+                        location,
+                        severity: severity ? severity : Severity.error
+                    });
             };
 
             walk(ast, { browsers, ignore, report, walk });
