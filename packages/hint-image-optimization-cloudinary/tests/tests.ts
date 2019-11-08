@@ -2,12 +2,10 @@ import { readFileSync } from 'fs';
 
 import * as mock from 'mock-require';
 
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 import { cloudinaryResult } from '../src/cloudinary-types';
 
-const { generateHTMLPage, getHintPath} = test;
 const hintPath = getHintPath(__filename);
 const svg = readFileSync(`${__dirname}/fixtures/space-nellie.svg`);
 const png = readFileSync(`${__dirname}/fixtures/nellie-studying.png`);

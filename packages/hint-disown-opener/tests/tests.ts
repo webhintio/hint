@@ -1,9 +1,7 @@
-import { misc, test } from '@hint/utils';
+import { cutString, prettyPrintArray } from '@hint/utils-string';
 
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { generateHTMLPage, getHintPath } = test;
-const { cutString, prettyPrintArray } = misc;
 const hintPath = getHintPath(__filename);
 
 const generateMissingMessage = (value: string, linkTypes: string[]): string => {

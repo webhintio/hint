@@ -1,4 +1,4 @@
-import { Category } from 'hint/dist/src/lib/enums/category';
+import { Category } from '@hint/utils-types';
 
 import metas from '../../shared/metas.import';
 
