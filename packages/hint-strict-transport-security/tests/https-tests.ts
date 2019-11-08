@@ -1,10 +1,8 @@
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 import * as common from './_common';
 import { Severity } from 'hint';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const defaultTests: HintTest[] = [

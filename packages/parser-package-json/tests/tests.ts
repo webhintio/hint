@@ -6,13 +6,11 @@ import { EventEmitter2 } from 'eventemitter2';
 import * as proxyquire from 'proxyquire';
 import anyTest, { TestInterface } from 'ava';
 
-import { fs, network } from '@hint/utils';
+import { loadJSONFile } from '@hint/utils-fs';
+import { getAsUri } from '@hint/utils-network';
 import { Engine, FetchEnd } from 'hint';
 
 import { PackageJsonEvents } from '../src/parser';
-
-const { loadJSONFile } = fs;
-const { getAsUri } = network;
 
 type SandboxContext = {
     sandbox: sinon.SinonSandbox;
@@ -26,7 +24,7 @@ const invalidJSON = `{
     "name": "app",
     "version":  "1.0.0",
     "scripts": [
-      "echo "Error: no test specified" && exit 1"
+      "echo "Error: no test specified" && exit 1"cd
     ],
     "dependencies": {
       "extend": "3.0.2"

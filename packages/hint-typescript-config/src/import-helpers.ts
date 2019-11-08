@@ -7,7 +7,7 @@ import * as path from 'path';
 
 import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';
 import { HintContext, IHint, ScanEnd } from 'hint';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import { configChecker } from './helpers/config-checker';
 

@@ -1,8 +1,6 @@
 import * as puppeteer from 'puppeteer-core';
 
-import { dom, HTMLElement, HTMLDocument } from '@hint/utils';
-
-const { getElementByUrl } = dom;
+import { getElementByUrl, HTMLElement, HTMLDocument } from '@hint/utils-dom';
 
 /** Returns the HTMLElement that initiated a request */
 export const getElementFromResponse = (source: puppeteer.Response | puppeteer.Request, dom?: HTMLDocument): HTMLElement | null => {
