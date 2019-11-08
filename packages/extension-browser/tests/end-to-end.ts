@@ -2,15 +2,13 @@ import * as isCI from 'is-ci';
 import { launch, Browser, Frame, Page, Target } from 'puppeteer-core';
 import test from 'ava';
 
-import { chromiumFinder, misc } from '@hint/utils';
+import { delay, getInstallationPath } from '@hint/utils';
 import { Server } from '@hint/utils-create-server';
 
 import { Events, Results } from '../src/shared/types';
 import { readFixture } from './helpers/fixtures';
 
-const { delay } = misc;
-
-const executablePath = chromiumFinder.getInstallationPath();
+const executablePath = getInstallationPath();
 const pathToExtension = `${__dirname}/../bundle`;
 
 const getPageFromTarget = async (target: Target) => {

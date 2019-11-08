@@ -3,9 +3,9 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ElementFound, Severity } from 'hint/dist/src/lib/types';
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { HTMLElement } from '@hint/utils';
+import { IHint, ElementFound } from 'hint/dist/src/lib/types';
+import { debug as d } from '@hint/utils-debug';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';

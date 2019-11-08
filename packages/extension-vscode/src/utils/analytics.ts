@@ -4,7 +4,7 @@ import { trackEvent } from './app-insights';
 
 export type ResultData = {
     hints: import('hint').IHintConstructor[];
-    problems: import('hint').Problem[];
+    problems: import('@hint/utils-types').Problem[];
 };
 
 export type TelemetryState = 'ask' | 'disabled' | 'enabled';
