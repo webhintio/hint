@@ -24,7 +24,6 @@ type ReportData = {
     formatFeature?: (name: string) => string;
     isValue?: boolean;
     node: ChildNode;
-    severity?: Severity;
     unsupported: UnsupportedBrowsers;
 };
 
@@ -164,7 +163,7 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
                 details: report.unsupported.details
             };
 
-            context.report({ ...report, severity: Severity.warning, unsupported });
+            context.report({ ...report, unsupported });
         }
     }
 };
@@ -241,13 +240,15 @@ export default class CSSCompatHint implements IHint {
         context.on('parse::end::css', ({ ast, element, resource }) => {
             const browsers = filterBrowsers(context.targetedBrowsers);
 
-            const report = ({ feature, formatFeature, isValue, node, severity, unsupported }: ReportData) => {
+            const report = ({ feature, formatFeature, isValue, node, unsupported }: ReportData) => {
+                const alternatives = formatAlternatives(context.language, unsupported, formatFeature);
                 const message = [
                     getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]),
-                    ...formatAlternatives(context.language, unsupported, formatFeature)
+                    ...alternatives
                 ].join(' ');
                 const codeSnippet = getCSSCodeSnippet(node);
                 const location = getCSSLocationFromNode(node, { isValue });
+                const severity = alternatives.length ? Severity.error : Severity.warning;
 
                 context.report(
                     resource,
@@ -257,7 +258,7 @@ export default class CSSCompatHint implements IHint {
                         codeSnippet,
                         element,
                         location,
-                        severity: severity ? severity : Severity.error
+                        severity
                     });
             };
 
