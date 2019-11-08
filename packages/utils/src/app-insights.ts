@@ -1,7 +1,7 @@
 import * as appInsights from 'applicationinsights';
 
 import * as configStore from './config-store';
-import { debug as d } from './debug';
+import { debug as d } from '@hint/utils-debug';
 
 interface IFlushOptions {
     callback: () => void;
@@ -13,6 +13,7 @@ const configStoreKey: string = 'insight';
 let insightsEnabled: boolean | undefined = configStore.get(configStoreKey);
 
 let appInsightsClient: appInsights.TelemetryClient = {
+    /* istanbul ignore next */
     flush(options: IFlushOptions) {
         debug('Application Insights is not enabled.');
         options.callback();
@@ -69,6 +70,7 @@ export const disable = () => {
 };
 
 /** Send pending data to Application Insights. */
+/* istanbul ignore next */
 export const sendPendingData = (isAppCrashing = false) => {
     debug('Sending pending data to Application Insights');
 
@@ -97,6 +99,7 @@ export const trackEvent = (name: string, properties?: {}) => {
 };
 
 /** Return the Application Insights client. */
+/* istanbul ignore next */
 export const getClient = () => {
     debug('Getting Application Insights client');
 
@@ -104,6 +107,7 @@ export const getClient = () => {
 };
 
 /** Check if Application Insights is configured. */
+/* istanbul ignore next */
 export const isConfigured = (): boolean => {
     return typeof configStore.get(configStoreKey) !== 'undefined';
 };

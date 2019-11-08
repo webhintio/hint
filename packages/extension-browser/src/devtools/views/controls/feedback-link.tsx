@@ -8,7 +8,7 @@ import ExternalLink from './external-link';
 import { evaluate } from '../../utils/inject';
 import { getCategories } from '../../utils/categories';
 import escapeRegExp = require('lodash/escapeRegExp');
-import { getCategoryName } from '@hint/utils/dist/src/i18n';
+import { getCategoryName } from '@hint/utils-i18n';
 
 const categories = getCategories();
 

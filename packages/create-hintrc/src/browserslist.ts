@@ -9,7 +9,8 @@
  */
 
 import * as inquirer from 'inquirer';
-import { debug as d, logger } from '@hint/utils';
+import { logger } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 const browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
 const debug: debug.IDebugger = d(__filename);
