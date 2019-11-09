@@ -500,9 +500,10 @@ const serverActions = [
     action(stop)
 ];
 
-
 process.on('message', /* istanbul ignore next */ async (serializedMessage: string) => {
-    const message = JSON.parse(serializedMessage, reviver);
+    const message = typeof serializedMessage === 'string' ?
+        JSON.parse(serializedMessage, reviver) :
+        serializedMessage;
 
     if (!message.webhint) {
         // Message is not for us
