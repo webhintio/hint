@@ -18,20 +18,26 @@ configuration.
 ```js
 import { determineHintStatus } from '@hint/utils-telemetry';
 
-// status['hint-compat-api/css'] === 'passed'
-// status['hint-compat-api/html'] === 'failed'
+/*
+ * status['hint-compat-api/css'] === 'passed'
+ * status['hint-compat-api/html'] === 'failed'
+ */
 const prev = {};
 const next = { 'compat-api/css': 0, 'compat-api/html': 1 };
 const status = determineHintStatus(prev, next);
 
-// status['hint-compat-api/css'] === 'passed'
-// status['hint-compat-api/html'] === 'fixing'
+/*
+ * status['hint-compat-api/css'] === 'passed'
+ * status['hint-compat-api/html'] === 'fixing'
+ */
 const prev = { 'compat-api/css': 0, 'compat-api/html': 2 };
 const next = { 'compat-api/css': 0, 'compat-api/html': 1 };
 const status = determineHintStatus(prev, next);
 
-// status['hint-compat-api/css'] === 'passed'
-// status['hint-compat-api/html'] === 'fixed'
+/*
+ * status['hint-compat-api/css'] === 'passed'
+ * status['hint-compat-api/html'] === 'fixed'
+ */
 const prev = { 'compat-api/css': 0, 'compat-api/html': 1 };
 const next = { 'compat-api/css': 0, 'compat-api/html': 0 };
 const status = determineHintStatus(prev, next);
@@ -46,29 +52,31 @@ been updated in the current UTC day.
 ```js
 import { getUpdatedActivity } from '@hint/utils-telemetry';
 
-/* Omitting previous activity returns a fresh entry for today:
+/*
+ * Omitting previous activity returns a fresh entry for today:
  * {
- *   last28Days: "1000000000000000000000000000",
- *   lastUpdated: "2019-11-08T00:00:00.000Z"
+ *   last28Days: '1000000000000000000000000000',
+ *   lastUpdated: '2019-11-08T00:00:00.000Z'
  * }
  */
 console.log(getUpdatedActivity());
 
 // Calling on the same day as previous activity returns `null`.
 getUpdatedActivity({
-    last28Days: "1000000000000000000000000000",
-    lastUpdated: "2019-11-08T00:00:00.000Z"
+    last28Days: '1000000000000000000000000000',
+    lastUpdated: '2019-11-08T00:00:00.000Z'
 });
 
-/* Calling on a different day than previous activity fills in the gaps:
+/*
+ * Calling on a different day than previous activity fills in the gaps:
  * {
- *   last28Days: "1010000000000000000000000000",
- *   lastUpdated: "2019-11-08T00:00:00.000Z"
+ *   last28Days: '1010000000000000000000000000',
+ *   lastUpdated: '2019-11-08T00:00:00.000Z'
  * }
  */
 getUpdatedActivity({
-    last28Days: "1000000000000000000000000000",
-    lastUpdated: "2019-11-06T00:00:00.000Z"
+    last28Days: '1000000000000000000000000000',
+    lastUpdated: '2019-11-06T00:00:00.000Z'
 });
 ```
 
@@ -77,7 +85,7 @@ getUpdatedActivity({
 Check if telemetry is currently enabled.
 
 ```js
-enabled() // true / false
+enabled(); // true / false
 ```
 
 ### `initTelemetry`
@@ -104,7 +112,7 @@ initTelemetry({
         return Promise.resolve(200);
     }
 
-})
+});
 ```
 
 ### `trackEvent`
