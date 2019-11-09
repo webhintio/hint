@@ -13,7 +13,8 @@ import { debug as d } from '@hint/utils-debug';
 import { includedHeaders, isDataURI } from '@hint/utils-network';
 import { mergeIgnoreIncludeArrays, prettyPrintArray } from '@hint/utils-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { FetchEnd, Response, IHint, Severity } from 'hint/dist/src/lib/types';
+import { FetchEnd, Response, IHint } from 'hint/dist/src/lib/types';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
