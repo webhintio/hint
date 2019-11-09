@@ -13,7 +13,8 @@ import { mergeIgnoreIncludeArrays, prettyPrintArray, toLowerCaseArray } from '@h
 import { includedHeaders, isDataURI, normalizeHeaderValue } from '@hint/utils-network';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { FetchEnd, IHint, Severity } from 'hint/dist/src/lib/types';
+import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
