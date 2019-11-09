@@ -365,38 +365,38 @@
   dependencies:
     arrify "^1.0.1"
 
-"@microsoft/applicationinsights-channel-js@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-channel-js/-/applicationinsights-channel-js-2.2.0.tgz#3a424729c0176288e79db8e1b3478ce3e7fa8a9d"
-  integrity sha512-o67F1YVSXGyjZhMDrZQRzWJK0mH4Qm6YphG12ZVbdgQZeoouI4uoIDHxOOuIi4GLNdX8w59k8Wy2tnxFQbPY8A==
+"@microsoft/applicationinsights-channel-js@2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-channel-js/-/applicationinsights-channel-js-2.3.1.tgz#b35a8570185e3f77e2bce9bdec31a45abe6e8715"
+  integrity sha512-g0ZHbUB96/+2m/ynSLImts9iGIs83yRAXgmMvnIr1ViK9IZLx56wOuSiKWj7e3t/+gtFBxIrgXAZ5OVZ3n97FQ==
   dependencies:
-    "@microsoft/applicationinsights-common" "2.2.0"
-    "@microsoft/applicationinsights-core-js" "2.2.0"
+    "@microsoft/applicationinsights-common" "2.3.1"
+    "@microsoft/applicationinsights-core-js" "2.3.1"
     tslib "^1.9.3"
 
-"@microsoft/applicationinsights-common@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-common/-/applicationinsights-common-2.2.0.tgz#12e81cca220450d16129fea4f16e3212efbfd32e"
-  integrity sha512-4zFUD4y8ekJ8tZSK2k5Ij6pvWYGFIcH8RoHKlkm7D+mO7vGkvR9dF7hJEJ/eliCtETbEJeNw/wi8TCxvc6oHkA==
+"@microsoft/applicationinsights-common@2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-common/-/applicationinsights-common-2.3.1.tgz#a8c1167ca3070941f6b26c193ed3683598a1c4cf"
+  integrity sha512-mT7NPU3dv5ecRHGBMpYIkGMKsyBAHYAJF5c+4E8ygN0WfxUQbye0TjpYPPoeg4fXXk26fuHyXDByFIGIFfZohA==
   dependencies:
-    "@microsoft/applicationinsights-core-js" "2.2.0"
+    "@microsoft/applicationinsights-core-js" "2.3.1"
     tslib "^1.9.3"
 
-"@microsoft/applicationinsights-core-js@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-core-js/-/applicationinsights-core-js-2.2.0.tgz#80b3352367834447499c0324ccddd1264d1770b4"
-  integrity sha512-+96gffh7TfYho8J0Oaxr9SUtUr0SwWMPArCMngnqqY5gcgNu9LaiVt/e/gsz8kKEuLb3m2+d22mmHb2fwpxMbQ==
+"@microsoft/applicationinsights-core-js@2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-core-js/-/applicationinsights-core-js-2.3.1.tgz#45b571ade52a0efe9665bdb4705f81d810929f2a"
+  integrity sha512-3f2KZ7b/jfkaJYItAL+hW/Rz9hvX+GXGHcYuQ+9N/tGSFne2hYRL2lKqEvaVal71Zji/OznAVn+dW4dcgbh/aw==
   dependencies:
     tslib "^1.9.3"
 
-"@microsoft/applicationinsights-web-basic@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-web-basic/-/applicationinsights-web-basic-2.2.0.tgz#85388f593239f264839b0e8fd5cd3dd47b7eb913"
-  integrity sha512-16IjDsmbnpWxQFOMrEliKWqWqXYEdMOjsqHEn96F3JSuJgsSN3f+ufURTfaiEbCwkgvSAjlaSIICYg2SqJGXPg==
+"@microsoft/applicationinsights-web-basic@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-web-basic/-/applicationinsights-web-basic-2.3.1.tgz#f5cc85d325c07d700cf84c734fa5fd48eba943a6"
+  integrity sha512-mECjtf9fpi874yAce8cqqsCi3u9ZXupuvmnYo6ER5BRnU3wV8O8oVF5K61B8ACEZd+tCqTYpNamHBgu54IP6pw==
   dependencies:
-    "@microsoft/applicationinsights-channel-js" "2.2.0"
-    "@microsoft/applicationinsights-common" "2.2.0"
-    "@microsoft/applicationinsights-core-js" "2.2.0"
+    "@microsoft/applicationinsights-channel-js" "2.3.1"
+    "@microsoft/applicationinsights-common" "2.3.1"
+    "@microsoft/applicationinsights-core-js" "2.3.1"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
