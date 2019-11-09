@@ -7,8 +7,14 @@
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    {{{dependencyVersion "@hint/utils-debug"}}},{{#if packageData.official}}
+    {{{dependencyVersion "@hint/utils-i18n"}}},{{/if}}
+    {{{dependencyVersion "@hint/utils-types"}}}
+  },
   "description": "{{description}}",
   "devDependencies": {
+    {{{dependencyVersion "@hint/utils"}}},
     {{{dependencyVersion "@hint/utils-tests-helpers"}}},
     {{{dependencyVersion "@types/node"}}},
     {{{dependencyVersion "@typescript-eslint/eslint-plugin"}}},
@@ -76,9 +82,9 @@
     "lint:md": "node ../../scripts/lint-markdown.js",{{else}}
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",{{/if}}
-    "test": "npm run lint && npm run build && npm run test-only",
+    "test": "{{#if official}}npm run i18n && {{/if}}npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",{{#if official}}
-    "test-release": "npm run lint && npm run build-release && ava",{{/if}}
+    "test-release": "{{#if official}}npm run i18n && {{/if}}npm run lint && npm run build-release && ava",{{/if}}
     "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",

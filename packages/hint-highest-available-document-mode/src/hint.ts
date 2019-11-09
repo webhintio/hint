@@ -9,12 +9,13 @@
  * ------------------------------------------------------------------------------
  */
 
-import { HttpHeaders } from '@hint/utils/dist/src/types/http-header';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isLocalFile } from '@hint/utils/dist/src/network/is-local-file';
-import { HTMLDocument, HTMLElement } from '@hint/utils/dist/src/dom/html';
-import { IHint, TraverseEnd, Severity } from 'hint/dist/src/lib/types';
+import { HttpHeaders } from '@hint/utils-types';
+import { normalizeString } from '@hint/utils-string';
+import { isLocalFile } from '@hint/utils-network';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
+import { IHint, TraverseEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';

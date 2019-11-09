@@ -1,7 +1,7 @@
 /**
  * @fileoverview webhint parser needed to analyze TypeScript files.
  */
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils-debug';
 import { Parser } from 'hint/dist/src/lib/types';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { Node, ScriptEvents } from '@hint/parser-javascript';
