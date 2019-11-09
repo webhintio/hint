@@ -2,10 +2,9 @@ const safe = require('postcss-safe-parser');
 
 import * as postcss from 'postcss';
 
-// QUESTION: any way to use import { misc, logger } from '@hint/utils' without problems with webhint?
 import * as logger from '@hint/utils/dist/src/logging';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { normalizeString } from '@hint/utils-string';
+import { HTMLElement } from '@hint/utils-dom';
 import { ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
 import { StyleEvents } from './types';
 import { Engine } from 'hint';

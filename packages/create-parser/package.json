@@ -10,7 +10,10 @@
   "bin": {
     "create-parser": "./dist/src/create-parser.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@hint/utils-fs": "^1.0.0",
+    "@hint/utils-string": "^1.0.0"
+  },
   "description": "webhint's parser initializer package",
   "devDependencies": {
     "@hint/utils": "^6.1.0",
@@ -78,7 +81,7 @@
     "lint:md": "node ../../scripts/lint-markdown.js",
     "test": "npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
-    "test-release": "npm test && npm run build-release",
+    "test-release": "npm run i18n && npm test && npm run build-release",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",
     "watch:test": "ava --watch",

@@ -49,7 +49,7 @@ The following is a basic template for a hint (`import`s might change
 depending on the hint type):
 
 ```ts
-import { Category } from 'hint/dist/src/lib/enums/category';
+import { Category } from '@hint/utils-types';
 import { FetchEnd, IHint, HintMetadata } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
