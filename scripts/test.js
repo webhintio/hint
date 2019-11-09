@@ -68,6 +68,9 @@ const buildDependencies = async (dependencies) => {
     for (const dependency of dependencies) {
         if (!ALREADY_BUILD_DEPENDENCIES.has(dependency)) {
             ALREADY_BUILD_DEPENDENCIES.add(dependency);
+
+            console.log(`Building ${dependency}`);
+
             await exec(`cd ${dependency} && yarn build`);
         }
     }
@@ -178,8 +181,7 @@ const getLocalDependencies = (packagePath, packageJSONFileContent) => {
     [
         'dependencies',
         'devDependencies',
-        'optionalDependencies',
-        'peerDependencies'
+        'optionalDependencies'
     ].forEach((dependencyType) => {
 
         /*
@@ -571,6 +573,8 @@ const runTests = async (projectData) => {
         if (!ALREADY_BUILD_DEPENDENCIES.has(packagePath)) {
             await buildDependencies(packageData.dependencies);
         }
+
+        console.log(`Testing ${packagePath}`);
 
         await execWithRetry(`cd ${packagePath} && yarn ${packageData.testScript}`);
     }
