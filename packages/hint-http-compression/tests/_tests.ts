@@ -4,13 +4,14 @@ import * as mock from 'mock-require';
 
 import { HintTest } from '@hint/utils-tests-helpers';
 import * as utils from '@hint/utils';
+import { HttpHeaders } from '@hint/utils-types';
 
 const originalAsyncTry = utils.asyncTry;
 
 const uaString = 'Mozilla/5.0 Gecko';
 
 interface IFetchFunction {
-    (target: string, headers: utils.HttpHeaders): Promise<any>;
+    (target: string, headers: HttpHeaders): Promise<any>;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -252,7 +253,7 @@ const testsForBrotli: HintTest[] = [
         },
         before() {
             (utils as any).asyncTry = (fetch: IFetchFunction) => {
-                return (target: string, headers: utils.HttpHeaders) => {
+                return (target: string, headers: HttpHeaders) => {
                     if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'br') {
                         return fetch(target, headers);
                     }
@@ -489,7 +490,7 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
             },
             before() {
                 (utils as any).asyncTry = (fetch: IFetchFunction) => {
-                    return (target: string, headers: utils.HttpHeaders) => {
+                    return (target: string, headers: HttpHeaders) => {
                         if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'gzip') {
                             return fetch(target, headers);
                         }
@@ -702,7 +703,7 @@ const testsForNoCompression = (https: boolean = false): HintTest[] => {
             },
             before() {
                 (utils as any).asyncTry = (fetch: IFetchFunction) => {
-                    return (target: string, headers: utils.HttpHeaders) => {
+                    return (target: string, headers: HttpHeaders) => {
                         if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'identity') {
                             return fetch(target, headers);
                         }

@@ -1,4 +1,4 @@
-import { Problem } from '@hint/utils/dist/src/types/problems';
+import { Problem } from '@hint/utils-types';
 
 export type CreateAnalyzerOptions = {
     formatters?: string[];

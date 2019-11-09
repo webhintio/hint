@@ -1,6 +1,7 @@
 import { URL } from 'url';
 
-import { debug as d, HTMLDocument } from '@hint/utils';
+import { HTMLDocument } from '@hint/utils-dom';
+import { debug as d } from '@hint/utils-debug';
 import { Engine } from 'hint';
 
 import { Fetcher } from './create-fetchend-payload';

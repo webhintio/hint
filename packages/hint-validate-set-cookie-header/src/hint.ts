@@ -2,12 +2,12 @@
  * @fileoverview This hint validates the `set-cookie` header and confirms that it is sent with `Secure` and `HttpOnly` directive over HTTPS.
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isHTTPS } from '@hint/utils/dist/src/network/is-https';
-import { isRegularProtocol } from '@hint/utils/dist/src/network/is-regular-protocol';
+import { debug as d } from '@hint/utils-debug';
+import { normalizeString } from '@hint/utils-string';
+import { isHTTPS, isRegularProtocol } from '@hint/utils-network';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import { HintContext, CodeLanguage } from 'hint/dist/src/lib/hint-context';
+import { Severity } from '@hint/utils-types';
 
 import { ParsedSetCookieHeader } from './types';
 import meta from './meta';
@@ -47,7 +47,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
         /** Header name used in report */
         const headerName = 'set-cookie';
 
-        type ValidationMessages = string[];
+        type ValidationMessages = { message: string; severity: Severity }[];
         type Validator = (parsedSetCookie: ParsedSetCookieHeader) => ValidationMessages;
 
         /** Trim double quote from the value string. */
@@ -66,7 +66,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
          * `Set-Cookie` header parser based on the algorithm used by a user agent defined in the spec:
          * https://tools.ietf.org/html/rfc6265#section-5.2.1
          */
-        const parse = (setCookieValue: string): ParsedSetCookieHeader => {
+        const parse = (setCookieValue: string) => {
             const [nameValuePair, ...directivePairs] = setCookieValue.split(';');
             const [cookieName, cookieValue] = normalizeAfterSplitByEqual(nameValuePair.split('='));
 
@@ -75,26 +75,46 @@ export default class ValidateSetCookieHeaderHint implements IHint {
                 value: cookieValue
             };
 
+            const errors = [];
+
             if (directivePairs[directivePairs.length - 1] === '') {
-                throw new Error(getMessage('noTrilingSemicolon', context.language, [headerName, setCookie.name]));
+                errors.push({
+                    message: getMessage('noTrilingSemicolon', context.language, [headerName, setCookie.name]),
+                    severity: Severity.hint
+                });
+
+                directivePairs.pop(); // remove the empty one to continue the parsing
             }
 
             directivePairs.forEach((part) => {
                 const [directiveKey, directiveValue] = normalizeAfterSplitByEqual(part.split('=')) as [keyof ParsedSetCookieHeader, string];
 
+                let ok = true;
+
                 if (!acceptedCookieAttributes.includes(directiveKey)) {
-                    throw new Error(getMessage('unknownAttribute', context.language, [headerName, directiveKey]));
+                    errors.push({
+                        message: getMessage('unknownAttribute', context.language, [headerName, directiveKey]),
+                        severity: Severity.warning
+                    });
+
+                    ok = false;
                 }
 
                 if (setCookie[directiveKey]) {
-                    throw new Error(getMessage('duplicatedDirective', context.language, [headerName, directiveKey]));
+                    errors.push({
+                        message: getMessage('duplicatedDirective', context.language, [headerName, directiveKey]),
+                        severity: Severity.warning
+                    });
+
+                    ok = false;
                 }
 
-                (setCookie as any)[directiveKey] = directiveValue || true;
-
+                if (ok) {
+                    (setCookie as any)[directiveKey] = directiveValue || true;
+                }
             });
 
-            return setCookie;
+            return { errors, setCookie };
         };
 
         const validASCII = (string: string): Boolean => {
@@ -122,22 +142,23 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const noNameValueStringError = getMessage('noNameValueString', context.language, headerName);
             const invalidNameError = getMessage('invalidName', context.language, [headerName, cookieName]);
             const invalidValueError = getMessage('invalidValue', context.language, [headerName, cookieName]);
+            const severity = Severity.error;
 
             // Check name-value-string exists and it is before the first `;`.
             if (!cookieName || acceptedCookieAttributes.includes(cookieName)) {
-                errors.push(noNameValueStringError);
+                errors.push({ message: noNameValueStringError, severity });
 
                 return errors;
             }
 
             // Validate cookie name.
             if (!validString(cookieName, illegalCookieNameChars)) {
-                errors.push(invalidNameError);
+                errors.push({ message: invalidNameError, severity });
             }
 
             // Validate cookie value.
             if (!validString(parsedSetCookie.value, illegalCookieValueChars)) {
-                errors.push(invalidValueError);
+                errors.push({ message: invalidValueError, severity });
             }
 
             return errors;
@@ -154,16 +175,16 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const hasDomainHostPrefixError = getMessage('hasDomainHostPrefix', context.language, headerName);
 
             if ((cookieName.startsWith('__secure-') || cookieName.startsWith('__host-')) && !isHTTPS(resource)) {
-                errors.push(hasPrefixHttpError);
+                errors.push({ message: hasPrefixHttpError, severity: Severity.error });
             }
 
             if (cookieName.startsWith('__host-')) {
                 if (!parsedSetCookie.path || parsedSetCookie.path !== '/') {
-                    errors.push(noPathHasHostPrefixError);
+                    errors.push({ message: noPathHasHostPrefixError, severity: Severity.error });
                 }
 
                 if (parsedSetCookie.domain) {
-                    errors.push(hasDomainHostPrefixError);
+                    errors.push({ message: hasDomainHostPrefixError, severity: Severity.error });
                 }
             }
 
@@ -182,19 +203,19 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
             // Check against `Secure` directive if sites are insecure.
             if (!isHTTPS(resource) && parsedSetCookie.secure) {
-                errors.push(hasSecureHttpError);
+                errors.push({ message: hasSecureHttpError, severity: Severity.error });
 
                 return errors;
             }
 
             // Check for `Secure` directive if sites are secure.
             if (!parsedSetCookie.secure) {
-                errors.push(noSecureError);
+                errors.push({ message: noSecureError, severity: Severity.error });
             }
 
             // Check for `httpOnly` directive.
             if (!parsedSetCookie.httponly) {
-                errors.push(noHttpOnlyError);
+                errors.push({ message: noHttpOnlyError, severity: Severity.warning });
             }
 
             return errors;
@@ -215,13 +236,13 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const invalidDateFormatError = getMessage('invalidDateFormat', context.language, [headerName, cookieName, utcTimeString]);
 
             if (utcTimeString === 'Invalid Date') {
-                errors.push(invalidDateError);
+                errors.push({ message: invalidDateError, severity: Severity.error });
 
                 return errors;
             }
 
             if (normalizeString(utcTimeString) !== normalizeString(parsedSetCookie.expires)) {
-                errors.push(invalidDateFormatError);
+                errors.push({ message: invalidDateFormatError, severity: Severity.warning });
             }
 
             return errors;
@@ -240,7 +261,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
                  * `max-age` can't be used alone.
                  */
                 if (parsedSetCookie['max-age'] && !parsedSetCookie.expires) {
-                    errors.push(maxAgeCompatibilityMessage);
+                    errors.push({ message: maxAgeCompatibilityMessage, severity: Severity.error });
                 }
 
                 return errors;
@@ -252,7 +273,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
              * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
              */
             if (parsedSetCookie['max-age'] && parsedSetCookie.expires) {
-                errors.push(maxAgeAndExpireDuplicateMessage);
+                errors.push({ message: maxAgeAndExpireDuplicateMessage, severity: Severity.hint });
             }
 
             return errors;
@@ -265,7 +286,13 @@ export default class ValidateSetCookieHeaderHint implements IHint {
         };
 
         const validate = ({ element, resource, response }: FetchEnd) => {
-            const defaultValidators: Validator[] = [validateNameAndValue, validatePrefixes, validateSecurityAttributes, validateExpireDate, validateMaxAgeAndExpires];
+            const defaultValidators: Validator[] = [
+                validateNameAndValue,
+                validatePrefixes,
+                validateSecurityAttributes,
+                validateExpireDate,
+                validateMaxAgeAndExpires
+            ];
 
             // This check does not apply if URI starts with protocols others than http/https.
             if (!isRegularProtocol(resource)) {
@@ -284,32 +311,34 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const setCookieHeaders: string[] = Array.isArray(rawSetCookieHeaders) ? rawSetCookieHeaders : rawSetCookieHeaders.split(/\n|\r\n/);
 
             const reportBatch = (errorMessages: ValidationMessages, codeLanguage: CodeLanguage, codeSnippet: string) => {
-                errorMessages.forEach((error) => {
-                    context.report(resource, error, {
+                errorMessages.forEach(({ message, severity }) => {
+                    context.report(resource, message, {
                         codeLanguage,
                         codeSnippet,
-                        element
+                        element,
+                        severity
                     });
                 });
             };
 
             for (const setCookieHeader of setCookieHeaders) {
-                let parsedSetCookie: ParsedSetCookieHeader;
                 const codeSnippet = `Set-Cookie: ${setCookieHeader}`;
                 const codeLanguage = 'http';
 
-                try {
-                    parsedSetCookie = parse(setCookieHeader);
-                    parsedSetCookie.resource = resource;
-                } catch (err) {
-                    context.report(resource, err.message, {
-                        codeLanguage,
-                        codeSnippet,
-                        element
-                    });
+                const { errors, setCookie: parsedSetCookie } = parse(setCookieHeader);
 
-                    return;
+                if (errors) {
+                    for (const { message, severity } of errors) {
+                        context.report(resource, message, {
+                            codeLanguage,
+                            codeSnippet,
+                            element,
+                            severity
+                        });
+                    }
                 }
+
+                parsedSetCookie.resource = resource;
 
                 defaultValidators.every((defaultValidator) => {
                     const messages: ValidationMessages = defaultValidator(parsedSetCookie);

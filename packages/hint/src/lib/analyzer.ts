@@ -19,11 +19,13 @@ import { AnalyzerErrorStatus } from './enums/error-status';
 import { IFormatterConstructor } from './types/formatters';
 import { loadResources } from './utils/resource-loader';
 
-import { fs, logger, misc } from '@hint/utils';
-import { Problem } from '@hint/utils/dist/src/types/problems';
-
-const { cutString } = misc;
-const { cwd, isFile } = fs;
+import { logger } from '@hint/utils';
+import { cutString } from '@hint/utils-string';
+import {
+    cwd,
+    isFile
+} from '@hint/utils-fs';
+import { Problem } from '@hint/utils-types';
 
 const initFormatters = (formatters: IFormatterConstructor[]): IFormatter[] => {
     const result = formatters.map((FormatterConstructor) => {

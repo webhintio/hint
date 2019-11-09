@@ -1,4 +1,5 @@
-import { Category, HintMetadata, HintScope } from 'hint';
+import { Category } from '@hint/utils-types';
+import { HintMetadata, HintScope } from 'hint';
 
 import { getMessage } from './i18n.import';
 
