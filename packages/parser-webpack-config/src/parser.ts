@@ -2,13 +2,11 @@ import * as path from 'path';
 import * as webpack from 'webpack'; // This is used just to have types.
 
 import { Engine, FetchEnd, Parser } from 'hint';
-import { network } from '@hint/utils';
+import { asPathString, getAsUri } from '@hint/utils-network';
 
 import { WebpackConfigEvents } from './types';
 
 export * from './types';
-
-const { asPathString, getAsUri } = network;
 
 export default class WebpackConfigParser extends Parser<WebpackConfigEvents> {
     private configFound: boolean = false;

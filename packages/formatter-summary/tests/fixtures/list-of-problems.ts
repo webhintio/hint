@@ -1,5 +1,4 @@
-import { Problem, Severity } from 'hint/dist/src/lib/types';
-import { Category } from 'hint/dist/src/lib/enums/category';
+import { Category, Problem, Severity } from '@hint/utils-types';
 
 const summaryProblems: Problem[] = [{
     category: Category.other,

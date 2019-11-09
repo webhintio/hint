@@ -6,7 +6,7 @@ import * as path from 'path';
 
 import * as amphtmlValidator from 'amphtml-validator';
 
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 

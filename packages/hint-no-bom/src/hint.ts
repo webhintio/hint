@@ -1,14 +1,15 @@
 /**
  * @fileoverview Warns against having the BOM character at the beginning of a text file
  */
-import { FetchEnd, HintContext, IHint, NetworkData, Severity } from 'hint';
-import { asyncTry, contentType, debug as d, network } from '@hint/utils';
+import { FetchEnd, HintContext, IHint, NetworkData } from 'hint';
+import { asyncTry, isTextMediaType } from '@hint/utils';
+import { isRegularProtocol } from '@hint/utils-network';
+import { debug as d } from '@hint/utils-debug';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { isTextMediaType } = contentType;
-const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*
