@@ -1,7 +1,7 @@
 import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 import * as common from './_common';
-import { Severity } from 'hint';
 
 const hintPath = getHintPath(__filename);
 
