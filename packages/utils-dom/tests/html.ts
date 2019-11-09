@@ -28,6 +28,11 @@ test('HTMLDocument.base should return the base url', (t) => {
     t.is(t.context.document.base, 'http://example.com/resources/');
 });
 
+test('HTMLDocument.compatMode should return the compat mode', (t) => {
+    t.is(t.context.document.compatMode, 'CSS1Compat');
+});
+
+
 test('HTMLDocument.pageHTML() should return the html code', (t) => {
     const code = t.context.document.pageHTML();
 
