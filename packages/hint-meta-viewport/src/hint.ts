@@ -5,8 +5,9 @@
 
 import { parseMetaViewPortContent } from 'metaviewport-parser';
 
-import { HTMLElement, HTMLDocument } from '@hint/utils/dist/src/dom/html';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
+import { normalizeString } from '@hint/utils-string';
+import { Severity } from '@hint/utils-types';
 import { TraverseEnd } from 'hint/dist/src/lib/types';
 import { IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -72,7 +73,14 @@ export default class MetaViewportHint implements IHint {
             if (!contentValue) {
                 const message = getMessage('metaElementNonEmptyContent', context.language);
 
-                context.report(resource, message, { element: viewportMetaElement });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element: viewportMetaElement,
+                        severity: Severity.error
+                    }
+                );
 
                 return;
             }
@@ -84,13 +92,27 @@ export default class MetaViewportHint implements IHint {
             for (const key of Object.keys(content.unknownProperties)) {
                 const message = getMessage('metaElementUnknownProperty', context.language, key);
 
-                context.report(resource, message, { element: viewportMetaElement });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element: viewportMetaElement,
+                        severity: Severity.warning
+                    }
+                );
             }
 
             for (const key of Object.keys(content.invalidValues)) {
                 const message = getMessage('metaElementInvalidValues', context.language, [content.invalidValues[key].toString(), key]);
 
-                context.report(resource, message, { element: viewportMetaElement });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element: viewportMetaElement,
+                        severity: Severity.error
+                    }
+                );
             }
 
             // Disallow certain properties.
@@ -115,7 +137,14 @@ export default class MetaViewportHint implements IHint {
                 ].includes(key)) {
                     const message = getMessage('metaElementDisallowedValues', context.language, key);
 
-                    context.report(resource, message, { element: viewportMetaElement });
+                    context.report(
+                        resource,
+                        message,
+                        {
+                            element: viewportMetaElement,
+                            severity: Severity.error
+                        }
+                    );
                 }
             }
 
@@ -129,7 +158,14 @@ export default class MetaViewportHint implements IHint {
             if (content.validProperties.width !== 'device-width') {
                 const message = getMessage('metaElementNoDeviceWidth', context.language);
 
-                context.report(resource, message, { element: viewportMetaElement });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element: viewportMetaElement,
+                        severity: Severity.error
+                    }
+                );
             }
 
             const initialScaleValue = content.validProperties['initial-scale'];
@@ -160,7 +196,14 @@ export default class MetaViewportHint implements IHint {
 
                 const message = getMessage('metaElementNoInitialScale', context.language);
 
-                context.report(resource, message, { element: viewportMetaElement });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element: viewportMetaElement,
+                        severity: Severity.error
+                    }
+                );
             }
         };
 
@@ -174,7 +217,11 @@ export default class MetaViewportHint implements IHint {
             const viewportMetaElements: HTMLElement[] = getViewportMetaElements(pageDOM.querySelectorAll('meta'));
 
             if (viewportMetaElements.length === 0) {
-                context.report(resource, getMessage('metaElementNotSpecified', context.language));
+                context.report(
+                    resource,
+                    getMessage('metaElementNotSpecified', context.language),
+                    { severity: Severity.error }
+                );
 
                 return;
             }
@@ -190,7 +237,14 @@ export default class MetaViewportHint implements IHint {
             const bodyMetaElements: HTMLElement[] = getViewportMetaElements(pageDOM.querySelectorAll('body meta'));
 
             if ((bodyMetaElements.length > 0) && bodyMetaElements[0].isSame(viewportMetaElement)) {
-                context.report(resource, getMessage('metaElementInBody', context.language), { element: viewportMetaElement });
+                context.report(
+                    resource,
+                    getMessage('metaElementInBody', context.language),
+                    {
+                        element: viewportMetaElement,
+                        severity: Severity.error
+                    }
+                );
             }
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -213,7 +267,14 @@ export default class MetaViewportHint implements IHint {
                 const metaElements = viewportMetaElements.slice(1);
 
                 for (const metaElement of metaElements) {
-                    context.report(resource, getMessage('metaElementDuplicated', context.language), { element: metaElement });
+                    context.report(
+                        resource,
+                        getMessage('metaElementDuplicated', context.language),
+                        {
+                            element: metaElement,
+                            severity: Severity.warning
+                        }
+                    );
                 }
             }
 

@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Category } from 'hint';
+import { Category } from '@hint/utils-types';
 
 import { determineHintStatus, HintStatus } from '../../../src/devtools/utils/hints';
 

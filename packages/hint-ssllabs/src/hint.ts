@@ -13,8 +13,9 @@
 
 import { promisify } from 'util';
 
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
+import { Severity } from '@hint/utils-types';
 import { Grades, SSLLabsEndpoint, SSLLabsOptions, SSLLabsResult } from './types';
 
 import meta from './meta';
@@ -60,7 +61,7 @@ export default class SSLLabsHint implements IHint {
                 const message = getMessage('doesNotSupportHTTPS', context.language, resource);
 
                 debug(message);
-                context.report(resource, message);
+                context.report(resource, message, { severity: Severity.error });
 
                 return;
             }
@@ -72,7 +73,7 @@ export default class SSLLabsHint implements IHint {
                 const message: string = getMessage('gradeNotMeetTheMinimum', context.language, [serverName, grade, minimumGrade]);
 
                 debug(message);
-                context.report(resource, message);
+                context.report(resource, message, { severity: Severity.error });
             } else {
                 debug(`Grade ${grade} for ${resource} is ok.`);
             }
@@ -80,7 +81,10 @@ export default class SSLLabsHint implements IHint {
 
         const notifyError = (resource: string, error: any) => {
             debug(`Error getting data for ${resource} %O`, error);
-            context.report(resource, getMessage('couldNotGetResults', context.language, resource));
+            context.report(
+                resource,
+                getMessage('couldNotGetResults', context.language, resource),
+                { severity: Severity.warning });
         };
 
         const start = async ({ resource }: FetchEnd) => {
@@ -88,7 +92,7 @@ export default class SSLLabsHint implements IHint {
                 const message: string = getMessage('doesNotSupportHTTPS', context.language, resource);
 
                 debug(message);
-                context.report(resource, message);
+                context.report(resource, message, { severity: Severity.error });
 
                 return;
             }
@@ -128,7 +132,7 @@ export default class SSLLabsHint implements IHint {
                 const msg = getMessage('noResults', context.language, resource);
 
                 debug(msg);
-                context.report(resource, msg);
+                context.report(resource, msg, { severity: Severity.warning });
 
                 return;
             }

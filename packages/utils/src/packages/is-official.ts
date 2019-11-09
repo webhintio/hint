@@ -1,7 +1,7 @@
 import { join } from 'path';
 
+import { readFile } from '@hint/utils-fs';
 import { findPackageRoot } from './find-package-root';
-import { readFile } from '../fs';
 
 /**
  * Returns if the hint that is going to be created is an official.

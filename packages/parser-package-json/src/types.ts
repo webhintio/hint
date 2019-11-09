@@ -1,4 +1,5 @@
-import { GroupedError, Event, ErrorEvent, Events, IJSONLocationFunction, ISchemaValidationError } from 'hint';
+import { Event, ErrorEvent, Events } from 'hint';
+import { GroupedError, ISchemaValidationError, JSONLocationFunction } from '@hint/utils-json';
 
 import { IJsonSchemaForNpmPackageJsonFiles } from './schema';
 
@@ -12,7 +13,7 @@ export type PackageJsonParsed = Event & {
     /** The package json parsed */
     config: IJsonSchemaForNpmPackageJsonFiles;
     /** Find the location of a path within the original JSON source */
-    getLocation: IJSONLocationFunction;
+    getLocation: JSONLocationFunction;
 };
 
 export type PackageJsonInvalidSchema = ErrorEvent & {

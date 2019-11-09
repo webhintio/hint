@@ -9,11 +9,9 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
 import { Server, ServerConfiguration } from '@hint/utils-create-server';
 import { Engine, Events, IConnectorConstructor } from 'hint';
-import { test as testUtils } from '@hint/utils';
+import { generateHTMLPage } from '@hint/utils-tests-helpers';
 
 import ChromeConnector from '../src/connector';
-
-const { generateHTMLPage } = testUtils;
 
 const name = 'puppeteer';
 

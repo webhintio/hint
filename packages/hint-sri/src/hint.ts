@@ -7,10 +7,10 @@ import { URL } from 'url';
 
 import { HintContext, ReportOptions } from 'hint/dist/src/lib/hint-context';
 import { IHint, FetchEnd, ElementFound, NetworkData, Request, Response } from 'hint/dist/src/lib/types';
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { requestAsync } from '@hint/utils/dist/src/network/request-async';
-import { Severity } from '@hint/utils/dist/src/types/problems';
+import { debug as d } from '@hint/utils-debug';
+import { normalizeString } from '@hint/utils-string';
+import { requestAsync } from '@hint/utils-network';
+import { Severity } from '@hint/utils-types';
 
 import { Algorithms, OriginCriteria, ErrorData, URLs } from './types';
 import meta from './meta';

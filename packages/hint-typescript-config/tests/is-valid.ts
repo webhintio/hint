@@ -1,9 +1,8 @@
 import * as path from 'path';
 
-import { test } from '@hint/utils';
-import { HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename, true);
 
 const tests: HintLocalTest[] = [
@@ -21,7 +20,8 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `Unexpected token i in JSON at position 0`,
-                position: { column: -1, line: -1 }
+                position: { column: -1, line: -1 },
+                severity: Severity.error
             }
         ]
     },
@@ -31,7 +31,8 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `'compilerOptions.lib[3]' should be equal to one of the allowed values 'es5, es6, es2015, es7, es2016, es2017, es2018, es2019, es2020, esnext, dom, dom.iterable, webworker, webworker.importscripts, scripthost, es2015.core, es2015.collection, es2015.generator, es2015.iterable, es2015.promise, es2015.proxy, es2015.reflect, es2015.symbol, es2015.symbol.wellknown, es2016.array.include, es2017.object, es2017.intl, es2017.sharedmemory, es2017.string, es2017.typedarrays, es2018.asynciterable, es2018.intl, es2018.promise, es2018.regexp, es2019.array, es2019.object, es2019.string, es2019.symbol, es2020.string, es2020.symbol.wellknown, esnext.asynciterable, esnext.array, esnext.bigint, esnext.intl, esnext.symbol'. Value found 'invalidlib'`,
-                position: { match: '"invalidlib"' }
+                position: { match: '"invalidlib"' },
+                severity: Severity.error
             }
         ]
     },
@@ -41,7 +42,8 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `'compilerOptions.target' should be equal to one of the allowed values 'es3, es5, es6, es2015, es2016, es2017, es2018, es2019, es2020, esnext'. Value found '"invalid"'. Or 'compilerOptions.target' should match pattern '^([eE][sS]([356]|(20(1[56789]|20))|[nN][eE][xX][tT]))$'. Value found 'invalid'`,
-                position: { match: 'target' }
+                position: { match: 'target' },
+                severity: Severity.error
             }
         ]
     },
@@ -51,7 +53,8 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', 'tsconfig.circular.json')}`,
-                position: { match: '"../circular-2/tsconfig.circular.json"' }
+                position: { match: '"../circular-2/tsconfig.circular.json"' },
+                severity: Severity.error
             }
         ]
     },
@@ -61,7 +64,8 @@ const tests: HintLocalTest[] = [
         reports: [
             {
                 message: `Unexpected token i in JSON at position 0`,
-                position: { match: '"../invalidjson/tsconfig.json"' }
+                position: { match: '"../invalidjson/tsconfig.json"' },
+                severity: Severity.error
             }
         ]
     }
