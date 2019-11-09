@@ -51,6 +51,12 @@ export class HTMLDocument {
         return this._base;
     }
 
+    public get compatMode() {
+        return this._document['x-mode'] === 'quirks' ?
+            'BackCompat' :
+            'CSS1Compat';
+    }
+
     /**
      * Check if this represents a template fragment as opposed to a full document.
      */
