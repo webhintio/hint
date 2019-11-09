@@ -2,14 +2,13 @@ import * as path from 'path';
 import { launch } from 'puppeteer-core';
 import test from 'ava';
 
-import { Category } from 'hint';
+import { Category } from '@hint/utils-types';
 
-import { chromiumFinder, fs } from '@hint/utils';
+import { getInstallationPath } from '@hint/utils';
+import { readFileAsync } from '@hint/utils-fs';
 import { Server } from '@hint/utils-create-server';
 
 import { Events, InjectDetails, Results } from '../src/shared/types';
-
-const { readFileAsync } = fs;
 
 type Listener = (message: Events) => void;
 
@@ -101,7 +100,7 @@ test('It builds a configuration, starts a scan, and displays results', async (t)
      * Launch the browser and get a reference to the initial page.
      * Note: Uncomment config options to see page content (aids debugging).
      */
-    const executablePath = chromiumFinder.getInstallationPath();
+    const executablePath = getInstallationPath();
     const browser = await launch(/* { defaultViewport: null, headless: false } */{ executablePath });
     const page = (await browser.pages())[0];
 

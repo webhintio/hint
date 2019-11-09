@@ -15,7 +15,9 @@
     "references": [
         { "path": "../hint" },
         { "path": "../parser-babel-config" },
-        { "path": "../utils" },
-        { "path": "../utils-tests-helpers" }
+        { "path": "../utils-debug" },
+        { "path": "../utils-i18n" },
+        { "path": "../utils-tests-helpers" },
+        { "path": "../utils-types" }
     ]
 }

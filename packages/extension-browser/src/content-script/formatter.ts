@@ -1,5 +1,5 @@
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { FormatterOptions, HintResources, IFormatter, IHintConstructor, Problem } from 'hint/dist/src/lib/types';
+import { Category, Problem } from '@hint/utils-types';
+import { FormatterOptions, HintResources, IFormatter, IHintConstructor } from 'hint/dist/src/lib/types';
 
 import { browser } from '../shared/globals';
 import { CategoryResults, HintResults } from '../shared/types';

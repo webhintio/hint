@@ -1,8 +1,6 @@
-import { fs, test } from '@hint/utils';
-import { testHint } from '@hint/utils-tests-helpers';
-
-const { generateHTMLPage, getHintPath } = test;
-const { readFile } = fs;
+import { generateHTMLPage, getHintPath, testHint } from '@hint/utils-tests-helpers';
+import { readFile } from '@hint/utils-fs';
+import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename, true);
 
@@ -22,11 +20,13 @@ testHint(hintPath,
             reports: [
                 {
                     message: `'img[srcset]' is not supported by Internet Explorer.`,
-                    position: { match: 'img srcset=' }
+                    position: { match: 'img srcset=' },
+                    severity: Severity.warning
                 },
                 {
                     message: `'div[hidden]' is not supported by Internet Explorer < 11.`,
-                    position: { match: 'div hidden' }
+                    position: { match: 'div hidden' },
+                    severity: Severity.warning
                 }
             ],
             serverConfig: generateHTMLConfig('attributes')
@@ -36,11 +36,13 @@ testHint(hintPath,
             reports: [
                 {
                     message: `'blink' is not supported by Chrome, Edge, Firefox 22+, Internet Explorer.`,
-                    position: { match: 'blink' }
+                    position: { match: 'blink' },
+                    severity: Severity.warning
                 },
                 {
                     message: `'details' is not supported by Edge, Internet Explorer.`,
-                    position: { match: 'details' }
+                    position: { match: 'details' },
+                    severity: Severity.warning
                 }
             ],
             serverConfig: generateHTMLConfig('elements')
@@ -55,7 +57,8 @@ testHint(hintPath,
                 // TODO: Include <form method="dialog"> or similar once MDN data is available
                 {
                     message: `'input[type=color]' is not supported by Internet Explorer.`,
-                    position: { match: 'input type="color"' }
+                    position: { match: 'input type="color"' },
+                    severity: Severity.warning
                 }
             ],
             serverConfig: generateHTMLConfig('values')
@@ -71,7 +74,8 @@ testHint(hintPath,
             reports: [
                 {
                     message: `'script[integrity]' is not supported by Internet Explorer.`,
-                    position: { match: 'script integrity' }
+                    position: { match: 'script integrity' },
+                    severity: Severity.warning
                 }
             ],
             serverConfig: generateHTMLConfig('ignore')
