@@ -40,7 +40,10 @@
                     ]
                 },
                 {
-                    "type": "object"
+                    "type": [
+                        "object",
+                        "array"
+                    ]
                 }
             ],
             "maxItems": 2,
