@@ -7,6 +7,7 @@ import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'pos
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
+import { Severity } from '@hint/utils-types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
 import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
@@ -241,14 +242,25 @@ export default class CSSCompatHint implements IHint {
             const browsers = filterBrowsers(context.targetedBrowsers);
 
             const report = ({ feature, formatFeature, isValue, node, unsupported }: ReportData) => {
+                const alternatives = formatAlternatives(context.language, unsupported, formatFeature);
                 const message = [
                     getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]),
-                    ...formatAlternatives(context.language, unsupported, formatFeature)
+                    ...alternatives
                 ].join(' ');
                 const codeSnippet = getCSSCodeSnippet(node);
                 const location = getCSSLocationFromNode(node, { isValue });
+                const severity = alternatives.length ? Severity.error : Severity.warning;
 
-                context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        codeLanguage: 'css',
+                        codeSnippet,
+                        element,
+                        location,
+                        severity
+                    });
             };
 
             walk(ast, { browsers, ignore, report, walk });
