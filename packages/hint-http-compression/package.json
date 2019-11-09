@@ -13,7 +13,7 @@
     "@hint/utils-network": "^1.0.0",
     "@hint/utils-string": "^1.0.0",
     "@hint/utils-types": "^1.0.0",
-    "iltorb": "^2.4.3"
+    "iltorb": "^2.4.4"
   },
   "description": "hint for HTTP compression related best practices",
   "devDependencies": {
