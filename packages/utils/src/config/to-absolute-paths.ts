@@ -21,6 +21,7 @@ export const toAbsolutePaths = (config: UserConfig | null, configRoot: string): 
     const stat = fs.statSync(configRoot); //eslint-disable-line
     const configPath = stat.isDirectory() ? configRoot : path.dirname(configRoot);
 
+    /* istanbul ignore if */
     if (!configPath) {
         return config;
     }

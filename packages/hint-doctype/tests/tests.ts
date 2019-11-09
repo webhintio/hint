@@ -1,8 +1,6 @@
 import * as os from 'os';
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const normalizeEOL = (text: string): string => {

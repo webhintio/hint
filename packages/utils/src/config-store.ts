@@ -8,6 +8,7 @@ export const get = (name: string): any => {
 };
 
 /** Set a value in the config store. */
+/* istanbul ignore next */
 export const set = (name: string, value: any): any => {
     config.set(name, value);
 

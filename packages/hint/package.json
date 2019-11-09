@@ -10,6 +10,12 @@
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
     "@hint/utils": "^6.1.0",
+    "@hint/utils-debug": "^1.0.0",
+    "@hint/utils-fs": "^1.0.0",
+    "@hint/utils-json": "^1.0.0",
+    "@hint/utils-network": "^1.0.0",
+    "@hint/utils-string": "^1.0.0",
+    "@hint/utils-types": "^1.0.0",
     "boxen": "^4.1.0",
     "browserslist": "^4.7.2",
     "chalk": "^2.4.2",
@@ -24,6 +30,7 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
+    "@hint/utils-dom": "^1.0.0",
     "@types/lodash": "^4.14.141",
     "@types/node": "^12.7.5",
     "@types/sinon": "^7.5.0",

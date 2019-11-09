@@ -2,14 +2,12 @@
 
 import * as fs from 'fs';
 
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 const generateScriptTag = (script: string) => {
     return `<script>${script}</script>`;
 };
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const angular = fs.readFileSync(require.resolve('angular/angular.min.js'), 'utf-8');
