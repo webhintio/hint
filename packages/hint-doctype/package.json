@@ -14,6 +14,7 @@
   "description": "this hint checks if the HTML is using the most modern DOCTYPE.",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^5.1.0",
+    "@hint/parser-html": "^3.0.11",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",

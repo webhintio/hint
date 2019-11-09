@@ -28,10 +28,18 @@ test('HTMLDocument.base should return the base url', (t) => {
     t.is(t.context.document.base, 'http://example.com/resources/');
 });
 
-test('HTMLDocument.compatMode should return the compat mode', (t) => {
+test('HTMLDocument.compatMode should return "CSS1Compat" if standards', (t) => {
     t.is(t.context.document.compatMode, 'CSS1Compat');
 });
 
+test('HTMLDocument.compatMode should return "BackCompat" if not standards', (t) => {
+    const document = createHTMLDocument(`<table border="1">
+    <tr><td>one</td><td>two</td></tr>
+    <tr><td>three</td><td bgcolor="yellow"></td></tr>
+   </table>`, 'http://example.com');
+
+    t.is(document.compatMode, 'BackCompat');
+});
 
 test('HTMLDocument.pageHTML() should return the html code', (t) => {
     const code = t.context.document.pageHTML();
