@@ -14,4 +14,8 @@ export type ProblemLocation = {
     endColumn?: number;
     /** The zero-based line number where a Problem ends */
     endLine?: number;
+    /** The zero-based character count where a Problem ends */
+    endOffset?: number;
+    /** The zero-based character count where a Problem starts */
+    startOffset?: number;
 };

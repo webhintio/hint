@@ -109,7 +109,9 @@ export class HTMLElement {
         return {
             column: location ? location.startCol : -1,
             elementId: this._element.id,
-            line: location ? location.startLine - 1 : -1
+            endOffset: location ? location.endOffset : -1,
+            line: location ? location.startLine - 1 : -1,
+            startOffset: location ? location.startOffset : -1
         };
     }
 
