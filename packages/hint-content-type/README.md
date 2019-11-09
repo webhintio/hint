@@ -8,16 +8,18 @@ the appropriate media type and charset for the response.
 
 Even though browsers sometimes [ignore][server configs] the value of
 the `Content-Type` header and try to [sniff the content][mime sniffing
-spec] (see also: [`X-Content-Type-Options` hint][x content type options]), it’s indicated to always send the appropriate media type and
+spec] (see also: [`X-Content-Type-Options` hint][x content type options]),
+it’s indicated to always send the appropriate media type and
 charset for the response as, among other:
 
-* the media type defines both the data format and how that data is intended to be processed by browsers
+* the media type defines both the data format and how that data is intended
+  to be processed by browsers
 
 * not sending the appropriate `charset`, where appropriate, may
   [prevent things from being rendered correctly][incorrect rendering]
   thus creating a bad user experience (see also:
   [`meta-charset-utf-8` hint][meta charset hint])
-  
+
 * javascript resources served with the wrong media type [may be blocked][blocked
   resources]
 
