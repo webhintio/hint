@@ -14,9 +14,9 @@ import {
     FetchEnd,
     FetchError,
     HintContext,
-    IHint,
-    Severity
+    IHint
 } from 'hint';
+import { Severity } from '@hint/utils-types';
 import { normalizeString } from '@hint/utils-string';
 import { ManifestEvents } from '@hint/parser-manifest';
 
