@@ -1,6 +1,6 @@
 import { ExecutionContext } from 'ava';
 
-import { ProblemLocation, Severity } from 'hint';
+import { ProblemLocation, Severity } from '@hint/utils-types';
 
 export type MatchProblemLocation = {
     /** A substring matching the location of the problem. */

@@ -2,7 +2,7 @@ import camelCase = require('lodash/camelCase');
 
 import { getMessage as extensionGetMessage } from '../devtools/utils/i18n';
 
-type GetMessage = typeof import('@hint/utils/dist/src/i18n/get-message').getMessage;
+type GetMessage = typeof import('@hint/utils-i18n').getMessage;
 
 export const getMessage: GetMessage = (key, path, options?) => {
     /*

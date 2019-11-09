@@ -1,8 +1,6 @@
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { Severity } from 'hint';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { generateHTMLPage, getHintPath } = test;
 // Page data.
 
 const pageWithAlternateStylesheet = generateHTMLPage('<link rel="  alternate stylesheet " href="test.css">');

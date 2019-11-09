@@ -6,7 +6,9 @@
  */
 import { URL } from 'url';
 
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { ProblemLocation, Severity } from '@hint/utils-types';
+import { Category } from '@hint/utils-types';
+import { getHTMLCodeSnippet, HTMLElement } from '@hint/utils-dom';
 
 import { Engine } from './engine';
 import {
@@ -15,9 +17,6 @@ import {
     NetworkData,
     StringKeyOf
 } from './types';
-import { ProblemLocation, Severity } from '@hint/utils/dist/src/types/problems';
-import { Category } from '@hint/utils/dist/src/types/category';
-import { getHTMLCodeSnippet } from '@hint/utils/dist/src/report/get-html-code-snippet';
 
 export type CodeLanguage = 'css' | 'html' | 'http' | 'javascript';
 
