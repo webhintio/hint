@@ -15,6 +15,10 @@
     "references": [
         { "path": "../hint" },
         { "path": "../utils" },
-        { "path": "../utils-create-server" }
+        { "path": "../utils-create-server" },
+        { "path": "../utils-debug" },
+        { "path": "../utils-network" },
+        { "path": "../utils-string" },
+        { "path": "../utils-types" }
     ]
 }

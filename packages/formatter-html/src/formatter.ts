@@ -13,15 +13,17 @@ import * as path from 'path';
 import * as ejs from 'ejs';
 import * as fs from 'fs-extra';
 
-import { debug as d, fs as fsUtils, logger, Category } from '@hint/utils';
-import { FormatterOptions, HintResources, IFormatter, Problem } from 'hint';
+import { Category, Problem } from '@hint/utils-types';
+import { logger } from '@hint/utils';
+import { cwd } from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
+import { FormatterOptions, HintResources, IFormatter } from 'hint';
 
 const utils = require('./utils');
 
 import AnalysisResult, { CategoryResult, HintResult } from './result';
 import { getMessage as getMessageFormatter, MessageName } from './i18n.import';
 
-const { cwd } = fsUtils;
 const debug = d(__filename);
 
 /*

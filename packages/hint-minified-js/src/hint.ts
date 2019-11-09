@@ -6,8 +6,9 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, Severity } from 'hint/dist/src/lib/types';
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { IHint } from 'hint/dist/src/lib/types';
+import { debug as d } from '@hint/utils-debug';
+import { Severity } from '@hint/utils-types';
 import { ScriptEvents, ScriptParse } from '@hint/parser-javascript';
 
 import meta from './meta';

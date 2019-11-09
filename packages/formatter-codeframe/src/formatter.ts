@@ -18,19 +18,20 @@ import sortBy = require('lodash/sortBy');
 import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
-import { debug as d, fs, logger, misc } from '@hint/utils';
-import { FormatterOptions, IFormatter, Problem, ProblemLocation, Severity } from 'hint';
-
+import { logger } from '@hint/utils';
+import { cutString } from '@hint/utils-string';
+import { writeFileAsync } from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
+import { FormatterOptions, IFormatter } from 'hint';
+import { Problem, ProblemLocation, Severity } from '@hint/utils-types';
 import { getMessage } from './i18n.import';
 
-const { cutString } = misc;
 const _ = {
     groupBy,
     reduce,
     sortBy
 };
 const debug = d(__filename);
-const { writeFileAsync } = fs;
 
 const countLeftWhiteSpaces = (txt: string): number => {
     const match = txt.match(/(\s+)/);
