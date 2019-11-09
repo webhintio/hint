@@ -5,13 +5,16 @@ import * as fs from 'fs-extra';
 import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
-import { appInsights, fs as fsUtils, logger, misc, packages } from '@hint/utils';
+import {
+    appInsights,
+    isOfficial,
+    logger
+} from '@hint/utils';
+import { normalizeStringByDelimiter } from '@hint/utils-string';
+import { writeFileAsync } from '@hint/utils-fs';
 
 import { escapeSafeString, compileTemplate } from './handlebars-utils';
 
-const { isOfficial } = packages;
-const { normalizeStringByDelimiter } = misc;
-const { writeFileAsync } = fsUtils;
 const { sendPendingData, trackEvent } = appInsights;
 
 /*

@@ -16,6 +16,10 @@
         { "path": "../hint" },
         { "path": "../parser-typescript-config" },
         { "path": "../utils" },
-        { "path": "../utils-tests-helpers" }
+        { "path": "../utils-debug" },
+        { "path": "../utils-i18n" },
+        { "path": "../utils-json" },
+        { "path": "../utils-tests-helpers" },
+        { "path": "../utils-types" }
     ]
 }

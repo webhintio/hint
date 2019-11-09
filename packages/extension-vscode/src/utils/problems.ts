@@ -1,6 +1,6 @@
 import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver';
 
-import { Problem, Severity } from 'hint';
+import { Problem, Severity } from '@hint/utils-types';
 
 // Translate a webhint severity into the VSCode DiagnosticSeverity format.
 const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity => {

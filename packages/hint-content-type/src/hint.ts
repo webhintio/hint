@@ -11,13 +11,13 @@
 
 import { MediaType, parse } from 'content-type';
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
-import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
+import { debug as d } from '@hint/utils-debug';
+import { normalizeString } from '@hint/utils-string';
+import { isDataURI, normalizeHeaderValue } from '@hint/utils-network';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { isTextMediaType } from '@hint/utils/dist/src/content-type';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -67,14 +67,21 @@ export default class ContentTypeHint implements IHint {
                 return;
             }
 
-            const contentTypeHeaderValue: string | null = normalizeHeaderValue(response.headers, 'content-type');
+            const contentTypeHeaderValue = normalizeHeaderValue(response.headers, 'content-type');
+            const noSniff = normalizeHeaderValue(response.headers, 'x-content-type-options') === 'no-sniff';
+            const severity = noSniff ? Severity.error : Severity.warning;
             const codeSnippet = `Content-Type: ${contentTypeHeaderValue}`;
             const codeLanguage = 'http';
 
             // Check if the `Content-Type` header was sent.
 
             if (contentTypeHeaderValue === null) {
-                context.report(resource, getMessage('responseShouldIncludeContentType', context.language));
+
+                context.report(
+                    resource,
+                    getMessage('responseShouldIncludeContentType', context.language),
+                    { severity }
+                );
 
                 return;
             }
@@ -88,7 +95,11 @@ export default class ContentTypeHint implements IHint {
 
             if (userDefinedMediaType) {
                 if (normalizeString(userDefinedMediaType) !== contentTypeHeaderValue) {
-                    context.report(resource, getMessage('contentTypeValueShouldBe', context.language, userDefinedMediaType), { codeLanguage, codeSnippet });
+                    context.report(
+                        resource,
+                        getMessage('contentTypeValueShouldBe', context.language, userDefinedMediaType),
+                        { codeLanguage, codeSnippet, severity }
+                    );
                 }
 
                 return;
@@ -105,7 +116,11 @@ export default class ContentTypeHint implements IHint {
 
                 contentType = parse(contentTypeHeaderValue);
             } catch (e) {
-                context.report(resource, getMessage('contentTypeValueInvalid', context.language, e.message), { codeLanguage, codeSnippet });
+                context.report(
+                    resource,
+                    getMessage('contentTypeValueInvalid', context.language, e.message),
+                    { codeLanguage, codeSnippet, severity }
+                );
 
                 return;
             }
@@ -140,7 +155,11 @@ export default class ContentTypeHint implements IHint {
             // * media type
 
             if (mediaType && mediaType !== originalMediaType && !allowApplicationJavaScript) {
-                context.report(resource, getMessage('contentTypeValueShoudBeNot', context.language, [mediaType, originalMediaType]), { codeLanguage, codeSnippet });
+                context.report(
+                    resource,
+                    getMessage('contentTypeValueShoudBeNot', context.language, [mediaType, originalMediaType]),
+                    { codeLanguage, codeSnippet, severity }
+                );
             }
 
             // * charset value
@@ -151,14 +170,18 @@ export default class ContentTypeHint implements IHint {
                         getMessage('contentTypeCharsetShouldBeNot', context.language, [charset, originalCharset]) :
                         getMessage('contentTypeCharsetShouldBe', context.language, charset);
 
-                    context.report(resource, message, { codeLanguage, codeSnippet });
+                    context.report(resource, message, { codeLanguage, codeSnippet, severity: Severity.warning });
                 }
             } else if (originalCharset &&
                 ![
                     'text/html',
                     'application/xhtml+xml'
                 ].includes(originalMediaType)) {
-                context.report(resource, getMessage('contentTypeValueShouldNotContaint', context.language, originalCharset), { codeLanguage, codeSnippet });
+                context.report(
+                    resource,
+                    getMessage('contentTypeValueShouldNotContaint', context.language, originalCharset),
+                    { codeLanguage, codeSnippet, severity: Severity.warning }
+                );
             }
         };
 

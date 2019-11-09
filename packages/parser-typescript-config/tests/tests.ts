@@ -6,17 +6,19 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-import * as utils from '@hint/utils';
+import * as utilsFs from '@hint/utils-fs';
+import * as network from '@hint/utils-network';
+import { getAsUri } from '@hint/utils-network';
 import { Engine, FetchEnd, ErrorEvent } from 'hint';
 
 import { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfigInvalidSchema } from '../src/parser';
 
-const { loadJSONFile, readFile } = utils.fs;
-const { getAsUri } = utils.network;
+const { loadJSONFile, readFile } = utilsFs;
 
 type SandboxContext = {
     sandbox: sinon.SinonSandbox;
 };
+
 
 const test = anyTest as TestInterface<SandboxContext>;
 
@@ -25,16 +27,16 @@ const schema = readFile(path.join(__dirname, 'fixtures', 'schema.json'));
 const mockContext = (context: SandboxContext) => {
     const statObject = { mtime: new Date() };
 
-    (utils.network as any).requestAsync = (url: string): Promise<string> => {
+    (network as any).requestAsync = (url: string): Promise<string> => {
         return Promise.resolve(schema);
     };
 
-    (utils.fs as any).writeFileAsync = (path: string, content: string): Promise<void> => {
+    (utilsFs as any).writeFileAsync = (path: string, content: string): Promise<void> => {
         return Promise.resolve();
     };
 
-    const requestAsyncStub = context.sandbox.stub(utils.network, 'requestAsync');
-    const writeFileAsyncStub = context.sandbox.stub(utils.fs, 'writeFileAsync');
+    const requestAsyncStub = context.sandbox.stub(network, 'requestAsync');
+    const writeFileAsyncStub = context.sandbox.stub(utilsFs, 'writeFileAsync');
 
     const fs = {
         stat(path: string, callback: Function): void {
@@ -49,7 +51,8 @@ const mockContext = (context: SandboxContext) => {
     }) as Engine<TypeScriptConfigEvents>;
 
     const script = proxyquire('../src/parser', {
-        '@hint/utils': utils,
+        '@hint/utils-fs': utilsFs,
+        '@hint/utils-network': network,
         fs
     });
 
