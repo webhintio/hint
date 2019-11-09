@@ -8,9 +8,9 @@ import {
     HintContext,
     IHint,
     NetworkData,
-    TraverseEnd,
-    Severity
+    TraverseEnd
 } from 'hint';
+import { Severity } from '@hint/utils-types';
 import { isRegularProtocol } from '@hint/utils-network';
 import { HTMLElement } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
