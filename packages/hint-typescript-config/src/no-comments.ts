@@ -4,9 +4,11 @@
  * file (i.e `tsconfig.json`).
  */
 import { HintContext, IHint } from 'hint';
+import { Severity } from '@hint/utils-types';
+import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';
+
 import { configChecker } from './helpers/config-checker';
 
-import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';
 
 import meta from './meta/no-comments';
 
@@ -20,7 +22,7 @@ export default class TypeScriptConfigNoComments implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
-        const validate = configChecker('compilerOptions.removeComments', true, 'removeComments', context);
+        const validate = configChecker('compilerOptions.removeComments', true, 'removeComments', context, Severity.warning);
 
         context.on('parse::end::typescript-config', validate);
     }

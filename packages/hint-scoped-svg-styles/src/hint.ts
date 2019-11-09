@@ -3,16 +3,17 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, Severity } from 'hint/dist/src/lib/types';
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { IHint } from 'hint/dist/src/lib/types';
+import { debug as d } from '@hint/utils-debug';
+import { HTMLElement } from '@hint/utils-dom';
+import { Severity } from '@hint/utils-types';
 
 import { StyleEvents, StyleParse } from '@hint/parser-css';
-import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
+import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
+
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
-import { getCSSLocationFromNode } from '@hint/utils/dist/src/report';
 
 const debug: debug.IDebugger = d(__filename);
 

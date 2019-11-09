@@ -8,7 +8,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.1.0"
+    "@hint/utils-dom": "^1.0.0"
   },
   "description": "webhint parser needed to analyze HTML files",
   "devDependencies": {

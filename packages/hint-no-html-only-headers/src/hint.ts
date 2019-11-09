@@ -9,11 +9,9 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { includedHeaders } from '@hint/utils/dist/src/network/included-headers';
-import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
-import { mergeIgnoreIncludeArrays } from '@hint/utils/dist/src/misc/merge-ignore-include-arrays';
-import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
+import { debug as d } from '@hint/utils-debug';
+import { includedHeaders, isDataURI } from '@hint/utils-network';
+import { mergeIgnoreIncludeArrays, prettyPrintArray } from '@hint/utils-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, Response, IHint } from 'hint/dist/src/lib/types';
 

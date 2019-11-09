@@ -1,9 +1,7 @@
-import { test, fs } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { Severity } from 'hint';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { readFile } from '@hint/utils-fs';
+import { Severity } from '@hint/utils-types';
 
-const { readFile } = fs;
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const generateConfig = (fileName: string) => {
