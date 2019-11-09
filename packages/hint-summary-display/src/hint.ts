@@ -5,7 +5,7 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
-import { Severity } from '@hint/utils/dist/src/types/problems';
+import { Severity } from '@hint/utils-types';
 import selectorParser = require('postcss-selector-parser');
 
 import meta from './meta';
