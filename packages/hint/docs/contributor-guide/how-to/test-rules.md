@@ -16,10 +16,8 @@ If not, you need to:
 1. Have the following template:
 
 ```ts
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const tests: HintTest[] = [

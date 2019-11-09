@@ -1,14 +1,16 @@
 import { URL } from 'url';
 
-import { contentType, dom, debug as d, HTMLDocument } from '@hint/utils';
+import {
+    getContentTypeData,
+    getType
+} from '@hint/utils';
+import { getElementByUrl, HTMLDocument } from '@hint/utils-dom';
+import { debug as d } from '@hint/utils-debug';
 import { ResourceLoader } from 'jsdom';
 
 import { FetchEnd, FetchError, NetworkData } from 'hint';
 
 import JSDOMConnector from './connector';
-
-const { getElementByUrl } = dom;
-const { getContentTypeData, getType } = contentType;
 
 const debug: debug.IDebugger = d(__filename);
 
