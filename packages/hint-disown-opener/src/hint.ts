@@ -15,10 +15,11 @@ import { URL } from 'url';
 import { debug as d } from '@hint/utils-debug';
 import { isSupported } from '@hint/utils-compat-data';
 import { isRegularProtocol } from '@hint/utils-network';
-import { cutString, normalizeString, prettyPrintArray } from '@hint/utils-string';
+import { cutString, normalizeString } from '@hint/utils-string';
 import { HTMLElement } from '@hint/utils-dom';
 import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -43,23 +44,28 @@ export default class DisownOpenerHint implements IHint {
             includeSameOriginURLs = (context.hintOptions && context.hintOptions.includeSameOriginURLs) || false;
         };
 
-        const checkForRelValues = (resource: string, element: HTMLElement, relValuesToCheckFor: string[]) => {
+        const checkForRelValue = (resource: string, element: HTMLElement, relValueToCheckFor: string, severity: Severity) => {
             const relValues: string[] = normalizeString(element.getAttribute('rel'), '')!.split(' '); // `normalizeString` uses passed default ('') instead of null
             const hrefValue: string = normalizeString(element.getAttribute('href')) || '';
 
-            const requiredValues: string[] = relValuesToCheckFor.filter((value) => {
-                return !relValues.includes(value);
-            });
-
-            if (requiredValues.length !== 0) {
-                const message = getMessage('shouldHaveRel', context.language, [
-                    cutString(element.outerHTML, 100),
-                    prettyPrintArray(requiredValues),
-                    requiredValues.length === 1 ? getMessage('keyword', context.language) : getMessage('keywords', context.language)
-                ]);
-
-                context.report(resource, message, { content: hrefValue, element });
+            if (relValues.includes(relValueToCheckFor)) {
+                return;
             }
+
+            const message = getMessage('shouldHaveRel', context.language, [
+                cutString(element.outerHTML, 100),
+                relValueToCheckFor,
+                getMessage('keyword', context.language)
+            ]);
+
+            context.report(
+                resource,
+                message,
+                {
+                    content: hrefValue, element,
+                    severity
+                }
+            );
         };
 
         const checkSameOrigin = (resource: string, element: HTMLElement): boolean => {
@@ -123,7 +129,7 @@ export default class DisownOpenerHint implements IHint {
                 return;
             }
 
-            const relValuesToCheckFor: string[] = ['noopener'];
+            checkForRelValue(resource, element, 'noopener', Severity.error);
 
             /*
              * If no browsers were targeted, or `noopener`
@@ -133,10 +139,8 @@ export default class DisownOpenerHint implements IHint {
 
             // TODO: Fix `isSupported` so `element` can be `a`.
             if (!context.targetedBrowsers.length || !isSupported({ attribute: 'rel', element: 'link', value: 'noopener' }, context.targetedBrowsers)) {
-                relValuesToCheckFor.push('noreferrer');
+                checkForRelValue(resource, element, 'noreferrer', Severity.warning);
             }
-
-            checkForRelValues(resource, element, relValuesToCheckFor);
         };
 
         loadHintConfigs();
