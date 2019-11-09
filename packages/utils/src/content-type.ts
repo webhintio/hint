@@ -3,12 +3,12 @@ import isSvg from 'is-svg';
 
 import { parse, MediaType } from 'content-type';
 
-import { HTMLElement } from './dom';
-import { debug as d } from './debug';
+import { HTMLElement } from '@hint/utils-dom';
+import { debug as d } from '@hint/utils-debug';
 import mimeDB from './mime-db';
-import { HttpHeaders } from './types/http-header';
-import { fileExtension as getFileExtension, fileName as getFileName } from './fs';
-import { normalizeString } from './misc/normalize-string';
+import { HttpHeaders } from '@hint/utils-types';
+import { fileExtension as getFileExtension, fileName as getFileName } from '@hint/utils-fs';
+import { normalizeString } from '@hint/utils-string';
 
 const debug = d(__filename);
 

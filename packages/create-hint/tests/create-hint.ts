@@ -4,7 +4,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
-import * as utils from '@hint/utils';
+import * as utilsFs from '@hint/utils-fs';
 
 import * as handlebarsUtils from '../src/handlebars-utils';
 
@@ -69,13 +69,11 @@ const initContext = (t: ExecutionContext<CreateHintContext>) => {
 const loadScript = (context: CreateHintContext) => {
     const script = proxyquire('../src/create-hint', {
         '../src/handlebars-utils': context.handlebarsUtils,
-        '@hint/utils': {
-            fs: {
-                cwd: context.cwd,
-                readFile: utils.fs.readFile,
-                writeFileAsync: context.writeFileAsyncModule
-            },
-            packages: { isOfficial: context.isOfficialModule }
+        '@hint/utils': { isOfficial: context.isOfficialModule },
+        '@hint/utils-fs': {
+            cwd: context.cwd,
+            readFile: utilsFs.readFile,
+            writeFileAsync: context.writeFileAsyncModule
         },
         'fs-extra': context.fsExtra,
         inquirer: context.inquirer,

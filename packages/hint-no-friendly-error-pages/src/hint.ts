@@ -12,13 +12,13 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { debug as d, network } from '@hint/utils';
+import { isDataURI } from '@hint/utils-network';
+import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { isDataURI } = network;
 const debug = d(__filename);
 
 /*

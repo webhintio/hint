@@ -1,4 +1,5 @@
-import { FetchEnd, FetchError, FetchStart, IJSONLocationFunction, ISchemaValidationError, Event, ErrorEvent, Events, GroupedError } from 'hint';
+import { FetchEnd, FetchError, FetchStart, Event, ErrorEvent, Events } from 'hint';
+import { JSONLocationFunction, ISchemaValidationError, GroupedError } from '@hint/utils-json';
 
 /* eslint-disable camelcase */
 
@@ -154,7 +155,7 @@ export type ManifestInvalidSchema = ErrorEvent & {
 
 export type ManifestParsed = Event & {
     /** Find the location of a path within the original JSON source */
-    getLocation: IJSONLocationFunction;
+    getLocation: JSONLocationFunction;
     /** The content of manifest parsed */
     parsedContent: Manifest;
 };

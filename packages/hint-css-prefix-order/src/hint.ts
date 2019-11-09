@@ -7,15 +7,13 @@ import { vendor, Declaration, Rule } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
-import { Severity } from '@hint/utils/dist/src/types/problems';
-
+import { debug as d } from '@hint/utils-debug';
+import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
-import { getCSSLocationFromNode } from '@hint/utils/dist/src/report';
 
 const debug: debug.IDebugger = d(__filename);
 
