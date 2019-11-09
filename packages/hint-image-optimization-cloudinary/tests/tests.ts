@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import * as mock from 'mock-require';
 
 import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 import { cloudinaryResult } from '../src/cloudinary-types';
 
@@ -67,7 +68,10 @@ const tests: HintTest[] = [
             mockCloudinary(savings50);
         },
         name: 'unoptimized PNG',
-        reports: [{ message: `'http://localhost/nellie-studying.png' could be around 143.62kB (50%) smaller.` }],
+        reports: [{
+            message: `'http://localhost/nellie-studying.png' could be around 143.62kB (50%) smaller.`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png">`),
             '/nellie-studying.png': generateResponse(png, 'image/png')
@@ -101,7 +105,10 @@ const testThresholds: HintTest[] = [
             mockCloudinary([savings33, savings33]);
         },
         name: 'unoptimized PNGs with threshold',
-        reports: [{ message: `Total size savings optimizing the images on 'http://localhost/' could be of around 195kB.` }],
+        reports: [{
+            message: `Total size savings optimizing the images on 'http://localhost/' could be of around 195kB.`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png"><img src="nellie-focused.png">`),
             '/nellie-focused.png': generateResponse(png, 'image/png'),
@@ -126,7 +133,10 @@ const noConfigTest: HintTest[] = [
             mockCloudinary(savings50);
         },
         name: 'No cloudinary Config',
-        reports: [{ message: `No valid configuration for Cloudinary found. Hint could not run.` }],
+        reports: [{
+            message: `No valid configuration for Cloudinary found. Hint could not run.`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': generateHTMLPage('', `<img src="nellie-studying.png">`),
             '/nellie-studying.png': generateResponse(png, 'image/png')
