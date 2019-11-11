@@ -3,6 +3,7 @@
  */
 import { HintContext, IHint } from 'hint';
 import { debug as d } from '@hint/utils-debug';
+import { Severity } from '@hint/utils-types';
 
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
 import { BabelConfigEvents, BabelConfigParsed } from '@hint/parser-babel-config';
@@ -63,7 +64,11 @@ export default class WebpackConfigModulesFalseBabel implements IHint {
             });
 
             if (modulesFalse.length === 0) {
-                context.report(babelEvent.resource, getMessage('babelModules', context.language));
+                context.report(
+                    babelEvent.resource,
+                    getMessage('babelModules', context.language),
+                    { severity: Severity.error }
+                );
             }
         };
 

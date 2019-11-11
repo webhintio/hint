@@ -1,6 +1,7 @@
 import * as path from 'path';
 
 import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename, true);
 
@@ -16,7 +17,10 @@ const tests: HintLocalTest[] = [
     {
         name: 'Invalid configuration should fail',
         path: path.join(__dirname, 'fixtures', 'invalidconfig'),
-        reports: [{ message: `Invalid or unexpected token` }]
+        reports: [{
+            message: `Invalid or unexpected token`,
+            severity: Severity.error
+        }]
     }
 ];
 
