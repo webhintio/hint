@@ -14,6 +14,7 @@ import { includedHeaders, isDataURI, normalizeHeaderValue } from '@hint/utils-ne
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -138,7 +139,14 @@ export default class NoDisallowedHeadersHint implements IHint {
             ) {
                 const message = getMessage('headerValueShouldOnlyContain', context.language, response.headers.server);
 
-                context.report(resource, message, { codeLanguage, codeSnippet: `Server: ${serverHeaderValue}` });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        codeLanguage,
+                        codeSnippet: `Server: ${serverHeaderValue}`,
+                        severity: Severity.warning
+                    });
             }
 
             if (numberOfHeaders > 0) {
@@ -154,7 +162,13 @@ export default class NoDisallowedHeadersHint implements IHint {
                     return `${total}${total ? '\n' : ''}${header}: ${normalizeHeaderValue(response.headers, header)}`;
                 }, '');
 
-                context.report(resource, message, { codeLanguage, codeSnippet });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        codeLanguage, codeSnippet,
+                        severity: Severity.warning
+                    });
             }
         };
 
