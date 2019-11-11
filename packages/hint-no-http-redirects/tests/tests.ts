@@ -1,4 +1,5 @@
 import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename);
 
@@ -9,7 +10,10 @@ const tests: HintTest[] = [
     },
     {
         name: 'Redirect in resource fails',
-        reports: [{ message: `2 redirects detected for 'http://localhost/image.png' (max is 0).` }],
+        reports: [{
+            message: `2 redirects detected for 'http://localhost/image.png' (max is 0).`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('', '<img src="/image.png">'),
             '/image.png': {
@@ -25,7 +29,10 @@ const tests: HintTest[] = [
     },
     {
         name: 'Redirect in target fails',
-        reports: [{ message: `1 redirect detected for 'http://localhost/' (max is 0).` }],
+        reports: [{
+            message: `1 redirect detected for 'http://localhost/' (max is 0).`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': {
                 content: '/redirect.html',
@@ -43,7 +50,10 @@ const testsWithCustomConfiguration: HintTest[] = [
     },
     {
         name: 'Redirect in resource with more hops than allowed fails',
-        reports: [{ message: `2 redirects detected for 'http://localhost/image.png' (max is 1).` }],
+        reports: [{
+            message: `2 redirects detected for 'http://localhost/image.png' (max is 1).`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('', '<img src="/image.png">'),
             '/image.png': {
@@ -70,7 +80,10 @@ const testsWithCustomConfiguration: HintTest[] = [
     },
     {
         name: 'Redirect in target with more hops than allowed fails',
-        reports: [{ message: `2 redirects detected for 'http://localhost/' (max is 1).` }],
+        reports: [{
+            message: `2 redirects detected for 'http://localhost/' (max is 1).`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': {
                 content: '/redirect.html',
