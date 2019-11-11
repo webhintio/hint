@@ -1,4 +1,5 @@
 import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 // Page data.
 
@@ -23,7 +24,10 @@ const generateInvalidValueMessage = (value: string = '') => {
 const tests: HintTest[] = [
     {
         name: `HTML page is served without 'X-Content-Type-Options' header`,
-        reports: [{ message: noHeaderErrorMessage }],
+        reports: [{
+            message: noHeaderErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: generateHTMLPage() },
             '/favicon.ico': { headers: { 'X-Content-Type-Options': 'nosniff' } }
@@ -31,7 +35,10 @@ const tests: HintTest[] = [
     },
     {
         name: `Favicon is served without 'X-Content-Type-Options' header`,
-        reports: [{ message: noHeaderErrorMessage }],
+        reports: [{
+            message: noHeaderErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: generateHTMLPage(), headers: { 'Content-Type': 'text/html', 'X-Content-Type-Options': 'nosniff' } },
             '/favicon.ico': ''
@@ -39,7 +46,10 @@ const tests: HintTest[] = [
     },
     {
         name: `Stylesheet is served without 'X-Content-Type-Options' header`,
-        reports: [{ message: noHeaderErrorMessage }],
+        reports: [{
+            message: noHeaderErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: pageWithStylesheet, headers: { 'Content-Type': 'text/html', 'X-Content-Type-Options': 'nosniff' } },
             '/favicon.ico': { headers: { 'X-Content-Type-Options': 'nosniff' } },
@@ -48,7 +58,10 @@ const tests: HintTest[] = [
     },
     {
         name: `Alternate stylesheet is served without 'X-Content-Type-Options' header`,
-        reports: [{ message: noHeaderErrorMessage }],
+        reports: [{
+            message: noHeaderErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: pageWithAlternateStylesheet, headers: { 'Content-Type': 'text/html', 'X-Content-Type-Options': 'nosniff' } },
             '/favicon.ico': { headers: { 'X-Content-Type-Options': 'nosniff' } },
@@ -67,7 +80,10 @@ const tests: HintTest[] = [
     },
     {
         name: `Script is served with 'X-Content-Type-Options' header with invalid value`,
-        reports: [{ message: generateInvalidValueMessage('invalid') }],
+        reports: [{
+            message: generateInvalidValueMessage('invalid'),
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': { content: pageWithScript, headers: { 'Content-Type': 'text/html', 'X-Content-Type-Options': 'nosniff' } },
             '/favicon.ico': { headers: { 'X-Content-Type-Options': 'nosniff' } },
