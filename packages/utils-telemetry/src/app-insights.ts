@@ -26,7 +26,7 @@ let options = {
     batchDelay: 15000,
     defaultProperties: {} as Properties,
     enabled: false,
-    instrumentationKey: '',
+    instrumentationKey: '8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d',
     post: (url: string, data: string) => {
         return Promise.resolve(200);
     }
