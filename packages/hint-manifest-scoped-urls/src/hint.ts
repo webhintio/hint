@@ -5,7 +5,7 @@
 import { URL } from 'url';
 import { relative } from 'path';
 import { IHint, HintContext, NetworkData } from 'hint';
-import { ProblemLocation } from '@hint/utils-types';
+import { ProblemLocation, Severity } from '@hint/utils-types';
 import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { debug as d } from '@hint/utils-debug';
 
@@ -35,7 +35,13 @@ export default class ManifestScopedUrlsHint implements IHint {
                 debug(`Failed to fetch ${startUrl}`);
                 const message = getMessage('requestFailedFor', context.language);
 
-                context.report(resource, message, { location: startUrllocation });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        location: startUrllocation,
+                        severity: Severity.error
+                    });
 
                 return false;
             }
@@ -45,7 +51,13 @@ export default class ManifestScopedUrlsHint implements IHint {
             if (response.statusCode !== 200) {
                 const message = getMessage('specifiedStartUrlNotAccessible', context.language, response.statusCode.toString());
 
-                context.report(resource, message, { location: startUrllocation });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        location: startUrllocation,
+                        severity: Severity.error
+                    });
 
                 return false;
             }
@@ -70,7 +82,13 @@ export default class ManifestScopedUrlsHint implements IHint {
             if (!inScope) {
                 const message = getMessage('startUrlNotInScope', context.language);
 
-                context.report(resource, message, { location: startUrllocation });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        location: startUrllocation,
+                        severity: Severity.error
+                    });
 
                 return false;
             }
@@ -92,7 +110,13 @@ export default class ManifestScopedUrlsHint implements IHint {
                 if (notSameOrigin) {
                     const message = getMessage('startUrlMustHaveSameOrigin', context.language);
 
-                    context.report(resource, message, { location: startUrlLocation });
+                    context.report(
+                        resource,
+                        message,
+                        {
+                            location: startUrlLocation,
+                            severity: Severity.error
+                        });
 
                     return;
                 }
@@ -105,7 +129,7 @@ export default class ManifestScopedUrlsHint implements IHint {
             } else {
                 const message = getMessage('propertyNotFound', context.language);
 
-                context.report(resource, message);
+                context.report(resource, message, { severity: Severity.warning });
             }
         };
 
