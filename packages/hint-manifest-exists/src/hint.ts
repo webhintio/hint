@@ -14,9 +14,9 @@ import {
     FetchEnd,
     FetchError,
     HintContext,
-    IHint,
-    ScanEnd
+    IHint
 } from 'hint';
+import { Severity } from '@hint/utils-types';
 import { normalizeString } from '@hint/utils-string';
 import { ManifestEvents } from '@hint/parser-manifest';
 
@@ -37,12 +37,6 @@ export default class ManifestExistsHint implements IHint {
 
         let manifestIsSpecified = false;
 
-        const checkIfManifestWasSpecified = (scanEndEvent: ScanEnd) => {
-            if (!manifestIsSpecified) {
-                context.report(scanEndEvent.resource, getMessage('manifestNotSpecified', context.language));
-            }
-        };
-
         const checkIfManifest = (data: ElementFound) => {
             const { element, resource } = data;
 
@@ -56,7 +50,13 @@ export default class ManifestExistsHint implements IHint {
              */
 
             if (manifestIsSpecified) {
-                context.report(resource, getMessage('manifestDuplicated', context.language), { element });
+                context.report(
+                    resource,
+                    getMessage('manifestDuplicated', context.language),
+                    {
+                        element,
+                        severity: Severity.warning
+                    });
 
                 return;
             }
@@ -66,25 +66,42 @@ export default class ManifestExistsHint implements IHint {
             const href = normalizeString(element.getAttribute('href'));
 
             if (!href) {
-                context.report(resource, getMessage('manifestNonEmptyHref', context.language), { element });
+                context.report(
+                    resource,
+                    getMessage('manifestNonEmptyHref', context.language),
+                    {
+                        element,
+                        severity: Severity.error
+                    });
             }
         };
 
         const handleFetchEnd = ({ element, resource, response }: FetchEnd) => {
             if (response.statusCode >= 400) {
-                context.report(resource, getMessage('manifestNotFetchedStatus', context.language, `${response.statusCode}`), { element });
+                context.report(
+                    resource,
+                    getMessage('manifestNotFetchedStatus', context.language, `${response.statusCode}`),
+                    {
+                        element,
+                        severity: Severity.error
+                    });
             }
         };
 
         const handleFetchErrors = (fetchErrorEvent: FetchError) => {
             const { resource, element } = fetchErrorEvent;
 
-            context.report(resource, getMessage('manifestNotFetched', context.language), { element });
+            context.report(
+                resource,
+                getMessage('manifestNotFetched', context.language),
+                {
+                    element,
+                    severity: Severity.error
+                });
         };
 
         context.on('element::link', checkIfManifest);
         context.on('fetch::end::manifest', handleFetchEnd);
         context.on('fetch::error::manifest', handleFetchErrors);
-        context.on('scan::end', checkIfManifestWasSpecified);
     }
 }
