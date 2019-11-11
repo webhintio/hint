@@ -11,6 +11,7 @@
 import { parse as bcp47 } from 'bcp47';
 import { get as parseColor, ColorDescriptor } from 'color-string';
 
+import { Severity } from '@hint/utils-types';
 import { IHint } from 'hint/dist/src/lib/types';
 import { JSONLocationFunction } from '@hint/utils-json';
 import { isSupported } from '@hint/utils-compat-data';
@@ -90,7 +91,7 @@ export default class ManifestIsValidHint implements IHint {
                     const location = getLocation(property);
                     const message = getMessage('invalidValue', context.language, [colorValue, property]);
 
-                    context.report(resource, message, { location });
+                    context.report(resource, message, { location, severity: Severity.error });
 
                     continue;
                 }
@@ -99,7 +100,7 @@ export default class ManifestIsValidHint implements IHint {
                     const location = getLocation(property);
                     const message = getMessage('unsupportedValue', context.language, [colorValue, property]);
 
-                    context.report(resource, message, { location });
+                    context.report(resource, message, { location, severity: Severity.error });
                 }
             }
         };
@@ -111,14 +112,14 @@ export default class ManifestIsValidHint implements IHint {
                 const location = getLocation('lang');
                 const message = getMessage('invalidValue', context.language, [lang, 'lang']);
 
-                context.report(resource, message, { location });
+                context.report(resource, message, { location, severity: Severity.error });
             }
         };
 
         const handleInvalidJSON = (manifestInvalidJSON: ManifestInvalidJSON) => {
             const { resource } = manifestInvalidJSON;
 
-            context.report(resource, getMessage('validJSON', context.language));
+            context.report(resource, getMessage('validJSON', context.language), { severity: Severity.error });
         };
 
         const handleInvalidSchema = (manifestInvalidSchemaEvent: ManifestInvalidSchema) => {
@@ -126,7 +127,7 @@ export default class ManifestIsValidHint implements IHint {
                 const error = manifestInvalidSchemaEvent.groupedErrors[i].message;
                 const location = manifestInvalidSchemaEvent.groupedErrors[i].location;
 
-                context.report(manifestInvalidSchemaEvent.resource, error, { location });
+                context.report(manifestInvalidSchemaEvent.resource, error, { location, severity: Severity.error });
             }
         };
 
