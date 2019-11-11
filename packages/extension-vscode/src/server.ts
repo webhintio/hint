@@ -9,7 +9,6 @@ import * as notifications from './utils/notifications';
 // Look two-levels up for `package.json` as this will be in `dist/src/` post-build.
 const { version } = require('../../package.json');
 
-const instrumentationKey = '8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d';
 const defaultProperties = { 'extension-version': version };
 
 const [,, globalStoragePath, telemetryEnabled, everEnabledTelemetryStr] = process.argv;
@@ -65,7 +64,6 @@ connection.listen();
 initTelemetry({
     defaultProperties,
     enabled: telemetryEnabled === 'enabled',
-    instrumentationKey,
     post: (url, data) => {
         return new Promise((resolve, reject) => {
             const request = https.request(url, { method: 'POST' }, (response) => {
