@@ -16,7 +16,7 @@ export type ResultData = {
 export type TelemetryState = 'ask' | 'disabled' | 'enabled';
 
 const activityKey = 'webhint-activity';
-const config = new Configstore('vscode-webhint');
+const configstore = new Configstore('vscode-webhint');
 
 // Remember per-document results for analytics.
 const prevProblems = new Map<string, ProblemCountMap>();
@@ -45,25 +45,25 @@ const toTrackedResult = (data: ResultData) => {
  * Data includes `last28Days` (e.g. `"1001100110011001100110011001"`)
  * and `lastUpdated` (e.g. `"2019-10-04T00:00:00.000Z"`).
  */
-const trackActive = (s: Configstore) => {
+const trackActive = (storage: Configstore) => {
     // Don't count a user as active if telemetry is disabled.
     if (!enabled()) {
         return;
     }
 
-    const activity = getUpdatedActivity(s.get(activityKey));
+    const activity = getUpdatedActivity(storage.get(activityKey));
 
     if (activity) {
-        s.set(activityKey, activity);
+        storage.set(activityKey, activity);
         trackEvent('vscode-activity', activity);
     }
 };
 
-const trackOpen = (result: ProblemCountMap, languageId: string, s: Configstore) => {
+const trackOpen = (result: ProblemCountMap, languageId: string, storage: Configstore) => {
     const status = determineHintStatus({}, result);
 
     trackEvent('vscode-open', { ...status, languageId });
-    trackActive(s);
+    trackActive(storage);
 };
 
 export const trackOptIn = (telemetryEnabled: TelemetryState, everEnabledTelemetry: boolean) => {
@@ -79,7 +79,7 @@ export const trackClose = (uri: string) => {
     lastSaveTimes.delete(uri);
 };
 
-export const trackResult = (uri: string, languageId: string, result: ResultData, s = config) => {
+export const trackResult = (uri: string, languageId: string, result: ResultData, storage = configstore) => {
     const problems = toTrackedResult(result);
 
     languageIds.set(uri, languageId);
@@ -88,7 +88,7 @@ export const trackResult = (uri: string, languageId: string, result: ResultData,
         nextProblems.set(uri, problems);
     } else {
         prevProblems.set(uri, problems);
-        trackOpen(problems, languageId, s);
+        trackOpen(problems, languageId, storage);
     }
 };
 
