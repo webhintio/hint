@@ -14,6 +14,7 @@ import { includedHeaders, isDataURI } from '@hint/utils-network';
 import { mergeIgnoreIncludeArrays, prettyPrintArray } from '@hint/utils-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, Response, IHint } from 'hint/dist/src/lib/types';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -131,7 +132,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
                         message = getMessage('unneededHeaders', context.language, prettyPrintArray(headers));
                     }
 
-                    context.report(resource, message, { element });
+                    context.report(resource, message, { element, severity: Severity.warning });
                 }
             }
         };
