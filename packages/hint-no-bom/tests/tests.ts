@@ -4,6 +4,7 @@ import * as mock from 'mock-require';
 
 import * as utils from '@hint/utils';
 import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 const { asyncTry: originalAsyncTry } = utils;
 
@@ -23,7 +24,10 @@ const tests: HintTest[] = [
     },
     {
         name: `HTML with BOM should fail`,
-        reports: [{ message: `Text-based resource should not start with BOM character.` }],
+        reports: [{
+            message: `Text-based resource should not start with BOM character.`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': {
                 content: bom,
@@ -50,7 +54,10 @@ const tests: HintTest[] = [
             mock('@hint/utils', utils);
         },
         name: `If a request throws and exception, it should be managed and report an error`,
-        reports: [{ message: 'Content could not be fetched.' }],
+        reports: [{
+            message: 'Content could not be fetched.',
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="stylesheet" href="/styles.css">'),
             '/styles.css': { content: '' }
