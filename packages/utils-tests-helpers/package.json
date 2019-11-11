@@ -38,6 +38,9 @@
   "main": "./dist/src/index.js",
   "name": "@hint/utils-tests-helpers",
   "peerDependencies": {
+    "@hint/connector-jsdom": "4.1.0",
+    "@hint/connector-local": "3.2.0",
+    "@hint/connector-puppeteer": "^2.4.0",
     "hint": "^5.0.0"
   },
   "repository": {

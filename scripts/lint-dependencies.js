@@ -20,7 +20,9 @@ const typeDependencies = new Set([
 const ignoredDependencies = new Set([
     '@hint/configuration-development',
     '@hint/configuration-web-recommended',
+    '@hint/connector-jsdom',
     '@hint/connector-local',
+    '@hint/connector-puppeteer',
     '@hint/utils-tests-helpers',
     '@types/chrome',
     '@types/node',
