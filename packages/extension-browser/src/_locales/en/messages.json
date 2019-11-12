@@ -67,6 +67,10 @@
         "message": "Error details",
         "description": "Text displayed for option to expand and show error details."
     },
+    "errorLabel": {
+        "message": "Error",
+        "description": "Label for option to choose error as minimum hint severity."
+    },
     "errorMessage": {
         "message": "There was an error running webhint. Please try again. If the error still occurs: ",
         "description": "Message informing users what to do when an error occurs."
@@ -95,6 +99,10 @@
         "message": "Hints: $1",
         "description": "Label for count of hints with issues, e.g. 'Hints: 2'."
     },
+    "hintLabel": {
+        "message": "Hint",
+        "description": "Label for option to choose hint as minimum hint severity."
+    },
     "hintsTitle": {
         "message": "Hints",
         "description": "Title displayed for the tool tab."
@@ -102,6 +110,10 @@
     "ignoredResourcesTitle": {
         "message": "Ignored resources",
         "description": "Title of the ignored resouces sub-section on the configuration page."
+    },
+    "informationLabel": {
+        "message": "Information",
+        "description": "Label for option to choose information as minimum hint severity."
     },
     "learnWhyLabel": {
         "message": "Learn why this is important",
@@ -163,6 +175,10 @@
         "message": "Settings",
         "description": "Label settings details/summary."
     },
+    "severityTitle": {
+        "message": "Minimum hint severity",
+        "description": "Title of the minimum hint severity sub-section on the configuration page."
+    },
     "showPassedHintsLabel": {
         "message": "Show passed hints",
         "description": "Label for toggle to hide/show groups of hints which passed."
@@ -214,5 +230,9 @@
     "telemetry": {
         "message": "Enable telemetry",
         "description": "Label for the setting to enable/disable telemetry."
+    },
+    "warningLabel": {
+        "message": "Warning",
+        "description": "Label for option to choose warning as minimum hint severity."
     }
 }

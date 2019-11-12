@@ -19,6 +19,7 @@ import WebExtensionConnector from './connector';
 import WebExtensionFormatter from './formatter';
 
 import hints from '../shared/hints.import';
+import { Severity } from '@hint/utils-types';
 
 const reportError = (message: string, stack: string) => {
     browser.runtime.sendMessage({
@@ -64,7 +65,7 @@ const main = async (userConfig: Config) => {
         const category = hint.meta.docs && hint.meta.docs.category || 'other';
         const enabled = !(userConfig.disabledCategories && userConfig.disabledCategories.includes(category));
 
-        o[hint.meta.id] = enabled ? 'warning' : 'off';
+        o[hint.meta.id] = enabled ? 'default' : 'off';
 
         if (enabled) {
             enabledHints.push(hint);
@@ -102,8 +103,12 @@ const main = async (userConfig: Config) => {
     const engine = new Engine(config, resources);
     const problems = await engine.executeOn(new URL(location.href));
 
+    const filteredProblems = problems.filter((problem) => {
+        return problem.severity >= (userConfig.severityThreshold || Severity.warning);
+    });
+
     engine.formatters.forEach((formatter) => {
-        formatter.format(problems, {
+        formatter.format(filteredProblems, {
             resources,
             target: location.href
         });
