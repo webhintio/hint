@@ -1,5 +1,5 @@
 import * as mock from 'mock-require';
-import { generateHTMLPage } from '@hint/utils-tests-helpers';
+import { generateHTMLPage } from '@hint/utils-create-server';
 import * as utilsNetwork from '@hint/utils-network';
 
 export const OkayMaxAge = 31536000; // a max-age value larger than the minimum

@@ -16,6 +16,7 @@
   "description": "Infrom users that they need to use createElementNS to create SVG elements instead of createElement",
   "devDependencies": {
     "@hint/parser-javascript": "^3.1.0",
+    "@hint/utils-create-server": "^3.3.0",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",

@@ -2,7 +2,8 @@
 
 import * as fs from 'fs';
 
-import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 import { Severity } from '@hint/utils-types';
 
 const generateScriptTag = (script: string) => {

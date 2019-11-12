@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 
-import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 const hintPath = getHintPath(__filename);
 

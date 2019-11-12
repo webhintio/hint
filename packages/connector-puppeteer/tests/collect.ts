@@ -7,9 +7,8 @@ import { URL } from 'url';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
-import { Server, ServerConfiguration } from '@hint/utils-create-server';
+import { generateHTMLPage, Server, ServerConfiguration } from '@hint/utils-create-server';
 import { Engine, Events, IConnectorConstructor } from 'hint';
-import { generateHTMLPage } from '@hint/utils-tests-helpers';
 
 import ChromeConnector from '../src/connector';
 

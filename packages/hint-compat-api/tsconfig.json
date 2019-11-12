@@ -16,6 +16,7 @@
         { "path": "../hint" },
         { "path": "../parser-css" },
         { "path": "../utils-compat-data" },
+        { "path": "../utils-create-server" },
         { "path": "../utils-css" },
         { "path": "../utils-dom" },
         { "path": "../utils-fs" },

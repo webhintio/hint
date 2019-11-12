@@ -16,6 +16,7 @@
         { "path": "../hint" },
         { "path": "../parser-manifest" },
         { "path": "../utils-compat-data" },
+        { "path": "../utils-create-server" },
         { "path": "../utils-i18n" },
         { "path": "../utils-json" },
         { "path": "../utils-string" },

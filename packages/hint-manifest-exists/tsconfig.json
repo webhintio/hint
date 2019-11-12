@@ -15,6 +15,7 @@
     "references": [
         { "path": "../hint" },
         { "path": "../parser-manifest" },
+        { "path": "../utils-create-server" },
         { "path": "../utils-i18n" },
         { "path": "../utils-string" },
         { "path": "../utils-tests-helpers" },

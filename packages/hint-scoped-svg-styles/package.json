@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@hint/parser-css": "^3.0.14",
+    "@hint/utils-create-server": "^3.3.0",
     "@hint/utils-dom": "^1.0.0",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",

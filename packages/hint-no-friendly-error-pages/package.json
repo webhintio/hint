@@ -15,6 +15,7 @@
   },
   "description": "hint that that checks if protocol relative URLs are used",
   "devDependencies": {
+    "@hint/utils-create-server": "^3.3.0",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",
     "@typescript-eslint/eslint-plugin": "^1.13.0",

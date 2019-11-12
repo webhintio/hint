@@ -1,4 +1,5 @@
-import { generateHTMLPage, getHintPath, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, testHint } from '@hint/utils-tests-helpers';
 import { readFile } from '@hint/utils-fs';
 import { Severity } from '@hint/utils-types';
 

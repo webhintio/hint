@@ -1,4 +1,5 @@
-import { generateHTMLPage, HintTest } from '@hint/utils-tests-helpers';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { HintTest } from '@hint/utils-tests-helpers';
 import { Severity } from '@hint/utils-types';
 
 const generateErrorMessage = (url: string): string => {
