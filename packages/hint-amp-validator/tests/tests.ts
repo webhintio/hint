@@ -2,6 +2,7 @@
 
 import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 import { readFile } from '@hint/utils-fs';
+import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename);
 
@@ -23,7 +24,8 @@ const defaultTests: HintTest[] = [
         reports: [
             {
                 message: `The mandatory attribute '⚡' is missing in tag 'html'. (https://amp.dev/documentation/guides-and-tutorials/learn/spec/amphtml#required-markup)`,
-                position: { match: '<html lang="en">' }
+                position: { match: '<html lang="en">' },
+                severity: Severity.error
             }
         ]
     },
