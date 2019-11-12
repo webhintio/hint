@@ -9,6 +9,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
+import { Severity } from '@hint/utils-types';
 
 const debug = d(__filename);
 
@@ -26,6 +27,34 @@ export default class HttpCacheHint implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext) {
+
+        const immutableEdgeVersions = [
+            'edge 15',
+            'edge 16',
+            'edge 17',
+            'edge 18'
+        ];
+
+        /**
+         * https://caniuse.com/#search=immutable shows as starting:
+         * * Firefox 49
+         * * Edge 15 (supports stops with Chromium based one)
+         * * Safari 11 (destkop and iOS)
+         *
+         * Firefox and Safari versions are old enough that we can assume
+         * support for any version
+         */
+        const immutableSupported = context.targetedBrowsers.some((browser) => {
+            if (immutableEdgeVersions.includes(browser)) {
+                return true;
+            }
+
+            if (browser.startsWith('firefox') || browser.includes('safari')) {
+                return true;
+            }
+
+            return false;
+        });
 
         /**
          * Max time the HTML of a page can be cached.
@@ -253,7 +282,11 @@ export default class HttpCacheHint implements IHint {
             const cacheControl: string | null = headers && headers['cache-control'] || null;
 
             if (!cacheControl) {
-                context.report(resource, getMessage('noHeaderFound', context.language));
+                context.report(
+                    resource,
+                    getMessage('noHeaderFound', context.language),
+                    { severity: Severity.error }
+                );
 
                 return false;
             }
@@ -277,7 +310,11 @@ export default class HttpCacheHint implements IHint {
                     invalidDirectives.size === 1 ? 'is' : 'are'
                 ]);
 
-                context.report(resource, message, { codeLanguage, codeSnippet });
+                context.report(
+                    resource,
+                    message,
+                    { codeLanguage, codeSnippet, severity: Severity.error }
+                );
 
                 return false;
             }
@@ -288,7 +325,11 @@ export default class HttpCacheHint implements IHint {
                     directivesToString(invalidValues)
                 ]);
 
-                context.report(resource, message, { codeLanguage, codeSnippet });
+                context.report(
+                    resource,
+                    message,
+                    { codeLanguage, codeSnippet, severity: Severity.error }
+                );
 
                 return false;
             }
@@ -307,7 +348,15 @@ export default class HttpCacheHint implements IHint {
             if (nonRecommendedDirective) {
                 const message: string = getMessage('directiveNotRecomended', context.language, nonRecommendedDirective);
 
-                context.report(resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control: ${header}` });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        codeLanguage: 'http',
+                        codeSnippet: `Cache-Control: ${header}`,
+                        severity: Severity.warning
+                    }
+                );
 
                 return false;
             }
@@ -328,7 +377,15 @@ export default class HttpCacheHint implements IHint {
                 if (hasMaxAge) {
                     const message: string = getMessage('wrongCombination', context.language, header);
 
-                    context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control: ${header}` });
+                    context.report(
+                        fetchEnd.resource,
+                        message,
+                        {
+                            codeLanguage: 'http',
+                            codeSnippet: `Cache-Control: ${header}`,
+                            severity: Severity.error
+                        }
+                    );
 
                     return false;
                 }
@@ -352,45 +409,20 @@ export default class HttpCacheHint implements IHint {
             if (!isValidCache) {
                 const message: string = getMessage('targetShouldNotBeCached', context.language, [maxAgeTarget, header]);
 
-                context.report(fetchEnd.resource, message, { codeLanguage: 'http', codeSnippet: `Cache-Control: ${header}` });
+                context.report(
+                    fetchEnd.resource,
+                    message,
+                    {
+                        codeLanguage: 'http',
+                        codeSnippet: `Cache-Control: ${header}`,
+                        severity: Severity.warning
+                    }
+                );
 
                 return false;
             }
 
             return true;
-        };
-
-        /**
-         * Validates that a resource (JS, CSS, images, etc.) has the right caching directives.
-         */
-        const hasLongCache = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
-            const { header, usedDirectives } = directives;
-            const { resource } = fetchEnd;
-            const codeSnippet = `Cache-Control: ${header}`;
-            const codeLanguage = 'http';
-
-            const longCache = compareToMaxAge(usedDirectives, maxAgeResource) >= 0;
-            const immutable = usedDirectives.has('immutable');
-            let validates = true;
-
-            // We want long caches with "immutable" for static resources
-            if (usedDirectives.has('no-cache') || !longCache) {
-                const message: string = getMessage('staticResourceCacheValue', context.language, [maxAgeResource, header]);
-
-                context.report(resource, message, { codeLanguage, codeSnippet });
-
-                validates = false;
-            }
-
-            if (!immutable) {
-                const message: string = getMessage('staticNotImmutable', context.language, header);
-
-                context.report(resource, message, { codeLanguage, codeSnippet });
-
-                validates = false;
-            }
-
-            return validates;
         };
 
         /**
@@ -411,6 +443,47 @@ export default class HttpCacheHint implements IHint {
             }
 
             return true;
+        };
+
+        /**
+         * Validates that a resource (JS, CSS, images, etc.) has the right caching directives.
+         */
+        const hasLongCache = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
+            const { header, usedDirectives } = directives;
+            const { resource } = fetchEnd;
+            const codeSnippet = `Cache-Control: ${header}`;
+            const codeLanguage = 'http';
+
+            const longCache = compareToMaxAge(usedDirectives, maxAgeResource) >= 0;
+            const immutable = usedDirectives.has('immutable');
+
+
+            const isCacheBusted = usesFileRevving(directives, fetchEnd);
+
+            let validates = true;
+
+            // We want long caches with "immutable" for static resources
+            if (usedDirectives.has('no-cache') || !longCache) {
+                const message: string = getMessage('staticResourceCacheValue', context.language, [maxAgeResource, header]);
+
+                const severity = isCacheBusted ? Severity.warning : Severity.hint;
+
+                context.report(resource, message, { codeLanguage, codeSnippet, severity });
+
+                validates = false;
+            }
+
+            if (!immutable) {
+
+                const message: string = getMessage('staticNotImmutable', context.language, header);
+                const severity = immutableSupported && isCacheBusted ? Severity.warning : Severity.hint;
+
+                context.report(resource, message, { codeLanguage, codeSnippet, severity });
+
+                validates = false;
+            }
+
+            return validates;
         };
 
         const validate = (fetchEnd: FetchEnd, eventName: string) => {
@@ -440,8 +513,6 @@ export default class HttpCacheHint implements IHint {
             if (type === 'html') {
                 validators.push(hasSmallCache);
             } else if (type === 'fetch' && longCached.includes(mediaType)) {
-                validators.push(hasLongCache);
-
                 // Check if there are custom revving patterns
                 let customRegex: RegExp[] | null = context.hintOptions && context.hintOptions.revvingPatterns || null;
 
@@ -453,7 +524,7 @@ export default class HttpCacheHint implements IHint {
 
                 cacheRevvingPatterns = customRegex || predefinedRevvingPatterns;
 
-                validators.push(usesFileRevving);
+                validators.push(hasLongCache);
             }
 
             validators.every((validator) => {
