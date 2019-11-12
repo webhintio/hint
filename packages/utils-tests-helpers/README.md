@@ -13,5 +13,4 @@ npm install hint --save-dev
 
 ### Utils
 
-* `generateHTMLPage`: Creates a valid minimal HTML.
 * `getHintPath`: Returns the name of the hint.
