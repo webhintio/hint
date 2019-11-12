@@ -2,6 +2,7 @@ import { readFileSync } from 'fs';
 
 import { generateHTMLPage } from '@hint/utils-create-server';
 import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename);
 
@@ -16,6 +17,8 @@ const generateResponse = (content: Buffer, type: string): Object => {
         headers: { 'Content-Type': type }
     };
 };
+
+const severity = Severity.error;
 
 const testsHTTPS: HintTest[] = [
     {
@@ -38,12 +41,12 @@ const testsHTTPS: HintTest[] = [
     },
     {
         name: `HTTPS page with HTTP resources should fail`,
-        reports: [{ message: serveOverHTTPSMessage }],
+        reports: [{ message: serveOverHTTPSMessage, severity }],
         serverConfig: { '/': { content: generateHTMLPage('', '<img src="http://example.com/image.png">') } }
     },
     {
         name: 'Redirect in resource fails (png)',
-        reports: [{ message: noInsecureRedirectMessage }],
+        reports: [{ message: noInsecureRedirectMessage, severity }],
         serverConfig: {
             '/': generateHTMLPage('', '<img src="/image.png">'),
             '/image.png': {
@@ -55,19 +58,19 @@ const testsHTTPS: HintTest[] = [
     },
     {
         name: `HTTPS page with HTTP img srcset and should fail`,
-        reports: [{ message: serveOverHTTPSMessage }],
+        reports: [{ message: serveOverHTTPSMessage, severity }],
         serverConfig: { '/': { content: generateHTMLPage('', '<img src="https://example.com/image.png" srcset="http://example.com/image.png 1x, https://example.com/image.png 2x">') } }
     },
     {
         name: `HTTPS page with HTTP object data should fail`,
-        reports: [{ message: serveOverHTTPSMessage }],
+        reports: [{ message: serveOverHTTPSMessage, severity }],
         serverConfig: { '/': { content: generateHTMLPage('', '<object data="http://example.com/image.png"><object>') } }
     },
     {
         name: `HTTPS page with HTTP video source and poster should fail`,
         reports: [
-            { message: serveOverHTTPSMessage },
-            { message: serveOverHTTPSMessage }
+            { message: serveOverHTTPSMessage, severity },
+            { message: serveOverHTTPSMessage, severity }
         ],
         serverConfig: {
             '/': {
