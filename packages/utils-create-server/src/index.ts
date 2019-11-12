@@ -10,7 +10,7 @@ import { IndependentServer } from './independent-thread-server';
 
 export { ServerConfiguration };
 export { IServer };
-
+export * from './generate-html-page';
 // Do all magic wit process here and maybe have a wrapper
 
 type ServerOptions = {
@@ -19,6 +19,7 @@ type ServerOptions = {
     sameThread?: boolean;
 }
 
+/* istanbul ignore next */
 export class Server {
     /**
      * Updates all references to localhost to use the passed port.

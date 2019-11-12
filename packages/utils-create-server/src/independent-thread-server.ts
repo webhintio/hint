@@ -6,6 +6,7 @@ import { replacer, reviver } from './buffer-serialization';
 export { ServerConfiguration };
 export { IServer };
 
+/* istanbul ignore next */
 export class IndependentServer implements IServer {
     private child: ChildProcess;
     private actions: Map<string, Function> = new Map();

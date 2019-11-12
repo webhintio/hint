@@ -26,6 +26,7 @@ const unsafePorts = [3659, 4045, 6000, 6665, 6666, 6667, 6668, 6669];
 
 
 /** A testing server for webhint's hints */
+/* istanbul ignore next */
 export class SameThreadServer implements IServer {
     private static usedPorts = new Set(unsafePorts);
     private static maxPort: number = 65535;
@@ -439,6 +440,7 @@ const server = new SameThreadServer(useHttps);
 type Action = (message: WebhintMessage) => Promise<any>;
 
 /** Wrapper to do the filtering of actions based on the type */
+/* istanbul ignore next */
 const action = (fn: Action) => {
     const type = fn.name;
 
@@ -465,19 +467,23 @@ const action = (fn: Action) => {
     };
 };
 
+/* istanbul ignore next */
 const start = (message: WebhintMessage) => {
     return server.start();
 };
 
+/* istanbul ignore next */
 const stop = (message: WebhintMessage) => {
     // TODO: Disconnect and stop process?
     return server.stop();
 };
 
+/* istanbul ignore next */
 const port = (message: WebhintMessage) => {
     return Promise.resolve(server.port);
 };
 
+/* istanbul ignore next */
 const configure = (message: WebhintMessage) => {
     const { payload } = message;
 
@@ -486,6 +492,7 @@ const configure = (message: WebhintMessage) => {
     return Promise.resolve();
 };
 
+/* istanbul ignore next */
 const serverActions = [
     action(port),
     action(start),
@@ -493,7 +500,8 @@ const serverActions = [
     action(stop)
 ];
 
-process.on('message', async (serializedMessage: string) => {
+
+process.on('message', /* istanbul ignore next */ async (serializedMessage: string) => {
     const message = JSON.parse(serializedMessage, reviver);
 
     if (!message.webhint) {
