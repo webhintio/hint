@@ -21,6 +21,7 @@ const ignoredDependencies = new Set([
     '@hint/configuration-development',
     '@hint/configuration-web-recommended',
     '@hint/connector-local',
+    '@hint/utils-create-server',
     '@hint/utils-tests-helpers',
     '@types/chrome',
     '@types/node',

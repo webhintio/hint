@@ -1,6 +1,7 @@
 import { cutString } from '@hint/utils-string';
 import { Severity } from '@hint/utils-types';
-import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 const hintPath = getHintPath(__filename);
 

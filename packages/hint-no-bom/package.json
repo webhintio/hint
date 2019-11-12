@@ -16,6 +16,7 @@
   },
   "description": "hint that that warns against using the BOM character at the beginning of a text file.",
   "devDependencies": {
+    "@hint/utils-create-server": "^3.3.0",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/mock-require": "^2.0.0",
     "@types/node": "^12.7.5",

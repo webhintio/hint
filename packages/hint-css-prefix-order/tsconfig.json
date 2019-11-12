@@ -16,6 +16,7 @@
         { "path": "../hint" },
         { "path": "../parser-css" },
         { "path": "../parser-sass" },
+        { "path": "../utils-create-server" },
         { "path": "../utils-css" },
         { "path": "../utils-debug" },
         { "path": "../utils-fs" },

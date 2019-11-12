@@ -15,6 +15,7 @@
   "description": "hint for best practices related to the web app manifest's name and short_name members",
   "devDependencies": {
     "@hint/parser-manifest": "^2.2.12",
+    "@hint/utils-create-server": "^3.3.0",
     "@hint/utils-json": "^1.0.0",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",

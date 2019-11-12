@@ -15,6 +15,7 @@
   },
   "description": "hint for best practices related to usage of the X-UA-Compatible meta tag and response header",
   "devDependencies": {
+    "@hint/utils-create-server": "^3.3.0",
     "@hint/utils-dom": "^1.0.0",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",

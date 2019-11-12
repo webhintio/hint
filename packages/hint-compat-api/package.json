@@ -18,6 +18,7 @@
   "description": "hint to validate if the HTML, CSS, and JavaScript APIs of the project are deprecated or not broadly supported",
   "devDependencies": {
     "@hint/parser-css": "^3.0.14",
+    "@hint/utils-create-server": "^3.3.0",
     "@hint/utils-dom": "^1.0.0",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/lodash": "^4.14.141",

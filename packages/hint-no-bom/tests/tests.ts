@@ -3,8 +3,9 @@ import * as fs from 'fs';
 import * as mock from 'mock-require';
 
 import * as utils from '@hint/utils';
-import { generateHTMLPage, getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 import { Severity } from '@hint/utils-types';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 const { asyncTry: originalAsyncTry } = utils;
 
