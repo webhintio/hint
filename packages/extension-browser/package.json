@@ -70,7 +70,7 @@
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-react-hooks": "^2.2.0",
     "focus-visible": "^5.0.2",
-    "glob": "^7.1.5",
+    "glob": "^7.1.6",
     "globby": "^10.0.1",
     "hint": "^5.4.1",
     "is-ci": "^2.0.0",
