@@ -33,7 +33,7 @@ export type ReportOptions = {
      */
     location?: ProblemLocation | null;
     /** The `Severity` to report the issue as. */
-    severity?: Severity;
+    severity: Severity;
     /** Indicate the language of the codeSnippet. */
     codeLanguage?: CodeLanguage;
 };
@@ -123,7 +123,7 @@ export class HintContext<E extends Events = Events> {
     }
 
     /** Reports a problem with the resource. */
-    public report(resource: string, message: string, options: ReportOptions = {}) {
+    public report(resource: string, message: string, options: ReportOptions) {
         const { codeSnippet, element, severity = Severity.warning } = options;
         let sourceCode: string | null = null;
         let position = options.location || null;
