@@ -64,7 +64,7 @@ by sending limited usage information
 (no personal information or URLs will be sent).
 
 To know more about what information will be sent please
-visit ${chalk.default.green('https://webhint.io/docs/user-guide/telemetry/summary/')}`;
+visit ${chalk.green('https://webhint.io/docs/user-guide/telemetry/summary/')}`;
 
     printFrame(message);
 };
@@ -78,7 +78,7 @@ by sending limited usage information
 (no personal information or URLs will be sent).
 
 To know more about what information will be sent please
-visit ${chalk.default.green('https://webhint.io/docs/user-guide/telemetry/summary/')}
+visit ${chalk.green('https://webhint.io/docs/user-guide/telemetry/summary/')}
 
 Please configure it using
 the environment variable HINT_TRACKING to 'on' or 'off'
@@ -173,13 +173,13 @@ const sendTelemetryIfEnabled = async (userConfig: UserConfig) => {
  * defaults will be used.
  */
 const showDefaultMessage = () => {
-    const defaultMessage = `${chalk.default.yellow(`Couldn't find any valid configuration`)}
+    const defaultMessage = `${chalk.yellow(`Couldn't find any valid configuration`)}
 
 Running hint with the default configuration.
 
 Learn more about how to create your own configuration at:
 
-${chalk.default.green('https://webhint.io/docs/user-guide/')}`;
+${chalk.green('https://webhint.io/docs/user-guide/')}`;
 
     printFrame(defaultMessage);
 };
