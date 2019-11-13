@@ -7,6 +7,8 @@ import * as table from 'text-table';
 const stripAnsi = require('strip-ansi');
 
 import * as problems from './fixtures/list-of-problems';
+import { severityToColor } from '@hint/utils';
+import { Severity } from '@hint/utils-types';
 
 type Logging = {
     log: () => void;
@@ -43,32 +45,32 @@ const getExpectedLogResult = () => {
     let problem = problems.multipleproblemsandresources[1];
     let tableData = [];
 
-    tableData.push(['', '', chalk.yellow('Warning'), problem.message, problem.hintId]);
+    tableData.push(['', '', severityToColor(Severity.warning)('Warning'), problem.message, problem.hintId]);
     problem = problems.multipleproblemsandresources[0];
-    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.hintId]);
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, severityToColor(Severity.warning)('Warning'), problem.message, problem.hintId]);
     problem = problems.multipleproblemsandresources[4];
-    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, chalk.yellow('Warning'), problem.message, problem.hintId]);
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, severityToColor(Severity.information)('Information'), problem.message, problem.hintId]);
 
     let tableString = table(tableData);
 
     let expectedLogResult = `${chalk.cyan('http://myresource.com/')}
 ${tableString}
-${chalk.yellow.bold(`${logSymbols.error} Found 0 errors and 3 warnings`)}
+${severityToColor(Severity.warning).bold(`${logSymbols.error} Found 0 errors, 2 warnings, 1 information and 0 hints`)}
 
 ${chalk.cyan('http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.jpg')}`;
 
     tableData = [];
     problem = problems.multipleproblemsandresources[2];
-    tableData.push([chalk.red('Error'), problem.message, problem.hintId]);
+    tableData.push([severityToColor(Severity.error)('Error'), problem.message, problem.hintId]);
     problem = problems.multipleproblemsandresources[3];
-    tableData.push([chalk.yellow('Warning'), problem.message, problem.hintId]);
+    tableData.push([severityToColor(Severity.hint)('Hint'), problem.message, problem.hintId]);
     tableString = table(tableData);
 
     expectedLogResult += `
 ${tableString}
-${chalk.red.bold(`${logSymbols.error} Found 1 error and 1 warning`)}
+${severityToColor(Severity.error).bold(`${logSymbols.error} Found 1 error, 0 warnings, 0 informations and 1 hint`)}
 
-${chalk.red.bold(`${logSymbols.error} Found a total of 1 error and 4 warnings`)}`;
+${severityToColor(Severity.error).bold(`${logSymbols.error} Found a total of 1 error, 2 warnings, 1 information and 1 hint`)}`;
 
     return expectedLogResult;
 };
@@ -77,34 +79,34 @@ const getExpectedOutputResult = () => {
     let problem = problems.multipleproblemsandresources[1];
     let tableData = [];
 
-    tableData.push(['', '', 'Warning', problem.message, problem.hintId]);
+    tableData.push(['', '', severityToColor(Severity.warning)('Warning'), problem.message, problem.hintId]);
     problem = problems.multipleproblemsandresources[0];
-    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, 'Warning', problem.message, problem.hintId]);
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, severityToColor(Severity.warning)('Warning'), problem.message, problem.hintId]);
     problem = problems.multipleproblemsandresources[4];
-    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, 'Warning', problem.message, problem.hintId]);
+    tableData.push([`line ${problem.location.line}`, `col ${problem.location.column}`, severityToColor(Severity.information)('Information'), problem.message, problem.hintId]);
 
     let tableString = table(tableData);
 
     let expectedLogResult = `http://myresource.com/
 ${tableString}
-${stripAnsi(logSymbols.error)} Found 0 errors and 3 warnings
+${logSymbols.error} Found 0 errors, 2 warnings, 1 information and 0 hints
 
 http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.jpg`;
 
     tableData = [];
     problem = problems.multipleproblemsandresources[2];
-    tableData.push(['Error', problem.message, problem.hintId]);
+    tableData.push([severityToColor(Severity.error)('Error'), problem.message, problem.hintId]);
     problem = problems.multipleproblemsandresources[3];
-    tableData.push(['Warning', problem.message, problem.hintId]);
+    tableData.push([severityToColor(Severity.hint)('Hint'), problem.message, problem.hintId]);
     tableString = table(tableData);
 
     expectedLogResult += `
 ${tableString}
-${stripAnsi(logSymbols.error)} Found 1 error and 1 warning
+${logSymbols.error} Found 1 error, 0 warnings, 0 informations and 1 hint
 
-${stripAnsi(logSymbols.error)} Found a total of 1 error and 4 warnings`;
+${logSymbols.error} Found a total of 1 error, 2 warnings, 1 information and 1 hint`;
 
-    return expectedLogResult;
+    return stripAnsi(expectedLogResult);
 };
 
 test.beforeEach(initContext);
@@ -147,9 +149,10 @@ test(`Stylish formatter called with the output option should write the result in
     const log = t.context.loggingLogSpy;
     const writeFileStub = t.context.writeFileAsyncDefaultStub;
     const expectedOutputResult = getExpectedOutputResult();
+    const actualResult = writeFileStub.args[0][1];
 
     t.false(log.called);
     t.true(writeFileStub.calledOnce);
     t.is(writeFileStub.args[0][0], outputFile);
-    t.is(writeFileStub.args[0][1], expectedOutputResult);
+    t.is(actualResult, expectedOutputResult);
 });

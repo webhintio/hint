@@ -7,6 +7,8 @@ import * as table from 'text-table';
 const stripAnsi = require('strip-ansi');
 
 import * as problems from './fixtures/list-of-problems';
+import { severityToColor } from '@hint/utils';
+import { Severity } from '@hint/utils-types';
 
 type Logging = {
     log: () => void;
@@ -64,10 +66,10 @@ test(`Summary formatter prints in yellow if only warnings found`, (t) => {
 
     formatter.format(problems.summaryWarnings);
 
-    tableData.push([chalk.cyan('random-hint'), chalk.yellow(`2 warnings`)]);
+    tableData.push([chalk.cyan('random-hint'), severityToColor(Severity.warning)(`2 warnings`)]);
 
     const expectedResult = `${table(tableData)}
-${chalk.yellow.bold(`${logSymbols.error.trim()} Found a total of 0 errors and 2 warnings`)}`;
+${severityToColor(Severity.warning).bold(`${logSymbols.error.trim()} Found a total of 0 errors, 2 warnings, 0 informations and 0 hints`)}`;
 
     t.true(log.calledOnce);
     t.false(writeFileStub.calledOnce);
@@ -84,11 +86,11 @@ test(`Summary formatter prints a table and a summary for all resources combined`
 
     formatter.format(problems.summaryProblems);
 
-    tableData.push([chalk.cyan('random-hint2'), chalk.red(`1 error`)]);
-    tableData.push([chalk.cyan('random-hint'), chalk.yellow(`4 warnings`)]);
+    tableData.push([chalk.cyan('random-hint2'), severityToColor(Severity.error)(`1 error`)]);
+    tableData.push([chalk.cyan('random-hint'), severityToColor(Severity.warning)(`2 warnings`), severityToColor(Severity.information)('1 information'), severityToColor(Severity.hint)('1 hint')]);
 
     const expectedResult = `${table(tableData)}
-${chalk.red.bold(`${logSymbols.error.trim()} Found a total of 1 error and 4 warnings`)}`;
+${severityToColor(Severity.error).bold(`${logSymbols.error.trim()} Found a total of 1 error, 2 warnings, 1 information and 1 hint`)}`;
 
     t.true(log.calledOnce);
     t.false(writeFileStub.calledOnce);
@@ -105,11 +107,11 @@ test(`Summary formatter sorts by name if same number of errors`, (t) => {
 
     formatter.format(problems.summarySameNumberOfErrors);
 
-    tableData.push([chalk.cyan('random-hint'), chalk.red(`1 error`)]);
-    tableData.push([chalk.cyan('random-hint2'), chalk.red(`1 error`)]);
+    tableData.push([chalk.cyan('random-hint'), severityToColor(Severity.error)(`1 error`)]);
+    tableData.push([chalk.cyan('random-hint2'), severityToColor(Severity.error)(`1 error`)]);
 
     const expectedResult = `${table(tableData)}
-${chalk.red.bold(`${logSymbols.error.trim()} Found a total of 2 errors and 0 warnings`)}`;
+${severityToColor(Severity.error).bold(`${logSymbols.error.trim()} Found a total of 2 errors, 0 warnings, 0 informations and 0 hints`)}`;
 
     t.true(log.calledOnce);
     t.false(writeFileStub.calledOnce);
@@ -126,10 +128,10 @@ test(`Summary formatter prints errors and warnings for a hint that reports both`
 
     formatter.format(problems.summaryErrorWarnings);
 
-    tableData.push([chalk.cyan('random-hint'), chalk.red(`1 error`), chalk.yellow(`1 warning`)]);
+    tableData.push([chalk.cyan('random-hint'), severityToColor(Severity.error)(`1 error`), severityToColor(Severity.warning)(`1 warning`)]);
 
     const expectedResult = `${table(tableData)}
-${chalk.red.bold(`${logSymbols.error.trim()} Found a total of 1 error and 1 warning`)}`;
+${severityToColor(Severity.error).bold(`${logSymbols.error.trim()} Found a total of 1 error, 1 warning, 0 informations and 0 hints`)}`;
 
     t.true(log.calledOnce);
     t.false(writeFileStub.calledOnce);
@@ -150,7 +152,7 @@ test(`Summary formatter called with the output option should write the result in
     tableData.push(['random-hint', '1 error', '1 warning']);
 
     const expectedResult = `${table(tableData)}
-${stripAnsi(logSymbols.error.trim())} Found a total of 1 error and 1 warning`;
+${stripAnsi(logSymbols.error.trim())} Found a total of 1 error, 1 warning, 0 informations and 0 hints`;
 
     t.false(log.calledOnce);
     t.true(writeFileStub.calledOnce);

@@ -67,7 +67,7 @@ const codeframeproblems: Problem[] = [{
     },
     message: `This is a problem in an element with wrong tabs`,
     resource: 'http://myresource.com/',
-    severity: Severity.warning,
+    severity: Severity.hint,
     sourceCode: `<html lang="en"><head>
 <meta charset="utf-8">
         <title></title>
@@ -87,7 +87,7 @@ const codeframeproblems: Problem[] = [{
     },
     message: 'This is a problem inside an element',
     resource: 'http://myresource.com/',
-    severity: Severity.warning,
+    severity: Severity.information,
     sourceCode: `<a href="//link.com">
             <img src="//image.jpg"/>
         </a>`

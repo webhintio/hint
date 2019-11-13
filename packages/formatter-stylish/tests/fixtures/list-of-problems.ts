@@ -47,7 +47,7 @@ const multipleproblemsandresources: Problem[] = [{
     },
     message: 'This is another problem without line',
     resource: 'http://myresource2.com/this/resource/is/really/really/long/resources/image/imagewithalongname.jpg',
-    severity: Severity.warning,
+    severity: Severity.hint,
     sourceCode: ''
 },
 {
@@ -61,7 +61,7 @@ const multipleproblemsandresources: Problem[] = [{
     },
     message: 'This is a problem in line 2 column 10',
     resource: 'http://myresource.com/',
-    severity: Severity.warning,
+    severity: Severity.information,
     sourceCode: `<a href="//link.com">
         <img src="//image.jpg"/>
     </a>`
