@@ -22,7 +22,6 @@
         { "path": "../utils-dom" },
         { "path": "../utils-fs" },
         { "path": "../utils-network" },
-        { "path": "../utils-tests-helpers" },
         { "path": "../utils-types" }
     ]
 }
