@@ -437,7 +437,7 @@ export default class HttpCacheHint implements IHint {
             if (!matches) {
                 const message: string = getMessage('noCacheBustingPattern', context.language, resource);
 
-                context.report(resource, message, { element });
+                context.report(resource, message, { element, severity: Severity.warning });
 
                 return false;
             }
