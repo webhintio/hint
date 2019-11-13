@@ -205,10 +205,12 @@ const tests: HintTest[] = [
             },
             {
                 message: elementAlreadySpecifiedErrorMessage,
+                position: { column: 17, line: 4 },
                 severity: Severity.warning
             },
             {
                 message: elementAlreadySpecifiedErrorMessage,
+                position: { column: 17, line: 6 },
                 severity: Severity.warning
             }
         ],
