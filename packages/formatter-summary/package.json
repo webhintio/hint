@@ -11,6 +11,7 @@
     "@hint/utils": "^6.1.0",
     "@hint/utils-debug": "^1.0.0",
     "@hint/utils-fs": "^1.0.0",
+    "@hint/utils-i18n": "^1.0.0",
     "@hint/utils-types": "^1.0.0",
     "chalk": "^2.4.2",
     "lodash": "^4.17.15",
@@ -61,11 +62,12 @@
     "url": "https://github.com/webhintio/hint.git"
   },
   "scripts": {
-    "build": "npm-run-all build:*",
-    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build": "npm run i18n && npm-run-all build:*",
+    "build-release": "npm run clean && npm run i18n && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
+    "i18n": "node ../../scripts/create-i18n.js",
     "lint": "npm-run-all lint:*",
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
