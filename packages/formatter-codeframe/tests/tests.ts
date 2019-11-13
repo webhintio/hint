@@ -1,5 +1,5 @@
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import * as logSymbols from 'log-symbols';

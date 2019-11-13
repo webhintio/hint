@@ -1,5 +1,5 @@
 import { Severity } from '@hint/utils-types';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 
 export const severityToColor = (severity: Severity): import('chalk').Chalk => {
     switch (severity) {

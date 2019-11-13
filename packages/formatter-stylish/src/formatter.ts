@@ -10,7 +10,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');

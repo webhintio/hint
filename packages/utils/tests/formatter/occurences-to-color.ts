@@ -1,5 +1,5 @@
 import test from 'ava';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 
 import { Severity } from '@hint/utils-types';
 
