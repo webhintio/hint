@@ -31,8 +31,6 @@ type ThirdPartyInfo = {
  * Represents information about a Hint.
  */
 export class HintResult {
-    /** Status of hint. */
-    public status: string;
     /** Number of suggestions reported for this hint. */
     public count: number;
     /** Suggestions reported for this hint. */
@@ -44,13 +42,12 @@ export class HintResult {
     /** Indicate if there is documentation for this hint. */
     public hasDoc: boolean;
 
-    public constructor(name: string, status: string, url: string, isScanner: boolean) {
+    public constructor(name: string, url: string, isScanner: boolean) {
         const baseName = name.split('/')[0];
 
         this.problems = [];
 
         this.name = name;
-        this.status = status;
         this.count = 0;
 
         // Use `baseName` so multi-hints like `axe/aria` map to `axe`.
@@ -153,7 +150,7 @@ export class CategoryResult {
             return hint;
         }
 
-        hint = new HintResult(name, status, this.url, this.isScanner);
+        hint = new HintResult(name, this.url, this.isScanner);
 
         if (status === 'pass') {
             this.passed.push(hint);
@@ -174,15 +171,12 @@ export class CategoryResult {
         let hint = this.getHintByName(hintId);
 
         if (!hint) {
-            // All the problems have to have the same severity, so we just need to calculate the status once.
-            const status = problem.severity === Severity.error ? 'error' : 'warning';
-
-            hint = new HintResult(hintId, status, this.url, this.isScanner);
+            hint = new HintResult(hintId, this.url, this.isScanner);
 
             this.hints.push(hint);
         }
 
-        if (problem.severity === Severity.error || problem.severity === Severity.warning) {
+        if (problem.severity !== Severity.off && problem.severity !== Severity.default) {
             this.hintsCount++;
         }
 
