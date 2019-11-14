@@ -13,5 +13,39 @@
     gap: 1.5rem; /* 24px */
     margin-bottom: 1rem; /* 16px */
     margin-top: 0.75rem; /* 12px */
-    padding-left: 1rem; /* 16px */
+    padding-left: 1.7rem; /* 27.2 */
+}
+
+.status {
+    border-radius: 1.25rem; /* 20px */
+    box-sizing: border-box;
+    color: var(--base-color);
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    line-height: 1.25rem; /* 20px */
+    margin: 0 1rem 0 0.7rem; /* 0 16px 0 11.2px */
+    min-width: 4rem; /* 64px */
+    padding: 0 0.5rem; /* 0 8px */
+    text-align: center;
+    white-space: nowrap;
+}
+
+.status.warning {
+    background-color: var(--status-bg-warn);
+    color: var(--dark-color);
+}
+
+.status.error {
+    background-color: var(--status-bg-error);
+    color: var(--light-color);
+}
+
+.status.information {
+    background-color: var(--status-bg-info);
+    color: var(--dark-color);
+}
+
+.status.hint {
+    background-color: var(--status-bg-hint);
+    color: var(--light-color);
 }
