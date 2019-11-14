@@ -10,11 +10,11 @@ const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity =>
         case 3:
             return DiagnosticSeverity.Warning;
         case 2:
-            return DiagnosticSeverity.Information;
+            return DiagnosticSeverity.Hint;
         case 1:
-            return DiagnosticSeverity.Hint;
+            return DiagnosticSeverity.Information;
         default:
-            return DiagnosticSeverity.Hint;
+            return DiagnosticSeverity.Information;
     }
 };
 
