@@ -70,11 +70,11 @@ const getSummaryMessage = (problems: ProblemData[]): string => {
     if (warningGroup) {
         messages.push(getMessage('warningIssuesLabel', warningGroup.length.toString()));
     }
-    if (informationGroup) {
-        messages.push(getMessage('informationIssuesLabel', informationGroup.length.toString()));
-    }
     if (hintGroup) {
         messages.push(getMessage('hintIssuesLabel', hintGroup.length.toString()));
+    }
+    if (informationGroup) {
+        messages.push(getMessage('informationIssuesLabel', informationGroup.length.toString()));
     }
 
     return messages.join(', ');
