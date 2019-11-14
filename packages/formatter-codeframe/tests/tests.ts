@@ -112,7 +112,7 @@ ${sourceCode[2].substr(8)}
 ${sourceCode[3]}
 …
 
-${severityToColor(Severity.error).bold(`${logSymbols.error} Found a total of 1 error, 2 warnings, 1 information and 1 hint`)}`;
+${severityToColor(Severity.error).bold(`${logSymbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`)}`;
 
     return expectedLogResult;
 };
@@ -174,7 +174,7 @@ ${sourceCode[2].substr(8)}
 ${sourceCode[3]}
 …
 
-${stripAnsi(logSymbols.error)} Found a total of 1 error, 2 warnings, 1 information and 1 hint`;
+${stripAnsi(logSymbols.error)} Found a total of 1 error, 2 warnings, 1 hint and 1 information`;
 
     return expectedLogResult;
 };

@@ -122,10 +122,10 @@ export default class StylishFormatter implements IFormatter {
                 partials[Severity.error] === 1 ? getMessage('error', language) : getMessage('errors', language),
                 partials[Severity.warning].toString(),
                 partials[Severity.warning] === 1 ? getMessage('warning', language) : getMessage('warnings', language),
-                partials[Severity.information].toString(),
-                partials[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language),
                 partials[Severity.hint].toString(),
-                partials[Severity.hint] === 1 ? getMessage('hint', language) : getMessage('hints', language)
+                partials[Severity.hint] === 1 ? getMessage('hint', language) : getMessage('hints', language),
+                partials[Severity.information].toString(),
+                partials[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
             ]);
 
             partialResult += color.bold(`${logSymbols.error} ${foundMessage}`);
@@ -140,10 +140,10 @@ export default class StylishFormatter implements IFormatter {
             totals[Severity.error] === 1 ? getMessage('error', language) : getMessage('errors', language),
             totals[Severity.warning].toString(),
             totals[Severity.warning] === 1 ? getMessage('warning', language) : getMessage('warnings', language),
-            totals[Severity.information].toString(),
-            totals[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language),
             totals[Severity.hint].toString(),
-            totals[Severity.hint] === 1 ? getMessage('hint', language) : getMessage('hints', language)
+            totals[Severity.hint] === 1 ? getMessage('hint', language) : getMessage('hints', language),
+            totals[Severity.information].toString(),
+            totals[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
         ]);
 
         result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);

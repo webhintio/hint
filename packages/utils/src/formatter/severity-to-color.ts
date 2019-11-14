@@ -7,10 +7,10 @@ export const severityToColor = (severity: Severity): import('chalk').Chalk => {
             return chalk.red;
         case Severity.warning:
             return chalk.yellow;
-        case Severity.information:
-            return chalk.gray;
         case Severity.hint:
             return chalk.hex('9451A0');
+        case Severity.information:
+            return chalk.gray;
         default:
             return chalk.yellow;
     }
