@@ -8,10 +8,10 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-json": "^1.0.0",
-    "@hint/utils-network": "^1.0.0",
-    "@hint/utils-string": "^1.0.0",
-    "@hint/utils-types": "^1.0.0"
+    "@hint/utils-json": "^0.0.1",
+    "@hint/utils-network": "^0.0.1",
+    "@hint/utils-string": "^0.0.1",
+    "@hint/utils-types": "^0.0.1"
   },
   "description": "webhint parser for web app manifest files",
   "devDependencies": {

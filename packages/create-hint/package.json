@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
-    "@hint/utils-fs": "^1.0.0",
-    "@hint/utils-string": "^1.0.0",
-    "@hint/utils-types": "^1.0.0"
+    "@hint/utils-fs": "^0.0.1",
+    "@hint/utils-string": "^0.0.1",
+    "@hint/utils-types": "^0.0.1"
   },
   "description": "webhint's hint initializer package",
   "devDependencies": {

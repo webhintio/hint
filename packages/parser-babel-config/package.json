@@ -9,9 +9,9 @@
   },
   "description": "webhint parser to analyze babel config",
   "dependencies": {
-    "@hint/utils-fs": "^1.0.0",
-    "@hint/utils-json": "^1.0.0",
-    "@hint/utils-network": "^1.0.0",
+    "@hint/utils-fs": "^0.0.1",
+    "@hint/utils-json": "^0.0.1",
+    "@hint/utils-network": "^0.0.1",
     "lodash": "^4.17.15"
   },
   "devDependencies": {

@@ -10,14 +10,14 @@
   "description": "Verify that all links and resources the page uses are available online.",
   "dependencies": {
     "@hint/utils-connector-tools": "^4.0.14",
-    "@hint/utils-debug": "^1.0.0",
-    "@hint/utils-i18n": "^1.0.0",
-    "@hint/utils-network": "^1.0.0",
-    "@hint/utils-types": "^1.0.0"
+    "@hint/utils-debug": "^0.0.1",
+    "@hint/utils-i18n": "^0.0.1",
+    "@hint/utils-network": "^0.0.1",
+    "@hint/utils-types": "^0.0.1"
   },
   "devDependencies": {
     "@hint/utils-create-server": "^3.3.0",
-    "@hint/utils-dom": "^1.0.0",
+    "@hint/utils-dom": "^0.0.1",
     "@hint/utils-tests-helpers": "^5.1.0",
     "@types/node": "^12.7.5",
     "@types/request": "^2.48.3",

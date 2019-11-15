@@ -9,10 +9,10 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
-    "@hint/utils-debug": "^1.0.0",
-    "@hint/utils-network": "^1.0.0",
-    "@hint/utils-string": "^1.0.0",
-    "@hint/utils-types": "^1.0.0",
+    "@hint/utils-debug": "^0.0.1",
+    "@hint/utils-network": "^0.0.1",
+    "@hint/utils-string": "^0.0.1",
+    "@hint/utils-types": "^0.0.1",
     "data-urls": "^1.1.0",
     "iconv-lite": "^0.5.0",
     "request": "^2.88.0"

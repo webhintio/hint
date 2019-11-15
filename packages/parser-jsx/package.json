@@ -8,8 +8,8 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debug": "^1.0.0",
-    "@hint/utils-dom": "^1.0.0",
+    "@hint/utils-debug": "^0.0.1",
+    "@hint/utils-dom": "^0.0.1",
     "parse5": "^5.1.1",
     "parse5-htmlparser2-tree-adapter": "^5.1.0"
   },

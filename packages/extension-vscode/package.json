@@ -48,8 +48,8 @@
   },
   "description": "Run webhint in Visual Studio Code.",
   "devDependencies": {
-    "@hint/utils-telemetry": "^1.0.0",
-    "@hint/utils-types": "^1.0.0",
+    "@hint/utils-telemetry": "^0.0.1",
+    "@hint/utils-types": "^0.0.1",
     "@types/node": "^12.7.5",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.5.0",
