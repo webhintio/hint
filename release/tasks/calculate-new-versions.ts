@@ -42,12 +42,13 @@ export const calculateNewVersions = (ctx: Context) => {
             return Math.max(currentBump, bump);
         }, Bump.none);
 
-        if (bumpType === Bump.none) {
-            return;
-        }
+        const oldVersion = pkg.content.version;
 
-        pkg.updated = true;
         pkg.content.version = calculatePackageNewVersion(pkg, bumpType);
+
+        if (oldVersion !== pkg.content.version) {
+            pkg.updated = true;
+        }
     });
 
     // Step 2: Update versions based on the inter dependencies between packages
