@@ -99,15 +99,15 @@
     --code-string-color: #ce9178;
 
     /* html */
-    --code-attr-name-color: #9cdcfe;
-    --code-attr-value-color: #ce9178;
-    --code-attr-value-punctuation-color: #ce9178;
-    --code-attr-value-first-punctuation-color: #ce9178;
+    --code-attr-name-color: #9eddfd ;
+    --code-attr-value-color: #cf9680;
+    --code-attr-value-punctuation-color: #a7a7a7;
+    --code-attr-value-first-punctuation-color: #a7a7a7 ;
     --code-doctype-color: #808080;
     --code-entity-color: #569cd6;
     --code-html-default-color: #d4d4d4;
-    --code-tag-color: #569cd6;
-    --code-tag-punctuation-color: #808080;
+    --code-tag-color: #70acda;
+    --code-tag-punctuation-color: #70acda;
 
     /* CSS */
     --code-atrule-color: #c586c0;
