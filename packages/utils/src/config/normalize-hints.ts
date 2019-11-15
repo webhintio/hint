@@ -65,12 +65,12 @@ export default function normalizeHints(hints: HintsConfigObject | (string | any[
             result[hintName] = hintLevel;
         } else if (Array.isArray(hint)) {
             const [hintKey, hintConfig] = hint;
-            const { hintName, hintLevel } = normalizeHint(hintKey as string);
+            const { hintName, hintLevel } = normalizeHint(hintKey);
 
             if (hintConfig) {
                 result[hintName] = [hintLevel, hintConfig];
             } else {
-                result[hintName] = [hintLevel];
+                result[hintName] = [hintLevel, {}];
             }
         } else {
             throw new Error(`Invalid hint type specified: "${hint}". Arrays and objects are supported.`);
