@@ -59,3 +59,4 @@ const skipArgument = (argument: string) => {
 
 export const skipIfForced = skipArgument('force');
 export const skipIfJustRelease = skipArgument('justRelease');
+export const skipIfTestMode = skipArgument('testMode');
