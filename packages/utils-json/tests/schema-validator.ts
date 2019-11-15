@@ -3,7 +3,7 @@ import test from 'ava';
 import { SchemaValidationResult, validate } from '../src';
 
 const baseSchema = {
-    $schema: 'http://json-schema.org/draft-04/schema#',
+    $schema: 'http://json-schema.org/draft-07/schema#',
     additionalProperties: false,
     properties: {
         a: {
@@ -23,7 +23,7 @@ const baseSchema = {
 };
 
 const schemaTypeRequireAndUniqueItems = {
-    $schema: 'http://json-schema.org/draft-04/schema#',
+    $schema: 'http://json-schema.org/draft-07/schema#',
     additionalProperties: false,
     properties: {
         d: {
