@@ -67,11 +67,6 @@ const tasks = new Listr([
         task: taskErrorWrapper(calculateNewVersions)
     },
     {
-        title: 'Update changelogs',
-        skip: skipReasons(skipIfError, skipIfJustRelease),
-        task: updateChangelogs()
-    },
-    {
         title: 'Save changes in disk',
         skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
         task: taskErrorWrapper(savePackageChanges)
@@ -91,6 +86,11 @@ const tasks = new Listr([
         title: 'Install dependencies',
         skip: skipReasons(skipIfError, skipIfAborted, skipInstallation),
         task: taskErrorWrapper(installDependencies)
+    },
+    {
+        title: 'Update changelogs',
+        skip: skipReasons(skipIfError, skipIfJustRelease),
+        task: updateChangelogs()
     },
     {
         title: 'Commit changes',
