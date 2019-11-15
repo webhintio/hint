@@ -11,7 +11,7 @@
 
 import * as url from 'url';
 
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
 import remove = require('lodash/remove');
 

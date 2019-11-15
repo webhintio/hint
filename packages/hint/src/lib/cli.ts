@@ -14,7 +14,7 @@
  * Requirements
  * ------------------------------------------------------------------------------
  */
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import * as updateNotifier from 'update-notifier';
 
 import { logger } from '@hint/utils';

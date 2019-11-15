@@ -8,6 +8,7 @@ export * from './misc';
 export * from './npm';
 export * from './packages';
 export * from './chromium-finder';
+export * from './formatter';
 
 export * from './config';
 export * from './has-yarnlock';
