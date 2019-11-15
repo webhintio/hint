@@ -47,9 +47,9 @@ export type IgnoredUrl = {
     hints: string[];
 };
 
-export type HintConfigArray = [string, { [key: string]: any }];
+type HintConfigArray = [string, { [key: string]: any }];
 
-export type HintsConfigArray = (HintConfigArray | string)[];
+type HintsConfigArray = (HintConfigArray | string)[];
 
 export type UserConfig = {
     browserslist?: string | string[];
