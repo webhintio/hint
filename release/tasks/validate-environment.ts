@@ -125,8 +125,10 @@ export const validateEnvironment = async (ctx: Context, task: ListrTaskWrapper) 
         debug('skipping branch check');
     }
 
-    for (const check of checks) {
-        await check();
+    if (!ctx.argv.testMode) {
+        for (const check of checks) {
+            await check();
+        }
     }
 
     // Check if we are in the right branch pointing to the right repo?

@@ -21,6 +21,10 @@ export const argv = yargs
         alias: 't',
         describe: 'Skip the testing face and go directly to publish on npm and GitHub'
     })
+    .option('testMode', {
+        alias: 'm',
+        describe: 'Skip environment validation, GitHub authentication, testing, and publishing anywhere'
+    })
     .version(false)
     .help()
     .argv;
