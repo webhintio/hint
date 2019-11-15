@@ -9,12 +9,12 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
-    "@hint/utils-debug": "^1.0.0",
-    "@hint/utils-i18n": "^1.0.0",
-    "@hint/utils-network": "^1.0.0",
-    "@hint/utils-string": "^1.0.0",
+    "@hint/utils-debug": "^0.0.1",
+    "@hint/utils-i18n": "^0.0.1",
+    "@hint/utils-network": "^0.0.1",
+    "@hint/utils-string": "^0.0.1",
     "content-type": "^1.0.4",
-    "@hint/utils-types": "^1.0.0"
+    "@hint/utils-types": "^0.0.1"
   },
   "description": "hint for media types (f.k.a. MIME types) related best practices",
   "devDependencies": {

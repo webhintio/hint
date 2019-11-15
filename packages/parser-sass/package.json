@@ -9,8 +9,8 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debug": "^1.0.0",
-    "@hint/utils-string": "^1.0.0",
+    "@hint/utils-debug": "^0.0.1",
+    "@hint/utils-string": "^0.0.1",
     "postcss": "^7.0.21",
     "postcss-scss": "^2.0.0",
     "postcss-sass": "^0.4.1"
@@ -18,7 +18,7 @@
   "description": "webhint parser needed to analyze SASS and SCSS files",
   "devDependencies": {
     "@hint/parser-css": "^3.0.14",
-    "@hint/utils-dom": "^1.0.0",
+    "@hint/utils-dom": "^0.0.1",
     "@types/node": "^12.7.5",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.5.0",

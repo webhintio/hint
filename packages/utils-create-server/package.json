@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@hint/utils-network": "^1.0.0",
-    "@hint/utils-string": "^1.0.0",
+    "@hint/utils-network": "^0.0.1",
+    "@hint/utils-string": "^0.0.1",
     "express": "^4.17.1",
     "is-ci": "^2.0.0",
     "lodash": "^4.17.15",

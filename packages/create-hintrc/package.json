@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
-    "@hint/utils-debug": "^1.0.0",
-    "@hint/utils-fs": "^1.0.0",
+    "@hint/utils-debug": "^0.0.1",
+    "@hint/utils-fs": "^0.0.1",
     "browserslist": "^4.7.2",
     "inquirer": "^7.0.0"
   },

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@hint/utils": "^6.1.0",
-    "@hint/utils-network": "^1.0.0"
+    "@hint/utils-network": "^0.0.1"
   },
   "description": "webhint parser needed to analyze webpack config files",
   "devDependencies": {

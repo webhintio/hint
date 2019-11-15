@@ -11,8 +11,8 @@
     "create-parser": "./dist/src/create-parser.js"
   },
   "dependencies": {
-    "@hint/utils-fs": "^1.0.0",
-    "@hint/utils-string": "^1.0.0"
+    "@hint/utils-fs": "^0.0.1",
+    "@hint/utils-string": "^0.0.1"
   },
   "description": "webhint's parser initializer package",
   "devDependencies": {
