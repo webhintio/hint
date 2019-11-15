@@ -39,6 +39,12 @@
     --icon-pwa-url: url(../../images/icon-pwa.svg);
     --icon-security-url: url(../../images/icon-security.svg);
 
+    /* Severity icons */
+    --icon-severity-error-url: url(../../images/icon-severity-error.svg);
+    --icon-severity-hint-url: url(../../images/icon-severity-hint.svg);
+    --icon-severity-info-url: url(../../images/icon-severity-info.svg);
+    --icon-severity-warning-url: url(../../images/icon-severity-warning.svg);
+
     /* Syntax highlighting colors */
     /* JS */
     --code-boolean-color: #0000ff;
