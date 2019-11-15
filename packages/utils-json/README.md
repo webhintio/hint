@@ -1,6 +1,6 @@
-# CSS utils (`@hint/utils-CSS`)
+# JSON utils (`@hint/utils-json`)
 
-Set of helpers to process CSS.
+Set of helpers to process JSON.
 
 ## Installation
 
