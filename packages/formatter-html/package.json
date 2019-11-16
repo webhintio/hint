@@ -14,7 +14,7 @@
     "@hint/utils-fs": "^1.0.0",
     "@hint/utils-i18n": "^1.0.0",
     "@hint/utils-types": "^1.0.0",
-    "ejs": "^2.7.1",
+    "ejs": "^2.7.2",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0"
