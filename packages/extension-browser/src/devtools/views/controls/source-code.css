@@ -115,6 +115,10 @@
     color: var(--code-attr-value-first-punctuation-color);
 }
 
+.root :global(.token.style-attr .punctuation) {
+    color: var(--code-attr-value-punctuation-color)
+}
+
 .root :global(.token.entity) {
     color: var(--code-entity-color);
 }
