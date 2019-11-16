@@ -4211,10 +4211,10 @@ eslint-plugin-import@^2.18.2:
     read-pkg-up "^2.0.0"
     resolve "^1.11.0"
 
-eslint-plugin-markdown@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-markdown/-/eslint-plugin-markdown-1.0.0.tgz#2d381b44fcf367f1bb53ae166eccf111cd4e1174"
-  integrity sha512-YIrClt3yLgyGov+rInjIoC/05zMxb/c6YXQZkyI9UKuBRFLgCrL37cxthj0JYWiTYtiHq0p8O0Nt0/HrvO48iQ==
+eslint-plugin-markdown@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-markdown/-/eslint-plugin-markdown-1.0.1.tgz#9705786310f84dad9cf800bea1eb5c4acafcc13a"
+  integrity sha512-nAUURNHJGPooBMZMP23FmTbh3LTdgoSqeFBv9FA3fYrJ+vDUJxrp6nKiQF4iDNAmnWQnmnrDvV61BmIF4X9QAQ==
   dependencies:
     object-assign "^4.0.1"
     remark-parse "^5.0.0"
