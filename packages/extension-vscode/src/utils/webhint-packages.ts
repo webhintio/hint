@@ -1,6 +1,9 @@
 import { hasFile, mkdir } from './fs';
 import { createPackageJson, installPackages, loadPackage, InstallOptions } from './packages';
 
+/** Timeout to start updating the shared webhint install. */
+const updateWebhintTimeout = 120000;
+
 /* istanbul ignore next */
 const installWebhint = (options: InstallOptions) => {
     return installPackages(['hint@latest', 'typescript@latest'], options);
@@ -39,9 +42,27 @@ export const updateSharedWebhint = async (globalStoragePath: string) => {
 /* istanbul ignore next */
 const loadSharedWebhint = async (globalStoragePath: string): Promise<typeof import('hint') | null> => {
     try {
-        return loadPackage('hint', { paths: [globalStoragePath] });
+        const hintPkg = await loadPackage('hint', { paths: [globalStoragePath] }) as typeof import('hint');
+
+        /**
+         * The shared package has been loaded successfully but it could be outdated.
+         * The update process kicks off after a few seconds to allow everything to
+         * get started first.
+         */
+        setTimeout(() => {
+            console.log(`Updating shared version of "hint"`);
+
+            updateSharedWebhint(globalStoragePath);
+        }, updateWebhintTimeout);
+
+        return hintPkg;
     } catch (e) {
         try {
+            console.error(`Error loading shared "hint" package`);
+            console.error(e);
+
+            console.log(`Installing shared version of "hint"`);
+
             await updateSharedWebhint(globalStoragePath);
 
             return loadPackage('hint', { paths: [globalStoragePath] });
@@ -54,24 +75,32 @@ const loadSharedWebhint = async (globalStoragePath: string): Promise<typeof impo
 };
 
 /**
- * Load webhint, installing it if needed.
- * Will prompt to install a local copy if `.hintrc` is present.
+ * Tries to load webhint from the user workspace, then the shared copy
+ * unless `directory` is an empty string. In that cases it loads the
+ * shared global version directly.
  */
-export const loadWebhint = async (directory: string, globalStoragePath: string, promptToInstall: (install: () => Promise<void>) => Promise<void>): Promise<typeof import('hint') | null> => {
+export const loadWebhint = (directory: string, globalStoragePath: string): Promise<typeof import('hint') | null> => {
     try {
-        return loadPackage('hint', { paths: [directory] });
-    } catch (e) {
-        if (await hasFile('.hintrc', directory)) {
-            /**
-             * Prompt to install, but don't wait in case the user ignores.
-             * Load the shared copy for now until the install is done.
-             * Caller is expected to reload once install is complete.
-             */
-            promptToInstall(async () => {
-                await installWebhint({ cwd: directory });
-            });
+        /* istanbul ignore else */
+        if (directory) {
+            return loadPackage('hint', { paths: [directory] });
         }
 
+        /* istanbul ignore next */
         return loadSharedWebhint(globalStoragePath);
+    } catch (e) /* istanbul ignore next */ {
+        console.error(`Error loading "hint" package from "${directory}"`);
+
+        /**
+         * If `directory` exists, we tried to load the workspace version first and failed
+         * so we try again with the shared one now.
+         */
+        if (directory) {
+            console.error(`Trying to load shared version`);
+
+            return loadSharedWebhint(globalStoragePath);
+        }
+
+        return Promise.resolve(null);
     }
 };

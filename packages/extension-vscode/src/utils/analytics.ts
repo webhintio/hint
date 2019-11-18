@@ -103,6 +103,7 @@ export const trackSave = (uri: string, languageId: string) => {
     }
 
     // Throttle tracking saves to reduce redundant reports when autosave is on.
+    /* istanbul ignore if */
     if (lastSave && now - lastSave < twoMinutes) {
         return;
     }
