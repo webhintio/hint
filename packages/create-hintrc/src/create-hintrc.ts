@@ -64,11 +64,15 @@ const extendConfig = async (): Promise<InitUserConfig | null> => {
         return null;
     }
 
-    const choices = configPackages.map((pkg) => {
+    const configNames = configPackages.map((pkg) => {
         return {
             name: getConfigurationName(pkg.name),
             value: pkg.name
         };
+    });
+
+    const choices = configNames.filter((config) => {
+        return config.name !== 'all';
     });
 
     const questions: inquirer.Questions = [{

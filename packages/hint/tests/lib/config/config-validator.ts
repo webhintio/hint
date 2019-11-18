@@ -64,6 +64,7 @@ const invalidHintsConfigArrayFormArrayInverted = {
     hints: [[{}, 'no-html-only-headers:error']]
 };
 
+const invalidExtends = { extends: ['all'] };
 
 test('If config has an invalid schema, it should return false', (t) => {
     const valid = configValidator.validateConfig(invalidConfig as any);
@@ -117,4 +118,10 @@ test('If the configuration uses shorthands, it should validate', (t) => {
     const valid = configValidator.validateConfig(validHintsConfig as any);
 
     t.true(valid);
+});
+
+test('If config extends from "all" is should not validate', (t) => {
+    const invalid = configValidator.validateConfig(invalidExtends as any);
+
+    t.false(invalid);
 });
