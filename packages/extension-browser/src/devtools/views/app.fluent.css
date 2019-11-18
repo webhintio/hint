@@ -55,15 +55,16 @@
     --code-string-color: #a31515;
 
     /* html */
-    --code-attr-name-color: #ff0000;
-    --code-attr-value-color: #0000ff;
-    --code-attr-value-punctuation-color: #0000ff;
-    --code-doctype-color: #800000;
+    --code-attr-name-color: #0e2f77;
+    --code-attr-value-color: #a341bb;
+    --code-attr-value-punctuation-color: #666666;
+    --code-attr-value-first-punctuation-color: #666666;
+    --code-doctype-color: #767676;
     --code-doctype-font-style: normal;
     --code-entity-color: #0000ff;
     --code-html-default-color: #000000;
-    --code-tag-color: #800000;
-    --code-tag-punctuation-color: #800000;
+    --code-tag-color: #486cc6;
+    --code-tag-punctuation-color: #486cc6;
 
     /* CSS */
     --code-atrule-color: #af00db;
@@ -98,14 +99,15 @@
     --code-string-color: #ce9178;
 
     /* html */
-    --code-attr-name-color: #9cdcfe;
-    --code-attr-value-color: #ce9178;
-    --code-attr-value-punctuation-color: #ce9178;
+    --code-attr-name-color: #9eddfd ;
+    --code-attr-value-color: #cf9680;
+    --code-attr-value-punctuation-color: #a7a7a7;
+    --code-attr-value-first-punctuation-color: #a7a7a7 ;
     --code-doctype-color: #808080;
     --code-entity-color: #569cd6;
     --code-html-default-color: #d4d4d4;
-    --code-tag-color: #569cd6;
-    --code-tag-punctuation-color: #808080;
+    --code-tag-color: #70acda;
+    --code-tag-punctuation-color: #70acda;
 
     /* CSS */
     --code-atrule-color: #c586c0;

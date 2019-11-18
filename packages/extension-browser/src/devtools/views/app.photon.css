@@ -56,6 +56,7 @@
     --code-attr-name-color: #ff0000;
     --code-attr-value-color: #0000ff;
     --code-attr-value-punctuation-color: #0000ff;
+    --code-attr-value-first-punctuation-color: #0000ff;
     --code-doctype-color: #800000;
     --code-entity-color: #0000ff;
     --code-html-default-color: #000000;
@@ -97,6 +98,7 @@
     --code-attr-name-color: #ff7dE9;
     --code-attr-value-color: #b98eff;
     --code-attr-value-punctuation-color: #b1b1b3;
+    --code-attr-value-first-punctuation-color: #b1b1b3;
     --code-doctype-color: #b1b1b3;
     --code-doctype-font-style: italic;
     --code-entity-color: #75bfff;
