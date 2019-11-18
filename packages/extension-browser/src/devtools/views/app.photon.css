@@ -23,6 +23,8 @@
     --status-bg-error: #d83b01;
     --status-bg-pass: #00864b;
     --status-bg-warn: #f2c811;
+    --status-bg-info: #cecece;
+    --status-bg-hint: #9451A0;
 
     --shadow-color: #00000080;
     --scrollbar-shadow: inset 0 0 1px var(--shadow-color);
@@ -36,6 +38,12 @@
     --icon-pitfalls-url: url(../../images/icon-pitfalls.svg);
     --icon-pwa-url: url(../../images/icon-pwa.svg);
     --icon-security-url: url(../../images/icon-security.svg);
+
+    /* Severity icons */
+    --icon-severity-error-url: url(../../images/icon-severity-error.svg);
+    --icon-severity-hint-url: url(../../images/icon-severity-hint.svg);
+    --icon-severity-info-url: url(../../images/icon-severity-info.svg);
+    --icon-severity-warning-url: url(../../images/icon-severity-warning.svg);
 
     /* Syntax highlighting colors */
     /* JS */

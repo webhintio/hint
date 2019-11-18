@@ -14,23 +14,18 @@ import MessageGroup from './message-group';
 
 import * as styles from './hint.css';
 
-const hasError = (problems: ProblemData[]) => {
-    return problems.some((problem) => {
-        return problem.severity === Severity.error;
-    });
-};
-
 /**
  * Group problems which have the same message string.
  */
-const groupProblems = (problems: ProblemData[]) => {
+const groupProblems = (problems: ProblemData[], field: 'message' | 'severity') => {
     const groups = new Map<string, ProblemData[]>();
 
     for (const problem of problems) {
-        const group = groups.get(problem.message) || [];
+        const problemFieldValue = problem[field].toString();
+        const group = groups.get(problemFieldValue) || [];
 
         group.push(problem);
-        groups.set(problem.message, group);
+        groups.set(problemFieldValue, group);
     }
 
     return groups;
@@ -57,23 +52,47 @@ const getSortedGroupKeys = (groups: Map<string, ProblemData[]>) => {
     });
 };
 
-const Hint = ({ name, problems, helpURL }: HintResults) => {
-    const groups = groupProblems(problems);
-    let statusStyle = styles.pass;
-
-    if (problems.length) {
-        statusStyle = hasError(problems) ? styles.error : styles.warn;
+const getSummaryMessage = (problems: ProblemData[]): string => {
+    if (!problems.length) {
+        return getMessage('noIssuesLabel');
     }
+
+    const messages = [];
+    const groups = groupProblems(problems, 'severity');
+    const errorGroup = groups.get(Severity.error.toString());
+    const warningGroup = groups.get(Severity.warning.toString());
+    const informationGroup = groups.get(Severity.information.toString());
+    const hintGroup = groups.get(Severity.hint.toString());
+
+    if (errorGroup) {
+        messages.push(getMessage('errorIssuesLabel', errorGroup.length.toString()));
+    }
+    if (warningGroup) {
+        messages.push(getMessage('warningIssuesLabel', warningGroup.length.toString()));
+    }
+    if (hintGroup) {
+        messages.push(getMessage('hintIssuesLabel', hintGroup.length.toString()));
+    }
+    if (informationGroup) {
+        messages.push(getMessage('informationIssuesLabel', informationGroup.length.toString()));
+    }
+
+    return messages.join(', ');
+};
+
+const Hint = ({ name, problems, helpURL }: HintResults) => {
+    const groups = groupProblems(problems, 'message');
+    const summary = getSummaryMessage(problems);
 
     return (
         <details>
             <Summary>
                 <span>
-                    {name}
+                    {name}:
                 </span>
                 {' '}
-                <span className={`${styles.status} ${statusStyle}`}>
-                    {!problems.length ? getMessage('noIssuesLabel') : getMessage('hintIssuesLabel', groups.size.toString())}
+                <span className={`${styles.summary}`}>
+                    {summary}
                 </span>
             </Summary>
             <div className={styles.results}>
@@ -82,7 +101,7 @@ const Hint = ({ name, problems, helpURL }: HintResults) => {
                 </ExternalLink>
                 {getSortedGroupKeys(groups).map(
                     (message) => {
-                        return <MessageGroup key={message} message={message} problems={groups.get(message)!} />;
+                        return <MessageGroup key={message} message={message} severity={groups.get(message)![0].severity} problems={groups.get(message)!} />;
                     }
                 )}
             </div>

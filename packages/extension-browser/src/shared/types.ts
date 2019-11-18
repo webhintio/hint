@@ -5,6 +5,7 @@ export type Config = {
     disabledCategories?: string[];
     browserslist?: string;
     ignoredUrls?: string;
+    severityThreshold?: string;
 };
 
 export type ErrorData = {

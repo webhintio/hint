@@ -67,6 +67,14 @@
         "message": "Error details",
         "description": "Text displayed for option to expand and show error details."
     },
+    "errorIssuesLabel": {
+        "message": "Errors: $1",
+        "description": "Label for count of hints with severity error, e.g. 'Errors: 2'."
+    },
+    "errorLabel": {
+        "message": "Error",
+        "description": "Label for option to choose error as minimum hint severity."
+    },
     "errorMessage": {
         "message": "There was an error running webhint. Please try again. If the error still occurs: ",
         "description": "Message informing users what to do when an error occurs."
@@ -93,7 +101,11 @@
     },
     "hintIssuesLabel": {
         "message": "Hints: $1",
-        "description": "Label for count of hints with issues, e.g. 'Hints: 2'."
+        "description": "Label for count of hints with severity hint, e.g. 'Hints: 2'."
+    },
+    "hintLabel": {
+        "message": "Hint",
+        "description": "Label for option to choose hint as minimum hint severity."
     },
     "hintsTitle": {
         "message": "Hints",
@@ -102,6 +114,14 @@
     "ignoredResourcesTitle": {
         "message": "Ignored resources",
         "description": "Title of the ignored resouces sub-section on the configuration page."
+    },
+    "informationIssuesLabel": {
+        "message": "Informations: $1",
+        "description": "Label for count of hints with severity information, e.g. 'Informations: 2'."
+    },
+    "informationLabel": {
+        "message": "Information",
+        "description": "Label for option to choose information as minimum hint severity."
     },
     "learnWhyLabel": {
         "message": "Learn why this is important",
@@ -163,6 +183,10 @@
         "message": "Settings",
         "description": "Label settings details/summary."
     },
+    "severityTitle": {
+        "message": "Minimum hint severity",
+        "description": "Title of the minimum hint severity sub-section on the configuration page."
+    },
     "showPassedHintsLabel": {
         "message": "Show passed hints",
         "description": "Label for toggle to hide/show groups of hints which passed."
@@ -214,5 +238,13 @@
     "telemetry": {
         "message": "Enable telemetry",
         "description": "Label for the setting to enable/disable telemetry."
+    },
+    "warningIssuesLabel": {
+        "message": "Warnings: $1",
+        "description": "Label for count of hints with severity warning, e.g. 'Warnings: 2'."
+    },
+    "warningLabel": {
+        "message": "Warning",
+        "description": "Label for option to choose warning as minimum hint severity."
     }
 }

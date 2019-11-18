@@ -16,6 +16,7 @@ import CategoriesConfig from './config/sections/categories';
 import ResourcesConfig from './config/sections/resources';
 import ConfigHeader from './config/header';
 import Settings from '../controls/settings';
+import SeveritiesConfig from './config/sections/severities';
 
 import { resolveIgnoreQuery } from './config/sections/resources';
 
@@ -70,6 +71,10 @@ const ConfigPage = ({ disabled, onStart, onTelemetryChange, isTelemetryEnabled }
         setConfig({ ...config, ignoredUrls });
     }, [config]);
 
+    const onSeverityChange = useCallback((severityThreshold?: string) => {
+        setConfig({ ...config, severityThreshold });
+    }, [config]);
+
     const onRestoreClick = useCallback(() => {
         setConfig({});
     }, []);
@@ -82,6 +87,7 @@ const ConfigPage = ({ disabled, onStart, onTelemetryChange, isTelemetryEnabled }
                     <CategoriesConfig disabled={config.disabledCategories} onChange={onCategoriesChange} />
                     <BrowsersConfig query={config.browserslist} onChange={onBrowsersChange} />
                     <ResourcesConfig query={config.ignoredUrls} onChange={onResourcesChange} />
+                    <SeveritiesConfig query={config.severityThreshold} onChange={onSeverityChange} />
                 </div>
                 <Button className={styles.button} onClick={onRestoreClick}>
                     {getMessage('restoreDefaultsLabel')}
