@@ -4,9 +4,9 @@ import { TextDocument, PublishDiagnosticsParams, Connection } from 'vscode-langu
 import { trackResult } from './analytics';
 import { getUserConfig } from './config';
 import * as notifications from './notifications';
-import { loadWebhint, updateSharedWebhint } from './webhint-packages';
+import { loadWebhint } from './webhint-packages';
 import { problemToDiagnostic } from './problems';
-import { promptAddWebhint, promptRetry } from './prompts';
+import { promptRetry } from './prompts';
 
 const analyze = async (textDocument: TextDocument, webhint: import('hint').Analyzer): Promise<PublishDiagnosticsParams> => {
     const { languageId, uri } = textDocument;
@@ -35,7 +35,6 @@ export class Analyzer {
     private loaded = false;
     private validating = false;
     private validationQueue: TextDocument[] = [];
-    private didUpdateSharedWebhint = false;
     private webhint: import('hint').Analyzer | null = null;
 
     public constructor(_globalStoragePath: string, _connection: Connection) {
@@ -43,17 +42,14 @@ export class Analyzer {
         this.globalStoragePath = _globalStoragePath;
     }
 
-    // Load both webhint and a configuration, adjusting it as needed for this extension.
-    private async initWebhint(directory: string): Promise<import('hint').Analyzer | null> {
-        const hintModule = await loadWebhint(directory, this.globalStoragePath, (install) => {
-            return promptAddWebhint(this.connection.window, async () => {
-                this.connection.sendNotification(notifications.showOutput);
-                await install();
-                this.onConfigurationChanged();
-            });
-        });
+    /**
+     * Load both webhint and a configuration, adjusting it as needed for this extension.
+     * If `directory` is not passed, the shared installation will be used.
+     */
+    private async initWebhint(directory = ''): Promise<import('hint').Analyzer | null> {
+        const hintModule = await loadWebhint(directory, this.globalStoragePath);
 
-        // If no module was returned, the user cancelled installing webhint.
+        /* istanbul ignore if */
         if (!hintModule) {
             return null;
         }
@@ -61,26 +57,16 @@ export class Analyzer {
         const userConfig = getUserConfig(hintModule, directory);
 
         try {
-            const webhint = hintModule.createAnalyzer(userConfig);
-
-            // After first load, ensure shared copy of webhint is up-to-date for next use.
-            if (!this.didUpdateSharedWebhint) {
-                this.didUpdateSharedWebhint = true;
-                updateSharedWebhint(this.globalStoragePath); // Does not `await` to avoid delaying startup.
-            }
-
-            return webhint;
+            return hintModule.createAnalyzer(userConfig);
         } catch (e) {
             // Instantiating webhint failed, log the error to the webhint output panel to aid debugging.
             console.error(e);
 
-            return await promptRetry(this.connection.window, async () => {
+            return await promptRetry(this.connection.window, /* istanbul ignore next */ () => {
                 this.connection.sendNotification(notifications.showOutput);
 
-                // Ensure shared instance is up-to-date before retrying.
-                await updateSharedWebhint(this.globalStoragePath);
-
-                return this.initWebhint(directory);
+                // We retry with the shared version as it is more likely to not be broken 🤞
+                return this.initWebhint();
             });
         }
     }

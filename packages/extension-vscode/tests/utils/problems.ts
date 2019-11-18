@@ -62,7 +62,7 @@ test('It translates missing endColumn and endLine properties correctly', (t) => 
         hintId: 'test-id-1',
         location,
         message: 'Test Message 1',
-        severity: Severity.warning
+        severity: Severity.hint
     } as Problem;
 
     const diagnostic = problemToDiagnostic(problem);
@@ -70,7 +70,7 @@ test('It translates missing endColumn and endLine properties correctly', (t) => 
     t.is(diagnostic.source, 'webhint');
     t.true(diagnostic.message.indexOf(problem.message || '') !== -1);
     t.true(diagnostic.message.indexOf(problem.hintId || '') !== -1);
-    t.is(diagnostic.severity, DiagnosticSeverity.Warning);
+    t.is(diagnostic.severity, DiagnosticSeverity.Hint);
     t.is(diagnostic.range.start.line, location.line);
     t.is(diagnostic.range.start.character, location.column);
     t.is(diagnostic.range.end.character, location.column);
