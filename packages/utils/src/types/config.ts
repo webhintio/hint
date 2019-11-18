@@ -29,7 +29,7 @@ export type HintConfig = HintSeverity | [HintSeverity, any];
  * ```
  */
 export type HintsConfigObject = {
-    [key: string]: HintConfig | HintConfig[];
+    [key: string]: HintConfig;
 };
 
 export type ConnectorOptionsConfig = {
@@ -47,12 +47,16 @@ export type IgnoredUrl = {
     hints: string[];
 };
 
+type HintConfigArray = [string, { [key: string]: any }];
+
+type HintsConfigArray = (HintConfigArray | string)[];
+
 export type UserConfig = {
     browserslist?: string | string[];
     connector?: ConnectorConfig | string;
     extends?: string[];
     formatters?: string[];
-    hints?: HintsConfigObject | [HintSeverity, HintConfig][];
+    hints?: HintsConfigObject | HintsConfigArray;
     hintsTimeout?: number;
     ignoredUrls?: IgnoredUrl[];
     language?: string;
