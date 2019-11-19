@@ -4,6 +4,7 @@
     "@hint/configuration-progressive-web-apps": "^6.0.11",
     "@hint/connector-local": "^3.2.0",
     "@hint/formatter-html": "^4.1.10",
+    "@hint/formatter-json": "^3.1.11",
     "@hint/formatter-summary": "^3.0.14",
     "@hint/hint-babel-config": "^2.3.11",
     "@hint/hint-button-type": "^2.2.11",
