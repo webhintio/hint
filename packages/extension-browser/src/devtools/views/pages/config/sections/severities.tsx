@@ -69,17 +69,6 @@ const SeveritySection = ({ className, query, onChange }: Props) => {
             </ConfigLabel>
             <ConfigLabel>
                 <Radio
-                    aria-labelledby={`${groupLabelId} ${informationLabelId}`}
-                    checked={query === Severity.information.toString()}
-                    name="severity"
-                    onChange={onInformationSelected}
-                />
-                <LabelText id={informationLabelId}>
-                    {getMessage('informationLabel')}
-                </LabelText>
-            </ConfigLabel>
-            <ConfigLabel>
-                <Radio
                     aria-labelledby={`${groupLabelId} ${hintLabelId}`}
                     checked={query === Severity.hint.toString()}
                     name="severity"
@@ -87,6 +76,17 @@ const SeveritySection = ({ className, query, onChange }: Props) => {
                 />
                 <LabelText id={hintLabelId}>
                     {getMessage('hintLabel')}
+                </LabelText>
+            </ConfigLabel>
+            <ConfigLabel>
+                <Radio
+                    aria-labelledby={`${groupLabelId} ${informationLabelId}`}
+                    checked={query === Severity.information.toString()}
+                    name="severity"
+                    onChange={onInformationSelected}
+                />
+                <LabelText id={informationLabelId}>
+                    {getMessage('informationLabel')}
                 </LabelText>
             </ConfigLabel>
         </ConfigSection>
