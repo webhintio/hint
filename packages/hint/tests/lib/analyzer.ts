@@ -4,13 +4,13 @@ import anyTest, { TestInterface } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
+import { ConnectorConfig, UserConfig } from '@hint/utils';
+
 import {
     AnalyzerError,
-    ConnectorConfig,
     HintResources,
     IFetchOptions,
-    IFormatter,
-    UserConfig
+    IFormatter
 } from '../../src/lib/types';
 import { AnalyzerErrorStatus } from '../../src/lib/enums/error-status';
 import { Problem } from '@hint/utils-types';

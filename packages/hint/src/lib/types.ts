@@ -3,7 +3,6 @@ import { IConnectorConstructor } from './types/connector';
 import { IParserConstructor } from './types/parser';
 import { IHintConstructor } from './types/hints';
 
-export * from '@hint/utils/dist/src/types/config';
 export * from './types/connector';
 export * from './types/events';
 export * from './types/formatters';

@@ -1,5 +1,4 @@
-import { logger } from '@hint/utils';
-import { loadHintPackage } from '../utils/packages/load-hint-package';
+import { logger, loadHintPackage } from '@hint/utils';
 
 /** Prints the current hint version in the console. */
 export default (): Promise<boolean> => {

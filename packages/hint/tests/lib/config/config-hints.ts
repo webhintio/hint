@@ -1,7 +1,8 @@
 import test from 'ava';
 
+import { HintConfig } from '@hint/utils';
 import * as configHints from '../../../src/lib/config/config-hints';
-import { HintConfig, IHint, HintMetadata } from '../../../src/lib/types';
+import { IHint, HintMetadata } from '../../../src/lib/types';
 import { HintScope } from '../../../src/lib/enums/hint-scope';
 import { HintContext } from '../../../src/lib/hint-context';
 

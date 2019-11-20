@@ -10,7 +10,6 @@ import {
     HintResources,
     IFormatter,
     Target,
-    UserConfig,
     Endpoint,
     AnalyzerResult
 } from './types';
@@ -19,7 +18,7 @@ import { AnalyzerErrorStatus } from './enums/error-status';
 import { IFormatterConstructor } from './types/formatters';
 import { loadResources } from './utils/resource-loader';
 
-import { logger } from '@hint/utils';
+import { logger, UserConfig } from '@hint/utils';
 import { cutString } from '@hint/utils-string';
 import {
     cwd,
