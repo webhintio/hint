@@ -54,7 +54,7 @@
 }
 
 .status.warning:before {
-    background-color: var(--base-bg);
+    background-color: var(--dark-color);
     --mask: var(--icon-severity-warning-url);
 }
 
@@ -64,6 +64,7 @@
 }
 
 .status.error:before {
+    background-color: var(--light-color);
     --mask: var(--icon-severity-error-url);
 }
 
@@ -73,7 +74,7 @@
 }
 
 .status.information:before {
-    background-color: var(--base-bg);
+    background-color: var(--dark-color);
     --mask: var(--icon-severity-info-url);
 }
 
@@ -83,5 +84,6 @@
 }
 
 .status.hint:before {
+    background-color: var(--light-color);
     --mask: var(--icon-severity-hint-url);
 }
