@@ -8,7 +8,7 @@ import { vendor, Declaration, Rule } from 'postcss';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
-import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
+import { getFullCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 import { Severity } from '@hint/utils-types';
 
@@ -111,7 +111,7 @@ export default class CssPrefixOrderHint implements IHint {
                     const message = formatMessage(invalidPair);
                     const isValue = invalidPair.lastPrefixed.prop === invalidPair.unprefixed.prop;
                     const location = getCSSLocationFromNode(invalidPair.unprefixed, { isValue });
-                    const codeSnippet = getCSSCodeSnippet(invalidPair.unprefixed);
+                    const codeSnippet = getFullCSSCodeSnippet(invalidPair.unprefixed);
                     const severity = Severity.warning;
 
                     context.report(

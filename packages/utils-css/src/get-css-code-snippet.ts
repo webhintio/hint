@@ -71,3 +71,50 @@ export const getCSSCodeSnippet = (node: ChildNode): string => {
 
     return result;
 };
+
+const getChildrenCodeSnippet = (children: ChildNode[]): string => {
+    let result = '';
+
+    for (const child of children) {
+        if ('nodes' in child && child.nodes && child.nodes.length) {
+            result += `${getNodeCodeSnippet(child)} {
+${getChildrenCodeSnippet(child.nodes).replace(/^/gm, '    ')}
+}`;
+        } else {
+            result += `${getNodeCodeSnippet(child)}${child.type === 'comment' ? '' : ';'}\n`;
+        }
+    }
+
+    return result.trim();
+};
+
+export const getFullCSSCodeSnippet = (node: ChildNode): string => {
+    const children = 'nodes' in node && node.nodes;
+    const defaultSuffix = node.type === 'comment' ? '' : ';';
+
+    let result: string;
+    let parent = node.parent;
+
+    if (parent && parent.type !== 'root') {
+        const children = parent.nodes!;
+        const content = getChildrenCodeSnippet(children);
+
+        result = content;
+    } else if (children) {
+        result = `${getNodeCodeSnippet(node)} {
+${getChildrenCodeSnippet(children).replace(/^/gm, '    ')}
+}`;
+    } else {
+        result = `${getNodeCodeSnippet(node)}${defaultSuffix}`;
+    }
+
+    while (parent && parent.type !== 'root') {
+        // Indent all child content by four spaces.
+        const content = result.trim().replace(/^/gm, '    ');
+
+        result = `${getNodeCodeSnippet(parent)} {\n${content}\n}`;
+        parent = parent.parent;
+    }
+
+    return result;
+};
