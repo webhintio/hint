@@ -12,8 +12,9 @@ import { debug as d } from '@hint/utils-debug';
 
 import { validate as schemaValidator } from '@hint/utils-json';
 import { Severity } from '@hint/utils-types';
+import { HintConfig } from '@hint/utils';
 
-import { HintMetadata, HintConfig } from '../types';
+import { HintMetadata } from '../types';
 
 const debug = d(__filename);
 

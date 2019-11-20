@@ -15,9 +15,11 @@ import {
     HintsConfigObject,
     HintSeverity,
     installPackages,
+    loadHintPackage,
     logger,
     mergeEnvWithOptions,
-    normalizeHints
+    normalizeHints,
+    UserConfig
 } from '@hint/utils';
 import { cwd } from '@hint/utils-fs';
 import { getAsUris } from '@hint/utils-network';
@@ -29,10 +31,8 @@ import {
     AnalyzeOptions,
     CLIOptions,
     CreateAnalyzerOptions,
-    HintResources,
-    UserConfig
+    HintResources
 } from '../types';
-import { loadHintPackage } from '../utils/packages/load-hint-package';
 import { createAnalyzer, getUserConfig } from '../';
 import { Analyzer } from '../analyzer';
 import { AnalyzerErrorStatus } from '../enums/error-status';

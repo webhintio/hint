@@ -11,10 +11,10 @@ import * as proxyquire from 'proxyquire';
 
 import * as utils from '@hint/utils';
 import { ResourceError } from '@hint/utils/dist/src/types/resource-error';
+import { ResourceErrorStatus } from '@hint/utils/dist/src/types/resource-error-status';
+import { ResourceType } from '@hint/utils/dist/src/types/resource-type';
 
 import { Configuration } from '../../../src/lib/config';
-import { ResourceType } from '../../../src/lib/enums/resource-type';
-import { ResourceErrorStatus } from '../../../src/lib/enums/error-status';
 
 const installedConnectors = [
     path.join(__dirname, 'fixtures', 'connector1', 'package.json'),

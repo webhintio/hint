@@ -17,9 +17,8 @@
 import * as chalk from 'chalk';
 import * as updateNotifier from 'update-notifier';
 
-import { logger } from '@hint/utils';
+import { loadHintPackage, logger } from '@hint/utils';
 
-import { loadHintPackage } from './utils/packages';
 import { CLIOptions } from './types';
 import { options } from './cli/options';
 import { cliActions } from './cli/actions';

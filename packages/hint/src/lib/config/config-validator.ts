@@ -9,12 +9,10 @@
  * ------------------------------------------------------------------------------
  */
 
-import { logger } from '@hint/utils';
+import { logger, UserConfig } from '@hint/utils';
 import { debug as d } from '@hint/utils-debug';
 
 import { GroupedError, SchemaValidationResult, validate } from '@hint/utils-json';
-
-import { UserConfig } from '../types';
 
 const debug = d(__filename);
 const schema = require('./config-schema.json');

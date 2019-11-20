@@ -21,18 +21,16 @@ import {
     hasMultipleResources,
     isFullPackageName,
     loadResource,
-    requirePackage
+    requirePackage,
+    ResourceErrorStatus,
+    ResourceType
 } from '@hint/utils';
 import { readFile } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 
 import { IHintConstructor, HintResources } from '../types';
 import { Configuration } from '../config';
-import { ResourceType } from '../enums/resource-type';
-import { ResourceErrorStatus } from '../enums/error-status';
 import { IConnectorConstructor } from '../types/connector';
-
-export * from '@hint/utils/dist/src/packages/load-resource';
 
 const debug: debug.IDebugger = d(__filename);
 const HINT_ROOT: string = findPackageRoot();
