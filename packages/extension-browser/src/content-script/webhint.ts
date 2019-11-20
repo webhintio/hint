@@ -5,7 +5,8 @@ import { URL } from 'url';
 
 import { Engine } from 'hint/dist/src/lib/engine';
 import { Configuration } from 'hint/dist/src/lib/config';
-import { HintResources, HintsConfigObject, IHintConstructor } from 'hint/dist/src/lib/types';
+import { HintResources, IHintConstructor } from 'hint/dist/src/lib/types';
+import { HintsConfigObject } from '@hint/utils';
 
 import CSSParser from '@hint/parser-css';
 import HTMLParser from '@hint/parser-html';

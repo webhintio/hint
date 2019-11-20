@@ -36,6 +36,7 @@ const ignoredDependencies = new Set([
     'eslint-plugin-import',
     'eslint-plugin-markdown',
     'eslint-plugin-react-hooks',
+    'hint',
     'npm-run-all',
     'nyc',
     'rimraf',

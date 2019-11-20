@@ -9,8 +9,8 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import { IServer, Server } from '@hint/utils-create-server';
 import { readFileAsync } from '@hint/utils-fs';
 import { asPathString, getAsUri, requestAsync } from '@hint/utils-network';
-
-import { Configuration, Engine, HintsConfigObject, IHintConstructor, utils } from 'hint';
+import { HintsConfigObject } from '@hint/utils';
+import { Configuration, Engine, IHintConstructor, utils } from 'hint';
 import { Problem, ProblemLocation } from '@hint/utils-types';
 
 import { HintTest, HintLocalTest, Report, MatchProblemLocation } from './hint-test-type';

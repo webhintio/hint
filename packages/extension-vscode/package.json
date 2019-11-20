@@ -48,6 +48,7 @@
   },
   "description": "Run webhint in Visual Studio Code.",
   "devDependencies": {
+    "@hint/utils": "^6.1.0",
     "@hint/utils-telemetry": "^0.0.1",
     "@hint/utils-types": "^0.0.1",
     "@types/node": "^12.7.5",
