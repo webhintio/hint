@@ -12,8 +12,7 @@ export * from './formatter';
 
 export * from './config';
 export * from './has-yarnlock';
-export * from './types/config';
-export * from './types/npm';
+export * from './types';
 
 export const appInsights = appInsightsUtils;
 export const logger = loggingUtils;

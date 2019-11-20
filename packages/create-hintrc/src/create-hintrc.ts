@@ -14,13 +14,15 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { ResourceType, UserConfig, utils } from 'hint';
+import { utils } from 'hint';
 import {
     appInsights,
     getOfficialPackages,
     installPackages,
     logger,
-    NpmPackage
+    NpmPackage,
+    ResourceType,
+    UserConfig
 } from '@hint/utils';
 import { cwd } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';

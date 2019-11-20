@@ -10,13 +10,12 @@ import {
     restoreReferences,
     traverse
 } from '@hint/utils-dom';
-
 import {
-    ConnectorOptionsConfig,
     IConnector,
     FetchEnd,
     NetworkData
 } from 'hint/dist/src/lib/types';
+import { ConnectorOptionsConfig } from '@hint/utils';
 
 import { browser, document, eval, location, window } from '../shared/globals';
 import { Events } from '../shared/types';

@@ -1,4 +1,4 @@
-const defaultConfig: import('hint').UserConfig = { extends: ['development'] };
+const defaultConfig: import('@hint/utils').UserConfig = { extends: ['development'] };
 
 export const getUserConfig = (hintModule: typeof import('hint'), directory: string) => {
     const userConfig = hintModule.getUserConfig(directory) || defaultConfig;
@@ -15,7 +15,7 @@ export const getUserConfig = (hintModule: typeof import('hint'), directory: stri
      * `iltorb` if it was compiled for a different version of `node` and the
      * `local` connector doesn't support it anyway.
      */
-    (userConfig.hints as import('hint').HintsConfigObject)['http-compression'] = 'off';
+    (userConfig.hints as import('@hint/utils').HintsConfigObject)['http-compression'] = 'off';
 
     // Remove formatters because the extension doesn't use them.
     userConfig.formatters = [];
