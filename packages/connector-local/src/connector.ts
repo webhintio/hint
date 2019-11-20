@@ -385,6 +385,10 @@ export default class LocalConnector implements IConnector {
     }
 
     public async collect(target: URL, options?: IFetchOptions) {
+        if (target.protocol !== 'file:') {
+            throw new Error('Connector local only works with local files or directories');
+        }
+
         /** The target in string format */
         const href: string = this._href = target.href;
         const initialEvent: Event = { resource: href };
