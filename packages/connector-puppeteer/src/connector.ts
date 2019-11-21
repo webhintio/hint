@@ -4,11 +4,7 @@ import * as isCI from 'is-ci';
 import compact = require('lodash/compact');
 import * as puppeteer from 'puppeteer-core';
 
-import {
-    Browser,
-    getInstallationPath,
-    getPlatform
-} from '@hint/utils';
+import { getPlatform } from '@hint/utils';
 import { isRegularProtocol } from '@hint/utils-network';
 import { HttpHeaders } from '@hint/utils-types';
 import {
@@ -21,6 +17,7 @@ import { debug as d } from '@hint/utils-debug';
 import { normalizeHeaders, Requester } from '@hint/utils-connector-tools';
 import { IConnector, Engine, NetworkData } from 'hint';
 
+import { Browser, getInstallationPath } from './lib/chromium-finder';
 import { ActionConfig, UserActions, group as groupActions } from './lib/actions';
 import { AuthConfig, HTTPAuthConfig, basicHTTPAuth, formAuth } from './lib/authenticators';
 import { launch, close, LifecycleLaunchOptions } from './lib/lifecycle';
@@ -141,6 +138,7 @@ export default class PuppeteerConnector implements IConnector {
             return Promise.resolve();
         }
 
+        /* istanbul ignore next */
         return new Promise((resolve, reject) => {
             this._targetReady = resolve;
             this._targetFailed = reject;
@@ -167,6 +165,7 @@ export default class PuppeteerConnector implements IConnector {
 
         const event = onRequestFailedHandler(request, this._dom);
 
+        /* istanbul ignore if */
         if (request.isNavigationRequest() && this._targetFailed) {
             this._targetFailed();
         }
@@ -214,6 +213,7 @@ export default class PuppeteerConnector implements IConnector {
         await this._engine.emitAsync(name, payload);
 
         // The `fetch::end` of the target needs to be processed before notifying
+        /* istanbul ignore if */
         if (isTarget && this._targetReady) {
             this._targetReady();
         }
