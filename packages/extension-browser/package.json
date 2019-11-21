@@ -12,6 +12,7 @@
   "bundleSize": 660000,
   "description": "webhint browser extension",
   "devDependencies": {
+    "@hint/connector-puppeteer": "^2.4.0",
     "@hint/hint-axe": "^4.2.0",
     "@hint/hint-button-type": "^2.2.11",
     "@hint/hint-compat-api": "^4.2.0",

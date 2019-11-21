@@ -2,7 +2,8 @@ import * as isCI from 'is-ci';
 import { launch, Browser, Frame, Page, Target } from 'puppeteer-core';
 import test from 'ava';
 
-import { delay, getInstallationPath } from '@hint/utils';
+import { getInstallationPath } from '@hint/connector-puppeteer/dist/src/lib/chromium-finder';
+import { delay } from '@hint/utils';
 import { Server } from '@hint/utils-create-server';
 
 import { Events, Results } from '../src/shared/types';

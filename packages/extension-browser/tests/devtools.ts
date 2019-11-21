@@ -4,7 +4,7 @@ import test from 'ava';
 
 import { Category } from '@hint/utils-types';
 
-import { getInstallationPath } from '@hint/utils';
+import { getInstallationPath } from '@hint/connector-puppeteer/dist/src/lib/chromium-finder';
 import { readFileAsync } from '@hint/utils-fs';
 import { Server } from '@hint/utils-create-server';
 
