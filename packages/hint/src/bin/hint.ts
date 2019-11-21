@@ -12,11 +12,11 @@
  * ------------------------------------------------------------------------------
  */
 
-const telemetry = (/--tracking[=\s]+([^\s]*)/i).exec(process.argv.join(' '));
+const telemetry = (/--telemetry[=\s]+([^\s]*)/i).exec(process.argv.join(' '));
 
 import { appInsights } from '@hint/utils';
 
-const telemetryEnv = process.env.HINT_TRACKING;
+const telemetryEnv = process.env.HINT_TELEMETRY;
 let enableTelemetry;
 
 if (telemetry) {
