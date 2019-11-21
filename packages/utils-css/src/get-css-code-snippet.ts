@@ -88,6 +88,57 @@ ${getChildrenCodeSnippet(child.nodes).replace(/^/gm, '    ')}
     return result.trim();
 };
 
+/**
+ * Generate a Snippet code for a CSS node.
+ *
+ * Examples:
+ *
+ * Node type `rule`:
+ *
+ *     .selector {
+ *         prop1: value;
+ *         prop2: value;
+ *     }
+ *
+ * Node type `decl`
+ *
+ *     .selector {
+ *         prop1: value;
+ *         prop2: value;
+ *     }
+ *
+ * Node type `comment`
+ *
+ *      /* comment * / (the space is intentional to not break the comment)
+ *
+ * Node type `atrule`
+ *
+ *     @keyframe name {
+ *         %0 {
+ *             prop1: value;
+ *             prop2: value;
+ *         }
+ *     }
+ *
+ * Node type `rule` inside `atrule`
+ *
+ *     @support (display: grid) {
+ *         .selector {
+ *             prop1: value;
+ *             prop2: value;
+ *         }
+ *     }
+ *
+ * Node type `decl` inside `atrule`
+ *
+ *     @support (display: grid) {
+ *         .selector {
+ *             prop: value;
+ *             prop: value;
+ *         }
+ *     }
+ * @param node - Node to generate the snippet code
+ */
 export const getFullCSSCodeSnippet = (node: ChildNode): string => {
     const children = 'nodes' in node && node.nodes;
     const defaultSuffix = node.type === 'comment' ? '' : ';';
