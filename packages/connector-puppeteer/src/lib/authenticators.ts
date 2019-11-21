@@ -28,6 +28,7 @@ export type AuthConfig = {
  * To be used on `beforeTargetNavigation`.
  */
 export const basicHTTPAuth = async (page: puppeteer.Page, config: ConnectorOptions) => {
+    /* istanbul ignore if */
     if (!config || !config.auth) {
         return;
     }
@@ -44,6 +45,7 @@ export const basicHTTPAuth = async (page: puppeteer.Page, config: ConnectorOptio
  * To be used on `afterTargetNavigation`.
  */
 export const formAuth = async (page: puppeteer.Page, config: ConnectorOptions) => {
+    /* istanbul ignore if */
     if (!config || !config.auth) {
         return;
     }

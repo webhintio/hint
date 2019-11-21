@@ -101,7 +101,7 @@ export const createFetchEndPayload = async (response: puppeteer.Response, fetchC
 
     const body = {
         content,
-        rawContent: rawContent || Buffer.alloc(0),
+        rawContent: rawContent /* istanbul ignore next */ || Buffer.alloc(0),
         rawResponse: getRawResponse(response, fetchContent)
     };
 
