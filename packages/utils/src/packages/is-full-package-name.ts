@@ -1,4 +1,4 @@
-import { ResourceType } from '../types/resource-type';
+import { ResourceType } from './enums';
 
 /**
  * Check if a name represents a full package name for the specified resource type.

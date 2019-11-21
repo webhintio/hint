@@ -1,4 +1,4 @@
-import { ResourceErrorStatus } from './resource-error-status';
+import { ResourceErrorStatus } from './enums';
 
 export class ResourceError extends Error {
     public status: ResourceErrorStatus;

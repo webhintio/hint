@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
 import { loadJSONFile } from '@hint/utils-fs';
-import { ResourceType } from '../../src/types/resource-type';
+import { ResourceType } from '../../src/packages/enums';
 
 const configurationWithoutHints = loadJSONFile(path.join(__dirname, 'fixtures', 'configurationWithoutHints.json'));
 const configurationWithHints = loadJSONFile(path.join(__dirname, 'fixtures', 'configurationWithHints.json'));

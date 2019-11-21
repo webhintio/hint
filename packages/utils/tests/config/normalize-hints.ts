@@ -1,6 +1,6 @@
 import test from 'ava';
 import normalizeHints from '../../src/config/normalize-hints';
-import { HintsConfigObject } from '../../src/types/config';
+import { HintsConfigObject } from '../../src/config';
 
 test(`should normalize basic hints`, (t) => {
     const hints = [
