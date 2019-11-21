@@ -89,7 +89,6 @@
   "nyc": {
     "extends": "../../.nycrc"
   },
-  "preview": true,
   "publisher": "webhint",
   "repository": {
     "directory": "packages/extension-vscode",
