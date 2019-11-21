@@ -21,10 +21,18 @@ export enum Browser {
 }
 
 const ERRORS = {
-    InvalidPath: 'The provided path is not accessible',
-    NoInstallationFound: 'No installation found',
-    NotSupportedBrowser: 'The provided browser is not supported in this platform',
-    UnsupportedPlatform: 'Unsupported platform'
+    InvalidPath: (strings: TemplateStringsArray, p: string) => {
+        return `The provided path is not accessible: "${p}"`;
+    },
+    NoInstallationFound: (strings: TemplateStringsArray, browser: string) => {
+        return `No installation found for: "${browser}"`;
+    },
+    NotSupportedBrowser: (strings: TemplateStringsArray, browser: string) => {
+        return `The provided browser ("${browser}") is not supported in this platform`;
+    },
+    UnsupportedPlatform: (strings: TemplateStringsArray, platform: string) => {
+        return `Unsupported platform: "${platform}"`;
+    }
 };
 
 /**
@@ -104,7 +112,7 @@ const darwin = (browser: Browser) => {
 
     /* istanbul ignore if */
     if (!suffixes) {
-        throw new Error(ERRORS.NotSupportedBrowser);
+        throw new Error(ERRORS.NotSupportedBrowser`${browser}`);
     }
 
     /**
@@ -210,7 +218,7 @@ const linux = (browser: Browser) => {
     const executables = browserPartsInfo.get(browser);
 
     if (!executables) {
-        throw new Error(ERRORS.NotSupportedBrowser);
+        throw new Error(ERRORS.NotSupportedBrowser`${browser}`);
     }
 
     for (const folder of desktopInstallationFolders) {
@@ -250,7 +258,7 @@ const win32 = (browser: Browser) => {
 
     /* istanbul ignore if */
     if (!suffixes) {
-        throw new Error(ERRORS.NotSupportedBrowser);
+        throw new Error(ERRORS.NotSupportedBrowser`${browser}`);
     }
 
     const prefixes = [
@@ -285,7 +293,7 @@ const findBrowserPath = (browser: Browser) => {
     const finder = finders.get(platform);
 
     if (!finder) {
-        throw new Error(ERRORS.UnsupportedPlatform);
+        throw new Error(ERRORS.UnsupportedPlatform`${platform}`);
     }
 
     return finder(browser);
@@ -340,7 +348,7 @@ export const getInstallationPath = (options?: { browser?: Browser; browserPath?:
         }
 
         // The provided path is not accessible
-        throw new Error(ERRORS.InvalidPath);
+        throw new Error(ERRORS.InvalidPath`${options.browserPath}`);
     }
 
     const resolvedChromiumPath = resolveChromiumPath();
@@ -356,7 +364,7 @@ export const getInstallationPath = (options?: { browser?: Browser; browserPath?:
             return browserPath;
         }
 
-        throw new Error(ERRORS.NoInstallationFound);
+        throw new Error(ERRORS.NoInstallationFound`${options.browser}`);
     }
 
     /** The order in which to search for browsers in case none are provided. */
@@ -375,7 +383,7 @@ export const getInstallationPath = (options?: { browser?: Browser; browserPath?:
 
 
     if (!browserFound) {
-        throw new Error(ERRORS.NoInstallationFound);
+        throw new Error(ERRORS.NoInstallationFound`${browserFound}`);
     }
 
     return browserFound;
