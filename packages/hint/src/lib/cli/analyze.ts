@@ -173,15 +173,10 @@ const sendTelemetryIfEnabled = async (userConfig: UserConfig) => {
  * defaults will be used.
  */
 const showDefaultMessage = () => {
-    const defaultMessage = `${chalk.yellow(`Couldn't find any valid configuration`)}
+    const defaultMessage = `Using the built-in configuration.
+Visit https://webhint.io/docs/user-guide/ to learn how to create your own configuration.`;
 
-Running hint with the default configuration.
-
-Learn more about how to create your own configuration at:
-
-${chalk.green('https://webhint.io/docs/user-guide/')}`;
-
-    printFrame(defaultMessage);
+    logger.log(defaultMessage);
 };
 
 const areFiles = (targets: URL[]) => {
