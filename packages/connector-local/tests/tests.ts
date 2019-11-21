@@ -53,7 +53,7 @@ const mockContext = (context: SandboxContext) => {
     const cwdStub = context.sandbox.stub(fsMocks, 'cwd');
     const isFileStub = context.sandbox.stub(fsMocks, 'isFile');
 
-    const script = proxyquire('../src/connector', {
+    const script: typeof import('../src/connector') = proxyquire('../src/connector', {
         '@hint/utils': { logger },
         '@hint/utils-fs': {
             cwd: cwdStub,
@@ -551,5 +551,19 @@ test(`When the watcher get an error, it should throw an error`, async (t) => {
         await promise;
     } catch (err) {
         t.is(err, 'Error!');
+    }
+});
+
+test('If target is a not a file, it should throw and exception', async (t) => {
+    const { engine, LocalConnector } = mockContext(t.context);
+
+    const connector = new LocalConnector(engine as any, {});
+
+    t.plan(1);
+
+    try {
+        await connector.collect(new URL('https://example.com'));
+    } catch (err) {
+        t.is(err.message, 'Connector local only works with local files or directories');
     }
 });
