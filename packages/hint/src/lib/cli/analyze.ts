@@ -478,8 +478,9 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     } catch (e) {
         exitCode = 1;
         endSpinner('fail');
-        debug(`Failed to analyze: ${e.url}`);
+        debug(`Failed to analyze: ${targets}`);
         debug(e);
+        logger.error(e);
     }
 
     debug(`Total runtime: ${Date.now() - start}ms`);
