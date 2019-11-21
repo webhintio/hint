@@ -78,7 +78,14 @@ export default class PuppeteerConnector implements IConnector {
 
         this._connectorOptions = options;
         this._waitUntil = options && options.waitUntil ? options.waitUntil : 'networkidle2';
-        this._options = this.toPuppeteerOptions(options);
+
+        if (this._connectorOptions.browser) {
+            const browser = this._connectorOptions.browser as string;
+
+            this._connectorOptions.browser = (browser.charAt(0).toUpperCase() + browser.slice(1) as Browser);
+        }
+
+        this._options = this.toPuppeteerOptions(this._connectorOptions);
 
         this._actions = groupActions(options.actions);
 
