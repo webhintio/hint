@@ -152,13 +152,13 @@ the [telemetry documentation][].
 
 You can enable telemetry by adding either a parameter or an `env` variable.
 
-1. By parameter: Add `--tracking=on` to the script in your `package.json`
+1. By parameter: Add `--telemetry=on` to the script in your `package.json`
 
     ```json
     …
     "scripts": {
         …
-        "test-hint": "hint https://webhint.io --debug --tracking=on"
+        "test-hint": "hint https://webhint.io --debug --telemetry=on"
       },
     …
     ```
@@ -175,10 +175,10 @@ You can enable telemetry by adding either a parameter or an `env` variable.
           - checkout # check out the code in the project directory
           # Add the necessary steps to deploy your website.
           - run: npm install hint --no-save
-          - run: node node_modules/hint/dist/src/bin/hint.js https://url-to-your-project --tracking=on
+          - run: node node_modules/hint/dist/src/bin/hint.js https://url-to-your-project --telemetry=on
     ```
 
-2. By `env` variable: You need to configure the `env` variable `HINT_TRACKING` in
+2. By `env` variable: You need to configure the `env` variable `HINT_TELEMETRY` in
    `.circleci/config.yml`:
 
     ```yml
@@ -189,7 +189,7 @@ You can enable telemetry by adding either a parameter or an `env` variable.
           - image: circleci/node:lts-browsers
         steps:
           - checkout # check out the code in the project directory
-          - run: echo 'export HINT_TRACKING="on"' >> $BASH_ENV
+          - run: echo 'export HINT_TELEMETRY="on"' >> $BASH_ENV
           - run: npm install
           - run: npm run test-hint
     ```

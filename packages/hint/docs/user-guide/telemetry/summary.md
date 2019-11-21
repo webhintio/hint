@@ -1,6 +1,6 @@
 # Telemetry
 
-## What are we tracking
+## What are we looking at
 
 At the end of the second run `webhint` we will ask if you want to
 send `limited usage information` to help us to build a better product.
@@ -21,12 +21,12 @@ following information:
 * The configuration created using `npm create hintrc`.
 * When a parser is created using `npm create parser`.
 
-If you want to set up the tracking information from the command line you
+If you want to set up the telemetry information from the command line you
 have two options:
 
-* Run `webhint` with the parameter `--tracking=on|off`.
-  > E.g.: `hint http://example.com --tracking=on`
-* Configure an environment variable `HINT_TRACKING` with the
+* Run `webhint` with the parameter `--telemetry=on|off`.
+  > E.g.: `hint http://example.com --telemetry=on`
+* Configure an environment variable `HINT_TELEMETRY` with the
   value `on` or `off`.
 
 In a CI environment you need to use one of these two options. If not,
@@ -34,11 +34,11 @@ you will see this message:
 
 ![Example output for the telemetry message](images/telemetrycimessage.jpg)
 
-In case you are using both of them, `--tracking on|off` will have
+In case you are using both of them, `--telemetry=on|off` will have
 higher priority.
 
 If you want to see a log in your console about what information `webhint`
-is tracking, you can use the parameter `--analytics-debug`.
+is sending, you can use the parameter `--analytics-debug`.
 
 >E.g.: `hint http://example.com --analytics-debug`
 

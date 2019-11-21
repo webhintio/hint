@@ -24,7 +24,7 @@ export type CLIOptions = {
     help: boolean;
     language: string;
     output: string;
-    tracking: string; // 'on' or 'off'
+    telemetry: string; // 'on' or 'off'
     version: boolean;
     watch: boolean;
 

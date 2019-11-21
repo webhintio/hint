@@ -81,8 +81,8 @@ To know more about what information will be sent please
 visit ${chalk.green('https://webhint.io/docs/user-guide/telemetry/summary/')}
 
 Please configure it using
-the environment variable HINT_TRACKING to 'on' or 'off'
-or set the flag --tracking=on|off`;
+the environment variable HINT_TELEMETRY to 'on' or 'off'
+or set the flag --telemetry=on|off`;
 
     printFrame(message);
 };

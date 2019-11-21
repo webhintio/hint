@@ -146,14 +146,14 @@ the [telemetry documentation][].
 
 You can enable telemetry by adding either a parameter or an `env` variable.
 
-1. By parameter: Add `--tracking=on` to the script in your `package.json`
+1. By parameter: Add `--telemetry=on` to the script in your `package.json`
    `package.json`
 
     ```json
     …
     "scripts": {
         …
-        "test-hint": "hint https://webhint.io --debug --tracking=on"
+        "test-hint": "hint https://webhint.io --debug --telemetry=on"
       },
     …
     ```
@@ -172,10 +172,10 @@ You can enable telemetry by adding either a parameter or an `env` variable.
     script:
        # Add the necessary steps to deploy your website.
       - npm install hint --no-save
-      - node node_modules/hint/dist/src/bin/hint.js https://url-to-your-project --tracking=on
+      - node node_modules/hint/dist/src/bin/hint.js https://url-to-your-project --telemetry=on
     ```
 
-2. By `env` variable: You need to configure the `env` variable `HINT_TRACKING` in
+2. By `env` variable: You need to configure the `env` variable `HINT_TELEMETRY` in
    `.travis.yml`:
 
     ```yml
@@ -187,14 +187,14 @@ You can enable telemetry by adding either a parameter or an `env` variable.
       chrome: stable
 
     env:
-      - HINT_TRACKING=on
+      - HINT_TELEMETRY=on
 
     script:
       - npm install
       - npm run test-hint
     ```
 
-**Note:** Supported values for `HINT_TRACKING` are `on` and `off`.
+**Note:** Supported values for `HINT_TELEMETRY` are `on` and `off`.
 
 ## Further configuration
 
