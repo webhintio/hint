@@ -54,15 +54,15 @@ export class Analyzer {
             return null;
         }
 
-        const userConfig = getUserConfig(hintModule, directory);
-
         try {
+            const userConfig = getUserConfig(hintModule, directory);
+
             return hintModule.createAnalyzer(userConfig);
         } catch (e) {
             // Instantiating webhint failed, log the error to the webhint output panel to aid debugging.
             console.error(e);
 
-            return await promptRetry(this.connection.window, /* istanbul ignore next */ () => {
+            return await promptRetry(this.connection.window, /* istanbul ignore next */() => {
                 this.connection.sendNotification(notifications.showOutput);
 
                 // We retry with the shared version as it is more likely to not be broken 🤞
