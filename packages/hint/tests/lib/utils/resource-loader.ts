@@ -10,9 +10,8 @@ import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
 
 import * as utils from '@hint/utils';
-import { ResourceError } from '@hint/utils/dist/src/types/resource-error';
-import { ResourceErrorStatus } from '@hint/utils/dist/src/types/resource-error-status';
-import { ResourceType } from '@hint/utils/dist/src/types/resource-type';
+import { ResourceError } from '@hint/utils/dist/src/packages/resource-error';
+import { ResourceType, ResourceErrorStatus } from '@hint/utils/dist/src/packages/enums';
 
 import { Configuration } from '../../../src/lib/config';
 
