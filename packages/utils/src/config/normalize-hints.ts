@@ -1,4 +1,4 @@
-import { HintsConfigObject, HintSeverity } from '../types/config';
+import { HintsConfigObject, HintSeverity } from './types';
 import { Severity } from '@hint/utils-types';
 
 /**

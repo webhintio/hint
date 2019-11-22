@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { UserConfig, HintsConfigObject } from '../types/config';
+import { UserConfig, HintsConfigObject } from './types';
 
 export const toAbsolutePaths = (config: UserConfig | null, configRoot: string): UserConfig | null => {
     if (!config) {
