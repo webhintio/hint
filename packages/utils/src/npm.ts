@@ -145,12 +145,12 @@ export const getOfficialPackages = async (type: string): Promise<NpmPackage[]> =
 };
 
 /** Get external packages from npm. */
-export const getUnnoficialPackages = async (type: string): Promise<NpmPackage[]> => {
-    const hints = await search(`hint-${type}`);
+export const getUnofficialPackages = async (type: string): Promise<NpmPackage[]> => {
+    const hints = await search(`webhint-${type}`);
 
     /*
      * We need to filter the results because the search can
-     * include other packages that doesn't start with `hint-{type}`.
+     * include other packages that doesn't start with `webhint-{type}`.
      */
-    return filterPackages(hints, `hint-${type}`);
+    return filterPackages(hints, `webhint-${type}`);
 };
