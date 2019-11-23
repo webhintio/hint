@@ -1017,16 +1017,18 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-"@typescript-eslint/typescript-estree@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-2.5.0.tgz#40ada624d6217ef092a3a79ed30d947ad4f212ce"
-  integrity sha512-AXURyF8NcA3IsnbjNX1v9qbwa0dDoY9YPcKYR2utvMHoUcu3636zrz0gRWtVAyxbPCkhyKuGg6WZIyi2Fc79CA==
+"@typescript-eslint/typescript-estree@^2.8.0":
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-2.8.0.tgz#fcc3fe6532840085d29b75432c8a59895876aeca"
+  integrity sha512-ksvjBDTdbAQ04cR5JyFSDX113k66FxH1tAXmi+dj6hufsl/G0eMc/f1GgLjEVPkYClDbRKv+rnBFuE5EusomUw==
   dependencies:
     debug "^4.1.1"
-    glob "^7.1.4"
+    eslint-visitor-keys "^1.1.0"
+    glob "^7.1.6"
     is-glob "^4.0.1"
     lodash.unescape "4.0.1"
     semver "^6.3.0"
+    tsutils "^3.17.1"
 
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
@@ -11504,10 +11506,10 @@ tsort@^0.0.1:
   resolved "https://registry.yarnpkg.com/tsort/-/tsort-0.0.1.tgz#e2280f5e817f8bf4275657fd0f9aebd44f5a2786"
   integrity sha1-4igPXoF/i/QnVlf9D5rr1E9aJ4Y=
 
-tsutils@^3.7.0:
-  version "3.14.0"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.14.0.tgz#bf8d5a7bae5369331fa0f2b0a5a10bd7f7396c77"
-  integrity sha512-SmzGbB0l+8I0QwsPgjooFRaRvHLBLNYM8SeQ0k6rtNDru5sCGeLJcZdwilNndN+GysuFjF5EIYgN8GfFG6UeUw==
+tsutils@^3.17.1, tsutils@^3.7.0:
+  version "3.17.1"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-3.17.1.tgz#ed719917f11ca0dee586272b2ac49e015a2dd759"
+  integrity sha512-kzeQ5B8H3w60nFY2g8cJIuH7JDpsALXySGtwGJ0p2LSjLgay3NdIpqq5SoOBe46bKDW2iq25irHCr8wjomUS2g==
   dependencies:
     tslib "^1.8.1"
 
