@@ -17,11 +17,10 @@ const debug: debug.IDebugger = d(__filename);
  * * null if not valid
  */
 export const getAsUri = (source: string): URL | null => {
-    const entry: string = source.trim();
     let target: URL | null;
 
     try {
-        target = new URL(entry);
+        target = new URL(source);
     } catch (err) {
         /* istanbul ignore next */
         { // eslint-disable-line no-lone-blocks
@@ -46,14 +45,14 @@ export const getAsUri = (source: string): URL | null => {
      * If it's not a URI
      * If it does exist and it's a regular file.
      */
-    if (isFile(entry) || isDirectory(entry)) {
-        target = new URL(fileUrl(entry));
+    if (isFile(source) || isDirectory(source)) {
+        target = new URL(fileUrl(source));
         debug(`Adding valid target: ${url.format(target)}`);
 
         return target;
     }
 
-    target = new URL(`http://${entry}`);
+    target = new URL(`http://${source}`);
 
     /*
      * And it doesn't exist locally, and is a valid URL:
@@ -61,14 +60,14 @@ export const getAsUri = (source: string): URL | null => {
      * for all other cases the `hostname` needs to contain at least
      * a `.`. Private domains should have `http(s)://` in front.
      */
-    if (!pathExists(entry) && (target.hostname === 'localhost' || target.hostname.includes('.'))) {
+    if (!pathExists(source) && (target.hostname === 'localhost' || target.hostname.includes('.'))) {
         debug(`Adding modified target: ${url.format(target)}`);
 
         return target;
     }
 
     // If it's not a regular file or looks like a URL, ignore it.
-    logger.error(`Ignoring '${entry}' as it's not an existing file nor a valid URL`);
+    logger.error(`Ignoring '${source}' as it's not an existing file nor a valid URL`);
 
     return null;
 };
