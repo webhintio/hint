@@ -273,6 +273,44 @@ test(`if the configuration file contains an extends property, it should combine 
     t.is(configuration.parsers && configuration.parsers.length, 2);
 });
 
+test(`if the configuration file contains an extends property and the hints property is an array, it should combine the configurations`, async (t) => {
+    const { resourceLoader, sandbox } = t.context;
+
+    class FakeDisallowedHint implements IHint {
+        public static called: boolean = false;
+        public constructor() {
+            FakeDisallowedHint.called = true;
+        }
+
+        public static readonly meta: HintMetadata = {
+            getDescription() {
+                return '';
+            },
+            getName() {
+                return '';
+            },
+            id: 'disallowed-headers',
+            schema: [],
+            scope: HintScope.any
+        }
+    }
+
+    sandbox.stub(resourceLoader, 'loadHint').returns(FakeDisallowedHint);
+
+    const exts = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/valid/array-hints.json')));
+
+    sandbox.stub(resourceLoader, 'loadConfiguration').returns(exts);
+
+    const config = loadScript(t.context);
+    const userConfig = config.Configuration.loadConfigFile(path.join(__dirname, './fixtures/valid/withextends.json'));
+    const configuration = config.Configuration.fromConfig(userConfig, { watch: false });
+
+    t.is(configuration.connector.name, 'chrome');
+    t.is(configuration.hints['disallowed-headers'], 'error');
+    t.is(configuration.hints.axe, 'default');
+    t.is(configuration.hints['https-only'], 'default');
+});
+
 test(`if the configuration file contains an invalid extends property, returns an exception`, async (t) => {
     const { resourceLoader, sandbox } = t.context;
     const exts = JSON.parse(await readFileAsync(path.join(__dirname, './fixtures/notvalid/package.json'))).hintConfig;
