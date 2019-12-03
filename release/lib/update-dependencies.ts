@@ -37,6 +37,10 @@ export const calculatePackageNewVersion = (pkg: Package, bump: Bump): string => 
         return `1.0.0`;
     }
 
+    if (bump === Bump.none) {
+        return pkg.oldVersion;
+    }
+
     const newVersion = semver.inc(pkg.oldVersion, Bump[bump] as semver.ReleaseType)!;
 
     debug(`Bumping ${pkg.name} from ${pkg.oldVersion} to ${newVersion}`);
