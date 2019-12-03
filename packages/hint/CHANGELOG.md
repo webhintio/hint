@@ -1,3 +1,10 @@
+# 6.0.1 (December 3, 2019)
+
+## Bug fixes / Improvements
+
+* [[`5e922dda5a`](https://github.com/webhintio/hint/commit/5e922dda5aacb4217130a0bcf64fc9bef93947c6)] - Fix: Normalize hints when extending.
+
+
 # 6.0.0 (December 2, 2019)
 
 ## Breaking Changes

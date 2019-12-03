@@ -1,3 +1,6 @@
+# 4.0.1 (December 3, 2019)
+
+
 # 4.0.0 (December 2, 2019)
 
 ## Breaking Changes

@@ -1,3 +1,6 @@
+# 1.5.1 (December 3, 2019)
+
+
 # 1.5.0 (December 2, 2019)
 
 ## New features
