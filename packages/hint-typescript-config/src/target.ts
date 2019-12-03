@@ -251,13 +251,9 @@ export default class TypeScriptConfigTarget implements IHint {
             }
 
             if (packageJsonFolder) {
-                try {
-                    const packageJson = require(path.join(packageJsonFolder, 'package.json'));
+                const packageJson = require(path.join(packageJsonFolder, 'package.json'));
 
-                    return !!packageJson.browserslist;
-                } catch (e) {
-                    console.log(e);
-                }
+                return !!packageJson.browserslist;
             }
 
             return false;
