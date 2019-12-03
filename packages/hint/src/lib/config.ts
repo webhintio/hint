@@ -99,6 +99,8 @@ const composeConfig = (userConfig: UserConfig, parentConfig = '') => {
             throw new Error(`Configuration package "${config}" is not valid`);
         }
 
+        loadedConfiguration.hints = normalizeHints(loadedConfiguration.hints);
+
         return composeConfig(loadedConfiguration, config);
     });
 
