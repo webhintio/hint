@@ -151,6 +151,7 @@ export default class PuppeteerConnector implements IConnector {
     }
 
     private async onRequest(request: puppeteer.Request) {
+        /* istanbul ignore next */
         if (this.isIgnoredMethod(request.method())) {
             return;
         }
@@ -189,6 +190,7 @@ export default class PuppeteerConnector implements IConnector {
     }
 
     private async onResponse(response: puppeteer.Response) {
+        /* istanbul ignore next */
         if (this.isIgnoredMethod(response.request().method())) {
             return;
         }
