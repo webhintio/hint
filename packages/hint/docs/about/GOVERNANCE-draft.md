@@ -116,7 +116,8 @@ of the TSC membership shares an employer, then the situation must
 be immediately remedied by the resignation or removal of one or more
 TSC members affiliated with the over-represented employer(s) or the
 addition of a new representative not affiliated with the
-over-represented employer(s).
+over-represented employer(s). The exception to this is when there
+are not enough members (e.g.: 2 people will be 50%).
 
 TSC members have additional responsibilities over and above those of
 a Committer. These responsibilities ensure the smooth running of the
@@ -146,27 +147,29 @@ items and commit to being a part of the community for the long-term.
 An individual is invited to become a TSC member by existing TSC members.
 A nomination will result in discussion and then a decision by the TSC.
 
-#### TSC Meetings
+#### Meetings
 
-There are no recurrent TSC meetings, they are scheduled when required,
-at a time that works for the TSC members, and using tools that enable
-participation by the community. The meeting is run by a designated
-moderator approved by the TSC.
+The webhint team tries to meet every 2 weeks (length of a sprint)
+on Zoom, and to stream the meeting on YouTube.
 
-Items are added to the TSC agenda which are considered contentious or
-are modifications of governance, contribution policy, TSC membership,
-or release process.
+The intention of the agenda is to summarize the work done during the
+last period, and decide priorities for the next one. It is not to
+approve or review all patches. That should happen continuously on
+GitHub and be handled by the larger group of Committers.
 
-The intention of the agenda is not to approve or review all patches.
-That should happen continuously on GitHub and be handled by the
-larger group of Committers. The exception to this is when defining
-what a hint should do (or when proposing an update), there is not
-an initial agreement in the GitHub discussion, and action needs to
-be taken.
+Other items that can be discussed during these meetings are
+cross-project collaboration, modifications of governance,
+contribution policy, TSC membership, release process,  etc.
 
 Any community member or committer can ask that something be added
 to the next meeting’s agenda by logging a GitHub Issue. Anyone can
-add the item to the agenda by adding the "tsc agenda" tag to the issue.
+add the item to the agenda by adding the "TSC agenda" tag to the issue.
+
+Additional meetings can be scheduled when required, at a time that
+works for the TSC members. An example of such a meeting will be
+when defining what a hint should do (or when proposing an update),
+there is not an initial agreement in the GitHub discussion, and action
+needs to be taken.
 
 Prior to each TSC meeting, the moderator will share the Agenda with
 members of the TSC. TSC members can add any items they like to the
@@ -177,7 +180,7 @@ The TSC may invite persons or representatives from certain projects
 to participate in a non-voting capacity.
 
 The moderator is responsible for summarizing the discussion of each
-agenda item and sending it as a pull request after the meeting.
+agenda item.
 
 ## Consensus Seeking Process
 
@@ -212,4 +215,6 @@ This work is licensed under a [Creative Commons Attribution-ShareAlike
 [consensus seeking]: https://en.wikipedia.org/wiki/Consensus-seeking_decision-making
 [eslint governance]: https://github.com/eslint/eslint.github.io/blob/14196f4f4fd0d0be5a2f2a972929fd30f6c26d46/docs/maintainer-guide/governance.md
 [js foundation tac charter]: https://github.com/JSFoundation/TAC/blob/1aacc0c8be7b3bdf93519befcd15c5be8c000330/TAC-Charter.md
+[OpenJS Foundation]: https://openjsf.org/
+[webhint org]: https://github.com/webhintio/
 [yui contributor model]: https://github.com/yui/yui3/wiki/Contributor-Model
