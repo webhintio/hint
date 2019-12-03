@@ -7,11 +7,10 @@
     ],
     "timeout": "1m"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "description": "utils for CSS",
   "devDependencies": {
-    "@hint/utils-types": "^0.0.1",
+    "@hint/utils-types": "^1.0.0",
     "ava": "^2.4.0",
     "eslint": "^6.6.0",
     "eslint-plugin-import": "^2.18.2",
@@ -58,5 +57,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "0.0.1"
+  "version": "1.0.0"
 }

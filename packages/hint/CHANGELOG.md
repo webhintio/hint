@@ -1,3 +1,53 @@
+# 6.0.0 (December 2, 2019)
+
+## Breaking Changes
+
+* [[`d59be96330`](https://github.com/webhintio/hint/commit/d59be963309bf0df971f374a010d21312c2efd3e)] - Breaking: Group types with utils implementation (see also: [`#2392`](https://github.com/webhintio/hint/issues/2392)).
+* [[`39d824913a`](https://github.com/webhintio/hint/commit/39d824913aab033afdb3e2f7c23331ef228634f6)] - Breaking: Remove shortcuts to @hint/utils from hint (see also: [`#3166`](https://github.com/webhintio/hint/issues/3166)).
+* [[`910c381ca4`](https://github.com/webhintio/hint/commit/910c381ca41e95704138c90114f206f7613f9957)] - Breaking: Use `telemetry` instead of `tracking` (see also: [`#2995`](https://github.com/webhintio/hint/issues/2995)).
+* [[`03379616e5`](https://github.com/webhintio/hint/commit/03379616e5c3745d195963e490ed9e3f0e1d33ee)] - Breaking: Drop support for node 8 (see also: [`#3140`](https://github.com/webhintio/hint/issues/3140)).
+* [[`c177cc96e8`](https://github.com/webhintio/hint/commit/c177cc96e898c40ac66c02304e7beafa25cfa6ac)] - Breaking: Remove json specific parser form hint.
+* [[`e1da45b47b`](https://github.com/webhintio/hint/commit/e1da45b47bd7cebe2d5cfcbfc1a816a03f7b96ee)] - Breaking: Remove shortcuts from hint.
+* [[`31472bb59a`](https://github.com/webhintio/hint/commit/31472bb59a8b0e33c2fb3e33b488f3fe6e9cbb71)] - Breaking: Remove types moved to @hint/utils-types.
+
+## New features
+
+* [[`43a3daa4b7`](https://github.com/webhintio/hint/commit/43a3daa4b77072e220646573bdd3efc41b93b8d9)] - New: Make `Severity` mandatory.
+* [[`d62df35cb7`](https://github.com/webhintio/hint/commit/d62df35cb7794746bf8b9f9b08937dc40b6a2438)] - New: Severity with "default" value for hints.
+* [[`a7278f2f78`](https://github.com/webhintio/hint/commit/a7278f2f78edb07df5e610c3b207c3b779ec1f2b)] - New: More severities and threshold in schema (see also: [`#3065`](https://github.com/webhintio/hint/issues/3065)).
+
+## Bug fixes / Improvements
+
+* [[`42b40b58fa`](https://github.com/webhintio/hint/commit/42b40b58faf52d794d6cadd4e40de8fbfe8b93fd)] - Fix: Better error reporting when an exception happens.
+* [[`b628eb4a03`](https://github.com/webhintio/hint/commit/b628eb4a0336615cbe8f8cb053692daf30704f97)] - Fix: Hide `configuration-all` from the user (see also: [`#3097`](https://github.com/webhintio/hint/issues/3097)).
+* [[`7ea9591f38`](https://github.com/webhintio/hint/commit/7ea9591f38c2a79d9943bcb9ce6303db3a6556fb)] - Fix: Schema and Types for hints (see also: [`#3348`](https://github.com/webhintio/hint/issues/3348)).
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+* [[`c86f21a0aa`](https://github.com/webhintio/hint/commit/c86f21a0aa6c6d5d9e8e5bc6ecd606576ff52099)] - Fix: Respect user's severity.
+
+## Chores
+
+* [[`abf2ded5b1`](https://github.com/webhintio/hint/commit/abf2ded5b11ddac5d7e7789f8c54d7f0b3dc217b)] - Upgrade: Bump optionator from 0.8.2 to 0.8.3.
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`7c72e1a7c3`](https://github.com/webhintio/hint/commit/7c72e1a7c3fd831755c36bae2732cfa15de06ea2)] - Chore: Change configurations message (see also: [`#3368`](https://github.com/webhintio/hint/issues/3368)).
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`a112f4b99b`](https://github.com/webhintio/hint/commit/a112f4b99b3b41abf8951c4557ec37d42cb4f866)] - Chore: Update formatters to support new severity values (see also: [`#3182`](https://github.com/webhintio/hint/issues/3182), and [`#3345`](https://github.com/webhintio/hint/issues/3345)).
+* [[`d3cd39bb2f`](https://github.com/webhintio/hint/commit/d3cd39bb2fb7aea7db7ba36dba056baaccd0b63c)] - Chore: Change Severity `enum` values (see also: [`#3344`](https://github.com/webhintio/hint/issues/3344)).
+* [[`65bdae322e`](https://github.com/webhintio/hint/commit/65bdae322e2bd5f651a4a28869cb41b0fedd319f)] - Chore: Add missing configuration option in schema validation.
+* [[`90210e7c1e`](https://github.com/webhintio/hint/commit/90210e7c1e3de5ff67591af493fe4483a8941d17)] - Chore: Update references to use generateHTMLPage.
+* [[`0d37aded21`](https://github.com/webhintio/hint/commit/0d37aded21950358da7fb20ffd3288bc54b08da9)] - Chore: Update packages to use @hint/utils-string.
+* [[`370cc143b6`](https://github.com/webhintio/hint/commit/370cc143b68ef8e70e14b7c2f98f27edbe96e3f4)] - Chore: Update packages to use @hint/utils-tests-helpers.
+* [[`be6b5025a8`](https://github.com/webhintio/hint/commit/be6b5025a83ac2501baa9b33a5535c8056bd428b)] - Chore: Simplify path to utils.
+* [[`12f5cbadb9`](https://github.com/webhintio/hint/commit/12f5cbadb989039c352a913629338b37419e749d)] - Chore: Update packages to use @hint/utils-json.
+* [[`5ed37ce719`](https://github.com/webhintio/hint/commit/5ed37ce719dfed3c78619f1717450a04b25644d4)] - Chore: Update packages to use @hint/utils-fs.
+* [[`baa55a4ebd`](https://github.com/webhintio/hint/commit/baa55a4ebd47e21eabffef9f7be74672125aef9b)] - Chore: Update packages to use @hint/utils-network.
+* [[`d95dc4a371`](https://github.com/webhintio/hint/commit/d95dc4a3711aa1a2cda74a7f83d14a49a4c92d65)] - Chore: Update packages to use @hint/utils-dom.
+* [[`97bb31d0fa`](https://github.com/webhintio/hint/commit/97bb31d0fafb53572220cd647bb493716587ca2b)] - Chore: Update references to the new @hint/utils-types.
+* [[`45f015dea0`](https://github.com/webhintio/hint/commit/45f015dea045a0bf9e01a55ac0a186dbc37161ca)] - Chore: Update packages to use @hint/utils-debug.
+* [[`c3b2de3f1a`](https://github.com/webhintio/hint/commit/c3b2de3f1a41b3468d9fbece68371830080b09d6)] - Upgrade: Bump browserslist from 4.7.0 to 4.7.2.
+
+
 # 5.4.1 (October 30, 2019)
 
 

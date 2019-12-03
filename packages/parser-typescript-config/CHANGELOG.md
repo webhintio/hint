@@ -1,3 +1,27 @@
+# 2.4.1 (December 2, 2019)
+
+## New features
+
+* [[`d08c9681ba`](https://github.com/webhintio/hint/commit/d08c9681bae42e9c64e9d54fd3a9ccd2b4f1f1cd)] - Update: 'schema.json'.
+
+## Bug fixes / Improvements
+
+* [[`7ea9591f38`](https://github.com/webhintio/hint/commit/7ea9591f38c2a79d9943bcb9ce6303db3a6556fb)] - Fix: Schema and Types for hints (see also: [`#3348`](https://github.com/webhintio/hint/issues/3348)).
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+* [[`12f5cbadb9`](https://github.com/webhintio/hint/commit/12f5cbadb989039c352a913629338b37419e749d)] - Chore: Update packages to use @hint/utils-json.
+* [[`5ed37ce719`](https://github.com/webhintio/hint/commit/5ed37ce719dfed3c78619f1717450a04b25644d4)] - Chore: Update packages to use @hint/utils-fs.
+* [[`baa55a4ebd`](https://github.com/webhintio/hint/commit/baa55a4ebd47e21eabffef9f7be74672125aef9b)] - Chore: Update packages to use @hint/utils-network.
+* [[`45f015dea0`](https://github.com/webhintio/hint/commit/45f015dea045a0bf9e01a55ac0a186dbc37161ca)] - Chore: Update packages to use @hint/utils-debug.
+
+
 # 2.4.0 (October 29, 2019)
 
 ## Bug fixes / Improvements

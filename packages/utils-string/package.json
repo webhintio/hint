@@ -7,8 +7,7 @@
     ],
     "timeout": "1m"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "description": "utils for strings",
   "devDependencies": {
     "ava": "^2.4.0",
@@ -55,5 +54,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "0.0.1"
+  "version": "1.0.0"
 }

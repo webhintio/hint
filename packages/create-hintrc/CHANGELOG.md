@@ -1,3 +1,31 @@
+# 3.0.0 (December 2, 2019)
+
+## Breaking Changes
+
+* [[`03379616e5`](https://github.com/webhintio/hint/commit/03379616e5c3745d195963e490ed9e3f0e1d33ee)] - Breaking: Drop support for node 8 (see also: [`#3140`](https://github.com/webhintio/hint/issues/3140)).
+
+## Bug fixes / Improvements
+
+* [[`b628eb4a03`](https://github.com/webhintio/hint/commit/b628eb4a0336615cbe8f8cb053692daf30704f97)] - Fix: Hide `configuration-all` from the user (see also: [`#3097`](https://github.com/webhintio/hint/issues/3097)).
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`f044c9b5a1`](https://github.com/webhintio/hint/commit/f044c9b5a1ef400ab50a6065cea7a8c9758db8bc)] - Chore: Update references to old methods/types in hint.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`e6e47c71ca`](https://github.com/webhintio/hint/commit/e6e47c71ca029bb01ffba6b8560365b995d6616d)] - Upgrade: Bump webpack from 4.39.3 to 4.41.2.
+* [[`65047cf0af`](https://github.com/webhintio/hint/commit/65047cf0af49ae19dac23a7cbfbc4f9f17306c1e)] - Upgrade: Bump ts-loader from 6.1.2 to 6.2.1.
+* [[`8b1803a77d`](https://github.com/webhintio/hint/commit/8b1803a77debd7010807ba17c21a2419ef455b69)] - Upgrade: Bump webpack-cli from 3.3.9 to 3.3.10.
+* [[`e6380aaf35`](https://github.com/webhintio/hint/commit/e6380aaf35d72de5a484512ec05324186aedfb68)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 1.5.1 to 3.1.0.
+* [[`5ed37ce719`](https://github.com/webhintio/hint/commit/5ed37ce719dfed3c78619f1717450a04b25644d4)] - Chore: Update packages to use @hint/utils-fs.
+* [[`baa55a4ebd`](https://github.com/webhintio/hint/commit/baa55a4ebd47e21eabffef9f7be74672125aef9b)] - Chore: Update packages to use @hint/utils-network.
+* [[`45f015dea0`](https://github.com/webhintio/hint/commit/45f015dea045a0bf9e01a55ac0a186dbc37161ca)] - Chore: Update packages to use @hint/utils-debug.
+* [[`c3b2de3f1a`](https://github.com/webhintio/hint/commit/c3b2de3f1a41b3468d9fbece68371830080b09d6)] - Upgrade: Bump browserslist from 4.7.0 to 4.7.2.
+
+
 # 2.1.16 (October 30, 2019)
 
 

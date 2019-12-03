@@ -8,10 +8,10 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-json": "^0.0.1",
-    "@hint/utils-network": "^0.0.1",
-    "@hint/utils-string": "^0.0.1",
-    "@hint/utils-types": "^0.0.1"
+    "@hint/utils-json": "^1.0.0",
+    "@hint/utils-network": "^1.0.0",
+    "@hint/utils-string": "^1.0.0",
+    "@hint/utils-types": "^1.0.0"
   },
   "description": "webhint parser for web app manifest files",
   "devDependencies": {
@@ -48,7 +48,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.0.0"
+    "hint": "^6.0.0"
   },
   "repository": {
     "directory": "packages/parser-manifest",
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.2.12"
+  "version": "2.2.13"
 }

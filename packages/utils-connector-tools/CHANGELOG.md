@@ -1,3 +1,22 @@
+# 4.0.15 (December 2, 2019)
+
+## Bug fixes / Improvements
+
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`d24bf455c0`](https://github.com/webhintio/hint/commit/d24bf455c0bb23a4482b8beebd7dc50bcb4fec84)] - Chore: Migrate to built-in brotli implementation (see also: [`#1604`](https://github.com/webhintio/hint/issues/1604)).
+* [[`5a0c6bde22`](https://github.com/webhintio/hint/commit/5a0c6bde22a882c0b854735c2e87bb1554c85b70)] - Upgrade: Bump iltorb from 2.4.3 to 2.4.4.
+* [[`0d37aded21`](https://github.com/webhintio/hint/commit/0d37aded21950358da7fb20ffd3288bc54b08da9)] - Chore: Update packages to use @hint/utils-string.
+* [[`baa55a4ebd`](https://github.com/webhintio/hint/commit/baa55a4ebd47e21eabffef9f7be74672125aef9b)] - Chore: Update packages to use @hint/utils-network.
+* [[`45f015dea0`](https://github.com/webhintio/hint/commit/45f015dea045a0bf9e01a55ac0a186dbc37161ca)] - Chore: Update packages to use @hint/utils-debug.
+
+
 # 4.0.14 (October 29, 2019)
 
 ## Chores

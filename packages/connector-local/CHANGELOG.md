@@ -1,3 +1,28 @@
+# 3.2.1 (December 2, 2019)
+
+## Bug fixes / Improvements
+
+* [[`b8338bb2b3`](https://github.com/webhintio/hint/commit/b8338bb2b3cdb4ef9fb4d11a2c6145f659ab0ad2)] - Fix: Test release script.
+* [[`0b46a4ff0c`](https://github.com/webhintio/hint/commit/0b46a4ff0c58730336c8a136e798b33dbbbe51b1)] - Fix: Support for files with spaces in the path (see also: [`#3401`](https://github.com/webhintio/hint/issues/3401)).
+* [[`56542567a9`](https://github.com/webhintio/hint/commit/56542567a943e5a14cec070e1fe765f77433bcf2)] - Fix: Check target is `file://` in connector-local (see also: [`#3363`](https://github.com/webhintio/hint/issues/3363)).
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+* [[`33f81543d8`](https://github.com/webhintio/hint/commit/33f81543d828ed1ee3eedbd7d4a12804a8ffe8a5)] - Upgrade: Bump jsdom from 15.2.0 to 15.2.1.
+* [[`a4a056d234`](https://github.com/webhintio/hint/commit/a4a056d234e5002561385ce8c98fa4d7d2379ac5)] - Upgrade: Bump chokidar from 3.2.3 to 3.3.0.
+* [[`5ed37ce719`](https://github.com/webhintio/hint/commit/5ed37ce719dfed3c78619f1717450a04b25644d4)] - Chore: Update packages to use @hint/utils-fs.
+* [[`baa55a4ebd`](https://github.com/webhintio/hint/commit/baa55a4ebd47e21eabffef9f7be74672125aef9b)] - Chore: Update packages to use @hint/utils-network.
+* [[`d95dc4a371`](https://github.com/webhintio/hint/commit/d95dc4a3711aa1a2cda74a7f83d14a49a4c92d65)] - Chore: Update packages to use @hint/utils-dom.
+* [[`1f4b600a43`](https://github.com/webhintio/hint/commit/1f4b600a431da4f7d5d6f40aa1696a2e91cc22e0)] - Chore: Update packages to use @hint/utils-i18n.
+* [[`711b849d55`](https://github.com/webhintio/hint/commit/711b849d559d296e42376b61b6b3388bfadc847c)] - Upgrade: Bump chokidar from 3.0.2 to 3.2.3.
+
+
 # 3.2.0 (October 29, 2019)
 
 ## New features

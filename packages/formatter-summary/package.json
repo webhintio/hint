@@ -8,11 +8,11 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.1.0",
-    "@hint/utils-debug": "^0.0.1",
-    "@hint/utils-fs": "^0.0.1",
-    "@hint/utils-i18n": "^0.0.1",
-    "@hint/utils-types": "^0.0.1",
+    "@hint/utils": "^7.0.0",
+    "@hint/utils-debug": "^1.0.0",
+    "@hint/utils-fs": "^1.0.0",
+    "@hint/utils-i18n": "^1.0.0",
+    "@hint/utils-types": "^1.0.0",
     "chalk": "^3.0.0",
     "lodash": "^4.17.15",
     "log-symbols": "^3.0.0",
@@ -54,7 +54,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.0.0"
+    "hint": "^6.0.0"
   },
   "repository": {
     "directory": "packages/formatter-summary",
@@ -80,5 +80,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.14"
+  "version": "3.0.15"
 }

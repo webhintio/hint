@@ -8,18 +8,18 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^6.1.0",
-    "@hint/utils-debug": "^0.0.1",
-    "@hint/utils-network": "^0.0.1",
-    "@hint/utils-string": "^0.0.1",
-    "@hint/utils-types": "^0.0.1",
+    "@hint/utils": "^7.0.0",
+    "@hint/utils-debug": "^1.0.0",
+    "@hint/utils-network": "^1.0.0",
+    "@hint/utils-string": "^1.0.0",
+    "@hint/utils-types": "^1.0.0",
     "data-urls": "^1.1.0",
     "iconv-lite": "^0.5.0",
     "request": "^2.88.0"
   },
   "description": "hint tools for connectors",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.3.0",
+    "@hint/utils-create-server": "^3.4.0",
     "@types/node": "^12.12.12",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -49,7 +49,7 @@
   "main": "./dist/src/index.js",
   "name": "@hint/utils-connector-tools",
   "peerDependencies": {
-    "hint": "^5.0.0"
+    "hint": "^6.0.0"
   },
   "repository": {
     "directory": "packages/utils-connector-tools",
@@ -73,5 +73,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.14"
+  "version": "4.0.15"
 }

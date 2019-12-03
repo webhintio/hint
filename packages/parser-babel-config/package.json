@@ -9,9 +9,9 @@
   },
   "description": "webhint parser to analyze babel config",
   "dependencies": {
-    "@hint/utils-fs": "^0.0.1",
-    "@hint/utils-json": "^0.0.1",
-    "@hint/utils-network": "^0.0.1",
+    "@hint/utils-fs": "^1.0.0",
+    "@hint/utils-json": "^1.0.0",
+    "@hint/utils-network": "^1.0.0",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
@@ -47,7 +47,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.0.0"
+    "hint": "^6.0.0"
   },
   "repository": {
     "directory": "packages/parser-babel-config",
@@ -72,5 +72,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.1.14"
+  "version": "2.1.15"
 }

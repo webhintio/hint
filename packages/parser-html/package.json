@@ -8,7 +8,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-dom": "^0.0.1"
+    "@hint/utils-dom": "^1.0.0"
   },
   "description": "webhint parser needed to analyze HTML files",
   "devDependencies": {
@@ -43,7 +43,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.0.0"
+    "hint": "^6.0.0"
   },
   "repository": {
     "directory": "packages/parser-html",
@@ -69,5 +69,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.11"
+  "version": "3.0.12"
 }

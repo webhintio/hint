@@ -8,9 +8,9 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debug": "^0.0.1",
-    "@hint/utils-fs": "^0.0.1",
-    "@hint/utils-string": "^0.0.1",
+    "@hint/utils-debug": "^1.0.0",
+    "@hint/utils-fs": "^1.0.0",
+    "@hint/utils-string": "^1.0.0",
     "applicationinsights": "^1.6.0",
     "chalk": "^3.0.0",
     "configstore": "^5.0.0",
@@ -23,11 +23,11 @@
     "lodash": "^4.17.15",
     "npm-registry-fetch": "^5.0.0",
     "semver": "^6.3.0"
-},
-"description": "hint tools",
-"devDependencies": {
-    "@hint/utils-dom": "^0.0.1",
-    "@hint/utils-types": "^0.0.1",
+  },
+  "description": "hint tools",
+  "devDependencies": {
+    "@hint/utils-dom": "^1.0.0",
+    "@hint/utils-types": "^1.0.0",
     "@types/configstore": "^4.0.0",
     "@types/mime-db": "^1.27.0",
     "@types/semver": "^6.2.0",
@@ -89,5 +89,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "6.1.0"
+  "version": "7.0.0"
 }

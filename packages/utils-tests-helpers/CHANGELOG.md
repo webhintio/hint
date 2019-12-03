@@ -1,3 +1,34 @@
+# 6.0.0 (December 2, 2019)
+
+## Breaking Changes
+
+* [[`195204450c`](https://github.com/webhintio/hint/commit/195204450c25dbcdd85cbfb7b630521a648cdfa5)] - Breaking: Remove generateHTMLPage from @hint/utils-tests-helpers (see also: [`#3335`](https://github.com/webhintio/hint/issues/3335)).
+
+## New features
+
+* [[`300a2b4ffc`](https://github.com/webhintio/hint/commit/300a2b4ffc841f4a070e9ed60af5dec91fbae28e)] - New: Improve error messages when running tests.
+* [[`a4235bd796`](https://github.com/webhintio/hint/commit/a4235bd7960d3f14f4b7e70d14ebaa9dfcac71f6)] - New: Add tests utils to @hint/utils-tests-helpers.
+* [[`e06405e79b`](https://github.com/webhintio/hint/commit/e06405e79bc46ef6e3c0844f986db6b392e8188c)] - New: Validate reported Severity.
+
+## Bug fixes / Improvements
+
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`f044c9b5a1`](https://github.com/webhintio/hint/commit/f044c9b5a1ef400ab50a6065cea7a8c9758db8bc)] - Chore: Update references to old methods/types in hint.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+* [[`370cc143b6`](https://github.com/webhintio/hint/commit/370cc143b68ef8e70e14b7c2f98f27edbe96e3f4)] - Chore: Update packages to use @hint/utils-tests-helpers.
+* [[`5ed37ce719`](https://github.com/webhintio/hint/commit/5ed37ce719dfed3c78619f1717450a04b25644d4)] - Chore: Update packages to use @hint/utils-fs.
+* [[`baa55a4ebd`](https://github.com/webhintio/hint/commit/baa55a4ebd47e21eabffef9f7be74672125aef9b)] - Chore: Update packages to use @hint/utils-network.
+* [[`97bb31d0fa`](https://github.com/webhintio/hint/commit/97bb31d0fafb53572220cd647bb493716587ca2b)] - Chore: Update references to the new @hint/utils-types.
+* [[`3f69bdb299`](https://github.com/webhintio/hint/commit/3f69bdb29994681274fc1b4fbcefb03db12b9fac)] - Chore: Ensure severity gets validated in tests with position data.
+
+
 # 5.1.0 (October 29, 2019)
 
 ## New features

@@ -1,3 +1,29 @@
+# 2.10.0 (December 2, 2019)
+
+## New features
+
+* [[`fc5b32dbc3`](https://github.com/webhintio/hint/commit/fc5b32dbc36cc5bc81d9e099827446865ff48218)] - Update: 'validator'.
+* [[`752b6af8f6`](https://github.com/webhintio/hint/commit/752b6af8f6d8b5b8de7ac74a9202dd2672f73327)] - New: Default severity for `@hint/hint-amp-validator` (see also: [`#3208`](https://github.com/webhintio/hint/issues/3208)).
+
+## Bug fixes / Improvements
+
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+* [[`370cc143b6`](https://github.com/webhintio/hint/commit/370cc143b68ef8e70e14b7c2f98f27edbe96e3f4)] - Chore: Update packages to use @hint/utils-tests-helpers.
+* [[`5ed37ce719`](https://github.com/webhintio/hint/commit/5ed37ce719dfed3c78619f1717450a04b25644d4)] - Chore: Update packages to use @hint/utils-fs.
+* [[`97bb31d0fa`](https://github.com/webhintio/hint/commit/97bb31d0fafb53572220cd647bb493716587ca2b)] - Chore: Update references to the new @hint/utils-types.
+* [[`1f4b600a43`](https://github.com/webhintio/hint/commit/1f4b600a431da4f7d5d6f40aa1696a2e91cc22e0)] - Chore: Update packages to use @hint/utils-i18n.
+* [[`45f015dea0`](https://github.com/webhintio/hint/commit/45f015dea045a0bf9e01a55ac0a186dbc37161ca)] - Chore: Update packages to use @hint/utils-debug.
+* [[`c981d9de34`](https://github.com/webhintio/hint/commit/c981d9de3483a450a2b4d5925fb5b75f80ee0f88)] - Upgrade: Bump amphtml-validator from 1.0.28 to 1.0.29.
+
+
 # 2.9.13 (October 30, 2019)
 
 ## New features

@@ -1,3 +1,18 @@
+# 8.0.0 (December 2, 2019)
+
+## Breaking Changes
+
+* [[`9266b187e3`](https://github.com/webhintio/hint/commit/9266b187e3302600ad46729006f99dce0f6af67d)] - Breaking: Update configurations to use defaults.
+
+## New features
+
+* [[`362845f2c1`](https://github.com/webhintio/hint/commit/362845f2c146571c52fe967a714c6358bed476fa)] - New: Add formatter-json to default configs (see also: [`#3364`](https://github.com/webhintio/hint/issues/3364)).
+
+## Chores
+
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+
+
 # 7.2.7 (October 29, 2019)
 
 

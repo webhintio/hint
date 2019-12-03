@@ -9,16 +9,16 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debug": "^0.0.1",
-    "@hint/utils-string": "^0.0.1",
+    "@hint/utils-debug": "^1.0.0",
+    "@hint/utils-string": "^1.0.0",
     "postcss": "^7.0.21",
     "postcss-scss": "^2.0.0",
     "postcss-sass": "^0.4.1"
   },
   "description": "webhint parser needed to analyze SASS and SCSS files",
   "devDependencies": {
-    "@hint/parser-css": "^3.0.14",
-    "@hint/utils-dom": "^0.0.1",
+    "@hint/parser-css": "^3.0.15",
+    "@hint/utils-dom": "^1.0.0",
     "@types/node": "^12.12.12",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.5.0",
@@ -54,7 +54,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^5.0.0"
+    "hint": "^6.0.0"
   },
   "repository": {
     "directory": "packages/parser-sass",
@@ -79,5 +79,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.6"
+  "version": "1.0.7"
 }
