@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "@hint/configuration-accessibility": "^2.0.0",
-    "@hint/connector-puppeteer": "^2.4.1",
+    "@hint/configuration-accessibility": "^2.0.1",
+    "@hint/connector-puppeteer": "^2.4.2",
     "@hint/connector-jsdom": "^4.1.1",
     "@hint/connector-local": "^3.2.1",
-    "@hint/formatter-html": "^4.1.11",
+    "@hint/formatter-html": "^4.1.12",
     "@hint/formatter-json": "^3.1.12",
     "@hint/formatter-stylish": "^3.1.12",
     "@hint/formatter-summary": "^3.0.15",
@@ -65,5 +65,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "8.0.0"
+  "version": "8.0.1"
 }

@@ -1,3 +1,10 @@
+# 2.10.1 (December 3, 2019)
+
+## New features
+
+* [[`54617b1e68`](https://github.com/webhintio/hint/commit/54617b1e686a5c5a4274e8d59cdc1575df402340)] - Update: 'validator'.
+
+
 # 2.10.0 (December 2, 2019)
 
 ## New features

@@ -1,3 +1,11 @@
+# 2.4.1 (December 3, 2019)
+
+## Bug fixes / Improvements
+
+* [[`1b55e3e130`](https://github.com/webhintio/hint/commit/1b55e3e130f5e5a457460a3d8b37efa3c2e47d5c)] - Fix: Validate target prop only if browserlist configuration exists (see also: [`#3388`](https://github.com/webhintio/hint/issues/3388)).
+* [[`f7e9b83d60`](https://github.com/webhintio/hint/commit/f7e9b83d60cf8f117fed9290705f7b5e585b4177)] - Fix: Update schema to draft-07.
+
+
 # 2.4.0 (December 2, 2019)
 
 ## New features

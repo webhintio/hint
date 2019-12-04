@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@hint/utils-fs": "^1.0.0",
-    "@hint/utils-json": "^1.0.0",
+    "@hint/utils-json": "^1.0.1",
     "@hint/utils-network": "^1.0.0",
     "lodash": "^4.17.15"
   },
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.1"
+  "version": "2.4.2"
 }

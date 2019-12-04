@@ -1,3 +1,10 @@
+# 2.4.2 (December 3, 2019)
+
+## Bug fixes / Improvements
+
+* [[`68f78788aa`](https://github.com/webhintio/hint/commit/68f78788aa7554ee0070b53e93e6a19a4495b06e)] - Fix: Ignore certain HTTP methods (see also: [`#3412`](https://github.com/webhintio/hint/issues/3412)).
+
+
 # 2.4.1 (December 2, 2019)
 
 ## Bug fixes / Improvements
