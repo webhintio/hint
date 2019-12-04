@@ -14,6 +14,7 @@ test('determineMediaTypeBasedOnFileExtension determines the right mime type base
         jpg: 'image/jpeg',
         js: 'text/javascript',
         otf: 'font/otf',
+        php: 'application/x-httpd-php',
         png: 'image/png',
         svg: 'image/svg+xml',
         ttf: 'font/ttf',
@@ -32,6 +33,12 @@ test('determineMediaTypeBasedOnFileExtension determines the right mime type base
 
         t.is(calculatedMediaType, mediaType, `The calculated value for .${extension} is ${calculatedMediaType} instead of ${mediaType}`);
     });
+});
+
+test('determineMediaTypeBasedOnFileExtension returns text/html for php extension if there is a original media type', (t) => {
+    const calculatedMediaType = contentType.determineMediaTypeBasedOnFileExtension(`something.php`, 'text/html');
+
+    t.is(calculatedMediaType, 'text/html', `The calculated value for .something is ${calculatedMediaType} instead of null`);
 });
 
 test('determineMediaTypeBasedOnFileName sets the mime type as `text/json` if the file name matches `.somethingrc`', (t) => {
