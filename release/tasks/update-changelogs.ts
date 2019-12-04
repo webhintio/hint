@@ -123,6 +123,11 @@ const getDate = (): string => {
 const getChangelogData = async (pkg: Package): Promise<string> => {
     const { commits } = pkg;
 
+    // Some packages only get updated during the release process and there is no commit
+    if (commits.length === 0) {
+        return '';
+    }
+
     const breakingChanges = await generateChangelogSection('Breaking Changes', ['Breaking'], commits);
     const bugFixesAndImprovements = await generateChangelogSection('Bug fixes / Improvements', ['Docs', 'Fix'], commits);
     const newFeatures = await generateChangelogSection('New features', ['New', 'Update'], commits);
