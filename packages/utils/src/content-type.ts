@@ -181,7 +181,7 @@ const determineMediaTypeBasedOnElement = (element: HTMLElement | null): string |
     return null;
 };
 
-const determineMediaTypeBasedOnFileExtension = (resource: string): string | null => {
+const determineMediaTypeBasedOnFileExtension = (resource: string, originalMediaType: string | null = null): string | null => {
     const fileExtension = getFileExtension(resource);
 
     if (!fileExtension) {
@@ -211,6 +211,16 @@ const determineMediaTypeBasedOnFileExtension = (resource: string): string | null
         case 'html':
         case 'htm':
             return 'text/html';
+        case 'php':
+            /**
+             * originalMediaType will be null for connector local.
+             * In local connector, php doesn't need to be processed
+             * as html.
+             */
+            if (originalMediaType) {
+                return 'text/html';
+            }
+            break;
         case 'xhtml':
             return 'application/xhtml+xml';
         case 'js':
@@ -400,7 +410,7 @@ const getContentTypeData = (element: HTMLElement | null, resource: string, heade
     let mediaType =
         determineMediaTypeBasedOnElement(element) ||
         determineMediaTypeBasedOnFileType(rawContent) ||
-        determineMediaTypeBasedOnFileExtension(resource) ||
+        determineMediaTypeBasedOnFileExtension(resource, originalMediaType) ||
         determineMediaTypeBasedOnFileName(resource, rawContent) ||
         originalMediaType;
 
