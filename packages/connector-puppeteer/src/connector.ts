@@ -50,6 +50,7 @@ export default class PuppeteerConnector implements IConnector {
     private _engine: Engine;
     private _finalHref = '';
     private _headers: HttpHeaders = {};
+    private _ignoredMethods: puppeteer.HttpMethod[] = ['OPTIONS'];
     private _listeners: Map<EventName, Function> = new Map();
     private _originalDocument: HTMLDocument | undefined;
     private _page!: puppeteer.Page;
@@ -90,6 +91,10 @@ export default class PuppeteerConnector implements IConnector {
             this._actions.beforeTargetNavigation.unshift(basicHTTPAuth);
             this._actions.afterTargetNavigation.unshift(formAuth);
         }
+    }
+
+    private isIgnoredMethod(method: puppeteer.HttpMethod) {
+        return this._ignoredMethods.includes(method);
     }
 
     /** Transform general options to more specific `puppeteer` ones if applicable. */
@@ -146,6 +151,11 @@ export default class PuppeteerConnector implements IConnector {
     }
 
     private async onRequest(request: puppeteer.Request) {
+        /* istanbul ignore next */
+        if (this.isIgnoredMethod(request.method())) {
+            return;
+        }
+
         if (request.isNavigationRequest()) {
             this._headers = normalizeHeaders(request.headers())!;
         }
@@ -180,6 +190,11 @@ export default class PuppeteerConnector implements IConnector {
     }
 
     private async onResponse(response: puppeteer.Response) {
+        /* istanbul ignore next */
+        if (this.isIgnoredMethod(response.request().method())) {
+            return;
+        }
+
         const resource = response.url();
         const isTarget = response.request().isNavigationRequest();
         const status = response.status();
