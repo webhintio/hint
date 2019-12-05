@@ -15,8 +15,8 @@
   },
   "description": "hint that that checks using axe for accessibility related best practices",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.0",
-    "@hint/utils-tests-helpers": "^6.0.0",
+    "@hint/utils-create-server": "^3.4.1",
+    "@hint/utils-tests-helpers": "^6.0.1",
     "@hint/utils-dom": "^1.0.0",
     "@types/node": "^12.12.12",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -79,5 +79,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.3.1"
+  "version": "4.3.2"
 }

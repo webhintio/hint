@@ -1,3 +1,10 @@
+# 4.1.13 (December 4, 2019)
+
+## Bug fixes / Improvements
+
+* [[`51c16daf6c`](https://github.com/webhintio/hint/commit/51c16daf6c48a45c7e44559a2abdbaeb6e54797c)] - Fix: Restore hint status in formatter-html.
+
+
 # 4.1.12 (December 3, 2019)
 
 ## Bug fixes / Improvements

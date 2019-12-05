@@ -1,3 +1,10 @@
+# 7.0.1 (December 4, 2019)
+
+## Bug fixes / Improvements
+
+* [[`efccecedfc`](https://github.com/webhintio/hint/commit/efccecedfc6657f53fd22b60bf99661fcd758337)] - Fix: Media type for php files (see also: [`#3402`](https://github.com/webhintio/hint/issues/3402)).
+
+
 # 7.0.0 (December 2, 2019)
 
 ## Breaking Changes

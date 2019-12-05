@@ -16,7 +16,7 @@
   },
   "description": "hint that that validates AMP HTML pages using the AMP Validator",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^6.0.0",
+    "@hint/utils-tests-helpers": "^6.0.1",
     "@types/amphtml-validator": "^1.0.0",
     "@types/node": "^12.12.12",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.10.1"
+  "version": "2.10.2"
 }

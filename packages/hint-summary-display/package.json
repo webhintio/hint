@@ -15,9 +15,9 @@
     "postcss-selector-parser": "^6.0.2"
   },
   "devDependencies": {
-    "@hint/parser-css": "^3.0.15",
-    "@hint/utils-create-server": "^3.4.0",
-    "@hint/utils-tests-helpers": "^6.0.0",
+    "@hint/parser-css": "^3.0.16",
+    "@hint/utils-create-server": "^3.4.1",
+    "@hint/utils-tests-helpers": "^6.0.1",
     "@types/node": "^12.12.12",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
