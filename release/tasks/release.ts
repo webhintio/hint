@@ -43,9 +43,13 @@ export const release = () => {
             debug(message);
             observer.next(message);
 
-            const { stdout } = await execa(`npm publish --access public${dryRun}`, { cwd: path.dirname(pkg.path) });
+            try {
+                const { stdout } = await execa(`npm publish --access public${dryRun}`, { cwd: path.dirname(pkg.path) });
 
-            debug(stdout);
+                debug(stdout);
+            } catch (e) {
+                debug(e);
+            }
         } else {
             debug(`Skipping ${pkg.name} from publishing, published version "${pkg.publishedVersion}" matches local one`);
         }
