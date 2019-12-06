@@ -70,7 +70,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^7.5.0",
     "typescript": "^3.7.3",
-    "vsce": "^1.69.0",
+    "vsce": "^1.70.0",
     "vscode-languageclient": "^5.2.1",
     "vscode-languageserver": "^5.2.1",
     "webpack": "^4.41.2",
@@ -79,7 +79,7 @@
   "displayName": "webhint",
   "engines": {
     "node": ">=8.0.0",
-    "vscode": "^1.39.0"
+    "vscode": "^1.40.0"
   },
   "homepage": "https://webhint.io/",
   "icon": "icon.png",
@@ -106,7 +106,7 @@
     "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
-    "test": "npm run lint && npm run build:assets && npm run build:ts && npm run test-only",
+    "test": "npm run clean && npm run lint && npm run build:assets && npm run build:ts && npm run test-only",
     "test-only": "nyc ava && npm run build-release && vsce package --yarn && npm run validate-bundle-size",
     "test-release": "npm run lint && npm run build-release && ava && vsce package --yarn && npm run validate-bundle-size",
     "validate-bundle-size": "node ./scripts/bundle-size.js",
