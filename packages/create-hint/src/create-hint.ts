@@ -165,7 +165,7 @@ class HintPackage {
             this.hints.push(new NewHint(data));
         }
 
-        if (isOfficial) {
+        if (this.official) {
             /**
              * If we are creating an official package it should be under `/packages/`
              * but it is very common to run it from the root of the project so we
