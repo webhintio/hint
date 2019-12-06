@@ -129,7 +129,7 @@
     "host-ui": "node scripts/host-ui.js",
     "lint": "npm-run-all lint:*",
     "lint-bundle-size": "node ./scripts/bundle-size.js",
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ext tsx --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ext tsx --ignore-path ../../.eslintignore",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "prebuild": "npm-run-all prebuild:*",

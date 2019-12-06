@@ -79,7 +79,7 @@
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "prebuild": "npm-run-all prebuild:*",
     "prebuild:mime-db": "node ./scripts/mime-db.js",
