@@ -14,6 +14,7 @@
         "markdown",
         "@typescript-eslint"
     ],
+    "reportUnusedDisableDirectives": true,
     "rules": {
         "accessor-pairs": "off",
         "arrow-body-style": ["error", "always"],

@@ -103,7 +103,7 @@
     "build:webpack": "webpack --mode development",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "test": "npm run lint && npm run build:assets && npm run build:ts && npm run test-only",

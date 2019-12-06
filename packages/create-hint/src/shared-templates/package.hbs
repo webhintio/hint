@@ -75,10 +75,10 @@
     "clean": "rimraf dist",{{#if official}}
     "i18n": "node ../../scripts/create-i18n.js",{{/if}}
     "lint": "npm-run-all lint:*",{{#if official}}
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",{{else}}
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts",
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",{{/if}}
     "test": "{{#if official}}npm run i18n && {{/if}}npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",{{#if official}}
