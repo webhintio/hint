@@ -86,16 +86,13 @@ export default class JSDOMConnector implements IConnector {
     public fetchedHrefs!: Set<string>;
 
     public constructor(server: Engine, config?: any) {
-        this._options = Object.assign({}, defaultOptions, config);
+        this._options = { ...defaultOptions, ...config };
 
-        const requesterOptions = Object.assign(
-            {},
-            {
-                rejectUnauthorized: !this._options.ignoreHTTPSErrors,
-                strictSSL: !this._options.ignoreHTTPSErrors
-            },
-            this._options.requestOptions || {}
-        );
+        const requesterOptions = {
+            rejectUnauthorized: !this._options.ignoreHTTPSErrors,
+            strictSSL: !this._options.ignoreHTTPSErrors,
+            ...this._options.requestOptions || {}
+        };
 
         this.request = new Requester(requesterOptions);
         this.server = server;

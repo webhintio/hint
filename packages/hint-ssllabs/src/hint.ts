@@ -53,7 +53,10 @@ export default class SSLLabsHint implements IHint {
             minimumGrade = (context.hintOptions && context.hintOptions.grade) || 'A-';
             const userSslOptions = (context.hintOptions && context.hintOptions.ssllabs) || {};
 
-            scanOptions = Object.assign(scanOptions, userSslOptions);
+            scanOptions = {
+                ...scanOptions,
+                ...userSslOptions
+            };
         };
 
         const verifyEndpoint = (resource: string, { grade, serverName = resource, details }: SSLLabsEndpoint) => {

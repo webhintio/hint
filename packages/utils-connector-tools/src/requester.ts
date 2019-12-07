@@ -172,11 +172,17 @@ export class Requester {
                  * `request` probably normalizes this already but this way it's explicit and we know the user's headers will
                  * always take precedence.
                  */
-                customOptions.headers = Object.assign({}, toLowerCaseKeys(defaults.headers), toLowerCaseKeys(customOptions.headers));
+                customOptions.headers = {
+                    ...toLowerCaseKeys(defaults.headers),
+                    ...toLowerCaseKeys(customOptions.headers)
+                };
             }
         }
 
-        const options: request.CoreOptions = Object.assign({}, defaults, customOptions);
+        const options: request.CoreOptions = {
+            ...defaults,
+            ...customOptions
+        };
 
         this._options = options;
 

@@ -21,10 +21,11 @@ const defaultTests: HintTest[] = [
             message: common.noHeaderError,
             severity: Severity.error
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, {
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
             '/': common.htmlPageWithScriptData,
             '/test.js': ''
-        })
+        }
     },
     {
         name: `HTML pages is served over HTTPS and 'max-age' defined is too short`,
@@ -32,7 +33,10 @@ const defaultTests: HintTest[] = [
             message: common.tooShortErrorDefault,
             severity: Severity.warning
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.tooShortHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.tooShortHeader }
+        }
     },
     {
         name: `Resource is served over HTTPS and 'max-age' defined is too short`,
@@ -40,22 +44,32 @@ const defaultTests: HintTest[] = [
             message: common.tooShortErrorDefault,
             severity: Severity.warning
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, {
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
             '/': common.htmlPageWithScriptData,
             '/test.js': { headers: common.tooShortHeader }
-        })
+        }
     },
     {
         name: `'Strict-Transport-Security' header with 'max-age' bigger than minimum`,
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.maxAgeOnlyHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.maxAgeOnlyHeader }
+        }
     },
     {
         name: `'Strict-Transport-Security' header contains 'includeSubDomains'`,
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.includeSubDomainsHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.includeSubDomainsHeader }
+        }
     },
     {
         name: `'Strict-Transport-Security' header contains 'preload'`,
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.preloadHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.preloadHeader }
+        }
     },
     {
         name: `'Strict-Transport-Security' header has no 'max-age' directive`,
@@ -63,11 +77,17 @@ const defaultTests: HintTest[] = [
             message: common.noMaxAgeError,
             severity: Severity.error
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.noMaxAgeHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.noMaxAgeHeader }
+        }
     },
     {
         name: `'Strict-Transport-Security' header has a 'max-age' directive in mix cases`,
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.mixCaseHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.mixCaseHeader }
+        }
     },
     {
         name: `'Strict-Transport-Security' header has multiple 'max-age' directives`,
@@ -75,7 +95,10 @@ const defaultTests: HintTest[] = [
             message: common.multipleMaxAgeError,
             severity: Severity.warning
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.multipleMaxAgeHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.multipleMaxAgeHeader }
+        }
     },
     {
         name: `'Strict-Transport-Security' header has multiple 'includeSubdomains' directives`,
@@ -83,7 +106,10 @@ const defaultTests: HintTest[] = [
             message: common.multipleincludeSubDomainsError,
             severity: Severity.warning
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.multipleincludeSubDomainsHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.multipleincludeSubDomainsHeader }
+        }
     },
     {
         name: `'Strict-Transport-Security' header has the wrong delimiter`,
@@ -91,7 +117,10 @@ const defaultTests: HintTest[] = [
             message: common.DelimiterwrongFormatError,
             severity: Severity.error
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.wrongDelimiterHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.wrongDelimiterHeader }
+        }
     },
     {
         name: `'Strict-Transport-Security' header that includes letters in the 'max-age' value`,
@@ -99,11 +128,17 @@ const defaultTests: HintTest[] = [
             message: common.UnitwrongFormatError,
             severity: Severity.error
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.includeUnitMaxAgeHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.includeUnitMaxAgeHeader }
+        }
     },
     {
         name: `'Strict-Transport-Security' header that wraps 'max-age' value in quotes`,
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.quotedStringHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.quotedStringHeader }
+        }
     }
 ];
 
@@ -114,27 +149,39 @@ const configMaxAgeTests: HintTest[] = [{
         message: common.generateTooShortError(common.OkayMaxAge + 1),
         severity: Severity.warning
     }],
-    serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.maxAgeOnlyHeader } })
+    serverConfig: {
+        ...common.faviconHeaderMaxAgeOnly,
+        '/': { headers: common.maxAgeOnlyHeader }
+    }
 }];
 
 const configPreloadTets: HintTest[] = [
     {
         name: `The 'Strict-Transport-Security' header doesn't have 'preload' attribute`,
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.maxAgeOnlyHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.maxAgeOnlyHeader }
+        }
     },
     {
         before() {
             common.requestJSONAsyncMock({ status: common.preloaded });
         },
         name: `The site is already on the preload list`,
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.preloadHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.preloadHeader }
+        }
     },
     {
         before() {
             common.requestJSONAsyncMock({ preloadable: common.noErrors, status: common.unknown });
         },
         name: `The site is not on the preload list, and is qualified to be enrolled`,
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.preloadHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.preloadHeader }
+        }
     },
     {
         before() {
@@ -145,7 +192,10 @@ const configPreloadTets: HintTest[] = [
             message: common.notPreloadableError,
             severity: Severity.error
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.preloadHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.preloadHeader }
+        }
     },
     {
         before() {
@@ -156,7 +206,10 @@ const configPreloadTets: HintTest[] = [
             message: common.statusServiceError,
             severity: Severity.error
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.preloadHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.preloadHeader }
+        }
     },
     {
         before() {
@@ -167,7 +220,10 @@ const configPreloadTets: HintTest[] = [
             message: common.preloadableServiceError,
             severity: Severity.error
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.preloadHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.preloadHeader }
+        }
     },
     {
         before() {
@@ -178,7 +234,10 @@ const configPreloadTets: HintTest[] = [
             message: common.problemWithVerificationEndpoint,
             severity: Severity.warning
         }],
-        serverConfig: Object.assign({}, common.faviconHeaderMaxAgeOnly, { '/': { headers: common.preloadHeader } })
+        serverConfig: {
+            ...common.faviconHeaderMaxAgeOnly,
+            '/': { headers: common.preloadHeader }
+        }
     }
 ];
 

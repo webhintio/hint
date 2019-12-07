@@ -113,23 +113,38 @@ const createConfig = ({
         [JSON.stringify({ request })]: {
             '/': {
                 content: htmlFileContent,
-                headers: Object.assign({ 'Content-Type': 'text/html; charset=utf-8' }, htmlFileHeaders)
+                headers: {
+                    'Content-Type': 'text/html; charset=utf-8',
+                    ...htmlFileHeaders
+                }
             },
             '/favicon.ico': {
                 content: faviconFileContent,
-                headers: Object.assign({ 'Content-Type': 'image/x-icon' }, faviconFileHeaders)
+                headers: {
+                    'Content-Type': 'image/x-icon',
+                    ...faviconFileHeaders
+                }
             },
             '/image.png': {
                 content: imageFileContent,
-                headers: Object.assign({ 'Content-Type': 'image/png' }, imageFileHeaders)
+                headers: {
+                    'Content-Type': 'image/png',
+                    ...imageFileHeaders
+                }
             },
             '/image.svgz': {
                 content: svgzFileContent,
-                headers: Object.assign({ 'Content-Type': 'image/svg+xml' }, svgzFileHeaders)
+                headers: {
+                    'Content-Type': 'image/svg+xml',
+                    ...svgzFileHeaders
+                }
             },
             '/script.js': {
                 content: scriptFileContent,
-                headers: Object.assign({ 'Content-Type': 'text/javascript; charset=utf-8' }, scriptFileHeaders)
+                headers: {
+                    'Content-Type': 'text/javascript; charset=utf-8',
+                    ...scriptFileHeaders
+                }
             }
         }
     };
@@ -174,53 +189,52 @@ const noCompressionConfigs = {
 };
 
 const createGzipZopfliConfigs = (configs = {}) => {
-    return Object.assign(
+    return {
         // Accept-Encoding: gzip
-        createConfig(Object.assign({ request: { headers: { 'Accept-Encoding': 'gzip' } } }, configs)),
+        ...createConfig({ request: { headers: { 'Accept-Encoding': 'gzip' } }, ...configs }),
 
         // Accept-Encoding: gzip, deflate (jsdom)
-        createConfig(Object.assign({ request: { headers: { 'Accept-Encoding': 'gzip, deflate' } } }, configs)),
+        ...createConfig({ request: { headers: { 'Accept-Encoding': 'gzip, deflate' } }, ...configs }),
 
         // Accept-Encoding: gzip, deflate, br (chrome)
-        createConfig(configs)
-    );
+        ...createConfig(configs)
+    };
 };
 
 const createServerConfig = (configs = {}, https: boolean = false) => {
-    return Object.assign(
+    return {
 
         // Accept-Encoding: identity
-        createConfig(noCompressionConfigs),
+        ...createConfig(noCompressionConfigs),
 
         /*
          * Accept-Encoding: gzip
          * Accept-Encoding: gzip, deflate (jsdom)
          * Accept-Encoding: gzip, deflate, br (chrome)
          */
-        createGzipZopfliConfigs(configs),
+        ...createGzipZopfliConfigs(configs),
 
         // Accept-Encoding: br
-        createConfig(Object.assign(
-            { request: { headers: { 'Accept-Encoding': 'br' } } },
-            https ? Object.assign({}, brotliConfigs, configs) : configs
-        ))
-    );
+        ...createConfig({
+            ...{ request: { headers: { 'Accept-Encoding': 'br' } } },
+            ...(https ? { ...brotliConfigs, ...configs } : configs)
+        })
+    };
 };
 
 const createGzipZopfliServerConfig = (configs: {}, https: boolean = false) => {
-    return Object.assign(
-        createServerConfig({}, https),
-        createGzipZopfliConfigs(configs)
-    );
+    return {
+        ...createServerConfig({}, https),
+        ...createGzipZopfliConfigs(configs)
+    };
 };
 
 const createBrotliServerConfig = (configs: {}) => {
     return createGzipZopfliServerConfig(
-        Object.assign(
-            {},
-            brotliConfigs,
-            configs
-        ),
+        {
+            ...brotliConfigs,
+            ...configs
+        },
         true
     );
 };
@@ -290,16 +304,16 @@ const testsForBrotliOverHTTP: HintTest[] = [
             severity: Severity.warning
         }],
         serverConfig: createGzipZopfliServerConfig(
-            Object.assign(
-                { request: { headers: { 'Accept-Encoding': 'br' } } },
-                {
+            {
+                ...{ request: { headers: { 'Accept-Encoding': 'br' } } },
+                ...{
                     scriptFileContent: scriptFile.brotli,
                     scriptFileHeaders: {
                         'Content-Encoding': 'br',
                         vary: 'accept-encoding'
                     }
                 }
-            )
+            }
         )
     }
 ];
@@ -333,13 +347,11 @@ const testsForBrotliUASniffing = (): HintTest[] => {
                 severity: Severity.warning
             }],
             serverConfig: createBrotliServerConfig(
-                Object.assign(
-                    headersConfig,
-                    {
-                        scriptFileContent: scriptFile.original,
-                        scriptFileHeaders: { 'Content-Encoding': null }
-                    }
-                )
+                {
+                    ...headersConfig,
+                    scriptFileContent: scriptFile.original,
+                    scriptFileHeaders: { 'Content-Encoding': null }
+                }
             )
         }
     ];
@@ -694,13 +706,11 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): HintTest[] => {
                 severity: Severity.error
             }],
             serverConfig: createGzipZopfliServerConfig(
-                Object.assign(
-                    headersConfig,
-                    {
-                        scriptFileContent: scriptFile.original,
-                        scriptFileHeaders: { 'Content-Encoding': null }
-                    }
-                ),
+                {
+                    ...headersConfig,
+                    scriptFileContent: scriptFile.original,
+                    scriptFileHeaders: { 'Content-Encoding': null }
+                },
                 https
             )
         },
@@ -711,13 +721,11 @@ const testsForGzipZopfliUASniffing = (https: boolean = false): HintTest[] => {
                 severity: Severity.hint
             }],
             serverConfig: createGzipZopfliServerConfig(
-                Object.assign(
-                    headersConfig,
-                    {
-                        scriptFileContent: scriptFile.gzip,
-                        scriptFileHeaders: { 'Content-Encoding': 'gzip' }
-                    }
-                ),
+                {
+                    ...headersConfig,
+                    scriptFileContent: scriptFile.gzip,
+                    scriptFileHeaders: { 'Content-Encoding': 'gzip' }
+                },
                 https
             )
         }
@@ -850,15 +858,18 @@ const testsForUserConfigs = (encoding: string, isTarget: boolean = true, https: 
     const isBrotli = encoding === 'Brotli';
     const isGzip = encoding === 'gzip';
 
-    const configs = { request: { headers: { 'Accept-Encoding': isBrotli ? 'br' : 'gzip' } } };
+    let configs: {} = { request: { headers: { 'Accept-Encoding': isBrotli ? 'br' : 'gzip' } } };
 
     if (!isBrotli) {
-        Object.assign(configs, { request: { headers: { vary: 'Accept-encoding' } } });
+        configs = {
+            ...configs,
+            request: { headers: { vary: 'Accept-encoding' } }
+        };
     }
 
-    Object.assign(
-        configs,
-        isTarget ?
+    configs = {
+        ...configs,
+        ...(isTarget ?
             {
                 htmlFileContent: isGzip ? htmlFile.zopfli : htmlFile.gzip,
                 htmlFileHeaders: { 'Content-Encoding': null }
@@ -866,8 +877,8 @@ const testsForUserConfigs = (encoding: string, isTarget: boolean = true, https: 
             {
                 scriptFileContent: isGzip ? scriptFile.zopfli : scriptFile.gzip,
                 scriptFileHeaders: { 'Content-Encoding': null }
-            }
-    );
+            })
+    };
 
     return [
         {

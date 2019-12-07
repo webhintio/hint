@@ -62,7 +62,7 @@ export default class ExcelFormatter implements IFormatter {
             }
         };
         const rightAlign = { align: { horizontal: 'right' } };
-        const tableHeader = Object.assign({
+        const tableHeader = {
             fill: {
                 fgColor: { argb: 'FF000000' },
                 pattern: 'solid',
@@ -71,8 +71,9 @@ export default class ExcelFormatter implements IFormatter {
             font: {
                 bold: true,
                 color: { argb: 'FFFFFFFF' }
-            }
-        }, border);
+            },
+            ...border
+        };
 
         const names: Map<string, string> = new Map();
         /**
