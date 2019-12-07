@@ -105,7 +105,7 @@ export default class LocalConnector implements IConnector {
     }
 
     public constructor(engine: Engine<HTMLEvents>, config: object) {
-        this._options = Object.assign({}, defaultOptions, config);
+        this._options = {...defaultOptions, ...config};
         this.filesPattern = this.getFilesPattern();
         this.engine = engine;
 

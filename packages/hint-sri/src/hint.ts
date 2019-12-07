@@ -496,10 +496,11 @@ export default class SRIHint implements IHint {
             response: { body: { content: '' } } as Response
         };
 
-        await this.validateResource(Object.assign(evt, {
+        await this.validateResource({
+            ...evt,
             request: content.request,
             response: content.response
-        }), {
+        }, {
             final: finalUrl,
             origin
         });

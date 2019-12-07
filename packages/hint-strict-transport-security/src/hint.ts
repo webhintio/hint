@@ -190,7 +190,7 @@ export default class StrictTransportSecurityHint implements IHint {
                     return;
                 }
 
-                const httpsResource = url.format(Object.assign(urlObject, { protocol: `https` }));
+                const httpsResource = url.format({ ...urlObject, protocol: `https` });
 
                 try {
                     const networkData: NetworkData = await context.fetchContent(httpsResource);

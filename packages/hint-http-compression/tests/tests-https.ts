@@ -27,7 +27,7 @@ const testConfigs = {
     serial: false
 };
 
-const testConfigsSerial = Object.assign({}, testConfigs);
+const testConfigsSerial = { ...testConfigs };
 
 testConfigsSerial.serial = true;
 
@@ -52,11 +52,10 @@ testHint(hintPath, testsForBrotliUASniffing(), testConfigs);
         testHint(
             hintPath,
             testsForUserConfigs(`${encoding}`, isHTML, true),
-            Object.assign(
-                {},
-                testConfigs,
-                { hintOptions: { [isHTML ? 'html' : 'resource']: { [encoding]: false } } }
-            )
+            {
+                ...testConfigs,
+                hintOptions: { [isHTML ? 'html' : 'resource']: { [encoding]: false } }
+            }
         );
     });
 });

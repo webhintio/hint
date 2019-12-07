@@ -83,10 +83,10 @@ export default class NoFriendlyErrorPagesHint implements IHint {
         };
 
         const tryToGenerateErrorPage = async (targetURL: string) => {
-            const baseURL: string = url.format(Object.assign(new URL(targetURL), {
+            const baseURL: string = url.format(new URL(targetURL), {
                 fragment: false,
                 search: false
-            }));
+            });
 
             /*
              * The following will make a request to:

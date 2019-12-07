@@ -158,7 +158,10 @@ export default class HtmlCheckerHint implements IHint {
         };
 
         const checkHTML = (data: HTMLParse): CheckerData => {
-            const options = Object.assign({}, scanOptions, { body: data.html });
+            const options = {
+                ...scanOptions,
+                body: data.html
+            };
 
             return {
                 event: data,

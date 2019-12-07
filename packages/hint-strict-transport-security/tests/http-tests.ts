@@ -12,11 +12,11 @@ const noHttpServerTests: HintTest[] = [{
         message: `'strict-transport-security' header should't be specified in pages served over HTTP.`,
         severity: Severity.warning
     }],
-    serverConfig: Object.assign({}, { '/': { headers: common.maxAgeOnlyHeader } })
+    serverConfig: { ...{ '/': { headers: common.maxAgeOnlyHeader } } }
 },
 {
     name: `strict-transport-security header not sent over HTTP`,
-    serverConfig: Object.assign({}, { '/': '' })
+    serverConfig: { '/': '' }
 }];
 
 testHint(hintPath, noHttpServerTests);

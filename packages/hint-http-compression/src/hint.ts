@@ -44,15 +44,12 @@ export default class HttpCompressionHint implements IHint {
     public constructor(context: HintContext) {
 
         const getHintOptions = (property: string): CompressionCheckOptions => {
-            return Object.assign(
-                {},
-                {
-                    brotli: true,
-                    gzip: true,
-                    zopfli: true
-                },
-                (context.hintOptions && context.hintOptions[property])
-            );
+            return {
+                brotli: true,
+                gzip: true,
+                zopfli: true,
+                ...(context.hintOptions && context.hintOptions[property])
+            };
         };
 
         const resourceOptions: CompressionCheckOptions = getHintOptions('resource');

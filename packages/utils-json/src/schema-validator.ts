@@ -293,7 +293,10 @@ const errorWithLocation = (error: ajv.ErrorObject, getLocation: JSONLocationFunc
         path = path ? `${path}.${additionalProperty}` : additionalProperty;
     }
 
-    return Object.assign(error, { location: getLocation(path.replace(/'/g, '')) || undefined });
+    return {
+        ...error,
+        location: getLocation(path.replace(/'/g, '')) || undefined
+    };
 };
 
 const prettify = (errors: ajv.ErrorObject[]) => {
