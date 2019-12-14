@@ -11602,10 +11602,10 @@ type@^1.0.1:
   resolved "https://registry.yarnpkg.com/type/-/type-1.0.1.tgz#084c9a17fcc9151a2cdb1459905c2e45e4bb7d61"
   integrity sha512-MAM5dBMJCJNKs9E7JXo4CXRAansRfG0nlJxW7Wf6GZzSOvH31zClSaHdIMWLehe/EGMBkqeC55rrkaOr5Oo7Nw==
 
-typed-css-modules@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.6.2.tgz#1b894eab3919778132f78c658d91a8cccc346d07"
-  integrity sha512-0Q3vc3+g4ooDqHfaBoTPqVSobNwu6/EA34rOHM5wRsuV61HHSTFB3fUPADBcoMa6iE7cteUp2gQFBXAz0Ov0AA==
+typed-css-modules@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.6.3.tgz#c539504d979022432fcea17dff1e264e702528b7"
+  integrity sha512-p1JYq628LZLxg6IFZEGwBF+rFbWMwz4AyplAsriyFWKDXdShQNAljrjt4qFO9GvvjmNdsuUMmiQji/MVZHu7JQ==
   dependencies:
     "@types/css-modules-loader-core" "^1.1.0"
     camelcase "^5.3.1"
