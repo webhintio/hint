@@ -94,7 +94,7 @@
     "typescript": "^3.7.3",
     "util.promisify": "^1.0.0",
     "web-ext": "^3.2.1",
-    "webpack": "^4.41.2",
+    "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
   },
   "files": [
