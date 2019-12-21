@@ -11,7 +11,7 @@
   "dependencies": {
     "@hint/utils-debug": "^1.0.0",
     "@hint/utils-string": "^1.0.0",
-    "postcss": "^7.0.24",
+    "postcss": "^7.0.25",
     "postcss-scss": "^2.0.0",
     "postcss-sass": "^0.4.1"
   },
