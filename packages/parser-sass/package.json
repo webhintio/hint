@@ -13,7 +13,7 @@
     "@hint/utils-string": "^1.0.0",
     "postcss": "^7.0.25",
     "postcss-scss": "^2.0.0",
-    "postcss-sass": "^0.4.1"
+    "postcss-sass": "^0.4.2"
   },
   "description": "webhint parser needed to analyze SASS and SCSS files",
   "devDependencies": {
