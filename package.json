@@ -17,7 +17,7 @@
     "eslint": "^6.6.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-markdown": "^1.0.1",
-    "execa": "^3.2.0",
+    "execa": "^4.0.0",
     "fs-extra": "^8.0.1",
     "globby": "^10.0.1",
     "husky": "^3.1.0",
