@@ -4894,13 +4894,13 @@ file-entry-cache@^5.0.1:
   dependencies:
     flat-cache "^2.0.1"
 
-file-loader@~4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-4.2.0.tgz#5fb124d2369d7075d70a9a5abecd12e60a95215e"
-  integrity sha512-+xZnaK5R8kBJrHK0/6HRlrKNamvVS5rjyuju+rnyxRGuwUJwpAMsVzUl5dz6rK8brkzjV6JpcFNjp6NqV0g1OQ==
+file-loader@~4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-4.3.0.tgz#780f040f729b3d18019f20605f723e844b8a58af"
+  integrity sha512-aKrYPYjF1yG3oX0kWRrqrSMfgftm7oJW5M+m4owoldH5C51C0RkIwB++JbRvEW3IU6/ZG5n8UvEcdgwOt2UOWA==
   dependencies:
     loader-utils "^1.2.3"
-    schema-utils "^2.0.0"
+    schema-utils "^2.5.0"
 
 file-type@^10.10.0:
   version "10.11.0"
@@ -10393,7 +10393,7 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-schema-utils@^2.0.0, schema-utils@^2.0.1, schema-utils@^2.5.0, schema-utils@^2.6.0:
+schema-utils@^2.0.1, schema-utils@^2.5.0, schema-utils@^2.6.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.6.1.tgz#eb78f0b945c7bcfa2082b3565e8db3548011dc4f"
   integrity sha512-0WXHDs1VDJyo+Zqs9TKLKyD/h7yDpHUhEFsM2CzkICFdoX1av+GBq/J2xRTFfsQO5kBfhZzANf2VcIm84jqDbg==
@@ -11162,12 +11162,12 @@ supports-color@^7.0.0, supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-svg-url-loader@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/svg-url-loader/-/svg-url-loader-3.0.2.tgz#7bcbb676927e71c9267fd879f8962396b59aa04a"
-  integrity sha512-MUJFVU2uuOTZW6Eq6NuXZxhaIyWiuKtZMcT90nCkcvIZPGGc0CYyZWYP/rtXUkja5qagNMpxDwdZ/tuC6ywfWg==
+svg-url-loader@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/svg-url-loader/-/svg-url-loader-3.0.3.tgz#95274eae80f4a46454a5b44e9582beb2f533465e"
+  integrity sha512-MKGiRNDs8fnHcZcPkhGcw9+130IXyFM9H8m6T7u3ScUuZYEeVzX0vNMru30D4MCF6vMYas5iw/Ru9lwFKBjaGw==
   dependencies:
-    file-loader "~4.2.0"
+    file-loader "~4.3.0"
     loader-utils "~1.2.3"
 
 symbol-observable@1.0.1:
