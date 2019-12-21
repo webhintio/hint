@@ -17,7 +17,7 @@
   "description": "hint that that validates AMP HTML pages using the AMP Validator",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^6.0.1",
-    "@types/amphtml-validator": "^1.0.0",
+    "@types/amphtml-validator": "^1.0.1",
     "@types/node": "^12.12.14",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",

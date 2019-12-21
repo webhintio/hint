@@ -510,10 +510,10 @@
   dependencies:
     "@types/estree" "*"
 
-"@types/amphtml-validator@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@types/amphtml-validator/-/amphtml-validator-1.0.0.tgz#9d4e0c879642938bbe5f363d49cafc8ae9f57c81"
-  integrity sha512-CJOi00fReT1JehItkgTZDI47v9WJxUH/OLX0XzkDgyEed7dGdeUQfXk5CTRM7N9FkHdv3klSjsZxo5sH1oTIGg==
+"@types/amphtml-validator@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/amphtml-validator/-/amphtml-validator-1.0.1.tgz#8181de280a6461b7425f494dd39bb21a33939f08"
+  integrity sha512-DWE7fy6KtC+Uw0KV/HAmjuH2GB/o8yskXlvmVWR7mOVsLDybp+XrwkzEeRFU9wGjWKeRMBNGsx+5DRq7sUsAwA==
   dependencies:
     "@types/node" "*"
 
