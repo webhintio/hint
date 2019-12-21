@@ -26,7 +26,7 @@
     "optionator": "^0.8.3",
     "ora": "^4.0.2",
     "os-locale": "^4.0.0",
-    "update-notifier": "^3.0.1"
+    "update-notifier": "^4.0.0"
   },
   "description": "The linting tool for the web",
   "devDependencies": {
