@@ -84,7 +84,7 @@
     "raw-loader": "^4.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-syntax-highlighter": "^11.0.2",
+    "react-syntax-highlighter": "^12.2.1",
     "rimraf": "^3.0.0",
     "sinon": "^7.5.0",
     "style-loader": "^1.0.1",
