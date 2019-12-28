@@ -7715,10 +7715,10 @@ mdn-browser-compat-data@0.0.94:
   dependencies:
     extend "3.0.2"
 
-mdn-browser-compat-data@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-1.0.2.tgz#de62b1ca5ac7ed51ed432efd017bcdeb51e94de4"
-  integrity sha512-9QGBlMF904G/5AMbitushExjqBEnmCyGChTd38qTUsStehwMMb2zH8g+KyjJYduQE1vqm7ztYiw6pE2xaUqlbg==
+mdn-browser-compat-data@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-1.0.3.tgz#62f248a6fc457c01b6243425af0b45fdf11054bf"
+  integrity sha512-5n7c20IVrUiuOPSuhbkd5xoJPSzEEGsoMrmrdEtPHIw6gRPzonydcsguAmqGfSBd4d2DRoDQg533sijLUpeJLg==
   dependencies:
     extend "3.0.2"
 
