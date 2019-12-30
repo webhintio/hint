@@ -26,7 +26,8 @@ export type ManifestImageResource = {
         'any' |
         'badge' |
         'any badge' |
-        'badge any';
+        'badge any' |
+        'maskable';
     sizes?: string;
     src: string;
     type?: string;
