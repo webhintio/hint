@@ -1,10 +1,9 @@
 /* eslint sort-keys: 0 */
 
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test, fs } from '@hint/utils';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { readFile } from '@hint/utils-fs';
+import { Severity } from '@hint/utils-types';
 
-const { readFile } = fs;
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const validAMPHTML = readFile(`${__dirname}/fixtures/valid-amp.html`);
@@ -25,7 +24,8 @@ const defaultTests: HintTest[] = [
         reports: [
             {
                 message: `The mandatory attribute '⚡' is missing in tag 'html'. (https://amp.dev/documentation/guides-and-tutorials/learn/spec/amphtml#required-markup)`,
-                position: { match: '<html lang="en">' }
+                position: { match: '<html lang="en">' },
+                severity: Severity.error
             }
         ]
     },

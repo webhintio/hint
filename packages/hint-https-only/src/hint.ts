@@ -5,12 +5,13 @@
 import * as URL from 'url';
 
 import { ElementFound, FetchEnd, HintContext, IHint, Response } from 'hint';
-import { debug as d, network } from '@hint/utils';
+import { isDataURI, isHTTPS } from '@hint/utils-network';
+import { debug as d } from '@hint/utils-debug';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
+import { Severity } from '@hint/utils-types';
 
-const { isDataURI, isHTTPS } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*
@@ -34,7 +35,11 @@ export default class HttpsOnlyHint implements IHint {
             if (!isHTTPS(resource)) {
                 debug('HTTPS no detected');
 
-                context.report(resource, getMessage('siteShouldBeHTTPS', context.language));
+                context.report(
+                    resource,
+                    getMessage('siteShouldBeHTTPS', context.language),
+                    { severity: Severity.error }
+                );
 
                 return;
             }
@@ -53,7 +58,11 @@ export default class HttpsOnlyHint implements IHint {
                 if (fails) {
                     reportedUrls.add(hop);
 
-                    context.report(hop, getMessage('shouldNotBeRedirected', context.language));
+                    context.report(
+                        hop,
+                        getMessage('shouldNotBeRedirected', context.language),
+                        { severity: Severity.error }
+                    );
                 }
             });
         };
@@ -79,7 +88,11 @@ export default class HttpsOnlyHint implements IHint {
             if (!reportedUrls.has(resource) && !isHTTPS(resource) && !isDataURI(resource)) {
                 reportedUrls.add(resource);
 
-                context.report(resource, getMessage('shouldBeHTTPS', context.language));
+                context.report(
+                    resource,
+                    getMessage('shouldBeHTTPS', context.language),
+                    { severity: Severity.error }
+                );
             }
         };
 
@@ -161,7 +174,11 @@ export default class HttpsOnlyHint implements IHint {
                 if (!isHTTPS(fullUrl) && !isDataURI(fullUrl) && !reportedUrls.has(fullUrl)) {
                     reportedUrls.add(fullUrl);
 
-                    context.report(fullUrl, getMessage('shouldBeHTTPS', context.language));
+                    context.report(
+                        fullUrl,
+                        getMessage('shouldBeHTTPS', context.language),
+                        { severity: Severity.error }
+                    );
                 }
             });
         };

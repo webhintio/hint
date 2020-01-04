@@ -1,5 +1,5 @@
-import { HintsConfigObject, HintSeverity } from '../types/config';
-import { Severity } from '../types/problems';
+import { HintsConfigObject, HintSeverity } from './types';
+import { Severity } from '@hint/utils-types';
 
 /**
  * @fileoverview Used for normalizing hints that are passed as configuration.
@@ -7,7 +7,7 @@ import { Severity } from '../types/problems';
  * to objects or if an object is passed, it returns it.
  */
 
-const DEFAULT_HINT_LEVEL = 'error';
+const DEFAULT_HINT_LEVEL = 'default';
 
 const shortHandHintPrefixes: {[prefix: string]: keyof typeof Severity | undefined} = {
     '-': 'off',
@@ -47,7 +47,7 @@ const normalizeHint = (hint: string): NormalizedHint => {
 /**
  * Normalized all hints passed as configuration
  * Ex.:
- * * ["hint1"] => { "hint1": "error" }
+ * * ["hint1"] => { "hint1": "default" }
  * * { "hint1": "warning" } => { "hint1": "warning" }
  * * ["hint1:warning"] => { "hint1": "warning" }
  */
@@ -65,12 +65,12 @@ export default function normalizeHints(hints: HintsConfigObject | (string | any[
             result[hintName] = hintLevel;
         } else if (Array.isArray(hint)) {
             const [hintKey, hintConfig] = hint;
-            const { hintName, hintLevel } = normalizeHint(hintKey as string);
+            const { hintName, hintLevel } = normalizeHint(hintKey);
 
             if (hintConfig) {
                 result[hintName] = [hintLevel, hintConfig];
             } else {
-                result[hintName] = [hintLevel];
+                result[hintName] = [hintLevel, {}];
             }
         } else {
             throw new Error(`Invalid hint type specified: "${hint}". Arrays and objects are supported.`);

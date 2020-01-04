@@ -14,15 +14,23 @@ import { promisify } from 'util';
 
 import * as inquirer from 'inquirer';
 
-import { ResourceType, UserConfig, utils } from 'hint';
-import { appInsights, debug as d, fs as fsUtils, logger, npm, NpmPackage } from '@hint/utils';
+import { utils } from 'hint';
+import {
+    appInsights,
+    getOfficialPackages,
+    installPackages,
+    logger,
+    NpmPackage,
+    ResourceType,
+    UserConfig
+} from '@hint/utils';
+import { cwd } from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
 
 import { generateBrowserslistConfig } from './browserslist';
 
 const { resourceLoader: { getInstalledResources, getCoreResources } } = utils;
-const { getOfficialPackages, installPackages } = npm;
 const { sendPendingData, trackEvent } = appInsights;
-const { cwd } = fsUtils;
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
@@ -58,11 +66,15 @@ const extendConfig = async (): Promise<InitUserConfig | null> => {
         return null;
     }
 
-    const choices = configPackages.map((pkg) => {
+    const configNames = configPackages.map((pkg) => {
         return {
             name: getConfigurationName(pkg.name),
             value: pkg.name
         };
+    });
+
+    const choices = configNames.filter((config) => {
+        return config.name !== 'all';
     });
 
     const questions: inquirer.Questions = [{

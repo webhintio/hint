@@ -6,11 +6,12 @@ import * as path from 'path';
 
 import * as amphtmlValidator from 'amphtml-validator';
 
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import meta from './meta';
+import { Severity } from '@hint/utils-types';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -43,6 +44,22 @@ export default class AmpValidatorHint implements IHint {
             validPromise = amphtmlValidator.getInstance(path.join(__dirname, 'validator'));
         };
 
+        const parseSeverity = (ampSeverity: amphtmlValidator.ValidationErrorSeverity): Severity => {
+            switch (ampSeverity) {
+                case 'ERROR':
+                    return Severity.error;
+                /* istanbul ignore next */
+                case 'WARNING':
+                    return Severity.warning;
+                /* istanbul ignore next */
+                case 'UNKNOWN_SEVERITY':
+                    return Severity.hint;
+                /* istanbul ignore next */
+                default:
+                    return Severity.hint;
+            }
+        };
+
         const onScanEnd = async () => {
             if (!events || events.length === 0) {
                 debug('No valid content');
@@ -57,6 +74,7 @@ export default class AmpValidatorHint implements IHint {
 
                 for (let i = 0; i < result.errors.length; i++) {
                     const error = result.errors[i];
+                    const severity = parseSeverity(error.severity);
                     let message = error.message;
 
                     if (error.specUrl !== null) {
@@ -68,7 +86,7 @@ export default class AmpValidatorHint implements IHint {
                      * if user has configured the hint like that.
                      */
                     /* istanbul ignore if */
-                    if (errorsOnly && /* istanbul ignore next */ error.severity !== 'ERROR') {
+                    if (errorsOnly && /* istanbul ignore next */ severity !== Severity.error) {
                         debug(`AMP error doesn't meet threshold for reporting`);
                     } else {
                         const location = {
@@ -76,7 +94,7 @@ export default class AmpValidatorHint implements IHint {
                             line: error.line - 1 // The validator uses 1-based lines (but 0-based columns)
                         };
 
-                        context.report(resource, message, { location });
+                        context.report(resource, message, { location, severity });
                     }
                 }
             }

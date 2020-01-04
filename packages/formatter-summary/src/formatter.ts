@@ -8,21 +8,25 @@
  * ------------------------------------------------------------------------------
  */
 
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
 import * as table from 'text-table';
 import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
-import { debug as d, fs, logger } from '@hint/utils';
-import { FormatterOptions, IFormatter, Problem, Severity } from 'hint';
+import { logger, severityToColor, occurencesToColor } from '@hint/utils';
+import { writeFileAsync } from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
+import { FormatterOptions, IFormatter } from 'hint';
+import { Problem, Severity } from '@hint/utils-types';
+
+import { getMessage } from './i18n.import';
 
 const _ = {
     forEach,
     groupBy
 };
-const { writeFileAsync } = fs;
 const debug = d(__filename);
 
 /*
@@ -40,17 +44,14 @@ export default class SummaryFormatter implements IFormatter {
             return;
         }
 
-        const buildMessage = (count: number, type: string): string => {
-            if (count === 0) {
-                return '';
-            }
-
-            return `${count} ${type}${count === 1 ? '' : 's'}`;
-        };
-
         const tableData: string[][] = [];
-        let totalErrors: number = 0;
-        let totalWarnings: number = 0;
+        const language: string = options.language!;
+        const totals = {
+            [Severity.error.toString()]: 0,
+            [Severity.warning.toString()]: 0,
+            [Severity.information.toString()]: 0,
+            [Severity.hint.toString()]: 0
+        };
         const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'hintId');
         const sortedResources = Object.entries(resources).sort(([hintA, problemsA], [hintB, problemsB]) => {
             if (problemsA.length < problemsB.length) {
@@ -68,27 +69,49 @@ export default class SummaryFormatter implements IFormatter {
             const msgsBySeverity = _.groupBy(problems, 'severity');
             const errors = msgsBySeverity[Severity.error] ? msgsBySeverity[Severity.error].length : 0;
             const warnings = msgsBySeverity[Severity.warning] ? msgsBySeverity[Severity.warning].length : 0;
-            const red: typeof chalk = chalk.red;
-            const yellow: typeof chalk = chalk.yellow;
+            const informations = msgsBySeverity[Severity.information] ? msgsBySeverity[Severity.information].length : 0;
+            const hints = msgsBySeverity[Severity.hint] ? msgsBySeverity[Severity.hint].length : 0;
+            const red = severityToColor(Severity.error);
+            const yellow = severityToColor(Severity.warning);
+            const gray = severityToColor(Severity.information);
+            const pink = severityToColor(Severity.hint);
             const line: string[] = [chalk.cyan(hintId)];
 
             if (errors > 0) {
-                line.push(red(buildMessage(errors, 'error')));
+                line.push(red(getMessage(errors === 1 ? 'errorCount' : 'errorsCount', language, errors.toString())));
             }
             if (warnings > 0) {
-                line.push(yellow(buildMessage(warnings, 'warning')));
+                line.push(yellow(getMessage(warnings === 1 ? 'warningCount' : 'warningsCount', language, warnings.toString())));
+            }
+            if (hints > 0) {
+                line.push(pink(getMessage(hints === 1 ? 'hintCount' : 'hintsCount', language, hints.toString())));
+            }
+            if (informations > 0) {
+                line.push(gray(getMessage(informations === 1 ? 'informationCount' : 'informationsCount', language, informations.toString())));
             }
 
             tableData.push(line);
 
-            totalErrors += errors;
-            totalWarnings += warnings;
+            totals[Severity.error.toString()] += errors;
+            totals[Severity.warning.toString()] += warnings;
+            totals[Severity.information.toString()] += informations;
+            totals[Severity.hint.toString()] += hints;
         });
 
-        const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
+        const color = occurencesToColor(totals);
+        const foundTotalMessage = getMessage('totalFound', language, [
+            totals[Severity.error].toString(),
+            totals[Severity.error] === 1 ? getMessage('error', language) : getMessage('errors', language),
+            totals[Severity.warning].toString(),
+            totals[Severity.warning] === 1 ? getMessage('warning', language) : getMessage('warnings', language),
+            totals[Severity.hint].toString(),
+            totals[Severity.hint] === 1 ? getMessage('hint', language) : getMessage('hints', language),
+            totals[Severity.information].toString(),
+            totals[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
+        ]);
 
         const result = `${table(tableData)}
-${color.bold(`${logSymbols.error} Found a total of ${totalErrors} ${totalErrors === 1 ? 'error' : 'errors'} and ${totalWarnings} ${totalWarnings === 1 ? 'warning' : 'warnings'}`)}`;
+${color.bold(`${logSymbols.error} ${foundTotalMessage}`)}`;
 
         if (!options.output) {
             logger.log(result);

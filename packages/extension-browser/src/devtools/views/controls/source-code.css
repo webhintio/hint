@@ -99,12 +99,24 @@
     color: var(--code-attr-value-color);
 }
 
+.root :global(.html .style-attr .token.property) {
+    color: var(--code-attr-value-color);
+}
+
+.root :global(.html .style-attr .attr-value .token.punctuation) {
+    color: var(--code-attr-value-color);
+}
+
 .root :global(.token.attr-value .punctuation) {
     color: var(--code-attr-value-punctuation-color)
 }
 
 .root :global(.token.attr-value .punctuation:nth-child(1)) {
-    color: var(--code-html-default-color);
+    color: var(--code-attr-value-first-punctuation-color);
+}
+
+.root :global(.token.style-attr .punctuation) {
+    color: var(--code-attr-value-punctuation-color)
 }
 
 .root :global(.token.entity) {

@@ -7,13 +7,10 @@ import { URL } from 'url';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
-import { ServerConfiguration, Server } from '@hint/utils-create-server';
-import { test as testUtils } from '@hint/utils';
+import { generateHTMLPage, ServerConfiguration, Server } from '@hint/utils-create-server';
 import { Engine, Events, IConnector, IConnectorConstructor } from 'hint';
 
 import JSDOMConnector from '../src/connector';
-
-const { generateHTMLPage } = testUtils;
 
 const name: string = 'jsdom';
 
@@ -49,7 +46,7 @@ test.afterEach.always((t) => {
 const pathToFaviconInDir = path.join(__dirname, './fixtures/common/favicon.ico');
 const pathToFaviconInLinkElement = path.join(__dirname, './fixtures/common/favicon-32x32.png');
 
-const runTest = async (t: ExecutionContext<CollectContext>, ConnectorConstructor: IConnectorConstructor, serverConfig?: ServerConfiguration): Promise<Server> => {
+const runTest = async (t: ExecutionContext<CollectContext>, ConnectorConstructor: IConnectorConstructor, serverConfig?: ServerConfiguration) => {
     const { engine } = t.context;
     const connector: IConnector = new ConnectorConstructor(engine, {});
     const server = await Server.create({ configuration: serverConfig });

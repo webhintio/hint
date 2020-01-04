@@ -13,16 +13,54 @@ import * as path from 'path';
 import * as ejs from 'ejs';
 import * as fs from 'fs-extra';
 
-import { debug as d, fs as fsUtils, logger } from '@hint/utils';
-import { Category, FormatterOptions, HintResources, IFormatter, Problem } from 'hint';
+import { Category, Problem } from '@hint/utils-types';
+import { logger } from '@hint/utils';
+import { cwd, readFileAsync } from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
+import { FormatterOptions, HintResources, IFormatter } from 'hint';
 
 const utils = require('./utils');
 
 import AnalysisResult, { CategoryResult, HintResult } from './result';
 import { getMessage as getMessageFormatter, MessageName } from './i18n.import';
 
-const { cwd } = fsUtils;
 const debug = d(__filename);
+
+type FileContent = {
+    content: string;
+    file: string;
+}
+
+/** List of scripts in the order they needs to be added to the html page */
+const scriptsList = [
+    'js/highlight/highlight.min.js',
+    'js/highlight/languages/xml.min.js',
+    'js/polyfills/details.js',
+    'js/anchor-top.js',
+    'js/scan/_locales/messages.js',
+    'js/scan/get-message.js',
+    'js/scan/scanner-common.js'
+];
+
+/** List of styles in the order they needs to be added to the html page */
+const stylesList = [
+    'styles/fonts.css',
+    'styles/base.css',
+    'styles/controls.css',
+    'styles/type.css',
+    'styles/layouts.css',
+    'styles/structure.css',
+    'styles/anchor-top.css',
+    'styles/scan/scan-results.css',
+    'styles/highlight/default.min.css'
+];
+
+const mediaTypes = {
+    png: 'image/png',
+    svg: 'image/svg+xml',
+    woff: 'font/woff',
+    woff2: 'font/woff2'
+};
 
 /*
  * ------------------------------------------------------------------------------
@@ -60,8 +98,8 @@ const getCategoryList = (resources?: HintResources): string[] => {
     return result;
 };
 
-const getLanguageFile = (language: string = 'en') => {
-    const relativePath = path.join('js', 'scan', '_locales');
+const createLanguageFile = async (language: string = 'en') => {
+    const rootPath = path.join(__dirname, 'assets', 'js', 'scan', '_locales');
     const languagesToCheck = [language];
     const languageParts = language.split('-');
 
@@ -77,7 +115,7 @@ const getLanguageFile = (language: string = 'en') => {
     let existingLanguage = 'en';
 
     for (const lang of languagesToCheck) {
-        const file = path.join(__dirname, 'assets', relativePath, lang, 'messages.js');
+        const file = path.join(rootPath, lang, 'messages.js');
 
         if (fs.existsSync(file)) { // eslint-disable-line no-sync
             existingLanguage = lang;
@@ -85,7 +123,72 @@ const getLanguageFile = (language: string = 'en') => {
         }
     }
 
-    return path.join(relativePath, existingLanguage, 'messages.js');
+    const orig = path.join(rootPath, existingLanguage, 'messages.js');
+    const dest = path.join(rootPath, 'messages.js');
+
+    await fs.copyFile(orig, dest);
+};
+
+const removeLanguageFile = async () => {
+    await fs.unlink(path.join(__dirname, 'assets', 'js', 'scan', '_locales', 'messages.js'));
+};
+
+const getScriptsContent = async (files: string[]): Promise<FileContent[]> => {
+    const result: FileContent[] = [];
+
+    for (const file of files) {
+        const regex = /<\/script>/g;
+        const content = await readFileAsync(path.resolve(__dirname, 'assets', file));
+
+        result.push({
+            // Replace the string </script> to avoid problems in the website.
+            content: content.replace(regex, '</scr"+"ipt>'),
+            file
+        });
+    }
+
+    return result;
+};
+
+const isFont = (extension: string) => {
+    return extension === 'woff' || extension === 'woff2';
+};
+
+const getDataUri = (file: string) => {
+    const extensionFile = path.extname(file).slice(1);
+    const mediaType = mediaTypes[extensionFile as keyof typeof mediaTypes];
+    const content = fs.readFileSync(path.join(__dirname, 'assets', isFont(extensionFile) ? 'styles' : '', file)); // eslint-disable-line no-sync
+
+    const data = Buffer.from(content).toString('base64');
+
+    const dataUri = `data:${mediaType};base64,${data}`;
+
+    return dataUri;
+};
+
+const replaceRegex = (match: string, file: string) => {
+    const dataUri = getDataUri(file);
+
+    return `url('${dataUri}')`;
+};
+
+const getStylesContent = async (files: string[]): Promise<FileContent[]> => {
+    const result: FileContent[] = [];
+
+    for (const file of files) {
+        let content = await readFileAsync(path.resolve(__dirname, 'assets', file));
+
+        const urlCSSRegex = /url\(['"]?([^'")]*)['"]?\)/g;
+
+        content = content.replace(urlCSSRegex, replaceRegex);
+
+        result.push({
+            content,
+            file
+        });
+    }
+
+    return result;
 };
 
 /*
@@ -146,15 +249,22 @@ export default class HTMLFormatter implements IFormatter {
                 result.percentage = 100;
                 result.id = Date.now().toString();
 
+                await createLanguageFile(language);
+
                 const htmlPath = path.join(__dirname, 'views', 'pages', 'report.ejs');
+                const scripts = await getScriptsContent(scriptsList);
                 const html = await this.renderFile(htmlPath, {
+                    getDataUri,
                     getMessage(key: MessageName, substitutions?: string | string[]) {
                         return getMessageFormatter(key, language, substitutions);
                     },
-                    languageFile: getLanguageFile(language),
                     result,
+                    scripts,
+                    styles: await getStylesContent(stylesList),
                     utils
                 });
+
+                await removeLanguageFile();
                 // We save the result with the friendly target name
                 const name = target.replace(/:\/\//g, '-')
                     .replace(/:/g, '-')
@@ -162,40 +272,9 @@ export default class HTMLFormatter implements IFormatter {
                     .replace(/\//g, '-')
                     .replace(/[?=]/g, '-query-')
                     .replace(/-$/, '');
-                const destDir = options.output || path.join(cwd(), 'hint-report', name);
-                const currentDir = path.join(__dirname);
-                const configDir = path.join(destDir, 'config');
+                const destDir = options.output || path.join(cwd(), 'hint-report');
 
-                await fs.remove(destDir);
-
-                await fs.mkdirp(configDir);
-
-                await fs.copy(path.join(currentDir, 'assets'), destDir);
-
-                /**
-                 * Update images reference to make them work locally
-                 * when there is no server.
-                 */
-                const parseCssfile = async (filePath: string, prefix: string = '../..') => {
-                    const cssFile = filePath;
-                    let scanCSS = await fs.readFile(cssFile, 'utf-8');
-                    const urlCSSRegex = /url\(['"]?([^'")]*)['"]?\)/g;
-
-                    scanCSS = scanCSS.replace(urlCSSRegex, (match, group) => {
-                        return `url('${group[0] === '/' ? prefix : ''}${group}')`;
-                    });
-
-                    await fs.outputFile(filePath, scanCSS, { encoding: 'utf-8' });
-                };
-
-                await parseCssfile(path.join(destDir, 'styles', 'scan', 'scan-results.css'));
-                await parseCssfile(path.join(destDir, 'styles', 'anchor-top.css'), '../');
-
-                if (options.config) {
-                    await fs.outputFile(path.join(configDir, result.id), JSON.stringify(options.config), { encoding: 'utf-8' });
-                }
-
-                const destination = path.join(destDir, 'index.html');
+                const destination = path.join(destDir, `${name}.html`);
 
                 await fs.outputFile(destination, html);
 

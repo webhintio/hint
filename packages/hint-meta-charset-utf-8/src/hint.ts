@@ -10,10 +10,11 @@
  */
 
 import { IHint } from 'hint/dist/src/lib/types';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
 import { HTMLEvents } from '@hint/parser-html';
+import { normalizeString } from '@hint/utils-string';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -43,6 +44,10 @@ export default class MetaCharsetUTF8Hint implements IHint {
 
             validated = true;
 
+            if (document.isFragment) {
+                return;
+            }
+
             /*
              * There are 2 versions of the charset meta element:
              *
@@ -59,7 +64,11 @@ export default class MetaCharsetUTF8Hint implements IHint {
             const charsetMetaElements = document.querySelectorAll('meta[charset], meta[http-equiv="content-type" i]');
 
             if (charsetMetaElements.length === 0) {
-                context.report(resource, getMessage('metaElementNotSpecified', context.language));
+                context.report(
+                    resource,
+                    getMessage('metaElementNotSpecified', context.language),
+                    { severity: Severity.warning }
+                );
 
                 return;
             }
@@ -74,9 +83,30 @@ export default class MetaCharsetUTF8Hint implements IHint {
             // * `<meta charset="utf-8">`
 
             if (charsetMetaElement.getAttribute('http-equiv') !== null) {
-                context.report(resource, getMessage('metaElementShorter', context.language), { element: charsetMetaElement });
-            } else if (normalizeString(charsetMetaElement.getAttribute('charset')) !== 'utf-8') {
-                context.report(resource, getMessage('metaElementWrongValue', context.language, charsetMetaElement.getAttribute('charset')!), { element: charsetMetaElement });
+                context.report(
+                    resource,
+                    getMessage('metaElementShorter', context.language),
+                    {
+                        element: charsetMetaElement,
+                        severity: Severity.warning
+                    });
+            } else {
+                const metaValue = normalizeString(charsetMetaElement.getAttribute('charset'));
+
+                if (metaValue !== 'utf-8') {
+
+                    const severity = metaValue === 'utf8' ?
+                        Severity.warning :
+                        Severity.error;
+
+                    context.report(
+                        resource,
+                        getMessage('metaElementWrongValue', context.language, charsetMetaElement.getAttribute('charset')!),
+                        {
+                            element: charsetMetaElement,
+                            severity
+                        });
+                }
             }
 
             /*
@@ -94,7 +124,18 @@ export default class MetaCharsetUTF8Hint implements IHint {
             const isMetaElementFirstHeadContent = (/^<head[^>]*>\s*<meta/).test(headElementContent);
 
             if (!isCharsetMetaFirstHeadElement || !isMetaElementFirstHeadContent) {
-                context.report(resource, getMessage('metaElementFirstThing', context.language), { element: charsetMetaElement });
+
+                const severity = (firstHeadElement.getLocation().endOffset || 0) <= 1024 ?
+                    Severity.hint :
+                    Severity.error;
+
+                context.report(
+                    resource,
+                    getMessage('metaElementFirstThing', context.language),
+                    {
+                        element: charsetMetaElement,
+                        severity
+                    });
             }
 
             // * specified in the `<body>`.
@@ -102,7 +143,13 @@ export default class MetaCharsetUTF8Hint implements IHint {
             const bodyMetaElements = document.querySelectorAll('body meta[charset], body meta[http-equiv="content-type" i]');
 
             if (bodyMetaElements[0] && bodyMetaElements[0].isSame(charsetMetaElement)) {
-                context.report(resource, getMessage('metaElementInBody', context.language), { element: charsetMetaElement });
+                context.report(
+                    resource,
+                    getMessage('metaElementInBody', context.language),
+                    {
+                        element: charsetMetaElement,
+                        severity: Severity.error
+                    });
 
                 return;
             }
@@ -113,19 +160,16 @@ export default class MetaCharsetUTF8Hint implements IHint {
                 const metaElements = charsetMetaElements.slice(1);
 
                 for (const metaElement of metaElements) {
-                    context.report(resource, getMessage('metaElementDuplicated', context.language), { element: metaElement });
+                    context.report(
+                        resource,
+                        getMessage('metaElementDuplicated', context.language),
+                        {
+                            element: metaElement,
+                            severity: Severity.warning
+                        }
+                    );
                 }
             }
-
-            /*
-             * Same goes for the XML declaration.
-             * TODO: Enable it once `jsdom` returns the correct content
-             * const xmlDeclaration = context.pageContent.match(/^\s*(<\?xml\s[^>]*encoding=.*\?>)/i);
-             *
-             * if (xmlDeclaration) {
-             *     context.report(resource, `Unneeded XML declaration: '${xmlDeclaration[1]}'.`);
-             * }
-             */
         });
     }
 }

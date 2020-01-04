@@ -1,3 +1,23 @@
+# 2.0.1 (December 3, 2019)
+
+
+# 2.0.0 (December 2, 2019)
+
+## Breaking Changes
+
+* [[`9266b187e3`](https://github.com/webhintio/hint/commit/9266b187e3302600ad46729006f99dce0f6af67d)] - Breaking: Update configurations to use defaults.
+
+## Chores
+
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+
+
+# 1.0.13 (October 30, 2019)
+
+
+# 1.0.12 (October 29, 2019)
+
+
 # 1.0.11 (October 17, 2019)
 
 

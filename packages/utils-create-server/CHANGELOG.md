@@ -1,3 +1,41 @@
+# 3.4.0 (December 2, 2019)
+
+## New features
+
+* [[`b82b765e90`](https://github.com/webhintio/hint/commit/b82b765e904db2a8d79ad1799e37a09f28150b7d)] - New: Add generateHTMLPage to @hint/utils-create-server.
+
+## Bug fixes / Improvements
+
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`f9e9cd2958`](https://github.com/webhintio/hint/commit/f9e9cd2958541ff2340bf8c9f5bcf59358c5ea59)] - Upgrade: Bump @types/express from 4.17.1 to 4.17.2.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`ea7554cdbc`](https://github.com/webhintio/hint/commit/ea7554cdbc2cb0f9708fa4f18f668fcb91e7fca3)] - Chore: Prevent message parsing exception when debugging.
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+* [[`0d37aded21`](https://github.com/webhintio/hint/commit/0d37aded21950358da7fb20ffd3288bc54b08da9)] - Chore: Update packages to use @hint/utils-string.
+* [[`baa55a4ebd`](https://github.com/webhintio/hint/commit/baa55a4ebd47e21eabffef9f7be74672125aef9b)] - Chore: Update packages to use @hint/utils-network.
+
+
+# 3.3.0 (October 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`390346d57b`](https://github.com/webhintio/hint/commit/390346d57bec71dd9b8b34d3c705b2e1c5ccf12a)] - Fix: Path to web server code (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`c0d58ae19e`](https://github.com/webhintio/hint/commit/c0d58ae19ec0209ec336498cc801a3838ef6a9f1)] - New: Option to run in the same thread (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1780`](https://github.com/webhintio/hint/issues/1780)).
+
+## Chores
+
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.2.3 (October 16, 2019)
 
 ## Chores

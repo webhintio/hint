@@ -1,7 +1,7 @@
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const metaElementIsNotInHeadErrorMessage = `'theme-color' meta element should be specified in the '<head>', not '<body>'.`;
@@ -62,13 +62,23 @@ const generateTest = (colorValues: string[], valueType: string = 'valid', reason
 
 const defaultTests: HintTest[] = [
     {
+        name: `'theme-color' meta element is not specified, but there is no manifest`,
+        serverConfig: generateHTMLPage('<link>')
+    },
+    {
         name: `'theme-color' meta element is not specified`,
-        reports: [{ message: metaElementIsNotSpecifiedErrorMessage }],
-        serverConfig: generateHTMLPage('<meta name="viewport" content="width=device-width">')
+        reports: [{
+            message: metaElementIsNotSpecifiedErrorMessage,
+            severity: Severity.warning
+        }],
+        serverConfig: generateHTMLPage('<link rel="manifest" href="manifest.webmanifest">')
     },
     {
         name: `'theme-color' meta element is specified with invalid 'name' value`,
-        reports: [{ message: metaElementHasIncorrectNameAttributeErrorMessage }],
+        reports: [{
+            message: metaElementHasIncorrectNameAttributeErrorMessage,
+            severity: Severity.warning
+        }],
         serverConfig: generateHTMLPage(generateThemeColorMetaElement('#f00', ' thEme-color '))
     },
     ...generateTest([...validColorValues, ...notAlwaysSupportedColorValues]),
@@ -76,12 +86,18 @@ const defaultTests: HintTest[] = [
     ...generateTest(unsupportedColorValues, 'unsupported'),
     {
         name: `'theme-color' meta element is specified in the '<body>'`,
-        reports: [{ message: metaElementIsNotInHeadErrorMessage }],
+        reports: [{
+            message: metaElementIsNotInHeadErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage(undefined, generateThemeColorMetaElement())
     },
     {
         name: `Multiple meta 'theme-color' elements are specified`,
-        reports: [{ message: metaElementIsNotNeededErrorMessage }],
+        reports: [{
+            message: metaElementIsNotNeededErrorMessage,
+            severity: Severity.warning
+        }],
         serverConfig: generateHTMLPage(`${generateThemeColorMetaElement()}${generateThemeColorMetaElement()}`)
     },
     {

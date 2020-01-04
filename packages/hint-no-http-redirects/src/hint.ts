@@ -5,7 +5,8 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 // The list of types depends on the events you want to capture.
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
-import { cutString } from '@hint/utils/dist/src/misc/cut-string';
+import { cutString } from '@hint/utils-string';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -46,7 +47,7 @@ export default class NoHttpRedirectHint implements IHint {
                     message = getMessage('redirectsDectected', context.language, [response.hops.length.toString(), cutString(request.url), maxHops.toString()]);
                 }
 
-                context.report(request.url, message, { element });
+                context.report(request.url, message, { element, severity: Severity.warning });
             }
         };
 

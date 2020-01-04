@@ -1,0 +1,6 @@
+{
+    "browserslist": [
+        "defaults",
+        "maintained node versions"
+    ]
+}

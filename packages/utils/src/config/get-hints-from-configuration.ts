@@ -1,7 +1,7 @@
 import normalizeHints from './normalize-hints';
 import { loadResource } from '../packages/load-resource';
-import { ResourceType } from '../types/resource-type';
-import { UserConfig, HintsConfigObject } from '../types/config';
+import { ResourceType } from '../packages/enums';
+import { UserConfig, HintsConfigObject } from './types';
 
 const getHintsFromExtend = (extendName: string, parentConfigs: string[] = []) => {
     try {

@@ -55,7 +55,7 @@ export const schema = {
         actionsConfig: { type: 'object' },
         auth: { $ref: '#/definitions/auth' },
         browser: {
-            enum: ['Chrome', 'Chromium', 'Edge'],
+            regexp: '/(chrome|chromium|edge)/i',
             type: 'string'
         },
         detached: { type: 'boolean' },

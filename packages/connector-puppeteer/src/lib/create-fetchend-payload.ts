@@ -1,10 +1,10 @@
 import * as puppeteer from 'puppeteer-core';
-import { contentType, HTMLDocument, HttpHeaders } from '@hint/utils';
+import { HttpHeaders } from '@hint/utils-types';
+import { getContentTypeData } from '@hint/utils';
+import { HTMLDocument } from '@hint/utils-dom';
 import { normalizeHeaders } from '@hint/utils-connector-tools';
 import { FetchEnd, NetworkData } from 'hint';
 import { getElementFromResponse } from './get-element-from-response';
-
-const { getContentTypeData } = contentType;
 
 export type Fetcher = (target: string | URL, customHeaders?: object) => Promise<NetworkData>;
 
@@ -101,7 +101,7 @@ export const createFetchEndPayload = async (response: puppeteer.Response, fetchC
 
     const body = {
         content,
-        rawContent: rawContent || Buffer.alloc(0),
+        rawContent: rawContent /* istanbul ignore next */ || Buffer.alloc(0),
         rawResponse: getRawResponse(response, fetchContent)
     };
 

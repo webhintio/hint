@@ -51,7 +51,7 @@
 }
 
 @keyframes progressBarAnimation {
-    
+
     0% {
         background-position: 0% 50%
     }
@@ -446,20 +446,21 @@ a > .rule-tile:hover {
 }
 
 .button-expand-all {
-    background: rgba(255, 255, 255, 0) url('/images/scan/open-close.svg') 0 -1px no-repeat;
+    background: rgba(255, 255, 255, 0) url('/images/scan/open-close.svg') 0 0 no-repeat;
+    border: 0;
     color: #4700a3;
     font-size: 1.2rem;
     font-weight: 500;
-    height: 22px;
+    height: 2.2rem;
     letter-spacing: -.1px;
-    line-height: 22px;
+    line-height: 2.2rem;
     min-width: 0;
     padding: 0 0 0 3rem;
     position: relative;
 }
 
 .button-expand-all.closed {
-    background-position: 0 -2.4rem;
+    background-position: 0 -2.2rem;
 }
 
 .rule-result h3 {

@@ -4,8 +4,10 @@
 
 import { URL } from 'url';
 
-import { debug as d, network } from '@hint/utils';
+import { isHTTPS, normalizeHeaderValue } from '@hint/utils-network';
+import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, Response, ScanEnd } from 'hint';
+import { Severity } from '@hint/utils-types';
 
 import { NetworkConfig, ResourceResponse, PerfBudgetConfig } from './types';
 import * as Connections from './connections';
@@ -13,7 +15,6 @@ import * as Connections from './connections';
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { isHTTPS, normalizeHeaderValue } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /**
@@ -262,6 +263,20 @@ export default class PerformanceBudgetHint implements IHint {
             return total;
         };
 
+        const calculateSeverity = (loadTime: number, configurationLoadTime: number): Severity => {
+            const percentage = (loadTime * 100) / configurationLoadTime;
+
+            if (percentage < 90) {
+                return Severity.off;
+            } else if (percentage < 100) {
+                return Severity.hint;
+            } else if (percentage < 150) {
+                return Severity.warning;
+            }
+
+            return Severity.error;
+        };
+
         /**
          * Calculates if the size of all the loaded resources is small enough to
          * load the site in the allocated time.
@@ -279,8 +294,16 @@ export default class PerformanceBudgetHint implements IHint {
 
             debug(`Ideal load time: ${loadTime}s`);
 
-            if (typeof config.load === 'number' && loadTime > config.load) {
-                context.report(resource, getMessage('toLoadAllResources', context.language, [config.id, loadTime.toFixed(1), (loadTime - config.load).toFixed(1), config.load.toString()]));
+
+            if (typeof config.load === 'number') {
+                const severity = calculateSeverity(loadTime, config.load);
+
+                if (severity !== Severity.off) {
+                    context.report(
+                        resource,
+                        getMessage(severity === Severity.hint ? 'toLoadAllResourcesLess' : 'toLoadAllResourcesMore', context.language, [config.id, loadTime.toFixed(1), (loadTime - config.load).toFixed(1), config.load.toString()]),
+                        { severity });
+                }
             }
         };
 

@@ -17,6 +17,11 @@
         { "path": "../parser-html" },
         { "path": "../utils" },
         { "path": "../utils-connector-tools" },
-        { "path": "../utils-create-server" }
+        { "path": "../utils-create-server" },
+        { "path": "../utils-debug" },
+        { "path": "../utils-dom" },
+        { "path": "../utils-fs" },
+        { "path": "../utils-network" },
+        { "path": "../utils-types" }
     ]
 }

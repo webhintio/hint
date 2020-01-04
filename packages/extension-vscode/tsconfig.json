@@ -13,6 +13,9 @@
         "tests/**/*.ts"
     ],
     "references": [
-        { "path": "../hint" }
+        { "path": "../hint" },
+        { "path": "../utils" },
+        { "path": "../utils-telemetry" },
+        { "path": "../utils-types" }
     ]
 }

@@ -1,3 +1,85 @@
+# 2.0.1 (December 3, 2019)
+
+
+# 2.0.0 (December 2, 2019)
+
+## Breaking Changes
+
+* [[`9266b187e3`](https://github.com/webhintio/hint/commit/9266b187e3302600ad46729006f99dce0f6af67d)] - Breaking: Update configurations to use defaults.
+* [[`8ed008ffe9`](https://github.com/webhintio/hint/commit/8ed008ffe926edba18390bc12e909ac77799b2c8)] - Breaking: Remove `chromium-finder` from `@hint/utils`.
+
+## New features
+
+* [[`fb663cc76d`](https://github.com/webhintio/hint/commit/fb663cc76d2ee7648ff4eefc2de4c10d89e7dfd1)] - New: Update browser extension to support new severity values (see also: [`#3181`](https://github.com/webhintio/hint/issues/3181), and [`#3340`](https://github.com/webhintio/hint/issues/3340)).
+
+## Bug fixes / Improvements
+
+* [[`905ef61419`](https://github.com/webhintio/hint/commit/905ef614196f286dacd79f97720c97897195b8ae)] - Fix: Severity icon color.
+* [[`927967b1ae`](https://github.com/webhintio/hint/commit/927967b1aed5cd7b5b77985ee22fd956df19b0aa)] - Fix: Information position in minimum hint severity section (see also: [`#3375`](https://github.com/webhintio/hint/issues/3375)).
+* [[`9806266ad6`](https://github.com/webhintio/hint/commit/9806266ad68ddc26eebd2ef2a44922dcb3dbb19e)] - Fix: Syntax highlighting color incorrect for Edge (see also: [`#3270`](https://github.com/webhintio/hint/issues/3270)).
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`65fd31c70e`](https://github.com/webhintio/hint/commit/65fd31c70e3776ec0d1596cc7a1045616c6ae733)] - Upgrade: Bump react from 16.10.2 to 16.12.0.
+* [[`afa82f7eed`](https://github.com/webhintio/hint/commit/afa82f7eedf15354f74260981710511be8a6faf0)] - Chore: Increase error color contrast (see also: [`#3365`](https://github.com/webhintio/hint/issues/3365)).
+* [[`f044c9b5a1`](https://github.com/webhintio/hint/commit/f044c9b5a1ef400ab50a6065cea7a8c9758db8bc)] - Chore: Update references to old methods/types in hint.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`e6e47c71ca`](https://github.com/webhintio/hint/commit/e6e47c71ca029bb01ffba6b8560365b995d6616d)] - Upgrade: Bump webpack from 4.39.3 to 4.41.2.
+* [[`d64ecd6130`](https://github.com/webhintio/hint/commit/d64ecd6130a854ac7963ec4327346d8b000f0553)] - Upgrade: Bump @types/react from 16.9.9 to 16.9.11.
+* [[`4cfa0be336`](https://github.com/webhintio/hint/commit/4cfa0be336d54a72f11afe26f602f0cbd5131245)] - Upgrade: Bump react-dom from 16.11.0 to 16.12.0.
+* [[`f37743ef48`](https://github.com/webhintio/hint/commit/f37743ef48cc9da0ba7b264f649a85c4168fc4eb)] - Upgrade: Bump web-ext from 3.2.0 to 3.2.1.
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+* [[`2dfc8d6afd`](https://github.com/webhintio/hint/commit/2dfc8d6afde8ae66caa54953bb2fb154c7414224)] - Chore: Used shared instrumentation key in the browser.
+* [[`c2f74dc1a3`](https://github.com/webhintio/hint/commit/c2f74dc1a3683ce54af1f70b053f56e3fde4b9f0)] - Chore: Migrate to shared telemetry utilities.
+* [[`b6182f427f`](https://github.com/webhintio/hint/commit/b6182f427ff3efafb2cb74ad013754585d709d6b)] - Upgrade: Bump glob from 7.1.5 to 7.1.6.
+* [[`8b1803a77d`](https://github.com/webhintio/hint/commit/8b1803a77debd7010807ba17c21a2419ef455b69)] - Upgrade: Bump webpack-cli from 3.3.9 to 3.3.10.
+* [[`1fc5d690bf`](https://github.com/webhintio/hint/commit/1fc5d690bf73ae69558eb15436e9fb337260a118)] - Upgrade: Bump eslint-plugin-react-hooks from 2.1.2 to 2.2.0.
+* [[`33f81543d8`](https://github.com/webhintio/hint/commit/33f81543d828ed1ee3eedbd7d4a12804a8ffe8a5)] - Upgrade: Bump jsdom from 15.2.0 to 15.2.1.
+* [[`ef9300f80b`](https://github.com/webhintio/hint/commit/ef9300f80be59dd6f428cfd0bf83decfdaec6652)] - Upgrade: Bump terser-webpack-plugin from 2.1.2 to 2.2.1.
+* [[`1ee0419dbb`](https://github.com/webhintio/hint/commit/1ee0419dbbdad8928115757df7a0235ebcc70c98)] - Upgrade: Bump puppeteer-core from 1.20.0 to 2.0.0.
+* [[`be6b5025a8`](https://github.com/webhintio/hint/commit/be6b5025a83ac2501baa9b33a5535c8056bd428b)] - Chore: Simplify path to utils.
+* [[`5ed37ce719`](https://github.com/webhintio/hint/commit/5ed37ce719dfed3c78619f1717450a04b25644d4)] - Chore: Update packages to use @hint/utils-fs.
+* [[`baa55a4ebd`](https://github.com/webhintio/hint/commit/baa55a4ebd47e21eabffef9f7be74672125aef9b)] - Chore: Update packages to use @hint/utils-network.
+* [[`d95dc4a371`](https://github.com/webhintio/hint/commit/d95dc4a3711aa1a2cda74a7f83d14a49a4c92d65)] - Chore: Update packages to use @hint/utils-dom.
+* [[`97bb31d0fa`](https://github.com/webhintio/hint/commit/97bb31d0fafb53572220cd647bb493716587ca2b)] - Chore: Update references to the new @hint/utils-types.
+* [[`1f4b600a43`](https://github.com/webhintio/hint/commit/1f4b600a431da4f7d5d6f40aa1696a2e91cc22e0)] - Chore: Update packages to use @hint/utils-i18n.
+* [[`f4973d08e3`](https://github.com/webhintio/hint/commit/f4973d08e36c53f522379048e02f0ea4efd9eea3)] - Upgrade: Bump react-dom from 16.10.2 to 16.11.0.
+* [[`7c67bddcf5`](https://github.com/webhintio/hint/commit/7c67bddcf500527c58be6876cecc0831827f49b1)] - Upgrade: Bump glob from 7.1.4 to 7.1.5.
+* [[`c3b2de3f1a`](https://github.com/webhintio/hint/commit/c3b2de3f1a41b3468d9fbece68371830080b09d6)] - Upgrade: Bump browserslist from 4.7.0 to 4.7.2.
+
+
+# 1.2.1 (October 30, 2019)
+
+
+# 1.2.0 (October 29, 2019)
+
+## New features
+
+* [[`214ad66898`](https://github.com/webhintio/hint/commit/214ad668983747424311cc7fb33e145c30ad1994)] - New: Enhance `can-evaluate::script` event (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`5bb9b3eec7`](https://github.com/webhintio/hint/commit/5bb9b3eec7b17ba61c54db9da38c741eda934ab5)] - Chore: Bump max size for browser extension (by [`Antón Molleda`](https://github.com/molant)).
+* [[`a2dd8fa936`](https://github.com/webhintio/hint/commit/a2dd8fa93635434b750073ee99d5d594b278cd9a)] - Upgrade: Bump axe-core from 3.3.2 to 3.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`860904de59`](https://github.com/webhintio/hint/commit/860904de5944beeba2ed3c516bba6760559390d3)] - Chore: Use `IServer` instead of `Server` (by [`Antón Molleda`](https://github.com/molant)).
+* [[`6fdc164013`](https://github.com/webhintio/hint/commit/6fdc164013359ecf012fb9dcd5c0ef9ed5aca192)] - Upgrade: Bump @types/sinon from 7.0.13 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e8aa1098e5`](https://github.com/webhintio/hint/commit/e8aa1098e5483fea8de59b220675248fbe41b9e1)] - Chore: Omit JSX packages when bundling for the browser (by [`Tony Ross`](https://github.com/antross)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`1d9e43dd45`](https://github.com/webhintio/hint/commit/1d9e43dd453f7971cb801cfd4f73100621dcb375)] - Chore: Fix test case to simulate parsing HTML (by [`Tony Ross`](https://github.com/antross)).
+* [[`b8ba2e17cd`](https://github.com/webhintio/hint/commit/b8ba2e17cdca7fccfd274b2ba250a96329b23fe8)] - Upgrade: Bump sinon from 7.4.2 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`84741292b0`](https://github.com/webhintio/hint/commit/84741292b0a04f1b3bb5922bccd7c3494b86f09d)] - Upgrade: Bump @types/react-dom from 16.9.1 to 16.9.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`94e004be77`](https://github.com/webhintio/hint/commit/94e004be7773e4bf5b9381ab9147bc9423b89ee8)] - Upgrade: Bump jsdom from 15.1.1 to 15.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5c6f1dee6e`](https://github.com/webhintio/hint/commit/5c6f1dee6e35095caf958e296c7a349696e06efa)] - Upgrade: Bump @types/react from 16.9.5 to 16.9.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ac9f76a98d`](https://github.com/webhintio/hint/commit/ac9f76a98d3007b6717b8dd9e2aad641383fa5a5)] - Upgrade: Bump @types/chrome from 0.0.89 to 0.0.91 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1d9e33db15`](https://github.com/webhintio/hint/commit/1d9e33db15f12b571273479c00b344af972c7f25)] - Chore: Allow build-release to work if build hasn't been run yet (by [`Tony Ross`](https://github.com/antross) / see also: [`#3129`](https://github.com/webhintio/hint/issues/3129)).
+* [[`0cfa8ecfbf`](https://github.com/webhintio/hint/commit/0cfa8ecfbf23aa46fb3e88794531144ab262ca21)] - Chore: Update proxyquire and fix tests (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3121`](https://github.com/webhintio/hint/issues/3121)).
+
+
 # 1.1.1 (October 17, 2019)
 
 

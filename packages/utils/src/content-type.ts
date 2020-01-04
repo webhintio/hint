@@ -3,12 +3,12 @@ import isSvg from 'is-svg';
 
 import { parse, MediaType } from 'content-type';
 
-import { HTMLElement } from './dom';
-import { debug as d } from './debug';
+import { HTMLElement } from '@hint/utils-dom';
+import { debug as d } from '@hint/utils-debug';
 import mimeDB from './mime-db';
-import { HttpHeaders } from './types/http-header';
-import { fileExtension as getFileExtension, fileName as getFileName } from './fs';
-import { normalizeString } from './misc/normalize-string';
+import { HttpHeaders } from '@hint/utils-types';
+import { fileExtension as getFileExtension, fileName as getFileName } from '@hint/utils-fs';
+import { normalizeString } from '@hint/utils-string';
 
 const debug = d(__filename);
 
@@ -181,7 +181,7 @@ const determineMediaTypeBasedOnElement = (element: HTMLElement | null): string |
     return null;
 };
 
-const determineMediaTypeBasedOnFileExtension = (resource: string): string | null => {
+const determineMediaTypeBasedOnFileExtension = (resource: string, originalMediaType: string | null = null): string | null => {
     const fileExtension = getFileExtension(resource);
 
     if (!fileExtension) {
@@ -211,10 +211,23 @@ const determineMediaTypeBasedOnFileExtension = (resource: string): string | null
         case 'html':
         case 'htm':
             return 'text/html';
+        case 'php':
+            /**
+             * originalMediaType will be null for connector local.
+             * In local connector, php doesn't need to be processed
+             * as html.
+             */
+            if (originalMediaType) {
+                return 'text/html';
+            }
+            break;
         case 'xhtml':
             return 'application/xhtml+xml';
         case 'js':
             return 'text/javascript';
+        case 'ts':
+        case 'tsx':
+            return 'text/x-typescript';
         case 'css':
             return 'text/css';
         case 'ico':
@@ -397,7 +410,7 @@ const getContentTypeData = (element: HTMLElement | null, resource: string, heade
     let mediaType =
         determineMediaTypeBasedOnElement(element) ||
         determineMediaTypeBasedOnFileType(rawContent) ||
-        determineMediaTypeBasedOnFileExtension(resource) ||
+        determineMediaTypeBasedOnFileExtension(resource, originalMediaType) ||
         determineMediaTypeBasedOnFileName(resource, rawContent) ||
         originalMediaType;
 

@@ -1,7 +1,7 @@
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const generateMegaViewport = (content: string = 'WiDTh = deVicE-Width, IniTial-Scale= 1.0') => {
@@ -25,47 +25,74 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `'viewport' meta element is not specified`,
-        reports: [{ message: metaElementNotSpecifiedErrorMessage }],
+        reports: [{
+            message: metaElementNotSpecifiedErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage()
     },
     {
         name: `'viewport' meta element has no 'content' attribute`,
-        reports: [{ message: emptyContentErrorMessage }],
+        reports: [{
+            message: emptyContentErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage('<meta name="viewport">')
     },
     {
         name: `'viewport' meta element has 'content' attribute with no value`,
-        reports: [{ message: emptyContentErrorMessage }],
+        reports: [{
+            message: emptyContentErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage('<meta name="viewport" content>')
     },
     {
         name: `'viewport' meta element has 'content' attribute with the value of empty string`,
-        reports: [{ message: emptyContentErrorMessage }],
+        reports: [{
+            message: emptyContentErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage('<meta name="viewport" content="">')
     },
     {
         name: `'viewport' meta element has unknown property`,
-        reports: [{ message: unknownPropertyErrorMessage }],
+        reports: [{
+            message: unknownPropertyErrorMessage,
+            severity: Severity.warning
+        }],
         serverConfig: generateHTMLPage(generateMegaViewport('width=device-width, initial-scale=1, x=y'))
     },
     {
         name: `'viewport' meta element has invalid value`,
-        reports: [{ message: invalidPropertyErrorMessage }],
+        reports: [{
+            message: invalidPropertyErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage(generateMegaViewport('width=device-width, initial-scale=1, height=x'))
     },
     {
         name: `'viewport' meta element has disallowed property`,
-        reports: [{ message: disallowedPropertyErrorMessage }],
+        reports: [{
+            message: disallowedPropertyErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage(generateMegaViewport('width=device-width, initial-scale=1, user-scalable=no'))
     },
     {
         name: `'viewport' meta element has wrong 'width' value`,
-        reports: [{ message: deviceWidthErrorMessage }],
+        reports: [{
+            message: deviceWidthErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage(generateMegaViewport('width=500, initial-scale=1'))
     },
     {
         name: `'viewport' meta element has wrong 'initial-scale' value`,
-        reports: [{ message: initialScaleErrorMessage }],
+        reports: [{
+            message: initialScaleErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage(generateMegaViewport('width=device-width, initial-scale=2'))
     },
     {
@@ -78,12 +105,18 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `Multiple meta 'viewport' elements are specified`,
-        reports: [{ message: metaElementNotNeededErrorMessage }],
+        reports: [{
+            message: metaElementNotNeededErrorMessage,
+            severity: Severity.warning
+        }],
         serverConfig: generateHTMLPage(`${generateMegaViewport()}${generateMegaViewport()}`)
     },
     {
         name: `'viewport' meta element is specified in the '<body>'`,
-        reports: [{ message: metaElementNotInHeadErrorMessage }],
+        reports: [{
+            message: metaElementNotInHeadErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage(undefined, generateMegaViewport())
     }
 ];
@@ -91,7 +124,10 @@ const testsForDefaults: HintTest[] = [
 const testsForBrowsersWithOrientationChangeBug: HintTest[] = [
     {
         name: `'viewport' meta element does not have 'initial-scale' required by the targeted browsers`,
-        reports: [{ message: initialScaleErrorMessage }],
+        reports: [{
+            message: initialScaleErrorMessage,
+            severity: Severity.error
+        }],
         serverConfig: generateHTMLPage(generateMegaViewport('width=device-width'))
     }
 ];

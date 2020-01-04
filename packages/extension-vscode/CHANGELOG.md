@@ -1,3 +1,60 @@
+# 1.5.1 (December 3, 2019)
+
+
+# 1.5.0 (December 2, 2019)
+
+## New features
+
+* [[`618e13aaf7`](https://github.com/webhintio/hint/commit/618e13aaf7e3ce863a3b539ee1e2f78743bcae93)] - New: Add 28-day retention telemetry.
+* [[`a7278f2f78`](https://github.com/webhintio/hint/commit/a7278f2f78edb07df5e610c3b207c3b779ec1f2b)] - New: More severities and threshold in schema (see also: [`#3065`](https://github.com/webhintio/hint/issues/3065)).
+
+## Bug fixes / Improvements
+
+* [[`24f54fd854`](https://github.com/webhintio/hint/commit/24f54fd8547d47fe38195109b4b42d1b0aafe22b)] - Fix: Add getUserConfig to the try/catch block (see also: [`#3386`](https://github.com/webhintio/hint/issues/3386)).
+* [[`d22e46d316`](https://github.com/webhintio/hint/commit/d22e46d3162ec8563d670ee9b38c2577f9da7b97)] - Docs: Improve VS Code readme and take it out of preview (see also: [`#1537`](https://github.com/webhintio/hint/issues/1537)).
+* [[`7e77a1349e`](https://github.com/webhintio/hint/commit/7e77a1349e5e2e7f90da75ad1380af32e6838acc)] - Fix: Stability issues with VS Code extension.
+* [[`1c6e51b831`](https://github.com/webhintio/hint/commit/1c6e51b8315ee168db26ea774b1214326f968477)] - Fix: Use VS Code language ID to reduce file type telemetry noise (see also: [`#3289`](https://github.com/webhintio/hint/issues/3289)).
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`422fd3f4f6`](https://github.com/webhintio/hint/commit/422fd3f4f6a63027eb8d16d0e8527a67ee722230)] - Upgrade: Bump vsce from 1.68.0 to 1.69.0.
+* [[`f044c9b5a1`](https://github.com/webhintio/hint/commit/f044c9b5a1ef400ab50a6065cea7a8c9758db8bc)] - Chore: Update references to old methods/types in hint.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`e6e47c71ca`](https://github.com/webhintio/hint/commit/e6e47c71ca029bb01ffba6b8560365b995d6616d)] - Upgrade: Bump webpack from 4.39.3 to 4.41.2.
+* [[`c901412e50`](https://github.com/webhintio/hint/commit/c901412e5092a77b453400a56612a0460acc1893)] - Chore: Remap VS Code severity.
+* [[`3f9aec8a79`](https://github.com/webhintio/hint/commit/3f9aec8a798170c3d14309dffd8bb80834ee2817)] - Chore: Use shared instrumentation key in VS Code.
+* [[`8b1803a77d`](https://github.com/webhintio/hint/commit/8b1803a77debd7010807ba17c21a2419ef455b69)] - Upgrade: Bump webpack-cli from 3.3.9 to 3.3.10.
+* [[`97bb31d0fa`](https://github.com/webhintio/hint/commit/97bb31d0fafb53572220cd647bb493716587ca2b)] - Chore: Update references to the new @hint/utils-types.
+
+
+# 1.4.1 (October 30, 2019)
+
+## Bug fixes / Improvements
+
+* [[`e78e12b04b`](https://github.com/webhintio/hint/commit/e78e12b04beff09f5734b679a67b725a0d348b62)] - Fix: Include TypeScript in shared install.
+
+
+# 1.4.0 (October 29, 2019)
+
+## New features
+
+* [[`e400f4a6e2`](https://github.com/webhintio/hint/commit/e400f4a6e2f85c072ced260181b1162681c89d39)] - New: Activate for TypeScript and TSX files (by [`Tony Ross`](https://github.com/antross)).
+* [[`de43df9bbd`](https://github.com/webhintio/hint/commit/de43df9bbd2178c6ae7d40156f485193a9b5218c)] - New: Allow ranged locations in CSS (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3130`](https://github.com/webhintio/hint/issues/3130)).
+* [[`fac5cb2a10`](https://github.com/webhintio/hint/commit/fac5cb2a108fa0206dbd30fb2f310497fbb39bb3)] - New: Register to analyze JSX files (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`6fdc164013`](https://github.com/webhintio/hint/commit/6fdc164013359ecf012fb9dcd5c0ef9ed5aca192)] - Upgrade: Bump @types/sinon from 7.0.13 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`b8ba2e17cd`](https://github.com/webhintio/hint/commit/b8ba2e17cdca7fccfd274b2ba250a96329b23fe8)] - Upgrade: Bump sinon from 7.4.2 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a9bd8358bd`](https://github.com/webhintio/hint/commit/a9bd8358bd257152a713b385b713bc334d84006e)] - Upgrade: Bump vsce from 1.67.1 to 1.68.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0cfa8ecfbf`](https://github.com/webhintio/hint/commit/0cfa8ecfbf23aa46fb3e88794531144ab262ca21)] - Chore: Update proxyquire and fix tests (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3121`](https://github.com/webhintio/hint/issues/3121)).
+
+
 # 1.3.4 (October 17, 2019)
 
 

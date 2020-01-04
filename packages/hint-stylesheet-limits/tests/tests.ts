@@ -1,7 +1,7 @@
-import { test as testUtils } from '@hint/utils';
-import { testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, testHint } from '@hint/utils-tests-helpers';
 
-const { generateHTMLPage, getHintPath } = testUtils;
 const hintPath = getHintPath(__filename);
 
 const generateCSSRules = (count = 1) => {
@@ -47,7 +47,10 @@ const test = (label: string, limits: { maxRules: number; maxSheets: number; maxI
         },
         {
             name: `Page${label} contains ${maxRules} CSS rules`,
-            reports: [{ message: `Maximum of ${maxRules} CSS rules reached (${maxRules})` }],
+            reports: [{
+                message: `Maximum of ${maxRules} CSS rules reached (${maxRules})`,
+                severity: Severity.error
+            }],
             serverConfig: generateHTMLPage(`<style>${generateCSSRules(maxRules)}</style>`)
         },
         {
@@ -56,7 +59,10 @@ const test = (label: string, limits: { maxRules: number; maxSheets: number; maxI
         },
         {
             name: `Page${label} contains ${maxSheets} stylesheets`,
-            reports: [{ message: `Maximum of ${maxSheets} stylesheets reached (${maxSheets})` }],
+            reports: [{
+                message: `Maximum of ${maxSheets} stylesheets reached (${maxSheets})`,
+                severity: Severity.error
+            }],
             serverConfig: generateHTMLPage(generateStyleSheets(maxSheets))
         }
     ], configs);
@@ -75,7 +81,10 @@ const test = (label: string, limits: { maxRules: number; maxSheets: number; maxI
             },
             {
                 name: `Page${label} contains ${maxImports} nested imports`,
-                reports: [{ message: `Maximum of ${maxImports} nested imports reached (${maxImports})` }],
+                reports: [{
+                    message: `Maximum of ${maxImports} nested imports reached (${maxImports})`,
+                    severity: Severity.error
+                }],
                 serverConfig: generateImports(maxImports)
             }
         ], configs);

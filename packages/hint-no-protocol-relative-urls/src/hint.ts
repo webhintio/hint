@@ -8,10 +8,12 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { cutString } from '@hint/utils/dist/src/misc/cut-string';
+import { debug as d } from '@hint/utils-debug';
+import { cutString } from '@hint/utils-string';
 import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { Severity } from '@hint/utils-types';
+import { isHTTPS } from '@hint/utils-network';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -50,7 +52,18 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
 
                 const message = getMessage('noProtocolRelativeUrl', context.language, url);
 
-                context.report(resource, message, { content: url, element });
+                const severity = isHTTPS(resource) ?
+                    Severity.hint :
+                    Severity.warning;
+
+                context.report(
+                    resource,
+                    message,
+                    {
+                        content: url,
+                        element,
+                        severity
+                    });
             }
         };
 

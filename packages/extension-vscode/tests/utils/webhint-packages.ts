@@ -64,22 +64,9 @@ test('It loads shared webhint when prompting to install a local copy', async (t)
     const { module, stubs } = stubContext();
     const loadPackageSpy = sandbox.spy(stubs['./packages'], 'loadPackage');
 
-    let promptCalled = false;
-    let promptComplete = false;
-
-    const hint = await module.loadWebhint('local', 'global', async () => {
-        promptCalled = true;
-
-        await new Promise((resolve) => {
-            setTimeout(resolve, 0);
-        });
-
-        promptComplete = true;
-    });
+    const hint = await module.loadWebhint('local', 'global');
 
     t.is(hint as any, 'webhint');
-    t.true(promptCalled);
-    t.false(promptComplete);
     t.true(loadPackageSpy.calledTwice);
     t.deepEqual(loadPackageSpy.firstCall.args[0], 'hint');
     t.deepEqual(loadPackageSpy.firstCall.args[1], { paths: ['local'] });

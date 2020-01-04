@@ -7,9 +7,10 @@ import { URL } from 'url';
 
 import { HintContext, ReportOptions } from 'hint/dist/src/lib/hint-context';
 import { IHint, FetchEnd, ElementFound, NetworkData, Request, Response } from 'hint/dist/src/lib/types';
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { requestAsync } from '@hint/utils/dist/src/network/request-async';
+import { debug as d } from '@hint/utils-debug';
+import { normalizeString } from '@hint/utils-string';
+import { requestAsync } from '@hint/utils-network';
+import { Severity } from '@hint/utils-types';
 
 import { Algorithms, OriginCriteria, ErrorData, URLs } from './types';
 import meta from './meta';
@@ -133,7 +134,7 @@ export default class SRIHint implements IHint {
         if (!crossorigin) {
             const message = getMessage('crossoriginNeeded', this.context.language, resource);
 
-            this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element, severity: Severity.error }, evt);
 
             return Promise.resolve(false);
         }
@@ -143,7 +144,7 @@ export default class SRIHint implements IHint {
         if (!validCrossorigin) {
             const message = getMessage('crossoriginInvalid', this.context.language, [resource, crossorigin]);
 
-            this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element, severity: Severity.error }, evt);
         }
 
         return Promise.resolve(validCrossorigin);
@@ -165,7 +166,7 @@ export default class SRIHint implements IHint {
         if (integrityRequired && !integrity) {
             const message = getMessage('noIntegrity', this.context.language, resource);
 
-            this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element, severity: Severity.warning }, evt);
         }
 
         return Promise.resolve(!!integrity);
@@ -203,7 +204,7 @@ export default class SRIHint implements IHint {
                 // integrity must exist since we're iterating over integrityValues
                 const message = getMessage('invalidIntegrity', this.context.language, [resource, integrity!.substr(0, 10)]);
 
-                that.report(urls.final, message, { element }, evt);
+                that.report(urls.final, message, { element, severity: Severity.error }, evt);
 
                 return false;
             }
@@ -227,7 +228,7 @@ export default class SRIHint implements IHint {
         if (!meetsBaseline) {
             const message = getMessage('algorightmNotMeetBaseline', this.context.language, [Algorithms[highestAlgorithmPriority], this.baseline, resource]);
 
-            this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element, severity: Severity.warning }, evt);
         }
 
         return Promise.resolve(meetsBaseline);
@@ -247,7 +248,7 @@ export default class SRIHint implements IHint {
         if (!isSecure) {
             const message = getMessage('resourceNotSecure', this.context.language, resource);
 
-            this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element, severity: Severity.error }, evt);
         }
 
         return Promise.resolve(isSecure);
@@ -289,7 +290,7 @@ export default class SRIHint implements IHint {
 
             const message = getMessage('hashDoesNotMatch', this.context.language, [resource, hashes.join(', '), integrities.join(', ')]);
 
-            this.report(urls.final, message, { element }, evt);
+            this.report(urls.final, message, { element, severity: Severity.error }, evt);
         }
 
         return Promise.resolve(isOK);
@@ -425,7 +426,11 @@ export default class SRIHint implements IHint {
         } catch (e) {
             debug(`Error accessing ${resource}. ${JSON.stringify(e)}`);
 
-            this.context.report(urls.final, getMessage('canNotGetResource', this.context.language, resource), { element });
+            this.context.report(
+                urls.final,
+                getMessage('canNotGetResource', this.context.language, resource),
+                { element, severity: Severity.error }
+            );
 
             return false;
         }
@@ -491,10 +496,11 @@ export default class SRIHint implements IHint {
             response: { body: { content: '' } } as Response
         };
 
-        await this.validateResource(Object.assign(evt, {
+        await this.validateResource({
+            ...evt,
             request: content.request,
             response: content.response
-        }), {
+        }, {
             final: finalUrl,
             origin
         });

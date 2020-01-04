@@ -10,14 +10,16 @@ import {
     NetworkData,
     TraverseEnd
 } from 'hint';
-import { debug as d, HTMLElement, network } from '@hint/utils';
+import { Severity } from '@hint/utils-types';
+import { isRegularProtocol } from '@hint/utils-network';
+import { HTMLElement } from '@hint/utils-dom';
+import { debug as d } from '@hint/utils-debug';
 import { Requester } from '@hint/utils-connector-tools';
 import { CoreOptions } from 'request';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { isRegularProtocol } = network;
 const debug: debug.IDebugger = d(__filename);
 
 /*
@@ -99,10 +101,16 @@ export default class NoBrokenLinksHint implements IHint {
             debug(`Error accessing ${url}. ${JSON.stringify(error)}`);
 
             if (typeof error === 'string' && error.toLowerCase().includes('loop')) {
-                return context.report(url, error, { element });
+                return context.report(url, error, { element, severity: Severity.error });
             }
 
-            return context.report(url, getMessage('brokenLinkFound', context.language), { element });
+            return context.report(
+                url,
+                getMessage('brokenLinkFound', context.language),
+                {
+                    element,
+                    severity: Severity.error
+                });
         };
 
         const isDNSOnlyResourceHint = (element: HTMLElement): boolean => {
@@ -133,7 +141,7 @@ export default class NoBrokenLinksHint implements IHint {
             if (statusIndex > -1) {
                 const message = getMessage('brokenLinkFoundStatusCode', context.language, brokenStatusCodes[statusIndex].toString());
 
-                return context.report(url, message, { element });
+                return context.report(url, message, { element, severity: Severity.error });
             }
 
             fetchedURLs.push({ status: networkData.response.statusCode, url });
@@ -179,7 +187,11 @@ export default class NoBrokenLinksHint implements IHint {
                         // `url` is malformed, e.g.: just "http://`
                         debug(err);
 
-                        context.report(value, getMessage('invalidURL', context.language));
+                        context.report(
+                            value,
+                            getMessage('invalidURL', context.language),
+                            { severity: Severity.error }
+                        );
                     }
                 }
 
@@ -219,7 +231,11 @@ export default class NoBrokenLinksHint implements IHint {
                     const statusIndex = brokenStatusCodes.indexOf(fetched.statusCode);
 
                     if (statusIndex > -1) {
-                        context.report(url, getMessage('brokenLinkFoundStatusCode', context.language, brokenStatusCodes[statusIndex].toString()));
+                        context.report(
+                            url,
+                            getMessage('brokenLinkFoundStatusCode', context.language, brokenStatusCodes[statusIndex].toString()),
+                            { severity: Severity.error }
+                        );
 
                         return Promise.resolve();
                     }

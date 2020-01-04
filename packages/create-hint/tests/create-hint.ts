@@ -4,7 +4,7 @@ import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
-import * as utils from '@hint/utils';
+import * as utilsFs from '@hint/utils-fs';
 
 import * as handlebarsUtils from '../src/handlebars-utils';
 
@@ -69,13 +69,11 @@ const initContext = (t: ExecutionContext<CreateHintContext>) => {
 const loadScript = (context: CreateHintContext) => {
     const script = proxyquire('../src/create-hint', {
         '../src/handlebars-utils': context.handlebarsUtils,
-        '@hint/utils': {
-            fs: {
-                cwd: context.cwd,
-                readFile: utils.fs.readFile,
-                writeFileAsync: context.writeFileAsyncModule
-            },
-            packages: { isOfficial: context.isOfficialModule }
+        '@hint/utils': { isOfficial: context.isOfficialModule },
+        '@hint/utils-fs': {
+            cwd: context.cwd,
+            readFile: utilsFs.readFile,
+            writeFileAsync: context.writeFileAsyncModule
         },
         'fs-extra': context.fsExtra,
         inquirer: context.inquirer,
@@ -167,8 +165,8 @@ test('It creates a package with multiple hints', async (t) => {
 
     t.true(fsExtraCopyStub.args[0][0].endsWith('no-official-files'), 'Unexpected path for non official files');
     t.true(fsExtraCopyStub.args[1][0].endsWith('files'), 'Unexpected path for official files');
-    t.is(fsExtraCopyStub.args[0][1], path.join(root, 'packages', 'hint-awesome-package'), 'Copy path is not the expected one');
-    t.is(fsExtraCopyStub.args[1][1], path.join(root, 'packages', 'hint-awesome-package'), 'Copy path is not the expected one');
+    t.is(fsExtraCopyStub.args[0][1], path.join(root, 'hint-awesome-package'), 'Copy path is not the expected one');
+    t.is(fsExtraCopyStub.args[1][1], path.join(root, 'hint-awesome-package'), 'Copy path is not the expected one');
 
     // index.ts, package.json, readme.md, tsconfig.json, .hintrc, hint.ts * 2, meta.ts * 2 (one for each rule) + 1 for the meta.ts (index), tests/hint.ts * 2, docs/hint.md * 2
     t.is(handlebarsCompileTemplateStub.callCount, 14, `Handlebars doesn't complile the right number of files`);

@@ -15,25 +15,22 @@ import * as path from 'path';
 
 import * as globby from 'globby';
 
-import { debug as d, fs as fsUtils, packages } from '@hint/utils';
-
-import { IHintConstructor, HintResources } from '../types';
-import { Configuration } from '../config';
-import { ResourceType } from '../enums/resource-type';
-import { ResourceErrorStatus } from '../enums/error-status';
-import { IConnectorConstructor } from '../types/connector';
-
-export * from '@hint/utils/dist/src/packages/load-resource';
-
-const { readFile } = fsUtils;
-const {
+import {
     findNodeModulesRoot,
     findPackageRoot,
     hasMultipleResources,
     isFullPackageName,
     loadResource,
-    requirePackage
-} = packages;
+    requirePackage,
+    ResourceErrorStatus,
+    ResourceType
+} from '@hint/utils';
+import { readFile } from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
+
+import { IHintConstructor, HintResources } from '../types';
+import { Configuration } from '../config';
+import { IConnectorConstructor } from '../types/connector';
 
 const debug: debug.IDebugger = d(__filename);
 const HINT_ROOT: string = findPackageRoot();

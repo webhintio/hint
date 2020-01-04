@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "JSON schema for NPM package.json files",
     "definitions": {
       "person": {
@@ -68,7 +68,7 @@
       },
       "coreProperties": {
         "type": "object",
-  
+
         "patternProperties": {
           "^_": {
             "description": "Any property starting with _ is valid.",
@@ -76,7 +76,7 @@
             "additionalItems": true
           }
         },
-  
+
         "properties": {
           "name": {
             "description": "The name of the package.",

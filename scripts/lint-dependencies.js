@@ -11,7 +11,7 @@ const builtIn = require('builtin-modules');
 
 const typeDependencies = new Set([
     'har-format',
-    'estree',
+    'estree-jsx',
     'request',
     'tough-cookie',
     'vscode'
@@ -20,7 +20,10 @@ const typeDependencies = new Set([
 const ignoredDependencies = new Set([
     '@hint/configuration-development',
     '@hint/configuration-web-recommended',
+    '@hint/connector-jsdom',
     '@hint/connector-local',
+    '@hint/connector-puppeteer',
+    '@hint/utils-create-server',
     '@hint/utils-tests-helpers',
     '@types/chrome',
     '@types/node',
@@ -33,6 +36,7 @@ const ignoredDependencies = new Set([
     'eslint-plugin-import',
     'eslint-plugin-markdown',
     'eslint-plugin-react-hooks',
+    'hint',
     'npm-run-all',
     'nyc',
     'rimraf',
@@ -47,7 +51,7 @@ const ignoredDependencies = new Set([
 ]);
 
 const regexps = [
-    /import\s+.*?\s+'([a-z0-9_\-@/.]+)';/gi, // `import * as something from 'something';`
+    /import[\s\w\d{},*]*?'([a-z0-9_\-@/.]+)';/gi, // `import * as something from 'something';`
     /import\('([a-z0-9_\-@/.]+)'\)/gi, // `import('something');`
     /require(?:\.resolve)?\('([a-z0-9_\-@/.]+)'\)/gi, // `const something = require('something');` || `const something = require.resolve('something');`
     /(?:loader|use):\s+'([a-z0-9_\-@/.]+)'/gi, // webpack config: `loader: 'ts-loader'` `use: 'raw-loader'`

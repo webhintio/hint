@@ -19,6 +19,9 @@
         { "path": "../connector-puppeteer" },
         { "path": "../hint" },
         { "path": "../utils" },
-        { "path": "../utils-create-server" }
+        { "path": "../utils-create-server" },
+        { "path": "../utils-fs" },
+        { "path": "../utils-network" },
+        { "path": "../utils-types" }
     ]
 }

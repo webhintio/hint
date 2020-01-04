@@ -6,26 +6,37 @@ import * as isCI from 'is-ci';
 import * as ora from 'ora';
 import * as osLocale from 'os-locale';
 
-import { appInsights, configStore, debug as d, fs, getHintsFromConfiguration, logger, misc, network, npm, ConnectorConfig, normalizeHints, HintsConfigObject, HintSeverity } from '@hint/utils';
-import { Problem, Severity } from '@hint/utils/dist/src/types/problems';
+import {
+    appInsights,
+    askQuestion,
+    configStore,
+    ConnectorConfig,
+    getHintsFromConfiguration,
+    HintsConfigObject,
+    HintSeverity,
+    installPackages,
+    loadHintPackage,
+    logger,
+    mergeEnvWithOptions,
+    normalizeHints,
+    UserConfig
+} from '@hint/utils';
+import { cwd } from '@hint/utils-fs';
+import { getAsUris } from '@hint/utils-network';
+import { debug as d } from '@hint/utils-debug';
+import { Problem, Severity } from '@hint/utils-types';
 
 import {
     AnalyzerError,
     AnalyzeOptions,
     CLIOptions,
     CreateAnalyzerOptions,
-    HintResources,
-    UserConfig
+    HintResources
 } from '../types';
-import { loadHintPackage } from '../utils/packages/load-hint-package';
 import { createAnalyzer, getUserConfig } from '../';
 import { Analyzer } from '../analyzer';
 import { AnalyzerErrorStatus } from '../enums/error-status';
 
-const { getAsUris } = network;
-const { askQuestion, mergeEnvWithOptions } = misc;
-const { installPackages } = npm;
-const { cwd } = fs;
 const debug: debug.IDebugger = d(__filename);
 const alreadyRunKey: string = 'run';
 const spinner = ora({ spinner: 'line' });
@@ -53,7 +64,7 @@ by sending limited usage information
 (no personal information or URLs will be sent).
 
 To know more about what information will be sent please
-visit ${chalk.default.green('https://webhint.io/docs/user-guide/telemetry/summary/')}`;
+visit ${chalk.green('https://webhint.io/docs/user-guide/telemetry/summary/')}`;
 
     printFrame(message);
 };
@@ -67,11 +78,11 @@ by sending limited usage information
 (no personal information or URLs will be sent).
 
 To know more about what information will be sent please
-visit ${chalk.default.green('https://webhint.io/docs/user-guide/telemetry/summary/')}
+visit ${chalk.green('https://webhint.io/docs/user-guide/telemetry/summary/')}
 
 Please configure it using
-the environment variable HINT_TRACKING to 'on' or 'off'
-or set the flag --tracking=on|off`;
+the environment variable HINT_TELEMETRY to 'on' or 'off'
+or set the flag --telemetry=on|off`;
 
     printFrame(message);
 };
@@ -162,15 +173,10 @@ const sendTelemetryIfEnabled = async (userConfig: UserConfig) => {
  * defaults will be used.
  */
 const showDefaultMessage = () => {
-    const defaultMessage = `${chalk.default.yellow(`Couldn't find any valid configuration`)}
+    const defaultMessage = `Using the built-in configuration.
+Visit https://webhint.io/docs/user-guide/ to learn how to create your own configuration.`;
 
-Running hint with the default configuration.
-
-Learn more about how to create your own configuration at:
-
-${chalk.default.green('https://webhint.io/docs/user-guide/')}`;
-
-    printFrame(defaultMessage);
+    logger.log(defaultMessage);
 };
 
 const areFiles = (targets: URL[]) => {
@@ -404,10 +410,16 @@ export default async (actions: CLIOptions): Promise<boolean> => {
         }
     };
 
-    const hasError = (reports: Problem[]): boolean => {
-        return reports.some((result: Problem) => {
-            return result.severity === Severity.error;
-        });
+    const hasIssues = (reports: Problem[]): boolean => {
+        const threshold = userConfig.severityThreshold || Severity.error;
+
+        for (const result of reports) {
+            if (result.severity >= threshold) {
+                return true;
+            }
+        }
+
+        return false;
     };
 
     const print = async (reports: Problem[], target?: string, scanTime?: number, date?: string): Promise<void> => {
@@ -447,7 +459,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             const scanEnd = Date.now();
             const start = scanStart.get(end.url) || 0;
 
-            if (hasError(end.problems)) {
+            if (hasIssues(end.problems)) {
                 exitCode = 1;
             }
 
@@ -466,8 +478,9 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     } catch (e) {
         exitCode = 1;
         endSpinner('fail');
-        debug(`Failed to analyze: ${e.url}`);
+        debug(`Failed to analyze: ${targets}`);
         debug(e);
+        logger.error(e);
     }
 
     debug(`Total runtime: ${Date.now() - start}ms`);

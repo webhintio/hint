@@ -4,8 +4,8 @@ import testAny, { TestInterface } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { ResourceType } from '../../src/types/resource-type';
-import { loadJSONFile } from '../../src/fs';
+import { loadJSONFile } from '@hint/utils-fs';
+import { ResourceType } from '../../src/packages/enums';
 
 const configurationWithoutHints = loadJSONFile(path.join(__dirname, 'fixtures', 'configurationWithoutHints.json'));
 const configurationWithHints = loadJSONFile(path.join(__dirname, 'fixtures', 'configurationWithHints.json'));
@@ -49,8 +49,8 @@ test('If extends is not defined, it should return the hints normalized.', (t) =>
 
     const hints = getHintsFromConfiguration({ hints: ['hint1', 'hint2', 'hint3:warning'] });
 
-    t.is(hints.hint1, 'error');
-    t.is(hints.hint2, 'error');
+    t.is(hints.hint1, 'default');
+    t.is(hints.hint2, 'default');
     t.is(hints.hint3, 'warning');
 });
 
@@ -63,8 +63,8 @@ test(`If extends is defined, but it doesn't have any hint, should return only th
         hints: ['hint1', 'hint2', 'hint3:warning']
     });
 
-    t.is(hints.hint1, 'error');
-    t.is(hints.hint2, 'error');
+    t.is(hints.hint1, 'default');
+    t.is(hints.hint2, 'default');
     t.is(hints.hint3, 'warning');
     t.true(loadResourceStub.calledOnce);
 });

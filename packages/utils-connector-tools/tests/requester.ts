@@ -2,7 +2,6 @@ import { promisify } from 'util';
 import * as zlib from 'zlib';
 
 import * as iconv from 'iconv-lite';
-import * as brotli from 'iltorb';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import { Server } from '@hint/utils-create-server';
 import { NetworkData } from 'hint';
@@ -16,7 +15,7 @@ type RequesterContext = {
 const test = anyTest as TestInterface<RequesterContext>;
 
 const compressGzip: Function = promisify(zlib.gzip) as any;
-const compressBrotli: Function = promisify(brotli.compress) as any;
+const compressBrotli: Function = promisify(zlib.brotliCompress) as any;
 const compress = {
     br: compressBrotli,
     gzip: compressGzip

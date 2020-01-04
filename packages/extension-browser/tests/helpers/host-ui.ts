@@ -1,11 +1,9 @@
 import * as path from 'path';
 
-import { fs } from '@hint/utils';
-import { Server, ServerConfiguration } from '@hint/utils-create-server';
+import { readFileAsync } from '@hint/utils-fs';
+import { IServer, Server, ServerConfiguration } from '@hint/utils-create-server';
 
 import { Page, Props as AppProps } from '../../src/devtools/views/app';
-
-const { readFileAsync } = fs;
 
 type State = {
     action: Function;
@@ -47,7 +45,7 @@ const states: (AppProps & State)[] = [
     }
 ];
 
-export const hostUI = async (): Promise<[Server, string[]]> => {
+export const hostUI = async (): Promise<[IServer, string[]]> => {
 
     const [rawHtmlSource, jsSource, apiSource] = await Promise.all([
         readFileAsync(path.resolve(__dirname, '../../bundle/devtools/panel.html')),

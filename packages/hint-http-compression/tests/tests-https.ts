@@ -1,5 +1,4 @@
-import { test } from '@hint/utils';
-import { testHint } from '@hint/utils-tests-helpers';
+import { getHintPath, testHint } from '@hint/utils-tests-helpers';
 
 import {
     testsForBrotli,
@@ -16,7 +15,6 @@ import {
     testsForUserConfigs
 } from './_tests';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 /*
@@ -29,7 +27,7 @@ const testConfigs = {
     serial: false
 };
 
-const testConfigsSerial = Object.assign({}, testConfigs);
+const testConfigsSerial = { ...testConfigs };
 
 testConfigsSerial.serial = true;
 
@@ -54,11 +52,10 @@ testHint(hintPath, testsForBrotliUASniffing(), testConfigs);
         testHint(
             hintPath,
             testsForUserConfigs(`${encoding}`, isHTML, true),
-            Object.assign(
-                {},
-                testConfigs,
-                { hintOptions: { [isHTML ? 'html' : 'resource']: { [encoding]: false } } }
-            )
+            {
+                ...testConfigs,
+                hintOptions: { [isHTML ? 'html' : 'resource']: { [encoding]: false } }
+            }
         );
     });
 });

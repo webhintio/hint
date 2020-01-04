@@ -1,10 +1,10 @@
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
-const defaultTests: HintTest[] = [
+const defaultTests = [
     {
         name: `Target with "Cache-Control: no-cache" passes`,
         serverConfig: {
@@ -33,7 +33,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: 'Target with long max-age fails',
-        reports: [{ message: 'The target should not be cached, or have a small "max-age" value (180):\nmax-age=500' }],
+        reports: [{
+            message: 'The target should not be cached, or have a small "max-age" value (180):\nmax-age=500',
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': {
                 content: generateHTMLPage('<link rel="icon" href="/favicon.123.ico">'),
@@ -60,7 +63,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: 'Asset with no "Cache-Control" header fails',
-        reports: [{ message: `No "cache-control" header or empty value found. It should have a value` }],
+        reports: [{
+            message: `No "cache-control" header or empty value found. It should have a value`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.123.css">'),
             '/favicon.123.ico': {
@@ -75,7 +81,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: `Asset with "Cache-Control: " header fails`,
-        reports: [{ message: `No "cache-control" header or empty value found. It should have a value` }],
+        reports: [{
+            message: `No "cache-control" header or empty value found. It should have a value`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.123.css"><link rel="stylesheet" href="styles.123.css">'),
             '/favicon.123.ico': {
@@ -90,7 +99,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: `Asset with "Cache-Control: invalid-directive" header fails`,
-        reports: [{ message: `The directive invalid-directive is invalid` }],
+        reports: [{
+            message: `The directive invalid-directive is invalid`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.123.css">'),
             '/favicon.123.ico': {
@@ -105,7 +117,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: `Asset with "Cache-Control: max-age=abcd" header fails`,
-        reports: [{ message: `The following directive has an invalid value:\nmax-age=abcd` }],
+        reports: [{
+            message: `The following directive has an invalid value:\nmax-age=abcd`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.123.css">'),
             '/favicon.123.ico': {
@@ -120,7 +135,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: `Asset with "Cache-Control: no-cache=10" header fails`,
-        reports: [{ message: `The following directive has an invalid value:\nno-cache=10` }],
+        reports: [{
+            message: `The following directive has an invalid value:\nno-cache=10`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.123.css">'),
             '/favicon.123.ico': {
@@ -135,7 +153,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: `Asset with "Cache-Control: no-cache, max-age=10" header fails`,
-        reports: [{ message: `The following Cache-Control header is using a wrong combination of directives:\nno-cache, max-age=10` }],
+        reports: [{
+            message: `The following Cache-Control header is using a wrong combination of directives:\nno-cache, max-age=10`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.123.css">'),
             '/favicon.123.ico': {
@@ -150,7 +171,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: `Asset with "Cache-Control: no-cache, s-maxage=10" header fails`,
-        reports: [{ message: `The following Cache-Control header is using a wrong combination of directives:\nno-cache, s-maxage=10` }],
+        reports: [{
+            message: `The following Cache-Control header is using a wrong combination of directives:\nno-cache, s-maxage=10`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.123.css">'),
             '/favicon.123.ico': {
@@ -165,7 +189,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: `Asset with "Cache-Control: must-revalidate, max-age=10" header fails`,
-        reports: [{ message: `The directive "must-revalidate" is not recommended` }],
+        reports: [{
+            message: `The directive "must-revalidate" is not recommended`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.123.css">'),
             '/favicon.123.ico': {
@@ -179,21 +206,30 @@ const defaultTests: HintTest[] = [
         }
     },
     {
-        name: `Asset with "Cache-Control: max-age=31536000," header fails`,
-        reports: [{ message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000,' }],
+        name: `Asset with "Cache-Control: max-age=31536000," header fails with warning for missing "immutable" directive if cache busting`,
+        reports: [{
+            message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000',
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico">'),
             '/favicon.123.ico': {
                 content: '',
-                headers: { 'Cache-Control': 'max-age=31536000,' }
+                headers: { 'Cache-Control': 'max-age=31536000' }
             }
         }
     },
     {
-        name: 'JS with "Cache-Control: no-cache" fails',
+        name: 'JS with "Cache-Control: no-cache" fails with warning if cache busting',
         reports: [
-            { message: 'Static resources should have a long cache value (31536000):\nDirectives used: no-cache' },
-            { message: 'Static resources should use the "immutable" directive:\nDirectives used: no-cache' }],
+            {
+                message: 'Static resources should have a long cache value (31536000):\nDirectives used: no-cache',
+                severity: Severity.warning
+            },
+            {
+                message: 'Static resources should use the "immutable" directive:\nDirectives used: no-cache',
+                severity: Severity.warning
+            }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.123.js"></script>'),
             '/favicon.123.ico': {
@@ -209,8 +245,14 @@ const defaultTests: HintTest[] = [
     {
         name: 'JS with short max-age fails',
         reports: [
-            { message: 'Static resources should have a long cache value (31536000):\nDirectives used: max-age=100' },
-            { message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=100' }],
+            {
+                message: 'Static resources should have a long cache value (31536000):\nDirectives used: max-age=100',
+                severity: Severity.warning
+            },
+            {
+                message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=100',
+                severity: Severity.warning
+            }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.123.js"></script>'),
             '/favicon.123.ico': {
@@ -224,8 +266,39 @@ const defaultTests: HintTest[] = [
         }
     },
     {
+        name: 'JS with short max-age fails with hints if no cache busting',
+        reports: [
+            {
+                message: 'Static resources should have a long cache value (31536000):\nDirectives used: max-age=100',
+                severity: Severity.hint
+            },
+            {
+                message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=100',
+                severity: Severity.hint
+            },
+            {
+                message: 'No configured patterns for cache busting match http://localhost/script.js. See docs to add a custom one.',
+                severity: Severity.warning
+            }
+        ],
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.js"></script>'),
+            '/favicon.123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            },
+            '/script.js': {
+                content: 'var a = 10;',
+                headers: { 'Cache-Control': 'max-age=100' }
+            }
+        }
+    },
+    {
         name: 'JS with long max-age but no immutable fails',
-        reports: [{ message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000' }],
+        reports: [{
+            message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000',
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.123.js"></script>'),
             '/favicon.123.ico': {
@@ -240,7 +313,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: 'JS with long max-age, immutable and no file revving fails',
-        reports: [{ message: 'No configured patterns for cache busting match http://localhost/script.js. See docs to add a custom one.' }],
+        reports: [{
+            message: 'No configured patterns for cache busting match http://localhost/script.js. See docs to add a custom one.',
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.js"></script>'),
             '/favicon.123.ico': {
@@ -367,7 +443,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: 'JS with long max-age, immutable and parameter file revving fails',
-        reports: [{ message: 'No configured patterns for cache busting match http://localhost/script.js?v=123. See docs to add a custom one.' }],
+        reports: [{
+            message: 'No configured patterns for cache busting match http://localhost/script.js?v=123. See docs to add a custom one.',
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.js?v=123"></script>'),
             '/favicon.123.ico': {
@@ -383,7 +462,10 @@ const defaultTests: HintTest[] = [
 
     {
         name: 'CSS with max-age but no immutable fails',
-        reports: [{ message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000' }],
+        reports: [{
+            message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000',
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.123.css">'),
             '/favicon.123.ico': {
@@ -398,7 +480,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: 'CSS with long max-age, immutable and no file revving fails',
-        reports: [{ message: 'No configured patterns for cache busting match http://localhost/styles.css. See docs to add a custom one.' }],
+        reports: [{
+            message: 'No configured patterns for cache busting match http://localhost/styles.css. See docs to add a custom one.',
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.css">'),
             '/favicon.123.ico': {
@@ -427,7 +512,10 @@ const defaultTests: HintTest[] = [
     },
     {
         name: 'CSS with long max-age, immutable and parameter file revving fails',
-        reports: [{ message: 'No configured patterns for cache busting match http://localhost/styles.css?v=123. See docs to add a custom one.' }],
+        reports: [{
+            message: 'No configured patterns for cache busting match http://localhost/styles.css?v=123. See docs to add a custom one.',
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><link rel="stylesheet" href="styles.css?v=123">'),
             '/favicon.123.ico': {
@@ -439,12 +527,16 @@ const defaultTests: HintTest[] = [
                 headers: { 'Cache-Control': 'max-age=31536000, immutable' }
             }
         }
-    }];
+    }
+];
 
-const customRegexTests: HintTest[] = [
+const customRegexTests = [
     {
         name: 'JS with long max-age, immutable and file revving fails custom regex',
-        reports: [{ message: 'No configured patterns for cache busting match http://localhost/script.123.js. See docs to add a custom one.' }],
+        reports: [{
+            message: 'No configured patterns for cache busting match http://localhost/script.123.js. See docs to add a custom one.',
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': generateHTMLPage('<link rel="icon" href="/12345/favicon.ico"><script src="/script.123.js"></script>'),
             '/12345/favicon.ico': {
@@ -472,5 +564,27 @@ const customRegexTests: HintTest[] = [
         }
     }];
 
-testHint(hintPath, defaultTests);
-testHint(hintPath, customRegexTests, { hintOptions: { revvingPatterns: ['\\/\\d+\\/\\w+\\.\\w{1,3}'] } });
+const customBrowsersListTests = [
+    {
+        name: 'JS with long max-age and no immutable fails with Hint when targetting chrome only',
+        reports: [{
+            message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000',
+            severity: Severity.hint
+        }],
+        serverConfig: {
+            '/': generateHTMLPage('<link rel="icon" href="/favicon.123.ico"><script src="/script.123.js"></script>'),
+            '/favicon.123.ico': {
+                content: '',
+                headers: { 'Cache-Control': 'max-age=31536000, immutable' }
+            },
+            '/script.123.js': {
+                content: 'var a = 10;',
+                headers: { 'Cache-Control': 'max-age=31536000' }
+            }
+        }
+    }
+];
+
+testHint(hintPath, defaultTests, { browserslist: ['defaults'] });
+testHint(hintPath, customRegexTests, { browserslist: ['defaults'], hintOptions: { revvingPatterns: ['\\/\\d+\\/\\w+\\.\\w{1,3}'] } });
+testHint(hintPath, customBrowsersListTests, { browserslist: ['chrome 50'] });

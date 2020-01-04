@@ -1,10 +1,9 @@
-import { test, fs } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { readFile } from '@hint/utils-fs';
+import { Severity } from '@hint/utils-types';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
-
-const { readFile } = fs;
 
 const generateConfig = (fileName: string) => {
     const styles = readFile(`${__dirname}/fixtures/${fileName}.css`);
@@ -37,7 +36,10 @@ const tests: HintTest[] = [
     },
     {
         name: 'Summary tag does not have `display: `list-item`',
-        reports: [{ message: `Changing display of a summary tag hides open/close icon` }],
+        reports: [{
+            message: `Changing display of a summary tag hides open/close icon`,
+            severity: Severity.error
+        }],
         serverConfig: summary.summaryStyleChanged
     },
     {
@@ -46,27 +48,42 @@ const tests: HintTest[] = [
     },
     {
         name: 'Summary tag with class changes display',
-        reports: [{ message: `Changing display of a summary tag hides open/close icon` }],
+        reports: [{
+            message: `Changing display of a summary tag hides open/close icon`,
+            severity: Severity.error
+        }],
         serverConfig: summary.summaryTest2
     },
     {
         name: 'Multiple css selector',
-        reports: [{ message: `Changing display of a summary tag hides open/close icon` }],
+        reports: [{
+            message: `Changing display of a summary tag hides open/close icon`,
+            severity: Severity.error
+        }],
         serverConfig: summary.summaryTest3
     },
     {
         name: 'Nested summary tags',
-        reports: [{ message: `Changing display of a summary tag hides open/close icon` }],
+        reports: [{
+            message: `Changing display of a summary tag hides open/close icon`,
+            severity: Severity.error
+        }],
         serverConfig: summary.summaryTest4
     },
     {
         name: 'Sibling selector',
-        reports: [{ message: `Changing display of a summary tag hides open/close icon` }],
+        reports: [{
+            message: `Changing display of a summary tag hides open/close icon`,
+            severity: Severity.error
+        }],
         serverConfig: summary.summaryTest5
     },
     {
         name: 'Child selector',
-        reports: [{ message: `Changing display of a summary tag hides open/close icon` }],
+        reports: [{
+            message: `Changing display of a summary tag hides open/close icon`,
+            severity: Severity.error
+        }],
         serverConfig: summary.summaryTest6
     },
     {

@@ -6,8 +6,9 @@
 import * as path from 'path';
 
 import { TypeScriptConfigEvents } from '@hint/parser-typescript-config';
+import { Severity } from '@hint/utils-types';
 import { HintContext, IHint, ScanEnd } from 'hint';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
 import { configChecker } from './helpers/config-checker';
 
@@ -26,7 +27,7 @@ export default class TypeScriptConfigImportHelpers implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<TypeScriptConfigEvents>) {
-        const validate = configChecker('compilerOptions.importHelpers', true, 'importHelpers', context);
+        const validate = configChecker('compilerOptions.importHelpers', true, 'importHelpers', context, Severity.warning);
 
         const validateTslibInstalled = async (evt: ScanEnd) => {
             const { resource } = evt;
@@ -45,7 +46,11 @@ export default class TypeScriptConfigImportHelpers implements IHint {
             } catch (e) {
                 debug(e);
 
-                context.report(resource, getMessage('couldNotFindTSLib', context.language));
+                context.report(
+                    resource,
+                    getMessage('couldNotFindTSLib', context.language),
+                    { severity: Severity.error }
+                );
             }
         };
 

@@ -1,4 +1,4 @@
-import { ResourceType } from '../types/resource-type';
+import { ResourceType } from './enums';
 
 /**
  * Check if it is a package with multiple resources.

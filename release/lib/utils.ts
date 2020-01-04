@@ -58,7 +58,10 @@ export const execWithRetry = (command: string, options?: execasync.Options) => {
         const args = command.split(' ');
         const program = args.shift()!;
 
-        return execasync(program, args, Object.assign({}, options, { stdio: [null, debugStream, debugStream] }));
+        return execasync(program, args, {
+            ...options,
+            ...{ stdio: [null, debugStream, debugStream] }
+        } as execasync.Options);
     };
 
     return pRetry(fn, {

@@ -42,9 +42,11 @@
                 <div class="scan-overview--version">
                     <p class="scan-overview__subheader"><%= getMessage('webhintVersion'); %>: <span id="version"><%= result.version %></span></p>
                 </div>
+                <% if (result.isScanner) { %>
                 <div class="scan-overview--config">
                     <p class="scan-overview__subheader"><a class="scan-overview__body__link" href="config/<%= result.id %>"><%= getMessage('configuartionJSON'); %></a></p>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>
@@ -56,7 +58,7 @@
                 <button aria-control="categories-list" class="show-categories" id="show-categories"><%= getMessage('jumpToCategory'); %></button>
                 <div class="rule-categories" id="categories-list">
                     <% result.categories.forEach((category) => { -%>
-                        <%- include('scan-category-summary', { category, getMessage }) %>
+                        <%- include('scan-category-summary', { getDataUri, category, getMessage, isScanner: result.isScanner }) %>
                     <% }); %>
                 </div>
             </div>

@@ -1,8 +1,7 @@
 import * as os from 'os';
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const normalizeEOL = (text: string): string => {
@@ -12,7 +11,11 @@ const normalizeEOL = (text: string): string => {
 const tests: HintTest[] = [
     {
         name: `'doctype' is not in the first line should fail`,
-        reports: [{ message: `'doctype' should be specified before anything else.`, position: { match: '<!DOCTYPE html>' } }],
+        reports: [{
+            message: `'doctype' should be specified before anything else.`,
+            position: { match: '<!DOCTYPE html>' },
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': {
                 content: normalizeEOL(`<p><span></span>
@@ -36,7 +39,11 @@ const tests: HintTest[] = [
     },
     {
         name: `'doctype' found more than once should fail`,
-        reports: [{ message: `'doctype' is not needed as one was already specified.`, position: { match: '<!DOCTYPE html><!-- Report -->' } }],
+        reports: [{
+            message: `'doctype' is not needed as one was already specified.`,
+            position: { match: '<!DOCTYPE html><!-- Report -->' },
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': {
                 content: normalizeEOL(`<!DOCTYPE html>
@@ -49,18 +56,11 @@ const tests: HintTest[] = [
         }
     },
     {
-        name: 'HTML with no content should fail',
-        reports: [{ message: `Resource has no content.` }],
-        serverConfig: {
-            '/': {
-                content: '',
-                headers: { 'Content-Type': 'text/html' }
-            }
-        }
-    },
-    {
         name: `'doctype' not found should fail`,
-        reports: [{ message: `'doctype' was not specified.` }],
+        reports: [{
+            message: `'doctype' was not specified.`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': {
                 content: `<head>
@@ -92,7 +92,10 @@ const tests: HintTest[] = [
     },
     {
         name: `'doctype' not valid should fail`,
-        reports: [{ message: `'doctype' should be specified as '<!doctype html>'.` }],
+        reports: [{
+            message: `'doctype' should be specified as '<!doctype html>'.`,
+            severity: Severity.error
+        }],
         serverConfig: {
             '/': {
                 content: `<!doctype htmltest>
@@ -105,7 +108,10 @@ const tests: HintTest[] = [
     },
     {
         name: `'doctype' regular with no space between terms should fail`,
-        reports: [{ message: `'doctype' should be specified as '<!doctype html>'.` }],
+        reports: [{
+            message: `'doctype' should be specified as '<!doctype html>'.`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': {
                 content: `<!doctypehtml>
@@ -118,7 +124,10 @@ const tests: HintTest[] = [
     },
     {
         name: `'doctype' with legacy-compat should fail`,
-        reports: [{ message: `'doctype' should be specified as '<!doctype html>'.` }],
+        reports: [{
+            message: `'doctype' should be specified as '<!doctype html>'.`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': {
                 content: `<!doctype html SYSTEM "about:legacy-compat">

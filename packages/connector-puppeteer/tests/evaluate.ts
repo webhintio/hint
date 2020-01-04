@@ -2,13 +2,10 @@ import { URL } from 'url';
 
 import test from 'ava';
 
-import { Server } from '@hint/utils-create-server';
-import { test as testUtils } from '@hint/utils';
+import { generateHTMLPage, Server } from '@hint/utils-create-server';
 import { Engine, Events } from 'hint';
 
 import Connector from '../src/connector';
-
-const { generateHTMLPage } = testUtils;
 
 const name = 'puppeteer';
 

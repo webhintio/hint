@@ -5,7 +5,7 @@
 import * as Listr from 'listr';
 import { Arguments } from 'yargs';
 
-import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease, skipIfSameVersion } from './lib/skippers';
+import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease, skipIfSameVersion, skipIfTestMode } from './lib/skippers';
 import { taskErrorWrapper } from './lib/utils';
 import { updateChangelogs } from './tasks/update-changelogs';
 import { updateThirdPartyResources } from './lib/update-3rd-party';
@@ -38,7 +38,7 @@ const tasks = new Listr([
     },
     {
         title: 'Authenticate in GitHub',
-        skip: skipReasons(skipIfError, skipIfJustRelease),
+        skip: skipReasons(skipIfError, skipIfJustRelease, skipIfTestMode),
         task: taskErrorWrapper(authenticateGitHub)
     },
     {
@@ -67,11 +67,6 @@ const tasks = new Listr([
         task: taskErrorWrapper(calculateNewVersions)
     },
     {
-        title: 'Update changelogs',
-        skip: skipReasons(skipIfError, skipIfJustRelease),
-        task: updateChangelogs()
-    },
-    {
         title: 'Save changes in disk',
         skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
         task: taskErrorWrapper(savePackageChanges)
@@ -93,6 +88,11 @@ const tasks = new Listr([
         task: taskErrorWrapper(installDependencies)
     },
     {
+        title: 'Update changelogs',
+        skip: skipReasons(skipIfError, skipIfJustRelease),
+        task: updateChangelogs()
+    },
+    {
         title: 'Commit changes',
         skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
         task: taskErrorWrapper(commitPackagesChanges)
@@ -104,47 +104,47 @@ const tasks = new Listr([
     },
     {
         title: 'Build and test',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease, skipIfTestMode),
         task: runTests()
     },
     {
         title: 'Confirm npm publishing',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfForced),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfForced, skipIfTestMode),
         task: confirmRelease
     },
     {
         title: 'Publish on npm',
-        skip: skipReasons(skipIfError, skipIfAborted),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfTestMode),
         task: release()
     },
     {
         title: 'Publish extension on Visual Studio Marketplace',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('vscode-webhint')),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('vscode-webhint'), skipIfTestMode),
         task: releaseForVSCode
     },
     {
         title: 'Submit extension-browser for Chrome',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('@hint/extension-browser')),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('@hint/extension-browser'), skipIfTestMode),
         task: releaseForBrowser('https://chrome.google.com/webstore/developer/dashboard')
     },
     {
         title: 'Submit extension-browser for Edge (Chromium)',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('@hint/extension-browser')),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('@hint/extension-browser'), skipIfTestMode),
         task: releaseForBrowser('TBD')
     },
     {
         title: 'Submit extension-browser for Firefox',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('@hint/extension-browser')),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('@hint/extension-browser'), skipIfTestMode),
         task: releaseForBrowser('https://addons.mozilla.org/en-US/developers/addons')
     },
     {
         title: 'Publish changes in GitHub',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease, skipIfTestMode),
         task: pushChanges
     },
     {
         title: 'Deauthenticate GitHub',
-        skip: skipReasons(skipIfJustRelease),
+        skip: skipReasons(skipIfJustRelease, skipIfTestMode),
         task: deauthenticateGitHub
     },
     {

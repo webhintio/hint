@@ -2,7 +2,8 @@
   "ava": {
     "failFast": false,
     "files": [
-      "dist/tests/**/*.js"
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
     ],
     "timeout": "1m"
   },
@@ -24,9 +25,6 @@
     {{{dependencyVersion "rimraf" "^2.6.3"}}},
     {{{dependencyVersion "hint"}}},
     {{{dependencyVersion "typescript" "^3.3.1"}}}
-  },
-  "engines": {
-    "node": ">=8.0.0"
   },
   "files": [
     "dist/src"
@@ -72,10 +70,10 @@
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",{{#if official}}
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",{{else}}
     "lint:md": "node ../../scripts/lint-markdown.js",{{else}}
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts",
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",{{/if}}
     "test": "npm run lint && npm run build && nyc ava",{{#if official}}
     "test-only": "nyc ava",

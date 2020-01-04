@@ -7,18 +7,20 @@ based on `webhint` analysis.
 
 ![VS Code running the webhint extension][vscode gif]
 
-The extension is still in beta, please check the
-[troubleshooting section][troubleshoot] and if you cannot find an
-answer [open an issue in GitHub][issue github].
-
 ## Configuration
 
-This extension uses your local `.hintrc` file to configure `webhint`.
-If no `.hintrc` file is found it defaults to
-[`@hint/configuration-development`][config].
+This extension will use the [`@hint/configuration-development`][config]
+configuration by default. This configuration activates hints and parsers
+for HTML and templating systems (JSX/TSX, Angular, etc.),
+JavaScript/TypeScript, common pitfalls, and more. Refer to the package
+to learn more about what is enabled.
 
-To create one, run `npm create hintrc` and choose `development` as the
-configuration to extend.
+This should be a good starting point for everyone. If you encounter
+any false positives please [open an issue in GitHub][issue github].
+
+If you want more control over what gets activated, you can create a
+local `.hintrc` file to configure `webhint`. Please read the
+[user guide][] to know more about this file.
 
 ## Contributing to the extension
 
@@ -37,5 +39,5 @@ from specific hints, see the [`webhint` user guide][hints].
 [hints]: https://webhint.io/docs/user-guide/hints/
 [issue github]: https://github.com/webhintio/hint/issues/new?labels=type%3Abug&template=1-bug-report.md&title=%5BBug%5D+Bug+description
 [site]: https://webhint.io
-[troubleshoot]: https://webhint.io/docs/user-guide/troubleshoot/summary/
-[vscode gif]: https://cdn-images-1.medium.com/max/1600/1*EsZ7KfkkmpEBgUrpSTMsZw.gif
+[user guide]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[vscode gif]: https://user-images.githubusercontent.com/606594/69293022-71d89d00-0bbc-11ea-96ef-f90daa4b1374.gif

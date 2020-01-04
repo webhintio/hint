@@ -11,26 +11,27 @@
  * ------------------------------------------------------------------------------
  */
 
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
 import sortBy = require('lodash/sortBy');
 import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
-import { debug as d, fs, logger, misc } from '@hint/utils';
-import { FormatterOptions, IFormatter, Problem, ProblemLocation, Severity } from 'hint';
+import { logger, severityToColor, occurencesToColor } from '@hint/utils';
+import { cutString } from '@hint/utils-string';
+import { writeFileAsync } from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
+import { FormatterOptions, IFormatter } from 'hint';
+import { Problem, ProblemLocation, Severity } from '@hint/utils-types';
+import { getMessage, MessageName } from './i18n.import';
 
-import { getMessage } from './i18n.import';
-
-const { cutString } = misc;
 const _ = {
     groupBy,
     reduce,
     sortBy
 };
 const debug = d(__filename);
-const { writeFileAsync } = fs;
 
 const countLeftWhiteSpaces = (txt: string): number => {
     const match = txt.match(/(\s+)/);
@@ -127,7 +128,7 @@ const codeFrame = (code: string, location: ProblemLocation): string => {
 export default class CodeframeFormatter implements IFormatter {
     /**
      * Format the problems grouped by `resource` name and sorted by line and column number,
-     *  indicating where in the element there is an error.
+     * indicating where in the element there is an error.
      */
     public async format(messages: Problem[], options: FormatterOptions = {}) {
         debug('Formatting results');
@@ -139,8 +140,12 @@ export default class CodeframeFormatter implements IFormatter {
         }
 
         const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'resource');
-        let totalErrors: number = 0;
-        let totalWarnings: number = 0;
+        const totals = {
+            [Severity.error.toString()]: 0,
+            [Severity.warning.toString()]: 0,
+            [Severity.information.toString()]: 0,
+            [Severity.hint.toString()]: 0
+        };
 
         let result = _.reduce(resources, (total: string, msgs: Problem[], resource: string) => {
             const sortedMessages: Problem[] = _.sortBy(msgs, ['location.line', 'location.column']);
@@ -148,14 +153,11 @@ export default class CodeframeFormatter implements IFormatter {
 
             const partialResult = _.reduce(sortedMessages, (subtotal: string, msg: Problem) => {
                 let partial: string;
-                const severity = Severity.error === msg.severity ? chalk.red(getMessage('capitalizedError', language)) : chalk.yellow(getMessage('capitalizedWarning', language));
+                const color = severityToColor(msg.severity);
+                const severity = color(getMessage(`capitalized${Severity[msg.severity].toString()}` as MessageName, language));
                 const location = msg.location;
 
-                if (Severity.error === msg.severity) {
-                    totalErrors++;
-                } else {
-                    totalWarnings++;
-                }
+                totals[msg.severity.toString()]++;
 
                 partial = `${getMessage('hintInfo', language, [
                     severity,
@@ -177,12 +179,17 @@ export default class CodeframeFormatter implements IFormatter {
             return total + partialResult;
         }, '');
 
-        const color: typeof chalk = totalErrors > 0 ? chalk.red : chalk.yellow;
+        const color = occurencesToColor(totals);
+
         const foundTotalMessage = getMessage('totalFound', language, [
-            totalErrors.toString(),
-            totalErrors === 1 ? getMessage('error', language) : getMessage('errors', language),
-            totalWarnings.toString(),
-            totalWarnings === 1 ? getMessage('warning', language) : getMessage('warnings', language)
+            totals[Severity.error].toString(),
+            totals[Severity.error] === 1 ? getMessage('error', language) : getMessage('errors', language),
+            totals[Severity.warning].toString(),
+            totals[Severity.warning] === 1 ? getMessage('warning', language) : getMessage('warnings', language),
+            totals[Severity.hint].toString(),
+            totals[Severity.hint] === 1 ? getMessage('hint', language) : getMessage('hints', language),
+            totals[Severity.information].toString(),
+            totals[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
         ]);
 
         result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);

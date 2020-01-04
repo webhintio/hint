@@ -90,6 +90,22 @@ Enable a rule excluded from the default configuration:
     "connector": {...},
     "formatters": [...],
     "hints": {
+        "axe/keyboard": ["error", [
+            "tabindex"
+        ]],
+        ...
+    },
+    ...
+}
+```
+
+or if you want to set a custom severity:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "hints": {
         "axe/keyboard": ["error", {
             "tabindex": "error"
         }],

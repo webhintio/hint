@@ -2,7 +2,7 @@ import anyTest, { TestInterface } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { ResourceType } from '../../src/types/resource-type';
+import { ResourceType } from '../../src/packages/enums';
 
 const fakeResource = {};
 const fakeHint = { meta: {} };

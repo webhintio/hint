@@ -12,13 +12,14 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { debug as d, network } from '@hint/utils';
+import { isDataURI } from '@hint/utils-network';
+import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, NetworkData, TraverseEnd } from 'hint';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { isDataURI } = network;
 const debug = d(__filename);
 
 /*
@@ -82,10 +83,10 @@ export default class NoFriendlyErrorPagesHint implements IHint {
         };
 
         const tryToGenerateErrorPage = async (targetURL: string) => {
-            const baseURL: string = url.format(Object.assign(new URL(targetURL), {
+            const baseURL: string = url.format(new URL(targetURL), {
                 fragment: false,
                 search: false
-            }));
+            });
 
             /*
              * The following will make a request to:
@@ -137,7 +138,11 @@ export default class NoFriendlyErrorPagesHint implements IHint {
             for (const key of Object.keys(foundErrorPages)) {
                 const threshold = statusCodesWith512Threshold.includes(Number.parseInt(key)) ? 512 : 256;
 
-                context.report(href, getMessage('responseWithStatus', context.language, [key, threshold.toString()]));
+                context.report(
+                    href,
+                    getMessage('responseWithStatus', context.language, [key, threshold.toString()]),
+                    { severity: Severity.hint }
+                );
             }
         };
 

@@ -2,7 +2,8 @@
  * @fileoverview `webpack-config/no-devtool-in-prod` warns against having set the propety `devtool` to `eval`.
  */
 import { HintContext, IHint } from 'hint';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
+import { Severity } from '@hint/utils-types';
 
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
 
@@ -28,7 +29,11 @@ export default class WebpackConfigNoDevtoolInProd implements IHint {
             debug(`'parse::end::webpack-config' received`);
 
             if (config.devtool && config.devtool.toString().includes('eval')) {
-                context.report(resource, getMessage('noEval', context.language, config.devtool.toString()));
+                context.report(
+                    resource,
+                    getMessage('noEval', context.language, config.devtool.toString()),
+                    { severity: Severity.warning }
+                );
             }
         };
 

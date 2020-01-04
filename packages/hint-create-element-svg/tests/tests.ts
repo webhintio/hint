@@ -1,8 +1,8 @@
-import { fs, test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { readFile } from '@hint/utils-fs';
+import { Severity } from '@hint/utils-types';
 
-const { generateHTMLPage, getHintPath } = test;
-const { readFile } = fs;
 const hintPath = getHintPath(__filename);
 
 const generateHTMLPageWithDivTag = (head: string, body: string) => {
@@ -45,7 +45,8 @@ const tests: HintTest[] = [
         name: 'Should not use createElement to create SVG element',
         reports: [{
             message: 'SVG elements cannot be created with createElement; use createElementNS instead',
-            position: { match: `createElement('svg')` }
+            position: { match: `createElement('svg')` },
+            severity: Severity.error
         }],
         serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(invalidSvgCreate))
     },
@@ -61,7 +62,8 @@ const tests: HintTest[] = [
         name: 'Should not use createElement to create Circle SVG element',
         reports: [{
             message: 'SVG elements cannot be created with createElement; use createElementNS instead',
-            position: { match: `createElement('circle')` }
+            position: { match: `createElement('circle')` },
+            severity: Severity.error
         }],
         serverConfig: generateHTMLPageWithDivTag('', generateScriptTag(invalidCircleCreate))
     },
@@ -69,7 +71,8 @@ const tests: HintTest[] = [
         name: 'External File: Should not use createElement to create Circle SVG element',
         reports: [{
             message: 'SVG elements cannot be created with createElement; use createElementNS instead',
-            position: { match: `createElement('svg')` }
+            position: { match: `createElement('svg')` },
+            severity: Severity.error
         }],
         serverConfig: generatePageWithExternalScript()
     }

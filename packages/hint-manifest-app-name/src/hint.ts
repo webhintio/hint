@@ -11,7 +11,9 @@
 
 import { ucs2 } from 'punycode';
 
-import { IHint, IJSONLocationFunction } from 'hint/dist/src/lib/types';
+import { IHint } from 'hint/dist/src/lib/types';
+import { JSONLocationFunction } from '@hint/utils-json';
+import { Severity } from '@hint/utils-types';
 import { ManifestEvents, ManifestParsed } from '@hint/parser-manifest';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
@@ -32,25 +34,29 @@ export default class ManifestAppNameHint implements IHint {
 
         const checkIfPropertyExists = (resource: string, content: string | undefined, propertyName: string) => {
             if (typeof content === 'undefined') {
-                context.report(resource, getMessage('shouldHaveProperty', context.language, propertyName));
+                context.report(
+                    resource,
+                    getMessage('shouldHaveProperty', context.language, propertyName),
+                    { severity: Severity.error }
+                );
             }
         };
 
-        const checkIfPropertyValueIsNotEmpty = (resource: string, content: string | undefined, propertyName: string, getLocation: IJSONLocationFunction) => {
+        const checkIfPropertyValueIsNotEmpty = (resource: string, content: string | undefined, propertyName: string, getLocation: JSONLocationFunction) => {
             if (typeof content === 'string' && (content.trim() === '')) {
                 const message = getMessage('shouldHaveNonEmptyProperty', context.language, propertyName);
-                const location = getLocation(propertyName);
+                const location = getLocation(propertyName, { at: 'value' });
 
-                context.report(resource, message, { location });
+                context.report(resource, message, { location, severity: Severity.error });
             }
         };
 
-        const checkIfPropertyValueIsUnderLimit = (resource: string, content: string | undefined, propertyName: string, shortNameLengthLimit: number, getLocation: IJSONLocationFunction) => {
+        const checkIfPropertyValueIsUnderLimit = (resource: string, content: string | undefined, propertyName: string, shortNameLengthLimit: number, getLocation: JSONLocationFunction) => {
             if (content && (ucs2.decode(content).length > shortNameLengthLimit)) {
                 const message = getMessage('shouldHavePropertyShort', context.language, [propertyName, shortNameLengthLimit.toString()]);
-                const location = getLocation(propertyName);
+                const location = getLocation(propertyName, { at: 'value' });
 
-                context.report(resource, message, { location });
+                context.report(resource, message, { location, severity: Severity.warning });
 
                 return false;
             }

@@ -1,3 +1,29 @@
+# 8.0.0 (December 2, 2019)
+
+## Breaking Changes
+
+* [[`9266b187e3`](https://github.com/webhintio/hint/commit/9266b187e3302600ad46729006f99dce0f6af67d)] - Breaking: Update configurations to use defaults.
+
+## New features
+
+* [[`362845f2c1`](https://github.com/webhintio/hint/commit/362845f2c146571c52fe967a714c6358bed476fa)] - New: Add formatter-json to default configs (see also: [`#3364`](https://github.com/webhintio/hint/issues/3364)).
+
+## Chores
+
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+
+
+# 7.3.1 (October 30, 2019)
+
+
+# 7.3.0 (October 29, 2019)
+
+## New features
+
+* [[`bcd750f84a`](https://github.com/webhintio/hint/commit/bcd750f84a757341a8c65a659c6f1ad2e4347de2)] - New: Enable TypeScript support by default (by [`Tony Ross`](https://github.com/antross)).
+* [[`6b19a53e90`](https://github.com/webhintio/hint/commit/6b19a53e90a309fc583cc866cb9dc060b09be93e)] - New: Enable parser-javascript and parser-jsx during development (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 7.2.5 (October 16, 2019)
 
 

@@ -17,7 +17,7 @@ By specifying this property, you are giving more context to the hints
 allowing them to adapt their behavior. An example of a hint taking
 advantage of this property is [`highest-available-document-mode`][doc
 modes]. This hint will advise you to use `edge` mode if Internet
-Explorer 8, 9, or 10 need to be supported, but tell you to remove that
+Explorer 8, 9, or 10 needs to be supported, but tell you to remove that
 element or header otherwise, as document modes are not needed for other
 browsers.
 

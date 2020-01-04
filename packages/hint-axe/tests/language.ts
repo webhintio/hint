@@ -1,7 +1,7 @@
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename, true);
 
 const html = {
@@ -30,7 +30,10 @@ const tests: HintTest[] = [
     },
     {
         name: `HTML is missing the lang attribute and fails`,
-        reports: [{ message: '<html> element must have a lang attribute' }],
+        reports: [{
+            message: '<html> element must have a lang attribute',
+            severity: Severity.warning
+        }],
         serverConfig: html.missingLang
     }
 ];

@@ -74,9 +74,9 @@ export const options = optionator({
         },
         {
             alias: 't',
-            description: 'Explicitly specify if enable tracking or not',
+            description: 'Explicitly specify if enable telemetry or not',
             enum: ['on', 'off'],
-            option: 'tracking',
+            option: 'telemetry',
             type: 'String'
         },
         {
