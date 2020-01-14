@@ -1,10 +1,10 @@
 steps:
   - script: |
       sudo apt-get update
-      sudo apt-get install -y google-chrome-stable
+      sudo apt-get install -y google-chrome-beta
     condition: eq(variables['Agent.OS'], 'Linux')
     displayName: 'Update Chrome on Linux'
-  - script: brew update && brew cask install google-chrome
+  - script: brew update && brew cask uninstall google-chrome && brew cask install google-chrome-beta
     condition: eq(variables['Agent.OS'], 'Darwin')
     displayName: 'Update Chrome on macOS'
   - task: NodeTool@0
