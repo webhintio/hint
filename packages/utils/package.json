@@ -22,7 +22,7 @@
     "is-wsl": "^2.1.1",
     "lodash": "^4.17.15",
     "npm-registry-fetch": "^6.0.0",
-    "semver": "^6.3.0"
+    "semver": "^7.1.1"
   },
   "description": "hint tools",
   "devDependencies": {
