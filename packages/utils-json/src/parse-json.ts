@@ -30,7 +30,6 @@ class JSONResult implements IJSONResult {
         let node = null;
 
         while (!node && segments.length > 0) {
-            /* istanbul ignore next */
             node = findNodeAtLocation(this._root, segments) || null;
 
             segments.pop();
@@ -40,7 +39,7 @@ class JSONResult implements IJSONResult {
          * The node isn't in the current file. Use alternative path if provided. This happens
          * when extending configurations.
          */
-        /* istanbul ignore next */
+        /* istanbul ignore if */
         if (!node && this._alternatePath && path !== this._alternatePath) {
 
             return this.getLocation(this._alternatePath, options);
@@ -49,7 +48,6 @@ class JSONResult implements IJSONResult {
         return this.offsetToLocation(this.getAdjustedOffset(node, path, options));
     }
 
-    /* istanbul ignore next */
     public scope(path: string): IJSONResult | null {
         const segments = this.pathToSegments(path);
         const node = findNodeAtLocation(this._root, segments);
@@ -64,13 +62,12 @@ class JSONResult implements IJSONResult {
     private getAdjustedOffset(node: Node | null, path: string, options?: JSONLocationOptions): number {
 
         // Point to the root if nothing better is available
-        /* istanbul ignore if */
         if (!node) {
             return this._root.offset;
         }
 
         // Point to the value if requested (default location returned by jsonc-parser)
-        /* istanbul ignore next */
+        /* istanbul ignore if */
         if (options && options.at === 'value') {
             return node.offset;
         }
@@ -95,7 +92,6 @@ class JSONResult implements IJSONResult {
      * Find the value at the given path in the JSON DOM.
      * @param segments The path to the value.
      */
-    /* istanbul ignore next */
     private findValueAtLocation(segments: Segment[]): any {
         let value = this._data;
 
@@ -125,6 +121,7 @@ class JSONResult implements IJSONResult {
             n += lineLength + 1;
         }
 
+        /* istanbul ignore next */
         return null;
     }
 
