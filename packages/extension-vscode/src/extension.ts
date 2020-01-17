@@ -10,6 +10,7 @@ import {
 import { TelemetryState } from './utils/analytics';
 import * as notifications from './utils/notifications';
 
+// Look two-levels up for `package.json` as this will be in `dist/src/` post-build.
 const { activationEvents } = require('../../package.json');
 
 const telemetryKey = 'enableTelemetry';
@@ -59,7 +60,7 @@ export const activate = (context: ExtensionContext) => {
     const everEnabledTelemetry = context.globalState.get<boolean>(everEnabledTelemetryKey, false);
     const enableTelemetry: TelemetryState = config.get('enableTelemetry') || 'ask';
     const args = [context.globalStoragePath, enableTelemetry, `${everEnabledTelemetry}`];
-    const module = context.asAbsolutePath('dist/bundle/server.js');
+    const module = context.asAbsolutePath('dist/src/server.js');
     const transport = TransportKind.ipc;
 
     const serverOptions: ServerOptions = {

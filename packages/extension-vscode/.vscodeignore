@@ -7,7 +7,8 @@
 .nyc_output/**
 .vscode/**
 coverage/**
-dist/src/**
+dist/src/utils/**
+dist/src/*.d.ts
 dist/tests/**
 node_modules
 webpack.config.js
