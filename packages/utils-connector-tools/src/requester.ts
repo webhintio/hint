@@ -266,7 +266,7 @@ export class Requester {
                         const newUri = url.resolve(uriString, response.headers.location as string);
 
                         if (requestedUrls.has(newUri)) {
-                            return reject(`'${uriString}' could not be fetched using ${this._options.method || 'GET'} method (redirect loop detected).`);
+                            return reject(new Error(`'${uriString}' could not be fetched using ${this._options.method || 'GET'} method (redirect loop detected).`));
                         }
 
                         this._redirects.add(newUri, uriString);
@@ -274,7 +274,7 @@ export class Requester {
                         const currentRedirectNumber = this._redirects.calculate(newUri).length;
 
                         if (currentRedirectNumber > this._maxRedirects) {
-                            return reject(`The number of redirects(${currentRedirectNumber}) exceeds the limit(${this._maxRedirects}).`);
+                            return reject(new Error(`The number of redirects(${currentRedirectNumber}) exceeds the limit(${this._maxRedirects}).`));
                         }
 
                         try {

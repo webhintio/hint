@@ -49,7 +49,7 @@ const mockCloudinary = (responses?: Partial<cloudinaryResult> | Partial<cloudina
             uploader: {
                 upload: () => {
                     if (!responses) {
-                        return Promise.reject('Invalid image');
+                        return Promise.reject(new Error('Invalid image'));
                     }
 
                     const response = Array.isArray(responses) ? responses.shift() : responses;

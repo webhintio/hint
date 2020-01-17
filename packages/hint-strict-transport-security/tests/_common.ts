@@ -80,7 +80,7 @@ export const requestJSONAsyncMock = (responseObject: any) => {
         }
 
         if (!response) {
-            return Promise.reject('Error with the verification service.');
+            return Promise.reject(new Error('Error with the verification service.'));
         }
 
         return Promise.resolve(response);

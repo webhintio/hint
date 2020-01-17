@@ -23,7 +23,7 @@ const install = (command: string) => {
 
         npmInstall.on('exit', (code) => {
             if (code !== 0) {
-                return reject();
+                return reject(new Error('NoExitCodeZero'));
             }
 
             return resolve(true);

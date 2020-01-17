@@ -5,7 +5,7 @@ import { asyncTry } from '../src';
 test(`asyncTry returns null if the function wrapped is rejected`, async (t) => {
     const fn = () => {
         return new Promise((resolve, reject) => {
-            reject('error');
+            reject(new Error('error'));
         });
     };
 

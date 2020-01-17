@@ -17,7 +17,7 @@ export const run = (command: string, options?: SpawnOptions) => {
 
         child.on('exit', (code) => {
             if (code) {
-                reject(code);
+                reject(new Error('NoExitCodeZero'));
             } else {
                 resolve();
             }
