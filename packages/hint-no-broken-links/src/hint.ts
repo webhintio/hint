@@ -100,8 +100,8 @@ export default class NoBrokenLinksHint implements IHint {
         const handleRejection = (error: any, url: string, element: HTMLElement) => {
             debug(`Error accessing ${url}. ${JSON.stringify(error)}`);
 
-            if (typeof error === 'string' && error.toLowerCase().includes('loop')) {
-                return context.report(url, error, { element, severity: Severity.error });
+            if (error.message && error.message.toLowerCase().includes('loop')) {
+                return context.report(url, error.message, { element, severity: Severity.error });
             }
 
             return context.report(
