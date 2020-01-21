@@ -91,7 +91,7 @@ const htmlCheckerMock = (response: any) => {
             return Promise.resolve(JSON.stringify(responseMessages));
         }
 
-        return Promise.reject(validatorError); // Error with the validator
+        return Promise.reject(new Error(validatorError)); // Error with the validator
     };
 
     (utilsNetwork as any).requestAsync = requestAsync;
