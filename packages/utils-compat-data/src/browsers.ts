@@ -1,5 +1,5 @@
 import { Identifier, SimpleSupportStatement, SupportStatement } from 'mdn-browser-compat-data/types';
-import * as semver from 'semver';
+const semver = require('semver/preload');
 
 import { mdn } from './browser-compat-data';
 
@@ -49,7 +49,7 @@ const browserToMDN = new Map([
     ['samsung', 'samsunginternet_android']
 ]);
 
-const coerce = (version: string): string | semver.SemVer => {
+const coerce = (version: string): string | import('semver').SemVer => {
     return semver.coerce(version) || version;
 };
 

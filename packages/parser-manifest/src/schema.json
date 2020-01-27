@@ -14,7 +14,8 @@
                         "any",
                         "any badge",
                         "badge",
-                        "badge any"
+                        "badge any",
+                        "maskable"
                     ],
                     "type": "string"
                 },

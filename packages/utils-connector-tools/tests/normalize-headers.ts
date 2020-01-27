@@ -14,11 +14,11 @@ test(`'normalizeHeaders' returns '{}' for '{}'`, (t) => {
     t.deepEqual(normalizeHeaders({}), {});
 });
 
-test(`'normalizeHeaders' returns object with lowercase headers field names`, (t) => {
+test(`'normalizeHeaders' returns object with lowercase headers field names and removing duplicates`, (t) => {
     const headers = {
         'Content-Type': 'text/html; charset=utf-8',
         Vary: 'Accept-Encoding',
-        'X-Content-Type-Options': 'nosniff',
+        'X-Content-Type-Options': 'nosniff\nnosniff',
         'X-Frame-Options': 'DENY',
         'X-XSS-Protection': '1; mode=block'
     };

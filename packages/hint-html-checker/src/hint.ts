@@ -136,7 +136,7 @@ export default class HtmlCheckerHint implements IHint {
             debug(`Error getting HTML checker result for ${resource}.`, error);
             context.report(
                 resource,
-                getMessage('couldNotGetResult', context.language, [resource, error.toString()]),
+                getMessage('couldNotGetResult', context.language, [resource, error.message]),
                 { severity: Severity.warning });
         };
 

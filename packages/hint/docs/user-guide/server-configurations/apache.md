@@ -589,7 +589,7 @@ AddDefaultCharset utf-8
     Header unset Public-Key-Pins-Report-Only
     Header unset X-AspNet-Version
     Header unset X-AspNetMvc-version
-    Header unset X-Powered-By`
+    Header unset X-Powered-By
     Header unset X-Runtime
     Header unset X-Version
 </IfModule>
