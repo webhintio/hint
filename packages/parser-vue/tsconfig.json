@@ -13,6 +13,10 @@
         "tests/**/*.ts"
     ],
     "references": [
-        { "path": "../hint" }
+        { "path": "../hint" },
+        { "path": "../parser-html" },
+        { "path": "../parser-javascript" },
+        { "path": "../utils-debug" },
+        { "path": "../utils-dom" }
     ]
 }
