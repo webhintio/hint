@@ -1,15 +1,13 @@
 import * as isCI from 'is-ci';
-import { launch, Browser, Frame, Page, Target } from 'puppeteer-core';
+import { launch, Browser, Frame, Page, Target } from 'puppeteer';
 import test from 'ava';
 
-import { getInstallationPath } from '@hint/connector-puppeteer/dist/src/lib/chromium-finder';
 import { delay } from '@hint/utils';
 import { Server } from '@hint/utils-create-server';
 
 import { Events, Results } from '../src/shared/types';
 import { readFixture } from './helpers/fixtures';
 
-const executablePath = getInstallationPath();
 const pathToExtension = `${__dirname}/../bundle`;
 
 const getPageFromTarget = async (target: Target) => {
@@ -103,7 +101,7 @@ test('It runs end-to-end in a page', async (t) => {
 
     const url = `http://localhost:${server.port}/`;
 
-    const browser = await launch({ executablePath });
+    const browser = await launch();
     const page = (await browser.pages())[0];
 
     await page.goto(url);
@@ -219,7 +217,6 @@ if (!isCI) {
             ],
             defaultViewport: null,
             devtools: true,
-            executablePath,
             headless: false
         });
 

@@ -1,10 +1,9 @@
 import * as path from 'path';
-import { launch } from 'puppeteer-core';
+import { launch } from 'puppeteer';
 import test from 'ava';
 
 import { Category } from '@hint/utils-types';
 
-import { getInstallationPath } from '@hint/connector-puppeteer/dist/src/lib/chromium-finder';
 import { readFileAsync } from '@hint/utils-fs';
 import { Server } from '@hint/utils-create-server';
 
@@ -100,8 +99,7 @@ test('It builds a configuration, starts a scan, and displays results', async (t)
      * Launch the browser and get a reference to the initial page.
      * Note: Uncomment config options to see page content (aids debugging).
      */
-    const executablePath = getInstallationPath();
-    const browser = await launch(/* { defaultViewport: null, headless: false } */{ executablePath });
+    const browser = await launch(/* { defaultViewport: null, headless: false } */);
     const page = (await browser.pages())[0];
 
     // Inject mock extension APIs, passing mock results to return to the devtools panel.
