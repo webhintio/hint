@@ -2,6 +2,7 @@ import { URL } from 'url';
 
 import test from 'ava';
 import * as sinon from 'sinon';
+import { executablePath } from 'puppeteer';
 
 import { generateHTMLPage, Server } from '@hint/utils-create-server';
 import { Engine, Events } from 'hint';
@@ -67,7 +68,8 @@ test(`[${name}] Form authentication on a page works`, async (t) => {
                 value: user
             }
         },
-        detached: true
+        detached: true,
+        puppeteerOptions: { executablePath: executablePath() }
     });
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
@@ -156,7 +158,8 @@ test(`[${name}] Authenticate on a multi-step page works`, async (t) => {
                 value: user
             }
         },
-        detached: true
+        detached: true,
+        puppeteerOptions: { executablePath: executablePath() }
     });
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
@@ -221,7 +224,8 @@ test(`[${name}] Basic HTTP Authentication works`, async (t) => {
             password,
             user
         },
-        detached: true
+        detached: true,
+        puppeteerOptions: { executablePath: executablePath() }
     });
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
