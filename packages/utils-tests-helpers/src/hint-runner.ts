@@ -138,7 +138,10 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
     config.connector.options = {
         detached: true,
         ignoreHTTPSErrors: true,
-        puppeteerOptions: { timeout: 60000, executablePath: puppeteer.executablePath() },
+        puppeteerOptions: {
+            executablePath: puppeteer.executablePath(),
+            timeout: 60000
+        },
         waitUntil: 'networkidle0'
     };
 
