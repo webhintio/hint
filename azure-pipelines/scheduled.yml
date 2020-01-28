@@ -5,20 +5,20 @@ jobs:
   - template: all-versions.yml
     parameters:
         name: Linux_scheduled
-        vmImage: 'ubuntu 16.04'
+        vmImage: 'ubuntu-latest'
         condition: eq(variables['Build.Reason'], 'Schedule')
         worker: 'full.yml'
 
   - template: all-versions.yml
     parameters:
         name: macOS_scheduled
-        vmImage: 'macOS-10.13'
+        vmImage: 'macOS-latest'
         condition: eq(variables['Build.Reason'], 'Schedule')
         worker: 'full.yml'
 
   - template: all-versions.yml
     parameters:
         name: Windows_scheduled
-        vmImage: 'vs2017-win2016'
+        vmImage: 'windows-latest'
         condition: eq(variables['Build.Reason'], 'Schedule')
         worker: 'full.yml'

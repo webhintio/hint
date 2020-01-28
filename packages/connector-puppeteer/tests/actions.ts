@@ -2,6 +2,7 @@ import * as path from 'path';
 
 import test from 'ava';
 import { Engine, Events } from 'hint';
+import { executablePath } from 'puppeteer';
 
 import Connector from '../src/connector';
 
@@ -29,7 +30,8 @@ test(`[${name}] Connector throws an exception if action is not found`, (t) => {
                 file: `fake-file`,
                 on: 'beforeTargetNavigation'
             }],
-            detached: true
+            detached: true,
+            puppeteerOptions: { executablePath: executablePath() }
         });
 
         connector.close();
@@ -66,7 +68,8 @@ test(`[${name}] Connector loads an action and throws if it does not have the rig
                 file: actionPath,
                 on: 'afterTargetNavigation'
             }],
-            detached: true
+            detached: true,
+            puppeteerOptions: { executablePath: executablePath() }
         });
 
         connector.close();
@@ -104,7 +107,8 @@ test(`[${name}] Connector loads an action and doesn't throw if it has the right 
                 file: actionPath,
                 on: 'afterTargetNavigation'
             }],
-            detached: true
+            detached: true,
+            puppeteerOptions: { executablePath: executablePath() }
         });
 
         connector.close();

@@ -38,7 +38,7 @@ export type ConnectorOptions = {
     detached?: boolean;
     headless?: boolean;
     ignoreHTTPSErrors?: boolean;
-    puppeteerOptions?: puppeteer.ConnectOptions;
+    puppeteerOptions?: puppeteer.ConnectOptions | puppeteer.LaunchOptions;
     waitUntil?: puppeteer.LoadEvent;
 };
 

@@ -1,6 +1,7 @@
 import { URL } from 'url';
 
 import test from 'ava';
+import { executablePath } from 'puppeteer';
 
 import { Engine, Events, IConnector } from 'hint';
 
@@ -19,7 +20,10 @@ test(`[${name}] Load an invalid url throws an error`, async (t) => {
         }
     } as any;
 
-    const connector: IConnector = new Connector(engine, { detached: true });
+    const connector: IConnector = new Connector(engine, {
+        detached: true,
+        puppeteerOptions: { executablePath: executablePath() }
+    });
 
     // Target doesn't exist
     await t.throwsAsync(connector.collect(new URL('https://localhome')));

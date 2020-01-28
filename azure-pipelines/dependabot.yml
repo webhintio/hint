@@ -4,6 +4,6 @@ jobs:
   - template: latest-version.yml
     parameters:
         name: Dependabot
-        vmImage: 'vs2017-win2016'
+        vmImage: 'windows-latest'
         condition: and(eq(variables['Build.Reason'], 'PullRequest'), startsWith(variables['System.PullRequest.SourceBranch'], 'dependabot/'))
         worker: 'standard.yml'
