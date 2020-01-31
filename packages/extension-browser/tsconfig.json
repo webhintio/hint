@@ -15,7 +15,6 @@
         "tests/**/*.ts"
     ],
     "references": [
-        { "path": "../connector-puppeteer" },
         { "path": "../hint" },
         { "path": "../hint-axe" },
         { "path": "../hint-button-type" },
