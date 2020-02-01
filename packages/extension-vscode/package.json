@@ -70,7 +70,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^8.0.4",
     "ts-loader": "^6.2.1",
-    "typescript": "^3.7.4",
+    "typescript": "^3.7.5",
     "vsce": "^1.71.0",
     "vscode-languageclient": "^6.1.0",
     "vscode-languageserver": "^5.2.1",

@@ -44,7 +44,7 @@
     "puppeteer": "^2.1.0",
     "rimraf": "^3.0.0",
     "sinon": "^8.0.4",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.5"
   },
   "files": [
     "dist/src"
