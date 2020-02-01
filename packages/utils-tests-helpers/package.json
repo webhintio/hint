@@ -10,7 +10,7 @@
   },
   "description": "hint tests helpers",
   "devDependencies": {
-    "@types/node": "^12.12.14",
+    "@types/node": "^13.7.0",
     "@types/puppeteer": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
