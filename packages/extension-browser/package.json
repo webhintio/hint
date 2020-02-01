@@ -92,7 +92,7 @@
     "typed-css-modules": "^0.6.3",
     "typescript": "^3.7.4",
     "util.promisify": "^1.0.0",
-    "web-ext": "^3.2.1",
+    "web-ext": "^4.0.0",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
   },
