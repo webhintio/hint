@@ -9,7 +9,7 @@
     "timeout": "1m"
   },
   "browserslist": "last 2 chrome versions, last 2 firefox versions",
-  "bundleSize": 665000,
+  "bundleSize": 675000,
   "description": "webhint browser extension",
   "devDependencies": {
     "@hint/hint-axe": "^4.3.2",
@@ -61,7 +61,7 @@
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "ava": "^2.4.0",
-    "axe-core": "3.4.0",
+    "axe-core": "3.4.1",
     "browserslist": "^4.8.5",
     "cpx": "^1.5.0",
     "css-loader": "^3.3.2",
