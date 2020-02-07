@@ -103,9 +103,13 @@ export default class PuppeteerConnector implements IConnector {
             options.headless :
             isCI || getPlatform() === 'wsl';
 
-        const executablePath = 'browser' in options ?
-            getInstallationPath({ browser: options.browser }) :
-            getInstallationPath();
+        let executablePath: string | undefined;
+
+        if (!options.puppeteerOptions || !('executablePath' in options.puppeteerOptions)) {
+            executablePath = 'browser' in options ?
+                getInstallationPath({ browser: options.browser }) :
+                getInstallationPath();
+        }
 
         const handleSIGs = 'detached' in options ? {
             handleSIGHUP: !options.detached,
