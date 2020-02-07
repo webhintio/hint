@@ -1,6 +1,30 @@
+let storage: {
+    getItem(key: string): string | null;
+    setItem(key: string, value: string): void;
+};
+
+try {
+    storage = {
+        getItem: localStorage.getItem.bind(localStorage),
+        setItem: localStorage.setItem.bind(localStorage)
+    };
+} catch (error) {
+    console.warn(`LocalStorage not available, falling back to in-memory storage: ${error}`);
+    const cache = new Map<string, string>();
+
+    storage = {
+        getItem (key) {
+            return cache.get(key) || null;
+        },
+        setItem (key, value) {
+            cache.set(key, value);
+        }
+    };
+}
+
 /* istanbul ignore next*/
 export const getItem = (key: string): any => {
-    const value = localStorage.getItem(key);
+    const value = storage.getItem(key);
 
     try {
         return value ? JSON.parse(value) : undefined;
@@ -13,5 +37,5 @@ export const getItem = (key: string): any => {
 
 /* istanbul ignore next*/
 export const setItem = (key: string, value: any): void => {
-    localStorage.setItem(key, JSON.stringify(value));
+    storage.setItem(key, JSON.stringify(value));
 };
