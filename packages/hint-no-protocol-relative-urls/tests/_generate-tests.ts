@@ -31,6 +31,10 @@ const getTests = (severity: Severity) => {
             serverConfig: generateHTMLPage('<link rel="manifest" href="//site.webmanifest">')
         },
         {
+            name: `'link' for 'dns-prefetch' with initial // passes the hint`,
+            serverConfig: generateHTMLPage('<link rel="dns-prefetch" href="//host_name_to_prefetch.com">')
+        },
+        {
             name: `'script' with no initial slashes passes the hint`,
             serverConfig: generateHTMLPage(undefined, '<script src="script.js"></script>')
         },

@@ -46,8 +46,9 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
              */
 
             const url: string = (element.getAttribute('src') || element.getAttribute('href') || '').trim();
+            const rel = element.getAttribute('rel') || '';
 
-            if (url.startsWith('//')) {
+            if (url.startsWith('//') && rel !== 'dns-prefetch') {
                 debug('Protocol relative URL found');
 
                 const message = getMessage('noProtocolRelativeUrl', context.language, url);
