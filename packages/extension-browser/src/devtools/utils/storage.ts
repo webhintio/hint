@@ -1,7 +1,4 @@
-let storage: {
-    getItem(key: string): string | null;
-    setItem(key: string, value: string): void;
-};
+let storage: Pick<Storage, 'getItem' | 'setItem'>;
 
 try {
     storage = {
