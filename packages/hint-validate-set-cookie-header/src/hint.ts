@@ -340,17 +340,11 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
                 parsedSetCookie.resource = resource;
 
-                defaultValidators.every((defaultValidator) => {
-                    const messages: ValidationMessages = defaultValidator(parsedSetCookie);
-
-                    if (messages.length) {
-                        reportBatch(messages, codeLanguage, codeSnippet);
-
-                        return false;
-                    }
-
-                    return true;
+                const messages = defaultValidators.flatMap((defaultValidator) => {
+                    return defaultValidator(parsedSetCookie);
                 });
+
+                reportBatch(messages, codeLanguage, codeSnippet);
             }
         };
 

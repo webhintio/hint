@@ -147,6 +147,14 @@ const defaultTests: HintTest[] = [
             {
                 message: messages('"cookiename"').invalidValueError,
                 severity: Severity.error
+            },
+            {
+                message: messages('"cookiename"').noSecureHeaderError,
+                severity: Severity.error
+            },
+            {
+                message: messages('"cookiename"').noHttpOnlyHeaderError,
+                severity: Severity.warning
             }
         ],
         serverConfig: { '/': { headers: multipleErrorsHeader } }
