@@ -73,7 +73,7 @@
     "typescript": "^3.7.5",
     "vsce": "^1.73.0",
     "vscode-languageclient": "^6.1.0",
-    "vscode-languageserver": "^5.2.1",
+    "vscode-languageserver": "^6.1.0",
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10"
   },
