@@ -1616,10 +1616,10 @@ append-transform@^1.0.0:
   dependencies:
     default-require-extensions "^2.0.0"
 
-applicationinsights@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.6.0.tgz#8d46717b1c3db0f3c8a2e7bdbe32857a51207c0a"
-  integrity sha512-bTK91ZMPAh3UrN0q3Bq0ePn7RHmURbiPztsNPMpsURPOipNqLKgZlQ6Vg3kjwHiqehrCN/24753ED0nritvr5g==
+applicationinsights@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.7.0.tgz#ce11c97f6df2e44cd115bc2a0b73b942ddf97884"
+  integrity sha512-nFLSckZcsWnjEg1dm+wyDrTTqOC6XULLaSI5JlNnAUDSTv8lQcljtBR9fWO4h6xVjqwSI2dqgEE8pOlaoIAKhA==
   dependencies:
     cls-hooked "^4.2.2"
     continuation-local-storage "^3.2.1"
