@@ -23,6 +23,7 @@ const noHttpOnlyHeader = setCookie(`cookieName=cookieValue; Secure`);
 
 const invalidNameHeader = setCookie(`"cookieName"=cookieValue; Secure; HttpOnly`);
 const invalidValueHeader = setCookie(`cookieName=cookie value; Secure; HttpOnly`);
+const invalidHeaderBackslash = setCookie(`cookie\\Name=cookie\\Value; Secure; HttpOnly`);
 const invalidDateFormatHeader = setCookie(`cookieName=cookieValue; expires=Wed, 31-Dec-97 23:59:59 GMT; Secure; HttpOnly`);
 const trailingSemicolonHeader = setCookie(`cookieName=cookieValue; Secure; HttpOnly;`);
 const multipleErrorsHeader = setCookie(`"cookieName"=cookie value`);
@@ -120,6 +121,18 @@ const defaultTests: HintTest[] = [
             severity: Severity.error
         }],
         serverConfig: { '/': { headers: invalidValueHeader } }
+    },
+    {
+        name: `Cookie name and value contains invalid character (backslash)`,
+        reports: [{
+            message: messages('cookie\\name').invalidNameError,
+            severity: Severity.error
+        },
+        {
+            message: messages('cookie\\name').invalidValueError,
+            severity: Severity.error
+        }],
+        serverConfig: { '/': { headers: invalidHeaderBackslash } }
     },
     {
         name: `'Expires' directive contains invalid date format`,
