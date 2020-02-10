@@ -38,12 +38,12 @@ export default class ValidateSetCookieHeaderHint implements IHint {
          * A collection of illegal characters in cookie name
          * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
          */
-        const illegalCookieNameChars = '()<>@,;:\"/[]?={}'; // eslint-disable-line no-useless-escape
+        const illegalCookieNameChars = '()<>@,;:\\"/[]?={}';
         /**
          * A collection of illegal characters in cookie value
          * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
          */
-        const illegalCookieValueChars = ',;"/';
+        const illegalCookieValueChars = ',;"\\';
         /** Header name used in report */
         const headerName = 'set-cookie';
 
