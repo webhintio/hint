@@ -18,7 +18,7 @@ const generateCSSConfig = (fileName: string) => {
     };
 };
 
-const targetBrowsers = ['chrome 73-74', 'edge 15-16', 'firefox 65-66', 'ie 9-11'];
+const targetBrowsers = ['chrome 73-74', 'edge 15-16', 'firefox 63-66', 'ie 9-11'];
 
 testHint(hintPath,
     [
@@ -61,7 +61,7 @@ testHint(hintPath,
                     severity: Severity.warning
                 },
                 {
-                    message: `'-webkit-appearance' is not supported by Firefox, Internet Explorer. Add '-moz-appearance' to support Firefox.`,
+                    message: `'-webkit-appearance' is not supported by Firefox < 64, Internet Explorer. Add '-moz-appearance' to support Firefox.`,
                     position: { match: '-webkit-appearance: button; /* Report 5 */', range: '-webkit-appearance' },
                     severity: Severity.error
                 },
