@@ -9551,10 +9551,10 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-puppeteer-core@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/puppeteer-core/-/puppeteer-core-2.1.0.tgz#6d086ed12d67368ad0697143a198685dea88de11"
-  integrity sha512-RaW+dwL9A/039DTkolg3qTIsy0AnGBCH7KltlQBQoMqBIiEsr8rTh81uYhjGTsdoDKqIDgmk2PldOrUOMQ4EcQ==
+puppeteer-core@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/puppeteer-core/-/puppeteer-core-2.1.1.tgz#e9b3fbc1237b4f66e25999832229e9db3e0b90ed"
+  integrity sha512-n13AWriBMPYxnpbb6bnaY5YoY6rGj8vPLrz6CZF3o0qJNEwlcfJVxBzYZ0NJsQ21UbdJoijPCDrM++SUVEz7+w==
   dependencies:
     "@types/mime-types" "^2.1.0"
     debug "^4.1.0"
