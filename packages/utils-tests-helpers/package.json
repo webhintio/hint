@@ -6,7 +6,7 @@
     "@hint/utils-network": "^1.0.1",
     "@hint/utils-types": "^1.0.0",
     "ava": "^2.4.0",
-    "puppeteer": "^2.1.0"
+    "puppeteer": "^2.1.1"
   },
   "description": "hint tests helpers",
   "devDependencies": {
