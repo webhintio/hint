@@ -4561,15 +4561,16 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
-exceljs@3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-3.7.0.tgz#fb0e4a5d79af3d4efca4cf6118c9f6159f18d950"
-  integrity sha512-NYyOLru8CW/XM24UQkdv9z5xGJkXp+sfaevJ2cv/48lbdSU2JtINeF2PUytRK8C4xlMF62+JsevR8CjxnYlR9w==
+exceljs@3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-3.8.0.tgz#afeaba160f3be08b925a95e05385efd1de6bed25"
+  integrity sha512-oPQUnTnqYLX7PazDDV7nIN5zhcApcrqBcGJ1zMmFQ9bIEyAn9IrvCjYGChDwCmeKTI9WqqpHiG6tE8ZVZWEtuQ==
   dependencies:
     archiver "^3.0.0"
     dayjs "^1.8.15"
     fast-csv "^3.4.0"
     jszip "^3.1.5"
+    proxyquire "^2.1.3"
     sax "^1.2.4"
     tmp "^0.1.0"
     unzipper "^0.9.12"
