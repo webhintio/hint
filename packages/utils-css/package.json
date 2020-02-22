@@ -19,7 +19,7 @@
     "nyc": "^14.1.1",
     "postcss": "^7.0.26",
     "postcss-safe-parser": "^4.0.1",
-    "rimraf": "^3.0.0",
+    "rimraf": "^3.0.2",
     "typescript": "^3.7.5"
   },
   "files": [
