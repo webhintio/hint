@@ -12,7 +12,7 @@
     "@hint/utils-fs": "^1.0.0",
     "@hint/utils-i18n": "^1.0.0",
     "@hint/utils-types": "^1.0.0",
-    "amphtml-validator": "^1.0.29"
+    "amphtml-validator": "^1.0.30"
   },
   "description": "hint that that validates AMP HTML pages using the AMP Validator",
   "devDependencies": {
