@@ -5,7 +5,7 @@
     "@hint/utils-fs": "^1.0.0",
     "@hint/utils-network": "^1.0.1",
     "@hint/utils-types": "^1.0.0",
-    "ava": "^2.4.0",
+    "ava": "^3.3.0",
     "puppeteer": "^2.1.1"
   },
   "description": "hint tests helpers",
