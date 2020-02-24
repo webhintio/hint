@@ -13,8 +13,6 @@ import { HintsConfigObject } from '@hint/utils';
 import { Configuration, Engine, IHintConstructor, utils } from 'hint';
 import { Problem, ProblemLocation } from '@hint/utils-types';
 
-import * as puppeteer from 'puppeteer';
-
 import { HintTest, HintLocalTest, Report, MatchProblemLocation } from './hint-test-type';
 
 const { resourceLoader } = utils;
@@ -138,10 +136,7 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
     config.connector.options = {
         detached: true,
         ignoreHTTPSErrors: true,
-        puppeteerOptions: {
-            executablePath: puppeteer.executablePath(),
-            timeout: 60000
-        },
+        puppeteerOptions: { timeout: 60000 },
         waitUntil: 'networkidle0'
     };
 

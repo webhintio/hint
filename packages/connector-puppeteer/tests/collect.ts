@@ -6,7 +6,6 @@ import { URL } from 'url';
 
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
-import { executablePath } from 'puppeteer';
 
 import { generateHTMLPage, Server, ServerConfiguration } from '@hint/utils-create-server';
 import { Engine, Events, IConnectorConstructor } from 'hint';
@@ -51,10 +50,7 @@ const pathToFaviconInLinkElement = path.join(__dirname, './fixtures/common/favic
 const runTest = async (t: ExecutionContext<CollectContext>, Connector: IConnectorConstructor, serverConfig: ServerConfiguration) => {
     const server = await Server.create({ configuration: serverConfig });
     const { engine } = t.context;
-    const connector = new Connector(engine, {
-        detached: true,
-        puppeteerOptions: { executablePath: executablePath() }
-    });
+    const connector = new Connector(engine, { detached: true });
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
     await Promise.all([connector.close(), server.stop()]);

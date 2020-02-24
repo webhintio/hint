@@ -5,13 +5,11 @@
     "@hint/utils-fs": "^1.0.0",
     "@hint/utils-network": "^1.0.1",
     "@hint/utils-types": "^1.0.0",
-    "ava": "^2.4.0",
-    "puppeteer": "^2.1.1"
+    "ava": "^2.4.0"
   },
   "description": "hint tests helpers",
   "devDependencies": {
     "@types/node": "^12.12.14",
-    "@types/puppeteer": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "cpx": "^1.5.0",
