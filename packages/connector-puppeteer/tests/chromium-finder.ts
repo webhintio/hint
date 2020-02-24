@@ -18,6 +18,7 @@ type isFile = {
 
 type ChromiumFinderContext = {
     isFile: isFile;
+    puppeteer: null | { executablePath(): string };
     utils: GetPlatform & Environment;
     sandbox: sinon.SinonSandbox;
 }
@@ -29,6 +30,7 @@ const initContext = (t: ExecutionContext<ChromiumFinderContext>) => {
             return false;
         }
     };
+    t.context.puppeteer = null;
     t.context.utils = {
         getPlatform: () => {
             return '';
@@ -48,7 +50,8 @@ const loadDependency = (context: ChromiumFinderContext) => {
         '@hint/utils-fs': {
             isDirectory: fsUtils.isDirectory,
             isFile: context.isFile.isFile
-        }
+        },
+        puppeteer: context.puppeteer
     });
 };
 
@@ -162,6 +165,22 @@ test(`Searches with the right priorities and throws an exception when nothing is
             match = matchOrder;
         }
     }
+});
+
+test(`Falls back to using puppeteer when available`, (t) => {
+    const sandbox = t.context.sandbox;
+
+    sandbox.stub(t.context, 'puppeteer').get(() => {
+        return {
+            executablePath() {
+                return 'path/to/puppeteer/chrome';
+            }
+        };
+    });
+
+    const chromiumFinder = loadDependency(t.context);
+
+    t.is(chromiumFinder.getInstallationPath(), 'path/to/puppeteer/chrome');
 });
 
 test(`(Linux) Does not have any information for Edge`, (t) => {

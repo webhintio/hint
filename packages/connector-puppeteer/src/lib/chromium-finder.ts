@@ -337,7 +337,8 @@ const resolveChromiumPath = () => {
 
 /**
  * Searchs for a valid Chromium browser from the ones supported. The current priority list is:
- * `Chrome Canary`, `Chrome`, `Chromium`, `Edge Canary`, `Edge Dev` (`Edge` only on `win32 platforms).
+ * `Puppeteer`, `Chrome Canary`, `Chrome`, `Chromium`, `Edge Canary`, `Edge Dev` (`Edge` only
+ * on `win32 platforms).
  *
  * A user can also pass the browser to use (`Chrome`, `Chromium`, `Edge`) via the `options` parameter
  * or a `path` to the executable to use (`getInstallationPath` will only verify it exists, not if
@@ -369,6 +370,17 @@ export const getInstallationPath = (options?: { browser?: Browser; browserPath?:
         }
 
         throw new Error(ERRORS.NoInstallationFound`${options.browser}`);
+    }
+
+    /**
+     * When unspecified, prefer using the version of Chromium bundled
+     * with puppeteer first (if available) as it is the most likely to
+     * be compatible with the used version of puppeteer-core.
+     */
+    try {
+        return require('puppeteer').executablePath();
+    } catch (e) {
+        // Fall back to searching for installed browsers.
     }
 
     /** The order in which to search for browsers in case none are provided. */
