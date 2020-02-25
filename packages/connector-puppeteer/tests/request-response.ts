@@ -12,7 +12,6 @@ import * as zlib from 'zlib';
 
 import * as sinon from 'sinon';
 import test from 'ava';
-import { executablePath } from 'puppeteer';
 
 import { Server } from '@hint/utils-create-server';
 import { Engine, Events, IConnector } from 'hint';
@@ -49,10 +48,7 @@ test(`[${name}] requestResponse`, async (t) => {
     const engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
     const engineEmitSpy = sinon.spy(engine, 'emit');
 
-    const connector: IConnector = new Connector(engine, {
-        detached: true,
-        puppeteerOptions: { executablePath: executablePath() }
-    });
+    const connector: IConnector = new Connector(engine, { detached: true });
     const server = await Server.create();
 
     const html = Server.updateLocalhost(sourceHtml, server.port);

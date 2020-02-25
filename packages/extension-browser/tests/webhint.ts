@@ -1,5 +1,4 @@
 import test from 'ava';
-import { executablePath } from 'puppeteer';
 
 import { Analyzer } from 'hint';
 
@@ -9,12 +8,6 @@ test('It passes all configured hints from webhint', async (t) => {
     const [server, urls] = await hostUI();
 
     const config = Analyzer.getUserConfig()!;
-
-    config.connector = {
-        name: 'puppeteer',
-        options: { puppeteerOptions: { executablePath: executablePath() } } as any
-    };
-
     const webhint = Analyzer.create(config);
     const results = await webhint.analyze(urls);
 

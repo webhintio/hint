@@ -12,7 +12,6 @@ import { URL } from 'url';
 import groupBy = require('lodash/groupBy');
 import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
-import { executablePath } from 'puppeteer';
 import { Server } from '@hint/utils-create-server';
 import { Engine, Events, IConnector } from 'hint';
 
@@ -181,10 +180,7 @@ test.afterEach.always((t) => {
 
 test(`[${name}] Events`, async (t) => {
     const { engine } = t.context;
-    const connector: IConnector = new Connector(engine, {
-        detached: true,
-        puppeteerOptions: { executablePath: executablePath() }
-    });
+    const connector: IConnector = new Connector(engine, { detached: true });
 
     t.context.connector = connector;
 
