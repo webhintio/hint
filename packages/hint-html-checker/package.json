@@ -20,7 +20,7 @@
     "@hint/parser-html": "^3.0.12",
     "@hint/utils-tests-helpers": "^6.0.1",
     "@types/mock-require": "^2.0.0",
-    "@types/node": "^12.12.14",
+    "@types/node": "^13.7.4",
     "@types/request": "^2.48.4",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
