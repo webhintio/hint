@@ -105,6 +105,7 @@
         { "path": "packages/parser-sass" },
         { "path": "packages/parser-typescript" },
         { "path": "packages/parser-typescript-config" },
+        { "path": "packages/parser-vue" },
         { "path": "packages/parser-webpack-config" },
         { "path": "packages/utils" },
         { "path": "packages/utils-compat-data" },

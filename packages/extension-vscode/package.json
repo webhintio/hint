@@ -10,7 +10,8 @@
     "onLanguage:sass",
     "onLanguage:scss",
     "onLanguage:typescript",
-    "onLanguage:typescriptreact"
+    "onLanguage:typescriptreact",
+    "onLanguage:vue"
   ],
   "ava": {
     "failFast": false,
