@@ -129,7 +129,7 @@ test('validate should throw an exception if the severity is not valid', (t) => {
     for (const value of data) {
         t.throws(() => {
             configHints.validate(HintEmptySchema.meta, value, '1');
-        }, Error);
+        }, { instanceOf: Error });
     }
 });
 

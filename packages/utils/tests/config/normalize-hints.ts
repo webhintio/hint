@@ -55,7 +55,7 @@ test(`should throw invalid hint specified error when providing invalid hint`, (t
 
     t.throws(() => {
         normalizeHints(hints);
-    }, 'Invalid hint type specified: "1". Arrays and objects are supported.');
+    }, { message: 'Invalid hint type specified: "1". Arrays and objects are supported.' });
 });
 
 test(`should maintain backwards compatibility by returning objects`, (t) => {
