@@ -94,7 +94,7 @@
     "util.promisify": "^1.0.1",
     "web-ext": "^4.0.0",
     "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.11"
   },
   "files": [
     "images"
