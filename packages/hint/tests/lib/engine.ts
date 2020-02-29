@@ -69,7 +69,7 @@ test(`If config is an empty object, we should throw an error`, (t) => {
     t.throws(() => {
         // <any>{} to avoid the type checking if not is not possible to use {}
         new Engine({} as Configuration, {} as HintResources);
-    }, Error);
+    }, { instanceOf: Error });
 });
 
 test(`If the config object is invalid, we should throw an error`, (t) => {
@@ -80,7 +80,7 @@ test(`If the config object is invalid, we should throw an error`, (t) => {
             invalidProperty: 'invalid',
             randomProperty: 'random'
         } as any, {} as HintResources);
-    }, Error);
+    }, { instanceOf: Error });
 });
 
 test(`If config.browserslist is an array of strings, we should initilize the property targetedBrowsers`, (t) => {
