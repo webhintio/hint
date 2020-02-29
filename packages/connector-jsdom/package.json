@@ -15,7 +15,7 @@
     "@hint/utils-fs": "^1.0.0",
     "@hint/utils-network": "^1.0.1",
     "@hint/utils-types": "^1.0.0",
-    "@types/tough-cookie": "^2.3.5",
+    "@types/tough-cookie": "^2.3.6",
     "jsdom": "^16.0.1",
     "mutationobserver-shim": "^0.3.3"
   },
