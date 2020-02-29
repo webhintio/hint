@@ -45,7 +45,7 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
     "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.11"
   },
   "engines": {
     "node": ">=10.0.0"
