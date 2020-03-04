@@ -43,27 +43,22 @@ Also don’t hesitate to ask for help.
 
 ## What browsers are supported?
 
-`webhint` currently supports [jsdom][jsdom], Chrome, and Edge 15.
-We hope to add support for Firefox soon. If your favorite browser
-is not supported you can always [develop a connector][connector docs]
-for it!
+A [developer tools extension][extension-browser] is available for
+Chrome, Edge (Chromium), and Firefox. The `webhint` CLI can be run
+against [jsdom][connector jsdom] or any browser supported by
+[puppeteer][connector puppeteer]. If your favorite browser is not
+supported you can always [develop a connector][connector docs] for it!
 
 ## Is there a plugin for my favorite editor?
 
-Editor plugins are not yet available, but it is high in our priority
-list.
+A [webhint extension][extension-vscode] for Visual Studio Code is
+currently available. It utilizes the [Language Server Protocol][lsp]
+which makes it suitable for porting to other editors if there's
+community interest.
 
 ## Is there an online service?
 
-Yes! It’s in preview so there might be some intermitent issues, but
-you can scan an online website in [here][scanner].
-
-We are working on tweaking the list of hints it runs and its
-configuration, but if a hint is a recommended one it will probably
-be run.
-
-Also, note that the scanner uses the `jsdom connector` so there might
-be unexpected results.
+Yes! You can scan an online website in [here][scanner].
 
 If you have any feedback on the results page, please open an
 issue in the [website repository][scanner-issues]. If the issue is
@@ -93,8 +88,12 @@ telling us what you think can be improved.
 
 [axe]: https://axe-core.org/
 [connector docs]: https://webhint.io/docs/contributor-guide/how-to/connector/
+[connector jsdom]: https://webhint.io/docs/user-guide/connectors/connector-jsdom/
+[connector puppeteer]: https://webhint.io/docs/user-guide/connectors/connector-puppeteer/
+[extension-browser]: https://webhint.io/docs/user-guide/extensions/extension-browser/
+[extension-vscode]: https://marketplace.visualstudio.com/items?itemName=webhint.vscode-webhint
 [issues]: https://github.com/webhintio/hint/issues
-[jsdom]: https://github.com/tmpvar/jsdom
+[lsp]: https://microsoft.github.io/language-server-protocol/
 [narwhal echolocation]: http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162069
 [narwhal song]: https://www.youtube.com/watch?v=ykwqXuMPsoc
 [new issue]: https://github.com/webhintio/hint/issues/new
