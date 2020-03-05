@@ -1,12 +1,13 @@
 import * as fs from 'fs-extra';
 
-import * as Octokit from '@octokit/rest';
+import { Octokit } from '@octokit/core';
+import { Octokit as octo } from '@octokit/rest';
 import * as throttling from '@octokit/plugin-throttling';
 
 import { Tag, Commit, Package, Author, GitHubAuth } from '../@types/custom';
 import { debug, execa } from './utils';
 
-const Client = Octokit.plugin(throttling);
+const Client = octo.plugin(throttling);
 
 const octokitOptions = {
     log: {
