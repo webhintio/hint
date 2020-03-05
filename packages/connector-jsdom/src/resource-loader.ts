@@ -77,7 +77,7 @@ export default class CustomResourceLoader extends ResourceLoader {
                     response: resourceNetworkData.response
                 };
 
-                const { charset, mediaType } = getContentTypeData(element, fetchEndEvent.resource, fetchEndEvent.response.headers, fetchEndEvent.response.body.rawContent);
+                const { charset, mediaType } = await getContentTypeData(element, fetchEndEvent.resource, fetchEndEvent.response.headers, fetchEndEvent.response.body.rawContent);
                 const type = mediaType ? getType(mediaType) : /* istanbul ignore next */ 'unknown';
 
                 fetchEndEvent.response.mediaType = mediaType!;

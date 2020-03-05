@@ -1,4 +1,4 @@
-import fileType = require('file-type');
+import { fromBuffer } from 'file-type';
 import isSvg from 'is-svg';
 
 import { parse, MediaType } from 'content-type';
@@ -297,13 +297,13 @@ const determineMediaTypeBasedOnFileName = (resource: string, rawContent: Buffer)
 };
 
 /* istanbul ignore next */
-const determineMediaTypeBasedOnFileType = (rawContent: Buffer): string | null => {
+const determineMediaTypeBasedOnFileType = async (rawContent: Buffer) => {
 
     if (!rawContent) {
         return null;
     }
 
-    const detectedFileType = fileType(rawContent);
+    const detectedFileType = await fromBuffer(rawContent);
 
     if (detectedFileType) {
 
@@ -390,7 +390,7 @@ const parseContentTypeHeader = (headers: HttpHeaders | null): MediaType | null =
  * file extension.
  */
 /* istanbul ignore next */
-const getContentTypeData = (element: HTMLElement | null, resource: string, headers: HttpHeaders | null, rawContent: Buffer) => {
+const getContentTypeData = async (element: HTMLElement | null, resource: string, headers: HttpHeaders | null, rawContent: Buffer) => {
 
     let originalMediaType: string | null = null;
     let originalCharset: string | null = null;
@@ -409,7 +409,7 @@ const getContentTypeData = (element: HTMLElement | null, resource: string, heade
 
     let mediaType =
         determineMediaTypeBasedOnElement(element) ||
-        determineMediaTypeBasedOnFileType(rawContent) ||
+        await determineMediaTypeBasedOnFileType(rawContent) ||
         determineMediaTypeBasedOnFileExtension(resource, originalMediaType) ||
         determineMediaTypeBasedOnFileName(resource, rawContent) ||
         originalMediaType;
