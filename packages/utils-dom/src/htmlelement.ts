@@ -6,63 +6,129 @@ import { ProblemLocation } from '@hint/utils-types';
 import { findOriginalElement } from './find-original-element';
 import { ElementData, INamedNodeMap } from './types';
 
+import { Node } from './node';
+import { CSSStyleDeclaration } from './cssstyledeclaration';
 import { HTMLDocument } from './htmldocument';
 
-export class HTMLElement {
-    public ownerDocument: HTMLDocument;
-
+/**
+ * https://developer.mozilla.org/docs/Web/API/HTMLElement
+ */
+export class HTMLElement extends Node {
     private _element: ElementData;
+    private _computedStyles: CSSStyleDeclaration;
 
-    public constructor(element: ElementData | HTMLElement, ownerDocument: HTMLDocument) {
-        this._element = element instanceof HTMLElement ? element._element : element;
-        this.ownerDocument = ownerDocument;
+    /**
+     * Non-standard. Used internally by utils-dom to create HTMLElement instances.
+     */
+    public constructor(element: ElementData, ownerDocument: HTMLDocument) {
+        super(element, ownerDocument);
+        this._element = element;
+        this._computedStyles = new CSSStyleDeclaration(element['x-styles']);
     }
 
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/attributes
+     */
     public get attributes(): INamedNodeMap {
         const x = this._element.attribs;
 
         return Object.entries(x).map(([name, value]) => {
             return {
                 name,
+                nodeName: name,
+                nodeValue: value,
                 value
             };
         });
     }
 
+    /**
+     * https://developer.mozilla.org/docs/Web/API/ParentNode/children
+     */
     public get children(): HTMLElement[] {
-        const result: HTMLElement[] = [];
+        return this.childNodes.filter((node) => {
+            return node instanceof HTMLElement;
+        }) as HTMLElement[];
+    }
 
-        for (const child of this._element.children) {
-            if (child.type === 'tag' || child.type === 'script' || child.type === 'style') {
-                result.push(new HTMLElement(child, this.ownerDocument));
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/id
+     */
+    public get id() {
+        return this.getAttribute('id') || '';
+    }
+
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/name
+     */
+    public get name() {
+        return this.getAttribute('name') || '';
+    }
+
+    /**
+     * https://developer.mozilla.org/docs/Web/API/ElementCSSInlineStyle/style
+     */
+    public get style() {
+        return {
+            getPropertyValue(name: string) {
+                return; // TODO: Return actual inline styles
             }
+        };
+    }
+
+    /**
+     * See `type` in https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement
+     */
+    public get type() {
+        if (this.nodeName === 'BUTTON') {
+            return this.getAttribute('type') || 'submit';
+        } else if (this.nodeName === 'INPUT') {
+            return this.getAttribute('type') || 'text';
         }
 
-        return result;
+        return '';
     }
 
-    public get parentElement(): HTMLElement | null {
-        const parent = this._element.parent;
-
-        if (!parent || (parent.type !== 'tag' && parent.type !== 'script' && parent.type !== 'style')) {
-            return null;
-        }
-
-        return new HTMLElement(parent, this.ownerDocument);
-    }
-
-    public get nodeName(): string {
-        return this._element.name;
-    }
-
-    public getAttribute(attribute: string): string | null {
-        const attrib = this._element.attribs[attribute];
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/getAttribute
+     */
+    public getAttribute(name: string): string | null {
+        const attrib = this._element.attribs[name];
         const value = typeof attrib !== 'undefined' ? attrib : null;
 
         return value;
     }
 
     /**
+     * Non-standard. Used internally by utils-dom for `window.getComputedStyle`.
+     */
+    public getComputedStyle() {
+        return this._computedStyles;
+    }
+
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/hasAttribute
+     */
+    public hasAttribute(name: string): boolean {
+        return this.getAttribute(name) !== null;
+    }
+
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/hasAttributes
+     */
+    public hasAttributes(): boolean {
+        return Object.keys(this._element.attribs).length > 0;
+    }
+
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/setAttribute
+     */
+    public setAttribute(name: string, value: string) {
+        this._element.attribs[name] = value;
+    }
+
+    /**
+     * Non-standard.
      * Check if the value of an attribute was provided as a template
      * expression, meaning the exact value of the attribute is unknown.
      */
@@ -100,7 +166,8 @@ export class HTMLElement {
     }
 
     /**
-     * Zero-based location of the element.
+     * Non-standard.
+     * Zero-based location of the element in original source code.
      */
     public getLocation(): ProblemLocation {
         const location = this._getOriginalLocation();
@@ -116,7 +183,8 @@ export class HTMLElement {
     }
 
     /**
-     * Calculate the document location of content within this element.
+     * Non-standard.
+     * Calculate the source code location of content within this element.
      * Used to determine offsets for CSS-in-HTML and JS-in-HTML reports.
      */
     public getContentLocation(offset: ProblemLocation): ProblemLocation | null {
@@ -146,14 +214,24 @@ export class HTMLElement {
         };
     }
 
+    /**
+     * Non-standard. Used internally by utils-dom to compare elements.
+     * TODO: Consider removing in favor of `===` reference comparisons.
+     */
     public isSame(element: HTMLElement): boolean {
         return this._element === element._element;
     }
 
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/innerHTML
+     */
     public get innerHTML(): string {
         return parse5.serialize(this._element, { treeAdapter: htmlparser2Adapter });
     }
 
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/outerHTML
+     */
     public get outerHTML(): string {
         /*
          * Until parse5 support outerHTML
@@ -189,6 +267,10 @@ export class HTMLElement {
         return result;
     }
 
+    /**
+     * Non-standard.
+     * Resolve the provided URL against the base URL for this element's document.
+     */
     public resolveUrl(url: string) {
         return this.ownerDocument.resolveUrl(url);
     }

@@ -39,6 +39,9 @@ export type DoctypeData = BaseData & {
     sourceCodeLocation?: Location | null;
     systemId?: string;
     type: 'directive';
+    'x-name'?: string;
+    'x-publicId'?: string;
+    'x-systemId'?: string;
 };
 
 export type DocumentData = {
@@ -63,6 +66,7 @@ export type ElementData = BaseData & {
     type: 'script' | 'style' | 'tag';
     'x-attribsNamespace': { [name: string]: string };
     'x-attribsPrefix': { [name: string]: string };
+    'x-styles'?: { [name: string]: string };
 };
 
 export type TextData = BaseData & {
