@@ -21,7 +21,7 @@ test.beforeEach((t) => {
 test('HTMLDocument.dom() should return the html node', (t) => {
     const dom = t.context.document.documentElement;
 
-    t.is(dom.nodeName, 'html');
+    t.is(dom.nodeName, 'HTML');
 });
 
 test('HTMLDocument.base should return the base url', (t) => {
@@ -74,7 +74,7 @@ test('HTMLElement.attributes should return an array with all the attributes', (t
 test('HTMLElement.nodeName should return the node name', (t) => {
     const item = t.context.document.querySelectorAll('.title')[0];
 
-    t.is(item.nodeName, 'h1');
+    t.is(item.nodeName, 'H1');
 });
 
 test('HTMLElement.getAttribute() should return the attribute value', (t) => {
@@ -114,7 +114,7 @@ test('HTMLElement.parentElement should return the parent element if it exists', 
 
     const parentNodeName = item.parentElement && item.parentElement.nodeName;
 
-    t.is(parentNodeName, 'body');
+    t.is(parentNodeName, 'BODY');
 });
 
 test('HTMLElement.parentElement should return `null` if parent doesn\'t exists (for root level elements)', (t) => {
