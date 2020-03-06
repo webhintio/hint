@@ -32,7 +32,7 @@ export default class ButtonTypeHint implements IHint {
                 return false;
             }
 
-            if (parent.nodeName === 'form') {
+            if (parent.nodeName === 'FORM') {
                 return true;
             }
 
