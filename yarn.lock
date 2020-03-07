@@ -4262,17 +4262,17 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
-exceljs@3.8.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-3.8.0.tgz#afeaba160f3be08b925a95e05385efd1de6bed25"
-  integrity sha512-oPQUnTnqYLX7PazDDV7nIN5zhcApcrqBcGJ1zMmFQ9bIEyAn9IrvCjYGChDwCmeKTI9WqqpHiG6tE8ZVZWEtuQ==
+exceljs@3.8.1:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-3.8.1.tgz#162d7344bf6399029480f670a3ab524b87d511b3"
+  integrity sha512-Kz3QUh/dmYPCmPoJeZRqc686SFOSDiH7uPFHC28FwnlLm/ML1F5R59NdWLMsqYjYx7KqFU4KIx3Sw2m2U9c4qw==
   dependencies:
     archiver "^3.0.0"
     dayjs "^1.8.15"
     fast-csv "^3.4.0"
     jszip "^3.1.5"
     proxyquire "^2.1.3"
-    sax "^1.2.4"
+    saxes "5.0.0-rc.2"
     tmp "^0.1.0"
     unzipper "^0.9.12"
     uuid "^3.3.3"
@@ -9781,6 +9781,13 @@ sax@>=0.6.0, sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
+
+saxes@5.0.0-rc.2:
+  version "5.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/saxes/-/saxes-5.0.0-rc.2.tgz#2960ac6ae5fd8bf6d616fe7784c73c8d101a448b"
+  integrity sha512-lEHu0OzYdQ168ONXc3Y7sTnTGNub06J7LMzCvI9eN1Sgy3tIS/+rfV//lOqYEDqsNogMqymO821yZn4eWpWyuQ==
+  dependencies:
+    xmlchars "^2.2.0"
 
 saxes@^4.0.2:
   version "4.0.2"
