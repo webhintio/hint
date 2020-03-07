@@ -26,7 +26,7 @@
     "@types/is-ci": "^2.0.0",
     "@types/lockfile": "^1.0.1",
     "@types/lodash": "^4.14.149",
-    "@types/node": "^12.12.14",
+    "@types/node": "^13.9.0",
     "@types/puppeteer": "^2.0.1",
     "@types/puppeteer-core": "^2.0.0",
     "@types/sinon": "^7.5.1",
