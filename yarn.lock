@@ -6431,10 +6431,10 @@ jquery@2.1.4:
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.1.4.tgz#228bde698a0c61431dc2630a6a154f15890d2317"
   integrity sha1-IoveaYoMYUMdwmMKahVPFYkNIxc=
 
-js-library-detector@^5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/js-library-detector/-/js-library-detector-5.7.0.tgz#27199e0728273de9333d69b2be92f144cad94380"
-  integrity sha512-pUHR7ryXqiew2agkQ3NppopqJDi5qkJtI86PyQ9LLtg1iGzwIsMz+QNq3ky5bPogSie7AkL/xvcObXu3Veh61Q==
+js-library-detector@^5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/js-library-detector/-/js-library-detector-5.8.0.tgz#28a72d81e7acf4992b8f932b3a80c34cd197959d"
+  integrity sha512-7H10W+oukLGvs5gT5SeMjqYX03rglIQt3ggXzRiQxveUkVupHhbrd2mGPTKQ87bxSvMzlnAMdExfCDnquUi93Q==
 
 js-select@~0.6.0:
   version "0.6.0"
