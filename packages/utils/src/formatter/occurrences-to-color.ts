@@ -9,7 +9,7 @@ export const occurencesToColor = (ocurrences: { [x: string]: number }): Chalk =>
         return severityToColor(Severity.warning);
     } else if (ocurrences[Severity.hint] > 0) {
         return severityToColor(Severity.hint);
-    } else if (ocurrences[Severity.information] > 0) {
+    } else /* istanbul ignore next */ if (ocurrences[Severity.information] > 0) {
         return severityToColor(Severity.information);
     }
 
