@@ -33,7 +33,7 @@
     "fs-extra": "^8.0.1",
     "handlebars": "^4.7.3",
     "hint": "^6.0.3",
-    "inquirer": "^7.0.5",
+    "inquirer": "^7.0.6",
     "mkdirp": "^1.0.3",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.1.0",
