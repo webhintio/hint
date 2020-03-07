@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/ejs": "^3.0.0",
-    "@types/fs-extra": "^8.0.1",
+    "@types/fs-extra": "^8.1.0",
     "@types/moment": "^2.13.0",
     "@types/node": "^12.12.14",
     "@types/proxyquire": "^1.3.28",
