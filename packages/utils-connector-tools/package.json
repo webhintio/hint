@@ -15,7 +15,7 @@
     "@hint/utils-types": "^1.0.0",
     "data-urls": "^2.0.0",
     "iconv-lite": "^0.5.1",
-    "request": "^2.88.0"
+    "request": "^2.88.2"
   },
   "description": "hint tools for connectors",
   "devDependencies": {

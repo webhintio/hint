@@ -16,7 +16,7 @@
     "content-type": "^1.0.4",
     "file-url": "^3.0.0",
     "lodash": "^4.17.15",
-    "request": "^2.88.0"
+    "request": "^2.88.2"
   },
   "description": "utils for network",
   "devDependencies": {
