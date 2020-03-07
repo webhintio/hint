@@ -82,7 +82,7 @@
     "puppeteer": "^2.1.1",
     "raw-loader": "^4.0.0",
     "react": "^16.13.0",
-    "react-dom": "^16.12.0",
+    "react-dom": "^16.13.0",
     "react-syntax-highlighter": "^12.2.1",
     "rimraf": "^3.0.2",
     "sinon": "^8.0.4",
