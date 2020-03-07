@@ -30,7 +30,7 @@
     "rimraf": "^3.0.2",
     "sinon": "^8.0.4",
     "typescript": "^3.7.5",
-    "webpack": "^4.41.4"
+    "webpack": "^4.42.0"
   },
   "files": [
     "dist/src"
