@@ -1,0 +1,1 @@
+# Webhint web worker bundle
