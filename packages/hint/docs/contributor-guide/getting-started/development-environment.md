@@ -60,19 +60,20 @@ git remote add upstream git@github.com:webhintio/hint.git
 
 Now, the remote `upstream` points to the upstream source.
 
-## Step 4: Run the tests
+## Step 4: Run the build
 
-Running the tests is the best way to ensure you have correctly set up
-your development environment. Make sure you’re in the `webhint`
-directory, and then run:
+Run your initial build from `master` before making changes. This
+reduces the time for your first build by downloading pre-built assets
+instead of building them.
 
 ```bash
-yarn test
+yarn build
 ```
 
-The testing takes a bit to complete. If any tests fail, that
-likely means one or more parts of the environment setup didn’t complete
-correctly. The upstream tests always pass.
+In order to keep build and test times fast, run subsequent builds and
+tests only for the individual packages you make changes to. Change to
+the package directory (`cd packages/{edited-package}`) and run
+`yarn build` or `yarn test` from there.
 
 ## Built-in scripts
 
