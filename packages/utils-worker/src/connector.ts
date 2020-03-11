@@ -3,7 +3,6 @@ import { URL } from 'url';
 import { Engine } from 'hint';
 import {
     DocumentData,
-    getElementByUrl,
     HTMLDocument,
     HTMLElement,
     populateGlobals,
@@ -15,40 +14,23 @@ import {
     FetchEnd,
     NetworkData
 } from 'hint/dist/src/lib/types';
-import { ConnectorOptionsConfig } from '@hint/utils';
 
-import { self } from '../shared/globals';
-import { HostEvents, WorkerEvents } from '../shared/types';
+import { self } from './shared/globals';
+import { addHostListener, notifyHost } from './shared/host';
+import { finalizeFetchEnd } from './shared/network';
 
-import { setFetchType } from './set-fetch-type';
-
-export default class WebExtensionConnector implements IConnector {
+export default class WebWorkerConnector implements IConnector {
     private _document: HTMLDocument | undefined;
     private _originalDocument: HTMLDocument | undefined;
     private _engine: Engine;
     private _fetchEndQueue: FetchEnd[] = [];
     private _onComplete: (err: Error | null, resource?: string) => void = () => { };
-    private _options: ConnectorOptionsConfig;
     private _resource = '';
 
-    public static schema = {
-        additionalProperties: false,
-        properties: {
-            waitFor: {
-                minimum: 0,
-                type: 'number'
-            }
-        }
-    };
+    public static schema = {};
 
-    public constructor(engine: Engine, options?: ConnectorOptionsConfig) {
+    public constructor(engine: Engine) {
         this._engine = engine;
-        this._options = options || {};
-
-        /* istanbul ignore else */
-        if (!this._options.waitFor) {
-            this._options.waitFor = 1000;
-        }
 
         (engine as Engine<import('@hint/parser-html').HTMLEvents>).on('parse::end::html', (event) => {
             /* istanbul ignore else */
@@ -79,15 +61,14 @@ export default class WebExtensionConnector implements IConnector {
                 };
 
                 await this._engine.emitAsync('can-evaluate::script', event);
+                await this._engine.emitAsync('scan::end', { resource });
 
             } catch (err) /* istanbul ignore next */ {
                 this._onComplete(err);
             }
         };
 
-        self.addEventListener('message', async (message) => {
-            const events: HostEvents = message.data;
-
+        addHostListener(async (events) => {
             try {
                 if (events.fetchEnd) {
                     await this.notifyFetch(events.fetchEnd);
@@ -111,21 +92,9 @@ export default class WebExtensionConnector implements IConnector {
         });
     }
 
-    private sendMessage(message: WorkerEvents) {
-        self.postMessage(message);
-    }
-
     private async sendFetchEndEvents() {
         for (const event of this._fetchEndQueue) {
             await this.notifyFetch(event);
-        }
-    }
-
-    private setFetchElement(event: FetchEnd) {
-        const url = event.request.url;
-
-        if (this._document) {
-            event.element = getElementByUrl(this._document, url);
         }
     }
 
@@ -140,8 +109,7 @@ export default class WebExtensionConnector implements IConnector {
             return;
         }
 
-        this.setFetchElement(event);
-        const type = setFetchType(event);
+        const { type } = finalizeFetchEnd(event, this._document);
 
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }
@@ -156,7 +124,7 @@ export default class WebExtensionConnector implements IConnector {
 
         await this._engine.emitAsync('scan::start', { resource });
 
-        this.sendMessage({ ready: true });
+        notifyHost({ ready: true });
 
         return new Promise((resolve, reject) => {
             this._onComplete = async (err: Error | null, resource = '') => {
@@ -170,7 +138,7 @@ export default class WebExtensionConnector implements IConnector {
                 try {
                     await this._engine.emitAsync('scan::end', { resource });
                     resolve();
-                    this.sendMessage({ done: true });
+                    notifyHost({ done: true });
                 } catch (e) /* istanbul ignore next */ {
                     reject(e);
                 }

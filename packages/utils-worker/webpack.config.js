@@ -5,18 +5,13 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = (env) => {
     return {
         context: __dirname,
-        entry: { 'content-script/webhint': './dist/src/content-script/webhint.js' },
+        entry: { webhint: './dist/src/webhint.js' },
         mode: env && env.release ? 'production' : 'none',
         module: {
             rules: [
                 // Bundle `axe-core` as a raw string so it can be injected at runtime.
                 {
                     test: /axe-core/,
-                    use: 'raw-loader'
-                },
-                // Bundle `js-library-detector as a raw string so it can be injected at runtime.
-                {
-                    test: /js-library-detector/,
                     use: 'raw-loader'
                 },
                 {

@@ -13,16 +13,16 @@ import HTMLParser from '@hint/parser-html';
 import JavaScriptParser from '@hint/parser-javascript';
 import ManifestParser from '@hint/parser-manifest';
 
-import { self } from '../shared/globals';
-import { Config, HostEvents, WorkerEvents } from '../shared/types';
+import { addHostListener, notifyHost, removeHostListener } from './shared/host';
+import { Config, HostEvents } from './shared/types';
 
-import WebExtensionConnector from './connector';
+import WebWorkerConnector from './connector';
 
-import hints from '../shared/hints.import';
+import hints from './shared/hints.import';
 
 /* istanbul ignore next */
 const reportError = (message: string, stack: string) => {
-    self.postMessage({
+    notifyHost({
         error: {
             message,
             stack
@@ -53,7 +53,7 @@ const main = async (userConfig: Config) => {
     };
 
     const resources: HintResources = {
-        connector: WebExtensionConnector,
+        connector: WebWorkerConnector,
         formatters: [],
         hints: enabledHints,
         incompatible: [],
@@ -70,27 +70,21 @@ const main = async (userConfig: Config) => {
 
     engine.on('print', ({ problems }) => {
         if (problems.length) {
-            const results: WorkerEvents = { results: problems };
-
-            self.postMessage(results);
+            notifyHost({ results: problems });
         }
     });
+
     await engine.executeOn(new URL(userConfig.resource));
 };
 
-const onMessage = (event: MessageEvent) => {
-    const events: HostEvents = event.data;
-
+const onHostEvent = (events: HostEvents) => {
     if (events.config) {
         main(events.config).catch((err) => {
             reportError(err.message, err.stack);
         });
-        self.removeEventListener('message', onMessage);
+        removeHostListener(onHostEvent);
     }
 };
 
-self.addEventListener('message', onMessage);
-
-const requestConfig: WorkerEvents = { requestConfig: true };
-
-self.postMessage(requestConfig);
+addHostListener(onHostEvent);
+notifyHost({ requestConfig: true });
