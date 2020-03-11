@@ -47,5 +47,24 @@ test('instances', (t) => {
     t.is(context.document, doc);
     t.is(context.document.defaultView, context);
     t.is(context.window, context);
+    t.is(context.self, context);
     t.is(context.top, context);
+});
+
+test('existing self', (t) => {
+    const context: any = {};
+    const doc = createHTMLDocument('test', 'http://localhost/');
+
+    Object.defineProperty(context, 'self', {
+        get() {
+            return context;
+        },
+        set(value) {
+            throw new Error('Cannot override "self".');
+        }
+    });
+
+    t.notThrows(() => {
+        populateGlobals(context, doc);
+    });
 });
