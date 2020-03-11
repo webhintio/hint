@@ -37,7 +37,11 @@ export const populateGlobals = (context: any, document: HTMLDocument) => {
     };
 
     for (const global of Object.keys(globals) as Array<keyof typeof globals>) {
-        context[global] = globals[global];
+        try {
+            context[global] = globals[global];
+        } catch (e) {
+            // Some globals can't be overridden if present (e.g. `self` in workers).
+        }
     }
 
     return context;
