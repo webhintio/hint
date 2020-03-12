@@ -135,7 +135,7 @@ test('isTextMediaType returns true or false if the media type is a text one or n
     });
 });
 
-test(`'getContentTypeData' returns correct media type`, (t) => {
+test(`'getContentTypeData' returns correct media type`, async (t) => {
     const files = [
         {
             mediaType: 'image/svg+xml',
@@ -155,7 +155,7 @@ test(`'getContentTypeData' returns correct media type`, (t) => {
     ];
 
     for (const file of files) {
-        const contentTypeData = contentType.getContentTypeData(null, '', null, file.rawContent);
+        const contentTypeData = await contentType.getContentTypeData(null, '', null, file.rawContent);
 
         t.is(typeof contentTypeData, 'object', `The media type could not be determined`);
 

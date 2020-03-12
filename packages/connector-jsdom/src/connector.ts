@@ -216,7 +216,7 @@ export default class JSDOMConnector implements IConnector {
                 response: this._targetNetworkData.response
             };
 
-            const { charset, mediaType } = getContentTypeData(fetchEnd.element, fetchEnd.resource, fetchEnd.response.headers, fetchEnd.response.body.rawContent);
+            const { charset, mediaType } = await getContentTypeData(fetchEnd.element, fetchEnd.resource, fetchEnd.response.headers, fetchEnd.response.body.rawContent);
 
             fetchEnd.response.mediaType = mediaType!;
             fetchEnd.response.charset = charset!;

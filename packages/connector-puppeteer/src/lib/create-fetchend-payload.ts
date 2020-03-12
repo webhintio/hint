@@ -106,7 +106,7 @@ export const createFetchEndPayload = async (response: puppeteer.Response, fetchC
     };
 
     const responseHeaders = normalizeHeaders(response.headers() as any) as HttpHeaders;
-    const { charset, mediaType } = getContentTypeData(element, originalUrl, responseHeaders, body.rawContent);
+    const { charset, mediaType } = await getContentTypeData(element, originalUrl, responseHeaders, body.rawContent);
 
     const networkResponse = {
         body,

@@ -20,7 +20,7 @@ const mapResponseHeaders = (headers: Headers): HttpHeaders => {
 
 const toNetworkData = async (target: string, headers: any, response: Response): Promise<NetworkData> => {
     const responseHeaders = mapResponseHeaders(response.headers);
-    const { charset, mediaType } = getContentTypeData(null, target, responseHeaders, null as any);
+    const { charset, mediaType } = await getContentTypeData(null, target, responseHeaders, null as any);
 
     return {
         request: { headers: headers as any, url: target },
@@ -107,10 +107,10 @@ export class Fetcher {
      * Complete a manual fetch using the provided `FetchEnd` data generated
      * from the `browser.devtools.onRequestFinished` event.
      */
-    private resolveFetch(event: FetchEnd) {
+    private async resolveFetch(event: FetchEnd) {
         const resolve = this._fetches.get(event.resource);
 
-        setFetchType(event);
+        await setFetchType(event);
 
         if (resolve) {
             resolve(event);

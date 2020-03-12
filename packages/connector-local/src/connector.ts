@@ -355,7 +355,7 @@ export default class LocalConnector implements IConnector {
         const uri = getAsUri(target);
         const filePath: string = uri ? asPathString(uri).replace('%20', ' ') : '';
         const rawContent: Buffer = options && options.content ? Buffer.from(options.content) : await readFileAsBuffer(filePath);
-        const contentType = getContentTypeData(null as any, filePath, null, rawContent);
+        const contentType = await getContentTypeData(null as any, filePath, null, rawContent);
         let content = '';
 
         if (isTextMediaType(contentType.mediaType || '')) {

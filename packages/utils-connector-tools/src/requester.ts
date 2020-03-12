@@ -289,7 +289,7 @@ export class Requester {
 
                     const contentEncoding: string | null = normalizeHeaderValue(response.headers as HttpHeaders, 'content-encoding');
                     const rawBody: Buffer | null = await this.decompressResponse(contentEncoding, rawBodyResponse);
-                    const contentTypeData = getContentTypeData(null, uri, response.headers as HttpHeaders, rawBody as Buffer);
+                    const contentTypeData = await getContentTypeData(null, uri, response.headers as HttpHeaders, rawBody as Buffer);
                     const charset = contentTypeData.charset || '';
                     const mediaType = contentTypeData.mediaType || '';
                     const hops: string[] = this._redirects.calculate(uriString);

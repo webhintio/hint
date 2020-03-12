@@ -170,7 +170,7 @@ export default class WebExtensionConnector implements IConnector {
         }
 
         this.setFetchElement(event);
-        const type = setFetchType(event);
+        const type = await setFetchType(event);
 
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }
