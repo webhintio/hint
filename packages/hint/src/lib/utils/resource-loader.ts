@@ -50,6 +50,7 @@ const resourceIds: Map<string, string[]> = new Map<string, string[]>();
  */
 
 /** Returns a list with the ids of all the core resources of the given `type`. */
+/* istanbul ignore next */
 export const getCoreResources = (type: string): string[] => {
     if (resourceIds.has(type)) {
         return resourceIds.get(type)!;
@@ -123,7 +124,7 @@ const loadListOfResources = (list: string[] | Object = [], type: ResourceType, c
             const resource = loadResource(resourceId, type, configurations, true);
 
             loaded.push(resource);
-        } catch (e) {
+        } catch (e) /* istanbul ignore next */ {
             const name = isFullPackageName(resourceId, type) ? resourceId : `${type}-${resourceId}`;
 
             if (e.status === ResourceErrorStatus.NotCompatible) {
@@ -161,7 +162,7 @@ export const loadResources = (config: Configuration): HintResources => {
 
     try {
         connector = loadResource(connectorName, ResourceType.connector, config.extends, true);
-    } catch (e) {
+    } catch (e) /* istanbul ignore next */ {
         debug(e);
 
         if (e.status === ResourceErrorStatus.DependencyError) {

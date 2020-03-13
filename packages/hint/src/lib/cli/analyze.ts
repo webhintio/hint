@@ -88,6 +88,7 @@ or set the flag --telemetry=on|off`;
 };
 
 const getHintsForTelemetry = (hints?: HintsConfigObject | (string | any)[]) => {
+    /* istanbul ignore next */
     if (!hints) {
         return null;
     }
@@ -332,9 +333,11 @@ const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOption
             return getAnalyzer(config, options, targets);
         }
 
+        /* istanbul ignore else */
         if (error.status === AnalyzerErrorStatus.ResourceError) {
             const installed = await askToInstallPackages(error.resources!);
 
+            /* istanbul ignore else */
             if (!installed) {
                 throw e;
             }
@@ -342,12 +345,14 @@ const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOption
             return getAnalyzer(userConfig, options, targets);
         }
 
+        /* istanbul ignore next */
         if (error.status === AnalyzerErrorStatus.HintError) {
             logger.error(`Invalid hint configuration in .hintrc: ${error.invalidHints!.join(', ')}.`);
 
             throw e;
         }
 
+        /* istanbul ignore next */
         if (error.status === AnalyzerErrorStatus.ConnectorError) {
             logger.error(`Invalid connector configuration in .hintrc`);
 
@@ -405,6 +410,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
     let exitCode = 0;
 
     const endSpinner = (method: string) => {
+        /* istanbul ignore else */
         if (!actions.debug && (spinner as any)[method]) {
             (spinner as any)[method]();
         }
@@ -449,6 +455,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             };
         }
 
+        /* istanbul ignore next */
         analyzerOptions.targetStartCallback = (start) => {
             if (!actions.debug) {
                 spinner.start();
