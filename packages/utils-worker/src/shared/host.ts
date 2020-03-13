@@ -1,5 +1,5 @@
-import { self } from '../shared/globals';
-import { HostEvents, WorkerEvents } from '../shared/types';
+import { self } from './globals';
+import { HostEvents, WorkerEvents } from './types';
 
 export type HostListener = (message: HostEvents) => void;
 
