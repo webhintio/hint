@@ -6,6 +6,7 @@ import { mdn } from './browser-compat-data';
 import { getUnsupportedBrowsers, UnsupportedBrowsers } from './browsers';
 import { getCachedValue } from './cache';
 import { getFeatureData } from './helpers';
+import { types } from './css-types';
 
 const selectorParser = require('postcss-selector-parser');
 const valueParser = require('postcss-value-parser');
@@ -96,11 +97,21 @@ const getPartialValueUnsupported = (context: Identifier, value: string, browsers
  * Determine if the provided CSS value is supported, first by looking for an
  * exact match for the full value, falling back to search for a partial match.
  */
-const getValueUnsupported = (context: Identifier, value: string, browsers: string[]): UnsupportedBrowsers | null => {
+const getValueUnsupported = (context: Identifier, property: string, value: string, browsers: string[]): UnsupportedBrowsers | null => {
     const [data, prefix, unprefixed] = getFeatureData(context, value);
 
     if (data) {
         return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
+    }
+
+    if (property && types.has(property)) {
+        for (const type of types.get(property)!) {
+            const result = getValueUnsupported(mdn.css.types[type], '', value, browsers);
+
+            if (result) {
+                return result;
+            }
+        }
     }
 
     return getPartialValueUnsupported(context, value, browsers);
@@ -117,7 +128,7 @@ export const getDeclarationUnsupported = (feature: DeclarationQuery, browsers: s
         const [data, prefix, unprefixed] = getFeatureData(mdn.css.properties, feature.property);
 
         if (data && feature.value) {
-            return getValueUnsupported(data, feature.value, browsers);
+            return getValueUnsupported(data, unprefixed, feature.value, browsers);
         }
 
         return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
