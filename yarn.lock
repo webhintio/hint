@@ -7247,10 +7247,10 @@ mdn-browser-compat-data@1.0.1:
   dependencies:
     extend "3.0.2"
 
-mdn-browser-compat-data@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-1.0.7.tgz#d19f82b846c19f1cfda7d40087abc2eca8d70852"
-  integrity sha512-fQlPyg8Ma4YzcH++EFLCXzlU/bnj1Yum7X7SljSJ5nMLBvZ3ep98dqSObdiPv8WeSUoepRGkQBVjcxutvlfv1Q==
+mdn-browser-compat-data@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-1.0.12.tgz#11256a55e5d83dfc5ee11ad833fd21af8a034d32"
+  integrity sha512-YykSFfz779LbgRjyieBMQy9/VHFAIz52gf7bLOiJnCkp0xltpnC9l2kQGu4UWOkBeSxJ1R5YLcKTf4Gklq6clQ==
   dependencies:
     extend "3.0.2"
 

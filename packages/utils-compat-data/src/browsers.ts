@@ -90,18 +90,16 @@ const isSupported = (support: SimpleSupportStatement, prefix: string, rawVersion
 
     /*
      * If feature was added but we don't know when, assume support.
-     *
-     * Note: This is likely to change to describe the version of the browser
-     * which was tested for support (e.g. `version_added = "<=60"`).
-     *
-     * https://github.com/mdn/browser-compat-data/issues/3021
+     * This includes cases which describe the version of the browser
+     * which was tested for support (e.g. `version_added = "≤60"`).
      */
-    if (support.version_added === true) {
+    if (support.version_added === true || (support.version_added || '')[0] === '≤') {
         return { support: Support.Yes };
     }
 
     // If feature was added by the target version, it's supported; if after it's not.
     if (typeof support.version_added === 'string') {
+
         if (semver.lte(coerce(support.version_added), version)) {
             return { support: Support.Yes };
         }
