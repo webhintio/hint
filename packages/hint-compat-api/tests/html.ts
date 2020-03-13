@@ -41,7 +41,7 @@ testHint(hintPath,
                     severity: Severity.warning
                 },
                 {
-                    message: `'details' is not supported by Edge, Internet Explorer.`,
+                    message: `'details' is not supported by Edge < 79, Internet Explorer.`,
                     position: { match: 'details' },
                     severity: Severity.warning
                 }
