@@ -11,7 +11,7 @@
     "@hint/utils": "^7.0.1",
     "@hint/utils-debug": "^1.0.0",
     "@types/estree-jsx": "^0.0.0",
-    "acorn": "^7.1.0",
+    "acorn": "^7.1.1",
     "acorn-jsx": "^5.2.0",
     "acorn-jsx-walk": "^2.0.0",
     "acorn-walk": "^7.0.0"
