@@ -20,7 +20,7 @@
     "moment": "^2.24.0"
   },
   "devDependencies": {
-    "@types/ejs": "^3.0.0",
+    "@types/ejs": "^3.0.1",
     "@types/fs-extra": "^8.1.0",
     "@types/moment": "^2.13.0",
     "@types/node": "^12.12.14",
