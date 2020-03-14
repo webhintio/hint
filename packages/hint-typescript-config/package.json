@@ -18,7 +18,7 @@
     "@hint/parser-typescript-config": "^2.4.3",
     "@hint/utils-json": "^1.0.2",
     "@hint/utils-tests-helpers": "^6.0.1",
-    "@types/node": "^12.12.14",
+    "@types/node": "^13.9.1",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "ava": "^3.4.0",

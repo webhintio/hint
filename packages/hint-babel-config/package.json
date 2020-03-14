@@ -16,7 +16,7 @@
   "devDependencies": {
     "@hint/parser-babel-config": "^2.1.17",
     "@hint/utils-tests-helpers": "^6.0.1",
-    "@types/node": "^12.12.14",
+    "@types/node": "^13.9.1",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "ava": "^3.4.0",
