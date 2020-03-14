@@ -291,10 +291,10 @@
   resolved "https://registry.yarnpkg.com/@octokit/plugin-request-log/-/plugin-request-log-1.0.0.tgz#eef87a431300f6148c39a7f75f8cfeb218b2547e"
   integrity sha512-ywoxP68aOT3zHCLgWZgwUJatiENeHE7xJzYjfz8WI0goynp96wETBF+d95b8g/uL4QmS6owPVlaxiz3wyMAzcw==
 
-"@octokit/plugin-rest-endpoint-methods@^3.0.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-3.2.0.tgz#ecc4bc594a57ebfb418b8c4a8c0f200455759004"
-  integrity sha512-k+RLsegQn4s0wvAFYuk3R18FVKRg3ktvzIGW6MkmrSiSXBwYfaEsv4CuPysyef0DL+74DRj/X9MLJYlbleUO+Q==
+"@octokit/plugin-rest-endpoint-methods@^3.3.0":
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-rest-endpoint-methods/-/plugin-rest-endpoint-methods-3.3.1.tgz#279920ee391bd7e944ae4aa7fa435ba0c51fbb6a"
+  integrity sha512-iLAXPLWBZaP6ocy1GFfZUCzyN4cwg3y2JE6yZjQo0zLE3UaewC3TI68/TnS4ilyhXDxh81Jr1qwPN1AqTp8t3w==
   dependencies:
     "@octokit/types" "^2.0.1"
     deprecation "^2.3.1"
@@ -329,15 +329,15 @@
     once "^1.4.0"
     universal-user-agent "^5.0.0"
 
-"@octokit/rest@^17.0.0":
-  version "17.0.0"
-  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-17.0.0.tgz#1f44d96005f5946665fd42a85cd3e428172f01dc"
-  integrity sha512-nSlmyy1DBEOsC4voRbk/SN56V/iuZfxZzjFFz+ocb2MAYwHC+z1TyVOMV9W630dVn9ukioJO34VD5NSYwcgFWg==
+"@octokit/rest@^17.1.0":
+  version "17.1.0"
+  resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-17.1.0.tgz#32df64d9dd4855339e9957524a84ced72762a53b"
+  integrity sha512-L5YtpxHZSHZCh2xETbzxz8clBGmcpT+5e78JLZQ+VfuHrHJ1J/r+R2PGwKHwClUEECTeWFMMdAtIik+OCkANBg==
   dependencies:
     "@octokit/core" "^2.4.0"
     "@octokit/plugin-paginate-rest" "^2.0.0"
     "@octokit/plugin-request-log" "^1.0.0"
-    "@octokit/plugin-rest-endpoint-methods" "^3.0.0"
+    "@octokit/plugin-rest-endpoint-methods" "^3.3.0"
 
 "@octokit/types@^1.0.0":
   version "1.1.0"
