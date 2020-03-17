@@ -1,12 +1,11 @@
-import { cutString } from '@hint/utils-string';
 import { Severity } from '@hint/utils-types';
 import { generateHTMLPage } from '@hint/utils-create-server';
 import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 const hintPath = getHintPath(__filename);
 
-const generateMissingMessage = (value: string, linkType: string): string => {
-    return `'${cutString(value, 100)}' should have 'rel' attribute value include ${linkType} keyword.`;
+const generateMissingMessage = (linkType: string): string => {
+    return `Link should have 'rel' attribute value include ${linkType} keyword.`;
 };
 
 const testsForOldBrowsers: HintTest[] = [
@@ -67,11 +66,11 @@ const testsForOldBrowsers: HintTest[] = [
     {
         name: `'a' with 'href="https://example.com"' has 'target="_blank"'`,
         reports: [{
-            message: generateMissingMessage('<a href="https://example.com" id="test" class="t … test4 test5 test5 test6" target="_blank">test</a>', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         },
         {
-            message: generateMissingMessage('<a href="https://example.com" id="test" class="t … test4 test5 test5 test6" target="_blank">test</a>', 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }
         ],
@@ -80,11 +79,11 @@ const testsForOldBrowsers: HintTest[] = [
     {
         name: `'a' with 'href="//example.com"' has 'target="_blank"'`,
         reports: [{
-            message: generateMissingMessage('<a href="//example.com" target="_blank">test</a>', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         },
         {
-            message: generateMissingMessage('<a href="//example.com" target="_blank">test</a>', 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="//example.com" target="_blank">test</a>`) }
@@ -92,11 +91,11 @@ const testsForOldBrowsers: HintTest[] = [
     {
         name: `'a' with 'href="//example.com"' has 'target="_blank"' and single quotes in some attribute`,
         reports: [{
-            message: generateMissingMessage(`<a href="//example.com" target="_blank" mouseover="return 'hello!';">test</a>`, 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         },
         {
-            message: generateMissingMessage(`<a href="//example.com" target="_blank" mouseover="return 'hello!';">test</a>`, 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="//example.com" target="_blank" mouseover="return 'hello!';">test</a>`) }
@@ -104,11 +103,11 @@ const testsForOldBrowsers: HintTest[] = [
     {
         name: `'map' href="//example.com" has 'target="_blank"'`,
         reports: [{
-            message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="//example.com" target="_blank" rel="nofollow">', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         },
         {
-            message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="//example.com" target="_blank" rel="nofollow">', 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }],
         serverConfig: {
@@ -125,7 +124,7 @@ const testsForOldBrowsers: HintTest[] = [
     {
         name: `'a' with 'href="https://example.com"' has 'target="_blank"' and 'noopener'`,
         reports: [{
-            message: generateMissingMessage('<a href="https://example.com" target="_blank" rel="noopener">test</a>', 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" target="_blank" rel="noopener">test</a>`) }
@@ -133,7 +132,7 @@ const testsForOldBrowsers: HintTest[] = [
     {
         name: `'map' with href="https://example.com" has 'target="_blank"' and 'noopener'`,
         reports: [{
-            message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="https://example.com" target="_blank" rel="noopener">', 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }],
         serverConfig: {
@@ -150,7 +149,7 @@ const testsForOldBrowsers: HintTest[] = [
     {
         name: `'a' with 'href="https://example.com"' has 'target="_blank"' and 'noreferrer'`,
         reports: [{
-            message: generateMissingMessage('<a href="https://example.com" target="_blank" rel="noreferrer">test</a>', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" target="_blank" rel="noreferrer">test</a>`) }
@@ -158,7 +157,7 @@ const testsForOldBrowsers: HintTest[] = [
     {
         name: `'map' with href="https://example.com" has 'target="_blank"' and 'noreferrer'`,
         reports: [{
-            message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="https://example.com" target="_blank" rel="noreferrer">', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         }],
         serverConfig: {
@@ -199,7 +198,7 @@ const testsWithFullSupportBrowsers: HintTest[] = [
     {
         name: `'a' with 'href="https://example.com"' has 'target="_blank"', and 'noopener' is supported by all targeted browsers`,
         reports: [{
-            message: generateMissingMessage('<a href="https://example.com" id="test" class="t … test4 test5 test5 test6" target="_blank">test</a>', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="https://example.com" id="test" class="test1 test2 test3 test4 test5 test5 test6" target="_blank">test</a>`) }
@@ -214,11 +213,11 @@ const testsForIncludeSameOriginURLsConfig: HintTest[] = [
     {
         name: `'a' with 'href=""' has 'target="_blank"' in when including same origin urls`,
         reports: [{
-            message: generateMissingMessage('<a href="" target="_blank">test</a>', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         },
         {
-            message: generateMissingMessage('<a href="" target="_blank">test</a>', 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="" target="_blank">test</a>`) }
@@ -226,11 +225,11 @@ const testsForIncludeSameOriginURLsConfig: HintTest[] = [
     {
         name: `'a' with 'href="/"' has 'target="_blank"'`,
         reports: [{
-            message: generateMissingMessage('<a href="/" target="_blank">test</a>', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         },
         {
-            message: generateMissingMessage('<a href="/" target="_blank">test</a>', 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="/" target="_blank">test</a>`) }
@@ -238,11 +237,11 @@ const testsForIncludeSameOriginURLsConfig: HintTest[] = [
     {
         name: `'a' with 'href="test.html"' has 'target="_blank"'`,
         reports: [{
-            message: generateMissingMessage('<a href="test.html" target="_blank">test</a>', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         },
         {
-            message: generateMissingMessage('<a href="test.html" target="_blank">test</a>', 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="test.html" target="_blank">test</a>`) }
@@ -250,11 +249,11 @@ const testsForIncludeSameOriginURLsConfig: HintTest[] = [
     {
         name: `'a' with 'href="http://localhost/test.html"' has 'target="_blank"'`,
         reports: [{
-            message: generateMissingMessage('<a href="http://localhost/test.html" target="_blank">test</a>', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         },
         {
-            message: generateMissingMessage('<a href="http://localhost/test.html" target="_blank">test</a>', 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }],
         serverConfig: { '/': generateHTMLPage(undefined, `<a href="http://localhost/test.html" target="_blank">test</a>`) }
@@ -262,11 +261,11 @@ const testsForIncludeSameOriginURLsConfig: HintTest[] = [
     {
         name: `'map' href="test.html" has 'target="_blank"'`,
         reports: [{
-            message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="test.html" target="_blank" rel="nofollow">', 'noopener'),
+            message: generateMissingMessage('noopener'),
             severity: Severity.error
         },
         {
-            message: generateMissingMessage('<area shape="rect" coords="0,0,100,100" href="test.html" target="_blank" rel="nofollow">', 'noreferrer'),
+            message: generateMissingMessage('noreferrer'),
             severity: Severity.warning
         }],
         serverConfig: {

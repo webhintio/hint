@@ -15,7 +15,7 @@ import { URL } from 'url';
 import { debug as d } from '@hint/utils-debug';
 import { isSupported } from '@hint/utils-compat-data';
 import { isRegularProtocol } from '@hint/utils-network';
-import { cutString, normalizeString } from '@hint/utils-string';
+import { normalizeString } from '@hint/utils-string';
 import { HTMLElement } from '@hint/utils-dom';
 import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -53,7 +53,6 @@ export default class DisownOpenerHint implements IHint {
             }
 
             const message = getMessage('shouldHaveRel', context.language, [
-                cutString(element.outerHTML, 100),
                 relValueToCheckFor,
                 getMessage('keyword', context.language)
             ]);
