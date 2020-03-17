@@ -17,6 +17,6 @@
     },
     "shouldHaveRel": {
         "description": "Report message to show when the validation fails",
-        "message": "'$1' should have 'rel' attribute value include $2 $3."
+        "message": "Link should have 'rel' attribute value include $1 $2."
     }
 }
