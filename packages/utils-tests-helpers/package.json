@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "@hint/utils": "^7.0.1",
-    "@hint/utils-create-server": "^3.4.1",
-    "@hint/utils-fs": "^1.0.0",
-    "@hint/utils-network": "^1.0.1",
-    "@hint/utils-types": "^1.0.0",
+    "@hint/utils": "^7.0.2",
+    "@hint/utils-create-server": "^3.4.2",
+    "@hint/utils-fs": "^1.0.1",
+    "@hint/utils-network": "^1.0.2",
+    "@hint/utils-types": "^1.0.1",
     "ava": "^3.4.0"
   },
   "description": "hint tests helpers",
@@ -61,5 +61,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "6.0.1"
+  "version": "6.1.0"
 }

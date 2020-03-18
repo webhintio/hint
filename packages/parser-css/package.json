@@ -9,14 +9,14 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.1",
-    "@hint/utils-string": "^1.0.0",
+    "@hint/utils": "^7.0.2",
+    "@hint/utils-string": "^1.0.1",
     "postcss": "^7.0.27",
     "postcss-safe-parser": "^4.0.1"
   },
   "description": "webhint parser needed to analyze CSS files",
   "devDependencies": {
-    "@hint/utils-dom": "^1.0.0",
+    "@hint/utils-dom": "^2.0.0",
     "@types/node": "^12.12.14",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^7.5.1",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.16"
+  "version": "3.0.17"
 }

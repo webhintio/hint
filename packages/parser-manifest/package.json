@@ -8,10 +8,10 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-json": "^1.0.2",
-    "@hint/utils-network": "^1.0.1",
-    "@hint/utils-string": "^1.0.0",
-    "@hint/utils-types": "^1.0.0"
+    "@hint/utils-json": "^1.0.3",
+    "@hint/utils-network": "^1.0.2",
+    "@hint/utils-string": "^1.0.1",
+    "@hint/utils-types": "^1.0.1"
   },
   "description": "webhint parser for web app manifest files",
   "devDependencies": {
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.2.15"
+  "version": "2.2.16"
 }

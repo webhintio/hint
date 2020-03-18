@@ -8,13 +8,13 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-i18n": "^1.0.0",
-    "@hint/utils-types": "^1.0.0"
+    "@hint/utils-i18n": "^1.0.1",
+    "@hint/utils-types": "^1.0.1"
   },
   "description": "Checks if CSS exceeds known stylesheet limits",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.1",
-    "@hint/utils-tests-helpers": "^6.0.1",
+    "@hint/utils-create-server": "^3.4.2",
+    "@hint/utils-tests-helpers": "^6.1.0",
     "@types/node": "^12.12.14",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -71,5 +71,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.3.1"
+  "version": "3.3.2"
 }
