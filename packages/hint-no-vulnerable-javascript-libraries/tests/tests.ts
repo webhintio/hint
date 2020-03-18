@@ -53,7 +53,7 @@ const userHighConfigTests: HintTest[] = [
     {
         name: `page with a library with vulnerabilities high fails if configured severity is "high"`,
         reports: [{
-            message: `'AngularJS@1.4.9' has 3 known vulnerabilities (3 high). See 'https://snyk.io/vuln/npm:angular' for more information.`,
+            message: `'AngularJS@1.4.9' has 4 known vulnerabilities (4 high). See 'https://snyk.io/vuln/npm:angular' for more information.`,
             severity: Severity.error
         }],
         serverConfig: generateHTMLPage(generateScriptTag(angular))
@@ -72,7 +72,7 @@ const userMediumConfigTests: HintTest[] = [
     {
         name: `page with a library with vulnerabilities high fails if configured severity is "medium"`,
         reports: [{
-            message: `'AngularJS@1.4.9' has 13 known vulnerabilities (10 medium, 3 high). See 'https://snyk.io/vuln/npm:angular' for more information.`,
+            message: `'AngularJS@1.4.9' has 14 known vulnerabilities (4 high, 10 medium). See 'https://snyk.io/vuln/npm:angular' for more information.`,
             severity: Severity.error
         }],
         serverConfig: generateHTMLPage(generateScriptTag(angular))
