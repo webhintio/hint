@@ -2,7 +2,7 @@ import * as fs from 'fs-extra';
 
 import { Octokit } from '@octokit/core';
 import { Octokit as octo } from '@octokit/rest';
-import * as throttling from '@octokit/plugin-throttling';
+import { throttling } from '@octokit/plugin-throttling';
 
 import { Tag, Commit, Package, Author, GitHubAuth } from '../@types/custom';
 import { debug, execa } from './utils';
