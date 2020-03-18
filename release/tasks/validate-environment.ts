@@ -58,17 +58,21 @@ const authenticatedOnNpm = async () => {
 };
 
 const authenticatedOnVsce = async () => {
+    let publishers = '';
+
     try {
         const { stdout } = await execa('vsce ls-publishers');
 
-        if (!stdout.split('\n').includes('webhint')) {
-            throw new Error('No vsce publish access for webhint, run `vsce login webhint`');
-        }
-
-        debug(`User logged in to vsce with webhint publish access`);
+        publishers = stdout || '';
     } catch (e) {
         throw new Error('Failed to find vsce, run `npm install -g vsce`');
     }
+
+    if (!publishers.split('\n').includes('webhint')) {
+        throw new Error('No vsce publish access for webhint, run `yarn run vsce login webhint`');
+    }
+
+    debug(`User logged in to vsce with webhint publish access`);
 };
 
 const validRemote = async () => {
