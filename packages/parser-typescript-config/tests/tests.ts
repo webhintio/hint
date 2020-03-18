@@ -157,6 +157,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
             alwaysStrict: true,
             declaration: true,
             disableSizeLimit: false,
+            importsNotUsedAsValues: 'remove',
             inlineSourceMap: true,
             jsxFactory: 'React.createElement',
             lib: [
@@ -205,6 +206,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
             alwaysStrict: true,
             declaration: true,
             disableSizeLimit: false,
+            importsNotUsedAsValues: 'remove',
             inlineSourceMap: true,
             jsxFactory: 'React.createElement',
             lib: [
