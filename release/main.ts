@@ -130,7 +130,7 @@ const tasks = new Listr([
     {
         title: 'Submit extension-browser for Edge (Chromium)',
         skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('@hint/extension-browser'), skipIfTestMode),
-        task: releaseForBrowser('TBD')
+        task: releaseForBrowser('https://partner.microsoft.com/en-us/dashboard/microsoftedge/')
     },
     {
         title: 'Submit extension-browser for Firefox',
