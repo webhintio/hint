@@ -23,8 +23,8 @@ const setFetchElement = (event: FetchEnd, document?: HTMLDocument) => {
     }
 };
 
-const setFetchType = (event: FetchEnd): string => {
-    const { charset, mediaType } = getContentTypeData(null, event.response.url, event.response.headers, null as any);
+const setFetchType = async (event: FetchEnd): Promise<string> => {
+    const { charset, mediaType } = await getContentTypeData(null, event.response.url, event.response.headers, null as any);
 
     event.response.charset = charset || '';
     event.response.mediaType = mediaType || '';
