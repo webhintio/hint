@@ -32,12 +32,12 @@ const setFetchType = async (event: FetchEnd): Promise<string> => {
     return getType(mediaType || '');
 };
 
-export const finalizeFetchEnd = (event: FetchEnd, document?: HTMLDocument) => {
+export const finalizeFetchEnd = async (event: FetchEnd, document?: HTMLDocument) => {
     lowerCaseHeaderNames(event.request.headers);
     lowerCaseHeaderNames(event.response.headers);
     setFetchElement(event, document);
 
-    const type = setFetchType(event);
+    const type = await setFetchType(event);
 
     return { type };
 };

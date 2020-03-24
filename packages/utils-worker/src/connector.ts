@@ -109,7 +109,7 @@ export default class WebWorkerConnector implements IConnector {
             return;
         }
 
-        const { type } = finalizeFetchEnd(event, this._document);
+        const { type } = await finalizeFetchEnd(event, this._document);
 
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }

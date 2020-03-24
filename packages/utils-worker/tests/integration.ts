@@ -88,7 +88,7 @@ const runWorker = async (page: Page, content: string) => {
 
 test('It runs in a real web worker', async (t) => {
     const webhint = await readFile('../bundle/webhint.js');
-    const content = await readFile('fixtures/button-type.html');
+    const content = await readFile('fixtures/basic-hints.html');
     const server = await Server.create({
         configuration: {
             '/': content,
@@ -132,12 +132,12 @@ test('It runs in a real web worker', async (t) => {
     // Validate a `can-evaluate::script` related hint
     t.is(axeLanguageResults.length, 1);
 
-    const buttonTypeResults = results.filter((problem) => {
-        return problem.hintId === 'button-type';
+    const compatHtmlResults = results.filter((problem) => {
+        return problem.hintId === 'compat-api/html';
     });
 
     // Validate a `traverse` related hint
-    t.is(buttonTypeResults.length, 1);
+    t.is(compatHtmlResults.length, 1);
 
     await browser.close();
     server.stop();
