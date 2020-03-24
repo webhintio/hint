@@ -1,16 +1,12 @@
 {
     "compilerOptions": {
-        "jsx": "react",
-        "outDir": "dist",
-        "resolveJsonModule": true,
-        "strict": true
+        "outDir": "dist"
     },
     "exclude": [
         "node_modules"
     ],
     "extends": "../../tsconfig.json",
     "include": [
-        "dist/bundle/_locales/**/*.json",
         "src/**/*.ts",
         "src/**/*.tsx",
         "tests/**/*.ts"

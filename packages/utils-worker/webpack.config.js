@@ -26,17 +26,16 @@ module.exports = (env) => {
         },
         optimization: {
             minimizer: [
-                /*
-                 * Fix handling of non-ASCII characters in minified content script
-                 * when running in Chrome by forcing them to be escaped.
-                 */
-                // eslint-disable-next-line camelcase
-                new TerserPlugin({ terserOptions: { output: { ascii_only: true } } })
+                new TerserPlugin({
+                    extractComments: false,
+                    // Fix handling of non-ASCII characters by forcing them to be escaped.
+                    terserOptions: { output: { ascii_only: true } } // eslint-disable-line camelcase
+                })
             ]
         },
         output: {
             filename: '[name].js',
-            path: path.resolve(__dirname, 'dist/bundle')
+            path: __dirname
         },
         plugins: [
             new webpack.DefinePlugin({ 'process.env.webpack': JSON.stringify(true) })

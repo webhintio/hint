@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const packageJSON = require('../package.json');
-const filename = `${path.resolve(__dirname, '..')}/dist/bundle/webhint.js`;
+const filename = `${path.resolve(__dirname, '..')}/webhint.js`;
 
 fs.stat(filename, (err, stats) => {
     if (err) {

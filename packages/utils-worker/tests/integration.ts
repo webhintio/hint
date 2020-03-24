@@ -87,7 +87,7 @@ const runWorker = async (page: Page, content: string) => {
 };
 
 test('It runs in a real web worker', async (t) => {
-    const webhint = await readFile('../bundle/webhint.js');
+    const webhint = await readFile('../../webhint.js');
     const content = await readFile('fixtures/basic-hints.html');
     const server = await Server.create({
         configuration: {

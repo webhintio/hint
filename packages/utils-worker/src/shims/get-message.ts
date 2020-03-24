@@ -1,6 +1,6 @@
 import camelCase = require('lodash/camelCase');
 // @ts-ignore
-import messages = require('../../bundle/_locales/en/messages.json');
+import messages = require('../../../_locales/en/messages.json');
 
 type GetMessage = typeof import('@hint/utils-i18n').getMessage;
 

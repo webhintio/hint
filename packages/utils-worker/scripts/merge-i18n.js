@@ -18,7 +18,7 @@ const main = async () => {
 
     for (const locale of locales) {
         const messages = require(`../src/_locales/${locale}/messages.json`);
-        const filename = path.resolve(`dist/bundle/_locales/${locale}/messages.json`);
+        const filename = path.resolve(__dirname, `../_locales/${locale}/messages.json`);
 
         for (const module of webhintModules) {
             try {
@@ -34,12 +34,18 @@ const main = async () => {
             }
         }
 
-        fs.writeFile(filename, JSON.stringify(messages), (err) => {
+        fs.mkdir(path.dirname(filename), { recursive: true }, (err) => {
             if (err) {
                 throw err;
-            } else {
-                console.log(`Created: ${filename}`);
             }
+
+            fs.writeFile(filename, JSON.stringify(messages), (err) => {
+                if (err) {
+                    throw err;
+                }
+
+                console.log(`Created: ${filename}`);
+            });
         });
     }
 };

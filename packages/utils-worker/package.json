@@ -66,7 +66,8 @@
     "webpack-cli": "^3.3.11"
   },
   "files": [
-    "images"
+    "_locales",
+    "webhint.js"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
@@ -87,7 +88,7 @@
     "build-release-packages": "npm run prebuild && npm run build:assets && npm-run-all copy:* && tsc --inlineSourceMap false --removeComments true && webpack --env.release && npm run lint-bundle-size",
     "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts),!(*.tsx),.!(tsx)}\" dist",
     "build:ts": "tsc -b",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist _locales webhint.js",
     "copy:i18n": "node ./scripts/merge-i18n.js",
     "lint": "npm-run-all lint:*",
     "lint-bundle-size": "node ./scripts/bundle-size.js",
@@ -95,7 +96,6 @@
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "prebuild": "npm-run-all prebuild:*",
-    "prebuild:assets": "cpx \"./src/**/*.json\" dist/bundle ",
     "prebuild:hints": "node ./scripts/import-hints.js",
     "prebuild:i18n": "node ./scripts/create-i18n.js",
     "stats": "webpack --json > stats.json",

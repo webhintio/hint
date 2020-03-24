@@ -3,3 +3,9 @@
 
 # webpack's bundled stats file
 stats.json
+
+# built localization files
+_locales
+
+# built worker bundle
+webhint.js
