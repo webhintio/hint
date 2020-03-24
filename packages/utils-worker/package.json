@@ -8,7 +8,6 @@
     ],
     "timeout": "1m"
   },
-  "browserslist": "last 2 chrome versions, last 2 firefox versions",
   "bundleSize": 2500000,
   "description": "webhint web worker",
   "devDependencies": {
@@ -29,7 +28,6 @@
     "@hint/hint-no-http-redirects": "^2.4.2",
     "@hint/hint-no-protocol-relative-urls": "^2.4.2",
     "@hint/hint-scoped-svg-styles": "^1.3.2",
-    "@hint/hint-stylesheet-limits": "^3.3.2",
     "@hint/hint-validate-set-cookie-header": "^2.4.2",
     "@hint/hint-x-content-type-options": "^3.3.2",
     "@hint/parser-css": "^3.0.17",
@@ -78,9 +76,6 @@
   ],
   "license": "Apache-2.0",
   "name": "@hint/utils-worker",
-  "nyc": {
-    "branches": 60
-  },
   "repository": {
     "directory": "packages/utils-worker",
     "type": "git",
@@ -114,5 +109,5 @@
     "webpack": "webpack",
     "webpack-stats": "webpack --json > stats.json"
   },
-  "version": "2.0.3"
+  "version": "1.0.0"
 }
