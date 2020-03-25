@@ -92,7 +92,7 @@
     "copy:i18n": "node ./scripts/merge-i18n.js",
     "lint": "npm-run-all lint:*",
     "lint-bundle-size": "node ./scripts/bundle-size.js",
-    "lint:js": "eslint . --cache --ext .js,.md,.ts --ext tsx --ignore-path ../../.eslintignore",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ext tsx",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "prebuild": "npm-run-all prebuild:*",
