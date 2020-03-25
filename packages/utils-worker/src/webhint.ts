@@ -8,17 +8,13 @@ import { Configuration } from 'hint/dist/src/lib/config';
 import { HintResources, IHintConstructor } from 'hint/dist/src/lib/types';
 import { HintsConfigObject } from '@hint/utils';
 
-import CSSParser from '@hint/parser-css';
-import HTMLParser from '@hint/parser-html';
-import JavaScriptParser from '@hint/parser-javascript';
-import ManifestParser from '@hint/parser-manifest';
-
 import { addHostListener, notifyHost, removeHostListener } from './shared/host';
 import { Config, HostEvents } from './shared/types';
 
 import WebWorkerConnector from './connector';
 
 import hints from './shared/hints.import';
+import parsers from './shared/parsers.import';
 
 /* istanbul ignore next */
 const reportError = (message: string, stack: string) => {
@@ -42,14 +38,14 @@ const main = async (userConfig: Config) => {
 
     const config: Configuration = {
         browserslist: browserslist('defaults'),
-        connector: { name: 'web-extension', options: {} },
-        extends: undefined,
-        formatters: ['web-extension'],
+        connector: { name: 'web-worker' },
+        extends: [],
+        formatters: [],
         hints: hintsConfig,
         hintsTimeout: 10000,
         ignoredUrls: new Map<string, RegExp[]>(),
         language: 'en-US',
-        parsers: ['css', 'html', 'javascript', 'manifest']
+        parsers: [...parsers.keys()]
     };
 
     const resources: HintResources = {
@@ -58,12 +54,7 @@ const main = async (userConfig: Config) => {
         hints: enabledHints,
         incompatible: [],
         missing: [],
-        parsers: [
-            CSSParser as any,
-            HTMLParser as any,
-            JavaScriptParser as any,
-            ManifestParser as any
-        ]
+        parsers: [...parsers.values()]
     };
 
     const engine = new Engine(config, resources);

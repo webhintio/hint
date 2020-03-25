@@ -98,6 +98,7 @@
     "prebuild": "npm-run-all prebuild:*",
     "prebuild:hints": "node ./scripts/import-hints.js",
     "prebuild:i18n": "node ./scripts/create-i18n.js",
+    "prebuild:parsers": "node ./scripts/import-parsers.js",
     "stats": "webpack --json > stats.json",
     "stats-release": "webpack --env.release --json > release-stats.json",
     "test": "npm run prebuild && npm run lint && npm run build && npm run test-only && npm run build-release-packages",
