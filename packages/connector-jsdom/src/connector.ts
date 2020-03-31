@@ -385,7 +385,7 @@ export default class JSDOMConnector implements IConnector {
 
             this._subprocesses.add(runner);
 
-            runner.on('message', (result) => {
+            runner.on('message', (result: { error: any; evaluate: any }) => {
                 /* istanbul ignore if */
                 if (timeoutId) {
                     clearTimeout(timeoutId);
