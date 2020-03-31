@@ -80,7 +80,7 @@
   "displayName": "webhint",
   "engines": {
     "node": ">=8.0.0",
-    "vscode": "^1.41.0"
+    "vscode": "^1.42.0"
   },
   "homepage": "https://webhint.io/",
   "icon": "icon.png",
