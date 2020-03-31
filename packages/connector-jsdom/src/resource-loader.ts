@@ -6,7 +6,7 @@ import {
 } from '@hint/utils';
 import { getElementByUrl, HTMLDocument } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
-import { ResourceLoader } from 'jsdom';
+import { ResourceLoader, FetchOptions } from 'jsdom';
 
 import { FetchEnd, FetchError, NetworkData } from 'hint';
 
@@ -25,10 +25,10 @@ export default class CustomResourceLoader extends ResourceLoader {
         this._HTMLDocument = htmlDocument;
     }
 
-    public async fetch(url: string): Promise<Buffer | null> {
+    public async fetch(url: string, options: FetchOptions): Promise<Buffer> {
         /* istanbul ignore if */
         if (!url) {
-            const promise = Promise.resolve(null);
+            const promise = Promise.resolve(null as any);
 
             (promise as any).abort = () => { };
 
@@ -51,7 +51,7 @@ export default class CustomResourceLoader extends ResourceLoader {
 
         // Ignore if the resource has already been fetched.
         if (this._connector.fetchedHrefs.has(resourceUrl)) {
-            return null;
+            return null as any;
         }
 
         this._connector.fetchedHrefs.add(resourceUrl);
