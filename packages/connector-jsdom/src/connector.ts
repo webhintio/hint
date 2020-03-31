@@ -29,7 +29,7 @@ import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 import { fork, ChildProcess } from 'child_process';
 
-import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
+import { JSDOM, ResourceLoader, VirtualConsole, DOMWindow } from 'jsdom';
 
 import {
     getContentTypeData,
@@ -61,7 +61,7 @@ export default class JSDOMConnector implements IConnector {
     private _options: any;
     private _href: string = '';
     private _targetNetworkData!: NetworkData;
-    private _window!: Window;
+    private _window!: DOMWindow;
     private _document!: HTMLDocument;
     private _originalDocument: HTMLDocument | undefined;
     private _timeout: number;
@@ -141,7 +141,7 @@ export default class JSDOMConnector implements IConnector {
      * * uses the `src` attribute of `<link rel="icon">` if present.
      * * uses `favicon.ico` and the final url after redirects.
      */
-    private async getFavicon(element?: Element | null) {
+    private async getFavicon(element?: HTMLLinkElement) {
         const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
@@ -292,7 +292,7 @@ export default class JSDOMConnector implements IConnector {
                         await traverse(htmlDocument, this.server, this.finalHref);
 
                         // We download only the first favicon found
-                        await this.getFavicon(window.document.querySelector('link[rel~="icon"]'));
+                        await this.getFavicon(window.document.querySelector('link[rel~="icon"]') as HTMLLinkElement);
 
                         /*
                          * TODO: when we reach this moment we should wait for all pending request to be done and
