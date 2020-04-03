@@ -5,7 +5,7 @@ suitable for running inside a web worker in a browser environment.
 
 ## Installation
 
-This package can be installed via NPM by running the following:
+This package can be installed via npm by running the following:
 
 ```bash
 npm install @hint/utils-worker --save
