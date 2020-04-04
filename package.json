@@ -35,7 +35,7 @@
     "shelljs": "^0.8.3",
     "tsort": "^0.0.1",
     "typescript": "^3.8.3",
-    "unzipper": "^0.10.8",
+    "unzipper": "^0.10.10",
     "yargs": "^15.1.0"
   },
   "engines": {
