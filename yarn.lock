@@ -11380,10 +11380,10 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
-unzipper@^0.10.8:
-  version "0.10.8"
-  resolved "https://registry.yarnpkg.com/unzipper/-/unzipper-0.10.8.tgz#d7e898f572009128692641331c29b398ff3e5f16"
-  integrity sha512-CZRd20MbyAfWL1Xc+lqgNFYDj5e/HaH9pLEWZgseQWCvEtNfX0wOjnhaJ6PcGpNnDvifSW1ZNSCHX6GoNliR0A==
+unzipper@^0.10.10:
+  version "0.10.10"
+  resolved "https://registry.yarnpkg.com/unzipper/-/unzipper-0.10.10.tgz#d82d41fbdfa1f0731123eb11c2cfc028b45d3d42"
+  integrity sha512-wEgtqtrnJ/9zIBsQb8UIxOhAH1eTHfi7D/xvmrUoMEePeI6u24nq1wigazbIFtHt6ANYXdEVTvc8XYNlTurs7A==
   dependencies:
     big-integer "^1.6.17"
     binary "~0.3.0"
