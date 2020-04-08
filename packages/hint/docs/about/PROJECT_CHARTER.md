@@ -38,13 +38,13 @@ Section Intentionally Left Blank
 
 ## 4. Webhint's Governing Body
 
-Webhint is governed by its maintainers. See [GOVERNANCE.md] for more
+Webhint is governed by its maintainers. See [GOVERNANCE.md][] for more
 information.
 
 ## 5. Roles & Responsibilities
 
 The roles and responsibilities of webhint's maintainers are described
-in [GOVERNANCE.md].
+in [GOVERNANCE.md][].
 
 ### 5.1. Project Operations & Management
 
@@ -52,7 +52,7 @@ Section Intentionally Left Blank
 
 ### 5.2. Decision-making, Voting, and/or Elections (optional)
 
-Webhint uses a consensus-seeking process, described in [GOVERNANCE.md].
+Webhint uses a consensus-seeking process, described in [GOVERNANCE.md][].
 
 ### 5.3: Other Project Roles (optional)
 
