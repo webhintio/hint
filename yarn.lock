@@ -654,10 +654,10 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.149.tgz#1342d63d948c6062838fbf961012f74d4e638440"
   integrity sha512-ijGqzZt/b7BfzcK9vTrS6MFljQRPn5BFWOx8oE0GYxribu6uV+aA9zZuXI1zc/etK9E8nrgdoF2+LgUw7+9tJQ==
 
-"@types/mime-db@^1.27.0":
-  version "1.27.0"
-  resolved "https://registry.yarnpkg.com/@types/mime-db/-/mime-db-1.27.0.tgz#9bc014a1fd1fdf47649c1a54c6dd7966b8284792"
-  integrity sha1-m8AUof0f30dknBpUxt15ZrgoR5I=
+"@types/mime-db@^1.27.1":
+  version "1.27.1"
+  resolved "https://registry.yarnpkg.com/@types/mime-db/-/mime-db-1.27.1.tgz#a8c9792b6f8ffaf37b7055cff36786bb038adbfd"
+  integrity sha512-XSZg3ch6h3xvfu3wpQBL1Bbzi8IlMivdBCFIy3E8pQ6dvDQiM740UZXFqszTYBdjNKnQPw1g39G+6drIjzWihA==
 
 "@types/mime-types@^2.1.0":
   version "2.1.0"
