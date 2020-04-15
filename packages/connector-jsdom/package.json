@@ -16,7 +16,7 @@
     "@hint/utils-network": "^1.0.3",
     "@hint/utils-types": "^1.0.1",
     "@types/tough-cookie": "^4.0.0",
-    "jsdom": "^16.2.0",
+    "jsdom": "^16.2.2",
     "mutationobserver-shim": "^0.3.3"
   },
   "description": "hint connector for JSDOM",
