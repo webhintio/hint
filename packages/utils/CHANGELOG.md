@@ -1,3 +1,13 @@
+# 7.0.3 (April 15, 2020)
+
+## Chores
+
+* [[`d2d7cc87a6`](https://github.com/webhintio/hint/commit/d2d7cc87a60a23d80ec8d46214c0c7732fe338a2)] - Upgrade: Bump configstore from 5.0.0 to 5.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`992f6cb1af`](https://github.com/webhintio/hint/commit/992f6cb1afbc3db3f732fc9172b2ed1f40623c48)] - Upgrade: Bump @types/mime-db from 1.27.0 to 1.27.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c8bcf672c7`](https://github.com/webhintio/hint/commit/c8bcf672c7c99e5cf2602cdb308ae79f49f70b5b)] - Upgrade: Bump applicationinsights from 1.7.0 to 1.7.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 7.0.2 (March 18, 2020)
 
 ## Chores

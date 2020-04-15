@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@hint/utils-debug": "^1.0.1",
-    "@hint/utils-fs": "^1.0.1",
-    "@hint/utils-string": "^1.0.1",
+    "@hint/utils-fs": "^1.0.2",
+    "@hint/utils-string": "^1.0.2",
     "applicationinsights": "^1.7.3",
     "chalk": "^3.0.0",
     "configstore": "^5.0.1",
@@ -26,7 +26,7 @@
   },
   "description": "hint tools",
   "devDependencies": {
-    "@hint/utils-dom": "^2.0.0",
+    "@hint/utils-dom": "^2.1.0",
     "@hint/utils-types": "^1.0.1",
     "@types/configstore": "^4.0.0",
     "@types/mime-db": "^1.27.1",
@@ -89,5 +89,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "7.0.2"
+  "version": "7.0.3"
 }

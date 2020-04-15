@@ -1,3 +1,15 @@
+# 1.5.5 (April 15, 2020)
+
+## Chores
+
+* [[`c95d72c10b`](https://github.com/webhintio/hint/commit/c95d72c10bd005a479e0055851b1ec316be4ca4e)] - Chore: Bump VSCode extension size for dependency updates.
+* [[`d2d7cc87a6`](https://github.com/webhintio/hint/commit/d2d7cc87a60a23d80ec8d46214c0c7732fe338a2)] - Upgrade: Bump configstore from 5.0.0 to 5.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b7d082e5e0`](https://github.com/webhintio/hint/commit/b7d082e5e01d31e57c66d8ef07cbeda3b572d506)] - Upgrade: Bump webpack from 4.42.0 to 4.42.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2d7e36540e`](https://github.com/webhintio/hint/commit/2d7e36540e664e303c920637b2ce01494db83a8f)] - Upgrade: Bump @types/vscode from 1.41.0 to 1.42.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`326c245db3`](https://github.com/webhintio/hint/commit/326c245db3047d8fb5f54695e8093beb04910f1b)] - Upgrade: Bump @types/node from 12.12.14 to 13.9.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.5.4 (March 18, 2020)
 
 ## Bug fixes / Improvements

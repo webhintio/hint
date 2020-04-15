@@ -1,3 +1,15 @@
+# 2.1.0 (April 15, 2020)
+
+## New features
+
+* [[`6b59eae3a5`](https://github.com/webhintio/hint/commit/6b59eae3a52953ccf9bb5b360dba949665d652c2)] - New: Add support for Element.matches() (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`319819486e`](https://github.com/webhintio/hint/commit/319819486e8904aa4cf98d632062f7c470b7c9df)] - Upgrade: Bump axe-core from 3.4.1 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.0.0 (March 18, 2020)
 
 ## Breaking Changes

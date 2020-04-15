@@ -8,8 +8,8 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.2",
-    "@hint/utils-network": "^1.0.2"
+    "@hint/utils": "^7.0.3",
+    "@hint/utils-network": "^1.0.3"
   },
   "description": "webhint parser needed to analyze webpack config files",
   "devDependencies": {
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.1.17"
+  "version": "2.1.18"
 }
