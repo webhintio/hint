@@ -74,6 +74,7 @@
     "vsce": "^1.74.0",
     "vscode-languageclient": "^6.1.1",
     "vscode-languageserver": "^6.1.1",
+    "vscode-languageserver-textdocument": "^1.0.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11"
   },
