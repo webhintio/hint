@@ -12,7 +12,7 @@
     "@hint/utils-i18n": "^1.0.2",
     "@hint/utils-string": "^1.0.2",
     "@hint/utils-types": "^1.0.1",
-    "cloudinary": "^1.19.0",
+    "cloudinary": "^1.21.0",
     "fs-extra": "^8.0.1",
     "image-size": "^0.8.3"
   },
