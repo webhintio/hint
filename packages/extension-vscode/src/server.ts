@@ -1,5 +1,6 @@
 import * as https from 'https';
-import { createConnection, ProposedFeatures, TextDocuments } from 'vscode-languageserver';
+import { createConnection, ProposedFeatures, TextDocuments, TextDocumentSyncKind } from 'vscode-languageserver';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 import { initTelemetry, updateTelemetry } from '@hint/utils-telemetry';
 
 import { trackClose, trackSave, trackOptIn, TelemetryState } from './utils/analytics';
@@ -15,7 +16,7 @@ const [,, globalStoragePath, telemetryEnabled, everEnabledTelemetryStr] = proces
 const everEnabledTelemetry = everEnabledTelemetryStr === 'true';
 const connection = createConnection(ProposedFeatures.all);
 const analyzer = new Analyzer(globalStoragePath, connection);
-const documents = new TextDocuments();
+const documents = new TextDocuments(TextDocument);
 
 let workspace = '';
 
@@ -26,7 +27,7 @@ connection.onInitialize((params) => {
      */
     workspace = params.rootPath || '';
 
-    return { capabilities: { textDocumentSync: documents.syncKind } };
+    return { capabilities: { textDocumentSync: TextDocumentSyncKind.Full } };
 });
 
 connection.onNotification(notifications.telemetryEnabledChanged, (telemetryEnabled: TelemetryState) => {
