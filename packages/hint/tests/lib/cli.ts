@@ -79,7 +79,7 @@ test.afterEach.always((t) => {
 
 test('Users should be notified if there is a new version of hint', async (t) => {
     const sandbox = t.context.sandbox;
-    const newUpdate = {
+    const newUpdate: UpdateInfo = {
         current: '0.2.0',
         latest: '0.3.0',
         name: 'hint',
@@ -112,7 +112,7 @@ test(`Users shouldn't be notified if the current version is up to date`, async (
 
 test(`Users shouldn't be notified if they just updated to the latest version and the data is still cached`, async (t) => {
     const sandbox = t.context.sandbox;
-    const newUpdate = {
+    const newUpdate: UpdateInfo = {
         current: '0.2.0',
         latest: '0.3.0',
         name: 'hint',
