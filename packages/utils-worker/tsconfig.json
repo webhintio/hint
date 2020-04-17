@@ -1,0 +1,50 @@
+{
+    "compilerOptions": {
+        "outDir": "dist"
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "extends": "../../tsconfig.json",
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tests/**/*.ts"
+    ],
+    "references": [
+        { "path": "../hint" },
+        { "path": "../hint-axe" },
+        { "path": "../hint-button-type" },
+        { "path": "../hint-compat-api" },
+        { "path": "../hint-content-type" },
+        { "path": "../hint-create-element-svg" },
+        { "path": "../hint-css-prefix-order" },
+        { "path": "../hint-disown-opener" },
+        { "path": "../hint-highest-available-document-mode" },
+        { "path": "../hint-http-cache" },
+        { "path": "../hint-manifest-app-name" },
+        { "path": "../hint-manifest-file-extension" },
+        { "path": "../hint-manifest-is-valid" },
+        { "path": "../hint-meta-charset-utf-8" },
+        { "path": "../hint-meta-viewport" },
+        { "path": "../hint-minified-js" },
+        { "path": "../hint-no-disallowed-headers" },
+        { "path": "../hint-no-html-only-headers" },
+        { "path": "../hint-no-http-redirects" },
+        { "path": "../hint-no-protocol-relative-urls" },
+        { "path": "../hint-scoped-svg-styles" },
+        { "path": "../hint-sri" },
+        { "path": "../hint-stylesheet-limits" },
+        { "path": "../hint-validate-set-cookie-header" },
+        { "path": "../hint-x-content-type-options" },
+        { "path": "../parser-css" },
+        { "path": "../parser-html" },
+        { "path": "../parser-javascript" },
+        { "path": "../parser-manifest" },
+        { "path": "../utils" },
+        { "path": "../utils-create-server" },
+        { "path": "../utils-dom" },
+        { "path": "../utils-i18n" },
+        { "path": "../utils-types" }
+    ]
+}

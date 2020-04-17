@@ -8,20 +8,20 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.2",
+    "@hint/utils": "^7.0.3",
     "@hint/utils-debug": "^1.0.1",
-    "@hint/utils-i18n": "^1.0.1",
+    "@hint/utils-i18n": "^1.0.2",
     "@hint/utils-types": "^1.0.1"
   },
   "description": "hint that that checks if the TypeScript configuration is valid.",
   "devDependencies": {
-    "@hint/parser-typescript-config": "^2.4.4",
-    "@hint/utils-json": "^1.0.3",
-    "@hint/utils-tests-helpers": "^6.1.0",
+    "@hint/parser-typescript-config": "^2.4.5",
+    "@hint/utils-json": "^1.0.4",
+    "@hint/utils-tests-helpers": "^6.1.1",
     "@types/node": "^13.9.2",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
-    "ava": "^3.4.0",
+    "ava": "^3.5.2",
     "cpx": "^1.5.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.18.2",
@@ -30,7 +30,7 @@
     "npm-run-all": "^4.1.5",
     "nyc": "^15.0.0",
     "rimraf": "^3.0.2",
-    "sinon": "^9.0.1",
+    "sinon": "^9.0.2",
     "typescript": "^3.8.3"
   },
   "files": [
@@ -78,5 +78,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.3"
+  "version": "2.4.4"
 }

@@ -69,9 +69,10 @@ export const hostUI = async (): Promise<[IServer, string[]]> => {
 
     for (const state of states) {
         const path = `/${state.name}.html`;
+        const disableAnimations = `<style>*{animation: none !important}</style>`;
         const stateString = JSON.stringify(state).replace(/<\/script>/g, '<\\/script>');
         const stateScript = `<script>{window.initialState = ${stateString}; const state = {${state.action}}; state.action()}</script>`;
-        const htmlSource = rawHtmlSource.replace(/(<script )/, `${stateScript}${mockExtensionAPIsScript}$1`);
+        const htmlSource = rawHtmlSource.replace(/(<script )/, `${disableAnimations}${stateScript}${mockExtensionAPIsScript}$1`);
 
         (configuration as any)[path] = htmlSource;
         paths.push(path);

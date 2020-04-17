@@ -1,3 +1,11 @@
+# 1.0.2 (April 15, 2020)
+
+## Chores
+
+* [[`9eae8d1610`](https://github.com/webhintio/hint/commit/9eae8d161032edccd76b247b7e0ce78fb41279ff)] - Upgrade: Bump strip-json-comments from 3.0.1 to 3.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.1 (March 18, 2020)
 
 ## Chores

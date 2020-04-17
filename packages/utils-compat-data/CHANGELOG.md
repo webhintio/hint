@@ -1,3 +1,11 @@
+# 1.0.4 (April 15, 2020)
+
+## Chores
+
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`069b8e658e`](https://github.com/webhintio/hint/commit/069b8e658e068e9082079f01938a773914f46cdb)] - Upgrade: Bump mdn-browser-compat-data from 1.0.12 to 1.0.16 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.3 (March 18, 2020)
 
 ## Chores

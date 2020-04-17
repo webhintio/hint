@@ -26,7 +26,7 @@ const defaultTests: HintTest[] = [
     {
         name: `page with a vulnerable library (jquery 2.1.4) fails`,
         reports: [{
-            message: `'jQuery@2.1.4' has 2 known vulnerabilities (2 medium). See 'https://snyk.io/vuln/npm:jquery' for more information.`,
+            message: `'jQuery@2.1.4' has 3 known vulnerabilities (3 medium). See 'https://snyk.io/vuln/npm:jquery' for more information.`,
             severity: Severity.warning
         }],
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
@@ -53,7 +53,7 @@ const userHighConfigTests: HintTest[] = [
     {
         name: `page with a library with vulnerabilities high fails if configured severity is "high"`,
         reports: [{
-            message: `'AngularJS@1.4.9' has 4 known vulnerabilities (4 high). See 'https://snyk.io/vuln/npm:angular' for more information.`,
+            message: `'AngularJS@1.4.9' has 3 known vulnerabilities (3 high). See 'https://snyk.io/vuln/npm:angular' for more information.`,
             severity: Severity.error
         }],
         serverConfig: generateHTMLPage(generateScriptTag(angular))
@@ -64,7 +64,7 @@ const userMediumConfigTests: HintTest[] = [
     {
         name: `page with a library with vulnerabilities medium fails if configured severity is "medium"`,
         reports: [{
-            message: `'jQuery@2.1.4' has 2 known vulnerabilities (2 medium). See 'https://snyk.io/vuln/npm:jquery' for more information.`,
+            message: `'jQuery@2.1.4' has 3 known vulnerabilities (3 medium). See 'https://snyk.io/vuln/npm:jquery' for more information.`,
             severity: Severity.warning
         }],
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
@@ -72,7 +72,7 @@ const userMediumConfigTests: HintTest[] = [
     {
         name: `page with a library with vulnerabilities high fails if configured severity is "medium"`,
         reports: [{
-            message: `'AngularJS@1.4.9' has 14 known vulnerabilities (4 high, 10 medium). See 'https://snyk.io/vuln/npm:angular' for more information.`,
+            message: `'AngularJS@1.4.9' has 13 known vulnerabilities (3 high, 10 medium). See 'https://snyk.io/vuln/npm:angular' for more information.`,
             severity: Severity.error
         }],
         serverConfig: generateHTMLPage(generateScriptTag(angular))

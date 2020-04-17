@@ -1,3 +1,21 @@
+# 2.1.1 (April 15, 2020)
+
+## Chores
+
+* [[`31a97858c7`](https://github.com/webhintio/hint/commit/31a97858c74bb0bd7ba69389e37fabc22a9a3218)] - Chore: Fix animations breaking axe-core/color test.
+* [[`647e3bbbc5`](https://github.com/webhintio/hint/commit/647e3bbbc5d22cc2ef8cc2ce2c32ea110d4b4b0f)] - Upgrade: Bump css-loader from 3.4.2 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8306f39f14`](https://github.com/webhintio/hint/commit/8306f39f145e694184ae3de893e53c35d5b16250)] - Upgrade: Bump focus-visible from 5.0.2 to 5.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`fec3fcca39`](https://github.com/webhintio/hint/commit/fec3fcca39eca91a6f7d3ded156752399ec2b692)] - Upgrade: Bump svg-url-loader from 4.0.0 to 5.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`17cebc2a1b`](https://github.com/webhintio/hint/commit/17cebc2a1b9c254319766ebddf30ccf8d55ddbfe)] - Chore: Increase bundle size to account for axe-core updates (by [`Tony Ross`](https://github.com/antross)).
+* [[`319819486e`](https://github.com/webhintio/hint/commit/319819486e8904aa4cf98d632062f7c470b7c9df)] - Upgrade: Bump axe-core from 3.4.1 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`515f1b5386`](https://github.com/webhintio/hint/commit/515f1b5386715f634021e9f06d3f40262fd5b5c4)] - Upgrade: Bump browserslist from 4.9.1 to 4.11.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b7d082e5e0`](https://github.com/webhintio/hint/commit/b7d082e5e01d31e57c66d8ef07cbeda3b572d506)] - Upgrade: Bump webpack from 4.42.0 to 4.42.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`326c245db3`](https://github.com/webhintio/hint/commit/326c245db3047d8fb5f54695e8093beb04910f1b)] - Upgrade: Bump @types/node from 12.12.14 to 13.9.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b2d850ec44`](https://github.com/webhintio/hint/commit/b2d850ec446df321cac972bebd6ab5e662fe0e01)] - Upgrade: Bump @types/chrome from 0.0.92 to 0.0.103 (#3649) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e36525f633`](https://github.com/webhintio/hint/commit/e36525f6335b747574dddf6dd5bc931e4e4e7f46)] - Upgrade: Bump eslint-plugin-react-hooks from 2.5.0 to 3.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.1.0 (March 18, 2020)
 
 ## New features

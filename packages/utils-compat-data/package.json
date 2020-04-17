@@ -8,7 +8,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "mdn-browser-compat-data": "^1.0.12",
+    "mdn-browser-compat-data": "^1.0.16",
     "postcss": "^7.0.27",
     "postcss-selector-parser": "^6.0.2",
     "postcss-value-parser": "^4.0.3",
@@ -18,7 +18,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
-    "ava": "^3.4.0",
+    "ava": "^3.5.2",
     "cpx": "^1.5.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.18.2",
@@ -70,5 +70,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.3"
+  "version": "1.0.4"
 }

@@ -230,6 +230,13 @@ export class HTMLElement extends Node {
     }
 
     /**
+     * https://developer.mozilla.org/en-US/docs/Web/API/Element/matches
+     */
+    public matches(selector: string): boolean {
+        return this.ownerDocument.querySelectorAll(selector).includes(this);
+    }
+
+    /**
      * https://developer.mozilla.org/docs/Web/API/Element/outerHTML
      */
     public get outerHTML(): string {

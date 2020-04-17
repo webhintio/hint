@@ -1,3 +1,16 @@
+# 6.0.5 (April 15, 2020)
+
+## Bug fixes / Improvements
+
+* [[`50372ded63`](https://github.com/webhintio/hint/commit/50372ded6306f4c329140d3f852a208b2e757594)] - Docs: Make Project Charter and Governance official (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3660`](https://github.com/webhintio/hint/issues/3660)).
+
+## Chores
+
+* [[`515f1b5386`](https://github.com/webhintio/hint/commit/515f1b5386715f634021e9f06d3f40262fd5b5c4)] - Upgrade: Bump browserslist from 4.9.1 to 4.11.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`326c245db3`](https://github.com/webhintio/hint/commit/326c245db3047d8fb5f54695e8093beb04910f1b)] - Upgrade: Bump @types/node from 12.12.14 to 13.9.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 6.0.4 (March 18, 2020)
 
 ## Bug fixes / Improvements

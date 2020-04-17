@@ -1,3 +1,12 @@
+# 3.0.18 (April 15, 2020)
+
+## Chores
+
+* [[`dcd458430a`](https://github.com/webhintio/hint/commit/dcd458430a53067f1e198fd398ecdd94e4a62904)] - Upgrade: Bump postcss-safe-parser from 4.0.1 to 4.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`326c245db3`](https://github.com/webhintio/hint/commit/326c245db3047d8fb5f54695e8093beb04910f1b)] - Upgrade: Bump @types/node from 12.12.14 to 13.9.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.0.17 (March 18, 2020)
 
 ## Chores
