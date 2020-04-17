@@ -6,7 +6,8 @@ import { URL } from 'url';
 import { Engine } from 'hint/dist/src/lib/engine';
 import { Configuration } from 'hint/dist/src/lib/config';
 import { HintResources, IHintConstructor } from 'hint/dist/src/lib/types';
-import { HintsConfigObject } from '@hint/utils';
+import { HintsConfigObject } from '@hint/utils/dist/src/config/types';
+import normalizeHints from '@hint/utils/dist/src/config/normalize-hints';
 
 import { addHostListener, notifyHost, removeHostListener } from './shared/host';
 import { Config, HostEvents } from './shared/types';
@@ -26,25 +27,30 @@ const reportError = (message: string, stack: string) => {
     });
 };
 
-const main = async (userConfig: Config) => {
+const main = async ({ resource, userConfig = {} }: Config) => {
     const enabledHints: IHintConstructor[] = [];
+    const configuredHints = normalizeHints(userConfig.hints || []);
 
+    // Automatically enable bundled hints unless explicitly turned off.
     const hintsConfig = hints.reduce((o, hint) => {
-        o[hint.meta.id] = 'default';
-        enabledHints.push(hint);
+        o[hint.meta.id] = configuredHints[hint.meta.id] || 'default';
+
+        if (o[hint.meta.id] !== 'off') {
+            enabledHints.push(hint);
+        }
 
         return o;
     }, {} as HintsConfigObject);
 
     const config: Configuration = {
-        browserslist: browserslist('defaults'),
+        browserslist: browserslist(userConfig.browserslist || 'defaults'),
         connector: { name: 'web-worker' },
         extends: [],
         formatters: [],
         hints: hintsConfig,
-        hintsTimeout: 10000,
+        hintsTimeout: userConfig.hintsTimeout || 10000,
         ignoredUrls: new Map<string, RegExp[]>(),
-        language: 'en-US',
+        language: userConfig.language,
         parsers: [...parsers.keys()]
     };
 
@@ -65,7 +71,7 @@ const main = async (userConfig: Config) => {
         }
     });
 
-    await engine.executeOn(new URL(userConfig.resource));
+    await engine.executeOn(new URL(resource));
 };
 
 const onHostEvent = (events: HostEvents) => {

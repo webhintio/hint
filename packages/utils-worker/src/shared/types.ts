@@ -1,10 +1,11 @@
 import { DocumentData } from '@hint/utils-dom';
 import { Problem } from '@hint/utils-types';
 import { FetchEnd, FetchStart } from 'hint/dist/src/lib/types';
+import { UserConfig } from '@hint/utils';
 
 export type Config = {
-    locale?: string;
     resource: string;
+    userConfig?: UserConfig;
 };
 
 export type ErrorData = {

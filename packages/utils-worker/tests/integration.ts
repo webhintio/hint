@@ -1,6 +1,7 @@
 import { launch, Page } from 'puppeteer';
-import test from 'ava';
+import test, { ExecutionContext } from 'ava';
 
+import { UserConfig } from '@hint/utils';
 import { createHelpers, DocumentData } from '@hint/utils-dom';
 import { Problem } from '@hint/utils-types';
 import { Server } from '@hint/utils-create-server';
@@ -14,8 +15,8 @@ declare const __webhint: {
     snapshotDocument(document: Document): DocumentData;
 };
 
-const runWorker = async (page: Page, content: string) => {
-    return await page.evaluate((content: string) => {
+const runWorker = async (page: Page, content: string, userConfig: UserConfig) => {
+    return await page.evaluate((content: string, userConfig: UserConfig) => {
 
         const mockFetchEnd = (): FetchEnd => {
             return {
@@ -59,8 +60,8 @@ const runWorker = async (page: Page, content: string) => {
                 if (message.requestConfig) {
                     sendMessage({
                         config: {
-                            locale: 'en-us',
-                            resource: location.href
+                            resource: location.href,
+                            userConfig
                         }
                     });
                 } else if (message.ready) {
@@ -83,12 +84,12 @@ const runWorker = async (page: Page, content: string) => {
                 }
             });
         });
-    }, content);
+    }, content, userConfig as any);
 };
 
-test('It runs in a real web worker', async (t) => {
+const getResults = async (t: ExecutionContext, fixture: string, userConfig: UserConfig) => {
     const webhint = await readFile('../../webhint.js');
-    const content = await readFile('fixtures/basic-hints.html');
+    const content = await readFile(fixture);
     const server = await Server.create({
         configuration: {
             '/': content,
@@ -114,9 +115,18 @@ test('It runs in a real web worker', async (t) => {
 
     await page.evaluate(`(${createHelpers})()`);
 
-    const results = await runWorker(page, content);
+    const results = await runWorker(page, content, userConfig);
 
     t.log(results);
+
+    await browser.close();
+    await server.stop();
+
+    return results;
+};
+
+test('It runs in a real web worker', async (t) => {
+    const results = await getResults(t, 'fixtures/basic-hints.html', { language: 'en-us' });
 
     const xContentTypeOptionsResults = results.filter((problem) => {
         return problem.hintId === 'x-content-type-options';
@@ -138,7 +148,28 @@ test('It runs in a real web worker', async (t) => {
 
     // Validate a `traverse` related hint
     t.is(compatHtmlResults.length, 1);
+});
 
-    await browser.close();
-    server.stop();
+test('It respects provided configuration', async (t) => {
+    const results = await getResults(t, 'fixtures/basic-hints.html', {
+        hints: {
+            'axe/language': 'off',
+            'compat-api/html': ['default', { ignore: ['dialog'] }]
+        },
+        language: 'en-us'
+    });
+
+    const axeLanguageResults = results.filter((problem) => {
+        return problem.hintId === 'axe/language';
+    });
+
+    // Validate `axe/language` was disabled
+    t.is(axeLanguageResults.length, 0);
+
+    const compatHtmlResults = results.filter((problem) => {
+        return problem.hintId === 'compat-api/html';
+    });
+
+    // Validate `compat-api/html` was configured
+    t.is(compatHtmlResults.length, 0);
 });
