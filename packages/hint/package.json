@@ -25,7 +25,7 @@
     "lodash": "^4.17.15",
     "optionator": "^0.8.3",
     "ora": "^4.0.3",
-    "os-locale": "^4.0.0",
+    "os-locale": "^5.0.0",
     "update-notifier": "^4.0.0"
   },
   "description": "The linting tool for the web",
