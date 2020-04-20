@@ -1,5 +1,5 @@
 import { Requester } from '@hint/utils-connector-tools';
-import { ResourceLoader } from 'jsdom';
+import { ResourceLoader, FetchOptions } from 'jsdom';
 import { NetworkData } from 'hint';
 import { debug as d } from '@hint/utils-debug';
 
@@ -16,9 +16,9 @@ export class EvaluateCustomResourceLoader extends ResourceLoader {
         this._baseUrl = url;
     }
 
-    public async fetch(url: string): Promise<Buffer | null> {
+    public async fetch(url: string, options: FetchOptions): Promise<Buffer> {
         if (!url) {
-            const promise = Promise.resolve(null);
+            const promise = Promise.resolve(null as any);
 
             (promise as any).abort = () => { };
 
