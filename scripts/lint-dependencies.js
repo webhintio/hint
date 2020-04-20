@@ -13,7 +13,6 @@ const typeDependencies = new Set([
     'har-format',
     'estree-jsx',
     'request',
-    'tough-cookie',
     'vscode'
 ]);
 
