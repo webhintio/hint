@@ -2,35 +2,37 @@
   "ava": {
     "failFast": false,
     "files": [
-      "dist/tests/**/*.js"
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
     ],
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^5.0.2",
-    "postcss": "^7.0.18"
+    "@hint/utils-css": "^1.0.2",
+    "@hint/utils-debug": "^1.0.1",
+    "@hint/utils-fs": "^1.0.2",
+    "@hint/utils-i18n": "^1.0.2",
+    "@hint/utils-types": "^1.0.1",
+    "postcss": "^7.0.27"
   },
   "description": "Ensure vendor-prefixed versions of a CSS property are listed before the unprefixed version.",
   "devDependencies": {
-    "@hint/parser-css": "^3.0.12",
-    "@hint/parser-sass": "^1.0.4",
-    "@hint/utils-tests-helpers": "^5.0.10",
-    "@types/debug": "^4.1.5",
-    "@types/node": "^12.7.5",
+    "@hint/parser-css": "^3.0.18",
+    "@hint/parser-sass": "^1.0.10",
+    "@hint/utils-create-server": "^3.4.3",
+    "@hint/utils-tests-helpers": "^6.1.1",
+    "@types/node": "^13.9.2",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
-    "ava": "^1.4.1",
+    "ava": "^3.5.2",
     "cpx": "^1.5.0",
-    "eslint": "^6.5.1",
-    "eslint-plugin-markdown": "^1.0.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-markdown": "^1.0.2",
     "npm-run-all": "^4.1.5",
-    "nyc": "^14.1.0",
-    "postcss": "^7.0.18",
-    "rimraf": "^3.0.0",
-    "typescript": "^3.6.3"
-  },
-  "engines": {
-    "node": ">=8.0.0"
+    "nyc": "^15.0.0",
+    "postcss": "^7.0.27",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
   },
   "files": [
     "dist/src"
@@ -50,7 +52,7 @@
   },
   "peerDependencies": {
     "@hint/parser-css": "^3.0.0",
-    "hint": "^5.0.0"
+    "hint": "^6.0.0"
   },
   "repository": {
     "directory": "packages/hint-css-prefix-order",
@@ -65,17 +67,17 @@
     "clean": "rimraf dist",
     "i18n": "node ../../scripts/create-i18n.js",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
-    "test": "npm run lint && npm run build && npm run test-only",
+    "test": "npm run i18n && npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
-    "test-release": "npm run lint && npm run build-release && ava",
+    "test-release": "npm run i18n && npm run lint && npm run build-release && ava",
     "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.2.9"
+  "version": "1.4.3"
 }

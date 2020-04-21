@@ -5,16 +5,14 @@ import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
-import { misc } from '@hint/utils';
+import { delay } from '@hint/utils';
 
 import { HintScope } from '../../src/lib/enums/hint-scope';
 import { Configuration } from '../../src/lib/config';
 import { HintResources, IFormatter, IConnector, IFetchOptions, IHint, HintMetadata } from '../../src/lib/types';
-import { Problem } from '@hint/utils/dist/src/types/problems';
-import { Category } from '@hint/utils/dist/src/types/category';
+import { Problem } from '@hint/utils-types';
+import { Category } from '@hint/utils-types';
 import { HintContext } from '../../src/lib/hint-context';
-
-const { delay } = misc;
 
 type EventEmitter2 = {
     EventEmitter2: () => void;
@@ -71,7 +69,7 @@ test(`If config is an empty object, we should throw an error`, (t) => {
     t.throws(() => {
         // <any>{} to avoid the type checking if not is not possible to use {}
         new Engine({} as Configuration, {} as HintResources);
-    }, Error);
+    }, { instanceOf: Error });
 });
 
 test(`If the config object is invalid, we should throw an error`, (t) => {
@@ -82,7 +80,7 @@ test(`If the config object is invalid, we should throw an error`, (t) => {
             invalidProperty: 'invalid',
             randomProperty: 'random'
         } as any, {} as HintResources);
-    }, Error);
+    }, { instanceOf: Error });
 });
 
 test(`If config.browserslist is an array of strings, we should initilize the property targetedBrowsers`, (t) => {

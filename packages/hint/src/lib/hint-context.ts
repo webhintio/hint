@@ -6,7 +6,9 @@
  */
 import { URL } from 'url';
 
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { ProblemLocation, Severity } from '@hint/utils-types';
+import { Category } from '@hint/utils-types';
+import { getHTMLCodeSnippet, HTMLElement } from '@hint/utils-dom';
 
 import { Engine } from './engine';
 import {
@@ -15,9 +17,6 @@ import {
     NetworkData,
     StringKeyOf
 } from './types';
-import { ProblemLocation, Severity } from '@hint/utils/dist/src/types/problems';
-import { Category } from '@hint/utils/dist/src/types/category';
-import { getHTMLCodeSnippet } from '@hint/utils/dist/src/report/get-html-code-snippet';
 
 export type CodeLanguage = 'css' | 'html' | 'http' | 'javascript';
 
@@ -33,8 +32,8 @@ export type ReportOptions = {
      * If specified with `element`, represents an offset in the element's content (e.g. for inline CSS in HTML).
      */
     location?: ProblemLocation | null;
-    /** The `Severity` to report the issue as (overrides default settings for a hint). */
-    severity?: Severity;
+    /** The `Severity` to report the issue as. */
+    severity: Severity;
     /** Indicate the language of the codeSnippet. */
     codeLanguage?: CodeLanguage;
 };
@@ -124,8 +123,8 @@ export class HintContext<E extends Events = Events> {
     }
 
     /** Reports a problem with the resource. */
-    public report(resource: string, message: string, options: ReportOptions = {}) {
-        const { codeSnippet, element, severity } = options;
+    public report(resource: string, message: string, options: ReportOptions) {
+        const { codeSnippet, element, severity = Severity.warning } = options;
         let sourceCode: string | null = null;
         let position = options.location || null;
 
@@ -134,6 +133,15 @@ export class HintContext<E extends Events = Events> {
             position = this.findProblemLocation(element, position);
             sourceCode = getHTMLCodeSnippet(element);
         }
+
+        /**
+         * By default all hints get configured with `default` so they can
+         * decide the severity of each report unless it's overriden by the
+         * user.
+         */
+        const finalSeverity = this.severity !== Severity.default ?
+            this.severity :
+            severity;
 
         /*
          * If location is undefined or equal to null, `position` will be set as `{ column: -1, line: -1 }` later in `hint.report`.
@@ -147,7 +155,7 @@ export class HintContext<E extends Events = Events> {
             location: position || { column: -1, line: -1 },
             message,
             resource,
-            severity: severity || this.severity,
+            severity: finalSeverity,
             sourceCode: codeSnippet || sourceCode || ''
         });
     }

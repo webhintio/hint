@@ -1,3 +1,107 @@
+# 2.5.1 (April 15, 2020)
+
+## Chores
+
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`326c245db3`](https://github.com/webhintio/hint/commit/326c245db3047d8fb5f54695e8093beb04910f1b)] - Upgrade: Bump @types/node from 12.12.14 to 13.9.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 2.5.0 (March 18, 2020)
+
+## New features
+
+* [[`22b1a8d5b4`](https://github.com/webhintio/hint/commit/22b1a8d5b4c8130da640753162d48f1587af3d35)] - New: Try puppeteer's Chromium if no browser is specified (by [`Tony Ross`](https://github.com/antross) / see also: [`#3568`](https://github.com/webhintio/hint/issues/3568)).
+
+## Chores
+
+* [[`9af90ff3cd`](https://github.com/webhintio/hint/commit/9af90ff3cd1ab622feefb0b4c6e0e7fb32d6ef56)] - Upgrade: Bump sinon from 8.0.4 to 9.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`57379d447a`](https://github.com/webhintio/hint/commit/57379d447a925a7a7497d469c54e116658d82294)] - Upgrade: Bump nyc from 14.1.1 to 15.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`22fe185e7a`](https://github.com/webhintio/hint/commit/22fe185e7af03f689185d5c4a5eb3a345778b82c)] - Upgrade: Bump file-type from 12.4.0 to 14.1.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b073a311fa`](https://github.com/webhintio/hint/commit/b073a311facfc6864efec73886645bf8e9e3f1bd)] - Upgrade: Bump typescript from 3.7.5 to 3.8.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`128611a764`](https://github.com/webhintio/hint/commit/128611a764d208a99aa0441af715da9bcf7a2413)] - Upgrade: Bump @types/puppeteer from 2.0.0 to 2.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9a7f1074d4`](https://github.com/webhintio/hint/commit/9a7f1074d421a918f5d6528815c69dfb912d3e35)] - Upgrade: Bump ava from 2.4.0 to 3.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f847f60365`](https://github.com/webhintio/hint/commit/f847f6036569681f60d58fcc9214fe61f6ce2968)] - Upgrade: Bump eslint-plugin-markdown from 1.0.1 to 1.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`3830fbb908`](https://github.com/webhintio/hint/commit/3830fbb908c152887347417f56f70c3210ecbf26)] - Upgrade: Bump rimraf from 3.0.0 to 3.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6213583880`](https://github.com/webhintio/hint/commit/62135838800f088b7947cbb16a2a9d28d2c90643)] - Upgrade: Bump puppeteer-core from 2.1.0 to 2.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8f76e7c475`](https://github.com/webhintio/hint/commit/8f76e7c47566ac464da72a490a02d237b4490c2d)] - Upgrade: Bump puppeteer from 2.1.0 to 2.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`88d2091f84`](https://github.com/webhintio/hint/commit/88d2091f84b93f275e985fdaa0eff6ba03ab48da)] - Chore: Allow running tests with only puppeteer installed (by [`Tony Ross`](https://github.com/antross)).
+* [[`21bb432d24`](https://github.com/webhintio/hint/commit/21bb432d240341ab1013df3059b426ea70aef4fd)] - Upgrade: Bump typescript from 3.7.4 to 3.7.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1836e7781c`](https://github.com/webhintio/hint/commit/1836e7781c548d52878dd361c17f334d794a01cf)] - Chore: Always use latest VM images for CI (by [`Tony Ross`](https://github.com/antross) / see also: [`#3503`](https://github.com/webhintio/hint/issues/3503)).
+* [[`a83d989a41`](https://github.com/webhintio/hint/commit/a83d989a410ecb2a79ef498324808a9a3cdc1d2a)] - Upgrade: Bump sinon from 7.5.0 to 8.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2e92bfc6d6`](https://github.com/webhintio/hint/commit/2e92bfc6d68d8161b8e85cc2e45a4654a7d182e1)] - Upgrade: Bump typescript from 3.7.3 to 3.7.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2d25855042`](https://github.com/webhintio/hint/commit/2d258550426d9db7fb1446ef6f2931630feae292)] - Upgrade: Bump eslint from 6.6.0 to 6.8.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4b402165a9`](https://github.com/webhintio/hint/commit/4b402165a94c50d011534e848cb43ae1e51ae330)] - Upgrade: Bump @types/puppeteer-core from 1.9.0 to 2.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7435145342`](https://github.com/webhintio/hint/commit/7435145342ff90a0e55f8d7cf295026442cebc91)] - Upgrade: Bump @types/sinon from 7.5.0 to 7.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5764738af0`](https://github.com/webhintio/hint/commit/5764738af0124d38b0f882845768788482b8e445)] - Upgrade: Bump @types/lodash from 4.14.141 to 4.14.149 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`cb2fde008d`](https://github.com/webhintio/hint/commit/cb2fde008dd25ec1c5b770c823cc56ca76dc4271)] - Upgrade: Bump @types/node from 12.12.12 to 12.12.14 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a620f1cafb`](https://github.com/webhintio/hint/commit/a620f1cafb55af6ca7672e66989ae1c21f03dbac)] - Chore: Refactor ESLint commands (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2187`](https://github.com/webhintio/hint/issues/2187)).
+* [[`046efb21e5`](https://github.com/webhintio/hint/commit/046efb21e5e3b96dc5bb3f250e9384a70b6b32c3)] - Upgrade: Bump typescript from 3.6.4 to 3.7.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3421`](https://github.com/webhintio/hint/issues/3421)).
+
+
+# 2.4.2 (December 3, 2019)
+
+## Bug fixes / Improvements
+
+* [[`68f78788aa`](https://github.com/webhintio/hint/commit/68f78788aa7554ee0070b53e93e6a19a4495b06e)] - Fix: Ignore certain HTTP methods (see also: [`#3412`](https://github.com/webhintio/hint/issues/3412)).
+
+
+# 2.4.1 (December 2, 2019)
+
+## Bug fixes / Improvements
+
+* [[`15bda95316`](https://github.com/webhintio/hint/commit/15bda9531648914d6374118e25bf6dbd3608b9e8)] - Fix: Make `browser` case insensitive (see also: [`#3058`](https://github.com/webhintio/hint/issues/3058)).
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`34bd5dc265`](https://github.com/webhintio/hint/commit/34bd5dc265bdb79a82e0201483b293ffed557fe9)] - Chore: Move `chromium-finder` utils to `puppeteer`.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+* [[`90210e7c1e`](https://github.com/webhintio/hint/commit/90210e7c1e3de5ff67591af493fe4483a8941d17)] - Chore: Update references to use generateHTMLPage.
+* [[`1ee0419dbb`](https://github.com/webhintio/hint/commit/1ee0419dbbdad8928115757df7a0235ebcc70c98)] - Upgrade: Bump puppeteer-core from 1.20.0 to 2.0.0.
+* [[`370cc143b6`](https://github.com/webhintio/hint/commit/370cc143b68ef8e70e14b7c2f98f27edbe96e3f4)] - Chore: Update packages to use @hint/utils-tests-helpers.
+* [[`5ed37ce719`](https://github.com/webhintio/hint/commit/5ed37ce719dfed3c78619f1717450a04b25644d4)] - Chore: Update packages to use @hint/utils-fs.
+* [[`baa55a4ebd`](https://github.com/webhintio/hint/commit/baa55a4ebd47e21eabffef9f7be74672125aef9b)] - Chore: Update packages to use @hint/utils-network.
+* [[`d95dc4a371`](https://github.com/webhintio/hint/commit/d95dc4a3711aa1a2cda74a7f83d14a49a4c92d65)] - Chore: Update packages to use @hint/utils-dom.
+* [[`45f015dea0`](https://github.com/webhintio/hint/commit/45f015dea045a0bf9e01a55ac0a186dbc37161ca)] - Chore: Update packages to use @hint/utils-debug.
+
+
+# 2.4.0 (October 29, 2019)
+
+## New features
+
+* [[`214ad66898`](https://github.com/webhintio/hint/commit/214ad668983747424311cc7fb33e145c30ad1994)] - New: Enhance `can-evaluate::script` event (by [`Antón Molleda`](https://github.com/molant)).
+
+## Chores
+
+* [[`2e2e67cff1`](https://github.com/webhintio/hint/commit/2e2e67cff1ca140a96fc2d0879113e34c08fd000)] - Chore: Remove unnecessary types (by [`Antón Molleda`](https://github.com/molant)).
+* [[`6fdc164013`](https://github.com/webhintio/hint/commit/6fdc164013359ecf012fb9dcd5c0ef9ed5aca192)] - Upgrade: Bump @types/sinon from 7.0.13 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`b8ba2e17cd`](https://github.com/webhintio/hint/commit/b8ba2e17cdca7fccfd274b2ba250a96329b23fe8)] - Upgrade: Bump sinon from 7.4.2 to 7.5.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0cfa8ecfbf`](https://github.com/webhintio/hint/commit/0cfa8ecfbf23aa46fb3e88794531144ab262ca21)] - Chore: Update proxyquire and fix tests (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3121`](https://github.com/webhintio/hint/issues/3121)).
+
+
+# 2.3.0 (October 16, 2019)
+
+## Bug fixes / Improvements
+
+* [[`c912cae69c`](https://github.com/webhintio/hint/commit/c912cae69cc498471b960cf77646a90b7356c89a)] - Docs: Fix browser option in connector-puppeteer (by [`Dimitar Nestorov`](https://github.com/dimitarnestorov) / see also: [`#3053`](https://github.com/webhintio/hint/issues/3053)).
+
+## New features
+
+* [[`80279dcdaa`](https://github.com/webhintio/hint/commit/80279dcdaa25306d5278f8f606fe3dda51bb54bc)] - New: Add "user actions" (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2249`](https://github.com/webhintio/hint/issues/2249), and [`#3032`](https://github.com/webhintio/hint/issues/3032)).
+
+## Chores
+
+* [[`99630d03dc`](https://github.com/webhintio/hint/commit/99630d03dc99cdb71a5010095a22b6908b6cdea5)] - Chore: Fix dependencies (by [`Antón Molleda`](https://github.com/molant)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+* [[`427ca87b2a`](https://github.com/webhintio/hint/commit/427ca87b2ad63550fcf0c48d9f7624c28e419002)] - Upgrade: Bump @types/lodash from 4.14.138 to 4.14.141 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.2.2 (September 26, 2019)
 
 

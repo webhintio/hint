@@ -2,10 +2,10 @@
 
 import * as mock from 'mock-require';
 
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import * as utils from '@hint/utils';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import * as utilsNetwork from '@hint/utils-network';
+import { Severity } from '@hint/utils-types';
 
-const { getHintPath } = utils.test;
 const hintPath = getHintPath(__filename);
 const exampleUrl = 'https://empty.webhint.io/';
 const validatorError = 'error';
@@ -18,16 +18,16 @@ const noErrorMessages = {
     messages: []
 };
 
-// Response from the default checker that contains errors/warnings
+// Response from the default checker that contains errors/warnings, values modified to validate `toSeverity`
 const defaultCheckerMessages = {
     url: exampleUrl,
     messages: [
         {
-            type: 'info',
+            type: 'error',
             lastLine: 1,
             lastColumn: 3114,
             firstColumn: 3046,
-            subType: 'error',
+            subType: 'fatal',
             message: '“role="none"” is not yet supported in all browsers. Consider instead either using “role="presentation"” or “role="none presentation"”.',
             extract: 'stration"><img src="/images/iceberg-left.svg" id="iceberg1" alt="" role="none"> <img ',
             hiliteStart: 10,
@@ -49,7 +49,6 @@ const defaultCheckerMessages = {
             lastLine: 1,
             lastColumn: 3000,
             firstColumn: 2000,
-            subType: 'warning',
             message: 'Consider using the “h1” element as a top-level heading only (all “h1” elements are treated as top-level headings by many screen readers and other tools)',
             extract: '-section"><h1>example<',
             hiliteStart: 8,
@@ -92,12 +91,12 @@ const htmlCheckerMock = (response: any) => {
             return Promise.resolve(JSON.stringify(responseMessages));
         }
 
-        return Promise.reject(validatorError); // Error with the validator
+        return Promise.reject(new Error(validatorError)); // Error with the validator
     };
 
-    (utils.network as any).requestAsync = requestAsync;
+    (utilsNetwork as any).requestAsync = requestAsync;
 
-    mock('@hint/utils', utils);
+    mock('@hint/utils-network', utilsNetwork);
 };
 
 const testsForDefaults: HintTest[] = [
@@ -120,13 +119,15 @@ const testsForDefaults: HintTest[] = [
             position: {
                 column: defaultCheckerMessages.messages[0].firstColumn,
                 line: defaultCheckerMessages.messages[0].lastLine
-            }
+            },
+            severity: Severity.error
         }, {
             message: defaultCheckerMessages.messages[1].message,
             position: {
                 column: defaultCheckerMessages.messages[1].firstColumn,
                 line: defaultCheckerMessages.messages[1].lastLine
-            }
+            },
+            severity: Severity.warning
         }],
         before() {
             htmlCheckerMock({ error: true });
@@ -143,7 +144,8 @@ const testsForIgnoreStringConfigs: HintTest[] = [
             position: {
                 column: defaultCheckerMessages.messages[0].firstColumn,
                 line: defaultCheckerMessages.messages[0].lastLine
-            }
+            },
+            severity: Severity.error
         }],
         before() {
             htmlCheckerMock({ error: true });
@@ -194,19 +196,22 @@ const testsForDetailsConfig: HintTest[] = [
             position: {
                 column: defaultCheckerMessages.messages[0].firstColumn,
                 line: defaultCheckerMessages.messages[0].lastLine
-            }
+            },
+            severity: Severity.error
         }, {
             message: defaultCheckerMessages.messages[1].message,
             position: {
                 column: defaultCheckerMessages.messages[1].firstColumn,
                 line: defaultCheckerMessages.messages[1].lastLine
-            }
+            },
+            severity: Severity.warning
         }, {
             message: defaultCheckerMessages.messages[2].message,
             position: {
                 column: defaultCheckerMessages.messages[2].firstColumn,
                 line: defaultCheckerMessages.messages[2].lastLine
-            }
+            },
+            severity: Severity.information
         }],
         before() {
             htmlCheckerMock({ error: true });

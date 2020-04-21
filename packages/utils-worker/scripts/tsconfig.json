@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "alwaysStrict": true,
+        "checkJs": true,
+        "moduleResolution": "node",
+        "noUnusedLocals": true,
+        "resolveJsonModule": true,
+        "strict": true,
+        "target": "esnext"
+    },
+    "include": [
+        "**/*.js"
+    ]
+}

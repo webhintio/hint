@@ -1,8 +1,8 @@
-import { misc, test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { prettyPrintArray } from '@hint/utils-string';
+import { Severity } from '@hint/utils-types';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { prettyPrintArray } = misc;
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 const htmlPage = generateHTMLPage(undefined, '<script src="test.js"></script>');
 
@@ -105,7 +105,8 @@ const testsForDefaults: HintTest[] = [
                     'feature-policy',
                     'x-ua-compatible',
                     'x-xss-protection'
-                ])
+                ]),
+                severity: Severity.warning
             }
         ],
         serverConfig: {
@@ -134,7 +135,10 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `HTML document treated as non-HTML resource (no media type) is served with unneeded header`,
-        reports: [{ message: generateMessage(['x-ua-compatible']) }],
+        reports: [{
+            message: generateMessage(['x-ua-compatible']),
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': {
                 content: '',
@@ -147,7 +151,10 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `HTML document treated as non-HTML resource (invalid media type) is served with unneeded header`,
-        reports: [{ message: generateMessage(['x-ua-compatible']) }],
+        reports: [{
+            message: generateMessage(['x-ua-compatible']),
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': {
                 content: '',
@@ -160,7 +167,10 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `HTML document treated as non-HTML resource (valid, but incorrect media type) is served with unneeded header`,
-        reports: [{ message: generateMessage(['x-ua-compatible']) }],
+        reports: [{
+            message: generateMessage(['x-ua-compatible']),
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': {
                 content: '',
@@ -204,7 +214,8 @@ const testsForIncludeConfigs: HintTest[] = [
                 message: generateMessage([
                     'x-test-1',
                     'x-ua-compatible'
-                ])
+                ]),
+                severity: Severity.warning
             }
         ],
         serverConfig: {
@@ -236,7 +247,8 @@ const testsForConfigs: HintTest[] = [
                 message: generateMessage([
                     'x-test-1',
                     'x-ua-compatible'
-                ])
+                ]),
+                severity: Severity.warning
             }
         ],
         serverConfig: {

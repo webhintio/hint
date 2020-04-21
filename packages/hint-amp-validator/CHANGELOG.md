@@ -1,3 +1,109 @@
+# 2.10.4 (April 15, 2020)
+
+## New features
+
+* [[`bb713528ad`](https://github.com/webhintio/hint/commit/bb713528adbbd429a36cf8c80111e7b7ceca6f6d)] - Update: 'validator'.
+
+## Chores
+
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`326c245db3`](https://github.com/webhintio/hint/commit/326c245db3047d8fb5f54695e8093beb04910f1b)] - Upgrade: Bump @types/node from 12.12.14 to 13.9.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 2.10.3 (March 18, 2020)
+
+## New features
+
+* [[`02e9659dea`](https://github.com/webhintio/hint/commit/02e9659dea80e41d7dcbf13a7d90f7742d258440)] - Update: 'validator'.
+
+## Chores
+
+* [[`57379d447a`](https://github.com/webhintio/hint/commit/57379d447a925a7a7497d469c54e116658d82294)] - Upgrade: Bump nyc from 14.1.1 to 15.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b073a311fa`](https://github.com/webhintio/hint/commit/b073a311facfc6864efec73886645bf8e9e3f1bd)] - Upgrade: Bump typescript from 3.7.5 to 3.8.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9a7f1074d4`](https://github.com/webhintio/hint/commit/9a7f1074d421a918f5d6528815c69dfb912d3e35)] - Upgrade: Bump ava from 2.4.0 to 3.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f847f60365`](https://github.com/webhintio/hint/commit/f847f6036569681f60d58fcc9214fe61f6ce2968)] - Upgrade: Bump eslint-plugin-markdown from 1.0.1 to 1.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`3830fbb908`](https://github.com/webhintio/hint/commit/3830fbb908c152887347417f56f70c3210ecbf26)] - Upgrade: Bump rimraf from 3.0.0 to 3.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f38df550db`](https://github.com/webhintio/hint/commit/f38df550db480b28f0f3c82fc8179d66f3a69dab)] - Upgrade: Bump amphtml-validator from 1.0.29 to 1.0.30 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`21bb432d24`](https://github.com/webhintio/hint/commit/21bb432d240341ab1013df3059b426ea70aef4fd)] - Upgrade: Bump typescript from 3.7.4 to 3.7.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2e92bfc6d6`](https://github.com/webhintio/hint/commit/2e92bfc6d68d8161b8e85cc2e45a4654a7d182e1)] - Upgrade: Bump typescript from 3.7.3 to 3.7.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2d25855042`](https://github.com/webhintio/hint/commit/2d258550426d9db7fb1446ef6f2931630feae292)] - Upgrade: Bump eslint from 6.6.0 to 6.8.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`07484c4b3c`](https://github.com/webhintio/hint/commit/07484c4b3c5538a87031838239e9e2a5ae892656)] - Upgrade: Bump @types/amphtml-validator from 1.0.0 to 1.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`cb2fde008d`](https://github.com/webhintio/hint/commit/cb2fde008dd25ec1c5b770c823cc56ca76dc4271)] - Upgrade: Bump @types/node from 12.12.12 to 12.12.14 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a620f1cafb`](https://github.com/webhintio/hint/commit/a620f1cafb55af6ca7672e66989ae1c21f03dbac)] - Chore: Refactor ESLint commands (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2187`](https://github.com/webhintio/hint/issues/2187)).
+* [[`046efb21e5`](https://github.com/webhintio/hint/commit/046efb21e5e3b96dc5bb3f250e9384a70b6b32c3)] - Upgrade: Bump typescript from 3.6.4 to 3.7.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3421`](https://github.com/webhintio/hint/issues/3421)).
+
+
+# 2.10.1 (December 3, 2019)
+
+## New features
+
+* [[`54617b1e68`](https://github.com/webhintio/hint/commit/54617b1e686a5c5a4274e8d59cdc1575df402340)] - Update: 'validator'.
+
+
+# 2.10.0 (December 2, 2019)
+
+## New features
+
+* [[`fc5b32dbc3`](https://github.com/webhintio/hint/commit/fc5b32dbc36cc5bc81d9e099827446865ff48218)] - Update: 'validator'.
+* [[`752b6af8f6`](https://github.com/webhintio/hint/commit/752b6af8f6d8b5b8de7ac74a9202dd2672f73327)] - New: Default severity for `@hint/hint-amp-validator` (see also: [`#3208`](https://github.com/webhintio/hint/issues/3208)).
+
+## Bug fixes / Improvements
+
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+* [[`370cc143b6`](https://github.com/webhintio/hint/commit/370cc143b68ef8e70e14b7c2f98f27edbe96e3f4)] - Chore: Update packages to use @hint/utils-tests-helpers.
+* [[`5ed37ce719`](https://github.com/webhintio/hint/commit/5ed37ce719dfed3c78619f1717450a04b25644d4)] - Chore: Update packages to use @hint/utils-fs.
+* [[`97bb31d0fa`](https://github.com/webhintio/hint/commit/97bb31d0fafb53572220cd647bb493716587ca2b)] - Chore: Update references to the new @hint/utils-types.
+* [[`1f4b600a43`](https://github.com/webhintio/hint/commit/1f4b600a431da4f7d5d6f40aa1696a2e91cc22e0)] - Chore: Update packages to use @hint/utils-i18n.
+* [[`45f015dea0`](https://github.com/webhintio/hint/commit/45f015dea045a0bf9e01a55ac0a186dbc37161ca)] - Chore: Update packages to use @hint/utils-debug.
+* [[`c981d9de34`](https://github.com/webhintio/hint/commit/c981d9de3483a450a2b4d5925fb5b75f80ee0f88)] - Upgrade: Bump amphtml-validator from 1.0.28 to 1.0.29.
+
+
+# 2.9.13 (October 30, 2019)
+
+## New features
+
+* [[`9ed251b9f0`](https://github.com/webhintio/hint/commit/9ed251b9f0cdfcf48781d5ab9761f83c533bff94)] - Update: 'validator'.
+
+
+# 2.9.12 (October 29, 2019)
+
+## New features
+
+* [[`b8b4e9ffc9`](https://github.com/webhintio/hint/commit/b8b4e9ffc95778806b396e657d4608f78641bcda)] - Update: 'validator'.
+
+## Chores
+
+* [[`3eb15e85b6`](https://github.com/webhintio/hint/commit/3eb15e85b6d677bf6b1cbf6c9c3f17b505f28553)] - Upgrade: Bump amphtml-validator from 1.0.23 to 1.0.28 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce965513ae`](https://github.com/webhintio/hint/commit/ce965513ae2b715881d4f7891e795c046579f0d5)] - Upgrade: Bump ava from 1.4.1 to 2.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3022`](https://github.com/webhintio/hint/issues/3022)).
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 2.9.11 (October 17, 2019)
+
+## New features
+
+* [[`7020131591`](https://github.com/webhintio/hint/commit/7020131591790e87c4c1fc20efe013187642e708)] - Update: 'validator'.
+
+
+# 2.9.10 (October 16, 2019)
+
+## New features
+
+* [[`cb7006d81e`](https://github.com/webhintio/hint/commit/cb7006d81e259152cfafc2e6192ace6748f42f8a)] - Update: 'validator'.
+
+## Chores
+
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+
+
 # 2.9.9 (September 26, 2019)
 
 ## New features

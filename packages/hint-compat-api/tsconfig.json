@@ -15,7 +15,13 @@
     "references": [
         { "path": "../hint" },
         { "path": "../parser-css" },
-        { "path": "../utils" },
-        { "path": "../utils-tests-helpers" }
+        { "path": "../utils-compat-data" },
+        { "path": "../utils-create-server" },
+        { "path": "../utils-css" },
+        { "path": "../utils-dom" },
+        { "path": "../utils-fs" },
+        { "path": "../utils-i18n" },
+        { "path": "../utils-tests-helpers" },
+        { "path": "../utils-types" }
     ]
 }

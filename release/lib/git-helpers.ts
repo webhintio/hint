@@ -1,12 +1,13 @@
 import * as fs from 'fs-extra';
 
-import * as Octokit from '@octokit/rest';
-import * as throttling from '@octokit/plugin-throttling';
+import { Octokit } from '@octokit/core';
+import { Octokit as octo } from '@octokit/rest';
+import { throttling } from '@octokit/plugin-throttling';
 
 import { Tag, Commit, Package, Author, GitHubAuth } from '../@types/custom';
 import { debug, execa } from './utils';
 
-const Client = Octokit.plugin(throttling);
+const Client = octo.plugin(throttling);
 
 const octokitOptions = {
     log: {
@@ -211,7 +212,10 @@ const extractDataFromCommit = (sha: string): Promise<Commit> => {
 };
 
 const createOctokitFromToken = (token: string) => {
-    const options = Object.assign({}, { auth: `token ${token}` }, octokitOptions);
+    const options = {
+        auth: `token ${token}`,
+        ...octokitOptions
+    };
 
     const kit = new Client(options);
 
@@ -228,15 +232,16 @@ const createOctokitFromUserPass = (auth: GitHubAuth) => {
         return createOctokitFromToken(auth.token);
     }
 
-    const options = Object.assign({}, {
+    const options = {
         auth: {
             on2fa() {
                 return Promise.resolve(auth.otp);
             },
             password: auth.pass,
             username: auth.user
-        }
-    }, octokitOptions);
+        },
+        ...octokitOptions
+    };
 
     const kit = new Client(options);
 

@@ -4,16 +4,16 @@ import anyTest, { TestInterface } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
+import { ConnectorConfig, UserConfig } from '@hint/utils';
+
 import {
     AnalyzerError,
-    ConnectorConfig,
     HintResources,
     IFetchOptions,
-    IFormatter,
-    UserConfig
+    IFormatter
 } from '../../src/lib/types';
 import { AnalyzerErrorStatus } from '../../src/lib/enums/error-status';
-import { Problem } from '@hint/utils/dist/src/types/problems';
+import { Problem } from '@hint/utils-types';
 
 type Logger = {
     warn: () => void;
@@ -67,9 +67,10 @@ const loadScript = (context: AnalyzerContext) => {
         './config': context.configuration,
         './engine': engineWrapper,
         './utils/resource-loader': context.resourceLoader,
-        '@hint/utils': {
-            fs: context.fs,
-            logger: context.logger
+        '@hint/utils': { logger: context.logger },
+        '@hint/utils-fs': {
+            cwd: context.fs.cwd,
+            isFile: context.fs.isFile
         }
     });
 

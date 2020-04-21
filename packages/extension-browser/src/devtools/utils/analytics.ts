@@ -1,85 +1,70 @@
-import { ApplicationInsights } from '@microsoft/applicationinsights-web-basic';
-
 import { Config, ErrorData, Results } from '../../shared/types';
 
-import { getUpdatedActivity } from './activity';
+import { getUpdatedActivity, initTelemetry, updateTelemetry, trackEvent } from '@hint/utils-telemetry';
 import { determineHintStatus } from './hints';
-import * as storage from './storage';
+import * as localstore from './storage';
 
 const manifest = require('../../manifest.json');
 const activityKey = 'webhint-activity';
 const storageKey = 'webhint-telemetry';
 const alreadyOptInKey = 'webhint-already-opt-in';
 
-const instrumentationKey = '8ef2b55b-2ce9-4c33-a09a-2c3ef605c97d';
-
-let appInsights: ApplicationInsights | null = null;
-
-const trackEvent = (name: string, properties: { [key: string]: string } = {}, measurements?: { [key: string]: number }) => {
-    if (!appInsights) {
-        return;
-    }
-
-    properties['extension-version'] = manifest.version;
-
-    appInsights.track({
-        baseData: {
-            measurements,
-            name,
-            properties
-        },
-        baseType: 'EventData',
-        name: `Microsoft.ApplicationInsights.${instrumentationKey}.Event`
-    });
+/** Check if telemetry is enabled */
+export const enabled = (storage = localstore) => {
+    return !!storage.getItem(storageKey);
 };
+
+initTelemetry({
+    defaultProperties: { 'extension-version': manifest.version },
+    enabled: enabled(),
+    post: async (url, data) => {
+        const response = await fetch(url, { body: data, method: 'POST' });
+
+        return response.status;
+    }
+});
 
 /**
  * Return true if the user has not respond yet
  * to opt-in.
  */
-export const showOptIn = (s = storage) => {
-    return s.getItem(storageKey) === undefined;
+export const showOptIn = (storage = localstore) => {
+    return storage.getItem(storageKey) === undefined;
 };
 
 /** Called to initialize the underlying analytics library. */
-export const setup = (s = storage) => {
-    const telemetry = s.getItem(storageKey);
+export const setup = (storage = localstore) => {
+    const telemetry = storage.getItem(storageKey);
 
     if (!telemetry) {
         console.log('telemetry disabled');
-        appInsights = null;
+        updateTelemetry(false);
 
         return;
     }
 
     console.log('telemetry enabled');
-
-    appInsights = new ApplicationInsights({ instrumentationKey });
-};
-
-/** Check if telemetry is enabled */
-export const enabled = (s = storage) => {
-    return !!s.getItem(storageKey);
+    updateTelemetry(true);
 };
 
 /** Enables telemetry */
-export const enable = (s = storage) => {
-    s.setItem(storageKey, true);
+export const enable = (storage = localstore) => {
+    storage.setItem(storageKey, true);
 
-    setup(s);
+    setup(storage);
 
     // If it is the first time the user enable telemetry
-    if (!s.getItem(alreadyOptInKey)) {
-        s.setItem(alreadyOptInKey, true);
+    if (!storage.getItem(alreadyOptInKey)) {
+        storage.setItem(alreadyOptInKey, true);
         trackEvent('f12-telemetry');
     }
 };
 
 /** Disables telemetry */
-export const disable = (s = storage) => {
-    s.setItem(storageKey, false);
+export const disable = (storage = localstore) => {
+    storage.setItem(storageKey, false);
 
-    setup(s);
+    setup(storage);
 };
 
 /**
@@ -87,16 +72,16 @@ export const disable = (s = storage) => {
  * Data includes `last28Days` (e.g. `"1001100110011001100110011001"`)
  * and `lastUpdated` (e.g. `"2019-10-04T00:00:00.000Z"`).
  */
-const trackActive = (s = storage) => {
+const trackActive = (storage = localstore) => {
     // Don't count a user as active if telemetry is disabled.
-    if (!enabled(s)) {
+    if (!enabled(storage)) {
         return;
     }
 
-    const activity = getUpdatedActivity(s.getItem(activityKey));
+    const activity = getUpdatedActivity(storage.getItem(activityKey));
 
     if (activity) {
-        s.setItem(activityKey, activity);
+        storage.setItem(activityKey, activity);
         trackEvent('f12-activity', activity);
     }
 };

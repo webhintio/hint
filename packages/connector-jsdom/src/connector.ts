@@ -29,9 +29,16 @@ import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 import { fork, ChildProcess } from 'child_process';
 
-import { JSDOM, ResourceLoader, VirtualConsole } from 'jsdom';
+import { JSDOM, ResourceLoader, VirtualConsole, DOMWindow } from 'jsdom';
 
-import { contentType, debug as d, dom, HTMLElement, HTMLDocument, HttpHeaders, network } from '@hint/utils';
+import {
+    getContentTypeData,
+    getType
+} from '@hint/utils';
+import { HttpHeaders } from '@hint/utils-types';
+import { isHTMLDocument } from '@hint/utils-network';
+import { createHTMLDocument, HTMLDocument, HTMLElement, traverse } from '@hint/utils-dom';
+import { debug as d } from '@hint/utils-debug';
 import { Engine, Event, FetchEnd, FetchError, IConnector, NetworkData } from 'hint';
 import { Requester } from '@hint/utils-connector-tools';
 
@@ -43,10 +50,6 @@ import { beforeParse } from './before-parse';
  * Defaults
  * ------------------------------------------------------------------------------
  */
-
-const { createHTMLDocument, traverse } = dom;
-const { getContentTypeData, getType } = contentType;
-const { isHTMLDocument } = network;
 const debug: debug.IDebugger = d(__filename);
 
 const defaultOptions = {
@@ -58,7 +61,7 @@ export default class JSDOMConnector implements IConnector {
     private _options: any;
     private _href: string = '';
     private _targetNetworkData!: NetworkData;
-    private _window!: Window;
+    private _window!: DOMWindow;
     private _document!: HTMLDocument;
     private _originalDocument: HTMLDocument | undefined;
     private _timeout: number;
@@ -83,16 +86,13 @@ export default class JSDOMConnector implements IConnector {
     public fetchedHrefs!: Set<string>;
 
     public constructor(server: Engine, config?: any) {
-        this._options = Object.assign({}, defaultOptions, config);
+        this._options = { ...defaultOptions, ...config };
 
-        const requesterOptions = Object.assign(
-            {},
-            {
-                rejectUnauthorized: !this._options.ignoreHTTPSErrors,
-                strictSSL: !this._options.ignoreHTTPSErrors
-            },
-            this._options.requestOptions || {}
-        );
+        const requesterOptions = {
+            rejectUnauthorized: !this._options.ignoreHTTPSErrors,
+            strictSSL: !this._options.ignoreHTTPSErrors,
+            ...this._options.requestOptions || {}
+        };
 
         this.request = new Requester(requesterOptions);
         this.server = server;
@@ -141,7 +141,7 @@ export default class JSDOMConnector implements IConnector {
      * * uses the `src` attribute of `<link rel="icon">` if present.
      * * uses `favicon.ico` and the final url after redirects.
      */
-    private async getFavicon(element?: Element | null) {
+    private async getFavicon(element?: HTMLLinkElement) {
         const href = (element && element.getAttribute('href')) || '/favicon.ico';
 
         try {
@@ -216,7 +216,7 @@ export default class JSDOMConnector implements IConnector {
                 response: this._targetNetworkData.response
             };
 
-            const { charset, mediaType } = getContentTypeData(fetchEnd.element, fetchEnd.resource, fetchEnd.response.headers, fetchEnd.response.body.rawContent);
+            const { charset, mediaType } = await getContentTypeData(fetchEnd.element, fetchEnd.resource, fetchEnd.response.headers, fetchEnd.response.body.rawContent);
 
             fetchEnd.response.mediaType = mediaType!;
             fetchEnd.response.charset = charset!;
@@ -282,14 +282,17 @@ export default class JSDOMConnector implements IConnector {
 
                         this._document = htmlDocument;
 
-                        const evaluateEvent: Event = { resource: this.finalHref };
+                        const evaluateEvent = {
+                            document: htmlDocument,
+                            resource: this.finalHref
+                        };
 
                         await this.server.emitAsync('can-evaluate::script', evaluateEvent);
 
                         await traverse(htmlDocument, this.server, this.finalHref);
 
                         // We download only the first favicon found
-                        await this.getFavicon(window.document.querySelector('link[rel~="icon"]'));
+                        await this.getFavicon(window.document.querySelector('link[rel~="icon"]') as HTMLLinkElement);
 
                         /*
                          * TODO: when we reach this moment we should wait for all pending request to be done and
@@ -382,7 +385,7 @@ export default class JSDOMConnector implements IConnector {
 
             this._subprocesses.add(runner);
 
-            runner.on('message', (result) => {
+            runner.on('message', (result: { error: any; evaluate: any }) => {
                 /* istanbul ignore if */
                 if (timeoutId) {
                     clearTimeout(timeoutId);
@@ -398,7 +401,10 @@ export default class JSDOMConnector implements IConnector {
                 return resolve(result.evaluate);
             });
 
-            runner.send({ source });
+            runner.send({
+                options: this._options,
+                source
+            });
 
             /* istanbul ignore next */
             timeoutId = setTimeout(() => {

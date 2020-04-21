@@ -1,6 +1,6 @@
 import test from 'ava';
 import normalizeHints from '../../src/config/normalize-hints';
-import { HintsConfigObject } from '../../src/types/config';
+import { HintsConfigObject } from '../../src/config';
 
 test(`should normalize basic hints`, (t) => {
     const hints = [
@@ -11,7 +11,7 @@ test(`should normalize basic hints`, (t) => {
     ];
 
     const expected: HintsConfigObject = {
-        hint1: 'error',
+        hint1: 'default',
         hint2: 'error',
         hint3: 'warning',
         hint4: 'off'
@@ -27,8 +27,8 @@ test(`should normalize hints including array`, (t) => {
     ];
 
     const expected: HintsConfigObject = {
-        hint1: 'error',
-        hint2: ['error', { customization1: 'value1' }]
+        hint1: 'default',
+        hint2: ['default', { customization1: 'value1' }]
     };
 
     t.deepEqual(normalizeHints(hints), expected);
@@ -55,7 +55,7 @@ test(`should throw invalid hint specified error when providing invalid hint`, (t
 
     t.throws(() => {
         normalizeHints(hints);
-    }, 'Invalid hint type specified: "1". Arrays and objects are supported.');
+    }, { message: 'Invalid hint type specified: "1". Arrays and objects are supported.' });
 });
 
 test(`should maintain backwards compatibility by returning objects`, (t) => {

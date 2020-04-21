@@ -21,7 +21,6 @@ const loadBackgroundScript = (globals: Globals) => {
             ...globals
         }
     });
-    require(backgroundScriptPath);
 };
 
 /**

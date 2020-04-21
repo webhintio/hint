@@ -4,12 +4,16 @@
 import { URL } from 'url';
 import { imageSize as getImageData } from 'image-size';
 import imageType from 'image-type';
-import { IHint, NetworkData, HintContext, ProblemLocation, IJSONLocationFunction } from 'hint';
+import { IHint, NetworkData, HintContext } from 'hint';
+import { JSONLocationFunction } from '@hint/utils-json';
 import { ManifestEvents, ManifestParsed, ManifestImageResource } from '@hint/parser-manifest';
-import { debug as d } from '@hint/utils';
+import { ProblemLocation, Severity } from '@hint/utils-types';
+import { debug as d } from '@hint/utils-debug';
+import { determineMediaTypeBasedOnFileExtension } from '@hint/utils/dist/src/content-type';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
+import { extname } from 'path';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -26,10 +30,10 @@ export default class ManifestIconHint implements IHint {
          * See if the `icon` file actually
          * exists and is accessible.
          */
-        const iconExists = async (iconPath: string, resource: string, index: number, getLocation: IJSONLocationFunction): Promise<{ iconRawData: Buffer | null; mediaType: string }> => {
+        const iconExists = async (iconPath: string, resource: string, index: number, getLocation: JSONLocationFunction): Promise<{ iconRawData: Buffer | null; mediaType: string } | null> => {
             let networkData: NetworkData;
 
-            const iconSrcLocation = getLocation(`icons[${index}].src`);
+            const iconSrcLocation = getLocation(`icons[${index}].src`, { at: 'value' });
 
             try {
                 networkData = await context.fetchContent(iconPath);
@@ -37,24 +41,26 @@ export default class ManifestIconHint implements IHint {
                 debug(`Failed to fetch the ${iconPath} file`);
                 const message = getMessage('iconCouldNotBeFetched', context.language);
 
-                context.report(resource, message, { location: iconSrcLocation });
+                context.report(
+                    resource,
+                    message,
+                    { location: iconSrcLocation, severity: Severity.error }
+                );
 
-                return {
-                    iconRawData: null,
-                    mediaType: ''
-                };
+                return null;
             }
             const response = networkData.response;
 
             if (response.statusCode !== 200) {
                 const message = getMessage('iconCouldNotBeFetchedStatusCode', context.language, response.statusCode.toString());
 
-                context.report(resource, message, { location: iconSrcLocation });
+                context.report(
+                    resource,
+                    message,
+                    { location: iconSrcLocation, severity: Severity.error }
+                );
 
-                return {
-                    iconRawData: null,
-                    mediaType: ''
-                };
+                return null;
             }
 
             return {
@@ -64,19 +70,24 @@ export default class ManifestIconHint implements IHint {
         };
         /**
          * Passes only for the PNG files
-         * @param iconType type specified in the manifest file
+         * @param icon icon specified in the manifest file
          * @param rawContent raw datastream
          * @param iconPath icon resource path
          */
-        const validateImageType = (iconType: string | undefined, mediaType: string, rawContent: Buffer, resource: string, index: number, getLocation: IJSONLocationFunction): boolean => {
+        const validateImageType = (icon: ManifestImageResource, mediaType: string, rawContent: Buffer | null, resource: string, index: number, getLocation: JSONLocationFunction): boolean => {
             const allowedTypes = ['png', 'jpg'];
-            const iconTypeLocation = getLocation(`icons[${index}].type`);
+            const iconTypeLocation = getLocation(`icons[${index}].type`, { at: 'value' });
+            const { src, type: iconType } = icon;
 
             if (!iconType) {
                 const message = getMessage('iconTypeNotSpecified', context.language);
                 const iconLocation = getLocation(`icons[${index}]`);
 
-                context.report(resource, message, { location: iconLocation });
+                context.report(
+                    resource,
+                    message,
+                    { location: iconLocation, severity: Severity.error }
+                );
 
                 return false;
             }
@@ -84,34 +95,49 @@ export default class ManifestIconHint implements IHint {
             const specifiedType = iconType.split('/')[1];
             const specifiedMIMEType = mediaType.split('/')[1];
 
+            let ext = extname(src).replace('.', '');
+
             /** Handling for the corrupt rawContent */
             if (rawContent) {
                 const image = imageType(rawContent);
 
                 if (image) {
-                    const isValidType = allowedTypes.includes(image.ext);
-
-                    if (specifiedType !== image.ext) {
-                        const message = getMessage('realImageType', context.language, [image.ext, specifiedType]);
-
-                        context.report(resource, message, { location: iconTypeLocation });
-                    } else if (specifiedType !== specifiedMIMEType) {
-                        const message = getMessage('mimeTypeNotMatch', context.language, [specifiedMIMEType, specifiedType]);
-
-                        context.report(resource, message, { location: iconTypeLocation });
-                    }
-
-                    if (isValidType) {
-                        return true;
-                    }
+                    ext = image.ext;
                 }
-
-                const message = getMessage('iconShouldBeValidImageType', context.language, JSON.stringify(allowedTypes));
-
-                context.report(resource, message, { location: iconTypeLocation });
-
-                return false;
             }
+
+            const isValidType = allowedTypes.includes(ext);
+
+            if (specifiedType !== ext) {
+                const message = getMessage('realImageType', context.language, [ext, specifiedType]);
+
+                context.report(
+                    resource,
+                    message,
+                    { location: iconTypeLocation, severity: Severity.warning }
+                );
+            } else if (specifiedType !== specifiedMIMEType) {
+                const message = getMessage('mimeTypeNotMatch', context.language, [specifiedMIMEType, specifiedType]);
+
+                context.report(
+                    resource,
+                    message,
+                    { location: iconTypeLocation, severity: Severity.warning }
+                );
+            }
+
+
+            if (isValidType) {
+                return true;
+            }
+
+            const message = getMessage('iconShouldBeValidImageType', context.language, JSON.stringify(allowedTypes));
+
+            context.report(
+                resource,
+                message,
+                { location: iconTypeLocation, severity: Severity.error }
+            );
 
             return false;
         };
@@ -122,11 +148,15 @@ export default class ManifestIconHint implements IHint {
          * @param iconRawData
          * @param iconPath full path to the icon file
          */
-        const validateSizes = (iconSizes: string | undefined, iconRawData: Buffer, resource: string, index: number, getLocation: IJSONLocationFunction): boolean => {
-            const iconSizelocation = getLocation(`icons[${index}].sizes`);
+        const validateSizes = (iconSizes: string | undefined, iconRawData: Buffer | null, resource: string, index: number, getLocation: JSONLocationFunction): boolean => {
+            const iconSizelocation = getLocation(`icons[${index}].sizes`, { at: 'value' });
 
             if (!iconSizes) {
-                context.report(resource, getMessage('sizesNotSpecified', context.language), { location: iconSizelocation });
+                context.report(
+                    resource,
+                    getMessage('sizesNotSpecified', context.language),
+                    { location: iconSizelocation, severity: Severity.error }
+                );
 
                 return false;
             }
@@ -138,6 +168,11 @@ export default class ManifestIconHint implements IHint {
              */
             if (iconSizes === 'any') {
                 return false;
+            }
+
+            // Working on local environment so no access to the real image for further checking
+            if (!iconRawData) {
+                return true;
             }
 
             const specifiedSizes = iconSizes.split(' ');
@@ -157,7 +192,11 @@ export default class ManifestIconHint implements IHint {
             if (!sizesMatch && realImage.width && realImage.height) {
                 const message = getMessage('realImageSizeNotMatch', context.language, [realImage.width.toString(), realImage.height.toString(), specifiedSizes.toString()]);
 
-                context.report(resource, message, { location: iconSizelocation });
+                context.report(
+                    resource,
+                    message,
+                    { location: iconSizelocation, severity: Severity.warning }
+                );
 
                 return false;
             }
@@ -174,7 +213,11 @@ export default class ManifestIconHint implements IHint {
             if (requiredSizesNotFound.length > 0) {
                 const message = getMessage('requiredSizes', context.language, JSON.stringify(requiredSizesNotFound));
 
-                context.report(resource, message, { location });
+                context.report(
+                    resource,
+                    message,
+                    { location, severity: Severity.error }
+                );
             }
         };
 
@@ -183,27 +226,41 @@ export default class ManifestIconHint implements IHint {
          * @param icons array of the icons properties
          * @param hostnameWithProtocol
          */
-        const validateIcons = async (icons: ManifestImageResource[], hostnameWithProtocol: string, resource: string, getLocation: IJSONLocationFunction): Promise<string[]> => {
+        const validateIcons = async (icons: ManifestImageResource[], hostnameWithProtocol: string, resource: string, getLocation: JSONLocationFunction): Promise<string[]> => {
             const validSizes: string[] = [];
 
             for (let index = 0; index < icons.length; index++) {
                 const icon = icons[index];
 
                 const fullIconPath = `${hostnameWithProtocol}/${icon.src}`;
-                const { iconRawData, mediaType } = await iconExists(fullIconPath, resource, index, getLocation);
+                let iconRawData: Buffer | null = null;
+                let mediaType = '';
 
-                if (iconRawData) {
-                    const validImageType = validateImageType(icon.type, mediaType, iconRawData, resource, index, getLocation);
 
-                    if (validImageType) {
-                        const validIconSizes = validateSizes(icon.sizes, iconRawData, resource, index, getLocation);
+                if (hostnameWithProtocol.startsWith('http')) {
+                    const result = await iconExists(fullIconPath, resource, index, getLocation);
 
-                        if (validIconSizes && icon.sizes) {
-                            validSizes.push(icon.sizes);
-                        }
+                    if (!result) {
+                        return validSizes;
+                    }
+
+                    iconRawData = result.iconRawData;
+                    mediaType = result.mediaType;
+                } else {
+                    mediaType = determineMediaTypeBasedOnFileExtension(icon.src) || '';
+                }
+
+                const validImageType = validateImageType(icon, mediaType, iconRawData, resource, index, getLocation);
+
+                if (validImageType) {
+                    const validIconSizes = validateSizes(icon.sizes, iconRawData, resource, index, getLocation);
+
+                    if (validIconSizes && icon.sizes) {
+                        validSizes.push(icon.sizes);
                     }
                 }
             }
+
 
             debug(`Found ValidSizes: ${validSizes}`);
 
@@ -216,19 +273,32 @@ export default class ManifestIconHint implements IHint {
 
             debug(`Validating hint manifest-icon`);
 
-            if (icons && icons.length > 0) {
-                debug(`Validating if manifest-icon file exists`);
-                const validSizes = await validateIcons(icons, hostnameWithProtocol, resource, getLocation);
+            if (icons) {
+                if (icons.length > 0) {
 
-                if (validSizes.length > 0) {
-                    const iconlocation = getLocation('icons');
+                    debug(`Validating if manifest-icon file exists`);
+                    const validSizes = await validateIcons(icons, hostnameWithProtocol, resource, getLocation);
 
-                    hasRequiredSizes(validSizes, resource, iconlocation);
+                    if (validSizes.length > 0) {
+                        const iconlocation = getLocation('icons');
+
+                        hasRequiredSizes(validSizes, resource, iconlocation);
+                    }
+                } else {
+                    // Empty array in `icons` property (otherwise the schema will not validate)
+                    const message = getMessage('validIconsNotFound', context.language);
+                    const location = getLocation('icons');
+
+                    context.report(
+                        resource,
+                        message,
+                        { location, severity: Severity.error }
+                    );
                 }
             } else {
                 const message = getMessage('validIconsNotFound', context.language);
 
-                context.report(resource, message);
+                context.report(resource, message, { severity: Severity.error });
             }
         };
 

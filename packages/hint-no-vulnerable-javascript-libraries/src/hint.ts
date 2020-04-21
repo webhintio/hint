@@ -7,21 +7,23 @@ import { promisify } from 'util';
 import groupBy = require('lodash/groupBy');
 import * as semver from 'semver';
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
-import { writeFileAsync } from '@hint/utils/dist/src/fs/write-file-async';
+import { debug as d } from '@hint/utils-debug';
+import { readFileAsync, writeFileAsync } from '@hint/utils-fs';
 import * as logger from '@hint/utils/dist/src/logging';
-import { requestAsync } from '@hint/utils/dist/src/network/request-async';
+import { requestAsync } from '@hint/utils-network';
 
-import { IHint, CanEvaluateScript, Severity } from 'hint/dist/src/lib/types';
-import { Library, Vulnerability } from './types';
-
+import { IHint, CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { Severity } from '@hint/utils-types';
+
+import { Library, Vulnerability } from './types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
 const debug = d(__filename);
+
+type SnykSeverity = 'low' | 'medium' | 'high';
 
 /*
  * ------------------------------------------------------------------------------
@@ -109,15 +111,28 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
             return require('./snyk-snapshot.json');
         };
 
+        const toSeverity = (severity: SnykSeverity) => {
+            switch (severity) {
+                case 'high': return Severity.error;
+                case 'medium': return Severity.warning;
+                default:
+                    return Severity.hint;
+            }
+        };
+
         /** If a used library has vulnerability that meets the minimum threshold, it gets reported.  */
         const reportLibrary = (library: Library, vulns: Vulnerability[], resource: string) => {
             let vulnerabilities = vulns;
 
 
             debug('Filtering vulnerabilities');
+            let maxSeverity = Severity.off;
+
             vulnerabilities = vulnerabilities.filter((vulnerability) => {
                 const { severity } = vulnerability;
                 let fails = false;
+
+                maxSeverity = Math.max(maxSeverity, toSeverity(severity as SnykSeverity));
 
                 switch (minimumSeverity) {
                     case 'medium':
@@ -156,7 +171,7 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                     message = getMessage('vulnerabilities', context.language, [`${library.name}@${library.version}`, vulnerabilities.length.toString(), detail, link]);
                 }
 
-                context.report(resource, message);
+                context.report(resource, message, { severity: maxSeverity });
             }
         };
 

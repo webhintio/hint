@@ -1,3 +1,76 @@
+# 3.4.3 (April 15, 2020)
+
+## Chores
+
+* [[`986279d560`](https://github.com/webhintio/hint/commit/986279d560adb6c905918d0d264401bc155bd7b2)] - Upgrade: Bump ava from 3.4.0 to 3.5.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`326c245db3`](https://github.com/webhintio/hint/commit/326c245db3047d8fb5f54695e8093beb04910f1b)] - Upgrade: Bump @types/node from 12.12.14 to 13.9.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 3.4.2 (March 18, 2020)
+
+## Chores
+
+* [[`b073a311fa`](https://github.com/webhintio/hint/commit/b073a311facfc6864efec73886645bf8e9e3f1bd)] - Upgrade: Bump typescript from 3.7.5 to 3.8.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9a7f1074d4`](https://github.com/webhintio/hint/commit/9a7f1074d421a918f5d6528815c69dfb912d3e35)] - Upgrade: Bump ava from 2.4.0 to 3.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f847f60365`](https://github.com/webhintio/hint/commit/f847f6036569681f60d58fcc9214fe61f6ce2968)] - Upgrade: Bump eslint-plugin-markdown from 1.0.1 to 1.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`3830fbb908`](https://github.com/webhintio/hint/commit/3830fbb908c152887347417f56f70c3210ecbf26)] - Upgrade: Bump rimraf from 3.0.0 to 3.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`21bb432d24`](https://github.com/webhintio/hint/commit/21bb432d240341ab1013df3059b426ea70aef4fd)] - Upgrade: Bump typescript from 3.7.4 to 3.7.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2e92bfc6d6`](https://github.com/webhintio/hint/commit/2e92bfc6d68d8161b8e85cc2e45a4654a7d182e1)] - Upgrade: Bump typescript from 3.7.3 to 3.7.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2d25855042`](https://github.com/webhintio/hint/commit/2d258550426d9db7fb1446ef6f2931630feae292)] - Upgrade: Bump eslint from 6.6.0 to 6.8.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e38524a27a`](https://github.com/webhintio/hint/commit/e38524a27a53ef7707a15aa434100c6736e9b719)] - Chore: Use object spread syntax over Object.assign (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#2402`](https://github.com/webhintio/hint/issues/2402)).
+* [[`5764738af0`](https://github.com/webhintio/hint/commit/5764738af0124d38b0f882845768788482b8e445)] - Upgrade: Bump @types/lodash from 4.14.141 to 4.14.149 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`cb2fde008d`](https://github.com/webhintio/hint/commit/cb2fde008dd25ec1c5b770c823cc56ca76dc4271)] - Upgrade: Bump @types/node from 12.12.12 to 12.12.14 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a620f1cafb`](https://github.com/webhintio/hint/commit/a620f1cafb55af6ca7672e66989ae1c21f03dbac)] - Chore: Refactor ESLint commands (by [`Antón Molleda`](https://github.com/molant) / see also: [`#2187`](https://github.com/webhintio/hint/issues/2187)).
+* [[`046efb21e5`](https://github.com/webhintio/hint/commit/046efb21e5e3b96dc5bb3f250e9384a70b6b32c3)] - Upgrade: Bump typescript from 3.6.4 to 3.7.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3421`](https://github.com/webhintio/hint/issues/3421)).
+
+
+# 3.4.0 (December 2, 2019)
+
+## New features
+
+* [[`b82b765e90`](https://github.com/webhintio/hint/commit/b82b765e904db2a8d79ad1799e37a09f28150b7d)] - New: Add generateHTMLPage to @hint/utils-create-server.
+
+## Bug fixes / Improvements
+
+* [[`7ee688a1b1`](https://github.com/webhintio/hint/commit/7ee688a1b1178e631bb0adf0e7fdb82b576cb36b)] - Fix: Use flattened utils.
+
+## Chores
+
+* [[`ff322d374c`](https://github.com/webhintio/hint/commit/ff322d374c352f415dca23ac63790c9349fe30da)] - Upgrade: Bump @types/node from 12.12.7 to 12.12.12.
+* [[`f9e9cd2958`](https://github.com/webhintio/hint/commit/f9e9cd2958541ff2340bf8c9f5bcf59358c5ea59)] - Upgrade: Bump @types/express from 4.17.1 to 4.17.2.
+* [[`2c60ff85bd`](https://github.com/webhintio/hint/commit/2c60ff85bd9f8e5f8f6b17c4bb05cb61b9d219ea)] - Chore: Change unreleased packages version to 0.0.1.
+* [[`5ef883ef1d`](https://github.com/webhintio/hint/commit/5ef883ef1d9f6eb8fc1e229c211182d441cb4a98)] - Upgrade: Bump eslint from 6.5.1 to 6.6.0.
+* [[`9142edc7d3`](https://github.com/webhintio/hint/commit/9142edc7d362bfa44c3f5acab05ef44e52184143)] - Upgrade: Bump eslint-plugin-markdown from 1.0.0 to 1.0.1.
+* [[`ea7554cdbc`](https://github.com/webhintio/hint/commit/ea7554cdbc2cb0f9708fa4f18f668fcb91e7fca3)] - Chore: Prevent message parsing exception when debugging.
+* [[`e9172328e7`](https://github.com/webhintio/hint/commit/e9172328e7494e6bba58f361ec83c24c37123840)] - Chore: Drop `engine` field in `package.json`.
+* [[`0d37aded21`](https://github.com/webhintio/hint/commit/0d37aded21950358da7fb20ffd3288bc54b08da9)] - Chore: Update packages to use @hint/utils-string.
+* [[`baa55a4ebd`](https://github.com/webhintio/hint/commit/baa55a4ebd47e21eabffef9f7be74672125aef9b)] - Chore: Update packages to use @hint/utils-network.
+
+
+# 3.3.0 (October 29, 2019)
+
+## Bug fixes / Improvements
+
+* [[`390346d57b`](https://github.com/webhintio/hint/commit/390346d57bec71dd9b8b34d3c705b2e1c5ccf12a)] - Fix: Path to web server code (by [`Antón Molleda`](https://github.com/molant)).
+
+## New features
+
+* [[`c0d58ae19e`](https://github.com/webhintio/hint/commit/c0d58ae19ec0209ec336498cc801a3838ef6a9f1)] - New: Option to run in the same thread (by [`Antón Molleda`](https://github.com/molant) / see also: [`#1780`](https://github.com/webhintio/hint/issues/1780)).
+
+## Chores
+
+* [[`0d0466efff`](https://github.com/webhintio/hint/commit/0d0466efff7915f2ff929e0e85223841178eaac0)] - Upgrade: Bump typescript from 3.6.3 to 3.6.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 3.2.3 (October 16, 2019)
+
+## Chores
+
+* [[`acc12c9a7e`](https://github.com/webhintio/hint/commit/acc12c9a7e5da73d355e72d00dd74dba9dbf35ad)] - Chore: Remove unused dependencies (by [`Antón Molleda`](https://github.com/molant) / see also: [`#3122`](https://github.com/webhintio/hint/issues/3122)).
+* [[`995c967b64`](https://github.com/webhintio/hint/commit/995c967b64afbeecb5a4e4adf40179a416b4ee93)] - Upgrade: Bump eslint from 5.16.0 to 6.5.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3092`](https://github.com/webhintio/hint/issues/3092)).
+* [[`427ca87b2a`](https://github.com/webhintio/hint/commit/427ca87b2ad63550fcf0c48d9f7624c28e419002)] - Upgrade: Bump @types/lodash from 4.14.138 to 4.14.141 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.2.2 (September 26, 2019)
 
 

@@ -1,9 +1,10 @@
 import { CheckResult, AxeResults, ImpactValue, NodeResult as AxeNodeResult } from 'axe-core';
 
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
-import { readFileAsync } from '@hint/utils/dist/src/fs/read-file-async';
-import { Severity } from 'hint/dist/src/lib/types';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
+import { readFileAsync } from '@hint/utils-fs';
+import { CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { Severity } from '@hint/utils-types';
 
 import { getMessage } from '../i18n.import';
 
@@ -13,13 +14,13 @@ type EngineKey = object;
 
 type Options = {
     [ruleId: string]: keyof typeof Severity;
-};
+} | string[];
 
 type Registration = {
     context: HintContext;
     enabledRules: string[];
-    options: Options;
-    resource: string;
+    options: { [ruleId: string]: keyof typeof Severity };
+    event: CanEvaluateScript;
 };
 
 type RegistrationMap = Map<EngineKey, Map<string, Registration[]>>;
@@ -73,7 +74,7 @@ const getSummary = (node: AxeNodeResult): string => {
  */
 const queueRegistration = (registration: Registration, map: RegistrationMap) => {
     const engineKey = registration.context.engineKey;
-    const resource = registration.resource;
+    const resource = registration.event.resource;
     const registrationsByResource = map.get(engineKey) || new Map();
     const registrations = registrationsByResource.get(resource) || [];
 
@@ -110,10 +111,19 @@ const useRegistrations = (engineKey: EngineKey, resource: string, map: Registrat
 
 /* istanbul ignore next */
 const toSeverity = (impact?: ImpactValue) => {
-    if (impact === 'serious' || impact === 'critical') {
+    if (impact === 'minor') {
+        return Severity.hint;
+    }
+
+    if (impact === 'moderate' || impact === 'serious') {
+        return Severity.warning;
+    }
+
+    if (impact === 'critical') {
         return Severity.error;
     }
 
+    // In case axe adds a new `impact` that is not tracked above
     return Severity.warning;
 };
 
@@ -121,14 +131,20 @@ const withQuotes = (ruleId: string) => {
     return `'${ruleId}'`;
 };
 
-const run = async (context: HintContext, resource: string, rules: string[]): Promise<AxeResults | null> => {
+const run = async (context: HintContext, event: CanEvaluateScript, rules: string[]): Promise<AxeResults | null> => {
     const axeCoreSource = await axeCorePromise;
+    const { document, resource } = event;
 
     /* istanbul ignore next */
     try {
+        const target = document.isFragment ?
+            'document.body' :
+            'document';
+
         return await context.evaluate(`(function() {
             ${axeCoreSource}
-            return window.axe.run(document, {
+            var target = ${target};
+            return window.axe.run(target, {
                 runOnly: {
                     type: 'rule',
                     values: [${rules.map(withQuotes).join(',')}]
@@ -153,6 +169,20 @@ const run = async (context: HintContext, resource: string, rules: string[]): Pro
     }
 };
 
+const normalizeOptions = (options: Options) => {
+    if (Array.isArray(options)) {
+        const normalizedOptions = options.reduce((newOptions, axeRuleId) => {
+            (newOptions as any)[axeRuleId] = 'default';
+
+            return newOptions;
+        }, {});
+
+        return normalizedOptions;
+    }
+
+    return options || {};
+};
+
 /**
  * Register a given set of axe rules to be queued for evaluation on
  * `can-evaluate::script`. These rules will be aggregated across axe
@@ -161,7 +191,8 @@ const run = async (context: HintContext, resource: string, rules: string[]): Pro
  * reported back via their original context.
  */
 export const register = (context: HintContext, rules: string[], disabled: string[]) => {
-    const options: Options = context.hintOptions || {};
+    const options = normalizeOptions(context.hintOptions);
+
     const { engineKey } = context;
 
     const enabledRules = rules.filter((rule) => {
@@ -172,8 +203,8 @@ export const register = (context: HintContext, rules: string[], disabled: string
         return !disabled.includes(rule);
     });
 
-    context.on('can-evaluate::script', ({ resource }) => {
-        queueRegistration({ context, enabledRules, options, resource }, registrationMap);
+    context.on('can-evaluate::script', (event) => {
+        queueRegistration({ context, enabledRules, event, options }, registrationMap);
     });
 
     context.on('scan::end', async ({ resource }) => {
@@ -183,7 +214,14 @@ export const register = (context: HintContext, rules: string[], disabled: string
             return;
         }
 
+        // TS doesn't detect we are assigning during `reduce`
+        let document!: HTMLDocument;
+
         const ruleToRegistration = registrations.reduce((map, registration) => {
+
+            // `document` should be the same for all registrations of the same `resource`.
+            document = document || registration.event.document;
+
             registration.enabledRules.forEach((rule) => {
                 map.set(rule, registration);
             });
@@ -192,7 +230,7 @@ export const register = (context: HintContext, rules: string[], disabled: string
         }, new Map<string, Registration>());
 
         const rules = Array.from(ruleToRegistration.keys());
-        const result = await run(context, resource, rules);
+        const result = await run(context, { document, resource }, rules);
 
         /* istanbul ignore next */
         if (!result || !Array.isArray(result.violations)) {
@@ -205,7 +243,10 @@ export const register = (context: HintContext, rules: string[], disabled: string
                 const message = summary ? `${violation.help}: ${summary}` : violation.help;
                 const registration = ruleToRegistration.get(violation.id)!;
                 const element = getElement(context, node);
-                const severity = Severity[registration.options[violation.id]] || toSeverity(violation.impact);
+                const severity = Severity[registration.options[violation.id]] === Severity.default ?
+                    toSeverity(violation.impact) :
+                    Severity[registration.options[violation.id]];
+
 
                 registration.context.report(resource, message, { element, severity });
             }

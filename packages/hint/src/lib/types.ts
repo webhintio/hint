@@ -3,16 +3,12 @@ import { IConnectorConstructor } from './types/connector';
 import { IParserConstructor } from './types/parser';
 import { IHintConstructor } from './types/hints';
 
-export * from '@hint/utils/dist/src/types/config';
 export * from './types/connector';
 export * from './types/events';
 export * from './types/formatters';
-export * from '@hint/utils/dist/src/types/json-parser';
 export * from './types/network';
-export * from '@hint/utils/dist/src/types/problems';
 export * from './types/hints';
 export * from './types/parser';
-export * from '@hint/utils/dist/src/schema-validation/schema-validation-result';
 export * from './types/analyzer';
 export * from './types/analyzer-error';
 
@@ -27,7 +23,7 @@ export type CLIOptions = {
     help: boolean;
     language: string;
     output: string;
-    tracking: string; // 'on' or 'off'
+    telemetry: string; // 'on' or 'off'
     version: boolean;
     watch: boolean;
 

@@ -1,0 +1,70 @@
+{
+    "error": {
+        "message": "error",
+        "description": "Show error text."
+    },
+    "errorCount": {
+        "message": "$1 error",
+        "description": "Show error text."
+    },
+    "errors": {
+        "message": "errors",
+        "description": "Show errors text."
+    },
+    "errorsCount": {
+        "message": "$1 errors",
+        "description": "Show errors text."
+    },
+    "hint": {
+        "description": "Show hint text.",
+        "message": "hint"
+    },
+    "hintCount": {
+        "description": "Show hint text.",
+        "message": "$1 hint"
+    },
+    "hints": {
+        "description": "Show hints text.",
+        "message": "hints"
+    },
+    "hintsCount": {
+        "description": "Show hints text.",
+        "message": "$1 hints"
+    },
+    "information": {
+        "description": "Show information text.",
+        "message": "information"
+    },
+    "informationCount": {
+        "description": "Show information text.",
+        "message": "$1 information"
+    },
+    "informations": {
+        "description": "Show informations text.",
+        "message": "informations"
+    },
+    "informationsCount": {
+        "description": "Show informations text.",
+        "message": "$1 informations"
+    },
+    "totalFound": {
+        "message": "Found a total of $1 $2, $3 $4, $5 $6 and $7 $8",
+        "description": "Show a summary of errors and warnings in a hint."
+    },
+    "warning": {
+        "message": "warning",
+        "description": "Show warning text."
+    },
+    "warningCount": {
+        "message": "$1 warning",
+        "description": "Show warning text."
+    },
+    "warnings": {
+        "message": "warnings",
+        "description": "Show warnings text."
+    },
+    "warningsCount": {
+        "message": "$1 warnings",
+        "description": "Show warnings text."
+    }
+}

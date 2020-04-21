@@ -1,27 +1,24 @@
 {
   "dependencies": {
-    "@hint/connector-jsdom": "^4.0.12",
-    "@hint/connector-local": "^3.1.9",
-    "@hint/connector-puppeteer": "^2.2.2",
-    "@hint/utils": "^5.0.2",
-    "@hint/utils-create-server": "^3.2.2",
-    "ava": "^1.4.1"
+    "@hint/utils": "^7.0.3",
+    "@hint/utils-create-server": "^3.4.3",
+    "@hint/utils-fs": "^1.0.2",
+    "@hint/utils-network": "^1.0.3",
+    "@hint/utils-types": "^1.0.1",
+    "ava": "^3.5.2"
   },
   "description": "hint tests helpers",
   "devDependencies": {
-    "@types/node": "^12.7.5",
+    "@types/node": "^13.9.2",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "cpx": "^1.5.0",
-    "eslint": "^6.5.1",
+    "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-markdown": "^1.0.0",
+    "eslint-plugin-markdown": "^1.0.2",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.0",
-    "typescript": "^3.6.3"
-  },
-  "engines": {
-    "node": ">=8.0.0"
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
   },
   "files": [
     "dist"
@@ -38,7 +35,10 @@
   "main": "./dist/src/index.js",
   "name": "@hint/utils-tests-helpers",
   "peerDependencies": {
-    "hint": "^5.0.0"
+    "@hint/connector-puppeteer": "^2.0.0",
+    "@hint/connector-jsdom": "^4.0.0",
+    "@hint/connector-local": "^3.0.0",
+    "hint": "^6.0.0"
   },
   "repository": {
     "directory": "packages/utils-tests-helpers",
@@ -52,14 +52,14 @@
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
-    "test": "npm run test-only",
-    "test-only": "npm run build",
+    "test": "npm run lint && npm run build && npm run test-only",
+    "test-only": "nyc ava",
     "test-release": "npm run lint && npm run build-release",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "5.0.10"
+  "version": "6.1.1"
 }

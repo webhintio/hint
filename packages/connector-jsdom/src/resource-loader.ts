@@ -1,14 +1,16 @@
 import { URL } from 'url';
 
-import { contentType, dom, debug as d, HTMLDocument } from '@hint/utils';
-import { ResourceLoader } from 'jsdom';
+import {
+    getContentTypeData,
+    getType
+} from '@hint/utils';
+import { getElementByUrl, HTMLDocument } from '@hint/utils-dom';
+import { debug as d } from '@hint/utils-debug';
+import { ResourceLoader, FetchOptions } from 'jsdom';
 
 import { FetchEnd, FetchError, NetworkData } from 'hint';
 
 import JSDOMConnector from './connector';
-
-const { getElementByUrl } = dom;
-const { getContentTypeData, getType } = contentType;
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -23,10 +25,10 @@ export default class CustomResourceLoader extends ResourceLoader {
         this._HTMLDocument = htmlDocument;
     }
 
-    public async fetch(url: string): Promise<Buffer | null> {
+    public async fetch(url: string, options: FetchOptions): Promise<Buffer> {
         /* istanbul ignore if */
         if (!url) {
-            const promise = Promise.resolve(null);
+            const promise = Promise.resolve(null as any);
 
             (promise as any).abort = () => { };
 
@@ -49,7 +51,7 @@ export default class CustomResourceLoader extends ResourceLoader {
 
         // Ignore if the resource has already been fetched.
         if (this._connector.fetchedHrefs.has(resourceUrl)) {
-            return null;
+            return null as any;
         }
 
         this._connector.fetchedHrefs.add(resourceUrl);
@@ -75,7 +77,7 @@ export default class CustomResourceLoader extends ResourceLoader {
                     response: resourceNetworkData.response
                 };
 
-                const { charset, mediaType } = getContentTypeData(element, fetchEndEvent.resource, fetchEndEvent.response.headers, fetchEndEvent.response.body.rawContent);
+                const { charset, mediaType } = await getContentTypeData(element, fetchEndEvent.resource, fetchEndEvent.response.headers, fetchEndEvent.response.body.rawContent);
                 const type = mediaType ? getType(mediaType) : /* istanbul ignore next */ 'unknown';
 
                 fetchEndEvent.response.mediaType = mediaType!;

@@ -1,16 +1,21 @@
 import { URL } from 'url';
 
 import { Engine } from 'hint';
-import { getElementByUrl, HTMLDocument, HTMLElement, traverse } from '@hint/utils/dist/src/dom';
-import { createHelpers, restoreReferences } from '@hint/utils/dist/src/dom/snapshot';
-import { DocumentData } from '@hint/utils/dist/src/types/snapshot';
-
 import {
-    ConnectorOptionsConfig,
+    createHelpers,
+    DocumentData,
+    getElementByUrl,
+    HTMLDocument,
+    HTMLElement,
+    restoreReferences,
+    traverse
+} from '@hint/utils-dom';
+import {
     IConnector,
     FetchEnd,
     NetworkData
 } from 'hint/dist/src/lib/types';
+import { ConnectorOptionsConfig } from '@hint/utils';
 
 import { browser, document, eval, location, window } from '../shared/globals';
 import { Events } from '../shared/types';
@@ -99,7 +104,12 @@ export default class WebExtensionConnector implements IConnector {
                      * Evaluate after the traversing, just in case something goes wrong
                      * in any of the evaluation and some scripts are left in the DOM.
                      */
-                    await this._engine.emitAsync('can-evaluate::script', { resource });
+                    const event = {
+                        document: this._document,
+                        resource
+                    };
+
+                    await this._engine.emitAsync('can-evaluate::script', event);
 
                     this._onComplete(null, resource);
 
@@ -160,7 +170,7 @@ export default class WebExtensionConnector implements IConnector {
         }
 
         this.setFetchElement(event);
-        const type = setFetchType(event);
+        const type = await setFetchType(event);
 
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
     }

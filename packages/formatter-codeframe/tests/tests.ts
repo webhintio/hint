@@ -1,13 +1,13 @@
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
-import * as utils from '@hint/utils';
-
 import * as problems from './fixtures/list-of-problems';
+import { severityToColor } from '@hint/utils';
+import { Severity } from '@hint/utils-types';
 
 type Logging = {
     log: () => void;
@@ -33,12 +33,8 @@ const initContext = (t: ExecutionContext<CodeframeContext>) => {
 
 const loadScript = (context: CodeframeContext) => {
     const script = proxyquire('../src/formatter', {
-        '@hint/utils': {
-            debug: utils.debug,
-            fs: { writeFileAsync: context.writeFileAsync },
-            logger: context.logging,
-            misc: utils.misc
-        }
+        '@hint/utils': { logger: context.logging },
+        '@hint/utils-fs': { writeFileAsync: context.writeFileAsync }
     });
 
     return script.default;
@@ -62,14 +58,14 @@ test(`Codeframe formatter doesn't print anything if no values`, (t) => {
 const generateExpectedLogResult = () => {
     let problem = problems.codeframeproblems[0];
 
-    let expectedLogResult = `${chalk.yellow('Warning')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}`;
+    let expectedLogResult = `${severityToColor(Severity.warning)('Warning')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}`;
 
     problem = problems.codeframeproblems[1];
     let sourceCode = problem.sourceCode.split('\n');
 
     expectedLogResult += `
 
-${chalk.yellow('Warning')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}:${problem.location.line}:${problem.location.column}
+${severityToColor(Severity.warning)('Warning')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}:${problem.location.line}:${problem.location.column}
 
 ${sourceCode[0]}
 ^
@@ -82,7 +78,7 @@ ${sourceCode[2]}
 
     expectedLogResult += `
 
-${chalk.yellow('Warning')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}:${problem.location.line}:${problem.location.column}
+${severityToColor(Severity.hint)('Hint')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}:${problem.location.line}:${problem.location.column}
 
 ${sourceCode[0]}
 ^
@@ -95,7 +91,7 @@ ${sourceCode[2]}
 
     expectedLogResult += `
 
-${chalk.yellow('Warning')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}:${problem.location.line}:${problem.location.column}
+${severityToColor(Severity.information)('Information')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}:${problem.location.line}:${problem.location.column}
 
 ${sourceCode[0]}
 ${sourceCode[1].substr(8)}
@@ -107,7 +103,7 @@ ${sourceCode[2].substr(8)}`;
 
     expectedLogResult += `
 
-${chalk.red('Error')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}:${problem.location.line}:${problem.location.column}
+${severityToColor(Severity.error)('Error')}: ${problem.message} (${problem.hintId}) at ${chalk.cyan(problem.resource)}:${problem.location.line}:${problem.location.column}
 
 ${sourceCode[0]}
 ${sourceCode[1]}
@@ -116,7 +112,7 @@ ${sourceCode[2].substr(8)}
 ${sourceCode[3]}
 …
 
-${chalk.red.bold(`${logSymbols.error} Found a total of 1 error and 4 warnings`)}`;
+${severityToColor(Severity.error).bold(`${logSymbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`)}`;
 
     return expectedLogResult;
 };
@@ -144,7 +140,7 @@ ${sourceCode[2]}
 
     expectedLogResult += `
 
-Warning: ${problem.message} (${problem.hintId}) at ${problem.resource}:${problem.location.line}:${problem.location.column}
+Hint: ${problem.message} (${problem.hintId}) at ${problem.resource}:${problem.location.line}:${problem.location.column}
 
 ${sourceCode[0]}
 ^
@@ -157,7 +153,7 @@ ${sourceCode[2]}
 
     expectedLogResult += `
 
-Warning: ${problem.message} (${problem.hintId}) at ${problem.resource}:${problem.location.line}:${problem.location.column}
+Information: ${problem.message} (${problem.hintId}) at ${problem.resource}:${problem.location.line}:${problem.location.column}
 
 ${sourceCode[0]}
 ${sourceCode[1].substr(8)}
@@ -178,7 +174,7 @@ ${sourceCode[2].substr(8)}
 ${sourceCode[3]}
 …
 
-${stripAnsi(logSymbols.error)} Found a total of 1 error and 4 warnings`;
+${stripAnsi(logSymbols.error)} Found a total of 1 error, 2 warnings, 1 hint and 1 information`;
 
     return expectedLogResult;
 };

@@ -1,8 +1,6 @@
 import * as Handlebars from 'handlebars';
-import { fs } from '@hint/utils';
+import { readFileAsync } from '@hint/utils-fs';
 import { loadCreateHintPackage } from './utils';
-
-const { readFileAsync } = fs;
 
 const pkg = loadCreateHintPackage();
 
@@ -15,9 +13,14 @@ const pkg = loadCreateHintPackage();
  * of creation.
  */
 Handlebars.registerHelper('dependencyVersion', (packageName, defaultVersion): string => {
-    const version = pkg.dependencies[packageName] ||
+    let version = pkg.dependencies[packageName] ||
         pkg.devDependencies[packageName] ||
         defaultVersion;
+
+    // hint is a `peerDependency` and should target only major versions
+    if (packageName === 'hint') {
+        version = `${version.split('.').shift()}.0.0`;
+    }
 
     return `"${packageName}": "${version}"`;
 });

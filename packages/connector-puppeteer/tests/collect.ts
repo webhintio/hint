@@ -7,13 +7,10 @@ import { URL } from 'url';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
-import { Server, ServerConfiguration } from '@hint/utils-create-server';
+import { generateHTMLPage, Server, ServerConfiguration } from '@hint/utils-create-server';
 import { Engine, Events, IConnectorConstructor } from 'hint';
-import { test as testUtils } from '@hint/utils';
 
 import ChromeConnector from '../src/connector';
-
-const { generateHTMLPage } = testUtils;
 
 const name = 'puppeteer';
 
@@ -50,7 +47,7 @@ test.afterEach.always((t) => {
 const pathToFaviconInDir = path.join(__dirname, './fixtures/common/favicon.ico');
 const pathToFaviconInLinkElement = path.join(__dirname, './fixtures/common/favicon-32x32.png');
 
-const runTest = async (t: ExecutionContext<CollectContext>, Connector: IConnectorConstructor, serverConfig: ServerConfiguration): Promise<Server> => {
+const runTest = async (t: ExecutionContext<CollectContext>, Connector: IConnectorConstructor, serverConfig: ServerConfiguration) => {
     const server = await Server.create({ configuration: serverConfig });
     const { engine } = t.context;
     const connector = new Connector(engine, { detached: true });

@@ -3,13 +3,16 @@
  * in the TypeScript configuration file (i.e `tsconfig.json`) not optimized for the defined
  * `browserslist` values.
  */
+import * as path from 'path';
 
 import { HintContext, IHint } from 'hint';
-
+import { Severity } from '@hint/utils-types';
+import { findPackageRoot } from '@hint/utils';
 import { TypeScriptConfigEvents, TypeScriptConfigParse } from '@hint/parser-typescript-config';
 
 import meta from './meta/target';
 import { getMessage } from './i18n.import';
+import { findLocation } from './helpers/config-checker';
 
 /*
  * ------------------------------------------------------------------------------
@@ -226,19 +229,63 @@ export default class TypeScriptConfigTarget implements IHint {
             return maxVersion;
         };
 
+        const browserslistConfigExists = (): boolean => {
+            let browserslistFolder: string | null;
+
+            try {
+                browserslistFolder = findPackageRoot(__dirname, '.browserslistrc');
+            } catch (e) {
+                browserslistFolder = null;
+            }
+
+            if (browserslistFolder) {
+                return true;
+            }
+
+            let packageJsonFolder: string | null;
+
+            try {
+                packageJsonFolder = findPackageRoot(__dirname, 'package.json');
+            } catch (e) {
+                packageJsonFolder = null;
+            }
+
+            if (packageJsonFolder) {
+                const packageJson = require(path.join(packageJsonFolder, 'package.json'));
+
+                return !!packageJson.browserslist;
+            }
+
+            return false;
+        };
+
         const validate = (evt: TypeScriptConfigParse) => {
-            const { config, getLocation, resource } = evt;
+            const { config, getLocation, mergedConfig, originalConfig, resource } = evt;
             const { targetedBrowsers } = context;
+
+            if (!browserslistConfigExists()) {
+                return;
+            }
+
             const target = normalizeScriptTarget(config.compilerOptions.target as any);
             const minimumBrowsers = toMiniumBrowser(targetedBrowsers);
+            const messageName = 'target';
+            const propertyPath = 'compilerOptions.target';
 
             const maxESVersion = getMaxVersion(minimumBrowsers);
 
             if (maxESVersion !== target) {
-                const message = getMessage('target', context.language, [maxESVersion, target]);
-                const location = getLocation('compilerOptions.target');
+                const location = findLocation(propertyPath, mergedConfig, originalConfig, getLocation);
+                const message = getMessage(messageName, context.language, [maxESVersion, target]);
 
-                context.report(resource, message, { location });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        location,
+                        severity: Severity.warning
+                    }
+                );
             }
         };
 

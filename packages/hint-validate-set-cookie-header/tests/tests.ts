@@ -1,7 +1,6 @@
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 // Headers.
@@ -24,8 +23,9 @@ const noHttpOnlyHeader = setCookie(`cookieName=cookieValue; Secure`);
 
 const invalidNameHeader = setCookie(`"cookieName"=cookieValue; Secure; HttpOnly`);
 const invalidValueHeader = setCookie(`cookieName=cookie value; Secure; HttpOnly`);
+const invalidHeaderBackslash = setCookie(`cookie\\Name=cookie\\Value; Secure; HttpOnly`);
 const invalidDateFormatHeader = setCookie(`cookieName=cookieValue; expires=Wed, 31-Dec-97 23:59:59 GMT; Secure; HttpOnly`);
-const trailingSemicolonHeader = setCookie(`cookieName=cookieValue;`);
+const trailingSemicolonHeader = setCookie(`cookieName=cookieValue; Secure; HttpOnly;`);
 const multipleErrorsHeader = setCookie(`"cookieName"=cookie value`);
 
 const noPathHostPrefixHeader = setCookie(`__Host-id=1; Secure; HttpOnly`);
@@ -76,60 +76,116 @@ const defaultTests: HintTest[] = [
     },
     {
         name: `Header doesn't have cookie name-value-string`,
-        reports: [{ message: messages().noNameValueStringError }],
+        reports: [{
+            message: messages().noNameValueStringError,
+            severity: Severity.error
+        }],
         serverConfig: { '/': { headers: noNameValueStringHeader } }
     },
     {
         name: `Header contains unknown attributes`,
-        reports: [{ message: messages().invalidAttributeError }],
+        reports: [{
+            message: messages().invalidAttributeError,
+            severity: Severity.warning
+        }],
         serverConfig: { '/': { headers: invalidAttributeHeader } }
     },
     {
         name: `Header doesn't have 'Secure' directive`,
-        reports: [{ message: messages().noSecureHeaderError }],
+        reports: [{
+            message: messages().noSecureHeaderError,
+            severity: Severity.error
+        }],
         serverConfig: { '/': { headers: noSecureHeader } }
     },
     {
         name: `Header doesn't have 'HttpOnly' directive`,
-        reports: [{ message: messages().noHttpOnlyHeaderError }],
+        reports: [{
+            message: messages().noHttpOnlyHeaderError,
+            severity: Severity.warning
+        }],
         serverConfig: { '/': { headers: noHttpOnlyHeader } }
     },
     {
         name: `Cookie name contains invalid characters`,
-        reports: [{ message: messages('"cookiename"').invalidNameError }],
+        reports: [{
+            message: messages('"cookiename"').invalidNameError,
+            severity: Severity.error
+        }],
         serverConfig: { '/': { headers: invalidNameHeader } }
     },
     {
         name: `Cookie value contains invalid characters`,
-        reports: [{ message: messages().invalidValueError }],
+        reports: [{
+            message: messages().invalidValueError,
+            severity: Severity.error
+        }],
         serverConfig: { '/': { headers: invalidValueHeader } }
     },
     {
+        name: `Cookie name and value contains invalid character (backslash)`,
+        reports: [{
+            message: messages('cookie\\name').invalidNameError,
+            severity: Severity.error
+        },
+        {
+            message: messages('cookie\\name').invalidValueError,
+            severity: Severity.error
+        }],
+        serverConfig: { '/': { headers: invalidHeaderBackslash } }
+    },
+    {
         name: `'Expires' directive contains invalid date format`,
-        reports: [{ message: messages().invalidDateFormatError }],
+        reports: [{
+            message: messages().invalidDateFormatError,
+            severity: Severity.warning
+        }],
         serverConfig: { '/': { headers: invalidDateFormatHeader } }
     },
     {
         name: `Header contains trailing semicolon`,
-        reports: [{ message: messages().trailingSemicolonError }],
+        reports: [{
+            message: messages().trailingSemicolonError,
+            severity: Severity.hint
+        }],
         serverConfig: { '/': { headers: trailingSemicolonHeader } }
     },
     {
         name: `Header contains multiple errors`,
         reports: [
-            { message: messages('"cookiename"').invalidNameError },
-            { message: messages('"cookiename"').invalidValueError }
+            {
+                message: messages('"cookiename"').invalidNameError,
+                severity: Severity.error
+            },
+            {
+                message: messages('"cookiename"').invalidValueError,
+                severity: Severity.error
+            },
+            {
+                message: messages('"cookiename"').noSecureHeaderError,
+                severity: Severity.error
+            },
+            {
+                message: messages('"cookiename"').noHttpOnlyHeaderError,
+                severity: Severity.warning
+            }
         ],
         serverConfig: { '/': { headers: multipleErrorsHeader } }
     },
     {
         name: `Cookie name has '__Host' prefix but doesn't have 'Path' directive`,
-        reports: [{ message: messages().noPathHasHostPrefixError }],
+        reports: [{
+            message: messages().noPathHasHostPrefixError,
+            severity: Severity.error
+        }],
         serverConfig: { '/': { headers: noPathHostPrefixHeader } }
     },
     {
         name: `Cookie name has '__Host' prefix but has 'Domain' directive set`,
-        reports: [{ message: messages().hasDomainHostPrefixError }],
+        reports: [{
+            message: messages().hasDomainHostPrefixError,
+            severity: Severity.error
+        }],
         serverConfig: { '/': { headers: hasDomainHostPrefixHeader } }
     }
 ];
@@ -137,7 +193,10 @@ const defaultTests: HintTest[] = [
 const olderBrowserOnlyTests = [
     {
         name: `'Max-Age' only in old browsers (older browsers only)`,
-        reports: [{ message: messages().maxAgeNoExpireWarning }],
+        reports: [{
+            message: messages().maxAgeNoExpireWarning,
+            severity: Severity.error
+        }],
         serverConfig: { '/': { headers: maxAgeOnlyHeader } }
     },
     {
@@ -157,7 +216,10 @@ const olderBrowserOnlyTests = [
 const newBrowserOnlyTests = [
     {
         name: `Both 'Max-Age' and 'Expires' exist in new browsers (new browsers only)`,
-        reports: [{ message: messages().maxAgePrecedenceWarning }],
+        reports: [{
+            message: messages().maxAgePrecedenceWarning,
+            severity: Severity.hint
+        }],
         serverConfig: { '/': { headers: bothMaxAgeAndExpireHeader } }
     },
     {
@@ -177,7 +239,10 @@ const newBrowserOnlyTests = [
 const oldAndNewBrowsersTest = [
     {
         name: `'Max-Age' only in old browsers (old and new browsers)`,
-        reports: [{ message: messages().maxAgeNoExpireWarning }],
+        reports: [{
+            message: messages().maxAgeNoExpireWarning,
+            severity: Severity.error
+        }],
         serverConfig: { '/': { headers: maxAgeOnlyHeader } }
     },
     {

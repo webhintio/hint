@@ -4,18 +4,17 @@ import * as path from 'path';
 import * as globby from 'globby';
 import * as semver from 'semver';
 
-import { cwd, loadJSONFile } from '../fs';
-import { debug as d } from '../debug';
+import { cwd, loadJSONFile } from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
+import { normalizeIncludes } from '@hint/utils-string';
 import { isFullPackageName } from './is-full-package-name';
-import { ResourceType } from '../types/resource-type';
 import { loadPackage } from './load-package';
 import { loadHintPackage } from './load-hint-package';
 import { requirePackage } from './require-package';
 import { hasMultipleResources } from './has-multiple-resources';
-import { normalizeIncludes } from '../misc';
 import { toAbsolutePaths } from '../config/to-absolute-paths';
-import { ResourceErrorStatus } from '../types/resource-error-status';
-import { ResourceError } from '../types/resource-error';
+import { ResourceErrorStatus, ResourceType } from './enums';
+import { ResourceError } from './resource-error';
 
 const debug: debug.IDebugger = d(__filename);
 

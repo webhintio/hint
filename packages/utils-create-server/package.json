@@ -1,29 +1,28 @@
 {
   "dependencies": {
-    "@hint/utils": "^5.0.2",
+    "@hint/utils-network": "^1.0.3",
+    "@hint/utils-string": "^1.0.2",
     "express": "^4.17.1",
+    "is-ci": "^2.0.0",
     "lodash": "^4.17.15",
     "on-headers": "^1.0.2"
   },
   "description": "hint create server util",
   "devDependencies": {
-    "@types/async-retry": "^1.4.0",
-    "@types/express": "^4.17.1",
-    "@types/lodash": "^4.14.141",
-    "@types/node": "^12.7.5",
+    "@types/express": "^4.17.2",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.9.2",
     "@types/on-headers": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
+    "ava": "^3.5.2",
     "cpx": "^1.5.0",
-    "eslint": "^6.5.1",
+    "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-markdown": "^1.0.0",
+    "eslint-plugin-markdown": "^1.0.2",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.0",
-    "typescript": "^3.6.3"
-  },
-  "engines": {
-    "node": ">=8.0.0"
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
   },
   "files": [
     "dist"
@@ -39,9 +38,6 @@
   "license": "Apache-2.0",
   "main": "dist/src/index.js",
   "name": "@hint/utils-create-server",
-  "peerDependencies": {
-    "hint": "^5.0.0"
-  },
   "repository": {
     "directory": "packages/utils-create-server",
     "type": "git",
@@ -54,14 +50,14 @@
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
-    "test": "npm run test-only",
-    "test-only": "npm run build",
+    "test": "npm run lint && npm run build && npm run test-only",
+    "test-only": "nyc ava",
     "test-release": "npm run lint && npm run build-release",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.2.2"
+  "version": "3.4.3"
 }

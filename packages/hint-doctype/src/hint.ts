@@ -4,11 +4,14 @@
 
 import * as os from 'os';
 
-import { FetchEnd, HintContext, IHint, ProblemLocation } from 'hint';
+import { HintContext, IHint } from 'hint';
+import { ProblemLocation, Severity } from '@hint/utils-types';
+import { HTMLEvents, HTMLParse } from '@hint/parser-html';
+
 import { MatchInformation } from './types';
 
 import meta from './meta';
-import { getMessage, MessageName } from './i18n.import';
+import { getMessage } from './i18n.import';
 
 /*
  * ------------------------------------------------------------------------------
@@ -20,7 +23,7 @@ export default class implements IHint {
 
     public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
+    public constructor(context: HintContext<HTMLEvents>) {
         const correctLine = 0;
         const doctypeRegExp = new RegExp(`(<!doctype\\s+(html)\\s*>)(.+)?`, 'gi');
         const doctypeFlexibleRegExp = new RegExp(`<[^>]*doctype[^<]*>`, 'gi');
@@ -28,10 +31,6 @@ export default class implements IHint {
         const defaultProblemLocation: ProblemLocation = {
             column: 0,
             line: 0
-        };
-
-        const report = (resource: string, key: MessageName, location = defaultProblemLocation) => {
-            context.report(resource, getMessage(key, context.language), { location });
         };
 
         const getCurrentDoctypeProblemLocation = (text: string): ProblemLocation[] => {
@@ -59,29 +58,53 @@ export default class implements IHint {
             };
         };
 
-        const checkNoDoctypeInContent = (matchInfo: MatchInformation, resource: string, content: string): boolean => {
+        const checkNoDoctypeInContent = (matchInfo: MatchInformation, resource: string, content: string, standards: boolean): boolean => {
             if (matchInfo.matches && matchInfo.matches.length > 0) {
                 return true;
             }
 
             if (!doctypeFlexibleRegExp.exec(content)) {
-                report(resource, 'doctypeNotSpecified');
+                context.report(
+                    resource,
+                    getMessage('doctypeNotSpecified', context.language),
+                    {
+                        location: defaultProblemLocation,
+                        severity: Severity.error
+                    }
+                );
 
                 return false;
             }
 
-            report(resource, 'doctypeSpecifiedAs');
+            const severity = standards ? Severity.warning : Severity.error;
+
+            context.report(
+                resource,
+                getMessage('doctypeSpecifiedAs', context.language),
+                {
+                    location: defaultProblemLocation,
+                    severity
+                }
+            );
 
             return false;
         };
 
-        const checkNoDoctypeInCorrectLine = (matchInfo: MatchInformation, resource: string) => {
+        const checkNoDoctypeInCorrectLine = (matchInfo: MatchInformation, resource: string, standards: boolean) => {
+            const severity = standards ? Severity.warning : Severity.error;
 
             if (matchInfo.locations[0].line === correctLine) {
                 return;
             }
 
-            report(resource, 'doctypeSpecifiedBefore', matchInfo.locations[0]);
+            context.report(
+                resource,
+                getMessage('doctypeSpecifiedBefore', context.language),
+                {
+                    location: matchInfo.locations[0],
+                    severity
+                }
+            );
         };
 
         const checkDoctypeIsDuplicated = (matchInfo: MatchInformation, resource: string) => {
@@ -89,34 +112,34 @@ export default class implements IHint {
                 return;
             }
 
-            report(resource, 'doctypeNotDuplicated', matchInfo.locations[matchInfo.locations.length - 1]);
+            context.report(
+                resource,
+                getMessage('doctypeNotDuplicated', context.language),
+                {
+                    location: matchInfo.locations[matchInfo.locations.length - 1],
+                    severity: Severity.warning
+                }
+            );
         };
 
-        const onFetchEndHTML = (fetchEnd: FetchEnd) => {
-            const { resource, response } = fetchEnd;
+        const onParseEndHTML = (parseEnd: HTMLParse) => {
+            const { html, document, resource } = parseEnd;
 
-            if (!response || !response.body || !response.body.content) {
-                context.report(resource, getMessage('resourceNoContent', context.language));
+            const standards = document.compatMode === 'CSS1Compat';
+            const trimmedHtml = html.trim();
 
+            const globalMatch = getMatchInformation(trimmedHtml);
+
+            if (!checkNoDoctypeInContent(globalMatch, resource, trimmedHtml, standards)) {
                 return;
             }
 
-            const { body } = response;
-            const { content } = body;
-            const contentTrimmed = content.trim();
-
-            const globalMatch = getMatchInformation(contentTrimmed);
-
-            if (!checkNoDoctypeInContent(globalMatch, resource, contentTrimmed)) {
-                return;
-            }
-
-            checkNoDoctypeInCorrectLine(globalMatch, resource);
+            checkNoDoctypeInCorrectLine(globalMatch, resource, standards);
             checkDoctypeIsDuplicated(globalMatch, resource);
 
             return;
         };
 
-        context.on('fetch::end::html', onFetchEndHTML);
+        context.on('parse::end::html', onParseEndHTML);
     }
 }

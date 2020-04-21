@@ -9,8 +9,8 @@
 const path = require('path');
 const fs = require('fs');
 
-const Octokit = require('@octokit/rest');
-const throttling = require('@octokit/plugin-throttling');
+const Octokit = require('@octokit/rest').Octokit;
+const throttling = require('@octokit/plugin-throttling').throttling;
 
 const Client = Octokit.plugin(throttling);
 

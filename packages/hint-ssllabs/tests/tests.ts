@@ -2,10 +2,9 @@
 
 import * as mock from 'mock-require';
 
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const ssllabsMock = (response: any) => {
@@ -51,7 +50,10 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `Domain without HTTPS fails with default configuration`,
-        reports: [{ message: `'http://example.com/' does not support HTTPS.` }],
+        reports: [{
+            message: `'http://example.com/' does not support HTTPS.`,
+            severity: Severity.error
+        }],
         serverUrl: 'http://example.com',
         before() {
             ssllabsMock(results.nohttps);
@@ -74,8 +76,14 @@ const testsForConfigs: HintTest[] = [
     {
         name: `Site with A grade doesn't pass with A+ minimum`,
         reports: [
-            { message: `https://example.com/'s grade A does not meet the minimum A+ required.` },
-            { message: `a-site.net's grade A does not meet the minimum A+ required.` }
+            {
+                message: `https://example.com/'s grade A does not meet the minimum A+ required.`,
+                severity: Severity.error
+            },
+            {
+                message: `a-site.net's grade A does not meet the minimum A+ required.`,
+                severity: Severity.error
+            }
         ],
         serverUrl: 'https://example.com',
         before() {
@@ -84,7 +92,10 @@ const testsForConfigs: HintTest[] = [
     },
     {
         name: `Domain without HTTPS fails with a custom configuration`,
-        reports: [{ message: `'http://example.com/' does not support HTTPS.` }],
+        reports: [{
+            message: `'http://example.com/' does not support HTTPS.`,
+            severity: Severity.error
+        }],
         serverUrl: 'http://example.com',
         before() {
             ssllabsMock(results.nohttps);
@@ -95,7 +106,10 @@ const testsForConfigs: HintTest[] = [
 const testsForErrors: HintTest[] = [
     {
         name: 'Issue gettings results from SSL Labs reports error',
-        reports: [{ message: `Could not get results from SSL Labs for 'https://example.com/'.` }],
+        reports: [{
+            message: `Could not get results from SSL Labs for 'https://example.com/'.`,
+            severity: Severity.warning
+        }],
         serverUrl: 'https://example.com',
         before() {
             ssllabsMock(null);
@@ -105,7 +119,8 @@ const testsForErrors: HintTest[] = [
         name: 'Missing endpoints reports an error',
         reports: [{
             message: `Didn't get any result for https://example.com/.
-There might be something wrong with SSL Labs servers.`
+There might be something wrong with SSL Labs servers.`,
+            severity: Severity.warning
         }],
         serverUrl: 'https://example.com',
         before() {
@@ -116,7 +131,8 @@ There might be something wrong with SSL Labs servers.`
         name: 'Empty endpoints array reports an error',
         reports: [{
             message: `Didn't get any result for https://example.com/.
-There might be something wrong with SSL Labs servers.`
+There might be something wrong with SSL Labs servers.`,
+            severity: Severity.warning
         }],
         serverUrl: 'https://example.com',
         before() {
@@ -127,7 +143,8 @@ There might be something wrong with SSL Labs servers.`
         name: 'Response with right status code but nothing inside reports an error',
         reports: [{
             message: `Didn't get any result for https://example.com/.
-There might be something wrong with SSL Labs servers.`
+There might be something wrong with SSL Labs servers.`,
+            severity: Severity.warning
         }],
         serverUrl: 'https://example.com',
         before() {

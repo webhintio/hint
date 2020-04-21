@@ -45,10 +45,25 @@ import * as chokidar from 'chokidar';
 import * as globby from 'globby';
 import { JSDOM } from 'jsdom';
 
-import { contentType, dom, fs, HTMLDocument, HTMLElement, logger, network } from '@hint/utils';
+import {
+    getContentTypeData,
+    getType,
+    isTextMediaType,
+    logger
+} from '@hint/utils';
+import {
+    cwd,
+    isFile,
+    readFileAsync
+} from '@hint/utils-fs';
+import { asPathString, getAsUri } from '@hint/utils-network';
+import {
+    HTMLDocument,
+    HTMLElement,
+    traverse
+} from '@hint/utils-dom';
 
 import {
-    CanEvaluateScript,
     Engine,
     Event,
     FetchEnd,
@@ -67,10 +82,6 @@ import { getMessage } from './i18n.import';
  * ------------------------------------------------------------------------------
  */
 
-const { traverse } = dom;
-const { getContentTypeData, getType, isTextMediaType } = contentType;
-const { cwd, isFile, readFileAsync } = fs;
-const { asPathString, getAsUri } = network;
 const defaultOptions = {};
 
 export default class LocalConnector implements IConnector {
@@ -94,7 +105,7 @@ export default class LocalConnector implements IConnector {
     }
 
     public constructor(engine: Engine<HTMLEvents>, config: object) {
-        this._options = Object.assign({}, defaultOptions, config);
+        this._options = {...defaultOptions, ...config};
         this.filesPattern = this.getFilesPattern();
         this.engine = engine;
 
@@ -151,7 +162,7 @@ export default class LocalConnector implements IConnector {
         };
     }
 
-    private async getGitIgnore () {
+    private async getGitIgnore() {
         try {
             const rawList = await readFileAsync(path.join(cwd(), '.gitignore'));
             const splitList = rawList.split('\n');
@@ -316,7 +327,12 @@ export default class LocalConnector implements IConnector {
 
         await traverse(this._document, this.engine, event.resource);
 
-        await this.engine.emitAsync('can-evaluate::script', { resource: this._href } as CanEvaluateScript);
+        const canEvaluateEvent = {
+            document: this._document,
+            resource: this._href
+        };
+
+        await this.engine.emitAsync('can-evaluate::script', canEvaluateEvent);
     }
 
     /*
@@ -337,9 +353,9 @@ export default class LocalConnector implements IConnector {
          * and then get the path string.
          */
         const uri = getAsUri(target);
-        const filePath: string = uri ? asPathString(uri) : '';
+        const filePath: string = uri ? asPathString(uri).replace('%20', ' ') : '';
         const rawContent: Buffer = options && options.content ? Buffer.from(options.content) : await readFileAsBuffer(filePath);
-        const contentType = getContentTypeData(null as any, filePath, null, rawContent);
+        const contentType = await getContentTypeData(null as any, filePath, null, rawContent);
         let content = '';
 
         if (isTextMediaType(contentType.mediaType || '')) {
@@ -369,13 +385,17 @@ export default class LocalConnector implements IConnector {
     }
 
     public async collect(target: URL, options?: IFetchOptions) {
+        if (target.protocol !== 'file:') {
+            throw new Error('Connector local only works with local files or directories');
+        }
+
         /** The target in string format */
         const href: string = this._href = target.href;
         const initialEvent: Event = { resource: href };
 
         this.engine.emitAsync('scan::start', initialEvent);
 
-        const pathString = asPathString(target);
+        const pathString = asPathString(target).replace('%20', ' ');
         let files: string[];
 
         if (isFile(pathString)) {

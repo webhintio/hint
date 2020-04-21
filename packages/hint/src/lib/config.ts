@@ -19,18 +19,30 @@ import * as path from 'path';
 import browserslist = require('browserslist'); // `require` used because `browserslist` exports a function
 import mergeWith = require('lodash/mergeWith');
 
-import { debug as d, fs as fsUtils, toAbsolutePaths } from '@hint/utils';
-import { validate as schemaValidator } from '@hint/utils/dist/src/schema-validation/schema-validator';
+import {
+    ConnectorConfig,
+    HintsConfigObject,
+    HintSeverity,
+    IgnoredUrl,
+    loadResource,
+    normalizeHints,
+    ResourceType,
+    toAbsolutePaths,
+    UserConfig
+} from '@hint/utils';
+import {
+    isFile,
+    loadJSFile,
+    loadJSONFile
+} from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
+import { validate as schemaValidator } from '@hint/utils-json';
 
-import { UserConfig, IgnoredUrl, ConnectorConfig, HintsConfigObject, HintSeverity, CreateAnalyzerOptions } from './types';
+import { CreateAnalyzerOptions } from './types';
 import { validateConfig } from './config/config-validator';
-import normalizeHints from './config/normalize-hints';
 import { validate as validateHint, getSeverity } from './config/config-hints';
 import * as resourceLoader from './utils/resource-loader';
-import { ResourceType } from './enums';
 import { IConnectorConstructor } from './types/connector';
-
-const { isFile, loadJSFile, loadJSONFile} = fsUtils;
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -86,6 +98,8 @@ const composeConfig = (userConfig: UserConfig, parentConfig = '') => {
         if (!validateConfig(loadedConfiguration)) {
             throw new Error(`Configuration package "${config}" is not valid`);
         }
+
+        loadedConfiguration.hints = normalizeHints(loadedConfiguration.hints);
 
         return composeConfig(loadedConfiguration, config);
     });
@@ -303,7 +317,7 @@ export class Configuration {
 
         debug(`Validating ${connectorId} connector`);
 
-        const Connector = resourceLoader.loadResource(connectorId, ResourceType.connector) as IConnectorConstructor;
+        const Connector = loadResource(connectorId, ResourceType.connector) as IConnectorConstructor;
 
         debug(`Connector schema:`);
         debug(Connector.schema);

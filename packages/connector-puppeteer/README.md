@@ -49,10 +49,11 @@ All properties of `options` are optional.
 * `auth`: The credentials and elements to authenticate on a website.
   See next section for further details.
 * `browser (Chrome|Chromium|Edge)`: Tells the preferred browser to
-  use. Webhint will search the executable for the given one and fail
+  use. If unspecified webhint will look for a `puppeteer` installation
+  before falling back to searching for an installed browser and fail
   if it does not find one. Keep in mind that not all browsers are
-  available in all platforms and that you need to **manually install
-  the browser**.
+  available on all platforms and that you need to **manually install
+  either puppeteer or a browser** for this connector to work.
 * `headless (boolean)`: Indicates if the browser should run in headless
   mode or not. It is `true` by default when running on CI or
   in WSL, `false` otherwise.

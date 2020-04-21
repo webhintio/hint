@@ -1,11 +1,9 @@
 import * as path from 'path';
 
-import { fs } from '@hint/utils';
-import { Server, ServerConfiguration } from '@hint/utils-create-server';
+import { readFileAsync } from '@hint/utils-fs';
+import { IServer, Server, ServerConfiguration } from '@hint/utils-create-server';
 
 import { Page, Props as AppProps } from '../../src/devtools/views/app';
-
-const { readFileAsync } = fs;
 
 type State = {
     action: Function;
@@ -47,7 +45,7 @@ const states: (AppProps & State)[] = [
     }
 ];
 
-export const hostUI = async (): Promise<[Server, string[]]> => {
+export const hostUI = async (): Promise<[IServer, string[]]> => {
 
     const [rawHtmlSource, jsSource, apiSource] = await Promise.all([
         readFileAsync(path.resolve(__dirname, '../../bundle/devtools/panel.html')),
@@ -71,9 +69,10 @@ export const hostUI = async (): Promise<[Server, string[]]> => {
 
     for (const state of states) {
         const path = `/${state.name}.html`;
+        const disableAnimations = `<style>*{animation: none !important}</style>`;
         const stateString = JSON.stringify(state).replace(/<\/script>/g, '<\\/script>');
         const stateScript = `<script>{window.initialState = ${stateString}; const state = {${state.action}}; state.action()}</script>`;
-        const htmlSource = rawHtmlSource.replace(/(<script )/, `${stateScript}${mockExtensionAPIsScript}$1`);
+        const htmlSource = rawHtmlSource.replace(/(<script )/, `${disableAnimations}${stateScript}${mockExtensionAPIsScript}$1`);
 
         (configuration as any)[path] = htmlSource;
         paths.push(path);

@@ -1,7 +1,8 @@
 import test from 'ava';
 
+import { HintConfig } from '@hint/utils';
 import * as configHints from '../../../src/lib/config/config-hints';
-import { HintConfig, IHint, HintMetadata } from '../../../src/lib/types';
+import { IHint, HintMetadata } from '../../../src/lib/types';
 import { HintScope } from '../../../src/lib/enums/hint-scope';
 import { HintContext } from '../../../src/lib/hint-context';
 
@@ -61,8 +62,10 @@ class HintWithSchema implements IHint {
 test('getSeverity with an string should return the right value', (t) => {
     const data = new Map([
         ['off', 0],
-        ['warning', 1],
-        ['error', 2],
+        ['information', 1],
+        ['hint', 2],
+        ['warning', 3],
+        ['error', 4],
         ['invalid', null],
         ['', null]
     ]);
@@ -79,7 +82,8 @@ test('getSeverity with a number should return the right value', (t) => {
         [0, 0],
         [1, 1],
         [2, 2],
-        [3, null],
+        [3, 3],
+        [4, 4],
         [-1, null]
     ]);
 
@@ -93,13 +97,16 @@ test('getSeverity with a number should return the right value', (t) => {
 test('getSeverity with an array should return the right value', (t) => {
     const data: Map<HintConfig, number | null> = new Map([
         [(['off', {}] as HintConfig), 0],
-        [(['warning', {}] as HintConfig), 1],
-        [(['error', {}] as HintConfig), 2],
+        [(['information', {}] as HintConfig), 1],
+        [(['hint', {}] as HintConfig), 2],
+        [(['warning', {}] as HintConfig), 3],
+        [(['error', {}] as HintConfig), 4],
         [(['invalid' as any, {}] as HintConfig), null],
         [([0, {}] as HintConfig), 0],
         [([1, {}] as HintConfig), 1],
         [([2, {}] as HintConfig), 2],
-        [([3, {}] as HintConfig), null],
+        [([3, {}] as HintConfig), 3],
+        [([4, {}] as HintConfig), 4],
         [([-1, {}] as HintConfig), null]
     ]);
 
@@ -122,7 +129,7 @@ test('validate should throw an exception if the severity is not valid', (t) => {
     for (const value of data) {
         t.throws(() => {
             configHints.validate(HintEmptySchema.meta, value, '1');
-        }, Error);
+        }, { instanceOf: Error });
     }
 });
 

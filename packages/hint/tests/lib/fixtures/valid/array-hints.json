@@ -1,0 +1,19 @@
+{
+    "connector": {
+        "name": "chrome",
+        "options": {
+            "waitFor": 1000
+        }
+    },
+    "formatters": [
+        "json"
+    ],
+    "parsers": [
+        "typescript"
+    ],
+    "hints": [
+        "axe",
+        "disallowed-headers",
+        "https-only"
+    ]
+}

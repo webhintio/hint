@@ -6,30 +6,14 @@
     padding-left: 1rem; /* 16px */
 }
 
-.status {
-    border-radius: 1.25rem; /* 20px */
+.summary {
     box-sizing: border-box;
-    color: var(--base-color);
     display: inline-block;
     font-size: var(--font-size-sm);
+    font-weight: bold;
     line-height: 1.25rem; /* 20px */
-    min-width: 4rem; /* 64px */
     padding: 0 0.5rem; /* 0 8px */
     text-align: center;
     white-space: nowrap;
 }
 
-.status.pass {
-    background-color: var(--status-bg-pass);
-    color: var(--light-color);
-}
-
-.status.warn {
-    background-color: var(--status-bg-warn);
-    color: var(--dark-color);
-}
-
-.status.error {
-    background-color: var(--status-bg-error);
-    color: var(--light-color);
-}

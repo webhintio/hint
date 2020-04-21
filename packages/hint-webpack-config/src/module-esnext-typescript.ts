@@ -2,7 +2,8 @@
  * @fileoverview `webpack-config/module-esnext-typescript` warns against not having set the propety `compilerOptions.module` to `esnext` in typescript configuration file.
  */
 import { HintContext, IHint } from 'hint';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
+import { Severity } from '@hint/utils-types';
 
 import { WebpackConfigEvents, WebpackConfigParse } from '@hint/parser-webpack-config';
 import { TypeScriptConfigEvents, TypeScriptConfigParse } from '@hint/parser-typescript-config';
@@ -58,7 +59,11 @@ export default class WebpackConfigModuleESNextTypescript implements IHint {
             }
 
             if (typescriptEvent.config.compilerOptions && (typescriptEvent.config.compilerOptions.module as any).toLowerCase() !== 'esnext') {
-                context.report(typescriptEvent.resource, getMessage('esnext', context.language));
+                context.report(
+                    typescriptEvent.resource,
+                    getMessage('esnext', context.language),
+                    { severity: Severity.error }
+                );
             }
         };
 

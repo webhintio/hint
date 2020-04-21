@@ -1,10 +1,11 @@
-import { Category } from 'hint/dist/src/lib/enums/category';
-import { FetchEnd, FetchStart, Problem } from 'hint/dist/src/lib/types';
+import { Category, Problem } from '@hint/utils-types';
+import { FetchEnd, FetchStart } from 'hint/dist/src/lib/types';
 
 export type Config = {
     disabledCategories?: string[];
     browserslist?: string;
     ignoredUrls?: string;
+    severityThreshold?: string;
 };
 
 export type ErrorData = {

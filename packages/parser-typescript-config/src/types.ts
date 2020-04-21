@@ -1,4 +1,5 @@
-import { GroupedError, Event, ErrorEvent, Events, IJSONLocationFunction, ISchemaValidationError } from 'hint';
+import { Event, ErrorEvent, Events } from 'hint';
+import { JSONLocationFunction, ISchemaValidationError, GroupedError } from '@hint/utils-json';
 import * as TypeScript from 'typescript';
 
 /** TypeScript Configuration */
@@ -27,16 +28,18 @@ export type TypeScriptConfigParseStart = Event;
 
 /** The object emitted by the `typescript-config` parser */
 export type TypeScriptConfigParse = Event & {
-    /** The TypeScript config parsed */
+    /** The final TypeScript config after adding default values */
     config: TypeScriptConfig;
     /** Find the location of a path within the original JSON source */
-    getLocation: IJSONLocationFunction;
+    getLocation: JSONLocationFunction;
+    /** The combined TypeScript config after inlining `extends` */
+    mergedConfig: TypeScriptConfig;
     /** The original TypeScript config */
     originalConfig: TypeScriptConfig;
 };
 
 export type TypeScriptConfigExtendsError = ErrorEvent & {
-    getLocation: IJSONLocationFunction;
+    getLocation: JSONLocationFunction;
 }
 
 export type TypeScriptConfigEvents = Events & {

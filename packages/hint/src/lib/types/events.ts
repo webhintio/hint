@@ -1,7 +1,7 @@
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
 import { Event } from './event';
 import { ElementEvents } from './element-events';
-import { Problem } from '@hint/utils/dist/src/types/problems';
+import { Problem } from '@hint/utils-types';
 import { Request, Response } from './network';
 
 export * from './event';
@@ -60,7 +60,9 @@ export type TraverseDown = Event & {
 };
 
 /** The object emitted by a connector on `can-evaluate` */
-export type CanEvaluateScript = Event;
+export type CanEvaluateScript = Event & {
+    document: HTMLDocument;
+};
 
 export type PrintEvent = Event & {
     problems: Problem[];

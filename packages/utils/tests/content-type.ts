@@ -14,6 +14,7 @@ test('determineMediaTypeBasedOnFileExtension determines the right mime type base
         jpg: 'image/jpeg',
         js: 'text/javascript',
         otf: 'font/otf',
+        php: 'application/x-httpd-php',
         png: 'image/png',
         svg: 'image/svg+xml',
         ttf: 'font/ttf',
@@ -32,6 +33,12 @@ test('determineMediaTypeBasedOnFileExtension determines the right mime type base
 
         t.is(calculatedMediaType, mediaType, `The calculated value for .${extension} is ${calculatedMediaType} instead of ${mediaType}`);
     });
+});
+
+test('determineMediaTypeBasedOnFileExtension returns text/html for php extension if there is a original media type', (t) => {
+    const calculatedMediaType = contentType.determineMediaTypeBasedOnFileExtension(`something.php`, 'text/html');
+
+    t.is(calculatedMediaType, 'text/html', `The calculated value for .something is ${calculatedMediaType} instead of null`);
 });
 
 test('determineMediaTypeBasedOnFileName sets the mime type as `text/json` if the file name matches `.somethingrc`', (t) => {
@@ -78,6 +85,7 @@ test('determineMediaTypeBasedOnFileExtension returns null if not recognized exte
 test('getType returns the right group for a variety of mediaTypes', (t) => {
     const mediaTypes = {
         '': 'unknown',
+        'application/javascript': 'script',
         'application/json': 'json',
         'application/manifest+json': 'manifest',
         'application/vnd.ms-fontobject': 'font',
@@ -127,7 +135,7 @@ test('isTextMediaType returns true or false if the media type is a text one or n
     });
 });
 
-test(`'getContentTypeData' returns correct media type`, (t) => {
+test(`'getContentTypeData' returns correct media type`, async (t) => {
     const files = [
         {
             mediaType: 'image/svg+xml',
@@ -147,7 +155,7 @@ test(`'getContentTypeData' returns correct media type`, (t) => {
     ];
 
     for (const file of files) {
-        const contentTypeData = contentType.getContentTypeData(null, '', null, file.rawContent);
+        const contentTypeData = await contentType.getContentTypeData(null, '', null, file.rawContent);
 
         t.is(typeof contentTypeData, 'object', `The media type could not be determined`);
 

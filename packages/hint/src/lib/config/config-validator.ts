@@ -9,11 +9,10 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d, logger } from '@hint/utils';
+import { logger, UserConfig } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
 
-import { validate } from '@hint/utils/dist/src/schema-validation/schema-validator';
-import { UserConfig } from '../types';
-import { SchemaValidationResult, GroupedError } from '@hint/utils/dist/src/schema-validation/schema-validation-result';
+import { GroupedError, SchemaValidationResult, validate } from '@hint/utils-json';
 
 const debug = d(__filename);
 const schema = require('./config-schema.json');

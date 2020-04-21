@@ -4,11 +4,11 @@ import * as moment from 'moment';
 
 import cloneDeep = require('lodash/cloneDeep');
 
-import { fs, i18n, Category } from '@hint/utils';
-import { FormatterOptions, Severity, Problem } from 'hint';
+import { Category, Problem, Severity } from '@hint/utils-types';
+import { loadJSONFile } from '@hint/utils-fs';
+import { getCategoryName } from '@hint/utils-i18n';
+import { FormatterOptions } from 'hint';
 
-const { getCategoryName } = i18n;
-const { loadJSONFile } = fs;
 const thirdPartyServices = loadJSONFile(path.join(__dirname, 'configs', 'third-party-service-config.json'));
 const categoryImages = loadJSONFile(path.join(__dirname, 'configs', 'category-images.json'));
 const hintsWithoutDocs = ['optimize-image'];
@@ -174,15 +174,12 @@ export class CategoryResult {
         let hint = this.getHintByName(hintId);
 
         if (!hint) {
-            // All the problems have to have the same severity, so we just need to calculate the status once.
-            const status = problem.severity === Severity.error ? 'error' : 'warning';
-
-            hint = new HintResult(hintId, status, this.url, this.isScanner);
+            hint = new HintResult(hintId, Severity[problem.severity].toString(), this.url, this.isScanner);
 
             this.hints.push(hint);
         }
 
-        if (problem.severity === Severity.error || problem.severity === Severity.warning) {
+        if (problem.severity !== Severity.off && problem.severity !== Severity.default) {
             this.hintsCount++;
         }
 

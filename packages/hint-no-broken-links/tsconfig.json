@@ -14,8 +14,13 @@
     ],
     "references": [
         { "path": "../hint" },
-        { "path": "../utils" },
         { "path": "../utils-connector-tools" },
-        { "path": "../utils-tests-helpers" }
+        { "path": "../utils-create-server" },
+        { "path": "../utils-debug" },
+        { "path": "../utils-dom" },
+        { "path": "../utils-i18n" },
+        { "path": "../utils-network" },
+        { "path": "../utils-tests-helpers" },
+        { "path": "../utils-types" }
     ]
 }

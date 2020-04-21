@@ -1,16 +1,13 @@
 import * as isCI from 'is-ci';
-import { launch, Browser, Frame, Page, Target } from 'puppeteer-core';
+import { launch, Browser, Frame, Page, Target } from 'puppeteer';
 import test from 'ava';
 
-import { chromiumFinder, misc } from '@hint/utils';
+import { delay } from '@hint/utils';
 import { Server } from '@hint/utils-create-server';
 
 import { Events, Results } from '../src/shared/types';
 import { readFixture } from './helpers/fixtures';
 
-const { delay } = misc;
-
-const executablePath = chromiumFinder.getInstallationPath();
 const pathToExtension = `${__dirname}/../bundle`;
 
 const getPageFromTarget = async (target: Target) => {
@@ -99,11 +96,12 @@ const findWebhintDevtoolsPanel = async (browser: Browser): Promise<Frame> => {
 };
 
 test('It runs end-to-end in a page', async (t) => {
-    const server = await Server.create({ configuration: await readFixture('missing-lang.html') });
+    const content = await readFixture('missing-lang.html');
+    const server = await Server.create({ configuration: content });
 
     const url = `http://localhost:${server.port}/`;
 
-    const browser = await launch({ executablePath });
+    const browser = await launch();
     const page = (await browser.pages())[0];
 
     await page.goto(url);
@@ -112,7 +110,7 @@ test('It runs end-to-end in a page', async (t) => {
         console.log('Page Error: ', e);
     });
 
-    const resultsPromise = page.evaluate(() => {
+    const resultsPromise = page.evaluate((content: string, url: string) => {
         return new Promise<Results>((resolve) => {
             const listeners: (((events: Events) => void))[] = [];
 
@@ -152,6 +150,33 @@ test('It runs end-to-end in a page', async (t) => {
                         if (event.requestConfig) {
                             onMessage({ config: {} });
                         }
+                        if (event.ready) {
+                            setTimeout(() => {
+                                onMessage({
+                                    fetchEnd: {
+                                        element: null, // Set by `content-script/connector`.
+                                        request: {
+                                            headers: {},
+                                            url
+                                        },
+                                        resource: url,
+                                        response: {
+                                            body: {
+                                                content,
+                                                rawContent: null as any,
+                                                rawResponse: null as any
+                                            },
+                                            charset: '', // Set by `content-script/connector`.
+                                            headers: { 'content-type': 'text/html; charset=utf-8' },
+                                            hops: [],
+                                            mediaType: '', // Set by `content-script/connector`.
+                                            statusCode: 200,
+                                            url
+                                        }
+                                    }
+                                });
+                            }, 0);
+                        }
                         if (event.results) {
                             resolve(event.results);
                         }
@@ -159,7 +184,7 @@ test('It runs end-to-end in a page', async (t) => {
                 }
             } as any;
         });
-    });
+    }, content, url);
 
     await page.addScriptTag({ path: `${__dirname}/../bundle/content-script/webhint.js` });
 
@@ -192,7 +217,6 @@ if (!isCI) {
             ],
             defaultViewport: null,
             devtools: true,
-            executablePath,
             headless: false
         });
 

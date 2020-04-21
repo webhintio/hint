@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
@@ -63,8 +63,10 @@ const initContext = (t: ExecutionContext<ConfigTestContext>) => {
 const loadScript = (context: ConfigTestContext) => {
     return proxyquire('../../src/lib/cli', {
         './cli/actions': context.cliActions,
-        './utils/packages': context.loadHintPackage,
-        '@hint/utils': { logger: context.logger },
+        '@hint/utils': {
+            loadHintPackage: context.loadHintPackage.loadHintPackage,
+            logger: context.logger
+        },
         'update-notifier': context.updateNotifier
     });
 };
@@ -77,7 +79,7 @@ test.afterEach.always((t) => {
 
 test('Users should be notified if there is a new version of hint', async (t) => {
     const sandbox = t.context.sandbox;
-    const newUpdate = {
+    const newUpdate: UpdateInfo = {
         current: '0.2.0',
         latest: '0.3.0',
         name: 'hint',
@@ -110,7 +112,7 @@ test(`Users shouldn't be notified if the current version is up to date`, async (
 
 test(`Users shouldn't be notified if they just updated to the latest version and the data is still cached`, async (t) => {
     const sandbox = t.context.sandbox;
-    const newUpdate = {
+    const newUpdate: UpdateInfo = {
         current: '0.2.0',
         latest: '0.3.0',
         name: 'hint',

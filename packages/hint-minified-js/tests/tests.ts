@@ -1,7 +1,7 @@
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const expectedMessageFromHint = 'JavaScript content should be minified.';
@@ -46,7 +46,10 @@ const tests: HintTest[] = [
     },
     {
         name: 'Unminified content should fail',
-        reports: [{ message: expectedMessageFromHint }],
+        reports: [{
+            message: expectedMessageFromHint,
+            severity: Severity.warning
+        }],
         serverConfig: generateHTMLPage(generateScriptTag(unminifiedJS))
     },
     {

@@ -9,10 +9,11 @@
  * ------------------------------------------------------------------------------
  */
 
-import { normalizeString } from '@hint/utils/dist/src/misc/normalize-string';
-import { fileExtension as getFileExtension } from '@hint/utils/dist/src/fs/file-extension';
+import { normalizeString } from '@hint/utils-string';
+import { fileExtension as getFileExtension } from '@hint/utils-fs';
 import { ElementFound, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -38,14 +39,20 @@ export default class ManifestFileExtensionHint implements IHint {
 
                 if (fileExtension !== standardManifestFileExtension) {
                     let message: string;
+                    let severity: Severity;
 
                     if (fileExtension) {
                         message = getMessage('shouldHaveFileExtensionNot', context.language, [standardManifestFileExtension, fileExtension]);
+
+                        severity = fileExtension === 'json' ?
+                            Severity.hint :
+                            Severity.warning;
                     } else {
                         message = getMessage('shouldHaveFileExtension', context.language, standardManifestFileExtension);
+                        severity = Severity.warning;
                     }
 
-                    context.report(resource, message, { content: fileExtension, element });
+                    context.report(resource, message, { content: fileExtension, element, severity });
                 }
             }
         };

@@ -1,7 +1,7 @@
 import normalizeHints from './normalize-hints';
 import { loadResource } from '../packages/load-resource';
-import { ResourceType } from '../types/resource-type';
-import { UserConfig, HintsConfigObject } from '../types/config';
+import { ResourceType } from '../packages/enums';
+import { UserConfig, HintsConfigObject } from './types';
 
 const getHintsFromExtend = (extendName: string, parentConfigs: string[] = []) => {
     try {
@@ -15,7 +15,7 @@ const getHintsFromExtend = (extendName: string, parentConfigs: string[] = []) =>
             ...getHintsFromExtends(configuration.extends, [extendName, ...parentConfigs]), // eslint-disable-line no-use-before-define,@typescript-eslint/no-use-before-define
             ...normalizeHints(configuration.hints || {})
         };
-    } catch (e) { // If the configuration doesn't exists, ignore it and returns an empty object.
+    } catch (e) /* istanbul ignore next */ { // If the configuration doesn't exists, ignore it and returns an empty object.
         return {};
     }
 };

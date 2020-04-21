@@ -1,4 +1,4 @@
-import { Category } from 'hint/dist/src/lib/enums/category';
+import { Category } from '@hint/utils-types';
 import { HintScope } from 'hint/dist/src/lib/enums/hint-scope';
 import { HintMetadata } from 'hint/dist/src/lib/types';
 
@@ -20,7 +20,7 @@ const meta: HintMetadata = {
     },
     id: 'manifest-icons',
     schema: [],
-    scope: HintScope.site
+    scope: HintScope.any
 };
 
 export default meta;

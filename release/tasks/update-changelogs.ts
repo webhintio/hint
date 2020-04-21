@@ -109,24 +109,24 @@ const getDate = (): string => {
  *
  *  * List
  *
- *  ## Bug fixes / Improvements
- *
- *  * List
- *
  * ## New features
  *
  * * List
+ *
+ *  ## Bug fixes / Improvements
+ *
+ *  * List
  *
  * @param pkg
  *
  */
 const getChangelogData = async (pkg: Package): Promise<string> => {
     const { commits } = pkg;
-    /*
-     * Note: Commits that use tags that do not denote user-facing
-     * changes will not be included in changelog file, and the
-     * release notes.
-     */
+
+    // Some packages only get updated during the release process and there is no commit
+    if (commits.length === 0) {
+        return '';
+    }
 
     const breakingChanges = await generateChangelogSection('Breaking Changes', ['Breaking'], commits);
     const bugFixesAndImprovements = await generateChangelogSection('Bug fixes / Improvements', ['Docs', 'Fix'], commits);
@@ -136,8 +136,8 @@ const getChangelogData = async (pkg: Package): Promise<string> => {
     let releaseNotes = `# ${pkg.content.version} (${getDate()})\n\n`;
 
     releaseNotes += breakingChanges ? `${breakingChanges}\n` : '';
-    releaseNotes += bugFixesAndImprovements ? `${bugFixesAndImprovements}\n` : '';
     releaseNotes += newFeatures ? `${newFeatures}\n` : '';
+    releaseNotes += bugFixesAndImprovements ? `${bugFixesAndImprovements}\n` : '';
     releaseNotes += others ? `${others}\n` : '';
 
     return `${releaseNotes.trim()}\n\n\n`;

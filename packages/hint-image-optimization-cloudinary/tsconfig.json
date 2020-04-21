@@ -15,6 +15,11 @@
     "references": [
         { "path": "../hint" },
         { "path": "../utils" },
-        { "path": "../utils-tests-helpers" }
+        { "path": "../utils-create-server" },
+        { "path": "../utils-dom" },
+        { "path": "../utils-i18n" },
+        { "path": "../utils-string" },
+        { "path": "../utils-tests-helpers" },
+        { "path": "../utils-types" }
     ]
 }

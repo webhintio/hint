@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" >
+    <meta charset="utf-8">
     <title>Webhint</title>
-    <meta name="viewport" content="width=device-width">
-    <%- include('../partials/browser-icon', { result }); %>
-    <link rel="stylesheet" href="styles/fonts.css" >
-    <link rel="stylesheet" href="styles/base.css" >
-    <link rel="stylesheet" href="styles/controls.css" >
-    <link rel="stylesheet" href="styles/type.css" >
-    <link rel="stylesheet" href="styles/layouts.css" >
-    <link rel="stylesheet" href="styles/structure.css" >
-    <link rel="stylesheet" href="styles/anchor-top.css" >
-    <link rel="stylesheet" href="styles/scan/scan-results.css" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%- include('../partials/browser-icon', { getDataUri, result }); %>
 
-    <link rel="stylesheet" href="styles/highlight/default.min.css">
+    <% styles.forEach((style) => { %>
+        <style>
+            /* Content from file: <%= style.file %> */
+            <%- style.content %>
+        </style>
+    <% }) %>
 </head>
 <body>
-    <%- include('../partials/scan-result', { getMessage, result, utils }); %>
+    <%- include('../partials/scan-result', { getDataUri, getMessage, result, utils }); %>
     <a href="#main" class="anchor-top" hidden aria-label="<%= getMessage('backToTop'); %>"><%= getMessage('top'); %></a>
 
-    <script src="js/highlight/highlight.min.js"></script>
-    <script src="js/highlight/languages/xml.min.js"></script>
-    <script src="js/polyfills/details.js"></script>
-    <script src="js/anchor-top.js"></script>
-
-    <script src="<%= languageFile; %>"></script>
-    <script src="js/scan/get-message.js"></script>
-    <script src="js/scan/scanner-common.js"></script>
+    <% scripts.forEach((script) => { %>
+        <script>
+            /* Content from file: <%= script.file %> */
+            <%- script.content %>
+        </script>
+    <% }) %>
 </body>
 </html>

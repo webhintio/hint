@@ -1,9 +1,17 @@
 {
-    "capitalizedError": {
+    "capitalizederror": {
         "description": "Show error text.",
         "message": "Error"
     },
-    "capitalizedWarning": {
+    "capitalizedhint": {
+        "description": "Show warning text.",
+        "message": "Hint"
+    },
+    "capitalizedinformation": {
+        "description": "Show information text.",
+        "message": "Information"
+    },
+    "capitalizedwarning": {
         "description": "Show warning text.",
         "message": "Warning"
     },
@@ -15,9 +23,25 @@
         "message": "errors",
         "description": "Show errors text."
     },
+    "hint": {
+        "description": "Show hint text.",
+        "message": "hint"
+    },
+    "hints": {
+        "description": "Show hints text.",
+        "message": "hints"
+    },
     "hintInfo": {
         "description": "Show the information for the hint",
         "message": "$1: $2 ($3) at $4$5"
+    },
+    "information": {
+        "description": "Show information text.",
+        "message": "information"
+    },
+    "informations": {
+        "description": "Show informations text.",
+        "message": "informations"
     },
     "warning": {
         "message": "warning",
@@ -28,7 +52,7 @@
         "description": "Show warnings text."
     },
     "totalFound": {
-        "message": "Found a total of $1 $2 and $3 $4",
+        "message": "Found a total of $1 $2, $3 $4, $5 $6 and $7 $8",
         "description": "Show a summary of errors and warnings in a hint."
     }
 }

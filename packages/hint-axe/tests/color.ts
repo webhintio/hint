@@ -1,7 +1,7 @@
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
-import { test } from '@hint/utils';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename, true);
 
 const tests: HintTest[] = [
@@ -10,7 +10,8 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: 'Elements must have sufficient color contrast: Element has insufficient color contrast of 1.16 (foreground color: #eeeeee, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1',
-                position: { match: 'div id="text"' }
+                position: { match: 'div id="text"' },
+                severity: Severity.warning
             }
         ],
         serverConfig: generateHTMLPage(

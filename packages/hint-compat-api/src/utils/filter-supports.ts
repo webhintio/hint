@@ -2,7 +2,7 @@ import difference = require('lodash/difference');
 import intersection = require('lodash/intersection');
 import union = require('lodash/union');
 
-import { getSupported } from '@hint/utils/dist/src/compat/support';
+import { getSupported } from '@hint/utils-compat-data';
 
 import { parseSupports, Declaration, DeclarationGroup } from './parse-supports';
 

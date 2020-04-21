@@ -2,7 +2,8 @@
  * @fileoverview `typescript-config/is-valid` warns against providing an invalid TypeScript configuration file `tsconfig.json`.
  */
 import { HintContext, IHint } from 'hint';
-import { debug as d } from '@hint/utils';
+import { debug as d } from '@hint/utils-debug';
+import { Severity } from '@hint/utils-types';
 
 import {
     TypeScriptConfigEvents,
@@ -31,7 +32,11 @@ export default class TypeScriptConfigIsValid implements IHint {
 
             debug(`${event} received`);
 
-            context.report(resource, error.message);
+            context.report(
+                resource,
+                error.message,
+                { severity: Severity.error }
+            );
         };
 
         const invalidExtends = (typeScriptConfigInvalid: TypeScriptConfigExtendsError, event: string) => {
@@ -39,7 +44,14 @@ export default class TypeScriptConfigIsValid implements IHint {
 
             debug(`${event} received`);
 
-            context.report(resource, error.message, { location: getLocation('extends') });
+            context.report(
+                resource,
+                error.message,
+                {
+                    location: getLocation('extends', { at: 'value' }),
+                    severity: Severity.error
+                }
+            );
         };
 
         const invalidSchema = (fetchEnd: TypeScriptConfigInvalidSchema) => {
@@ -48,7 +60,14 @@ export default class TypeScriptConfigIsValid implements IHint {
             debug(`'parse::error::typescript-config::schema' received`);
 
             groupedErrors.forEach((groupedError: any) => {
-                context.report(resource, groupedError.message, { location: groupedError.location });
+                context.report(
+                    resource,
+                    groupedError.message,
+                    {
+                        location: groupedError.location,
+                        severity: Severity.error
+                    }
+                );
             });
         };
 

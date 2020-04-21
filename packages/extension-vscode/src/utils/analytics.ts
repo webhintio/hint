@@ -1,60 +1,29 @@
-import { extname } from 'path';
+import * as Configstore from 'configstore';
 
-import { trackEvent } from './app-insights';
+import {
+    determineHintStatus,
+    enabled,
+    getUpdatedActivity,
+    ProblemCountMap,
+    trackEvent
+} from '@hint/utils-telemetry';
 
 export type ResultData = {
     hints: import('hint').IHintConstructor[];
-    problems: import('hint').Problem[];
+    problems: import('@hint/utils-types').Problem[];
 };
 
 export type TelemetryState = 'ask' | 'disabled' | 'enabled';
 
-const enum HintStatus {
-    passed = 'passed',
-    failed = 'failed',
-    fixed = 'fixed',
-    fixing = 'fixing'
-}
-
-type HintStatusMap = {
-    [hintKey: string]: HintStatus;
-};
-
-type ProblemCountMap = {
-    [hintId: string]: number;
-};
+const activityKey = 'webhint-activity';
+const configstore = new Configstore('vscode-webhint');
 
 // Remember per-document results for analytics.
 const prevProblems = new Map<string, ProblemCountMap>();
 const nextProblems = new Map<string, ProblemCountMap>();
+const languageIds = new Map<string, string>();
 const lastSaveTimes = new Map<string, number>();
 const twoMinutes = 1000 * 60 * 2;
-
-const determineHintStatus = (prev: ProblemCountMap, next: ProblemCountMap, uri: string) => {
-    const status: HintStatusMap = {};
-
-    for (const id of Object.keys(next)) {
-        const hintKey = `hint-${id}`;
-        const prevCount = prev[id] || 0;
-        const nextCount = next[id] || 0;
-
-        if (nextCount) {
-            if (prevCount > nextCount) {
-                status[hintKey] = HintStatus.fixing;
-            } else {
-                status[hintKey] = HintStatus.failed;
-            }
-        } else if (prevCount > 0) {
-            status[hintKey] = HintStatus.fixed;
-        } else {
-            status[hintKey] = HintStatus.passed;
-        }
-    }
-
-    const fileExtension = extname(uri);
-
-    return { fileExtension, ...status };
-};
 
 const toTrackedResult = (data: ResultData) => {
     const result: ProblemCountMap = {};
@@ -71,8 +40,30 @@ const toTrackedResult = (data: ResultData) => {
     return result;
 };
 
-const trackOpen = (result: ProblemCountMap, uri: string) => {
-    trackEvent('vscode-open', determineHintStatus({}, result, uri));
+/**
+ * Report once per UTC day that a user is active (has opened a recognized file).
+ * Data includes `last28Days` (e.g. `"1001100110011001100110011001"`)
+ * and `lastUpdated` (e.g. `"2019-10-04T00:00:00.000Z"`).
+ */
+const trackActive = (storage: Configstore) => {
+    // Don't count a user as active if telemetry is disabled.
+    if (!enabled()) {
+        return;
+    }
+
+    const activity = getUpdatedActivity(storage.get(activityKey));
+
+    if (activity) {
+        storage.set(activityKey, activity);
+        trackEvent('vscode-activity', activity);
+    }
+};
+
+const trackOpen = (result: ProblemCountMap, languageId: string, storage: Configstore) => {
+    const status = determineHintStatus({}, result);
+
+    trackEvent('vscode-open', { ...status, languageId });
+    trackActive(storage);
 };
 
 export const trackOptIn = (telemetryEnabled: TelemetryState, everEnabledTelemetry: boolean) => {
@@ -84,21 +75,24 @@ export const trackOptIn = (telemetryEnabled: TelemetryState, everEnabledTelemetr
 export const trackClose = (uri: string) => {
     prevProblems.delete(uri);
     nextProblems.delete(uri);
+    languageIds.delete(uri);
     lastSaveTimes.delete(uri);
 };
 
-export const trackResult = (uri: string, result: ResultData) => {
+export const trackResult = (uri: string, languageId: string, result: ResultData, storage = configstore) => {
     const problems = toTrackedResult(result);
+
+    languageIds.set(uri, languageId);
 
     if (prevProblems.has(uri)) {
         nextProblems.set(uri, problems);
     } else {
         prevProblems.set(uri, problems);
-        trackOpen(problems, uri);
+        trackOpen(problems, languageId, storage);
     }
 };
 
-export const trackSave = (uri: string) => {
+export const trackSave = (uri: string, languageId: string) => {
     const prev = prevProblems.get(uri);
     const next = nextProblems.get(uri);
     const lastSave = lastSaveTimes.get(uri);
@@ -109,6 +103,7 @@ export const trackSave = (uri: string) => {
     }
 
     // Throttle tracking saves to reduce redundant reports when autosave is on.
+    /* istanbul ignore if */
     if (lastSave && now - lastSave < twoMinutes) {
         return;
     }
@@ -116,7 +111,9 @@ export const trackSave = (uri: string) => {
     prevProblems.set(uri, next);
     nextProblems.delete(uri);
 
-    trackEvent('vscode-save', determineHintStatus(prev, next, uri));
+    const status = determineHintStatus(prev, next);
+
+    trackEvent('vscode-save', { ...status, languageId });
 
     lastSaveTimes.set(uri, now);
 };

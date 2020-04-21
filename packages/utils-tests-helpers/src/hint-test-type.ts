@@ -1,16 +1,18 @@
 import { ExecutionContext } from 'ava';
 
-import { ProblemLocation } from 'hint';
+import { ProblemLocation, Severity } from '@hint/utils-types';
 
 export type MatchProblemLocation = {
     /** A substring matching the location of the problem. */
     match: string;
+    range?: string;
 };
 
 export type Report = {
     /** The message to validate */
     message: string;
     position?: ProblemLocation | MatchProblemLocation;
+    severity?: Severity;
 };
 
 export type HintTest = {

@@ -1,7 +1,7 @@
 import test from 'ava';
 import * as sinon from 'sinon';
 
-import { Severity } from '@hint/utils/dist/src/types/problems';
+import { Severity } from '@hint/utils-types';
 
 const engine = {
 
@@ -50,7 +50,7 @@ test(`hintContext should be a proxy for several engine's methods`, (t) => {
 
     methods.forEach((method) => {
         try {
-            context[method]();
+            context[method]('', '', {});
         } catch (e) {
             t.fail(`HintContext.${method}() doesn't exist`);
         }

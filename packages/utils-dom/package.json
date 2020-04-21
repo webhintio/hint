@@ -1,0 +1,70 @@
+{
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "dependencies": {
+    "@types/parse5": "^5.0.2",
+    "eventemitter2": "^6.0.0",
+    "@hint/utils-debug": "^1.0.1",
+    "@hint/utils-types": "^1.0.1",
+    "css-select": "^2.1.0",
+    "parse5": "^5.1.1",
+    "parse5-htmlparser2-tree-adapter": "^5.1.1"
+  },
+  "description": "utils for DOM",
+  "devDependencies": {
+    "@types/parse5-htmlparser2-tree-adapter": "^5.0.1",
+    "ava": "^3.5.2",
+    "axe-core": "^3.5.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-markdown": "^1.0.2",
+    "jsdom": "^16.2.2",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^15.0.0",
+    "proxyquire": "^2.1.3",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://webhint.io/",
+  "keywords": [
+    "hint",
+    "hint-utils-dom",
+    "dom",
+    "utils",
+    "webhint"
+  ],
+  "license": "Apache-2.0",
+  "main": "./dist/src/index.js",
+  "name": "@hint/utils-dom",
+  "repository": {
+    "directory": "packages/utils-dom",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
+  "scripts": {
+    "build": "npm-run-all build:*",
+    "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc -b",
+    "clean": "rimraf dist",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
+    "lint:dependencies": "node ../../scripts/lint-dependencies.js",
+    "lint:md": "node ../../scripts/lint-markdown.js",
+    "test": "npm run lint && npm run build && npm run test-only",
+    "test-only": "nyc ava",
+    "test-release": "npm run lint && npm run build-release",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "2.1.0"
+}

@@ -6,17 +6,19 @@ import * as sinon from 'sinon';
 import anyTest, { TestInterface } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
-import * as utils from '@hint/utils';
+import * as utilsFs from '@hint/utils-fs';
+import * as network from '@hint/utils-network';
+import { getAsUri } from '@hint/utils-network';
 import { Engine, FetchEnd, ErrorEvent } from 'hint';
 
 import { TypeScriptConfigEvents, TypeScriptConfigParse, TypeScriptConfigInvalidSchema } from '../src/parser';
 
-const { loadJSONFile, readFile } = utils.fs;
-const { getAsUri } = utils.network;
+const { loadJSONFile, readFile } = utilsFs;
 
 type SandboxContext = {
     sandbox: sinon.SinonSandbox;
 };
+
 
 const test = anyTest as TestInterface<SandboxContext>;
 
@@ -25,16 +27,16 @@ const schema = readFile(path.join(__dirname, 'fixtures', 'schema.json'));
 const mockContext = (context: SandboxContext) => {
     const statObject = { mtime: new Date() };
 
-    (utils.network as any).requestAsync = (url: string): Promise<string> => {
+    (network as any).requestAsync = (url: string): Promise<string> => {
         return Promise.resolve(schema);
     };
 
-    (utils.fs as any).writeFileAsync = (path: string, content: string): Promise<void> => {
+    (utilsFs as any).writeFileAsync = (path: string, content: string): Promise<void> => {
         return Promise.resolve();
     };
 
-    const requestAsyncStub = context.sandbox.stub(utils.network, 'requestAsync');
-    const writeFileAsyncStub = context.sandbox.stub(utils.fs, 'writeFileAsync');
+    const requestAsyncStub = context.sandbox.stub(network, 'requestAsync');
+    const writeFileAsyncStub = context.sandbox.stub(utilsFs, 'writeFileAsync');
 
     const fs = {
         stat(path: string, callback: Function): void {
@@ -49,7 +51,8 @@ const mockContext = (context: SandboxContext) => {
     }) as Engine<TypeScriptConfigEvents>;
 
     const script = proxyquire('../src/parser', {
-        '@hint/utils': utils,
+        '@hint/utils-fs': utilsFs,
+        '@hint/utils-network': network,
         fs
     });
 
@@ -154,6 +157,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
             alwaysStrict: true,
             declaration: true,
             disableSizeLimit: false,
+            importsNotUsedAsValues: 'remove',
             inlineSourceMap: true,
             jsxFactory: 'React.createElement',
             lib: [
@@ -202,6 +206,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
             alwaysStrict: true,
             declaration: true,
             disableSizeLimit: false,
+            importsNotUsedAsValues: 'remove',
             inlineSourceMap: true,
             jsxFactory: 'React.createElement',
             lib: [
@@ -274,63 +279,4 @@ test('If we receive a json with an extends with an invalid json, it should emit 
     // 3 times, the previous call, the start and the parse error.
     t.is(engineEmitAsyncSpy.callCount, 3);
     t.is(engineEmitAsyncSpy.args[2][0], 'parse::error::typescript-config::extends');
-});
-
-test(`If the schema file was updated in less than 24 hours, it shouldn't update the current schema`, async (t) => {
-    const sandbox = t.context.sandbox;
-    const { engine, fs, requestAsyncStub, TypeScriptConfigParser, writeFileAsyncStub } = mockContext(t.context);
-
-    const fsStatStub = sandbox.stub(fs, 'stat').callsFake((path: string, callback) => {
-        callback(null, { mtime: new Date() });
-    });
-
-    new TypeScriptConfigParser(engine); // eslint-disable-line no-new
-
-    const validJSON = loadJSONFile(path.join(__dirname, 'fixtures', 'tsconfig.valid.json'));
-
-    await engine.emitAsync('fetch::end::json', {
-        resource: 'tsconfig.improved.json',
-        response: { body: { content: JSON.stringify(validJSON) } }
-    } as FetchEnd);
-
-    t.true(fsStatStub.calledOnce);
-    t.false(requestAsyncStub.called);
-    t.false(writeFileAsyncStub.called);
-});
-
-test(`If the schema file wasn't updated in less than 24 hours, it should update the current schema`, async (t) => {
-    const sandbox = t.context.sandbox;
-    const { engine, fs, requestAsyncStub, TypeScriptConfigParser, writeFileAsyncStub } = mockContext(t.context);
-
-    const today = new Date();
-    const dayBeforeYesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2);
-
-    const fsStatStub = sandbox.stub(fs, 'stat').callsFake((path: string, callback) => {
-        callback(null, { mtime: dayBeforeYesterday });
-    });
-
-    requestAsyncStub.resolves(schema);
-    writeFileAsyncStub.resolves();
-
-    new TypeScriptConfigParser(engine); // eslint-disable-line no-new
-
-    const validJSON = loadJSONFile(path.join(__dirname, 'fixtures', 'tsconfig.valid.json'));
-
-    await engine.emitAsync('fetch::end::json', {
-        resource: 'tsconfig.improved.json',
-        response: { body: { content: JSON.stringify(validJSON) } }
-    } as FetchEnd);
-
-    t.true(fsStatStub.calledOnce);
-    t.true(requestAsyncStub.calledOnce);
-    t.is(requestAsyncStub.args[0][0], 'http://json.schemastore.org/tsconfig');
-    t.true(writeFileAsyncStub.calledOnce);
-
-    const oldSchema = JSON.parse(schema);
-    const newSchema = JSON.parse(writeFileAsyncStub.args[0][1]);
-
-    t.is(typeof oldSchema.definitions.compilerOptionsDefinition.properties.compilerOptions.additionalProperties, 'undefined');
-    t.is(typeof oldSchema.definitions.typeAcquisitionDefinition.properties.typeAcquisition.additionalProperties, 'undefined');
-    t.false(newSchema.definitions.compilerOptionsDefinition.properties.compilerOptions.additionalProperties);
-    t.false(newSchema.definitions.typeAcquisitionDefinition.properties.typeAcquisition.additionalProperties);
 });

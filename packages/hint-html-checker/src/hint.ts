@@ -12,8 +12,9 @@
 import uniqBy = require('lodash/uniqBy');
 import { OptionsWithUrl } from 'request';
 
-import { debug as d } from '@hint/utils';
-import { HintContext, IHint, ProblemLocation, Severity } from 'hint';
+import { debug as d } from '@hint/utils-debug';
+import { HintContext, IHint } from 'hint';
+import { ProblemLocation, Severity } from '@hint/utils-types';
 
 import { HTMLEvents, HTMLParse } from '@hint/parser-html';
 
@@ -64,7 +65,8 @@ export default class HtmlCheckerHint implements IHint {
             lastLine: number;
             hiliteStart: number;
             message: string;
-            subType: keyof typeof Severity;
+            subType: 'warning' | 'fatal';
+            type: 'info' | 'error' | 'non-document-error';
         };
 
         const loadHintConfig = () => {
@@ -90,6 +92,28 @@ export default class HtmlCheckerHint implements IHint {
             return uniqBy(noIgnoredMesssages, 'message');
         };
 
+        /**
+         * Transformation to severity follows the information from
+         * https://github.com/validator/validator/wiki/Output-%C2%BB-JSON#message-objects
+         */
+        const toSeverity = (message: HtmlError) => {
+            if (message.type === 'info') {
+                if (message.subType === 'warning') {
+                    return Severity.warning;
+                }
+
+                // "Otherwise, the message is taken to generally informative."
+                return Severity.information;
+            }
+
+            if (message.type === 'error') {
+                return Severity.error;
+            }
+
+            // Internal errors by the validator, io, etc.
+            return Severity.warning;
+        };
+
         const locateAndReport = (resource: string) => {
             return (messageItem: HtmlError): void => {
                 const position: ProblemLocation = {
@@ -103,19 +127,22 @@ export default class HtmlCheckerHint implements IHint {
                     codeLanguage: 'html',
                     codeSnippet: messageItem.extract,
                     location: position,
-                    severity: Severity[messageItem.subType]
+                    severity: toSeverity(messageItem)
                 });
             };
         };
 
         const notifyError = (resource: string, error: any) => {
             debug(`Error getting HTML checker result for ${resource}.`, error);
-            context.report(resource, getMessage('couldNotGetResult', context.language, [resource, error.toString()]));
+            context.report(
+                resource,
+                getMessage('couldNotGetResult', context.language, [resource, error.message]),
+                { severity: Severity.warning });
         };
 
         const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {
-            const requestAsync = (await import('@hint/utils')).network.requestAsync;
-            const delay = (await import('@hint/utils')).misc.delay;
+            const requestAsync = (await import('@hint/utils-network')).requestAsync;
+            const delay = (await import('@hint/utils')).delay;
 
             try {
                 return await requestAsync(options);
@@ -131,7 +158,10 @@ export default class HtmlCheckerHint implements IHint {
         };
 
         const checkHTML = (data: HTMLParse): CheckerData => {
-            const options = Object.assign({}, scanOptions, { body: data.html });
+            const options = {
+                ...scanOptions,
+                body: data.html
+            };
 
             return {
                 event: data,

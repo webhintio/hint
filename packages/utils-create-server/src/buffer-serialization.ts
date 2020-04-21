@@ -1,6 +1,7 @@
 const prefix = 'base64:';
 
 /** Serializes a `Buffer` using `base64`. */
+/* istanbul ignore next */
 const replacer = (key: string, value: any) => {
 
     /**
@@ -26,6 +27,7 @@ const replacer = (key: string, value: any) => {
 };
 
 /** Revives a string of a `Buffer` that was `base64` seralized. */
+/* istanbul ignore next */
 const reviver = (key: string, value: any) => {
     if (value && value.type === 'Buffer' && value.data.startsWith(prefix)) {
 
@@ -39,6 +41,7 @@ const reviver = (key: string, value: any) => {
     return value;
 };
 
+/* istanbul ignore next */
 export {
     replacer,
     reviver

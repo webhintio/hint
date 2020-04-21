@@ -3,13 +3,14 @@
  */
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { HTMLElement } from '@hint/utils/dist/src/dom/html';
+import { IHint } from 'hint/dist/src/lib/types';
+import { debug as d } from '@hint/utils-debug';
+import { HTMLElement } from '@hint/utils-dom';
+import { Severity } from '@hint/utils-types';
 
 import { StyleEvents, StyleParse } from '@hint/parser-css';
-import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
-import { Rule } from 'postcss';
+import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
+
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -41,19 +42,6 @@ const isOutsideParentSVG = (parentSVG: HTMLElement) => {
 
         return false;
     };
-};
-
-const getLocation = (rule: Rule): ProblemLocation | null => {
-    const start = rule.source && rule.source.start;
-
-    if (start) {
-        return {
-            column: start.column - 1,
-            line: start.line - 1
-        };
-    }
-
-    return null;
 };
 
 /*
@@ -103,14 +91,15 @@ export default class ScopedSvgStylesHint implements IHint {
 
                     if (matchingElementsOutsideParentSVG.length) {
                         const message = formatRuleMessage(matchingElementsOutsideParentSVG.length);
-                        const location = getLocation(rule);
+                        const location = getCSSLocationFromNode(rule);
                         const codeSnippet = getCSSCodeSnippet(rule);
 
                         context.report(resource, message, {
                             codeLanguage: 'css',
                             codeSnippet,
                             element,
-                            location
+                            location,
+                            severity: Severity.error
                         });
 
                         let maxReportsPerCSSRule = Infinity;
@@ -120,7 +109,13 @@ export default class ScopedSvgStylesHint implements IHint {
                         }
 
                         for (let i = 0; (i < matchingElementsOutsideParentSVG.length && i < maxReportsPerCSSRule); i++) {
-                            context.report(resource, formatElementMessage(codeSnippet), { element: matchingElementsOutsideParentSVG[i] });
+                            context.report(
+                                resource,
+                                formatElementMessage(codeSnippet),
+                                {
+                                    element: matchingElementsOutsideParentSVG[i],
+                                    severity: Severity.error
+                                });
                         }
                     }
                 }

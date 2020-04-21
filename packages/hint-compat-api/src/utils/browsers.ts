@@ -1,5 +1,4 @@
-import { UnsupportedBrowsers } from '@hint/utils/dist/src/compat';
-import { getFriendlyName } from '@hint/utils/dist/src/compat/browsers';
+import { getFriendlyName, UnsupportedBrowsers } from '@hint/utils-compat-data';
 
 /**
  * Apply temporary filters to the list of target browsers to reduce

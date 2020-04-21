@@ -8,16 +8,13 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { mergeIgnoreIncludeArrays } from '@hint/utils/dist/src/misc/merge-ignore-include-arrays';
-import { prettyPrintArray } from '@hint/utils/dist/src/misc/pretty-print-array';
-import { toLowerCaseArray } from '@hint/utils/dist/src/misc/to-lowercase-array';
-import { includedHeaders } from '@hint/utils/dist/src/network/included-headers';
-import { isDataURI } from '@hint/utils/dist/src/network/is-data-uri';
-import { normalizeHeaderValue } from '@hint/utils/dist/src/network/normalize-header-value';
+import { debug as d } from '@hint/utils-debug';
+import { mergeIgnoreIncludeArrays, prettyPrintArray, toLowerCaseArray } from '@hint/utils-string';
+import { includedHeaders, isDataURI, normalizeHeaderValue } from '@hint/utils-network';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -142,7 +139,14 @@ export default class NoDisallowedHeadersHint implements IHint {
             ) {
                 const message = getMessage('headerValueShouldOnlyContain', context.language, response.headers.server);
 
-                context.report(resource, message, { codeLanguage, codeSnippet: `Server: ${serverHeaderValue}` });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        codeLanguage,
+                        codeSnippet: `Server: ${serverHeaderValue}`,
+                        severity: Severity.warning
+                    });
             }
 
             if (numberOfHeaders > 0) {
@@ -158,7 +162,13 @@ export default class NoDisallowedHeadersHint implements IHint {
                     return `${total}${total ? '\n' : ''}${header}: ${normalizeHeaderValue(response.headers, header)}`;
                 }, '');
 
-                context.report(resource, message, { codeLanguage, codeSnippet });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        codeLanguage, codeSnippet,
+                        severity: Severity.warning
+                    });
             }
         };
 

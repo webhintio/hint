@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { UserConfig, HintsConfigObject } from '../types/config';
+import { UserConfig, HintsConfigObject } from './types';
 
 export const toAbsolutePaths = (config: UserConfig | null, configRoot: string): UserConfig | null => {
     if (!config) {
@@ -21,6 +21,7 @@ export const toAbsolutePaths = (config: UserConfig | null, configRoot: string): 
     const stat = fs.statSync(configRoot); //eslint-disable-line
     const configPath = stat.isDirectory() ? configRoot : path.dirname(configRoot);
 
+    /* istanbul ignore if */
     if (!configPath) {
         return config;
     }
@@ -63,17 +64,29 @@ export const toAbsolutePaths = (config: UserConfig | null, configRoot: string): 
 
     // Update hints
     if (config.hints) {
-        const hints = Object.keys(config.hints);
+        const hints = Array.isArray(config.hints) ? config.hints : Object.keys(config.hints);
 
-        const transformedHints = hints.reduce((newHints, currentHint) => {
-            const newHint = resolve(currentHint);
+        if (Array.isArray(config.hints)) {
+            config.hints = hints.map((currentHint) => {
+                if (typeof currentHint === 'string') {
+                    return resolve(currentHint);
+                }
 
-            newHints[newHint] = (config.hints as HintsConfigObject)[currentHint];
+                currentHint[0] = resolve(currentHint[0]);
 
-            return newHints;
-        }, {} as HintsConfigObject);
+                return currentHint;
+            });
+        } else {
+            const transformedHints = (hints as string[]).reduce((newHints, currentHint) => {
+                const newHint = resolve(currentHint);
 
-        config.hints = transformedHints;
+                newHints[newHint] = (config.hints as HintsConfigObject)[currentHint];
+
+                return newHints;
+            }, {} as HintsConfigObject);
+
+            config.hints = transformedHints;
+        }
     }
 
     return config;

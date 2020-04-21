@@ -1,19 +1,42 @@
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import test from 'ava';
-import { IHintConstructor, Problem } from 'hint';
+import { Problem } from '@hint/utils-types';
+import { IHintConstructor } from 'hint';
 
 const stubContext = () => {
-    const stubs = { './app-insights': {} as typeof import('../../src/utils/app-insights') };
+    let _enabled = false;
+    const config = {
+        get: () => {},
+        set: () => {}
+    };
+    const stubs = {
+        '@hint/utils-telemetry': {
+            enabled() {
+                return _enabled;
+            },
+            initTelemetry(opts) {
+                _enabled = opts.enabled || false;
+            },
+            updateTelemetry(enabled) {
+                _enabled = enabled;
+            }
+        } as typeof import('@hint/utils-telemetry'),
+        configstore: class {
+            public constructor() {
+                return config;
+            }
+        }
+    };
     const module = proxyquire('../../src/utils/analytics', stubs) as typeof import('../../src/utils/analytics');
 
-    return { module, stubs };
+    return { config, module, stubs };
 };
 
 test('It tracks when telemetry is first enabled', (t) => {
     const sandbox = sinon.createSandbox();
     const { module, stubs } = stubContext();
-    const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
+    const trackEventSpy = sandbox.spy(stubs['@hint/utils-telemetry'], 'trackEvent');
 
     module.trackOptIn('ask', true);
     t.true(trackEventSpy.notCalled);
@@ -40,10 +63,10 @@ test('It tracks when telemetry is first enabled', (t) => {
 test('It tracks the first result for each document when opened', (t) => {
     const sandbox = sinon.createSandbox();
     const { module, stubs } = stubContext();
-    const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
+    const trackEventSpy = sandbox.spy(stubs['@hint/utils-telemetry'], 'trackEvent');
 
     // First result should be tracked.
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'foo' } } as IHintConstructor
         ],
@@ -56,7 +79,7 @@ test('It tracks the first result for each document when opened', (t) => {
     });
 
     // Second result should not be tracked (will be cached for 'onSave').
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'foo' } } as IHintConstructor
         ],
@@ -64,7 +87,7 @@ test('It tracks the first result for each document when opened', (t) => {
     });
 
     // First result for another document should be tracked.
-    module.trackResult('test.css', {
+    module.trackResult('test.css', 'css', {
         hints: [
             { meta: { id: 'bar' } } as IHintConstructor
         ],
@@ -74,13 +97,13 @@ test('It tracks the first result for each document when opened', (t) => {
     t.true(trackEventSpy.calledTwice);
     t.is(trackEventSpy.firstCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.firstCall.args[1], {
-        fileExtension: '.html',
-        'hint-foo': 'failed'
+        'hint-foo': 'failed',
+        languageId: 'html'
     });
     t.is(trackEventSpy.secondCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.secondCall.args[1], {
-        fileExtension: '.css',
-        'hint-bar': 'passed'
+        'hint-bar': 'passed',
+        languageId: 'css'
     });
 
     sandbox.restore();
@@ -89,10 +112,10 @@ test('It tracks the first result for each document when opened', (t) => {
 test('It tracks the delta between the first and last results on save', (t) => {
     const sandbox = sinon.createSandbox();
     const { module, stubs } = stubContext();
-    const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
+    const trackEventSpy = sandbox.spy(stubs['@hint/utils-telemetry'], 'trackEvent');
 
     // First result should be tracked.
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'bar' } } as IHintConstructor,
             { meta: { id: 'baz' } } as IHintConstructor,
@@ -108,7 +131,7 @@ test('It tracks the delta between the first and last results on save', (t) => {
     });
 
     // Second result should not be tracked (will be cached for 'onSave').
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'bar' } } as IHintConstructor,
             { meta: { id: 'baz' } } as IHintConstructor,
@@ -121,7 +144,7 @@ test('It tracks the delta between the first and last results on save', (t) => {
     });
 
     // First result for another document should be tracked.
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'bar' } } as IHintConstructor,
             { meta: { id: 'baz' } } as IHintConstructor,
@@ -132,25 +155,25 @@ test('It tracks the delta between the first and last results on save', (t) => {
         ]
     });
 
-    module.trackSave('test.html');
+    module.trackSave('test.html', 'html');
 
     // Verify multiple saves only submit once with no new results.
-    module.trackSave('test.html');
+    module.trackSave('test.html', 'html');
 
     t.true(trackEventSpy.calledTwice);
     t.is(trackEventSpy.firstCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.firstCall.args[1], {
-        fileExtension: '.html',
         'hint-bar': 'failed',
         'hint-baz': 'passed',
-        'hint-foo': 'failed'
+        'hint-foo': 'failed',
+        languageId: 'html'
     });
     t.is(trackEventSpy.secondCall.args[0], 'vscode-save');
     t.deepEqual(trackEventSpy.secondCall.args[1], {
-        fileExtension: '.html',
         'hint-bar': 'fixed',
         'hint-baz': 'passed',
-        'hint-foo': 'fixing'
+        'hint-foo': 'fixing',
+        languageId: 'html'
     });
 
     sandbox.restore();
@@ -159,10 +182,10 @@ test('It tracks the delta between the first and last results on save', (t) => {
 test('It tracks results again for a document when re-opened', (t) => {
     const sandbox = sinon.createSandbox();
     const { module, stubs } = stubContext();
-    const trackEventSpy = sandbox.spy(stubs['./app-insights'], 'trackEvent');
+    const trackEventSpy = sandbox.spy(stubs['@hint/utils-telemetry'], 'trackEvent');
 
     // First result should be tracked.
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'foo' } } as IHintConstructor
         ],
@@ -178,7 +201,7 @@ test('It tracks results again for a document when re-opened', (t) => {
     module.trackClose('test.html');
 
     // Second result should be tracked because document was re-opened.
-    module.trackResult('test.html', {
+    module.trackResult('test.html', 'html', {
         hints: [
             { meta: { id: 'foo' } } as IHintConstructor
         ],
@@ -188,12 +211,12 @@ test('It tracks results again for a document when re-opened', (t) => {
     t.true(trackEventSpy.calledTwice);
     t.is(trackEventSpy.firstCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.firstCall.args[1], {
-        fileExtension: '.html',
-        'hint-foo': 'failed'
+        'hint-foo': 'failed',
+        languageId: 'html'
     });
     t.is(trackEventSpy.secondCall.args[0], 'vscode-open');
     t.deepEqual(trackEventSpy.secondCall.args[1], {
-        fileExtension: '.html',
-        'hint-foo': 'passed'
+        'hint-foo': 'passed',
+        languageId: 'html'
     });
 });

@@ -4,10 +4,10 @@ import * as fs from 'fs';
 
 import * as npmRegistryFetch from 'npm-registry-fetch';
 
+import { debug as d } from '@hint/utils-debug';
+import { cwd, loadJSONFile } from '@hint/utils-fs';
 import { NpmPackage, NpmSearchResults } from './types/npm';
-import { debug as d } from './debug';
 import * as logger from './logging';
-import { cwd, loadJSONFile } from './fs';
 import { findPackageRoot } from './packages';
 import { hasYarnLock } from './has-yarnlock';
 
@@ -23,7 +23,7 @@ const install = (command: string) => {
 
         npmInstall.on('exit', (code) => {
             if (code !== 0) {
-                return reject();
+                return reject(new Error('NoExitCodeZero'));
             }
 
             return resolve(true);
@@ -86,6 +86,7 @@ export const installPackages = async (packages: string[]): Promise<boolean> => {
          * There was an error installing packages.
          * Show message to install packages manually (maybe permissions error?).
          */
+        /* istanbul ignore next */
         logger.error(`
 There was a problem installing packages.
 Please try executing:
@@ -144,12 +145,12 @@ export const getOfficialPackages = async (type: string): Promise<NpmPackage[]> =
 };
 
 /** Get external packages from npm. */
-export const getUnnoficialPackages = async (type: string): Promise<NpmPackage[]> => {
-    const hints = await search(`hint-${type}`);
+export const getUnofficialPackages = async (type: string): Promise<NpmPackage[]> => {
+    const hints = await search(`webhint-${type}`);
 
     /*
      * We need to filter the results because the search can
-     * include other packages that doesn't start with `hint-{type}`.
+     * include other packages that doesn't start with `webhint-{type}`.
      */
-    return filterPackages(hints, `hint-${type}`);
+    return filterPackages(hints, `webhint-${type}`);
 };

@@ -10,7 +10,7 @@
  * ------------------------------------------------------------------------------
  */
 
-import chalk from 'chalk';
+import * as chalk from 'chalk';
 import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
@@ -19,12 +19,14 @@ import * as logSymbols from 'log-symbols';
 import * as table from 'text-table';
 const stripAnsi = require('strip-ansi');
 
-import { debug as d, fs, logger, misc } from '@hint/utils';
-import { FormatterOptions, IFormatter, Problem, Severity } from 'hint';
+import { logger, severityToColor, occurencesToColor } from '@hint/utils';
+import { cutString } from '@hint/utils-string';
+import { writeFileAsync } from '@hint/utils-fs';
+import { debug as d } from '@hint/utils-debug';
+import { FormatterOptions, IFormatter } from 'hint';
+import { Problem, Severity } from '@hint/utils-types';
 
-import { getMessage } from './i18n.import';
-
-const { cutString } = misc;
+import { getMessage, MessageName } from './i18n.import';
 
 const _ = {
     forEach,
@@ -32,7 +34,6 @@ const _ = {
     reduce,
     sortBy
 };
-const { writeFileAsync } = fs;
 const debug = d(__filename);
 
 const printPosition = (position: number, text: string) => {
@@ -61,12 +62,20 @@ export default class StylishFormatter implements IFormatter {
         }
 
         const resources: _.Dictionary<Problem[]> = _.groupBy(messages, 'resource');
-        let totalErrors: number = 0;
-        let totalWarnings: number = 0;
+        const totals = {
+            [Severity.error.toString()]: 0,
+            [Severity.warning.toString()]: 0,
+            [Severity.information.toString()]: 0,
+            [Severity.hint.toString()]: 0
+        };
 
         let result = _.reduce(resources, (total: string, msgs: Problem[], resource: string) => {
-            let warnings: number = 0;
-            let errors: number = 0;
+            const partials = {
+                [Severity.error.toString()]: 0,
+                [Severity.warning.toString()]: 0,
+                [Severity.information.toString()]: 0,
+                [Severity.hint.toString()]: 0
+            };
             const sortedMessages: Problem[] = _.sortBy(msgs, ['location.line', 'location.column']);
             const tableData: string[][] = [];
             let hasPosition: boolean = false;
@@ -74,13 +83,10 @@ export default class StylishFormatter implements IFormatter {
             let partialResult = `${chalk.cyan(cutString(resource, 80))}\n`;
 
             _.forEach(sortedMessages, (msg: Problem) => {
-                const severity = Severity.error === msg.severity ? chalk.red(getMessage('capitalizedError', language)) : chalk.yellow(getMessage('capitalizedWarning', language));
+                const color = severityToColor(msg.severity);
+                const severity = color(getMessage(`capitalized${Severity[msg.severity].toString()}` as MessageName, language));
 
-                if (Severity.error === msg.severity) {
-                    errors++;
-                } else {
-                    warnings++;
-                }
+                partials[msg.severity.toString()]++;
 
                 const line: string = printPosition(msg.location.line, getMessage('line', language));
                 const column: string = printPosition(msg.location.column, getMessage('col', language));
@@ -104,16 +110,22 @@ export default class StylishFormatter implements IFormatter {
 
             partialResult += `${table(tableData)}\n`;
 
-            const color: typeof chalk = errors > 0 ? chalk.red : chalk.yellow;
+            const color = occurencesToColor(partials);
 
-            totalErrors += errors;
-            totalWarnings += warnings;
+            totals[Severity.error] += partials[Severity.error];
+            totals[Severity.warning] += partials[Severity.warning];
+            totals[Severity.information] += partials[Severity.information];
+            totals[Severity.hint] += partials[Severity.hint];
 
             const foundMessage = getMessage('partialFound', language, [
-                errors.toString(),
-                errors === 1 ? getMessage('error', language) : getMessage('errors', language),
-                warnings.toString(),
-                warnings === 1 ? getMessage('warning', language) : getMessage('warnings', language)
+                partials[Severity.error].toString(),
+                partials[Severity.error] === 1 ? getMessage('error', language) : getMessage('errors', language),
+                partials[Severity.warning].toString(),
+                partials[Severity.warning] === 1 ? getMessage('warning', language) : getMessage('warnings', language),
+                partials[Severity.hint].toString(),
+                partials[Severity.hint] === 1 ? getMessage('hint', language) : getMessage('hints', language),
+                partials[Severity.information].toString(),
+                partials[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
             ]);
 
             partialResult += color.bold(`${logSymbols.error} ${foundMessage}`);
@@ -122,12 +134,16 @@ export default class StylishFormatter implements IFormatter {
             return total + partialResult;
         }, '');
 
-        const color: typeof chalk = totalErrors > 0 ? chalk.red : /* istanbul ignore next */ chalk.yellow;
+        const color = occurencesToColor(totals);
         const foundTotalMessage = getMessage('totalFound', language, [
-            totalErrors.toString(),
-            totalErrors === 1 ? getMessage('error', language) : getMessage('errors', language),
-            totalWarnings.toString(),
-            totalWarnings === 1 ? getMessage('warning', language) : getMessage('warnings', language)
+            totals[Severity.error].toString(),
+            totals[Severity.error] === 1 ? getMessage('error', language) : getMessage('errors', language),
+            totals[Severity.warning].toString(),
+            totals[Severity.warning] === 1 ? getMessage('warning', language) : getMessage('warnings', language),
+            totals[Severity.hint].toString(),
+            totals[Severity.hint] === 1 ? getMessage('hint', language) : getMessage('hints', language),
+            totals[Severity.information].toString(),
+            totals[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
         ]);
 
         result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);

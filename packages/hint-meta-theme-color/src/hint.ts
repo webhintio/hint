@@ -17,12 +17,14 @@ import {
     IHint,
     TraverseEnd
 } from 'hint';
-import { HTMLElement, isSupported, misc } from '@hint/utils';
+import { Severity } from '@hint/utils-types';
+import { normalizeString } from '@hint/utils-string';
+import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
+import { isSupported } from '@hint/utils-compat-data';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 
-const { normalizeString } = misc;
 /*
  * ------------------------------------------------------------------------------
  * Public
@@ -39,10 +41,15 @@ export default class MetaThemeColorHint implements IHint {
         let firstThemeColorMetaElement: HTMLElement;
 
         const checkIfThemeColorMetaElementWasSpecified = (event: TraverseEnd) => {
+            const pageDOM = context.pageDOM as HTMLDocument;
             const { resource } = event;
+            const linksToManifest = pageDOM.querySelectorAll('link[rel="manifest"]').length > 0;
 
-            if (!firstThemeColorMetaElement) {
-                context.report(resource, getMessage('metaElementNotSpecified', context.language));
+            if (!firstThemeColorMetaElement && linksToManifest) {
+                context.report(
+                    resource,
+                    getMessage('metaElementNotSpecified', context.language),
+                    { severity: Severity.warning });
             }
         };
 
@@ -85,7 +92,13 @@ export default class MetaThemeColorHint implements IHint {
             if (color === null) {
                 const message = getMessage('metaElementInvalidContent', context.language, contentValue);
 
-                context.report(resource, message, { element });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element,
+                        severity: Severity.error
+                    });
 
                 return;
             }
@@ -93,7 +106,13 @@ export default class MetaThemeColorHint implements IHint {
             if (isNotSupportedColorValue(color, normalizedContentValue)) {
                 const message = getMessage('metaElementUnsupported', context.language, contentValue);
 
-                context.report(resource, message, { element });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element,
+                        severity: Severity.error
+                    });
             }
         };
 
@@ -113,7 +132,13 @@ export default class MetaThemeColorHint implements IHint {
             if (nameAttributeValue && nameAttributeValue !== nameAttributeValue.trim()) {
                 const message = getMessage('metaElementInvalidName', context.language, nameAttributeValue);
 
-                context.report(resource, message, { element });
+                context.report(
+                    resource,
+                    message,
+                    {
+                        element,
+                        severity: Severity.warning
+                    });
             }
         };
 
@@ -135,7 +160,13 @@ export default class MetaThemeColorHint implements IHint {
              */
 
             if (firstThemeColorMetaElement) {
-                context.report(resource, getMessage('metaElementDuplicated', context.language), { element });
+                context.report(
+                    resource,
+                    getMessage('metaElementDuplicated', context.language),
+                    {
+                        element,
+                        severity: Severity.warning
+                    });
 
                 return;
             }
@@ -147,7 +178,13 @@ export default class MetaThemeColorHint implements IHint {
             //  * was specified in the `<body>`
 
             if (bodyElementWasReached) {
-                context.report(resource, getMessage('metaElementInBody', context.language), { element });
+                context.report(
+                    resource,
+                    getMessage('metaElementInBody', context.language),
+                    {
+                        element,
+                        severity: Severity.error
+                    });
 
                 return;
             }

@@ -1,7 +1,7 @@
-import { test } from '@hint/utils';
-import { HintTest, testHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
+import { generateHTMLPage } from '@hint/utils-create-server';
+import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
-const { generateHTMLPage, getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 const htmlWithManifestSpecified = generateHTMLPage('<link rel="manifest" href="site.webmanifest">');
@@ -9,7 +9,10 @@ const htmlWithManifestSpecified = generateHTMLPage('<link rel="manifest" href="s
 const tests: HintTest[] = [
     {
         name: 'No start_url property specified in Manifest file',
-        reports: [{ message: `Property 'start_url' not found in manifest file` }],
+        reports: [{
+            message: `Property 'start_url' not found in manifest file`,
+            severity: Severity.warning
+        }],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/site.webmanifest': { content: `{}` }
@@ -20,7 +23,8 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `'start_url' is not in scope of the app.`,
-                position: { match: 'start_url": "/",' }
+                position: { match: 'start_url": "/",' },
+                severity: Severity.error
             }
         ],
         serverConfig: {
@@ -39,7 +43,8 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Specified 'start_url' is not accessible. (status code: 404).`,
-                position: { match: 'start_url": "randomcontent",' }
+                position: { match: 'start_url": "randomcontent",' },
+                severity: Severity.error
             }
         ],
         serverConfig: {
@@ -58,7 +63,8 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `'start_url' must have same origin as the manifest file.`,
-                position: { match: 'start_url": "https://example.com",' }
+                position: { match: 'start_url": "https://example.com",' },
+                severity: Severity.error
             }
         ],
         serverConfig: {
@@ -90,7 +96,8 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Specified 'start_url' is not accessible. (status code: 404).`,
-                position: { match: 'start_url": "/test",' }
+                position: { match: 'start_url": "/test",' },
+                severity: Severity.error
             }
         ],
         serverConfig: {

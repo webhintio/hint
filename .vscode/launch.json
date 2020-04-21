@@ -41,7 +41,7 @@
             "request": "launch",
             "name": "Release",
             "program": "${workspaceFolder}/dist/release/main.js",
-            "args":["--dry-run"],
+            "args":["--testMode"],
             "skipFiles": [
                 "<node_internals>/**/*.js"
             ],

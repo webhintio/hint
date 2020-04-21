@@ -7,14 +7,18 @@ import { Context } from '../@types/custom';
 
 const request = promisify(req) as (options: req.OptionsWithUrl) => Promise<req.Response>;
 
-const downloadFile = async (downloadURL: string, downloadLocation: string) => {
+const downloadFile = async (downloadURL: string, downloadLocation: string, transform?: { pattern: string; replacement: string }) => {
     const res = await request({ url: downloadURL }) as req.Response;
 
     if (res.body.message) {
         throw new Error(res.body.message);
     }
 
-    await updateFile(downloadLocation, res.body);
+    const body = transform ?
+        (res.body as string).replace(transform.pattern, transform.replacement) :
+        res.body;
+
+    await updateFile(downloadLocation, body);
 
     await execa('git reset HEAD');
     await execa(`git add ${downloadLocation}`);
@@ -37,6 +41,11 @@ const resources = new Map([
     ['packages/hint-amp-validator/src/validator', 'https://cdn.ampproject.org/v0/validator.js']
 ]);
 
+const resourceTransforms = new Map([
+    // AJV uses draft-07 and otherwise tests break
+    ['packages/parser-typescript-config/src/schema.json', { pattern: 'draft-04', replacement: 'draft-07' }]
+]);
+
 const updateEverything = async (observer: Subscriber<{}>, ctx: Context) => {
     for (const [route, uri] of resources) {
         const message = `Updating ${route}`;
@@ -45,7 +54,10 @@ const updateEverything = async (observer: Subscriber<{}>, ctx: Context) => {
         observer.next(message);
 
         try {
-            await downloadFile(uri, path.normalize(route));
+            const transform = resourceTransforms.get(route);
+
+            await downloadFile(uri, path.normalize(route), transform);
+
         } catch (e) {
             ctx.error = e;
 

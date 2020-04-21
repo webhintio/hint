@@ -6,11 +6,11 @@
 import { vendor, Declaration, Rule } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { IHint, ProblemLocation } from 'hint/dist/src/lib/types';
-import { debug as d } from '@hint/utils/dist/src/debug';
-import { getCSSCodeSnippet } from '@hint/utils/dist/src/report/get-css-code-snippet';
-
+import { IHint } from 'hint/dist/src/lib/types';
+import { debug as d } from '@hint/utils-debug';
+import { getFullCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -22,23 +22,6 @@ type DeclarationPair = {
     unprefixed: Declaration;
 };
 
-/** Convert `NodeSource` details to a `ProblemLocation`. */
-const getLocation = (decl: Declaration): ProblemLocation => {
-    const start = decl.source && decl.source.start;
-
-    if (start) {
-        return {
-            column: start.column - 1,
-            line: start.line - 1
-        };
-    }
-
-    return {
-        column: 0,
-        line: 0
-    };
-};
-
 /** Determine if the order of a prefixed/unprefixed pair is valid. */
 const validatePair = (pair: Partial<DeclarationPair>): boolean => {
     // Valid if only prefixed or only unprefixed versions exist.
@@ -46,8 +29,8 @@ const validatePair = (pair: Partial<DeclarationPair>): boolean => {
         return false;
     }
 
-    const prefixedLocation = getLocation(pair.lastPrefixed);
-    const unprefixedLocation = getLocation(pair.unprefixed);
+    const prefixedLocation = getCSSLocationFromNode(pair.lastPrefixed) || { column: 0, line: 0 };
+    const unprefixedLocation = getCSSLocationFromNode(pair.unprefixed) || { column: 0, line: 0 };
 
     // Valid if last prefixed line is before unprefixed line.
     if (prefixedLocation.line < unprefixedLocation.line) {
@@ -126,10 +109,15 @@ export default class CssPrefixOrderHint implements IHint {
             ast.walkRules((rule) => {
                 for (const invalidPair of validateRule(rule)) {
                     const message = formatMessage(invalidPair);
-                    const location = getLocation(invalidPair.unprefixed);
-                    const codeSnippet = getCSSCodeSnippet(invalidPair.unprefixed);
+                    const isValue = invalidPair.lastPrefixed.prop === invalidPair.unprefixed.prop;
+                    const location = getCSSLocationFromNode(invalidPair.unprefixed, { isValue });
+                    const codeSnippet = getFullCSSCodeSnippet(invalidPair.unprefixed);
+                    const severity = Severity.warning;
 
-                    context.report(resource, message, { codeLanguage: 'css', codeSnippet, element, location });
+                    context.report(
+                        resource,
+                        message,
+                        { codeLanguage: 'css', codeSnippet, element, location, severity });
                 }
             });
         });

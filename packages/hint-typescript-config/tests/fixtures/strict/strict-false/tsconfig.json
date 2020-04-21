@@ -12,7 +12,7 @@
         ],
         "module": "commonjs",
         "newLine": "lf",
-        "removeComments": false,
+        "removeComments": true,
         "target": "esnext",
         "strict": false
     },

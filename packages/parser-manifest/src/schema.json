@@ -1,5 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
         "image": {
@@ -14,7 +14,8 @@
                         "any",
                         "any badge",
                         "badge",
-                        "badge any"
+                        "badge any",
+                        "maskable"
                     ],
                     "type": "string"
                 },

@@ -1,5 +1,4 @@
-import { test } from '@hint/utils';
-import { testHint } from '@hint/utils-tests-helpers';
+import { getHintPath, testHint } from '@hint/utils-tests-helpers';
 
 import {
     testsForBrotliOverHTTP,
@@ -14,7 +13,6 @@ import {
     testsForUserConfigs
 } from './_tests';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename);
 
 /*
@@ -22,7 +20,7 @@ const hintPath = getHintPath(__filename);
  *       Chromium on CI doesn't fail. :(
  */
 const testConfigs = { ignoredConnectors: ['puppeteer'], serial: false };
-const testConfigsSerial = Object.assign({}, testConfigs);
+const testConfigsSerial = { ...testConfigs };
 
 testConfigsSerial.serial = true;
 
@@ -44,11 +42,10 @@ testHint(hintPath, testsForBrotliOverHTTP, testConfigs);
         testHint(
             hintPath,
             testsForUserConfigs(`${encoding}`, isTarget),
-            Object.assign(
-                {},
-                testConfigs,
-                { hintOptions: { [isTarget ? 'target' : 'resource']: { [encoding]: false } } }
-            )
+            {
+                ...testConfigs,
+                hintOptions: { [isTarget ? 'target' : 'resource']: { [encoding]: false } }
+            }
         );
     });
 });

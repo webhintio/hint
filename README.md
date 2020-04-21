@@ -97,8 +97,13 @@ the `CONTRIBUTING.md` files for each of these packages:
 
 ## Code of Conduct
 
-This project adheres to the JS Foundation’s [code of conduct][coc].
-By participating in this project you agree to abide by its terms.
+All projects in the `webhintio` organization follow this [CoC][coc]
+which adheres to the [OpenJS Foundation Code of Conduct][ojs coc].
+
+## Other important links
+
+* [Charter][]
+* [Governance][]
 
 ## License
 
@@ -109,15 +114,18 @@ The code is available under the [Apache 2.0 license][license].
 <!-- Link labels: -->
 
 [browser extension]: https://webhint.io/docs/user-guide/extensions/extension-browser/
-[coc]: https://js.foundation/community/code-of-conduct
+[charter]: ./packages/hint/docs/about/PROJECT_CHARTER-draft.md
+[coc]: https://github.com/webhintio/.github/blob/master/CODE_OF_CONDUCT
 [contrib browser]: ./packages/extension-browser/CONTRIBUTING.md
 [contrib vscode]: ./packages/extension-vscode/CONTRIBUTING.md
 [contributor guide]: https://webhint.io/docs/contributor-guide/
+[Governance]: ./packages/hint/docs/about/GOVERNANCE-draft.md
 [license]: LICENSE.txt
 [local contributor guide]: ./packages/hint/docs/contributor-guide/index.md
 [local user guide]: ./packages/hint/docs/user-guide/index.md
 [node]: https://nodejs.org/en/download/current/
 [npx]: https://github.com/zkat/npx
+[ojs coc]: https://github.com/openjs-foundation/cross-project-council/blob/master/CODE_OF_CONDUCT.md
 [online service]: https://webhint.io/scanner/
 [user guide]: https://webhint.io/docs/user-guide/
 [VS Code extension]: https://webhint.io/docs/user-guide/extensions/vscode-webhint/

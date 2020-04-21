@@ -1,9 +1,8 @@
 import * as path from 'path';
 
-import { test } from '@hint/utils';
-import { HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
+import { Severity } from '@hint/utils-types';
 
-const { getHintPath } = test;
 const hintPath = getHintPath(__filename, true);
 
 const tests: HintLocalTest[] = [
@@ -16,13 +15,17 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'invalid-schema', '.babelrc'),
         reports: [{
             message: `'moduleId' should be 'string'.`,
-            position: { match: 'moduleId' }
+            position: { match: 'moduleId' },
+            severity: Severity.error
         }]
     },
     {
         name: `Invalid json file should fail`,
         path: path.join(__dirname, 'fixtures', 'invalid-json', 'package.json'),
-        reports: [{ message: `Unexpected token i in JSON at position 0` }]
+        reports: [{
+            message: `Unexpected token i in JSON at position 0`,
+            severity: Severity.error
+        }]
     },
     {
         name: `If package.json doesn't contain "babel" property, it should pass`,
@@ -37,7 +40,8 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'has-invalid-babel-package-json', 'package.json'),
         reports: [{
             message: `'moduleId' should be 'string'.`,
-            position: { match: 'moduleId' }
+            position: { match: 'moduleId' },
+            severity: Severity.error
         }]
     },
     {
@@ -45,7 +49,8 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'has-additional-property', '.babelrc'),
         reports: [{
             message: `'root' should NOT have additional properties. Additional property found 'additional'.`,
-            position: { match: 'additional' }
+            position: { match: 'additional' },
+            severity: Severity.error
         }]
     },
     {
@@ -53,28 +58,27 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'has-invalid-enum-property', '.babelrc'),
         reports: [{
             message: `'sourceMaps' should be equal to one of the allowed values 'both, inline, true, false'. Value found 'invalidValue'`,
-            position: { match: 'sourceMaps' }
+            position: { match: 'sourceMaps' },
+            severity: Severity.error
         }]
     },
     {
         name: 'If .babelrc contains a circular reference, it should fail',
         path: path.join(__dirname, 'fixtures', 'circular'),
-        reports: [
-            {
-                message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', '.babelrc')}`,
-                position: { match: 'extends' }
-            }
-        ]
+        reports: [{
+            message: `Circular reference found in file ${path.join(__dirname, 'fixtures', 'circular-2', '.babelrc')}`,
+            position: { match: '"../circular-2/.babelrc"' },
+            severity: Severity.error
+        }]
     },
     {
         name: 'If .babelrc contains an invalid extends, it should fail',
         path: path.join(__dirname, 'fixtures', 'invalid-extends'),
-        reports: [
-            {
-                message: `Unexpected token ' in JSON at position 191`,
-                position: { match: 'extends' }
-            }
-        ]
+        reports: [{
+            message: `Unexpected token ' in JSON at position 191`,
+            position: { match: '"../invalid/.babelrc"' },
+            severity: Severity.error
+        }]
     }
 ];
 

@@ -2,14 +2,21 @@
   "ava": {
     "failFast": false,
     "files": [
-      "dist/tests/**/*.js"
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
     ],
     "timeout": "1m"
   },
+  "dependencies": {
+    {{{dependencyVersion "@hint/utils-debug"}}},{{#if packageData.official}}
+    {{{dependencyVersion "@hint/utils-i18n"}}},{{/if}}
+    {{{dependencyVersion "@hint/utils-types"}}}
+  },
   "description": "{{description}}",
   "devDependencies": {
+    {{{dependencyVersion "@hint/utils"}}},
+    {{{dependencyVersion "@hint/utils-create-server"}}},
     {{{dependencyVersion "@hint/utils-tests-helpers"}}},
-    {{{dependencyVersion "@types/debug"}}},
     {{{dependencyVersion "@types/node"}}},
     {{{dependencyVersion "@typescript-eslint/eslint-plugin"}}},
     {{{dependencyVersion "@typescript-eslint/parser"}}},
@@ -20,11 +27,7 @@
     {{{dependencyVersion "npm-run-all"}}},
     {{{dependencyVersion "nyc"}}},
     {{{dependencyVersion "rimraf"}}},
-    {{{dependencyVersion "hint"}}},
     {{{dependencyVersion "typescript"}}}
-  },
-  "engines": {
-    "node": ">=8.0.0"
   },
   "files": [
     "dist/src"{{#if isMulti}},
@@ -33,7 +36,6 @@
   "homepage": "https://webhint.io/",{{else}}
   "homepage": "",{{/if}}
   "keywords": [
-    "hint",
     "hint",
     "{{normalizedName}}",{{#if isParser}}
     "{{normalizedName}}-parser"{{else}}
@@ -73,19 +75,19 @@
     "clean": "rimraf dist",{{#if official}}
     "i18n": "node ../../scripts/create-i18n.js",{{/if}}
     "lint": "npm-run-all lint:*",{{#if official}}
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --ignore-path ../../.eslintignore --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",{{else}}
-    "lint:js": "eslint . --cache --ext js --ext md --ext ts --report-unused-disable-directives",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts",
     "lint:md": "markdownlint --ignore CHANGELOG.md *.md",{{/if}}
-    "test": "npm run lint && npm run build && npm run test-only",
+    "test": "{{#if official}}npm run i18n && {{/if}}npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",{{#if official}}
-    "test-release": "npm run lint && npm run build-release && ava",{{/if}}
+    "test-release": "{{#if official}}npm run i18n && {{/if}}npm run lint && npm run build-release && ava",{{/if}}
     "init": "npm install && npm run build",
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:assets": "npm run build:assets -- -w --no-initial",
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.0"
+  "version": "0.0.1"
 }

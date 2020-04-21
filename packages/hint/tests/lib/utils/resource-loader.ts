@@ -10,11 +10,10 @@ import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
 
 import * as utils from '@hint/utils';
-import { ResourceError } from '@hint/utils/dist/src/types/resource-error';
+import { ResourceError } from '@hint/utils/dist/src/packages/resource-error';
+import { ResourceType, ResourceErrorStatus } from '@hint/utils/dist/src/packages/enums';
 
 import { Configuration } from '../../../src/lib/config';
-import { ResourceType } from '../../../src/lib/enums/resource-type';
-import { ResourceErrorStatus } from '../../../src/lib/enums/error-status';
 
 const installedConnectors = [
     path.join(__dirname, 'fixtures', 'connector1', 'package.json'),
@@ -33,16 +32,12 @@ const test = anyTest as TestInterface<ResourceLoaderContext>;
 const loadScript = (context: ResourceLoaderContext) => {
     return proxyquire('../../../src/lib/utils/resource-loader', {
         '@hint/utils': {
-            debug: utils.debug,
-            fs: utils.fs,
-            packages: {
-                findNodeModulesRoot: utils.packages.findNodeModulesRoot,
-                findPackageRoot: utils.packages.findPackageRoot,
-                hasMultipleResources: utils.packages.hasMultipleResources,
-                isFullPackageName: utils.packages.isFullPackageName,
-                loadResource: context.loadResource,
-                requirePackage: utils.packages.requirePackage
-            }
+            findNodeModulesRoot: utils.findNodeModulesRoot,
+            findPackageRoot: utils.findPackageRoot,
+            hasMultipleResources: utils.hasMultipleResources,
+            isFullPackageName: utils.isFullPackageName,
+            loadResource: context.loadResource,
+            requirePackage: utils.requirePackage
         }
     });
 };

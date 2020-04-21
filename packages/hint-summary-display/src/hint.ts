@@ -5,6 +5,7 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
+import { Severity } from '@hint/utils-types';
 import selectorParser = require('postcss-selector-parser');
 
 import meta from './meta';
@@ -56,7 +57,10 @@ export default class ValidateSummaryHint implements IHint {
                         const value = decl.value;
 
                         if (attribute === requiredAttribute && value !== requiredValue) {
-                            context.report(resource, getMessage('changingDisplay', context.language));
+                            context.report(
+                                resource,
+                                getMessage('changingDisplay', context.language),
+                                { severity: Severity.error });
                         }
                     });
                 }

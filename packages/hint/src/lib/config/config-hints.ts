@@ -8,11 +8,13 @@
  * ------------------------------------------------------------------------------
  */
 
-import { debug as d } from '@hint/utils/dist/src/debug';
+import { debug as d } from '@hint/utils-debug';
 
-import { validate as schemaValidator } from '@hint/utils/dist/src/schema-validation/schema-validator';
-import { HintMetadata, HintConfig } from '../types';
-import { Severity } from '@hint/utils/dist/src/types/problems';
+import { validate as schemaValidator } from '@hint/utils-json';
+import { Severity } from '@hint/utils-types';
+import { HintConfig } from '@hint/utils';
+
+import { HintMetadata } from '../types';
 
 const debug = d(__filename);
 
@@ -39,7 +41,7 @@ export const getSeverity = (config: HintConfig | HintConfig[]): Severity | null 
         configuredSeverity = getSeverity(config[0]);
     }
 
-    if (configuredSeverity !== null && configuredSeverity >= 0 && configuredSeverity <= 2) {
+    if (configuredSeverity !== null && configuredSeverity >= 0 && configuredSeverity <= 5) {
         return configuredSeverity;
     }
 
