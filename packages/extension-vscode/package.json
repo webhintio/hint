@@ -71,7 +71,7 @@
     "sinon": "^9.0.2",
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.3",
-    "vsce": "^1.74.0",
+    "vsce": "^1.75.0",
     "vscode-languageclient": "^6.1.1",
     "vscode-languageserver": "^6.1.1",
     "vscode-languageserver-textdocument": "^1.0.1",
