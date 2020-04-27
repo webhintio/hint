@@ -1,12 +1,11 @@
 import { launch, Page } from 'puppeteer';
 import test, { ExecutionContext } from 'ava';
 
-import { UserConfig } from '@hint/utils';
 import { createHelpers, DocumentData } from '@hint/utils-dom';
 import { Problem } from '@hint/utils-types';
 import { Server } from '@hint/utils-create-server';
 
-import { WorkerEvents, HostEvents } from '../src/shared/types';
+import { WorkerEvents, HostEvents, Config } from '../src/shared/types';
 
 import { readFile } from './helpers/fixtures';
 import { FetchEnd } from 'hint';
@@ -15,8 +14,8 @@ declare const __webhint: {
     snapshotDocument(document: Document): DocumentData;
 };
 
-const runWorker = async (page: Page, content: string, userConfig: UserConfig) => {
-    return await page.evaluate((content: string, userConfig: UserConfig) => {
+const runWorker = async (page: Page, content: string, config: Partial<Config>) => {
+    return await page.evaluate((content: string, config: Partial<Config>) => {
 
         const mockFetchEnd = (): FetchEnd => {
             return {
@@ -48,7 +47,7 @@ const runWorker = async (page: Page, content: string, userConfig: UserConfig) =>
         return new Promise<Problem[]>((resolve) => {
             const worker = new Worker('./webhint.js');
             let results: Problem[] = [];
-            let resultCount = 0;
+            let resultsTimeout: NodeJS.Timeout = 0 as any;
 
             const sendMessage = (message: HostEvents) => {
                 worker.postMessage(message);
@@ -61,7 +60,7 @@ const runWorker = async (page: Page, content: string, userConfig: UserConfig) =>
                     sendMessage({
                         config: {
                             resource: location.href,
-                            userConfig
+                            ...config
                         }
                     });
                 } else if (message.ready) {
@@ -76,18 +75,19 @@ const runWorker = async (page: Page, content: string, userConfig: UserConfig) =>
                     throw error;
                 } else if (message.results) {
                     results = [...results, ...message.results];
-                    resultCount++;
 
-                    if (resultCount === 2) {
+                    // Wait a bit for additional results
+                    clearTimeout(resultsTimeout);
+                    resultsTimeout = setTimeout(() => {
                         resolve(results);
-                    }
+                    }, 1000);
                 }
             });
         });
-    }, content, userConfig as any);
+    }, content, config as any);
 };
 
-const getResults = async (t: ExecutionContext, fixture: string, userConfig: UserConfig) => {
+const getResults = async (t: ExecutionContext, fixture: string, config: Partial<Config>) => {
     const webhint = await readFile('../../webhint.js');
     const content = await readFile(fixture);
     const server = await Server.create({
@@ -115,7 +115,7 @@ const getResults = async (t: ExecutionContext, fixture: string, userConfig: User
 
     await page.evaluate(`(${createHelpers})()`);
 
-    const results = await runWorker(page, content, userConfig);
+    const results = await runWorker(page, content, config);
 
     t.log(results);
 
@@ -126,7 +126,7 @@ const getResults = async (t: ExecutionContext, fixture: string, userConfig: User
 };
 
 test('It runs in a real web worker', async (t) => {
-    const results = await getResults(t, 'fixtures/basic-hints.html', { language: 'en-us' });
+    const results = await getResults(t, 'fixtures/basic-hints.html', { userConfig: { language: 'en-us' } });
 
     const xContentTypeOptionsResults = results.filter((problem) => {
         return problem.hintId === 'x-content-type-options';
@@ -152,11 +152,13 @@ test('It runs in a real web worker', async (t) => {
 
 test('It respects provided configuration', async (t) => {
     const results = await getResults(t, 'fixtures/basic-hints.html', {
-        hints: {
-            'axe/language': 'off',
-            'compat-api/html': ['default', { ignore: ['dialog'] }]
-        },
-        language: 'en-us'
+        userConfig: {
+            hints: {
+                'axe/language': 'off',
+                'compat-api/html': ['default', { ignore: ['dialog'] }]
+            },
+            language: 'en-us'
+        }
     });
 
     const axeLanguageResults = results.filter((problem) => {
@@ -172,4 +174,28 @@ test('It respects provided configuration', async (t) => {
 
     // Validate `compat-api/html` was configured
     t.is(compatHtmlResults.length, 0);
+});
+
+test('It allows disabling hints by default', async (t) => {
+    const results = await getResults(t, 'fixtures/basic-hints.html', {
+        defaultHintSeverity: 'off',
+        userConfig: {
+            hints: { 'compat-api/html': 'default' },
+            language: 'en-us'
+        }
+    });
+
+    const axeLanguageResults = results.filter((problem) => {
+        return problem.hintId === 'axe/language';
+    });
+
+    // Validate `axe/language` was disabled
+    t.is(axeLanguageResults.length, 0);
+
+    const compatHtmlResults = results.filter((problem) => {
+        return problem.hintId === 'compat-api/html';
+    });
+
+    // Validate `compat-api/html` was configured
+    t.is(compatHtmlResults.length, 1);
 });

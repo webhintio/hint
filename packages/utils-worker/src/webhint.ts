@@ -27,13 +27,12 @@ const reportError = (message: string, stack: string) => {
     });
 };
 
-const main = async ({ resource, userConfig = {} }: Config) => {
+const main = async ({ defaultHintSeverity = 'default', resource, userConfig = {} }: Config) => {
     const enabledHints: IHintConstructor[] = [];
     const configuredHints = normalizeHints(userConfig.hints || []);
 
-    // Automatically enable bundled hints unless explicitly turned off.
     const hintsConfig = hints.reduce((o, hint) => {
-        o[hint.meta.id] = configuredHints[hint.meta.id] || 'default';
+        o[hint.meta.id] = configuredHints[hint.meta.id] || defaultHintSeverity;
 
         if (o[hint.meta.id] !== 'off') {
             enabledHints.push(hint);
