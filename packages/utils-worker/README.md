@@ -65,6 +65,22 @@ worker.postMessage({
 });
 ```
 
+All included hints are enabled by default. To disable all included
+hints and selectively enable only a few, change the default severity.
+
+```ts
+worker.postMessage({
+    config: {
+        defaultHintSeverity: 'off',
+        userConfig: {
+            hints: {
+                'button-type': 'default'
+            }
+        }
+    }
+});
+```
+
 ## Contributing to the worker
 
 To contribute to the worker please read the [`CONTRIBUTING.md`][contributing]
