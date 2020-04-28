@@ -17,17 +17,17 @@ const imageWithIncorrectFileFormat = fs.readFileSync(`${__dirname}/fixtures/inco
 
 // Error messages
 
-const elementAlreadySpecifiedErrorMessage = `'apple-touch-icon' link element is not needed as one was already specified.`;
-const elementHasEmptyHrefAttributeErrorMessage = `'apple-touch-icon' link element should have non-empty 'href' attribute.`;
-const elementHasIncorrectRelAttributeErrorMessage = `'apple-touch-icon' link element should have 'rel="apple-touch-icon"'.`;
-const elementHasUnneededSizesAttributeErrorMessage = `'apple-touch-icon' link element should not have 'sizes' attribute.`;
-const elementNotSpecifiedErrorMessage = `'apple-touch-icon' link element was not specified.`;
-const elementNotSpecifiedInHeadErrorMessage = `'apple-touch-icon' link element should be specified in the '<head>'.`;
-const fileCouldNotBeFetchedErrorMessage = `'/apple-touch-icon.png' could not be fetched (status code: 404).`;
-const fileHasIncorrectSizeErrorMessage = `'/apple-touch-icon.png' should be 180x180px.`;
-const fileIsInvalidPNGErrorMessage = `'/apple-touch-icon.png' should be a valid PNG image.`;
-const fileIsNotPNGErrorMessage = `'/apple-touch-icon.png' should be a PNG image.`;
-const fileRequestFailedErrorMessage = `'/apple-touch-icon.png' could not be fetched (request failed).`;
+const elementAlreadySpecifiedErrorMessage = `The 'apple-touch-icon' link element is not needed as one was already specified.`;
+const elementHasEmptyHrefAttributeErrorMessage = `The 'apple-touch-icon' link element should have a non-empty 'href' attribute.`;
+const elementHasIncorrectRelAttributeErrorMessage = `The 'apple-touch-icon' link element should have 'rel="apple-touch-icon"'.`;
+const elementHasUnneededSizesAttributeErrorMessage = `The 'apple-touch-icon' link element should not have a 'sizes' attribute.`;
+const elementNotSpecifiedErrorMessage = `The 'apple-touch-icon' link element was not specified.`;
+const elementNotSpecifiedInHeadErrorMessage = `The 'apple-touch-icon' link element should be specified in the '<head>'.`;
+const fileCouldNotBeFetchedErrorMessage = `The 'apple-touch-icon' could not be fetched (status code: 404).`;
+const fileHasIncorrectSizeErrorMessage = `The 'apple-touch-icon' should be 180x180px.`;
+const fileIsInvalidPNGErrorMessage = `The 'apple-touch-icon' should be a valid PNG image.`;
+const fileIsNotPNGErrorMessage = `The 'apple-touch-icon' should be a PNG image.`;
+const fileRequestFailedErrorMessage = `The 'apple-touch-icon' could not be fetched (request failed).`;
 
 const generateImageData = (content: Buffer = defaultImage): Object => {
     return {
