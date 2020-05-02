@@ -47,7 +47,7 @@
     "@types/puppeteer": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
-    "ava": "^3.5.2",
+    "ava": "^3.8.1",
     "axe-core": "^3.5.2",
     "browserslist": "^4.9.1",
     "cpx": "^1.5.0",
