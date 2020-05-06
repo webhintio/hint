@@ -51,7 +51,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
             if (url.startsWith('//') && rel !== 'dns-prefetch') {
                 debug('Protocol relative URL found');
 
-                const message = getMessage('noProtocolRelativeUrl', context.language, url);
+                const message = getMessage('noProtocolRelativeUrl', context.language);
 
                 const severity = isHTTPS(resource) ?
                     Severity.hint :

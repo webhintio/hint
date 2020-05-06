@@ -2,9 +2,7 @@ import { generateHTMLPage } from '@hint/utils-create-server';
 import { HintTest } from '@hint/utils-tests-helpers';
 import { Severity } from '@hint/utils-types';
 
-const generateErrorMessage = (url: string): string => {
-    return `'${url}' should not be specified as a protocol-relative URL.`;
-};
+const errorMessage = 'References to URLs should not be protocol-relative.';
 
 const getTests = (severity: Severity) => {
 
@@ -24,7 +22,7 @@ const getTests = (severity: Severity) => {
         {
             name: `'link' with initial // fails the hint`,
             reports: [{
-                message: generateErrorMessage('//site.webmanifest'),
+                message: errorMessage,
                 position: { match: 'link rel="manifest" href="//site.webmanifest"' },
                 severity
             }],
@@ -49,7 +47,7 @@ const getTests = (severity: Severity) => {
         {
             name: `'script' with initial // fails the hint`,
             reports: [{
-                message: generateErrorMessage('//script.js'),
+                message: errorMessage,
                 position: { match: 'script src="//script.js"' },
                 severity
             }],
@@ -70,7 +68,7 @@ const getTests = (severity: Severity) => {
         {
             name: `'a' with initial // fails the hint`,
             reports: [{
-                message: generateErrorMessage('//home'),
+                message: errorMessage,
                 position: { match: 'a href="//home"' },
                 severity
             }],
