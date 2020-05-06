@@ -30,7 +30,7 @@ export default class ManifestFileExtensionHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        const standardManifestFileExtension: string = 'webmanifest';
+        const standardManifestFileExtension = 'webmanifest';
 
         const validate = ({ element, resource }: ElementFound) => {
             if (normalizeString(element.getAttribute('rel')) === 'manifest') {
@@ -38,19 +38,8 @@ export default class ManifestFileExtensionHint implements IHint {
                 const fileExtension: string = getFileExtension(normalizeString(href) || /* istanbul ignore next */ '');
 
                 if (fileExtension !== standardManifestFileExtension) {
-                    let message: string;
-                    let severity: Severity;
-
-                    if (fileExtension) {
-                        message = getMessage('shouldHaveFileExtensionNot', context.language, [standardManifestFileExtension, fileExtension]);
-
-                        severity = fileExtension === 'json' ?
-                            Severity.hint :
-                            Severity.warning;
-                    } else {
-                        message = getMessage('shouldHaveFileExtension', context.language, standardManifestFileExtension);
-                        severity = Severity.warning;
-                    }
+                    const message = getMessage('shouldHaveFileExtension', context.language, standardManifestFileExtension);
+                    const severity = fileExtension === 'json' ? Severity.hint : Severity.warning;
 
                     context.report(resource, message, { content: fileExtension, element, severity });
                 }

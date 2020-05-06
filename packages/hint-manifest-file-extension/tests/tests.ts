@@ -10,7 +10,7 @@ const tests: HintTest[] = [
     {
         name: `Web app manifest file has incorrect file extension`,
         reports: [{
-            message: `Web app manifest should have the filename extension 'webmanifest', not 'json'.`,
+            message: `Web app manifest should have the filename extension 'webmanifest'.`,
             severity: Severity.hint
         }],
         serverConfig: generateHTMLPage(`<link rel="manifest" href="site.json">

@@ -10,9 +10,5 @@
     "shouldHaveFileExtension": {
         "description": "Report message when the file extension doesn't exists",
         "message": "Web app manifest should have the filename extension '$1'."
-    },
-    "shouldHaveFileExtensionNot": {
-        "description": "Report message when the file extension is incorrect.",
-        "message": "Web app manifest should have the filename extension '$1', not '$2'."
     }
 }
