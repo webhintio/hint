@@ -11,7 +11,7 @@ const defaultTestsHttp: HintTest[] = [
     {
         name: `Page with a same-origin resource and SRI sha384 fails if content is delivered via http`,
         reports: [{
-            message: 'The resource http://localhost/styles.css is not delivered via a secure context',
+            message: 'Resource was not delivered via a secure context.',
             severity: Severity.error
         }],
         serverConfig: {

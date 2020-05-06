@@ -30,7 +30,7 @@ const configOriginAllTestsHttps: HintTest[] = [
     {
         name: `Page with a same-origin resource and no SRI fails`,
         reports: [{
-            message: 'Resource https://localhost/styles.css requested without the "integrity" attribute',
+            message: `Resource was requested without the 'integrity' attribute.`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -41,7 +41,7 @@ const configOriginAllTestsHttps: HintTest[] = [
     {
         name: `Page with a same-origin resource and SRI sha256 fails`,
         reports: [{
-            message: `The hash algorithm "sha256" doesn't meet the baseline "sha384" in resource https://localhost/styles.css`,
+            message: `The hash algorithm 'sha256' doesn't meet the baseline 'sha384'.`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -80,9 +80,7 @@ const configOriginAllTestsHttps: HintTest[] = [
     {
         name: `Page with a same-origin and invalid SRI sha384 fails`,
         reports: [{
-            message: `The hash in the "integrity" attribute in resource https://localhost/styles.css doesn't match the received payload.
-Expected: sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4
-Actual:   sha384-thisIsAnInvalidHash`,
+            message: `The hash in the 'integrity' attribute doesn't match the received payload.`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -93,9 +91,7 @@ Actual:   sha384-thisIsAnInvalidHash`,
     {
         name: `Page with a same-origin and invalid SRI sha512 fails`,
         reports: [{
-            message: `The hash in the "integrity" attribute in resource https://localhost/styles.css doesn't match the received payload.
-Expected: sha512-qC6bbhWZ7Rr0ACjhjfJpavLUm3oAUCbcheJUYNSb4DKASapgeWGLZBGXLTsoaASFg1VeCzTKs1QIMkWaL1ewsA==
-Actual:   sha512-thisIsAnInvalidHash`,
+            message: `The hash in the 'integrity' attribute doesn't match the received payload.`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -106,7 +102,7 @@ Actual:   sha512-thisIsAnInvalidHash`,
     {
         name: `Page with a same-origin and SRI md5 fails`,
         reports: [{
-            message: `The format of the "integrity" attribute for resource https://localhost/styles.css should be "sha(256|384|512)-HASH": md5-KN0EFM…`,
+            message: `The format of the 'integrity' attribute should be 'sha(256|384|512)-HASH'.`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -117,7 +113,7 @@ Actual:   sha512-thisIsAnInvalidHash`,
     {
         name: `Page with multiple same-origin resources and one without SRI fails`,
         reports: [{
-            message: 'Resource https://localhost/scripts.js requested without the "integrity" attribute',
+            message: `Resource was requested without the 'integrity' attribute.`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -149,7 +145,7 @@ Actual:   sha512-thisIsAnInvalidHash`,
     {
         name: `Page with cross-origin script with SRI and not "crossorigin" fails`,
         reports: [{
-            message: 'Cross-origin resource https://code.jquery.com/jquery-3.3.1.slim.min.js needs a "crossorigin" attribute to be eligible for integrity validation',
+            message: `Cross-origin resource needs a 'crossorigin' attribute to be eligible for integrity validation.`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -177,7 +173,7 @@ Actual:   sha512-thisIsAnInvalidHash`,
     {
         name: `Page with cross-origin script with SRI and 'crossorigin="invalid"' fails`,
         reports: [{
-            message: `Attribute "crossorigin" for resource https://code.jquery.com/jquery-3.3.1.slim.min.js doesn't have a valid value, should "anonymous" or "use-credentials": crossorigin="invalid"`,
+            message: `The 'crossorigin' attribute should be set to 'anonymous' or 'use-credentials'.`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -213,9 +209,7 @@ Actual:   sha512-thisIsAnInvalidHash`,
     {
         name: `Page with same-origin resource and different hashes for the same algorithm fails if none match`,
         reports: [{
-            message: `The hash in the "integrity" attribute in resource https://localhost/styles.css doesn't match the received payload.
-Expected: sha384-lai7vFxeX5cfA6yRNCr/WHChPKVsaaYLX1IC1j+GOyS6RWj/BqI8bHH8AP2HPwv4
-Actual:   sha384-randomHash1, sha384-randomHash2`,
+            message: `The hash in the 'integrity' attribute doesn't match the received payload.`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -250,7 +244,7 @@ const configTestsHigh: HintTest[] = [
     {
         name: `Page with a same-origin resource and SRI sha256 fails if baseline is 512`,
         reports: [{
-            message: `The hash algorithm "sha256" doesn't meet the baseline "sha512" in resource https://localhost/styles.css`,
+            message: `The hash algorithm 'sha256' doesn't meet the baseline 'sha512'.`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -261,7 +255,7 @@ const configTestsHigh: HintTest[] = [
     {
         name: `Page with a same-origin resource and SRI sha384 fails if baseline is 512`,
         reports: [{
-            message: `The hash algorithm "sha384" doesn't meet the baseline "sha512" in resource https://localhost/styles.css`,
+            message: `The hash algorithm 'sha384' doesn't meet the baseline 'sha512'.`,
             severity: Severity.warning
         }],
         serverConfig: {
