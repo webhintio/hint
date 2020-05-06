@@ -9,7 +9,7 @@
  */
 
 import { debug as d } from '@hint/utils-debug';
-import { mergeIgnoreIncludeArrays, prettyPrintArray, toLowerCaseArray } from '@hint/utils-string';
+import { mergeIgnoreIncludeArrays, toLowerCaseArray } from '@hint/utils-string';
 import { includedHeaders, isDataURI, normalizeHeaderValue } from '@hint/utils-network';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -137,7 +137,7 @@ export default class NoDisallowedHeadersHint implements IHint {
                 serverHeaderValue &&
                 serverHeaderContainsTooMuchInformation(serverHeaderValue)
             ) {
-                const message = getMessage('headerValueShouldOnlyContain', context.language, response.headers.server);
+                const message = getMessage('headerValueShouldOnlyContain', context.language);
 
                 context.report(
                     resource,
@@ -150,13 +150,7 @@ export default class NoDisallowedHeadersHint implements IHint {
             }
 
             if (numberOfHeaders > 0) {
-                let message: string;
-
-                if (numberOfHeaders === 1) {
-                    message = getMessage('disallowedHeader', context.language, prettyPrintArray(headers));
-                } else {
-                    message = getMessage('disallowedHeaders', context.language, prettyPrintArray(headers));
-                }
+                const message = getMessage('disallowedHeaders', context.language, headers.join(', '));
 
                 const codeSnippet = headers.reduce((total, header) => {
                     return `${total}${total ? '\n' : ''}${header}: ${normalizeHeaderValue(response.headers, header)}`;
