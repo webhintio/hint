@@ -100,7 +100,7 @@ const defaultTests = [
     {
         name: `Asset with "Cache-Control: invalid-directive" header fails`,
         reports: [{
-            message: `A 'cache-control' header contains invalid directives: invalid-directive`,
+            message: `A 'cache-control' header contains invalid directives: 'invalid-directive'`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -118,7 +118,7 @@ const defaultTests = [
     {
         name: `Asset with "Cache-Control: max-age=abcd" header fails`,
         reports: [{
-            message: `A 'cache-control' header contains directives with invalid values: max-age=abcd`,
+            message: `A 'cache-control' header contains directives with invalid values: 'max-age=abcd', 'expires=abcd'`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -129,14 +129,14 @@ const defaultTests = [
             },
             '/styles.123.css': {
                 content: '',
-                headers: { 'Cache-Control': 'max-age=abcd' }
+                headers: { 'Cache-Control': 'max-age=abcd, expires=abcd' }
             }
         }
     },
     {
         name: `Asset with "Cache-Control: no-cache=10" header fails`,
         reports: [{
-            message: `A 'cache-control' header contains directives with invalid values: no-cache=10`,
+            message: `A 'cache-control' header contains directives with invalid values: 'no-cache=10'`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -190,7 +190,7 @@ const defaultTests = [
     {
         name: `Asset with "Cache-Control: must-revalidate, max-age=10" header fails`,
         reports: [{
-            message: `A 'cache-control' header contains directives which are not recommended: must-revalidate`,
+            message: `A 'cache-control' header contains directives which are not recommended: 'must-revalidate'`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -223,7 +223,7 @@ const defaultTests = [
         name: 'JS with "Cache-Control: no-cache" fails with warning if cache busting',
         reports: [
             {
-                message: `Static resources should use a 'cache-control' header with a long cache value (max-age=31536000).`,
+                message: `Static resources should use a 'cache-control' header with 'max-age=31536000' or more.`,
                 severity: Severity.warning
             },
             {
@@ -246,7 +246,7 @@ const defaultTests = [
         name: 'JS with short max-age fails',
         reports: [
             {
-                message: `Static resources should use a 'cache-control' header with a long cache value (max-age=31536000).`,
+                message: `Static resources should use a 'cache-control' header with 'max-age=31536000' or more.`,
                 severity: Severity.warning
             },
             {
@@ -269,7 +269,7 @@ const defaultTests = [
         name: 'JS with short max-age fails with hints if no cache busting',
         reports: [
             {
-                message: `Static resources should use a 'cache-control' header with a long cache value (max-age=31536000).`,
+                message: `Static resources should use a 'cache-control' header with 'max-age=31536000' or more.`,
                 severity: Severity.hint
             },
             {

@@ -33,7 +33,7 @@
     },
     "staticResourceCacheValue": {
         "description": "Report message when a static resource has an short cache value",
-        "message": "Static resources should use a 'cache-control' header with a long cache value (max-age=$1)."
+        "message": "Static resources should use a 'cache-control' header with 'max-age=$1' or more."
     },
     "targetShouldNotBeCached": {
         "description": "Report message when the target shouldn't be cached",
