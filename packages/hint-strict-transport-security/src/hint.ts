@@ -67,14 +67,13 @@ export default class StrictTransportSecurityHint implements IHint {
              */
             const tokenRegex = /^ *[!#$%&'*+.^_`|~0-9A-Za-z-]+$/; // Regex for single tokens. E.g.:  includesubdomains
 
-
             for (const directive of directives) {
                 const match = tokenRegex.exec(directive) || nameValuePairRegex.exec(directive);
 
                 if (!match) {
                     return {
                         error: {
-                            message: getMessage('wrongFormat', context.language, directive),
+                            message: getMessage('wrongFormat', context.language),
                             severity: Severity.error
                         }
                     };
@@ -86,7 +85,7 @@ export default class StrictTransportSecurityHint implements IHint {
                 if (parsedHeader[name]) {
                     return {
                         error: {
-                            message: getMessage('moreThanOneName', context.language, name),
+                            message: getMessage('moreThanOneName', context.language),
                             severity: Severity.warning
                         }
                     };
@@ -124,7 +123,7 @@ export default class StrictTransportSecurityHint implements IHint {
             try {
                 ({ status } = await isPreloaded(mainDomain) || await isPreloaded(originalDomain));
             } catch (err) {
-                const message = getMessage('errorPreloadStatus', context.language, resource);
+                const message = getMessage('errorPreloadStatus', context.language);
 
                 debug(message, err);
                 context.report(resource, message, { severity: Severity.error });
@@ -135,7 +134,7 @@ export default class StrictTransportSecurityHint implements IHint {
             debug(`Received preload status for ${resource}.`);
 
             if (!status) {
-                const message = getMessage('wrongVerification', context.language, getMessage('errorPreloadStatus', context.language, resource));
+                const message = getMessage('errorPreloadStatus', context.language);
 
                 debug(message);
                 context.report(resource, message, { severity: Severity.warning });
@@ -147,7 +146,7 @@ export default class StrictTransportSecurityHint implements IHint {
                 try {
                     issues = await issuesToPreload(mainDomain);
                 } catch (err) {
-                    const message = getMessage('errorPreloadEligibility', context.language, resource);
+                    const message = getMessage('errorPreloadEligibility', context.language);
 
                     debug(message, err);
                     context.report(resource, message, { severity: Severity.error });

@@ -92,7 +92,7 @@ const defaultTests: HintTest[] = [
     {
         name: `'Strict-Transport-Security' header has multiple 'max-age' directives`,
         reports: [{
-            message: common.multipleMaxAgeError,
+            message: common.duplicateDirectivesError,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -103,7 +103,7 @@ const defaultTests: HintTest[] = [
     {
         name: `'Strict-Transport-Security' header has multiple 'includeSubdomains' directives`,
         reports: [{
-            message: common.multipleincludeSubDomainsError,
+            message: common.duplicateDirectivesError,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -114,7 +114,7 @@ const defaultTests: HintTest[] = [
     {
         name: `'Strict-Transport-Security' header has the wrong delimiter`,
         reports: [{
-            message: common.DelimiterwrongFormatError,
+            message: common.wrongFormatError,
             severity: Severity.error
         }],
         serverConfig: {
@@ -125,7 +125,7 @@ const defaultTests: HintTest[] = [
     {
         name: `'Strict-Transport-Security' header that includes letters in the 'max-age' value`,
         reports: [{
-            message: common.UnitwrongFormatError,
+            message: common.wrongFormatError,
             severity: Severity.error
         }],
         serverConfig: {

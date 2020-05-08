@@ -5,15 +5,15 @@
     },
     "errorPreloadEligibility": {
         "description": "Report message when there is an error getting the preload eligibility",
-        "message": "Error with getting preload eligibility for $1."
+        "message": "Error getting preload eligibility."
     },
     "errorPreloadStatus": {
         "description": "Report message when there is an error getting the preload status",
-        "message": "Error with getting preload status for $1."
+        "message": "Error getting preload status."
     },
     "moreThanOneName": {
         "description": "Report message when a 'strict-transport-security' header has more than one 'name'",
-        "message": "'strict-transport-security' header contains more than one '$1'"
+        "message": "The 'strict-transport-security' header contains duplicate directives."
     },
     "name": {
         "description": "Metadata name",
@@ -21,26 +21,22 @@
     },
     "noHeader": {
         "description": "Report message when the 'strict-transport-security' header was not specified",
-        "message": "'strict-transport-security' header was not specified"
+        "message": "The 'strict-transport-security' header was not specified."
     },
     "noOverHTTP": {
         "description": "Report message when the 'strict-transport-security' header is served over HTTP",
-        "message": "'strict-transport-security' header should't be specified in pages served over HTTP."
+        "message": "The 'strict-transport-security' header should't be specified in pages served over HTTP."
     },
     "requiresMaxAge": {
         "description": "Report message when the 'strict-transport-security' header doesn't contain the required 'max-age' directive",
-        "message": "'strict-transport-security' header requires 'max-age' directive"
+        "message": "The 'strict-transport-security' header requires 'max-age' directive."
     },
     "wrongFormat": {
         "description": "Report message when a 'strict-transport-security' header has a wrong format",
-        "message": "'strict-transport-security' header has the wrong format: $1"
+        "message": "The 'strict-transport-security' header has the wrong format."
     },
     "wrongMaxAge": {
         "description": "Report message when the 'strict-transport-security' header has a value for 'max-age' under the minimum value",
-        "message": "'strict-transport-security' header 'max-age' value should be more than $1"
-    },
-    "wrongVerification": {
-        "description": "Report message when there is an error getting the preload status",
-        "message": "$1 There might be something wrong with the verification endpoint."
+        "message": "The 'strict-transport-security' header 'max-age' value should be more than '$1'."
     }
 }
