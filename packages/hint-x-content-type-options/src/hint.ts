@@ -56,7 +56,7 @@ export default class XContentTypeOptionsHint implements IHint {
             if (headerValue !== 'nosniff') {
                 context.report(
                     resource,
-                    getMessage('nosniff', context.language, headerValue),
+                    getMessage('nosniff', context.language),
                     {
                         codeLanguage: 'http',
                         codeSnippet: `X-Content-Type-Options: ${headerValue}`,

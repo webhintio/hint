@@ -9,7 +9,7 @@
     },
     "nosniff": {
         "description": "Report message when the 'x-content-type-options' header value is not 'nosniff'",
-        "message": "'x-content-type-options' header value should be 'nosniff', not '$1'."
+        "message": "The 'x-content-type-options' header value should be 'nosniff'."
     },
     "shouldInclude": {
         "description": "Report message when the response doesn't include the header 'x-content-type-options'",
