@@ -11,7 +11,7 @@
     "@hint/utils-debug": "^1.0.1",
     "@hint/utils-dom": "^2.1.0",
     "parse5": "^5.1.1",
-    "parse5-htmlparser2-tree-adapter": "^5.1.1"
+    "parse5-htmlparser2-tree-adapter": "^6.0.0"
   },
   "description": "webhint parser needed to analyze HTML elements in JSX",
   "devDependencies": {
