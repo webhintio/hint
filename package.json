@@ -2,7 +2,7 @@
   "devDependencies": {
     "@octokit/core": "^2.4.2",
     "@octokit/plugin-throttling": "^3.2.0",
-    "@octokit/rest": "^17.2.0",
+    "@octokit/rest": "^17.8.0",
     "@types/execa": "^2.0.0",
     "@types/fs-extra": "^8.1.0",
     "@types/listr": "^0.14.2",
