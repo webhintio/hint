@@ -8650,12 +8650,12 @@ parse-semver@^1.1.1:
   dependencies:
     semver "^5.1.0"
 
-parse5-htmlparser2-tree-adapter@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/parse5-htmlparser2-tree-adapter/-/parse5-htmlparser2-tree-adapter-5.1.1.tgz#e8c743d4e92194d5293ecde2b08be31e67461cbc"
-  integrity sha512-CF+TKjXqoqyDwHqBhFQ+3l5t83xYi6fVT1tQNg+Ye0JRLnTxWvIroCjEp1A0k4lneHNBGnICUf0cfYVYGEazqw==
+parse5-htmlparser2-tree-adapter@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/parse5-htmlparser2-tree-adapter/-/parse5-htmlparser2-tree-adapter-6.0.0.tgz#301551d8b4170dfb298150e62ab26fd0b2439ac8"
+  integrity sha512-GTSuyHmqYFi/hMKsxvpgIkZ01UF7Sdviilxp60rFuaqJ/dZMfIna3pvGVv93fSetiETbO9uM6azfKmApvxtEiw==
   dependencies:
-    parse5 "^5.1.1"
+    parse5 "^6.0.0"
 
 parse5@5.1.1, parse5@^5.1.1:
   version "5.1.1"
@@ -8668,6 +8668,11 @@ parse5@^3.0.1:
   integrity sha512-rgO9Zg5LLLkfJF9E6CCmXlSE4UVceloys8JrFqCcHloC3usd/kJCyPDwH2SOlzix2j3xaP9sUX3e8+kvkuleAA==
   dependencies:
     "@types/node" "*"
+
+parse5@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-6.0.0.tgz#d2ac3448289c84b49947d49a39f7bef6200fa6ba"
+  integrity sha512-lC0A+4DefTdRr+DLQlEwwZqndL9VzEjiuegI5bj3hp4bnzzwQldSqCpHv7+msRpSOHGJyJvkcCa4q15LMUJ8rg==
 
 parseurl@~1.3.3:
   version "1.3.3"
