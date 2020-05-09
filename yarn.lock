@@ -7268,10 +7268,10 @@ make-dir@^3.0.0:
   dependencies:
     semver "^6.0.0"
 
-make-fetch-happen@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/make-fetch-happen/-/make-fetch-happen-8.0.2.tgz#155ef26d7c6f3caf8146b0f5d0140a01e0fdc050"
-  integrity sha512-jRqI9zjLyz8ufXfLSbEObJ6a8sv8geeKYEPFpI+b39JjYU14MZtCiJGazSWPZMjCm7161b4r57N/na5fBXpooQ==
+make-fetch-happen@^8.0.6:
+  version "8.0.6"
+  resolved "https://registry.yarnpkg.com/make-fetch-happen/-/make-fetch-happen-8.0.6.tgz#392726f46eba30cc61dc82dc015167e6e428ce80"
+  integrity sha512-QJ4pB5VBY9H9e+3t/o+fPjsVUlPULpAllxuKertRo/7ii47TfxeEEnneM6NCmhyn4MQPTYL+M+RkiU9bR+hAfg==
   dependencies:
     agentkeepalive "^4.1.0"
     cacache "^15.0.0"
@@ -8068,14 +8068,14 @@ npm-packlist@^1.1.6:
     ignore-walk "^3.0.1"
     npm-bundled "^1.0.1"
 
-npm-registry-fetch@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-8.0.0.tgz#65bb51dd2b9634b8363019aac9c76c003e5c5eaf"
-  integrity sha512-975WwLvZjX97y9UWWQ8nAyr7bw02s9xKPHqvEm5T900LQsB1HXb8Gb9ebYtCBLSX+K8gSOrO5KS/9yV/naLZmQ==
+npm-registry-fetch@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-8.0.2.tgz#8a16e7e09b51939b6ca8763793ef171c6935d2da"
+  integrity sha512-/UteT/LQ+0eegPh96w2sVjpAJk2kuphWASp1SPBFBWtSyuPoUW5gf4utzQm5A5FLrZF3eZJGH59j4X6KBUa40g==
   dependencies:
     "@npmcli/ci-detect" "^1.0.0"
     lru-cache "^5.1.1"
-    make-fetch-happen "^8.0.2"
+    make-fetch-happen "^8.0.6"
     minipass "^3.0.0"
     minipass-fetch "^1.1.2"
     minipass-json-stream "^1.0.1"
