@@ -4,7 +4,9 @@ import { NodeVisitor, Walk, WalkMethods, WalkCompleteListener } from './types';
 
 const { extend } = require('acorn-jsx-walk');
 
-extend(acornWalk.base); // Add `walk` support for JSXElement, etc.
+const acornWalkBase = (acornWalk as any).base;
+
+extend(acornWalkBase); // Add `walk` support for JSXElement, etc.
 
 type Key = {
     node: Node;
@@ -12,7 +14,7 @@ type Key = {
     state?: any;
 };
 
-export const base = acornWalk.base;
+export const base = acornWalkBase;
 
 const getCurrentVisitorsOrCallback = (walkArray: WalkArray, node: Node, base?: NodeVisitor, state?: any) => {
     const item = walkArray.find(([key]) => {
@@ -86,7 +88,7 @@ const performWalk = (walkArrays: WalkArrays) => {
                 }
             }
 
-            acornWalk[methodName](node, allVisitors, base, state);
+            (acornWalk as any)[methodName](node, allVisitors, base, state);
         });
     });
 };
