@@ -12,7 +12,7 @@ const tests: HintTest[] = [
     {
         name: 'Redirect in resource fails',
         reports: [{
-            message: `2 redirects detected for 'http://localhost/image.png' (max is 0).`,
+            message: `Too many HTTP redirects detected (max is 0).`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -31,7 +31,7 @@ const tests: HintTest[] = [
     {
         name: 'Redirect in target fails',
         reports: [{
-            message: `1 redirect detected for 'http://localhost/' (max is 0).`,
+            message: `Too many HTTP redirects detected (max is 0).`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -52,7 +52,7 @@ const testsWithCustomConfiguration: HintTest[] = [
     {
         name: 'Redirect in resource with more hops than allowed fails',
         reports: [{
-            message: `2 redirects detected for 'http://localhost/image.png' (max is 1).`,
+            message: `Too many HTTP redirects detected (max is 1).`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -82,7 +82,7 @@ const testsWithCustomConfiguration: HintTest[] = [
     {
         name: 'Redirect in target with more hops than allowed fails',
         reports: [{
-            message: `2 redirects detected for 'http://localhost/' (max is 1).`,
+            message: `Too many HTTP redirects detected (max is 1).`,
             severity: Severity.warning
         }],
         serverConfig: {

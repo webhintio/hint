@@ -16,19 +16,16 @@ const page = generateHTMLPage();
 
 // Error messages.
 
-const incorrectHeaderValueErrorMessage = `'x-ua-compatible' header value should be 'ie=edge', not 'IE=7,9,10'.`;
-const metaElementAlreadySpecifiedErrorMessage = `'x-ua-compatible' meta element is not needed as one was already specified.`;
-const metaElementIsNotInHeadErrorMessage = `'x-ua-compatible' meta element should be specified in the '<head>', not '<body>'.`;
-const metaElementIsNotNeededErrorMessage = `'x-ua-compatible' meta element should not be specified as it is not needed.`;
-const metaElementIsNotSpecifiedErrorMessage = `'x-ua-compatible' meta element should be specified.`;
-const metaElementSpecifiedAfterOtherElementsErrorMessage = `'x-ua-compatible' meta element should be specified before all other elements except for '<title>' and other '<meta>' elements.`;
-const metaElementUsageDiscouragedErrorMessage = `'x-ua-compatible' meta element should not be specified, and instead, equivalent HTTP header should be used.`;
+const incorrectHeaderValueErrorMessage = `The 'x-ua-compatible' header value should be 'ie=edge'.`;
+const incorrectContentAttributeValueErrorMessage = `The 'x-ua-compatible' meta element 'content' attribute value should be 'ie=edge'.`;
+const metaElementAlreadySpecifiedErrorMessage = `The 'x-ua-compatible' meta element is not needed as one was already specified.`;
+const metaElementIsNotInHeadErrorMessage = `The 'x-ua-compatible' meta element should be specified in the '<head>', not '<body>'.`;
+const metaElementIsNotNeededErrorMessage = `The 'x-ua-compatible' meta element should not be specified as it is not needed.`;
+const metaElementIsNotSpecifiedErrorMessage = `The 'x-ua-compatible' meta element should be specified.`;
+const metaElementSpecifiedAfterOtherElementsErrorMessage = `The 'x-ua-compatible' meta element should be specified before all other elements except for '<title>' and other '<meta>' elements.`;
+const metaElementUsageDiscouragedErrorMessage = `The 'x-ua-compatible' meta element should not be specified. An equivalent HTTP header should be used instead.`;
 const noHeaderErrorMessage = `Response should include 'x-ua-compatible' header.`;
 const unneededHeaderErrorMessage = `Response should not include unneeded 'x-ua-compatible' header.`;
-
-const generateIncorrectContentAttributeValueErrorMessage = (contentAttributeValue: string) => {
-    return `'x-ua-compatible' meta element 'content' attribute value should be 'ie=edge', not '${contentAttributeValue}'.`;
-};
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -124,7 +121,7 @@ const testsForRequireMetaElementConfig: HintTest[] = [
     {
         name: `'X-UA-Compatible' meta element is specified with no 'content' attribute`,
         reports: [{
-            message: generateIncorrectContentAttributeValueErrorMessage(''),
+            message: incorrectContentAttributeValueErrorMessage,
             severity: Severity.error
         }],
         serverConfig: generateHTMLPage('<meta http-equiv="x-ua-compatible">')
@@ -132,7 +129,7 @@ const testsForRequireMetaElementConfig: HintTest[] = [
     {
         name: `'X-UA-Compatible' meta element is specified with an empty 'content' attribute`,
         reports: [{
-            message: generateIncorrectContentAttributeValueErrorMessage(''),
+            message: incorrectContentAttributeValueErrorMessage,
             severity: Severity.error
         }],
         serverConfig: generateHTMLPage('<meta http-equiv="x-ua-compatible" content>')
@@ -140,7 +137,7 @@ const testsForRequireMetaElementConfig: HintTest[] = [
     {
         name: `'X-UA-Compatible' meta element is specified with a value different than 'ie=edge'`,
         reports: [{
-            message: generateIncorrectContentAttributeValueErrorMessage('IE=7,8 ,9'),
+            message: incorrectContentAttributeValueErrorMessage,
             severity: Severity.error
         }],
         serverConfig: generateHTMLPageWithMetaElement('IE=7,8 ,9')

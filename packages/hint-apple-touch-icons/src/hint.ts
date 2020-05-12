@@ -119,7 +119,7 @@ export default class AppleTouchIconsHint implements IHint {
             } catch (e) {
                 debug(`Failed to fetch the ${appleTouchIconHref} file`);
 
-                const message = getMessage('couldNotBeFetch', context.language, appleTouchIconHref);
+                const message = getMessage('couldNotBeFetch', context.language);
 
                 context.report(
                     resource,
@@ -133,7 +133,7 @@ export default class AppleTouchIconsHint implements IHint {
             const response = networkData.response;
 
             if (response.statusCode !== 200) {
-                const message = getMessage('couldNotBeFetchErrorStatusCode', context.language, [appleTouchIconHref, response.statusCode.toString()]);
+                const message = getMessage('couldNotBeFetchErrorStatusCode', context.language, response.statusCode.toString());
 
                 context.report(
                     resource,
@@ -165,7 +165,7 @@ export default class AppleTouchIconsHint implements IHint {
                 image = getImageData(response.body.rawContent);
             } catch (e) {
                 if (e instanceof TypeError) {
-                    const message = getMessage('invalidPNG', context.language, appleTouchIconHref);
+                    const message = getMessage('invalidPNG', context.language);
 
                     context.report(
                         resource,
@@ -182,7 +182,7 @@ export default class AppleTouchIconsHint implements IHint {
             // Check if the image is a PNG.
 
             if (image.type !== 'png') {
-                const message = getMessage('shouldBePNG', context.language, appleTouchIconHref);
+                const message = getMessage('shouldBePNG', context.language);
 
                 context.report(
                     resource,
@@ -194,7 +194,7 @@ export default class AppleTouchIconsHint implements IHint {
             // Check if the image is 180x180px.
 
             if (image.width !== 180 || image.height !== 180) {
-                const message = getMessage('wrongResolution', context.language, appleTouchIconHref);
+                const message = getMessage('wrongResolution', context.language);
 
                 context.report(
                     resource,

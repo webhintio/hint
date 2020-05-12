@@ -220,16 +220,19 @@ export default class HttpCacheHint implements IHint {
             directives.forEach((val, key) => {
 
                 if (str.length > 0) {
-                    str += '\n';
+                    str += ', ';
                 }
 
-                str += key;
-                if (val) {
-                    str += `=${val}`;
-                }
+                str += `'${key}${val ? `=${val}` : ''}'`;
             });
 
             return str;
+        };
+
+        const joinAndQuote = (strings: string[]) => {
+            return strings.map(string => {
+                return `'${string}'`;
+            }).join(', ');
         };
 
         /**
@@ -260,16 +263,12 @@ export default class HttpCacheHint implements IHint {
         /**
          * Prevents agains the usage of non recommended directives (`must-revalidate`)
          */
-        const nonRecommendedDirectives = (directives: Directives): string | null => {
+        const nonRecommendedDirectives = (directives: Directives): string[] => {
             const noDirectives = ['must-revalidate', 'no-store'];
 
-            for (const noDirective of noDirectives) {
-                if (directives.has(noDirective)) {
-                    return noDirective;
-                }
-            }
-
-            return null;
+            return noDirectives.filter((noDirective) => {
+                return directives.has(noDirective);
+            });
         };
 
         /*
@@ -304,11 +303,7 @@ export default class HttpCacheHint implements IHint {
             const codeLanguage = 'http';
 
             if (invalidDirectives.size > 0) {
-                const message: string = getMessage('directiveInvalid', context.language, [
-                    invalidDirectives.size === 1 ? 'directive' : 'directives',
-                    Array.from(invalidDirectives.keys()).join(', '),
-                    invalidDirectives.size === 1 ? 'is' : 'are'
-                ]);
+                const message: string = getMessage('directiveInvalid', context.language, joinAndQuote(Array.from(invalidDirectives.keys())));
 
                 context.report(
                     resource,
@@ -320,10 +315,7 @@ export default class HttpCacheHint implements IHint {
             }
 
             if (invalidValues.size > 0) {
-                const message: string = getMessage('directiveInvalidValue', context.language, [
-                    invalidValues.size === 1 ? 'directive has' : 'directives have',
-                    directivesToString(invalidValues)
-                ]);
+                const message: string = getMessage('directiveInvalidValue', context.language, directivesToString(invalidValues));
 
                 context.report(
                     resource,
@@ -343,10 +335,10 @@ export default class HttpCacheHint implements IHint {
         const hasNoneNonRecommendedDirectives = (directives: ParsedDirectives, fetchEnd: FetchEnd): boolean => {
             const { header, usedDirectives } = directives;
             const { resource } = fetchEnd;
-            const nonRecommendedDirective = nonRecommendedDirectives(usedDirectives);
+            const flaggedDirectives = nonRecommendedDirectives(usedDirectives);
 
-            if (nonRecommendedDirective) {
-                const message: string = getMessage('directiveNotRecomended', context.language, nonRecommendedDirective);
+            if (flaggedDirectives.length) {
+                const message: string = getMessage('directiveNotRecomended', context.language, joinAndQuote(flaggedDirectives));
 
                 context.report(
                     resource,
@@ -375,7 +367,7 @@ export default class HttpCacheHint implements IHint {
                 const hasMaxAge = (usedDirectives.has('max-age') || usedDirectives.has('s-maxage'));
 
                 if (hasMaxAge) {
-                    const message: string = getMessage('wrongCombination', context.language, header);
+                    const message: string = getMessage('wrongCombination', context.language);
 
                     context.report(
                         fetchEnd.resource,
@@ -407,7 +399,7 @@ export default class HttpCacheHint implements IHint {
             const isValidCache = compareToMaxAge(usedDirectives, maxAgeTarget) <= 0;
 
             if (!isValidCache) {
-                const message: string = getMessage('targetShouldNotBeCached', context.language, [maxAgeTarget, header]);
+                const message: string = getMessage('targetShouldNotBeCached', context.language, `${maxAgeTarget}`);
 
                 context.report(
                     fetchEnd.resource,
@@ -435,7 +427,7 @@ export default class HttpCacheHint implements IHint {
             });
 
             if (!matches) {
-                const message: string = getMessage('noCacheBustingPattern', context.language, resource);
+                const message: string = getMessage('noCacheBustingPattern', context.language);
 
                 context.report(resource, message, { element, severity: Severity.warning });
 
@@ -464,7 +456,7 @@ export default class HttpCacheHint implements IHint {
 
             // We want long caches with "immutable" for static resources
             if (usedDirectives.has('no-cache') || !longCache) {
-                const message: string = getMessage('staticResourceCacheValue', context.language, [maxAgeResource, header]);
+                const message: string = getMessage('staticResourceCacheValue', context.language, `${maxAgeResource}`);
 
                 const severity = isCacheBusted ? Severity.warning : Severity.hint;
 
@@ -475,7 +467,7 @@ export default class HttpCacheHint implements IHint {
 
             if (!immutable) {
 
-                const message: string = getMessage('staticNotImmutable', context.language, header);
+                const message: string = getMessage('staticNotImmutable', context.language);
                 const severity = immutableSupported && isCacheBusted ? Severity.warning : Severity.hint;
 
                 context.report(resource, message, { codeLanguage, codeSnippet, severity });

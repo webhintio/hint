@@ -132,7 +132,7 @@ export default class SRIHint implements IHint {
         const crossorigin = normalizeString(element && element.getAttribute('crossorigin'));
 
         if (!crossorigin) {
-            const message = getMessage('crossoriginNeeded', this.context.language, resource);
+            const message = getMessage('crossoriginNeeded', this.context.language);
 
             this.report(urls.final, message, { element, severity: Severity.error }, evt);
 
@@ -142,7 +142,7 @@ export default class SRIHint implements IHint {
         const validCrossorigin = crossorigin === 'anonymous' || crossorigin === 'use-credentials';
 
         if (!validCrossorigin) {
-            const message = getMessage('crossoriginInvalid', this.context.language, [resource, crossorigin]);
+            const message = getMessage('crossoriginInvalid', this.context.language);
 
             this.report(urls.final, message, { element, severity: Severity.error }, evt);
         }
@@ -164,7 +164,7 @@ export default class SRIHint implements IHint {
             urls.origin !== resourceOrigin;
 
         if (integrityRequired && !integrity) {
-            const message = getMessage('noIntegrity', this.context.language, resource);
+            const message = getMessage('noIntegrity', this.context.language);
 
             this.report(urls.final, message, { element, severity: Severity.warning }, evt);
         }
@@ -189,7 +189,7 @@ export default class SRIHint implements IHint {
      */
     private isIntegrityFormatValid(evt: FetchEnd, urls: URLs) {
         debug('Is integrity attribute valid?');
-        const { element, resource } = evt;
+        const { element } = evt;
         const integrity = element && element.getAttribute('integrity');
         const integrityRegExp = /^sha(256|384|512)-/;
         const integrityValues = integrity ? integrity.split(/\s+/) : [];
@@ -202,7 +202,7 @@ export default class SRIHint implements IHint {
 
             if (!isValid) {
                 // integrity must exist since we're iterating over integrityValues
-                const message = getMessage('invalidIntegrity', this.context.language, [resource, integrity!.substr(0, 10)]);
+                const message = getMessage('invalidIntegrity', this.context.language);
 
                 that.report(urls.final, message, { element, severity: Severity.error }, evt);
 
@@ -226,7 +226,7 @@ export default class SRIHint implements IHint {
         const meetsBaseline = highestAlgorithmPriority >= baseline;
 
         if (!meetsBaseline) {
-            const message = getMessage('algorightmNotMeetBaseline', this.context.language, [Algorithms[highestAlgorithmPriority], this.baseline, resource]);
+            const message = getMessage('algorithmNotMeetBaseline', this.context.language, [Algorithms[highestAlgorithmPriority], this.baseline]);
 
             this.report(urls.final, message, { element, severity: Severity.warning }, evt);
         }
@@ -246,7 +246,7 @@ export default class SRIHint implements IHint {
         const isSecure = protocol === 'https:';
 
         if (!isSecure) {
-            const message = getMessage('resourceNotSecure', this.context.language, resource);
+            const message = getMessage('resourceNotSecure', this.context.language);
 
             this.report(urls.final, message, { element, severity: Severity.error }, evt);
         }
@@ -264,7 +264,7 @@ export default class SRIHint implements IHint {
      */
     private hasRightHash(evt: FetchEnd, urls: URLs) {
         debug('Does it have the right hash?');
-        const { element, resource, response } = evt;
+        const { element, response } = evt;
         const integrity = element && element.getAttribute('integrity');
         const integrities = integrity ? integrity.split(/\s+/) : [];
         const calculatedHashes: Map<string, string> = new Map();
@@ -288,7 +288,7 @@ export default class SRIHint implements IHint {
                 hashes.push(`sha${key}-${value}`);
             });
 
-            const message = getMessage('hashDoesNotMatch', this.context.language, [resource, hashes.join(', '), integrities.join(', ')]);
+            const message = getMessage('hashDoesNotMatch', this.context.language);
 
             this.report(urls.final, message, { element, severity: Severity.error }, evt);
         }
@@ -428,7 +428,7 @@ export default class SRIHint implements IHint {
 
             this.context.report(
                 urls.final,
-                getMessage('canNotGetResource', this.context.language, resource),
+                getMessage('canNotGetResource', this.context.language),
                 { element, severity: Severity.error }
             );
 

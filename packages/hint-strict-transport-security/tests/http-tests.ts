@@ -9,7 +9,7 @@ const noHttpServerTests: HintTest[] = [{
     name: `strict-transport-security header sent over HTTP`,
     // the max-age that passes before is now too short
     reports: [{
-        message: `'strict-transport-security' header should't be specified in pages served over HTTP.`,
+        message: `The 'strict-transport-security' header should't be specified in pages served over HTTP.`,
         severity: Severity.warning
     }],
     serverConfig: { ...{ '/': { headers: common.maxAgeOnlyHeader } } }

@@ -5,35 +5,35 @@
     },
     "headerValueShouldBe": {
         "description": "Report message when 'x-ua-compatible' doesn't have the value 'ie=edge'",
-        "message": "'x-ua-compatible' header value should be 'ie=edge', not '$1'."
+        "message": "The 'x-ua-compatible' header value should be 'ie=edge'."
     },
     "metaElementDuplicated": {
         "description": "Report message when the 'x-ua-compatible' meta element is duplicated",
-        "message": "'x-ua-compatible' meta element is not needed as one was already specified."
+        "message": "The 'x-ua-compatible' meta element is not needed as one was already specified."
     },
     "metaElementNotBody": {
         "description": "Report message when the 'x-ua-compatible' meta element is in <body>",
-        "message": "'x-ua-compatible' meta element should be specified in the '<head>', not '<body>'."
+        "message": "The 'x-ua-compatible' meta element should be specified in the '<head>', not '<body>'."
     },
     "metaElementShouldBeSpecified": {
         "description": "Report message when the 'x-ua-compatible' element should be specified",
-        "message": "'x-ua-compatible' meta element should be specified."
+        "message": "The 'x-ua-compatible' meta element should be specified."
     },
     "metaElementShouldNotBeSpecified": {
         "description": "Report message when 'x-ua-compatible' meta element is not needed",
-        "message": "'x-ua-compatible' meta element should not be specified as it is not needed."
+        "message": "The 'x-ua-compatible' meta element should not be specified as it is not needed."
     },
     "metaElementShouldNotBeSpecifiedUseHeader": {
         "description": "Report message to suggest using HTTP header instead of meta element",
-        "message": "'x-ua-compatible' meta element should not be specified, and instead, equivalent HTTP header should be used."
+        "message": "The 'x-ua-compatible' meta element should not be specified. An equivalent HTTP header should be used instead."
     },
     "metaElementValueShouldBe": {
         "description": "Report message when the 'x-ua-compatible' meta element has the wrong value",
-        "message": "'x-ua-compatible' meta element 'content' attribute value should be 'ie=edge', not '$1'."
+        "message": "The 'x-ua-compatible' meta element 'content' attribute value should be 'ie=edge'."
     },
     "metaElementWrongPosition": {
         "description": "Report message when the 'x-ua-compatible' meta element is in the wrong position",
-        "message": "'x-ua-compatible' meta element should be specified before all other elements except for '<title>' and other '<meta>' elements."
+        "message": "The 'x-ua-compatible' meta element should be specified before all other elements except for '<title>' and other '<meta>' elements."
     },
     "name": {
         "description": "Metadata name",

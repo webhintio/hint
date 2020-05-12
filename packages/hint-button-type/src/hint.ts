@@ -64,7 +64,7 @@ export default class ButtonTypeHint implements IHint {
             } else if (!allowedTypes.includes(elementType.toLowerCase())) {
                 context.report(
                     resource,
-                    getMessage('invalidType', context.language, elementType),
+                    getMessage('invalidType', context.language),
                     { element, severity: Severity.error });
             }
         };

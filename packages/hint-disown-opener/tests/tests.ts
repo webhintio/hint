@@ -5,7 +5,7 @@ import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 const hintPath = getHintPath(__filename);
 
 const generateMissingMessage = (linkType: string): string => {
-    return `Link should have 'rel' attribute value include ${linkType} keyword.`;
+    return `Link 'rel' attribute should include '${linkType}'.`;
 };
 
 const testsForOldBrowsers: HintTest[] = [

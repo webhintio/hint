@@ -6,8 +6,7 @@ const metaCharset = '<mEtA CHaRseT="UtF-8">';
 const metaHttpEquiv = '<MeTa HTTP-EquiV="ConTent-Type" Content="TexT/HTML; CharSet=UtF-8">';
 
 const metaElementCanBeShorterErrorMessage = `'charset' meta element should be specified using shorter '<meta charset="utf-8">' form.`;
-const metaElementHasIncorrectValueErrorMessage = `'charset' meta element value should be 'utf-8', not 'utf8'.`;
-const metaElementHasIncorrectRandomValueErrorMessage = `'charset' meta element value should be 'utf-8', not 'random'.`;
+const metaElementHasIncorrectValueErrorMessage = `'charset' meta element value should be 'utf-8'.`;
 const metaElementIsNotFirstInHeadErrorMessage = `'charset' meta element should be the first thing in '<head>'.`;
 const metaElementIsNotInHeadErrorMessage = `'charset' meta element should be specified in the '<head>', not '<body>'.`;
 const metaElementIsNotNeededErrorMessage = `'charset' meta element is not needed as one was already specified.`;
@@ -41,7 +40,7 @@ const tests: HintTest[] = [
     {
         name: `'charset' meta element is specified with a value of 'random' instead of 'utf-8'`,
         reports: [{
-            message: metaElementHasIncorrectRandomValueErrorMessage,
+            message: metaElementHasIncorrectValueErrorMessage,
             severity: Severity.error
         }],
         serverConfig: generateHTMLPage('<meta charset="random">')

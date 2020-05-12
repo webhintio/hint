@@ -90,7 +90,7 @@ export default class MetaThemeColorHint implements IHint {
             const color = parseColor(normalizedContentValue);
 
             if (color === null) {
-                const message = getMessage('metaElementInvalidContent', context.language, contentValue);
+                const message = getMessage('metaElementInvalidContent', context.language);
 
                 context.report(
                     resource,
@@ -104,7 +104,7 @@ export default class MetaThemeColorHint implements IHint {
             }
 
             if (isNotSupportedColorValue(color, normalizedContentValue)) {
-                const message = getMessage('metaElementUnsupported', context.language, contentValue);
+                const message = getMessage('metaElementUnsupported', context.language);
 
                 context.report(
                     resource,
@@ -130,7 +130,7 @@ export default class MetaThemeColorHint implements IHint {
             const nameAttributeValue = element.getAttribute('name');
 
             if (nameAttributeValue && nameAttributeValue !== nameAttributeValue.trim()) {
-                const message = getMessage('metaElementInvalidName', context.language, nameAttributeValue);
+                const message = getMessage('metaElementInvalidName', context.language);
 
                 context.report(
                     resource,

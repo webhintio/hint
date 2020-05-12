@@ -1,4 +1,3 @@
-import { prettyPrintArray } from '@hint/utils-string';
 import { Severity } from '@hint/utils-types';
 import { generateHTMLPage } from '@hint/utils-create-server';
 import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
@@ -11,7 +10,7 @@ const htmlPageWithScript = generateHTMLPage(undefined, '<script src="test.js"></
 const htmlPageWithManifest = generateHTMLPage('<link rel="manifest" href="test.webmanifest">');
 
 const generateErrorMessage = (values: string[]): string => {
-    return `Response should not include disallowed ${prettyPrintArray(values)} ${values.length === 1 ? 'header' : 'headers'}.`;
+    return `Response should not include disallowed headers: ${values.join(', ')}`;
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -115,7 +114,7 @@ const testsForDifferentServerHeaderValues: HintTest[] = (() => {
         tests.push({
             name: `HTML page is served with disallowed 'Server: ${value}'`,
             reports: [{
-                message: `'server' header value should only contain the server name, not '${value}'.`,
+                message: `The 'server' header should only contain the server name.`,
                 severity: Severity.warning
             }],
             serverConfig: { '/': { headers: { Server: value } } }

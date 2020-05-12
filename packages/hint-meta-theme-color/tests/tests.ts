@@ -4,10 +4,10 @@ import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 
 const hintPath = getHintPath(__filename);
 
-const metaElementIsNotInHeadErrorMessage = `'theme-color' meta element should be specified in the '<head>', not '<body>'.`;
-const metaElementIsNotNeededErrorMessage = `'theme-color' meta element is not needed as one was already specified.`;
-const metaElementIsNotSpecifiedErrorMessage = `'theme-color' meta element was not specified.`;
-const metaElementHasIncorrectNameAttributeErrorMessage = `'theme-color' meta element 'name' attribute value should be 'theme-color', not ' thEme-color '.`;
+const metaElementIsNotInHeadErrorMessage = `The 'theme-color' meta element should be specified in the '<head>', not '<body>'.`;
+const metaElementIsNotNeededErrorMessage = `A 'theme-color' meta element is not needed as one was already specified.`;
+const metaElementIsNotSpecifiedErrorMessage = `A 'theme-color' meta element was not specified.`;
+const metaElementHasIncorrectNameAttributeErrorMessage = `The 'theme-color' meta element 'name' attribute value should be 'theme-color'.`;
 
 const invalidColorValues = [
     'currentcolor',
@@ -34,11 +34,11 @@ const validColorValues = [
     'transparent'
 ];
 
-const generateThemeColorMetaElement = (contentValue: string = '#f00', nameValue: string = 'theme-color') => {
+const generateThemeColorMetaElement = (contentValue = '#f00', nameValue = 'theme-color') => {
     return `<meta name="${nameValue}" content="${contentValue}">`;
 };
 
-const generateTest = (colorValues: string[], valueType: string = 'valid', reason?: string) => {
+const generateTest = (colorValues: string[], valueType = 'valid', reason?: string) => {
     const defaultTests = [];
 
     for (const colorValue of colorValues) {
@@ -47,8 +47,10 @@ const generateTest = (colorValues: string[], valueType: string = 'valid', reason
             serverConfig: generateHTMLPage(generateThemeColorMetaElement(colorValue))
         };
 
-        if (valueType !== 'valid') {
-            test.reports = [{ message: `'theme-color' meta element 'content' attribute should not have ${valueType} value of '${colorValue}'.` }];
+        if (valueType === 'invalid') {
+            test.reports = [{ message: `The 'theme-color' meta element 'content' attribute should have a valid color value.` }];
+        } else if (valueType === 'unsupported') {
+            test.reports = [{ message: `The 'theme-color' meta element 'content' attribute uses a color value not supported by all target browsers.` }];
         }
 
         defaultTests.push(test);

@@ -52,10 +52,7 @@ export default class DisownOpenerHint implements IHint {
                 return;
             }
 
-            const message = getMessage('shouldHaveRel', context.language, [
-                relValueToCheckFor,
-                getMessage('keyword', context.language)
-            ]);
+            const message = getMessage('shouldHaveRel', context.language, relValueToCheckFor);
 
             context.report(
                 resource,

@@ -101,7 +101,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
 
                     context.report(
                         resource,
-                        getMessage('metaElementWrongValue', context.language, charsetMetaElement.getAttribute('charset')!),
+                        getMessage('metaElementWrongValue', context.language),
                         {
                             element: charsetMetaElement,
                             severity

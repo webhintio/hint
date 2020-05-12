@@ -31,18 +31,16 @@ export const hasErrors = { errors: [{ message: notPreloadableError }] };
 
 // error messages
 export const generateTooShortError = (value: number) => {
-    return `'${stsHeader}' header 'max-age' value should be more than ${value}`;
+    return `The '${stsHeader}' header 'max-age' value should be more than '${value}'.`;
 };
-export const noHeaderError = `'${stsHeader}' header was not specified`;
-export const noMaxAgeError = `'${stsHeader}' header requires 'max-age' directive`;
-export const multipleMaxAgeError = `'${stsHeader}' header contains more than one 'max-age'`;
-export const multipleincludeSubDomainsError = `'${stsHeader}' header contains more than one 'includesubdomains'`;
+export const noHeaderError = `The '${stsHeader}' header was not specified.`;
+export const noMaxAgeError = `The '${stsHeader}' header requires 'max-age' directive.`;
+export const duplicateDirectivesError = `The '${stsHeader}' header contains duplicate directives.`;
 export const tooShortErrorDefault = generateTooShortError(defaultMinimum);
-export const DelimiterwrongFormatError = `'${stsHeader}' header has the wrong format: max-age=31536000, includesubdomains`;
-export const UnitwrongFormatError = `'${stsHeader}' header has the wrong format: max-age=31536000s`;
-export const statusServiceError = `Error with getting preload status for https://localhost/.`;
-export const preloadableServiceError = `Error with getting preload eligibility for https://localhost/.`;
-export const problemWithVerificationEndpoint = `Error with getting preload status for https://localhost/. There might be something wrong with the verification endpoint.`;
+export const wrongFormatError = `The '${stsHeader}' header has the wrong format.`;
+export const statusServiceError = `Error getting preload status.`;
+export const preloadableServiceError = `Error getting preload eligibility.`;
+export const problemWithVerificationEndpoint = `Error getting preload status.`;
 
 // override favicon headers so that it doesn't report in chrome
 export const faviconHeaderMaxAgeOnly = {

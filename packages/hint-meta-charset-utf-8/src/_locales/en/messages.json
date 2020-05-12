@@ -25,7 +25,7 @@
     },
     "metaElementWrongValue": {
         "description": "Report message when the 'charset' meta element has a wrong value",
-        "message": "'charset' meta element value should be 'utf-8', not '$1'."
+        "message": "'charset' meta element value should be 'utf-8'."
     },
     "name": {
         "description": "Metadata name",

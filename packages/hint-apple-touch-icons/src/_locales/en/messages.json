@@ -1,11 +1,11 @@
 {
     "couldNotBeFetch": {
         "description": "Message to show when the icon request fail",
-        "message": "'$1' could not be fetched (request failed)."
+        "message": "The 'apple-touch-icon' could not be fetched (request failed)."
     },
     "couldNotBeFetchErrorStatusCode": {
         "description": "Message to show when the icon request fail",
-        "message": "'$1' could not be fetched (status code: $2)."
+        "message": "The 'apple-touch-icon' could not be fetched (status code: $1)."
     },
     "description": {
         "description": "Metadata description",
@@ -13,15 +13,15 @@
     },
     "elementDuplicated": {
         "description": "Message to show when the 'apple-touch-icon' element is duplicated",
-        "message": "'apple-touch-icon' link element is not needed as one was already specified."
+        "message": "The 'apple-touch-icon' link element is not needed as one was already specified."
     },
     "elementNotInHead": {
         "description": "Message to show when the element is not in the head",
-        "message": "'apple-touch-icon' link element should be specified in the '<head>'."
+        "message": "The 'apple-touch-icon' link element should be specified in the '<head>'."
     },
     "invalidPNG": {
         "description": "Message to show when the icon is an invalid PNG",
-        "message": "'$1' should be a valid PNG image."
+        "message": "The 'apple-touch-icon' should be a valid PNG image."
     },
     "name": {
         "description": "Metadata name",
@@ -29,26 +29,26 @@
     },
     "noElement": {
         "description": "Message to show when a link element doesn't exist",
-        "message": "'apple-touch-icon' link element was not specified."
+        "message": "The 'apple-touch-icon' link element was not specified."
     },
     "noEmptyHref": {
         "description": "Message to show when a link element has an href empty",
-        "message": "'apple-touch-icon' link element should have non-empty 'href' attribute."
+        "message": "The 'apple-touch-icon' link element should have a non-empty 'href' attribute."
     },
     "shouldBePNG": {
         "description": "Message to show when the icon is not a PNG",
-        "message": "'$1' should be a PNG image."
+        "message": "The 'apple-touch-icon' should be a PNG image."
     },
     "sizesAttribute": {
         "description": "Message to show when the element specify the attribute sizes",
-        "message": "'apple-touch-icon' link element should not have 'sizes' attribute."
+        "message": "The 'apple-touch-icon' link element should not have a 'sizes' attribute."
     },
     "wrongRelAttribute": {
         "description": "Message to show when the rel attribute is not the right one",
-        "message": "'apple-touch-icon' link element should have 'rel=\"apple-touch-icon\"'."
+        "message": "The 'apple-touch-icon' link element should have 'rel=\"apple-touch-icon\"'."
     },
     "wrongResolution": {
         "description": "Message to show when the icon doesn't have the right resolution",
-        "message": "'$1' should be 180x180px."
+        "message": "The 'apple-touch-icon' should be 180x180px."
     }
 }
