@@ -57,7 +57,11 @@ const authenticatedOnNpm = async () => {
     }
 };
 
-const authenticatedOnVsce = async () => {
+const authenticatedOnVsce = async (ctx: Context) => {
+    if (ctx.argv.skipVsce) {
+        return;
+    }
+
     let publishers = '';
 
     try {
@@ -131,7 +135,7 @@ export const validateEnvironment = async (ctx: Context, task: ListrTaskWrapper) 
 
     if (!ctx.argv.testMode) {
         for (const check of checks) {
-            await check();
+            await check(ctx);
         }
     }
 
