@@ -31,7 +31,7 @@
   "description": "The linting tool for the web",
   "devDependencies": {
     "@hint/utils-dom": "^2.1.0",
-    "@types/lodash": "^4.14.149",
+    "@types/lodash": "^4.14.151",
     "@types/node": "^13.13.4",
     "@types/sinon": "^9.0.0",
     "@types/update-notifier": "^4.1.0",
