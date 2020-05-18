@@ -48,7 +48,9 @@ const main = () => {
 
     console.log('Top-level Dependencies:');
     for (const dependency of sortedDependencies) {
-        console.log(dependency);
+        if (!dependency.startsWith('@types/')) {
+            console.log(dependency);
+        }
     }
 };
 
