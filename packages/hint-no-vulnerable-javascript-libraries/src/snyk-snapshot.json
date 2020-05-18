@@ -1596,7 +1596,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=1.1.7"
           ]
         },
         "severity": "medium",
@@ -1653,7 +1653,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=0.0.1"
           ]
         },
         "severity": "high",
@@ -2805,7 +2805,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=2.10.0"
           ]
         },
         "severity": "medium",
@@ -3130,6 +3130,53 @@
     ],
     "buefy": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "alternativeIds": [],
+        "creationTime": "2020-04-29T12:59:57.693313Z",
+        "credit": [
+          "Cristina Solana"
+        ],
+        "cvssScore": 7.3,
+        "disclosureTime": "2020-04-29T12:55:32Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "0.8.18"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-BUEFY-567814",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-05-11T15:36:11.108863Z",
+        "moduleName": "buefy",
+        "packageManager": "npm",
+        "packageName": "buefy",
+        "patches": [],
+        "publicationTime": "2020-05-11T15:36:11.349776Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/buefy/buefy/commit/f0ff2ae65fee34e247e74e6ab4881c929928c066"
+          },
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/buefy/buefy/issues/2444"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<0.8.18"
+          ]
+        },
+        "severity": "high",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2018-12-31T15:17:08.018652Z",
@@ -3279,7 +3326,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=0.7.0"
           ]
         },
         "severity": "low",
@@ -4167,7 +4214,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=0.2.4"
           ]
         },
         "severity": "high",
@@ -4331,12 +4378,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:42.113815Z",
+        "modificationTime": "2020-05-10T07:56:33.806044Z",
         "moduleName": "dijit",
         "packageManager": "npm",
         "packageName": "dijit",
         "patches": [],
-        "publicationTime": "2018-02-14T13:22:50.337000Z",
+        "publicationTime": "2018-02-14T13:22:50Z",
         "references": [
           {
             "title": "GitHub Poc",
@@ -4349,7 +4396,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=1.16.2"
           ]
         },
         "severity": "medium",
@@ -6162,6 +6209,102 @@
     ],
     "faye": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N/E:P/RL:U/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-04-28T14:43:34.491167Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2020-04-28T13:40:17Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "1.0.4",
+          "1.1.3",
+          "1.2.5"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-FAYE-567757",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-11020"
+          ],
+          "CWE": [
+            "CWE-284"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-04-28T14:59:13.009394Z",
+        "moduleName": "faye",
+        "packageManager": "npm",
+        "packageName": "faye",
+        "patches": [],
+        "publicationTime": "2020-04-28T14:59:13Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/faye/faye/commit/3e22055d314f3dfb4e087cccedd40b21c91788a8"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<1.0.4",
+            ">=1.1.0 <1.1.3",
+            ">=1.2.0 <1.2.5"
+          ]
+        },
+        "severity": "high",
+        "title": "Improper Access Control"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "alternativeIds": [],
+        "creationTime": "2020-04-23T11:19:16.166251Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 7.4,
+        "disclosureTime": "2014-07-08T11:12:11Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "1.1.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-FAYE-567269",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-352"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-04-23T15:07:21.166329Z",
+        "moduleName": "faye",
+        "packageManager": "npm",
+        "packageName": "faye",
+        "patches": [],
+        "publicationTime": "2020-04-23T15:07:21Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/faye/faye/commit/de93b9d1bb7397631d8357325b4af665f8c1f1e1"
+          },
+          {
+            "title": "Rosetta Flash Blog",
+            "url": "http://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash/"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<1.1.0"
+          ]
+        },
+        "severity": "high",
+        "title": "Cross-Site Request Forgery (CSRF)"
+      },
+      {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-FAYE-10457"
@@ -6584,7 +6727,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=1.2.0"
           ]
         },
         "severity": "high",
@@ -6866,6 +7009,53 @@
       }
     ],
     "handlebars": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-04-28T14:26:34.538485Z",
+        "credit": [
+          "macasun"
+        ],
+        "cvssScore": 6.5,
+        "disclosureTime": "2020-04-27T22:13:11Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "4.6.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-HANDLEBARS-567742",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-04-28T14:59:13.455920Z",
+        "moduleName": "handlebars",
+        "packageManager": "npm",
+        "packageName": "handlebars",
+        "patches": [],
+        "publicationTime": "2020-04-28T14:28:34Z",
+        "references": [
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/handlebars-lang/handlebars.js/pull/1633"
+          },
+          {
+            "title": "HackerOne Report",
+            "url": "https://hackerone.com/reports/726364"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<4.6.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Prototype Pollution"
+      },
       {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
         "alternativeIds": [],
@@ -7558,7 +7748,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=1.0.0"
           ]
         },
         "severity": "low",
@@ -8463,6 +8653,63 @@
     ],
     "jquery": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:U/RL:O/RC:R",
+        "alternativeIds": [],
+        "creationTime": "2020-04-30T12:29:39.885866Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 6.5,
+        "disclosureTime": "2020-04-29T23:02:09Z",
+        "exploit": "Unproven",
+        "fixedIn": [
+          "3.5.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-JQUERY-567880",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-11022"
+          ],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-05-05T06:44:17.559695Z",
+        "moduleName": "jquery",
+        "packageManager": "npm",
+        "packageName": "jquery",
+        "patches": [],
+        "publicationTime": "2020-04-29T23:02:09Z",
+        "references": [
+          {
+            "title": "GHSA",
+            "url": "https://github.com/jquery/jquery/security/advisories/GHSA-gxr4-xjj5-5px2"
+          },
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/jquery/jquery/commit/1d61fd9407e6fbe82fe55cb0b938307aa0791f77"
+          },
+          {
+            "title": "JQuery 3.5.0 Release",
+            "url": "https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/"
+          },
+          {
+            "title": "JQuery Upgrade Guide",
+            "url": "https://jquery.com/upgrade-guide/3.5/"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            ">=1.2.0 <3.5.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L/E:U/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-04-13T07:16:49.518552Z",
@@ -8475,17 +8722,43 @@
         "fixedIn": [
           "3.5.0"
         ],
-        "functions": [],
-        "functions_new": [],
+        "functions": [
+          {
+            "functionId": {
+              "className": null,
+              "filePath": "src/manipulation.js",
+              "functionName": "htmlPrefilter"
+            },
+            "version": [
+              ">=1.0.3 <3.5.0"
+            ]
+          }
+        ],
+        "functions_new": [
+          {
+            "functionId": {
+              "filePath": "src/manipulation.js",
+              "functionName": "htmlPrefilter"
+            },
+            "version": [
+              ">=1.0.3 <3.5.0"
+            ]
+          }
+        ],
         "id": "SNYK-JS-JQUERY-565129",
         "identifiers": {
-          "CVE": [],
+          "CVE": [
+            "CVE-2020-11023"
+          ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-jpcq-cgw6-v4j6"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-04-13T15:33:49.177015Z",
+        "modificationTime": "2020-05-11T07:50:37.649500Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -8503,7 +8776,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<3.5.0"
+            ">=1.0.3 <3.5.0"
           ]
         },
         "severity": "medium",
@@ -8988,7 +9261,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=1.6.4"
           ]
         },
         "severity": "medium",
@@ -9033,7 +9306,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=4.0.11"
           ]
         },
         "severity": "low",
@@ -9955,7 +10228,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=0.7.1"
           ]
         },
         "severity": "high",
@@ -10391,6 +10664,61 @@
       }
     ],
     "lodash": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L/E:P/RL:U/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-04-28T14:32:13.683154Z",
+        "credit": [
+          "posix"
+        ],
+        "cvssScore": 6.3,
+        "disclosureTime": "2020-04-27T22:14:18Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-LODASH-567746",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-04-30T11:37:44.302231Z",
+        "moduleName": "lodash",
+        "packageManager": "npm",
+        "packageName": "lodash",
+        "patches": [
+          {
+            "comments": [],
+            "id": "patch:SNYK-JS-LODASH-567746:0",
+            "modificationTime": "2020-04-30T14:28:46.729327Z",
+            "urls": [
+              "https://snyk-patches.s3.amazonaws.com/npm/lodash/20200430/lodash_0_0_20200430_6baae67d501e4c45021280876d42efe351e77551.patch"
+            ],
+            "version": ">=4.14.2"
+          }
+        ],
+        "publicationTime": "2020-04-28T14:59:14Z",
+        "references": [
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/lodash/lodash/pull/4759"
+          },
+          {
+            "title": "HackerOne Report",
+            "url": "https://hackerone.com/reports/712065"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<=4.17.15"
+          ]
+        },
+        "severity": "medium",
+        "title": "Prototype Pollution"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [],
@@ -12788,7 +13116,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=1.0.5"
           ]
         },
         "severity": "high",
@@ -12900,7 +13228,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=0.0.3"
           ]
         },
         "severity": "high",
@@ -14882,7 +15210,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=2.0.0"
           ]
         },
         "severity": "high",
@@ -15178,7 +15506,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=0.0.4"
           ]
         },
         "severity": "high",
@@ -15256,9 +15584,14 @@
           "ALTERNATIVE": [
             "SNYK-JS-NODEUUID-10089"
           ],
-          "CVE": [],
+          "CVE": [
+            "CVE-2015-8851"
+          ],
           "CWE": [
             "CWE-330"
+          ],
+          "GHSA": [
+            "GHSA-265q-28rp-chq5"
           ],
           "NSP": [
             93
@@ -15280,7 +15613,7 @@
             "version": "<=1.4.3 >=1.4.2"
           }
         ],
-        "publicationTime": "2016-03-28T22:00:02.566000Z",
+        "publicationTime": "2016-03-28T22:00:02Z",
         "references": [
           {
             "title": "GitHub Issue",
@@ -15520,7 +15853,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=0.0.3"
           ]
         },
         "severity": "high",
@@ -16560,6 +16893,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-gqgv-6jq5-jjj9"
+          ],
           "NSP": [
             29
           ]
@@ -17258,7 +17594,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=1.4.6"
           ]
         },
         "severity": "high",
@@ -18026,7 +18362,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=3.9.2"
           ]
         },
         "severity": "medium",
@@ -18494,9 +18830,11 @@
           "SNYK-JS-SANITIZEHTML-10048"
         ],
         "creationTime": "2015-11-06T02:09:36.180000Z",
-        "credit": [],
+        "credit": [
+          "Unknown"
+        ],
         "cvssScore": 4.3,
-        "disclosureTime": "2015-11-06T02:09:36.180000Z",
+        "disclosureTime": "2015-11-06T02:09:36Z",
         "exploit": "Not Defined",
         "fixedIn": [
           "1.4.3"
@@ -18508,27 +18846,37 @@
           "ALTERNATIVE": [
             "SNYK-JS-SANITIZEHTML-10048"
           ],
-          "CVE": [],
+          "CVE": [
+            "CVE-2016-1000237"
+          ],
           "CWE": [
             "CWE-79"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:35.549498Z",
+        "modificationTime": "2020-04-16T09:38:43.588321Z",
         "moduleName": "sanitize-html",
         "packageManager": "npm",
         "packageName": "sanitize-html",
         "patches": [],
-        "publicationTime": "2015-11-06T02:09:36.180000Z",
+        "publicationTime": "2015-11-06T02:09:36Z",
         "references": [
+          {
+            "title": "CVE",
+            "url": "https://raw.githubusercontent.com/distributedweaknessfiling/cvelist/master/2016/1000xxx/CVE-2016-1000237.json"
+          },
           {
             "title": "GitHub Issue",
             "url": "https://github.com/punkave/sanitize-html/issues/29"
+          },
+          {
+            "title": "Node Security Advisories",
+            "url": "https://nodesecurity.io/advisories/135"
           }
         ],
         "semver": {
           "vulnerable": [
-            "< 1.4.3"
+            "<1.4.3"
           ]
         },
         "severity": "medium",
@@ -18780,7 +19128,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=2.4.2"
           ]
         },
         "severity": "medium",
@@ -19442,7 +19790,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=1.11.2"
           ]
         },
         "severity": "medium",
@@ -19740,7 +20088,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=5.13.0"
           ]
         },
         "severity": "medium",
@@ -19843,7 +20191,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=3.3.3"
           ]
         },
         "severity": "medium",
@@ -20906,7 +21254,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=2.3.0"
           ]
         },
         "severity": "high",
@@ -20970,6 +21318,53 @@
       }
     ],
     "tinymce": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-05-12T13:46:42.094289Z",
+        "credit": [
+          "Michal Bentkowski"
+        ],
+        "cvssScore": 6.3,
+        "disclosureTime": "2020-05-12T13:14:14Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "4.9.10",
+          "5.2.2"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-TINYMCE-568922",
+        "identifiers": {
+          "CVE": [
+            "CVE-2019-1010091"
+          ],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-05-12T15:14:06.604729Z",
+        "moduleName": "tinymce",
+        "packageManager": "npm",
+        "packageName": "tinymce",
+        "patches": [],
+        "publicationTime": "2020-05-12T15:14:06.581903Z",
+        "references": [
+          {
+            "title": "Release Notes",
+            "url": "https://www.tiny.cloud/docs/release-notes/release-notes522/%23securityfixes"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<4.9.10",
+            ">=5.0.0 <5.2.2"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [],
@@ -21328,7 +21723,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=0.3.5"
           ]
         },
         "severity": "high",
@@ -21939,7 +22334,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=2.3.0"
           ]
         },
         "severity": "high",
@@ -22128,7 +22523,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "*"
+            "<=0.3.0"
           ]
         },
         "severity": "low",
