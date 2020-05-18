@@ -26,7 +26,7 @@ const defaultTests: HintTest[] = [
     {
         name: `page with a vulnerable library (jquery 2.1.4) fails`,
         reports: [{
-            message: `'jQuery@2.1.4' has 3 known vulnerabilities (3 medium). See 'https://snyk.io/vuln/npm:jquery' for more information.`,
+            message: `'jQuery@2.1.4' has 4 known vulnerabilities (4 medium). See 'https://snyk.io/vuln/npm:jquery' for more information.`,
             severity: Severity.warning
         }],
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
@@ -64,7 +64,7 @@ const userMediumConfigTests: HintTest[] = [
     {
         name: `page with a library with vulnerabilities medium fails if configured severity is "medium"`,
         reports: [{
-            message: `'jQuery@2.1.4' has 3 known vulnerabilities (3 medium). See 'https://snyk.io/vuln/npm:jquery' for more information.`,
+            message: `'jQuery@2.1.4' has 4 known vulnerabilities (4 medium). See 'https://snyk.io/vuln/npm:jquery' for more information.`,
             severity: Severity.warning
         }],
         serverConfig: generateHTMLPage(generateScriptTag(jquery))
