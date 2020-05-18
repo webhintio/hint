@@ -1,3 +1,22 @@
+# 4.1.5 (May 18, 2020)
+
+## Chores
+
+* [[`aacbd54ffe`](https://github.com/webhintio/hint/commit/aacbd54ffee8407635ac525db361dd195812cd5f)] - Upgrade: Bump @types/jsdom from 16.2.1 to 16.2.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`383670ba5e`](https://github.com/webhintio/hint/commit/383670ba5e897251a37030e3c5163391db8eaf26)] - Upgrade: Bump @types/lodash from 4.14.149 to 4.14.151 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ea08bf5acc`](https://github.com/webhintio/hint/commit/ea08bf5acc5c18f221b06ef34e6dee7813d04a70)] - Upgrade: Bump ava from 3.5.2 to 3.8.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`58a49cd71c`](https://github.com/webhintio/hint/commit/58a49cd71cc9626b9aa2b360a494cc0140668237)] - Upgrade: Bump @types/jsdom from 16.2.0 to 16.2.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a65fdf46c4`](https://github.com/webhintio/hint/commit/a65fdf46c4e9edb0c714ff0dad94e6da2f98d43b)] - Upgrade: Bump nyc from 15.0.0 to 15.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bd9f407ebf`](https://github.com/webhintio/hint/commit/bd9f407ebf0f4037c06b8e5637b2d882efb580ac)] - Upgrade: Bump @types/node from 13.13.2 to 13.13.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`48b4b39eae`](https://github.com/webhintio/hint/commit/48b4b39eae240045e74b39ad7060e38c27bbf38f)] - Upgrade: Bump @types/node from 13.9.2 to 13.13.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a9ed7293bb`](https://github.com/webhintio/hint/commit/a9ed7293bb380eb73495c2adbadd1cfec997ebbe)] - Upgrade: Bump @types/sinon from 7.5.1 to 9.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`190284e5ff`](https://github.com/webhintio/hint/commit/190284e5ff577b6bc0600b1425e7abb39818ced8)] - Upgrade: Bump @types/jsdom from 12.2.4 to 16.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`23e0696c6a`](https://github.com/webhintio/hint/commit/23e0696c6a89cde8a08ad8d624a577a4a5121078)] - Upgrade: Bump mutationobserver-shim from 0.3.3 to 0.3.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`df2c969c85`](https://github.com/webhintio/hint/commit/df2c969c852896b71dddd798da1f8763256e5194)] - Upgrade: Bump jsdom from 16.2.0 to 16.2.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`85c86a0891`](https://github.com/webhintio/hint/commit/85c86a0891c36423e5c76ca05acd5ab04e84a01c)] - Upgrade: Bump sinon from 9.0.1 to 9.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`aac5c63efa`](https://github.com/webhintio/hint/commit/aac5c63efabc6336e3cfffdb529a58d5e2a1a0bc)] - Upgrade: Bump @types/tough-cookie from 2.3.6 to 4.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.1.4 (April 15, 2020)
 
 ## Chores

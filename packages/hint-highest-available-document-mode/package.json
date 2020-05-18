@@ -8,16 +8,16 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-i18n": "^1.0.2",
-    "@hint/utils-network": "^1.0.3",
-    "@hint/utils-string": "^1.0.2",
+    "@hint/utils-i18n": "^1.0.3",
+    "@hint/utils-network": "^1.0.4",
+    "@hint/utils-string": "^1.0.3",
     "@hint/utils-types": "^1.0.1"
   },
   "description": "hint for best practices related to usage of the X-UA-Compatible meta tag and response header",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.3",
-    "@hint/utils-dom": "^2.1.0",
-    "@hint/utils-tests-helpers": "^6.1.1",
+    "@hint/utils-create-server": "^3.4.4",
+    "@hint/utils-dom": "^2.1.1",
+    "@hint/utils-tests-helpers": "^6.1.2",
     "@types/node": "^13.13.4",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.2.3"
+  "version": "5.0.0"
 }

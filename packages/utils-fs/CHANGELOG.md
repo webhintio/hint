@@ -1,3 +1,12 @@
+# 1.0.3 (May 18, 2020)
+
+## Chores
+
+* [[`ea08bf5acc`](https://github.com/webhintio/hint/commit/ea08bf5acc5c18f221b06ef34e6dee7813d04a70)] - Upgrade: Bump ava from 3.5.2 to 3.8.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a65fdf46c4`](https://github.com/webhintio/hint/commit/a65fdf46c4e9edb0c714ff0dad94e6da2f98d43b)] - Upgrade: Bump nyc from 15.0.0 to 15.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`85c86a0891`](https://github.com/webhintio/hint/commit/85c86a0891c36423e5c76ca05acd5ab04e84a01c)] - Upgrade: Bump sinon from 9.0.1 to 9.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.2 (April 15, 2020)
 
 ## Chores

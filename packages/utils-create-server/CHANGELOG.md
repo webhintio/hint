@@ -1,3 +1,14 @@
+# 3.4.4 (May 18, 2020)
+
+## Chores
+
+* [[`383670ba5e`](https://github.com/webhintio/hint/commit/383670ba5e897251a37030e3c5163391db8eaf26)] - Upgrade: Bump @types/lodash from 4.14.149 to 4.14.151 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ea08bf5acc`](https://github.com/webhintio/hint/commit/ea08bf5acc5c18f221b06ef34e6dee7813d04a70)] - Upgrade: Bump ava from 3.5.2 to 3.8.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7b671e5cbc`](https://github.com/webhintio/hint/commit/7b671e5cbc2822f5a994dc46937f6086df567939)] - Upgrade: Bump @types/express from 4.17.2 to 4.17.6 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bd9f407ebf`](https://github.com/webhintio/hint/commit/bd9f407ebf0f4037c06b8e5637b2d882efb580ac)] - Upgrade: Bump @types/node from 13.13.2 to 13.13.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`48b4b39eae`](https://github.com/webhintio/hint/commit/48b4b39eae240045e74b39ad7060e38c27bbf38f)] - Upgrade: Bump @types/node from 13.9.2 to 13.13.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.4.3 (April 15, 2020)
 
 ## Chores

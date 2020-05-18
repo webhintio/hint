@@ -1,3 +1,22 @@
+# 2.11.4 (May 18, 2020)
+
+## New features
+
+* [[`07510ea70e`](https://github.com/webhintio/hint/commit/07510ea70e8efe156b851e316484e6ae25687b83)] - Update: 'snyk-snapshot.json'.
+
+## Chores
+
+* [[`354b45dc49`](https://github.com/webhintio/hint/commit/354b45dc49388b19354a8331bb61fe465441def6)] - Chore: Update test for new jquery vulnerability.
+* [[`ea08bf5acc`](https://github.com/webhintio/hint/commit/ea08bf5acc5c18f221b06ef34e6dee7813d04a70)] - Upgrade: Bump ava from 3.5.2 to 3.8.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ea4398ee56`](https://github.com/webhintio/hint/commit/ea4398ee56fa7c56ae2ce503b0ab05e8235a92fa)] - Upgrade: Bump moment from 2.25.1 to 2.25.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`aee4e247b8`](https://github.com/webhintio/hint/commit/aee4e247b81aa6519b8aa12c44fcf9fba9f56562)] - Upgrade: Bump js-library-detector from 5.8.0 to 5.9.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a65fdf46c4`](https://github.com/webhintio/hint/commit/a65fdf46c4e9edb0c714ff0dad94e6da2f98d43b)] - Upgrade: Bump nyc from 15.0.0 to 15.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bd9f407ebf`](https://github.com/webhintio/hint/commit/bd9f407ebf0f4037c06b8e5637b2d882efb580ac)] - Upgrade: Bump @types/node from 13.13.2 to 13.13.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0157f50827`](https://github.com/webhintio/hint/commit/0157f50827cedd588e5cbe40b6577433ec56455d)] - Upgrade: Bump moment from 2.24.0 to 2.25.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`48b4b39eae`](https://github.com/webhintio/hint/commit/48b4b39eae240045e74b39ad7060e38c27bbf38f)] - Upgrade: Bump @types/node from 13.9.2 to 13.13.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`547cdf567c`](https://github.com/webhintio/hint/commit/547cdf567c2ae97d714d51bbf9a146b7b9e23741)] - Upgrade: Bump semver from 7.1.3 to 7.3.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.11.3 (April 15, 2020)
 
 ## New features

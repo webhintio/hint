@@ -1,3 +1,15 @@
+# 7.0.4 (May 18, 2020)
+
+## Chores
+
+* [[`be1be57cbc`](https://github.com/webhintio/hint/commit/be1be57cbce8cefaf6671405f10bd6d97faece03)] - Upgrade: Bump is-wsl from 2.1.1 to 2.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ea08bf5acc`](https://github.com/webhintio/hint/commit/ea08bf5acc5c18f221b06ef34e6dee7813d04a70)] - Upgrade: Bump ava from 3.5.2 to 3.8.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`33ffc36940`](https://github.com/webhintio/hint/commit/33ffc369409569f478ebfe277ed38a2022ac48a0)] - Upgrade: Bump npm-registry-fetch from 8.0.0 to 8.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a65fdf46c4`](https://github.com/webhintio/hint/commit/a65fdf46c4e9edb0c714ff0dad94e6da2f98d43b)] - Upgrade: Bump nyc from 15.0.0 to 15.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`547cdf567c`](https://github.com/webhintio/hint/commit/547cdf567c2ae97d714d51bbf9a146b7b9e23741)] - Upgrade: Bump semver from 7.1.3 to 7.3.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`85c86a0891`](https://github.com/webhintio/hint/commit/85c86a0891c36423e5c76ca05acd5ab04e84a01c)] - Upgrade: Bump sinon from 9.0.1 to 9.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 7.0.3 (April 15, 2020)
 
 ## Chores

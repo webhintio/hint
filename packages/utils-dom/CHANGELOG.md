@@ -1,3 +1,15 @@
+# 2.1.1 (May 18, 2020)
+
+## Chores
+
+* [[`be9cbdcf16`](https://github.com/webhintio/hint/commit/be9cbdcf160e27f49130e6e0e876f330ff89f38e)] - Upgrade: Bump @types/parse5 from 5.0.2 to 5.0.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ea08bf5acc`](https://github.com/webhintio/hint/commit/ea08bf5acc5c18f221b06ef34e6dee7813d04a70)] - Upgrade: Bump ava from 3.5.2 to 3.8.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`40e3da305b`](https://github.com/webhintio/hint/commit/40e3da305b1767cb60195ab7e0a960ced84b0592)] - Upgrade: Bump parse5 from 5.1.1 to 6.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`57f790b134`](https://github.com/webhintio/hint/commit/57f790b134181b8df8fdf5d332c71b0917288731)] - Upgrade: Bump parse5-htmlparser2-tree-adapter from 5.1.1 to 6.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a65fdf46c4`](https://github.com/webhintio/hint/commit/a65fdf46c4e9edb0c714ff0dad94e6da2f98d43b)] - Upgrade: Bump nyc from 15.0.0 to 15.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`df2c969c85`](https://github.com/webhintio/hint/commit/df2c969c852896b71dddd798da1f8763256e5194)] - Upgrade: Bump jsdom from 16.2.0 to 16.2.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.1.0 (April 15, 2020)
 
 ## New features

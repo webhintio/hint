@@ -8,11 +8,11 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.3",
+    "@hint/utils": "^7.0.4",
     "@hint/utils-debug": "^1.0.1",
-    "@hint/utils-fs": "^1.0.2",
-    "@hint/utils-i18n": "^1.0.2",
-    "@hint/utils-network": "^1.0.3",
+    "@hint/utils-fs": "^1.0.3",
+    "@hint/utils-i18n": "^1.0.3",
+    "@hint/utils-network": "^1.0.4",
     "@hint/utils-types": "^1.0.1",
     "js-library-detector": "^5.9.0",
     "lodash": "^4.17.15",
@@ -20,8 +20,8 @@
   },
   "description": "hint that that checks using Snyk for vulnerable JavaScript libraries",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.3",
-    "@hint/utils-tests-helpers": "^6.1.1",
+    "@hint/utils-create-server": "^3.4.4",
+    "@hint/utils-tests-helpers": "^6.1.2",
     "@types/node": "^13.13.4",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -85,5 +85,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.11.3"
+  "version": "2.11.4"
 }

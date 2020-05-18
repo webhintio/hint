@@ -1,3 +1,21 @@
+# 1.5.6 (May 18, 2020)
+
+## Chores
+
+* [[`955f1096f4`](https://github.com/webhintio/hint/commit/955f1096f475f4e694e6d947c23f3c31d12e07c3)] - Upgrade: Bump ts-loader from 6.2.1 to 7.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ea08bf5acc`](https://github.com/webhintio/hint/commit/ea08bf5acc5c18f221b06ef34e6dee7813d04a70)] - Upgrade: Bump ava from 3.5.2 to 3.8.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`60ed338607`](https://github.com/webhintio/hint/commit/60ed3386070101ddd8a21356947738f650fea3ac)] - Upgrade: Bump webpack from 4.42.1 to 4.43.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a65fdf46c4`](https://github.com/webhintio/hint/commit/a65fdf46c4e9edb0c714ff0dad94e6da2f98d43b)] - Upgrade: Bump nyc from 15.0.0 to 15.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bd9f407ebf`](https://github.com/webhintio/hint/commit/bd9f407ebf0f4037c06b8e5637b2d882efb580ac)] - Upgrade: Bump @types/node from 13.13.2 to 13.13.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f67695e5f4`](https://github.com/webhintio/hint/commit/f67695e5f431e9e52a4d9dd10cce6a2be3447eb8)] - Upgrade: Bump vscode-languageclient from 6.1.1 to 6.1.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f7045d2d5d`](https://github.com/webhintio/hint/commit/f7045d2d5d468ef4d54b559c617a1224cd4366a5)] - Upgrade: Bump @types/vscode from 1.42.0 to 1.44.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`48b4b39eae`](https://github.com/webhintio/hint/commit/48b4b39eae240045e74b39ad7060e38c27bbf38f)] - Upgrade: Bump @types/node from 13.9.2 to 13.13.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a9ed7293bb`](https://github.com/webhintio/hint/commit/a9ed7293bb380eb73495c2adbadd1cfec997ebbe)] - Upgrade: Bump @types/sinon from 7.5.1 to 9.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`d3e0d9c3c0`](https://github.com/webhintio/hint/commit/d3e0d9c3c075dbbbe61746d93151d4aae3d6fcf4)] - Upgrade: Bump vsce from 1.74.0 to 1.75.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`097bca248b`](https://github.com/webhintio/hint/commit/097bca248b019c6155d8d53beeb23313543e7ca2)] - Upgrade: Bump vscode-languageserver from 5.2.1 to 6.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#3566`](https://github.com/webhintio/hint/issues/3566)).
+* [[`85c86a0891`](https://github.com/webhintio/hint/commit/85c86a0891c36423e5c76ca05acd5ab04e84a01c)] - Upgrade: Bump sinon from 9.0.1 to 9.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.5.5 (April 15, 2020)
 
 ## Chores

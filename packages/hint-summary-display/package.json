@@ -9,15 +9,15 @@
   },
   "description": "Hint to check if display applied to a summary tag will hide the open/close icon",
   "dependencies": {
-    "@hint/utils-fs": "^1.0.2",
-    "@hint/utils-i18n": "^1.0.2",
+    "@hint/utils-fs": "^1.0.3",
+    "@hint/utils-i18n": "^1.0.3",
     "@hint/utils-types": "^1.0.1",
     "postcss-selector-parser": "^6.0.2"
   },
   "devDependencies": {
-    "@hint/parser-css": "^3.0.18",
-    "@hint/utils-create-server": "^3.4.3",
-    "@hint/utils-tests-helpers": "^6.1.1",
+    "@hint/parser-css": "^3.0.19",
+    "@hint/utils-create-server": "^3.4.4",
+    "@hint/utils-tests-helpers": "^6.1.2",
     "@types/node": "^13.13.4",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
