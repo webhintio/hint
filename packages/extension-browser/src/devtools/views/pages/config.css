@@ -10,24 +10,18 @@
     display: grid;
     gap: 1.5rem; /* 24px */
     margin-top: 1.5rem; /* 24px */
+    max-width: 56.25rem; /* 900px */
 }
 
 /* TODO: rename as this includes target browsers, etc */
 .categories {
     display: grid;
     gap: 1.5rem; /* 24px */
+    grid-template-columns: repeat(auto-fit, minmax(11.25rem, 1fr)); /* 180px */
 }
 
 .button {
     justify-self: left;
-}
-
-/* Horizontal layout */
-@media (min-width: 48rem /* 768px */) {
-    .categories {
-        grid-auto-flow: column;
-        max-width: 56.25rem; /* 900px */
-    }
 }
 
 .poweredBy {
