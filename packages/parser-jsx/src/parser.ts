@@ -209,7 +209,7 @@ const addChild = (data: ElementData | TextData, parent: JSXElement, children: Ch
 /**
  * Is the node a list container (`<ul>/<ol>`).
  */
-const isListNode = (node: JSXElement | JSXAttribute | undefined): node is JSXElement => {
+const isListNode = (node?: JSXElement | JSXAttribute): node is JSXElement => {
     return !!(node && node.type === 'JSXElement' &&
         node.openingElement.name.type === 'JSXIdentifier' &&
         (node.openingElement.name.name === 'ol' || node.openingElement.name.name === 'ul'));
