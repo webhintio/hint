@@ -23,7 +23,6 @@ export default class WebWorkerConnector implements IConnector {
     private _document: HTMLDocument | undefined;
     private _originalDocument: HTMLDocument | undefined;
     private _engine: Engine;
-    private _fetchEndQueue: FetchEnd[] = [];
     private _onComplete: (err: Error | null, resource?: string) => void = () => { };
     private _resource = '';
 
@@ -46,8 +45,6 @@ export default class WebWorkerConnector implements IConnector {
                 restoreReferences(snapshot);
 
                 this._document = new HTMLDocument(snapshot, this._resource, this._originalDocument);
-
-                await this.sendFetchEndEvents();
 
                 await traverse(this._document, this._engine, resource);
 
@@ -92,23 +89,7 @@ export default class WebWorkerConnector implements IConnector {
         });
     }
 
-    private async sendFetchEndEvents() {
-        for (const event of this._fetchEndQueue) {
-            await this.notifyFetch(event);
-        }
-    }
-
     private async notifyFetch(event: FetchEnd) {
-        /*
-         * Delay dispatching FetchEnd until we have the DOM snapshot to populate `element`.
-         * But immediately process target's FetchEnd to populate `originalDocument`.
-         */
-        if (!this._document && event.response.url !== this._resource) {
-            this._fetchEndQueue.push(event);
-
-            return;
-        }
-
         const { type } = await finalizeFetchEnd(event, this._document);
 
         await this._engine.emitAsync(`fetch::end::${type}` as 'fetch::end::*', event);
