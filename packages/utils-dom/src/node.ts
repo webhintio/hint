@@ -34,6 +34,10 @@ export class Node {
 
         if ('children' in this._node) {
             for (const child of this._node.children) {
+                if (child.type === 'root') {
+                    continue; // Ignore DocumentFragment under <template>.
+                }
+
                 result.push(this._owner.getNodeFromData(child));
             }
         }
