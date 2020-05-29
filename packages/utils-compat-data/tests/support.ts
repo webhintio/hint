@@ -37,7 +37,7 @@ test('Attribute query works', (t) => {
 test('Attribute value query works', (t) => {
     const unsupported = getUnsupported({
         attribute: 'rel',
-        element: 'link',
+        element: 'a',
         value: 'noopener'
     }, ['firefox 51', 'firefox 52']);
 
