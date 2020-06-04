@@ -67,8 +67,12 @@ const validateAtRule = (node: AtRule, context: Context): ReportData | null => {
     return null;
 };
 
-const validateDeclValue = (node: Declaration, context: Context): ReportData | null => {
-    const unsupported = getUnsupportedDetails({ property: node.prop, value: node.value }, context.browsers);
+const validateDeclValue = (node: Declaration, context: Context, browsers: string[]): ReportData | null => {
+    if (context.ignore.has(`${node.prop}: ${node.value}`)) {
+        return null;
+    }
+
+    const unsupported = getUnsupportedDetails({ property: node.prop, value: node.value }, browsers);
 
     if (unsupported) {
         const formatFeature = (value: string) => {
@@ -94,7 +98,7 @@ const validateDecl = (node: Declaration, context: Context): ReportData | null =>
         return { feature: `${property}`, node, unsupported };
     }
 
-    return validateDeclValue(node, context);
+    return null;
 };
 
 const validateRule = (node: Rule, context: Context): void => {
@@ -181,6 +185,23 @@ const walk = (ast: ContainerBase, context: Context) => {
      */
     const reportsMap: ReportMap = new Map();
 
+    const addToReportsMap = (key: string, report: ReportData|null) => {
+        // No report means a given feature is fully supported for this block.
+        if (!report) {
+            reportsMap.set(key, 'supported');
+
+            return;
+        }
+
+        const reports = reportsMap.get(key) || [];
+
+        // Track reports unless a feature is fully supported for this block.
+        if (reports !== 'supported') {
+            reports.push(report);
+            reportsMap.set(key, reports);
+        }
+    };
+
     for (const node of ast.nodes) {
         let key = '';
         let report: ReportData | null = null;
@@ -208,18 +229,22 @@ const walk = (ast: ContainerBase, context: Context) => {
             continue;
         }
 
-        // No report means a given feature is fully supported for this block.
-        if (!report) {
-            reportsMap.set(key, 'supported');
-            continue;
-        }
+        addToReportsMap(key, report);
 
-        const reports = reportsMap.get(key) || [];
+        // Declaration nodes need special treatment.
+        if (node.type === 'decl') {
+            /*
+             * The property name might be supported everywhere, or on some browsers only, in which case we need to now
+             * drill down to the property value on those browsers.
+             */
+            const supportedBrowsers = !report || !report.unsupported ? context.browsers : context.browsers.filter((browser) => {
+                return report && !report.unsupported.browsers.includes(browser);
+            });
 
-        // Track reports unless a feature is fully supported for this block.
-        if (reports !== 'supported') {
-            reports.push(report);
-            reportsMap.set(key, reports);
+            key = `${vendor.unprefixed(node.prop)}: ${vendor.unprefixed(node.value)}`;
+            report = validateDeclValue(node, context, supportedBrowsers);
+
+            addToReportsMap(key, report);
         }
     }
 
