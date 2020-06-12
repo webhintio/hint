@@ -171,3 +171,28 @@ testHint(hintPath,
         parsers: ['css']
     }
 );
+
+testHint(hintPath,
+    [
+        {
+            name: 'Reports both unsupported property names and values on the same declarations for different browsers',
+            reports: [
+                {
+                    message: `'grid-template-rows' is not supported by Internet Explorer.`,
+                    position: { match: 'grid-template-rows: subgrid;', range: 'grid-template-rows' },
+                    severity: Severity.warning
+                },
+                {
+                    message: `'grid-template-rows: subgrid' is not supported by Edge.`,
+                    position: { match: 'subgrid;', range: 'subgrid' },
+                    severity: Severity.warning
+                }
+            ],
+            serverConfig: generateCSSConfig('subgrid')
+        }
+    ],
+    {
+        browserslist: ['ie 11', 'firefox 71', 'edge 16'],
+        parsers: ['css']
+    }
+);
