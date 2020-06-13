@@ -48,7 +48,7 @@
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "ava": "^3.8.2",
-    "axe-core": "^3.5.2",
+    "axe-core": "^3.5.4",
     "browserslist": "^4.9.1",
     "cpx": "^1.5.0",
     "eslint": "^6.8.0",
