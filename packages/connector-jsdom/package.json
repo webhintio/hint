@@ -16,7 +16,7 @@
     "@hint/utils-network": "^1.0.4",
     "@hint/utils-types": "^1.0.1",
     "jsdom": "^16.2.2",
-    "mutationobserver-shim": "^0.3.5"
+    "mutationobserver-shim": "^0.3.7"
   },
   "description": "hint connector for JSDOM",
   "devDependencies": {
