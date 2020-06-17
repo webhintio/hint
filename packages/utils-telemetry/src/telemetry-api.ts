@@ -3,7 +3,7 @@ type Properties = { [key: string]: string };
 
 type TelemetryItem = {
     data: {
-        measurements: Measurements,
+        measurements: Measurements;
         name: string;
         properties: Properties;
     };
@@ -73,8 +73,9 @@ const track = async (type: string, data: TelemetryItem['data']) => {
             name: data.name,
             properties: { ...options.defaultProperties, ...data.properties }
         },
-        type: `${type}Data`,
-        time: new Date().toISOString()
+        time: new Date().toISOString(),
+        type: `${type}Data`
+
     });
 
     if (!options.batchDelay) {
