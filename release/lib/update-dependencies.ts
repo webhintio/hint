@@ -119,7 +119,7 @@ const updateProperty = (property: string) => {
              *
              * This means we could "downgrade" a `dependency` in a `package.json` if the workspace
              * version is smaller. If this happens this means that something has gone terribly
-             * wrong before or the user should make sure to rebase with the latest `master`.
+             * wrong before or the user should make sure to rebase with the latest `main`.
              */
             if (pkgVersion === dependencyVersion) {
                 return;

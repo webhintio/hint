@@ -13,7 +13,7 @@ steps:
   # The only assets that will be stored for faster "build times" are
   # the ones generated:
   # * on Linux with the latest node version
-  # * from the master branch
+  # * from the main branch
   # * each time that we merge something (not scheduled)
   #
   # Otherwise we will be rewritting the file multiple times as the
@@ -22,7 +22,7 @@ steps:
     condition: >
       and(
         eq(variables['Agent.OS'], 'Linux'),
-        eq(variables['Build.SourceBranch'], 'refs/heads/master'),
+        eq(variables['Build.SourceBranch'], 'refs/heads/main'),
         not(eq(variables['Build.Reason'], 'Schedule')),
         eq(variables['node_version'], '12.x')
       )

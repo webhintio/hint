@@ -62,7 +62,7 @@ Now, the remote `upstream` points to the upstream source.
 
 ## Step 4: Run the build
 
-Run your initial build from `master` before making changes. This
+Run your initial build from `main` before making changes. This
 reduces the time for your first build by downloading pre-built assets
 instead of building them.
 

@@ -34,4 +34,4 @@ file of the package.
 
 <!-- Link labels -->
 
-[contributing]: https://github.com/webhintio/hint/blob/master/packages/extension-browser/CONTRIBUTING.md
+[contributing]: https://github.com/webhintio/hint/blob/main/packages/extension-browser/CONTRIBUTING.md

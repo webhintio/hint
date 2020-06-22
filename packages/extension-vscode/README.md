@@ -34,8 +34,8 @@ from specific hints, see the [`webhint` user guide][hints].
 
 <!-- Link labels: -->
 
-[config]: https://github.com/webhintio/hint/blob/master/packages/configuration-development/index.json
-[contributing]: https://github.com/webhintio/hint/blob/master/packages/extension-vscode/CONTRIBUTING.md
+[config]: https://github.com/webhintio/hint/blob/main/packages/configuration-development/index.json
+[contributing]: https://github.com/webhintio/hint/blob/main/packages/extension-vscode/CONTRIBUTING.md
 [hints]: https://webhint.io/docs/user-guide/hints/
 [issue github]: https://github.com/webhintio/hint/issues/new?labels=type%3Abug&template=1-bug-report.md&title=%5BBug%5D+Bug+description
 [site]: https://webhint.io

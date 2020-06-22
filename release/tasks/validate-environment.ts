@@ -8,7 +8,7 @@ import { debug, execa } from '../lib/utils';
 import { ListrTaskWrapper } from 'listr';
 import { getCurrentBranchRemoteInfo } from '../lib/git-helpers';
 
-const validRemoteBranches = ['master', 'servicing'];
+const validRemoteBranches = ['main', 'servicing'];
 
 const runningInRoot = () => {
     const errorMessage = 'Not running from root of project';

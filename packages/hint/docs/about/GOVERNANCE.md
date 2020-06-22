@@ -49,7 +49,7 @@ GitHub repos and must abide by the project’s Contribution Guidelines.
 Committers:
 
 * Are expected to work on public branches of their forks and submit
-  pull requests to the master branch.
+  pull requests to the main branch.
 * Must submit pull requests for all changes.
 * Have their work reviewed by TSC members before acceptance into the
   repository.
