@@ -1,0 +1,23 @@
+# Changes in main
+# Run on all platforms latest versions
+jobs:
+  - template: latest-version.yml
+    parameters:
+        name: Linux_main
+        vmImage: 'ubuntu-latest'
+        condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), not(eq(variables['Build.Reason'], 'Schedule')))
+        worker: 'standard.yml'
+
+  - template: latest-version.yml
+    parameters:
+        name: macOS_main
+        vmImage: 'macOS-latest'
+        condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), not(eq(variables['Build.Reason'], 'Schedule')))
+        worker: 'standard.yml'
+
+  - template: latest-version.yml
+    parameters:
+        name: Windows_main
+        vmImage: 'windows-latest'
+        condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), not(eq(variables['Build.Reason'], 'Schedule')))
+        worker: 'standard.yml'

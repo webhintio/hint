@@ -139,7 +139,7 @@ code is running on the latest available code.
 
 ```bash
 git fetch upstream
-git rebase upstream/master
+git rebase upstream/main
 ```
 
 ### Step 4: Run the tests
@@ -253,7 +253,7 @@ and then you can rebase using these commands:
 
 ```bash
 git fetch upstream
-git rebase upstream/master
+git rebase upstream/main
 ```
 
 You might find that there are merge conflicts when you attempt to

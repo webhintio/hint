@@ -88,5 +88,5 @@ file of the package.
 
 <!-- Link labels -->
 
-[contributing]: https://github.com/webhintio/hint/blob/master/packages/utils-worker/CONTRIBUTING.md
+[contributing]: https://github.com/webhintio/hint/blob/main/packages/utils-worker/CONTRIBUTING.md
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
