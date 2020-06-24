@@ -125,7 +125,7 @@ const tests: HintTest[] = [
                             "sizes": "512x512",
                             "type": "image/png"
                         }
-                        ]
+                    ]
                 }`
             }
         }
@@ -189,7 +189,7 @@ const tests: HintTest[] = [
                             "sizes": "512x512",
                             "type": "image/png"
                         }
-                        ]
+                    ]
                 }`
             }
         }
@@ -214,7 +214,113 @@ const tests: HintTest[] = [
                                 "sizes": "192x192",
                                 "type": "image/png"
                             }
-                            ]
+                        ]
+                    }`
+            }
+        }
+    },
+    {
+        name: 'Duplicated purpose found',
+        reports: [
+            {
+                message: `Duplicate value(s) 'any' found in icon purpose property.`,
+                position: { match: `icons` },
+                severity: Severity.warning
+            },
+            {
+                message: `Duplicate value(s) 'any maskable' found in icon purpose property.`,
+                position: { match: `icons` },
+                severity: Severity.warning
+            },
+            {
+                message: `Duplicate value(s) 'any' found in icon purpose property.`,
+                position: { match: `icons` },
+                severity: Severity.warning
+            }
+        ],
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/fixtures/icon-192x192.png': generateImageData(icon192px),
+            '/fixtures/icon-512x512.png': generateImageData(icon512px),
+            '/site.webmanifest': {
+                content: `{
+                        "icons": [
+                            {
+                                "purpose": "any maskable any",
+                                "src": "fixtures/icon-192x192.png",
+                                "sizes": "192x192",
+                                "type": "image/png"
+                            },
+                            {
+                                "purpose": "any maskable any maskable",
+                                "src": "fixtures/icon-512x512.png",
+                                "sizes": "512x512",
+                                "type": "image/png"
+                            },
+                            {
+                                "purpose": "  any maskable  any  ",
+                                "src": "fixtures/icon-512x512.png",
+                                "sizes": "512x512",
+                                "type": "image/png"
+                            }
+                        ]
+                    }`
+            }
+        }
+    },
+    {
+        name: 'Invalid purpose found',
+        reports: [
+            {
+                message: 'Invalid icon property purpose.',
+                position: {
+                    column: 33,
+                    line: 3
+                },
+                severity: Severity.error
+            },
+            {
+                message: 'Invalid icon property purpose.',
+                position: {
+                    column: 33,
+                    line: 9
+                },
+                severity: Severity.error
+            },
+            {
+                message: 'Invalid icon property purpose.',
+                position: {
+                    column: 33,
+                    line: 15
+                },
+                severity: Severity.error
+            }
+        ],
+        serverConfig: {
+            '/': htmlWithManifestSpecified,
+            '/fixtures/icon-192x192.png': generateImageData(icon192px),
+            '/site.webmanifest': {
+                content: `{
+                        "icons": [
+                            {
+                                "purpose": "invalidPurpose",
+                                "src": "fixtures/icon-192x192.png",
+                                "sizes": "192x192",
+                                "type": "image/png"
+                            },
+                            {
+                                "purpose": "any invalidPurpose",
+                                "src": "fixtures/icon-192x192.png",
+                                "sizes": "192x192",
+                                "type": "image/png"
+                            },
+                            {
+                                "purpose": "  any  invalidPurpose  ",
+                                "src": "fixtures/icon-192x192.png",
+                                "sizes": "192x192",
+                                "type": "image/png"
+                            }
+                        ]
                     }`
             }
         }
@@ -229,6 +335,7 @@ const tests: HintTest[] = [
                 content: `{
                     "icons": [
                         {
+                            "purpose": "maskable",
                             "src": "fixtures/icon-192x192.png",
                             "sizes": "192x192",
                             "type": "image/png"
@@ -238,7 +345,7 @@ const tests: HintTest[] = [
                             "sizes": "512x512",
                             "type": "image/png"
                         }
-                        ]
+                    ]
                 }`
             }
         }

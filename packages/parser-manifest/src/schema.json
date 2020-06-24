@@ -10,13 +10,7 @@
                 },
                 "purpose": {
                     "default": "any",
-                    "enum": [
-                        "any",
-                        "any badge",
-                        "badge",
-                        "badge any",
-                        "maskable"
-                    ],
+                    "pattern": "^\\s*(any|maskable|badge)(\\s+(any|maskable|badge)?)*$",
                     "type": "string"
                 },
                 "sizes": {
