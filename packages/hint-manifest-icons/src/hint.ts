@@ -6,16 +6,18 @@ import { imageSize as getImageData } from 'image-size';
 import imageType from 'image-type';
 import { IHint, NetworkData, HintContext } from 'hint';
 import { JSONLocationFunction } from '@hint/utils-json';
-import { ManifestEvents, ManifestParsed, ManifestImageResource } from '@hint/parser-manifest';
+import { ManifestEvents, ManifestParsed, ManifestImageResource, ManifestInvalidSchema } from '@hint/parser-manifest';
 import { ProblemLocation, Severity } from '@hint/utils-types';
 import { debug as d } from '@hint/utils-debug';
 import { determineMediaTypeBasedOnFileExtension } from '@hint/utils/dist/src/content-type';
+import compact = require('lodash/compact');
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 import { extname } from 'path';
 
 const debug: debug.IDebugger = d(__filename);
+const iconsErrorRegex: RegExp = /\.icons\[\d\]\.(purpose)/i;
 
 /*
  * ------------------------------------------------------------------------------
@@ -226,7 +228,7 @@ export default class ManifestIconHint implements IHint {
          * @param icons array of the icons properties
          * @param hostnameWithProtocol
          */
-        const validateIcons = async (icons: ManifestImageResource[], hostnameWithProtocol: string, resource: string, getLocation: JSONLocationFunction): Promise<string[]> => {
+        const validateIconsSize = async (icons: ManifestImageResource[], hostnameWithProtocol: string, resource: string, getLocation: JSONLocationFunction): Promise<string[]> => {
             const validSizes: string[] = [];
 
             for (let index = 0; index < icons.length; index++) {
@@ -267,6 +269,32 @@ export default class ManifestIconHint implements IHint {
             return validSizes;
         };
 
+        const validateIconsPurpose = (icons: ManifestImageResource[], resource: string, location: ProblemLocation | null) => {
+            for (let index = 0; index < icons.length; index++) {
+                const icon = icons[index];
+
+                if (!icon.purpose) {
+                    continue;
+                }
+
+                const purposes = compact(icon.purpose.split(' '));
+                const purposesSet = new Set(purposes);
+
+                for (const purpose of purposesSet) {
+                    const index = purposes.indexOf(purpose);
+
+                    if (index >= 0) {
+                        purposes.splice(index, 1);
+                    }
+                }
+
+                if (purposes.length > 0) {
+                    // Is warning the right severity?
+                    context.report(resource, getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposes))].join(' ')), { location, severity: Severity.warning });
+                }
+            }
+        };
+
         const validate = async ({ getLocation, parsedContent: { icons }, resource }: ManifestParsed) => {
             const resourceURL = new URL(resource);
             const hostnameWithProtocol = `${resourceURL.protocol}//${resourceURL.host}`;
@@ -277,13 +305,15 @@ export default class ManifestIconHint implements IHint {
                 if (icons.length > 0) {
 
                     debug(`Validating if manifest-icon file exists`);
-                    const validSizes = await validateIcons(icons, hostnameWithProtocol, resource, getLocation);
+                    const validSizes = await validateIconsSize(icons, hostnameWithProtocol, resource, getLocation);
+                    const iconlocation = getLocation('icons');
 
                     if (validSizes.length > 0) {
-                        const iconlocation = getLocation('icons');
 
                         hasRequiredSizes(validSizes, resource, iconlocation);
                     }
+
+                    validateIconsPurpose(icons, resource, iconlocation);
                 } else {
                     // Empty array in `icons` property (otherwise the schema will not validate)
                     const message = getMessage('validIconsNotFound', context.language);
@@ -302,6 +332,24 @@ export default class ManifestIconHint implements IHint {
             }
         };
 
+        const invalidManifest = ({ errors, resource }: ManifestInvalidSchema) => {
+            for (const error of errors) {
+                const isIconError = error.dataPath.match(iconsErrorRegex);
+
+                if (isIconError) {
+                    // Is error the right severity?
+                    const message = getMessage('iconPurposeInvalid', context.language, isIconError[1]);
+
+                    console.log(message);
+                    context.report(resource, getMessage('iconPurposeInvalid', context.language, isIconError[1]), {
+                        location: error.location,
+                        severity: Severity.error
+                    });
+                }
+            }
+        };
+
         context.on('parse::end::manifest', validate);
+        context.on('parse::error::manifest::schema', invalidManifest);
     }
 }
