@@ -17,7 +17,7 @@
     },
     "iconPurposeInvalid": {
         "description": "Report message when an icon has an invalid value in the property purpose",
-        "message": "Invalid icon property $1."
+        "message": "Invalid icon property: $1."
     },
     "iconShouldBeValidImageType": {
         "description": "Report message when the image type is not valid",
