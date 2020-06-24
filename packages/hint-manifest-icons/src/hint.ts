@@ -10,13 +10,18 @@ import { ManifestEvents, ManifestParsed, ManifestImageResource, ManifestInvalidS
 import { ProblemLocation, Severity } from '@hint/utils-types';
 import { debug as d } from '@hint/utils-debug';
 import { determineMediaTypeBasedOnFileExtension } from '@hint/utils/dist/src/content-type';
-import compact = require('lodash/compact');
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
 import { extname } from 'path';
 
 const debug: debug.IDebugger = d(__filename);
+
+/*
+ * The icon errors will look like:
+ *     - .icons[0].purpose
+ *     - .icons[1].purpose
+ */
 const iconsErrorRegex: RegExp = /\.icons\[\d\]\.(purpose)/i;
 
 /*
@@ -270,14 +275,14 @@ export default class ManifestIconHint implements IHint {
         };
 
         const validateIconsPurpose = (icons: ManifestImageResource[], resource: string, location: ProblemLocation | null) => {
-            for (let index = 0; index < icons.length; index++) {
-                const icon = icons[index];
-
+            for (const icon of icons) {
                 if (!icon.purpose) {
                     continue;
                 }
 
-                const purposes = compact(icon.purpose.split(' '));
+                const purposes = icon.purpose.split(' ').filter((i) => {
+                    return i;
+                });
                 const purposesSet = new Set(purposes);
 
                 for (const purpose of purposesSet) {
@@ -338,9 +343,6 @@ export default class ManifestIconHint implements IHint {
 
                 if (isIconError) {
                     // Is error the right severity?
-                    const message = getMessage('iconPurposeInvalid', context.language, isIconError[1]);
-
-                    console.log(message);
                     context.report(resource, getMessage('iconPurposeInvalid', context.language, isIconError[1]), {
                         location: error.location,
                         severity: Severity.error
