@@ -6,7 +6,7 @@ import { imageSize as getImageData } from 'image-size';
 import imageType from 'image-type';
 import { IHint, NetworkData, HintContext } from 'hint';
 import { JSONLocationFunction } from '@hint/utils-json';
-import { ManifestEvents, ManifestParsed, ManifestImageResource, ManifestInvalidSchema } from '@hint/parser-manifest';
+import { ManifestEvents, ManifestParsed, ManifestImageResource } from '@hint/parser-manifest';
 import { ProblemLocation, Severity } from '@hint/utils-types';
 import { debug as d } from '@hint/utils-debug';
 import { determineMediaTypeBasedOnFileExtension } from '@hint/utils/dist/src/content-type';
@@ -17,12 +17,8 @@ import { extname } from 'path';
 
 const debug: debug.IDebugger = d(__filename);
 
-/*
- * The icon errors will look like:
- *     - .icons[0].purpose
- *     - .icons[1].purpose
- */
-const iconsErrorRegex: RegExp = /\.icons\[\d\]\.(purpose)/i;
+// Valid values for icon purpose property.
+const validPurposes = ['any', 'maskable', 'badge', 'monochrome'];
 
 /*
  * ------------------------------------------------------------------------------
@@ -274,28 +270,39 @@ export default class ManifestIconHint implements IHint {
             return validSizes;
         };
 
-        const validateIconsPurpose = (icons: ManifestImageResource[], resource: string, location: ProblemLocation | null) => {
-            for (const icon of icons) {
+        const validateIconsPurpose = (icons: ManifestImageResource[], resource: string, getLocation: JSONLocationFunction) => {
+            for (let iconIndex = 0; iconIndex < icons.length; iconIndex++) {
+                const icon = icons[iconIndex];
+
                 if (!icon.purpose) {
                     continue;
                 }
 
-                const purposes = icon.purpose.split(' ').filter((i) => {
-                    return i;
+                const purposes = icon.purpose.split(' ').filter((purpose) => {
+                    return purpose;
                 });
                 const purposesSet = new Set(purposes);
 
                 for (const purpose of purposesSet) {
-                    const index = purposes.indexOf(purpose);
+                    if (!validPurposes.includes(purpose)) {
+                        context.report(resource, getMessage('iconPurposeInvalid', context.language, purpose), {
+                            location: getLocation(`icons[${iconIndex}].purpose`),
+                            severity: Severity.warning
+                        });
+                    }
 
-                    if (index >= 0) {
-                        purposes.splice(index, 1);
+                    const purposeIndex = purposes.indexOf(purpose);
+
+                    if (purposeIndex >= 0) {
+                        purposes.splice(purposeIndex, 1);
                     }
                 }
 
                 if (purposes.length > 0) {
-                    // Is warning the right severity?
-                    context.report(resource, getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposes))].join(' ')), { location, severity: Severity.warning });
+                    context.report(resource, getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposes))].join(' ')), {
+                        location: getLocation(`icons[${iconIndex}].purpose`),
+                        severity: Severity.hint
+                    });
                 }
             }
         };
@@ -318,7 +325,7 @@ export default class ManifestIconHint implements IHint {
                         hasRequiredSizes(validSizes, resource, iconlocation);
                     }
 
-                    validateIconsPurpose(icons, resource, iconlocation);
+                    validateIconsPurpose(icons, resource, getLocation);
                 } else {
                     // Empty array in `icons` property (otherwise the schema will not validate)
                     const message = getMessage('validIconsNotFound', context.language);
@@ -337,21 +344,6 @@ export default class ManifestIconHint implements IHint {
             }
         };
 
-        const invalidManifest = ({ errors, resource }: ManifestInvalidSchema) => {
-            for (const error of errors) {
-                const isIconError = error.dataPath.match(iconsErrorRegex);
-
-                if (isIconError) {
-                    // Is error the right severity?
-                    context.report(resource, getMessage('iconPurposeInvalid', context.language, isIconError[1]), {
-                        location: error.location,
-                        severity: Severity.error
-                    });
-                }
-            }
-        };
-
         context.on('parse::end::manifest', validate);
-        context.on('parse::error::manifest::schema', invalidManifest);
     }
 }

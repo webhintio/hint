@@ -223,19 +223,28 @@ const tests: HintTest[] = [
         name: 'Duplicated purpose found',
         reports: [
             {
-                message: `Duplicate value(s) 'any' found in icon purpose property.`,
-                position: { match: `icons` },
-                severity: Severity.warning
+                message: `Duplicate value(s) found in icon purpose porperty: any.`,
+                position: {
+                    column: 33,
+                    line: 3
+                },
+                severity: Severity.hint
             },
             {
-                message: `Duplicate value(s) 'any maskable' found in icon purpose property.`,
-                position: { match: `icons` },
-                severity: Severity.warning
+                message: `Duplicate value(s) found in icon purpose porperty: any maskable.`,
+                position: {
+                    column: 33,
+                    line: 9
+                },
+                severity: Severity.hint
             },
             {
-                message: `Duplicate value(s) 'any' found in icon purpose property.`,
-                position: { match: `icons` },
-                severity: Severity.warning
+                message: `Duplicate value(s) found in icon purpose porperty: any.`,
+                position: {
+                    column: 33,
+                    line: 15
+                },
+                severity: Severity.hint
             }
         ],
         serverConfig: {
@@ -272,33 +281,34 @@ const tests: HintTest[] = [
         name: 'Invalid purpose found',
         reports: [
             {
-                message: 'Invalid icon property purpose.',
+                message: 'Invalid value for icon property purpose: invalidPurpose.',
                 position: {
                     column: 33,
                     line: 3
                 },
-                severity: Severity.error
+                severity: Severity.warning
             },
             {
-                message: 'Invalid icon property purpose.',
+                message: 'Invalid value for icon property purpose: invalidPurpose.',
                 position: {
                     column: 33,
                     line: 9
                 },
-                severity: Severity.error
+                severity: Severity.warning
             },
             {
-                message: 'Invalid icon property purpose.',
+                message: 'Invalid value for icon property purpose: invalidPurpose.',
                 position: {
                     column: 33,
                     line: 15
                 },
-                severity: Severity.error
+                severity: Severity.warning
             }
         ],
         serverConfig: {
             '/': htmlWithManifestSpecified,
             '/fixtures/icon-192x192.png': generateImageData(icon192px),
+            '/fixtures/icon-512x512.png': generateImageData(icon512px),
             '/site.webmanifest': {
                 content: `{
                         "icons": [
@@ -310,14 +320,14 @@ const tests: HintTest[] = [
                             },
                             {
                                 "purpose": "any invalidPurpose",
-                                "src": "fixtures/icon-192x192.png",
-                                "sizes": "192x192",
+                                "src": "fixtures/icon-512x512.png",
+                                "sizes": "512x512",
                                 "type": "image/png"
                             },
                             {
                                 "purpose": "  any  invalidPurpose  ",
-                                "src": "fixtures/icon-192x192.png",
-                                "sizes": "192x192",
+                                "src": "fixtures/icon-512x512.png",
+                                "sizes": "512x512",
                                 "type": "image/png"
                             }
                         ]

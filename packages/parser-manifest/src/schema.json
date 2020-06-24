@@ -10,7 +10,6 @@
                 },
                 "purpose": {
                     "default": "any",
-                    "pattern": "^\\s*(any|maskable|badge|monochrome)(\\s+(any|maskable|badge|monochrome)?)*$",
                     "type": "string"
                 },
                 "sizes": {
