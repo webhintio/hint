@@ -282,9 +282,22 @@ export default class ManifestIconHint implements IHint {
                 const purposes = icon.purpose.split(' ').filter((purpose) => {
                     return purpose;
                 });
+                /*
+                 * Creating a set will remove automatically the duplicated items.
+                 */
                 const purposesSet = new Set(purposes);
 
+                /*
+                 * This loop will do a couple of tasks:
+                 *   1. Will check if the `purpose` is a valid one.
+                 *   2. It will remove from `purposes` the purpose it is checking,
+                 *      that will keep in `purposes` the duplicated ones.
+                 *
+                 * We are using the `purposesSet` to iterate because it won't have any
+                 * duplicate value and it will make duplicate detection easier.
+                 */
                 for (const purpose of purposesSet) {
+                    // Check if the purpose is valid.
                     if (!validPurposes.includes(purpose)) {
                         context.report(resource, getMessage('iconPurposeInvalid', context.language, purpose), {
                             location: getLocation(`icons[${iconIndex}].purpose`),
@@ -299,6 +312,10 @@ export default class ManifestIconHint implements IHint {
                     }
                 }
 
+                /*
+                 * Check if purposes contains any purpose, if so, those
+                 * items are duplicated.
+                 */
                 if (purposes.length > 0) {
                     context.report(resource, getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposes))].join(' ')), {
                         location: getLocation(`icons[${iconIndex}].purpose`),
