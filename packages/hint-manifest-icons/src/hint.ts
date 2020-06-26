@@ -294,7 +294,7 @@ export default class ManifestIconHint implements IHint {
                  *      that will keep in `purposes` the duplicated ones.
                  *
                  * We are using the `purposesSet` to iterate because it won't have any
-                 * duplicate value and it will make duplicate detection easier.
+                 * duplicated value and it will make duplicate detection easier.
                  */
                 for (const purpose of purposesSet) {
                     // Check if the purpose is valid.
