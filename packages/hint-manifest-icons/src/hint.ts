@@ -270,6 +270,7 @@ export default class ManifestIconHint implements IHint {
             return validSizes;
         };
 
+        // See https://w3c.github.io/manifest/#purpose-member
         const validateIconsPurpose = (icons: ManifestImageResource[], resource: string, getLocation: JSONLocationFunction) => {
             for (let iconIndex = 0; iconIndex < icons.length; iconIndex++) {
                 const icon = icons[iconIndex];
