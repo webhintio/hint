@@ -71,7 +71,7 @@
     "eslint-plugin-react-hooks": "^4.0.2",
     "focus-visible": "^5.1.0",
     "glob": "^7.1.6",
-    "globby": "^11.0.0",
+    "globby": "^11.0.1",
     "hint": "^6.0.6",
     "is-ci": "^2.0.0",
     "jsdom": "^16.2.2",
