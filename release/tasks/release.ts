@@ -84,3 +84,19 @@ export const releaseForVSCode = async (ctx: Context) => {
 
     debug(stdout);
 };
+
+export const releaseForOVSX = async (ctx: Context) => {
+	const pkg = ctx.packages.get('vscode-webhint');
+	
+	if (!pkg) {
+		throw new Error(`Package 'vscode-webhint' not found`);
+	}
+	
+	try {
+		const { stdout } = await execa(`ovsx publish -p ${process.env.OVSX_TOKEN}`, { cwd: path.dirname(pkg.path) });
+		
+		debug(stdout);
+	} catch (e) {
+		throw new Error(`Publishing for OVSX failed, no access token given.`);
+	}
+}
