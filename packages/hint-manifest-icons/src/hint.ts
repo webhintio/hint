@@ -18,7 +18,7 @@ import { extname } from 'path';
 const debug: debug.IDebugger = d(__filename);
 
 // Valid values for icon purpose property.
-const validPurposes = ['any', 'maskable', 'badge', 'monochrome'];
+const validPurposes = ['any', 'maskable', 'monochrome'];
 
 /*
  * ------------------------------------------------------------------------------
@@ -270,6 +270,56 @@ export default class ManifestIconHint implements IHint {
             return validSizes;
         };
 
+        const validatePurposesValues = (purposes: string[], resource: string, iconIndex: number, getLocation: JSONLocationFunction) => {
+            for (const purpose of purposes) {
+                // Check if the purpose is valid.
+                if (!validPurposes.includes(purpose)) {
+                    context.report(resource, getMessage('iconPurposeInvalid', context.language, purpose), {
+                        location: getLocation(`icons[${iconIndex}].purpose`),
+                        severity: Severity.warning
+                    });
+                }
+            }
+            console.log(iconIndex);
+        };
+
+        const validateDuplicatedValues = (purposes: string[], resource: string, iconIndex: number, getLocation: JSONLocationFunction) => {
+            /*
+             * Creating a set will remove automatically the duplicated items.
+             */
+            const purposesSet = new Set(purposes);
+
+            if (purposes.length === purposesSet.size) {
+                // No duplicated found.
+                return;
+            }
+
+            const purposesCopy = [...purposes];
+
+            for (const purpose of purposesSet) {
+                const purposeIndex = purposesCopy.indexOf(purpose);
+
+                if (purposeIndex >= 0) {
+                    purposesCopy.splice(purposeIndex, 1);
+                }
+            }
+
+            /*
+             * Check if purposesCopy contains any purpose, if so, those
+             * items are duplicated.
+             */
+            if (purposesCopy.length > 0) {
+                context.report(resource, getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposesCopy))].join(' ')), {
+                    location: getLocation(`icons[${iconIndex}].purpose`),
+                    severity: Severity.hint
+                });
+            }
+
+            console.log(getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposesCopy))].join(' ')));
+            console.log(getLocation(`icons[${iconIndex}].purpose`));
+            console.log(iconIndex);
+        };
+
         // See https://w3c.github.io/manifest/#purpose-member
         const validateIconsPurpose = (icons: ManifestImageResource[], resource: string, getLocation: JSONLocationFunction) => {
             for (let iconIndex = 0; iconIndex < icons.length; iconIndex++) {
@@ -279,49 +329,16 @@ export default class ManifestIconHint implements IHint {
                     continue;
                 }
 
-                const purposes = icon.purpose.split(' ').filter((purpose) => {
-                    return purpose;
-                });
                 /*
-                 * Creating a set will remove automatically the duplicated items.
+                 * Remove unnecessary empty spaces before split the array.
                  */
-                const purposesSet = new Set(purposes);
+                const purposes = icon.purpose
+                    .trim()
+                    .replace(/\s\s*/g, ' ')
+                    .split(' ');
 
-                /*
-                 * This loop will do a couple of tasks:
-                 *   1. Will check if the `purpose` is a valid one.
-                 *   2. It will remove from `purposes` the purpose it is checking,
-                 *      that will keep in `purposes` the duplicated ones.
-                 *
-                 * We are using the `purposesSet` to iterate because it won't have any
-                 * duplicated value and it will make duplicate detection easier.
-                 */
-                for (const purpose of purposesSet) {
-                    // Check if the purpose is valid.
-                    if (!validPurposes.includes(purpose)) {
-                        context.report(resource, getMessage('iconPurposeInvalid', context.language, purpose), {
-                            location: getLocation(`icons[${iconIndex}].purpose`),
-                            severity: Severity.warning
-                        });
-                    }
-
-                    const purposeIndex = purposes.indexOf(purpose);
-
-                    if (purposeIndex >= 0) {
-                        purposes.splice(purposeIndex, 1);
-                    }
-                }
-
-                /*
-                 * Check if purposes contains any purpose, if so, those
-                 * items are duplicated.
-                 */
-                if (purposes.length > 0) {
-                    context.report(resource, getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposes))].join(' ')), {
-                        location: getLocation(`icons[${iconIndex}].purpose`),
-                        severity: Severity.hint
-                    });
-                }
+                validatePurposesValues(purposes, resource, iconIndex, getLocation);
+                validateDuplicatedValues(purposes, resource, iconIndex, getLocation);
             }
         };
 
