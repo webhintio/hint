@@ -223,7 +223,7 @@ const tests: HintTest[] = [
         name: 'Duplicated purpose found',
         reports: [
             {
-                message: `Duplicate value(s) found in icon purpose porperty: any.`,
+                message: `Duplicate value(s) found in icon purpose property: any.`,
                 position: {
                     column: 33,
                     line: 3
@@ -231,7 +231,7 @@ const tests: HintTest[] = [
                 severity: Severity.hint
             },
             {
-                message: `Duplicate value(s) found in icon purpose porperty: any maskable.`,
+                message: `Duplicate value(s) found in icon purpose property: any maskable.`,
                 position: {
                     column: 33,
                     line: 9
@@ -239,7 +239,7 @@ const tests: HintTest[] = [
                 severity: Severity.hint
             },
             {
-                message: `Duplicate value(s) found in icon purpose porperty: any.`,
+                message: `Duplicate value(s) found in icon purpose property: any.`,
                 position: {
                     column: 33,
                     line: 15
