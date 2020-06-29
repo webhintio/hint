@@ -80,24 +80,24 @@ const authenticatedOnVsce = async (ctx: Context) => {
 };
 
 const authenticatedOnOvsx = async (ctx: Context) => {
-	if (ctx.argv.skipOvsx) {
-		return;
-	}
-	
-	try {
-		const { stdout } = await execa('ovsx version');
-		
-		debug(stdout);
-	} catch (e) {
-		throw new Error('Failed to find ovsx, run `npm install -g ovsx`');
-	}
-	
-	if (!process.env.OVSX_TOKEN) {
-		throw new Error('No ovsx token found, log into open-vsx.org and create an access token with access to the webhint namespace');
-	}
-	
-	debug(`OVSX access token found! Access granted.`);
-}
+    if (ctx.argv.skipOvsx) {
+        return;
+    }
+
+    try {
+        const { stdout } = await execa('ovsx version');
+
+        debug(stdout);
+    } catch (e) {
+        throw new Error('Failed to find ovsx, run `npm install -g ovsx`');
+    }
+
+    if (!process.env.OVSX_TOKEN) { // eslint-disable-line no-process-env
+        throw new Error('No ovsx token found, log into open-vsx.org and create an access token with access to the webhint namespace');
+    }
+
+    debug(`OVSX access token found! Access granted.`);
+};
 
 const validRemote = async () => {
     const { remoteBranch, remoteURL } = await getCurrentBranchRemoteInfo();
@@ -141,7 +141,8 @@ export const validateEnvironment = async (ctx: Context, task: ListrTaskWrapper) 
         noUncommitedChanges,
         npmVersion,
         authenticatedOnNpm,
-        authenticatedOnVsce
+        authenticatedOnVsce,
+        authenticatedOnOvsx
     ];
 
     ctx.argv = argv as Arguments<Parameters>;
