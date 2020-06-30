@@ -280,7 +280,6 @@ export default class ManifestIconHint implements IHint {
                     });
                 }
             }
-            console.log(iconIndex);
         };
 
         const validateDuplicatedValues = (purposes: string[], resource: string, iconIndex: number, getLocation: JSONLocationFunction) => {
@@ -314,10 +313,6 @@ export default class ManifestIconHint implements IHint {
                     severity: Severity.hint
                 });
             }
-
-            console.log(getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposesCopy))].join(' ')));
-            console.log(getLocation(`icons[${iconIndex}].purpose`));
-            console.log(iconIndex);
         };
 
         // See https://w3c.github.io/manifest/#purpose-member
