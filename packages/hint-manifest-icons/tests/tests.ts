@@ -220,7 +220,7 @@ const tests: HintTest[] = [
         }
     },
     {
-        name: 'Duplicated purpose found',
+        name: 'Duplicate purpose found',
         reports: [
             {
                 message: `Duplicate value(s) found in icon purpose property: any.`,
