@@ -13,7 +13,7 @@
     },
     "iconPurposeDuplicate": {
         "description": "Report message when an icon has a duplicate value in the property purpose",
-        "message": "Duplicate value(s) found in icon purpose porperty: $1."
+        "message": "Duplicate value(s) found in icon purpose property: $1."
     },
     "iconPurposeInvalid": {
         "description": "Report message when an icon has an invalid value in the property purpose",
