@@ -318,12 +318,12 @@
     "@octokit/types" "^5.0.0"
     deprecation "^2.3.1"
 
-"@octokit/plugin-throttling@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-throttling/-/plugin-throttling-3.2.0.tgz#e900bb4e5976ea45ccb2c32c068d09c28fed31ef"
-  integrity sha512-4tyTbRFu7OTJFssdj6j74PdvJ8LqMVBFYeRd4+jBJm68LbqmgHunujwvyfjHGp2L+HwC69/BT36PKRWF131Vdg==
+"@octokit/plugin-throttling@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-throttling/-/plugin-throttling-3.3.0.tgz#11ee58d986255888c112c63969ca79e921d57850"
+  integrity sha512-0hMtpqTAwAvo3XkNoaPQFqX2+csfbuR0bYpruHq3anrBrhQFPt9Gn01RVqqoDla/qBYmIIY2MRirxlaLO21Apg==
   dependencies:
-    "@octokit/types" "^2.0.1"
+    "@octokit/types" "^5.0.0"
     bottleneck "^2.15.3"
 
 "@octokit/request-error@^2.0.0":
@@ -359,7 +359,7 @@
     "@octokit/plugin-request-log" "^1.0.0"
     "@octokit/plugin-rest-endpoint-methods" "4.0.0"
 
-"@octokit/types@^2.0.0", "@octokit/types@^2.0.1", "@octokit/types@^2.11.1", "@octokit/types@^2.12.1":
+"@octokit/types@^2.0.0", "@octokit/types@^2.11.1", "@octokit/types@^2.12.1":
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/@octokit/types/-/types-2.15.0.tgz#b2070520207727bc6ab3a9caa1e4f60b0434bfa8"
   integrity sha512-0mnpenB8rLhBVu8VUklp38gWi+EatjvcEcLWcdProMKauSaQWWepOAybZ714sOGsEyhXPlIcHICggn8HUsCXVw==
