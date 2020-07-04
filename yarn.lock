@@ -10939,10 +10939,10 @@ supports-color@^7.0.0, supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-svg-url-loader@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/svg-url-loader/-/svg-url-loader-5.0.0.tgz#0cbcfc4eed916df485ec879fb0cf6ea4340e57bc"
-  integrity sha512-KI7KRxYd1PuStyvSX4H/pB2i3PC1mMqP6reizU3TsieZJRW5TvWm4obmAzlWsI0SgvECK5oGYywDLxSMbat06w==
+svg-url-loader@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/svg-url-loader/-/svg-url-loader-6.0.0.tgz#b94861d9f6badfb8ca3e7d3ec4655c1bf732ac5d"
+  integrity sha512-Qr5SCKxyxKcRnvnVrO3iQj9EX/v40UiGEMshgegzV7vpo3yc+HexELOdtWcA3MKjL8IyZZ1zOdcILmDEa/8JJQ==
   dependencies:
     file-loader "~6.0.0"
     loader-utils "~2.0.0"
