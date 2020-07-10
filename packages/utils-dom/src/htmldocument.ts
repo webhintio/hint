@@ -165,8 +165,17 @@ export class HTMLDocument extends Node {
     /**
      * https://developer.mozilla.org/docs/Web/API/Document/querySelector
      */
-    public querySelector(selector: string): HTMLElement {
-        return this.querySelectorAll(selector)[0];
+    public querySelector(selector: string): HTMLElement | null {
+        if (!CACHED_CSS_SELECTORS.has(selector)) {
+            CACHED_CSS_SELECTORS.set(selector, cssSelect.compile(selector));
+        }
+
+        const data: any | undefined = cssSelect.selectOne(
+            CACHED_CSS_SELECTORS.get(selector) as cssSelect.CompiledQuery,
+            this._document.children
+        );
+
+        return data ? this.getNodeFromData(data) as HTMLElement : null;
     }
 
     /**

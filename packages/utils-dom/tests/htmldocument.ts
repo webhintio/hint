@@ -27,5 +27,6 @@ test('querySelectorAll', (t) => {
 test('querySelector', (t) => {
     const doc = createHTMLDocument('<div>div1</div>', 'http://localhost/');
 
-    t.is(doc.querySelector('div').textContent, 'div1');
+    t.is(doc.querySelector('div')?.textContent, 'div1');
+    t.is(doc.querySelector('not-div'), null);
 });
