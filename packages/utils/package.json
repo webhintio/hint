@@ -15,7 +15,7 @@
     "chalk": "^4.0.0",
     "configstore": "^5.0.1",
     "content-type": "^1.0.4",
-    "eventemitter2": "^6.0.0",
+    "eventemitter2": "^6.4.3",
     "file-type": "^14.6.2",
     "globby": "^11.0.1",
     "is-svg": "^4.2.1",
