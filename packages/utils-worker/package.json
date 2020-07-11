@@ -63,7 +63,7 @@
     "raw-loader": "^4.0.1",
     "rimraf": "^3.0.0",
     "terser-webpack-plugin": "^2.3.4",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.6",
     "util.promisify": "^1.0.1",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
