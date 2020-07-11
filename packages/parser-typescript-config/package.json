@@ -11,7 +11,7 @@
     "@hint/utils-fs": "^1.0.3",
     "@hint/utils-json": "^1.0.5",
     "@hint/utils-network": "^1.0.4",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   },
   "description": "webhint parser needed to analyze TypeScript config files",
   "devDependencies": {
