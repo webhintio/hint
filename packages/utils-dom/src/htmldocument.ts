@@ -170,7 +170,7 @@ export class HTMLDocument extends Node {
             CACHED_CSS_SELECTORS.set(selector, cssSelect.compile(selector));
         }
 
-        const data: any | undefined = cssSelect.selectOne(
+        const data = cssSelect.selectOne(
             CACHED_CSS_SELECTORS.get(selector) as cssSelect.CompiledQuery,
             this._document.children
         );
