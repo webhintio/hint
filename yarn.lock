@@ -7423,10 +7423,10 @@ markdown-link-validator@^1.0.0:
     optionator "^0.8.2"
     uslug "^1.0.4"
 
-markdownlint@^0.20.3:
-  version "0.20.3"
-  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.20.3.tgz#6f56d3e16d990af79d42e58bd2849f70b3358595"
-  integrity sha512-J93s59tGvSFvAPWVUtEgxqPI0CHayTx1Z8poj1/4UJAquHGPIruWRMurkRldiNbgBiaQ4OOt15rHZbFfU6u05A==
+markdownlint@^0.20.4:
+  version "0.20.4"
+  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.20.4.tgz#3b34681494cdad174e14a27182b5cdefaa537823"
+  integrity sha512-jpfaPgjT0OpeBbemjYNZbzGG3hCLcAIvrm/pEY3+q/szDScG6ZonDacqySVRJAv9glbo8y4wBPJ0wgW17+9GGA==
   dependencies:
     markdown-it "10.0.0"
 
