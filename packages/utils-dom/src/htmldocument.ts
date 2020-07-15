@@ -48,7 +48,7 @@ export class HTMLDocument extends Node {
     }
 
     private getBaseUrl(finalHref: string): string {
-        const baseElement = this.querySelectorAll('base[href]')[0];
+        const baseElement = this.querySelector('base[href]');
         const baseHref = baseElement ? baseElement.getAttribute('href') : null;
 
         if (!baseHref) {
@@ -77,7 +77,7 @@ export class HTMLDocument extends Node {
      * https://developer.mozilla.org/docs/Web/API/Document/body
      */
     public get body(): HTMLElement {
-        return this.querySelectorAll('body')[0];
+        return this.querySelector('body') as HTMLElement;
     }
 
     /**
@@ -102,7 +102,7 @@ export class HTMLDocument extends Node {
      * https://developer.mozilla.org/docs/Web/API/Document/title
      */
     public get title(): string {
-        return this.querySelectorAll('title')[0]?.textContent || '';
+        return this.querySelector('title')?.textContent || '';
     }
 
     /**
