@@ -11,7 +11,7 @@
     "@hint/utils-fs": "^1.0.3",
     "@hint/utils-network": "^1.0.4",
     "@hint/utils-types": "^1.0.1",
-    "ajv": "^6.12.2",
+    "ajv": "^6.12.3",
     "jsonc-parser": "^2.2.1",
     "lodash": "^4.17.19"
   },
