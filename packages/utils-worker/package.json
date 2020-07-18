@@ -66,7 +66,7 @@
     "typescript": "^3.8.3",
     "util.promisify": "^1.0.1",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.12"
   },
   "files": [
     "_locales",
