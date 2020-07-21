@@ -7,6 +7,10 @@
         "description": "Report message when the execution of the script fails",
         "message": "Error executing script: '$1'"
     },
+    "learnMore": {
+        "description": "Snyk documentation link text",
+        "message": "Learn more about vulnerability $1 ($2) at Snyk"
+    },
     "name": {
         "description": "Metadata name",
         "message": "No vulnerable libraries"
@@ -25,10 +29,10 @@
     },
     "vulnerabilities": {
         "description": "Report message when more than one vulnerability is found in a package",
-        "message": "'$1' has $2 known vulnerabilities ($3). See '$4' for more information."
+        "message": "'$1' has $2 known vulnerabilities ($3)."
     },
     "vulnerability": {
         "description": "Report message when a vulnerability is found in a package",
-        "message": "'$1' has $2 known vulnerability ($3). See '$4' for more information."
+        "message": "'$1' has $2 known vulnerability ($3)."
     }
 }
