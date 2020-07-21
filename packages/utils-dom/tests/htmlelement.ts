@@ -71,3 +71,9 @@ test('isAttributeAnExpression', (t) => {
     t.true(doc.body.children[0].isAttributeAnExpression('id'));
     t.false(doc.body.children[0].isAttributeAnExpression('class'));
 });
+
+test('matches', (t) => {
+    const doc = createHTMLDocument('<div id="match-me"></div>', 'http://localhost/');
+
+    t.true(doc.body.children[0].matches('#match-me'));
+});

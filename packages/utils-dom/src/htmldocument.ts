@@ -12,8 +12,7 @@ import { Node } from './node';
 import { Text } from './text';
 import { DocumentData, ElementData, NodeData } from './types';
 
-// TODO: Use quick-lru so that it doesn't grow without bounds
-const CACHED_CSS_SELECTORS: Map<string, cssSelect.CompiledQuery> = new Map();
+import { CACHED_CSS_SELECTORS } from './cached-css-selectors';
 
 /**
  * https://developer.mozilla.org/docs/Web/API/HTMLDocument
