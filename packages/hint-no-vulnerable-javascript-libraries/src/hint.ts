@@ -156,7 +156,6 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
             }
 
             const vulnerabilitiesBySeverity = groupBy(vulnerabilities, 'severity');
-            const link = `https://snyk.io/vuln/${vulnerabilities[0].packageManager}:${vulnerabilities[0].packageName}`;
             const detail = Object.entries(vulnerabilitiesBySeverity).map(([severity, entries]) => {
                 return `${(entries as any[]).length} ${severity}`;
             })
@@ -166,12 +165,22 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 let message: string;
 
                 if (vulnerabilities.length === 1) {
-                    message = getMessage('vulnerability', context.language, [`${library.name}@${library.version}`, vulnerabilities.length.toString(), detail, link]);
+                    message = getMessage('vulnerability', context.language, [`${library.name}@${library.version}`, vulnerabilities.length.toString(), detail]);
                 } else {
-                    message = getMessage('vulnerabilities', context.language, [`${library.name}@${library.version}`, vulnerabilities.length.toString(), detail, link]);
+                    message = getMessage('vulnerabilities', context.language, [`${library.name}@${library.version}`, vulnerabilities.length.toString(), detail]);
                 }
 
-                context.report(resource, message, { severity: maxSeverity });
+                const documentation = vulnerabilities.map((vuln) => {
+                    return {
+                        link: `https://snyk.io/vuln/${vuln.id}`,
+                        text: getMessage('learnMore', context.language, [vuln.id, vuln.severity])
+                    };
+                });
+
+                context.report(resource, message, {
+                    documentation,
+                    severity: maxSeverity
+                });
             }
         };
 

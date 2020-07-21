@@ -14,6 +14,7 @@ export type Library = {
  * final, packed version of the data.
  */
 export type Vulnerability = {
+    id: string;
     packageManager: string;
     severity: string;
     semver: {
