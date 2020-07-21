@@ -1,4 +1,3 @@
-import { compile } from 'css-select';
 import * as parse5 from 'parse5';
 import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
 
@@ -10,7 +9,7 @@ import { ElementData, INamedNodeMap } from './types';
 import { Node } from './node';
 import { CSSStyleDeclaration } from './cssstyledeclaration';
 import { HTMLDocument } from './htmldocument';
-import { CACHED_CSS_SELECTORS } from './cached-css-selectors';
+import { getCompiledSelector } from './get-compiled-selector';
 
 /**
  * https://developer.mozilla.org/docs/Web/API/HTMLElement
@@ -235,11 +234,7 @@ export class HTMLElement extends Node {
      * https://developer.mozilla.org/en-US/docs/Web/API/Element/matches
      */
     public matches(selector: string): boolean {
-        if (!CACHED_CSS_SELECTORS.has(selector)) {
-            CACHED_CSS_SELECTORS.set(selector, compile(selector));
-        }
-
-        return CACHED_CSS_SELECTORS.get(selector)!(this._element);
+        return getCompiledSelector(selector)(this._element);
     }
 
     /**
