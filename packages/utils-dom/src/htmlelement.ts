@@ -9,6 +9,7 @@ import { ElementData, INamedNodeMap } from './types';
 import { Node } from './node';
 import { CSSStyleDeclaration } from './cssstyledeclaration';
 import { HTMLDocument } from './htmldocument';
+import { getCompiledSelector } from './get-compiled-selector';
 
 /**
  * https://developer.mozilla.org/docs/Web/API/HTMLElement
@@ -233,7 +234,7 @@ export class HTMLElement extends Node {
      * https://developer.mozilla.org/en-US/docs/Web/API/Element/matches
      */
     public matches(selector: string): boolean {
-        return this.ownerDocument.querySelectorAll(selector).includes(this);
+        return getCompiledSelector(selector)(this._element);
     }
 
     /**

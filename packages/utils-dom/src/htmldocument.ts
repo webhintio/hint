@@ -11,9 +11,7 @@ import { DocumentType } from './documenttype';
 import { Node } from './node';
 import { Text } from './text';
 import { DocumentData, ElementData, NodeData } from './types';
-
-// TODO: Use quick-lru so that it doesn't grow without bounds
-const CACHED_CSS_SELECTORS: Map<string, cssSelect.CompiledQuery> = new Map();
+import { getCompiledSelector } from './get-compiled-selector';
 
 /**
  * https://developer.mozilla.org/docs/Web/API/HTMLDocument
@@ -166,12 +164,8 @@ export class HTMLDocument extends Node {
      * https://developer.mozilla.org/docs/Web/API/Document/querySelector
      */
     public querySelector(selector: string): HTMLElement | null {
-        if (!CACHED_CSS_SELECTORS.has(selector)) {
-            CACHED_CSS_SELECTORS.set(selector, cssSelect.compile(selector));
-        }
-
         const data = cssSelect.selectOne(
-            CACHED_CSS_SELECTORS.get(selector) as cssSelect.CompiledQuery,
+            getCompiledSelector(selector),
             this._document.children
         );
 
@@ -182,12 +176,8 @@ export class HTMLDocument extends Node {
      * https://developer.mozilla.org/docs/Web/API/Document/querySelectorAll
      */
     public querySelectorAll(selector: string): HTMLElement[] {
-        if (!CACHED_CSS_SELECTORS.has(selector)) {
-            CACHED_CSS_SELECTORS.set(selector, cssSelect.compile(selector));
-        }
-
         const matches: any[] = cssSelect(
-            CACHED_CSS_SELECTORS.get(selector) as cssSelect.CompiledQuery,
+            getCompiledSelector(selector),
             this._document.children
         );
 
