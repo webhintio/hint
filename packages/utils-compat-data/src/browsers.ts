@@ -204,7 +204,7 @@ export const getFriendlyName = (browser: string): string => {
  * @param browsers A list of target browsers (e.g. `['chrome 74', 'ie 11']`).
  */
 export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: string, browsers: string[], unprefixed: string): UnsupportedBrowsers | null => {
-    if (!feature || !feature.__compat) {
+    if (!feature || !feature.__compat || !feature.__compat.support) {
         return null; // Assume support if no matching feature was provided.
     }
 
