@@ -22,5 +22,9 @@
     "html_name": {
         "description": "html hint metadata name",
         "message": "Supported HTML features"
+    },
+    "learnMoreCSS": {
+        "description": "Text to show for the documentation link",
+        "message": "Learn more about the CSS property"
     }
 }

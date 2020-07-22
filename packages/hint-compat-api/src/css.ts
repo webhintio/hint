@@ -5,7 +5,7 @@
 import intersection = require('lodash/intersection');
 import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
 
-import { HintContext } from 'hint/dist/src/lib/hint-context';
+import { HintContext, HintDocumentation } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { Severity } from '@hint/utils-types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
@@ -165,7 +165,8 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
         for (const report of finalReports) {
             const unsupported: UnsupportedBrowsers = {
                 browsers,
-                details: report.unsupported.details
+                details: report.unsupported.details,
+                mdnUrl: report.unsupported.mdnUrl
             };
 
             context.report({ ...report, unsupported });
@@ -185,7 +186,7 @@ const walk = (ast: ContainerBase, context: Context) => {
      */
     const reportsMap: ReportMap = new Map();
 
-    const addToReportsMap = (key: string, report: ReportData|null) => {
+    const addToReportsMap = (key: string, report: ReportData | null) => {
         // No report means a given feature is fully supported for this block.
         if (!report) {
             reportsMap.set(key, 'supported');
@@ -276,12 +277,22 @@ export default class CSSCompatHint implements IHint {
                 const location = getCSSLocationFromNode(node, { isValue });
                 const severity = alternatives.length ? Severity.error : Severity.warning;
 
+                let documentation: HintDocumentation | undefined;
+
+                if (unsupported.mdnUrl) {
+                    documentation = {
+                        link: unsupported.mdnUrl,
+                        text: getMessage('learnMoreCSS', context.language)
+                    };
+                }
+
                 context.report(
                     resource,
                     message,
                     {
                         codeLanguage: 'css',
                         codeSnippet,
+                        documentation,
                         element,
                         location,
                         severity

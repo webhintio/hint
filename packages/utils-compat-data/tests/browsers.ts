@@ -3,34 +3,55 @@ import { Identifier } from 'mdn-browser-compat-data/types';
 
 import { getUnsupportedBrowsers } from '../src/browsers';
 
-test('Handles complex support', (t) => {
-    /* eslint-disable */
-    const keyframes: Identifier = {
-        __compat: {
-            support: {
-                opera: [
-                    {
-                        version_added: "30"
-                    },
-                    {
-                        prefix: "-webkit-",
-                        version_added: "15"
-                    },
-                    {
-                        version_added: "12.1",
-                        version_removed: "15"
-                    },
-                    {
-                        prefix: "-o-",
-                        version_added: "12",
-                        version_removed: "15"
-                    }
-                ]
-            }
+/* eslint-disable */
+const keyframes: Identifier = {
+    __compat: {
+        mdn_url: 'https://developer.mozilla.org/docs/Web/CSS/@keyframes',
+        support: {
+            opera: [
+                {
+                    version_added: "30"
+                },
+                {
+                    prefix: "-webkit-",
+                    version_added: "15"
+                },
+                {
+                    version_added: "12.1",
+                    version_removed: "15"
+                },
+                {
+                    prefix: "-o-",
+                    version_added: "12",
+                    version_removed: "15"
+                }
+            ]
         }
-    } as any;
-    /* eslint-enable */
+    }
+} as any;
 
+const maxContent: Identifier = {
+    __compat: {
+        support: {
+            firefox: [
+                { version_added: "66" },
+                {
+                    prefix: "-moz-",
+                    version_added: "41",
+                }
+            ]
+        }
+    }
+} as any;
+
+const width: Identifier = {
+    __compat: {
+        mdn_url: 'https://developer.mozilla.org/docs/Web/CSS/width'
+    }
+} as any;
+/* eslint-enable */
+
+test('Handles complex support', (t) => {
     t.deepEqual(getUnsupportedBrowsers(keyframes, '', ['opera 12'], 'keyframes')!.browsers, ['opera 12'], 'Before first unprefixed support');
     t.deepEqual(getUnsupportedBrowsers(keyframes, '', ['opera 12.1'], 'keyframes'), null, 'At first unprefixed support');
     t.deepEqual(getUnsupportedBrowsers(keyframes, '', ['opera 13'], 'keyframes'), null, 'During first unprefixed support');
@@ -50,22 +71,6 @@ test('Handles complex support', (t) => {
 });
 
 test('Handles supported prefix', (t) => {
-    /* eslint-disable */
-    const maxContent: Identifier = {
-        __compat: {
-            support: {
-                firefox: [
-                    { version_added: "66" },
-                    {
-                        prefix: "-moz-",
-                        version_added: "41",
-                    }
-                ]
-            }
-        }
-    } as any;
-    /* eslint-enable */
-
     t.deepEqual(getUnsupportedBrowsers(maxContent, '', ['firefox 66'], 'max-content'), null);
     t.deepEqual(getUnsupportedBrowsers(maxContent, '', ['firefox 65'], 'max-content')!.browsers, ['firefox 65']);
     t.deepEqual(getUnsupportedBrowsers(maxContent, '', ['firefox 41'], 'max-content')!.browsers, ['firefox 41']);
@@ -218,4 +223,9 @@ test('Includes accurate details', (t) => {
         },
         versionAdded: '15'
     }, 'Before -webkit- support');
+});
+
+test('Returns the mdn url', (t) => {
+    t.is(getUnsupportedBrowsers(keyframes, '', ['opera 12'], 'keyframes')!.mdnUrl, 'https://developer.mozilla.org/docs/Web/CSS/@keyframes', 'Right mdn url before first unprefixed support');
+    t.is(getUnsupportedBrowsers(maxContent, '', ['firefox 65'], 'max-content', width)!.mdnUrl, 'https://developer.mozilla.org/docs/Web/CSS/width');
 });
