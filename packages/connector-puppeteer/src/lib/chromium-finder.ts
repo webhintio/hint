@@ -116,10 +116,13 @@ const darwin = (browser: Browser) => {
 
     /**
      * The following generates a list of all the installed applications in macOS.
-     * The `grep` command makes sure we only get the lines that end with `.app`
+     * The `grep` command makes sure we only get the lines that contain `.app`
      * because `-dump` generates more information than the one needed.
-     * The `awk` commands makes sure we remove the initial part of the line so we
+     * The `awk` commands makes sure we remove the suffix and prefix part of the line so we
      * only get the path.
+     *
+     * Turns -> path: /Applications/Google Chrome.app (0x2134)
+     * into  -> /Applications/Google Chrome.app
      *
      * More info in:
      * http://krypted.com/mac-security/lsregister-associating-file-types-in-mac-os-x/
@@ -130,8 +133,8 @@ const darwin = (browser: Browser) => {
 
     const lines = execSync(
         `${LSREGISTER} -dump` +
-        ` | grep -i '\.app$'` + // eslint-disable-line
-        ` | awk '{$1=""; print $0}'`)
+        ` | grep -i '\.app'` + // eslint-disable-line
+        ` | awk '{print $2,3}'`)
         .toString()
         .split(newLineRegex);
 
