@@ -20,11 +20,20 @@ import {
 
 export type CodeLanguage = 'css' | 'html' | 'http' | 'javascript';
 
+export type HintDocumentation = {
+    /** Link to the documentation */
+    link: string;
+    /** Text to show in the link */
+    text: string;
+}
+
 export type ReportOptions = {
     /** The source code to display (defaults to the `outerHTML` of `element`). */
     codeSnippet?: string;
     /** The text within `element` where the issue was found (used to refine a `ProblemLocation`). */
     content?: string;
+    /** The documentation for a hint report */
+    documentation?: HintDocumentation;
     /** The `HTMLElement` where the issue was found (used to get a `ProblemLocation`). */
     element?: HTMLElement | null;
     /**
