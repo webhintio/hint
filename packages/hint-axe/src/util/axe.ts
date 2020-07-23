@@ -246,8 +246,14 @@ export const register = (context: HintContext, rules: string[], disabled: string
                     toSeverity(violation.impact) :
                     Severity[registration.options[violation.id]];
 
-
-                registration.context.report(resource, message, { element, severity });
+                registration.context.report(resource, message, {
+                    documentation: {
+                        link: violation.helpUrl,
+                        text: getMessage('learnMore', context.language)
+                    },
+                    element,
+                    severity
+                });
             }
         }
     });
