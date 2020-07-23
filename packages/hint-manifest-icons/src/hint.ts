@@ -329,8 +329,7 @@ export default class ManifestIconHint implements IHint {
                  */
                 const purposes = icon.purpose
                     .trim()
-                    .replace(/\s\s*/g, ' ')
-                    .split(' ');
+                    .split(/\s\s*/g);
 
                 validatePurposesValues(purposes, resource, iconIndex, getLocation);
                 validateDuplicatedValues(purposes, resource, iconIndex, getLocation);
