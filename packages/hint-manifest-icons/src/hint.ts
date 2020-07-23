@@ -308,7 +308,7 @@ export default class ManifestIconHint implements IHint {
              * items are duplicated.
              */
             if (purposesCopy.length > 0) {
-                context.report(resource, getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposesCopy))].join(' ')), {
+                context.report(resource, getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposesCopy))].join(', ')), {
                     location: getLocation(`icons[${iconIndex}].purpose`),
                     severity: Severity.hint
                 });
