@@ -347,9 +347,9 @@ export default class ManifestIconHint implements IHint {
 
                     debug(`Validating if manifest-icon file exists`);
                     const validSizes = await validateIconsSize(icons, hostnameWithProtocol, resource, getLocation);
-                    const iconlocation = getLocation('icons');
 
                     if (validSizes.length > 0) {
+                        const iconlocation = getLocation('icons');
 
                         hasRequiredSizes(validSizes, resource, iconlocation);
                     }

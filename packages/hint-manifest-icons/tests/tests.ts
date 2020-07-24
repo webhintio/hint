@@ -231,7 +231,7 @@ const tests: HintTest[] = [
                 severity: Severity.hint
             },
             {
-                message: `Duplicate value(s) found in icon purpose property: any maskable.`,
+                message: `Duplicate value(s) found in icon purpose property: any, maskable.`,
                 position: {
                     column: 33,
                     line: 9
