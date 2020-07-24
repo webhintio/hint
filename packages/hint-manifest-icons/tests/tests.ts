@@ -224,26 +224,17 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `Duplicate value(s) found in icon purpose property: any.`,
-                position: {
-                    column: 33,
-                    line: 3
-                },
+                position: { match: 'purpose": "any maskable any"' },
                 severity: Severity.hint
             },
             {
                 message: `Duplicate value(s) found in icon purpose property: any, maskable.`,
-                position: {
-                    column: 33,
-                    line: 9
-                },
+                position: { match: 'purpose": "any maskable any maskable"' },
                 severity: Severity.hint
             },
             {
                 message: `Duplicate value(s) found in icon purpose property: any.`,
-                position: {
-                    column: 33,
-                    line: 15
-                },
+                position: { match: 'purpose": "  any maskable  any  "' },
                 severity: Severity.hint
             }
         ],
@@ -282,26 +273,17 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: 'Invalid value for icon property purpose: invalidPurpose.',
-                position: {
-                    column: 33,
-                    line: 3
-                },
+                position: { match: 'purpose": "invalidPurpose"' },
                 severity: Severity.warning
             },
             {
                 message: 'Invalid value for icon property purpose: invalidPurpose.',
-                position: {
-                    column: 33,
-                    line: 9
-                },
+                position: { match: 'purpose": "any invalidPurpose"' },
                 severity: Severity.warning
             },
             {
                 message: 'Invalid value for icon property purpose: invalidPurpose.',
-                position: {
-                    column: 33,
-                    line: 15
-                },
+                position: { match: 'purpose": "  any  invalidPurpose  "' },
                 severity: Severity.warning
             }
         ],
