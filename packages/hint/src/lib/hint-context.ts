@@ -7,7 +7,7 @@
 import { URL } from 'url';
 
 import { ProblemLocation, Severity } from '@hint/utils-types';
-import { Category } from '@hint/utils-types';
+import { Category, ProblemDocumentation } from '@hint/utils-types';
 import { getHTMLCodeSnippet, HTMLElement } from '@hint/utils-dom';
 
 import { Engine } from './engine';
@@ -20,20 +20,13 @@ import {
 
 export type CodeLanguage = 'css' | 'html' | 'http' | 'javascript';
 
-export type HintDocumentation = {
-    /** Link to the documentation */
-    link: string;
-    /** Text to show in the link */
-    text: string;
-}
-
 export type ReportOptions = {
     /** The source code to display (defaults to the `outerHTML` of `element`). */
     codeSnippet?: string;
     /** The text within `element` where the issue was found (used to refine a `ProblemLocation`). */
     content?: string;
     /** The documentation for a hint report */
-    documentation?: HintDocumentation;
+    documentation?: ProblemDocumentation;
     /** The `HTMLElement` where the issue was found (used to get a `ProblemLocation`). */
     element?: HTMLElement | null;
     /**
@@ -160,6 +153,7 @@ export class HintContext<E extends Events = Events> {
         this.engine.report({
             category: (this.meta && this.meta.docs && this.meta.docs.category) ? this.meta.docs.category : Category.other,
             codeLanguage: options.codeLanguage,
+            documentation: options.documentation,
             hintId: this.id,
             location: position || { column: -1, line: -1 },
             message,
