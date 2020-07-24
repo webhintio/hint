@@ -168,7 +168,9 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
 
     if (server.port) {
         reports.forEach((report) => {
-            report.message = report.message.replace(localhostRegex, `$1://localhost:${server.port}/`);
+            if (typeof report.message === 'string') {
+                report.message = report.message.replace(localhostRegex, `$1://localhost:${server.port}/`);
+            }
         });
     }
 
@@ -184,7 +186,11 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
         const { location, message, resource, severity } = result;
 
         const filteredByMessage = reportsCopy.filter((report) => {
-            return report.message === message;
+            if (typeof report.message === 'string') {
+                return report.message === message;
+            }
+
+            return report.message.test(message);
         });
 
         if (filteredByMessage.length === 0) {

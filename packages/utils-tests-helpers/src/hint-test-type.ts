@@ -10,7 +10,7 @@ export type MatchProblemLocation = {
 
 export type Report = {
     /** The message to validate */
-    message: string;
+    message: string | RegExp;
     position?: ProblemLocation | MatchProblemLocation;
     severity?: Severity;
 };
