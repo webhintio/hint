@@ -409,7 +409,6 @@
                     "enum": [
                       "ES5",
                       "ES6",
-                      "ES7",
 
                       "ES2015",
                       "ES2015.Collection",
@@ -433,6 +432,7 @@
                       "ES2017.TypedArrays",
 
                       "ES2018",
+                      "ES2018.AsyncGenerator",
                       "ES2018.AsyncIterable",
                       "ES2018.Intl",
                       "ES2018.Promise",
@@ -455,6 +455,8 @@
                       "ESNext.AsyncIterable",
                       "ESNext.BigInt",
                       "ESNext.Intl",
+                      "ESNext.Promise",
+                      "ESNext.String",
                       "ESNext.Symbol",
 
                       "DOM",
@@ -529,6 +531,11 @@
               "description": "Specify the JSX factory function to use when targeting react JSX emit, e.g. 'React.createElement' or 'h'. Requires TypeScript version 2.1 or later.",
               "type": "string",
               "default": "React.createElement"
+            },
+            "jsxFragmentFactory": {
+              "description": "Specify the JSX Fragment reference to use for fragements when targeting react JSX emit, e.g. 'React.Fragment' or 'Fragment'. Requires TypeScript version 4.0 or later.",
+              "type": "string",
+              "default": "React.Fragment"
             },
             "alwaysStrict": {
               "description": "Parse in strict mode and emit 'use strict' for each source file. Requires TypeScript version 2.1 or later.",

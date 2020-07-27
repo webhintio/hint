@@ -160,6 +160,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
             importsNotUsedAsValues: 'remove',
             inlineSourceMap: true,
             jsxFactory: 'React.createElement',
+            jsxFragmentFactory: 'React.Fragment',
             lib: [
                 'dom',
                 'dom.iterable',
@@ -209,6 +210,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
             importsNotUsedAsValues: 'remove',
             inlineSourceMap: true,
             jsxFactory: 'React.createElement',
+            jsxFragmentFactory: 'React.Fragment',
             lib: [
                 'dom',
                 'dom.iterable',
