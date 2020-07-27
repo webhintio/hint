@@ -18,7 +18,7 @@ import { cleanUp } from './tasks/clean-up';
 import { runTests } from './tasks/run-tests';
 import { validateChanges } from './tasks/validate-changes';
 import { validateEnvironment } from './tasks/validate-environment';
-import { confirmRelease, release, releaseForBrowser, releaseForVSCode } from './tasks/release';
+import { confirmRelease, release, releaseForBrowser, releaseForOVSX, releaseForVSCode } from './tasks/release';
 import { commitPackagesChanges } from './tasks/commit-packages-changes';
 import { authenticateGitHub } from './tasks/authenticate-github';
 import { cleanWorkspace } from './tasks/clean-workspace';
@@ -121,6 +121,11 @@ const tasks = new Listr([
         title: 'Publish extension on Visual Studio Marketplace',
         skip: skipReasons(skipIfError, skipIfAborted, skipIfSkipVsce, skipIfSameVersion('vscode-webhint'), skipIfTestMode),
         task: releaseForVSCode
+    },
+    {
+        title: 'Publish extension on Open VSX',
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSkipVsce, skipIfSameVersion('vscode-webhint'), skipIfTestMode),
+        task: releaseForOVSX
     },
     {
         title: 'Submit extension-browser for Chrome',
