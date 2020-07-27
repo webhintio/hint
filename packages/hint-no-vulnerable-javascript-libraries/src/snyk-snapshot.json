@@ -172,6 +172,94 @@
     ],
     "angular": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:N/RL:O",
+        "alternativeIds": [],
+        "creationTime": "2020-06-11T15:24:03.552151Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 8.7,
+        "disclosureTime": "2020-06-11T15:21:40Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "1.8.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-ANGULAR-572020",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-06-26T14:41:02.000771Z",
+        "moduleName": "angular",
+        "packageManager": "npm",
+        "packageName": "angular",
+        "patches": [],
+        "publicationTime": "2020-06-11T15:24:07Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/angular/angular.js/commit/2df43c07779137d1bddf7f3b282a1287a8634acd"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<1.8.0"
+          ]
+        },
+        "severity": "high",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:L/I:L/A:L",
+        "alternativeIds": [],
+        "creationTime": "2020-05-21T13:15:54.457082Z",
+        "credit": [
+          "Krzysztof Kotowicz"
+        ],
+        "cvssScore": 5.0,
+        "disclosureTime": "2020-05-19T21:00:00Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "1.8.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-ANGULAR-570058",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-7676"
+          ],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-06-07T15:15:04.074972Z",
+        "moduleName": "angular",
+        "packageManager": "npm",
+        "packageName": "angular",
+        "patches": [],
+        "publicationTime": "2020-06-07T15:15:03Z",
+        "references": [
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/angular/angular.js/pull/17028"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<1.8.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2019-11-19T14:54:36.625223Z",
@@ -202,7 +290,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-30T10:38:38.351188Z",
+        "modificationTime": "2020-06-12T14:37:05.785179Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -292,7 +380,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:41:52.023172Z",
+        "modificationTime": "2020-06-12T14:37:03.091912Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -338,7 +426,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:41:49.758793Z",
+        "modificationTime": "2020-06-12T14:37:00.836150Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -390,7 +478,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:31.329315Z",
+        "modificationTime": "2020-06-12T14:36:54.008914Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -502,7 +590,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:14.768145Z",
+        "modificationTime": "2020-06-12T14:36:44.396115Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -614,7 +702,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:29.819395Z",
+        "modificationTime": "2020-06-12T14:36:46.336528Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -674,7 +762,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:22.378523Z",
+        "modificationTime": "2020-06-12T14:36:54.005310Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -730,7 +818,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:12.519804Z",
+        "modificationTime": "2020-06-12T14:36:44.366793Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -782,7 +870,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:27.575143Z",
+        "modificationTime": "2020-06-12T14:36:46.330946Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -938,7 +1026,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:26.134163Z",
+        "modificationTime": "2020-06-12T14:36:53.994256Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1042,7 +1130,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:08.780047Z",
+        "modificationTime": "2020-06-12T14:36:53.983649Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1099,7 +1187,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:26.839500Z",
+        "modificationTime": "2020-06-12T14:36:46.325145Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1151,7 +1239,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:08.034295Z",
+        "modificationTime": "2020-06-12T14:36:44.352943Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1207,7 +1295,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-04-08T15:25:32.105542Z",
+        "modificationTime": "2020-06-12T14:37:02.855299Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1261,7 +1349,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:06.532147Z",
+        "modificationTime": "2020-06-12T14:36:53.980250Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1365,7 +1453,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:23.865127Z",
+        "modificationTime": "2020-06-12T14:36:46.328040Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1418,7 +1506,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:27.632689Z",
+        "modificationTime": "2020-06-12T14:36:53.997897Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1532,7 +1620,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:25:20.995685Z",
+        "modificationTime": "2020-06-12T14:36:53.845148Z",
         "moduleName": "angular-jwt",
         "packageManager": "npm",
         "packageName": "angular-jwt",
@@ -1782,7 +1870,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-25T18:29:04.585603Z",
+        "modificationTime": "2020-06-12T14:36:58.593555Z",
         "moduleName": "assign-deep",
         "packageManager": "npm",
         "packageName": "assign-deep",
@@ -1887,7 +1975,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:13.782119Z",
+        "modificationTime": "2020-06-09T09:57:45.695912Z",
         "moduleName": "astronomia",
         "packageManager": "npm",
         "packageName": "astronomia",
@@ -1989,7 +2077,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-02-02T15:13:49.636663Z",
+        "modificationTime": "2020-06-12T14:36:50.933522Z",
         "moduleName": "auth0-lock",
         "packageManager": "npm",
         "packageName": "auth0-lock",
@@ -2326,7 +2414,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-02-17T08:48:53.251028Z",
+        "modificationTime": "2020-06-12T14:37:05.534360Z",
         "moduleName": "bootstrap",
         "packageManager": "npm",
         "packageName": "bootstrap",
@@ -2465,7 +2553,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-01-10T09:27:20.896176Z",
+        "modificationTime": "2020-06-12T14:37:03.820887Z",
         "moduleName": "bootstrap",
         "packageManager": "npm",
         "packageName": "bootstrap",
@@ -2522,7 +2610,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-01-10T09:27:20.872191Z",
+        "modificationTime": "2020-06-12T14:36:58.233501Z",
         "moduleName": "bootstrap",
         "packageManager": "npm",
         "packageName": "bootstrap",
@@ -2983,7 +3071,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:43:05.271247Z",
+        "modificationTime": "2020-06-12T14:36:46.785771Z",
         "moduleName": "braces",
         "packageManager": "npm",
         "packageName": "braces",
@@ -3031,7 +3119,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-03-29T17:40:31.534435Z",
+        "modificationTime": "2020-06-12T14:37:02.649274Z",
         "moduleName": "bson",
         "packageManager": "npm",
         "packageName": "bson",
@@ -3107,7 +3195,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-30T13:51:35.986677Z",
+        "modificationTime": "2020-06-12T14:36:46.818046Z",
         "moduleName": "bson",
         "packageManager": "npm",
         "packageName": "bson",
@@ -3157,7 +3245,7 @@
         "packageManager": "npm",
         "packageName": "buefy",
         "patches": [],
-        "publicationTime": "2020-05-11T15:36:11.349776Z",
+        "publicationTime": "2020-05-11T15:36:11Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -3312,7 +3400,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:41.826899Z",
+        "modificationTime": "2020-06-09T09:57:45.201103Z",
         "moduleName": "checkit",
         "packageManager": "npm",
         "packageName": "checkit",
@@ -3363,7 +3451,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:00.305023Z",
+        "modificationTime": "2020-06-09T09:57:45.741572Z",
         "moduleName": "citeproc",
         "packageManager": "npm",
         "packageName": "citeproc",
@@ -3515,7 +3603,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:19.466802Z",
+        "modificationTime": "2020-06-09T09:57:45.652276Z",
         "moduleName": "compromise",
         "packageManager": "npm",
         "packageName": "compromise",
@@ -3570,7 +3658,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-07-19T10:32:04.466670Z",
+        "modificationTime": "2020-06-12T14:36:44.336688Z",
         "moduleName": "console-io",
         "packageManager": "npm",
         "packageName": "console-io",
@@ -3925,7 +4013,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:23:05.788690Z",
+        "modificationTime": "2020-06-12T14:36:44.644948Z",
         "moduleName": "deap",
         "packageManager": "npm",
         "packageName": "deap",
@@ -4136,7 +4224,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:20:56.687727Z",
+        "modificationTime": "2020-06-12T14:36:41.582307Z",
         "moduleName": "deep-extend",
         "packageManager": "npm",
         "packageName": "deep-extend",
@@ -4196,7 +4284,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:17:33.480706Z",
+        "modificationTime": "2020-06-12T14:37:03.128822Z",
         "moduleName": "defaults-deep",
         "packageManager": "npm",
         "packageName": "defaults-deep",
@@ -4253,7 +4341,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:12:23.877429Z",
+        "modificationTime": "2020-06-12T14:36:41.571727Z",
         "moduleName": "defaults-deep",
         "packageManager": "npm",
         "packageName": "defaults-deep",
@@ -4328,7 +4416,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:29:49.414471Z",
+        "modificationTime": "2020-06-12T14:36:46.716362Z",
         "moduleName": "diff",
         "packageManager": "npm",
         "packageName": "diff",
@@ -4350,6 +4438,64 @@
       }
     ],
     "dijit": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L",
+        "alternativeIds": [],
+        "creationTime": "2020-06-16T06:15:56.979070Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 6.3,
+        "disclosureTime": "2020-06-16T06:12:24Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "1.11.11",
+          "1.12.9",
+          "1.13.8",
+          "1.14.7",
+          "1.15.4",
+          "1.16.3"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-DIJIT-572370",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-4051"
+          ],
+          "CWE": [
+            "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-cxjc-r2fp-7mq6"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-06-16T15:58:32.484246Z",
+        "moduleName": "dijit",
+        "packageManager": "npm",
+        "packageName": "dijit",
+        "patches": [],
+        "publicationTime": "2020-06-16T15:58:32.684757Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/dojo/dijit/commit/462bdcd60d0333315fe69ab4709c894d78f61301"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<1.11.11",
+            ">=1.12.0 <1.12.9",
+            ">=1.13.0 <1.13.8",
+            ">=1.14.0 <1.14.7",
+            ">=1.15.0 <1.15.4",
+            ">=1.16.0 <1.16.3"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
       {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
@@ -4396,7 +4542,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<=1.16.2"
+            "<=1.16.3"
           ]
         },
         "severity": "medium",
@@ -4437,7 +4583,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-03-11T10:54:41.841806Z",
+        "modificationTime": "2020-06-12T14:37:03.198780Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -4703,9 +4849,7 @@
         "cvssScore": 4.3,
         "disclosureTime": "2009-04-09T15:08:00Z",
         "exploit": "Not Defined",
-        "fixedIn": [
-          "1.1.0"
-        ],
+        "fixedIn": [],
         "functions": [],
         "functions_new": [],
         "id": "npm:dojo:20160523",
@@ -4724,7 +4868,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:54.359996Z",
+        "modificationTime": "2020-07-17T15:58:07.147913Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -4742,7 +4886,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<1.1.0"
+            "<0.0.0"
           ]
         },
         "severity": "medium",
@@ -4797,13 +4941,15 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-DOJO-10052"
         ],
         "creationTime": "2015-11-06T02:09:36.180000Z",
-        "credit": [],
-        "cvssScore": 10.0,
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 6.5,
         "disclosureTime": "2010-06-15T14:30:00Z",
         "exploit": "Not Defined",
         "fixedIn": [
@@ -4830,12 +4976,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:38.546367Z",
+        "modificationTime": "2020-06-18T14:12:34.370548Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
         "patches": [],
-        "publicationTime": "2015-11-06T02:09:36.180000Z",
+        "publicationTime": "2015-11-06T02:09:36Z",
         "references": [
           {
             "title": "DOJOTOOLKIT.ORG",
@@ -4852,15 +4998,15 @@
         ],
         "semver": {
           "vulnerable": [
-            ">=0.4 <0.4.4",
-            ">=1.0 <1.0.3",
-            ">=1.1 <1.1.2",
-            ">=1.2 <1.2.4",
-            ">=1.3 <1.3.3",
-            ">=1.4 <1.4.2"
+            ">=0.4.0 <0.4.4",
+            ">=1.0.0 <1.0.3",
+            ">=1.1.0 <1.1.2",
+            ">=1.2.0 <1.2.4",
+            ">=1.3.0 <1.3.3",
+            ">=1.4.0 <1.4.2"
           ]
         },
-        "severity": "high",
+        "severity": "medium",
         "title": "Cross-site Scripting (XSS)"
       },
       {
@@ -4873,9 +5019,7 @@
         "cvssScore": 6.5,
         "disclosureTime": "2009-04-09T15:08:00Z",
         "exploit": "Not Defined",
-        "fixedIn": [
-          "1.1"
-        ],
+        "fixedIn": [],
         "functions": [],
         "functions_new": [],
         "id": "npm:dojo:20090409",
@@ -4891,7 +5035,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:37.796673Z",
+        "modificationTime": "2020-07-17T15:58:07.147913Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -4905,7 +5049,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<1.1"
+            "<0.0.0"
           ]
         },
         "severity": "medium",
@@ -4946,7 +5090,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-03-11T10:54:52.835709Z",
+        "modificationTime": "2020-06-12T14:37:03.756654Z",
         "moduleName": "dojox",
         "packageManager": "npm",
         "packageName": "dojox",
@@ -5004,7 +5148,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-02-12T16:57:21.405364Z",
+        "modificationTime": "2020-06-12T14:37:04.806332Z",
         "moduleName": "dojox",
         "packageManager": "npm",
         "packageName": "dojox",
@@ -5105,9 +5249,7 @@
         "cvssScore": 9.1,
         "disclosureTime": "2019-09-24T05:15:00Z",
         "exploit": "Not Defined",
-        "fixedIn": [
-          "2.0.7"
-        ],
+        "fixedIn": [],
         "functions": [],
         "functions_new": [],
         "id": "SNYK-JS-DOMPURIFY-474012",
@@ -5117,31 +5259,19 @@
           ],
           "CWE": [
             "CWE-79"
-          ],
-          "NSP": [
-            1223
           ]
         },
         "language": "js",
-        "modificationTime": "2019-10-22T16:11:02.558816Z",
+        "modificationTime": "2020-07-10T14:14:23.955012Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
         "patches": [],
         "publicationTime": "2019-10-22T14:48:59Z",
-        "references": [
-          {
-            "title": "GitHub Release",
-            "url": "https://github.com/cure53/DOMPurify/releases/tag/2.0.7"
-          },
-          {
-            "title": "NPM Security Advisory",
-            "url": "https://www.npmjs.com/advisories/1223"
-          }
-        ],
+        "references": [],
         "semver": {
           "vulnerable": [
-            "<2.0.7"
+            "<0.0.0"
           ]
         },
         "severity": "high",
@@ -5171,17 +5301,26 @@
             "CWE-79"
           ],
           "NSP": [
+            1223,
             1205
           ]
         },
         "language": "js",
-        "modificationTime": "2019-09-26T12:22:13.724522Z",
+        "modificationTime": "2020-06-12T14:36:55.854910Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
         "patches": [],
         "publicationTime": "2019-09-24T07:47:11Z",
         "references": [
+          {
+            "title": "GitHub Release",
+            "url": "https://github.com/cure53/DOMPurify/releases/tag/2.0.7"
+          },
+          {
+            "title": "NPM Security Advisory",
+            "url": "https://www.npmjs.com/advisories/1223"
+          },
           {
             "title": "Research Blog Post",
             "url": "https://research.securitum.com/dompurify-bypass-using-mxss/"
@@ -5482,7 +5621,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:32.283086Z",
+        "modificationTime": "2020-06-09T09:57:45.738990Z",
         "moduleName": "ducktype",
         "packageManager": "npm",
         "packageName": "ducktype",
@@ -5532,7 +5671,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:32.145360Z",
+        "modificationTime": "2020-06-12T14:36:54.001097Z",
         "moduleName": "dustjs-linkedin",
         "packageManager": "npm",
         "packageName": "dustjs-linkedin",
@@ -5714,7 +5853,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:28.317354Z",
+        "modificationTime": "2020-06-24T12:17:26.755253Z",
         "moduleName": "ember",
         "packageManager": "npm",
         "packageName": "ember",
@@ -6113,7 +6252,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:10:16.677505Z",
+        "modificationTime": "2020-06-12T14:36:41.566047Z",
         "moduleName": "extend",
         "packageManager": "npm",
         "packageName": "extend",
@@ -6232,10 +6371,13 @@
           ],
           "CWE": [
             "CWE-284"
+          ],
+          "GHSA": [
+            "GHSA-qpg4-4w7w-2mq5"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-04-28T14:59:13.009394Z",
+        "modificationTime": "2020-06-12T14:37:05.074389Z",
         "moduleName": "faye",
         "packageManager": "npm",
         "packageName": "faye",
@@ -6280,7 +6422,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-04-23T15:07:21.166329Z",
+        "modificationTime": "2020-06-12T14:37:04.004204Z",
         "moduleName": "faye",
         "packageManager": "npm",
         "packageName": "faye",
@@ -6603,7 +6745,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:30:46.474412Z",
+        "modificationTime": "2020-06-12T14:36:53.904105Z",
         "moduleName": "fuelux",
         "packageManager": "npm",
         "packageName": "fuelux",
@@ -6713,7 +6855,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:41.773576Z",
+        "modificationTime": "2020-06-09T09:57:45.599802Z",
         "moduleName": "getstats",
         "packageManager": "npm",
         "packageName": "getstats",
@@ -6764,7 +6906,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-27T07:16:29.875152Z",
+        "modificationTime": "2020-06-09T09:57:45.588300Z",
         "moduleName": "git-username",
         "packageManager": "npm",
         "packageName": "git-username",
@@ -6819,7 +6961,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:33.645380Z",
+        "modificationTime": "2020-06-09T09:57:45.661015Z",
         "moduleName": "github-url-to-object",
         "packageManager": "npm",
         "packageName": "github-url-to-object",
@@ -6933,7 +7075,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-03-26T14:09:01.458884Z",
+        "modificationTime": "2020-06-12T14:37:01.638754Z",
         "moduleName": "google-closure-library",
         "packageManager": "npm",
         "packageName": "google-closure-library",
@@ -6983,7 +7125,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:41.880670Z",
+        "modificationTime": "2020-06-12T14:36:41.392147Z",
         "moduleName": "google-closure-library",
         "packageManager": "npm",
         "packageName": "google-closure-library",
@@ -7032,7 +7174,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-04-28T14:59:13.455920Z",
+        "modificationTime": "2020-06-12T14:37:04.769831Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -7136,7 +7278,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-02-27T09:35:09.781443Z",
+        "modificationTime": "2020-06-12T14:37:03.589231Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -7187,7 +7329,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-11-05T16:42:43.963311Z",
+        "modificationTime": "2020-06-12T14:36:55.577532Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -7330,7 +7472,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-11-01T14:38:03.582043Z",
+        "modificationTime": "2020-06-12T14:37:03.054230Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -7431,7 +7573,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-31T12:26:44.865171Z",
+        "modificationTime": "2020-06-12T14:36:56.040863Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -7629,7 +7771,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-08-04T14:43:19.081255Z",
+        "modificationTime": "2020-06-12T14:36:43.985934Z",
         "moduleName": "haraka",
         "packageManager": "npm",
         "packageName": "haraka",
@@ -7734,7 +7876,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:41.698103Z",
+        "modificationTime": "2020-06-09T09:57:45.594805Z",
         "moduleName": "harb",
         "packageManager": "npm",
         "packageName": "harb",
@@ -7956,6 +8098,57 @@
     ],
     "highcharts": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:N/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-06-11T08:33:05.776850Z",
+        "credit": [
+          "Torstein Hønsi"
+        ],
+        "cvssScore": 8.7,
+        "disclosureTime": "2020-06-11T08:30:10Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "8.1.1"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-HIGHCHARTS-571995",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-06-11T14:38:34.090631Z",
+        "moduleName": "highcharts",
+        "packageManager": "npm",
+        "packageName": "highcharts",
+        "patches": [],
+        "publicationTime": "2020-06-11T08:33:11Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/highcharts/highcharts/issues/13559"
+          },
+          {
+            "title": "NPM Security Advisory",
+            "url": "https://www.npmjs.com/advisories/1227"
+          },
+          {
+            "title": "PoC",
+            "url": "https://jsfiddle.net/highcharts/zvnhej9L/"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<8.1.1"
+          ]
+        },
+        "severity": "high",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
         "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-HIGHCHARTS-11012"
@@ -7992,7 +8185,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:56:22.236500Z",
+        "modificationTime": "2020-06-12T14:36:53.944814Z",
         "moduleName": "highcharts",
         "packageManager": "npm",
         "packageName": "highcharts",
@@ -8043,7 +8236,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-10-25T11:09:08.813084Z",
+        "modificationTime": "2020-06-12T14:36:46.705578Z",
         "moduleName": "html-dom-parser",
         "packageManager": "npm",
         "packageName": "html-dom-parser",
@@ -8069,6 +8262,96 @@
       }
     ],
     "i18next": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-07-19T10:21:15.892249Z",
+        "credit": [
+          "Snyk Security Team"
+        ],
+        "cvssScore": 4.8,
+        "disclosureTime": "2020-07-11T10:19:01Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "19.6.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-I18NEXT-585930",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-07-19T16:14:31.125195Z",
+        "moduleName": "i18next",
+        "packageManager": "npm",
+        "packageName": "i18next",
+        "patches": [],
+        "publicationTime": "2020-07-19T16:14:30.529190Z",
+        "references": [
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/i18next/i18next/pull/1482"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<19.6.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Prototype Pollution"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H",
+        "alternativeIds": [],
+        "creationTime": "2020-07-09T07:42:26.820588Z",
+        "credit": [
+          "lynn"
+        ],
+        "cvssScore": 4.9,
+        "disclosureTime": "2020-07-09T07:34:11Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "19.5.5"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-I18NEXT-575536",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-119"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-07-09T14:37:29.985246Z",
+        "moduleName": "i18next",
+        "packageManager": "npm",
+        "packageName": "i18next",
+        "patches": [],
+        "publicationTime": "2020-07-09T14:37:29.376715Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/i18next/i18next/commit/360c8a92dcfe90964b433fa947f7f467a10887da"
+          },
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/i18next/i18next/issues/1479"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<19.5.5"
+          ]
+        },
+        "severity": "medium",
+        "title": "Buffer Overflow"
+      },
       {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:H/RL:O/RC:C",
         "alternativeIds": [
@@ -8221,7 +8504,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-19T08:52:48.128590Z",
+        "modificationTime": "2020-06-09T09:57:45.620384Z",
         "moduleName": "is-my-json-valid",
         "packageManager": "npm",
         "packageName": "is-my-json-valid",
@@ -8374,7 +8657,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-02-19T08:54:51.785832Z",
+        "modificationTime": "2020-06-09T09:57:45.251598Z",
         "moduleName": "is-url",
         "packageManager": "npm",
         "packageName": "is-url",
@@ -8653,11 +8936,56 @@
     ],
     "jquery": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:U/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-05-19T11:29:29.873826Z",
+        "credit": [
+          "Robert McLaughlin"
+        ],
+        "cvssScore": 5.4,
+        "disclosureTime": "2020-05-19T11:26:48Z",
+        "exploit": "Unproven",
+        "fixedIn": [
+          "1.9.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-JQUERY-569619",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-7656"
+          ],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-05-19T16:10:02.557171Z",
+        "moduleName": "jquery",
+        "packageManager": "npm",
+        "packageName": "jquery",
+        "patches": [],
+        "publicationTime": "2020-05-19T13:16:51Z",
+        "references": [
+          {
+            "title": "GitHub Additional Information",
+            "url": "https://github.com/jquery/jquery/blob/9e6393b0bcb52b15313f88141d0bd7dd54227426/src/ajax.js%23L203"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<1.9.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:U/RL:O/RC:R",
         "alternativeIds": [],
         "creationTime": "2020-04-30T12:29:39.885866Z",
         "credit": [
-          "Unknown"
+          "Masato Kinugawa"
         ],
         "cvssScore": 6.5,
         "disclosureTime": "2020-04-29T23:02:09Z",
@@ -8674,6 +9002,12 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-v73w-r9xg-7cr9"
+          ],
+          "NSP": [
+            1518
           ]
         },
         "language": "js",
@@ -8714,7 +9048,7 @@
         "alternativeIds": [],
         "creationTime": "2020-04-13T07:16:49.518552Z",
         "credit": [
-          "Unknown"
+          "Masato Kinugawa"
         ],
         "cvssScore": 6.3,
         "disclosureTime": "2020-04-10T00:00:00Z",
@@ -8870,7 +9204,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:38.091569Z",
+        "modificationTime": "2020-06-12T14:37:01.438521Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -9400,7 +9734,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-10-06T11:00:51.073090Z",
+        "modificationTime": "2020-06-12T14:37:01.106578Z",
         "moduleName": "jquery-mobile",
         "packageManager": "npm",
         "packageName": "jquery-mobile",
@@ -9681,7 +10015,9 @@
         "cvssScore": 6.5,
         "disclosureTime": "2015-06-24T06:00:00Z",
         "exploit": "Not Defined",
-        "fixedIn": [],
+        "fixedIn": [
+          "1.0.4"
+        ],
         "functions": [],
         "functions_new": [],
         "id": "npm:jquery-ujs:20150624",
@@ -9700,7 +10036,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:40.241628Z",
+        "modificationTime": "2020-07-07T12:03:14.379291Z",
         "moduleName": "jquery-ujs",
         "packageManager": "npm",
         "packageName": "jquery-ujs",
@@ -9708,25 +10044,17 @@
         "publicationTime": "2015-06-24T06:00:00Z",
         "references": [
           {
-            "title": "GITHUB.COM",
-            "url": "https://github.com/rails/jquery-ujs"
-          },
-          {
-            "title": "GROUPS.GOOGLE.COM",
+            "title": "Google Security Forum",
             "url": "https://groups.google.com/forum/%23%21msg/rubyonrails-security/XIZPbobuwaY/fqnzzpuOlA4J"
           },
           {
-            "title": "HACKERONE.COM",
+            "title": "HackerOne Report",
             "url": "https://hackerone.com/reports/49935"
-          },
-          {
-            "title": "WWW.NPMJS.COM",
-            "url": "https://www.npmjs.com/package/jquery-ujs"
           }
         ],
         "semver": {
           "vulnerable": [
-            "<= 1.0.3"
+            "<1.0.4"
           ]
         },
         "severity": "medium",
@@ -9974,7 +10302,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-21T08:04:29.444139Z",
+        "modificationTime": "2020-06-12T14:37:01.431138Z",
         "moduleName": "js-yaml",
         "packageManager": "npm",
         "packageName": "js-yaml",
@@ -10025,7 +10353,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:39.614469Z",
+        "modificationTime": "2020-06-12T14:37:00.941979Z",
         "moduleName": "js-yaml",
         "packageManager": "npm",
         "packageName": "js-yaml",
@@ -10100,7 +10428,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-09-04T14:22:07.750265Z",
+        "modificationTime": "2020-06-12T14:36:55.564388Z",
         "moduleName": "js-yaml",
         "packageManager": "npm",
         "packageName": "js-yaml",
@@ -10236,6 +10564,91 @@
       }
     ],
     "jspdf": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-07-03T09:29:05.004978Z",
+        "credit": [
+          "Snyk Security Team"
+        ],
+        "cvssScore": 6.3,
+        "disclosureTime": "2020-06-04T09:28:46Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-JSPDF-575256",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-7690"
+          ],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-07-09T14:05:37.222903Z",
+        "moduleName": "jspdf",
+        "packageManager": "npm",
+        "packageName": "jspdf",
+        "patches": [],
+        "publicationTime": "2020-07-03T13:40:35Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/MrRio/jsPDF/issues/2795"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/MrRio/jsPDF/pull/2806"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<=1.5.3"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-05-06T12:52:01.172573Z",
+        "credit": [
+          "Snyk Security Team"
+        ],
+        "cvssScore": 6.3,
+        "disclosureTime": "2020-05-06T13:44:19Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-JSPDF-568273",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-7691"
+          ],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-07-03T13:45:33.096544Z",
+        "moduleName": "jspdf",
+        "packageManager": "npm",
+        "packageName": "jspdf",
+        "patches": [],
+        "publicationTime": "2020-07-03T13:43:54Z",
+        "references": [],
+        "semver": {
+          "vulnerable": [
+            "<=1.5.3"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
       {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
@@ -10469,7 +10882,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-10-07T15:58:02.312058Z",
+        "modificationTime": "2020-06-12T14:36:49.563281Z",
         "moduleName": "knex",
         "packageManager": "npm",
         "packageName": "knex",
@@ -10582,7 +10995,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:35:13.877698Z",
+        "modificationTime": "2020-06-12T14:36:53.909637Z",
         "moduleName": "knockout",
         "packageManager": "npm",
         "packageName": "knockout",
@@ -10674,7 +11087,9 @@
         "cvssScore": 6.3,
         "disclosureTime": "2020-04-27T22:14:18Z",
         "exploit": "Proof of Concept",
-        "fixedIn": [],
+        "fixedIn": [
+          "4.17.16"
+        ],
         "functions": [],
         "functions_new": [],
         "id": "SNYK-JS-LODASH-567746",
@@ -10682,10 +11097,16 @@
           "CVE": [],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-p6mc-m468-83gw"
+          ],
+          "NSP": [
+            1523
           ]
         },
         "language": "js",
-        "modificationTime": "2020-04-30T11:37:44.302231Z",
+        "modificationTime": "2020-07-09T08:34:04.944267Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -10713,7 +11134,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<=4.17.15"
+            "<4.17.16"
           ]
         },
         "severity": "medium",
@@ -10768,7 +11189,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-09-09T10:38:22.752516Z",
+        "modificationTime": "2020-06-12T14:36:56.159601Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -10864,7 +11285,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-29T10:27:56.017582Z",
+        "modificationTime": "2020-06-12T14:36:57.941198Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -11134,7 +11555,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:07:40.784000Z",
+        "modificationTime": "2020-06-12T14:37:01.420318Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -11349,7 +11770,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:09:00.957000Z",
+        "modificationTime": "2020-06-12T14:36:41.432323Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -11701,6 +12122,49 @@
     ],
     "marked": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H/E:U/RL:O/RC:R",
+        "alternativeIds": [],
+        "creationTime": "2020-07-13T15:50:25.938503Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 5.9,
+        "disclosureTime": "2020-07-13T15:47:58Z",
+        "exploit": "Unproven",
+        "fixedIn": [
+          "1.1.1"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-MARKED-584281",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-07-27T15:44:10.510833Z",
+        "moduleName": "marked",
+        "packageManager": "npm",
+        "packageName": "marked",
+        "patches": [],
+        "publicationTime": "2020-07-27T15:44:09.661335Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/markedjs/marked/commit/bd4f8c464befad2b304d51e33e89e567326e62e0"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<1.1.1"
+          ]
+        },
+        "severity": "medium",
+        "title": "Regular Expression Denial of Service (ReDoS  )"
+      },
+      {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [],
         "creationTime": "2019-07-04T15:39:07.026548Z",
@@ -11724,7 +12188,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-07-05T14:41:20.280032Z",
+        "modificationTime": "2020-06-12T14:36:56.167484Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -11836,7 +12300,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-07T06:59:24.684387Z",
+        "modificationTime": "2020-06-12T14:36:55.625666Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -11891,7 +12355,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:37.343461Z",
+        "modificationTime": "2020-06-12T14:36:55.916974Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -11955,7 +12419,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:43:58.062594Z",
+        "modificationTime": "2020-06-12T14:36:46.804831Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -12010,7 +12474,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:49:19.123534Z",
+        "modificationTime": "2020-06-12T14:36:53.855775Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -12069,7 +12533,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:25.392886Z",
+        "modificationTime": "2020-06-12T14:36:53.990650Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -12215,7 +12679,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:51:38.568324Z",
+        "modificationTime": "2020-06-12T14:36:46.828450Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -12299,7 +12763,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:19.351510Z",
+        "modificationTime": "2020-06-12T14:36:53.987227Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -12508,7 +12972,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:47:35.508091Z",
+        "modificationTime": "2020-06-12T14:36:44.331380Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -12911,13 +13375,21 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:53:29.886130Z",
+        "modificationTime": "2020-06-12T14:36:53.858560Z",
         "moduleName": "mediaelement",
         "packageManager": "npm",
         "packageName": "mediaelement",
         "patches": [],
         "publicationTime": "2017-05-08T12:34:45Z",
         "references": [
+          {
+            "title": "Contao Release Note",
+            "url": "https://contao.org/en/news/contao-3_5_15.html"
+          },
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/contao/core/commit/4d42a56531c82598436d5102fac94721ea99ad49"
+          },
           {
             "title": "GitHub Commit",
             "url": "https://github.com/johndyer/mediaelement/commit/24c6ad056d3f43a78a011ec145f1f099f2a1cdbf"
@@ -13102,7 +13574,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:14:19.417141Z",
+        "modificationTime": "2020-06-12T14:36:41.577037Z",
         "moduleName": "merge-objects",
         "packageManager": "npm",
         "packageName": "merge-objects",
@@ -13157,7 +13629,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:13.571365Z",
+        "modificationTime": "2020-06-12T14:36:41.568964Z",
         "moduleName": "merge-options",
         "packageManager": "npm",
         "packageName": "merge-options",
@@ -13214,7 +13686,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:13:04.395969Z",
+        "modificationTime": "2020-06-12T14:36:41.574473Z",
         "moduleName": "merge-recursive",
         "packageManager": "npm",
         "packageName": "merge-recursive",
@@ -13388,7 +13860,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:26.090487Z",
+        "modificationTime": "2020-06-09T09:57:45.690725Z",
         "moduleName": "mimer",
         "packageManager": "npm",
         "packageName": "mimer",
@@ -13502,7 +13974,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-25T17:39:05.311041Z",
+        "modificationTime": "2020-06-12T14:37:00.759386Z",
         "moduleName": "mixin-deep",
         "packageManager": "npm",
         "packageName": "mixin-deep",
@@ -13661,7 +14133,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:10.229561Z",
+        "modificationTime": "2020-06-09T09:57:45.654958Z",
         "moduleName": "moddle-xml",
         "packageManager": "npm",
         "packageName": "moddle-xml",
@@ -13877,7 +14349,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-03-05T11:56:18.771845Z",
+        "modificationTime": "2020-06-12T14:36:45.510184Z",
         "moduleName": "moment",
         "packageManager": "npm",
         "packageName": "moment",
@@ -13939,7 +14411,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-02-28T15:57:33.876066Z",
+        "modificationTime": "2020-06-09T09:57:45.808353Z",
         "moduleName": "moment",
         "packageManager": "npm",
         "packageName": "moment",
@@ -14317,7 +14789,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-23T07:50:28.604870Z",
+        "modificationTime": "2020-06-09T09:57:45.833759Z",
         "moduleName": "ms",
         "packageManager": "npm",
         "packageName": "ms",
@@ -14723,7 +15195,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:39:03.208328Z",
+        "modificationTime": "2020-06-12T14:36:46.135065Z",
         "moduleName": "mxgraph",
         "packageManager": "npm",
         "packageName": "mxgraph",
@@ -14749,6 +15221,53 @@
       }
     ],
     "next": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+        "alternativeIds": [],
+        "creationTime": "2020-06-10T09:44:30.678249Z",
+        "credit": [
+          "Ron Masas"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2020-06-09T17:27:02Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "5.1.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-NEXT-571938",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-22"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-06-10T13:42:49.186936Z",
+        "moduleName": "next",
+        "packageManager": "npm",
+        "packageName": "next",
+        "patches": [],
+        "publicationTime": "2020-06-10T13:42:49.418013Z",
+        "references": [
+          {
+            "title": "GitHub Additional Information",
+            "url": "https://github.com/masasron/vulnerability-research/tree/master/CVE-2018-6184/LFI"
+          },
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/vercel/next.js/commit/c8da345765e1e96b98a1625acfd70470956505de%23diff-b98f02bc5ed76ee139b182c00ce7b559"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<5.1.0"
+          ]
+        },
+        "severity": "high",
+        "title": "Arbitrary File Read"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:C/C:L/I:L/A:N",
         "alternativeIds": [],
@@ -15376,7 +15895,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-01-12T15:28:41.617802Z",
+        "modificationTime": "2020-06-12T14:37:03.858785Z",
         "moduleName": "node-red",
         "packageManager": "npm",
         "packageName": "node-red",
@@ -15729,7 +16248,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:39:57.910471Z",
+        "modificationTime": "2020-06-12T14:36:46.791268Z",
         "moduleName": "nwmatcher",
         "packageManager": "npm",
         "packageName": "nwmatcher",
@@ -15943,7 +16462,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:33.004504Z",
+        "modificationTime": "2020-06-09T09:57:45.227236Z",
         "moduleName": "plist",
         "packageManager": "npm",
         "packageName": "plist",
@@ -16209,10 +16728,10 @@
         ],
         "creationTime": "2018-08-02T20:00:00Z",
         "credit": [
-          "Unknown"
+          "Dan Abramov"
         ],
         "cvssScore": 6.5,
-        "disclosureTime": "2018-08-02T20:00:00Z",
+        "disclosureTime": "2018-08-01T11:44:35Z",
         "exploit": "Proof of Concept",
         "fixedIn": [
           "3.7.2"
@@ -16229,6 +16748,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "NSP": [
+            1421
           ]
         },
         "language": "js",
@@ -16237,15 +16759,43 @@
         "packageManager": "npm",
         "packageName": "preact-render-to-string",
         "patches": [],
-        "publicationTime": "2018-08-02T20:00:00Z",
+        "publicationTime": "2020-04-06T11:39:36Z",
         "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/facebook/react/pull/13302/commits/cac762a32b322f5d99a5a8c807cf70f16a948fd8"
+          },
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/vuejs/vue/commit/c28f79290d57240c607d8cec3b3413b49702e1fb"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/facebook/react/pull/13302"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/sveltejs/svelte/pull/1623"
+          },
           {
             "title": "GitHub Release",
             "url": "https://github.com/developit/preact-render-to-string/releases/tag/3.7.2"
           },
           {
-            "title": "React-dom Security Advisory",
+            "title": "GitHub Release",
+            "url": "https://github.com/vuejs/vue/releases/tag/v2.5.17"
+          },
+          {
+            "title": "@reactjs tweet",
+            "url": "https://twitter.com/reactjs/status/1024745321987887104"
+          },
+          {
+            "title": "React Security Blog",
             "url": "https://reactjs.org/blog/2018/08/01/react-v-16-4-2.html"
+          },
+          {
+            "title": "@vuejs tweet",
+            "url": "https://twitter.com/vuejs/status/1024754536877973504"
           }
         ],
         "semver": {
@@ -16487,7 +17037,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-03-07T14:54:01.242899Z",
+        "modificationTime": "2020-06-09T09:57:45.779327Z",
         "moduleName": "protobufjs",
         "packageManager": "npm",
         "packageName": "protobufjs",
@@ -16672,7 +17222,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T14:54:59.313590Z",
+        "modificationTime": "2020-06-12T14:36:53.880024Z",
         "moduleName": "qs",
         "packageManager": "npm",
         "packageName": "qs",
@@ -16805,7 +17355,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T14:49:35.021070Z",
+        "modificationTime": "2020-06-12T14:36:44.334026Z",
         "moduleName": "qs",
         "packageManager": "npm",
         "packageName": "qs",
@@ -17002,7 +17552,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:17.825729Z",
+        "modificationTime": "2020-06-12T14:36:45.507446Z",
         "moduleName": "querystringify",
         "packageManager": "npm",
         "packageName": "querystringify",
@@ -17054,7 +17604,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-09-10T09:36:17.542682Z",
+        "modificationTime": "2020-06-12T14:36:59.852156Z",
         "moduleName": "quill",
         "packageManager": "npm",
         "packageName": "quill",
@@ -17385,10 +17935,10 @@
         ],
         "creationTime": "2018-08-02T20:00:00Z",
         "credit": [
-          "Unknown"
+          "Dan Abramov"
         ],
         "cvssScore": 6.5,
-        "disclosureTime": "2018-08-02T20:00:00Z",
+        "disclosureTime": "2018-08-01T11:44:35Z",
         "exploit": "Proof of Concept",
         "fixedIn": [
           "16.0.1",
@@ -17514,23 +18064,43 @@
         "packageManager": "npm",
         "packageName": "react-dom",
         "patches": [],
-        "publicationTime": "2018-08-02T20:00:00Z",
+        "publicationTime": "2020-04-06T11:39:36Z",
         "references": [
           {
             "title": "GitHub Commit",
             "url": "https://github.com/facebook/react/pull/13302/commits/cac762a32b322f5d99a5a8c807cf70f16a948fd8"
           },
           {
+            "title": "GitHub Commit",
+            "url": "https://github.com/vuejs/vue/commit/c28f79290d57240c607d8cec3b3413b49702e1fb"
+          },
+          {
             "title": "GitHub PR",
             "url": "https://github.com/facebook/react/pull/13302"
           },
           {
-            "title": "React-dom Security Blog",
-            "url": "https://reactjs.org/blog/2018/08/01/react-v-16-4-2.html"
+            "title": "GitHub PR",
+            "url": "https://github.com/sveltejs/svelte/pull/1623"
+          },
+          {
+            "title": "GitHub Release",
+            "url": "https://github.com/developit/preact-render-to-string/releases/tag/3.7.2"
+          },
+          {
+            "title": "GitHub Release",
+            "url": "https://github.com/vuejs/vue/releases/tag/v2.5.17"
           },
           {
             "title": "@reactjs tweet",
             "url": "https://twitter.com/reactjs/status/1024745321987887104"
+          },
+          {
+            "title": "React Security Blog",
+            "url": "https://reactjs.org/blog/2018/08/01/react-v-16-4-2.html"
+          },
+          {
+            "title": "@vuejs tweet",
+            "url": "https://twitter.com/vuejs/status/1024754536877973504"
           }
         ],
         "semver": {
@@ -17636,7 +18206,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T16:00:14.699468Z",
+        "modificationTime": "2020-06-12T14:36:53.955118Z",
         "moduleName": "react-svg",
         "packageManager": "npm",
         "packageName": "react-svg",
@@ -17708,7 +18278,7 @@
     ],
     "reduce-css-calc": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-REDUCECSSCALC-10152"
         ],
@@ -17716,7 +18286,7 @@
         "credit": [
           "Сковорода Никита Андреевич (ChALkeR)"
         ],
-        "cvssScore": 10.0,
+        "cvssScore": 6.1,
         "disclosureTime": "2016-08-20T00:00:00Z",
         "exploit": "Not Defined",
         "fixedIn": [
@@ -17761,7 +18331,7 @@
             "<1.2.5"
           ]
         },
-        "severity": "high",
+        "severity": "medium",
         "title": "Arbitrary Code Injection"
       }
     ],
@@ -17812,7 +18382,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:42.625043Z",
+        "modificationTime": "2020-06-12T14:37:02.689100Z",
         "moduleName": "remarkable",
         "packageManager": "npm",
         "packageName": "remarkable",
@@ -17857,7 +18427,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-08-07T06:02:17.522914Z",
+        "modificationTime": "2020-06-12T14:36:55.864750Z",
         "moduleName": "remarkable",
         "packageManager": "npm",
         "packageName": "remarkable",
@@ -17918,7 +18488,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:00:37.530720Z",
+        "modificationTime": "2020-06-12T14:36:53.877354Z",
         "moduleName": "remarkable",
         "packageManager": "npm",
         "packageName": "remarkable",
@@ -17979,7 +18549,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T14:58:31.656681Z",
+        "modificationTime": "2020-06-12T14:36:53.874444Z",
         "moduleName": "remarkable",
         "packageManager": "npm",
         "packageName": "remarkable",
@@ -18295,7 +18865,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-01-31T16:44:50.717775Z",
+        "modificationTime": "2020-06-12T14:37:00.903599Z",
         "moduleName": "reveal.js",
         "packageManager": "npm",
         "packageName": "reveal.js",
@@ -18333,7 +18903,9 @@
         "cvssScore": 5.9,
         "disclosureTime": "2019-01-30T16:42:12Z",
         "exploit": "Not Defined",
-        "fixedIn": [],
+        "fixedIn": [
+          "4.0.0"
+        ],
         "functions": [],
         "functions_new": [],
         "id": "SNYK-JS-REVEALJS-173730",
@@ -18344,7 +18916,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-02-26T12:04:09.334570Z",
+        "modificationTime": "2020-06-12T14:37:05.266961Z",
         "moduleName": "reveal.js",
         "packageManager": "npm",
         "packageName": "reveal.js",
@@ -18362,7 +18934,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<=3.9.2"
+            "<4.0.0"
           ]
         },
         "severity": "medium",
@@ -18572,7 +19144,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-01-06T11:48:24.254905Z",
+        "modificationTime": "2020-06-12T14:36:55.223564Z",
         "moduleName": "rrule",
         "packageManager": "npm",
         "packageName": "rrule",
@@ -18623,7 +19195,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T16:01:42.019250Z",
+        "modificationTime": "2020-06-12T14:36:56.302810Z",
         "moduleName": "rrule",
         "packageManager": "npm",
         "packageName": "rrule",
@@ -18979,7 +19551,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-08-22T13:58:45.322720Z",
+        "modificationTime": "2020-06-12T14:37:03.402815Z",
         "moduleName": "select2",
         "packageManager": "npm",
         "packageName": "select2",
@@ -19270,7 +19842,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-08T16:22:17.949800Z",
+        "modificationTime": "2020-06-12T14:37:03.143567Z",
         "moduleName": "serialize-to-js",
         "packageManager": "npm",
         "packageName": "serialize-to-js",
@@ -19320,7 +19892,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-08-22T14:29:44.521740Z",
+        "modificationTime": "2020-06-12T14:37:00.947330Z",
         "moduleName": "serialize-to-js",
         "packageManager": "npm",
         "packageName": "serialize-to-js",
@@ -19444,7 +20016,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-03-28T17:44:59.339477Z",
+        "modificationTime": "2020-06-09T09:57:45.775534Z",
         "moduleName": "shaka-player",
         "packageManager": "npm",
         "packageName": "shaka-player",
@@ -19500,7 +20072,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-05T11:40:51.986196Z",
+        "modificationTime": "2020-06-12T14:36:42.716094Z",
         "moduleName": "shell-quote",
         "packageManager": "npm",
         "packageName": "shell-quote",
@@ -19614,7 +20186,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-13T17:28:11.871154Z",
+        "modificationTime": "2020-06-12T14:37:02.564189Z",
         "moduleName": "simditor",
         "packageManager": "npm",
         "packageName": "simditor",
@@ -19672,7 +20244,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-07-23T09:51:06.308721Z",
+        "modificationTime": "2020-06-12T14:36:44.342219Z",
         "moduleName": "simditor",
         "packageManager": "npm",
         "packageName": "simditor",
@@ -19731,7 +20303,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:31.555310Z",
+        "modificationTime": "2020-06-09T09:57:45.708477Z",
         "moduleName": "simpl-schema",
         "packageManager": "npm",
         "packageName": "simpl-schema",
@@ -20227,7 +20799,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:13:06.108080Z",
+        "modificationTime": "2020-06-12T14:36:53.893456Z",
         "moduleName": "superagent",
         "packageManager": "npm",
         "packageName": "superagent",
@@ -20324,7 +20896,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:05:56.547727Z",
+        "modificationTime": "2020-06-12T14:36:53.888095Z",
         "moduleName": "superagent",
         "packageManager": "npm",
         "packageName": "superagent",
@@ -20346,6 +20918,49 @@
       }
     ],
     "swagger-ui": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N/RL:O",
+        "alternativeIds": [],
+        "creationTime": "2020-06-11T14:30:10.957189Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 4.6,
+        "disclosureTime": "2020-06-11T14:27:11Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "3.26.1"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-SWAGGERUI-572012",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-453"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-07-01T15:32:35.532108Z",
+        "moduleName": "swagger-ui",
+        "packageManager": "npm",
+        "packageName": "swagger-ui",
+        "patches": [],
+        "publicationTime": "2020-07-01T07:15:46Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/swagger-api/swagger-ui/commit/a616cb471d31f04a28d185aeb1bcb83637afc3cf"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<3.26.1"
+          ]
+        },
+        "severity": "medium",
+        "title": "Insecure Defaults"
+      },
       {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [],
@@ -20371,7 +20986,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-10-11T16:35:34.284908Z",
+        "modificationTime": "2020-06-12T14:37:03.389243Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -20422,7 +21037,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:56.964504Z",
+        "modificationTime": "2020-06-12T14:37:01.116978Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -20472,7 +21087,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-17T15:13:26.999273Z",
+        "modificationTime": "2020-06-12T14:36:55.416277Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -20529,7 +21144,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-17T15:13:27.022093Z",
+        "modificationTime": "2020-06-12T14:36:56.373858Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -20611,7 +21226,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-16T13:59:35.709818Z",
+        "modificationTime": "2020-06-12T14:36:55.882334Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -20664,7 +21279,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-13T10:56:25.622556Z",
+        "modificationTime": "2020-06-12T14:37:03.397472Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -20720,7 +21335,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-13T10:08:04.360266Z",
+        "modificationTime": "2020-06-12T14:36:46.245666Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -20947,7 +21562,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-13T10:22:52.214574Z",
+        "modificationTime": "2020-06-12T14:36:42.604785Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -21006,7 +21621,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-13T10:20:43.814167Z",
+        "modificationTime": "2020-06-12T14:36:42.712692Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -21349,8 +21964,12 @@
         "packageManager": "npm",
         "packageName": "tinymce",
         "patches": [],
-        "publicationTime": "2020-05-12T15:14:06.581903Z",
+        "publicationTime": "2020-05-12T15:14:06Z",
         "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/tinymce/tinymce/pull/5593/files"
+          },
           {
             "title": "Release Notes",
             "url": "https://www.tiny.cloud/docs/release-notes/release-notes522/%23securityfixes"
@@ -21392,7 +22011,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-01-31T11:47:49.879531Z",
+        "modificationTime": "2020-06-12T14:36:54.814775Z",
         "moduleName": "tinymce",
         "packageManager": "npm",
         "packageName": "tinymce",
@@ -21435,9 +22054,10 @@
           "unknown"
         ],
         "cvssScore": 6.5,
-        "disclosureTime": "2018-05-22T21:09:49.725000Z",
+        "disclosureTime": "2018-05-22T21:09:49Z",
         "exploit": "Not Defined",
         "fixedIn": [
+          "4.5.12",
           "4.7.12"
         ],
         "functions": [],
@@ -21453,12 +22073,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:14:09.432930Z",
+        "modificationTime": "2020-07-02T12:49:21.897271Z",
         "moduleName": "tinymce",
         "packageManager": "npm",
         "packageName": "tinymce",
         "patches": [],
-        "publicationTime": "2018-05-24T13:55:33.405000Z",
+        "publicationTime": "2018-05-24T13:55:33Z",
         "references": [
           {
             "title": "Changelog",
@@ -21471,7 +22091,8 @@
         ],
         "semver": {
           "vulnerable": [
-            "<4.7.12"
+            "<4.5.12",
+            ">=4.6.0 <4.7.12"
           ]
         },
         "severity": "medium",
@@ -21652,7 +22273,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:14.488134Z",
+        "modificationTime": "2020-06-09T09:57:45.644114Z",
         "moduleName": "truncate",
         "packageManager": "npm",
         "packageName": "truncate",
@@ -21819,7 +22440,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:03.497920Z",
+        "modificationTime": "2020-06-09T09:57:45.516722Z",
         "moduleName": "ua-parser-js",
         "packageManager": "npm",
         "packageName": "ua-parser-js",
@@ -22027,7 +22648,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:28:13.802863Z",
+        "modificationTime": "2020-06-12T14:36:53.901480Z",
         "moduleName": "underscore.string",
         "packageManager": "npm",
         "packageName": "underscore.string",
@@ -22141,7 +22762,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-01-27T11:42:07.393150Z",
+        "modificationTime": "2020-06-12T14:37:03.818269Z",
         "moduleName": "url-parse",
         "packageManager": "npm",
         "packageName": "url-parse",
@@ -22610,7 +23231,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:21.208606Z",
+        "modificationTime": "2020-06-09T09:57:45.635385Z",
         "moduleName": "valid-data-url",
         "packageManager": "npm",
         "packageName": "valid-data-url",
@@ -22701,7 +23322,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-09-01T11:28:51.205780Z",
+        "modificationTime": "2020-06-12T14:36:46.799441Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -23222,10 +23843,10 @@
         ],
         "creationTime": "2018-08-02T20:00:00Z",
         "credit": [
-          "Unknown"
+          "Dan Abramov"
         ],
         "cvssScore": 6.5,
-        "disclosureTime": "2018-08-02T20:00:00Z",
+        "disclosureTime": "2018-08-01T11:44:35Z",
         "exploit": "Proof of Concept",
         "fixedIn": [
           "2.5.17"
@@ -23242,23 +23863,50 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "NSP": [
+            1421
           ]
         },
         "language": "js",
-        "modificationTime": "2019-01-23T07:38:54.372178Z",
+        "modificationTime": "2020-06-12T14:36:45.513034Z",
         "moduleName": "vue",
         "packageManager": "npm",
         "packageName": "vue",
         "patches": [],
-        "publicationTime": "2018-08-02T20:00:00Z",
+        "publicationTime": "2020-04-06T11:39:36Z",
         "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/facebook/react/pull/13302/commits/cac762a32b322f5d99a5a8c807cf70f16a948fd8"
+          },
           {
             "title": "GitHub Commit",
             "url": "https://github.com/vuejs/vue/commit/c28f79290d57240c607d8cec3b3413b49702e1fb"
           },
           {
+            "title": "GitHub PR",
+            "url": "https://github.com/facebook/react/pull/13302"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/sveltejs/svelte/pull/1623"
+          },
+          {
+            "title": "GitHub Release",
+            "url": "https://github.com/developit/preact-render-to-string/releases/tag/3.7.2"
+          },
+          {
             "title": "GitHub Release",
             "url": "https://github.com/vuejs/vue/releases/tag/v2.5.17"
+          },
+          {
+            "title": "@reactjs tweet",
+            "url": "https://twitter.com/reactjs/status/1024745321987887104"
+          },
+          {
+            "title": "React Security Blog",
+            "url": "https://reactjs.org/blog/2018/08/01/react-v-16-4-2.html"
           },
           {
             "title": "@vuejs tweet",
@@ -23302,7 +23950,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-06T15:18:35.755550Z",
+        "modificationTime": "2020-06-09T09:57:45.626630Z",
         "moduleName": "vue",
         "packageManager": "npm",
         "packageName": "vue",
@@ -23353,7 +24001,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:21.599280Z",
+        "modificationTime": "2020-06-09T09:57:45.777499Z",
         "moduleName": "wicket",
         "packageManager": "npm",
         "packageName": "wicket",
@@ -23430,6 +24078,55 @@
     ],
     "xlsx": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-07-17T15:50:50.104711Z",
+        "credit": [
+          "Jamie Davis of Virginia Tech",
+          "Adam Cazzolla of Sonatype Security Team"
+        ],
+        "cvssScore": 3.7,
+        "disclosureTime": "2020-04-20T15:50:15Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "0.16.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-XLSX-585898",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-185",
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-07-17T15:55:44.271232Z",
+        "moduleName": "xlsx",
+        "packageManager": "npm",
+        "packageName": "xlsx",
+        "patches": [],
+        "publicationTime": "2020-07-17T15:50:04Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/SheetJS/sheetjs/commit/257d4e6db2444ce1a0be814c1c352423f4aba7b5"
+          },
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/SheetJS/sheetjs/issues/1904"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<0.16.0"
+          ]
+        },
+        "severity": "low",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
         "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-XLSX-10909"
@@ -23458,7 +24155,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:09.528257Z",
+        "modificationTime": "2020-06-09T09:57:45.398613Z",
         "moduleName": "xlsx",
         "packageManager": "npm",
         "packageName": "xlsx",
