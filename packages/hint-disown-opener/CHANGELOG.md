@@ -1,3 +1,12 @@
+# 4.0.1 (July 27, 2020)
+
+## Chores
+
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`f352ca7d66`](https://github.com/webhintio/hint/commit/f352ca7d66db772be92af7eb487035c8ab200d1f)] - Upgrade: Bump mdn-browser-compat-data from 1.0.16 to 1.0.22.
+
+
 # 4.0.0 (May 18, 2020)
 
 ## Breaking Changes

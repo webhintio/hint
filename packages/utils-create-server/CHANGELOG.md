@@ -1,3 +1,17 @@
+# 3.4.5 (July 27, 2020)
+
+## Bug fixes / Improvements
+
+* [[`fd07a7ef01`](https://github.com/webhintio/hint/commit/fd07a7ef018d821078cf52e809e53a1c306986eb)] - Fix: Preserve RegExp through updateLocalhost.
+
+## Chores
+
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`3ad776da18`](https://github.com/webhintio/hint/commit/3ad776da18024a78e79db26fa02613df28e8d737)] - Upgrade: Bump lodash from 4.17.15 to 4.17.19.
+* [[`801d327b23`](https://github.com/webhintio/hint/commit/801d327b231f2417f4a4dce0d1c7bd61fdcab2be)] - Upgrade: Bump @types/lodash from 4.14.155 to 4.14.157.
+* [[`b7a5af164e`](https://github.com/webhintio/hint/commit/b7a5af164ebcbd4a587d1d72a12938642dab0ea5)] - Upgrade: Bump @types/lodash from 4.14.151 to 4.14.155.
+
+
 # 3.4.4 (May 18, 2020)
 
 ## Chores

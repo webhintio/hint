@@ -1,3 +1,12 @@
+# 1.0.5 (July 27, 2020)
+
+## Chores
+
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`3ad776da18`](https://github.com/webhintio/hint/commit/3ad776da18024a78e79db26fa02613df28e8d737)] - Upgrade: Bump lodash from 4.17.15 to 4.17.19.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+
+
 # 1.0.4 (May 18, 2020)
 
 ## Chores

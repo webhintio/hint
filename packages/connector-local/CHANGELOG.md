@@ -1,3 +1,14 @@
+# 3.2.6 (July 27, 2020)
+
+## Chores
+
+* [[`e75e5d3af0`](https://github.com/webhintio/hint/commit/e75e5d3af0203ca476d1e7010ea7332c19aab1a5)] - Upgrade: Bump chokidar from 3.4.0 to 3.4.1.
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`25b03ce660`](https://github.com/webhintio/hint/commit/25b03ce66036ba117e364fa78771d84699c68220)] - Upgrade: Bump globby from 11.0.0 to 11.0.1.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`c82c935042`](https://github.com/webhintio/hint/commit/c82c93504265a12b79ac9e0cde1cbb0518442f72)] - Upgrade: Bump @types/sinon from 9.0.0 to 9.0.4.
+
+
 # 3.2.5 (May 18, 2020)
 
 ## Chores

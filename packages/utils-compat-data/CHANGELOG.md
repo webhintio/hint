@@ -1,3 +1,20 @@
+# 1.0.6 (July 27, 2020)
+
+## Bug fixes / Improvements
+
+* [[`a6abc928ef`](https://github.com/webhintio/hint/commit/a6abc928ef0a41f911556014882063c6d64da11a)] - Fix: Generated file `browser-compat-api` incomplete (see also: [`#3901`](https://github.com/webhintio/hint/issues/3901)).
+
+## Chores
+
+* [[`fd9489bc83`](https://github.com/webhintio/hint/commit/fd9489bc83eab4f556aa834ecc142efd98104d7a)] - Upgrade: Bump mdn-browser-compat-data from 1.0.30 to 1.0.31.
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`e83083c177`](https://github.com/webhintio/hint/commit/e83083c1773ac385b537e6fd7016cb3bfd4b65ac)] - Upgrade: Bump postcss from 7.0.29 to 7.0.32.
+* [[`60e15af3bc`](https://github.com/webhintio/hint/commit/60e15af3bc92511094329a6836efadcfbc4bed37)] - Upgrade: Bump mdn-browser-compat-data from 1.0.23 to 1.0.30.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`1921e21e9d`](https://github.com/webhintio/hint/commit/1921e21e9d358a8494c8b721178adc5a9633be53)] - Upgrade: Bump mdn-browser-compat-data from 1.0.22 to 1.0.23.
+* [[`f352ca7d66`](https://github.com/webhintio/hint/commit/f352ca7d66db772be92af7eb487035c8ab200d1f)] - Upgrade: Bump mdn-browser-compat-data from 1.0.16 to 1.0.22.
+
+
 # 1.0.5 (May 18, 2020)
 
 ## Chores

@@ -1,3 +1,25 @@
+# 1.1.1 (July 27, 2020)
+
+## Bug fixes / Improvements
+
+* [[`f18edf0c63`](https://github.com/webhintio/hint/commit/f18edf0c639fb890f8a1aa94f6a79b33c7acc91b)] - Fix: Don't delay FetchEnd for DOM snapshot.
+
+## Chores
+
+* [[`e631dc1a6f`](https://github.com/webhintio/hint/commit/e631dc1a6fc291b16ffb6bc5a81ae8c6a3a870ff)] - Upgrade: Bump webpack from 4.43.0 to 4.44.0.
+* [[`ac601fe07b`](https://github.com/webhintio/hint/commit/ac601fe07baacaeff82144d321ef9960ab50cb03)] - Upgrade: Bump webpack-cli from 3.3.11 to 3.3.12.
+* [[`7cfadc1f13`](https://github.com/webhintio/hint/commit/7cfadc1f136ee88ba6f96035a6ef5c59bf7ae9ff)] - Upgrade: Bump puppeteer from 5.0.0 to 5.2.0.
+* [[`17b8fc72e9`](https://github.com/webhintio/hint/commit/17b8fc72e9fe8f10d5c33e39276814de67d1d7c9)] - Upgrade: Bump terser-webpack-plugin from 2.3.4 to 3.0.7.
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`3af8951bcc`](https://github.com/webhintio/hint/commit/3af8951bccb54273fa0f7ded7aabb20faa5fc69e)] - Upgrade: Bump puppeteer from 3.2.0 to 5.0.0.
+* [[`3ad776da18`](https://github.com/webhintio/hint/commit/3ad776da18024a78e79db26fa02613df28e8d737)] - Upgrade: Bump lodash from 4.17.15 to 4.17.19.
+* [[`25b03ce660`](https://github.com/webhintio/hint/commit/25b03ce66036ba117e364fa78771d84699c68220)] - Upgrade: Bump globby from 11.0.0 to 11.0.1.
+* [[`87ac4ab571`](https://github.com/webhintio/hint/commit/87ac4ab571742bf4ef852ea936e7d621cc391e75)] - Chore: Move from master to main (see also: [`#3809`](https://github.com/webhintio/hint/issues/3809)).
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`8652c0edba`](https://github.com/webhintio/hint/commit/8652c0edbabc740e9c5bde3731a6dc7a990f78cc)] - Upgrade: Bump raw-loader from 4.0.0 to 4.0.1.
+* [[`9c26192104`](https://github.com/webhintio/hint/commit/9c261921044c501d7a5f691d816960da36f1d081)] - Upgrade: Bump puppeteer from 2.1.1 to 3.2.0.
+
+
 # 1.1.0 (May 18, 2020)
 
 ## New features

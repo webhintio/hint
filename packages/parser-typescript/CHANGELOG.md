@@ -1,3 +1,13 @@
+# 1.0.7 (July 27, 2020)
+
+## Chores
+
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`472c6409a9`](https://github.com/webhintio/hint/commit/472c6409a922ec52e6659bbd17884c4cf072e42f)] - Upgrade: Bump @typescript-eslint/typescript-estree from 3.1.0 to 3.2.0.
+* [[`ac88354a08`](https://github.com/webhintio/hint/commit/ac88354a080a0af9603b7a77a95e1e9cb9af4da1)] - Upgrade: Bump @typescript-eslint/typescript-estree from 2.27.0 to 3.1.0.
+
+
 # 1.0.6 (May 18, 2020)
 
 ## Chores

@@ -8,16 +8,16 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-fs": "^1.0.3",
-    "@hint/utils-i18n": "^1.0.3",
-    "@hint/utils-string": "^1.0.3",
+    "@hint/utils-fs": "^1.0.4",
+    "@hint/utils-i18n": "^1.0.4",
+    "@hint/utils-string": "^1.0.4",
     "@hint/utils-types": "^1.0.1"
   },
   "description": "hint that that checks if the web app manifest file has the correct file extension",
   "devDependencies": {
-    "@hint/parser-manifest": "^2.2.18",
-    "@hint/utils-create-server": "^3.4.4",
-    "@hint/utils-tests-helpers": "^6.1.2",
+    "@hint/parser-manifest": "^2.2.19",
+    "@hint/utils-create-server": "^3.4.5",
+    "@hint/utils-tests-helpers": "^6.2.0",
     "@types/node": "^13.13.4",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.0"
+  "version": "3.0.1"
 }

@@ -1,3 +1,14 @@
+# 6.2.0 (July 27, 2020)
+
+## New features
+
+* [[`937500b666`](https://github.com/webhintio/hint/commit/937500b66673d8b89b1dfda5dd1b6c0bace90bbb)] - New: Support RegExp message matching in tests.
+
+## Chores
+
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+
+
 # 6.1.2 (May 18, 2020)
 
 ## Chores

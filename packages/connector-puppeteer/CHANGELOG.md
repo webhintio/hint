@@ -1,3 +1,22 @@
+# 2.5.3 (July 27, 2020)
+
+## Bug fixes / Improvements
+
+* [[`2bdd6358f3`](https://github.com/webhintio/hint/commit/2bdd6358f36d9941dca205769e76d3daec94b5d0)] - Fix: Grep AWK path accounting for suffix (see also: [`#3900`](https://github.com/webhintio/hint/issues/3900)).
+
+## Chores
+
+* [[`7cfadc1f13`](https://github.com/webhintio/hint/commit/7cfadc1f136ee88ba6f96035a6ef5c59bf7ae9ff)] - Upgrade: Bump puppeteer from 5.0.0 to 5.2.0.
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`3af8951bcc`](https://github.com/webhintio/hint/commit/3af8951bccb54273fa0f7ded7aabb20faa5fc69e)] - Upgrade: Bump puppeteer from 3.2.0 to 5.0.0.
+* [[`3ad776da18`](https://github.com/webhintio/hint/commit/3ad776da18024a78e79db26fa02613df28e8d737)] - Upgrade: Bump lodash from 4.17.15 to 4.17.19.
+* [[`801d327b23`](https://github.com/webhintio/hint/commit/801d327b231f2417f4a4dce0d1c7bd61fdcab2be)] - Upgrade: Bump @types/lodash from 4.14.155 to 4.14.157.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`b7a5af164e`](https://github.com/webhintio/hint/commit/b7a5af164ebcbd4a587d1d72a12938642dab0ea5)] - Upgrade: Bump @types/lodash from 4.14.151 to 4.14.155.
+* [[`c82c935042`](https://github.com/webhintio/hint/commit/c82c93504265a12b79ac9e0cde1cbb0518442f72)] - Upgrade: Bump @types/sinon from 9.0.0 to 9.0.4.
+* [[`9c26192104`](https://github.com/webhintio/hint/commit/9c261921044c501d7a5f691d816960da36f1d081)] - Upgrade: Bump puppeteer from 2.1.1 to 3.2.0.
+
+
 # 2.5.2 (May 18, 2020)
 
 ## Chores

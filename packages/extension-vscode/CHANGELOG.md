@@ -1,3 +1,19 @@
+# 1.5.7 (July 27, 2020)
+
+## Chores
+
+* [[`e631dc1a6f`](https://github.com/webhintio/hint/commit/e631dc1a6fc291b16ffb6bc5a81ae8c6a3a870ff)] - Upgrade: Bump webpack from 4.43.0 to 4.44.0.
+* [[`ac601fe07b`](https://github.com/webhintio/hint/commit/ac601fe07baacaeff82144d321ef9960ab50cb03)] - Upgrade: Bump webpack-cli from 3.3.11 to 3.3.12.
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`0d90ce6ef4`](https://github.com/webhintio/hint/commit/0d90ce6ef4e334611acbd88bc97660172563a4d0)] - Upgrade: Bump ts-loader from 7.0.5 to 8.0.0.
+* [[`b202cd5282`](https://github.com/webhintio/hint/commit/b202cd528288471aca7b1a006099e4cbf311688b)] - Upgrade: Bump @types/vscode from 1.44.0 to 1.46.0 (see also: [`#3746`](https://github.com/webhintio/hint/issues/3746)).
+* [[`c70eae5cc4`](https://github.com/webhintio/hint/commit/c70eae5cc41bdc9397f76acd4e406cd1a4725142)] - Upgrade: Bump vsce from 1.75.0 to 1.76.1.
+* [[`87ac4ab571`](https://github.com/webhintio/hint/commit/87ac4ab571742bf4ef852ea936e7d621cc391e75)] - Chore: Move from master to main (see also: [`#3809`](https://github.com/webhintio/hint/issues/3809)).
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`8d21b5aad0`](https://github.com/webhintio/hint/commit/8d21b5aad0dc86a0f236e1640bfc5d1c149eb20c)] - Upgrade: Bump ts-loader from 7.0.4 to 7.0.5.
+* [[`c82c935042`](https://github.com/webhintio/hint/commit/c82c93504265a12b79ac9e0cde1cbb0518442f72)] - Upgrade: Bump @types/sinon from 9.0.0 to 9.0.4.
+
+
 # 1.5.6 (May 18, 2020)
 
 ## Chores

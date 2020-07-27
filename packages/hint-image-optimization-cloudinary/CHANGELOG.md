@@ -1,3 +1,13 @@
+# 3.2.5 (July 27, 2020)
+
+## Chores
+
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`5c5ca7153f`](https://github.com/webhintio/hint/commit/5c5ca7153fef5bf11c8511fd81c16cea4fcc2a5f)] - Upgrade: Bump cloudinary from 1.21.0 to 1.22.0.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`83a7172ffb`](https://github.com/webhintio/hint/commit/83a7172ffb706dc24e1bb6590de77f09f1271f10)] - Upgrade: Bump fs-extra from 8.1.0 to 9.0.1.
+
+
 # 3.2.4 (May 18, 2020)
 
 ## Chores

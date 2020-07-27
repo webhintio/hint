@@ -1,3 +1,19 @@
+# 4.2.3 (July 27, 2020)
+
+## Chores
+
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`3ad776da18`](https://github.com/webhintio/hint/commit/3ad776da18024a78e79db26fa02613df28e8d737)] - Upgrade: Bump lodash from 4.17.15 to 4.17.19.
+* [[`25b03ce660`](https://github.com/webhintio/hint/commit/25b03ce66036ba117e364fa78771d84699c68220)] - Upgrade: Bump globby from 11.0.0 to 11.0.1.
+* [[`7408c40de2`](https://github.com/webhintio/hint/commit/7408c40de292251584869db32aafcfb55a05ad7f)] - Upgrade: Bump @types/fs-extra from 8.1.0 to 9.0.1.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`ea05fdb6fd`](https://github.com/webhintio/hint/commit/ea05fdb6fdcbe42117a21b816577a5dbad9bc0fd)] - Upgrade: Bump @types/ejs from 3.0.1 to 3.0.4.
+* [[`83a7172ffb`](https://github.com/webhintio/hint/commit/83a7172ffb706dc24e1bb6590de77f09f1271f10)] - Upgrade: Bump fs-extra from 8.1.0 to 9.0.1.
+* [[`2eda14bbd0`](https://github.com/webhintio/hint/commit/2eda14bbd0d5f5ccbf731028b0da9c6de92824b5)] - Upgrade: Bump moment from 2.25.3 to 2.26.0.
+* [[`c82c935042`](https://github.com/webhintio/hint/commit/c82c93504265a12b79ac9e0cde1cbb0518442f72)] - Upgrade: Bump @types/sinon from 9.0.0 to 9.0.4.
+* [[`eb7f9eae80`](https://github.com/webhintio/hint/commit/eb7f9eae8092051c376bc4d3f4133f1a76b76307)] - Upgrade: Bump ejs from 3.1.2 to 3.1.3.
+
+
 # 4.2.2 (May 18, 2020)
 
 ## Chores

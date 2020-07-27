@@ -1,3 +1,12 @@
+# 4.2.5 (July 27, 2020)
+
+## Chores
+
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`3f7ef9f25a`](https://github.com/webhintio/hint/commit/3f7ef9f25a7e525dd439b12948bab2acb63a426a)] - Upgrade: Bump @types/request from 2.48.4 to 2.48.5.
+
+
 # 4.2.4 (May 18, 2020)
 
 ## Chores

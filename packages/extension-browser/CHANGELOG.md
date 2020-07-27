@@ -1,3 +1,35 @@
+# 2.1.3 (July 27, 2020)
+
+## Bug fixes / Improvements
+
+* [[`a37a7a39ee`](https://github.com/webhintio/hint/commit/a37a7a39ee27ecb8ed289d1e8c74014a6895e5e0)] - Fix: Break header text anywhere needed (see also: [`#3587`](https://github.com/webhintio/hint/issues/3587)).
+* [[`7e9d0312aa`](https://github.com/webhintio/hint/commit/7e9d0312aa444ee9e58229bdfd392d01f6b685ce)] - Fix: Better wrapping logic for config page (see also: [`#3528`](https://github.com/webhintio/hint/issues/3528)).
+
+## Chores
+
+* [[`817bf7e3c3`](https://github.com/webhintio/hint/commit/817bf7e3c30f019ccc8529563e0ac45b992263c8)] - Upgrade: Bump react-syntax-highlighter from 12.2.1 to 13.0.0.
+* [[`e631dc1a6f`](https://github.com/webhintio/hint/commit/e631dc1a6fc291b16ffb6bc5a81ae8c6a3a870ff)] - Upgrade: Bump webpack from 4.43.0 to 4.44.0.
+* [[`ac601fe07b`](https://github.com/webhintio/hint/commit/ac601fe07baacaeff82144d321ef9960ab50cb03)] - Upgrade: Bump webpack-cli from 3.3.11 to 3.3.12.
+* [[`7cfadc1f13`](https://github.com/webhintio/hint/commit/7cfadc1f136ee88ba6f96035a6ef5c59bf7ae9ff)] - Upgrade: Bump puppeteer from 5.0.0 to 5.2.0.
+* [[`6e0c225e66`](https://github.com/webhintio/hint/commit/6e0c225e669088139d100d249223f2b21dc016ae)] - Upgrade: Bump web-ext from 4.2.0 to 4.3.0.
+* [[`17b8fc72e9`](https://github.com/webhintio/hint/commit/17b8fc72e9fe8f10d5c33e39276814de67d1d7c9)] - Upgrade: Bump terser-webpack-plugin from 2.3.4 to 3.0.7.
+* [[`f705f65c3b`](https://github.com/webhintio/hint/commit/f705f65c3b7b930aeee662ba2cc0b84c190bcc59)] - Upgrade: Bump css-loader from 3.5.3 to 3.6.0.
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`3af8951bcc`](https://github.com/webhintio/hint/commit/3af8951bccb54273fa0f7ded7aabb20faa5fc69e)] - Upgrade: Bump puppeteer from 3.2.0 to 5.0.0.
+* [[`a8275bc714`](https://github.com/webhintio/hint/commit/a8275bc714e57070922e09d38966d9109ddf8aa3)] - Upgrade: Bump @types/chrome from 0.0.116 to 0.0.120.
+* [[`3ad776da18`](https://github.com/webhintio/hint/commit/3ad776da18024a78e79db26fa02613df28e8d737)] - Upgrade: Bump lodash from 4.17.15 to 4.17.19.
+* [[`cf70672364`](https://github.com/webhintio/hint/commit/cf706723642b737b4564e6abcc26927f9aec0d3b)] - Upgrade: Bump svg-url-loader from 5.0.0 to 6.0.0.
+* [[`25b03ce660`](https://github.com/webhintio/hint/commit/25b03ce66036ba117e364fa78771d84699c68220)] - Upgrade: Bump globby from 11.0.0 to 11.0.1.
+* [[`fa9b13bb62`](https://github.com/webhintio/hint/commit/fa9b13bb620e8ad8f7dd8bd38e3788dc2becc5cc)] - Upgrade: Bump react from 16.13.0 to 16.13.1.
+* [[`020c2dd4b9`](https://github.com/webhintio/hint/commit/020c2dd4b94bf5b2fba8c2181fb339f013e81ffd)] - Upgrade: Bump @types/chrome from 0.0.107 to 0.0.116.
+* [[`87ac4ab571`](https://github.com/webhintio/hint/commit/87ac4ab571742bf4ef852ea936e7d621cc391e75)] - Chore: Move from master to main (see also: [`#3809`](https://github.com/webhintio/hint/issues/3809)).
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`8652c0edba`](https://github.com/webhintio/hint/commit/8652c0edbabc740e9c5bde3731a6dc7a990f78cc)] - Upgrade: Bump raw-loader from 4.0.0 to 4.0.1.
+* [[`5c11c080cc`](https://github.com/webhintio/hint/commit/5c11c080cce1e4224b9e807b567c29e5e9209906)] - Upgrade: Bump style-loader from 1.2.0 to 1.2.1.
+* [[`c82c935042`](https://github.com/webhintio/hint/commit/c82c93504265a12b79ac9e0cde1cbb0518442f72)] - Upgrade: Bump @types/sinon from 9.0.0 to 9.0.4.
+* [[`9c26192104`](https://github.com/webhintio/hint/commit/9c261921044c501d7a5f691d816960da36f1d081)] - Upgrade: Bump puppeteer from 2.1.1 to 3.2.0.
+
+
 # 2.1.2 (May 18, 2020)
 
 ## Chores

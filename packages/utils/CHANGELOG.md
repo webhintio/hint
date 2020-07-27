@@ -1,3 +1,19 @@
+# 7.0.5 (July 27, 2020)
+
+## Chores
+
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`7d34ae0268`](https://github.com/webhintio/hint/commit/7d34ae02689cd37ccf2d83ff60139dbf077a00fe)] - Upgrade: Bump @types/mime-db from 1.27.1 to 1.43.0.
+* [[`27a4c183b6`](https://github.com/webhintio/hint/commit/27a4c183b6861e91931f67b2a14df7d1ad31d7f7)] - Upgrade: Bump applicationinsights from 1.7.5 to 1.8.2.
+* [[`3ad776da18`](https://github.com/webhintio/hint/commit/3ad776da18024a78e79db26fa02613df28e8d737)] - Upgrade: Bump lodash from 4.17.15 to 4.17.19.
+* [[`25b03ce660`](https://github.com/webhintio/hint/commit/25b03ce66036ba117e364fa78771d84699c68220)] - Upgrade: Bump globby from 11.0.0 to 11.0.1.
+* [[`5e5e76afc3`](https://github.com/webhintio/hint/commit/5e5e76afc3f3a3d2eb89593724ff638bbf164821)] - Upgrade: Bump file-type from 14.1.4 to 14.6.2.
+* [[`c78fbe665b`](https://github.com/webhintio/hint/commit/c78fbe665b70ad1af39a8fd2f790b162a7415696)] - Upgrade: Bump @types/semver from 7.1.0 to 7.2.0.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`cc6191af5f`](https://github.com/webhintio/hint/commit/cc6191af5f63ebe86558c10d1d18505fcdcc7c58)] - Upgrade: Bump applicationinsights from 1.7.3 to 1.7.5.
+* [[`4bde69f3d3`](https://github.com/webhintio/hint/commit/4bde69f3d303337f05cb707eeca6fee89974c88a)] - Upgrade: Bump chalk from 3.0.0 to 4.0.0.
+
+
 # 7.0.4 (May 18, 2020)
 
 ## Chores

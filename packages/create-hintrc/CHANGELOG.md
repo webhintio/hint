@@ -1,3 +1,23 @@
+# 3.0.7 (July 27, 2020)
+
+## Chores
+
+* [[`9a79e0962c`](https://github.com/webhintio/hint/commit/9a79e0962cad778d4856ae9dc574c245e3d78f90)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 5.0.7 to 5.0.9.
+* [[`e631dc1a6f`](https://github.com/webhintio/hint/commit/e631dc1a6fc291b16ffb6bc5a81ae8c6a3a870ff)] - Upgrade: Bump webpack from 4.43.0 to 4.44.0.
+* [[`ac601fe07b`](https://github.com/webhintio/hint/commit/ac601fe07baacaeff82144d321ef9960ab50cb03)] - Upgrade: Bump webpack-cli from 3.3.11 to 3.3.12.
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`4bee6e3f72`](https://github.com/webhintio/hint/commit/4bee6e3f72850bd68537ca28aa07eb956d644ec1)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 5.0.3 to 5.0.7.
+* [[`0d90ce6ef4`](https://github.com/webhintio/hint/commit/0d90ce6ef4e334611acbd88bc97660172563a4d0)] - Upgrade: Bump ts-loader from 7.0.5 to 8.0.0.
+* [[`3ad776da18`](https://github.com/webhintio/hint/commit/3ad776da18024a78e79db26fa02613df28e8d737)] - Upgrade: Bump lodash from 4.17.15 to 4.17.19.
+* [[`801d327b23`](https://github.com/webhintio/hint/commit/801d327b231f2417f4a4dce0d1c7bd61fdcab2be)] - Upgrade: Bump @types/lodash from 4.14.155 to 4.14.157.
+* [[`d2a1d51e95`](https://github.com/webhintio/hint/commit/d2a1d51e955234ea5e5eaf57a642a26eaab52f96)] - Upgrade: Bump inquirer from 7.1.0 to 7.2.0.
+* [[`cb75b4c6b1`](https://github.com/webhintio/hint/commit/cb75b4c6b1a29b97ea296d5f14da9beddef17638)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 4.1.3 to 5.0.3.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`8d21b5aad0`](https://github.com/webhintio/hint/commit/8d21b5aad0dc86a0f236e1640bfc5d1c149eb20c)] - Upgrade: Bump ts-loader from 7.0.4 to 7.0.5.
+* [[`b7a5af164e`](https://github.com/webhintio/hint/commit/b7a5af164ebcbd4a587d1d72a12938642dab0ea5)] - Upgrade: Bump @types/lodash from 4.14.151 to 4.14.155.
+* [[`c82c935042`](https://github.com/webhintio/hint/commit/c82c93504265a12b79ac9e0cde1cbb0518442f72)] - Upgrade: Bump @types/sinon from 9.0.0 to 9.0.4.
+
+
 # 3.0.6 (May 18, 2020)
 
 ## Chores

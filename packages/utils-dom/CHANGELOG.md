@@ -1,3 +1,19 @@
+# 2.1.2 (July 27, 2020)
+
+## Bug fixes / Improvements
+
+* [[`50d3ec4b25`](https://github.com/webhintio/hint/commit/50d3ec4b25a437bf5358275049f84ffb557195cc)] - Fix: Handle DocumentFragment under <template> (see also: [`#3781`](https://github.com/webhintio/hint/issues/3781)).
+
+## Chores
+
+* [[`4ab6e3eb10`](https://github.com/webhintio/hint/commit/4ab6e3eb10df91da311745cbd165153de057d68a)] - Chore: Improve utils-dom perf with matches() refactor (see also: [`#3904`](https://github.com/webhintio/hint/issues/3904)).
+* [[`9d953777c0`](https://github.com/webhintio/hint/commit/9d953777c0e75bb0919d1b1a6f0508e00c50c688)] - Chore: Prefer querySelector over querySelectorAll (see also: [`#3862`](https://github.com/webhintio/hint/issues/3862)).
+* [[`c83a91b7ae`](https://github.com/webhintio/hint/commit/c83a91b7ae3fd0cb83da15517bbcfa3c3a33ba26)] - Chore: Improve `querySelector` perf by using `cssSelect.selectOne` (see also: [`#3861`](https://github.com/webhintio/hint/issues/3861)).
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`ad8f112571`](https://github.com/webhintio/hint/commit/ad8f11257139c6e87af490f7bd99f4519bac5cf3)] - Chore: Prefer querySelector over querySelectorAll where possible in utils-dom.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+
+
 # 2.1.1 (May 18, 2020)
 
 ## Chores

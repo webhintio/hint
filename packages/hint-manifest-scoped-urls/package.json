@@ -9,14 +9,14 @@
   },
   "dependencies": {
     "@hint/utils-debug": "^1.0.1",
-    "@hint/utils-i18n": "^1.0.3",
+    "@hint/utils-i18n": "^1.0.4",
     "@hint/utils-types": "^1.0.1"
   },
   "description": "Checks if urls in the manifest are in scope and accessible",
   "devDependencies": {
-    "@hint/parser-manifest": "^2.2.18",
-    "@hint/utils-create-server": "^3.4.4",
-    "@hint/utils-tests-helpers": "^6.1.2",
+    "@hint/parser-manifest": "^2.2.19",
+    "@hint/utils-create-server": "^3.4.5",
+    "@hint/utils-tests-helpers": "^6.2.0",
     "@types/node": "^13.13.4",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
