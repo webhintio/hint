@@ -10,7 +10,7 @@
   "dependencies": {
     "@hint/parser-javascript": "^3.1.6",
     "@hint/utils-debug": "^1.0.1",
-    "@typescript-eslint/typescript-estree": "^3.2.0"
+    "@typescript-eslint/typescript-estree": "^3.7.1"
   },
   "description": "webhint parser needed to analyze TypeScript files",
   "devDependencies": {
