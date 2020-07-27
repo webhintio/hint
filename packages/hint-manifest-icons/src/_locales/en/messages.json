@@ -11,6 +11,14 @@
         "description": "Report message when an icon request return an status code !== 200",
         "message": "Icon could not be fetched (status code: $1)."
     },
+    "iconPurposeDuplicate": {
+        "description": "Report message when an icon has a duplicate value in the property purpose",
+        "message": "Duplicate value(s) found in icon purpose property: $1."
+    },
+    "iconPurposeInvalid": {
+        "description": "Report message when an icon has an invalid value in the property purpose",
+        "message": "Invalid value for icon property purpose: $1."
+    },
     "iconShouldBeValidImageType": {
         "description": "Report message when the image type is not valid",
         "message": "Icon should be a valid image type $1"
@@ -44,7 +52,7 @@
         "message": "Sizes not specifed for icon"
     },
     "validIconsNotFound": {
-        "description": "Report message when ",
+        "description": "Report message when a valid icon is not found",
         "message": "Valid icons property was not found in the web app manifest"
     }
 }

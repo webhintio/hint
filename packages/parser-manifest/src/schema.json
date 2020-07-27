@@ -10,13 +10,6 @@
                 },
                 "purpose": {
                     "default": "any",
-                    "enum": [
-                        "any",
-                        "any badge",
-                        "badge",
-                        "badge any",
-                        "maskable"
-                    ],
                     "type": "string"
                 },
                 "sizes": {

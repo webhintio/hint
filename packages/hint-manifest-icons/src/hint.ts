@@ -17,6 +17,9 @@ import { extname } from 'path';
 
 const debug: debug.IDebugger = d(__filename);
 
+// Valid values for icon purpose property.
+const validPurposes = ['any', 'maskable', 'monochrome'];
+
 /*
  * ------------------------------------------------------------------------------
  * Public
@@ -226,7 +229,7 @@ export default class ManifestIconHint implements IHint {
          * @param icons array of the icons properties
          * @param hostnameWithProtocol
          */
-        const validateIcons = async (icons: ManifestImageResource[], hostnameWithProtocol: string, resource: string, getLocation: JSONLocationFunction): Promise<string[]> => {
+        const validateIconsSize = async (icons: ManifestImageResource[], hostnameWithProtocol: string, resource: string, getLocation: JSONLocationFunction): Promise<string[]> => {
             const validSizes: string[] = [];
 
             for (let index = 0; index < icons.length; index++) {
@@ -267,6 +270,72 @@ export default class ManifestIconHint implements IHint {
             return validSizes;
         };
 
+        const validatePurposesValues = (purposes: string[], resource: string, iconIndex: number, getLocation: JSONLocationFunction) => {
+            for (const purpose of purposes) {
+                // Check if the purpose is valid.
+                if (!validPurposes.includes(purpose)) {
+                    context.report(resource, getMessage('iconPurposeInvalid', context.language, purpose), {
+                        location: getLocation(`icons[${iconIndex}].purpose`),
+                        severity: Severity.warning
+                    });
+                }
+            }
+        };
+
+        const validateDuplicatedValues = (purposes: string[], resource: string, iconIndex: number, getLocation: JSONLocationFunction) => {
+            /*
+             * Creating a set will remove automatically the duplicated items.
+             */
+            const purposesSet = new Set(purposes);
+
+            if (purposes.length === purposesSet.size) {
+                // No duplicated found.
+                return;
+            }
+
+            const purposesCopy = [...purposes];
+
+            for (const purpose of purposesSet) {
+                const purposeIndex = purposesCopy.indexOf(purpose);
+
+                if (purposeIndex >= 0) {
+                    purposesCopy.splice(purposeIndex, 1);
+                }
+            }
+
+            /*
+             * Check if purposesCopy contains any purpose, if so, those
+             * items are duplicated.
+             */
+            if (purposesCopy.length > 0) {
+                context.report(resource, getMessage('iconPurposeDuplicate', context.language, [...(new Set(purposesCopy))].join(', ')), {
+                    location: getLocation(`icons[${iconIndex}].purpose`),
+                    severity: Severity.hint
+                });
+            }
+        };
+
+        // See https://w3c.github.io/manifest/#purpose-member
+        const validateIconsPurpose = (icons: ManifestImageResource[], resource: string, getLocation: JSONLocationFunction) => {
+            for (let iconIndex = 0; iconIndex < icons.length; iconIndex++) {
+                const icon = icons[iconIndex];
+
+                if (!icon.purpose) {
+                    continue;
+                }
+
+                /*
+                 * Remove unnecessary empty spaces before split the array.
+                 */
+                const purposes = icon.purpose
+                    .trim()
+                    .split(/\s\s*/g);
+
+                validatePurposesValues(purposes, resource, iconIndex, getLocation);
+                validateDuplicatedValues(purposes, resource, iconIndex, getLocation);
+            }
+        };
+
         const validate = async ({ getLocation, parsedContent: { icons }, resource }: ManifestParsed) => {
             const resourceURL = new URL(resource);
             const hostnameWithProtocol = `${resourceURL.protocol}//${resourceURL.host}`;
@@ -277,13 +346,15 @@ export default class ManifestIconHint implements IHint {
                 if (icons.length > 0) {
 
                     debug(`Validating if manifest-icon file exists`);
-                    const validSizes = await validateIcons(icons, hostnameWithProtocol, resource, getLocation);
+                    const validSizes = await validateIconsSize(icons, hostnameWithProtocol, resource, getLocation);
 
                     if (validSizes.length > 0) {
                         const iconlocation = getLocation('icons');
 
                         hasRequiredSizes(validSizes, resource, iconlocation);
                     }
+
+                    validateIconsPurpose(icons, resource, getLocation);
                 } else {
                     // Empty array in `icons` property (otherwise the schema will not validate)
                     const message = getMessage('validIconsNotFound', context.language);

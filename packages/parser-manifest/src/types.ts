@@ -22,12 +22,12 @@ export type ManifestPlatform =
 
 export type ManifestImageResource = {
     platform?: ManifestPlatform;
-    purpose:
-        'any' |
-        'badge' |
-        'any badge' |
-        'badge any' |
-        'maskable';
+    /*
+     * Until TypeScript supports regex, I think a string is the best we
+     * can use for the property purpose, the purpose value will be validated for the parser.
+     * https://github.com/microsoft/TypeScript/issues/6579.
+     */
+    purpose: string;
     sizes?: string;
     src: string;
     type?: string;
