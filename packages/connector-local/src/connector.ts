@@ -359,7 +359,7 @@ export default class LocalConnector implements IConnector {
         let content = '';
 
         if (isTextMediaType(contentType.mediaType || '')) {
-            content = rawContent.toString(contentType.charset || undefined);
+            content = rawContent.toString(contentType.charset as any || undefined);
         }
 
         // Need to do some magic to create a fetch::end::*
