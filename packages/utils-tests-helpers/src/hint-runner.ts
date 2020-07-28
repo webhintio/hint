@@ -176,6 +176,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
 
     const reportsCopy = reports.slice(0);
 
+
     results.forEach((result) => {
         /**
          * To validate a result is valid we do a "filtered approach" instead of trying to match
@@ -183,7 +184,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
          * information to the report that matches the closest.
          */
 
-        const { location, message, resource, severity } = result;
+        const { documentation, location, message, resource, severity } = result;
 
         const filteredByMessage = reportsCopy.filter((report) => {
             if (typeof report.message === 'string') {
@@ -199,7 +200,23 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
             return;
         }
 
-        const filteredByPosition = filteredByMessage.filter((report) => {
+        const filteredByDocumentation = filteredByMessage.filter((report) => {
+            if (report.documentation && documentation) {
+                return report.documentation.link === documentation.link &&
+                    report.documentation.text === documentation.text;
+            }
+
+            // Not all reports in the test have a documentation
+            return true;
+        });
+
+        if (filteredByDocumentation.length === 0) {
+            t.fail(`No reports match documentation "${documentation?.text}" with link "${documentation?.link}"`);
+
+            return;
+        }
+
+        const filteredByPosition = filteredByDocumentation.filter((report) => {
             if (report.position && location) {
                 let position: ProblemLocation | undefined;
 

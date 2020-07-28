@@ -1,6 +1,6 @@
 import { ExecutionContext } from 'ava';
 
-import { ProblemLocation, Severity } from '@hint/utils-types';
+import { ProblemLocation, Severity, ProblemDocumentation } from '@hint/utils-types';
 
 export type MatchProblemLocation = {
     /** A substring matching the location of the problem. */
@@ -13,6 +13,7 @@ export type Report = {
     message: string | RegExp;
     position?: ProblemLocation | MatchProblemLocation;
     severity?: Severity;
+    documentation?: ProblemDocumentation;
 };
 
 export type HintTest = {
