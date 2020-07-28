@@ -31,7 +31,7 @@ const tests: HintTest[] = [
     {
         name: `HTML is missing the lang attribute and fails`,
         reports: [{
-            message: '<html> element must have a lang attribute',
+            message: /^<html> element must have a lang attribute/,
             severity: Severity.warning
         }],
         serverConfig: html.missingLang
