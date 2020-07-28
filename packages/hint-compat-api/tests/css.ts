@@ -26,6 +26,10 @@ testHint(hintPath,
             name: 'Reports unsupported CSS at-rules',
             reports: [
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/@keyframes',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'@keyframes' is not supported by Internet Explorer < 10.`,
                     position: { match: '@keyframes' },
                     severity: Severity.warning
@@ -41,31 +45,55 @@ testHint(hintPath,
             name: 'Reports unsupported properties, respecting prefixes and fallback',
             reports: [
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/appearance',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'appearance' is not supported by Internet Explorer.`,
                     position: { match: 'appearance: button; /* Report 1 */', range: 'appearance' },
                     severity: Severity.warning
                 },
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/appearance',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'appearance' is not supported by Internet Explorer.`,
                     position: { match: 'appearance: button; /* Report 2 */', range: 'appearance' },
                     severity: Severity.warning
                 },
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/appearance',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'-webkit-appearance' is not supported by Internet Explorer.`,
                     position: { match: '-webkit-appearance: button; /* Report 3 */', range: '-webkit-appearance' },
                     severity: Severity.warning
                 },
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/appearance',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'-moz-appearance' is not supported by Internet Explorer.`,
                     position: { match: '-moz-appearance: button; /* Report 4 */', range: '-moz-appearance' },
                     severity: Severity.warning
                 },
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/appearance',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'-webkit-appearance' is not supported by Firefox < 64, Internet Explorer. Add '-moz-appearance' to support Firefox.`,
                     position: { match: '-webkit-appearance: button; /* Report 5 */', range: '-webkit-appearance' },
                     severity: Severity.error
                 },
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/appearance',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'appearance' is not supported by Chrome, Edge, Firefox, Internet Explorer. Add '-webkit-appearance' to support Chrome, Edge 12+. Add '-moz-appearance' to support Firefox.`,
                     position: { match: 'appearance: button; /* Report 6 */', range: 'appearance' },
                     severity: Severity.error
@@ -91,6 +119,10 @@ testHint(hintPath,
             name: 'Respects CSS @supports rules when generating reports',
             reports: [
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/display',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'display: grid' is not supported by Edge < 16. Add 'display: -ms-grid' to support Edge 12+.`,
                     position: { match: 'grid; /* Report */', range: 'grid' },
                     severity: Severity.error
@@ -102,21 +134,37 @@ testHint(hintPath,
             name: 'Reports unsupported CSS property values, respecting prefixes and fallback',
             reports: [
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/display',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'display: grid' is not supported by Internet Explorer.`,
                     position: { match: 'grid; /* Report 1 */', range: 'grid' },
                     severity: Severity.warning
                 },
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/display',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'display: grid' is not supported by Internet Explorer.`,
                     position: { match: 'grid; /* Report 2 */', range: 'grid' },
                     severity: Severity.warning
                 },
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/display',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'display: -ms-grid' is not supported by Chrome, Firefox, Internet Explorer < 10. Add 'display: grid' to support Chrome 57+, Firefox 52+.`,
                     position: { match: '-ms-grid; /* Report 3 */', range: '-ms-grid' },
                     severity: Severity.error
                 },
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/display',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'display: grid' is not supported by Edge < 16, Internet Explorer. Add 'display: -ms-grid' to support Edge 12+, Internet Explorer 10+.`,
                     position: { match: 'grid; /* Report 4 */', range: 'grid' },
                     severity: Severity.error
@@ -150,6 +198,10 @@ testHint(hintPath,
             name: 'Reports overridden ignored CSS features',
             reports: [
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/appearance',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'appearance' is not supported by Internet Explorer.`,
                     position: { match: 'appearance: none; /* unprefixed */', range: 'appearance' },
                     severity: Severity.warning
@@ -178,11 +230,19 @@ testHint(hintPath,
             name: 'Reports both unsupported property names and values on the same declarations for different browsers',
             reports: [
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/grid-template-rows',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'grid-template-rows' is not supported by Internet Explorer.`,
                     position: { match: 'grid-template-rows: subgrid;', range: 'grid-template-rows' },
                     severity: Severity.warning
                 },
                 {
+                    documentation: {
+                        link: 'https://developer.mozilla.org/docs/Web/CSS/CSS_Grid_Layout/Subgrid',
+                        text: 'Learn more about the CSS property'
+                    },
                     message: `'grid-template-rows: subgrid' is not supported by Edge.`,
                     position: { match: 'subgrid;', range: 'subgrid' },
                     severity: Severity.warning

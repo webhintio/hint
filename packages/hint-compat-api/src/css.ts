@@ -5,9 +5,9 @@
 import intersection = require('lodash/intersection');
 import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
 
-import { HintContext, HintDocumentation } from 'hint/dist/src/lib/hint-context';
+import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
-import { Severity } from '@hint/utils-types';
+import { ProblemDocumentation, Severity } from '@hint/utils-types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
 import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
@@ -277,7 +277,7 @@ export default class CSSCompatHint implements IHint {
                 const location = getCSSLocationFromNode(node, { isValue });
                 const severity = alternatives.length ? Severity.error : Severity.warning;
 
-                let documentation: HintDocumentation | undefined;
+                let documentation: ProblemDocumentation | undefined;
 
                 if (unsupported.mdnUrl) {
                     documentation = {
