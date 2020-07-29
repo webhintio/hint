@@ -31,6 +31,10 @@ const tests: HintTest[] = [
     {
         name: `HTML is missing the lang attribute and fails`,
         reports: [{
+            documentation: [{
+                link: 'https://dequeuniversity.com/rules/axe/3.5/html-has-lang?application=axeAPI',
+                text: 'Learn more in aXe'
+            }],
             message: /^<html> element must have a lang attribute/,
             severity: Severity.warning
         }],

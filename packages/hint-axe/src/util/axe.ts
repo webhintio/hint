@@ -247,10 +247,10 @@ export const register = (context: HintContext, rules: string[], disabled: string
                     Severity[registration.options[violation.id]];
 
                 registration.context.report(resource, message, {
-                    documentation: {
+                    documentation: [{
                         link: violation.helpUrl,
                         text: getMessage('learnMore', context.language)
-                    },
+                    }],
                     element,
                     severity
                 });
