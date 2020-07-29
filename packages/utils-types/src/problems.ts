@@ -24,5 +24,5 @@ export type Problem = {
     /** Indicate the language of the sourceCode */
     codeLanguage?: string;
     /** The link to the documentation in the 3rd party package */
-    documentation?: ProblemDocumentation;
+    documentation?: ProblemDocumentation[];
 };

@@ -13,7 +13,7 @@ export type Report = {
     message: string | RegExp;
     position?: ProblemLocation | MatchProblemLocation;
     severity?: Severity;
-    documentation?: ProblemDocumentation;
+    documentation?: ProblemDocumentation[];
 };
 
 export type HintTest = {

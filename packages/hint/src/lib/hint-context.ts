@@ -26,7 +26,7 @@ export type ReportOptions = {
     /** The text within `element` where the issue was found (used to refine a `ProblemLocation`). */
     content?: string;
     /** The documentation for a hint report */
-    documentation?: ProblemDocumentation;
+    documentation?: ProblemDocumentation[];
     /** The `HTMLElement` where the issue was found (used to get a `ProblemLocation`). */
     element?: HTMLElement | null;
     /**

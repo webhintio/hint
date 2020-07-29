@@ -202,8 +202,13 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
 
         const filteredByDocumentation = filteredByMessage.filter((report) => {
             if (report.documentation && documentation) {
-                return report.documentation.link === documentation.link &&
-                    report.documentation.text === documentation.text;
+                report.documentation.every((docReport) => {
+                    return documentation.some((docResult) => {
+                        return docReport.link === docResult.link &&
+                            docReport.text === docResult.text;
+                    });
+
+                });
             }
 
             // Not all reports in the test have a documentation
@@ -211,7 +216,8 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
         });
 
         if (filteredByDocumentation.length === 0) {
-            t.fail(`No reports match documentation "${documentation?.text}" with link "${documentation?.link}"`);
+            // TODO: Improve message.
+            t.fail(`No reports match documentation "${documentation![0]?.text}" with link "${documentation![0]?.link}"`);
 
             return;
         }
