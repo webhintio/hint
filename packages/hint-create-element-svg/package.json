@@ -18,7 +18,7 @@
     "@hint/parser-javascript": "^3.1.6",
     "@hint/utils-create-server": "^3.4.5",
     "@hint/utils-tests-helpers": "^6.2.0",
-    "@types/node": "^13.13.4",
+    "@types/node": "^14.0.26",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
     "ava": "^3.10.1",
