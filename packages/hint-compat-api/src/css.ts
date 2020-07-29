@@ -277,13 +277,13 @@ export default class CSSCompatHint implements IHint {
                 const location = getCSSLocationFromNode(node, { isValue });
                 const severity = alternatives.length ? Severity.error : Severity.warning;
 
-                let documentation: ProblemDocumentation | undefined;
+                let documentation: ProblemDocumentation[] | undefined;
 
                 if (unsupported.mdnUrl) {
-                    documentation = {
+                    documentation = [{
                         link: unsupported.mdnUrl,
                         text: getMessage('learnMoreCSS', context.language)
-                    };
+                    }];
                 }
 
                 context.report(

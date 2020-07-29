@@ -26,5 +26,9 @@
     "learnMoreCSS": {
         "description": "Text to show for the documentation link",
         "message": "Learn more about the CSS property"
+    },
+    "learnMoreHTML": {
+        "description": "Text to show for the documentation link",
+        "message": "Learn more about the HTML property"
     }
 }
