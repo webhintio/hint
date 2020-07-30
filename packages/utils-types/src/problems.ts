@@ -1,3 +1,4 @@
+import { ProblemDocumentation } from './problem-documentation';
 import { ProblemLocation } from './problem-location';
 import { Category } from './category';
 import { Severity } from './severity';
@@ -22,4 +23,6 @@ export type Problem = {
     severity: Severity;
     /** Indicate the language of the sourceCode */
     codeLanguage?: string;
+    /** The link to the documentation in the 3rd party package */
+    documentation?: ProblemDocumentation[];
 };

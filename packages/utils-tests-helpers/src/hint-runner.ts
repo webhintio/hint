@@ -183,7 +183,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
          * information to the report that matches the closest.
          */
 
-        const { location, message, resource, severity } = result;
+        const { documentation, location, message, resource, severity } = result;
 
         const filteredByMessage = reportsCopy.filter((report) => {
             if (typeof report.message === 'string') {
@@ -199,25 +199,67 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
             return;
         }
 
-        const filteredByPosition = filteredByMessage.filter((report) => {
-            if (report.position && location) {
-                let position: ProblemLocation | undefined;
-
-                if ('match' in report.position) {
-                    position = findPosition(sources.get(resource) || '', report.position);
-                } else {
-                    position = report.position;
-                }
-
-                return position.column === location.column &&
-                    position.line === location.line &&
-                    (!('range' in report.position) || (
-                        position.endLine === location.endLine &&
-                        position.endColumn === location.endColumn));
+        const filteredByDocumentation = filteredByMessage.filter((report) => {
+            /*
+             * If the report from the test doesn't ask for documentation,
+             * we don't need to macth it.
+             */
+            if (!report.documentation) {
+                return true;
             }
 
-            // Not all reports in the test have a location
-            return true;
+            /*
+             * If the report from the test does ask for documentation
+             * but the result doesn't provide it, then it isn't a match.
+             */
+            if (!documentation) {
+                return false;
+            }
+
+            return report.documentation.some((docReport) => {
+                return documentation.some((docResult) => {
+                    return docReport.link === docResult.link &&
+                        docReport.text === docResult.text;
+                });
+            });
+        });
+
+        if (filteredByDocumentation.length === 0) {
+            t.fail(`No reports match documentation "${documentation![0]?.text}" with link "${documentation![0]?.link}"`);
+
+            return;
+        }
+
+        const filteredByPosition = filteredByDocumentation.filter((report) => {
+            /*
+             * If the report from the test doesn't ask for position,
+             * we don't need to macth it.
+             */
+            if (!report.position) {
+                return true;
+            }
+
+            /*
+             * If the report from the test does ask for location
+             * but the result doesn't provide it, then it isn't a match.
+             */
+            if (!location) {
+                return false;
+            }
+
+            let position: ProblemLocation | undefined;
+
+            if ('match' in report.position) {
+                position = findPosition(sources.get(resource) || '', report.position);
+            } else {
+                position = report.position;
+            }
+
+            return position.column === location.column &&
+                position.line === location.line &&
+                (!('range' in report.position) || (
+                    position.endLine === location.endLine &&
+                    position.endColumn === location.endColumn));
         });
 
         // Check error location
