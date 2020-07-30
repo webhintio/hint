@@ -225,7 +225,6 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
         });
 
         if (filteredByDocumentation.length === 0) {
-            // TODO: Improve message.
             t.fail(`No reports match documentation "${documentation![0]?.text}" with link "${documentation![0]?.link}"`);
 
             return;
