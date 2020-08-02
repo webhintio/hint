@@ -134,7 +134,7 @@ const darwin = (browser: Browser) => {
     const lines = execSync(
         `${LSREGISTER} -dump` +
         ` | grep -i '\.app'` + // eslint-disable-line
-        ` | awk '{print $2,3}'`)
+        ` | awk '{print $2,$3}'`)
         .toString()
         .split(newLineRegex);
 
