@@ -7,7 +7,7 @@ import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'pos
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
-import { ProblemDocumentation, Severity } from '@hint/utils-types';
+import { Severity } from '@hint/utils-types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
 import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
@@ -277,10 +277,10 @@ export default class CSSCompatHint implements IHint {
                 const location = getCSSLocationFromNode(node, { isValue });
                 const severity = alternatives.length ? Severity.error : Severity.warning;
 
-                const documentation = unsupported.mdnUrl && [{
+                const documentation = unsupported.mdnUrl ? [{
                     link: unsupported.mdnUrl,
                     text: getMessage('learnMoreCSS', context.language)
-                }];
+                }] : undefined;
 
                 context.report(
                     resource,

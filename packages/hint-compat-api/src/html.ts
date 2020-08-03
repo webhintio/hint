@@ -6,7 +6,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { HTMLAttribute, HTMLElement } from '@hint/utils-dom';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
-import { Severity, ProblemDocumentation } from '@hint/utils-types';
+import { Severity } from '@hint/utils-types';
 
 import { filterBrowsers, joinBrowsers } from './utils/browsers';
 import { resolveIgnore } from './utils/ignore';
@@ -86,14 +86,10 @@ export default class HTMLCompatHint implements IHint {
 
             const report = ({ feature, unsupported }: ReportData) => {
                 const message = getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]);
-                let documentation: ProblemDocumentation[] | undefined;
-
-                if (unsupported.mdnUrl) {
-                    documentation = [{
-                        link: unsupported.mdnUrl,
-                        text: getMessage('learnMoreHTML', context.language)
-                    }];
-                }
+                const documentation = unsupported.mdnUrl ? [{
+                    link: unsupported.mdnUrl,
+                    text: getMessage('learnMoreHTML', context.language)
+                }] : undefined;
 
                 context.report(
                     resource,
