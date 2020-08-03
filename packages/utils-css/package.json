@@ -20,7 +20,7 @@
     "postcss": "^7.0.32",
     "postcss-safe-parser": "^4.0.2",
     "rimraf": "^3.0.2",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   },
   "files": [
     "dist"
