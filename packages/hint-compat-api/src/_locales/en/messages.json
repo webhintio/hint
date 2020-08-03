@@ -29,6 +29,6 @@
     },
     "learnMoreHTML": {
         "description": "Text to show for the documentation link",
-        "message": "Learn more about the HTML property"
+        "message": "Learn more about this HTML feature on MDN"
     }
 }
