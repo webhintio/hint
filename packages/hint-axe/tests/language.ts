@@ -33,7 +33,7 @@ const tests: HintTest[] = [
         reports: [{
             documentation: [{
                 link: 'https://dequeuniversity.com/rules/axe/3.5/html-has-lang?application=axeAPI',
-                text: 'Learn more in aXe'
+                text: 'Learn more about this axe rule at Deque University'
             }],
             message: /^<html> element must have a lang attribute/,
             severity: Severity.warning

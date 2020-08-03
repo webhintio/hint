@@ -26,7 +26,7 @@ const testsWithCustomConfiguration: HintTest[] = [
         reports: [{
             documentation: [{
                 link: 'https://dequeuniversity.com/rules/axe/3.5/tabindex?application=axeAPI',
-                text: 'Learn more in aXe'
+                text: 'Learn more about this axe rule at Deque University'
             }],
             message: 'Elements should not have tabindex greater than zero',
             position: { match: 'a href="#skip" tabindex="4"' },
@@ -42,7 +42,7 @@ const testsWithCustomConfigurationArrayFormat: HintTest[] = [
         reports: [{
             documentation: [{
                 link: 'https://dequeuniversity.com/rules/axe/3.5/tabindex?application=axeAPI',
-                text: 'Learn more in aXe'
+                text: 'Learn more about this axe rule at Deque University'
             }],
             message: 'Elements should not have tabindex greater than zero',
             position: { match: 'a href="#skip" tabindex="4"' },
