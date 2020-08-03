@@ -227,5 +227,5 @@ test('Includes accurate details', (t) => {
 
 test('Returns the mdn url', (t) => {
     t.is(getUnsupportedBrowsers(keyframes, '', ['opera 12'], 'keyframes')!.mdnUrl, 'https://developer.mozilla.org/docs/Web/CSS/@keyframes', 'Right mdn url before first unprefixed support');
-    t.is(getUnsupportedBrowsers(maxContent, '', ['firefox 65'], 'max-content', width)!.mdnUrl, 'https://developer.mozilla.org/docs/Web/CSS/width');
+    t.is(getUnsupportedBrowsers(maxContent, '', ['firefox 65'], 'max-content', width)?.mdnUrl, 'https://developer.mozilla.org/docs/Web/CSS/width');
 });
