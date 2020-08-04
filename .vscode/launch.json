@@ -12,13 +12,11 @@
             "request": "launch",
             "name": "Run AVA test",
             "preLaunchTask": "npm: cache",
-            "runtimeExecutable": "${workspaceFolder}/node_modules/ava/cli.js",
+            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
             "runtimeArgs": [
-                "debug",
-                "--break",
+                "--serial",
                 "${fileDirname}/../dist/tests/${fileBasenameNoExtension}.js"
             ],
-            "port": 9229,
             "outputCapture": "std",
             "sourceMaps": true,
             "outFiles": [
