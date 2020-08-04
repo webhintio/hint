@@ -68,13 +68,13 @@ const getPartialValueUnsupported = (context: Identifier, value: string, browsers
         }
 
         if (matches.regex_value && new RegExp(matches.regex_value).exec(unprefixedValue)) {
-            return getUnsupportedBrowsers(entry, prefix, browsers, unprefixedValue);
+            return getUnsupportedBrowsers(entry, prefix, browsers, unprefixedValue, context);
         }
 
         if (matches.keywords) {
             for (const [tokenPrefix, tokenValue] of tokens) {
                 if (matches.keywords.includes(tokenValue)) {
-                    return getUnsupportedBrowsers(entry, tokenPrefix, browsers, tokenValue);
+                    return getUnsupportedBrowsers(entry, tokenPrefix, browsers, tokenValue, context);
                 }
             }
         }
@@ -84,7 +84,7 @@ const getPartialValueUnsupported = (context: Identifier, value: string, browsers
 
             for (const [tokenPrefix, tokenValue] of tokens) {
                 if (regexToken && regexToken.exec(tokenValue)) {
-                    return getUnsupportedBrowsers(entry, tokenPrefix, browsers, tokenValue);
+                    return getUnsupportedBrowsers(entry, tokenPrefix, browsers, tokenValue, context);
                 }
             }
         }
@@ -101,7 +101,7 @@ const getValueUnsupported = (context: Identifier, property: string, value: strin
     const [data, prefix, unprefixed] = getFeatureData(context, value);
 
     if (data) {
-        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
+        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed, data.__compat?.mdn_url ? undefined : context);
     }
 
     if (property && types.has(property)) {

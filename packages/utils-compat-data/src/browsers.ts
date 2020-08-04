@@ -18,6 +18,7 @@ export type SupportDetails = {
 export type UnsupportedBrowsers = {
     browsers: string[];
     details: Map<string, SupportDetails>;
+    mdnUrl?: string;
 };
 
 const enum Support {
@@ -203,7 +204,7 @@ export const getFriendlyName = (browser: string): string => {
  * @param feature An MDN feature `Identifier` with `__compat` data.
  * @param browsers A list of target browsers (e.g. `['chrome 74', 'ie 11']`).
  */
-export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: string, browsers: string[], unprefixed: string): UnsupportedBrowsers | null => {
+export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: string, browsers: string[], unprefixed: string, parent?: Identifier): UnsupportedBrowsers | null => {
     if (!feature || !feature.__compat || !feature.__compat.support) {
         return null; // Assume support if no matching feature was provided.
     }
@@ -247,5 +248,15 @@ export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: 
         }
     }
 
-    return unsupported.length ? { browsers: unsupported, details } : null;
+    if (unsupported.length === 0) {
+        return null;
+    }
+
+    let mdnUrl = feature.__compat.mdn_url;
+
+    if (!mdnUrl && parent && parent.__compat) {
+        mdnUrl = parent.__compat.mdn_url;
+    }
+
+    return unsupported.length ? { browsers: unsupported, details, mdnUrl } : null;
 };
