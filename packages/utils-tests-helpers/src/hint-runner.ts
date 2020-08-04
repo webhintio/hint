@@ -199,6 +199,32 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
             return;
         }
 
+        const filteredByDocumentationCount = filteredByMessage.filter((report) => {
+            /*
+             * If the report from the test doesn't ask for documentation,
+             * we don't need to macth it.
+             */
+            if (!report.documentation) {
+                return true;
+            }
+
+            /*
+             * If the report from the test does ask for documentation
+             * but the result doesn't provide it, then it isn't a match.
+             */
+            if (!documentation) {
+                return false;
+            }
+
+            return report.documentation.length === documentation.length;
+        });
+
+        if (filteredByDocumentationCount.length === 0) {
+            t.fail(`No report has ${documentation?.length} documentation links`);
+
+            return;
+        }
+
         const filteredByDocumentation = filteredByMessage.filter((report) => {
             /*
              * If the report from the test doesn't ask for documentation,
@@ -216,16 +242,24 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
                 return false;
             }
 
-            return report.documentation.some((docReport) => {
-                return documentation.some((docResult) => {
+            const every = documentation.every((docResult) => {
+                const some = report.documentation?.some((docReport) => {
                     return docReport.link === docResult.link &&
                         docReport.text === docResult.text;
                 });
+
+                return some;
             });
+
+            return every;
         });
 
         if (filteredByDocumentation.length === 0) {
-            t.fail(`No reports match documentation "${documentation![0]?.text}" with link "${documentation![0]?.link}"`);
+            const failStringArray = result.documentation?.map((doc) => {
+                return `No reports match documentation "${doc.text}" with link "${doc.link}"`;
+            });
+
+            t.fail(failStringArray?.join('\n'));
 
             return;
         }
