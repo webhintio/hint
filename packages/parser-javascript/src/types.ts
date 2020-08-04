@@ -4,7 +4,15 @@ import { Node } from 'estree-jsx';
 import { HTMLElement } from '@hint/utils-dom';
 import { Event, Events } from 'hint/dist/src/lib/types/events';
 
-export * from 'estree-jsx';
+// Cannot use `export type *`. See https://github.com/microsoft/TypeScript/issues/37238
+export type {
+    CallExpression,
+    JSXAttribute,
+    JSXElement,
+    JSXExpressionContainer,
+    JSXText,
+    Node
+} from 'estree-jsx';
 
 /** All possible values for the Node `type` property. */
 type NodeTypes = Node['type'];
