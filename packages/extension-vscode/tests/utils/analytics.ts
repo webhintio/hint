@@ -18,6 +18,9 @@ const stubContext = () => {
             initTelemetry(opts) {
                 _enabled = opts.enabled || false;
             },
+            trackEvent(name: string, properties: any, measurements: any) {
+                return Promise.resolve();
+            },
             updateTelemetry(enabled) {
                 _enabled = enabled;
             }
