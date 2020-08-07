@@ -13,7 +13,7 @@ This hint checks if the Webpack configuration file is valid.
 
 The `webpack.config.js` has is an invalid javascript:
 
-```js
+```txt
 module.exports = {
     entry: 'invalid,
     output: {
