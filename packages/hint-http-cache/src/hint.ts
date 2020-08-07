@@ -230,7 +230,7 @@ export default class HttpCacheHint implements IHint {
         };
 
         const joinAndQuote = (strings: string[]) => {
-            return strings.map(string => {
+            return strings.map((string) => {
                 return `'${string}'`;
             }).join(', ');
         };
