@@ -42,7 +42,7 @@ your project.
 
 <!-- Link labels: -->
 
-[compat-api-css]: ./docs/css.md
-[compat-api-html]: ./docs/html.md
+[compat-api-css]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-compat-api/docs/css.md
+[compat-api-html]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-compat-api/docs/html.md
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [npm docs]: https://docs.npmjs.com/cli/install

@@ -39,18 +39,18 @@ You can also run webhint from within [VS Code][] and as a
 [browser extension][].
 
 **NOTE**: If you run into any issues during the install process
-please check the [troubleshoot section](./docs/user-guide/troubleshoot/summary.md).
+please check the [troubleshoot section](https://github.com/webhintio/hint/blob/HEAD/packages/hint/docs/user-guide/troubleshoot/summary.md).
 
 ### Further reading
 
 Now that you have `webhint` up and running, it is time to learn a bit
 more about the different pieces:
 
-* [Configurations](./docs/user-guide/concepts/configurations.md)
-* [Hints](./docs/user-guide/concepts/hints.md)
-* [Connectors](./docs/user-guide/concepts/connectors.md)
-* [Formatters](./docs/user-guide/concepts/formatters.md)
-* [Parsers](./docs/user-guide/concepts/parsers.md)
+* [Configurations](https://github.com/webhintio/hint/blob/HEAD/packages/hint/docs/user-guide/concepts/configurations.md)
+* [Hints](https://github.com/webhintio/hint/blob/HEAD/packages/hint/docs/user-guide/concepts/hints.md)
+* [Connectors](https://github.com/webhintio/hint/blob/HEAD/packages/hint/docs/user-guide/concepts/connectors.md)
+* [Formatters](https://github.com/webhintio/hint/blob/HEAD/packages/hint/docs/user-guide/concepts/formatters.md)
+* [Parsers](https://github.com/webhintio/hint/blob/HEAD/packages/hint/docs/user-guide/concepts/parsers.md)
 
 ## Contributing to webhint
 
@@ -58,7 +58,7 @@ To know more about the internals of `webhint`, the structure of the
 project, how to create new hints, collectors, formatters, etc, take a
 look at the online [contributor
 guide](https://webhint.io/docs/contributor-guide/) (or the [local
-version](./docs/contributor-guide/index.md)).
+version](https://github.com/webhintio/hint/blob/HEAD/packages/hint/docs/contributor-guide/index.md)).
 
 ## Code of Conduct
 
