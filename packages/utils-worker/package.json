@@ -65,7 +65,7 @@
     "terser-webpack-plugin": "^3.0.7",
     "typescript": "^3.8.3",
     "util.promisify": "^1.0.1",
-    "webpack": "^4.44.0",
+    "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
   "files": [
