@@ -44,7 +44,7 @@
     "sinon": "^9.0.2",
     "ts-loader": "^8.0.0",
     "typescript": "^3.8.3",
-    "webpack": "^4.44.0",
+    "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
   },
   "engines": {
