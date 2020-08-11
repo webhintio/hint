@@ -12,7 +12,7 @@
 import * as url from 'url';
 
 import * as chalk from 'chalk';
-import { EventEmitter2 as EventEmitter } from 'eventemitter2';
+import { EventEmitter2 as EventEmitter, Listener } from 'eventemitter2';
 import remove = require('lodash/remove');
 
 import * as logger from '@hint/utils/dist/src/logging';
@@ -338,7 +338,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
         return super.emitAsync(event, data);
     }
 
-    public on<K extends StringKeyOf<E>>(event: K, listener: (data: E[K]) => void): this {
+    public on<K extends StringKeyOf<E>>(event: K, listener: (data: E[K]) => void): this | Listener {
         return super.on(event, listener);
     }
 
