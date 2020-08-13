@@ -33,10 +33,16 @@ Sending these types of HTTP headers:
 By default, the hint checks if responses include one of the following
 HTTP headers:
 
+* `Expires`
+* `Host`
+* `P3P`
+* `Pragma`
 * `Public-Key-Pins`
 * `Public-Key-Pins-Report-Only`
+* `Via`
 * `X-AspNet-Version`
 * `X-AspNetMvc-version`
+* `X-Frame-Options`
 * `X-Powered-By`
 * `X-Runtime`
 * `X-Version`
@@ -95,11 +101,17 @@ the following:
 
 ```apache
 <IfModule mod_headers.c>
+    Header unset Expires
+    Header unset Host
+    Header unset P3P
+    Header unset Pragma
     Header unset Public-Key-Pins
     Header unset Public-Key-Pins-Report-Only
+    Header unset Via
     Header unset X-AspNet-Version
     Header unset X-AspNetMvc-version
-    Header unset X-Powered-By`
+    Header unset X-Frame-Options
+    Header unset X-Powered-By
     Header unset X-Runtime
     Header unset X-Version
 </IfModule>
@@ -154,8 +166,14 @@ The following snippet will remove the headers from all responses:
      <system.webServer>
         <httpProtocol>
              <customHeaders>
+                <remove name="Expires"/>
+                <remove name="Host"/>
+                <remove name="P3P"/>
+                <remove name="Pragma"/>
                 <remove name="Public-Key-Pins"/>
                 <remove name="Public-Key-Pins-Report-Only"/>
+                <remove name="Via"/>
+                <remove name="X-Frame-Options"/>
                 <remove name="X-Powered-By"/>
                 <remove name="X-Runtime"/>
                 <remove name="X-Version"/>

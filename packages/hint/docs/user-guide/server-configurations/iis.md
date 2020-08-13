@@ -40,8 +40,14 @@ related hint.
                     Remove unnecesary headers
                     "no-disallowed-headers": https://webhint.io/docs/user-guide/hints/hint-no-disallowed-headers
                 -->
+                <remove name="Expires"/>
+                <remove name="Host"/>
+                <remove name="P3P"/>
+                <remove name="Pragma"/>
                 <remove name="Public-Key-Pins"/>
                 <remove name="Public-Key-Pins-Report-Only"/>
+                <remove name="Via"/>
+                <remove name="X-Frame-Options"/>
                 <remove name="X-Powered-By"/>
                 <remove name="X-Runtime"/>
                 <remove name="X-Version"/>
