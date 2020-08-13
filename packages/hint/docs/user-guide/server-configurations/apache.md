@@ -584,11 +584,16 @@ AddDefaultCharset utf-8
 # using the following.
 
 <IfModule mod_headers.c>
+    Header unset Expires
+    Header unset Host
     Header unset P3P
+    Header unset Pragma
     Header unset Public-Key-Pins
     Header unset Public-Key-Pins-Report-Only
+    Header unset Via
     Header unset X-AspNet-Version
     Header unset X-AspNetMvc-version
+    Header unset X-Frame-Options
     Header unset X-Powered-By
     Header unset X-Runtime
     Header unset X-Version
