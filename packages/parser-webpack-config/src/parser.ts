@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as webpack from 'webpack'; // This is used just to have types.
 
 import { Engine, FetchEnd, Parser } from 'hint';
+import { loadPackage } from '@hint/utils';
 import { asPathString, getAsUri } from '@hint/utils-network';
 
 import { WebpackConfigEvents } from './types';
@@ -27,13 +28,9 @@ export default class WebpackConfigParser extends Parser<WebpackConfigEvents> {
         }
     }
 
-    private async getLocallyInstalledWebpack() {
+    private getLocallyInstalledWebpack() {
         try {
-            /*
-             * HACK: Need to do an import here in order to be capable of mocking
-             * when testing the hint.
-             */
-            const packageJSON = (await import('@hint/utils/dist/src/packages/load-package')).loadPackage(path.join(process.cwd(), 'node_modules', 'webpack'));
+            const packageJSON = loadPackage(path.join(process.cwd(), 'node_modules', 'webpack'));
 
             return packageJSON.version;
         } catch (err) {
@@ -60,7 +57,7 @@ export default class WebpackConfigParser extends Parser<WebpackConfigEvents> {
         try {
             const config: webpack.Configuration = await import(asPathString(getAsUri(resource)!)); // `getAsUri(resource)` should not be null as the resource has already been fetched.
 
-            const version = await this.getLocallyInstalledWebpack();
+            const version = this.getLocallyInstalledWebpack();
 
             if (!version) {
                 await this.engine.emitAsync('parse::error::webpack-config::not-install', {

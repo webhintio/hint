@@ -1,9 +1,7 @@
 import * as path from 'path';
 
-import * as mock from 'mock-require';
 import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
 import { Severity } from '@hint/utils-types';
-import * as utils from '@hint/utils';
 
 const hintPath = getHintPath(__filename, true);
 
@@ -33,27 +31,27 @@ const paths = [
 
 const tests: TestWithBrowserInfo[] = [
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['IE 8', 'IE 9', 'Edge 15', 'Edge 16', 'Chrome 63', 'Chrome 60', 'android 4.4.3-4.4.4', 'Safari 10.1', 'Safari 10.0'],
         name: 'Configuration with "compilerOptions.target = es3" and old browsers should pass',
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths.es3
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: 'Configuration with "compilerOptions.target = es3" and modern browsers should fail',
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths.es3,
         reports: [
             {
@@ -64,39 +62,39 @@ const tests: TestWithBrowserInfo[] = [
         ]
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['IE 9', 'Edge 15', 'Chrome 63'],
         name: 'Configuration with "compilerOptions.target = es5" and minimum browsers should pass',
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths.es5
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: 'Configuration with "compilerOptions.target = es2016" and modern browsers should pass',
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths.es2016
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['IE 8', 'Edge 15', 'Chrome 63'],
         name: 'Configuration with "compilerOptions.target = es2016" and old browsers should fail',
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths.es2016,
         reports: [
             {
@@ -107,15 +105,15 @@ const tests: TestWithBrowserInfo[] = [
         ]
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: 'Configuration with "compilerOptions.target = esnext" and not very old browsers should fail',
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths.esnext,
         reports: [
             {
@@ -126,27 +124,27 @@ const tests: TestWithBrowserInfo[] = [
         ]
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['IE 8', 'Edge 15', 'Chrome 63'],
         name: 'Configuration with no "compilerOptions.target" and old browsers should pass',
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths['no-target']
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: `Configuration with no "compilerOptions.target" and modern browsers shouldn't pass`,
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths['no-target'],
         reports: [
             {
@@ -156,27 +154,27 @@ const tests: TestWithBrowserInfo[] = [
             }]
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['IE 8', 'Edge 15', 'Chrome 63'],
         name: 'Configuration with no "compilerOptions.target" in extended file and old browsers should pass',
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths['no-target-extends']
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: `Configuration with no "compilerOptions.target" in extended file and modern browsers shouldn't pass`,
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths['no-target-extends'],
         reports: [
             {
@@ -186,15 +184,15 @@ const tests: TestWithBrowserInfo[] = [
             }]
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: `Configuration with "compilerOptions.target" in extended file and modern browsers shouldn't pass`,
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths['no-target-extends-target'],
         reports: [
             {
@@ -204,27 +202,27 @@ const tests: TestWithBrowserInfo[] = [
             }]
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: `Configuration with extends pointing to ES2016 and modern browsers should pass`,
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths.extends
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: `Configuration with extends pointing to ES2016 and target es3 should fail`,
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths['extends-overrides'],
         reports: [
             {
@@ -235,19 +233,19 @@ const tests: TestWithBrowserInfo[] = [
         ]
     },
     {
-        before() {
-            (utils as any).findPackageRoot = (dirname: string, fileToFind: string) => {
-                if (fileToFind === 'package.json') {
-                    return path.join(__dirname, 'fixtures', 'target', 'config-package-json');
-                }
-
-                throw new Error('Package not found');
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: `Configuration with extends pointing to ES2016 and target es3 should fail if browserlist is found in package.json`,
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot(dirname: string, fileToFind: string) {
+                    if (fileToFind === 'package.json') {
+                        return path.join(__dirname, 'fixtures', 'target', 'config-package-json');
+                    }
+
+                    throw new Error('Package not found');
+                }
+            }
+        },
         path: paths['extends-overrides'],
         reports: [
             {
@@ -258,43 +256,43 @@ const tests: TestWithBrowserInfo[] = [
         ]
     },
     {
-        before() {
-            (utils as any).findPackageRoot = (dirname: string, fileToFind: string) => {
-                if (fileToFind === 'package.json') {
-                    return path.join(__dirname, 'fixtures', 'target', 'no-config-package-json');
-                }
-
-                throw new Error('Package not found');
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: `Configuration with extends pointing to ES2016 and target es3 should pass if browserlist configuration is not found in package.json`,
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot(dirname: string, fileToFind: string) {
+                    if (fileToFind === 'package.json') {
+                        return path.join(__dirname, 'fixtures', 'target', 'no-config-package-json');
+                    }
+
+                    throw new Error('Package not found');
+                }
+            }
+        },
         path: paths['extends-overrides']
     },
     {
-        before() {
-            (utils as any).findPackageRoot = (dirname: string, fileToFind: string) => {
-                throw new Error('Package not found');
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['Edge 15', 'Chrome 63'],
         name: `Configuration with extends pointing to ES2016 and target es3 should pass if browserlist configuration is not found`,
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot(dirname: string, fileToFind: string) {
+                    throw new Error('Package not found');
+                }
+            }
+        },
         path: paths['extends-overrides']
     },
     {
-        before() {
-            (utils as any).findPackageRoot = () => {
-                return 'folder';
-            };
-
-            mock('@hint/utils', utils);
-        },
         browserslist: ['IE 8', 'Edge 15', 'Chrome 63'],
         name: `Configuration with extends pointing to ES2016 and old browsers should fail`,
+        overrides: {
+            '@hint/utils': {
+                findPackageRoot() {
+                    return 'folder';
+                }
+            }
+        },
         path: paths.extends,
         reports: [
             {
@@ -310,6 +308,7 @@ tests.forEach((info: TestWithBrowserInfo) => {
     const test: HintLocalTest = {
         before: info.before,
         name: info.name,
+        overrides: info.overrides,
         path: info.path,
         reports: info.reports
     };

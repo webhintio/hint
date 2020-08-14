@@ -1,9 +1,6 @@
 /* eslint sort-keys: 0 */
 
-import * as mock from 'mock-require';
-
 import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
-import * as utilsNetwork from '@hint/utils-network';
 import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename);
@@ -76,36 +73,34 @@ const configCheckerMessages = {
 };
 
 const htmlCheckerMock = (response: any) => {
-    const requestAsync = (scanOptions: any) => {
-        let responseMessages;
+    return {
+        '@hint/utils-network': {
+            requestAsync(scanOptions: any) {
+                let responseMessages;
 
-        if (response.pass) { // No errors/warnings are detected in the target html
-            return Promise.resolve(JSON.stringify(noErrorMessages));
+                if (response.pass) { // No errors/warnings are detected in the target html
+                    return Promise.resolve(JSON.stringify(noErrorMessages));
+                }
+
+                if (response.error) { // Errors/warnings are detected in the target html
+                    const isDefaultChecker = scanOptions.url === defaultValidator;
+
+                    responseMessages = isDefaultChecker ? defaultCheckerMessages : configCheckerMessages;
+
+                    return Promise.resolve(JSON.stringify(responseMessages));
+                }
+
+                return Promise.reject(new Error(validatorError)); // Error with the validator
+            }
         }
-
-        if (response.error) { // Errors/warnings are detected in the target html
-            const isDefaultChecker = scanOptions.url === defaultValidator;
-
-            responseMessages = isDefaultChecker ? defaultCheckerMessages : configCheckerMessages;
-
-            return Promise.resolve(JSON.stringify(responseMessages));
-        }
-
-        return Promise.reject(new Error(validatorError)); // Error with the validator
     };
-
-    (utilsNetwork as any).requestAsync = requestAsync;
-
-    mock('@hint/utils-network', utilsNetwork);
 };
 
 const testsForDefaults: HintTest[] = [
     {
         name: 'No reports if HTML checker returns no messages',
-        serverUrl: exampleUrl,
-        before() {
-            htmlCheckerMock({ pass: true });
-        }
+        overrides: htmlCheckerMock({ pass: true }),
+        serverUrl: exampleUrl
     },
     {
         name: `Resource is not an HTML document`,
@@ -113,6 +108,7 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: 'Reports warnings/errors if the HTML checker returns messages (default)',
+        overrides: htmlCheckerMock({ error: true }),
         serverUrl: exampleUrl,
         reports: [{
             message: defaultCheckerMessages.messages[0].message,
@@ -128,16 +124,14 @@ const testsForDefaults: HintTest[] = [
                 line: defaultCheckerMessages.messages[1].lastLine
             },
             severity: Severity.warning
-        }],
-        before() {
-            htmlCheckerMock({ error: true });
-        }
+        }]
     }
 ];
 
 const testsForIgnoreStringConfigs: HintTest[] = [
     {
         name: 'Ignore selected message(string) from the report',
+        overrides: htmlCheckerMock({ error: true }),
         serverUrl: exampleUrl,
         reports: [{
             message: defaultCheckerMessages.messages[0].message,
@@ -146,26 +140,22 @@ const testsForIgnoreStringConfigs: HintTest[] = [
                 line: defaultCheckerMessages.messages[0].lastLine
             },
             severity: Severity.error
-        }],
-        before() {
-            htmlCheckerMock({ error: true });
-        }
+        }]
     }
 ];
 
 const testsForIgnoreArrayConfigs: HintTest[] = [
     {
         name: 'Ignore selected messages(array) from the report',
-        serverUrl: exampleUrl,
-        before() {
-            htmlCheckerMock({ error: true });
-        }
+        overrides: htmlCheckerMock({ error: true }),
+        serverUrl: exampleUrl
     }
 ];
 
 const testsForValidatorConfig: HintTest[] = [
     {
         name: 'Use configed validator service other than the default',
+        overrides: htmlCheckerMock({ error: true }),
         serverUrl: exampleUrl,
         reports: [{
             message: configCheckerMessages.messages[0].message,
@@ -173,23 +163,19 @@ const testsForValidatorConfig: HintTest[] = [
                 column: configCheckerMessages.messages[0].firstColumn,
                 line: configCheckerMessages.messages[0].lastLine
             }
-        }],
-        before() {
-            htmlCheckerMock({ error: true });
-        }
+        }]
     }
 ];
 
 const testsForDetailsConfig: HintTest[] = [
     {
         name: 'Configure to show complete list of errors/warnings',
-        serverUrl: exampleUrl,
-        before() {
-            htmlCheckerMock({ pass: true });
-        }
+        overrides: htmlCheckerMock({ pass: true }),
+        serverUrl: exampleUrl
     },
     {
         name: 'Reports warnings/errors if the HTML checker returns messages (details config)',
+        overrides: htmlCheckerMock({ error: true }),
         serverUrl: exampleUrl,
         reports: [{
             message: defaultCheckerMessages.messages[0].message,
@@ -212,21 +198,16 @@ const testsForDetailsConfig: HintTest[] = [
                 line: defaultCheckerMessages.messages[2].lastLine
             },
             severity: Severity.information
-        }],
-        before() {
-            htmlCheckerMock({ error: true });
-        }
+        }]
     }
 ];
 
 const testsForErrors: HintTest[] = [
     {
         name: 'Reports error when not able to get result from the HTML Checker',
+        overrides: htmlCheckerMock({ reject: true }),
         serverUrl: exampleUrl,
-        reports: [{ message: `Could not get results from HTML checker for '${exampleUrl}'. Error: '${validatorError}'.` }],
-        before() {
-            htmlCheckerMock({ reject: true });
-        }
+        reports: [{ message: `Could not get results from HTML checker for '${exampleUrl}'. Error: '${validatorError}'.` }]
     }
 ];
 

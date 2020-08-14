@@ -7,7 +7,6 @@ import anyTest, { TestInterface } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
 import * as utilsFs from '@hint/utils-fs';
-import * as network from '@hint/utils-network';
 import { getAsUri } from '@hint/utils-network';
 import { Engine, FetchEnd, ErrorEvent } from 'hint';
 
@@ -22,21 +21,10 @@ type SandboxContext = {
 
 const test = anyTest as TestInterface<SandboxContext>;
 
-const schema = readFile(path.join(__dirname, 'fixtures', 'schema.json'));
+const schema = JSON.parse(readFile(path.join(__dirname, 'fixtures', 'schema.json')));
 
-const mockContext = (context: SandboxContext) => {
+const mockContext = () => {
     const statObject = { mtime: new Date() };
-
-    (network as any).requestAsync = (url: string): Promise<string> => {
-        return Promise.resolve(schema);
-    };
-
-    (utilsFs as any).writeFileAsync = (path: string, content: string): Promise<void> => {
-        return Promise.resolve();
-    };
-
-    const requestAsyncStub = context.sandbox.stub(network, 'requestAsync');
-    const writeFileAsyncStub = context.sandbox.stub(utilsFs, 'writeFileAsync');
 
     const fs = {
         stat(path: string, callback: Function): void {
@@ -51,17 +39,17 @@ const mockContext = (context: SandboxContext) => {
     }) as Engine<TypeScriptConfigEvents>;
 
     const script = proxyquire('../src/parser', {
-        '@hint/utils-fs': utilsFs,
-        '@hint/utils-network': network,
-        fs
+        '@hint/utils-fs': {
+            loadJSONFile() {
+                return schema;
+            }
+        }
     });
 
     return {
         engine,
         fs,
-        requestAsyncStub,
-        TypeScriptConfigParser: script.default,
-        writeFileAsyncStub
+        TypeScriptConfigParser: script.default
     };
 };
 
@@ -76,7 +64,7 @@ test.afterEach.always((t) => {
 
 test(`If the resource doesn't match the regex, nothing should happen`, async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext(t.context);
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -90,7 +78,7 @@ test(`If the resource doesn't match the regex, nothing should happen`, async (t)
 
 test(`If the resource is a tsconfig.schema.json file, nothing should happen`, async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext(t.context);
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -104,7 +92,7 @@ test(`If the resource is a tsconfig.schema.json file, nothing should happen`, as
 
 test('If the file contains an invalid json, it should fail', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext(t.context);
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -124,7 +112,7 @@ test('If the file contains an invalid json, it should fail', async (t) => {
 
 test('If the file contains a valid json with an invalid schema, it should fail', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext(t.context);
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -143,7 +131,7 @@ test('If the file contains a valid json with an invalid schema, it should fail',
 
 test('If we receive a valid json with a valid name, it should emit the event parse::end::typescript-config', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext(t.context);
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -193,7 +181,7 @@ test('If we receive a valid json with a valid name, it should emit the event par
 
 test('If we receive a valid json with an extends, it should emit the event parse::end::typescript-config with the right data', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext(t.context);
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -245,7 +233,7 @@ test('If we receive a valid json with an extends, it should emit the event parse
 
 test('If we receive a json with an extends with a loop, it should emit the event parse::error::typescript-config::extends', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext(t.context);
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 
@@ -265,7 +253,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
 
 test('If we receive a json with an extends with an invalid json, it should emit the event parse::error::typescript-config::extends', async (t) => {
     const sandbox = t.context.sandbox;
-    const { engine, TypeScriptConfigParser } = mockContext(t.context);
+    const { engine, TypeScriptConfigParser } = mockContext();
 
     const engineEmitAsyncSpy = sandbox.spy(engine, 'emitAsync');
 

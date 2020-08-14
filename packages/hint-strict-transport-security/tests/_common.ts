@@ -1,6 +1,4 @@
-import * as mock from 'mock-require';
 import { generateHTMLPage } from '@hint/utils-create-server';
-import * as utilsNetwork from '@hint/utils-network';
 
 export const OkayMaxAge = 31536000; // a max-age value larger than the minimum
 export const smallMaxAge = 1; // a max-age value less than the minimum
@@ -84,10 +82,12 @@ export const requestJSONAsyncMock = (responseObject: any) => {
         return Promise.resolve(response);
     };
 
-    (utilsNetwork as any).isRegularProtocol = isRegularProtocol;
-    (utilsNetwork as any).isHTTPS = isHTTPS;
-    (utilsNetwork as any).requestJSONAsync = requestJSONAsync;
-
-    mock('@hint/utils-network', utilsNetwork);
-    mock('@hint/utils-string', { normalizeString });
+    return {
+        '@hint/utils-network': {
+            isHTTPS,
+            isRegularProtocol,
+            requestJSONAsync
+        },
+        '@hint/utils-string': { normalizeString }
+    };
 };

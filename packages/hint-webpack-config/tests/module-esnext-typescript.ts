@@ -1,35 +1,28 @@
 import * as path from 'path';
-import * as mock from 'mock-require';
 
 import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
-import { loadJSONFile } from '@hint/utils-fs';
 import { Severity } from '@hint/utils-types';
 
-const webpackDestPath = path.join(__dirname, 'fixtures', 'valid', 'package.json');
-const webpackV1DestPath = path.join(__dirname, 'fixtures', 'version1', 'package.json');
-const webpackConfig = loadJSONFile(webpackDestPath);
-const webpackV1Config = loadJSONFile(webpackV1DestPath);
+const cwd = process.cwd();
 const hintPath = getHintPath(__filename, true);
 
 const tests: HintLocalTest[] = [
     {
+        after() {
+            process.chdir(cwd);
+        },
         before() {
-            const loadPackage = () => {
-                return webpackConfig;
-            };
-
-            mock('@hint/utils/dist/src/packages/load-package', { loadPackage });
+            process.chdir(path.join(__dirname, 'fixtures', 'tsvalid'));
         },
         name: 'If TS configuration is valid and webpack version >=2 should pass',
         path: path.join(__dirname, 'fixtures', 'tsvalid')
     },
     {
+        after() {
+            process.chdir(cwd);
+        },
         before() {
-            const loadPackage = () => {
-                return webpackConfig;
-            };
-
-            mock('@hint/utils/dist/src/packages/load-package', { loadPackage });
+            process.chdir(path.join(__dirname, 'fixtures', 'tsinvalid'));
         },
         name: `If TS configuration is not valid, is should fail`,
         path: path.join(__dirname, 'fixtures', 'tsinvalid'),
@@ -39,12 +32,11 @@ const tests: HintLocalTest[] = [
         }]
     },
     {
+        after() {
+            process.chdir(cwd);
+        },
         before() {
-            const loadPackage = () => {
-                return webpackV1Config;
-            };
-
-            mock('@hint/utils/dist/src/packages/load-package', { loadPackage });
+            process.chdir(path.join(__dirname, 'fixtures', 'version1'));
         },
         name: 'If TS configuration is invalid, but webpack version is < 2, it should pass',
         path: path.join(__dirname, 'fixtures', 'tsinvalid')
@@ -54,12 +46,11 @@ const tests: HintLocalTest[] = [
 const generateTest = (testName: string): HintLocalTest[] => {
     return [
         {
+            after() {
+                process.chdir(cwd);
+            },
             before() {
-                const loadPackage = () => {
-                    return webpackConfig;
-                };
-
-                mock('@hint/utils/dist/src/packages/load-package', { loadPackage });
+                process.chdir(path.join(__dirname, 'fixtures', 'tsvalid'));
             },
             name: testName,
             path: path.join(__dirname, 'fixtures', 'tsvalid')
