@@ -1,34 +1,27 @@
 import * as path from 'path';
-import * as mock from 'mock-require';
 
 import { getHintPath, HintLocalTest, testLocalHint } from '@hint/utils-tests-helpers';
-import { loadJSONFile } from '@hint/utils-fs';
 import { Severity } from '@hint/utils-types';
 
-const webpackDestPath = path.join(__dirname, 'fixtures', 'valid', 'package.json');
-const webpackConfig = loadJSONFile(webpackDestPath);
-
+const cwd = process.cwd();
 const hintPath = getHintPath(__filename, true);
 const tests: HintLocalTest[] = [
     {
+        after() {
+            process.chdir(cwd);
+        },
         before() {
-            // Using `as any` to avoid `read-only` error.
-            const loadPackage = () => {
-                return webpackConfig;
-            };
-
-            mock('@hint/utils/dist/src/packages/load-package', { loadPackage });
+            process.chdir(path.join(__dirname, 'fixtures', 'valid'));
         },
         name: 'If valid configuration file exists and webpack is installed should pass',
         path: path.join(__dirname, 'fixtures', 'valid')
     },
     {
+        after() {
+            process.chdir(cwd);
+        },
         before() {
-            const loadPackage = () => {
-                throw new Error('error');
-            };
-
-            mock('@hint/utils/dist/src/packages/load-package', { loadPackage });
+            process.chdir(path.join(__dirname, 'fixtures'));
         },
         name: 'If valid configuration file exists but webpack is not installed should fail',
         path: path.join(__dirname, 'fixtures', 'valid'),

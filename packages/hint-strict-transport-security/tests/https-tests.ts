@@ -164,30 +164,24 @@ const configPreloadTets: HintTest[] = [
         }
     },
     {
-        before() {
-            common.requestJSONAsyncMock({ status: common.preloaded });
-        },
         name: `The site is already on the preload list`,
+        overrides: common.requestJSONAsyncMock({ status: common.preloaded }),
         serverConfig: {
             ...common.faviconHeaderMaxAgeOnly,
             '/': { headers: common.preloadHeader }
         }
     },
     {
-        before() {
-            common.requestJSONAsyncMock({ preloadable: common.noErrors, status: common.unknown });
-        },
         name: `The site is not on the preload list, and is qualified to be enrolled`,
+        overrides: common.requestJSONAsyncMock({ preloadable: common.noErrors, status: common.unknown }),
         serverConfig: {
             ...common.faviconHeaderMaxAgeOnly,
             '/': { headers: common.preloadHeader }
         }
     },
     {
-        before() {
-            common.requestJSONAsyncMock({ preloadable: common.hasErrors, status: common.unknown });
-        },
         name: `The site is not on the preload list, and it isn't qualified to be enrolled`,
+        overrides: common.requestJSONAsyncMock({ preloadable: common.hasErrors, status: common.unknown }),
         reports: [{
             message: common.notPreloadableError,
             severity: Severity.error
@@ -198,10 +192,8 @@ const configPreloadTets: HintTest[] = [
         }
     },
     {
-        before() {
-            common.requestJSONAsyncMock({ preloadable: common.hasErrors, status: null });
-        },
         name: `Service error with the preload status endpoint`,
+        overrides: common.requestJSONAsyncMock({ preloadable: common.hasErrors, status: null }),
         reports: [{
             message: common.statusServiceError,
             severity: Severity.error
@@ -212,10 +204,8 @@ const configPreloadTets: HintTest[] = [
         }
     },
     {
-        before() {
-            common.requestJSONAsyncMock({ preloadable: null, status: common.unknown });
-        },
         name: `Service error with the preload eligibility endpoint`,
+        overrides: common.requestJSONAsyncMock({ preloadable: null, status: common.unknown }),
         reports: [{
             message: common.preloadableServiceError,
             severity: Severity.error
@@ -226,10 +216,8 @@ const configPreloadTets: HintTest[] = [
         }
     },
     {
-        before() {
-            common.requestJSONAsyncMock({ status: { status: null } });
-        },
         name: `There's a problem with the verification endpoint`,
+        overrides: common.requestJSONAsyncMock({ status: { status: null } }),
         reports: [{
             message: common.problemWithVerificationEndpoint,
             severity: Severity.warning

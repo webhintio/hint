@@ -1,12 +1,7 @@
 import * as fs from 'fs';
 
-import * as mock from 'mock-require';
-
 import { HintTest } from '@hint/utils-tests-helpers';
-import * as utils from '@hint/utils';
 import { HttpHeaders, Severity } from '@hint/utils-types';
-
-const originalAsyncTry = utils.asyncTry;
 
 const uaString = 'Mozilla/5.0 Gecko';
 
@@ -268,23 +263,20 @@ const testsForBrotli: HintTest[] = [
         })
     },
     {
-        after() {
-            (utils as any).asyncTry = originalAsyncTry;
-        },
-        before() {
-            (utils as any).asyncTry = (fetch: IFetchFunction) => {
-                return (target: string, headers: HttpHeaders) => {
-                    if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'br') {
-                        return fetch(target, headers);
-                    }
-
-                    return null;
-                };
-            };
-
-            mock('@hint/utils', utils);
-        },
         name: `If a request throws an exception, if should be managed and report an error (brotli)`,
+        overrides: {
+            '@hint/utils': {
+                asyncTry(fetch: IFetchFunction) {
+                    return (target: string, headers: HttpHeaders) => {
+                        if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'br') {
+                            return fetch(target, headers);
+                        }
+
+                        return null;
+                    };
+                }
+            }
+        },
         reports: [{
             message: `Could not be fetched when requested compressed with Brotli.`,
             severity: Severity.error
@@ -551,23 +543,20 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
             )
         },
         {
-            after() {
-                (utils as any).asyncTry = originalAsyncTry;
-            },
-            before() {
-                (utils as any).asyncTry = (fetch: IFetchFunction) => {
-                    return (target: string, headers: HttpHeaders) => {
-                        if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'gzip') {
-                            return fetch(target, headers);
-                        }
-
-                        return null;
-                    };
-                };
-
-                mock('@hint/utils', utils);
-            },
             name: `If a request throws an exception, if should be managed and report an error (Gzip)`,
+            overrides: {
+                '@hint/utils': {
+                    asyncTry(fetch: IFetchFunction) {
+                        return (target: string, headers: HttpHeaders) => {
+                            if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'gzip') {
+                                return fetch(target, headers);
+                            }
+
+                            return null;
+                        };
+                    }
+                }
+            },
             reports: [{
                 message: 'Could not be fetched when requested compressed with gzip.',
                 severity: Severity.error
@@ -793,23 +782,20 @@ const testsForNoCompression = (https: boolean = false): HintTest[] => {
             )
         },
         {
-            after() {
-                (utils as any).asyncTry = originalAsyncTry;
-            },
-            before() {
-                (utils as any).asyncTry = (fetch: IFetchFunction) => {
-                    return (target: string, headers: HttpHeaders) => {
-                        if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'identity') {
-                            return fetch(target, headers);
-                        }
-
-                        return null;
-                    };
-                };
-
-                mock('@hint/utils', utils);
-            },
             name: `If a request throws an exception, if should be managed and report an error (no compression)`,
+            overrides: {
+                '@hint/utils': {
+                    asyncTry(fetch: IFetchFunction) {
+                        return (target: string, headers: HttpHeaders) => {
+                            if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'identity') {
+                                return fetch(target, headers);
+                            }
+
+                            return null;
+                        };
+                    }
+                }
+            },
             reports: [{
                 message: 'Could not be fetched when requested uncompressed',
                 severity: Severity.error
