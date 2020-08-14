@@ -3,6 +3,7 @@
  */
 
 import { URL } from 'url';
+import * as proxyquire from 'proxyquire';
 
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
@@ -367,6 +368,11 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
 
         const config = createConfig(hintId, connector, configs);
         const resources = resourceLoader.loadResources(config);
+
+        if (hintTest.overrides) {
+            resources.hints = [proxyquire(hintId, hintTest.overrides).default];
+        }
+
         const engine: Engine = new Engine(config, resources);
 
         return engine;
@@ -491,6 +497,11 @@ export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], config
 
             const hintConfig = createConfig(hintId, connector, configs);
             const resources = resourceLoader.loadResources(hintConfig);
+
+            if (hintTest.overrides) {
+                resources.hints = [proxyquire(hintId, hintTest.overrides).default];
+            }
+
             const engine = new Engine(hintConfig, resources);
 
             // Can assume `getAsUri(hintTest.path)` is not `null` since these are controlled test inputs.
