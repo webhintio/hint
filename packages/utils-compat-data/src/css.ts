@@ -6,7 +6,7 @@ import { mdn } from './browser-compat-data';
 import { getUnsupportedBrowsers, UnsupportedBrowsers } from './browsers';
 import { getCachedValue } from './cache';
 import { getFeatureData } from './helpers';
-import { types } from './css-types';
+import { types } from './mdn-css-types';
 
 const selectorParser = require('postcss-selector-parser');
 const valueParser = require('postcss-value-parser');
@@ -106,7 +106,8 @@ const getValueUnsupported = (context: Identifier, property: string, value: strin
 
     if (property && types.has(property)) {
         for (const type of types.get(property)!) {
-            const result = getValueUnsupported(mdn.css.types[type], '', value, browsers);
+            const typeContext = mdn.css.types[type];
+            const result = typeContext && getValueUnsupported(typeContext, '', value, browsers);
 
             if (result) {
                 return result;

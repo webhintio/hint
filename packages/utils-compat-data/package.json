@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "mdn-browser-compat-data": "^1.0.31",
+    "mdn-data": "^2.0.11",
     "postcss": "^7.0.32",
     "postcss-selector-parser": "^6.0.2",
     "postcss-value-parser": "^4.1.0",
