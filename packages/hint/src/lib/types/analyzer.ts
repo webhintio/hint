@@ -1,5 +1,7 @@
 import { Problem } from '@hint/utils-types';
 
+export type { UserConfig } from '@hint/utils';
+
 export type CreateAnalyzerOptions = {
     formatters?: string[];
     hints?: string[];
