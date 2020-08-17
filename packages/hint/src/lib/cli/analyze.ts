@@ -390,6 +390,7 @@ const actionsToOptions = (actions: CLIOptions): CreateAnalyzerOptions => {
 /** Analyzes a website if indicated by `actions`. */
 export default async (actions: CLIOptions): Promise<boolean> => {
     const targets = getAsUris(actions._);
+    const useSpinner = !actions.debug && !isCI;
 
     if (targets.length === 0) {
         return false;
@@ -411,7 +412,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     const endSpinner = (method: string) => {
         /* istanbul ignore else */
-        if (!actions.debug && (spinner as any)[method]) {
+        if (useSpinner && (spinner as any)[method]) {
             (spinner as any)[method]();
         }
     };
@@ -448,8 +449,8 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             updateCallback: undefined
         };
 
-        /* istanbul ignore else */
-        if (!actions.debug) {
+        // /* istanbul ignore else */
+        if (useSpinner) {
             analyzerOptions.updateCallback = (update) => {
                 spinner.text = update.message;
             };
@@ -457,7 +458,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
         /* istanbul ignore next */
         analyzerOptions.targetStartCallback = (start) => {
-            if (!actions.debug) {
+            if (useSpinner) {
                 spinner.start();
             }
             scanStart.set(start.url, Date.now());
