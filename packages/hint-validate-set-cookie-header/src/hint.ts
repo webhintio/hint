@@ -54,7 +54,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
         };
 
         /** Concat and unquote the strings after the first `=`. */
-        const splitByEqual = (splitResult: string[]): string[] => {
+        const unquoteAfterSplitByEqual = (splitResult: string[]): string[] => {
             const [key, ...value] = splitResult;
 
             return [key, unquote(value.join('='))];
@@ -62,7 +62,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Normalize the string before the first `=`, concat and unquote the strings after the first `=`. */
         const normalizeAfterSplitByEqual = (splitResult: string[]): string[] => {
-            const [key, value] = splitByEqual(splitResult);
+            const [key, value] = unquoteAfterSplitByEqual(splitResult);
 
             return [normalizeString(key)!, value];
         };
@@ -73,7 +73,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
          */
         const parse = (setCookieValue: string) => {
             const [nameValuePair, ...directivePairs] = setCookieValue.split(';');
-            const [cookieName, cookieValue] = splitByEqual(nameValuePair.split('='));
+            const [cookieName, cookieValue] = unquoteAfterSplitByEqual(nameValuePair.split('='));
 
             const setCookie: ParsedSetCookieHeader = {
                 name: cookieName,
