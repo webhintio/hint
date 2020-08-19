@@ -15,6 +15,7 @@
             "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/ava",
             "runtimeArgs": [
                 "--serial",
+                "--timeout=5m",
                 "${fileDirname}/../dist/tests/${fileBasenameNoExtension}.js"
             ],
             "outputCapture": "std",
