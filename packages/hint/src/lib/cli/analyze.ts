@@ -449,7 +449,7 @@ export default async (actions: CLIOptions): Promise<boolean> => {
             updateCallback: undefined
         };
 
-        // /* istanbul ignore else */
+        /* istanbul ignore else */
         if (useSpinner) {
             analyzerOptions.updateCallback = (update) => {
                 spinner.text = update.message;
