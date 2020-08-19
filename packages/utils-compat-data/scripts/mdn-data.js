@@ -24,7 +24,7 @@ const flatMap = (arr, map) => {
 };
 
 /**
- * Helper for `[].matchAll` until we move to Node 11+.
+ * Helper for `string.matchAll` until we move to Node 11+.
  * @param {string} str
  * @param {RegExp} regex
  */
