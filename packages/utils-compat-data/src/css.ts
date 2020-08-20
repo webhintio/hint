@@ -56,21 +56,6 @@ const getTokens = (nodes: any[]): [string, string][] => {
 };
 
 /**
- * Parse a CSS value into more basic components.
- */
-const parseValue = (value: string): ParsedValue => {
-    const prefix = vendor.prefix(value);
-    const unprefixedValue = vendor.unprefixed(value);
-    const tokens = getTokens(valueParser(value).nodes);
-
-    return {
-        prefix,
-        tokens,
-        unprefixedValue
-    };
-};
-
-/**
  * Check if any parts of a value align with an MDN feature's matches clause.
  * If so, return browser support based on that feature's data.
  */
@@ -147,21 +132,23 @@ const getPartialValueUnsupported = (context: Identifier, value: ParsedValue, bro
 /**
  * Determine if the provided CSS value is supported, first by looking for an
  * exact match for the full value, falling back to search for a partial match.
+ *
+ * Note: context is missing when a property was omitted due to full support
+ * (to reduce bundle size), but referenced CSS types with partial support may
+ * still exist (e.g. "color" and alpha_hex_value).
  */
 const getValueUnsupported = (context: Identifier | undefined, property: string, value: string, browsers: string[]): UnsupportedBrowsers | null => {
-    /*
-     * Context is missing when a property was omitted due to full support (to reduce bundle size),
-     * but referenced CSS types with partial support may still exist (e.g. "color" and alpha_hex_value).
-     */
-    if (context) {
-        const [data, prefix, unprefixed] = getFeatureData(context, value);
+    const [data, prefix, unprefixedValue] = getFeatureData(context, value);
 
-        if (data) {
-            return getUnsupportedBrowsers(data, prefix, browsers, unprefixed, data.__compat?.mdn_url ? undefined : context);
-        }
+    if (data) {
+        return getUnsupportedBrowsers(data, prefix, browsers, unprefixedValue, data.__compat?.mdn_url ? undefined : context);
     }
 
-    const parsedValue = parseValue(value);
+    const parsedValue: ParsedValue = {
+        prefix,
+        tokens: getTokens(valueParser(value).nodes),
+        unprefixedValue
+    };
 
     // Check browser support for each CSS type associated with the property (if any).
     if (types.has(property)) {
