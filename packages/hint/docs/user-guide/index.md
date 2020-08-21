@@ -1,76 +1,83 @@
+---
+date: 08/20/2020
+---
 # User guide
+
+Whether this is you first time using with webhint or not, use the following content to help you build your webhint skills.
 
 ## Getting started
 
-If you want to have an idea of what `webhint` does you will
-need to use [Node.js 10 or later, x64 version recommended][nodejs]
-and run the following command:
+To start using learning about `webhint` doescomplet the folowing actions.
 
-```bash
-npx hint https://example.com
-```
+1.  Install [Node.js][NodejsDownloadCurrent] verions 10 or later, the x64 version is recommended.
+1.  Run the command in the following code snippet.
 
-You can also run webhint from within [VS Code][] and as a
-[browser extension][].
+    ```bash
+    npx hint https://example.com
+    ```
 
-If you are going to add it to your project, the recommended way
-is as a `devDependency`:
+> [!Note]
+> You may also run webhint from within [Visual Studio Code (VS Code)][UserGuideExtensionsVscodeWebhint] or as a [browser extension][UserGuideExtensionsBrowser].
 
-```bash
-npm install hint --save-dev
-```
+To add webhint to your project, you should install the `devDependency`.
 
-And then add a script task to your `package.json`:
+1.  To install the `devDependency`, run the command in the following code snippet.
 
-```json
-{
-    ...
-    "scripts": {
-        "webhint": "hint http://localhost:8080"
+    ```bash
+    npm install hint --save-dev
+    ```
+
+1.  After you install the `devDependency`, copy the script task in the following code snippet and add it to your `package.json` file.
+
+    ```json
+    {
+        ...
+        "scripts": {
+            "webhint": "hint http://localhost:8080"
+        }
     }
-}
-```
+    ```
 
-And run it via:
+1.  To start your webhint, run the command in the following code snippet.
 
-```bash
-npm run webhint
-```
+    ```bash
+    npm run webhint
+    ```
 
-**NOTE**: If you run into any issues during the install process
-please check the [troubleshoot section](./troubleshoot/summary.md).
+> [!NOTE]
+> If you run into any issues during the install process, see [Common issues when installing or running webhint][UserGuideTroubleshootSummary].
 
-You can also use webhint to analyze local files or directories and get
-hints on different areas that are not available from a website (e.g.:
-hints related to JSX, `tsconfig.json`, etc.).
+Use webhint to analyze local files or directories and get hints on different areas that are not available from a website.  For example,  hints related to JSX, `tsconfig.json`, and so on.
 
-Depending on the target to analyze it will use:
+Depending on the target of your analysis, webhint uses one of the following configurations.
 
-* [web-recommended][] if analyzing a website (i.e.: target starts with
-  `http(s)://`).
-* [development][] if analyzing a local file or directory.
+*   [web-recommended][UserGuideConfigurationsWebRecommended] if analyzing a website \(for example, target starts with `http://` or `https://`\).
+*   [development][UserGuideConfigurationsDevelopment] if analyzing a local file or directory.
 
-If you want to change the connector, hints, etc. you can add a `.hintrc`
-file in the current folder. To learn more about the format and the
-options visit [configuring webhint][].
+If you want to change the connector, hints, and so on, you may add a `.hintrc` file in the current directory.  To learn more about the format and the options, see [configuring webhint][UserGuideConfiguringWebhintSummary].
 
-### Further reading
+## Further reading
 
-Now that you have `webhint` up and running, it is time to learn a bit more
-about the different pieces:
+After you have `webhint` up and running, it is time to learn a bit more about the different pieces.
 
-* [Hints](./concepts/hints.md)
-* [Configurations](./concepts/configurations.md)
-* [Connectors](./concepts/connectors.md)
-* [Formatters](./concepts/formatters.md)
-* [Parsers](./concepts/parsers.md)
+*   [Hints][UserGuideConceptsHints]
+*   [Configurations][UserGuideConceptsConfigurations]
+*   [Connectors][UserGuideConceptsConnectors]
+*   [Formatters][UserGuideConceptsFormatters]
+*   [Parsers][UserGuideConceptsParsers]
 
-<!-- Link labels: -->
+<!-- links -->
 
-[configuring webhint]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
-[browser extension]: https://webhint.io/docs/user-guide/extensions/extension-browser/
-[development]: https://webhint.io/docs/user-guide/configurations/configuration-development/
-[nodejs]: https://nodejs.org/en/download/current/
-[ssl labs]: https://webhint.io/docs/user-guide/hints/hint-ssllabs/
-[VS Code]: https://webhint.io/docs/user-guide/extensions/vscode-webhint/
-[web-recommended]: https://webhint.io/docs/user-guide/configurations/configuration-web-recommended/
+[UserGuideConceptsConfigurations]: ./concepts/configurations.md "Configurations | webhint"
+[UserGuideConceptsConnectors]: ./concepts/connectors.md "Connectors | webhint"
+[UserGuideConceptsFormatters]: ./concepts/formatters.md "Formatters | webhint"
+[UserGuideConceptsHints]: ./concepts/hints.md "Hints | webhint"
+[UserGuideConceptsParsers]: ./concepts/parsers.md "Parsers | webhint"
+[UserGuideConfiguringWebhintSummary]: ./configuring-webhint/summary.md  "Configuring Webhint | webhint"
+[UserGuideExtensionsBrowser]: ../../../extension-browser/README.md "Webhint Browser Extension EditSignal Issue | webhint"
+[UserGuideConfigurationsDevelopment]: ./configurations/configuration-development.md "Webhint Development Configuration | webhint"
+[UserGuideConfigurationsWebRecommended]: ./configurations/configuration-web-recommended.md "Webhint Recommended Web Configuration | webhint"
+[UserGuideExtensionsVscodeWebhint]: ../../../extension-vscode/README.md "Webhint VS Code Extension | webhint"
+[UserGuideTroubleshootSummary]: ./troubleshoot/summary.md "Common issues when installing or running webhint | webhint"
+
+[NodejsDownloadCurrent]: https://nodejs.org/en/download/current "Downloads | Node.js"
