@@ -1,40 +1,42 @@
+---
+date: 08/20/2020
+---
 # Common issues when installing or running webhint
 
-The team currently supports webhint on the latest 2 LTS and
-current branch. While it is possible to run it on x86 version of
-Node.js, it is recommended to use the x64 one. The reason is that
-the project still uses some binary packages (`canvas` and `iltorb`)
-and in most cases there are precompiled versions for x64 and thus
-avoiding to compile anything.
+The team currently supports webhint on the latest 2 LTS and current branch.  While it is possible to run it on x86 version of Node.js, it is recommended to use the x64 version.  The reason is that the project still uses some binary packages that are more likely to have a pre-compiled x64 version available \( and no pre-complied x86 version\).  An available pre-compiled version avoids the requirement to compile it.
 
-This section contains the most commons issues reported by users with
-potential fixes. If you run into something that is not documented
-here please [open an issue in the hint repo][new issue].
+This topic contains the most commons issues reported by users along with potential fixes.  If you run into something that is not documented in this topic, please [open an issue in the hint repo][GitHubWebhintioHintNew].
 
 ## Windows Subsystem Linux
 
-Due to the project using binary packages (`canvas` and `iltorb`)
-you can find some problems related to building those packages on WSL:
+You may receive errors related to building packages on WSLD due to the project using the following binary packages.
 
-> Info looking for cached prebuild @
- /home/mahome/.npm/_prebuilds/47fbee-iltorb-v2.4.3-node-v59-linux-x64.tar.gz
-> WARN install No prebuilt binaries found (target=9.10.0 runtime=node
- arch=x64 libc= platform=linux)
-> gyp ERR! build error
-> gyp ERR! stack Error: not found: make
+*   `canvas`
+*   `iltorb`
 
-This is solved by installing the prerequisites of those packages [iltorb].
-**However, due to the hard dependency on Puppeteer,
- we do not recommend using WSL to run webhint.**
+You may receive the error displayed in the following code snippet.
 
-If you want to run webhint on WSL, you need to create your own config
- file with this minimum content:
+```shell
+Info looking for cached prebuild @ /home/mahome/.npm/_prebuilds/47fbee-iltorb-v2.4.3-node-v59-linux-x64.tar.gz
+WARN install No prebuilt binaries found (target=9.10.0 runtime=node arch=x64 libc= platform=linux)
+gyp ERR! build error
+gyp ERR! stack Error: not found: make
+```
+
+To solve the previous error, install the prerequisites of the packages listed in it.
+
+*   /home/mahome/.npm/_prebuilds/47fbee-[iltorb][NpmjsPackageIltorb]-v2.4.3-node-v59-linux-x64.tar.gz
+
+> [!IMPORTANT]
+> You should not use WSL to run webhint due to the hard dependency on Puppeteer.
+
+Add the following code snippet to your config file to enable your webhint to run under WSL.
 
 ```json
 { "extends": ["web-recommended"], "connector": "jsdom" }
 ```
 
-And then we need to pass the configuration to hint:
+Use the command in the following code snippet to pass the configuration to hint.
 
 ```bash
 npx hint -c ./path/to/.hintrc https://example.com
@@ -42,66 +44,58 @@ npx hint -c ./path/to/.hintrc https://example.com
 
 ## Building Windows packages
 
-Depending on your environment you could get an error similar to the
-following if there is a problem downloading any of the precompiled
-native modules:
+Depending on your environment and if there is a problem downloading any of the pre-compiled native modules, you may receive an error similar to the following code snippet.
 
-> gyp ERR! stack Error: Can't find Python executable "python"
+```shell
+gyp ERR! stack Error: Can't find Python executable "python"
+```
 
-Newer versions of Node.js (10+) on Windows ask users if they want the installer
-to automatically install the required dependencies. You can use this method
-or you can also install the [`windows-build-tools`][windows build tools].
-From an **Elevated PowerShell** run the following:
+Newer versions of Node.js \(version 10 or later\) on Windows should ask the user to automatically install the required dependencies.  You may use the automated method or manually install the [windows-build-tools][NpmjsPackageWindowsBuildTools].
 
-```bash
+In an **Elevated PowerShell** prompt, run the command in the following code snippet.
+
+```powershell
 npm install --global windows-build-tools
 ```
 
-## Issues with `canvas`
+## Issues with canvas
 
-Starting on `connector-jsdom v1.1.0`, `canvas` was changed to be an optional
-dependency so while you might see some issues during the installation if the
-binary is not available for download, the overall process should finish and
-you should be able to execute `webhint` using the `jsdom` connector. The only
-caveat is that images will not be downloaded.
+Starting with `connector-jsdom v1.1.0`, `canvas` is [now an optional dependency][GithubWebhintioHint47d51aeaa187351267f7b4cabd3f075de49d043d].  You may receive some issues during the installation if the binary is not available for download, but the overall process should finish and you should be able to run `webhint` using the `jsdom` connector.  The only caveat is images are not downloaded.
 
-This error happens more often:
+The following circumstances are more likely to cause the error.
 
-* when there is a new release of Node.js and precompiled binaries for `canvas`
-  are not yet available.
-* if you are running Node.js x86 on Windows. The recommendation is to switch to
-  x64 as [it is unlikely there will be x86 binaries any time soon][canvas x86].
+*   A new release of Node.js is available, but pre-compiled binaries for `canvas` are not yet available.
+*   You are running the x86 version of Node.js on Windows.  To fix the error, you should switch to x64 since [x86 binaries may not be published any time soon][GithubNodeGfxCanvasPrebuilt27Commnet348037675].
 
-You can also compile it yourself by following the [instructions][canvas compile].
+If you want to compile it, go to [Compiling][GithubAutomatticNodeCanvasCompiling].
 
 ## Permission issues during installation
 
-If you receive an `EACCES` error when installing `webhint`, it is caused most
-likely because of a global install. The recommended way is to install it as a
-`devDependency` of your project (`npm install hint --save-dev`). If this is not
-possible could try [change `npm`’s default directory][npm change default directory]
-and then try again. There have been reports of this issue when installing the
-dependency `canvas` throws an `EACCES`. This [issue][permission
-issue] was resolved adopting the recommended solution. You can find
-detailed steps on how to change the npm default directory [here][npm
-change default directory]. According to [npm’s documentation][npm use
-package manager], if you have Node.js installed using a package
-manager like [Homebrew][homebrew] or [nvm][nvm], you may be able to avoid
-the trouble of messing with the directories and have the correct
-permissions set up right out of the box. As a result, you will not
-experience the error described above even if you install `webhint`
-globally.
+If you receive an `EACCES` permission error when installing `webhint`, the common cause is a global installation.
 
-<!-- Link labels: -->
+Use the command in the following code snippet to install `webhint` as a `devDependency` of your project.
 
-[canvas compile]: https://github.com/Automattic/node-canvas#compiling
-[canvas x86]: https://github.com/node-gfx/node-canvas-prebuilt/issues/27#issuecomment-348037675
-[homebrew]: https://brew.sh/
-[iltorb]: https://www.npmjs.com/package/iltorb
-[new issue]: https://github.com/webhintio/hint/issues/new
-[npm change default directory]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-2-change-npms-default-directory-to-another-directory
-[npm use package manager]: https://docs.npmjs.com/getting-started/fixing-npm-permissions#option-3-use-a-package-manager-that-takes-care-of-this-for-you
-[nvm]: https://github.com/creationix/nvm
-[optional canvas]: https://github.com/webhintio/hint/commit/47d51aeaa187351267f7b4cabd3f075de49d043d
-[permission issue]: https://github.com/webhintio/hint/issues/308
-[windows build tools]: https://www.npmjs.com/package/windows-build-tools
+```shell
+npm install hint --save-dev
+```
+
+If you are not able to install `webhint` as a `devDependency`, [change the default directory for npm][NpmjsDocsResolvingEaccesPermissionsErrorsInstallingPackagesGloballyChangeDefaultDirectory] and try again.  An issue was reported that installing the `canvas` dependency throws an `EACCES` permission error.  The [permission issue][GithubWebhintioHint308] was resolved using the recommended solution.  For more information about how to change the npm default directory, go to [Manually change the npm default directory][NpmjsDocsResolvingEaccesPermissionsErrorsInstallingPackagesGloballyChangeDefaultDirectory].  According to [npm documentation][NpmjsDocsDownloadingInstallingUsingVersionManager], if you have Node.js installed using a package manager like [Homebrew][BrewMain] or [nvm][GithubCreationixNvm], you may be able to avoid the trouble of messing with the directories and have the correct permissions set up right out of the box.  As a result, you do not experience the previouisly described error even if you install `webhint` globally.
+
+<!-- links -->
+
+[BrewMain]: https://brew.sh "Homebrew"
+
+[GithubAutomatticNodeCanvasCompiling]: https://github.com/Automattic/node-canvas#compiling "Compiling - node-canvas - Automattic/node-canvas | GitHub"
+
+[GithubCreationixNvm]: https://github.com/creationix/nvm "Node Version Manager - nvm-sh/nvm | GitHub"
+
+[GithubNodeGfxCanvasPrebuilt27Commnet348037675]: https://github.com/node-gfx/node-canvas-prebuilt/issues/27#issuecomment-348037675 "issuecomment-348037675 - Add node-v48-win32-ia32? - node-gfx/node-canvas-prebuilt | GitHub"
+
+[GithubWebhintioHint308]: https://github.com/webhintio/hint/issues/308 "Can't install via npm - canvas error - webhintio/hint | GitHub"
+[GithubWebhintioHint47d51aeaa187351267f7b4cabd3f075de49d043d]: https://github.com/webhintio/hint/commit/47d51aeaa187351267f7b4cabd3f075de49d043d "Fix: Make `canvas` optional - webhintio/hint | GitHub"
+[GitHubWebhintioHintNew]: https://github.com/webhintio/hint/issues/new "New Issue - webhintio/hint | GitHub"
+
+[NpmjsPackageIltorb]: https://www.npmjs.com/package/iltorb "iltorb | npm"
+[NpmjsDocsResolvingEaccesPermissionsErrorsInstallingPackagesGloballyChangeDefaultDirectory]: https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally#manually-change-npms-default-directory "Manually change npm’s default directory - Resolving EACCES permissions errors when installing packages globally | npm"
+[NpmjsDocsDownloadingInstallingUsingVersionManager]: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm#using-a-node-version-manager-to-install-nodejs-and-npm "Using a Node version manager to install Node.js and npm - Downloading and installing Node.js and npm | npm"
+[NpmjsPackageWindowsBuildTools]: https://www.npmjs.com/package/windows-build-tools "windows-build-tools | npm"
