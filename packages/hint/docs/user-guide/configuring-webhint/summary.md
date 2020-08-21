@@ -1,23 +1,26 @@
-# Configuring webhint
+---
+date: 08/20/2020
+---
+# Configure webhint
 
-There are 2 ways in which you can configure `webhint`:
+Use one of the following actions to configure `webhint`.
 
-1. Via a `.hintrc` file.
-1. Adding a `hintConfig` property in your `package.json`.
+*   Use a `.hintrc` file.
+*   Add a `hintConfig` property in your `package.json` file.
 
-To create a basic `.hintrc` file you can use the following command:
+## Create a .hintrc file
+
+To create a basic `.hintrc` file, use the command in the following code snippet.
 
 ```bash
 npm create hintrc
 ```
 
-If `webhint` cannot find a (valid) configuration, it will use a default
-one and warn you about it.
+If `webhint` is not able to find a valid configuration, it uses a default one and warns you about it.
 
 ![webhint default configuration warning](images/default-config.png)
 
-In both cases, the format used is the same. The following is an example
-for a `.hintrc`:
+In both cases, the format used is the same.  The following is an example for a `.hintrc` file.
 
 ```json
 {
@@ -35,7 +38,9 @@ for a `.hintrc`:
 }
 ```
 
-And for a `package.json`:
+## Add a hintConfig property in your package.json file
+
+The following is an example for a `package.json` file.
 
 ```json
 {
@@ -63,38 +68,44 @@ And for a `package.json`:
 }
 ```
 
-The main things you can configure are:
+You are able to configure the following hint configuration properties.
 
-* `connector`:  how to access the resources.
-* `formatter`s: how to output the results.
-* `parser`s: how to handle special files like stylesheets, JavaScript,
-  manifest, etc.
-* `hint`s: what to test for and the `severity` it should have.
+| `hintConfig` key | Details |
+|:--- |:--- |
+| `connector` | How to access the resources. |
+| `formatters` | How to output the results.  Multiple instances may exist. |
+| `parsers` | How to handle special files such as stylesheets, JavaScript, manifest, and so on.  Multiple instances may exist. |
+| `hints` | What to test for and the `severity` it should have.  Multiple instances may exist. |
 
-The `severity` of a `hint` can be:
+The `severity` value of a `hint` may be set to one of the following values.
 
-* `off`: The `hint` will not be run. This is the same as deleting it
-  from the `.hintrc`.
-* `warning`: If the `hint` finds any issue it will be reported but the
-  exit code will be `0`.
-* `error`: If the `hint` finds any issue it will be reported and the
-  exit code will be `1`.
+| `Severity` value | Details |
+|:--- |:--- |
+| `off` | The `hint` is not run.  The same as deleting the `hint` from the `.hintrc`. |
+| `error` | If the `hint` finds a major issue that affects one or more targeted browsers and you should fix immediately. |
+| `warning` | If the `hint` finds an issue that you should investigate and fix.  The issue may not cause problems in practice. |
+| `hint` | If the the `hint` finds a minor issue, such as something to fix that may cause problems in the future. |
+| `information` | The `hint` provides information that is relevant to the you.  The information may help with other parts of a feature. |
 
-`webhint` allows you to configure it in many different ways. Please
-check the other entires under _Configuring webhint_ and the main page
-for each package to have more details.
+`webhint` allows you to configure it in many different ways.
 
-## Setting options via environment variables
+The following topics provide additional information about configuring `webhint`.
 
-It is possible to set webhint options via environment variables. To do
-so you have to create a variable prefixed by `webhint_` where each
-"word" is another property. E.g.:
+*    [Browser configuration][UserGuideConfiguringWebhintBrowserConfiguration]
+*    [Ignoring domains][UserGuideConfiguringWebhintIgnoringDomains]
+*    [Hints timeout][UserGuideConfiguringWebhintHintsTimeout]
+*    [Using relative resources][UserGuideConfiguringWebhintUsingRelativeResources]
+*    [Website authentication][UserGuideConfiguringWebhintWebsiteAuthentication]
+
+## Setting options using environment variables
+
+It is possible to set webhint options using environment variables.  To do so, you must create a variable prefixed with `webhint_` and each "word" is another property that is separated by and underscore \(`_`\) character.  The following code snippet is an environment variable.
 
 ```text
 "webhint_connector_options_waitFor" = "60000"
 ```
 
-will get transformed to:
+The following code snippet is the transformed key:value pair that is merged with your `.hintrc` file.
 
 ```json
 {
@@ -106,8 +117,15 @@ will get transformed to:
 }
 ```
 
-and get merged with your `.hintrc`. Keep in mind that if a key already
-exists in `.hintrc` it will take precedence.
+> [!IMPORTANT]
+> If a key already exists in `.hintrc` file, the key in the file takes precedence and the environment variable is ignored.
 
-An example where you might want to do this is for providing credentials
-and not storing them in a file.
+An good example of when you would use environment variables is when you are providing credentials, so the values are not stored in a file.
+
+<!-- links -->
+
+[UserGuideConfiguringWebhintBrowserConfiguration]: ./browser-context.md "Browser configuration | webhint"
+[UserGuideConfiguringWebhintIgnoringDomains]: ./ignoring-domains.md "Ignoring domains | webhint"
+[UserGuideConfiguringWebhintHintsTimeout]: ./rules-timeout.md "Hints timeout | webhint"
+[UserGuideConfiguringWebhintUsingRelativeResources]: ./using-relative-resources.md "Using relative resources | webhint"
+[UserGuideConfiguringWebhintWebsiteAuthentication]: ./website-authentication.md "Website authentication | webhint"
