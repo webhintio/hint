@@ -1,44 +1,50 @@
+---
+date: 08/20/2020
+---
 # Hints
 
-A hint is a test that your website needs to pass. Webhint comes with
-several [built in ones][hints], but you can create your own or download
-them from `npm`. You can read more about [how to create hints in the
-contributor guide][how to hint].
+A hint is a test that your website needs to pass.  Webhint comes with several [built-in hints][HintsIndex], but you may create your own or download more hints from `npm`.  For more information more about how to create hints, go to [contributor guide][ContributorGuideHowToHint].
 
 ## Installing hints
 
-To utilize a hint, install any package matching `@hint/hint-`,
-`webhint-hint-`, or `@scope/webhint-hint-`. Then, add that package's
-name to your .hintrc's `hints` array or object. Packages within the
-`@hint/` namespace (like, for example, `@hint/hint-html-checker`) can be
-added using their short name.
+Complete the following actions to utilize a hint.
 
-For example, to use the [Nu HTML test][html-checker] first install its
-package:
+1.  Install any package matching `@hint/hint-`, `webhint-hint-`, or `@scope/webhint-hint-`.
+1.  Add the name of that package to the `hints` array or object in your `.hintrc` file.
+
+    > [!NOTE]
+    > Packages within the `@hint/` namespace, such as `@hint/hint-html-checker`, may be added using a short name.
+
+As an example, use the following actions to use the [Nu HTML test][HintHtmlCheckerReadme] hint.
+
+1.  Run the command in the following code snippet to install the [@hint/hint-html-checker][HintHtmlCheckerReadme] package:
+
+    ```bash
+    npm i -D @hint/hint-html-checker
+    ```
+
+1.  Copy the hint in the following code snippet and add it to your `.hintrc` file.
+
+    ```json
+    {
+        "hints": [
+            "html-checker:error"
+        ]
+    }
+    ```
+
+As another example, use the following actions to use a hint from a developer outside of the hint namespace.
+
+> [!NOTE]
+> You must use the full name of the package if it is not included in the hint namespace.
+
+1.  Run the command in the following code snippet to add the `@myOrg/webhint-hint-clever-custom-audit` and `webhint-hint-another-example1` hints to your `package.json` file.
 
 ```bash
-npm i -D @hint/hint-html-checker
-```
-
-Then, add `@hint/hint-html-checker` to your .hintrc.
-
-```json
-{
-    "hints": [
-        "html-checker:error"
-    ]
-}
-```
-
-To add a hint from a developer outside of the hint namespace, add it
-using its full package name. If you ran the following to add hints to
-your package.json…
-
-```shell script
 npm -i -D @myOrg/webhint-hint-clever-custom-audit webhint-hint-another-example1
 ```
 
-…add them to your .hintrc like so:
+1.  Copy the hints in the following code snippet and add it to your `.hintrc` file.
 
 ```json
 {
@@ -51,20 +57,20 @@ npm -i -D @myOrg/webhint-hint-clever-custom-audit webhint-hint-another-example1
 
 ## Hint configuration
 
-When using the `hint` CLI, you are always in control. This means that
-you can decide which hints are relevant to your use case, as well as
-what severity a hint should have:
+When you use the `hint` CLI, you are always in control.  This means that you decide which hints are relevant to your use-case, as well, as what `severity` a hint should have.
 
-* `off`: The hint will not be executed. This is functionally the same as
-  entirely removing the hint from your .hintrc's `hints` array or
-  object.
-* `warning`: The hint will be executed but it will not change the exit
-  status code if an issue is found.
-* `error`: The hint will be executed and will change the exit status
-  code to `1` if an issue is found.
 
-Hints can be configured using the array or object syntax. For example,
-using an npm package called `@hint/hint-example1`:
+| `Severity` value | Details |
+|:--- |:--- |
+| `off` | The `hint` is not run.  The same as deleting the `hint` from the `.hintrc`. |
+| `error` | If the `hint` finds a major issue that affects one or more targeted browsers and you should fix immediately. |
+| `warning` | If the `hint` finds an issue that you should investigate and fix.  The issue may not cause problems in practice. |
+| `hint` | If the the `hint` finds a minor issue, such as something to fix that may cause problems in the future. |
+| `information` | The `hint` provides information that is relevant to the you.  The information may help with other parts of a feature. |
+
+You configure hints with the array or object syntax.
+
+The following code snippets use an npm package named `@hint/hint-example1`.
 
 ```json
 {
@@ -82,10 +88,14 @@ using an npm package called `@hint/hint-example1`:
 }
 ```
 
-The `off` and `warning` hint severities may be applied with shorthand
-characters `-` and `?` respectfully when using the array syntax:
+You may use the following character in place of the associated `severity`.
 
-A hint that has the `off` severity applied:
+| severity | short-hand character |
+|:--- |:--- |
+| `off` | `-` |
+| `warning` | `?` |
+
+A The following code snippet displays a hint with the `off` severity.
 
 ```json
 {
@@ -95,7 +105,7 @@ A hint that has the `off` severity applied:
 }
 ```
 
-A hint that has the `warning` severity applied:
+A The following code snippet displays a hint with the `warning` severity.
 
 ```json
 {
@@ -105,8 +115,7 @@ A hint that has the `warning` severity applied:
 }
 ```
 
-Additionally, some hints allow further customization. The configuration
-in that case it will be similar to the following:
+Some hints enable further customization.  The configuration with further customization should be similar to the following code snippets.
 
 ```json
 {
@@ -121,8 +130,6 @@ in that case it will be similar to the following:
     ]
 }
 ```
-
-or
 
 ```json
 {
@@ -140,11 +147,10 @@ or
 }
 ```
 
-You can check which hints accept this kind of configuration by
-visiting the [hints documentation][hints].
+For more information about which hints accept the customized kind of configuration, go to [Hints categories][HintsIndex].
 
 <!-- Link labels: -->
 
-[hints]: ../hints/index.md
-[how to hint]: ../../contributor-guide/how-to/hint.md
-[html-checker]: https://webhint.io/docs/user-guide/hints/hint-html-checker/
+[HintsIndex]: ../hints/index.md "Hints categories | webhint"
+[ContributorGuideHowToHint]: ../../contributor-guide/how-to/hint.md "Develop a hint | webhint"
+[HintHtmlCheckerReadme]: ../../../../hint-html-checker/README.md "Nu HTML test (`html-checker`) | webhint"
