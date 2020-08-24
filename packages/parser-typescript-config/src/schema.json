@@ -592,6 +592,22 @@
             "assumeChangesOnlyAffectDirectDependencies": {
               "description": "Have recompiles in '--incremental' and '--watch' assume that changes within a file will only affect files directly depending on it.",
               "type": "boolean"
+            },
+            "extendedDiagnostics": {
+              "description": "Show verbose diagnostic information.",
+              "type": "boolean"
+            },
+            "listFilesOnly": {
+              "description": "Print names of files that are part of the compilation and then stop processing.",
+              "type": "boolean"
+            },
+            "disableSourceOfProjectReferenceRedirect": {
+              "description": "Disable use of source files instead of declaration files from referenced projects.",
+              "type": "boolean"
+            },
+            "disableSolutionSearching": {
+              "description": "Disable solution searching for this project.",
+              "type": "boolean"
             }
           }
         }
@@ -712,6 +728,13 @@
               "default": false,
               "description": "Use pretty diagnostic formatter.",
               "type": "boolean"
+            },
+            "require": {
+              "description": "Modules to require, like node's `--require` flag.\n\nIf specified in tsconfig.json, the modules will be resolved relative to the tsconfig.json file.\n\nIf specified programmatically, each input string should be pre-resolved to an absolute path for\nbest results.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
             },
             "scope": {
               "default": false,
