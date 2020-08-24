@@ -78,7 +78,7 @@ const updateReadme = async (categories) => {
     const hintLinks = categories.map((category) => {
         const id = categoryId(category);
 
-        return `[axe/${id}]: ./docs/${id}.md`;
+        return `[axe/${id}]: https://webhint.io/docs/user-guide/hints/hint-axe/${id}/`;
     });
 
     const content = source
