@@ -13,7 +13,7 @@
     "@hint/utils-types": "^1.1.0",
     "ajv": "^6.12.3",
     "jsonc-parser": "^2.2.1",
-    "lodash": "^4.17.19"
+    "lodash": "^4.17.20"
   },
   "description": "utils for JSON",
   "devDependencies": {

@@ -12,7 +12,7 @@
     "@hint/utils-fs": "^1.0.5",
     "@hint/utils-json": "^1.0.7",
     "@hint/utils-network": "^1.0.6",
-    "lodash": "^4.17.19"
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "@types/node": "^14.0.26",
