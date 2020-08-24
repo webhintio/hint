@@ -116,6 +116,26 @@ test('Property value query works (regex token match)', (t) => {
     t.is(unsupported && unsupported[0], 'chrome 61');
 });
 
+test('Property value type query works', (t) => {
+    const unsupported = getUnsupported({
+        property: 'clip-path',
+        value: 'circle(6rem at 12rem 8rem)'
+    }, ['edge 12', 'edge 79']);
+
+    t.is(unsupported && unsupported.length, 1);
+    t.is(unsupported && unsupported[0], 'edge 12');
+});
+
+test('Nested property value type query works', (t) => {
+    const unsupported = getUnsupported({
+        property: 'border-image',
+        value: 'conic-gradient(red, orange, yellow, green, blue)'
+    }, ['edge 12', 'edge 79']);
+
+    t.is(unsupported && unsupported.length, 1);
+    t.is(unsupported && unsupported[0], 'edge 12');
+});
+
 test('At-rule query works', (t) => {
     const unsupported = getUnsupported(
         { rule: 'supports' },

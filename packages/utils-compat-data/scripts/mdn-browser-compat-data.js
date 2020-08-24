@@ -35,7 +35,7 @@ const isUniversalSupportStatement = (browserName, supportStatement) => {
         return true; // Count unknown as universal support.
     }
 
-    if (version === '1') {
+    if (version === '1' || version === '1.0') {
         return true;
     }
 

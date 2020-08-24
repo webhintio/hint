@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "mdn-browser-compat-data": "^1.0.31",
+    "mdn-data": "^2.0.11",
     "postcss": "^7.0.32",
     "postcss-selector-parser": "^6.0.2",
     "postcss-value-parser": "^4.1.0",
@@ -63,7 +64,8 @@
     "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "prebuild": "npm-run-all prebuild:*",
-    "prebuild:mdn": "node ./scripts/mdn-browser-compat-data.js",
+    "prebuild:mdn-bcd": "node ./scripts/mdn-browser-compat-data.js",
+    "prebuild:mdn-data": "node ./scripts/mdn-data.js",
     "test": "npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",
     "test-release": "npm run lint && npm run build-release && ava",
