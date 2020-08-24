@@ -1,3 +1,13 @@
+# 3.1.7 (August 24, 2020)
+
+## Chores
+
+* [[`32d3a3ffaa`](https://github.com/webhintio/hint/commit/32d3a3ffaa4113a3e370d65b6c0fe6e67f20e584)] - Chore: Adapt exported types to TypeScript changes (by [`Tony Ross`](https://github.com/antross)).
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`33d43dc1e4`](https://github.com/webhintio/hint/commit/33d43dc1e49fc11668478165effcdcc495f0f58d)] - Upgrade: Bump eventemitter2 from 6.0.0 to 6.4.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.1.6 (July 27, 2020)
 
 ## Chores

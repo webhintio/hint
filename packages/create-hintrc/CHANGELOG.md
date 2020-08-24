@@ -1,3 +1,15 @@
+# 3.0.8 (August 24, 2020)
+
+## Chores
+
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a888f0ae08`](https://github.com/webhintio/hint/commit/a888f0ae08781ec6ac50caad904e19077dc5704e)] - Upgrade: Bump webpack from 4.44.0 to 4.44.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`28498bbf43`](https://github.com/webhintio/hint/commit/28498bbf43efaac6342a407051b493c5f23afd1e)] - Upgrade: Bump inquirer from 7.2.0 to 7.3.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`904bf9dd4a`](https://github.com/webhintio/hint/commit/904bf9dd4ae4e04b82d303a00d8f877e5f63791b)] - Upgrade: Bump @types/inquirer from 6.0.3 to 7.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.0.7 (July 27, 2020)
 
 ## Chores

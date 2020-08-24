@@ -1,3 +1,19 @@
+# 1.5.8 (August 24, 2020)
+
+## Bug fixes / Improvements
+
+* [[`4e32bb6e21`](https://github.com/webhintio/hint/commit/4e32bb6e2196ebd90a862224db38484f04bed816)] - Fix: Sending telemetry when opted-in (by [`Tony Ross`](https://github.com/antross) / see also: [`#3963`](https://github.com/webhintio/hint/issues/3963)).
+
+## Chores
+
+* [[`1d669983c2`](https://github.com/webhintio/hint/commit/1d669983c2b485af2459bcde4f1fcb4c4cfb22e2)] - Chore: Adapt to TS behavior change and increased size (by [`Tony Ross`](https://github.com/antross)).
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a888f0ae08`](https://github.com/webhintio/hint/commit/a888f0ae08781ec6ac50caad904e19077dc5704e)] - Upgrade: Bump webpack from 4.44.0 to 4.44.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`956ca9ccb6`](https://github.com/webhintio/hint/commit/956ca9ccb6572cd42e9e0379d7e443e7c58f7f76)] - Upgrade: Bump @types/vscode from 1.46.0 to 1.47.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.5.7 (July 27, 2020)
 
 ## Chores

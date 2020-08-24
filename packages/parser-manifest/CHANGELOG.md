@@ -1,3 +1,17 @@
+# 2.2.20 (August 24, 2020)
+
+## Bug fixes / Improvements
+
+* [[`d736e18ce2`](https://github.com/webhintio/hint/commit/d736e18ce2ca5a37e150757b82429431d8cd5ec8)] - Fix: Icon purpose doesn't support combination of values (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3791`](https://github.com/webhintio/hint/issues/3791)).
+
+## Chores
+
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`33d43dc1e4`](https://github.com/webhintio/hint/commit/33d43dc1e49fc11668478165effcdcc495f0f58d)] - Upgrade: Bump eventemitter2 from 6.0.0 to 6.4.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.2.19 (July 27, 2020)
 
 ## Chores

@@ -1,3 +1,26 @@
+# 6.1.0 (August 24, 2020)
+
+## New features
+
+* [[`1adedfb2bf`](https://github.com/webhintio/hint/commit/1adedfb2bf9c3ff921bff0f34210e91c0d143dc3)] - New: Support documentation link and text in a report (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3908`](https://github.com/webhintio/hint/issues/3908)).
+
+## Bug fixes / Improvements
+
+* [[`4f714a5200`](https://github.com/webhintio/hint/commit/4f714a52006983ab2168c833e99ede2100988c33)] - Docs: Fix broken README.md links on npmjs.org (by [`John`](https://github.com/johnemau) / see also: [`#3937`](https://github.com/webhintio/hint/issues/3937)).
+* [[`4b5414e4c3`](https://github.com/webhintio/hint/commit/4b5414e4c36543792ab2f35763428a180abff6ac)] - Fix: Silent mode in CI (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3929`](https://github.com/webhintio/hint/issues/3929)).
+* [[`218c39a909`](https://github.com/webhintio/hint/commit/218c39a909cc05eb76a7a6131dc58b91db5b73e2)] - Fix: UserConfig type not exported by hint (by [`QmarkC`](https://github.com/QmarkC) / see also: [`#3952`](https://github.com/webhintio/hint/issues/3952)).
+* [[`9a552573c6`](https://github.com/webhintio/hint/commit/9a552573c6195511c89ef3e420c5b290179a5eb7)] - Docs: Add details for 'overrides' test helper (by [`Tony Ross`](https://github.com/antross)).
+* [[`d78a83e328`](https://github.com/webhintio/hint/commit/d78a83e3285c94dbee72f9e6e330a080880a76c2)] - Docs: Add missing disallowed headers to the docs (by [`Patrick Brosset`](https://github.com/captainbrosset) / see also: [`#3922`](https://github.com/webhintio/hint/issues/3922)).
+* [[`1b6b4b1e43`](https://github.com/webhintio/hint/commit/1b6b4b1e43a77b202b55aebd8eb126a2a1112be0)] - Fix: Include Analyzer instance resources when calling formatters (by [`Jack Koppa`](https://github.com/jackkoppa) / see also: [`#3910`](https://github.com/webhintio/hint/issues/3910)).
+
+## Chores
+
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`33d43dc1e4`](https://github.com/webhintio/hint/commit/33d43dc1e49fc11668478165effcdcc495f0f58d)] - Upgrade: Bump eventemitter2 from 6.0.0 to 6.4.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 6.0.7 (July 27, 2020)
 
 ## Chores

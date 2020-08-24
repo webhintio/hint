@@ -10,7 +10,7 @@
   "dependencies": {},
   "description": "utils for CSS",
   "devDependencies": {
-    "@hint/utils-types": "^1.0.1",
+    "@hint/utils-types": "^1.1.0",
     "ava": "^3.10.1",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "^2.18.2",
@@ -57,5 +57,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.4"
+  "version": "1.0.5"
 }

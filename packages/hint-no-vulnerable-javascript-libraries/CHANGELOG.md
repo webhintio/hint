@@ -1,3 +1,18 @@
+# 2.12.0 (August 24, 2020)
+
+## New features
+
+* [[`d81383c400`](https://github.com/webhintio/hint/commit/d81383c4002717a0a987da486adb0417e4c3c363)] - Update: 'snyk-snapshot.json'.
+* [[`604b587f6a`](https://github.com/webhintio/hint/commit/604b587f6a76d45b1e20200e35b52405fa9817bd)] - New: Provide the actual link to the package page for snyk (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3780`](https://github.com/webhintio/hint/issues/3780)).
+
+## Chores
+
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`323f28ba92`](https://github.com/webhintio/hint/commit/323f28ba923055698b19a68d9ec0d946de3863a5)] - Upgrade: Bump js-library-detector from 5.9.0 to 6.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.11.5 (July 27, 2020)
 
 ## New features

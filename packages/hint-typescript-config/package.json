@@ -8,16 +8,16 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.5",
-    "@hint/utils-debug": "^1.0.1",
-    "@hint/utils-i18n": "^1.0.4",
-    "@hint/utils-types": "^1.0.1"
+    "@hint/utils": "^7.0.6",
+    "@hint/utils-debug": "^1.0.2",
+    "@hint/utils-i18n": "^1.0.5",
+    "@hint/utils-types": "^1.1.0"
   },
   "description": "hint that that checks if the TypeScript configuration is valid.",
   "devDependencies": {
-    "@hint/parser-typescript-config": "^2.4.7",
-    "@hint/utils-json": "^1.0.6",
-    "@hint/utils-tests-helpers": "^6.2.0",
+    "@hint/parser-typescript-config": "^2.4.8",
+    "@hint/utils-json": "^1.0.7",
+    "@hint/utils-tests-helpers": "^6.3.0",
     "@types/node": "^14.0.26",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.6"
+  "version": "2.4.7"
 }

@@ -1,3 +1,17 @@
+# 2.5.4 (August 24, 2020)
+
+## Bug fixes / Improvements
+
+* [[`bb05644162`](https://github.com/webhintio/hint/commit/bb056441620ec41e0abaa360c7a1fac68fe30337)] - Fix: Add missing $ prefix to awk expression (by [`Christoph Guttandin`](https://github.com/chrisguttandin) / see also: [`#3927`](https://github.com/webhintio/hint/issues/3927)).
+
+## Chores
+
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6329be367a`](https://github.com/webhintio/hint/commit/6329be367a049566a97d65bfc87c19b9b440df82)] - Upgrade: Bump @types/puppeteer from 2.0.1 to 3.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.5.3 (July 27, 2020)
 
 ## Bug fixes / Improvements

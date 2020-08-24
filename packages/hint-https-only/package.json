@@ -8,15 +8,15 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debug": "^1.0.1",
-    "@hint/utils-i18n": "^1.0.4",
-    "@hint/utils-network": "^1.0.5",
-    "@hint/utils-types": "^1.0.1"
+    "@hint/utils-debug": "^1.0.2",
+    "@hint/utils-i18n": "^1.0.5",
+    "@hint/utils-network": "^1.0.6",
+    "@hint/utils-types": "^1.1.0"
   },
   "description": "hint that that checks if your site is using HTTPS and if it has mixed content.",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.5",
-    "@hint/utils-tests-helpers": "^6.2.0",
+    "@hint/utils-create-server": "^3.4.6",
+    "@hint/utils-tests-helpers": "^6.3.0",
     "@types/node": "^14.0.26",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.12.0",
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.5"
+  "version": "2.4.6"
 }

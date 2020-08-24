@@ -9,11 +9,11 @@
   },
   "description": "webhint formatter that outputs the result in an Excel file (xlsx)",
   "dependencies": {
-    "@hint/utils": "^7.0.5",
-    "@hint/utils-debug": "^1.0.1",
-    "@hint/utils-fs": "^1.0.4",
-    "@hint/utils-i18n": "^1.0.4",
-    "@hint/utils-types": "^1.0.1",
+    "@hint/utils": "^7.0.6",
+    "@hint/utils-debug": "^1.0.2",
+    "@hint/utils-fs": "^1.0.5",
+    "@hint/utils-i18n": "^1.0.5",
+    "@hint/utils-types": "^1.1.0",
     "exceljs": "4.1.1",
     "fs-extra": "^9.0.1",
     "lodash": "^4.17.19"
@@ -81,5 +81,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.17"
+  "version": "3.1.18"
 }

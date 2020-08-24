@@ -1,3 +1,15 @@
+# 1.1.0 (August 24, 2020)
+
+## New features
+
+* [[`b166bb58e3`](https://github.com/webhintio/hint/commit/b166bb58e38f9dd535e86cdde9e4e91e0a0ef934)] - New: Use mdn-data to derive CSS types (by [`Tony Ross`](https://github.com/antross) / see also: [`#3642`](https://github.com/webhintio/hint/issues/3642)).
+
+## Chores
+
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.6 (July 27, 2020)
 
 ## Bug fixes / Improvements

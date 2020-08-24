@@ -1,3 +1,19 @@
+# 2.1.4 (August 24, 2020)
+
+## Chores
+
+* [[`1d4e3e92e0`](https://github.com/webhintio/hint/commit/1d4e3e92e0aba246b920015f2896bad4ecc4a0a4)] - Chore: Account for increased TS compilation size (by [`Tony Ross`](https://github.com/antross)).
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c6ed92f0c6`](https://github.com/webhintio/hint/commit/c6ed92f0c602400323f43cc466327e17ea696d98)] - Upgrade: Bump terser-webpack-plugin from 3.0.7 to 4.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a888f0ae08`](https://github.com/webhintio/hint/commit/a888f0ae08781ec6ac50caad904e19077dc5704e)] - Upgrade: Bump webpack from 4.44.0 to 4.44.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`36bb01f70f`](https://github.com/webhintio/hint/commit/36bb01f70ff9e7b9a26d29b09edc8cd7ba2e2a45)] - Upgrade: Bump react-syntax-highlighter from 13.0.0 to 13.2.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6329be367a`](https://github.com/webhintio/hint/commit/6329be367a049566a97d65bfc87c19b9b440df82)] - Upgrade: Bump @types/puppeteer from 2.0.1 to 3.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`15fa682c94`](https://github.com/webhintio/hint/commit/15fa682c94ef18e71beee46e77a3a355ab6d1730)] - Upgrade: Bump axe-core from 3.5.2 to 3.5.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5e8edf2adf`](https://github.com/webhintio/hint/commit/5e8edf2adfb0db430391867cea0d83251ba52324)] - Upgrade: Bump @types/react from 16.9.35 to 16.9.43 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.1.3 (July 27, 2020)
 
 ## Bug fixes / Improvements

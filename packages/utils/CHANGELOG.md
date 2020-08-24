@@ -1,3 +1,15 @@
+# 7.0.6 (August 24, 2020)
+
+## Chores
+
+* [[`7cdb48fa38`](https://github.com/webhintio/hint/commit/7cdb48fa38b6b19d35730094ecea3626e4b4aed0)] - Chore: Fix WSL test expectation.
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`33d43dc1e4`](https://github.com/webhintio/hint/commit/33d43dc1e49fc11668478165effcdcc495f0f58d)] - Upgrade: Bump eventemitter2 from 6.0.0 to 6.4.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5b5ee9233a`](https://github.com/webhintio/hint/commit/5b5ee9233a67c723073d6f07c807515a70007787)] - Upgrade: Bump @types/semver from 7.2.0 to 7.3.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`40a2af8d51`](https://github.com/webhintio/hint/commit/40a2af8d513f7839f8329c6e1bdd3d76b96a0f3a)] - Upgrade: Bump npm-registry-fetch from 8.0.2 to 8.1.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 7.0.5 (July 27, 2020)
 
 ## Chores

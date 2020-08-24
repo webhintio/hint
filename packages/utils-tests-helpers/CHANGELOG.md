@@ -1,3 +1,18 @@
+# 6.3.0 (August 24, 2020)
+
+## New features
+
+* [[`4b9949001c`](https://github.com/webhintio/hint/commit/4b9949001ccba61bc3a3f7dfb5f34a4763bd52d3)] - New: Add overrides to mock hint dependencies in tests (by [`Tony Ross`](https://github.com/antross)).
+* [[`ea475b76e1`](https://github.com/webhintio/hint/commit/ea475b76e19ef4235bc9d3ad5332b76b0a73ac87)] - New: Support test for multiple documentation in the report (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`1adedfb2bf`](https://github.com/webhintio/hint/commit/1adedfb2bf9c3ff921bff0f34210e91c0d143dc3)] - New: Support documentation link and text in a report (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3908`](https://github.com/webhintio/hint/issues/3908)).
+
+## Chores
+
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 6.2.0 (July 27, 2020)
 
 ## New features

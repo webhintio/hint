@@ -1,3 +1,21 @@
+# 4.4.0 (August 24, 2020)
+
+## New features
+
+* [[`e33532a9fd`](https://github.com/webhintio/hint/commit/e33532a9fdeb0c8f61f3b724be89a0c4f80f5b8f)] - New: Provide actual link to axe rule documentation (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3906`](https://github.com/webhintio/hint/issues/3906)).
+
+## Bug fixes / Improvements
+
+* [[`a012b69cc1`](https://github.com/webhintio/hint/commit/a012b69cc13d3723f8b62cb16d33e2529f3d65d0)] - Docs: Fix broken hint-axe README.md links (by [`John`](https://github.com/johnemau) / see also: [`#3792`](https://github.com/webhintio/hint/issues/3792)).
+
+## Chores
+
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`15fa682c94`](https://github.com/webhintio/hint/commit/15fa682c94ef18e71beee46e77a3a355ab6d1730)] - Upgrade: Bump axe-core from 3.5.2 to 3.5.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.3.6 (July 27, 2020)
 
 ## Bug fixes / Improvements
