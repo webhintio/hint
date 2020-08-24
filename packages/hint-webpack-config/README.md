@@ -54,11 +54,11 @@ your project.
 
 <!-- Link labels: -->
 
-[config-exists]: ./docs/config-exists.md
-[is-installed]: ./docs/is-installed.md
-[is-valid]: ./docs/is-valid.md
-[module-esnext-typescript]: ./docs/module-esnext-typescript.md
-[modules-false-babel]: ./docs/modules-false-babel.md
-[no-devtool-in-prod]: ./docs/no-devtool-in-prod.md
+[config-exists]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-webpack-config/docs/config-exists.md
+[is-installed]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-webpack-config/docs/is-installed.md
+[is-valid]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-webpack-config/docs/is-valid.md
+[module-esnext-typescript]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-webpack-config/docs/module-esnext-typescript.md
+[modules-false-babel]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-webpack-config/docs/modules-false-babel.md
+[no-devtool-in-prod]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-webpack-config/docs/no-devtool-in-prod.md
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [webpack docs]: https://webpack.js.org/concepts/
