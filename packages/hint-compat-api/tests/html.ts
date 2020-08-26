@@ -101,6 +101,15 @@ testHint(hintPath,
                     message: `'script[integrity]' is not supported by Internet Explorer.`,
                     position: { match: 'script integrity' },
                     severity: Severity.warning
+                },
+                {
+                    documentation: [{
+                        link: 'https://developer.mozilla.org/docs/Web/HTML/Attributes/autocomplete',
+                        text: 'Learn more about this HTML feature on MDN'
+                    }],
+                    message: `'input[autocomplete]' is not supported by Internet Explorer.`,
+                    position: { match: 'input autocomplete' },
+                    severity: Severity.warning
                 }
             ],
             serverConfig: generateHTMLConfig('ignore')
@@ -112,6 +121,6 @@ testHint(hintPath,
     ],
     {
         browserslist: targetBrowsers,
-        hintOptions: { enable: ['integrity'], ignore: ['input[type=color]'] }
+        hintOptions: { enable: ['autocomplete', 'integrity'], ignore: ['input[type=color]'] }
     }
 );
