@@ -85,6 +85,7 @@ default value is:
 
 ```json
 [
+    "autocomplete",
     "crossorigin",
     "integrity",
     "link[rel]",
