@@ -1,12 +1,24 @@
 ---
-date: 08/20/2020
+date: 08/26/2020
 ---
-# Configure webhint
+# Configure webhint in your project
 
-Use one of the following actions to configure `webhint`.
+There are 3 ways that to configure `webhint`.
 
-*   Use a `.hintrc` file.
+*   Use a `.hintrc` file to your project.
 *   Add a `hintConfig` property in your `package.json` file.
+*   Use an environmental variable to set a property in your `.hintrc` file that is used by all of your projects.
+
+The 3 configuration methods require you to add the same code to different locations. The code that you add to the locations include `key:value` pairs of hint configuration properties, which are defined in the following table.
+
+| Hint configuration key | Details |
+|:--- |:--- |
+| `connector` | How to access the resources. |
+| `formatters` | How to output the results.  Multiple instances may exist. |
+| `parsers` | How to handle special files such as stylesheets, JavaScript, manifest, and so on.  Multiple instances may exist. |
+| `hints` | What to test for and the [severity][UserGuideConceptsHintsHintConfiguration] it should have.  Multiple instances may exist. |
+
+For additional information about `severity` and hint configurations, go to [Hint configuration[UserGuideConceptsHintsHintConfiguration].
 
 ## Create a .hintrc file
 
@@ -16,11 +28,13 @@ To create a basic `.hintrc` file, use the command in the following code snippet.
 npm create hintrc
 ```
 
-If `webhint` is not able to find a valid configuration, it uses a default one and warns you about it.
+If `webhint` does not find a valid configuration \(`.hintrc` file or `hintConfig` property in your `package.json`\), it uses a default one and warns you about it.
+
+The following figure displays the response to running `webhint`.
 
 ![webhint default configuration warning](images/default-config.png)
 
-In both cases, the format used is the same.  The following is an example for a `.hintrc` file.
+The following is an example of a `.hintrc` file.
 
 ```json
 {
@@ -40,7 +54,7 @@ In both cases, the format used is the same.  The following is an example for a `
 
 ## Add a hintConfig property in your package.json file
 
-The following is an example for a `package.json` file.
+The following is an example of the json added to a `package.json` file that uses webhint.
 
 ```json
 {
@@ -68,27 +82,6 @@ The following is an example for a `package.json` file.
 }
 ```
 
-You are able to configure the following hint configuration properties.
-
-| `hintConfig` key | Details |
-|:--- |:--- |
-| `connector` | How to access the resources. |
-| `formatters` | How to output the results.  Multiple instances may exist. |
-| `parsers` | How to handle special files such as stylesheets, JavaScript, manifest, and so on.  Multiple instances may exist. |
-| `hints` | What to test for and the `severity` it should have.  Multiple instances may exist. |
-
-The `severity` value of a `hint` may be set to one of the following values.
-
-| `Severity` value | Details |
-|:--- |:--- |
-| `off` | The `hint` is not run.  The same as deleting the `hint` from the `.hintrc`. |
-| `error` | If the `hint` finds a major issue that affects one or more targeted browsers and you should fix immediately. |
-| `warning` | If the `hint` finds an issue that you should investigate and fix.  The issue may not cause problems in practice. |
-| `hint` | If the the `hint` finds a minor issue, such as something to fix that may cause problems in the future. |
-| `information` | The `hint` provides information that is relevant to the you.  The information may help with other parts of a feature. |
-
-`webhint` allows you to configure it in many different ways.
-
 The following topics provide additional information about configuring `webhint`.
 
 *    [Browser configuration][UserGuideConfiguringWebhintBrowserConfiguration]
@@ -97,15 +90,22 @@ The following topics provide additional information about configuring `webhint`.
 *    [Using relative resources][UserGuideConfiguringWebhintUsingRelativeResources]
 *    [Website authentication][UserGuideConfiguringWebhintWebsiteAuthentication]
 
-## Setting options using environment variables
+## Setting properties using environment variables
 
-It is possible to set webhint options using environment variables.  To do so, you must create a variable prefixed with `webhint_` and each "word" is another property that is separated by and underscore \(`_`\) character.  The following code snippet is an environment variable.
+> [!NOTE]
+> Any value added using an environmental variable is ignored if the key exists in the `.hintrc` file.
+
+You may set `webhint` properties using environment variables. For example, you may use an environment variable to store a key:value pair, such as credentials, instead of saving it in a file.
+
+To use an environment variable to set a `webhint` property, create a variable prefixed with `webhint_` followed by a property name.  If the property is nested under, use an underscore \(`_`\) character to separate each property name.
+
+For example, the following pseudocode represents an environment variable for a `webhint` property.
 
 ```text
 "webhint_connector_options_waitFor" = "60000"
 ```
 
-The following code snippet is the transformed key:value pair that is merged with your `.hintrc` file.
+The following code snippet represents the `webhint` property if it was added  directly to a `.hintrc` file.
 
 ```json
 {
@@ -118,9 +118,7 @@ The following code snippet is the transformed key:value pair that is merged with
 ```
 
 > [!IMPORTANT]
-> If a key already exists in `.hintrc` file, the key in the file takes precedence and the environment variable is ignored.
-
-An good example of when you would use environment variables is when you are providing credentials, so the values are not stored in a file.
+> If a key already exists in the `.hintrc` file, the key in the .hintrc file is used and the environmental variable is ignored.
 
 <!-- links -->
 
@@ -129,3 +127,4 @@ An good example of when you would use environment variables is when you are prov
 [UserGuideConfiguringWebhintHintsTimeout]: ./rules-timeout.md "Hints timeout | webhint"
 [UserGuideConfiguringWebhintUsingRelativeResources]: ./using-relative-resources.md "Using relative resources | webhint"
 [UserGuideConfiguringWebhintWebsiteAuthentication]: ./website-authentication.md "Website authentication | webhint"
+[UserGuideConceptsHintsHintConfiguration]: ../concepts/hints.md#hint-configuration "Hint configuration - Hints | webhint"
