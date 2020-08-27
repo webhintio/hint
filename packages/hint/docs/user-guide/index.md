@@ -1,30 +1,72 @@
 ---
-date: 08/20/2020
+date: 08/26/2020
 ---
-# User guide
+# Get started using webhint
 
-Whether this is you first time using with webhint or not, use the following content to help you build your webhint skills.
+You \(the user\) should be familiar with the command-line tools on your machine, Node.js, and the Node Package Manager \(npm\) in order to install and run `webhint`.
 
-## Getting started
+Install [Node.js][NodejsDownloadCurrent] version 10 or later, the x64 version is recommended.
 
-To start using learning about `webhint` doescomplet the folowing actions.
+The examples provided on webhint.io are written with the bash command-line shell.  For more information about bash, go to [Introduction to Bash](https://docs.microsoft.com/learn/modules/bash-introduction).
+The npm tool is installed with Node.js.  For more information about Node.js, go to [Node.js][NodejsAbout].  For more information about npm, go to [npm][NpmjsAbout].
 
-1.  Install [Node.js][NodejsDownloadCurrent] verions 10 or later, the x64 version is recommended.
-1.  Run the command in the following code snippet.
+To verify that you have Node.js installed, open a bash command-line interface and run the command in the following code snippet.
+
+```bash
+node -v
+```
+
+To verify that you have npm installed, open a bash command-line interface and run the command in the following code snippet.
+
+```bash
+npm -v
+```
+
+## Use webhint on websites or local files
+
+To get started using `webhint` to improve your site performance and learn about best practices that may be applied to your site, complete the following steps.
+
+1.  Run the command in the following code snippet.  The following code snippet uses `npx` to run the `npm` package without installing it.
 
     ```bash
     npx hint https://example.com
     ```
 
-> [!Note]
-> You may also run webhint from within [Visual Studio Code (VS Code)][UserGuideExtensionsVscodeWebhint] or as a [browser extension][UserGuideExtensionsBrowser].
+1.  After the `webhint` process completes, a summary is presented in the bash command-line interface with a link to a report file on your computer.
+1.  Navigate to the report file and open it.  The report file outlines the hints and solutions to apply to your site.
 
-To add webhint to your project, you should install the `devDependency`.
+The following configurations defines how you may use a `webhint`.
+
+| Configuration | Details |
+|:--- |:--- |
+| [development][UserGuideConfigurationsDevelopment] | Analyze a local file or directory to get hints on different file types that are not available on websites.  For example, you may want to review the hints that are related to JSX, `tsconfig.json`, and so on. |
+| [web-recommended][UserGuideConfigurationsWebRecommended] | Analyze local files or directories before you publishing to your website using `http` or `https`. |
+
+## Install webhint
+
+1.  To install `webhint` using the default configuration, run the following command.
+
+    > [!NOTE]
+    > If you run into any issues during the install process, go to [Common issues when installing or running webhint][UserGuideTroubleshootSummary].
+
+## Advanced webhint configurations
+
+### Use webhint in your project
+
+To analyze the files in your project, add `webhint` to your project.
+
+To add `webhint` to your project, you must install the `devDependency` and update your `package.json` file.
 
 1.  To install the `devDependency`, run the command in the following code snippet.
 
     ```bash
     npm install hint --save-dev
+    ```
+
+    You have also use `-i` inplace of `install` and `-D` in place of `--save-dev`.
+
+    ```bash
+    npm -i -D hint
     ```
 
 1.  After you install the `devDependency`, copy the script task in the following code snippet and add it to your `package.json` file.
@@ -42,23 +84,42 @@ To add webhint to your project, you should install the `devDependency`.
 
     ```bash
     npm run webhint
+
+### Customize webhint in your project
+
+A custom hint \(`.hintrc` file\)  is useful when you want either of the following actions.
+
+*   Ignore specific errors.
+*   Highlight or break for specific warnings.
+
+To customize the analysis of your files, create a custom configuration.
+
+To change the connector, hints, and so on, add a `.hintrc` file in the current directory.  For more information about the `.hintrc` file and options, go to [configuring webhint][UserGuideConfiguringWebhintSummary].
+
+To run `webhint` in you your project with a custom configuration.
+
+1.  [Add `webhint` to your project](#use-webhint-in-your-project).
+1.  Add a `.hintrc` file to your project directory.
+1.  Navigate to your project directory.
+1.  Run the command in the following code snippet.
+
+    ```bash
+    npm run webhint
     ```
 
-> [!NOTE]
-> If you run into any issues during the install process, see [Common issues when installing or running webhint][UserGuideTroubleshootSummary].
+### Use webhint with Microsoft Visual Studio Code
 
-Use webhint to analyze local files or directories and get hints on different areas that are not available from a website.  For example,  hints related to JSX, `tsconfig.json`, and so on.
+The **webhint Visual Studio Code extension** runs and reports `webhint` diagnostic data for your workspace files inside Visual Studio Code.
 
-Depending on the target of your analysis, webhint uses one of the following configurations.
+For more information about the using `webhint` within Visual Studio Code, go to [webhint Visual Studio Code extension][UserGuideExtensionsVscodeWebhint].
 
-*   [web-recommended][UserGuideConfigurationsWebRecommended] if analyzing a website \(for example, target starts with `http://` or `https://`\).
-*   [development][UserGuideConfigurationsDevelopment] if analyzing a local file or directory.
+### Use webhint with your browser
 
-If you want to change the connector, hints, and so on, you may add a `.hintrc` file in the current directory.  To learn more about the format and the options, see [configuring webhint][UserGuideConfiguringWebhintSummary].
+The **webhint browser extension** provides a visual interface that allows you to run and re-run site scans that test against multiple browsers and hint types directly in DevTools inside your browser.  It is available for Google Chrome, Microsoft Edge, Mozilla Firefox.
 
-## Further reading
+For more information about the using `webhint` within your browser, go to [webhint browser extension][UserGuideExtensionsBrowser].
 
-After you have `webhint` up and running, it is time to learn a bit more about the different pieces.
+## Next Steps
 
 *   [Hints][UserGuideConceptsHints]
 *   [Configurations][UserGuideConceptsConfigurations]
@@ -80,4 +141,7 @@ After you have `webhint` up and running, it is time to learn a bit more about th
 [UserGuideExtensionsVscodeWebhint]: ../../../extension-vscode/README.md "Webhint VS Code Extension | webhint"
 [UserGuideTroubleshootSummary]: ./troubleshoot/summary.md "Common issues when installing or running webhint | webhint"
 
+[NodejsAbout]: https://nodejs.org/en/about "About Node.js(r) | Node.js"
 [NodejsDownloadCurrent]: https://nodejs.org/en/download/current "Downloads | Node.js"
+
+[NpmjsAbout]: https://www.npmjs.com/about "About npm | npm"
