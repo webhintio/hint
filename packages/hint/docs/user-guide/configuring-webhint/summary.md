@@ -1,15 +1,21 @@
 ---
-date: 08/26/2020
+date: 08/27/2020
 ---
 # Configure webhint in your project
 
-There are 3 ways that to configure `webhint`.
+`webhint` enables you to specify the following options for a report.
 
-*   Use a `.hintrc` file to your project.
+*   The `severity` of each hint.
+*   The output type of the report.
+*   The custom hints to include in a report.
+
+There are 3 ways that to configure a  `webhint` report for your project.
+
+*   Use a `.hintrc` file in your project.
 *   Add a `hintConfig` property in your `package.json` file.
 *   Use an environmental variable to set a property in your `.hintrc` file that is used by all of your projects.
 
-The 3 configuration methods require you to add the same code to different locations. The code that you add to the locations include `key:value` pairs of hint configuration properties, which are defined in the following table.
+The 3 configuration methods require you to add the same code to different locations. The code that you add to the locations include key:value pairs of hint configuration properties, which are defined in the following table.
 
 | Hint configuration key | Details |
 |:--- |:--- |
@@ -22,7 +28,7 @@ For additional information about `severity` and hint configurations, go to [Hint
 
 ## Create a .hintrc file
 
-To create a basic `.hintrc` file, use the command in the following code snippet.
+To create a basic `.hintrc` file, run the following command.
 
 ```bash
 npm create hintrc
@@ -30,11 +36,14 @@ npm create hintrc
 
 If `webhint` does not find a valid configuration \(`.hintrc` file or `hintConfig` property in your `package.json`\), it uses a default one and warns you about it.
 
-The following figure displays the response to running `webhint`.
+```shell
+Couldn't find any valid configurations
+Running hint with the default configuration.
+Learn more about how to create your own configuration at:
+https://webhint.io/docs/user-guide/
+```
 
-![webhint default configuration warning](images/default-config.png)
-
-The following is an example of a `.hintrc` file.
+The following code snippet is an example of a `.hintrc` file.
 
 ```json
 {
@@ -54,7 +63,7 @@ The following is an example of a `.hintrc` file.
 
 ## Add a hintConfig property in your package.json file
 
-The following is an example of the json added to a `package.json` file that uses webhint.
+The following code snippet is an example of the json added to a `package.json` file that uses webhint.
 
 ```json
 {
@@ -105,7 +114,7 @@ For example, the following pseudocode represents an environment variable for a `
 "webhint_connector_options_waitFor" = "60000"
 ```
 
-The following code snippet represents the `webhint` property if it was added  directly to a `.hintrc` file.
+The following code snippet represents the `webhint` property if it was added directly to a `.hintrc` file.
 
 ```json
 {
