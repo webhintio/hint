@@ -1,24 +1,18 @@
 ---
-date: 08/20/2020
+date: 08/26/2020
 ---
 # Contributor guide
 
-To improve your experiences with `webhint`, leverage the following article.
-
-## Getting started
-
-The following topics provide the basics to start working with `webhint`.
+Please provide your contributions to help improve the experience of webhint. This topic outlines the resources to use when planning your first contribution to the project and core concepts to understand.
 
 | Topic | Details |
 |:--- |:--- |
-| [Architecture][GettingStartedArchitecture] | The internals of the project and how parts communicate with each other \(**SPOILER**:  Use `event`instances\). |
-| [Development environment][GettingStartedDevelopmentEnvironment] | The initial settings for your machine to start writing code. |
-| [Pull requests][GettingStartedPullRequests] | The instructions for contributing updates to the `webhint` documentation.  To contribute back to the project, review the [Pull requests][GettingStartedPullRequests] section. |
-| [Events][GettingStartedEvents] | The list of events that are internally used. |
+| [Architecture][GettingStartedArchitecture] | Understand the internals of the project and how parts communicate with each other. |
+| [Development environment][GettingStartedDevelopmentEnvironment] | How to configure your development environment to start writing code for webhint. |
+| [Pull requests][GettingStartedPullRequests] | The instructions for contributing updates to the `webhint`documentation. |
+| [Events][GettingStartedEvents] | Understand the events used internally by webhint. |
 
-## How to
-
-The following topics provide the nuances of the different parts that make `webhint`, as well as some common scenarios.
+The following topics provide guidance about how to change a particular feature of `webhint` and common hint scenarios.
 
 *   [Create a custom shareable configuration][HowToConfiguration]
 *   [Develop a connector][HowToConnector]
@@ -27,11 +21,7 @@ The following topics provide the nuances of the different parts that make `webhi
 *   [Develop a hint][HowToHint]
 *   [Implement common hint scenarios][HowToCommonHintScenarios]
 <!-- TODO * [Build the docs locally]() -->
-
-## Guides
-
 *   [Create a custom hint step by step][GuidesCreateCustomHint]
-
 
 <!-- links -->
 
