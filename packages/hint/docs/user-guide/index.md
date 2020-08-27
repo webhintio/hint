@@ -1,5 +1,5 @@
 ---
-date: 08/26/2020
+date: 08/27/2020
 ---
 # Get started using webhint
 
@@ -7,7 +7,7 @@ You \(the user\) should be familiar with the command-line tools on your machine,
 
 Install [Node.js][NodejsDownloadCurrent] version 10 or later, the x64 version is recommended.
 
-The examples provided on webhint.io are written with the bash command-line shell.  For more information about bash, go to [Introduction to Bash](https://docs.microsoft.com/learn/modules/bash-introduction).
+The examples provided on webhint.io are written with the bash command-line shell.  For more information about bash, go to [Bash Guide for Beginners][TldpLdpBashBeginnersGuide].
 The npm tool is installed with Node.js.  For more information about Node.js, go to [Node.js][NodejsAbout].  For more information about npm, go to [npm][NpmjsAbout].
 
 To verify that you have Node.js installed, open a bash command-line interface and run the command in the following code snippet.
@@ -46,8 +46,18 @@ The following configurations defines how you may use a `webhint`.
 
 1.  To install `webhint` using the default configuration, run the following command.
 
-    > [!NOTE]
-    > If you run into any issues during the install process, go to [Common issues when installing or running webhint][UserGuideTroubleshootSummary].
+```bash
+npm install hint
+```
+
+To confirm that `webhint` is installed, run the following command.
+
+```bash
+hint -v
+```
+
+> [!NOTE]
+> If you run into any issues during the install process, go to [Common issues when installing or running webhint][UserGuideTroubleshootSummary].
 
 ## Advanced webhint configurations
 
@@ -84,6 +94,7 @@ To add `webhint` to your project, you must install the `devDependency` and updat
 
     ```bash
     npm run webhint
+    ```
 
 ### Customize webhint in your project
 
@@ -145,3 +156,5 @@ For more information about the using `webhint` within your browser, go to [webhi
 [NodejsDownloadCurrent]: https://nodejs.org/en/download/current "Downloads | Node.js"
 
 [NpmjsAbout]: https://www.npmjs.com/about "About npm | npm"
+
+[TldpLdpBashBeginnersGuide]: https://tldp.org/LDP/Bash-Beginners-Guide/html/Bash-Beginners-Guide.html "Bash Guide for Beginners | The Linux Documentation Project"
