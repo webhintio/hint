@@ -1,21 +1,21 @@
 ---
-date: 08/20/2020
+date: 08/27/2020
 ---
 # Webhint Visual Studio Code extension
 
 Use `webhint` to improve your website during development.
 
-The **Webhint Visual Studio Code extension** runs and reports diagnostic data for workspace files based on `webhint` analysis.
+The **Webhint Visual Studio Code extension** provides diagnostic data for workspace files based on `webhint` analysis.
 
-![Visual Studio Code running the webhint extension][ImageVisualStudioCodeRunningWebhintExtension]
+![Visual Studio Code running the webhint Visual Studio Code extension][ImageVisualStudioCodeRunningWebhintExtension]
 
 ## Configuration
 
-The extension uses the `@hint/configuration-development` configuration by default.  The configuration activates hints and parsers for HTML and templating systems \(JSX/TSX, Angular, and so on\), JavaScript/TypeScript, common pitfalls, and more.  The configuration is defined in [index.json][GithubWebhintioHintPackagesConfigurationDevelopmentIndexJson].
+The extension uses the `@hint/configuration-development` configuration by default.  The `@hint/configuration-development` configuration activates hints and parsers for HTML and template-making systems \(JSX/TSX, Angular, and so on\), JavaScript/TypeScript, common pitfalls, and more.  The `@hint/configuration-development` configuration is defined in [index.json][GithubWebhintioHintPackagesConfigurationDevelopmentIndexJson].
 
 For more information about what is enabled, go to [package][GithubWebhintioHintPackagesExtensionVscode] on GitHub.
 
-This should be a good starting point for everyone. If you encounter any false positives, please [open a new issue][GithubWebhintioHintIssuesNewTemplate] on GitHub.
+To report any incorrect hints or unexpected responses, please [open a new issue][GithubWebhintioHintIssuesNewTemplate] on GitHub.
 
 If you want more control over what gets activated, create a local `.hintrc` file to configure `webhint`.
 
