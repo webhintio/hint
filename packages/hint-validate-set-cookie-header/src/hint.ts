@@ -53,11 +53,18 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             return value.replace(/(^")|("$)/g, '');
         };
 
-        /** Normalize the string before the first `=`, concat and unquote the strings after the first `=`. */
-        const normalizeAfterSplitByEqual = (splitResult: string[]): string[] => {
+        /** Concat and unquote the strings after the first `=`. */
+        const unquoteAfterSplitByEqual = (splitResult: string[]): string[] => {
             const [key, ...value] = splitResult;
 
-            return [normalizeString(key)!, unquote(value.join('='))];
+            return [key, unquote(value.join('='))];
+        };
+
+        /** Normalize the string before the first `=`, concat and unquote the strings after the first `=`. */
+        const normalizeAfterSplitByEqual = (splitResult: string[]): string[] => {
+            const [key, value] = unquoteAfterSplitByEqual(splitResult);
+
+            return [normalizeString(key)!, value];
         };
 
         /**
@@ -66,7 +73,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
          */
         const parse = (setCookieValue: string) => {
             const [nameValuePair, ...directivePairs] = setCookieValue.split(';');
-            const [cookieName, cookieValue] = normalizeAfterSplitByEqual(nameValuePair.split('='));
+            const [cookieName, cookieValue] = unquoteAfterSplitByEqual(nameValuePair.split('='));
 
             const setCookie: ParsedSetCookieHeader = {
                 name: cookieName,
@@ -143,7 +150,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const severity = Severity.error;
 
             // Check name-value-string exists and it is before the first `;`.
-            if (!cookieName || acceptedCookieAttributes.includes(cookieName)) {
+            if (!cookieName || acceptedCookieAttributes.includes(normalizeString(cookieName)!)) {
                 errors.push({ message: noNameValueStringError, severity });
 
                 return errors;
@@ -164,7 +171,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Validate cookie name prefixes. */
         const validatePrefixes = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
-            const cookieName = parsedSetCookie.name;
+            const normalizedCookieName = normalizeString(parsedSetCookie.name)!;
             const resource = parsedSetCookie.resource || '';
             const errors: ValidationMessages = [];
 
@@ -172,11 +179,11 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const noPathHasHostPrefixError = getMessage('noPathHasHostPrefix', context.language);
             const hasDomainHostPrefixError = getMessage('hasDomainHostPrefix', context.language);
 
-            if ((cookieName.startsWith('__secure-') || cookieName.startsWith('__host-')) && !isHTTPS(resource)) {
+            if ((normalizedCookieName.startsWith('__secure-') || normalizedCookieName.startsWith('__host-')) && !isHTTPS(resource)) {
                 errors.push({ message: hasPrefixHttpError, severity: Severity.error });
             }
 
-            if (cookieName.startsWith('__host-')) {
+            if (normalizedCookieName.startsWith('__host-')) {
                 if (!parsedSetCookie.path || parsedSetCookie.path !== '/') {
                     errors.push({ message: noPathHasHostPrefixError, severity: Severity.error });
                 }
