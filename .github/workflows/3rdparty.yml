@@ -58,7 +58,7 @@ jobs:
     - name: Commit changes
       if: steps.has-changes.outputs.hasChanges == 'true' && steps.tests.outputs.hasError == 'false'
       run: |
-        hub commit -m "Chore: Update 3rd party data"
+        hub commit -m "Update: Update 3rd party data"
         hub push -u origin main
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
@@ -68,7 +68,7 @@ jobs:
       run: |
         hub switch -c "3rd-party-bot/run-${{ github.run_id }}-${{ github.run_number }}" origin/main
         hub add .
-        hub commit -m "Chore: Update 3rd party data"
+        hub commit -m "Update: Update 3rd party data"
         hub push -u origin "3rd-party-bot/run-${{ github.run_id }}-${{ github.run_number }}"
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
@@ -76,7 +76,7 @@ jobs:
     - name: Create pull request
       if: steps.has-changes.outputs.hasChanges == 'true' && steps.tests.outputs.hasError == 'true'
       run: |
-        hub pull-request -b main -m "Chore: Update 3rd party data"
+        hub pull-request -b main -m "Update: Update 3rd party data"
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
 

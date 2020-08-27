@@ -36,10 +36,6 @@ export {
     debugStream
 };
 
-export const updateFile = (filePath: string, content: string) => {
-    return fs.writeFile(filePath, content, 'utf-8');
-};
-
 export const updatePkgJson = (pkg: Package) => {
     return fs.writeFile(pkg.path, `${JSON.stringify(pkg.content, null, 2)}\n`, 'utf-8');
 };
