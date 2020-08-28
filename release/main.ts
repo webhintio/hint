@@ -8,7 +8,6 @@ import { Arguments } from 'yargs';
 import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease, skipIfSameVersion, skipIfTestMode, skipIfSkipVsce } from './lib/skippers';
 import { taskErrorWrapper } from './lib/utils';
 import { updateChangelogs } from './tasks/update-changelogs';
-import { updateThirdPartyResources } from './lib/update-3rd-party';
 import { argv } from './lib/yargs-config';
 import { getPackages } from './tasks/get-packages';
 import { calculateChangedPackages } from './tasks/calculate-changed-packages';
@@ -45,11 +44,6 @@ const tasks = new Listr([
         title: 'Get local packages',
         skip: skipReasons(skipIfError),
         task: taskErrorWrapper(getPackages(ignoredPackages))
-    },
-    {
-        title: 'Run 3rd party update tasks',
-        skip: skipReasons(skipIfError, skipIfJustRelease),
-        task: updateThirdPartyResources
     },
     {
         title: 'Calculating changes',

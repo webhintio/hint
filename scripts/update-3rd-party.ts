@@ -1,9 +1,8 @@
 import * as path from 'path';
 import { promisify } from 'util';
+import * as fs from 'fs';
+
 import * as req from 'request';
-import { debug, execa, updateFile } from './utils';
-import { Subscriber, Observable } from 'rxjs';
-import { Context } from '../@types/custom';
 
 const request = promisify(req) as (options: req.OptionsWithUrl) => Promise<req.Response>;
 
@@ -18,20 +17,7 @@ const downloadFile = async (downloadURL: string, downloadLocation: string, trans
         (res.body as string).replace(transform.pattern, transform.replacement) :
         res.body;
 
-    await updateFile(downloadLocation, body);
-
-    await execa('git reset HEAD');
-    await execa(`git add ${downloadLocation}`);
-
-    try {
-        // https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---exit-code
-        const results = await execa(`git diff --cached --exit-code --quiet "${downloadLocation}"`);
-
-        debug(results.stdout);
-    } catch (e) {
-        // There are changes to commit
-        await execa(`git commit -m "Update: '${path.basename(downloadLocation)}'"`);
-    }
+    fs.writeFileSync(downloadLocation, body, 'utf-8'); // eslint-disable-line no-sync
 };
 
 const resources = new Map([
@@ -46,12 +32,11 @@ const resourceTransforms = new Map([
     ['packages/parser-typescript-config/src/schema.json', { pattern: 'draft-04', replacement: 'draft-07' }]
 ]);
 
-const updateEverything = async (observer: Subscriber<{}>, ctx: Context) => {
+const updateEverything = async () => {
     for (const [route, uri] of resources) {
         const message = `Updating ${route}`;
 
-        debug(message);
-        observer.next(message);
+        console.log(message);
 
         try {
             const transform = resourceTransforms.get(route);
@@ -59,20 +44,11 @@ const updateEverything = async (observer: Subscriber<{}>, ctx: Context) => {
             await downloadFile(uri, path.normalize(route), transform);
 
         } catch (e) {
-            ctx.error = e;
+            console.error(`Error downloading ${uri}`, e);
 
-            debug(`Error downloading ${uri}`);
-            debug(JSON.stringify(ctx.error, Object.getOwnPropertyNames(ctx.error), 2));
-
-            return observer.error(e);
+            throw e;
         }
     }
-
-    return observer.complete();
 };
 
-export const updateThirdPartyResources = (ctx: Context) => {
-    return new Observable((observer) => {
-        updateEverything(observer, ctx);
-    });
-};
+updateEverything();
