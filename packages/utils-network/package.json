@@ -20,7 +20,7 @@
   },
   "description": "utils for network",
   "devDependencies": {
-    "ava": "^3.10.1",
+    "ava": "^3.12.1",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-markdown": "^1.0.2",
