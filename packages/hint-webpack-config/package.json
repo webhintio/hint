@@ -18,7 +18,7 @@
     "@hint/parser-typescript-config": "^2.4.8",
     "@hint/parser-webpack-config": "^2.1.21",
     "@hint/utils-tests-helpers": "^6.3.0",
-    "@types/node": "^14.0.26",
+    "@types/node": "^14.6.2",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "ava": "^3.12.1",

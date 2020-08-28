@@ -11,7 +11,7 @@
   "devDependencies": {
     "@types/express": "^4.17.6",
     "@types/lodash": "^4.14.157",
-    "@types/node": "^14.0.26",
+    "@types/node": "^14.6.2",
     "@types/on-headers": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",

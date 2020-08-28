@@ -17,7 +17,7 @@ update_configs:
           dependency_name: "jquery"
       - match:
           dependency_name: "@types/node"
-          version_requirement: "^10.12.18"
+          version_requirement: "^14.6.1"
       - match:
           dependency_name: "mime-db"
           version_requirement: "^1.35.0"
