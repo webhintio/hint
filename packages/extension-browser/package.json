@@ -90,7 +90,7 @@
     "svg-url-loader": "^6.0.0",
     "terser-webpack-plugin": "^4.0.0",
     "typed-css-modules": "^0.6.4",
-    "typescript": "^3.9.7",
+    "typescript": "^4.0.2",
     "util.promisify": "^1.0.1",
     "web-ext": "^4.3.0",
     "webpack": "^4.44.1",

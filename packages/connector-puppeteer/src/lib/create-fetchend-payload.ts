@@ -91,7 +91,7 @@ export const createFetchEndPayload = async (response: puppeteer.Response, fetchC
     };
 
     const element = await getElementFromResponse(response, dom);
-    const [content, rawContent] = await Promise.all([
+    const [content, rawContent]: [string, Buffer] = await Promise.all([
         response.text(),
         response.buffer()
     ])
