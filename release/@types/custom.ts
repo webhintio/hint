@@ -8,6 +8,28 @@ export type GitHubAuth = {
     token: string;
 }
 
+export type Tag = 'Docs' |
+    'Build' |
+    'Update' |
+    'Upgrade' |
+    'Chore' |
+    'Fix' |
+    'New' |
+    'Breaking';
+
+export type Author = {
+    gitHubProfileURL: string;
+    name: string;
+}
+
+export type Commit = {
+    associatedIssues: string[];
+    sha: string;
+    tag: Tag;
+    title: string;
+    author: Author | null;
+};
+
 export type Package = {
     commits: Commit[];
     content: any;
@@ -43,28 +65,6 @@ export type Context = {
     packages: Map<string, Package>;
     sha: string;
 }
-
-export type Author = {
-    gitHubProfileURL: string;
-    name: string;
-}
-
-export type Commit = {
-    associatedIssues: string[];
-    sha: string;
-    tag: Tag;
-    title: string;
-    author: Author | null;
-};
-
-export type Tag = 'Docs' |
-    'Build' |
-    'Update' |
-    'Upgrade' |
-    'Chore' |
-    'Fix' |
-    'New' |
-    'Breaking';
 
 export enum Bump {
     none,

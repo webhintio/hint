@@ -29,6 +29,10 @@ type LoadJSONFileModule = () => string;
 
 type FindPackageRootModule = () => string;
 
+type Child = {
+    spawn: (command: string, args: string[]) => EventEmitter | null;
+};
+
 type NPMContext = {
     child: Child;
     cwd: CWD;
@@ -39,10 +43,6 @@ type NPMContext = {
     logger: Logger;
     npmRegistryFetch: NPMRegistryFetch;
     sandbox: sinon.SinonSandbox;
-};
-
-type Child = {
-    spawn: (command: string, args: string[]) => EventEmitter | null;
 };
 
 const test = anyTest as TestInterface<NPMContext>;

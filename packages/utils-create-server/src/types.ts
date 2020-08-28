@@ -1,10 +1,10 @@
-export type Message = {
-    webhint: WebhintMessage;
-};
-
 export type WebhintMessage = {
     type: string;
     payload: any;
+};
+
+export type Message = {
+    webhint: WebhintMessage;
 };
 
 export type ServerConfiguration = string | object;

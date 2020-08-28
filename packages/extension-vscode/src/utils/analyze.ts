@@ -8,7 +8,7 @@ import { loadWebhint } from './webhint-packages';
 import { problemToDiagnostic } from './problems';
 import { promptRetry } from './prompts';
 
-const analyze = async (textDocument: TextDocument, webhint: import('hint').Analyzer): Promise<PublishDiagnosticsParams> => {
+const analyze = async (textDocument: TextDocument, webhint: import('hint').Analyzer): Promise<PublishDiagnosticsParams> => { // eslint-disable-line no-use-before-define
     const { languageId, uri } = textDocument;
     const content = textDocument.getText();
 
