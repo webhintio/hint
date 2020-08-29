@@ -15,7 +15,7 @@
     "@hint/utils-network": "^1.0.6",
     "chokidar": "^3.4.1",
     "globby": "^11.0.1",
-    "jsdom": "^16.2.2"
+    "jsdom": "^16.4.0"
   },
   "description": "hint local connector",
   "devDependencies": {
