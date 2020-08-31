@@ -8,20 +8,20 @@ import ExternalLink from './external-link';
 import * as styles from './external-doc.css';
 
 type Props = {
-    doc: ProblemDocumentation[];
+    docs: ProblemDocumentation[];
 };
 
-const ExternalDoc = ({ doc }: Props) => {
+const ExternalDocs = ({ docs }: Props) => {
     return (
         <div>
             <h4 className={styles.header}>{getMessage('furtherReading')}</h4>
             <ul className={styles.list}>
-                {doc.map((d, i) => {
-                    return <li><ExternalLink href={d.link} key={i}>{d.text}</ExternalLink></li>;
+                {docs.map((doc, i) => {
+                    return <li><ExternalLink href={doc.link} key={i}>{doc.text}</ExternalLink></li>;
                 })}
             </ul>
         </div>
     );
 };
 
-export default ExternalDoc;
+export default ExternalDocs;

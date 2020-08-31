@@ -39,7 +39,7 @@ const Problem = ({ problem }: Props) => {
             </a>
             {elementId && <InspectButton target={elementId} />}
             {codeArea}
-            {problem.documentation && <ExternalDoc doc={problem.documentation} />}
+            {problem.documentation && <ExternalDoc docs={problem.documentation} />}
         </div>
     );
 };
