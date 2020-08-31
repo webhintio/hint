@@ -35,7 +35,7 @@ jobs:
           echo "Changes detected";
         fi
       env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Run tests
       id: tests
@@ -61,7 +61,7 @@ jobs:
         hub commit -m "Update: Update 3rd party data"
         hub push -u origin main
       env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create new Branch
       if: steps.has-changes.outputs.hasChanges == 'true' && steps.tests.outputs.hasError == 'true'
@@ -71,14 +71,14 @@ jobs:
         hub commit -m "Update: Update 3rd party data"
         hub push -u origin "3rd-party-bot/run-${{ github.run_id }}-${{ github.run_number }}"
       env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create pull request
       if: steps.has-changes.outputs.hasChanges == 'true' && steps.tests.outputs.hasError == 'true'
       run: |
         hub pull-request -b main -m "Update: Update 3rd party data"
       env:
-        GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 
