@@ -88,7 +88,7 @@
     "sinon": "^9.0.3",
     "style-loader": "^1.2.1",
     "svg-url-loader": "^6.0.0",
-    "terser-webpack-plugin": "^4.0.0",
+    "terser-webpack-plugin": "^4.1.0",
     "typed-css-modules": "^0.6.4",
     "typescript": "^4.0.2",
     "util.promisify": "^1.0.1",
