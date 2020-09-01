@@ -630,6 +630,11 @@ button {
     width: 2.5rem;
 }
 
+.rule-result__doc--list {
+    padding-left: 2rem;
+    margin-top: 0;
+}
+
 /* RESULTS LOADER ANIMATION */
 
 @keyframes spin {
