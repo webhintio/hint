@@ -9,7 +9,7 @@
     "timeout": "1m"
   },
   "browserslist": "last 2 chrome versions, last 2 firefox versions",
-  "bundleSize": 695000,
+  "bundleSize": 696000,
   "description": "webhint browser extension",
   "devDependencies": {
     "@hint/hint-axe": "^4.4.0",
@@ -83,7 +83,7 @@
     "raw-loader": "^4.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-syntax-highlighter": "^13.2.1",
+    "react-syntax-highlighter": "^13.5.1",
     "rimraf": "^3.0.2",
     "sinon": "^9.0.3",
     "style-loader": "^1.2.1",
