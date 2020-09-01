@@ -21,7 +21,7 @@
     "is-svg": "^4.2.1",
     "is-wsl": "^2.2.0",
     "lodash": "^4.17.20",
-    "npm-registry-fetch": "^8.1.1",
+    "npm-registry-fetch": "^8.1.4",
     "semver": "^7.3.2"
   },
   "description": "hint tools",
