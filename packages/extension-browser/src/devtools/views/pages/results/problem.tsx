@@ -7,7 +7,7 @@ import { browser } from '../../../../shared/globals';
 
 import InspectButton from '../../controls/inspect-button';
 import SourceCode from '../../controls/source-code';
-import ExternalDoc from '../../controls/external-doc';
+import ExternalDocs from '../../controls/external-docs';
 
 import * as styles from './problem.css';
 
@@ -39,7 +39,7 @@ const Problem = ({ problem }: Props) => {
             </a>
             {elementId && <InspectButton target={elementId} />}
             {codeArea}
-            {problem.documentation && <ExternalDoc docs={problem.documentation} />}
+            {problem.documentation && <ExternalDocs docs={problem.documentation} />}
         </div>
     );
 };
