@@ -5,7 +5,7 @@ import { ProblemDocumentation } from '@hint/utils-types';
 import { getMessage } from '../../utils/i18n';
 import ExternalLink from './external-link';
 
-import * as styles from './external-doc.css';
+import * as styles from './external-docs.css';
 
 type Props = {
     docs: ProblemDocumentation[];
