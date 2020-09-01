@@ -7,6 +7,7 @@ import { browser } from '../../../../shared/globals';
 
 import InspectButton from '../../controls/inspect-button';
 import SourceCode from '../../controls/source-code';
+import ExternalDocs from '../../controls/external-docs';
 
 import * as styles from './problem.css';
 
@@ -21,7 +22,7 @@ const Problem = ({ problem }: Props) => {
     const onViewSourceClick = useCallback((event: MouseEvent) => {
         if (browser.devtools.panels.openResource) {
             event.preventDefault();
-            browser.devtools.panels.openResource(problem.resource, line, () => {});
+            browser.devtools.panels.openResource(problem.resource, line, () => { });
         }
     }, [line, problem.resource]);
 
@@ -36,8 +37,9 @@ const Problem = ({ problem }: Props) => {
             <a className={styles.problemLink} href={`view-source:${problem.resource}`} target="_blank" onClick={onViewSourceClick}>
                 {url}
             </a>
-            {elementId && <InspectButton target={elementId} /> }
+            {elementId && <InspectButton target={elementId} />}
             {codeArea}
+            {problem.documentation && <ExternalDocs docs={problem.documentation} />}
         </div>
     );
 };
