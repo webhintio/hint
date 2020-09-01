@@ -14,7 +14,7 @@
     "@hint/utils-types": "^1.1.0",
     "css-select": "^2.1.0",
     "parse5": "^6.0.1",
-    "parse5-htmlparser2-tree-adapter": "^6.0.0"
+    "parse5-htmlparser2-tree-adapter": "^6.0.1"
   },
   "description": "utils for DOM",
   "devDependencies": {
