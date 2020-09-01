@@ -1405,10 +1405,10 @@ ajv@^6.12.4:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-amphtml-validator@^1.0.31:
-  version "1.0.31"
-  resolved "https://registry.yarnpkg.com/amphtml-validator/-/amphtml-validator-1.0.31.tgz#cf926ad4bbefd720b4cbeef6221f794f35849ac6"
-  integrity sha512-GEVZeUJqm2ssLLrERi3Zeyk6TEQlvMGRxKqkgQMt2IvyYiGEWLbwp5K6UfX6cD9aCc1xqbk9n+rDBi4HZv3uOQ==
+amphtml-validator@^1.0.33:
+  version "1.0.33"
+  resolved "https://registry.yarnpkg.com/amphtml-validator/-/amphtml-validator-1.0.33.tgz#ac2af219ba119f98280c33d538a7a1ae672de2be"
+  integrity sha512-NAamUl3flAku2DLc/OKEPpR2BQJBQTG+iW7HFeJDDvsZ0YwCmGsMAV97/HPaKAvUowzjA+79QjWr4z0Pscg+8g==
   dependencies:
     colors "1.2.5"
     commander "2.15.1"
