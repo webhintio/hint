@@ -4579,10 +4579,10 @@ file-type@^10.10.0:
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-10.11.0.tgz#2961d09e4675b9fb9a3ee6b69e9cd23f43fd1890"
   integrity sha512-uzk64HRpUZyTGZtVuvrjP0FYxzQrBf4rojot6J65YMEbwBLB0CWm0CLojVpwpmFmxcE/lkvYICgfcGozbBq6rw==
 
-file-type@^14.6.2:
-  version "14.6.2"
-  resolved "https://registry.yarnpkg.com/file-type/-/file-type-14.6.2.tgz#5bf69c0d8c39de525d3d9de23d81a3b6e81cf69a"
-  integrity sha512-kSZTAJxPXBdBgJyoC7TexkBWoMI/D1Gas6aTtAn9VIRFwCehwiluGV5O8O2GwqO5zIqeEvXxEKl/xfcaAKB0Yg==
+file-type@^15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/file-type/-/file-type-15.0.0.tgz#e981077b92b7855180fc822adb857567f58080be"
+  integrity sha512-l0JCuF5F7NIybCfa9G2H0lKhhGaf0z+HJyLOmB2feknY7/HBVNyD4PLesGKLGqznwyVXGNnfpIOr+Fvca6bOEg==
   dependencies:
     readable-web-to-node-stream "^2.0.0"
     strtok3 "^6.0.3"
