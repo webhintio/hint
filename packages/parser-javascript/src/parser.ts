@@ -30,7 +30,7 @@ export default class JavascriptParser extends WebhintParser<ScriptEvents> {
         try {
             await this.engine.emitAsync(`parse::start::javascript`, { resource });
 
-            const options: Options = { ecmaVersion: 2020, locations: true, ranges: true };
+            const options: Options = { ecmaVersion: "latest", locations: true, ranges: true };
             const ast = parser.parse(sourceCode, options) as Node;
             const tokens = [...parser.tokenizer(sourceCode, options)];
 
