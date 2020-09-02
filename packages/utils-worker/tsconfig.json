@@ -34,7 +34,6 @@
         { "path": "../hint-no-protocol-relative-urls" },
         { "path": "../hint-scoped-svg-styles" },
         { "path": "../hint-sri" },
-        { "path": "../hint-stylesheet-limits" },
         { "path": "../hint-validate-set-cookie-header" },
         { "path": "../hint-x-content-type-options" },
         { "path": "../parser-css" },

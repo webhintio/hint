@@ -249,19 +249,31 @@
         "wrap-regex": "error",
         "yoda": ["error", "never"],
 
-        "@typescript-eslint/class-name-casing": "error",
         "@typescript-eslint/explicit-member-accessibility": "error",
-        "@typescript-eslint/interface-name-prefix": [ "error", "always" ],
         "@typescript-eslint/member-delimiter-style": "error",
-        "@typescript-eslint/member-naming": "error",
-        "@typescript-eslint/no-angle-bracket-type-assertion": "error",
+        "@typescript-eslint/consistent-type-assertions": "error",
         "@typescript-eslint/no-array-constructor": "error",
         "@typescript-eslint/no-namespace": "error",
         "@typescript-eslint/no-parameter-properties": "error",
-        "@typescript-eslint/no-triple-slash-reference": "error",
+        "@typescript-eslint/triple-slash-reference": "error",
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-use-before-define": "error",
         "@typescript-eslint/prefer-namespace-keyword": "error",
-        "@typescript-eslint/type-annotation-spacing": "error"
+        "@typescript-eslint/type-annotation-spacing": "error",
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+              "selector": "interface",
+              "format": ["PascalCase"],
+              "custom": {
+                "regex": "^I[A-Z]",
+                "match": true
+              }
+            },
+            {
+                "selector": "class",
+                "format": ["PascalCase"]
+            }
+          ]
     }
 }

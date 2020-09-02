@@ -6,9 +6,10 @@ import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
 import { NetworkData } from './network';
 import { Engine } from '../engine';
 
-export interface IConnectorConstructor {
-    new(server: Engine, config?: object, launcher?: ILauncher): IConnector;
-    schema: any;
+/** Additional detail for calls to `connect` and `fetchContent` on `IConnector`. */
+export interface IFetchOptions {
+    /** The content to analyze. Overrides fetching content from the provided target. */
+    content?: string;
 }
 
 /** A connector to be used by hint */
@@ -31,12 +32,6 @@ export interface IConnector {
     querySelectorAll(query: string): HTMLElement[];
 }
 
-/** Additional detail for calls to `connect` and `fetchContent` on `IConnector`. */
-export interface IFetchOptions {
-    /** The content to analyze. Overrides fetching content from the provided target. */
-    content?: string;
-}
-
 export type BrowserInfo = {
     isNew?: boolean;
     pid: number;
@@ -46,6 +41,11 @@ export type BrowserInfo = {
 export interface ILauncher {
     launch(url: string, options?: any): Promise<BrowserInfo>;
     options?: any;
+}
+
+export interface IConnectorConstructor {
+    new(server: Engine, config?: object, launcher?: ILauncher): IConnector;
+    schema: any;
 }
 
 export type LauncherOptions = {

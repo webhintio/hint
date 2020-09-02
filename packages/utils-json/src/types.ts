@@ -37,7 +37,7 @@ export interface IJSONResult {
 }
 
 export type ExtendableConfiguration = {
-    extends: string;
+    extends?: string;
 };
 
 export interface IParsingError extends Error {

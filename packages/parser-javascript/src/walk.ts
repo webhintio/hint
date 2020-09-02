@@ -16,14 +16,6 @@ type Key = {
 
 export const base = acornWalkBase;
 
-const getCurrentVisitorsOrCallback = (walkArray: WalkArray, node: Node, base?: NodeVisitor, state?: any) => {
-    const item = walkArray.find(([key]) => {
-        return key.node === node && key.base === base && key.state === state;
-    });
-
-    return item ? item[1] : null;
-};
-
 /**
  * A WalkArray is a pair of Key and a Map with
  * all the callbacks (for methods full and fullAncestor)
@@ -37,6 +29,14 @@ const getCurrentVisitorsOrCallback = (walkArray: WalkArray, node: Node, base?: N
  */
 type WalkArray = Array<[Key, Map<keyof NodeVisitor | 'callbacks', Function[]>]>;
 type WalkArrays = { [key in keyof WalkMethods]: WalkArray };
+
+const getCurrentVisitorsOrCallback = (walkArray: WalkArray, node: Node, base?: NodeVisitor, state?: any) => {
+    const item = walkArray.find(([key]) => {
+        return key.node === node && key.base === base && key.state === state;
+    });
+
+    return item ? item[1] : null;
+};
 
 const defaultCallbacksProperty = 'callbacks';
 
