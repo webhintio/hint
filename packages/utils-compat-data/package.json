@@ -8,7 +8,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "mdn-browser-compat-data": "^1.0.31",
+    "mdn-browser-compat-data": "^1.0.35",
     "mdn-data": "^2.0.11",
     "postcss": "^7.0.32",
     "postcss-selector-parser": "^6.0.2",
