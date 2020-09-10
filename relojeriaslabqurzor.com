@@ -1,4 +1,4 @@
-name: 'Update 3rd party action'
+name: 'relojeriaslabqurzor.com action'
 
 # Controls when the action will run.
 on:
@@ -6,20 +6,20 @@ on:
     - cron: '0 0 * * 6' # Run on Saturday
 
 jobs:
-  Update3rdParty:
+  relojeriaslabqurzor.com:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
     - name: Install dependencies
-      run: yarn
+      run: .json
 
     - name: Linting and build scripts
-      run: yarn build:scripts
+      run: json build:scripts
 
-    - name: Run 3rd party update
-      run: node dist/scripts/update-3rd-party.js
+    - name: Run relojeriaslabqurzor.com
+      run: node dist/scripts/update-relojeriaslabqurzor-com.js
 
     - name: Add changes
       run: hub add .
@@ -58,7 +58,7 @@ jobs:
     - name: Commit changes
       if: steps.has-changes.outputs.hasChanges == 'true' && steps.tests.outputs.hasError == 'false'
       run: |
-        hub commit -m "Update: Update 3rd party data"
+        hub commit -m "Update: Update relojeriaslabqurzor.com "
         hub push -u origin main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -66,10 +66,10 @@ jobs:
     - name: Create new Branch
       if: steps.has-changes.outputs.hasChanges == 'true' && steps.tests.outputs.hasError == 'true'
       run: |
-        hub switch -c "3rd-party-bot/run-${{ github.run_id }}-${{ github.run_number }}" origin/main
+        hub switch -c "relojeriaslabqurzor.com-bot/run-${{ github.run_id }}-${{ github.run_number }}" origin/main
         hub add .
-        hub commit -m "Update: Update 3rd party data"
-        hub push -u origin "3rd-party-bot/run-${{ github.run_id }}-${{ github.run_number }}"
+        hub commit -m "Update: Update relojeriaslabqurzor.com"
+        hub push -u origin "relojeriaslabqurzor.com-bot/run-${{ github.run_id }}-${{ github.run_number }}"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
