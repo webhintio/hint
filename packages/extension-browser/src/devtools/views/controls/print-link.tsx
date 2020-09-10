@@ -2,7 +2,9 @@ import * as React from 'react';
 
 import * as styles from './print-link.css';
 
-const onPrintHandler = () => window.print();
+const onPrintHandler = () => {
+    window.print();
+};
 
 const PrintLink = () => {
     return (
