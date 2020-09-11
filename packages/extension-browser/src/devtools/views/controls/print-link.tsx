@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import { getMessage } from '../../utils/i18n';
+
 import * as styles from './print-link.css';
 
 const onPrintHandler = () => {
@@ -8,9 +10,9 @@ const onPrintHandler = () => {
 
 const PrintLink = () => {
     return (
-        <span className={styles.root} onClick={onPrintHandler}>
-            Print
-        </span>
+        <button className={styles.root} onClick={onPrintHandler}>
+            {getMessage("print")}
+        </button>
     );
 };
 

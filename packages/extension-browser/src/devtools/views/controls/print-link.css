@@ -1,11 +1,14 @@
 .root {
     --border: 1px solid var(--link-color);
 
+    border: none;
     border-bottom: var(--border);
     color: var(--link-color);
-    padding-bottom: 1px;
-    text-decoration: none;
+    background-color: transparent;
+    padding: 0 0 1px 0;
     cursor: pointer;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
 }
 
 .root:focus {

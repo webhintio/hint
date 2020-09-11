@@ -167,6 +167,10 @@
         "message": "Powered by",
         "description": "Label displayed before link to the webhint website."
     },
+    "print": {
+        "message": "Print",
+        "description": "Label for button to print the result."
+    },
     "recommendedSettingsLabel": {
         "message": "Recommended settings",
         "description": "Label for option to use recommended target browsers."
