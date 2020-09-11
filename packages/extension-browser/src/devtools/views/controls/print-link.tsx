@@ -11,7 +11,7 @@ const onPrintHandler = () => {
 const PrintLink = () => {
     return (
         <button className={styles.root} onClick={onPrintHandler}>
-            {getMessage("print")}
+            {getMessage('print')}
         </button>
     );
 };
