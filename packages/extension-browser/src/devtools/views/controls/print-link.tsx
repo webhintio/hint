@@ -10,7 +10,7 @@ const onPrintHandler = () => {
 
 const PrintLink = () => {
     return (
-        <button className={styles.root} onClick={onPrintHandler}>
+        <button type="button" className={styles.root} onClick={onPrintHandler}>
             {getMessage('print')}
         </button>
     );
