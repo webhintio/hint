@@ -3,6 +3,7 @@
 
     border: none;
     border-bottom: var(--border);
+    border-radius: 0;
     color: var(--link-color);
     background-color: transparent;
     padding: 0 0 1px 0;
