@@ -2036,7 +2036,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:48:01.704512Z",
+        "modificationTime": "2020-09-07T12:03:17.240564Z",
         "moduleName": "atob",
         "packageManager": "npm",
         "packageName": "atob",
@@ -2994,7 +2994,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-09-02T16:12:45.297138Z",
+        "modificationTime": "2020-09-07T12:01:45.227776Z",
         "moduleName": "bootstrap-tagsinput",
         "packageManager": "npm",
         "packageName": "bootstrap-tagsinput",
@@ -6090,7 +6090,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-09-02T16:14:35.394667Z",
+        "modificationTime": "2020-09-07T12:00:47.104594Z",
         "moduleName": "emojione",
         "packageManager": "npm",
         "packageName": "emojione",
@@ -9155,7 +9155,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-09-02T16:15:21.616442Z",
+        "modificationTime": "2020-09-07T11:59:25.698291Z",
         "moduleName": "jqtree",
         "packageManager": "npm",
         "packageName": "jqtree",
@@ -19603,6 +19603,49 @@
       }
     ],
     "sanitize-html": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:L",
+        "alternativeIds": [],
+        "creationTime": "2020-07-17T15:02:43.082824Z",
+        "credit": [
+          "mikesamuel"
+        ],
+        "cvssScore": 9.4,
+        "disclosureTime": "2020-09-07T09:46:18Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "2.0.0-beta"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-SANITIZEHTML-585892",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-94"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-09-07T15:37:06.961614Z",
+        "moduleName": "sanitize-html",
+        "packageManager": "npm",
+        "packageName": "sanitize-html",
+        "patches": [],
+        "publicationTime": "2020-09-07T09:46:10Z",
+        "references": [
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/apostrophecms/sanitize-html/pull/156"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<2.0.0-beta"
+          ]
+        },
+        "severity": "high",
+        "title": "Arbitrary Code Execution"
+      },
       {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
