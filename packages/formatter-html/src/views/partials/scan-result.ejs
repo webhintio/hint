@@ -64,7 +64,7 @@
             </div>
             <div class="module module--primary module--results">
                 <% result.categories.forEach((category) => { -%>
-                    <%- include('scan-result-category-item', { category, getMessage, isScanner: result.isScanner, utils }) %>
+                    <%- include('scan-result-category-item', { category, getDataUri, getMessage, isScanner: result.isScanner, utils }) %>
                 <% }); %>
             </div>
         </div>

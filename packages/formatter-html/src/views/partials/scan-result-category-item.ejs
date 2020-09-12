@@ -16,7 +16,7 @@
         <%- include('category-pass-message', { getMessage }); %>
     <% } else { %>
         <% utils.filterErrorsAndWarnings(category).forEach((hint) => { %>
-            <%- include('scan-result-item', { hint, utils, isScanner }); %>
+            <%- include('scan-result-item', { getDataUri, hint, utils, isScanner }); %>
         <% }) %>
     <% } %>
 </section>
