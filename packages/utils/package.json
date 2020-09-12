@@ -11,7 +11,7 @@
     "@hint/utils-debug": "^1.0.2",
     "@hint/utils-fs": "^1.0.5",
     "@hint/utils-string": "^1.0.5",
-    "applicationinsights": "^1.8.5",
+    "applicationinsights": "^1.8.7",
     "chalk": "^4.0.0",
     "configstore": "^5.0.1",
     "content-type": "^1.0.4",
