@@ -1,0 +1,24 @@
+.root {
+    --border: 1px solid var(--link-color);
+
+    border: none;
+    border-bottom: var(--border);
+    border-radius: 0;
+    color: var(--link-color);
+    background-color: transparent;
+    padding: 0 0 1px 0;
+    cursor: pointer;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+}
+
+.root:focus {
+    border-bottom: 2px solid var(--base-color);
+    outline: none;
+    padding-bottom: 0;
+}
+
+.root:global(:not(.focus-visible)) {
+    border-bottom: var(--border);
+    padding-bottom: 1px;
+}

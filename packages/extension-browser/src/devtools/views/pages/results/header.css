@@ -7,7 +7,7 @@
     align-items: start;
     display: grid;
     gap: 1rem;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
 }
 
 .headerText {
