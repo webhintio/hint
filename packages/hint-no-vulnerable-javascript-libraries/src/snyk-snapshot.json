@@ -22831,6 +22831,51 @@
     ],
     "ua-parser-js": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "alternativeIds": [],
+        "creationTime": "2020-09-09T15:30:19.590314Z",
+        "credit": [
+          "Yeting Li"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2020-09-09T15:28:29Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "0.7.22"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-UAPARSERJS-610226",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-7733"
+          ],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-09-16T14:54:56.176103Z",
+        "moduleName": "ua-parser-js",
+        "packageManager": "npm",
+        "packageName": "ua-parser-js",
+        "patches": [],
+        "publicationTime": "2020-09-16T14:54:55.938440Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/faisalman/ua-parser-js/commit/233d3bae22a795153a7e6638887ce159c63e557d"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<0.7.22"
+          ]
+        },
+        "severity": "high",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-UAPARSERJS-11094"
