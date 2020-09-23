@@ -3,14 +3,14 @@
  */
 
 import intersection = require('lodash/intersection');
-import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
+import { AtRule, Container, Rule, Declaration, ChildNode } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { Severity } from '@hint/utils-types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
-import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
-import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
+import { getUnsupportedDetails, UnsupportedBrowsers} from '@hint/utils-compat-data';
+import { getCSSCodeSnippet, getCSSLocationFromNode, getUnprefixed, getVendorPrefix } from '@hint/utils-css';
 
 import { formatAlternatives } from './utils/alternatives';
 import { filterBrowsers, joinBrowsers } from './utils/browsers';
@@ -34,7 +34,7 @@ type Context = {
     browsers: string[];
     ignore: Set<string>;
     report: (data: ReportData) => void;
-    walk: (ast: ContainerBase, context: Context) => void;
+    walk: (ast: Container, context: Context) => void;
 };
 
 const validateAtSupports = (node: AtRule, context: Context): void => {
@@ -152,9 +152,9 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
         const unprefixedReports = reports.filter(({ node }) => {
             switch (node.type) {
                 case 'atrule':
-                    return !vendor.prefix(node.name);
+                    return !getVendorPrefix(node.name);
                 case 'decl':
-                    return !vendor.prefix(node.prop) && !vendor.prefix(node.value);
+                    return !getVendorPrefix(node.prop) && !getVendorPrefix(node.value);
                 default:
                     return false;
             }
@@ -174,7 +174,7 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
     }
 };
 
-const walk = (ast: ContainerBase, context: Context) => {
+const walk = (ast: Container, context: Context) => {
     if (!ast.nodes) {
         return;
     }
@@ -209,13 +209,13 @@ const walk = (ast: ContainerBase, context: Context) => {
 
         switch (node.type) {
             case 'atrule':
-                key = `@${vendor.unprefixed(node.name)} ${node.params}`;
+                key = `@${getUnprefixed(node.name)} ${node.params}`;
                 report = validateAtRule(node, context);
                 break;
             case 'comment':
                 break; // Ignore comment nodes.
             case 'decl':
-                key = `${vendor.unprefixed(node.prop)}`;
+                key = `${getUnprefixed(node.prop)}`;
                 report = validateDecl(node, context);
                 break;
             case 'rule':
@@ -242,7 +242,7 @@ const walk = (ast: ContainerBase, context: Context) => {
                 return report && !report.unsupported.browsers.includes(browser);
             });
 
-            key = `${vendor.unprefixed(node.prop)}: ${vendor.unprefixed(node.value)}`;
+            key = `${getUnprefixed(node.prop)}: ${getUnprefixed(node.value)}`;
             report = validateDeclValue(node, context, supportedBrowsers);
 
             addToReportsMap(key, report);

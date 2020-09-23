@@ -1,5 +1,5 @@
 import { Identifier } from 'mdn-browser-compat-data/types';
-import { vendor } from 'postcss';
+import {getVendorPrefix, getUnprefixed} from '@hint/utils-css';
 
 /**
  * Retrieve the feature for the provided name, accounting for prefixes.
@@ -13,8 +13,8 @@ export const getFeatureData = (context: Identifier | undefined, name: string): [
         return [context && context[name], '', name];
     }
 
-    const prefix = vendor.prefix(name);
-    const unprefixedName = vendor.unprefixed(name);
+    const prefix = getVendorPrefix(name);
+    const unprefixedName = getUnprefixed(name);
 
     return [context[unprefixedName], prefix, unprefixedName];
 };

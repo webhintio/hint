@@ -1,5 +1,5 @@
 import { Identifier } from 'mdn-browser-compat-data/types';
-import { vendor } from 'postcss';
+import { getUnprefixed, getVendorPrefix } from '@hint/utils-css';
 
 import { mdn } from './browser-compat-data';
 
@@ -41,8 +41,8 @@ const getTokens = (nodes: any[]): [string, string][] => {
 
     for (const node of nodes) {
         if (node.type === 'function' || node.type === 'word') {
-            const prefix = vendor.prefix(node.value);
-            const unprefixed = vendor.unprefixed(node.value);
+            const prefix = getVendorPrefix(node.value);
+            const unprefixed = getUnprefixed(node.value);
 
             tokens.push([prefix, unprefixed]);
         }

@@ -1,6 +1,5 @@
 const parser = require('postcss-less');
-
-import * as postcss from 'postcss';
+const postcss = require('postcss');
 
 import { debug as d } from '@hint/utils-debug';
 import { normalizeString } from '@hint/utils-string';
