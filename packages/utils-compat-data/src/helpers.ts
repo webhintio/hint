@@ -1,5 +1,5 @@
 import { Identifier } from 'mdn-browser-compat-data/types';
-import {getVendorPrefix, getUnprefixed} from '@hint/utils-css';
+import { getVendorPrefix, getUnprefixed } from '@hint/utils-css';
 
 /**
  * Retrieve the feature for the provided name, accounting for prefixes.
