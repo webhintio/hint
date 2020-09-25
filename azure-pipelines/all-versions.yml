@@ -16,5 +16,5 @@ jobs:
        node_version: 12.x
   steps:
   - template: ${{ parameters.worker }}
-  timeoutInMinutes: 90
+  timeoutInMinutes: 120
   condition: ${{ parameters.condition }}
