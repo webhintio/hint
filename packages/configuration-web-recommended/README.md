@@ -1,6 +1,8 @@
 # webhint recommended web configuration
 
-Examine in-production websites using `@hint/configuration-web-recommended`.
+To examine development or in-production websites, use `@hint/configuration-web-recommended`.
+
+> **NOTE** This package is for use against any content served from a web server.
 
 This `webhint` configuration package is installed automatically by webhint.
 
@@ -10,8 +12,7 @@ To install `webhint`, run the command in the following code snippet.
 npm install hint --save-dev
 ```
 
-> [!NOTE]
-> The recommended way of running `webhint` is as a `devDependency` of your project.
+> **NOTE**: The recommended way of running `webhint` is as a `devDependency` of your project.
 
 Copy the following code snippet and add it to your [.hintrc][UserGuideConfiguringWebhintSummary] file.
 
