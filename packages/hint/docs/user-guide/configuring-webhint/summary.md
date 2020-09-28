@@ -1,6 +1,3 @@
----
-date: 08/27/2020
----
 # Configure webhint in your project
 
 `webhint` enables you to specify the following options for a report.
@@ -101,8 +98,7 @@ The following topics provide additional information about configuring `webhint`.
 
 ## Setting properties using environment variables
 
-> [!NOTE]
-> Any value added using an environmental variable is ignored if the key exists in the `.hintrc` file.
+> **NOTE**: Any value added using an environmental variable is ignored if the key exists in the `.hintrc` file.
 
 You may set `webhint` properties using environment variables. For example, you may use an environment variable to store a key:value pair, such as credentials, instead of saving it in a file.
 
