@@ -10,8 +10,7 @@ To install `webhint`, run the command in the following code snippet.
 npm install hint --save-dev
 ```
 
-> [!NOTE]
-> The recommended way of running webhint is as a `devDependency` of your project.
+> **NOTE**: The recommended way of running webhint is as a `devDependency` of your project.
 
 Copy the following code snippet and add it to your [.hintrc][UserGuideConfiguringWebhintSummary] file.
 
