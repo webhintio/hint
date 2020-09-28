@@ -1,6 +1,5 @@
 const safe = require('postcss-safe-parser');
-
-import * as postcss from 'postcss';
+const postcss = require('postcss');
 
 import * as logger from '@hint/utils/dist/src/logging';
 import { normalizeString } from '@hint/utils-string';

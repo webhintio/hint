@@ -65,7 +65,7 @@ export const getCSSCodeSnippet = (node: ChildNode): string => {
         // Indent all child content by four spaces.
         const content = result.replace(/^/gm, '    ');
 
-        result = `${getNodeCodeSnippet(parent)} {\n${content}\n}`;
+        result = `${getNodeCodeSnippet(parent as ChildNode)} {\n${content}\n}`;
         parent = parent.parent;
     }
 
@@ -163,7 +163,7 @@ ${getChildrenCodeSnippet(children).replace(/^/gm, '    ')}
         // Indent all child content by four spaces.
         const content = result.trim().replace(/^/gm, '    ');
 
-        result = `${getNodeCodeSnippet(parent)} {\n${content}\n}`;
+        result = `${getNodeCodeSnippet(parent as ChildNode)} {\n${content}\n}`;
         parent = parent.parent;
     }
 

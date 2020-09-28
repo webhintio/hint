@@ -1,7 +1,6 @@
 const sassParser = require('postcss-sass');
 const scssParser = require('postcss-scss');
-
-import * as postcss from 'postcss';
+const postcss = require('postcss');
 
 import { debug as d } from '@hint/utils-debug';
 import { normalizeString } from '@hint/utils-string';
@@ -16,7 +15,7 @@ export default class CSSParser extends Parser<StyleEvents> {
     public constructor(engine: Engine<StyleEvents>) {
         super(engine, 'sass');
 
-        const emitSASS = async (code: string, parser: postcss.Parser, resource: string, element: HTMLElement | null) => {
+        const emitSASS = async (code: string, parser: import('postcss').Parser, resource: string, element: HTMLElement | null) => {
 
             try {
                 await this.engine.emitAsync(`parse::start::css`, { resource });
