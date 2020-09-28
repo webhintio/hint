@@ -1,4 +1,4 @@
-# webhints development configuration
+# webhint development configuration
 
 Examine development websites using `@hint/configuration-development`.
 
