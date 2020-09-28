@@ -1,6 +1,3 @@
----
-date: 08/27/2020
----
 # Hints
 
 A hint is a test that your website needs to pass.  `webhint` includes several [built-in hints][HintsIndex], but you may create your own or download more hints from `npm`.  For more information about how to create hints, go to the [contributor guide][ContributorGuideHowToHint].
@@ -37,8 +34,8 @@ As an example, use the following actions to use the [Nu HTML test][HintHtmlCheck
     }
     ```
 
-> [!NOTE]
-> For convenience, the previous code snippet uses the short name to refer to the hint package name.
+> **NOTE**: For convenience, the previous code snippet uses the short name to refer to the hint package name.
+
 The following example teaches you on how to use custom hints. To refer to custom hints, you must use the full package name. To use custom hints, perform the following steps:
 
 1.  To add the `@myOrg/webhint-hint-clever-custom-audit` and `webhint-hint-another-example1` hints to your `package.json` file, run the following command.
