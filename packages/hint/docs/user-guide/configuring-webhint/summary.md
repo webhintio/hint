@@ -2,16 +2,16 @@
 
 `webhint` enables you to specify the following options for a report.
 
-*   The `severity` of each hint.
-*   The output type of the report.
-*   The custom hints to include in a report.
+* The `severity` of each hint.
+* The output type of the report.
+* The custom hints to include in a report.
 
 There are 3 ways that to configure a  `webhint` report for your project.
 
-*   Use a `.hintrc` file in your project.
-*   Add a `hintConfig` property in your `package.json` file.
-*   Use an environmental variable to set a property in your `.hintrc` file that
-    is used by all of your projects.
+* Use a `.hintrc` file in your project.
+* Add a `hintConfig` property in your `package.json` file.
+* Use an environmental variable to set a property in your `.hintrc` file that is
+  used by all of your projects.
 
 The 3 configuration methods require you to add the same code to different
 locations.  The code that you add to the locations include key:value pairs of
@@ -24,8 +24,8 @@ hint configuration properties, which are defined in the following table.
 | `parsers` | How to handle special files such as stylesheets, JavaScript, manifest, and so on.  Multiple instances may exist. |
 | `hints` | What to test for and the [severity][UserGuideConceptsHintsHintConfiguration] it should have.  Multiple instances may exist. |
 
-For additional information about `severity` and hint configurations, go to
-[Hint configuration[UserGuideConceptsHintsHintConfiguration].
+For additional information about `severity` and hint configurations, go to [Hint
+configuration[UserGuideConceptsHintsHintConfiguration].
 
 ## Create a .hintrc file
 
@@ -95,8 +95,7 @@ file that uses webhint.
 }
 ```
 
-The following topics provide additional information about configuring
-`webhint`.
+The following topics provide additional information about configuring `webhint`.
 
 * [Browser configuration][UserGuideConfiguringWebhintBrowserConfiguration]
 * [Ignoring domains][UserGuideConfiguringWebhintIgnoringDomains]
@@ -114,9 +113,8 @@ may use an environment variable to store a key:value pair, such as credentials,
 instead of saving it in a file.
 
 To use an environment variable to set a `webhint` property, create a variable
-prefixed with `webhint_` followed by a property name.  If the property is
-nested under, use an underscore \(`_`\) character to separate each property
-name.
+prefixed with `webhint_` followed by a property name.  If the property is nested
+under, use an underscore \(`_`\) character to separate each property name.
 
 For example, the following pseudocode represents an environment variable for a
 `webhint` property.
@@ -143,9 +141,12 @@ directly to a `.hintrc` file.
 
 <!-- links -->
 
-[UserGuideConfiguringWebhintBrowserConfiguration]: ./browser-context.md "Browser configuration | webhint"
-[UserGuideConfiguringWebhintIgnoringDomains]: ./ignoring-domains.md "Ignoring domains | webhint"
-[UserGuideConfiguringWebhintHintsTimeout]: ./rules-timeout.md "Hints timeout | webhint"
-[UserGuideConfiguringWebhintUsingRelativeResources]: ./using-relative-resources.md "Using relative resources | webhint"
-[UserGuideConfiguringWebhintWebsiteAuthentication]: ./website-authentication.md "Website authentication | webhint"
-[UserGuideConceptsHintsHintConfiguration]: ../concepts/hints.md#hint-configuration "Hint configuration - Hints | webhint"
+[UserGuideConfiguringWebhintBrowserConfiguration]: ./browser-context.md "Browser
+configuration | webhint" [UserGuideConfiguringWebhintIgnoringDomains]:
+./ignoring-domains.md "Ignoring domains | webhint"
+[UserGuideConfiguringWebhintHintsTimeout]: ./rules-timeout.md "Hints timeout |
+webhint" [UserGuideConfiguringWebhintUsingRelativeResources]:
+./using-relative-resources.md "Using relative resources | webhint"
+[UserGuideConfiguringWebhintWebsiteAuthentication]: ./website-authentication.md
+"Website authentication | webhint" [UserGuideConceptsHintsHintConfiguration]:
+../concepts/hints.md#hint-configuration "Hint configuration - Hints | webhint"
