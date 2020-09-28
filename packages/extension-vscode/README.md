@@ -2,29 +2,43 @@
 
 Use `webhint` to improve your website during development.
 
-The **Webhint Visual Studio Code extension** provides diagnostic data for workspace files based on `webhint` analysis.
+The **Webhint Visual Studio Code extension** provides diagnostic data for
+workspace files based on `webhint` analysis.
 
 ![Visual Studio Code running the webhint Visual Studio Code extension][ImageVisualStudioCodeRunningWebhintExtension]
 
 ## Configuration
 
-The extension uses the `@hint/configuration-development` configuration by default.  The `@hint/configuration-development` configuration activates hints and parsers for HTML and template-making systems \(JSX/TSX, Angular, and so on\), JavaScript/TypeScript, common pitfalls, and more.  The `@hint/configuration-development` configuration is defined in [index.json][GithubWebhintioHintPackagesConfigurationDevelopmentIndexJson].
+The extension uses the `@hint/configuration-development` configuration by
+default.  The `@hint/configuration-development` configuration activates hints
+and parsers for HTML and template-making systems \(JSX/TSX, Angular, and so
+on\), JavaScript/TypeScript, common pitfalls, and more.  The
+`@hint/configuration-development` configuration is defined in
+[index.json][GithubWebhintioHintPackagesConfigurationDevelopmentIndexJson].
 
-For more information about what is enabled, go to [package][GithubWebhintioHintPackagesExtensionVscode] on GitHub.
+For more information about what is enabled, go to
+[package][GithubWebhintioHintPackagesExtensionVscode] on GitHub.
 
-To report any incorrect hints or unexpected responses, please [open a new issue][GithubWebhintioHintIssuesNewTemplate] on GitHub.
+To report any incorrect hints or unexpected responses, please [open a new
+issue][GithubWebhintioHintIssuesNewTemplate] on GitHub.
 
-If you want more control over what gets activated, create a local `.hintrc` file to configure `webhint`.
+If you want more control over what gets activated, create a local `.hintrc` file
+to configure `webhint`.
 
-For more information about the `.hintrc` file, go to [Summary][WebhintDocsUserGuideConfiguringWebhintSummary].
+For more information about the `.hintrc` file, go to
+[Summary][WebhintDocsUserGuideConfiguringWebhintSummary].
 
 ## Contribute to the extension
 
-To contribute to the extension, go to [Contributing][GithubWebhintioHintPackagesExtensionVscodeContributing] on GitHub.
+To contribute to the extension, go to
+[Contributing][GithubWebhintioHintPackagesExtensionVscodeContributing] on
+GitHub.
 
 ## Help
 
-For more information about `webhint`, go to [webhint.io][WebhintMain].  For more information about the output from specific hints, go to [Hints categories][WebhintDocsUserGuideHints].
+For more information about `webhint`, go to [webhint.io][WebhintMain].  For
+more information about the output from specific hints, go to
+[Hints categories][WebhintDocsUserGuideHints].
 
 <!-- image links -->
 
