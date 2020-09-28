@@ -52,8 +52,8 @@ The following code snippet is an expanded version of the previous code snippet.
 }
 ```
 
-The following code snippet includes another formatter \(or any other
-hint or connector, and so on\).
+The following code snippet includes another formatter \(or any other hint or
+connector, and so on\).
 
 ```json
 {
@@ -64,4 +64,6 @@ hint or connector, and so on\).
 
 <!-- links -->
 
-[UserGuideConfiguringWebhintSummary]: https://webhint.io/docs/user-guide/configuring-webhint/summary/ "Configure webhint | webhint"
+[UserGuideConfiguringWebhintSummary]:
+https://webhint.io/docs/user-guide/configuring-webhint/summary/ "Configure
+webhint | webhint"
