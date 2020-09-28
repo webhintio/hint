@@ -26,13 +26,14 @@ of `webhint` and common hint scenarios.
 <!-- links -->
 
 [GettingStartedArchitecture]: ./getting-started/architecture.md "Architecture"
-[GettingStartedDevelopmentEnvironment]: ./getting-started/development-environment.md "Development environment"
+[GettingStartedDevelopmentEnvironment]:
+./getting-started/development-environment.md "Development environment"
 [GettingStartedPullRequests]: ./getting-started/pull-requests.md "Pull requests"
 [GettingStartedEvents]: ./getting-started/events.md "Events"
-[HowToConfiguration]: ./how-to/configuration.md "Create a custom shareable configuration"
-[HowToConnector]: ./how-to/connector.md "Develop a connector"
-[HowToFormatter]: ./how-to/formatter.md "Develop a formatter"
-[HowToParser]: ./how-to/parser.md "Develop a parser"
-[HowToHint]: ./how-to/hint.md "Develop a hint"
-[HowToCommonHintScenarios]: ./how-to/common-hint-scenarios.md "Implement common hint scenarios"
-[GuidesCreateCustomHint]: ./guides/create-custom-hint.md "Create a custom hint step-by-step"
+[HowToConfiguration]: ./how-to/configuration.md "Create a custom shareable
+configuration" [HowToConnector]: ./how-to/connector.md "Develop a connector"
+[HowToFormatter]: ./how-to/formatter.md "Develop a formatter" [HowToParser]:
+./how-to/parser.md "Develop a parser" [HowToHint]: ./how-to/hint.md "Develop a
+hint" [HowToCommonHintScenarios]: ./how-to/common-hint-scenarios.md "Implement
+common hint scenarios" [GuidesCreateCustomHint]: ./guides/create-custom-hint.md
+"Create a custom hint step-by-step"
