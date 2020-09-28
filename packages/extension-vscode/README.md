@@ -5,8 +5,7 @@ Use `webhint` to improve your website during development.
 The **Webhint Visual Studio Code extension** provides diagnostic data for
 workspace files based on `webhint` analysis.
 
-![Visual Studio Code running the webhint Visual Studio Code
-extension][ImageVisualStudioCodeRunningWebhintExtension]
+![Visual Studio Code running the webhint Visual Studio Code extension][ImageVisualStudioCodeRunningWebhintExtension]
 
 ## Configuration
 
@@ -37,32 +36,21 @@ GitHub.
 
 ## Help
 
-For more information about `webhint`, go to [webhint.io][WebhintMain].  For more
-information about the output from specific hints, go to [Hints
-categories][WebhintDocsUserGuideHints].
+For more information about `webhint`, go to [webhint.io][WebhintMain].  For
+more information about the output from specific hints, go to
+[Hints categories][WebhintDocsUserGuideHints].
 
 <!-- image links -->
 
-[ImageVisualStudioCodeRunningWebhintExtension]:
-https://user-images.githubusercontent.com/606594/69293022-71d89d00-0bbc-11ea-96ef-f90daa4b1374.gif
-"Visual Studio Code running the webhint extension"
+[ImageVisualStudioCodeRunningWebhintExtension]: https://user-images.githubusercontent.com/606594/69293022-71d89d00-0bbc-11ea-96ef-f90daa4b1374.gif "Visual Studio Code running the webhint extension"
 
 <!-- links -->
 
-[GithubWebhintioHintIssuesNewTemplate]:
-https://github.com/webhintio/hint/issues/new?labels=type%3Abug&template=1-bug-report.md&title=%5BBug%5D+Bug+description
-"New Issue - webhintio/hint | GitHub"
-[GithubWebhintioHintPackagesConfigurationDevelopmentIndexJson]:
-https://github.com/webhintio/hint/blob/main/packages/configuration-development/index.json
-"index.json - webhintio/hint | GitHub"
-[GithubWebhintioHintPackagesExtensionVscodeContributing]:
-https://github.com/webhintio/hint/blob/main/packages/extension-vscode/CONTRIBUTING.md
-"Contributing - webhintio/hint | GitHub"
-[GithubWebhintioHintPackagesExtensionVscode]:
-https://github.com/webhintio/hint/blob/main/packages/extension-vscode "Webhint
-Visual Studio Code extension - webhintio/hint | GitHub"
+[GithubWebhintioHintIssuesNewTemplate]: https://github.com/webhintio/hint/issues/new?labels=type%3Abug&template=1-bug-report.md&title=%5BBug%5D+Bug+description "New Issue - webhintio/hint | GitHub"
+[GithubWebhintioHintPackagesConfigurationDevelopmentIndexJson]: https://github.com/webhintio/hint/blob/main/packages/configuration-development/index.json "index.json - webhintio/hint | GitHub"
+[GithubWebhintioHintPackagesExtensionVscodeContributing]: https://github.com/webhintio/hint/blob/main/packages/extension-vscode/CONTRIBUTING.md "Contributing - webhintio/hint | GitHub"
+[GithubWebhintioHintPackagesExtensionVscode]: https://github.com/webhintio/hint/blob/main/packages/extension-vscode "Webhint Visual Studio Code extension - webhintio/hint | GitHub"
 
-[WebhintDocsUserGuideHints]: https://webhint.io/docs/user-guide/hints "Hints
-categories | webhint" [WebhintDocsUserGuideConfiguringWebhintSummary]:
-https://webhint.io/docs/user-guide/configuring-webhint/summary "Configuring
-Webhint | webhint" [WebhintMain]: https://webhint.io "webhint"
+[WebhintDocsUserGuideHints]: https://webhint.io/docs/user-guide/hints "Hints categories | webhint"
+[WebhintDocsUserGuideConfiguringWebhintSummary]: https://webhint.io/docs/user-guide/configuring-webhint/summary "Configuring Webhint | webhint"
+[WebhintMain]: https://webhint.io "webhint"
