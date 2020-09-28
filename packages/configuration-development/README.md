@@ -1,6 +1,8 @@
 # webhint development configuration
 
-Examine development websites using `@hint/configuration-development`.
+To examine your raw source, use `@hint/configuration-development`.
+
+> **NOTE**:  To examine development and live websites, use `@hint/configuration-web-recommended`.
 
 This `webhint` configuration package is installed automatically by webhint.
 
