@@ -1,6 +1,3 @@
----
-date: 08/26/2020
----
 # webhints development configuration
 
 Examine development websites using `@hint/configuration-development`.
