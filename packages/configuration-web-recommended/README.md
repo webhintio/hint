@@ -1,8 +1,10 @@
 # webhint recommended web configuration
 
-To examine development or in-production websites, use `@hint/configuration-web-recommended`.
+To examine development or in-production websites, use
+`@hint/configuration-web-recommended`.
 
-> **NOTE** This package is for use against any content served from a web server.
+> **NOTE**:  This package is for use against any content served from a web
+> server.
 
 This `webhint` configuration package is installed automatically by webhint.
 
@@ -12,9 +14,11 @@ To install `webhint`, run the command in the following code snippet.
 npm install hint --save-dev
 ```
 
-> **NOTE**: The recommended way of running `webhint` is as a `devDependency` of your project.
+> **NOTE**:  The recommended way of running `webhint` is as a `devDependency`
+> of your project.
 
-Copy the following code snippet and add it to your [.hintrc][UserGuideConfiguringWebhintSummary] file.
+Copy the following code snippet and add it to your
+[.hintrc][UserGuideConfiguringWebhintSummary] file.
 
 ```json
 {
@@ -50,7 +54,8 @@ The following code snippet is an expanded version of the previous code snippet.
 }
 ```
 
-The following code snippet includes another formatter \(or any other hint/connector, and so on\).
+The following code snippet includes another formatter \(or any other
+hint or connector, and so on\).
 
 ```json
 {
@@ -59,6 +64,6 @@ The following code snippet includes another formatter \(or any other hint/connec
 }
 ```
 
-<!-- links: -->
+<!-- links -->
 
 [UserGuideConfiguringWebhintSummary]: ../hint/docs/user-guide/configuring-webhint/summary.md "Configure webhint | webhint"

@@ -1,30 +1,40 @@
 # Hints
 
-A hint is a test that your website needs to pass.  `webhint` includes several [built-in hints][HintsIndex], but you may create your own or download more hints from `npm`.  For more information about how to create hints, go to the [contributor guide][ContributorGuideHowToHint].
+A hint is a test that your website needs to pass.  `webhint` includes several
+[built-in hints][HintsIndex], but you may create your own or download more
+hints from `npm`.  For more information about how to create hints, go to the
+[contributor guide][ContributorGuideHowToHint].
 
 ## Installing hints
 
 Complete the following actions to utilize a hint.
 
-1.  Search for a `webhint` package that begins with one of the following statements.
+1.  Search for a `webhint` package that begins with one of the following
+    statements.
     *   `@hint/hint-`
     *   `webhint-hint-`
     *   `@scope/webhint-hint-`
 1.  Install your selected package.
-1.  Add the name of that package to the `hints` array or object in your `.hintrc` file.
+1.  Add the name of that package to the `hints` array or object in your
+    `.hintrc` file.
 
-    > [!NOTE]
-    > Packages within the `@hint/` namespace, such as `@hint/hint-html-checker`, may be added using a short name. The short name does not include the `webhint` package reserved text. Example `@hint/hint-html-checker` is shortened to `html-checker`.
+   > [!NOTE] Packages within the `@hint/` namespace, such as
+   > `@hint/hint-html-checker`, may be added using a short name. The short name
+   > does not include the `webhint` package reserved text. Example
+   > `@hint/hint-html-checker` is shortened to `html-checker`.
 
-As an example, use the following actions to use the [Nu HTML test][HintHtmlCheckerReadme] hint.
+As an example, use the following actions to use the [Nu HTML
+test][HintHtmlCheckerReadme] hint.
 
-1.  To install the [@hint/hint-html-checker][HintHtmlCheckerReadme] package , run the following command.
+1.  To install the [@hint/hint-html-checker][HintHtmlCheckerReadme] package,
+    run the following command.
 
     ```bash
     npm i -D @hint/hint-html-checker
     ```
 
-1.  Copy the hint in the following code snippet and add it to your `.hintrc` file.
+1.  Copy the hint in the following code snippet and add it to your `.hintrc`
+    file.
 
     ```json
     {
@@ -34,17 +44,23 @@ As an example, use the following actions to use the [Nu HTML test][HintHtmlCheck
     }
     ```
 
-> **NOTE**: For convenience, the previous code snippet uses the short name to refer to the hint package name.
+> **NOTE**:  For convenience, the previous code snippet uses the short name to
+> refer to the hint package name.
 
-The following example teaches you on how to use custom hints. To refer to custom hints, you must use the full package name. To use custom hints, perform the following steps:
+The following example teaches you on how to use custom hints.  To refer to
+custom hints, you must use the full package name.  To use custom hints,
+perform the following steps.
 
-1.  To add the `@myOrg/webhint-hint-clever-custom-audit` and `webhint-hint-another-example1` hints to your `package.json` file, run the following command.
+1.  To add the `@myOrg/webhint-hint-clever-custom-audit` and
+    `webhint-hint-another-example1` hints to your `package.json` file, run the
+    following command.
 
     ```bash
     npm -i -D @myOrg/webhint-hint-clever-custom-audit webhint-hint-another-example1
     ```
 
-1.  Copy the hints in the following code snippet and add it to your `.hintrc` file.
+1.  Copy the hints in the following code snippet and add it to your `.hintrc`
+    file.
 
     ```json
     {
@@ -57,7 +73,10 @@ The following example teaches you on how to use custom hints. To refer to custom
 
 ## Hint configuration
 
-When you run `webhint` from the command-line interface, you are always in control and you decide which hints are relevant to your use-case.  You also specify what `severity` a hint should have. The following table describes the allowed `severity` ratings.
+When you run `webhint` from the command-line interface, you are always in
+control and you decide which hints are relevant to your use-case.  You also
+specify what `severity` a hint should have. The following table describes the
+allowed `severity` ratings.
 
 | `Severity` value | Details |
 |:--- |:--- |
@@ -69,7 +88,8 @@ When you run `webhint` from the command-line interface, you are always in contro
 
 You may configure hints using either the array or object syntax.
 
-The following code snippets display how to use the array and object syntax with the `@hint/hint-example1` npm package.
+The following code snippets display how to use the array and object syntax with
+the `@hint/hint-example1` npm package.
 
 ```json
 {
@@ -94,7 +114,8 @@ You may use the following characters in place of the associated `severity`.
 | `off` | `-` |
 | `warning` | `?` |
 
-The following code snippet displays how to configure the hint and set the severity to `off` using the short-hand character.
+The following code snippet displays how to configure the hint and set the
+severity to `off` using the short-hand character.
 
 ```json
 {
@@ -104,7 +125,8 @@ The following code snippet displays how to configure the hint and set the severi
 }
 ```
 
-Some hints enable further customization.  The configuration with further customization should be similar to the following code snippets.
+Some hints enable further customization.  The configuration with further
+customization should be similar to the following code snippets.
 
 ```json
 {
@@ -136,7 +158,8 @@ Some hints enable further customization.  The configuration with further customi
 }
 ```
 
-For more information about which hints accept customized configurations, go to [Hints categories][HintsIndex].
+For more information about which hints accept customized configurations, go to
+[Hints categories][HintsIndex].
 
 <!-- links  -->
 
