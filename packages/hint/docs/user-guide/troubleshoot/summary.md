@@ -1,6 +1,3 @@
----
-date: 08/26/2020
----
 # Troubleshoot webhint installation and runtime issues
 
 This topic contains the most common issues reported by users along with potential fixes.  If you encounter an undocumented error, please [open an issue][GitHubWebhintioHintNew] on GitHub.

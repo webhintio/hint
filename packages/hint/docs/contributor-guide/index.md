@@ -1,6 +1,3 @@
----
-date: 08/26/2020
----
 # Contributor guide
 
 Please provide your contributions to help improve the experience of webhint. This topic outlines the resources to use when planning your first contribution to the project and core concepts to understand.
