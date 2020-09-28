@@ -1,6 +1,3 @@
----
-date: 08/27/2020
----
 # Get started using webhint
 
 You \(the user\) should be familiar with the command-line tools on your machine, Node.js, and the Node Package Manager \(npm\) in order to install and run `webhint`.
@@ -56,8 +53,7 @@ To confirm that `webhint` is installed, run the following command.
 hint -v
 ```
 
-> [!NOTE]
-> If you run into any issues during the install process, go to [Common issues when installing or running webhint][UserGuideTroubleshootSummary].
+> **NOTE**: If you run into any issues during the install process, go to [Common issues when installing or running webhint][UserGuideTroubleshootSummary].
 
 ## Advanced webhint configurations
 
