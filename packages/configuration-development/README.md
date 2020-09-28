@@ -2,7 +2,8 @@
 
 To examine your raw source, use `@hint/configuration-development`.
 
-> **NOTE**:  To examine development and live websites, use `@hint/configuration-web-recommended`.
+> **NOTE**:  To examine development and live websites, use
+> `@hint/configuration-web-recommended`.
 
 This `webhint` configuration package is installed automatically by webhint.
 
@@ -12,9 +13,11 @@ To install `webhint`, run the command in the following code snippet.
 npm install hint --save-dev
 ```
 
-> **NOTE**: The recommended way of running webhint is as a `devDependency` of your project.
+> **NOTE**:  The recommended way of running webhint is as a `devDependency` of
+> your project.
 
-Copy the following code snippet and add it to your [.hintrc][UserGuideConfiguringWebhintSummary] file.
+Copy the following code snippet and add it to your
+[.hintrc][UserGuideConfiguringWebhintSummary] file.
 
 ```json
 {
@@ -49,7 +52,8 @@ The following code snippet is an expanded version of the previous code snippet.
 }
 ```
 
-The following code snippet includes another formatter \(or any other hint/connector, and so on\).
+The following code snippet includes another formatter \(or any other
+hint or connector, and so on\).
 
 ```json
 {

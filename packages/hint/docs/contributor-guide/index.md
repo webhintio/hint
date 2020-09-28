@@ -1,6 +1,8 @@
 # Contributor guide
 
-Please provide your contributions to help improve the experience of webhint. This topic outlines the resources to use when planning your first contribution to the project and core concepts to understand.
+Please provide your contributions to help improve the experience of webhint.
+This topic outlines the resources to use when planning your first contribution
+to the project and core concepts to understand.
 
 | Topic | Details |
 |:--- |:--- |
@@ -9,16 +11,17 @@ Please provide your contributions to help improve the experience of webhint. Thi
 | [Pull requests][GettingStartedPullRequests] | The instructions for contributing updates to the `webhint`documentation. |
 | [Events][GettingStartedEvents] | Understand the events used internally by webhint. |
 
-The following topics provide guidance about how to change a particular feature of `webhint` and common hint scenarios.
+The following topics provide guidance about how to change a particular feature
+of `webhint` and common hint scenarios.
 
-*   [Create a custom shareable configuration][HowToConfiguration]
-*   [Develop a connector][HowToConnector]
-*   [Develop a formatter][HowToFormatter]
-*   [Develop a parser][HowToParser]
-*   [Develop a hint][HowToHint]
-*   [Implement common hint scenarios][HowToCommonHintScenarios]
-<!-- TODO * [Build the docs locally]() -->
-*   [Create a custom hint step by step][GuidesCreateCustomHint]
+* [Create a custom shareable configuration][HowToConfiguration]
+* [Develop a connector][HowToConnector]
+* [Develop a formatter][HowToFormatter]
+* [Develop a parser][HowToParser]
+* [Develop a hint][HowToHint]
+* [Implement common hint scenarios][HowToCommonHintScenarios]
+  <!-- TODO * [Build the docs locally]() -->
+* [Create a custom hint step by step][GuidesCreateCustomHint]
 
 <!-- links -->
 
