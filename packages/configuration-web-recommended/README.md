@@ -66,4 +66,4 @@ hint or connector, and so on\).
 
 <!-- links -->
 
-[UserGuideConfiguringWebhintSummary]: ../hint/docs/user-guide/configuring-webhint/summary.md "Configure webhint | webhint"
+[UserGuideConfiguringWebhintSummary]: https://webhint.io/docs/user-guide/configuring-webhint/summary/ "Configure webhint | webhint"
