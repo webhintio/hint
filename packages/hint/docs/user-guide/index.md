@@ -32,17 +32,17 @@ npm -v
 To get started using `webhint` to improve your site performance and learn about
 best practices that may be applied to your site, complete the following steps.
 
-1. Run the command in the following code snippet.  The following code snippet
+1.  Run the command in the following code snippet.  The following code snippet
    uses `npx` to run the `npm` package without installing it.
 
-   ```bash
-   npx hint https://example.com
-   ```
+    ```bash
+    npx hint https://example.com
+    ```
 
-1. After the `webhint` process completes, a summary is presented in the bash
+1.  After the `webhint` process completes, a summary is presented in the bash
    command-line interface with a link to a report file on your computer.
-1. Navigate to the report file and open it.  The report file outlines the hints
-   and solutions to apply to your site.
+1.  Navigate to the report file and open it.  The report file outlines the
+    hints and solutions to apply to your site.
 
 The following configurations defines how you may use a `webhint`.
 
@@ -53,7 +53,7 @@ The following configurations defines how you may use a `webhint`.
 
 ## Install webhint
 
-1. To install `webhint` using the default configuration, run the following
+1.  To install `webhint` using the default configuration, run the following
    command.
 
 ```bash
@@ -67,8 +67,7 @@ hint -v
 ```
 
 > **NOTE**:  If you run into any issues during the install process, go to
-> [Common issues when installing or running
-> webhint][UserGuideTroubleshootSummary].
+>            [Common issues when installing or running webhint][UserGuideTroubleshootSummary].
 
 ## Advanced webhint configurations
 
@@ -79,44 +78,45 @@ To analyze the files in your project, add `webhint` to your project.
 To add `webhint` to your project, you must install the `devDependency` and
 update your `package.json` file.
 
-1. To install the `devDependency`, run the command in the following code
-   snippet.
+1.  To install the `devDependency`, run the command in the following code
+    snippet.
 
-   ```bash
-   npm install hint --save-dev
-   ```
+    ```bash
+    npm install hint --save-dev
+    ```
 
-You have also use `-i` inplace of `install` and `-D` in place of `--save-dev`.
+   You have also use `-i` inplace of `install` and `-D` in place of
+   `--save-dev`.
 
     ```bash
     npm -i -D hint
     ```
 
-1. After you install the `devDependency`, copy the script task in the following
-   code snippet and add it to your `package.json` file.
+1.  After you install the `devDependency`, copy the script task in the
+    following code snippet and add it to your `package.json` file.
 
-   ```json
-   {
-       ...
-       "scripts": {
-           "webhint": "hint http://localhost:8080"
-       }
-   }
-   ```
+    ```json
+    {
+        ...
+        "scripts": {
+            "webhint": "hint http://localhost:8080"
+        }
+    }
+    ```
 
-1. To start your webhint, run the command in the following code snippet.
+1.  To start your webhint, run the command in the following code snippet.
 
-   ```bash
-   npm run webhint
-   ```
+    ```bash
+    npm run webhint
+    ```
 
 ### Customize webhint in your project
 
 A custom hint \(`.hintrc` file\)  is useful when you want either of the
 following actions.
 
-* Ignore specific errors.
-* Highlight or break for specific warnings.
+*   Ignore specific errors.
+*   Highlight or break for specific warnings.
 
 To customize the analysis of your files, create a custom configuration.
 
@@ -126,14 +126,14 @@ directory.  For more information about the `.hintrc` file and options, go to
 
 To run `webhint` in you your project with a custom configuration.
 
-1. [Add `webhint` to your project](#use-webhint-in-your-project).
-1. Add a `.hintrc` file to your project directory.
-1. Navigate to your project directory.
-1. Run the command in the following code snippet.
+1.  [Add `webhint` to your project](#use-webhint-in-your-project).
+1.  Add a `.hintrc` file to your project directory.
+1.  Navigate to your project directory.
+1.  Run the command in the following code snippet.
 
-   ```bash
-   npm run webhint
-   ```
+    ```bash
+    npm run webhint
+    ```
 
 ### Use webhint with Microsoft Visual Studio Code
 
@@ -155,37 +155,29 @@ For more information about the using `webhint` within your browser, go to
 
 ## Next Steps
 
-* [Hints][UserGuideConceptsHints]
-* [Configurations][UserGuideConceptsConfigurations]
-* [Connectors][UserGuideConceptsConnectors]
-* [Formatters][UserGuideConceptsFormatters]
-* [Parsers][UserGuideConceptsParsers]
+*   [Hints][UserGuideConceptsHints]
+*   [Configurations][UserGuideConceptsConfigurations]
+*   [Connectors][UserGuideConceptsConnectors]
+*   [Formatters][UserGuideConceptsFormatters]
+*   [Parsers][UserGuideConceptsParsers]
 
 <!-- links -->
 
-[UserGuideConceptsConfigurations]: ./concepts/configurations.md "Configurations
-| webhint" [UserGuideConceptsConnectors]: ./concepts/connectors.md "Connectors |
-webhint" [UserGuideConceptsFormatters]: ./concepts/formatters.md "Formatters |
-webhint" [UserGuideConceptsHints]: ./concepts/hints.md "Hints | webhint"
+[UserGuideConceptsConfigurations]: ./concepts/configurations.md "Configurations | webhint"
+[UserGuideConceptsConnectors]: ./concepts/connectors.md "Connectors | webhint"
+[UserGuideConceptsFormatters]: ./concepts/formatters.md "Formatters | webhint"
+[UserGuideConceptsHints]: ./concepts/hints.md "Hints | webhint"
 [UserGuideConceptsParsers]: ./concepts/parsers.md "Parsers | webhint"
-[UserGuideConfiguringWebhintSummary]: ./configuring-webhint/summary.md
-"Configuring Webhint | webhint" [UserGuideExtensionsBrowser]:
-../../../extension-browser/README.md "Webhint Browser Extension EditSignal Issue
-| webhint" [UserGuideConfigurationsDevelopment]:
-./configurations/configuration-development.md "Webhint Development Configuration
-| webhint" [UserGuideConfigurationsWebRecommended]:
-./configurations/configuration-web-recommended.md "Webhint Recommended Web
-Configuration | webhint" [UserGuideExtensionsVscodeWebhint]:
-../../../extension-vscode/README.md "Webhint VS Code Extension | webhint"
-[UserGuideTroubleshootSummary]: ./troubleshoot/summary.md "Common issues when
-installing or running webhint | webhint"
+[UserGuideConfiguringWebhintSummary]: ./configuring-webhint/summary.md  "Configuring Webhint | webhint"
+[UserGuideExtensionsBrowser]: ../../../extension-browser/README.md "Webhint Browser Extension EditSignal Issue | webhint"
+[UserGuideConfigurationsDevelopment]: ./configurations/configuration-development.md "Webhint Development Configuration | webhint"
+[UserGuideConfigurationsWebRecommended]: ./configurations/configuration-web-recommended.md "Webhint Recommended Web Configuration | webhint"
+[UserGuideExtensionsVscodeWebhint]: ../../../extension-vscode/README.md "Webhint VS Code Extension | webhint"
+[UserGuideTroubleshootSummary]: ./troubleshoot/summary.md "Common issues when installing or running webhint | webhint"
 
 [NodejsAbout]: https://nodejs.org/en/about "About Node.js(r) | Node.js"
-[NodejsDownloadCurrent]: https://nodejs.org/en/download/current "Downloads |
-Node.js"
+[NodejsDownloadCurrent]: https://nodejs.org/en/download/current "Downloads | Node.js"
 
 [NpmjsAbout]: https://www.npmjs.com/about "About npm | npm"
 
-[TldpLdpBashBeginnersGuide]:
-https://tldp.org/LDP/Bash-Beginners-Guide/html/Bash-Beginners-Guide.html "Bash
-Guide for Beginners | The Linux Documentation Project"
+[TldpLdpBashBeginnersGuide]: https://tldp.org/LDP/Bash-Beginners-Guide/html/Bash-Beginners-Guide.html "Bash Guide for Beginners | The Linux Documentation Project"
