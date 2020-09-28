@@ -1,6 +1,3 @@
----
-date: 08/26/2020
----
 # webhint recommended web configuration
 
 Examine in-production websites using `@hint/configuration-web-recommended`.

@@ -1,6 +1,3 @@
----
-date: 08/27/2020
----
 # Webhint Visual Studio Code extension
 
 Use `webhint` to improve your website during development.
