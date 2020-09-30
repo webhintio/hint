@@ -74,6 +74,7 @@ export default class HTMLCompatHint implements IHint {
 
     public constructor(context: HintContext) {
         const ignore = resolveIgnore([
+            'a[rel=noopener]', // handled by hint-disown-opener
             'autocomplete',
             'crossorigin',
             'integrity',
