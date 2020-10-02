@@ -18,7 +18,7 @@ const meta: HintMetadata = {
     getName(language: string) {
         return getMessage('name', language);
     },
-    id: 'classlist-add-remove-pitfall',
+    id: 'classlist-pitfall',
     schema: [],
     scope: HintScope.any
 };

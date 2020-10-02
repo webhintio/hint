@@ -1,48 +1,48 @@
-# No `createElement` with SVG (`create-element-svg`)
+# Leading '.' in `classList.add` or `classList.remove`
 
-This hint informs users that they need to use [`createElementNS`][createElementNS]
-to create SVG elements instead of [`createElement`][createElement].
+This hint informs users that they should to use
+[`Element.classList`][classList] argument without a leading '.' as it
+may lead to unintended results.
 
 ## Why is this important?
 
-SVG-in-HTML is a fantastic addition to the web platform, but since SVG
-is an XML-based language there is some nuance to how it can be used.
-When parsing HTML, SVG elements are automatically created correctly so
-long as they are inside an `<svg>...</svg>` block. However, SVG elements
-cannot be *dynamically* created using `createElement` in the same way
-as HTML elements.
+The [`Element.classList`][classList] is a read-only property that returns
+a live DOMTokenList collection of the class attributes of the element.
+This can then be used to manipulate the class list.
 
-For example, calling `document.createElement('circle')` actually returns
-an *HTML* element named `circle` instead of an SVG element. This is for
-compatibility with existing web content which may have created custom
-(although invalid) HTML elements using these same names.
+Using classList is a convenient alternative to accessing an element's list
+of classes as a space-delimited string via element.className.
 
-In order to dynamically create SVG elements, you must explicitly tell the
-browser you want SVG by using the [SVG namespace][svg namespace] with
-`createElementNS`. For example, to create an SVG `circle` call
-`document.createElementNS('http://www.w3.org/2000/svg', 'circle')`.
+For example, calling `elementNodeReference.classList` actually returns
+a DOMTokenList representing the contents of the element's class attribute.
+If the class attribute is not set or empty, it returns an empty
+DOMTokenList, i.e. a DOMTokenList with the length property equal to 0.
+
+The DOMTokenList itself is read-only, although you can modify it using the
+`add()` and `remove()` methods.
 
 ## What does the hint check?
 
-This hint scans JavaScript source code to check if `createElement` is
-called with any known SVG element names.
+This hint scans JavaScript source code to check if the argument in
+`element.classList.add` or `element.classList.remove` is contains a
+leading '.'.
 
 ### Examples that **trigger** the hint
 
 ```javascript
-const container = document.getElementById('container');
-const svg = document.createElement('svg');
+const element = document.getElementById('foo');
 
-container.appendChild(svg);
+element.classList.add('.foo')
+element.classList.remove('.foo')
 ```
 
 ### Examples that **pass** the hint
 
 ```javascript
-const container = document.getElementById('container');
-const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+const element = document.getElementById('foo');
 
-container.appendChild(svg);
+element.classList.add('foo')
+element.classList.remove('foo')
 ```
 
 ## How to use this hint?
@@ -61,7 +61,7 @@ To use it, activate it via the [`.hintrc`][hintrc] configuration file:
     "formatters": [...],
     "parsers": [...],
     "hints": {
-        "create-element-svg": "error"
+        "classlist-pitfall": "warning"
     },
     ...
 }
@@ -72,14 +72,8 @@ your project.
 
 ## Further Reading
 
-[Document.createElementNS][createElementNS vs createElement]
-[SVG: Scalable Vector Graphics][svg]
+[Element.classList][classList]
 
 <!-- Link labels: -->
 
-[createElement]: https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
-[createElementNS]: https://developer.mozilla.org/en-US/docs/Web/API/Document/createElementNS
-[createElementNS vs createElement]: http://zhangwenli.com/blog/2017/07/26/createelementns/
-[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
-[svg]: https://developer.mozilla.org/en-US/docs/Web/SVG
-[svg namespace]: https://www.w3.org/2000/svg
+[classList]: https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
