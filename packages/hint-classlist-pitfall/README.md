@@ -32,8 +32,8 @@ leading '.'.
 ```javascript
 const element = document.getElementById('foo');
 
-element.classList.add('.foo')
-element.classList.remove('.foo')
+element.classList.add('.foo');
+element.classList.remove('.foo');
 ```
 
 ### Examples that **pass** the hint
@@ -41,8 +41,8 @@ element.classList.remove('.foo')
 ```javascript
 const element = document.getElementById('foo');
 
-element.classList.add('foo')
-element.classList.remove('foo')
+element.classList.add('foo');
+element.classList.remove('foo');
 ```
 
 ## How to use this hint?
@@ -77,3 +77,4 @@ your project.
 <!-- Link labels: -->
 
 [classList]: https://developer.mozilla.org/en-US/docs/Web/API/Element/classList
+[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
