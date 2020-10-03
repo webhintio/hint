@@ -1219,10 +1219,10 @@ acorn@^7.1.1, acorn@^7.3.1, acorn@^7.4.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.0.tgz#e1ad486e6c54501634c6c397c5c121daa383607c"
   integrity sha512-+G7P8jJmCHr+S+cLfQxygbWhXy+8YTVGzAkpEbcLo2mLoL7tij/VG41QSHACSf5QgYRhMZYHuNc6drJaO0Da+w==
 
-acorn@^8.0.1:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.0.1.tgz#d7e8eca9b71d5840db0e7e415b3b2b20e250f938"
-  integrity sha512-dmKn4pqZ29iQl2Pvze1zTrps2luvls2PBY//neO2WJ0s10B3AxJXshN+Ph7B4GrhfGhHXrl4dnUwyNNXQcnWGQ==
+acorn@^8.0.1, acorn@^8.0.3:
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.0.3.tgz#68e78e53da020414420282428f1a4afd2075c2dc"
+  integrity sha512-uRMbCU3bM1L697KISxvkd9TA2zASoGFDODzFFdQR4qNpPffj6ZMdp5J4ffXUXR9G0PVPsN0enEkCrvssCkoPsw==
 
 adbkit-logcat@^1.1.0:
   version "1.1.0"
