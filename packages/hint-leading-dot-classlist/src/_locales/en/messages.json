@@ -1,0 +1,14 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Inform users about classList.add/remove with leading '.' pitfall"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "classList.add/remove with leading '.'"
+    },
+    "leadingDotClassList": {
+        "description": "Report message when a leading '.' is found in classList.add or classList.remove argument",
+        "message": "classList.add or classList.remove with leading '.' in the argument may lead to undesireable results"
+    }
+}
