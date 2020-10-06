@@ -69,7 +69,16 @@ const tests: HintTest[] = [
             position: { match: `add('.foo')` },
             severity: Severity.warning
         }],
-        serverConfig: generatePageWithExternalScript('testFailing')
+        serverConfig: generatePageWithExternalScript('testFailing01')
+    },
+    {
+        name: 'External File: Should not use leading "." in classList.remove',
+        reports: [{
+            message: warningMessage,
+            position: { match: `remove('.foo')` },
+            severity: Severity.warning
+        }],
+        serverConfig: generatePageWithExternalScript('testFailing02')
     },
     {
         name: 'External File: Ignore snippet without classList',
