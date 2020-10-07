@@ -25,7 +25,7 @@ const testsWithCustomConfiguration: HintTest[] = [
         name: `HTML has tabindex > 0 and fails with error because of custom config with object`,
         reports: [{
             documentation: [{
-                link: 'https://dequeuniversity.com/rules/axe/3.5/tabindex?application=axeAPI',
+                link: 'https://dequeuniversity.com/rules/axe/4.0/tabindex?application=axeAPI',
                 text: 'Learn more about this axe rule at Deque University'
             }],
             message: 'Elements should not have tabindex greater than zero',
@@ -41,7 +41,7 @@ const testsWithCustomConfigurationArrayFormat: HintTest[] = [
         name: `HTML has tabindex > 0 and fails with warning because of custom config with array`,
         reports: [{
             documentation: [{
-                link: 'https://dequeuniversity.com/rules/axe/3.5/tabindex?application=axeAPI',
+                link: 'https://dequeuniversity.com/rules/axe/4.0/tabindex?application=axeAPI',
                 text: 'Learn more about this axe rule at Deque University'
             }],
             message: 'Elements should not have tabindex greater than zero',
