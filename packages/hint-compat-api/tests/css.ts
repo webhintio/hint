@@ -94,7 +94,7 @@ testHint(hintPath,
                         link: 'https://developer.mozilla.org/docs/Web/CSS/appearance',
                         text: 'Learn more about this CSS feature on MDN'
                     }],
-                    message: `'appearance' is not supported by Chrome, Edge, Firefox, Internet Explorer. Add '-webkit-appearance' to support Chrome, Edge 12+. Add '-moz-appearance' to support Firefox.`,
+                    message: `'appearance' is not supported by Chrome < 84, Edge < 84, Firefox < 80, Internet Explorer. Add '-webkit-appearance' to support Chrome, Edge 12+. Add '-moz-appearance' to support Firefox.`,
                     position: { match: 'appearance: button; /* Report 6 */', range: 'appearance' },
                     severity: Severity.error
                 }
@@ -234,9 +234,9 @@ testHint(hintPath,
                         link: 'https://developer.mozilla.org/docs/Web/CSS/grid-template-rows',
                         text: 'Learn more about this CSS feature on MDN'
                     }],
-                    message: `'grid-template-rows' is not supported by Internet Explorer.`,
+                    message: `'grid-template-rows' is not supported by Internet Explorer. Add '-ms-grid-rows' to support Internet Explorer 10+.`,
                     position: { match: 'grid-template-rows: subgrid;', range: 'grid-template-rows' },
-                    severity: Severity.warning
+                    severity: Severity.error
                 },
                 {
                     documentation: [{
