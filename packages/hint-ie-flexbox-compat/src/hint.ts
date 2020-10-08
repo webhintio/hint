@@ -37,7 +37,7 @@ export default class IEFlexboxCompatHint implements IHint {
 
     public constructor(context: HintContext<StyleEvents>) {
         if (!context.targetedBrowsers.some((browser) => {
-            return browser.startsWith('ie ');
+            return browser.toLowerCase().startsWith('ie ');
         })) {
             return;
         }

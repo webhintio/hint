@@ -1,0 +1,21 @@
+.test {
+    display: block;
+}
+
+.test.foo {
+    display: none;
+}
+
+.fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+}
+
+.fieldset.bar {
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
