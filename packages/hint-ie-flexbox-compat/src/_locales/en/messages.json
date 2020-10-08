@@ -1,0 +1,14 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Informs users that Internet Explorer suffers from Flexbox compatibility bugs."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "IE Flexbox Compatibility"
+    },
+    "usingFlexWithIE": {
+        "description": "String warning users that flex is used and IE is a target browser",
+        "message": "TBD"
+    }
+}
