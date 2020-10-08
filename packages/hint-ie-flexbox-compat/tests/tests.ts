@@ -33,11 +33,13 @@ const serverConfigs = {
     simple: generateConfig('simple')
 };
 
+const message = `The Internet Explorer brower versions 11 and older suffer from a number of CSS Flexbox compatibility bugs. The layout on this page may be different between Internet Explorer and other, more recent, browsers. The size or alignment of elements may be incorrect and content may overflow.\nSupport for older versions of Internet Explorer ended and Microsoft no longer provides security updates or technical support for these versions.`;
+
 const testsWithIE: HintTest[] = [
     {
         name: 'Simple `display:flex;`',
         reports: [{
-            message: `TBD`,
+            message,
             severity: Severity.warning
         }],
         serverConfig: serverConfigs.simple
@@ -45,7 +47,7 @@ const testsWithIE: HintTest[] = [
     {
         name: 'Simple `display:inline-flex;`',
         reports: [{
-            message: `TBD`,
+            message,
             severity: Severity.warning
         }],
         serverConfig: serverConfigs.inline
@@ -53,7 +55,7 @@ const testsWithIE: HintTest[] = [
     {
         name: 'Multiple different display properties',
         reports: [{
-            message: `TBD`,
+            message,
             severity: Severity.warning
         }],
         serverConfig: serverConfigs.multipleDisplays
@@ -61,7 +63,7 @@ const testsWithIE: HintTest[] = [
     {
         name: 'Multiple display properties spread across multiple stylesheets',
         reports: [{
-            message: `TBD`,
+            message,
             severity: Severity.warning
         }],
         serverConfig: serverConfigs.multipleStyleSheets
@@ -69,7 +71,7 @@ const testsWithIE: HintTest[] = [
     {
         name: 'Multiple display flexbox properties in one rule',
         reports: [{
-            message: `TBD`,
+            message,
             severity: Severity.warning
         }],
         serverConfig: serverConfigs.multipleDisplaysInRule
@@ -81,7 +83,7 @@ const testsWithIE: HintTest[] = [
     {
         name: 'Display properties nested in a keyframe rule',
         reports: [{
-            message: `TBD`,
+            message,
             severity: Severity.warning
         }],
         serverConfig: serverConfigs.keyframeRule
