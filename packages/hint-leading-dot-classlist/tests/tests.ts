@@ -60,7 +60,7 @@ const tests: HintTest[] = [
     },
     {
         name: 'External File: Can add element to classList',
-        serverConfig: generatePageWithExternalScript('testPassing')
+        serverConfig: generatePageWithExternalScript('test-passing')
     },
     {
         name: 'External File: Should not use leading "." in classList.add',
@@ -69,7 +69,7 @@ const tests: HintTest[] = [
             position: { match: `add('.foo')` },
             severity: Severity.warning
         }],
-        serverConfig: generatePageWithExternalScript('testFailing01')
+        serverConfig: generatePageWithExternalScript('test-failing-add')
     },
     {
         name: 'External File: Should not use leading "." in classList.remove',
@@ -78,11 +78,11 @@ const tests: HintTest[] = [
             position: { match: `remove('.foo')` },
             severity: Severity.warning
         }],
-        serverConfig: generatePageWithExternalScript('testFailing02')
+        serverConfig: generatePageWithExternalScript('test-failing-remove')
     },
     {
         name: 'External File: Ignore snippet without classList',
-        serverConfig: generatePageWithExternalScript('testIrrelevant')
+        serverConfig: generatePageWithExternalScript('test-irrelevant')
     }
 ];
 

@@ -36,9 +36,7 @@ export default class LeadingDotClasslist implements IHint {
                         return;
                     }
 
-                    if (!(node.callee.property.name === 'add' ||
-                    node.callee.property.name === 'remove')
-                    ) {
+                    if ((node.callee.property.name !== 'add' && node.callee.property.name !== 'remove') || (node.callee as any).object?.property?.name !== 'classList') {
                         return;
                     }
 
