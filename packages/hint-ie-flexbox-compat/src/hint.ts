@@ -1,12 +1,10 @@
-import { Category } from '@hint/utils-types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
-import { HintScope } from 'hint/dist/src/lib/enums/hint-scope';
-import { HintMetadata } from 'hint/dist/src/lib/types';
 import { IHint } from 'hint/dist/src/lib/types';
 import { getFullCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 import { Severity } from '@hint/utils-types';
 
+import meta from './meta';
 import { getMessage } from './i18n.import';
 
 /*
@@ -16,24 +14,7 @@ import { getMessage } from './i18n.import';
  */
 
 export default class IEFlexboxCompatHint implements IHint {
-    public static readonly meta: HintMetadata = {
-        docs: {
-            category: Category.compatibility,
-            description: getMessage('description', 'en'),
-            name: getMessage('name', 'en')
-        },
-        /* istanbul ignore next */
-        getDescription(language: string) {
-            return getMessage('description', language);
-        },
-        /* istanbul ignore next */
-        getName(language: string) {
-            return getMessage('name', language);
-        },
-        id: 'ie-flexbox-compat',
-        schema: [],
-        scope: HintScope.any
-    }
+    public static readonly meta = meta;
 
     public constructor(context: HintContext<StyleEvents>) {
         if (!context.targetedBrowsers.some((browser) => {
