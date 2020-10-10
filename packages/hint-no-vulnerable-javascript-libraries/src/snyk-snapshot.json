@@ -5355,6 +5355,55 @@
     ],
     "dompurify": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-10-08T07:47:24.594794Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 5.6,
+        "disclosureTime": "2020-10-08T07:43:43Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "2.0.17"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-DOMPURIFY-1016634",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-26870"
+          ],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-10-08T16:37:48.618155Z",
+        "moduleName": "dompurify",
+        "packageManager": "npm",
+        "packageName": "dompurify",
+        "patches": [],
+        "publicationTime": "2020-10-08T16:37:46.406779Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/cure53/DOMPurify/commit/02724b8eb048dd219d6725b05c3000936f11d62d"
+          },
+          {
+            "title": "Research Post",
+            "url": "https://research.securitum.com/mutation-xss-via-mathml-mutation-dompurify-2-0-17-bypass/"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<2.0.17"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
         "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [],
         "creationTime": "2019-10-22T14:48:47.264178Z",
@@ -8431,7 +8480,7 @@
         "packageManager": "npm",
         "packageName": "i18next",
         "patches": [],
-        "publicationTime": "2020-07-19T16:14:30.529190Z",
+        "publicationTime": "2020-07-19T16:14:30Z",
         "references": [
           {
             "title": "GitHub PR",
@@ -20695,6 +20744,51 @@
       }
     ],
     "simpl-schema": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "alternativeIds": [],
+        "creationTime": "2020-10-07T07:15:30.675777Z",
+        "credit": [
+          "Alessio Della Libera (d3lla)"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2020-10-01T14:33:24Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "1.10.2"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-SIMPLSCHEMA-1016157",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-7742"
+          ],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-10-07T15:27:52.387439Z",
+        "moduleName": "simpl-schema",
+        "packageManager": "npm",
+        "packageName": "simpl-schema",
+        "patches": [],
+        "publicationTime": "2020-10-07T15:27:52.593388Z",
+        "references": [
+          {
+            "title": "Vulnerable Code",
+            "url": "https://github.com/aldeed/simpl-schema/blob/main/package/lib/utility/merge.js"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<1.10.2"
+          ]
+        },
+        "severity": "high",
+        "title": "Prototype Pollution"
+      },
       {
         "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
