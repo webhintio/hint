@@ -6,26 +6,24 @@ may lead to unintended results.
 
 ## Why is this important?
 
-The [`Element.classList`][classlist] is a read-only property that returns
-a live DOMTokenList collection of the class attributes of the element.
-This can then be used to manipulate the class list.
+When writing selectors either in CSS or using DOM methods like
+`querySelector`, class names are referred to using a leading '.',
+e.g. `document.querySelector('.foo')`. However when modifying the
+`classList` of an element the raw class name is expected to be used
+instead, e.g. `element.classList.add('foo')`.
 
-Using classList is a convenient alternative to accessing an element's list
-of classes as a space-delimited string via element.className.
-
-For example, calling `elementNodeReference.classList` actually returns
-a DOMTokenList representing the contents of the element's class attribute.
-If the class attribute is not set or empty, it returns an empty
-DOMTokenList, i.e. a DOMTokenList with the length property equal to 0.
-
-The DOMTokenList itself is read-only, although you can modify it using the
-`add()` and `remove()` methods.
+Unfortunately if a leading '.' is provided to the `classList` APIs
+it will succeed without an error, treating the '.' as part of the
+name itself. This typically causes selectors elsewhere in the code
+to fail to match this element. Figuring out why can be tedious and
+time-consuming until the typo has been found.
 
 ## What does the hint check?
 
 This hint scans JavaScript source code to check if the argument in
-`element.classList.add` or `element.classList.remove` is contains a
-leading '.'.
+`element.classList.add` or `element.classList.remove` contains a
+leading '.'. If so it emits a warning to help save time debugging
+this subtle issue.
 
 ### Examples that **trigger** the hint
 
