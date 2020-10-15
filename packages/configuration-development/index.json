@@ -17,6 +17,7 @@
         "css-prefix-order",
         "disown-opener",
         "highest-available-document-mode",
+        "leading-dot-classlist",
         "manifest-exists",
         "meta-charset-utf-8",
         "meta-viewport",

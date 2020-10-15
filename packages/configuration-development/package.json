@@ -13,6 +13,7 @@
     "@hint/hint-css-prefix-order": "^1.4.6",
     "@hint/hint-disown-opener": "^4.0.2",
     "@hint/hint-highest-available-document-mode": "^5.0.2",
+    "@hint/hint-leading-dot-classlist": "^1.0.0",
     "@hint/hint-meta-charset-utf-8": "^4.0.2",
     "@hint/hint-meta-viewport": "^5.0.2",
     "@hint/hint-no-bom": "^4.2.6",
