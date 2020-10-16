@@ -18,7 +18,7 @@
     "@hint/hint-html-checker": "^3.3.6",
     "@hint/hint-http-cache": "^4.0.2",
     "@hint/hint-http-compression": "^5.2.6",
-    "@hint/hint-leading-dot-classlist": "^1.0.0",
+    "@hint/hint-leading-dot-classlist": "^0.0.1",
     "@hint/hint-image-optimization-cloudinary": "^3.2.6",
     "@hint/hint-meta-charset-utf-8": "^4.0.2",
     "@hint/hint-meta-viewport": "^5.0.2",
