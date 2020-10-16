@@ -25,7 +25,11 @@ export default class IEFlexboxCompatHint implements IHint {
 
         let reported = false;
 
-        context.on('parse::end::css', ({ ast, element, resource }: StyleParse) => {
+        context.on('scan::end', () => {
+            reported = false;
+        });
+
+        context.on('parse::end::css', ({ ast, element, resource }) => {
             if (reported) {
                 return;
             }
