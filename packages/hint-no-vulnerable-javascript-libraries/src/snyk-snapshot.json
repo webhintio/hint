@@ -13410,6 +13410,55 @@
     ],
     "mathjs": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "alternativeIds": [],
+        "creationTime": "2020-10-07T15:39:34.767700Z",
+        "credit": [
+          "Alessio Della Libera (d3lla)"
+        ],
+        "cvssScore": 7.3,
+        "disclosureTime": "2020-10-07T15:29:10Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "7.5.1"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-MATHJS-1016401",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-7743"
+          ],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-10-13T14:27:36.684312Z",
+        "moduleName": "mathjs",
+        "packageManager": "npm",
+        "packageName": "mathjs",
+        "patches": [],
+        "publicationTime": "2020-10-13T14:27:36.231667Z",
+        "references": [
+          {
+            "title": "GitHub Additional Information",
+            "url": "https://github.com/josdejong/mathjs/blob/develop/src/utils/object.js%23L82"
+          },
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/josdejong/mathjs/commit/ecb80514e80bce4e6ec7e71db8ff79954f07c57e"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<7.5.1"
+          ]
+        },
+        "severity": "high",
+        "title": "Prototype Pollution"
+      },
+      {
         "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MATHJS-10882"
@@ -20769,12 +20818,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-10-07T15:27:52.387439Z",
+        "modificationTime": "2020-10-12T21:57:41.648577Z",
         "moduleName": "simpl-schema",
         "packageManager": "npm",
         "packageName": "simpl-schema",
         "patches": [],
-        "publicationTime": "2020-10-07T15:27:52.593388Z",
+        "publicationTime": "2020-10-07T15:27:52Z",
         "references": [
           {
             "title": "Vulnerable Code",
@@ -22925,7 +22974,7 @@
     ],
     "ua-parser-js": [
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-09-09T15:30:19.590314Z",
         "credit": [
@@ -22933,7 +22982,7 @@
         ],
         "cvssScore": 7.5,
         "disclosureTime": "2020-09-09T15:28:29Z",
-        "exploit": "Not Defined",
+        "exploit": "Proof of Concept",
         "fixedIn": [
           "0.7.22"
         ],
@@ -22949,12 +22998,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-09-16T14:54:56.176103Z",
+        "modificationTime": "2020-10-16T12:34:52.646928Z",
         "moduleName": "ua-parser-js",
         "packageManager": "npm",
         "packageName": "ua-parser-js",
         "patches": [],
-        "publicationTime": "2020-09-16T14:54:55.938440Z",
+        "publicationTime": "2020-09-16T14:54:55Z",
         "references": [
           {
             "title": "GitHub Commit",
