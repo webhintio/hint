@@ -1,7 +1,5 @@
 import * as path from 'path';
 
-import * as moment from 'moment';
-
 import cloneDeep = require('lodash/cloneDeep');
 
 import { Category, Problem, Severity } from '@hint/utils-types';
@@ -250,15 +248,18 @@ export default class AnalysisResult {
      * @param scanTime Time in milliseconds.
      */
     private parseScanTime(scanTime: number): string {
-        const duration = moment.duration(scanTime);
-        const minutes = this.pad(`${duration.get('minutes')}`);
-        const seconds = this.pad(`${duration.get('seconds')}`);
-        let time = `${minutes}:${seconds}`;
+        const seconds = Math.floor((scanTime / 1000) % 60);
+        const minutes = Math.floor((scanTime / 1000 / 60) % 60);
+        const hours = Math.floor((scanTime / 1000 / 3600));
 
-        if (duration.get('hours') > 0) {
-            const hours = this.pad(`${duration.get('hours')}`);
+        const minutesDisplay = this.pad(`${minutes}`);
+        const secondsDisplay = this.pad(`${seconds}`);
+        let time = `${minutesDisplay}:${secondsDisplay}`;
 
-            time = `${hours}:${time}`;
+        if (hours > 0) {
+            const hoursDisplay = this.pad(`${hours}`);
+
+            time = `${hoursDisplay}:${time}`;
         }
 
         return time;
