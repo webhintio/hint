@@ -42,6 +42,33 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
             };
         };
 
+        const mockCSSFetchEnd = (): FetchEnd => {
+            return {
+                element: null,
+                request: {
+                    headers: {},
+                    url: location.href
+                },
+                resource: location.href,
+                response: {
+                    body: {
+                        content: test.css ? test.css : '',
+                        rawContent: null as any,
+                        rawResponse: null as any
+                    },
+                    charset: '',
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Content-Type': 'text/css'
+                    },
+                    hops: [],
+                    mediaType: '',
+                    statusCode: 200,
+                    url: location.href
+                }
+            };
+        };
+
         return new Promise<RunResult>((resolve, reject) => {
             const worker = new Worker('./webhint.js');
             let results: Problem[] = [];
@@ -50,7 +77,6 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
             let resultsTimeout: NodeJS.Timeout = 0 as any;
 
             let timeoutId: NodeJS.Timeout | null = test.timeout ? setTimeout(() => {
-                console.log(Date.now() - startTime);
                 reject(new Error('timeout'));
             }, test.timeout) : null;
 
@@ -72,6 +98,9 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                     startTime = Date.now();
                     sendMessage({ fetchStart: { resource: location.href } });
                     sendMessage({ fetchEnd: mockFetchEnd() });
+                    if (test.css) {
+                        sendMessage({ fetchEnd: mockCSSFetchEnd() });
+                    }
                     sendMessage({ snapshot: __webhint.snapshotDocument(document) });
                 } else if (message.error) {
                     const error = new Error(message.error.message);
@@ -132,9 +161,16 @@ export const getResults = async (config: Partial<Config>, test: Test, log: typeo
             '/webhint.js': {
                 content: webhint,
                 headers: { 'Content-Type': 'text/javascript' }
-            }
+            },
+            ...(test.css ? {
+                '/index.css': {
+                    content: test.css,
+                    headers: { 'Content-Type': 'text/css' }
+                }
+            } : {})
         }
     });
+
     const url = `http://localhost:${server.port}/`;
     const browser = await launch();
     const page = (await browser.pages())[0];

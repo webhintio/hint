@@ -1,14 +1,31 @@
 import { Test } from './helpers/types';
 import { getResults } from './helpers/runner';
 
-const generateHTML = () => {
+const generateCSS = () => {
+    return `
+.button {
+    .example1 {
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+    }
+}
+`;
+};
+
+const generateHTML = (hasCSS: boolean = false) => {
     let result = `
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Basic Hints Test</title>
+        <title>Basic Hints Test</title>`;
+
+    if (hasCSS) {
+        result += '<link rel="stylesheet" href="index.css"/>';
+    }
+    result += `
     </head>
     <body>
         <h1>Basic Hints Test</h1>
@@ -16,7 +33,7 @@ const generateHTML = () => {
             <form>`;
 
     for (let i = 0; i < 500; i++) {
-        result += `<img src="icon.png"><button>Test</button>
+        result += `<img src="icon.png"><button class="button">Test</button>
                   `;
     }
 
@@ -29,7 +46,7 @@ const generateHTML = () => {
     return result;
 };
 
-const generateDeepHTML = () => {
+const generateDeepHTML = (hasCSS: boolean = false) => {
     const deep = 100;
     let result = `
 <!DOCTYPE html>
@@ -37,7 +54,12 @@ const generateDeepHTML = () => {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>Basic Hints Test</title>
+        <title>Basic Hints Test</title>`;
+
+    if (hasCSS) {
+        result += '<link rel="stylesheet" href="index.css"/>';
+    }
+    result += `
     </head>
     <body>
         <h1>Basic Hints Test</h1>
@@ -122,13 +144,37 @@ const tests: Test[] = [{
     html: generateHTML(),
     name: 'x-content-type-options perf test',
     timeout: 5000
+}, {
+    css: generateCSS(),
+    expectedHints: ['css-prefix-order'],
+    expectedTime: 500,
+    hints: {
+        'axe/aria': 'off',
+        'axe/color': 'off',
+        'axe/forms': 'off',
+        'axe/keyboard': 'off',
+        'axe/language': 'off',
+        'axe/name-role-value': 'off',
+        'axe/other': 'off',
+        'axe/parsing': 'off',
+        'axe/semantics': 'off',
+        'axe/sensory-and-visual-cues': 'off',
+        'axe/structure': 'off',
+        'axe/tables': 'off',
+        'axe/text-alternatives': 'off',
+        'axe/time-and-media': 'off'
+    },
+    html: generateDeepHTML(true),
+    name: 'CSS prefix order perf test',
+    timeout: 5000
 }];
 
 const runTest = (test: Test) => {
     return getResults({
         userConfig: {
             hints: test.hints || [],
-            language: 'en-us'
+            language: 'en-us',
+            parsers: ['css']
         }
     }, test, console.log);
 };
