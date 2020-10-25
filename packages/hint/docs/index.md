@@ -3,21 +3,19 @@ date: 08/27/2020
 ---
 # Documentation overview
 
-You \(the user\) should be familiar with the command-line tools on your machine, Node.js, and the Node Package Manager \(npm\) in order to install and run `webhint`.
+You should be familiar with the command-line tools on your machine,
+[Node.js][NodejsAbout], and the Node Package Manager \([npm][NpmjsAbout]\) in
+order to install and run `webhint`.
 
-The examples provided on webhint.io are written with the bash command-line shell.  For more information about bash, go to [Bash Guide for Beginners] [TldpLdpBashBeginnersGuide].
-The npm tool is installed with Node.js.  For more information about Node.js, go to [Node.js][NodejsAbout].  For more information about npm, go to [npm][NpmjsAbout].
+The examples provided on webhint.io are written with the `bash` command-line
+shell. For more information about `bash`, go to
+[Bash Guide for Beginners][TldpLdpBashBeginnersGuide].
 
-To verify that you have Node.js installed, open a bash command-line interface and run the command in the following code snippet.
-
-```bash
-node -v
-```
-
-To verify that you have npm installed, open a bash command-line interface and run the command in the following code snippet.
+To verify that you have Node.js and `npm` installed, open a `bash`
+command-line interface and run the command in the following code snippet.
 
 ```bash
-npm -v
+node -v && npm -v
 ```
 
 <!-- links -->

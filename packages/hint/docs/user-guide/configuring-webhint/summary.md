@@ -2,27 +2,30 @@
 
 `webhint` enables you to specify the following options for a report.
 
-*   The `severity` of each hint.
-*   The output type of the report.
-*   The custom hints to include in a report.
+* The `severity` of each hint.
+* The output type of the report.
+* The custom hints to include in a report.
 
 There are 3 ways that to configure a  `webhint` report for your project.
 
-*   Use a `.hintrc` file in your project.
-*   Add a `hintConfig` property in your `package.json` file.
-*   Use an environmental variable to set a property in your `.hintrc` file that
+* Use a `.hintrc` file in your project.
+* Add a `hintConfig` property in your `package.json` file.
+* Use an environmental variable to set a property in your `.hintrc` file that
     is used by all of your projects.
 
 The 3 configuration methods require you to add the same code to different
-locations.  The code that you add to the locations include key:value pairs of
+locations. The code that you add to the locations include key:value pairs of
 hint configuration properties, which are defined in the following table.
 
 | Hint configuration key | Details |
 |:--- |:--- |
 | `connector` | How to access the resources. |
-| `formatters` | How to output the results.  Multiple instances may exist. |
-| `parsers` | How to handle special files such as stylesheets, JavaScript, manifest, and so on.  Multiple instances may exist. |
-| `hints` | What to test for and the [severity][UserGuideConceptsHintsHintConfiguration] it should have.  Multiple instances may exist. |
+| `formatters` | How to output the results. Multiple instances may exist. |
+| `parsers` | How to handle special files such as stylesheets, JavaScript,
+manifest, and so on.  Multiple instances may exist. |
+| `hints` | What to test for and the
+[severity][UserGuideConceptsHintsHintConfiguration] it should have. Multiple
+instances may exist. |
 
 For additional information about `severity` and hint configurations, go to
 [Hint configuration[UserGuideConceptsHintsHintConfiguration].

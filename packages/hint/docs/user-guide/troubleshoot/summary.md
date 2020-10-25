@@ -59,12 +59,12 @@ for you to install any required dependencies.
 Alternatively, you may manually install the
 [windows-build-tools][NpmjsPackageWindowsBuildTools].
 
-1.  In an **Elevated PowerShell** prompt, run the command in the following code
-    snippet.
+1. In an **Elevated PowerShell** prompt, run the command in the following code
+   snippet.
 
-    ```powershell
-    npm install --global windows-build-tools
-    ```
+   ```powershell
+   npm install --global windows-build-tools
+   ```
 
 ## Issues with canvas
 
@@ -77,11 +77,10 @@ are not downloaded.
 
 The following circumstances are more likely to cause errors.
 
-*   A new release of Node.js is available, but pre-compiled binaries for
-    `canvas` are not yet available.
-*   You are running the x86 version of Node.js on Windows.  To fix the
-    error, you should switch to x64 since
-    [x86 binaries may not be published any time soon][GithubNodeGfxCanvasPrebuilt27Commnet348037675].
+* A new release of Node.js is available, but pre-compiled binaries for
+  `canvas` are not yet available.
+* You are running the x86 version of Node.js on Windows. To fix the error, you
+  should switch to x64 since [x86 binaries may not be published any time soon][GithubNodeGfxCanvasPrebuilt27Commnet348037675].
 
 If you want to compile canvas, go to
 [Compiling][GithubAutomatticNodeCanvasCompiling].
@@ -91,12 +90,12 @@ If you want to compile canvas, go to
 If you receive an `EACCES` permission error while you install `webhint`, your
 project may not have `webhint` installed as a `devDependency`.
 
-1.  To install `webhint` as a `devDependency` for your project, run the command
-    in the following code snippet.
+1. To install `webhint` as a `devDependency` for your project, run the following
+   command:
 
-    ```bash
-    npm install hint --save-dev
-    ```
+   ```bash
+   npm install hint --save-dev
+   ```
 
 If you are not able to install `webhint` as a `devDependency`,
 [change the default directory for npm][NpmjsDocsResolvingEaccesPermissionsErrorsInstallingPackagesGloballyChangeDefaultDirectory]
