@@ -886,10 +886,10 @@
     "@types/configstore" "*"
     boxen "^4.2.0"
 
-"@types/vscode@^1.48.0":
-  version "1.48.0"
-  resolved "https://registry.yarnpkg.com/@types/vscode/-/vscode-1.48.0.tgz#c1841ccf80086d53b35a9d7f2eb3b4d949bd2d2f"
-  integrity sha512-sZJKzsJz1gSoFXcOJWw3fnKl2sseUgZmvB4AJZS+Fea+bC/jfGPVhmFL/FfQHld/TKtukVONsmoD3Pkyx9iadg==
+"@types/vscode@^1.50.0":
+  version "1.50.0"
+  resolved "https://registry.yarnpkg.com/@types/vscode/-/vscode-1.50.0.tgz#9f409d9dce22ebc11e2fcdd28fabd1917a961bb7"
+  integrity sha512-QnIeyi4L2DiD9M2bAQKRzT/EQvc80qP9UL6JD5TiLlNRL1khIDg4ej4mDSRbtFrDAsRntFI1RhMvdomUThMsqg==
 
 "@types/webpack-sources@*":
   version "0.1.5"
