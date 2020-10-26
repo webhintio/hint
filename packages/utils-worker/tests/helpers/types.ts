@@ -1,8 +1,13 @@
 import { HintsConfigObject } from '@hint/utils';
 import { Problem } from '@hint/utils-types';
 
+export type CSS = {
+    content: string;
+    path: string;
+};
+
 export type Test = {
-    css?: string;
+    css?: CSS[];
     expectedHints?: string[];
     expectedTime?: number;
     hints?: HintsConfigObject;

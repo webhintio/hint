@@ -42,7 +42,7 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
             };
         };
 
-        const mockCSSFetchEnd = (): FetchEnd => {
+        const mockCSSFetchEnd = (content: string): FetchEnd => {
             return {
                 element: null,
                 request: {
@@ -52,7 +52,7 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                 resource: location.href,
                 response: {
                     body: {
-                        content: test.css ? test.css : '',
+                        content,
                         rawContent: null as any,
                         rawResponse: null as any
                     },
@@ -98,8 +98,10 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                     startTime = Date.now();
                     sendMessage({ fetchStart: { resource: location.href } });
                     sendMessage({ fetchEnd: mockFetchEnd() });
-                    if (test.css) {
-                        sendMessage({ fetchEnd: mockCSSFetchEnd() });
+                    if (test.css && test.css.length > 0) {
+                        for (const css of test.css) {
+                            sendMessage({ fetchEnd: mockCSSFetchEnd(css.content) });
+                        }
                     }
                     sendMessage({ snapshot: __webhint.snapshotDocument(document) });
                 } else if (message.error) {
@@ -155,6 +157,14 @@ export const getResults = async (config: Partial<Config>, test: Test, log: typeo
     const webhint = await readFile('../../webhint.js');
     const content = test.html;
 
+    const cssEndpoints: { [path: string]: string } = {};
+
+    if (test.css && test.css.length > 0) {
+        for (const { content, path } of test.css) {
+            cssEndpoints[path] = content;
+        }
+    }
+
     const server = await Server.create({
         configuration: {
             '/': content,
@@ -162,12 +172,7 @@ export const getResults = async (config: Partial<Config>, test: Test, log: typeo
                 content: webhint,
                 headers: { 'Content-Type': 'text/javascript' }
             },
-            ...(test.css ? {
-                '/index.css': {
-                    content: test.css,
-                    headers: { 'Content-Type': 'text/css' }
-                }
-            } : {})
+            ...cssEndpoints
         }
     });
 

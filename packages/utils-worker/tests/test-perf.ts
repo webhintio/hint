@@ -1,8 +1,19 @@
-import { Test } from './helpers/types';
+import { CSS, Test } from './helpers/types';
 import { getResults } from './helpers/runner';
+import { join } from 'path';
+import * as fs from 'fs';
 
-const generateCSS = () => {
-    return `
+const generateCSS = (path: string) => {
+    let result = '';
+
+    for (let i = 0; i < 10000; i++) {
+        result += `.a${i} {
+            color: #abcdef;
+        }
+`;
+    }
+
+    result += `
 .button {
     .example1 {
         appearance: none;
@@ -11,9 +22,16 @@ const generateCSS = () => {
     }
 }
 `;
+
+    fs.writeFileSync(join(__dirname, 'index.css'), result, 'utf-8'); // eslint-disable-line no-sync
+
+    return {
+        content: result,
+        path
+    };
 };
 
-const generateHTML = (hasCSS: boolean = false) => {
+const generateHTML = (css: CSS[] = []) => {
     let result = `
 <!DOCTYPE html>
 <html>
@@ -22,9 +40,12 @@ const generateHTML = (hasCSS: boolean = false) => {
         <meta name="viewport" content="width=device-width">
         <title>Basic Hints Test</title>`;
 
-    if (hasCSS) {
-        result += '<link rel="stylesheet" href="index.css"/>';
+    if (css.length) {
+        for (const { path } of css) {
+            result += `<link rel="stylesheet" href="${path}"/>`;
+        }
     }
+
     result += `
     </head>
     <body>
@@ -46,7 +67,7 @@ const generateHTML = (hasCSS: boolean = false) => {
     return result;
 };
 
-const generateDeepHTML = (hasCSS: boolean = false) => {
+const generateDeepHTML = (css: CSS[] = []) => {
     const deep = 100;
     let result = `
 <!DOCTYPE html>
@@ -56,9 +77,12 @@ const generateDeepHTML = (hasCSS: boolean = false) => {
         <meta name="viewport" content="width=device-width">
         <title>Basic Hints Test</title>`;
 
-    if (hasCSS) {
-        result += '<link rel="stylesheet" href="index.css"/>';
+    if (css.length) {
+        for (const { path } of css) {
+            result += `<link rel="stylesheet" href="${path}"/>`;
+        }
     }
+
     result += `
     </head>
     <body>
@@ -87,6 +111,7 @@ const generateDeepHTML = (hasCSS: boolean = false) => {
     return result;
 };
 
+const prefixOrderCSS = [generateCSS('./index.css')];
 
 const tests: Test[] = [{
     expectedHints: ['axe/text-alternatives'],
@@ -145,7 +170,7 @@ const tests: Test[] = [{
     name: 'x-content-type-options perf test',
     timeout: 5000
 }, {
-    css: generateCSS(),
+    css: prefixOrderCSS,
     expectedHints: ['css-prefix-order'],
     expectedTime: 500,
     hints: {
@@ -164,7 +189,7 @@ const tests: Test[] = [{
         'axe/text-alternatives': 'off',
         'axe/time-and-media': 'off'
     },
-    html: generateDeepHTML(true),
+    html: generateDeepHTML(prefixOrderCSS),
     name: 'CSS prefix order perf test',
     timeout: 5000
 }];
