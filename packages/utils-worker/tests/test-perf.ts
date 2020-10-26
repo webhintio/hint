@@ -115,16 +115,16 @@ const prefixOrderCSS = [generateCSS('./index.css')];
 
 const tests: Test[] = [{
     expectedHints: ['axe/text-alternatives'],
-    expectedTime: 24000,
+    expectedTime: 26000,
     html: generateHTML(),
     name: 'Axe perf test',
     timeout: 40000
 }, {
     expectedHints: ['axe/text-alternatives'],
-    expectedTime: 30000,
+    expectedTime: 40000,
     html: generateDeepHTML(),
     name: 'Axe deep perf test',
-    timeout: 40000
+    timeout: 60000
 }, {
     expectedHints: ['button-type'],
     expectedTime: 3000,
