@@ -172,7 +172,7 @@ const tests: Test[] = [{
 }, {
     css: prefixOrderCSS,
     expectedHints: ['css-prefix-order'],
-    expectedTime: 500,
+    expectedTime: 1000,
     hints: {
         'axe/aria': 'off',
         'axe/color': 'off',
