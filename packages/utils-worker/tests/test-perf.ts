@@ -273,8 +273,7 @@ const runTest = (test: Test) => {
     return getResults({
         userConfig: {
             hints: test.hints || [],
-            language: 'en-us',
-            parsers: ['css']
+            language: 'en-us'
         }
     }, test, console.log);
 };
