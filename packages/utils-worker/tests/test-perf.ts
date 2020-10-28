@@ -1,7 +1,6 @@
-import { CSS, Test } from './helpers/types';
+import { Test } from './helpers/types';
 import { getResults } from './helpers/runner';
-import { join } from 'path';
-import * as fs from 'fs';
+import {Resource, ResourceType } from '../src/shared/types';
 
 const generateCSS = (path: string) => {
     let result = '';
@@ -23,15 +22,33 @@ const generateCSS = (path: string) => {
 }
 `;
 
-    fs.writeFileSync(join(__dirname, 'index.css'), result, 'utf-8'); // eslint-disable-line no-sync
-
     return {
         content: result,
-        path
+        path,
+        type: ResourceType.CSS
     };
 };
 
-const generateHTML = (css: CSS[] = []) => {
+const generateJS = (path: string) => {
+    let result = '';
+
+    for (let i = 0; i < 10000; i++) {
+        result += `const a${i} = (x) => {
+            console.log(x);
+        }
+`;
+    }
+
+    result += `document.getElementById('container').appendChild(document.createElement('svg'));`;
+
+    return {
+        content: result,
+        path,
+        type: ResourceType.JS
+    };
+};
+
+const generateHTML = (resources: Resource[] = []) => {
     let result = `
 <!DOCTYPE html>
 <html>
@@ -39,6 +56,10 @@ const generateHTML = (css: CSS[] = []) => {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>Basic Hints Test</title>`;
+
+    const css = resources.filter((res) => {
+        return res.type === ResourceType.CSS;
+    });
 
     if (css.length) {
         for (const { path } of css) {
@@ -61,13 +82,26 @@ const generateHTML = (css: CSS[] = []) => {
     result += `</form>
         </dialog>
     </body>
+`;
+
+    const js = resources.filter((res) => {
+        return res.type === ResourceType.JS;
+    });
+
+    if (js.length) {
+        for (const { path } of js) {
+            result += `<script src="${path}"></script>`;
+        }
+    }
+
+    result += `
 </html>
 `;
 
     return result;
 };
 
-const generateDeepHTML = (css: CSS[] = []) => {
+const generateDeepHTML = (resources: Resource[] = []) => {
     const deep = 100;
     let result = `
 <!DOCTYPE html>
@@ -76,6 +110,10 @@ const generateDeepHTML = (css: CSS[] = []) => {
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>Basic Hints Test</title>`;
+
+    const css = resources.filter((res) => {
+        return res.type === ResourceType.CSS;
+    });
 
     if (css.length) {
         for (const { path } of css) {
@@ -105,6 +143,19 @@ const generateDeepHTML = (css: CSS[] = []) => {
     result += `</form>
         </dialog>
     </body>
+`;
+
+    const js = resources.filter((res) => {
+        return res.type === ResourceType.JS;
+    });
+
+    if (js.length) {
+        for (const { path } of js) {
+            result += `<script src="${path}"></script>`;
+        }
+    }
+
+    result += `
 </html>
 `;
 
@@ -112,6 +163,7 @@ const generateDeepHTML = (css: CSS[] = []) => {
 };
 
 const prefixOrderCSS = [generateCSS('./index.css')];
+const leadingDotClasslistJS = [generateJS('./index.js')];
 
 const tests: Test[] = [{
     expectedHints: ['axe/text-alternatives'],
@@ -170,7 +222,6 @@ const tests: Test[] = [{
     name: 'x-content-type-options perf test',
     timeout: 5000
 }, {
-    css: prefixOrderCSS,
     expectedHints: ['css-prefix-order'],
     expectedTime: 1000,
     hints: {
@@ -191,7 +242,31 @@ const tests: Test[] = [{
     },
     html: generateDeepHTML(prefixOrderCSS),
     name: 'CSS prefix order perf test',
+    resources: prefixOrderCSS,
     timeout: 5000
+}, {
+    expectedHints: ['create-element-svg'],
+    expectedTime: 3000,
+    hints: {
+        'axe/aria': 'off',
+        'axe/color': 'off',
+        'axe/forms': 'off',
+        'axe/keyboard': 'off',
+        'axe/language': 'off',
+        'axe/name-role-value': 'off',
+        'axe/other': 'off',
+        'axe/parsing': 'off',
+        'axe/semantics': 'off',
+        'axe/sensory-and-visual-cues': 'off',
+        'axe/structure': 'off',
+        'axe/tables': 'off',
+        'axe/text-alternatives': 'off',
+        'axe/time-and-media': 'off'
+    },
+    html: generateDeepHTML(leadingDotClasslistJS),
+    name: 'Create SVG element perf test',
+    resources: leadingDotClasslistJS,
+    timeout: 6000
 }];
 
 const runTest = (test: Test) => {

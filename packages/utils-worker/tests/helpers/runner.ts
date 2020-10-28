@@ -5,7 +5,7 @@ import { Server } from '@hint/utils-create-server';
 import { createHelpers, DocumentData } from '@hint/utils-dom';
 import { Problem } from '@hint/utils-types';
 
-import { WorkerEvents, HostEvents, Config } from '../../src/shared/types';
+import { WorkerEvents, HostEvents, Config, Resource } from '../../src/shared/types';
 import { Test, RunResult } from './types';
 import { readFile } from './fixtures';
 
@@ -15,6 +15,17 @@ declare const __webhint: {
 
 const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
     return await page.evaluate((config: Partial<Config>, test: Test) => {
+        const getResourceContentType = (type: string) => {
+            switch (type) {
+                case 'css':
+                    return 'text/css';
+                case 'js':
+                    return 'text/javascript';
+                default:
+                    return 'text/plain';
+            }
+        };
+
         const mockFetchEnd = (): FetchEnd => {
             return {
                 element: null,
@@ -42,7 +53,7 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
             };
         };
 
-        const mockCSSFetchEnd = (content: string): FetchEnd => {
+        const mockResourceFetchEnd = (resource: Resource): FetchEnd => {
             return {
                 element: null,
                 request: {
@@ -52,14 +63,14 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                 resource: location.href,
                 response: {
                     body: {
-                        content,
+                        content: resource.content,
                         rawContent: null as any,
                         rawResponse: null as any
                     },
                     charset: '',
                     headers: {
                         'Cache-Control': 'no-cache',
-                        'Content-Type': 'text/css'
+                        'Content-Type': getResourceContentType(resource.type)
                     },
                     hops: [],
                     mediaType: '',
@@ -98,9 +109,9 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                     startTime = Date.now();
                     sendMessage({ fetchStart: { resource: location.href } });
                     sendMessage({ fetchEnd: mockFetchEnd() });
-                    if (test.css && test.css.length > 0) {
-                        for (const css of test.css) {
-                            sendMessage({ fetchEnd: mockCSSFetchEnd(css.content) });
+                    if (test.resources && test.resources.length > 0) {
+                        for (const resource of test.resources) {
+                            sendMessage({ fetchEnd: mockResourceFetchEnd(resource) });
                         }
                     }
                     sendMessage({ snapshot: __webhint.snapshotDocument(document) });
@@ -157,11 +168,11 @@ export const getResults = async (config: Partial<Config>, test: Test, log: typeo
     const webhint = await readFile('../../webhint.js');
     const content = test.html;
 
-    const cssEndpoints: { [path: string]: string } = {};
+    const resourceEndpoints: { [path: string]: string } = {};
 
-    if (test.css && test.css.length > 0) {
-        for (const { content, path } of test.css) {
-            cssEndpoints[path] = content;
+    if (test.resources && test.resources.length > 0) {
+        for (const { content, path } of test.resources) {
+            resourceEndpoints[path] = content;
         }
     }
 
@@ -172,7 +183,7 @@ export const getResults = async (config: Partial<Config>, test: Test, log: typeo
                 content: webhint,
                 headers: { 'Content-Type': 'text/javascript' }
             },
-            ...cssEndpoints
+            ...resourceEndpoints
         }
     });
 
