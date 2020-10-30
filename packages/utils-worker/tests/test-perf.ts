@@ -1,6 +1,7 @@
 import { Test } from './helpers/types';
 import { getResults } from './helpers/runner';
-import {Resource, ResourceType } from '../src/shared/types';
+import { Resource, ResourceType } from '../src/shared/types';
+import { HintsConfigObject } from '@hint/utils';
 
 const generateCSS = (path: string) => {
     let result = '';
@@ -165,104 +166,61 @@ const generateDeepHTML = (resources: Resource[] = []) => {
 const prefixOrderCSS = [generateCSS('./index.css')];
 const leadingDotClasslistJS = [generateJS('./index.js')];
 
+const disabledAxeHints: HintsConfigObject = {
+    'axe/aria': 'off',
+    'axe/color': 'off',
+    'axe/forms': 'off',
+    'axe/keyboard': 'off',
+    'axe/language': 'off',
+    'axe/name-role-value': 'off',
+    'axe/other': 'off',
+    'axe/parsing': 'off',
+    'axe/semantics': 'off',
+    'axe/sensory-and-visual-cues': 'off',
+    'axe/structure': 'off',
+    'axe/tables': 'off',
+    'axe/text-alternatives': 'off',
+    'axe/time-and-media': 'off'
+};
+
 const tests: Test[] = [{
     expectedHints: ['axe/text-alternatives'],
-    expectedTime: 26000,
+    expectedTime: 18500,
     html: generateHTML(),
     name: 'Axe perf test',
     timeout: 40000
 }, {
     expectedHints: ['axe/text-alternatives'],
-    expectedTime: 40000,
+    expectedTime: 30000,
     html: generateDeepHTML(),
     name: 'Axe deep perf test',
     timeout: 60000
 }, {
     expectedHints: ['button-type'],
-    expectedTime: 3000,
-    hints: {
-        'axe/aria': 'off',
-        'axe/color': 'off',
-        'axe/forms': 'off',
-        'axe/keyboard': 'off',
-        'axe/language': 'off',
-        'axe/name-role-value': 'off',
-        'axe/other': 'off',
-        'axe/parsing': 'off',
-        'axe/semantics': 'off',
-        'axe/sensory-and-visual-cues': 'off',
-        'axe/structure': 'off',
-        'axe/tables': 'off',
-        'axe/text-alternatives': 'off',
-        'axe/time-and-media': 'off'
-    },
+    expectedTime: 1500,
+    hints: disabledAxeHints,
     html: generateDeepHTML(),
     name: 'Button type perf test',
     timeout: 10000
 }, {
     expectedHints: ['x-content-type-options'],
-    expectedTime: 300,
-    hints: {
-        'axe/aria': 'off',
-        'axe/color': 'off',
-        'axe/forms': 'off',
-        'axe/keyboard': 'off',
-        'axe/language': 'off',
-        'axe/name-role-value': 'off',
-        'axe/other': 'off',
-        'axe/parsing': 'off',
-        'axe/semantics': 'off',
-        'axe/sensory-and-visual-cues': 'off',
-        'axe/structure': 'off',
-        'axe/tables': 'off',
-        'axe/text-alternatives': 'off',
-        'axe/time-and-media': 'off'
-    },
+    expectedTime: 130,
+    hints: disabledAxeHints,
     html: generateHTML(),
     name: 'x-content-type-options perf test',
     timeout: 5000
 }, {
     expectedHints: ['css-prefix-order'],
-    expectedTime: 1000,
-    hints: {
-        'axe/aria': 'off',
-        'axe/color': 'off',
-        'axe/forms': 'off',
-        'axe/keyboard': 'off',
-        'axe/language': 'off',
-        'axe/name-role-value': 'off',
-        'axe/other': 'off',
-        'axe/parsing': 'off',
-        'axe/semantics': 'off',
-        'axe/sensory-and-visual-cues': 'off',
-        'axe/structure': 'off',
-        'axe/tables': 'off',
-        'axe/text-alternatives': 'off',
-        'axe/time-and-media': 'off'
-    },
+    expectedTime: 450,
+    hints: disabledAxeHints,
     html: generateDeepHTML(prefixOrderCSS),
     name: 'CSS prefix order perf test',
     resources: prefixOrderCSS,
     timeout: 5000
 }, {
     expectedHints: ['create-element-svg'],
-    expectedTime: 3000,
-    hints: {
-        'axe/aria': 'off',
-        'axe/color': 'off',
-        'axe/forms': 'off',
-        'axe/keyboard': 'off',
-        'axe/language': 'off',
-        'axe/name-role-value': 'off',
-        'axe/other': 'off',
-        'axe/parsing': 'off',
-        'axe/semantics': 'off',
-        'axe/sensory-and-visual-cues': 'off',
-        'axe/structure': 'off',
-        'axe/tables': 'off',
-        'axe/text-alternatives': 'off',
-        'axe/time-and-media': 'off'
-    },
+    expectedTime: 1250,
+    hints: disabledAxeHints,
     html: generateDeepHTML(leadingDotClasslistJS),
     name: 'Create SVG element perf test',
     resources: leadingDotClasslistJS,
@@ -278,19 +236,34 @@ const runTest = (test: Test) => {
     }, test, console.log);
 };
 
+const delta = 10 / 100; // 10%
+
 const runTests = async () => {
     let ok = true;
 
     for (const test of tests) {
+        if (!test.expectedTime) {
+            ok = false;
+
+            console.error(`Expected time is required in test '${test.name}'`);
+
+            continue;
+        }
         console.log(`Running test: '${test.name}'`);
         try {
             const result = await runTest(test);
 
-            if (result.totalTime < test.expectedTime!) {
-                console.log(`Test '${test.name}' ok. (${result.totalTime}/${test.expectedTime})`);
-            } else {
+            const max = test.expectedTime + test.expectedTime * delta;
+            const min = test.expectedTime - test.expectedTime * delta;
+
+            if (result.totalTime < min) {
+                ok = false;
+                console.log(`Test '${test.name}' fails. The tests was too fast, please review the expected time or if there is any issue. (${result.totalTime}/${test.expectedTime})`);
+            } else if (result.totalTime > max) {
                 ok = false;
                 console.log(`Test '${test.name}' fails. (${result.totalTime}/${test.expectedTime})`);
+            } else {
+                console.log(`Test '${test.name}' ok. (${result.totalTime}/${test.expectedTime})`);
             }
         } catch (e) {
             console.error(`Test '${test.name}' fails.\n`, e);
@@ -299,7 +272,7 @@ const runTests = async () => {
     }
 
     if (!ok) {
-        console.error('Perf tests failed');
+        console.error('Perf tests failed. Please review the log for more details');
         process.exit(1); // eslint-disable-line no-process-exit
     }
 

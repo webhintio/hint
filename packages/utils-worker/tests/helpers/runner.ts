@@ -106,7 +106,7 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                         }
                     });
                 } else if (message.ready) {
-                    startTime = Date.now();
+                    startTime = performance.now();
                     sendMessage({ fetchStart: { resource: location.href } });
                     sendMessage({ fetchEnd: mockFetchEnd() });
                     if (test.resources && test.resources.length > 0) {
@@ -124,7 +124,7 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
 
                     return;
                 } else if (message.results) {
-                    endTime = Date.now();
+                    endTime = performance.now();
 
                     results = [...results, ...message.results];
 
