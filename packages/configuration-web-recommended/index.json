@@ -21,6 +21,7 @@
         "html-checker",
         "http-cache",
         "http-compression",
+        "leading-dot-classlist",
         "meta-charset-utf-8",
         "meta-viewport",
         "no-bom",
