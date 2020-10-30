@@ -6,7 +6,7 @@ environment that will let you contribute back to the project.
 1. [Install Node.js and yarn](#step-1-install-nodejs-and-yarn)
 2. [Fork and checkout your own webhint repository](#step-2-fork-and-checkout-your-own-webhint-repository)
 3. [Add the upstream source](#step-3-add-the-upstream-source)
-4. [Run the tests](#step-4-run-the-tests)
+4. [Run the build](#step-4-run-the-build)
 
 ## Step 1: Install Node.js and yarn
 
