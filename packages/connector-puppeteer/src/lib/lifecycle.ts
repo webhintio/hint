@@ -192,8 +192,6 @@ ${JSON.stringify(options, null, 2)}
 
 // TODO: Comments about the status
 export const launch = async (options: LifecycleLaunchOptions) => {
-    await lock();
-
     /**
      * Only try to connect to an existing browser when in detached mode,
      * otherwise the browser will be closed when one of the puppeteer
@@ -201,6 +199,7 @@ export const launch = async (options: LifecycleLaunchOptions) => {
      */
     /* istanbul ignore else */
     if (options.detached) {
+        await lock();
 
         const currentInfo = await getBrowserInfo();
 
@@ -222,22 +221,22 @@ export const launch = async (options: LifecycleLaunchOptions) => {
     const connection = await startBrowser(options);
     const { browser } = connection;
 
-    try {
-        await writeBrowserInfo(browser);
+    if (options.detached) {
+        try {
+            await writeBrowserInfo(browser);
 
-        debug('Browser launched correctly');
+            debug('Browser launched correctly');
+        } catch (e) {
+            debug('Error launching browser');
+            debug(e);
 
-        await unlock();
-
-        return connection;
-    } catch (e) {
-        debug('Error launching browser');
-        debug(e);
-
-        await unlock();
-
-        throw e;
+            throw e;
+        } finally {
+            await unlock();
+        }
     }
+
+    return connection;
 };
 
 export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) => {
