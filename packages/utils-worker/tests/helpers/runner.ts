@@ -125,7 +125,6 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                     return;
                 } else if (message.results) {
                     endTime = performance.now();
-
                     results = [...results, ...message.results];
 
                     // Wait until the result we are expecting is returned.
@@ -141,10 +140,9 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                                 clearTimeout(timeoutId);
                                 timeoutId = null;
                             }
-                            endTime = Date.now();
                             resolve({
                                 problems: results,
-                                totalTime: endTime - startTime
+                                totalTime: Math.round(endTime - startTime)
                             });
 
                             return;
@@ -154,7 +152,7 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                         resultsTimeout = setTimeout(() => {
                             resolve({
                                 problems: results,
-                                totalTime: endTime - startTime
+                                totalTime: Math.round(endTime - startTime)
                             });
                         }, 1000);
                     }

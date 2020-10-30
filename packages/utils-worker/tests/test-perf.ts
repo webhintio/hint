@@ -252,7 +252,6 @@ const runTests = async () => {
         console.log(`Running test: '${test.name}'`);
         try {
             const result = await runTest(test);
-
             const max = test.expectedTime + test.expectedTime * delta;
             const min = test.expectedTime - test.expectedTime * delta;
 
