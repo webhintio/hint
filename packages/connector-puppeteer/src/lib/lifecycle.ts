@@ -196,6 +196,9 @@ export const launch = async (options: LifecycleLaunchOptions) => {
      * Only try to connect to an existing browser when in detached mode,
      * otherwise the browser will be closed when one of the puppeteer
      * instances finishes.
+     *
+     * This is used mostly by the test runner, because if a new browser
+     * is open for each test, the machine can run out of resources.
      */
     /* istanbul ignore else */
     if (options.detached) {
@@ -221,6 +224,11 @@ export const launch = async (options: LifecycleLaunchOptions) => {
     const connection = await startBrowser(options);
     const { browser } = connection;
 
+    /**
+     * In detach mode, we need to store the browser information so
+     * the next call will rehuse the same browser, instead of opening
+     * a new instance.
+     */
     if (options.detached) {
         try {
             await writeBrowserInfo(browser);
