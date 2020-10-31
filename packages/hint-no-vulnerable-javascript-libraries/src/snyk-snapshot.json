@@ -8463,7 +8463,7 @@
         "disclosureTime": "2020-07-11T10:19:01Z",
         "exploit": "Proof of Concept",
         "fixedIn": [
-          "19.6.0"
+          "19.8.3"
         ],
         "functions": [],
         "functions_new": [],
@@ -8475,7 +8475,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-07-19T16:14:31.125195Z",
+        "modificationTime": "2020-10-25T11:21:37.639753Z",
         "moduleName": "i18next",
         "packageManager": "npm",
         "packageName": "i18next",
@@ -8484,12 +8484,16 @@
         "references": [
           {
             "title": "GitHub PR",
+            "url": "https://github.com/i18next/i18next/commit/ed6169fa21b67d8e73b20d82579aff6f9b808a69"
+          },
+          {
+            "title": "GitHub PR",
             "url": "https://github.com/i18next/i18next/pull/1482"
           }
         ],
         "semver": {
           "vulnerable": [
-            "<19.6.0"
+            "<19.8.3"
           ]
         },
         "severity": "medium",
@@ -9408,7 +9412,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P",
         "alternativeIds": [],
         "creationTime": "2019-03-27T08:43:07.568451Z",
         "credit": [
@@ -9416,7 +9420,7 @@
         ],
         "cvssScore": 5.6,
         "disclosureTime": "2019-03-26T08:40:15Z",
-        "exploit": "Not Defined",
+        "exploit": "Proof of Concept",
         "fixedIn": [
           "3.4.0"
         ],
