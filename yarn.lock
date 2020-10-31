@@ -7837,10 +7837,10 @@ npm-packlist@^1.1.6:
     ignore-walk "^3.0.1"
     npm-bundled "^1.0.1"
 
-npm-registry-fetch@^8.1.4:
-  version "8.1.4"
-  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-8.1.4.tgz#438cc8f042f6c5309e9a91ad5ccb80d7f6ed47de"
-  integrity sha512-UaLGFQP7VCuyBsb7S5P5od3av/Zy9JW6K5gbMigjZCYnEpIkWWRiLQTKVpxM4QocfPcsjm+xtyrDNm4jdqwNEg==
+npm-registry-fetch@^8.1.5:
+  version "8.1.5"
+  resolved "https://registry.yarnpkg.com/npm-registry-fetch/-/npm-registry-fetch-8.1.5.tgz#33270c6722030c2d158a970d1327dcd9a149b5c5"
+  integrity sha512-yZPNoJK9clx1jhSXU54kU6Aj1SV2p7mXUs1W/6OjQvek3wb1RrjDCrt4iY1+VX9eBQvvSGEpzNmYkRUaTL8rqg==
   dependencies:
     "@npmcli/ci-detect" "^1.0.0"
     lru-cache "^6.0.0"
