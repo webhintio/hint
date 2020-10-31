@@ -24,5 +24,33 @@ jobs:
       displayName: 'Build webhint'
     - script: cd packages/utils-worker && yarn test-perf
       displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
+    - script: cd packages/utils-worker && yarn test-perf
+      displayName: 'Run perf tests'
   timeoutInMinutes: 40
   condition: ${{ parameters.condition }}

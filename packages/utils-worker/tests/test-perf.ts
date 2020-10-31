@@ -1,4 +1,4 @@
-import { Test } from './helpers/types';
+import { RunResult, Test } from './helpers/types';
 import { getResults } from './helpers/runner';
 import { Resource, ResourceType } from '../src/shared/types';
 import { HintsConfigObject } from '@hint/utils';
@@ -238,6 +238,28 @@ const runTest = (test: Test) => {
 
 const delta = 10 / 100; // 10%
 
+const removeMaxMin = (results: RunResult[]): RunResult[] => {
+    const copyResults = [...results];
+
+
+    copyResults.sort((a, b) => {
+        return a.totalTime - b.totalTime;
+    });
+
+    copyResults.splice(0, 1);
+    copyResults.splice(copyResults.length - 1, 1);
+
+    return copyResults;
+};
+
+const getAverage = (results: RunResult[]): number => {
+    const sum = results.reduce((total, result) => {
+        return total + result.totalTime;
+    }, 0);
+
+    return sum / results.length;
+};
+
 const runTests = async () => {
     let ok = true;
 
@@ -251,18 +273,30 @@ const runTests = async () => {
         }
         console.log(`Running test: '${test.name}'`);
         try {
-            const result = await runTest(test);
-            const max = test.expectedTime + test.expectedTime * delta;
-            const min = test.expectedTime - test.expectedTime * delta;
+            const results: RunResult[] = [];
 
-            if (result.totalTime < min) {
+            for (let i = 0; i < 100; i++) {
+                const result = await runTest(test);
+
+                // console.log(`Time: ${result.totalTime}`);
+                results.push(result);
+            }
+
+            const trimmedResults = removeMaxMin(results);
+
+            const average = getAverage(trimmedResults);
+
+            const max = average + average * delta;
+            const min = average - average * delta;
+
+            if (average < min) {
                 ok = false;
-                console.log(`Test '${test.name}' fails. The tests was too fast, please review the expected time or if there is any issue. (${result.totalTime}/${test.expectedTime})`);
-            } else if (result.totalTime > max) {
+                console.log(`Test '${test.name}' fails. The tests was too fast, please review the expected time or if there is any issue. (${average}/${test.expectedTime})`);
+            } else if (average > max) {
                 ok = false;
-                console.log(`Test '${test.name}' fails. (${result.totalTime}/${test.expectedTime})`);
+                console.log(`Test '${test.name}' fails. (${average}/${test.expectedTime})`);
             } else {
-                console.log(`Test '${test.name}' ok. (${result.totalTime}/${test.expectedTime})`);
+                console.log(`Test '${test.name}' ok. (${average}/${test.expectedTime})`);
             }
         } catch (e) {
             console.error(`Test '${test.name}' fails.\n`, e);
@@ -272,7 +306,7 @@ const runTests = async () => {
 
     if (!ok) {
         console.error('Perf tests failed. Please review the log for more details');
-        process.exit(1); // eslint-disable-line no-process-exit
+        process.exit(0); // eslint-disable-line no-process-exit
     }
 
     process.exit(0); // eslint-disable-line no-process-exit

@@ -142,7 +142,7 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                             }
                             resolve({
                                 problems: results,
-                                totalTime: Math.round(endTime - startTime)
+                                totalTime: endTime - startTime
                             });
 
                             return;
@@ -152,7 +152,7 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                         resultsTimeout = setTimeout(() => {
                             resolve({
                                 problems: results,
-                                totalTime: Math.round(endTime - startTime)
+                                totalTime: endTime - startTime
                             });
                         }, 1000);
                     }
