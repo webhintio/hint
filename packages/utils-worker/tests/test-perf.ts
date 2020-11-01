@@ -236,7 +236,7 @@ const runTest = (test: Test) => {
     }, test, console.log);
 };
 
-const delta = 10 / 100; // 10%
+const delta = 15 / 100; // 15%
 
 const removeMaxMin = (results: RunResult[]): RunResult[] => {
     const copyResults = [...results];
@@ -275,10 +275,9 @@ const runTests = async () => {
         try {
             const results: RunResult[] = [];
 
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 5; i++) {
                 const result = await runTest(test);
 
-                // console.log(`Time: ${result.totalTime}`);
                 results.push(result);
             }
 
@@ -286,8 +285,8 @@ const runTests = async () => {
 
             const average = getAverage(trimmedResults);
 
-            const max = average + average * delta;
-            const min = average - average * delta;
+            const max = test.expectedTime + test.expectedTime * delta;
+            const min = test.expectedTime - test.expectedTime * delta;
 
             if (average < min) {
                 ok = false;
