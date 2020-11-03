@@ -1,24 +1,28 @@
 # Internet Explorer Flexbox Compatibility (`ie-flexbox-compat`)
 
-`ie-flexbox-compat` warns about potential CSS Flexbox compatibility bugs with Internet Explorer.
+`ie-flexbox-compat` warns about potential CSS Flexbox compatibility bugs with
+Internet Explorer.
 
 ## Why is this important?
 
-Internet Explorer 11 and older suffer from a number of CSS Flexbox compatibility bugs.\
-In some cases, the CSS Flexbox specification changed after Internet Explorer implemented it, in others, the
-implementation was just incorrect.
+Internet Explorer 11 and older suffer from a number of CSS Flexbox
+compatibility bugs.\
+In some cases, the CSS Flexbox specification changed after Internet Explorer
+implemented it, in others, the implementation was just incorrect.
 
-Because of this, the layout on your site may be different between Internet Explorer and other browsers if you
-use Flexbox.\
+Because of this, the layout on your site may be different between Internet
+Explorer and other browsers if you use Flexbox.\
 The size or alignment of elements may be incorrect or content may overflow.
 
-As described in [Microsoft's support policy for Internet Explorer][IE support policy], support for older
-versions of this browser ended and Microsoft no longer provides security updates or technical support for
-these versions.\
-It is therefore discouraged to introduce flexbox if you still need to target IE.
+As described in
+[Microsoft's support policy for Internet Explorer][IE support policy], support
+for older versions of this browser ended and Microsoft no longer provides
+security updates or technical support for these versions.\
+It is therefore discouraged to introduce flexbox if you still need to target
+IE.
 
-You can find more information about each individual bug as well workarounds for them on the
-[Flexbugs repository][flexbugs].
+You can find more information about each individual bug as well workarounds for
+them on the [Flexbugs repository][flexbugs].
 
 ## What does the hint check?
 
