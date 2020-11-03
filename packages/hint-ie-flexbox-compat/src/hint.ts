@@ -1,7 +1,7 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { getFullCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
-import { StyleEvents, StyleParse } from '@hint/parser-css';
+import { StyleEvents } from '@hint/parser-css';
 import { Severity } from '@hint/utils-types';
 
 import meta from './meta';

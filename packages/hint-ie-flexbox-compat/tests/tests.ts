@@ -33,7 +33,7 @@ const serverConfigs = {
     simple: generateConfig('simple')
 };
 
-const message = `The Internet Explorer brower versions 11 and older suffer from a number of CSS Flexbox compatibility bugs. The layout on this page may be different between Internet Explorer and other, more recent, browsers. The size or alignment of elements may be incorrect and content may overflow.\nSupport for older versions of Internet Explorer ended and Microsoft no longer provides security updates or technical support for these versions.`;
+const message = `CSS Flexbox may render differently in Internet Explorer than more recent browsers. Check this page in IE then see the documentation for workarounds if needed.`;
 
 const testsWithIE: HintTest[] = [
     {
