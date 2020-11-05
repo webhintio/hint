@@ -1,0 +1,14 @@
+.foo {
+    display: block;
+    color: red;
+}
+
+.bar {
+    display: inline-block;
+    color: gold;
+}
+
+.baz {
+    display: table;
+    color: aquamarine;
+}

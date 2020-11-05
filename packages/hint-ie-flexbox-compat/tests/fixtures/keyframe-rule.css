@@ -1,0 +1,9 @@
+@keyframes anim {
+    from {
+        display: block;
+    }
+
+    to {
+        display: flex;
+    }
+}
