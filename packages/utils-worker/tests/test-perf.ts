@@ -185,33 +185,33 @@ const disabledAxeHints: HintsConfigObject = {
 
 const tests: Test[] = [{
     expectedHints: ['axe/text-alternatives'],
-    expectedTime: 18500,
+    expectedTime: 22500,
     html: generateHTML(),
     name: 'Axe perf test',
     timeout: 40000
 }, {
     expectedHints: ['axe/text-alternatives'],
-    expectedTime: 30000,
+    expectedTime: 37000,
     html: generateDeepHTML(),
     name: 'Axe deep perf test',
     timeout: 60000
 }, {
     expectedHints: ['button-type'],
-    expectedTime: 1500,
+    expectedTime: 1650,
     hints: disabledAxeHints,
     html: generateDeepHTML(),
     name: 'Button type perf test',
     timeout: 10000
 }, {
     expectedHints: ['x-content-type-options'],
-    expectedTime: 130,
+    expectedTime: 145,
     hints: disabledAxeHints,
     html: generateHTML(),
     name: 'x-content-type-options perf test',
     timeout: 5000
 }, {
     expectedHints: ['css-prefix-order'],
-    expectedTime: 450,
+    expectedTime: 600,
     hints: disabledAxeHints,
     html: generateDeepHTML(prefixOrderCSS),
     name: 'CSS prefix order perf test',
