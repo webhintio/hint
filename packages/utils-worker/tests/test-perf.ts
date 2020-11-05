@@ -305,7 +305,7 @@ const runTests = async () => {
 
     if (!ok) {
         console.error('Perf tests failed. Please review the log for more details');
-        process.exit(0); // eslint-disable-line no-process-exit
+        process.exit(1); // eslint-disable-line no-process-exit
     }
 
     process.exit(0); // eslint-disable-line no-process-exit
