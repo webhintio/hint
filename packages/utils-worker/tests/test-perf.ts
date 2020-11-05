@@ -246,10 +246,7 @@ const removeMaxMin = (results: RunResult[]): RunResult[] => {
         return a.totalTime - b.totalTime;
     });
 
-    copyResults.splice(0, 1);
-    copyResults.splice(copyResults.length - 1, 1);
-
-    return copyResults;
+    return copyResults.slice(1, -1);
 };
 
 const getAverage = (results: RunResult[]): number => {
