@@ -2834,10 +2834,15 @@ commander@2.9.0:
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-commander@^2.20.0, commander@^2.3.0, commander@^2.6.0, commander@^2.8.1, commander@~2.20.0:
+commander@^2.20.0, commander@^2.3.0, commander@^2.6.0, commander@~2.20.0:
   version "2.20.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
+
+commander@^6.1.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-6.2.0.tgz#b990bfb8ac030aedc6d11bc04d1488ffef56db75"
+  integrity sha512-zP4jEKbe8SHzKJYQmq8Y9gYjtO/POJLgIdKgV7B9qNmABVFVc+ctqSX6iXh4mCpJfRBOabiZ2YKPg8ciDw6C+Q==
 
 common-path-prefix@^3.0.0:
   version "3.0.0"
@@ -11424,15 +11429,15 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"
   integrity sha512-iq+S7vZJE60yejDYM0ek6zg308+UZsdtPExWP9VZoCFCz1zkJoXFnAX7aZfd/ZwrkidzdUZL0C/ryW+JwAiIGw==
 
-vsce@^1.79.5:
-  version "1.79.5"
-  resolved "https://registry.yarnpkg.com/vsce/-/vsce-1.79.5.tgz#622d947aed97632d460e68ec774eac41f550102d"
-  integrity sha512-KZFOthGwxWFwoGqwrkzfTfyCZGuniTofnJ1a/dCzQ2HP93u1UuCKrTQyGT+SuGHu8sNqdBYNe0hb9GC3qCN7fg==
+vsce@^1.81.1:
+  version "1.81.1"
+  resolved "https://registry.yarnpkg.com/vsce/-/vsce-1.81.1.tgz#c741e9830cc750925e5f37b1e048341b98125262"
+  integrity sha512-1yWAYRxTx/PKSFZnuELe7GPyIo70H/XKJqf6wGikofUK3f3TCNGI6F9xkTQFvXKNe0AygUuxN7kITyPIQGMP+w==
   dependencies:
     azure-devops-node-api "^7.2.0"
     chalk "^2.4.2"
     cheerio "^1.0.0-rc.1"
-    commander "^2.8.1"
+    commander "^6.1.0"
     denodeify "^1.2.1"
     glob "^7.0.6"
     leven "^3.1.0"
