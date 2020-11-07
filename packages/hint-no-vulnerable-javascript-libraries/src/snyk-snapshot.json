@@ -5355,6 +5355,49 @@
     ],
     "dompurify": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "alternativeIds": [],
+        "creationTime": "2020-11-03T16:24:10.541266Z",
+        "credit": [
+          "bananabr"
+        ],
+        "cvssScore": 6.5,
+        "disclosureTime": "2020-11-03T16:21:00Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "2.2.2"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-DOMPURIFY-1035544",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-11-03T16:51:44.302104Z",
+        "moduleName": "dompurify",
+        "packageManager": "npm",
+        "packageName": "dompurify",
+        "patches": [],
+        "publicationTime": "2020-11-03T16:51:43.881330Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/cure53/DOMPurify/issues/482"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<2.2.2"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-10-08T07:47:24.594794Z",
@@ -9276,7 +9319,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:U/RL:O/RC:R",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:P/RL:O/RC:R",
         "alternativeIds": [],
         "creationTime": "2020-04-30T12:29:39.885866Z",
         "credit": [
@@ -9284,7 +9327,7 @@
         ],
         "cvssScore": 6.5,
         "disclosureTime": "2020-04-29T23:02:09Z",
-        "exploit": "Unproven",
+        "exploit": "Proof of Concept",
         "fixedIn": [
           "3.5.0"
         ],
@@ -9328,6 +9371,14 @@
           {
             "title": "JQuery Upgrade Guide",
             "url": "https://jquery.com/upgrade-guide/3.5/"
+          },
+          {
+            "title": "PoC",
+            "url": "https://vulnerabledoma.in/jquery_htmlPrefilter_xss.html"
+          },
+          {
+            "title": "Security Blog",
+            "url": "https://mksben.l0.cm/2020/05/jquery3.5.0-xss.html"
           }
         ],
         "semver": {
@@ -9339,7 +9390,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L/E:U/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-04-13T07:16:49.518552Z",
         "credit": [
@@ -9347,7 +9398,7 @@
         ],
         "cvssScore": 6.3,
         "disclosureTime": "2020-04-10T00:00:00Z",
-        "exploit": "Unproven",
+        "exploit": "Proof of Concept",
         "fixedIn": [
           "3.5.0"
         ],
@@ -9399,8 +9450,16 @@
             "url": "https://github.com/jquery/jquery/commit/1d61fd9407e6fbe82fe55cb0b938307aa0791f77"
           },
           {
+            "title": "PoC",
+            "url": "https://vulnerabledoma.in/jquery_htmlPrefilter_xss.html"
+          },
+          {
             "title": "Release Notes",
             "url": "https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/"
+          },
+          {
+            "title": "Security Blog",
+            "url": "https://masatokinugawa.l0.cm/2020/05/jquery3.5.0-xss.html?spref=tw"
           }
         ],
         "semver": {
