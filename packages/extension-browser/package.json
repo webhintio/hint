@@ -67,7 +67,7 @@
     "cpx": "^1.5.0",
     "css-loader": "^4.3.0",
     "eslint": "^7.8.1",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^1.0.2",
     "eslint-plugin-react-hooks": "^4.1.0",
     "focus-visible": "^5.1.0",
