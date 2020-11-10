@@ -216,13 +216,15 @@ export default class NoBrokenLinksHint implements IHint {
         };
 
         const createReports = (element: HTMLElement, urls: string[]): Promise<void>[] => {
-            return urls.map((url) => {
+            const requests: Promise<void>[] = [];
+
+            for (const url of urls) {
                 /*
                  * If the URL is not HTTP or HTTPS (e.g. `mailto:`),
                  * there is no need to validate.
                  */
                 if (!isRegularProtocol(url)) {
-                    return Promise.resolve();
+                    continue;
                 }
 
                 const fetched = getFetchedURL(url);
@@ -237,11 +239,11 @@ export default class NoBrokenLinksHint implements IHint {
                             { severity: Severity.error }
                         );
 
-                        return Promise.resolve();
+                        continue;
                     }
                 } else {
                     // An element which was not present in the fetch end results
-                    return requester
+                    const request = requester
                         .get(url)
                         .then((value: NetworkData) => {
                             handleSuccess(value, url, element);
@@ -249,10 +251,12 @@ export default class NoBrokenLinksHint implements IHint {
                         .catch((error: any) => {
                             return handleRejection(error, url, element);
                         });
-                }
 
-                return Promise.resolve();
-            });
+                    requests.push(request);
+                }
+            }
+
+            return requests;
         };
 
         const validateCollectedURLs = async (event: TraverseEnd) => {
