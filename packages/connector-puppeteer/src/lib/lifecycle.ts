@@ -192,15 +192,17 @@ ${JSON.stringify(options, null, 2)}
 
 // TODO: Comments about the status
 export const launch = async (options: LifecycleLaunchOptions) => {
-    await lock();
-
     /**
      * Only try to connect to an existing browser when in detached mode,
      * otherwise the browser will be closed when one of the puppeteer
      * instances finishes.
+     *
+     * This is used mostly by the test runner, because if a new browser
+     * is open for each test, the machine can run out of resources.
      */
     /* istanbul ignore else */
     if (options.detached) {
+        await lock();
 
         const currentInfo = await getBrowserInfo();
 
@@ -222,22 +224,27 @@ export const launch = async (options: LifecycleLaunchOptions) => {
     const connection = await startBrowser(options);
     const { browser } = connection;
 
-    try {
-        await writeBrowserInfo(browser);
+    /**
+     * In detach mode, we need to store the browser information so
+     * the next call will rehuse the same browser, instead of opening
+     * a new instance.
+     */
+    if (options.detached) {
+        try {
+            await writeBrowserInfo(browser);
 
-        debug('Browser launched correctly');
+            debug('Browser launched correctly');
+        } catch (e) {
+            debug('Error launching browser');
+            debug(e);
 
-        await unlock();
-
-        return connection;
-    } catch (e) {
-        debug('Error launching browser');
-        debug(e);
-
-        await unlock();
-
-        throw e;
+            throw e;
+        } finally {
+            await unlock();
+        }
     }
+
+    return connection;
 };
 
 export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) => {
