@@ -22,6 +22,7 @@
         { "path": "../hint-disown-opener" },
         { "path": "../hint-highest-available-document-mode" },
         { "path": "../hint-http-cache" },
+        { "path": "../hint-leading-dot-classlist" },
         { "path": "../hint-manifest-app-name" },
         { "path": "../hint-manifest-file-extension" },
         { "path": "../hint-manifest-is-valid" },
