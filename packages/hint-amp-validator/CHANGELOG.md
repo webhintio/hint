@@ -1,3 +1,23 @@
+# 2.10.8 (November 11, 2020)
+
+## New features
+
+* [[`41069765cd`](https://github.com/webhintio/hint/commit/41069765cdc7e57ec507b56c2478ce3ef4188155)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`e00caaaa03`](https://github.com/webhintio/hint/commit/e00caaaa03675164040df3bea68fb16c7352f3bf)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`752e027aa5`](https://github.com/webhintio/hint/commit/752e027aa54a9a326bd216f8903e4924b2cfab2f)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`3d5ac7cc40`](https://github.com/webhintio/hint/commit/3d5ac7cc40a37ac884f34aa1fad70c0ecaa5e859)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`cb6ea155c2`](https://github.com/webhintio/hint/commit/cb6ea155c291f29534c9114d11aaa47b2db3fad2)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`9b86845504`](https://github.com/webhintio/hint/commit/9b86845504cc3e54b521368c78274f1f6e8f29a1)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`431c070ad4`](https://github.com/webhintio/hint/commit/431c070ad408ff3e50ea4f100a88fe40109de8a0)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+
+## Chores
+
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 2.10.7 (August 24, 2020)
 
 ## New features

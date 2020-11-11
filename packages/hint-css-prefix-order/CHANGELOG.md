@@ -1,3 +1,14 @@
+# 1.4.7 (November 11, 2020)
+
+## Chores
+
+* [[`1538883086`](https://github.com/webhintio/hint/commit/15388830860d5c1d2ecf9663591f7dc5f279093a)] - Upgrade: Bump postcss from 8.1.0 to 8.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`20507d50e6`](https://github.com/webhintio/hint/commit/20507d50e63cc9c0ad3e0e42665a9fdd47a7f9f6)] - Upgrade: Bump postcss from 7.0.32 to 8.0.5 (#4027) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.4.6 (August 24, 2020)
 
 ## Chores

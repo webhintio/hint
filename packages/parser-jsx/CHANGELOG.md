@@ -1,3 +1,12 @@
+# 1.0.9 (November 11, 2020)
+
+## Chores
+
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.0.8 (August 24, 2020)
 
 ## Chores

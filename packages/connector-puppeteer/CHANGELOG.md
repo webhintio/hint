@@ -1,3 +1,23 @@
+# 2.5.5 (November 11, 2020)
+
+## Chores
+
+* [[`1561abdef1`](https://github.com/webhintio/hint/commit/1561abdef12716d712f415844776ebb9f0c8838e)] - Chore: Connector puppeteer use lock only in detached mode (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#4089`](https://github.com/webhintio/hint/issues/4089)).
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`be9e20f4d5`](https://github.com/webhintio/hint/commit/be9e20f4d5f5775a52a7a5185ef6d26ce5d63811)] - Upgrade: Bump sinon from 9.0.3 to 9.2.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce8dfffac4`](https://github.com/webhintio/hint/commit/ce8dfffac4594ca3d652b7c27d501762e8ec3e41)] - Upgrade: Bump @types/puppeteer from 3.0.2 to 3.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`98e63e24fd`](https://github.com/webhintio/hint/commit/98e63e24fd87b422a3378732d7a8290ba2d63ffb)] - Upgrade: Bump @types/sinon from 9.0.5 to 9.0.8 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9eac148d9a`](https://github.com/webhintio/hint/commit/9eac148d9ac7303a0ba080e2115129724a83bc63)] - Upgrade: Bump puppeteer from 5.3.0 to 5.3.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`890212589c`](https://github.com/webhintio/hint/commit/890212589c5ae9f82f2d7ce84f5af007298b80ec)] - Upgrade: Bump puppeteer-core from 5.2.1 to 5.3.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`109a8f1187`](https://github.com/webhintio/hint/commit/109a8f1187b546a87337014622146e18ac70ce8d)] - Upgrade: Bump @types/puppeteer from 3.0.1 to 3.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1d65aaa24f`](https://github.com/webhintio/hint/commit/1d65aaa24f26ddb825d230846a60992b30b9a19c)] - Upgrade: Bump puppeteer from 5.2.1 to 5.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`7f20057c58`](https://github.com/webhintio/hint/commit/7f20057c5824c1e05469cbdf44236757f8288755)] - Upgrade: Bump @types/sinon from 9.0.4 to 9.0.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`25a5248cca`](https://github.com/webhintio/hint/commit/25a5248ccad2fe98e6fc5fd631b3a16a00963fec)] - Upgrade: Bump lodash from 4.17.19 to 4.17.20 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.5.4 (August 24, 2020)
 
 ## Bug fixes / Improvements

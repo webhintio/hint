@@ -1,3 +1,26 @@
+# 2.12.1 (November 11, 2020)
+
+## New features
+
+* [[`a3ca9ec57b`](https://github.com/webhintio/hint/commit/a3ca9ec57bed0bcc25534f9d695711d7884576ec)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`ce24c9bfcd`](https://github.com/webhintio/hint/commit/ce24c9bfcd88cc51e24926c720c95bc826476aac)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`5165a7a19d`](https://github.com/webhintio/hint/commit/5165a7a19d025b004a955e525a8d1854ceff4643)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`e00caaaa03`](https://github.com/webhintio/hint/commit/e00caaaa03675164040df3bea68fb16c7352f3bf)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`cb6ea155c2`](https://github.com/webhintio/hint/commit/cb6ea155c291f29534c9114d11aaa47b2db3fad2)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`9b86845504`](https://github.com/webhintio/hint/commit/9b86845504cc3e54b521368c78274f1f6e8f29a1)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`431c070ad4`](https://github.com/webhintio/hint/commit/431c070ad408ff3e50ea4f100a88fe40109de8a0)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+
+## Chores
+
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a38a9a809c`](https://github.com/webhintio/hint/commit/a38a9a809c327545e0000a115d68fa9c3c90c30e)] - Upgrade: Bump moment from 2.28.0 to 2.29.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`35f967c2ae`](https://github.com/webhintio/hint/commit/35f967c2ae60897105acc98fb1759e89f61bc963)] - Upgrade: Bump moment from 2.27.0 to 2.28.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`25a5248cca`](https://github.com/webhintio/hint/commit/25a5248ccad2fe98e6fc5fd631b3a16a00963fec)] - Upgrade: Bump lodash from 4.17.19 to 4.17.20 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.12.0 (August 24, 2020)
 
 ## New features

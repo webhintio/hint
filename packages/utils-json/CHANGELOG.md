@@ -1,3 +1,17 @@
+# 1.0.8 (November 11, 2020)
+
+## Chores
+
+* [[`841cfb432c`](https://github.com/webhintio/hint/commit/841cfb432cf51cd43432d9a521da40bc6c448b82)] - Upgrade: Bump ajv from 6.12.5 to 6.12.6 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`be9e20f4d5`](https://github.com/webhintio/hint/commit/be9e20f4d5f5775a52a7a5185ef6d26ce5d63811)] - Upgrade: Bump sinon from 9.0.3 to 9.2.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a31c4f8200`](https://github.com/webhintio/hint/commit/a31c4f820072f10b070caab59b5ac17b98916fab)] - Upgrade: Bump jsonc-parser from 2.3.0 to 2.3.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`d71616588b`](https://github.com/webhintio/hint/commit/d71616588bbd8cb91ae6ac16cf463491e2b0fce5)] - Upgrade: Bump ajv from 6.12.4 to 6.12.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`25a5248cca`](https://github.com/webhintio/hint/commit/25a5248ccad2fe98e6fc5fd631b3a16a00963fec)] - Upgrade: Bump lodash from 4.17.19 to 4.17.20 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.7 (August 24, 2020)
 
 ## Chores

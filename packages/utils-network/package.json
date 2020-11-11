@@ -8,11 +8,11 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.6",
-    "@hint/utils-debug": "^1.0.2",
-    "@hint/utils-fs": "^1.0.5",
-    "@hint/utils-string": "^1.0.5",
-    "@hint/utils-types": "^1.1.0",
+    "@hint/utils": "^7.0.7",
+    "@hint/utils-debug": "^1.0.3",
+    "@hint/utils-fs": "^1.0.6",
+    "@hint/utils-string": "^1.0.6",
+    "@hint/utils-types": "^1.1.1",
     "content-type": "^1.0.4",
     "file-url": "^3.0.0",
     "lodash": "^4.17.20",
@@ -66,5 +66,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.6"
+  "version": "1.0.7"
 }

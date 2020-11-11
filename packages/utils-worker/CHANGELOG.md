@@ -1,3 +1,28 @@
+# 1.2.0 (November 11, 2020)
+
+## New features
+
+* [[`5d7af8d7fe`](https://github.com/webhintio/hint/commit/5d7af8d7fed4333eed4d7cdda295acabfda9a3b0)] - New: Perf tests (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3964`](https://github.com/webhintio/hint/issues/3964)).
+* [[`4c2f58ce57`](https://github.com/webhintio/hint/commit/4c2f58ce577d9c301f9c6fda56b9f891c72ee148)] - New: Enable classList leading 'dot' hint (by [`Tapajyoti Bose`](https://github.com/ruppysuppy) / see also: [`#4079`](https://github.com/webhintio/hint/issues/4079)).
+
+## Chores
+
+* [[`166d7da46c`](https://github.com/webhintio/hint/commit/166d7da46c30000c3decca17ecf5ddb0d708340c)] - Chore: Update tsconfig references.
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce8dfffac4`](https://github.com/webhintio/hint/commit/ce8dfffac4594ca3d652b7c27d501762e8ec3e41)] - Upgrade: Bump @types/puppeteer from 3.0.2 to 3.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`07508ae6fd`](https://github.com/webhintio/hint/commit/07508ae6fdd3eea49b11c610fddfe5262d407a41)] - Upgrade: Bump raw-loader from 4.0.1 to 4.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a322bad984`](https://github.com/webhintio/hint/commit/a322bad98424d5b9453b0c328eeca82f6b9c723f)] - Upgrade: Bump axe-core from 3.5.5 to 4.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9eac148d9a`](https://github.com/webhintio/hint/commit/9eac148d9ac7303a0ba080e2115129724a83bc63)] - Upgrade: Bump puppeteer from 5.3.0 to 5.3.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2ff524f2ba`](https://github.com/webhintio/hint/commit/2ff524f2bae067ae749c0fbe2c4f58b37cadced0)] - Upgrade: Bump webpack from 4.44.1 to 4.44.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`109a8f1187`](https://github.com/webhintio/hint/commit/109a8f1187b546a87337014622146e18ac70ce8d)] - Upgrade: Bump @types/puppeteer from 3.0.1 to 3.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1d65aaa24f`](https://github.com/webhintio/hint/commit/1d65aaa24f26ddb825d230846a60992b30b9a19c)] - Upgrade: Bump puppeteer from 5.2.1 to 5.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a9deea3966`](https://github.com/webhintio/hint/commit/a9deea3966a449ece0e6ffa03e50a3b29f0cf646)] - Upgrade: Bump browserslist from 4.14.0 to 4.14.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`25a5248cca`](https://github.com/webhintio/hint/commit/25a5248ccad2fe98e6fc5fd631b3a16a00963fec)] - Upgrade: Bump lodash from 4.17.19 to 4.17.20 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.1.2 (August 24, 2020)
 
 ## Chores

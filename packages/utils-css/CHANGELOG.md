@@ -1,3 +1,15 @@
+# 1.0.6 (November 11, 2020)
+
+## Chores
+
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1538883086`](https://github.com/webhintio/hint/commit/15388830860d5c1d2ecf9663591f7dc5f279093a)] - Upgrade: Bump postcss from 8.1.0 to 8.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`50a331e4ff`](https://github.com/webhintio/hint/commit/50a331e4ffc1cfea21e93f6bd93fab0903e18a46)] - Upgrade: Bump postcss-safe-parser from 4.0.2 to 5.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`20507d50e6`](https://github.com/webhintio/hint/commit/20507d50e63cc9c0ad3e0e42665a9fdd47a7f9f6)] - Upgrade: Bump postcss from 7.0.32 to 8.0.5 (#4027) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.0.5 (August 24, 2020)
 
 ## Chores

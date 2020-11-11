@@ -1,3 +1,21 @@
+# 4.4.0 (November 11, 2020)
+
+## New features
+
+* [[`5085bf03df`](https://github.com/webhintio/hint/commit/5085bf03dfbf1b8bd24da22d9142d4e3220268d7)] - New: Ignore a[rel=noopener] by default (by [`Tony Ross`](https://github.com/antross) / see also: [`#4045`](https://github.com/webhintio/hint/issues/4045)).
+* [[`db692aaabd`](https://github.com/webhintio/hint/commit/db692aaabd43744bffe9dc72a3503eb7ce730193)] - New: Ignore `autocomplete` html attribute by default (by [`Gianfrancø Palumbo`](https://github.com/gianpaj) / see also: [`#3951`](https://github.com/webhintio/hint/issues/3951)).
+
+## Chores
+
+* [[`bdf948d5e2`](https://github.com/webhintio/hint/commit/bdf948d5e27af23e1bd4f7c01608a3b82823e31c)] - Upgrade: Bump mdn-browser-compat-data from 1.0.31 to 1.0.40 (#4053) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1538883086`](https://github.com/webhintio/hint/commit/15388830860d5c1d2ecf9663591f7dc5f279093a)] - Upgrade: Bump postcss from 8.1.0 to 8.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`20507d50e6`](https://github.com/webhintio/hint/commit/20507d50e63cc9c0ad3e0e42665a9fdd47a7f9f6)] - Upgrade: Bump postcss from 7.0.32 to 8.0.5 (#4027) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`25a5248cca`](https://github.com/webhintio/hint/commit/25a5248ccad2fe98e6fc5fd631b3a16a00963fec)] - Upgrade: Bump lodash from 4.17.19 to 4.17.20 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.3.6 (August 24, 2020)
 
 ## Bug fixes / Improvements

@@ -1,3 +1,27 @@
+# 4.3.0 (November 11, 2020)
+
+## New features
+
+* [[`240cb2c3a1`](https://github.com/webhintio/hint/commit/240cb2c3a193988c585380611a549da4e9c759d4)] - New: Show 3rd party documentation links (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3930`](https://github.com/webhintio/hint/issues/3930)).
+
+## Bug fixes / Improvements
+
+* [[`e14e4a5c1e`](https://github.com/webhintio/hint/commit/e14e4a5c1e9e4b2d7b91c0ce911efa75f31a4642)] - Fix: Broken 3rd party logo in HTML Formatter (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3934`](https://github.com/webhintio/hint/issues/3934)).
+
+## Chores
+
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`be9e20f4d5`](https://github.com/webhintio/hint/commit/be9e20f4d5f5775a52a7a5185ef6d26ce5d63811)] - Upgrade: Bump sinon from 9.0.3 to 9.2.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f7b6997f1b`](https://github.com/webhintio/hint/commit/f7b6997f1b70403193768b81cc2f7f261e8c8fdf)] - Chore: Remove `moment` as a dependency (by [`Ben Salili-James`](https://github.com/benhjames) / see also: [`#4044`](https://github.com/webhintio/hint/issues/4044)).
+* [[`98e63e24fd`](https://github.com/webhintio/hint/commit/98e63e24fd87b422a3378732d7a8290ba2d63ffb)] - Upgrade: Bump @types/sinon from 9.0.5 to 9.0.8 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`35f967c2ae`](https://github.com/webhintio/hint/commit/35f967c2ae60897105acc98fb1759e89f61bc963)] - Upgrade: Bump moment from 2.27.0 to 2.28.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`7f20057c58`](https://github.com/webhintio/hint/commit/7f20057c5824c1e05469cbdf44236757f8288755)] - Upgrade: Bump @types/sinon from 9.0.4 to 9.0.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`25a5248cca`](https://github.com/webhintio/hint/commit/25a5248ccad2fe98e6fc5fd631b3a16a00963fec)] - Upgrade: Bump lodash from 4.17.19 to 4.17.20 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 4.2.4 (August 24, 2020)
 
 ## Bug fixes / Improvements

@@ -1,3 +1,10 @@
+# 8.1.0 (November 11, 2020)
+
+## New features
+
+* [[`4c2f58ce57`](https://github.com/webhintio/hint/commit/4c2f58ce577d9c301f9c6fda56b9f891c72ee148)] - New: Enable classList leading 'dot' hint (by [`Tapajyoti Bose`](https://github.com/ruppysuppy) / see also: [`#4079`](https://github.com/webhintio/hint/issues/4079)).
+
+
 # 8.0.0 (December 2, 2019)
 
 ## Breaking Changes

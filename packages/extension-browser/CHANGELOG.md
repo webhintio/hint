@@ -1,3 +1,42 @@
+# 2.2.0 (November 11, 2020)
+
+## New features
+
+* [[`4c2f58ce57`](https://github.com/webhintio/hint/commit/4c2f58ce577d9c301f9c6fda56b9f891c72ee148)] - New: Enable classList leading 'dot' hint (by [`Tapajyoti Bose`](https://github.com/ruppysuppy) / see also: [`#4079`](https://github.com/webhintio/hint/issues/4079)).
+* [[`5cdccff15f`](https://github.com/webhintio/hint/commit/5cdccff15f8f3209e0a715442b457834081af386)] - New: Added pdf printing from scan result (browser extension) (by [`Tapajyoti Bose`](https://github.com/ruppysuppy) / see also: [`#3943`](https://github.com/webhintio/hint/issues/3943)).
+* [[`df1bbedf11`](https://github.com/webhintio/hint/commit/df1bbedf11bc75748ef64b6d96e2f1c89986f83b)] - New: Add external documentation links to browser extension (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3932`](https://github.com/webhintio/hint/issues/3932)).
+
+## Chores
+
+* [[`4802264049`](https://github.com/webhintio/hint/commit/48022640494921d388020154abc33b6b4018fe0e)] - Upgrade: Bump react-syntax-highlighter from 13.5.3 to 15.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`be9e20f4d5`](https://github.com/webhintio/hint/commit/be9e20f4d5f5775a52a7a5185ef6d26ce5d63811)] - Upgrade: Bump sinon from 9.0.3 to 9.2.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`28efff97d6`](https://github.com/webhintio/hint/commit/28efff97d618f4055cf048890d5960117609f142)] - Upgrade: Bump web-ext from 5.0.0 to 5.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ce8dfffac4`](https://github.com/webhintio/hint/commit/ce8dfffac4594ca3d652b7c27d501762e8ec3e41)] - Upgrade: Bump @types/puppeteer from 3.0.2 to 3.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`fd86e41ec5`](https://github.com/webhintio/hint/commit/fd86e41ec58f5353275f06eeba0e5c2623bb647c)] - Upgrade: Bump react from 16.13.1 to 17.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`98e63e24fd`](https://github.com/webhintio/hint/commit/98e63e24fd87b422a3378732d7a8290ba2d63ffb)] - Upgrade: Bump @types/sinon from 9.0.5 to 9.0.8 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`07508ae6fd`](https://github.com/webhintio/hint/commit/07508ae6fdd3eea49b11c610fddfe5262d407a41)] - Upgrade: Bump raw-loader from 4.0.1 to 4.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`00b4beab2a`](https://github.com/webhintio/hint/commit/00b4beab2a541c55112a676a549428cb5aa2dc5b)] - Chore: Account for increased axe-core size (by [`Tony Ross`](https://github.com/antross)).
+* [[`a322bad984`](https://github.com/webhintio/hint/commit/a322bad98424d5b9453b0c328eeca82f6b9c723f)] - Upgrade: Bump axe-core from 3.5.5 to 4.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`20507d50e6`](https://github.com/webhintio/hint/commit/20507d50e63cc9c0ad3e0e42665a9fdd47a7f9f6)] - Upgrade: Bump postcss from 7.0.32 to 8.0.5 (#4027) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9eac148d9a`](https://github.com/webhintio/hint/commit/9eac148d9ac7303a0ba080e2115129724a83bc63)] - Upgrade: Bump puppeteer from 5.3.0 to 5.3.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2ff524f2ba`](https://github.com/webhintio/hint/commit/2ff524f2bae067ae749c0fbe2c4f58b37cadced0)] - Upgrade: Bump webpack from 4.44.1 to 4.44.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`109a8f1187`](https://github.com/webhintio/hint/commit/109a8f1187b546a87337014622146e18ac70ce8d)] - Upgrade: Bump @types/puppeteer from 3.0.1 to 3.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`d5e817783e`](https://github.com/webhintio/hint/commit/d5e817783ebd9c5a205a35a29f50382d19256c3f)] - Upgrade: Bump react-syntax-highlighter from 13.5.1 to 13.5.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`49633de717`](https://github.com/webhintio/hint/commit/49633de717c7adf47caaf52e01d6ea0aa603d034)] - Upgrade: Bump @types/chrome from 0.0.122 to 0.0.123 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bcd1b84851`](https://github.com/webhintio/hint/commit/bcd1b84851ee088391ed705c06cf9b53ab230e57)] - Upgrade: Bump css-loader from 4.2.2 to 4.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1d65aaa24f`](https://github.com/webhintio/hint/commit/1d65aaa24f26ddb825d230846a60992b30b9a19c)] - Upgrade: Bump puppeteer from 5.2.1 to 5.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`19e01a6ed0`](https://github.com/webhintio/hint/commit/19e01a6ed0a6459d5793fc2c9c6da18713666004)] - Upgrade: Bump @types/react from 16.9.43 to 16.9.49 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`64e85506e6`](https://github.com/webhintio/hint/commit/64e85506e62568211d9c1eb248ff6994fdd06eab)] - Upgrade: Bump @types/jsdom from 16.2.3 to 16.2.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a9deea3966`](https://github.com/webhintio/hint/commit/a9deea3966a449ece0e6ffa03e50a3b29f0cf646)] - Upgrade: Bump browserslist from 4.14.0 to 4.14.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`7f20057c58`](https://github.com/webhintio/hint/commit/7f20057c5824c1e05469cbdf44236757f8288755)] - Upgrade: Bump @types/sinon from 9.0.4 to 9.0.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2fb64899ae`](https://github.com/webhintio/hint/commit/2fb64899ae7d017c946638bac2554673d772917a)] - Upgrade: Bump jsdom from 16.2.2 to 16.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`25a5248cca`](https://github.com/webhintio/hint/commit/25a5248ccad2fe98e6fc5fd631b3a16a00963fec)] - Upgrade: Bump lodash from 4.17.19 to 4.17.20 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.1.4 (August 24, 2020)
 
 ## Chores

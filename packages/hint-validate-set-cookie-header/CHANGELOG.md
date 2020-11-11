@@ -1,3 +1,17 @@
+# 3.0.3 (November 11, 2020)
+
+## Bug fixes / Improvements
+
+* [[`642a2deca2`](https://github.com/webhintio/hint/commit/642a2deca26cae968fb54a5117c85045437df3e2)] - Fix: Cookie name reported in lower case (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#3535`](https://github.com/webhintio/hint/issues/3535)).
+
+## Chores
+
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 3.0.2 (August 24, 2020)
 
 ## Chores

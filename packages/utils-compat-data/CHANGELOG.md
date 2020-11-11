@@ -1,3 +1,18 @@
+# 1.1.1 (November 11, 2020)
+
+## Chores
+
+* [[`166d7da46c`](https://github.com/webhintio/hint/commit/166d7da46c30000c3decca17ecf5ddb0d708340c)] - Chore: Update tsconfig references.
+* [[`b34425c8b1`](https://github.com/webhintio/hint/commit/b34425c8b1839682e01b61892624c28226288543)] - Upgrade: Bump mdn-data from 2.0.11 to 2.0.12 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`39feb2e169`](https://github.com/webhintio/hint/commit/39feb2e1695acac97c042e507d521415851018ce)] - Upgrade: Bump mdn-browser-compat-data from 1.0.40 to 1.1.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bdf948d5e2`](https://github.com/webhintio/hint/commit/bdf948d5e27af23e1bd4f7c01608a3b82823e31c)] - Upgrade: Bump mdn-browser-compat-data from 1.0.31 to 1.0.40 (#4053) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bb7de7d689`](https://github.com/webhintio/hint/commit/bb7de7d689ab55a092f7d4c6eab2acfd9a7e7161)] - Upgrade: Bump postcss-selector-parser from 6.0.2 to 6.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`20507d50e6`](https://github.com/webhintio/hint/commit/20507d50e63cc9c0ad3e0e42665a9fdd47a7f9f6)] - Upgrade: Bump postcss from 7.0.32 to 8.0.5 (#4027) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.1.0 (August 24, 2020)
 
 ## New features

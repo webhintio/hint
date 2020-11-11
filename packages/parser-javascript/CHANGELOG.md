@@ -1,3 +1,18 @@
+# 3.1.8 (November 11, 2020)
+
+## Chores
+
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`be9e20f4d5`](https://github.com/webhintio/hint/commit/be9e20f4d5f5775a52a7a5185ef6d26ce5d63811)] - Upgrade: Bump sinon from 9.0.3 to 9.2.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`98e63e24fd`](https://github.com/webhintio/hint/commit/98e63e24fd87b422a3378732d7a8290ba2d63ffb)] - Upgrade: Bump @types/sinon from 9.0.5 to 9.0.8 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`88e5d8d921`](https://github.com/webhintio/hint/commit/88e5d8d9211e8a65828fc9f1b880867515dfa0ec)] - Upgrade: Bump acorn from 8.0.1 to 8.0.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8cfdda8ef3`](https://github.com/webhintio/hint/commit/8cfdda8ef33542e9ee6311582593b6bf58dae193)] - Upgrade: Bump acorn-jsx from 5.2.0 to 5.3.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`31fdf74b96`](https://github.com/webhintio/hint/commit/31fdf74b9652d20a685745a458bf86a06333fbe0)] - Upgrade: Bump acorn-walk from 7.2.0 to 8.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7f20057c58`](https://github.com/webhintio/hint/commit/7f20057c5824c1e05469cbdf44236757f8288755)] - Upgrade: Bump @types/sinon from 9.0.4 to 9.0.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.1.7 (August 24, 2020)
 
 ## Chores

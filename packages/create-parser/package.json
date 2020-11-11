@@ -11,12 +11,12 @@
     "create-parser": "./dist/src/create-parser.js"
   },
   "dependencies": {
-    "@hint/utils-fs": "^1.0.5",
-    "@hint/utils-string": "^1.0.5"
+    "@hint/utils-fs": "^1.0.6",
+    "@hint/utils-string": "^1.0.6"
   },
   "description": "webhint's parser initializer package",
   "devDependencies": {
-    "@hint/utils": "^7.0.6",
+    "@hint/utils": "^7.0.7",
     "@types/inquirer": "^7.3.1",
     "@types/mkdirp": "^1.0.1",
     "@types/node": "^14.11.2",
@@ -32,7 +32,7 @@
     "fork-ts-checker-webpack-plugin": "^5.2.0",
     "fs-extra": "^9.0.1",
     "handlebars": "^4.7.6",
-    "hint": "^6.1.0",
+    "hint": "^6.1.1",
     "inquirer": "^7.3.3",
     "mkdirp": "^1.0.3",
     "npm-run-all": "^4.1.5",
@@ -88,5 +88,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "3.0.8"
+  "version": "3.0.9"
 }
