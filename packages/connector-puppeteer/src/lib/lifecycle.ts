@@ -247,7 +247,7 @@ export const launch = async (options: LifecycleLaunchOptions) => {
     return connection;
 };
 
-export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) => {
+export const close = async (browser: puppeteer.Browser, page: puppeteer.Page, options: LifecycleLaunchOptions) => {
     debug(`Closing`);
 
     if (!browser) {
@@ -256,7 +256,9 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) =>
         return;
     }
 
-    await lock();
+    if (options && options.detached) {
+        await lock();
+    }
 
     try {
         const pages = await browser.pages();
@@ -271,7 +273,9 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) =>
              * the process will still live after closing the last tab and we
              * want to properly close. Otherwise tests might not end and timeout.
              */
-            await deleteBrowserInfo();
+            if (options && options.detached) {
+                await deleteBrowserInfo();
+            }
             await browser.close();
         } else {
             await page.close();
@@ -280,6 +284,8 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) =>
         debug(`Error closing page`);
         debug(e);
     } finally {
-        await unlock();
+        if (options && options.detached) {
+            await unlock();
+        }
     }
 };
