@@ -24,7 +24,7 @@
     "@types/sinon": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
-    "ava": "^3.12.1",
+    "ava": "^3.13.0",
     "cpx": "^1.5.0",
     "eslint": "^7.14.0",
     "eslint-plugin-import": "^2.22.1",
