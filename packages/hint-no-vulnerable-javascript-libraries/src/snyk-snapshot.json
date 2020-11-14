@@ -12278,7 +12278,7 @@
     ],
     "mapbox.js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MAPBOXJS-10077"
         ],
@@ -12287,7 +12287,7 @@
           "Abdullah (enderun07)"
         ],
         "cvssScore": 3.1,
-        "disclosureTime": "2016-01-12T23:35:56.853000Z",
+        "disclosureTime": "2016-01-12T23:35:56Z",
         "exploit": "Not Defined",
         "fixedIn": [
           "1.6.6",
@@ -12311,12 +12311,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-04-06T16:45:15.852164Z",
+        "modificationTime": "2020-11-08T11:07:10.302744Z",
         "moduleName": "mapbox.js",
         "packageManager": "npm",
         "packageName": "mapbox.js",
         "patches": [],
-        "publicationTime": "2016-01-14T09:03:36.375000Z",
+        "publicationTime": "2016-01-14T09:03:36Z",
         "references": [
           {
             "title": "GitHub PR",
@@ -12330,14 +12330,14 @@
         "semver": {
           "vulnerable": [
             "<1.6.6",
-            "< 2.2.4 > 2.0.0"
+            ">2.0.0 <2.2.4"
           ]
         },
         "severity": "low",
         "title": "Content Injection via TileJSON Name"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MAPBOXJS-10061"
         ],
@@ -16492,7 +16492,7 @@
     ],
     "node-serialize": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H/RL:U/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H/RL:U/RC:C",
         "alternativeIds": [
           "SNYK-JS-NODESERIALIZE-10400"
         ],
@@ -16536,6 +16536,10 @@
           {
             "title": "Opsecx Blog",
             "url": "https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/"
+          },
+          {
+            "title": "PoC",
+            "url": "https://github.com/p1gz/CVE-2017-5941-NodeJS-RCE"
           }
         ],
         "semver": {
