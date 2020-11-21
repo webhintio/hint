@@ -10,7 +10,7 @@
     "@types/semver": "^7.3.4",
     "@types/shelljs": "^0.8.8",
     "@types/yargs": "^15.0.9",
-    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.0.1",
     "builtin-modules": "^3.1.0",
     "chalk": "^4.0.0",

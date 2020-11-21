@@ -18,7 +18,7 @@
     "@hint/parser-html": "^3.0.18",
     "@hint/parser-javascript": "^3.1.8",
     "@types/node": "^14.11.2",
-    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.0.1",
     "ava": "^3.12.1",
     "cpx": "^1.5.0",
