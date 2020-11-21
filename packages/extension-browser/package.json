@@ -87,7 +87,7 @@
     "react-syntax-highlighter": "^15.3.0",
     "rimraf": "^3.0.2",
     "sinon": "^9.2.1",
-    "style-loader": "^1.2.1",
+    "style-loader": "^2.0.0",
     "svg-url-loader": "^6.0.0",
     "terser-webpack-plugin": "^4.1.0",
     "typed-css-modules": "^0.6.4",
