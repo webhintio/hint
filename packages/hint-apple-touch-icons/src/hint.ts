@@ -2,6 +2,7 @@
  * @fileoverview Check for correct usage of `apple-touch-icon`.
  */
 import { imageSize as getImageData } from 'image-size';
+import { ISizeCalculationResult } from 'image-size/dist/types/interface';
 
 import { normalizeString } from '@hint/utils-string';
 import { isRegularProtocol } from '@hint/utils-network';
@@ -14,6 +15,18 @@ import meta from './meta';
 import { getMessage } from './i18n.import';
 
 const debug: debug.IDebugger = d(__filename);
+
+const recommendedSizes = [
+    '120x120', /* iPhone 120px x 120px (60pt x 60pt @2x) */
+    '152x152', /* iPhone 152px x 152px (76pt x 76pt @2x) */
+    '167x167', /* iPhone 167px x 167px (83.5pt x 83.5pt @2x) */
+    '180x180' /* iPhone 180px x 180px (60pt x 60pt @3x) */
+];
+
+type Image = {
+    data: ISizeCalculationResult;
+    element: HTMLElement;
+};
 
 /*
  * ------------------------------------------------------------------------------
@@ -67,7 +80,7 @@ export default class AppleTouchIconsHint implements IHint {
             });
         };
 
-        const checkImage = async (appleTouchIcon: HTMLElement, resource: string) => {
+        const getImage = async (appleTouchIcon: HTMLElement, resource: string) => {
             const appleTouchIconHref = normalizeString(appleTouchIcon.getAttribute('href'));
 
             /*
@@ -83,7 +96,7 @@ export default class AppleTouchIconsHint implements IHint {
                     message,
                     { element: appleTouchIcon, severity: Severity.error });
 
-                return;
+                return null;
             }
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -93,7 +106,7 @@ export default class AppleTouchIconsHint implements IHint {
              */
 
             if (!isRegularProtocol(resource)) {
-                return;
+                return null;
             }
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -127,7 +140,7 @@ export default class AppleTouchIconsHint implements IHint {
                     { element: appleTouchIcon, severity: Severity.error }
                 );
 
-                return;
+                return null;
             }
 
             const response = networkData.response;
@@ -141,7 +154,7 @@ export default class AppleTouchIconsHint implements IHint {
                     { element: appleTouchIcon, severity: Severity.error }
                 );
 
-                return;
+                return null;
             }
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -176,68 +189,40 @@ export default class AppleTouchIconsHint implements IHint {
                     debug(`'getImageData' failed for '${appleTouchIconURL}'`);
                 }
 
-                return;
+                return null;
             }
 
+            return image;
+        };
+
+
+        const checkImage = (image: Image, someRecommended: boolean, resource: string) => {
             // Check if the image is a PNG.
 
-            if (image.type !== 'png') {
+            if (image.data.type !== 'png') {
                 const message = getMessage('shouldBePNG', context.language);
 
                 context.report(
                     resource,
                     message,
-                    { element: appleTouchIcon, severity: Severity.error }
+                    { element: image.element, severity: Severity.error }
                 );
             }
 
-            // Check if the image is 180x180px.
+            // Check the size of the image.
+            const sizeString = `${image.data.width}x${image.data.height}`;
 
-            if (image.width !== 180 || image.height !== 180) {
-                const message = getMessage('wrongResolution', context.language);
+            if (!recommendedSizes.includes(sizeString)) {
+                const message = getMessage('wrongResolution', context.language, recommendedSizes.toString());
 
                 context.report(
                     resource,
                     message,
-                    { element: appleTouchIcon, severity: Severity.warning }
+                    { element: image.element, severity: someRecommended ? Severity.warning : Severity.error }
                 );
             }
 
             // TODO: Check if the image has some kind of transparency.
-        };
-
-        const chooseBestIcon = (icons: HTMLElement[]): HTMLElement => {
-
-            /*
-             * Site will usually have something such as:
-             *
-             * <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
-             * <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
-             * <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
-             * <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
-             * <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
-             * <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
-             * <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
-             * <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
-             * <link rel="apple-touch-icon" href="/apple-touch-icon-57x57.png">
-             *
-             * so what this function will try to do is select the
-             * icon that will most likely generate the fewest errors.
-             */
-
-            let bestIcon;
-
-            for (const icon of icons) {
-                const sizes = normalizeString(icon.getAttribute('sizes'));
-
-                if (sizes === '180x180') {
-                    return icon;
-                } else if (!sizes) {
-                    bestIcon = icon;
-                }
-            }
-
-            return bestIcon || icons[0];
         };
 
         const validate = async ({ resource }: TraverseEnd) => {
@@ -257,53 +242,52 @@ export default class AppleTouchIconsHint implements IHint {
                 return;
             }
 
-            /*
-             * Choose the icon that will most likely
-             * pass most of the following tests.
-             */
+            const images: Image[] = [];
 
-            const appleTouchIcon: HTMLElement = chooseBestIcon(appleTouchIcons);
+            for (const appleTouchIcon of appleTouchIcons) {
+                /*
+                 * Check if `rel='apple-touch-icon'`.
+                 * See `getAppleTouchIcons` function for more details.
+                 */
+                if (normalizeString(appleTouchIcon.getAttribute('rel')) !== 'apple-touch-icon') {
+                    const message = getMessage('wrongRelAttribute', context.language);
 
-            /*
-             * Check if `rel='apple-touch-icon'`.
-             * See `getAppleTouchIcons` function for more details.
-             */
+                    context.report(
+                        resource,
+                        message,
+                        { element: appleTouchIcon, severity: Severity.warning }
+                    );
+                }
 
-            if (normalizeString(appleTouchIcon.getAttribute('rel')) !== 'apple-touch-icon') {
-                const message = getMessage('wrongRelAttribute', context.language);
+                /*
+                 * Check if the `apple-touch-icon` exists, and
+                 * returns the image information.
+                 */
+                const image = await getImage(appleTouchIcon, resource);
 
-                context.report(
-                    resource,
-                    message,
-                    { element: appleTouchIcon, severity: Severity.warning }
-                );
+                if (image) {
+                    images.push({
+                        data: image,
+                        element: appleTouchIcon
+                    });
+                }
             }
 
             /*
-             * Since we are recommending one icon, the `sizes` attribute
-             * is not needed. Also, pre-4.2 versions of iOS ignore the
-             * `sizes` attribute.
-             *
-             * https://mathiasbynens.be/notes/touch-icons
-             * https://html.spec.whatwg.org/multipage/semantics.html#attr-link-sizes
+             * Check if any of the images has a recommended size
              */
+            const someRecommended = images.some(({data}) => {
+                const sizeString = `${data.width}x${data.height}`;
 
-            if (appleTouchIcon.getAttribute('sizes')) {
-                const message = getMessage('sizesAttribute', context.language);
+                return !recommendedSizes.includes(sizeString);
+            });
 
-                context.report(
-                    resource,
-                    message,
-                    { element: appleTouchIcon, severity: Severity.warning }
-                );
+            for (const image of images) {
+                /*
+                 * Check image format and size.
+                 */
+                checkImage(image, someRecommended, resource);
             }
-
-            /*
-             * Check if the `apple-touch-icon` exists, is the right
-             * image format, the right size, etc.
-             */
-
-            await checkImage(appleTouchIcon, resource);
 
             /*
              * Check if the `apple-touch-icon` is included in the `<body>`.
@@ -312,31 +296,38 @@ export default class AppleTouchIconsHint implements IHint {
             const bodyAppleTouchIcons: HTMLElement[] = getAppleTouchIcons(pageDOM.querySelectorAll('body link'));
 
             for (const icon of bodyAppleTouchIcons) {
-                if (icon.isSame(appleTouchIcon)) {
-                    const message = getMessage('elementNotInHead', context.language);
+                const message = getMessage('elementNotInHead', context.language);
 
-                    context.report(
-                        resource,
-                        message,
-                        { element: appleTouchIcon, severity: Severity.error }
-                    );
-                }
+                context.report(
+                    resource,
+                    message,
+                    { element: icon, severity: Severity.error }
+                );
             }
 
             /*
-             * All other `apple-touch-icon`s should not be included.
+             * Look for duplicated `apple-touch-icon`s.
              */
+            const iconsHref: Set<string> = new Set();
 
-            for (const icon of appleTouchIcons) {
-                if (!icon.isSame(appleTouchIcon)) {
+            for (const appleTouchIcon of appleTouchIcons) {
+                const href = appleTouchIcon.getAttribute('href');
+
+                if (!href) {
+                    continue;
+                }
+
+                if (iconsHref.has(href)) {
                     const message = getMessage('elementDuplicated', context.language);
 
                     context.report(
                         resource,
                         message,
-                        { element: icon, severity: Severity.warning }
+                        { element: appleTouchIcon, severity: Severity.warning }
                     );
                 }
+
+                iconsHref.add(href);
             }
         };
 

@@ -10,26 +10,29 @@ const hintPath = getHintPath(__filename);
 // Images
 
 const appleTouchIconLinkTag = '<link rel="apple-touch-icon" href="/apple-touch-icon.png">';
-const defaultImage = fs.readFileSync(`${__dirname}/fixtures/apple-touch-icon.png`); // eslint-disable-line no-sync
-const imageThatIsNotSquare = fs.readFileSync(`${__dirname}/fixtures/not-square.png`); // eslint-disable-line no-sync
-const imageWithIncorrectDimensions = fs.readFileSync(`${__dirname}/fixtures/incorrect-dimensions.png`); // eslint-disable-line no-sync
-const imageWithIncorrectFileFormat = fs.readFileSync(`${__dirname}/fixtures/incorrect-file-format.png`); // eslint-disable-line no-sync
+/* eslint-disable no-sync */
+const image152x152 = fs.readFileSync(`${__dirname}/fixtures/apple-touch-icon152x152.png`);
+const image167x167 = fs.readFileSync(`${__dirname}/fixtures/apple-touch-icon167x167.png`);
+const image180x180 = fs.readFileSync(`${__dirname}/fixtures/apple-touch-icon180x180.png`);
+const imageThatIsNotSquare = fs.readFileSync(`${__dirname}/fixtures/not-square.png`);
+const imageWithIncorrectDimensions100x100 = fs.readFileSync(`${__dirname}/fixtures/incorrect-dimensions100x100.png`);
+const imageWithIncorrectDimensions200x200 = fs.readFileSync(`${__dirname}/fixtures/incorrect-dimensions200x200.png`);
+const imageWithIncorrectFileFormat = fs.readFileSync(`${__dirname}/fixtures/incorrect-file-format.png`);
+/* eslint-enable no-sync */
 
 // Error messages
-
-const elementAlreadySpecifiedErrorMessage = `The 'apple-touch-icon' link element is not needed as one was already specified.`;
 const elementHasEmptyHrefAttributeErrorMessage = `The 'apple-touch-icon' link element should have a non-empty 'href' attribute.`;
 const elementHasIncorrectRelAttributeErrorMessage = `The 'apple-touch-icon' link element should have 'rel="apple-touch-icon"'.`;
-const elementHasUnneededSizesAttributeErrorMessage = `The 'apple-touch-icon' link element should not have a 'sizes' attribute.`;
 const elementNotSpecifiedErrorMessage = `The 'apple-touch-icon' link element was not specified.`;
 const elementNotSpecifiedInHeadErrorMessage = `The 'apple-touch-icon' link element should be specified in the '<head>'.`;
 const fileCouldNotBeFetchedErrorMessage = `The 'apple-touch-icon' could not be fetched (status code: 404).`;
-const fileHasIncorrectSizeErrorMessage = `The 'apple-touch-icon' should be 180x180px.`;
+const fileHasIncorrectSizeErrorMessage = `The 'apple-touch-icon' size is not recommended. Recommended sizes: ['120x120','152x152', '167x167', '180x180']`;
 const fileIsInvalidPNGErrorMessage = `The 'apple-touch-icon' should be a valid PNG image.`;
 const fileIsNotPNGErrorMessage = `The 'apple-touch-icon' should be a PNG image.`;
 const fileRequestFailedErrorMessage = `The 'apple-touch-icon' could not be fetched (request failed).`;
+const elementDuplicatedErrorMessage = `The 'apple-touch-icon' link element is not needed as one was already specified.`;
 
-const generateImageData = (content: Buffer = defaultImage): Object => {
+const generateImageData = (content: Buffer = image180x180): Object => {
     return {
         content,
         headers: { 'Content-Type': 'image/png' }
@@ -109,17 +112,6 @@ const tests: HintTest[] = [
         }
     },
     {
-        name: `'apple-touch-icon' has 'sizes' attribute`,
-        reports: [{
-            message: elementHasUnneededSizesAttributeErrorMessage,
-            severity: Severity.warning
-        }],
-        serverConfig: {
-            '/': generateHTMLPage('<link rel="  apple-touch-icon " Sizes="57x57" href="/apple-touch-icon.png">'),
-            '/apple-touch-icon.png': generateImageData()
-        }
-    },
-    {
         name: `'apple-touch-icon' is not PNG`,
         reports: [{
             message: fileIsNotPNGErrorMessage,
@@ -145,18 +137,18 @@ const tests: HintTest[] = [
         name: `'apple-touch-icon' is not 180x180px`,
         reports: [{
             message: fileHasIncorrectSizeErrorMessage,
-            severity: Severity.warning
+            severity: Severity.error
         }],
         serverConfig: {
             '/': generateHTMLPage(appleTouchIconLinkTag),
-            '/apple-touch-icon.png': generateImageData(imageWithIncorrectDimensions)
+            '/apple-touch-icon.png': generateImageData(imageWithIncorrectDimensions100x100)
         }
     },
     {
         name: `'apple-touch-icon' is not 180x180px and it's also not square`,
         reports: [{
             message: fileHasIncorrectSizeErrorMessage,
-            severity: Severity.warning
+            severity: Severity.error
         }],
         serverConfig: {
             '/': generateHTMLPage(appleTouchIconLinkTag),
@@ -198,42 +190,63 @@ const tests: HintTest[] = [
     },
     {
         name: `Multiple 'apple-touch-icon's are specified`,
-        reports: [
-            {
-                message: elementHasUnneededSizesAttributeErrorMessage,
-                severity: Severity.warning
-            },
-            {
-                message: elementAlreadySpecifiedErrorMessage,
-                position: { column: 17, line: 4 },
-                severity: Severity.warning
-            },
-            {
-                message: elementAlreadySpecifiedErrorMessage,
-                position: { column: 17, line: 6 },
-                severity: Severity.warning
-            }
-        ],
         serverConfig: {
             '/': generateHTMLPage(`
                 <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
                 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
                 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
             `),
-            '/apple-touch-icon-180x180.png': generateImageData()
+            '/apple-touch-icon-152x152.png': generateImageData(image152x152),
+            '/apple-touch-icon-180x180.png': generateImageData(image180x180),
+            '/apple-touch-icon.png': generateImageData(image167x167)
         }
     },
     {
-        name: `Multiple 'apple-touch-icon's are specified (different usage)`,
+        name: `Multiple 'apple-touch-icon's are specified (one with not recommended size)`,
         reports: [{
-            message: elementAlreadySpecifiedErrorMessage,
+            message: fileHasIncorrectSizeErrorMessage,
+            severity: Severity.warning
+        }],
+        serverConfig: {
+            '/': generateHTMLPage(`
+                <link rel="apple-touch-icon" sizes="100x100" href="/apple-touch-icon-100x100.png">
+                <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+            `),
+            '/apple-touch-icon-100x100.png': generateImageData(imageWithIncorrectDimensions100x100),
+            '/apple-touch-icon.png': generateImageData()
+        }
+    },
+    {
+        name: `Multiple 'apple-touch-icon's are specified (no recommended sizes)`,
+        reports: [{
+            message: fileHasIncorrectSizeErrorMessage,
+            severity: Severity.error
+        }, {
+            message: fileHasIncorrectSizeErrorMessage,
+            severity: Severity.error
+        }],
+        serverConfig: {
+            '/': generateHTMLPage(`
+                <link rel="apple-touch-icon" sizes="100x100" href="/apple-touch-icon-100x100.png">
+                <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+            `),
+            '/apple-touch-icon-100x100.png': generateImageData(imageWithIncorrectDimensions100x100),
+            '/apple-touch-icon.png': generateImageData(imageWithIncorrectDimensions200x200)
+        }
+    },
+    {
+        name: `Duplicated 'apple-touch-icon's are specified`,
+        reports: [{
+            message: elementDuplicatedErrorMessage,
             severity: Severity.warning
         }],
         serverConfig: {
             '/': generateHTMLPage(`
                 <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
                 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+                <link rel="apple-touch-icon" href="/apple-touch-icon.png">
             `),
+            '/apple-touch-icon-152x152.png': generateImageData(image152x152),
             '/apple-touch-icon.png': generateImageData()
         }
     }
