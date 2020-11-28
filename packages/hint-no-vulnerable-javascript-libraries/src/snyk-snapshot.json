@@ -13944,7 +13944,7 @@
         "packageManager": "npm",
         "packageName": "merge",
         "patches": [],
-        "publicationTime": "2020-11-16T16:28:38.142135Z",
+        "publicationTime": "2020-11-16T16:28:38Z",
         "references": [
           {
             "title": "GitHub PR",
@@ -20438,7 +20438,7 @@
     ],
     "serialize-to-js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:L/A:L",
         "alternativeIds": [],
         "creationTime": "2019-12-08T14:37:34.550063Z",
         "credit": [
