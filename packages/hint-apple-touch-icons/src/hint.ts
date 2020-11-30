@@ -279,7 +279,7 @@ export default class AppleTouchIconsHint implements IHint {
             const someRecommended = images.some(({data}) => {
                 const sizeString = `${data.width}x${data.height}`;
 
-                return !recommendedSizes.includes(sizeString);
+                return recommendedSizes.includes(sizeString);
             });
 
             for (const image of images) {
