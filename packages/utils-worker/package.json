@@ -53,7 +53,7 @@
     "axe-core": "^4.0.2",
     "browserslist": "^4.14.7",
     "cpx": "^1.5.0",
-    "eslint": "^7.8.1",
+    "eslint": "^7.14.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^1.0.2",
     "globby": "^11.0.1",
