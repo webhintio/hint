@@ -5,8 +5,6 @@
  * https://github.com/eslint/eslint/blob/master/lib/config/config-file.js
  */
 
-/* eslint no-use-before-define: 0 */
-
 /*
  * ------------------------------------------------------------------------------
  * Requirements
