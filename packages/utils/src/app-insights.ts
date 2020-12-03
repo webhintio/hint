@@ -74,7 +74,7 @@ export const disable = () => {
 export const sendPendingData = (isAppCrashing = false) => {
     debug('Sending pending data to Application Insights');
 
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
         appInsightsClient.flush({
             callback: (message) => {
                 debug(message);

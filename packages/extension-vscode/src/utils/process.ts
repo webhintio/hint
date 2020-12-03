@@ -10,7 +10,7 @@ export const run = (command: string, options?: SpawnOptions) => {
     const spawnOptions: SpawnOptions = { stdio: 'inherit', ...options };
     const child = spawn(parts[0], parts.slice(1), spawnOptions);
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
         child.on('error', (err) => {
             reject(err);
         });

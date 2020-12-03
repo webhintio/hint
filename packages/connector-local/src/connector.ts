@@ -204,7 +204,7 @@ export default class LocalConnector implements IConnector {
     }
 
     private watch(targetString: string) {
-        return new Promise(async (resolve, reject) => {
+        return new Promise<void>(async (resolve, reject) => {
             const isF = isFile(targetString);
             /* istanbul ignore next */
             const target = isF ? targetString : '.';

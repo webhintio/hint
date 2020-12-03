@@ -66,9 +66,9 @@ initTelemetry({
     defaultProperties,
     enabled: telemetryEnabled === 'enabled',
     post: (url, data) => {
-        return new Promise((resolve, reject) => {
+        return new Promise<number>((resolve, reject) => {
             const request = https.request(url, { method: 'POST' }, (response) => {
-                resolve(response.statusCode);
+                resolve(response.statusCode as number);
             });
 
             request.on('error', (err) => {

@@ -178,7 +178,7 @@ export default class JSDOMConnector implements IConnector {
 
         this.server.emit('scan::start', initialEvent);
 
-        return new Promise(async (resolve, reject) => {
+        return new Promise<void>(async (resolve, reject) => {
 
             debug(`About to start fetching ${href}`);
             await this.server.emitAsync('fetch::start::target', initialEvent);
