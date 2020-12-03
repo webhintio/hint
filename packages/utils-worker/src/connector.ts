@@ -107,7 +107,7 @@ export default class WebWorkerConnector implements IConnector {
 
         notifyHost({ ready: true });
 
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this._onComplete = async (err: Error | null, resource = '') => {
                 /* istanbul ignore if */
                 if (err) {

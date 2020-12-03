@@ -14,8 +14,8 @@ export interface INamedNodeMap {
     readonly length: number;
 }
 
-export type ChildData = CommentData | DoctypeData | DocumentFragmentData | ElementData | TextData; // eslint-disable-line no-use-before-define
-export type ParentData = DocumentData | DocumentFragmentData | ElementData; // eslint-disable-line no-use-before-define
+export type ChildData = CommentData | DoctypeData | DocumentFragmentData | ElementData | TextData;
+export type ParentData = DocumentData | DocumentFragmentData | ElementData;
 
 type BaseData = {
     id?: number;
