@@ -56,10 +56,7 @@ module.exports = (env) => {
                 }
             ]
         },
-        node: {
-            __dirname: true,
-            fs: 'empty'
-        },
+        node: { __dirname: true },
         optimization: {
             minimizer: [
                 /*
@@ -77,6 +74,8 @@ module.exports = (env) => {
         plugins: [
             new webpack.DefinePlugin({
                 DESIGN_SYSTEM: JSON.stringify(env && env.design || 'fluent'),
+                'process.argv': process.argv,
+                'process.env.NODE_DEBUG': JSON.stringify(process.env.NODE_DEBUG), // eslint-disable-line no-process-env
                 'process.env.webpack': JSON.stringify(true)
             })
         ],
@@ -88,6 +87,14 @@ module.exports = (env) => {
                 'acorn-jsx-walk$': path.resolve(__dirname, 'dist/src/shims/acorn-jsx-walk.js'),
                 'axe-core': require.resolve('axe-core/axe.min.js'),
                 url$: path.resolve(__dirname, 'dist/src/shims/url.js')
+            },
+            fallback: {
+                assert: 'assert',
+                crypto: 'crypto-browserify',
+                fs: false,
+                path: 'path-browserify',
+                stream: 'stream-browserify',
+                util: 'util'
             }
         }
     };
