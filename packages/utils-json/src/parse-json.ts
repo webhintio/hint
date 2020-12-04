@@ -167,5 +167,5 @@ export const parseJSON = (json: string, alternatePath?: string): IJSONResult => 
         JSON.parse(json);
     }
 
-    return new JSONResult(data, root, lines, alternatePath);
+    return new JSONResult(data, root as Node, lines, alternatePath);
 };
