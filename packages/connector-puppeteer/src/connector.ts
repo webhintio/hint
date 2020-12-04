@@ -143,6 +143,7 @@ export default class PuppeteerConnector implements IConnector {
     }
 
     private waitForTarget() {
+        /* istanbul ignore else */
         if (this._targetBody !== undefined) {
             return Promise.resolve();
         }
