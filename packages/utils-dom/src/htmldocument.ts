@@ -2,7 +2,7 @@ import { URL } from 'url';
 
 import * as parse5 from 'parse5';
 import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
-import * as cssSelect from 'css-select';
+import cssSelect, { selectOne } from 'css-select';
 
 import { createElement } from './create-element';
 import { HTMLElement } from './htmlelement';
@@ -164,7 +164,7 @@ export class HTMLDocument extends Node {
      * https://developer.mozilla.org/docs/Web/API/Document/querySelector
      */
     public querySelector(selector: string): HTMLElement | null {
-        const data = cssSelect.selectOne(
+        const data = selectOne(
             getCompiledSelector(selector),
             this._document.children
         );
