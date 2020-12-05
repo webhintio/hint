@@ -40,7 +40,7 @@ export default class NoInlineStylesHint implements IHint {
                 context.report(
                     resource,
                     getMessage('styleElementFound', context.language),
-                    { severity: Severity.error }
+                    { severity: Severity.hint }
                 );
             }
 
@@ -61,7 +61,7 @@ export default class NoInlineStylesHint implements IHint {
                         'elementsWithStyleAttributeFound',
                         context.language
                     ),
-                    { severity: Severity.error }
+                    { severity: Severity.hint }
                 );
             }
         };

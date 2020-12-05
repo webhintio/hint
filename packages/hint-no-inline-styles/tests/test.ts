@@ -29,7 +29,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `CSS inline styles should not be used, move styles to an external CSS file`,
-                severity: Severity.error
+                severity: Severity.hint
             }
         ],
         serverConfig: generateHTMLPage('', style.elementWithStyleAttribute)
@@ -39,7 +39,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `CSS inline styles should not be used, move styles to an external CSS file`,
-                severity: Severity.error
+                severity: Severity.hint
             }
         ],
         serverConfig: generateHTMLPage(
@@ -52,7 +52,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `CSS inline styles should not be used, move styles to an external CSS file`,
-                severity: Severity.error
+                severity: Severity.hint
             }
         ],
         serverConfig: generateHTMLPage(
@@ -65,7 +65,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `CSS inline styles should not be used, move styles to an external CSS file`,
-                severity: Severity.error
+                severity: Severity.hint
             }
         ],
         serverConfig: generateHTMLPage('', style.styleElement)
@@ -75,7 +75,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `CSS inline styles should not be used, move styles to an external CSS file`,
-                severity: Severity.error
+                severity: Severity.hint
             }
         ],
         serverConfig: generateHTMLPage(
@@ -88,7 +88,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `CSS inline styles should not be used, move styles to an external CSS file`,
-                severity: Severity.error
+                severity: Severity.hint
             }
         ],
         serverConfig: generateHTMLPage(
