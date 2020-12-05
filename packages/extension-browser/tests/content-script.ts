@@ -301,7 +301,7 @@ test('It returns the right position when a base tag is present', async (t) => {
     t.true(results.categories.some((category) => {
         return category.hints.some((hint) => {
             return hint.problems.some((problem) => {
-                if (problem.message === 'Images must have alternate text') {
+                if (problem.message === 'Images must have alternate text: Element has no title attribute') {
                     return problem.location.column !== -1 && problem.location.line !== -1;
                 }
 

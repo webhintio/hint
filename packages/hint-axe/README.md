@@ -47,7 +47,6 @@ that group and more information about each rule.
 * [Keyboard (axe/keyboard)][axe/keyboard]
 * [Language (axe/language)][axe/language]
 * [Name Role Value (axe/name-role-value)][axe/name-role-value]
-* [Other (axe/other)][axe/other]
 * [Parsing (axe/parsing)][axe/parsing]
 * [Semantics (axe/semantics)][axe/semantics]
 * [Sensory and Visual Cues (axe/sensory-and-visual-cues)][axe/sensory-and-visual-cues]
@@ -181,7 +180,6 @@ your project.
 [axe/keyboard]: https://webhint.io/docs/user-guide/hints/hint-axe/keyboard/
 [axe/language]: https://webhint.io/docs/user-guide/hints/hint-axe/language/
 [axe/name-role-value]: https://webhint.io/docs/user-guide/hints/hint-axe/name-role-value/
-[axe/other]: https://webhint.io/docs/user-guide/hints/hint-axe/other/
 [axe/parsing]: https://webhint.io/docs/user-guide/hints/hint-axe/parsing/
 [axe/semantics]: https://webhint.io/docs/user-guide/hints/hint-axe/semantics/
 [axe/sensory-and-visual-cues]: https://webhint.io/docs/user-guide/hints/hint-axe/sensory-and-visual-cues/
