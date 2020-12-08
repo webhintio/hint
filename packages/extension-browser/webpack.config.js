@@ -28,7 +28,10 @@ module.exports = (env) => {
                 {
                     test: /\.css$/,
                     use: [
-                        'style-loader',
+                        {
+                            loader: 'style-loader',
+                            options: { esModule: false }
+                        },
                         {
                             loader: 'css-loader',
                             options: {
@@ -74,10 +77,11 @@ module.exports = (env) => {
         plugins: [
             new webpack.DefinePlugin({
                 DESIGN_SYSTEM: JSON.stringify(env && env.design || 'fluent'),
-                'process.argv': process.argv,
+                'process.argv': [],
                 'process.env.NODE_DEBUG': JSON.stringify(process.env.NODE_DEBUG), // eslint-disable-line no-process-env
                 'process.env.webpack': JSON.stringify(true)
-            })
+            }),
+            new webpack.ProvidePlugin({ process: 'process/browser' })
         ],
         resolve: {
             alias: {
@@ -93,6 +97,7 @@ module.exports = (env) => {
                 crypto: 'crypto-browserify',
                 fs: false,
                 path: 'path-browserify',
+                setImmediate: 'setimmediate',
                 stream: 'stream-browserify',
                 util: 'util'
             }
