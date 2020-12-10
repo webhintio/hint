@@ -1008,10 +1008,12 @@ In the [`.hintrc`][hintrc] file:
         "http-compression": [ "warning", {
             "resource": {
                 "<compression_type>": <true|false>,
+                "threshold": <number>
                 ...
             },
             "html": {
                 "<compression_type>": <true|false>,
+                "threshold": <number>
                 ...
             }
         },
@@ -1023,7 +1025,8 @@ In the [`.hintrc`][hintrc] file:
 
 Where `<compression_method>` can be one of: `brotli`, `gzip`, or
 `zopfli`.
-
+And `threshold` is the maximum size (in bytes) to set the
+severity of a report to `hint`.
 E.g. If you want the hint to check if only the page resources are
 served compressed using Brotli, and not the page itself, you can
 use the following configuration in the [`.hintrc`][hintrc]:
@@ -1035,7 +1038,8 @@ use the following configuration in the [`.hintrc`][hintrc]:
     "hints": {
         "http-compression": [ "warning", {
             "html": {
-                "brotli": false
+                "brotli": false,
+                "threshold": 1024
             }
         }],
         ...
