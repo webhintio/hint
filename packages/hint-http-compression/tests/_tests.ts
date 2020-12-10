@@ -249,6 +249,17 @@ const testsForBrotli: HintTest[] = [
         })
     },
     {
+        name: `Resource is not served compressed with Brotli when Brotli compression is requested but it is a very small file`,
+        reports: [{
+            message: generateCompressionMessage('Brotli', false, 'over HTTPS'),
+            severity: Severity.hint
+        }],
+        serverConfig: createBrotliServerConfig({
+            scriptFileContent: scriptSmallFile.original,
+            scriptFileHeaders: { 'Content-Encoding': null }
+        })
+    },
+    {
         name: `Resource is served compressed with Brotli and without the 'Content-Encoding' header when Brotli compression is requested`,
         reports: [{
             message: generateContentEncodingMessage('br'),
@@ -446,6 +457,29 @@ const testsForDisallowedCompressionMethods = (https: boolean = false): HintTest[
             )
         },
         {
+            name: `Compressed resource is served with disallowed 'Content-Encoding: x-compress' header but it is a very small file`,
+            reports: [
+                {
+                    message: generateDisallowedCompressionMessage('x-compress'),
+                    severity: Severity.warning
+                },
+                {
+                    message: generateCompressionMessage('gzip'),
+                    severity: Severity.hint
+                }
+            ],
+            serverConfig: createGzipZopfliServerConfig(
+                {
+                    scriptFileContent: scriptSmallFile.original,
+                    scriptFileHeaders: {
+                        'Content-Encoding': 'x-compress',
+                        vary: 'Accept-Encoding'
+                    }
+                },
+                https
+            )
+        },
+        {
             name: `Compressed resource is served with 'Get-Dictionary' header`,
             reports: [{
                 message: generateDisallowedCompressionMessage('sdch'),
@@ -477,6 +511,21 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileContent: scriptFile.original,
+                    scriptFileHeaders: { 'Content-Encoding': null }
+                },
+                https
+            )
+        },
+        {
+            name: `Resource is not served compressed with gzip when gzip compression is requested but it is a very small file`,
+            reports: [{
+                message: generateCompressionMessage('gzip'),
+                severity: Severity.hint
+            }],
+            serverConfig: createGzipZopfliServerConfig(
+                {
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
+                    scriptFileContent: scriptSmallFile.original,
                     scriptFileHeaders: { 'Content-Encoding': null }
                 },
                 https

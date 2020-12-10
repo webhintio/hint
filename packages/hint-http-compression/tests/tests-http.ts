@@ -37,14 +37,14 @@ testHint(hintPath, testsForGzipZopfliUASniffing(), testConfigs);
 testHint(hintPath, testsForBrotliOverHTTP, testConfigs);
 
 // Tests for the user options.
-[true, false].forEach((isTarget) => {
+[true, false].forEach((isHTML) => {
     ['gzip', 'zopfli', 'brotli'].forEach((encoding) => {
         testHint(
             hintPath,
-            testsForUserConfigs(`${encoding}`, isTarget),
+            testsForUserConfigs(`${encoding}`, isHTML),
             {
                 ...testConfigs,
-                hintOptions: { [isTarget ? 'target' : 'resource']: { [encoding]: false } }
+                hintOptions: { [isHTML ? 'html' : 'resource']: { [encoding]: false } }
             }
         );
     });

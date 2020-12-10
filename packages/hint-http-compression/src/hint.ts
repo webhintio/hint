@@ -47,6 +47,7 @@ export default class HttpCompressionHint implements IHint {
             return {
                 brotli: true,
                 gzip: true,
+                threshold: 1024,
                 zopfli: true,
                 ...(context.hintOptions && context.hintOptions[property])
             };
@@ -56,6 +57,10 @@ export default class HttpCompressionHint implements IHint {
         const htmlOptions: CompressionCheckOptions = getHintOptions('html');
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        const isBigFile = (size: number, options: CompressionCheckOptions) => {
+            return size > options.threshold;
+        };
 
         const checkIfBytesMatch = (rawResponse: Buffer, magicNumbers: number[]) => {
             return rawResponse && magicNumbers.every((b, i) => {
@@ -281,7 +286,7 @@ export default class HttpCompressionHint implements IHint {
             return !checkIfBytesMatch(rawResponse, [0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x03]);
         };
 
-        const checkBrotli = async (resource: string, element: HTMLElement | null) => {
+        const checkBrotli = async (resource: string, element: HTMLElement | null, options: CompressionCheckOptions) => {
             let networkData = await getNetworkData(resource, { 'Accept-Encoding': 'br' });
 
             if (!networkData) {
@@ -340,7 +345,7 @@ export default class HttpCompressionHint implements IHint {
                 context.report(
                     resource,
                     getMessage('compressedWithBrotliOverHTTPS', context.language),
-                    { element, severity: Severity.warning }
+                    { element, severity: isBigFile(rawResponse.byteLength, options) ? Severity.warning : Severity.hint }
                 );
 
                 return;
@@ -427,7 +432,7 @@ export default class HttpCompressionHint implements IHint {
                 context.report(
                     resource,
                     generateGzipCompressionMessage('gzip'),
-                    { element, severity: Severity.error });
+                    { element, severity: isBigFile(rawResponse.byteLength, shouldCheckIfCompressedWith) ? Severity.error : Severity.hint });
 
                 return;
             }
@@ -844,7 +849,7 @@ export default class HttpCompressionHint implements IHint {
             }
 
             if (shouldCheckIfCompressedWith.brotli) {
-                await checkBrotli(resource, element);
+                await checkBrotli(resource, element, shouldCheckIfCompressedWith);
             }
         };
 
