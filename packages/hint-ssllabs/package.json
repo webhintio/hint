@@ -16,7 +16,7 @@
   "description": "hint that that checks using SSL Labs for best practices related to the website's SSL configuration",
   "devDependencies": {
     "@hint/utils-tests-helpers": "^6.3.1",
-    "@types/node": "^14.11.2",
+    "@types/node": "^14.14.12",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "ava": "^3.13.0",
