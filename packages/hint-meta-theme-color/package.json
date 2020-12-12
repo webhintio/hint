@@ -20,7 +20,7 @@
     "@hint/utils-dom": "^2.1.4",
     "@hint/utils-tests-helpers": "^6.3.1",
     "@types/color-string": "^1.5.0",
-    "@types/node": "^14.11.2",
+    "@types/node": "^14.14.12",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "ava": "^3.13.0",
