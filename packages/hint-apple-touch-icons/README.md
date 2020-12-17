@@ -1,6 +1,7 @@
 # Use Apple touch icon (`apple-touch-icons`)
 
-`apple-touch-icons` requires that at least one Apple touch icon is present and of a standard size.
+`apple-touch-icons` requires that at least one Apple touch icon is present and
+of a standard size.
 
 ## Why is this important?
 
@@ -21,7 +22,6 @@ iPhone | 180px × 180px (60pt × 60pt @3x)
 iPhone (X/Plus) | 120px × 120px (60pt × 60pt @2x)
 iPad Pro | 167px × 167px (83.5pt × 83.5pt @2x)
 iPad, iPad mini | 152px × 152px (76pt × 76pt @2x)
-
 
 Other notes:
 
