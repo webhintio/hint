@@ -45,6 +45,6 @@
     },
     "wrongResolution": {
         "description": "Message to show when the icon doesn't have a recommended resolution",
-        "message": "The 'apple-touch-icon' size is not recommended. Recommended sizes: ['120x120','152x152', '167x167', '180x180']"
+        "message": "The 'apple-touch-icon' size is not recommended. Size should be 120x120, 152x152, 167x167, or 180x180."
     }
 }
