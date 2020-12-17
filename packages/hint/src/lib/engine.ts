@@ -11,6 +11,11 @@
 
 import * as url from 'url';
 
+/*
+ * This require is to tell webpack to include the code necessary to
+ * pollyfill the setImmediate and clearImmediate.
+ */
+require('setimmediate');
 import * as chalk from 'chalk';
 import { EventEmitter2 as EventEmitter, Listener } from 'eventemitter2';
 import remove = require('lodash/remove');
