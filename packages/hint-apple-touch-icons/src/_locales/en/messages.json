@@ -39,16 +39,12 @@
         "description": "Message to show when the icon is not a PNG",
         "message": "The 'apple-touch-icon' should be a PNG image."
     },
-    "sizesAttribute": {
-        "description": "Message to show when the element specify the attribute sizes",
-        "message": "The 'apple-touch-icon' link element should not have a 'sizes' attribute."
-    },
     "wrongRelAttribute": {
         "description": "Message to show when the rel attribute is not the right one",
         "message": "The 'apple-touch-icon' link element should have 'rel=\"apple-touch-icon\"'."
     },
     "wrongResolution": {
-        "description": "Message to show when the icon doesn't have the right resolution",
-        "message": "The 'apple-touch-icon' should be 180x180px."
+        "description": "Message to show when the icon doesn't have a recommended resolution",
+        "message": "The 'apple-touch-icon' size is not recommended. Size should be 120x120, 152x152, 167x167, or 180x180."
     }
 }
