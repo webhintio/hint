@@ -568,10 +568,10 @@
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.5.tgz#b14efa8852b7768d898906613c23f688713e02cd"
   integrity sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
 
-"@types/ejs@^3.0.4":
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/@types/ejs/-/ejs-3.0.4.tgz#8851fcdedb96e410fbb24f83b8be6763ef9afa77"
-  integrity sha512-ZxnwyBGO4KX/82AsFHTX82eMw0PsoBcIngEat+zx0y+3yxoNDJucAihg9nAcrc+g4Cwiv/4WcWsX4oiy0ySrRQ==
+"@types/ejs@^3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@types/ejs/-/ejs-3.0.5.tgz#95a3a1c3d9603eba80fe67ff56da1ba275ef2eda"
+  integrity sha512-k4ef69sS4sIqAPW9GoBnN+URAON2LeL1H0duQvL4RgdEBna19/WattYSA1qYqvbVEDRTSWzOw56tCLhC/m/IOw==
 
 "@types/eslint-scope@^3.7.0":
   version "3.7.0"
