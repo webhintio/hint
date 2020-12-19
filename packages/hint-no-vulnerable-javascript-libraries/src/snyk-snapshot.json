@@ -2,7 +2,7 @@
   "npm": {
     "ag-grid": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-AGGRID-11107"
         ],
@@ -54,7 +54,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-AGGRID-10432"
         ],
@@ -110,7 +110,7 @@
         "title": "HTML Injection"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-AGGRID-10431"
         ],
@@ -263,7 +263,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2019-11-19T14:54:36.625223Z",
         "credit": [
@@ -314,7 +314,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:U/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:U/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2019-10-04T10:13:58.257194Z",
         "credit": [
@@ -361,7 +361,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:U/RL:O/RC:R",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:U/RL:O/RC:R",
         "alternativeIds": [],
         "creationTime": "2019-10-04T10:04:35.446281Z",
         "credit": [
@@ -404,7 +404,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:U/RL:O/RC:R",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:U/RL:O/RC:R",
         "alternativeIds": [],
         "creationTime": "2019-10-04T09:29:33.761002Z",
         "credit": [
@@ -454,7 +454,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-12069"
         ],
@@ -510,7 +510,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-12026"
         ],
@@ -566,7 +566,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10203"
         ],
@@ -622,7 +622,7 @@
         "title": "Arbitrary Script Injection"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10202"
         ],
@@ -678,7 +678,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10201"
         ],
@@ -738,7 +738,7 @@
         "title": "Arbitrary Code Execution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10200"
         ],
@@ -794,7 +794,7 @@
         "title": "Protection Bypass"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10191"
         ],
@@ -846,7 +846,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10190"
         ],
@@ -898,7 +898,7 @@
         "title": "Content Security Policy (CSP) Bypass"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10182"
         ],
@@ -950,7 +950,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10181"
         ],
@@ -1002,7 +1002,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10180"
         ],
@@ -1054,7 +1054,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10179"
         ],
@@ -1106,7 +1106,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10177"
         ],
@@ -1158,7 +1158,7 @@
         "title": "Clickjacking"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10176"
         ],
@@ -1215,7 +1215,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10175"
         ],
@@ -1271,7 +1271,7 @@
         "title": "JSONP Callback Attack"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10174"
         ],
@@ -1323,7 +1323,7 @@
         "title": "Arbitrary Code Execution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10173"
         ],
@@ -1377,7 +1377,7 @@
         "title": "Arbitrary Command Execution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10170"
         ],
@@ -1429,7 +1429,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10141"
         ],
@@ -1481,7 +1481,7 @@
         "title": "Unsafe Object Deserialization"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
         "alternativeIds": [
           "SNYK-JS-ANGULAR-10140"
         ],
@@ -1540,7 +1540,7 @@
     ],
     "angular-gettext": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULARGETTEXT-10178"
         ],
@@ -1594,7 +1594,7 @@
     ],
     "angular-jwt": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULARJWT-12188"
         ],
@@ -1646,7 +1646,7 @@
     ],
     "angular-redactor": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-ANGULARREDACTOR-12175"
         ],
@@ -1696,7 +1696,7 @@
     ],
     "ansi2html": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-ANSI2HTML-10058"
         ],
@@ -1753,7 +1753,7 @@
     ],
     "ascii-art": [
       {
-        "CVSSv3": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H",
         "alternativeIds": [],
         "creationTime": "2018-09-12T12:14:54.418943Z",
         "credit": [
@@ -1808,7 +1808,7 @@
     ],
     "assign-deep": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2019-06-20T09:31:34.372811Z",
         "credit": [
@@ -1898,7 +1898,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-ASSIGNDEEP-12066"
         ],
@@ -1953,7 +1953,7 @@
     ],
     "astronomia": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-ASTRONOMIA-10919"
         ],
@@ -2004,7 +2004,7 @@
     ],
     "atob": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:H/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:H/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-ATOB-12131"
         ],
@@ -2112,7 +2112,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2020-02-02T10:59:16.702674Z",
         "credit": [
@@ -2157,7 +2157,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-AUTH0LOCK-11083"
         ],
@@ -2209,7 +2209,7 @@
     ],
     "backbone": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-BACKBONE-10110"
         ],
@@ -2266,7 +2266,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-BACKBONE-10054"
         ],
@@ -2326,7 +2326,7 @@
     ],
     "base64-url": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-BASE64URL-12144"
         ],
@@ -2382,7 +2382,7 @@
     ],
     "blueimp-file-upload": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:H/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:H/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2018-10-14T07:47:55.419617Z",
         "credit": [
@@ -2445,7 +2445,7 @@
     ],
     "bootstrap": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-02-15T11:59:02.487381Z",
         "credit": [
@@ -2511,7 +2511,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-01-21T08:14:15.361480Z",
         "credit": [
@@ -2588,7 +2588,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-01-09T12:07:55.360482Z",
         "credit": [
@@ -2645,7 +2645,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-01-09T12:05:26.115587Z",
         "credit": [
@@ -2698,7 +2698,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-BOOTSTRAP-11109"
         ],
@@ -2787,7 +2787,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-BOOTSTRAP-10860"
         ],
@@ -2859,7 +2859,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-BOOTSTRAP-10433"
         ],
@@ -2913,7 +2913,7 @@
     ],
     "bootstrap-markdown": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-BOOTSTRAPMARKDOWN-10522"
         ],
@@ -2961,7 +2961,7 @@
     ],
     "bootstrap-tagsinput": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-BOOTSTRAPTAGSINPUT-10115"
         ],
@@ -3017,7 +3017,7 @@
     ],
     "brace-expansion": [
       {
-        "CVSSv3": "CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-BRACEEXPANSION-10483"
         ],
@@ -3080,7 +3080,7 @@
     ],
     "braces": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-BRACES-10900"
         ],
@@ -3208,7 +3208,7 @@
         "title": "Internal Property Tampering"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-BSON-10988"
         ],
@@ -3372,7 +3372,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2018-12-31T15:17:08.018652Z",
         "credit": [
@@ -3427,7 +3427,7 @@
     ],
     "c3": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-C3-10131"
         ],
@@ -3489,7 +3489,7 @@
     ],
     "checkit": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:U/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:U/RC:C",
         "alternativeIds": [
           "SNYK-JS-CHECKIT-10983"
         ],
@@ -3538,7 +3538,7 @@
     ],
     "citeproc": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-CITEPROC-10890"
         ],
@@ -3589,7 +3589,7 @@
     ],
     "ckeditor": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2018-11-18T11:31:40.601512Z",
         "credit": [
@@ -3636,7 +3636,7 @@
     ],
     "clusterize.js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-CLUSTERIZEJS-10211"
         ],
@@ -3690,7 +3690,7 @@
     ],
     "compromise": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-COMPROMISE-10985"
         ],
@@ -3741,7 +3741,7 @@
     ],
     "console-io": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-CONSOLEIO-10102"
         ],
@@ -3800,7 +3800,7 @@
     ],
     "content-type-parser": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-CONTENTTYPEPARSER-10847"
         ],
@@ -3854,7 +3854,7 @@
     ],
     "crypto-browserify": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-CRYPTOBROWSERIFY-12028"
         ],
@@ -3925,7 +3925,7 @@
     ],
     "d3.js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
         "alternativeIds": [
           "SNYK-JS-D3JS-10707"
         ],
@@ -3982,7 +3982,7 @@
     ],
     "datatables": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DATATABLES-10439"
         ],
@@ -4030,7 +4030,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DATATABLES-10042"
         ],
@@ -4093,7 +4093,7 @@
     ],
     "deap": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-DEAP-12118"
         ],
@@ -4151,7 +4151,7 @@
     ],
     "decamelize": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-DECAMELIZE-10472"
         ],
@@ -4210,7 +4210,7 @@
     ],
     "deep-extend": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-DEEPEXTEND-12120"
         ],
@@ -4374,7 +4374,7 @@
     ],
     "defaults-deep": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [],
         "creationTime": "2019-02-07T20:54:15.136659Z",
         "credit": [
@@ -4424,7 +4424,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-DEFAULTSDEEP-12065"
         ],
@@ -4479,7 +4479,7 @@
     ],
     "diff": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-DIFF-11050"
         ],
@@ -4612,7 +4612,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DIJIT-12062"
         ],
@@ -4728,7 +4728,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:F/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2019-06-07T16:12:58.559557Z",
         "credit": [
@@ -4788,7 +4788,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [],
         "creationTime": "2019-06-07T13:27:28.470318Z",
         "credit": [
@@ -4836,7 +4836,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2018-09-12T12:12:31.111354Z",
         "credit": [
@@ -4889,7 +4889,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DOJO-11134"
         ],
@@ -4953,7 +4953,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DOJO-10108"
         ],
@@ -5008,7 +5008,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DOJO-10053"
         ],
@@ -5125,7 +5125,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DOJO-10051"
         ],
@@ -5293,7 +5293,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DOJOX-12190"
         ],
@@ -5447,7 +5447,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [],
         "creationTime": "2019-10-22T14:48:47.264178Z",
         "credit": [
@@ -5485,7 +5485,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [],
         "creationTime": "2019-09-24T07:46:48.899067Z",
         "credit": [
@@ -5545,7 +5545,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DOMPURIFY-10478"
         ],
@@ -5597,7 +5597,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DOMPURIFY-10477"
         ],
@@ -5645,7 +5645,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DOMPURIFY-10476"
         ],
@@ -5697,7 +5697,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-DOMPURIFY-10475"
         ],
@@ -5749,7 +5749,7 @@
         "title": "Insecure Defaults"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-DOMPURIFY-10474"
         ],
@@ -5803,7 +5803,7 @@
     ],
     "ducktype": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-DUCKTYPE-11085"
         ],
@@ -5854,7 +5854,7 @@
     ],
     "dustjs-linkedin": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-DUSTJSLINKEDIN-10136"
         ],
@@ -5916,7 +5916,7 @@
     ],
     "easyxdm": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-EASYXDM-10523"
         ],
@@ -5972,7 +5972,7 @@
     ],
     "ember": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-EMBER-10050"
         ],
@@ -6035,7 +6035,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-EMBER-10049"
         ],
@@ -6085,7 +6085,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-EMBER-10045"
         ],
@@ -6147,7 +6147,7 @@
     ],
     "emojione": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-EMOJIONE-10121"
         ],
@@ -6213,7 +6213,7 @@
     ],
     "engine.io": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-ENGINEIO-10204"
         ],
@@ -6267,7 +6267,7 @@
     ],
     "engine.io-client": [
       {
-        "CVSSv3": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-ENGINEIOCLIENT-10103"
         ],
@@ -6346,7 +6346,7 @@
     ],
     "exceljs": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:C/C:N/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:N/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-EXCELJS-11132"
         ],
@@ -6413,7 +6413,7 @@
     ],
     "extend": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-EXTEND-12179"
         ],
@@ -6511,7 +6511,7 @@
     ],
     "favico.js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-FAVICOJS-10412"
         ],
@@ -6729,7 +6729,7 @@
     ],
     "fernet": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-FERNET-10206"
         ],
@@ -6783,7 +6783,7 @@
     ],
     "foundation-sites": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-FOUNDATIONSITES-10743"
         ],
@@ -6826,7 +6826,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-FOUNDATIONSITES-10414"
         ],
@@ -6882,7 +6882,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-FOUNDATIONSITES-10413"
         ],
@@ -6936,7 +6936,7 @@
     ],
     "fuelux": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-FUELUX-10124"
         ],
@@ -6994,7 +6994,7 @@
     ],
     "fullpage.js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-FULLPAGEJS-10441"
         ],
@@ -7056,7 +7056,7 @@
     ],
     "getstats": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N/E:F/RL:U/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N/E:F/RL:U/RC:C",
         "alternativeIds": [
           "SNYK-JS-GETSTATS-10953"
         ],
@@ -7104,7 +7104,7 @@
     ],
     "git-username": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-GITUSERNAME-10984"
         ],
@@ -7159,7 +7159,7 @@
     ],
     "github-url-to-object": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-GITHUBURLTOOBJECT-10986"
         ],
@@ -7214,7 +7214,7 @@
     ],
     "gmail-js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-GMAILJS-10116"
         ],
@@ -7326,7 +7326,7 @@
         "title": "Insufficient Validation"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-04-25T11:17:34.115311Z",
         "credit": [
@@ -7428,7 +7428,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
         "alternativeIds": [],
         "creationTime": "2019-11-20T09:54:27.277624Z",
         "credit": [
@@ -7480,7 +7480,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:L/A:L",
         "alternativeIds": [],
         "creationTime": "2019-11-15T15:45:34.906048Z",
         "credit": [
@@ -7533,7 +7533,7 @@
         "title": "Arbitrary Code Execution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [],
         "creationTime": "2019-11-05T12:16:29.016014Z",
         "credit": [
@@ -7587,7 +7587,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [],
         "creationTime": "2019-09-25T13:12:40.749568Z",
         "credit": [
@@ -7653,7 +7653,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [],
         "creationTime": "2019-04-14T11:55:45.212136Z",
         "credit": [
@@ -7732,7 +7732,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [],
         "creationTime": "2019-02-14T16:46:18.024227Z",
         "credit": [
@@ -7832,7 +7832,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-HANDLEBARS-10068"
         ],
@@ -7918,7 +7918,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-HANDLEBARS-10047"
         ],
@@ -7976,7 +7976,7 @@
     ],
     "haraka": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2019-08-01T08:10:18.951375Z",
         "credit": [
@@ -8025,7 +8025,7 @@
         "title": "Remote Code Execution (RCE)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-HARAKA-11112"
         ],
@@ -8079,7 +8079,7 @@
     ],
     "harb": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:U/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:U/RC:C",
         "alternativeIds": [
           "SNYK-JS-HARB-10911"
         ],
@@ -8128,7 +8128,7 @@
     ],
     "hawk": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-HAWK-10080"
         ],
@@ -8386,7 +8386,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-HIGHCHARTS-11012"
         ],
@@ -8445,7 +8445,7 @@
     ],
     "html-dom-parser": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-HTMLDOMPARSER-10904"
         ],
@@ -8504,7 +8504,8 @@
         "alternativeIds": [],
         "creationTime": "2020-07-19T10:21:15.892249Z",
         "credit": [
-          "Snyk Security Team"
+          "Snyk Security Team",
+          "Alessio Della Libera (d3lla)"
         ],
         "cvssScore": 4.8,
         "disclosureTime": "2020-07-11T10:19:01Z",
@@ -8594,7 +8595,7 @@
         "title": "Buffer Overflow"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:H/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:H/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-I18NEXT-10392"
         ],
@@ -8651,7 +8652,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:H/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:H/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-I18NEXT-10391"
         ],
@@ -8804,7 +8805,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-ISMYJSONVALID-10887"
         ],
@@ -8869,7 +8870,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-ISMYJSONVALID-10079"
         ],
@@ -8943,7 +8944,7 @@
     ],
     "is-url": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-ISURL-11086"
         ],
@@ -9015,7 +9016,7 @@
     ],
     "ismobilejs": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [],
         "creationTime": "2018-11-21T11:53:37.046812Z",
         "credit": [
@@ -9064,7 +9065,7 @@
     ],
     "jplayer": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-JPLAYER-12199"
         ],
@@ -9114,7 +9115,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-JPLAYER-12197"
         ],
@@ -9168,7 +9169,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-JPLAYER-11136"
         ],
@@ -9220,7 +9221,7 @@
     ],
     "jqtree": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-JQTREE-10123"
         ],
@@ -9475,7 +9476,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P",
         "alternativeIds": [],
         "creationTime": "2019-03-27T08:43:07.568451Z",
         "credit": [
@@ -9599,7 +9600,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-JQUERY-10187"
         ],
@@ -9660,7 +9661,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERY-10186"
         ],
@@ -9730,7 +9731,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERY-10185"
         ],
@@ -9784,7 +9785,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERY-10184"
         ],
@@ -9846,7 +9847,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERY-10183"
         ],
@@ -9910,7 +9911,7 @@
     ],
     "jquery-colorbox": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERYCOLORBOX-12029"
         ],
@@ -9962,7 +9963,7 @@
     ],
     "jquery-file-upload": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:L/A:N/E:F/RL:W/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:L/A:N/E:F/RL:W/RC:C",
         "alternativeIds": [],
         "creationTime": "2018-11-20T09:12:14.280630Z",
         "credit": [
@@ -10007,7 +10008,7 @@
     ],
     "jquery-migrate": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERYMIGRATE-10197"
         ],
@@ -10069,7 +10070,7 @@
     ],
     "jquery-mobile": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-05-07T16:10:41.605054Z",
         "credit": [
@@ -10136,7 +10137,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERYMOBILE-10199"
         ],
@@ -10194,7 +10195,7 @@
     ],
     "jquery-ui": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERYUI-10189"
         ],
@@ -10248,7 +10249,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERYUI-10188"
         ],
@@ -10306,7 +10307,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERYUI-10118"
         ],
@@ -10365,7 +10366,7 @@
     ],
     "jquery-ujs": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-JQUERYUJS-10039"
         ],
@@ -10427,7 +10428,7 @@
     ],
     "jquery.js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
         "alternativeIds": [
           "SNYK-JS-JQUERYJS-10712"
         ],
@@ -10484,7 +10485,7 @@
     ],
     "js-quantities": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-JSQUANTITIES-10745"
         ],
@@ -10540,7 +10541,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-JSQUANTITIES-10744"
         ],
@@ -10598,7 +10599,7 @@
     ],
     "js-yaml": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
         "alternativeIds": [],
         "creationTime": "2019-04-07T11:15:19.826828Z",
         "credit": [
@@ -10695,7 +10696,7 @@
         "title": "Arbitrary Code Execution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H/RL:O",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H/RL:O",
         "alternativeIds": [],
         "creationTime": "2019-04-07T06:54:27.718678Z",
         "credit": [
@@ -10742,7 +10743,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H/RL:O",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H/RL:O",
         "alternativeIds": [],
         "creationTime": "2019-03-24T09:59:28.172265Z",
         "credit": [
@@ -10817,7 +10818,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N/E:H/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N/E:H/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-JSYAML-10004"
         ],
@@ -10876,7 +10877,7 @@
     ],
     "jshamcrest": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-JSHAMCREST-10075"
         ],
@@ -11018,7 +11019,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-JSPDF-10451"
         ],
@@ -11068,7 +11069,7 @@
     ],
     "jsrender": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-JSRENDER-10093"
         ],
@@ -11121,7 +11122,7 @@
     ],
     "jstree": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [],
         "creationTime": "2018-10-24T13:11:11.575126Z",
         "credit": [
@@ -11168,7 +11169,7 @@
         "title": "Arbitrary Code Injection"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-JSTREE-10647"
         ],
@@ -11226,7 +11227,7 @@
     ],
     "knex": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
         "alternativeIds": [],
         "creationTime": "2019-10-07T12:52:43.842229Z",
         "credit": [
@@ -11275,7 +11276,7 @@
         "title": "SQL Injection"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-KNEX-10228"
         ],
@@ -11331,7 +11332,7 @@
     ],
     "knockout": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-KNOCKOUT-11019"
         ],
@@ -11392,7 +11393,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-KNOCKOUT-10415"
         ],
@@ -11696,7 +11697,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [],
         "creationTime": "2019-02-03T09:18:05.060741Z",
         "credit": [
@@ -12059,7 +12060,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-LODASH-174180"
         ],
@@ -12417,7 +12418,7 @@
     ],
     "markdown-it": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N/E:P/RL:O/RC:R",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N/E:P/RL:O/RC:R",
         "alternativeIds": [],
         "creationTime": "2019-08-15T14:36:54.583523Z",
         "credit": [
@@ -12464,7 +12465,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MARKDOWNIT-10378"
         ],
@@ -12516,7 +12517,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MARKDOWNIT-10144"
         ],
@@ -12627,7 +12628,7 @@
         "title": "Regular Expression Denial of Service (ReDoS  )"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [],
         "creationTime": "2019-07-04T15:39:07.026548Z",
         "credit": [
@@ -12675,7 +12676,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [],
         "creationTime": "2019-07-02T10:01:14.757540Z",
         "credit": [
@@ -12737,7 +12738,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [],
         "creationTime": "2019-04-07T06:53:01.452330Z",
         "credit": [
@@ -12795,7 +12796,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:L/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [],
         "creationTime": "2019-02-01T14:28:20.826354Z",
         "credit": [
@@ -12850,7 +12851,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-MARKED-10990"
         ],
@@ -12906,7 +12907,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MARKED-10850"
         ],
@@ -12965,7 +12966,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-MARKED-10849"
         ],
@@ -13024,7 +13025,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-MARKED-10782"
         ],
@@ -13091,7 +13092,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-MARKED-10377"
         ],
@@ -13172,7 +13173,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
         "alternativeIds": [
           "SNYK-JS-MARKED-10099"
         ],
@@ -13282,7 +13283,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MARKED-10010"
         ],
@@ -13329,7 +13330,7 @@
         "title": "Multiple Content Injection Vulnerabilities"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-MARKED-10009"
         ],
@@ -13399,7 +13400,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MARKED-10008"
         ],
@@ -13526,7 +13527,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MATHJS-10882"
         ],
@@ -13588,7 +13589,7 @@
         "title": "Arbitrary Code Execution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MATHJS-10881"
         ],
@@ -13641,7 +13642,7 @@
         "title": "Arbitrary Code Execution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MATHJS-10880"
         ],
@@ -13693,7 +13694,7 @@
         "title": "Arbitrary Code Execution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
         "alternativeIds": [
           "SNYK-JS-MATHJS-10844"
         ],
@@ -13750,7 +13751,7 @@
         "title": "Arbitrary Code Execution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MATHJS-10843"
         ],
@@ -13809,7 +13810,7 @@
     ],
     "mediaelement": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MEDIAELEMENT-10443"
         ],
@@ -13857,7 +13858,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MEDIAELEMENT-10442"
         ],
@@ -13964,7 +13965,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:H/UI:R/S:U/C:N/I:N/A:L/E:F/RL:U/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:N/I:N/A:L/E:F/RL:U/RC:C",
         "alternativeIds": [],
         "creationTime": "2018-11-01T15:15:55.524108Z",
         "credit": [
@@ -14043,7 +14044,7 @@
     ],
     "merge-deep": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MERGEDEEP-12068"
         ],
@@ -14098,7 +14099,7 @@
     ],
     "merge-objects": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MERGEOBJECTS-12121"
         ],
@@ -14154,7 +14155,7 @@
     ],
     "merge-options": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MERGEOPTIONS-12124"
         ],
@@ -14213,7 +14214,7 @@
     ],
     "merge-recursive": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MERGERECURSIVE-12123"
         ],
@@ -14266,7 +14267,7 @@
     ],
     "mergely": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MERGELY-12214"
         ],
@@ -14320,7 +14321,7 @@
     ],
     "millisecond": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-MILLISECOND-10065"
         ],
@@ -14389,7 +14390,7 @@
     ],
     "mimer": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-MIMER-10894"
         ],
@@ -14444,7 +14445,7 @@
     ],
     "mixin-deep": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2019-06-20T09:34:56.241544Z",
         "credit": [
@@ -14553,7 +14554,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:L/AC:H/PR:H/UI:R/S:U/C:N/I:N/A:L/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:N/I:N/A:L/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-MIXINDEEP-12067"
         ],
@@ -14608,7 +14609,7 @@
     ],
     "mobile-detect": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-MOBILEDETECT-10846"
         ],
@@ -14662,7 +14663,7 @@
     ],
     "moddle-xml": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-MODDLEXML-10912"
         ],
@@ -14713,7 +14714,7 @@
     ],
     "mol-proto": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MOLPROTO-11081"
         ],
@@ -14777,7 +14778,7 @@
     ],
     "moment": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-MOMENT-10841"
         ],
@@ -14941,7 +14942,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-MOMENT-10164"
         ],
@@ -15012,7 +15013,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-MOMENT-10084"
         ],
@@ -15121,7 +15122,7 @@
     ],
     "morris.js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MORRISJS-10466"
         ],
@@ -15178,7 +15179,7 @@
     ],
     "mqtt": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-MQTT-10851"
         ],
@@ -15245,7 +15246,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-MQTT-10130"
         ],
@@ -15303,7 +15304,7 @@
     ],
     "ms": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-MS-10509"
         ],
@@ -15404,7 +15405,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-MS-10064"
         ],
@@ -15562,7 +15563,7 @@
     ],
     "mustache": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MUSTACHE-10067"
         ],
@@ -15627,7 +15628,7 @@
         "title": "Content Injection due to quoteless attributes"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-MUSTACHE-10046"
         ],
@@ -15675,7 +15676,7 @@
     ],
     "mxgraph": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-07-01T15:50:11.065586Z",
         "credit": [
@@ -15728,7 +15729,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MXGRAPH-12098"
         ],
@@ -15887,7 +15888,7 @@
         "title": "Path Traversal"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-05-07T08:04:58.425933Z",
         "credit": [
@@ -15936,7 +15937,7 @@
         "title": "Directory Traversal"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2018-10-15T07:10:55.211634Z",
         "credit": [
@@ -15983,7 +15984,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-NEXT-12055"
         ],
@@ -16037,7 +16038,7 @@
         "title": "Directory Traversal"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-NEXT-10646"
         ],
@@ -16089,7 +16090,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:H/I:H/A:H",
         "alternativeIds": [
           "SNYK-JS-NEXT-10641"
         ],
@@ -16149,7 +16150,7 @@
     ],
     "ng-dialog": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-NGDIALOG-10416"
         ],
@@ -16197,7 +16198,7 @@
     ],
     "no-case": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-NOCASE-10758"
         ],
@@ -16252,7 +16253,7 @@
     ],
     "node-htmlparser-classic": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-NODEHTMLPARSERCLASSIC-12171"
         ],
@@ -16300,7 +16301,7 @@
     ],
     "node-jose": [
       {
-        "CVSSv3": "CVSS:3.0/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N/E:H/RL:O/RC:R",
+        "CVSSv3": "CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N/E:H/RL:O/RC:R",
         "alternativeIds": [
           "SNYK-JS-NODEJOSE-12040"
         ],
@@ -16358,7 +16359,7 @@
         "title": "Insecure Token Validation"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-NODEJOSE-10429"
         ],
@@ -16430,7 +16431,7 @@
     ],
     "node-red": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [],
         "creationTime": "2020-01-12T12:29:48.874608Z",
         "credit": [
@@ -16482,7 +16483,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:L",
         "alternativeIds": [
           "SNYK-JS-NODERED-12210"
         ],
@@ -16600,7 +16601,7 @@
     ],
     "node-uuid": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-NODEUUID-10209"
         ],
@@ -16648,7 +16649,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:A/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-NODEUUID-10089"
         ],
@@ -16720,7 +16721,7 @@
     ],
     "nunjucks": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-NUNJUCKS-10135"
         ],
@@ -16783,7 +16784,7 @@
     ],
     "nwmatcher": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-NWMATCHER-11022"
         ],
@@ -16837,7 +16838,7 @@
     ],
     "openwhisk": [
       {
-        "CVSSv3": "CVSS:3.0/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-OPENWHISK-10694"
         ],
@@ -16897,7 +16898,7 @@
     ],
     "parsejson": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-PARSEJSON-10780"
         ],
@@ -16950,7 +16951,7 @@
     ],
     "pivottable": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-PIVOTTABLE-10132"
         ],
@@ -17008,7 +17009,7 @@
     ],
     "plist": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-PLIST-11087"
         ],
@@ -17386,7 +17387,7 @@
     ],
     "protobufjs": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-PROTOBUFJS-11024"
         ],
@@ -17646,7 +17647,7 @@
     ],
     "pym.js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-PYMJS-10907"
         ],
@@ -17706,7 +17707,7 @@
     ],
     "qs": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-QS-10407"
         ],
@@ -17900,7 +17901,7 @@
         "title": "Prototype Override Protection Bypass"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-QS-10020"
         ],
@@ -17972,7 +17973,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-QS-10019"
         ],
@@ -18078,7 +18079,7 @@
     ],
     "querystringify": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-QUERYSTRINGIFY-11091"
         ],
@@ -18156,7 +18157,7 @@
     ],
     "quill": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-08-27T07:43:44.195017Z",
         "credit": [
@@ -18210,7 +18211,7 @@
         "title": "Reverse Tabnabbing"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-07-08T13:18:42.280904Z",
         "credit": [
@@ -18261,7 +18262,7 @@
         "title": "Reverse Tabnabbing"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-QUILL-10405"
         ],
@@ -18323,7 +18324,7 @@
     ],
     "ractive": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-RACTIVE-12033"
         ],
@@ -18377,7 +18378,7 @@
     ],
     "react": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-REACT-10193"
         ],
@@ -18436,7 +18437,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-REACT-10192"
         ],
@@ -18698,7 +18699,7 @@
     ],
     "react-marked-markdown": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-REACTMARKEDMARKDOWN-12155"
         ],
@@ -18756,7 +18757,7 @@
     ],
     "react-svg": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-REACTSVG-12133"
         ],
@@ -18812,7 +18813,7 @@
     ],
     "react-tooltip": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2018-09-13T11:54:12.544388Z",
         "credit": [
@@ -18920,7 +18921,7 @@
     ],
     "remarkable": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N",
         "alternativeIds": [],
         "creationTime": "2019-05-13T16:17:14.151738Z",
         "credit": [
@@ -18986,7 +18987,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [],
         "creationTime": "2019-05-13T16:05:19.451831Z",
         "credit": [
@@ -19039,7 +19040,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-REMARKABLE-10404"
         ],
@@ -19100,7 +19101,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N/E:H/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N/E:H/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-REMARKABLE-10027"
         ],
@@ -19155,7 +19156,7 @@
     ],
     "rendr": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-RENDR-10446"
         ],
@@ -19207,7 +19208,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-RENDR-10430"
         ],
@@ -19263,7 +19264,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-RENDR-10205"
         ],
@@ -19311,7 +19312,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-RENDR-10120"
         ],
@@ -19373,7 +19374,7 @@
     ],
     "rendr-handlebars": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-RENDRHANDLEBARS-10521"
         ],
@@ -19484,7 +19485,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-02-26T11:38:08.114132Z",
         "credit": [
@@ -19531,7 +19532,7 @@
         "title": "Insecure Randomness"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-REVEALJS-10420"
         ],
@@ -19581,7 +19582,7 @@
     ],
     "rgb2hex": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-RGB2HEX-12130"
         ],
@@ -19637,7 +19638,7 @@
     ],
     "riot": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-RIOT-10447"
         ],
@@ -19691,7 +19692,7 @@
     ],
     "rrule": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [],
         "creationTime": "2018-10-15T08:22:06.527081Z",
         "credit": [
@@ -19763,7 +19764,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L",
         "alternativeIds": [],
         "creationTime": "2018-10-04T08:37:13.444276Z",
         "credit": [
@@ -19859,7 +19860,7 @@
         "title": "Arbitrary Code Execution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SANITIZEHTML-10468"
         ],
@@ -19920,7 +19921,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-SANITIZEHTML-10461"
         ],
@@ -19977,7 +19978,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SANITIZEHTML-10127"
         ],
@@ -20030,7 +20031,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-SANITIZEHTML-10048"
         ],
@@ -20090,7 +20091,7 @@
     ],
     "secure-compare": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-SECURECOMPARE-10060"
         ],
@@ -20160,7 +20161,7 @@
     ],
     "select2": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
         "alternativeIds": [],
         "creationTime": "2019-08-04T12:19:40.371424Z",
         "credit": [
@@ -20217,7 +20218,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SELECT2-10421"
         ],
@@ -20340,7 +20341,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SEMANTICUI-10661"
         ],
@@ -20388,7 +20389,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SEMANTICUI-10660"
         ],
@@ -20500,7 +20501,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H/RL:O",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H/RL:O",
         "alternativeIds": [],
         "creationTime": "2019-08-22T12:06:41.644260Z",
         "credit": [
@@ -20554,7 +20555,7 @@
         "title": "Denial of Service (DoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-SERIALIZETOJS-10401"
         ],
@@ -20621,7 +20622,7 @@
     ],
     "shaka-player": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-SHAKAPLAYER-10914"
         ],
@@ -20672,7 +20673,7 @@
     ],
     "shell-quote": [
       {
-        "CVSSv3": "CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
         "alternativeIds": [
           "SNYK-JS-SHELLQUOTE-10106"
         ],
@@ -20738,7 +20739,7 @@
     ],
     "showdown-xss-filter": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SHOWDOWNXSSFILTER-10863"
         ],
@@ -20792,7 +20793,7 @@
     ],
     "simditor": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-05-13T14:43:50.507577Z",
         "credit": [
@@ -20848,7 +20849,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SIMDITOR-11020"
         ],
@@ -20953,7 +20954,7 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-SIMPLSCHEMA-11084"
         ],
@@ -21004,7 +21005,7 @@
     ],
     "simplemde": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2018-11-08T09:40:22.504411Z",
         "credit": [
@@ -21049,7 +21050,7 @@
     ],
     "slug": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-SLUG-10784"
         ],
@@ -21112,7 +21113,7 @@
     ],
     "slugify": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-SLUGIFY-11130"
         ],
@@ -21166,7 +21167,7 @@
     ],
     "socket.io": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SOCKETIO-10398"
         ],
@@ -21222,7 +21223,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-SOCKETIO-10397"
         ],
@@ -21293,7 +21294,7 @@
     ],
     "squel": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-SQUEL-12135"
         ],
@@ -21347,7 +21348,7 @@
     ],
     "squire-rte": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SQUIRERTE-10422"
         ],
@@ -21397,7 +21398,7 @@
     ],
     "string": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:H/RL:U/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:H/RL:U/RC:C",
         "alternativeIds": [
           "SNYK-JS-STRING-10785"
         ],
@@ -21450,7 +21451,7 @@
     ],
     "superagent": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-SUPERAGENT-12185"
         ],
@@ -21502,7 +21503,7 @@
         "title": "Information Exposure"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-SUPERAGENT-10789"
         ],
@@ -21640,7 +21641,7 @@
         "title": "Insecure Defaults"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [],
         "creationTime": "2019-10-11T14:29:32.995363Z",
         "credit": [
@@ -21693,7 +21694,7 @@
         "title": "Relative Path Overwrite (RPO)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
         "alternativeIds": [],
         "creationTime": "2019-06-16T17:01:13.075648Z",
         "credit": [
@@ -21740,7 +21741,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-06-16T16:22:08.684477Z",
         "credit": [
@@ -21790,7 +21791,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-06-16T16:08:05.723898Z",
         "credit": [
@@ -21882,7 +21883,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [],
         "creationTime": "2019-06-14T18:06:52.670644Z",
         "credit": [
@@ -21932,7 +21933,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [],
         "creationTime": "2019-06-13T09:34:29.660632Z",
         "credit": [
@@ -21989,7 +21990,7 @@
         "title": "Reverse Tabnabbing"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SWAGGERUI-12034"
         ],
@@ -22045,7 +22046,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SWAGGERUI-10423"
         ],
@@ -22097,7 +22098,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-SWAGGERUI-10129"
         ],
@@ -22156,7 +22157,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-SWAGGERUI-10122"
         ],
@@ -22211,7 +22212,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-SWAGGERUI-10117"
         ],
@@ -22272,7 +22273,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
         "alternativeIds": [
           "SNYK-JS-SWAGGERUI-10114"
         ],
@@ -22333,7 +22334,7 @@
     ],
     "textangular": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-TEXTANGULAR-10402"
         ],
@@ -22389,7 +22390,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-TEXTANGULAR-10395"
         ],
@@ -22443,7 +22444,7 @@
     ],
     "timespan": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-TIMESPAN-10786"
         ],
@@ -22559,7 +22560,7 @@
     ],
     "tiny-json-http": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-TINYJSONHTTP-12093"
         ],
@@ -22780,7 +22781,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-TINYMCE-12156"
         ],
@@ -22834,7 +22835,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-TINYMCE-11105"
         ],
@@ -22882,7 +22883,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-TINYMCE-10264"
         ],
@@ -22930,7 +22931,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-TINYMCE-10165"
         ],
@@ -22980,7 +22981,7 @@
     ],
     "truncate": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-TRUNCATE-10920"
         ],
@@ -23035,7 +23036,7 @@
     ],
     "ua-parser": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-UAPARSER-10754"
         ],
@@ -23090,6 +23091,52 @@
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P/RL:O/RC:C",
         "alternativeIds": [],
+        "creationTime": "2020-10-29T10:53:41.363786Z",
+        "credit": [
+          "Yeting Li",
+          "Miguel de Moura"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2020-10-29T10:53:18Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "0.7.23"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-UAPARSERJS-1023599",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-7793"
+          ],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-12-13T15:57:49.646472Z",
+        "moduleName": "ua-parser-js",
+        "packageManager": "npm",
+        "packageName": "ua-parser-js",
+        "patches": [],
+        "publicationTime": "2020-12-13T15:57:49.381263Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/faisalman/ua-parser-js/commit/6d1f26df051ba681463ef109d36c9cf0f7e32b18"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<0.7.23"
+          ]
+        },
+        "severity": "high",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P/RL:O/RC:C",
+        "alternativeIds": [],
         "creationTime": "2020-09-09T15:30:19.590314Z",
         "credit": [
           "Yeting Li"
@@ -23133,7 +23180,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-UAPARSERJS-11094"
         ],
@@ -23249,7 +23296,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-UAPARSERJS-11027"
         ],
@@ -23324,7 +23371,7 @@
     ],
     "uikit": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-UIKIT-10448"
         ],
@@ -23374,7 +23421,7 @@
     ],
     "underscore.string": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-UNDERSCORESTRING-12168"
         ],
@@ -23455,7 +23502,7 @@
     ],
     "uri-js": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-URIJS-10470"
         ],
@@ -23518,7 +23565,7 @@
     ],
     "url-parse": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-01-27T10:37:31.297521Z",
         "credit": [
@@ -23563,7 +23610,7 @@
         "title": "Improper Input Validation"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-URLPARSE-12186"
         ],
@@ -23643,7 +23690,7 @@
     ],
     "useragent": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [],
         "creationTime": "2019-05-19T10:43:12.145885Z",
         "credit": [
@@ -23742,7 +23789,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-USERAGENT-11000"
         ],
@@ -23790,7 +23837,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:H/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-USERAGENT-10471"
         ],
@@ -23845,7 +23892,7 @@
     ],
     "utile": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-UTILE-12182"
         ],
@@ -23933,7 +23980,7 @@
     ],
     "uuid": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-UUID-10214"
         ],
@@ -23983,7 +24030,7 @@
     ],
     "valid-data-url": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-VALIDDATAURL-10888"
         ],
@@ -24034,7 +24081,7 @@
     ],
     "validator": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-VALIDATOR-10896"
         ],
@@ -24127,7 +24174,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
           "SNYK-JS-VALIDATOR-10895"
         ],
@@ -24188,7 +24235,7 @@
         "title": "Buffer Overflow"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
           "SNYK-JS-VALIDATOR-10213"
         ],
@@ -24236,7 +24283,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-VALIDATOR-10026"
         ],
@@ -24333,7 +24380,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-VALIDATOR-10024"
         ],
@@ -24396,7 +24443,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-VALIDATOR-10006"
         ],
@@ -24459,7 +24506,7 @@
     ],
     "vega": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-VEGA-10424"
         ],
@@ -24517,7 +24564,7 @@
     ],
     "vue": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-VUE-12036"
         ],
@@ -24565,7 +24612,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-VUE-12035"
         ],
@@ -24705,7 +24752,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-VUE-10910"
         ],
@@ -24756,7 +24803,7 @@
     ],
     "wicket": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-WICKET-10989"
         ],
@@ -24811,7 +24858,7 @@
     ],
     "wysihtml": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-WYSIHTML-10425"
         ],
@@ -24910,7 +24957,7 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-XLSX-10909"
         ],
@@ -24961,7 +25008,7 @@
     ],
     "yui": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-YUI-10387"
         ],
@@ -25021,7 +25068,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:F/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:F/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-YUI-10386"
         ],
@@ -25079,7 +25126,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-YUI-10385"
         ],
@@ -25131,7 +25178,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-YUI-10384"
         ],
@@ -25183,7 +25230,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-YUI-10383"
         ],
@@ -25235,7 +25282,7 @@
     ],
     "zeroclipboard": [
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ZEROCLIPBOARD-12091"
         ],
@@ -25293,7 +25340,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ZEROCLIPBOARD-10428"
         ],
@@ -25347,7 +25394,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-ZEROCLIPBOARD-10427"
         ],
