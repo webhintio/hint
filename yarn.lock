@@ -337,6 +337,11 @@
     "@octokit/types" "^2.0.0"
     universal-user-agent "^4.0.0"
 
+"@octokit/openapi-types@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@octokit/openapi-types/-/openapi-types-2.0.0.tgz#6d8f8ad9db3b75a39115f5def2654df8bed39f28"
+  integrity sha512-J4bfM7lf8oZvEAdpS71oTvC1ofKxfEZgU5vKVwzZKi4QPiL82udjpseJwxPid9Pu2FNmyRQOX4iEj6W1iOSnPw==
+
 "@octokit/plugin-paginate-rest@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@octokit/plugin-paginate-rest/-/plugin-paginate-rest-2.2.0.tgz#9ae0c14c1b90ec0d96d2ef1b44706b4505a91cee"
@@ -357,12 +362,12 @@
     "@octokit/types" "^5.5.0"
     deprecation "^2.3.1"
 
-"@octokit/plugin-throttling@^3.3.3":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@octokit/plugin-throttling/-/plugin-throttling-3.3.3.tgz#b78d67c1e460392afc2245c98cce9c0ac778ecea"
-  integrity sha512-G9BLSE33Vijc45qRuQ8uGF8N1YOk0i8nKosgGJw8TRH+CRjoPDMxYuo28roGiHvFZ5t2KArbJlneZb499wApLA==
+"@octokit/plugin-throttling@^3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-throttling/-/plugin-throttling-3.3.4.tgz#770b164cd116be9ff18815899bb5c9a2dd6be74f"
+  integrity sha512-cjMoonVhe2wb6iLRZltDzLF2X6udZPam+Rgr9SbvENda1GO5d38qrqByZcrDZXVzFPWOUmY8icofM4Puae/F5g==
   dependencies:
-    "@octokit/types" "^5.5.0"
+    "@octokit/types" "^6.0.1"
     bottleneck "^2.15.3"
 
 "@octokit/request-error@^2.0.0":
@@ -410,6 +415,14 @@
   resolved "https://registry.yarnpkg.com/@octokit/types/-/types-5.5.0.tgz#e5f06e8db21246ca102aa28444cdb13ae17a139b"
   integrity sha512-UZ1pErDue6bZNjYOotCNveTXArOMZQFG6hKJfOnGnulVCMcVVi7YIIuuR4WfBhjo7zgpmzn/BkPDnUXtNx+PcQ==
   dependencies:
+    "@types/node" ">= 8"
+
+"@octokit/types@^6.0.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@octokit/types/-/types-6.1.1.tgz#bc88b3eb5f447b025a2a1a8177a72db216e8d4ca"
+  integrity sha512-btm3D6S7VkRrgyYF31etUtVY/eQ1KzrNRqhFt25KSe2mKlXuLXJilglRC6eDA2P6ou94BUnk/Kz5MPEolXgoiw==
+  dependencies:
+    "@octokit/openapi-types" "^2.0.0"
     "@types/node" ">= 8"
 
 "@samverschueren/stream-to-observable@^0.3.0":
