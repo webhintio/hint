@@ -136,6 +136,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-wfw3-rgfr-6g67"
+          ],
           "NSP": [
             327
           ]
@@ -1185,6 +1188,9 @@
           "CWE": [
             "CWE-78"
           ],
+          "GHSA": [
+            "GHSA-r5fx-8r73-v86c"
+          ],
           "NSP": [
             1453
           ]
@@ -1721,6 +1727,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-c2v2-7rcg-2ch7"
+          ],
           "NSP": [
             51
           ]
@@ -1871,6 +1880,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-66rh-8fw6-59q6"
+          ],
           "NSP": [
             1014
           ]
@@ -1924,6 +1936,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-xcvv-84j5-jw9h"
           ],
           "NSP": [
             579
@@ -2030,6 +2045,9 @@
           ],
           "CWE": [
             "CWE-201"
+          ],
+          "GHSA": [
+            "GHSA-8w4h-3cm3-2pm2"
           ],
           "NSP": [
             646
@@ -2235,6 +2253,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-j6p2-cx3w-6jcp"
           ],
           "NSP": [
             108
@@ -2467,6 +2488,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-9v3m-8fp8-mj99"
           ],
           "NSP": [
             891
@@ -3043,6 +3067,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-832h-xg76-4gv6"
           ],
           "NSP": [
             338
@@ -3768,6 +3795,9 @@
           "CWE": [
             "CWE-592"
           ],
+          "GHSA": [
+            "GHSA-q52j-4q2q-hcj6"
+          ],
           "NSP": [
             90
           ]
@@ -3950,6 +3980,9 @@
           "CWE": [
             "CWE-506"
           ],
+          "GHSA": [
+            "GHSA-qmjg-g86h-6rc9"
+          ],
           "NSP": [
             497
           ]
@@ -4056,6 +4089,9 @@
           ],
           "CWE": [
             "CWE-80"
+          ],
+          "GHSA": [
+            "GHSA-4mv4-gmmf-q382"
           ],
           "NSP": [
             5
@@ -4177,6 +4213,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-q5c4-39f5-m68j"
           ],
           "NSP": [
             308
@@ -4334,6 +4373,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-hr2v-3952-633q"
+          ],
           "NSP": [
             612
           ]
@@ -4394,6 +4436,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-pjxw-22xf-6pwc"
+          ],
           "NSP": [
             778
           ]
@@ -4450,6 +4495,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-cqp5-m4pq-gfgp"
           ],
           "NSP": [
             581
@@ -4754,6 +4802,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-536q-8gxx-m782"
+          ],
           "NSP": [
             972
           ]
@@ -4809,6 +4860,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-p82g-2xpp-m5r3"
           ],
           "NSP": [
             973
@@ -4977,6 +5031,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-39cx-xcwj-3rc4"
           ],
           "NSP": [
             107
@@ -5382,7 +5439,7 @@
         "packageManager": "npm",
         "packageName": "dompurify",
         "patches": [],
-        "publicationTime": "2020-11-03T16:51:43.881330Z",
+        "publicationTime": "2020-11-03T16:51:43Z",
         "references": [
           {
             "title": "GitHub Issue",
@@ -5419,6 +5476,12 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-63q7-h895-m982"
+          ],
+          "NSP": [
+            1591
           ]
         },
         "language": "js",
@@ -5427,7 +5490,7 @@
         "packageManager": "npm",
         "packageName": "dompurify",
         "patches": [],
-        "publicationTime": "2020-10-08T16:37:46.406779Z",
+        "publicationTime": "2020-10-08T16:37:46Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -6295,6 +6358,9 @@
             "CWE-295",
             "CWE-300"
           ],
+          "GHSA": [
+            "GHSA-4r4m-hjwj-43p8"
+          ],
           "NSP": [
             99
           ]
@@ -6372,6 +6438,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-2j2j-8rrv-264g"
           ],
           "NSP": [
             733
@@ -6463,6 +6532,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-qrmc-fj45-qfc2"
           ],
           "NSP": [
             996
@@ -7241,6 +7313,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-c7pp-g2v2-2766"
+          ],
           "NSP": [
             125
           ]
@@ -7449,6 +7524,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-g9r4-xpmj-mj65"
+          ],
           "NSP": [
             1325
           ]
@@ -7501,6 +7579,10 @@
           "CWE": [
             "CWE-94"
           ],
+          "GHSA": [
+            "GHSA-2cf5-4w76-r9qv",
+            "GHSA-q2c6-c6pm-g3gh"
+          ],
           "NSP": [
             1316,
             1324
@@ -7552,6 +7634,9 @@
           "CVE": [],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-f52g-6jhx-586p"
           ],
           "NSP": [
             1300
@@ -7609,6 +7694,9 @@
           ],
           "CWE": [
             "CWE-471"
+          ],
+          "GHSA": [
+            "GHSA-w457-6q6x-cgp9"
           ],
           "NSP": [
             1164
@@ -7879,6 +7967,10 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-9prh-257w-9277",
+            "GHSA-fmr4-7g9q-7hc7"
           ],
           "NSP": [
             61
@@ -8257,6 +8349,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-jcpv-g9rr-qxrc"
+          ],
           "NSP": [
             77
           ]
@@ -8622,6 +8717,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-cmh5-qc8w-xvcq"
+          ],
           "NSP": [
             326
           ]
@@ -8678,6 +8776,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-f89g-whpf-6q9m"
           ],
           "NSP": [
             325
@@ -8896,6 +8997,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-f522-ffg8-j8r6"
           ],
           "NSP": [
             76
@@ -9558,6 +9662,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-wv67-q8rr-grjp"
+          ],
           "NSP": [
             796
           ]
@@ -9627,6 +9734,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-mhpp-875w-9cpv"
+          ],
           "NSP": [
             330
           ]
@@ -9690,6 +9800,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-rmxg-73gg-4p98"
           ],
           "NSP": [
             328
@@ -9812,6 +9925,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-2pqj-h3vj-pqgw"
           ],
           "NSP": [
             329
@@ -10334,6 +10450,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-hpcf-8vf9-q4gj"
+          ],
           "NSP": [
             127
           ]
@@ -10452,6 +10571,9 @@
           ],
           "CWE": [
             "CWE-506"
+          ],
+          "GHSA": [
+            "GHSA-jp27-cwp2-5qqr"
           ],
           "NSP": [
             496
@@ -10845,6 +10967,9 @@
           "CWE": [
             "CWE-20"
           ],
+          "GHSA": [
+            "GHSA-xxvw-45rp-3mj2"
+          ],
           "NSP": [
             16
           ]
@@ -10901,6 +11026,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-xj62-87pg-vcv3"
           ],
           "NSP": [
             53
@@ -11093,6 +11221,9 @@
           ],
           "CWE": [
             "CWE-94"
+          ],
+          "GHSA": [
+            "GHSA-r87w-47m8-22w3"
           ],
           "NSP": [
             97
@@ -11640,6 +11771,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-jf85-cpcp-j695"
           ],
           "NSP": [
             1065
@@ -12222,6 +12356,12 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-2m96-9w4j-wgv7",
+            "GHSA-46fh-8fc5-xcwx",
+            "GHSA-5947-m4fg-xhqg",
+            "GHSA-fvqr-27wr-82fm"
+          ],
           "NSP": [
             1067,
             1069,
@@ -12310,6 +12450,9 @@
           ],
           "CWE": [
             "CWE-74"
+          ],
+          "GHSA": [
+            "GHSA-q69p-5h74-w36f"
           ],
           "NSP": [
             74
@@ -12696,6 +12839,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-ch52-vgq2-943f"
+          ],
           "NSP": [
             1076
           ]
@@ -13052,6 +13198,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-x5pg-88wf-qq4p"
+          ],
           "NSP": [
             531
           ]
@@ -13221,6 +13370,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-vfvf-mqq8-rwqc"
+          ],
           "NSP": [
             101
           ]
@@ -13309,6 +13461,9 @@
           "CWE": [
             "CWE-74"
           ],
+          "GHSA": [
+            "GHSA-9cw2-jqp5-7x39"
+          ],
           "NSP": [
             22
           ]
@@ -13357,6 +13512,9 @@
           "CWE": [
             "CWE-185",
             "CWE-730"
+          ],
+          "GHSA": [
+            "GHSA-hjcp-j389-59ff"
           ],
           "NSP": [
             23
@@ -13721,6 +13879,9 @@
           "CWE": [
             "CWE-94"
           ],
+          "GHSA": [
+            "GHSA-pv8x-p9hq-j328"
+          ],
           "NSP": [
             551
           ]
@@ -13777,6 +13938,9 @@
           ],
           "CWE": [
             "CWE-94"
+          ],
+          "GHSA": [
+            "GHSA-vx5c-87qx-cv6c"
           ],
           "NSP": [
             552
@@ -14008,6 +14172,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-f9cm-qmx5-m98h"
+          ],
           "NSP": [
             722
           ]
@@ -14070,6 +14237,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-9g9w-hmvj-5h57"
           ],
           "NSP": [
             580
@@ -14182,6 +14352,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-qw93-45r3-p66p"
+          ],
           "NSP": [
             717
           ]
@@ -14238,6 +14411,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-cvxm-f295-x957"
           ],
           "NSP": [
             715
@@ -14347,6 +14523,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-3fx5-fwvr-xrjg"
           ],
           "NSP": [
             59
@@ -14527,6 +14706,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-fhjf-83wg-r2j9"
+          ],
           "NSP": [
             1013
           ]
@@ -14580,6 +14762,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-3mpr-hq3p-49h9"
           ],
           "NSP": [
             578
@@ -14902,6 +15087,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-446m-mv8f-q348"
+          ],
           "NSP": [
             532
           ]
@@ -15040,6 +15228,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-87vv-r9j6-g5qv"
+          ],
           "NSP": [
             55
           ]
@@ -15147,6 +15338,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-fwx5-5fqj-jv98"
+          ],
           "NSP": [
             307
           ]
@@ -15207,6 +15401,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-h9mj-fghc-664w"
           ],
           "NSP": [
             555
@@ -15472,6 +15669,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-3fx5-fwvr-xrjg"
+          ],
           "NSP": [
             46
           ]
@@ -15589,6 +15789,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-w3w8-37jv-2c58"
           ],
           "NSP": [
             62
@@ -16225,6 +16428,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-ff6r-5jwm-8292"
+          ],
           "NSP": [
             524
           ]
@@ -16387,6 +16593,9 @@
           "CWE": [
             "CWE-200"
           ],
+          "GHSA": [
+            "GHSA-rvj9-8cvx-3vq9"
+          ],
           "NSP": [
             324
           ]
@@ -16452,6 +16661,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-8w65-xjc5-9w79"
           ],
           "NSP": [
             1456
@@ -16564,6 +16776,9 @@
           ],
           "CWE": [
             "CWE-502"
+          ],
+          "GHSA": [
+            "GHSA-q4v7-4rhw-9hqm"
           ],
           "NSP": [
             311
@@ -16748,6 +16963,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-f7ph-p5rv-phw2"
+          ],
           "NSP": [
             147
           ]
@@ -16922,6 +17140,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-q75g-2496-mxpp"
           ],
           "NSP": [
             528
@@ -17928,6 +18149,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-f9cm-p3w6-xvr3"
+          ],
           "NSP": [
             28
           ]
@@ -18466,6 +18690,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-g53w-52xc-2j85"
+          ],
           "NSP": [
             1420
           ]
@@ -18889,6 +19116,9 @@
           "CWE": [
             "CWE-94"
           ],
+          "GHSA": [
+            "GHSA-4662-j96g-mv46"
+          ],
           "NSP": [
             144
           ]
@@ -19067,6 +19297,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-mrmf-qwxg-7c3h"
+          ],
           "NSP": [
             319
           ]
@@ -19127,6 +19360,9 @@
           ],
           "CWE": [
             "CWE-74"
+          ],
+          "GHSA": [
+            "GHSA-f9vc-q3hh-qhfv"
           ],
           "NSP": [
             30
@@ -19887,6 +20123,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-wg96-3933-j2w5"
+          ],
           "NSP": [
             155
           ]
@@ -19947,6 +20186,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-xc6g-ggrc-qq4r"
           ],
           "NSP": [
             154
@@ -20582,6 +20824,9 @@
           "CWE": [
             "CWE-502"
           ],
+          "GHSA": [
+            "GHSA-mm62-wxc8-cf7m"
+          ],
           "NSP": [
             313
           ]
@@ -20701,6 +20946,9 @@
           "CWE": [
             "CWE-78"
           ],
+          "GHSA": [
+            "GHSA-qg8p-v9q4-gh34"
+          ],
           "NSP": [
             117
           ]
@@ -20814,6 +21062,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-8v67-x8q5-3x3g"
           ],
           "NSP": [
             884
@@ -21077,6 +21328,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-jxqq-cqm6-pfq9"
+          ],
           "NSP": [
             537
           ]
@@ -21249,6 +21503,9 @@
           ],
           "CWE": [
             "CWE-330"
+          ],
+          "GHSA": [
+            "GHSA-qv2v-m59f-v5fw"
           ],
           "NSP": [
             321
@@ -21423,6 +21680,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-g36h-6r4f-3mqp"
+          ],
           "NSP": [
             536
           ]
@@ -21569,6 +21829,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-8225-6cvr-8pqp"
           ],
           "NSP": [
             479
@@ -22528,6 +22791,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-f523-2f5j-gfcg"
+          ],
           "NSP": [
             533
           ]
@@ -23061,6 +23327,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-pmg9-p9r2-6q87"
+          ],
           "NSP": [
             316
           ]
@@ -23529,6 +23798,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-333w-rxj3-f55r"
+          ],
           "NSP": [
             100
           ]
@@ -23657,6 +23929,9 @@
           ],
           "CWE": [
             "CWE-601"
+          ],
+          "GHSA": [
+            "GHSA-pv4c-p2j5-38j4"
           ],
           "NSP": [
             678
@@ -23863,6 +24138,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-pjmx-9xr3-82qr"
           ],
           "NSP": [
             312
@@ -24350,6 +24628,9 @@
           "CWE": [
             "CWE-400"
           ],
+          "GHSA": [
+            "GHSA-f5w6-r7rg-mcgq"
+          ],
           "NSP": [
             42
           ]
@@ -24406,6 +24687,10 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-79mx-88w7-8f7q",
+            "GHSA-9959-c6q6-6qp3"
           ],
           "NSP": [
             43
@@ -24474,6 +24759,9 @@
           "CWE": [
             "CWE-79"
           ],
+          "GHSA": [
+            "GHSA-q4qq-fm7q-cwp5"
+          ],
           "NSP": [
             41
           ]
@@ -24505,6 +24793,53 @@
       }
     ],
     "vega": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
+        "alternativeIds": [],
+        "creationTime": "2020-12-22T13:59:08.263225Z",
+        "credit": [
+          "jheer"
+        ],
+        "cvssScore": 8.3,
+        "disclosureTime": "2020-12-22T13:56:53Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "5.17.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-VEGA-1053433",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-12-22T14:38:16.772471Z",
+        "moduleName": "vega",
+        "packageManager": "npm",
+        "packageName": "vega",
+        "patches": [],
+        "publicationTime": "2020-12-22T14:38:16.341934Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/vega/vega/issues/3018"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/vega/vega/pull/3019"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<5.17.0"
+          ]
+        },
+        "severity": "high",
+        "title": "Cross-site Scripting (XSS)"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
