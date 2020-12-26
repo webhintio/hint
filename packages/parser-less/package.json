@@ -11,7 +11,7 @@
   "dependencies": {
     "@hint/utils-debug": "^1.0.3",
     "@hint/utils-string": "^1.0.6",
-    "postcss": "^8.1.1",
+    "postcss": "^8.2.1",
     "postcss-less": "^4.0.0"
   },
   "description": "webhint parser needed to analyze LESS files",
