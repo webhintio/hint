@@ -24794,6 +24794,62 @@
     ],
     "vega": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:N",
+        "alternativeIds": [],
+        "creationTime": "2020-12-31T10:47:03.131142Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 8.7,
+        "disclosureTime": "2020-12-30T23:09:21Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "5.17.3"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-VEGA-1054999",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-26296"
+          ],
+          "CWE": [
+            "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-r2qc-w64x-6j54"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2020-12-31T16:00:44.895585Z",
+        "moduleName": "vega",
+        "packageManager": "npm",
+        "packageName": "vega",
+        "patches": [],
+        "publicationTime": "2020-12-31T16:00:44.445353Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/vega/vega/commit/bde41b2cb0bdf282fb9d526462428d1a0e73832d"
+          },
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/vega/vega/issues/3027"
+          },
+          {
+            "title": "GitHub Release",
+            "url": "https://github.com/vega/vega/releases/tag/v5.17.3"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<5.17.3"
+          ]
+        },
+        "severity": "high",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:L",
         "alternativeIds": [],
         "creationTime": "2020-12-22T13:59:08.263225Z",
@@ -24804,7 +24860,7 @@
         "disclosureTime": "2020-12-22T13:56:53Z",
         "exploit": "Not Defined",
         "fixedIn": [
-          "5.17.0"
+          "5.17.1"
         ],
         "functions": [],
         "functions_new": [],
@@ -24816,12 +24872,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-12-22T14:38:16.772471Z",
+        "modificationTime": "2020-12-31T13:12:34.340495Z",
         "moduleName": "vega",
         "packageManager": "npm",
         "packageName": "vega",
         "patches": [],
-        "publicationTime": "2020-12-22T14:38:16.341934Z",
+        "publicationTime": "2020-12-22T14:38:16Z",
         "references": [
           {
             "title": "GitHub Issue",
@@ -24834,7 +24890,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<5.17.0"
+            "<5.17.1"
           ]
         },
         "severity": "high",
