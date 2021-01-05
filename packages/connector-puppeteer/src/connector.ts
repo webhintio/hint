@@ -143,6 +143,7 @@ export default class PuppeteerConnector implements IConnector {
     }
 
     private waitForTarget() {
+        /* istanbul ignore else */
         if (this._targetBody !== undefined) {
             return Promise.resolve();
         }
@@ -334,7 +335,7 @@ export default class PuppeteerConnector implements IConnector {
     public async close() {
         this.removeListeners();
 
-        await close(this._browser, this._page);
+        await close(this._browser, this._page, this._options);
     }
 
     public evaluate(code: string): Promise<any> {
