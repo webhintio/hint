@@ -20,7 +20,7 @@
     "eslint-plugin-markdown": "^1.0.2",
     "execa": "^5.0.0",
     "fs-extra": "^9.0.1",
-    "globby": "^11.0.1",
+    "globby": "^11.0.2",
     "husky": "^4.3.6",
     "latest-version": "^5.1.0",
     "listr": "^0.14.2",
