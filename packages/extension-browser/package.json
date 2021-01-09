@@ -91,7 +91,7 @@
     "react-syntax-highlighter": "^15.3.0",
     "rimraf": "^3.0.2",
     "setimmediate": "^1.0.5",
-    "sinon": "^9.2.1",
+    "sinon": "^9.2.3",
     "stream-browserify": "^3.0.0",
     "style-loader": "^2.0.0",
     "svg-url-loader": "^7.1.1",
