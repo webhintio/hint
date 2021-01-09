@@ -10902,10 +10902,10 @@ type-is@~1.6.17, type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typed-css-modules@^0.6.4:
-  version "0.6.4"
-  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.6.4.tgz#eb7385b5e9d0e5c654c992ecc8a246d0885c4560"
-  integrity sha512-2bL0dWY66wLGcz766HAwqJl4mnlUrx7D/dyUD9SPnab2QM1OsE6U842QhZhkEI5EoQdNziSLWqetHskdZ3MCxw==
+typed-css-modules@^0.6.5:
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.6.5.tgz#a0dd27be3d9013a86fd656d4c24ad29e1643631c"
+  integrity sha512-f+RmiKmrDeeIeDHC/NnRJzrwxkTDgnWT6eJbTN0FqxV5SLFRik+WLJNrlWzjevlZ7Uuqhdh0e55lz+PgXUNflA==
   dependencies:
     "@types/css-modules-loader-core" "^1.1.0"
     camelcase "^5.3.1"
