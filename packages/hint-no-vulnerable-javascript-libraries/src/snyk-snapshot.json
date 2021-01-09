@@ -6276,6 +6276,59 @@
     ],
     "engine.io": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P/RL:O/RC:R",
+        "alternativeIds": [],
+        "creationTime": "2021-01-08T10:58:56.558133Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2021-01-08T10:54:39Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "4.0.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-ENGINEIO-1056749",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-36048"
+          ],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-01-08T16:03:18.379933Z",
+        "moduleName": "engine.io",
+        "packageManager": "npm",
+        "packageName": "engine.io",
+        "patches": [],
+        "publicationTime": "2021-01-08T16:03:18.114498Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/socketio/engine.io/commit/734f9d1268840722c41219e69eb58318e0b2ac6b"
+          },
+          {
+            "title": "PoC",
+            "url": "https://github.com/bcaller/kill-engine-io"
+          },
+          {
+            "title": "Research Blogpost",
+            "url": "https://blog.caller.xyz/socketio-engineio-dos/"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<4.0.0"
+          ]
+        },
+        "severity": "high",
+        "title": "Denial of Service (DoS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:H",
         "alternativeIds": [
           "SNYK-JS-ENGINEIO-10204"
@@ -9670,7 +9723,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:01.438521Z",
+        "modificationTime": "2021-01-07T17:30:33.860835Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -14105,6 +14158,9 @@
           "CVE": [],
           "CWE": [
             "CWE-400"
+          ],
+          "WS": [
+            "WS-2020-0218"
           ]
         },
         "language": "js",
@@ -16554,6 +16610,10 @@
           {
             "title": "GitHub ChangeLog",
             "url": "https://github.com/cisco/node-jose/blob/master/CHANGELOG.md"
+          },
+          {
+            "title": "PoC",
+            "url": "https://github.com/zi0Black/POC-CVE-2018-0114"
           }
         ],
         "semver": {
@@ -21421,6 +21481,49 @@
     ],
     "socket.io": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-10-30T15:11:27.221896Z",
+        "credit": [
+          "ni8walk3r"
+        ],
+        "cvssScore": 5.3,
+        "disclosureTime": "2020-10-30T14:01:53Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "2.4.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-SOCKETIO-1024859",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-453"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-01-07T16:40:36.503041Z",
+        "moduleName": "socket.io",
+        "packageManager": "npm",
+        "packageName": "socket.io",
+        "patches": [],
+        "publicationTime": "2021-01-07T16:40:36.205881Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/socketio/socket.io/issues/3671"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<2.4.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Insecure Defaults"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
         "alternativeIds": [
           "SNYK-JS-SOCKETIO-10398"
@@ -22881,6 +22984,52 @@
       }
     ],
     "tinymce": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:U/RL:O/RC:R",
+        "alternativeIds": [],
+        "creationTime": "2021-01-07T12:41:17.131304Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 5.4,
+        "disclosureTime": "2021-01-06T19:27:54Z",
+        "exploit": "Unproven",
+        "fixedIn": [
+          "5.6.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-TINYMCE-1056408",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-w7jx-j77m-wp65"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-01-07T16:40:31.635900Z",
+        "moduleName": "tinymce",
+        "packageManager": "npm",
+        "packageName": "tinymce",
+        "patches": [],
+        "publicationTime": "2021-01-07T16:40:30.788163Z",
+        "references": [
+          {
+            "title": "TinyMCE Release Notes",
+            "url": "https://www.tiny.cloud/docs/release-notes/release-notes56/%23securityfixes"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<5.6.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H",
         "alternativeIds": [],
@@ -24826,7 +24975,7 @@
         "packageManager": "npm",
         "packageName": "vega",
         "patches": [],
-        "publicationTime": "2020-12-31T16:00:44.445353Z",
+        "publicationTime": "2020-12-31T16:00:44Z",
         "references": [
           {
             "title": "GitHub Commit",
