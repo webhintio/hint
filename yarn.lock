@@ -1438,12 +1438,12 @@ ajv@6.12.6, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.2, ajv@^6.12.4, ajv@^6.12.5, ajv
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-amphtml-validator@^1.0.33:
-  version "1.0.33"
-  resolved "https://registry.yarnpkg.com/amphtml-validator/-/amphtml-validator-1.0.33.tgz#ac2af219ba119f98280c33d538a7a1ae672de2be"
-  integrity sha512-NAamUl3flAku2DLc/OKEPpR2BQJBQTG+iW7HFeJDDvsZ0YwCmGsMAV97/HPaKAvUowzjA+79QjWr4z0Pscg+8g==
+amphtml-validator@^1.0.34:
+  version "1.0.34"
+  resolved "https://registry.yarnpkg.com/amphtml-validator/-/amphtml-validator-1.0.34.tgz#ade89368ed4b4c19247bcef491566456a49d88c5"
+  integrity sha512-x/D7DcpYCxg0onjxtDqS0KD0VIdclx/oJu+9hcJLMafzVJbc/Qj6LJQ0YolhmVHZV6EWtkUwjfOe0nnBC8QXig==
   dependencies:
-    colors "1.2.5"
+    colors "1.4.0"
     commander "2.15.1"
     promise "8.0.1"
 
@@ -2816,10 +2816,10 @@ colors@0.5.x:
   resolved "https://registry.yarnpkg.com/colors/-/colors-0.5.1.tgz#7d0023eaeb154e8ee9fce75dcb923d0ed1667774"
   integrity sha1-fQAj6usVTo7p/Oddy5I9DtFmd3Q=
 
-colors@1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/colors/-/colors-1.2.5.tgz#89c7ad9a374bc030df8013241f68136ed8835afc"
-  integrity sha512-erNRLao/Y3Fv54qUa0LBB+//Uf3YwMUmdJinN20yMXm9zdKKqH9wt7R9IIVZ+K7ShzfpLV/Zg8+VyrBJYB4lpg==
+colors@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
+  integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
 
 columnify@1.5.4:
   version "1.5.4"
