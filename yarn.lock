@@ -828,10 +828,10 @@
   dependencies:
     "@types/puppeteer" "*"
 
-"@types/puppeteer@*", "@types/puppeteer@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@types/puppeteer/-/puppeteer-5.4.0.tgz#1ef860bd7a9dcf0c4633aac8c0ec21f75b431868"
-  integrity sha512-zTYDLjnHjgzokrwKt7N0rgn7oZPYo1J0m8Ghu+gXqzLCEn8RWbELa2uprE2UFJ0jU/Sk0x9jXXdOH/5QQLFHhQ==
+"@types/puppeteer@*", "@types/puppeteer@^5.4.2":
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/@types/puppeteer/-/puppeteer-5.4.2.tgz#80f3a1f54dedbbf750779716de81401549062072"
+  integrity sha512-yjbHoKjZFOGqA6bIEI2dfBE5UPqU0YGWzP+ipDVP1iGzmlhksVKTBVZfT3Aj3wnvmcJ2PQ9zcncwOwyavmafBw==
   dependencies:
     "@types/node" "*"
 
