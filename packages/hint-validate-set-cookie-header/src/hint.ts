@@ -237,12 +237,14 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const expiresDate = new Date(parsedSetCookie.expires);
             const expiresYear = expiresDate.getFullYear();
 
-            // Handle Firefox bug where dates with dashes get a negative year.
-            // E.g.
-            // ```
-            // new Date("Mon, 04-Jan-2021 17:45:03 GMT").toUTCString();
-            // "Thu, 04 Jan -2021 17:45:03 GMT"
-            // ```
+            /*
+             * Handle Firefox bug where dates with dashes get a negative year.
+             * E.g.
+             * ```
+             * new Date("Mon, 04-Jan-2021 17:45:03 GMT").toUTCString();
+             * "Thu, 04 Jan -2021 17:45:03 GMT"
+             * ```
+             */
             if (expiresYear < 0) {
                 expiresDate.setFullYear(Math.abs(expiresYear));
             }
