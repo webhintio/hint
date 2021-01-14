@@ -7,6 +7,7 @@ export * from './is-html-document';
 export * from './is-http';
 export * from './is-https';
 export * from './is-local-file';
+export * from './is-localhost';
 export * from './is-regular-protocol';
 export * from './normalize-header-value';
 export * from './request-async';

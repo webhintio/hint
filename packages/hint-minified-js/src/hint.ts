@@ -8,6 +8,7 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
+import { isLocalhost } from '@hint/utils-network';
 import { Severity } from '@hint/utils-types';
 import { ScriptEvents, ScriptParse } from '@hint/parser-javascript';
 
@@ -46,6 +47,13 @@ export default class MinifiedJsHint implements IHint {
         const validateContentMinified = (scriptData: ScriptParse) => {
             const { element, resource, sourceCode } = scriptData;
             const improvementIndex = getImprovementIndex(scriptData);
+
+            // Avoid false-positives during local development.
+            if (isLocalhost(resource)) {
+                debug(`Check does not apply for local URLs: ${resource}`);
+
+                return;
+            }
 
             if (sourceCode.length < 1024) {
                 debug(`Ignoring minification for script under 1KB: ${resource}`);

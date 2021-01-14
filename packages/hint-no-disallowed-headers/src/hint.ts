@@ -10,7 +10,7 @@
 
 import { debug as d } from '@hint/utils-debug';
 import { mergeIgnoreIncludeArrays, toLowerCaseArray } from '@hint/utils-string';
-import { includedHeaders, isDataURI, normalizeHeaderValue } from '@hint/utils-network';
+import { includedHeaders, isDataURI, isLocalhost, normalizeHeaderValue } from '@hint/utils-network';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
@@ -213,6 +213,13 @@ export default class NoDisallowedHeadersHint implements IHint {
             // This check does not make sense for data URI.
             if (isDataURI(event.resource)) {
                 debug(`Check does not apply for data URI: ${event.resource}`);
+
+                return;
+            }
+
+            // Avoid false-positives during local development.
+            if (isLocalhost(event.resource)) {
+                debug(`Check does not apply for local URLs: ${event.resource}`);
 
                 return;
             }

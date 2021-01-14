@@ -3,7 +3,7 @@
  */
 
 import { debug as d } from '@hint/utils-debug';
-import { isDataURI, normalizeHeaderValue } from '@hint/utils-network';
+import { isDataURI, isLocalhost, normalizeHeaderValue } from '@hint/utils-network';
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 
@@ -486,6 +486,13 @@ export default class HttpCacheHint implements IHint {
 
             if (isDataURI(resource)) {
                 debug(`Check does not apply for data URIs`);
+
+                return;
+            }
+
+            // Avoid false-positives during local development.
+            if (isLocalhost(resource)) {
+                debug(`Check does not apply for local URLs: ${resource}`);
 
                 return;
             }

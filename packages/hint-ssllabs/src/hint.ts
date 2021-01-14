@@ -15,6 +15,7 @@ import { promisify } from 'util';
 
 import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
+import { isLocalhost } from '@hint/utils-network';
 import { Severity } from '@hint/utils-types';
 import { Grades, SSLLabsEndpoint, SSLLabsOptions, SSLLabsResult } from './types';
 
@@ -91,6 +92,13 @@ export default class SSLLabsHint implements IHint {
         };
 
         const start = async ({ resource }: FetchEnd) => {
+            // Avoid false-positives during local development.
+            if (isLocalhost(resource)) {
+                debug(`Check does not apply for local URLs: ${resource}`);
+
+                return;
+            }
+
             if (!resource.startsWith('https://')) {
                 const message: string = getMessage('doesNotSupportHTTPS', context.language, resource);
 

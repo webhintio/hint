@@ -11,7 +11,7 @@
 
 import { debug as d } from '@hint/utils-debug';
 import { normalizeString } from '@hint/utils-string';
-import { isDataURI } from '@hint/utils-network';
+import { isDataURI, isLocalhost } from '@hint/utils-network';
 import { FetchEnd, IHint } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { Severity } from '@hint/utils-types';
@@ -35,6 +35,13 @@ export default class XContentTypeOptionsHint implements IHint {
 
             if (isDataURI(resource)) {
                 debug(`Check does not apply for data URI: ${resource}`);
+
+                return;
+            }
+
+            // Avoid false-positives during local development.
+            if (isLocalhost(resource)) {
+                debug(`Check does not apply for local URLs: ${resource}`);
 
                 return;
             }

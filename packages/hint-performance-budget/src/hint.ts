@@ -4,7 +4,7 @@
 
 import { URL } from 'url';
 
-import { isHTTPS, normalizeHeaderValue } from '@hint/utils-network';
+import { isHTTPS, isLocalhost, normalizeHeaderValue } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, Response, ScanEnd } from 'hint';
 import { Severity } from '@hint/utils-types';
@@ -287,6 +287,13 @@ export default class PerformanceBudgetHint implements IHint {
 
             /* istanbul ignore if */
             if (!config) {
+                return;
+            }
+
+            // Avoid false-positives during local development.
+            if (isLocalhost(resource)) {
+                debug(`Check does not apply for local URLs: ${resource}`);
+
                 return;
             }
 

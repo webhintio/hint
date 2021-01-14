@@ -4,7 +4,7 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import { isRegularProtocol } from '@hint/utils-network';
+import { isLocalhost, isRegularProtocol } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, NetworkData } from 'hint';
 import { Severity } from '@hint/utils-types';
@@ -161,6 +161,13 @@ export default class StrictTransportSecurityHint implements IHint {
         const validate = async ({ element, resource, response }: FetchEnd) => {
             if (!isRegularProtocol(resource)) {
                 debug(`Check does not apply for non HTTP(s) URIs`);
+
+                return;
+            }
+
+            // Avoid false-positives during local development.
+            if (isLocalhost(resource)) {
+                debug(`Check does not apply for local URLs: ${resource}`);
 
                 return;
             }

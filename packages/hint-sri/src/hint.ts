@@ -9,7 +9,7 @@ import { HintContext, ReportOptions } from 'hint/dist/src/lib/hint-context';
 import { IHint, FetchEnd, ElementFound, NetworkData, Request, Response } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
 import { normalizeString } from '@hint/utils-string';
-import { requestAsync } from '@hint/utils-network';
+import { isLocalhost, requestAsync } from '@hint/utils-network';
 import { Severity } from '@hint/utils-types';
 
 import { Algorithms, OriginCriteria, ErrorData, URLs } from './types';
@@ -442,6 +442,13 @@ export default class SRIHint implements IHint {
 
     /** Validation entry point. */
     private async validateResource(evt: FetchEnd, urls: URLs) {
+        // Avoid false-positives during local development.
+        if (isLocalhost(evt.resource)) {
+            debug(`Check does not apply for local URLs: ${evt.resource}`);
+
+            return;
+        }
+
         const validations = [
             this.isNotIgnored,
             this.isInCache,

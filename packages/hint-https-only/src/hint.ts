@@ -5,7 +5,7 @@
 import * as URL from 'url';
 
 import { ElementFound, FetchEnd, HintContext, IHint, Response } from 'hint';
-import { isDataURI, isHTTPS } from '@hint/utils-network';
+import { isDataURI, isHTTPS, isLocalhost } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 
 import meta from './meta';
@@ -31,6 +31,13 @@ export default class HttpsOnlyHint implements IHint {
 
         const validateTarget = (fetchEvent: FetchEnd) => {
             const { resource } = fetchEvent;
+
+            // Avoid false-positives during local development.
+            if (isLocalhost(resource)) {
+                debug(`Check does not apply for local URLs: ${resource}`);
+
+                return;
+            }
 
             if (!isHTTPS(resource)) {
                 debug('HTTPS no detected');

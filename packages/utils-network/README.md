@@ -27,6 +27,7 @@ HTMLDocument.
 * `isHTTP`: Convenience function to check if a resource is served over HTTP.
 * `isHTTPS`: Convenience function to check if a resource is served over HTTPS.
 * `isLocalFile`: Convenience function to check if a resource is a local file.
+* `isLocalhost`: Convenience function to check if a resource points to localhost.
 * `isRegularProtocol`: Convenience function to check if a uri's protocol
 is http/https if specified.
 * `normalizeHeaderValue`: Remove whitespace from both ends of a header value

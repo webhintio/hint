@@ -19,7 +19,7 @@ import {
 import { normalizeString } from '@hint/utils-string';
 import { HttpHeaders } from '@hint/utils-types';
 import { HTMLElement } from '@hint/utils-dom';
-import { isHTTP, isRegularProtocol, normalizeHeaderValue } from '@hint/utils-network';
+import { isHTTP, isLocalhost, isRegularProtocol, normalizeHeaderValue } from '@hint/utils-network';
 import { FetchEnd, HintContext, IHint, NetworkData, Response } from 'hint';
 import { Severity } from '@hint/utils-types';
 
@@ -748,6 +748,11 @@ export default class HttpCompressionHint implements IHint {
 
         const validate = async ({ element, resource, response }: FetchEnd, eventName: string) => {
             const shouldCheckIfCompressedWith: CompressionCheckOptions = eventName === 'fetch::end::html' ? htmlOptions : resourceOptions;
+
+            // Avoid false-positives during local development.
+            if (isLocalhost(resource)) {
+                return;
+            }
 
             /*
              * We shouldn't validate error responses, and 204 (response with no body).
