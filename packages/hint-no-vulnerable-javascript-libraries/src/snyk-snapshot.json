@@ -23015,7 +23015,7 @@
         "packageManager": "npm",
         "packageName": "tinymce",
         "patches": [],
-        "publicationTime": "2021-01-07T16:40:30.788163Z",
+        "publicationTime": "2021-01-07T16:40:30Z",
         "references": [
           {
             "title": "TinyMCE Release Notes",
