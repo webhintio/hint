@@ -72,3 +72,11 @@ testHint(hintPath, tests, { parsers: ['javascript'] });
  * we calculate will be always less than 100
  */
 testHint(hintPath, testsWithHighThreshold, { hintOptions: { threshold: 100 }, parsers: ['javascript'] });
+
+// Verify the rule ignores localhost URLs by default
+testHint(hintPath, [
+    {
+        name: 'Unminified content on localhost should pass by default',
+        serverConfig: generateHTMLPage(generateScriptTag(unminifiedJS))
+    }
+], { ignoredUrls: [], parsers: ['javascript'] });

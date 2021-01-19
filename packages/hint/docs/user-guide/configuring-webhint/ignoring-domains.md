@@ -38,3 +38,8 @@ In the previous example we will:
 * Ignore all hints for any resource that matches the regex
   `.*\\.domain1\\.com/.*`.
 * Ignore the hint `disallowed-headers` for the domain `www.domain2.net`.
+
+Some hints also have a default ignore list to avoid false positives in
+certain contexts (e.g. cache headers when developing on localhost).
+These default values can be overriden by specifying your own ignore
+list for those specific hints.

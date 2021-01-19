@@ -187,6 +187,11 @@ export class Engine<E extends Events = Events> extends EventEmitter {
             debug('Loading hints');
             const id = Hint.meta.id;
 
+            // Use default ignored URLs if no overrides are specified for this hint.
+            if (Hint.meta.ignoredUrls && !this.ignoredUrls.has(id)) {
+                this.ignoredUrls.set(id, Hint.meta.ignoredUrls);
+            }
+
             const ignoreHint = (HintCtor: IHintConstructor): boolean => {
                 const ignoredConnectors: string[] = HintCtor.meta.ignoredConnectors || [];
 

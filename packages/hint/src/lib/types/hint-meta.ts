@@ -18,6 +18,8 @@ export type HintMetadata = {
     id: string;
     /** List of connectors that should not run the hint */
     ignoredConnectors?: string[];
+    /** List of patterns matching URLs to be ignored by this hint by default */
+    ignoredUrls?: RegExp[];
     /** The schema the hint configuration must follow in order to be valid */
     schema: any[]; // TODO: this shouldn't be an Array of any
     /** The scope of the hints (local, site, any) */
