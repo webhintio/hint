@@ -4,8 +4,9 @@ import { URL } from 'url';
 /**
  * Returns the pathname of a URL, normalizing depending on the platform. E.g.:
  *
- * * `file:///c:/projects/` --> `c:/projects/`
- * * `file:///mnt/projects/` --> `/mnt/projects/`
+ * * `file:///c:/projects/`       --> `c:/projects/`
+ * * `file:///c:/program%20files/ --> `c:/program files/`
+ * * `file:///mnt/projects/`      --> `/mnt/projects/`
  */
 export const asPathString = (uri: URL) => {
 
@@ -17,5 +18,5 @@ export const asPathString = (uri: URL) => {
         uri.pathname.substr(1) :
         uri.pathname;
 
-    return pathname;
+    return decodeURI(pathname);
 };

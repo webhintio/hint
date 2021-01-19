@@ -353,7 +353,7 @@ export default class LocalConnector implements IConnector {
          * and then get the path string.
          */
         const uri = getAsUri(target);
-        const filePath: string = uri ? asPathString(uri).replace('%20', ' ') : '';
+        const filePath: string = uri ? asPathString(uri) : '';
         const rawContent: Buffer = options && options.content ? Buffer.from(options.content) : await readFileAsBuffer(filePath);
         const contentType = await getContentTypeData(null as any, filePath, null, rawContent);
         let content = '';
@@ -395,7 +395,7 @@ export default class LocalConnector implements IConnector {
 
         this.engine.emitAsync('scan::start', initialEvent);
 
-        const pathString = asPathString(target).replace('%20', ' ');
+        const pathString = asPathString(target);
         let files: string[];
 
         if (isFile(pathString)) {
