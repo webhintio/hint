@@ -121,6 +121,7 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
     // Allow all URLs in tests (to avoid localhost being ignored).
     if (!opts.ignoredUrls) {
         const meta = require(id).default.meta;
+
         opts.ignoredUrls = [{ domain: '.^', hints: [meta.id] }];
     }
 
