@@ -80,6 +80,19 @@ test.afterEach.always((t) => {
     t.context.sandbox.restore();
 });
 
+test(`it should not throw if target path has spaces and [brackets]`, async (t) => {
+    const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'folder with spaces and [brackets]', 'script with spaces and [brackets].js'));
+    const { engine, isFileStub, LocalConnector } = mockContext(t.context);
+
+    isFileStub.returns(true);
+
+    const connector = new LocalConnector(engine as any, {});
+
+    if (fileUri) {
+        await t.notThrowsAsync(connector.collect(fileUri), 'connector does not throw');
+    }
+});
+
 test(`If target is a file, it should emit 'fetch::start::target' event`, async (t) => {
     const sandbox = t.context.sandbox;
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'no-watch', 'script.js'));
