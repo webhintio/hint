@@ -80,7 +80,7 @@ test.afterEach.always((t) => {
     t.context.sandbox.restore();
 });
 
-test(`it should now throw if target path has spaces and [brackets]`, async (t) => {
+test(`it should not throw if target path has spaces and [brackets]`, async (t) => {
     const fileUri = getAsUri(path.join(__dirname, 'fixtures', 'folder with spaces and [brackets]', 'script with spaces and [brackets].js'));
     const { engine, isFileStub, LocalConnector } = mockContext(t.context);
 
