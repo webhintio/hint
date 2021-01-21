@@ -83,6 +83,11 @@ To use it, activate it via the [`.hintrc`][hintrc] configuration file:
 }
 ```
 
+## Further Reading
+
+- [Why CSS inline styles are considered harmful for accessibility][why-css-inline-styles-are-considered-harmful-accessibility]
+
 <!-- Link labels: -->
 
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[why-css-inline-styles-are-considered-harmful-accessibility]: https://www.nomensa.com/blog/2011/css-inline-styles-and-why-they-are-considered-harmful-accessibility
