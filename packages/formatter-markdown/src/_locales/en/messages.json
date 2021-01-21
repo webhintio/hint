@@ -1,0 +1,30 @@
+{
+    "hints": {
+        "description": "Text for hints",
+        "message": "hints"
+    },
+    "howToFixIt": {
+        "description": "Text for the message How to fix it",
+        "message": "How to fix it"
+    },
+    "noIssues": {
+        "description": "Message to show when there is no issues in a category",
+        "message": "No issues"
+    },
+    "toLearnMore": {
+        "description": "Text to show when a third party library has details on",
+        "message": "To learn more visit"
+    },
+    "whyIsThisImportant": {
+        "description": "Text for the message Why is this important",
+        "message": "Why is this important"
+    },
+    "withTheHelpOf": {
+        "description": "Text to show when a third party library doesn't have details on",
+        "message": "With the help of"
+    },
+    "youCanView": {
+        "description": "Logging message to show to the user where the report was generated",
+        "message": "You can view the Markdown report in \"$1\""
+    }
+}

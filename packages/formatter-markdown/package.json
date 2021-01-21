@@ -1,0 +1,85 @@
+{
+  "name": "@hint/formatter-markdown",
+  "version": "0.0.1",
+  "description": "Webhint formatter that creates a Markdown file with the results of the webhint scan.",
+  "main": "dist/src/formatter.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "npm run i18n && npm-run-all build:*",
+    "build-release": "npm run clean && npm run i18n && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc -b",
+    "clean": "rimraf dist",
+    "i18n": "node ../../scripts/create-i18n.js",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
+    "lint:dependencies": "node ../../scripts/lint-dependencies.js",
+    "lint:md": "node ../../scripts/lint-markdown.js",
+    "test": "npm run i18n && npm run lint && npm run build && npm run test-only",
+    "test-only": "nyc ava",
+    "test-release": "npm run i18n && npm run lint && npm run build-release && ava",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:assets": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "nyc": {
+    "extends": "../../.nycrc"
+  },
+  "peerDependencies": {
+    "hint": "^6.0.0"
+  },
+  "repository": {
+    "directory": "packages/formatter-markdown",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
+  "dependencies": {
+    "@hint/utils": "^7.0.6",
+    "@hint/utils-fs": "^1.0.5",
+    "@hint/utils-i18n": "^1.0.5",
+    "@hint/utils-types": "^1.1.0",
+    "lodash": "^4.17.20",
+    "fs-extra": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.11.1",
+    "@types/proxyquire": "^1.3.28",
+    "@types/sinon": "^9.0.5",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
+    "ava": "^3.12.1",
+    "cpx": "^1.5.0",
+    "eslint": "^7.8.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-markdown": "^1.0.2",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^15.1.0",
+    "proxyquire": "^2.1.3",
+    "rimraf": "^3.0.2",
+    "sinon": "^9.0.3",
+    "typescript": "^4.0.2"
+  },
+  "files": [
+    "dist/src",
+    "images"
+  ],
+  "homepage": "https://webhint.io/",
+  "keywords": [
+    "markdown",
+    "webhint",
+    "webhint-formatter"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
+    ],
+    "timeout": "1m"
+  }
+}

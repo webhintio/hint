@@ -12,7 +12,7 @@ const path = require('path');
 const markdownlint = require('markdownlint');
 const globby = require('globby');
 
-const files = globby.sync(['**/*.md', '!**/CHANGELOG.md', '!**/node_modules/**'], {
+const files = globby.sync(['**/*.md', '!**/CHANGELOG.md', '!**/node_modules/**', '!**/markdown-webhint-report.md'], {
     cwd: process.cwd(),
     gitignore: true
 });
