@@ -1,3 +1,4 @@
+import { rxLocalhost } from '@hint/utils-network/dist/src/rx-localhost';
 import { Category } from '@hint/utils-types';
 import { HintMetadata, HintScope } from 'hint';
 
@@ -19,6 +20,7 @@ const meta: HintMetadata = {
         return getMessage('name', language);
     },
     id: 'performance-budget',
+    ignoredUrls: [rxLocalhost],
     schema: [{
         additionalProperties: false,
         properties: {

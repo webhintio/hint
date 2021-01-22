@@ -15,6 +15,8 @@ declare const __webhint: {
 
 const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
     return await page.evaluate((config: Partial<Config>, test: Test) => {
+        const testUrl = 'https://example.com/';
+
         const getResourceContentType = (type: string) => {
             switch (type) {
                 case 'css':
@@ -31,9 +33,9 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                 element: null,
                 request: {
                     headers: {},
-                    url: location.href
+                    url: testUrl
                 },
-                resource: location.href,
+                resource: testUrl,
                 response: {
                     body: {
                         content: test.html,
@@ -48,7 +50,7 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                     hops: [],
                     mediaType: '',
                     statusCode: 200,
-                    url: location.href
+                    url: testUrl
                 }
             };
         };
@@ -58,9 +60,9 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                 element: null,
                 request: {
                     headers: {},
-                    url: location.href
+                    url: testUrl
                 },
-                resource: location.href,
+                resource: testUrl,
                 response: {
                     body: {
                         content: resource.content,
@@ -75,7 +77,7 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                     hops: [],
                     mediaType: '',
                     statusCode: 200,
-                    url: location.href
+                    url: testUrl
                 }
             };
         };
@@ -101,13 +103,13 @@ const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
                 if (message.requestConfig) {
                     sendMessage({
                         config: {
-                            resource: location.href,
+                            resource: testUrl,
                             ...config
                         }
                     });
                 } else if (message.ready) {
                     startTime = performance.now();
-                    sendMessage({ fetchStart: { resource: location.href } });
+                    sendMessage({ fetchStart: { resource: testUrl } });
                     sendMessage({ fetchEnd: mockFetchEnd() });
                     if (test.resources && test.resources.length > 0) {
                         for (const resource of test.resources) {
