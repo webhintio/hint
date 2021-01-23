@@ -3,11 +3,11 @@
  */
 import {
     HintContext,
-    IHint,
-    TraverseEnd
+    IHint
 } from 'hint';
-import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
+import { HTMLElement } from '@hint/utils-dom';
 import { Severity } from '@hint/utils-types';
+import { HTMLEvents, HTMLParse } from '@hint/parser-html';
 import meta from './meta';
 import { getMessage } from './i18n.import';
 import { debug as d } from '@hint/utils-debug';
@@ -22,15 +22,9 @@ const debug: debug.IDebugger = d(__filename);
 export default class NoInlineStylesHint implements IHint {
     public static readonly meta = meta;
 
-    public constructor(context: HintContext) {
-        const validate = ({ resource }: TraverseEnd) => {
-            const pageDOM: HTMLDocument = context.pageDOM as HTMLDocument;
-
-            if (pageDOM.isFragment) {
-                return;
-            }
-
-            const styleElements: HTMLElement[] = pageDOM.querySelectorAll(
+    public constructor(context: HintContext<HTMLEvents>) {
+        const validate = ({ document, resource }: HTMLParse) => {
+            const styleElements: HTMLElement[] = document.querySelectorAll(
                 'style'
             );
 
@@ -50,7 +44,7 @@ export default class NoInlineStylesHint implements IHint {
              * Check if style attribute is used in any element
              */
 
-            const elementsWithStyleAttribute: HTMLElement[] = pageDOM.querySelectorAll(
+            const elementsWithStyleAttribute: HTMLElement[] = document.querySelectorAll(
                 '[style]'
             );
 
@@ -66,6 +60,6 @@ export default class NoInlineStylesHint implements IHint {
             }
         };
 
-        context.on('traverse::end', validate);
+        context.on('parse::end::html', validate);
     }
 }

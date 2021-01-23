@@ -14,6 +14,7 @@
   },
   "description": "Invalidate the use of CSS inline styles in HTML",
   "devDependencies": {
+    "@hint/parser-html": "^3.0.18",
     "@hint/utils-create-server": "^3.4.7",
     "@hint/utils-dom": "^2.1.4",
     "@hint/utils-tests-helpers": "^6.3.1",
