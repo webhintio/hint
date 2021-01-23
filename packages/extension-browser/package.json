@@ -49,7 +49,7 @@
     "@hint/utils-i18n": "^1.0.6",
     "@hint/utils-telemetry": "^1.0.6",
     "@hint/utils-types": "^1.1.1",
-    "@types/chrome": "^0.0.123",
+    "@types/chrome": "^0.0.128",
     "@types/har-format": "^1.2.5",
     "@types/is-ci": "^2.0.0",
     "@types/jsdom": "^16.2.5",
