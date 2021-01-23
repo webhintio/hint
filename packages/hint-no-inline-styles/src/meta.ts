@@ -19,7 +19,11 @@ const meta: HintMetadata = {
         return getMessage('name', language);
     },
     id: 'no-inline-styles',
-    schema: [],
+    schema: [{
+        additionalProperties: false,
+        properties: { requireNoStyleElement: { type: 'boolean' } },
+        type: ['object', 'null']
+    }],
     scope: HintScope.any
 };
 

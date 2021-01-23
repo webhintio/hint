@@ -21,7 +21,7 @@ const tests: HintTest[] = [
         serverConfig: generateHTMLPage('', style.elementWithNoStyleAttribute)
     },
     {
-        name: 'Element with no style element passes',
+        name: 'Element with no style element passes by default',
         serverConfig: generateHTMLPage('', style.elementWithNoStyleElement)
     },
     {
@@ -59,6 +59,31 @@ const tests: HintTest[] = [
             '',
             style.elementWithStyleAttributeUpperCase
         )
+    },
+    {
+        name: 'Element with style element passes by default',
+        serverConfig: generateHTMLPage('', style.styleElement)
+    },
+    {
+        name: 'Element with capitalised style element passes by default',
+        serverConfig: generateHTMLPage(
+            '',
+            style.styleElementCapitalised
+        )
+    },
+    {
+        name: 'Element with upper case style element passes by default',
+        serverConfig: generateHTMLPage(
+            '',
+            style.styleElementUpperCase
+        )
+    }
+];
+
+const testsForRequireNoStyleElementConfig: HintTest[] = [
+    {
+        name: 'Element with no style element passes',
+        serverConfig: generateHTMLPage('', style.elementWithNoStyleElement)
     },
     {
         name: 'Element with style element fails',
@@ -99,3 +124,4 @@ const tests: HintTest[] = [
 ];
 
 testHint(hintPath, tests);
+testHint(hintPath, testsForRequireNoStyleElementConfig, { hintOptions: { requireNoStyleElement: true } });

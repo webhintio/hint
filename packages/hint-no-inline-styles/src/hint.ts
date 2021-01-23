@@ -23,6 +23,8 @@ export default class NoInlineStylesHint implements IHint {
     public static readonly meta = meta;
 
     public constructor(context: HintContext<HTMLEvents>) {
+        let requireNoStyleElement: boolean = false;
+
         const validate = ({ document, resource }: HTMLParse) => {
             const styleElements: HTMLElement[] = document.querySelectorAll(
                 'style'
@@ -30,7 +32,7 @@ export default class NoInlineStylesHint implements IHint {
 
             debug(`Validating rule no-inline-styles`);
 
-            if (styleElements.length > 0) {
+            if (requireNoStyleElement && styleElements.length > 0) {
                 context.report(
                     resource,
                     getMessage('styleElementFound', context.language),
@@ -59,6 +61,12 @@ export default class NoInlineStylesHint implements IHint {
                 );
             }
         };
+
+        const loadHintConfigs = () => {
+            requireNoStyleElement = (context.hintOptions && context.hintOptions.requireNoStyleElement) || false;
+        };
+
+        loadHintConfigs();
 
         context.on('parse::end::html', validate);
     }

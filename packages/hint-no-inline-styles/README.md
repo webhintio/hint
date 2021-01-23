@@ -33,7 +33,7 @@ The hint will trigger if any element have the attribute `style`
 <div style="color: blue;"></div>
 ```
 
-The hint will trigger if you use internal styles
+The hint will trigger if you use internal styles, this is disabled by default
 
 ```html
 <style>
@@ -58,6 +58,27 @@ No inline style in the element
         <div>Hi styles</div>
     </body>
 </html>
+```
+
+## Can the hint be configured?
+
+`requireNoStyleElement` can be set to `true` to disallow and require the use of
+no `style` tag.
+
+In the [`.hintrc`][hintrc] file:
+
+```json
+{
+    "connector": {...},
+    "formatters": [...],
+    "hints": {
+        "no-inline-styles": [ "warning", {
+            "requireNoStyleElement": true
+        }],
+        ...
+    },
+    ...
+}
 ```
 
 ## How to use this hint?
