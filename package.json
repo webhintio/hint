@@ -21,7 +21,7 @@
     "execa": "^5.0.0",
     "fs-extra": "^9.0.1",
     "globby": "^11.0.2",
-    "husky": "^4.3.7",
+    "husky": "^4.3.8",
     "latest-version": "^5.1.0",
     "listr": "^0.14.2",
     "listr-inquirer": "^0.1.0",
