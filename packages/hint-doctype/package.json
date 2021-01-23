@@ -15,7 +15,7 @@
   "devDependencies": {
     "@hint/utils-tests-helpers": "^6.3.1",
     "@hint/parser-html": "^3.0.18",
-    "@types/node": "^14.14.14",
+    "@types/node": "^14.14.22",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "ava": "^3.15.0",
