@@ -4,7 +4,7 @@
     "@octokit/plugin-throttling": "^3.3.4",
     "@octokit/rest": "^18.0.14",
     "@types/execa": "^2.0.0",
-    "@types/fs-extra": "^9.0.4",
+    "@types/fs-extra": "^9.0.6",
     "@types/listr": "^0.14.2",
     "@types/node": "^14.14.22",
     "@types/semver": "^7.3.4",
