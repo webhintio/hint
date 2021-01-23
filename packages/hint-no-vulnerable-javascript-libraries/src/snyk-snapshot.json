@@ -7507,6 +7507,60 @@
         "title": "Cross-site Scripting (XSS)"
       }
     ],
+    "gsap": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "alternativeIds": [],
+        "creationTime": "2020-12-27T15:52:02.292853Z",
+        "credit": [
+          "Alessio Della Libera (d3lla)"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2020-12-27T15:50:33Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "3.6.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-GSAP-1054614",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-28478"
+          ],
+          "CWE": [
+            "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-6g8v-hpgw-h2v7"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-01-19T16:02:35.672625Z",
+        "moduleName": "gsap",
+        "packageManager": "npm",
+        "packageName": "gsap",
+        "patches": [],
+        "publicationTime": "2021-01-19T16:02:35Z",
+        "references": [
+          {
+            "title": "Fixed Code",
+            "url": "https://github.com/greensock/GSAP/blob/master/src/gsap-core.js%23L150"
+          },
+          {
+            "title": "GitHub Release",
+            "url": "https://github.com/greensock/GSAP/releases/tag/3.6.0"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<3.6.0"
+          ]
+        },
+        "severity": "high",
+        "title": "Prototype Pollution"
+      }
+    ],
     "handlebars": [
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N/E:P/RL:O/RC:C",
@@ -10363,6 +10417,49 @@
       }
     ],
     "jquery-ui": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "alternativeIds": [],
+        "creationTime": "2020-12-18T17:05:40.662942Z",
+        "credit": [
+          "Rafael Cintra Lopes"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2020-12-18T17:04:56Z",
+        "exploit": "Not Defined",
+        "fixedIn": [],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-JQUERYUI-1052825",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-28488"
+          ],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-01-20T16:41:56.380687Z",
+        "moduleName": "jquery-ui",
+        "packageManager": "npm",
+        "packageName": "jquery-ui",
+        "patches": [],
+        "publicationTime": "2021-01-20T16:41:55Z",
+        "references": [
+          {
+            "title": "Jquery UI Ticket",
+            "url": "https://bugs.jqueryui.com/ticket/15390"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<=1.12.1"
+          ]
+        },
+        "severity": "high",
+        "title": "Denial of Service (DoS)"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:N/A:N",
         "alternativeIds": [
@@ -16044,6 +16141,58 @@
     ],
     "next": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:N/A:N",
+        "alternativeIds": [],
+        "creationTime": "2021-01-21T22:10:28.945966Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 4.7,
+        "disclosureTime": "2020-10-09T11:00:34Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "9.5.4"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-NEXT-1063481",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-15242"
+          ],
+          "CWE": [
+            "CWE-601"
+          ],
+          "GHSA": [
+            "GHSA-x56p-c8cg-q435"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-01-21T22:10:28.945992Z",
+        "moduleName": "next",
+        "packageManager": "npm",
+        "packageName": "next",
+        "patches": [],
+        "publicationTime": "2020-10-09T13:24:40Z",
+        "references": [
+          {
+            "title": "GitHub Advisory",
+            "url": "https://github.com/vercel/next.js/security/advisories/GHSA-x56p-c8cg-q435"
+          },
+          {
+            "title": "GitHub Release",
+            "url": "https://github.com/zeit/next.js/releases/tag/v9.5.4"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            ">=9.5.0 <9.5.4"
+          ]
+        },
+        "severity": "medium",
+        "title": "Open Redirect"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
         "alternativeIds": [],
         "creationTime": "2020-06-10T09:44:30.678249Z",
@@ -21497,9 +21646,14 @@
         "functions_new": [],
         "id": "SNYK-JS-SOCKETIO-1024859",
         "identifiers": {
-          "CVE": [],
+          "CVE": [
+            "CVE-2020-28481"
+          ],
           "CWE": [
             "CWE-453"
+          ],
+          "GHSA": [
+            "GHSA-fxwf-4rqh-v8g3"
           ]
         },
         "language": "js",
@@ -21508,7 +21662,7 @@
         "packageManager": "npm",
         "packageName": "socket.io",
         "patches": [],
-        "publicationTime": "2021-01-07T16:40:36.205881Z",
+        "publicationTime": "2021-01-07T16:40:36Z",
         "references": [
           {
             "title": "GitHub Issue",
