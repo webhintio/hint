@@ -26,7 +26,11 @@ best practices that may be applied to your site, complete the following steps.
    uses `npx` to run the `npm` package without installing it.
 
    ```bash
-   npx hint https://example.com // or relative path e.g. './path/to/my.html'
+   npx hint https://example.com
+   ```
+   or
+   ```bash
+   npx hint ./path/to/my.html
    ```
 
 1. After the `webhint` process completes, a summary is presented in the bash
