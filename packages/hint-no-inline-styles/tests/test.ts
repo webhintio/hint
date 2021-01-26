@@ -89,7 +89,7 @@ const testsForRequireNoStyleElementConfig: HintTest[] = [
         name: 'Element with style element fails',
         reports: [
             {
-                message: `CSS inline styles should not be used, move styles to an external CSS file`,
+                message: `CSS internal styles should not be used, move styles to an external CSS file`,
                 severity: Severity.hint
             }
         ],
@@ -99,7 +99,7 @@ const testsForRequireNoStyleElementConfig: HintTest[] = [
         name: 'Element with capitalised style element fails',
         reports: [
             {
-                message: `CSS inline styles should not be used, move styles to an external CSS file`,
+                message: `CSS internal styles should not be used, move styles to an external CSS file`,
                 severity: Severity.hint
             }
         ],
@@ -112,7 +112,7 @@ const testsForRequireNoStyleElementConfig: HintTest[] = [
         name: 'Element with upper case style element fails',
         reports: [
             {
-                message: `CSS inline styles should not be used, move styles to an external CSS file`,
+                message: `CSS internal styles should not be used, move styles to an external CSS file`,
                 severity: Severity.hint
             }
         ],

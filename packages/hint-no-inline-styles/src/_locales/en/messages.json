@@ -9,7 +9,7 @@
     },
     "styleElementFound": {
         "description": "Message to show when a style element is found.",
-        "message": "CSS inline styles should not be used, move styles to an external CSS file"
+        "message": "CSS internal styles should not be used, move styles to an external CSS file"
     },
     "name": {
         "description": "Metadata name",
