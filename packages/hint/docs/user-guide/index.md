@@ -28,7 +28,9 @@ best practices that may be applied to your site, complete the following steps.
    ```bash
    npx hint https://example.com
    ```
+   
    or
+   
    ```bash
    npx hint ./path/to/my.html
    ```
