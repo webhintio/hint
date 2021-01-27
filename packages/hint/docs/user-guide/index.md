@@ -29,6 +29,12 @@ best practices that may be applied to your site, complete the following steps.
    npx hint https://example.com
    ```
 
+   or
+
+   ```bash
+   npx hint ./path/to/my.html
+   ```
+
 1. After the `webhint` process completes, a summary is presented in the bash
    command-line interface with a link to a report file on your computer.
 1. Navigate to the report file and open it. The report file outlines the
