@@ -35,6 +35,7 @@
         { "path": "../hint-no-disallowed-headers" },
         { "path": "../hint-no-html-only-headers" },
         { "path": "../hint-no-http-redirects" },
+        { "path": "../hint-no-inline-styles" },
         { "path": "../hint-no-protocol-relative-urls" },
         { "path": "../hint-no-vulnerable-javascript-libraries" },
         { "path": "../hint-scoped-svg-styles" },
