@@ -72,7 +72,7 @@ export default class ManifestIsValidHint implements IHint {
         };
 
         const checkColors = (resource: string, manifest: Manifest, getLocation: JSONLocationFunction) => {
-            const colorProperties = [
+            const colorProperties: ('background_color' | 'theme_color')[] = [
                 'background_color',
                 'theme_color'
             ];
@@ -89,7 +89,7 @@ export default class ManifestIsValidHint implements IHint {
 
                 if (color === null) {
                     const location = getLocation(property);
-                    const message = getMessage('invalidValue', context.language, [colorValue, property]);
+                    const message = getMessage('invalidValue', context.language, [`${colorValue}`, property]);
 
                     context.report(resource, message, { location, severity: Severity.error });
 
@@ -98,7 +98,7 @@ export default class ManifestIsValidHint implements IHint {
 
                 if (isNotSupportedColorValue(color, normalizedColorValue)) {
                     const location = getLocation(property);
-                    const message = getMessage('unsupportedValue', context.language, [colorValue, property]);
+                    const message = getMessage('unsupportedValue', context.language, [`${colorValue}`, property]);
 
                     context.report(resource, message, { location, severity: Severity.error });
                 }
