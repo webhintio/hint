@@ -1,0 +1,77 @@
+{
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "dependencies": {
+    "@hint/utils-debug": "^1.0.3",
+    "@hint/utils-i18n": "^1.0.6",
+    "@hint/utils-types": "^1.1.1"
+  },
+  "description": "Invalidate the use of CSS inline styles in HTML",
+  "devDependencies": {
+    "@hint/parser-html": "^3.0.18",
+    "@hint/utils-create-server": "^3.4.7",
+    "@hint/utils-dom": "^2.1.4",
+    "@hint/utils-tests-helpers": "^6.3.1",
+    "@types/node": "^14.11.2",
+    "@typescript-eslint/eslint-plugin": "^4.9.0",
+    "@typescript-eslint/parser": "^4.9.0",
+    "ava": "^3.13.0",
+    "cpx": "^1.5.0",
+    "eslint": "^7.14.0",
+    "eslint-plugin-markdown": "^1.0.2",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^15.1.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.1.2"
+  },
+  "files": [
+    "dist/src"
+  ],
+  "homepage": "https://webhint.io/",
+  "keywords": [
+    "hint",
+    "no-inline-styles",
+    "no-inline-styles-hint"
+  ],
+  "license": "Apache-2.0",
+  "main": "dist/src/hint.js",
+  "name": "@hint/hint-no-inline-styles",
+  "nyc": {
+    "extends": "../../.nycrc"
+  },
+  "peerDependencies": {
+    "hint": "^6.0.0"
+  },
+  "repository": {
+    "directory": "packages/hint-no-inline-styles",
+    "type": "git",
+    "url": "https://github.com/webhintio/hint.git"
+  },
+  "scripts": {
+    "build": "npm run i18n && npm-run-all build:*",
+    "build-release": "npm run clean && npm run i18n && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc -b",
+    "clean": "rimraf dist",
+    "i18n": "node ../../scripts/create-i18n.js",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
+    "lint:dependencies": "node ../../scripts/lint-dependencies.js",
+    "lint:md": "node ../../scripts/lint-markdown.js",
+    "test": "npm run i18n && npm run lint && npm run build && npm run test-only",
+    "test-only": "nyc ava",
+    "test-release": "npm run i18n && npm run lint && npm run build-release && ava",
+    "init": "npm install && npm run build",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:assets": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "1.0.0"
+}
