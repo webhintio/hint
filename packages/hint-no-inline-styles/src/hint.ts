@@ -1,10 +1,7 @@
 /**
  * @fileoverview Invalidate the use of CSS inline styles in HTML
  */
-import {
-    HintContext,
-    IHint
-} from 'hint';
+import { HintContext, IHint } from 'hint';
 import { HTMLElement } from '@hint/utils-dom';
 import { Severity } from '@hint/utils-types';
 import { HTMLEvents, HTMLParse } from '@hint/parser-html';
@@ -30,14 +27,18 @@ export default class NoInlineStylesHint implements IHint {
                 'style'
             );
 
+            const severity = Severity.warning;
+
             debug(`Validating rule no-inline-styles`);
 
-            if (requireNoStyleElement && styleElements.length > 0) {
-                context.report(
-                    resource,
-                    getMessage('styleElementFound', context.language),
-                    { severity: Severity.hint }
-                );
+            if (requireNoStyleElement) {
+                styleElements.forEach((element) => {
+                    context.report(
+                        resource,
+                        getMessage('styleElementFound', context.language),
+                        { element, severity }
+                    );
+                });
             }
 
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -50,20 +51,23 @@ export default class NoInlineStylesHint implements IHint {
                 '[style]'
             );
 
-            if (elementsWithStyleAttribute.length > 0) {
+            elementsWithStyleAttribute.forEach((element) => {
                 context.report(
                     resource,
                     getMessage(
                         'elementsWithStyleAttributeFound',
                         context.language
                     ),
-                    { severity: Severity.hint }
+                    { element, severity }
                 );
-            }
+            });
         };
 
         const loadHintConfigs = () => {
-            requireNoStyleElement = (context.hintOptions && context.hintOptions.requireNoStyleElement) || false;
+            requireNoStyleElement =
+                (context.hintOptions &&
+                    context.hintOptions.requireNoStyleElement) ||
+                false;
         };
 
         loadHintConfigs();
