@@ -10418,7 +10418,7 @@
     ],
     "jquery-ui": [
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P",
         "alternativeIds": [],
         "creationTime": "2020-12-18T17:05:40.662942Z",
         "credit": [
@@ -10426,7 +10426,7 @@
         ],
         "cvssScore": 7.5,
         "disclosureTime": "2020-12-18T17:04:56Z",
-        "exploit": "Not Defined",
+        "exploit": "Proof of Concept",
         "fixedIn": [],
         "functions": [],
         "functions_new": [],
@@ -10450,6 +10450,10 @@
           {
             "title": "Jquery UI Ticket",
             "url": "https://bugs.jqueryui.com/ticket/15390"
+          },
+          {
+            "title": "PoC",
+            "url": "https://github.com/rafaelcintralopes/CVE-2020-28488"
           }
         ],
         "semver": {
@@ -11641,6 +11645,7 @@
             "CWE-79"
           ],
           "GHSA": [
+            "GHSA-vcjj-xf2r-mwvc",
             "GHSA-qfmr-6qvh-49gm"
           ]
         },
@@ -22960,6 +22965,58 @@
         },
         "severity": "medium",
         "title": "Cross-site Scripting (XSS)"
+      }
+    ],
+    "three": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "alternativeIds": [],
+        "creationTime": "2021-01-26T16:48:55.814221Z",
+        "credit": [
+          "Yeting Li",
+          "Liyuan Chen"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2021-01-26T16:41:25Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "0.125.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-THREE-1064931",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-28496"
+          ],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-01-29T16:01:22.464010Z",
+        "moduleName": "three",
+        "packageManager": "npm",
+        "packageName": "three",
+        "patches": [],
+        "publicationTime": "2021-01-29T16:01:22.719492Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/mrdoob/three.js/pull/21143/commits/4a582355216b620176a291ff319d740e619d583e"
+          },
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/mrdoob/three.js/issues/21132"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<0.125.0"
+          ]
+        },
+        "severity": "high",
+        "title": "Regular Expression Denial of Service (ReDoS)"
       }
     ],
     "timespan": [
