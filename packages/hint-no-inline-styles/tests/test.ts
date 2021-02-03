@@ -10,6 +10,8 @@ const style = {
     elementWithStyleAttribute: '<div style="color: blue"></div>',
     elementWithStyleAttributeCapitalised: '<span Style="color: blue"></span>',
     elementWithStyleAttributeUpperCase: '<span Style="color: blue"></span>',
+    multipleElementWithStyleAttribute: '<div style="color: blue;"></div><span style="display: block;"></span><p style="color: blue;"></p>',
+    multipleStyleElement: '<style></style><span></span><style></style><div></div><style></style>',
     styleElement: '<style></style>',
     styleElementCapitalised: '<Style></Style>',
     styleElementUpperCase: '<STYLE></STYLE>'
@@ -29,17 +31,35 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `CSS inline styles should not be used, move styles to an external CSS file`,
-                severity: Severity.hint
+                severity: Severity.warning
             }
         ],
         serverConfig: generateHTMLPage('', style.elementWithStyleAttribute)
+    },
+    {
+        name: 'Element with multiple style attribute fails',
+        reports: [
+            {
+                message: `CSS inline styles should not be used, move styles to an external CSS file`,
+                severity: Severity.warning
+            },
+            {
+                message: `CSS inline styles should not be used, move styles to an external CSS file`,
+                severity: Severity.warning
+            },
+            {
+                message: `CSS inline styles should not be used, move styles to an external CSS file`,
+                severity: Severity.warning
+            }
+        ],
+        serverConfig: generateHTMLPage('', style.multipleElementWithStyleAttribute)
     },
     {
         name: 'Element with capitalised style attribute fails',
         reports: [
             {
                 message: `CSS inline styles should not be used, move styles to an external CSS file`,
-                severity: Severity.hint
+                severity: Severity.warning
             }
         ],
         serverConfig: generateHTMLPage(
@@ -52,7 +72,7 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `CSS inline styles should not be used, move styles to an external CSS file`,
-                severity: Severity.hint
+                severity: Severity.warning
             }
         ],
         serverConfig: generateHTMLPage(
@@ -90,17 +110,35 @@ const testsForRequireNoStyleElementConfig: HintTest[] = [
         reports: [
             {
                 message: `CSS internal styles should not be used, move styles to an external CSS file`,
-                severity: Severity.hint
+                severity: Severity.warning
             }
         ],
         serverConfig: generateHTMLPage('', style.styleElement)
+    },
+    {
+        name: 'Element with multiple style element fails',
+        reports: [
+            {
+                message: `CSS internal styles should not be used, move styles to an external CSS file`,
+                severity: Severity.warning
+            },
+            {
+                message: `CSS internal styles should not be used, move styles to an external CSS file`,
+                severity: Severity.warning
+            },
+            {
+                message: `CSS internal styles should not be used, move styles to an external CSS file`,
+                severity: Severity.warning
+            }
+        ],
+        serverConfig: generateHTMLPage('', style.multipleStyleElement)
     },
     {
         name: 'Element with capitalised style element fails',
         reports: [
             {
                 message: `CSS internal styles should not be used, move styles to an external CSS file`,
-                severity: Severity.hint
+                severity: Severity.warning
             }
         ],
         serverConfig: generateHTMLPage(
@@ -113,7 +151,7 @@ const testsForRequireNoStyleElementConfig: HintTest[] = [
         reports: [
             {
                 message: `CSS internal styles should not be used, move styles to an external CSS file`,
-                severity: Severity.hint
+                severity: Severity.warning
             }
         ],
         serverConfig: generateHTMLPage(

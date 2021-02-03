@@ -5,7 +5,7 @@ import { getMessage } from './i18n.import';
 
 const meta: HintMetadata = {
     docs: {
-        category: Category.other,
+        category: Category.pitfalls,
 
         description: getMessage('description', 'en'),
         name: getMessage('name', 'en')
