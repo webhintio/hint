@@ -32,7 +32,11 @@ module.exports = () => {
         ],
         resolve: {
             alias: { handlebars: 'handlebars/dist/handlebars.min.js' },
-            extensions: ['.ts', '.js', '.json']
+            extensions: ['.ts', '.js', '.json'],
+            fallback: {
+                path: 'path-browserify',
+                process: false
+            }
         },
         target: 'node'
     };
