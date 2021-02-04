@@ -18,9 +18,7 @@ module.exports = () => {
         },
         node: {
             __dirname: false,
-            __filename: false,
-            path: true,
-            process: false
+            __filename: false
         },
         output: { filename: 'src/[name].js' },
         plugins: [
