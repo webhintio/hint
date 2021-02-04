@@ -34,7 +34,13 @@ module.exports = () => {
             new webpack.DefinePlugin({ 'process.env.webpack': JSON.stringify(true) }),
             new webpack.ProgressPlugin()
         ],
-        resolve: { extensions: ['.ts', '.js', '.json'] },
+        resolve: {
+            extensions: ['.ts', '.js', '.json'],
+            fallback: {
+                path: 'path-browserify',
+                process: false
+            }
+        },
         target: 'node'
     };
 };
