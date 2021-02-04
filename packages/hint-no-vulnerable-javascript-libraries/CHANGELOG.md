@@ -1,3 +1,38 @@
+# 2.12.2 (February 4, 2021)
+
+## New features
+
+* [[`8ba6d1ec61`](https://github.com/webhintio/hint/commit/8ba6d1ec61a8928adfd004a77f30711ebd7a9489)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`97e00017c0`](https://github.com/webhintio/hint/commit/97e00017c0159e1c7f005873ab7074e42bf72019)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`74f7c21175`](https://github.com/webhintio/hint/commit/74f7c211750da5a4aecb8adf02dfe7a578696bbe)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`6bdbf39e7f`](https://github.com/webhintio/hint/commit/6bdbf39e7f55b41ec3fa017b31b8a13edadef146)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`3e959c948d`](https://github.com/webhintio/hint/commit/3e959c948d6a0d30afae366eb0bf2808e4e38542)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`693ecf11c7`](https://github.com/webhintio/hint/commit/693ecf11c7e3bc16716682ded97f353d5a48a122)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`4d125f5f91`](https://github.com/webhintio/hint/commit/4d125f5f912a291e015034bd1f6b80a3b32061b0)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`a0387e5146`](https://github.com/webhintio/hint/commit/a0387e51466c506a40580654eb9d1a295b097dd5)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`c7a5649e1e`](https://github.com/webhintio/hint/commit/c7a5649e1ed8ee8cb111e6ea5a63767887498d25)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`5b26d47964`](https://github.com/webhintio/hint/commit/5b26d479648e13bc02e2ba596e008c2e81fc34a8)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+* [[`1a6987667f`](https://github.com/webhintio/hint/commit/1a6987667fb76ccf93d900ec7794250f5d57e48e)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+
+## Chores
+
+* [[`7480aa6204`](https://github.com/webhintio/hint/commit/7480aa6204a21ac6edcf01950dd7f4fa6bbeb2c5)] - Upgrade: Bump @typescript-eslint/parser from 4.9.0 to 4.14.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e298879c85`](https://github.com/webhintio/hint/commit/e298879c855ce07be654ef08ced26752dda9fe7c)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.9.0 to 4.14.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f29bb132cb`](https://github.com/webhintio/hint/commit/f29bb132cb5f700c9c1cf17adcbe95ad47d138bd)] - Upgrade: Bump @types/node from 14.14.14 to 14.14.22 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`68c2489ca0`](https://github.com/webhintio/hint/commit/68c2489ca0887ae90a9ad813e9a82c171c7d8537)] - Upgrade: Bump eslint from 7.14.0 to 7.17.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f4ef63e832`](https://github.com/webhintio/hint/commit/f4ef63e8327966dfe2d57779f300abe66b6f24dc)] - Upgrade: Bump ava from 3.13.0 to 3.15.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4015cd746d`](https://github.com/webhintio/hint/commit/4015cd746d7bf8d29f224218784e9c00800169ad)] - Upgrade: Bump js-library-detector from 6.2.0 to 6.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`accf822062`](https://github.com/webhintio/hint/commit/accf82206200026705f939b08f35d20f78c29c81)] - Upgrade: Bump typescript from 4.1.2 to 4.1.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`3acf8d844d`](https://github.com/webhintio/hint/commit/3acf8d844d86c7fe0ec74e47ba89c40a3a8b2905)] - Upgrade: Bump @types/node from 14.14.12 to 14.14.14 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`d509b0072e`](https://github.com/webhintio/hint/commit/d509b0072ebafb8d1585ca2e846fb4c6de82b238)] - Upgrade: Bump @types/node from 14.14.11 to 14.14.12 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b7a05652a3`](https://github.com/webhintio/hint/commit/b7a05652a3466601e6e851422a53d163986deda3)] - Upgrade: Bump semver from 7.3.2 to 7.3.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`df5adacf72`](https://github.com/webhintio/hint/commit/df5adacf7246e87cd26f950533cb121691a0d937)] - Upgrade: Bump ava from 3.12.1 to 3.13.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`565cdc8d8d`](https://github.com/webhintio/hint/commit/565cdc8d8d280004f8d2bbbfb2d4c00a20233468)] - Upgrade: Bump @typescript-eslint/parser from 4.0.1 to 4.9.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7453405bc6`](https://github.com/webhintio/hint/commit/7453405bc68d57c8dec95f6d0c2efd29c504f944)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.7.0 to 4.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a42dca7f88`](https://github.com/webhintio/hint/commit/a42dca7f88ef0aeb3f739d852143baff9a8cf789)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.0.1 to 4.7.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`316996ecbd`](https://github.com/webhintio/hint/commit/316996ecbd3622ee701b67e8781211023cf70b1d)] - Upgrade: Bump typescript from 4.0.2 to 4.0.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.12.1 (November 11, 2020)
 
 ## New features

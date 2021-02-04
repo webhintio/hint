@@ -1,3 +1,10 @@
+# 8.2.0 (February 4, 2021)
+
+## New features
+
+* [[`83699323fc`](https://github.com/webhintio/hint/commit/83699323fc0234a2b9cbe56d7f88f991b9496bd4)] - New: Add no-inline-styles hint to default configurations (by [`Bola Ahmed Buari`](https://github.com/bolah2009) / see also: [`#4257`](https://github.com/webhintio/hint/issues/4257)).
+
+
 # 8.1.0 (November 11, 2020)
 
 ## New features

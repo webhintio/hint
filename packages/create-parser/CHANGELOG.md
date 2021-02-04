@@ -1,3 +1,10 @@
+# 3.0.11 (February 4, 2021)
+
+## Bug fixes / Improvements
+
+* [[`47011721d4`](https://github.com/webhintio/hint/commit/47011721d40aee360a28a332ed0b2e2196aaec76)] - Fix: Remove obsoleted properties in webpack 5 (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 3.0.9 (November 11, 2020)
 
 ## Chores

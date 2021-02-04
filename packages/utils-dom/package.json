@@ -10,8 +10,8 @@
   "dependencies": {
     "@types/parse5": "^5.0.3",
     "eventemitter2": "^6.4.3",
-    "@hint/utils-debug": "^1.0.3",
-    "@hint/utils-types": "^1.1.1",
+    "@hint/utils-debug": "^1.0.4",
+    "@hint/utils-types": "^1.1.2",
     "css-select": "^3.1.2",
     "parse5": "^6.0.1",
     "parse5-htmlparser2-tree-adapter": "^6.0.1"
@@ -66,5 +66,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.1.4"
+  "version": "2.1.5"
 }

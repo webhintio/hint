@@ -1,3 +1,27 @@
+# 7.0.8 (February 4, 2021)
+
+## Chores
+
+* [[`7480aa6204`](https://github.com/webhintio/hint/commit/7480aa6204a21ac6edcf01950dd7f4fa6bbeb2c5)] - Upgrade: Bump @typescript-eslint/parser from 4.9.0 to 4.14.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2f5b9f3922`](https://github.com/webhintio/hint/commit/2f5b9f39220a2f7f786d995c1b6b957e4f6ea696)] - Upgrade: Bump applicationinsights from 1.8.8 to 1.8.9 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e298879c85`](https://github.com/webhintio/hint/commit/e298879c855ce07be654ef08ced26752dda9fe7c)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.9.0 to 4.14.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2b3dff9dcc`](https://github.com/webhintio/hint/commit/2b3dff9dccf5711e2847465c2ce28983f5613c67)] - Upgrade: Bump sinon from 9.2.3 to 9.2.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a489b8a7e6`](https://github.com/webhintio/hint/commit/a489b8a7e6469aa386035882cdecd59ab0dd3301)] - Upgrade: Bump file-type from 16.1.0 to 16.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0b63ddd157`](https://github.com/webhintio/hint/commit/0b63ddd1579cb26141167441a4f1b3dd61b2b51c)] - Upgrade: Bump sinon from 9.2.1 to 9.2.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`68c2489ca0`](https://github.com/webhintio/hint/commit/68c2489ca0887ae90a9ad813e9a82c171c7d8537)] - Upgrade: Bump eslint from 7.14.0 to 7.17.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f4506be527`](https://github.com/webhintio/hint/commit/f4506be527b6116c3eec99b22b1838cf4406a3a2)] - Upgrade: Bump file-type from 15.0.1 to 16.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`d74a0f6ac2`](https://github.com/webhintio/hint/commit/d74a0f6ac273d5df6e48f4d8ce6b80328eaa244c)] - Upgrade: Bump globby from 11.0.1 to 11.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f4ef63e832`](https://github.com/webhintio/hint/commit/f4ef63e8327966dfe2d57779f300abe66b6f24dc)] - Upgrade: Bump ava from 3.13.0 to 3.15.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`accf822062`](https://github.com/webhintio/hint/commit/accf82206200026705f939b08f35d20f78c29c81)] - Upgrade: Bump typescript from 4.1.2 to 4.1.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b7a05652a3`](https://github.com/webhintio/hint/commit/b7a05652a3466601e6e851422a53d163986deda3)] - Upgrade: Bump semver from 7.3.2 to 7.3.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`df5adacf72`](https://github.com/webhintio/hint/commit/df5adacf7246e87cd26f950533cb121691a0d937)] - Upgrade: Bump ava from 3.12.1 to 3.13.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`565cdc8d8d`](https://github.com/webhintio/hint/commit/565cdc8d8d280004f8d2bbbfb2d4c00a20233468)] - Upgrade: Bump @typescript-eslint/parser from 4.0.1 to 4.9.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7453405bc6`](https://github.com/webhintio/hint/commit/7453405bc68d57c8dec95f6d0c2efd29c504f944)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.7.0 to 4.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a42dca7f88`](https://github.com/webhintio/hint/commit/a42dca7f88ef0aeb3f739d852143baff9a8cf789)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.0.1 to 4.7.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`316996ecbd`](https://github.com/webhintio/hint/commit/316996ecbd3622ee701b67e8781211023cf70b1d)] - Upgrade: Bump typescript from 4.0.2 to 4.0.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`fad3e0041e`](https://github.com/webhintio/hint/commit/fad3e0041ee0aab258ee4a055d22f50f4537b891)] - Upgrade: Bump npm-registry-fetch from 8.1.5 to 9.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 7.0.7 (November 11, 2020)
 
 ## Chores

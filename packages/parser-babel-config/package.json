@@ -9,9 +9,9 @@
   },
   "description": "webhint parser to analyze babel config",
   "dependencies": {
-    "@hint/utils-fs": "^1.0.6",
-    "@hint/utils-json": "^1.0.8",
-    "@hint/utils-network": "^1.0.7",
+    "@hint/utils-fs": "^1.0.7",
+    "@hint/utils-json": "^1.0.9",
+    "@hint/utils-network": "^1.0.8",
     "lodash": "^4.17.20"
   },
   "devDependencies": {
@@ -72,5 +72,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.1.23"
+  "version": "2.1.24"
 }

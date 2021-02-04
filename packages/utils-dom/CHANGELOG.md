@@ -1,3 +1,18 @@
+# 2.1.5 (February 4, 2021)
+
+## Chores
+
+* [[`68c2489ca0`](https://github.com/webhintio/hint/commit/68c2489ca0887ae90a9ad813e9a82c171c7d8537)] - Upgrade: Bump eslint from 7.14.0 to 7.17.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f4ef63e832`](https://github.com/webhintio/hint/commit/f4ef63e8327966dfe2d57779f300abe66b6f24dc)] - Upgrade: Bump ava from 3.13.0 to 3.15.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`accf822062`](https://github.com/webhintio/hint/commit/accf82206200026705f939b08f35d20f78c29c81)] - Upgrade: Bump typescript from 4.1.2 to 4.1.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`cdb7a4e5ee`](https://github.com/webhintio/hint/commit/cdb7a4e5eef0ebed0fef920fef2bb38f27ff13b8)] - Upgrade: Bump css-select from 3.1.0 to 3.1.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4e1e7f5448`](https://github.com/webhintio/hint/commit/4e1e7f5448dae983ff446f42d687a85b3542b525)] - Upgrade: Bump axe-core from 4.0.2 to 4.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4368f6da41`](https://github.com/webhintio/hint/commit/4368f6da418ad9d15e24cb6ba8d8a2c9a68fa10c)] - Upgrade: Bump css-select from 2.1.0 to 3.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`df5adacf72`](https://github.com/webhintio/hint/commit/df5adacf7246e87cd26f950533cb121691a0d937)] - Upgrade: Bump ava from 3.12.1 to 3.13.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`565cdc8d8d`](https://github.com/webhintio/hint/commit/565cdc8d8d280004f8d2bbbfb2d4c00a20233468)] - Upgrade: Bump @typescript-eslint/parser from 4.0.1 to 4.9.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`316996ecbd`](https://github.com/webhintio/hint/commit/316996ecbd3622ee701b67e8781211023cf70b1d)] - Upgrade: Bump typescript from 4.0.2 to 4.0.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.1.4 (November 11, 2020)
 
 ## Bug fixes / Improvements
