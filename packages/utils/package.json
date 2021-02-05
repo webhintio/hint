@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@hint/utils-debug": "^1.0.4",
-    "@hint/utils-fs": "^1.0.7",
+    "@hint/utils-fs": "^1.0.8",
     "@hint/utils-string": "^1.0.7",
     "applicationinsights": "^1.8.9",
     "chalk": "^4.0.0",
@@ -89,5 +89,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "7.0.8"
+  "version": "7.0.9"
 }

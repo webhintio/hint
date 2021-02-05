@@ -1,3 +1,10 @@
+# 1.0.8 (February 5, 2021)
+
+## Bug fixes / Improvements
+
+* [[`cde8da2ee7`](https://github.com/webhintio/hint/commit/cde8da2ee70cc60308e21e1408dfcd2469e20911)] - Fix: Fix some issues after updating to webpack 5 (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
 # 1.0.7 (February 4, 2021)
 
 ## Chores

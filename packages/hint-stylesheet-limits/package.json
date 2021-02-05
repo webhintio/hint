@@ -13,8 +13,8 @@
   },
   "description": "Checks if CSS exceeds known stylesheet limits",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.8",
-    "@hint/utils-tests-helpers": "^6.3.2",
+    "@hint/utils-create-server": "^3.4.9",
+    "@hint/utils-tests-helpers": "^6.3.3",
     "@types/node": "^14.14.22",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
@@ -71,5 +71,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.3.8"
+  "version": "3.3.9"
 }

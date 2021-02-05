@@ -11,15 +11,15 @@
     "create-hint": "./dist/src/create-hint.js"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.8",
-    "@hint/utils-fs": "^1.0.7",
+    "@hint/utils": "^7.0.9",
+    "@hint/utils-fs": "^1.0.8",
     "@hint/utils-string": "^1.0.7",
     "@hint/utils-types": "^1.1.2"
   },
   "description": "webhint's hint initializer package",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^6.3.2",
-    "@hint/utils-create-server": "^3.4.8",
+    "@hint/utils-tests-helpers": "^6.3.3",
+    "@hint/utils-create-server": "^3.4.9",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
     "@types/mkdirp": "^1.0.1",
@@ -34,7 +34,7 @@
     "fork-ts-checker-webpack-plugin": "^6.1.0",
     "fs-extra": "^9.0.1",
     "handlebars": "^4.7.6",
-    "hint": "^6.1.2",
+    "hint": "^6.1.3",
     "inquirer": "^7.3.3",
     "mkdirp": "^1.0.3",
     "npm-run-all": "^4.1.5",
@@ -89,5 +89,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "4.0.10"
+  "version": "4.0.11"
 }

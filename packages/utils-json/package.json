@@ -8,8 +8,8 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-fs": "^1.0.7",
-    "@hint/utils-network": "^1.0.8",
+    "@hint/utils-fs": "^1.0.8",
+    "@hint/utils-network": "^1.0.9",
     "@hint/utils-types": "^1.1.2",
     "ajv": "^6.12.6",
     "jsonc-parser": "^3.0.0",
@@ -63,5 +63,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.9"
+  "version": "1.0.10"
 }

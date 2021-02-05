@@ -9,7 +9,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.8",
+    "@hint/utils": "^7.0.9",
     "@hint/utils-string": "^1.0.7",
     "postcss": "^8.2.1",
     "postcss-safe-parser": "^5.0.2"
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.23"
+  "version": "3.0.24"
 }

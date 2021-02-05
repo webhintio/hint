@@ -10,14 +10,14 @@
   "dependencies": {
     "@hint/utils-debug": "^1.0.4",
     "@hint/utils-i18n": "^1.0.7",
-    "@hint/utils-network": "^1.0.8",
+    "@hint/utils-network": "^1.0.9",
     "@hint/utils-types": "^1.1.2"
   },
   "description": "hint that that checks if the JavaScript used by the web page is minified",
   "devDependencies": {
-    "@hint/parser-javascript": "^3.1.9",
-    "@hint/utils-create-server": "^3.4.8",
-    "@hint/utils-tests-helpers": "^6.3.2",
+    "@hint/parser-javascript": "^3.1.10",
+    "@hint/utils-create-server": "^3.4.9",
+    "@hint/utils-tests-helpers": "^6.3.3",
     "@types/node": "^14.14.22",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.8"
+  "version": "2.4.9"
 }

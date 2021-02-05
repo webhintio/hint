@@ -8,9 +8,9 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.8",
+    "@hint/utils": "^7.0.9",
     "@hint/utils-debug": "^1.0.4",
-    "@hint/utils-network": "^1.0.8",
+    "@hint/utils-network": "^1.0.9",
     "@hint/utils-string": "^1.0.7",
     "@hint/utils-types": "^1.1.2",
     "data-urls": "^2.0.0",
@@ -19,7 +19,7 @@
   },
   "description": "hint tools for connectors",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.8",
+    "@hint/utils-create-server": "^3.4.9",
     "@types/node": "^14.14.22",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
@@ -73,5 +73,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.23"
+  "version": "4.0.24"
 }

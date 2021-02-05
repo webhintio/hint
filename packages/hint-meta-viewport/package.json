@@ -15,9 +15,9 @@
   },
   "description": "hint for best practices related to the meta viewport",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.8",
+    "@hint/utils-create-server": "^3.4.9",
     "@hint/utils-dom": "^2.1.5",
-    "@hint/utils-tests-helpers": "^6.3.2",
+    "@hint/utils-tests-helpers": "^6.3.3",
     "@types/node": "^14.14.22",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "5.0.4"
+  "version": "5.0.5"
 }

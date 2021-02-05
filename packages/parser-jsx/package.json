@@ -16,7 +16,7 @@
   "description": "webhint parser needed to analyze HTML elements in JSX",
   "devDependencies": {
     "@hint/parser-html": "^3.0.19",
-    "@hint/parser-javascript": "^3.1.9",
+    "@hint/parser-javascript": "^3.1.10",
     "@types/node": "^14.14.22",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.10"
+  "version": "1.0.11"
 }

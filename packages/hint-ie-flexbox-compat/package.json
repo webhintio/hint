@@ -10,14 +10,14 @@
   "dependencies": {
     "@hint/utils-i18n": "^1.0.7",
     "@hint/utils-types": "^1.1.2",
-    "@hint/utils-fs": "^1.0.7",
+    "@hint/utils-fs": "^1.0.8",
     "@hint/utils-css": "^1.0.7",
-    "@hint/parser-css": "^3.0.23"
+    "@hint/parser-css": "^3.0.24"
   },
   "description": "hint that informs about potential flexbox compatibility bugs with Internet Explorer",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.8",
-    "@hint/utils-tests-helpers": "^6.3.2",
+    "@hint/utils-create-server": "^3.4.9",
+    "@hint/utils-tests-helpers": "^6.3.3",
     "@types/node": "^14.14.22",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
