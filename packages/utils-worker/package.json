@@ -66,7 +66,6 @@
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",
     "puppeteer": "^5.3.1",
-    "raw-loader": "^4.0.2",
     "rimraf": "^3.0.0",
     "setimmediate": "^1.0.5",
     "stream-browserify": "^3.0.0",

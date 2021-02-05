@@ -12,11 +12,7 @@ module.exports = (env) => {
                 // Bundle `axe-core` as a raw string so it can be injected at runtime.
                 {
                     test: /axe-core/,
-                    use: 'raw-loader'
-                },
-                {
-                    test: /\.md$/,
-                    use: 'raw-loader'
+                    type: 'asset/source'
                 }
             ]
         },

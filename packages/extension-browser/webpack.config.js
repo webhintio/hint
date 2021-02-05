@@ -17,12 +17,12 @@ module.exports = (env) => {
                 // Bundle `axe-core` as a raw string so it can be injected at runtime.
                 {
                     test: /axe-core/,
-                    use: 'raw-loader'
+                    type: 'asset/source'
                 },
                 // Bundle `js-library-detector as a raw string so it can be injected at runtime.
                 {
                     test: /js-library-detector/,
-                    use: 'raw-loader'
+                    type: 'asset/source'
                 },
                 // Automatically bundle and inject referenced CSS files.
                 {
@@ -55,7 +55,7 @@ module.exports = (env) => {
                 },
                 {
                     test: /\.md$/,
-                    use: 'raw-loader'
+                    type: 'asset/source'
                 }
             ]
         },

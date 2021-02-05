@@ -82,6 +82,7 @@
         { "path": "packages/hint-no-friendly-error-pages" },
         { "path": "packages/hint-no-html-only-headers" },
         { "path": "packages/hint-no-http-redirects" },
+        { "path": "packages/hint-no-inline-styles" },
         { "path": "packages/hint-no-p3p" },
         { "path": "packages/hint-no-protocol-relative-urls" },
         { "path": "packages/hint-no-vulnerable-javascript-libraries" },
