@@ -58,7 +58,7 @@ engine.executeOn(url, {content: '{{your content}}'});
 
 ## Further Reading
 
-* [Connectors oerview][connectors]
+* [Connectors overview][connectors]
 
 <!-- Link labels: -->
 
