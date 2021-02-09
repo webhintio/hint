@@ -33,11 +33,10 @@ export default class TypeScriptConfigImportHelpers implements IHint {
         const validateTslibInstalled = (evt: ScanEnd) => {
             const { resource } = evt;
 
-            const pathToTslib = path.join(process.cwd(), 'node_modules', 'tslib');
-
-            debug(`Searching "tslib" in ${pathToTslib}`);
-
             try {
+                const pathToTslib = path.dirname(require.resolve('tslib', { paths: [resource] }));
+
+                debug(`Searching "tslib" relative to ${resource}`);
                 loadPackage(pathToTslib);
                 debug(`"tslib" found`);
             } catch (e) {
