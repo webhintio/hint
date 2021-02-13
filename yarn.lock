@@ -3589,15 +3589,15 @@ detect-libc@^1.0.2:
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
   integrity sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
 
-devtools-protocol@0.0.799653:
-  version "0.0.799653"
-  resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.799653.tgz#86fc95ce5bf4fdf4b77a58047ba9d2301078f119"
-  integrity sha512-t1CcaZbvm8pOlikqrsIM9GOa7Ipp07+4h/q9u0JXBWjPCjHdBl9KkddX87Vv9vBHoBGtwV79sYQNGnQM6iS5gg==
-
 devtools-protocol@0.0.818844:
   version "0.0.818844"
   resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.818844.tgz#d1947278ec85b53e4c8ca598f607a28fa785ba9e"
   integrity sha512-AD1hi7iVJ8OD0aMLQU5VK0XH9LDlA1+BcPIgrAxPfaibx2DbWucuyOhc4oyQCbnvDDO68nN6/LcKfqTP343Jjg==
+
+devtools-protocol@0.0.847576:
+  version "0.0.847576"
+  resolved "https://registry.yarnpkg.com/devtools-protocol/-/devtools-protocol-0.0.847576.tgz#2f201bfb68aa9ef4497199fbd7f5d5dfde3b200b"
+  integrity sha512-0M8kobnSQE0Jmly7Mhbeq0W/PpZfnuK+WjN2ZRVPbGqYwCHCioAVp84H0TcLimgECcN5H976y5QiXMGBC9JKmg==
 
 diagnostic-channel-publishers@0.4.4:
   version "0.4.4"
@@ -9159,10 +9159,10 @@ proxy-agent@^3.1.1:
     proxy-from-env "^1.0.0"
     socks-proxy-agent "^4.0.1"
 
-proxy-from-env@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.0.0.tgz#33c50398f70ea7eb96d21f7b817630a55791c7ee"
-  integrity sha1-M8UDmPcOp+uW0h97gXYwpVeRx+4=
+proxy-from-env@^1.0.0, proxy-from-env@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 proxyquire@^2.1.3:
   version "2.1.3"
@@ -9233,18 +9233,19 @@ puppeteer-core@^5.5.0:
     unbzip2-stream "^1.3.3"
     ws "^7.2.3"
 
-puppeteer@^5.3.1:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-5.3.1.tgz#324e190d89f25ac33dba539f57b82a18553f8646"
-  integrity sha512-YTM1RaBeYrj6n7IlRXRYLqJHF+GM7tasbvrNFx6w1S16G76NrPq7oYFKLDO+BQsXNtS8kW2GxWCXjIMPvfDyaQ==
+puppeteer@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-7.1.0.tgz#ae37f48ee13f157c5b9255d580ffe4c5c1298679"
+  integrity sha512-lqOLzqCKdh7yUAHvK6LxgOpQrL8Bv1/jvS8MLDXxcNms2rlM3E8p/Wlwc7efbRZ0twxTzUeqjN5EqrTwxOwc9g==
   dependencies:
     debug "^4.1.0"
-    devtools-protocol "0.0.799653"
+    devtools-protocol "0.0.847576"
     extract-zip "^2.0.0"
-    https-proxy-agent "^4.0.0"
+    https-proxy-agent "^5.0.0"
+    node-fetch "^2.6.1"
     pkg-dir "^4.2.0"
     progress "^2.0.1"
-    proxy-from-env "^1.0.0"
+    proxy-from-env "^1.1.0"
     rimraf "^3.0.2"
     tar-fs "^2.0.0"
     unbzip2-stream "^1.3.3"
