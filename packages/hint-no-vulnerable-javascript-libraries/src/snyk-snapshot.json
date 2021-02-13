@@ -1,5 +1,56 @@
 {
   "npm": {
+    "@angular/core": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:L/I:L/A:L",
+        "alternativeIds": [],
+        "creationTime": "2021-02-09T16:38:25.910081Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 3.9,
+        "disclosureTime": "2021-01-22T11:36:15Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "11.0.5",
+          "11.1.0-next.3"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-ANGULARCORE-1070902",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-10T14:30:32.983288Z",
+        "moduleName": "@angular/core",
+        "packageManager": "npm",
+        "packageName": "@angular/core",
+        "patches": [],
+        "publicationTime": "2021-02-10T14:30:33.197235Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/angular/angular/commit/0fc8466f1be392917e0c7e3448b2144d52286b56"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/angular/angular/pull/40525"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<11.0.5",
+            ">=11.1.0-next.0 <11.1.0-next.3"
+          ]
+        },
+        "severity": "low",
+        "title": "Cross-site Scripting (XSS)"
+      }
+    ],
     "ag-grid": [
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
@@ -8529,6 +8580,53 @@
     ],
     "highcharts": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L/E:P/RL:U/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-10-16T16:51:04.818255Z",
+        "credit": [
+          "Alessio Della Libera (d3lla)"
+        ],
+        "cvssScore": 6.3,
+        "disclosureTime": "2021-02-04T16:49:39Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "9.0.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-HIGHCHARTS-1018906",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-05T16:42:43.359279Z",
+        "moduleName": "highcharts",
+        "packageManager": "npm",
+        "packageName": "highcharts",
+        "patches": [],
+        "publicationTime": "2021-02-05T16:42:43.108673Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/highcharts/highcharts/commit/fead359b37079482994ee86c2e2e60fbb02ffcb8"
+          },
+          {
+            "title": "Vulnerable Code",
+            "url": "https://github.com/highcharts/highcharts/blob/master/ts/Core/Utilities.ts%23L802"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<9.0.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Prototype Pollution"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:N/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-06-11T08:33:05.776850Z",
@@ -10418,7 +10516,7 @@
     ],
     "jquery-ui": [
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:F/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-12-18T17:05:40.662942Z",
         "credit": [
@@ -10426,7 +10524,7 @@
         ],
         "cvssScore": 7.5,
         "disclosureTime": "2020-12-18T17:04:56Z",
-        "exploit": "Proof of Concept",
+        "exploit": "Functional",
         "fixedIn": [],
         "functions": [],
         "functions_new": [],
@@ -10440,13 +10538,17 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-01-20T16:41:56.380687Z",
+        "modificationTime": "2021-02-01T14:41:51.846255Z",
         "moduleName": "jquery-ui",
         "packageManager": "npm",
         "packageName": "jquery-ui",
         "patches": [],
         "publicationTime": "2021-01-20T16:41:55Z",
         "references": [
+          {
+            "title": "Exploit DB",
+            "url": "https://www.exploit-db.com/exploits/49489"
+          },
           {
             "title": "Jquery UI Ticket",
             "url": "https://bugs.jqueryui.com/ticket/15390"
@@ -10458,7 +10560,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<=1.12.1"
+            "<0.0.0"
           ]
         },
         "severity": "high",
@@ -12883,6 +12985,63 @@
     ],
     "marked": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "alternativeIds": [],
+        "creationTime": "2021-02-09T10:22:06.210622Z",
+        "credit": [
+          "Carlo Stearns",
+          "Trevor Buckner"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2021-02-09T10:14:35Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "2.0.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-MARKED-1070800",
+        "identifiers": {
+          "CVE": [
+            "CVE-2021-21306"
+          ],
+          "CWE": [
+            "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-4r62-v4vq-hr96"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-09T16:34:47.564935Z",
+        "moduleName": "marked",
+        "packageManager": "npm",
+        "packageName": "marked",
+        "patches": [],
+        "publicationTime": "2021-02-09T16:34:47.531803Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/markedjs/marked/commit/7293251c438e3ee968970f7609f1a27f9007bccd"
+          },
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/markedjs/marked/issues/1927"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/markedjs/marked/pull/1864"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            ">=1.1.2 <2.0.0"
+          ]
+        },
+        "severity": "high",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H/E:U/RL:O/RC:R",
         "alternativeIds": [],
         "creationTime": "2020-07-13T15:50:25.938503Z",
@@ -14369,6 +14528,51 @@
     ],
     "merge-deep": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:U/RL:O/RC:R",
+        "alternativeIds": [],
+        "creationTime": "2021-02-05T13:50:54.755058Z",
+        "credit": [
+          "GitHub Security Lab"
+        ],
+        "cvssScore": 7.3,
+        "disclosureTime": "2021-02-05T13:48:38Z",
+        "exploit": "Unproven",
+        "fixedIn": [
+          "3.0.3"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-MERGEDEEP-1070277",
+        "identifiers": {
+          "CVE": [
+            "CVE-2021-26707"
+          ],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-05T14:18:19.009751Z",
+        "moduleName": "merge-deep",
+        "packageManager": "npm",
+        "packageName": "merge-deep",
+        "patches": [],
+        "publicationTime": "2021-02-05T14:18:19Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/jonschlinkert/merge-deep/commit/e370968581413a2e5ffdbbf7c2f5094e0e0b3861"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<3.0.3"
+          ]
+        },
+        "severity": "high",
+        "title": "Prototype Pollution"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
         "alternativeIds": [
           "SNYK-JS-MERGEDEEP-12068"
@@ -14411,6 +14615,10 @@
         "patches": [],
         "publicationTime": "2018-02-16T08:29:23Z",
         "references": [
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/jonschlinkert/merge-deep/pull/17"
+          },
           {
             "title": "HackerOne Report",
             "url": "https://hackerone.com/reports/310708"
@@ -17006,6 +17214,10 @@
         "patches": [],
         "publicationTime": "2017-02-13T16:38:36Z",
         "references": [
+          {
+            "title": "ExploitDB",
+            "url": "https://www.exploit-db.com/exploits/49552"
+          },
           {
             "title": "GitHub Issue",
             "url": "https://github.com/luin/serialize/issues/4"
@@ -20267,6 +20479,102 @@
     ],
     "sanitize-html": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "alternativeIds": [],
+        "creationTime": "2021-02-09T08:37:16.368073Z",
+        "credit": [
+          "Ron Masas",
+          "Checkmarx"
+        ],
+        "cvssScore": 6.5,
+        "disclosureTime": "2021-02-09T08:21:55Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "2.3.1"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-SANITIZEHTML-1070786",
+        "identifiers": {
+          "CVE": [
+            "CVE-2021-26539"
+          ],
+          "CWE": [
+            "CWE-20"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-09T16:34:49.051805Z",
+        "moduleName": "sanitize-html",
+        "packageManager": "npm",
+        "packageName": "sanitize-html",
+        "patches": [],
+        "publicationTime": "2021-02-09T16:34:49.036225Z",
+        "references": [
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/apostrophecms/sanitize-html/pull/458"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<2.3.1"
+          ]
+        },
+        "severity": "medium",
+        "title": "Access Restriction Bypass"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "alternativeIds": [],
+        "creationTime": "2021-02-09T08:21:52.232749Z",
+        "credit": [
+          "Ron Masas",
+          "Checkmarx"
+        ],
+        "cvssScore": 6.5,
+        "disclosureTime": "2021-02-09T08:07:33Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "2.3.2"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-SANITIZEHTML-1070780",
+        "identifiers": {
+          "CVE": [
+            "CVE-2021-26540"
+          ],
+          "CWE": [
+            "CWE-20"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-09T16:34:45.899077Z",
+        "moduleName": "sanitize-html",
+        "packageManager": "npm",
+        "packageName": "sanitize-html",
+        "patches": [],
+        "publicationTime": "2021-02-09T16:34:45.881363Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/apostrophecms/sanitize-html/commit/6012524e7824a2c8f6782b2bc5f93b1261723403"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/apostrophecms/sanitize-html/pull/460"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<2.3.2"
+          ]
+        },
+        "severity": "medium",
+        "title": "Validation Bypass"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:L",
         "alternativeIds": [],
         "creationTime": "2020-07-17T15:02:43.082824Z",
@@ -21672,6 +21980,10 @@
           {
             "title": "GitHub Issue",
             "url": "https://github.com/socketio/socket.io/issues/3671"
+          },
+          {
+            "title": "HackerOne Report",
+            "url": "https://hackerone.com/reports/931197"
           }
         ],
         "semver": {
@@ -23017,6 +23329,53 @@
         },
         "severity": "high",
         "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+        "alternativeIds": [],
+        "creationTime": "2021-01-24T14:34:32.554985Z",
+        "credit": [
+          "yetingli"
+        ],
+        "cvssScore": 5.3,
+        "disclosureTime": "2021-01-24T14:11:26Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "0.125.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-THREE-1064566",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-11T16:48:58.299784Z",
+        "moduleName": "three",
+        "packageManager": "npm",
+        "packageName": "three",
+        "patches": [],
+        "publicationTime": "2021-02-11T16:48:58.273013Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/mrdoob/three.js/issues/21132"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/mrdoob/three.js/pull/21143"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<0.125.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Regular Expression Denial of Service (ReDoS)"
       }
     ],
     "timespan": [
@@ -23718,6 +24077,49 @@
     ],
     "ua-parser-js": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H/E:U/RL:O/RC:R",
+        "alternativeIds": [],
+        "creationTime": "2021-02-12T14:40:27.714038Z",
+        "credit": [
+          "Doyensec"
+        ],
+        "cvssScore": 5.9,
+        "disclosureTime": "2021-02-12T14:37:57Z",
+        "exploit": "Unproven",
+        "fixedIn": [
+          "0.7.24"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-UAPARSERJS-1072471",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-12T16:09:39.945049Z",
+        "moduleName": "ua-parser-js",
+        "packageManager": "npm",
+        "packageName": "ua-parser-js",
+        "patches": [],
+        "publicationTime": "2021-02-12T16:09:40.171237Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/faisalman/ua-parser-js/commit/809439e20e273ce0d25c1d04e111dcf6011eb566"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<0.7.24"
+          ]
+        },
+        "severity": "medium",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-10-29T10:53:41.363786Z",
@@ -24061,9 +24463,7 @@
         "cvssScore": 7.5,
         "disclosureTime": "2017-09-08T17:51:09Z",
         "exploit": "Not Defined",
-        "fixedIn": [
-          "3.3.5"
-        ],
+        "fixedIn": [],
         "functions": [
           {
             "functionId": {
@@ -24104,7 +24504,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.901480Z",
+        "modificationTime": "2021-02-02T16:12:01.715060Z",
         "moduleName": "underscore.string",
         "packageManager": "npm",
         "packageName": "underscore.string",
@@ -24118,11 +24518,15 @@
           {
             "title": "GitHub Issue",
             "url": "https://github.com/epeli/underscore.string/issues/510"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/esamattis/underscore.string/pull/525"
           }
         ],
         "semver": {
           "vulnerable": [
-            ">2.4.1 <3.3.5"
+            ">2.4.0"
           ]
         },
         "severity": "high",
