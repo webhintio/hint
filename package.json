@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@octokit/core": "^3.2.4",
+    "@octokit/core": "^3.2.5",
     "@octokit/plugin-throttling": "^3.4.1",
     "@octokit/rest": "^18.1.1",
     "@types/execa": "^2.0.0",
