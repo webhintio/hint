@@ -43,7 +43,7 @@
     "sinon": "^9.2.4",
     "ts-loader": "^8.0.17",
     "typescript": "^4.1.3",
-    "webpack": "^5.21.1",
+    "webpack": "^5.21.2",
     "webpack-cli": "^4.5.0"
   },
   "engines": {
