@@ -81,11 +81,11 @@ update your `package.json` file.
    npm install hint --save-dev
    ```
 
-   You have also use `-i` in place of `install` and `-D` in place of
+   You have also use `i` in place of `install` and `-D` in place of
    `--save-dev`.
 
    ```bash
-   npm -i -D hint
+   npm i -D hint
    ```
 
 1. After you install the `devDependency`, copy the script task in the
