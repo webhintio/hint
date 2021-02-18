@@ -4,6 +4,7 @@
         "composite": true,
         "declaration": true,
         "declarationMap": true,
+        "importHelpers": true,
         "inlineSourceMap": true,
         "lib": [
             "dom",
