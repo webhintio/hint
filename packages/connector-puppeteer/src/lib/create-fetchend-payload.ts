@@ -8,7 +8,7 @@ import { getElementFromResponse } from './get-element-from-response';
 
 export type Fetcher = (target: string | URL, customHeaders?: object) => Promise<NetworkData>;
 
-const getRawResponse = (response: puppeteer.Response, fetchContent: Fetcher) => {
+const getRawResponse = (response: puppeteer.HTTPResponse, fetchContent: Fetcher) => {
 
     return async function (this: any) {
 
@@ -59,7 +59,7 @@ const getRawResponse = (response: puppeteer.Response, fetchContent: Fetcher) => 
             final[key] = value;
 
             return final;
-        }, {} as puppeteer.Headers);
+        }, {} as HttpHeaders);
 
         return fetchContent(responseUrl, validHeaders)
             .then((result) => {
@@ -76,7 +76,7 @@ const getRawResponse = (response: puppeteer.Response, fetchContent: Fetcher) => 
 };
 
 /** Creates a full `fetch::end` payload for the given `response`. */
-export const createFetchEndPayload = async (response: puppeteer.Response, fetchContent: Fetcher, dom?: HTMLDocument): Promise<FetchEnd> => {
+export const createFetchEndPayload = async (response: puppeteer.HTTPResponse, fetchContent: Fetcher, dom?: HTMLDocument): Promise<FetchEnd> => {
     const resourceUrl = response.url();
     const hops = response.request()
         .redirectChain()

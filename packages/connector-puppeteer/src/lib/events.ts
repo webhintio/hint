@@ -13,7 +13,7 @@ type EventResult<K extends keyof Events> = {
     payload: Events[K];
 };
 
-export const onRequestHandler = (request: puppeteer.Request): EventResult<'fetch::start::target' | 'fetch::start'> => {
+export const onRequestHandler = (request: puppeteer.HTTPRequest): EventResult<'fetch::start::target' | 'fetch::start'> => {
     const requestUrl = request.url();
     const event = { resource: requestUrl };
     const name = request.isNavigationRequest() ?
@@ -28,7 +28,7 @@ export const onRequestHandler = (request: puppeteer.Request): EventResult<'fetch
     };
 };
 
-export const onRequestFailedHandler = (request: puppeteer.Request, dom?: HTMLDocument): EventResult<'fetch::error'> | null => {
+export const onRequestFailedHandler = (request: puppeteer.HTTPRequest, dom?: HTMLDocument): EventResult<'fetch::error'> | null => {
     const resource = request.url();
 
     if (!dom) {
@@ -57,7 +57,7 @@ export const onRequestFailedHandler = (request: puppeteer.Request, dom?: HTMLDoc
     };
 };
 
-export const onResponseHandler = async (response: puppeteer.Response, fetchContent: Fetcher, dom?: HTMLDocument): Promise<EventResult<'fetch::end::html' | 'fetch::end::*'> | null> => {
+export const onResponseHandler = async (response: puppeteer.HTTPResponse, fetchContent: Fetcher, dom?: HTMLDocument): Promise<EventResult<'fetch::end::html' | 'fetch::end::*'> | null> => {
     const resource = response.url();
     const isTarget = response.request().isNavigationRequest();
 
