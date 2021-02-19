@@ -105,6 +105,7 @@ export default class PuppeteerConnector implements IConnector {
 
         let executablePath: string | undefined;
 
+        /* istanbul ignore else */
         if (!options.puppeteerOptions || !('executablePath' in options.puppeteerOptions)) {
             executablePath = 'browser' in options ?
                 getInstallationPath({ browser: options.browser }) :
