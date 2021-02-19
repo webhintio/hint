@@ -12,7 +12,7 @@ import { GroupedError, JSONLocationFunction, ISchemaValidationError, SchemaValid
  * ajv in a lowsercase variable 'ajv', otherwise, we can't use types
  * like `ajv.Ajv'.
  */
-const validator = new ajv({ // eslint-disable-line new-cap
+const validator = new ajv.default({ // eslint-disable-line new-cap
     $data: true,
     allErrors: true,
     logger: false,
@@ -54,7 +54,7 @@ const generateRequiredError = generateError(ErrorKeyword.required, (error: ajv.E
  * Returns a readable error for 'additionalProperty' errors.
  */
 const generateAdditionalPropertiesError = generateError(ErrorKeyword.additionalProperties, (error: ajv.ErrorObject, property: string): string => {
-    const additionalProperty = (error.params as ajv.AdditionalPropertiesParams).additionalProperty;
+    const additionalProperty = error.params.additionalProperty;
 
     return `'${property ? property : 'root'}' ${property ? error.message : `${error.message}`}. Additional property found '${additionalProperty}'.`;
 });
@@ -63,7 +63,7 @@ const generateAdditionalPropertiesError = generateError(ErrorKeyword.additionalP
  * Returns a readable error for 'enum' errors.
  */
 const generateEnumError = generateError(ErrorKeyword.enum, (error: ajv.ErrorObject, property: string): string => {
-    const allowedValues = (error.params as ajv.EnumParams).allowedValues;
+    const allowedValues = error.params.allowedValues;
 
     return `'${property}' ${error.message} '${allowedValues.join(', ')}'. Value found '${error.data}'`;
 });
@@ -79,7 +79,7 @@ const generatePatternError = generateError(ErrorKeyword.pattern, (error: ajv.Err
  * Returns a readable error for 'type' errors.
  */
 const generateTypeError = generateError(ErrorKeyword.type, (error: ajv.ErrorObject, property: string) => {
-    return `'${property}' should be '${(error.params as ajv.TypeParams).type}'.`;
+    return `'${property}' should be '${error.params.type}'.`;
 });
 
 const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorObject, property: string, errors?: ajv.ErrorObject[]): string => {
@@ -97,15 +97,15 @@ const generateUniqueItemError = generateError(ErrorKeyword.uniqueItems, (error: 
 });
 
 const getRequiredProperty = (error: ajv.ErrorObject): string => {
-    return `'${(error.params as ajv.RequiredParams).missingProperty}'`;
+    return `'${error.params.missingProperty}'`;
 };
 
 const getTypeProperty = (error: ajv.ErrorObject): string => {
-    return `'${(error.params as ajv.TypeParams).type}'`;
+    return `'${error.params.type}'`;
 };
 
 const getEnumValues = (error: ajv.ErrorObject): string => {
-    return `'${(error.params as ajv.EnumParams).allowedValues.join(', ')}'`;
+    return `'${error.params.allowedValues.join(', ')}'`;
 };
 
 const generateAnyOfMessageRequired = (errors: ajv.ErrorObject[]): string => {
@@ -232,7 +232,8 @@ const groupMessages = (errors: ISchemaValidationError[]): GroupedError[] => {
         if (anyOf) {
             const anyOfErrors = groupErrors.filter((error) => {
                 /* istanbul ignore next */
-                return error.schemaPath.includes(anyOf.schemaPath) || anyOf.schema.some((schema: any) => {
+                // TODO: Remove "as any"
+                return error.schemaPath.includes(anyOf.schemaPath) || (anyOf.schema as any).some((schema: any) => {
                     return error.schemaPath.includes(schema.$ref);
                 });
             });
@@ -287,7 +288,7 @@ const groupMessages = (errors: ISchemaValidationError[]): GroupedError[] => {
 const errorWithLocation = (error: ajv.ErrorObject, getLocation: JSONLocationFunction): ISchemaValidationError => {
 
     let path = error.dataPath;
-    const additionalProperty = error.params && (error.params as ajv.AdditionalPropertiesParams).additionalProperty;
+    const additionalProperty = error.params && error.params.additionalProperty;
 
     if (additionalProperty) {
         path = path ? `${path}.${additionalProperty}` : additionalProperty;
@@ -316,7 +317,7 @@ const prettify = (errors: ajv.ErrorObject[]) => {
 export const validate = (schema: object, json: object, getLocation?: JSONLocationFunction): SchemaValidationResult => {
     // We clone the incoming data because the validator can modify it.
     const data = cloneDeep(json);
-    const validateFunction: ajv.ValidateFunction = validator.compile(schema);
+    const validateFunction: ajv.ValidateFunction<any[]> = validator.compile(schema);
 
     const valid: boolean = validateFunction(data) as boolean;
 
