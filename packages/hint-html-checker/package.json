@@ -19,7 +19,7 @@
   "devDependencies": {
     "@hint/parser-html": "^3.0.19",
     "@hint/utils-tests-helpers": "^6.3.3",
-    "@types/node": "^14.14.22",
+    "@types/node": "^14.14.31",
     "@types/request": "^2.48.5",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.0",
