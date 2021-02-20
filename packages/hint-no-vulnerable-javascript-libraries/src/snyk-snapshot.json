@@ -7614,6 +7614,53 @@
     ],
     "handlebars": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2021-01-08T17:25:21.189033Z",
+        "credit": [
+          "Francois Lajeunesse-Robert"
+        ],
+        "cvssScore": 5.6,
+        "disclosureTime": "2021-01-08T17:08:45Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "4.7.7"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-HANDLEBARS-1056767",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-94"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-15T11:50:52.210306Z",
+        "moduleName": "handlebars",
+        "packageManager": "npm",
+        "packageName": "handlebars",
+        "patches": [],
+        "publicationTime": "2021-02-15T11:50:51Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/handlebars-lang/handlebars.js/commit/b6d3de7123eebba603e321f04afdbae608e8fea8"
+          },
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/handlebars-lang/handlebars.js/commit/f0589701698268578199be25285b2ebea1c1e427"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<4.7.7"
+          ]
+        },
+        "severity": "medium",
+        "title": "Remote Code Execution (RCE)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-04-28T14:26:34.538485Z",
@@ -8799,6 +8846,49 @@
       }
     ],
     "i18next": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "alternativeIds": [],
+        "creationTime": "2021-01-29T13:29:26.107901Z",
+        "credit": [
+          "Adriano Raiano"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2021-01-29T13:26:30Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "19.8.5"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-I18NEXT-1065979",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-1321"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-17T17:34:25.876632Z",
+        "moduleName": "i18next",
+        "packageManager": "npm",
+        "packageName": "i18next",
+        "patches": [],
+        "publicationTime": "2021-02-17T17:34:25.188395Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/i18next/i18next/commit/932f5f662893376254d826e9b01dc4e4c0cd91c0"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<19.8.5"
+          ]
+        },
+        "severity": "high",
+        "title": "Prototype Pollution"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N/E:P/RL:O/RC:C",
         "alternativeIds": [],
@@ -11834,6 +11924,92 @@
       }
     ],
     "lodash": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:P/RL:U/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2020-11-17T14:07:17.048472Z",
+        "credit": [
+          "Marc Hassan"
+        ],
+        "cvssScore": 7.2,
+        "disclosureTime": "2020-11-17T13:02:10Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-LODASH-1040724",
+        "identifiers": {
+          "CVE": [
+            "CVE-2021-23337"
+          ],
+          "CWE": [
+            "CWE-78"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-15T11:50:51.263992Z",
+        "moduleName": "lodash",
+        "packageManager": "npm",
+        "packageName": "lodash",
+        "patches": [],
+        "publicationTime": "2021-02-15T11:50:50.396513Z",
+        "references": [
+          {
+            "title": "Vulnerable Code",
+            "url": "https://github.com/lodash/lodash/blob/ddfd9b11a0126db2302cb70ec9973b66baec0975/lodash.js%23L14851"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<=4.17.20"
+          ]
+        },
+        "severity": "high",
+        "title": "Command Injection"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P",
+        "alternativeIds": [],
+        "creationTime": "2020-10-16T16:48:40.985673Z",
+        "credit": [
+          "Liyuan Chen"
+        ],
+        "cvssScore": 5.3,
+        "disclosureTime": "2020-10-16T16:47:34Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-LODASH-1018905",
+        "identifiers": {
+          "CVE": [
+            "CVE-2020-28500"
+          ],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-02-15T11:50:49.783408Z",
+        "moduleName": "lodash",
+        "packageManager": "npm",
+        "packageName": "lodash",
+        "patches": [],
+        "publicationTime": "2021-02-15T11:50:49.142366Z",
+        "references": [
+          {
+            "title": "GitHub Fix PR",
+            "url": "https://github.com/lodash/lodash/pull/5065"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<=4.17.20"
+          ]
+        },
+        "severity": "medium",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [],
@@ -22510,6 +22686,10 @@
         "publicationTime": "2019-10-11T13:21:30Z",
         "references": [
           {
+            "title": "GitHub Commit #2",
+            "url": "https://github.com/springfox/springfox/commit/26f72f0d16b166e12c20255a4ee907dc10685cf8%23diff-97232cc54495752f2b1fbafb152d5d04e19e8e4b3ede08c67e1966233c9a19e1"
+          },
+          {
             "title": "GitHub PR",
             "url": "https://github.com/swagger-api/swagger-ui/pull/5616"
           },
@@ -23311,7 +23491,7 @@
         "packageManager": "npm",
         "packageName": "three",
         "patches": [],
-        "publicationTime": "2021-01-29T16:01:22.719492Z",
+        "publicationTime": "2021-01-29T16:01:22Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -23340,9 +23520,7 @@
         "cvssScore": 5.3,
         "disclosureTime": "2021-01-24T14:11:26Z",
         "exploit": "Not Defined",
-        "fixedIn": [
-          "0.125.0"
-        ],
+        "fixedIn": [],
         "functions": [],
         "functions_new": [],
         "id": "SNYK-JS-THREE-1064566",
@@ -23353,12 +23531,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-11T16:48:58.299784Z",
+        "modificationTime": "2021-02-18T11:44:09.276129Z",
         "moduleName": "three",
         "packageManager": "npm",
         "packageName": "three",
         "patches": [],
-        "publicationTime": "2021-02-11T16:48:58.273013Z",
+        "publicationTime": "2021-02-11T16:48:58Z",
         "references": [
           {
             "title": "GitHub Issue",
@@ -23371,7 +23549,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<0.125.0"
+            "<0.0.0"
           ]
         },
         "severity": "medium",
