@@ -20,6 +20,8 @@ const validator = new ajv.default({ // eslint-disable-line new-cap
     verbose: true
 } as ajv.Options);
 
+validator.addKeyword('regexp');
+
 enum ErrorKeyword {
     additionalProperties = 'additionalProperties',
     anyOf = 'anyOf',
