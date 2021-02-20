@@ -13,7 +13,7 @@ code for best practices and common errors.
 It can be run from the command line (CLI), via a [browser extension][], as a
 [VS Code extension][], and from the [online service][].
 
-To use it from the from the CLI you will need to install [`Node.js`][node]
+To use it from the CLI you will need to install [`Node.js`][node]
 (v10.x or later) on your machine, and you can use [`npx`][npx] to test it.
 
 ### Testing with `npx`
