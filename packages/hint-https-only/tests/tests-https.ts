@@ -45,18 +45,6 @@ const testsHTTPS: HintTest[] = [
         serverConfig: { '/': { content: generateHTMLPage('', '<img src="http://example.com/image.png">') } }
     },
     {
-        name: 'Redirect in resource fails (png)',
-        reports: [{ message: noInsecureRedirectMessage, severity }],
-        serverConfig: {
-            '/': generateHTMLPage('', '<img src="/image.png">'),
-            '/image.png': {
-                // If this test fails, check the image src.
-                content: 'http://webhint.io/static/images/home-hello-nellie-87201a8cb4.svg',
-                status: 302
-            }
-        }
-    },
-    {
         name: `HTTPS page with HTTP img srcset and should fail`,
         reports: [{ message: serveOverHTTPSMessage, severity }],
         serverConfig: { '/': { content: generateHTMLPage('', '<img src="https://example.com/image.png" srcset="http://example.com/image.png 1x, https://example.com/image.png 2x">') } }
@@ -90,4 +78,21 @@ const testsHTTPS: HintTest[] = [
     }
 ];
 
+// TODO: Ignore redirect test in puppeteers because last version always redirect to https.
+const testsRedirect = [
+    {
+        name: 'Redirect in resource fails (png)',
+        reports: [{ message: noInsecureRedirectMessage, severity }],
+        serverConfig: {
+            '/': generateHTMLPage('', '<img src="/image.png">'),
+            '/image.png': {
+                // If this test fails, check the image src.
+                content: 'http://webhint.io/static/images/home-hello-nellie-87201a8cb4.svg',
+                status: 302
+            }
+        }
+    }
+];
+
 testHint(hintPath, testsHTTPS, { https: true });
+testHint(hintPath, testsRedirect, {https: true, ignoredConnectors: ['puppeteer']});
