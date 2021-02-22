@@ -136,6 +136,9 @@ class JSONResult implements IJSONResult {
             // Strip leading dot (.) if present (ajv bug?)
             .replace(/^\./, '')
 
+            // Strip leading / if present (ajv bug?)
+            .replace(/^\//, '')
+
             // Ignore trailing `]` from `foo[1]`
             .replace(/]/g, '')
 
