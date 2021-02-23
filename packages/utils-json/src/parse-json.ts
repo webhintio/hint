@@ -74,7 +74,7 @@ class JSONResult implements IJSONResult {
 
         // Point to the value for array items
         /* istanbul ignore if */
-        if (path.match(/\d$/)) {
+        if (path.match(/(\d|\])$/)) {
             return node.offset;
         }
 
