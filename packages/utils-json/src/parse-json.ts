@@ -139,6 +139,9 @@ class JSONResult implements IJSONResult {
             // Strip leading / if present (ajv bug?)
             .replace(/^\//, '')
 
+            // Replace new format to index arrays i.e. icons/0.density => icons[0].density
+            .replace(/\/(\d+)(\.|$)/, '[$1]$2')
+
             // Ignore trailing `]` from `foo[1]`
             .replace(/]/g, '')
 

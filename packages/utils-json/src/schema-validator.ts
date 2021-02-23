@@ -1,4 +1,5 @@
 import * as ajv from 'ajv';
+import addFormats from 'ajv-formats';
 import cloneDeep = require('lodash/cloneDeep');
 import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
@@ -20,6 +21,7 @@ const validator = new ajv.default({ // eslint-disable-line new-cap
     verbose: true
 } as ajv.Options);
 
+addFormats(validator);
 validator.addKeyword('regexp');
 
 enum ErrorKeyword {
