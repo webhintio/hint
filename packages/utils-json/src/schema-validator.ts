@@ -8,22 +8,6 @@ import without = require('lodash/without');
 
 import { GroupedError, JSONLocationFunction, ISchemaValidationError, SchemaValidationResult } from './types';
 
-/*
- * If we want to use the ajv types in TypeScript, we need to import
- * ajv in a lowsercase variable 'ajv', otherwise, we can't use types
- * like `ajv.Ajv'.
- */
-const validator = new ajv.default({ // eslint-disable-line new-cap
-    $data: true,
-    allErrors: true,
-    logger: false,
-    useDefaults: true,
-    verbose: true
-} as ajv.Options);
-
-addFormats(validator);
-validator.addKeyword('regexp');
-
 enum ErrorKeyword {
     additionalProperties = 'additionalProperties',
     anyOf = 'anyOf',
@@ -319,6 +303,22 @@ const prettify = (errors: ajv.ErrorObject[]) => {
 };
 
 export const validate = (schema: object, json: object, getLocation?: JSONLocationFunction): SchemaValidationResult => {
+    /*
+     * If we want to use the ajv types in TypeScript, we need to import
+     * ajv in a lowsercase variable 'ajv', otherwise, we can't use types
+     * like `ajv.Ajv'.
+     */
+    const validator = new ajv.default({ // eslint-disable-line new-cap
+        $data: true,
+        allErrors: true,
+        logger: false,
+        useDefaults: true,
+        verbose: true
+    } as ajv.Options);
+
+    addFormats(validator);
+    validator.addKeyword('regexp');
+
     // We clone the incoming data because the validator can modify it.
     const data = cloneDeep(json);
     const validateFunction: ajv.ValidateFunction<any[]> = validator.compile(schema);
