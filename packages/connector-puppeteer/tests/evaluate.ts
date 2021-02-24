@@ -1,7 +1,6 @@
 import { URL } from 'url';
 
 import test from 'ava';
-import { executablePath } from 'puppeteer';
 
 import { generateHTMLPage, Server } from '@hint/utils-create-server';
 import { Engine, Events } from 'hint';
@@ -59,10 +58,8 @@ test(`[${name}] Evaluate JavaScript`, async (t) => {
     } as any;
 
     const server = await Server.create({ configuration: generateHTMLPage('', '') });
-    const connector = new Connector(engine, {
-        detached: true,
-        puppeteerOptions: { executablePath: executablePath() }
-    });
+
+    const connector = new Connector(engine, { detached: true });
 
     await connector.collect(new URL(`http://localhost:${server.port}/`));
 

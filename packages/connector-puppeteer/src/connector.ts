@@ -28,7 +28,7 @@ import { schema } from './lib/schema';
 
 const debug: debug.IDebugger = d(__filename);
 
-type EventName = keyof puppeteer.PageEventObj;
+type EventName = puppeteer.PageEmittedEvents;
 
 // TODO: keep in sync with the schema and take a look at #1594 and #1628
 export type ConnectorOptions = {
@@ -39,7 +39,7 @@ export type ConnectorOptions = {
     headless?: boolean;
     ignoreHTTPSErrors?: boolean;
     puppeteerOptions?: puppeteer.ConnectOptions | puppeteer.LaunchOptions;
-    waitUntil?: puppeteer.LoadEvent;
+    waitUntil?: puppeteer.PuppeteerLifeCycleEvent;
 };
 
 export default class PuppeteerConnector implements IConnector {
@@ -50,7 +50,7 @@ export default class PuppeteerConnector implements IConnector {
     private _engine: Engine;
     private _finalHref = '';
     private _headers: HttpHeaders = {};
-    private _ignoredMethods: puppeteer.HttpMethod[] = ['OPTIONS'];
+    private _ignoredMethods: string[] = ['OPTIONS'];
     private _listeners: Map<EventName, Function> = new Map();
     private _originalDocument: HTMLDocument | undefined;
     private _page!: puppeteer.Page;
@@ -60,7 +60,7 @@ export default class PuppeteerConnector implements IConnector {
     private _targetReady!: CallableFunction;
     private _targetFailed!: CallableFunction;
     private _targetNetworkData!: NetworkData;
-    private _waitUntil: puppeteer.LoadEvent;
+    private _waitUntil: puppeteer.PuppeteerLifeCycleEvent;
 
     public static schema = schema;
 
@@ -93,7 +93,7 @@ export default class PuppeteerConnector implements IConnector {
         }
     }
 
-    private isIgnoredMethod(method: puppeteer.HttpMethod) {
+    private isIgnoredMethod(method: string) {
         return this._ignoredMethods.includes(method);
     }
 
@@ -105,6 +105,7 @@ export default class PuppeteerConnector implements IConnector {
 
         let executablePath: string | undefined;
 
+        /* istanbul ignore else */
         if (!options.puppeteerOptions || !('executablePath' in options.puppeteerOptions)) {
             executablePath = 'browser' in options ?
                 getInstallationPath({ browser: options.browser }) :
@@ -155,7 +156,7 @@ export default class PuppeteerConnector implements IConnector {
         });
     }
 
-    private async onRequest(request: puppeteer.Request) {
+    private async onRequest(request: puppeteer.HTTPRequest) {
         /* istanbul ignore next */
         if (this.isIgnoredMethod(request.method())) {
             return;
@@ -170,7 +171,7 @@ export default class PuppeteerConnector implements IConnector {
         await this._engine.emitAsync(name, payload);
     }
 
-    private async onRequestFailed(request: puppeteer.Request) {
+    private async onRequestFailed(request: puppeteer.HTTPRequest) {
         const response = request.response();
 
         if (response && response.status() >= 400) {
@@ -194,7 +195,7 @@ export default class PuppeteerConnector implements IConnector {
         await this._engine.emitAsync(event.name, event.payload);
     }
 
-    private async onResponse(response: puppeteer.Response) {
+    private async onResponse(response: puppeteer.HTTPResponse) {
         /* istanbul ignore next */
         if (this.isIgnoredMethod(response.request().method())) {
             return;
@@ -247,11 +248,11 @@ export default class PuppeteerConnector implements IConnector {
         const onRequestFailed = this.onRequestFailed.bind(this);
         const onResponse = this.onResponse.bind(this);
 
-        this._listeners.set('error', onError);
-        this._listeners.set('pageerror', onError);
-        this._listeners.set('request', onRequest);
-        this._listeners.set('requestfailed', onRequestFailed);
-        this._listeners.set('response', onResponse);
+        this._listeners.set(puppeteer.PageEmittedEvents.Error, onError);
+        this._listeners.set(puppeteer.PageEmittedEvents.PageError, onError);
+        this._listeners.set(puppeteer.PageEmittedEvents.Request, onRequest);
+        this._listeners.set(puppeteer.PageEmittedEvents.RequestFailed, onRequestFailed);
+        this._listeners.set(puppeteer.PageEmittedEvents.Response, onResponse);
 
         for (const [eventName, handler] of this._listeners) {
             this._page.on(eventName, (handler as any));
@@ -368,7 +369,7 @@ export default class PuppeteerConnector implements IConnector {
         debug(`Navigation complete`);
 
         // Stop network events after navigation is considered complete so no more issues are reported
-        this.removeListeners(['request', 'requestfailed', 'response']);
+        this.removeListeners([puppeteer.PageEmittedEvents.Request, puppeteer.PageEmittedEvents.RequestFailed, puppeteer.PageEmittedEvents.Response]);
 
         await this.processTarget();
 

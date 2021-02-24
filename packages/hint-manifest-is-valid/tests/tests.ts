@@ -42,7 +42,7 @@ const defaultTests: HintTest[] = [
                 severity: Severity.error
             },
             {
-                message: `'icons[0]' should NOT have additional properties. Additional property found 'density'.`,
+                message: `'icons/0' should NOT have additional properties. Additional property found 'density'.`,
                 position: { match: 'density' },
                 severity: Severity.error
             },

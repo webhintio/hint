@@ -263,7 +263,7 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
         `'root' should NOT have additional properties. Additional property found 'additionalProperty'.`,
         `'root' should NOT have additional properties. Additional property found 'gcm_sender_id'.`,
         `'root' should NOT have additional properties. Additional property found 'unknown_proprietary_extension'.`,
-        `'icons[0]' should NOT have additional properties. Additional property found 'density'.`
+        `'icons/0' should NOT have additional properties. Additional property found 'density'.`
     ];
 
     /* eslint-disable camelcase */
@@ -296,7 +296,7 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
 
 test(`'${parseErrorSchemaEventName}' event includes location information`, async (t) => {
     const expectedLocations: { [message: string]: ProblemLocation } = {
-        [`'icons[0]' should NOT have additional properties. Additional property found 'density'.`]: {
+        [`'icons/0' should NOT have additional properties. Additional property found 'density'.`]: {
             column: 9,
             line: 4
         },

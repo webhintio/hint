@@ -9,7 +9,7 @@ import { compile } from 'json-schema-to-typescript';
 type Transform = {
     pattern: string;
     replacement: string;
-} | ((content: string, location: string) => Promise<string>);
+} | ((content: string, location: string) => Promise<string> | string);
 
 const request = promisify(req) as (options: req.OptionsWithUrl) => Promise<req.Response>;
 
@@ -72,6 +72,23 @@ const prepManifestSchema = async (content: string, location: string): Promise<st
     return JSON.stringify(schema, null, 4);
 };
 
+/**
+ * ajv 7 doesn't support property id. It uses $id.
+ */
+const replaceId = (content: string, location: string): string => {
+    const schema = JSON.parse(content);
+
+    if (!('$id' in schema)) {
+        schema.$id = schema.id;
+    }
+
+    if ('id' in schema) {
+        delete schema.id;
+    }
+
+    return JSON.stringify(schema, null, 4);
+};
+
 const downloadFile = async (downloadURL: string, downloadLocation: string, transforms: Transform[] = []) => {
     const res = await request({ url: downloadURL }) as req.Response;
 
@@ -104,8 +121,8 @@ const resources = new Map([
 const replaceDraft04 = { pattern: 'draft-04', replacement: 'draft-07' };
 
 const resourceTransforms = new Map([
-    ['packages/parser-manifest/src/schema.json', [replaceDraft04, prepManifestSchema]],
-    ['packages/parser-typescript-config/src/schema.json', [replaceDraft04]]
+    ['packages/parser-manifest/src/schema.json', [replaceDraft04, prepManifestSchema, replaceId]],
+    ['packages/parser-typescript-config/src/schema.json', [replaceDraft04, replaceId]]
 ]);
 
 const updateEverything = async () => {

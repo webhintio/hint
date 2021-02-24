@@ -50,7 +50,16 @@ export default class HttpsOnlyHint implements IHint {
         };
 
         const reportInsecureHops = (response: Response) => {
-            const { hops } = response;
+            let { hops } = response;
+
+            /**
+             * hops doesn't include the final requested url
+             * in puppeteer 7.
+             */
+            if (hops.length > 0 && !hops.includes(response.url)) {
+                hops = response.hops.slice(0);
+                hops.push(response.url);
+            }
 
             return hops.forEach((hop) => {
                 const fails: boolean = !reportedUrls.has(hop) && !isHTTPS(hop);

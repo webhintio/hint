@@ -9,7 +9,7 @@
     "timeout": "1m"
   },
   "browserslist": "last 2 chrome versions, last 2 firefox versions",
-  "bundleSize": 725000,
+  "bundleSize": 736000,
   "description": "webhint browser extension",
   "devDependencies": {
     "@hint/hint-axe": "^4.4.3",
@@ -85,7 +85,7 @@
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",
     "proxyquire": "^2.1.3",
-    "puppeteer": "^5.3.1",
+    "puppeteer": "^7.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-syntax-highlighter": "^15.4.3",
