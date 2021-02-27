@@ -15,7 +15,7 @@
     "@hint/utils-network": "^1.0.9",
     "@hint/utils-types": "^1.1.2",
     "js-library-detector": "^6.4.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "semver": "^7.3.4"
   },
   "description": "hint that that checks using Snyk for vulnerable JavaScript libraries",

@@ -20,7 +20,7 @@
     "globby": "^11.0.2",
     "is-svg": "^4.2.1",
     "is-wsl": "^2.2.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "npm-registry-fetch": "^9.0.0",
     "semver": "^7.3.4"
   },

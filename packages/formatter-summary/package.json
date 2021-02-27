@@ -14,7 +14,7 @@
     "@hint/utils-i18n": "^1.0.7",
     "@hint/utils-types": "^1.1.2",
     "chalk": "^4.0.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "log-symbols": "^4.0.0",
     "strip-ansi": "^6.0.0",
     "text-table": "^0.2.0"
