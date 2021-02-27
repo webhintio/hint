@@ -8,7 +8,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@types/parse5": "^5.0.3",
+    "@types/parse5": "^6.0.0",
     "eventemitter2": "^6.4.4",
     "@hint/utils-debug": "^1.0.4",
     "@hint/utils-types": "^1.1.2",
