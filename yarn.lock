@@ -821,17 +821,17 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
-"@types/parse5-htmlparser2-tree-adapter@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@types/parse5-htmlparser2-tree-adapter/-/parse5-htmlparser2-tree-adapter-5.0.1.tgz#3e012cb4109099d9ea7e1e8c505f7989bca20544"
-  integrity sha512-XkAJW6+AXbIHfkkQetQPWKnL+kQ4IV5tW11YUzYkCfwBH8m1OjOvbEQuAhnS2GsG+0Iid+bDxzgbg32E0z747g==
+"@types/parse5-htmlparser2-tree-adapter@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/parse5-htmlparser2-tree-adapter/-/parse5-htmlparser2-tree-adapter-6.0.0.tgz#9a5dbc3369cabaabf34fd35a337cd9850c8c9207"
+  integrity sha512-9bD1QGcuH8a9NbrrwlgOC2SmgtF5F5hV4n6lC2a+ql/96BkhrVPEkTvj1W0vqCS8uqUbZAD7XucHqjc2GGv3Ew==
   dependencies:
     "@types/parse5" "*"
 
-"@types/parse5@*", "@types/parse5@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-5.0.3.tgz#e7b5aebbac150f8b5fdd4a46e7f0bd8e65e19109"
-  integrity sha512-kUNnecmtkunAoQ3CnjmMkzNU/gtxG8guhi+Fk2U/kOpIKjIMKnXGp4IJCgQJrXSgMsWYimYG4TGjz/UzbGEBTw==
+"@types/parse5@*", "@types/parse5@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/parse5/-/parse5-6.0.0.tgz#38590dc2c3cf5717154064e3ee9b6947ee21b299"
+  integrity sha512-oPwPSj4a1wu9rsXTEGIJz91ISU725t0BmSnUhb57sI+M8XEmvUop84lzuiYdq0Y5M6xLY8DBPg0C2xEQKLyvBA==
 
 "@types/prettier@^2.1.5":
   version "2.1.6"

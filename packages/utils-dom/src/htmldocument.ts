@@ -34,7 +34,7 @@ export class HTMLDocument extends Node {
         this._document = document;
         this._documentElement = this.findDocumentElement();
         this.originalDocument = originalDocument;
-        this._pageHTML = parse5.serialize(document, { treeAdapter: htmlparser2Adapter });
+        this._pageHTML = parse5.serialize(document as htmlparser2Adapter.Node, { treeAdapter: htmlparser2Adapter });
         this._base = this.getBaseUrl(finalHref);
         this._nodes.set(document, this);
     }
