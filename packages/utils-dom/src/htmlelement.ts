@@ -227,7 +227,7 @@ export class HTMLElement extends Node {
      * https://developer.mozilla.org/docs/Web/API/Element/innerHTML
      */
     public get innerHTML(): string {
-        return parse5.serialize(this._element, { treeAdapter: htmlparser2Adapter });
+        return parse5.serialize(this._element as htmlparser2Adapter.Node, { treeAdapter: htmlparser2Adapter });
     }
 
     /**
@@ -254,7 +254,7 @@ export class HTMLElement extends Node {
         const fragment = htmlparser2Adapter.createDocumentFragment();
         const { parent, next, prev } = this._element;
 
-        htmlparser2Adapter.appendChild(fragment, this._element);
+        htmlparser2Adapter.appendChild(fragment, this._element as htmlparser2Adapter.Node);
 
         const result = parse5.serialize(fragment, { treeAdapter: htmlparser2Adapter });
 
