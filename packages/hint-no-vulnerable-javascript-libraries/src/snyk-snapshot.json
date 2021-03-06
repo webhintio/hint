@@ -21280,9 +21280,7 @@
         "cvssScore": 6.5,
         "disclosureTime": "2013-01-07T22:00:00Z",
         "exploit": "Not Defined",
-        "fixedIn": [
-          "3.3.0"
-        ],
+        "fixedIn": [],
         "functions": [],
         "functions_new": [],
         "id": "npm:select2:20130108",
@@ -21296,12 +21294,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:56.826375Z",
+        "modificationTime": "2021-02-28T15:58:28.490130Z",
         "moduleName": "select2",
         "packageManager": "npm",
         "packageName": "select2",
         "patches": [],
-        "publicationTime": "2017-03-13T08:00:22.725000Z",
+        "publicationTime": "2017-03-13T08:00:22Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -21326,7 +21324,7 @@
         ],
         "semver": {
           "vulnerable": [
-            ">=1.0.0 <3.3.0"
+            "<0.0.0"
           ]
         },
         "severity": "medium",
@@ -25129,7 +25127,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-23T12:34:55.461665Z",
+        "modificationTime": "2021-02-26T17:50:29.225185Z",
         "moduleName": "useragent",
         "packageManager": "npm",
         "packageName": "useragent",
