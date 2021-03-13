@@ -14,7 +14,7 @@
     "@hint/utils-fs": "^1.0.8",
     "@hint/utils-i18n": "^1.0.7",
     "@hint/utils-types": "^1.1.2",
-    "exceljs": "4.2.0",
+    "exceljs": "4.2.1",
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.21"
   },
