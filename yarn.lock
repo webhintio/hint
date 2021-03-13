@@ -7445,10 +7445,10 @@ mdn-browser-compat-data@^1.1.2:
   dependencies:
     extend "3.0.2"
 
-mdn-data@^2.0.16:
-  version "2.0.16"
-  resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.16.tgz#b4f8cf050e4d679cbd185d1daf6370c3f434d731"
-  integrity sha512-z5eL/oKlBXGWk8MRrzk8Ll+owSRCXppDPJ5zBtoHhk4MUEVG5MEkHy5gdzvqpB53LUc+4F9CSVDcdgwKSY1Crg==
+mdn-data@^2.0.17:
+  version "2.0.17"
+  resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.17.tgz#8618b37fd552270a5c917ab79cf962adea4eb3b6"
+  integrity sha512-3hZJh85oEm88+uWhoutFhoHA/Rjq/Tf8fsPxpYYLYOJei5uofjR23EOVJwA4qYCF2L21PXLN/o67KVAS7LGxLg==
 
 mdurl@^1.0.1:
   version "1.0.1"
