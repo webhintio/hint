@@ -11404,6 +11404,55 @@
     ],
     "jspdf": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P/RL:O/RC:R",
+        "alternativeIds": [],
+        "creationTime": "2021-02-12T15:32:56.292260Z",
+        "credit": [
+          "Yeting Li"
+        ],
+        "cvssScore": 5.9,
+        "disclosureTime": "2021-02-12T15:21:09Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "2.3.1"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-JSPDF-1073626",
+        "identifiers": {
+          "CVE": [
+            "CVE-2021-23353"
+          ],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-03-09T15:16:10.090542Z",
+        "moduleName": "jspdf",
+        "packageManager": "npm",
+        "packageName": "jspdf",
+        "patches": [],
+        "publicationTime": "2021-03-09T15:16:10.303668Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/MrRio/jsPDF/commit/d8bb3b39efcd129994f7a3b01b632164144ec43e"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/MrRio/jsPDF/pull/3091"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<2.3.1"
+          ]
+        },
+        "severity": "medium",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-07-03T09:29:05.004978Z",
