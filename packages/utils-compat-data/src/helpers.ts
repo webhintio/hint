@@ -1,4 +1,4 @@
-import { Identifier } from 'mdn-browser-compat-data/types';
+import { Identifier } from '@mdn/browser-compat-data/types';
 import { getVendorPrefix, getUnprefixed } from '@hint/utils-css';
 
 /**

@@ -1,5 +1,5 @@
 import { mdn } from './browser-compat-data';
-import { Identifier } from 'mdn-browser-compat-data/types';
+import { Identifier } from '@mdn/browser-compat-data/types';
 
 import { getUnsupportedBrowsers, UnsupportedBrowsers } from './browsers';
 import { getCachedValue } from './cache';
