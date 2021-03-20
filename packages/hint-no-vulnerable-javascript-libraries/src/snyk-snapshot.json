@@ -30,11 +30,15 @@
         "packageManager": "npm",
         "packageName": "@angular/core",
         "patches": [],
-        "publicationTime": "2021-02-10T14:30:33.197235Z",
+        "publicationTime": "2021-02-10T14:30:33Z",
         "references": [
           {
             "title": "GitHub Commit",
             "url": "https://github.com/angular/angular/commit/0fc8466f1be392917e0c7e3448b2144d52286b56"
+          },
+          {
+            "title": "GitHub Commit 2",
+            "url": "https://github.com/angular/angular/commit/ba8da742e3b243e8f43d4c63aa842b44e14f2b09"
           },
           {
             "title": "GitHub PR",
@@ -11425,6 +11429,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-57f3-gghm-9mhc"
           ]
         },
         "language": "js",
@@ -11433,7 +11440,7 @@
         "packageManager": "npm",
         "packageName": "jspdf",
         "patches": [],
-        "publicationTime": "2021-03-09T15:16:10.303668Z",
+        "publicationTime": "2021-03-09T15:16:10Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -24429,7 +24436,9 @@
         "functions_new": [],
         "id": "SNYK-JS-UAPARSERJS-1072471",
         "identifiers": {
-          "CVE": [],
+          "CVE": [
+            "CVE-2021-27292"
+          ],
           "CWE": [
             "CWE-400"
           ]
@@ -24440,7 +24449,7 @@
         "packageManager": "npm",
         "packageName": "ua-parser-js",
         "patches": [],
-        "publicationTime": "2021-02-12T16:09:40.171237Z",
+        "publicationTime": "2021-02-12T16:09:40Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -24966,7 +24975,7 @@
         "packageManager": "npm",
         "packageName": "url-parse",
         "patches": [],
-        "publicationTime": "2021-02-22T15:56:01.294929Z",
+        "publicationTime": "2021-02-22T15:56:01Z",
         "references": [
           {
             "title": "GitHub Commit",
