@@ -44,8 +44,6 @@ export default class ValidateSetCookieHeaderHint implements IHint {
          * Reference: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Directives
          */
         const illegalCookieValueChars = ',;"\\';
-        /** Header name used in report */
-        const headerName = 'set-cookie';
 
         type ValidationMessages = { message: string; severity: Severity }[];
         type Validator = (parsedSetCookie: ParsedSetCookieHeader) => ValidationMessages;
@@ -55,11 +53,18 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             return value.replace(/(^")|("$)/g, '');
         };
 
-        /** Normalize the string before the first `=`, concat and unquote the strings after the first `=`. */
-        const normalizeAfterSplitByEqual = (splitResult: string[]): string[] => {
+        /** Concat and unquote the strings after the first `=`. */
+        const unquoteAfterSplitByEqual = (splitResult: string[]): string[] => {
             const [key, ...value] = splitResult;
 
-            return [normalizeString(key)!, unquote(value.join('='))];
+            return [key, unquote(value.join('='))];
+        };
+
+        /** Normalize the string before the first `=`, concat and unquote the strings after the first `=`. */
+        const normalizeAfterSplitByEqual = (splitResult: string[]): string[] => {
+            const [key, value] = unquoteAfterSplitByEqual(splitResult);
+
+            return [normalizeString(key)!, value];
         };
 
         /**
@@ -68,7 +73,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
          */
         const parse = (setCookieValue: string) => {
             const [nameValuePair, ...directivePairs] = setCookieValue.split(';');
-            const [cookieName, cookieValue] = normalizeAfterSplitByEqual(nameValuePair.split('='));
+            const [cookieName, cookieValue] = unquoteAfterSplitByEqual(nameValuePair.split('='));
 
             const setCookie: ParsedSetCookieHeader = {
                 name: cookieName,
@@ -79,7 +84,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
             if (directivePairs[directivePairs.length - 1] === '') {
                 errors.push({
-                    message: getMessage('noTrilingSemicolon', context.language, [headerName, setCookie.name]),
+                    message: getMessage('noTrilingSemicolon', context.language),
                     severity: Severity.hint
                 });
 
@@ -93,7 +98,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
                 if (!acceptedCookieAttributes.includes(directiveKey)) {
                     errors.push({
-                        message: getMessage('unknownAttribute', context.language, [headerName, directiveKey]),
+                        message: getMessage('unknownAttribute', context.language, directiveKey),
                         severity: Severity.warning
                     });
 
@@ -102,7 +107,7 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
                 if (setCookie[directiveKey]) {
                     errors.push({
-                        message: getMessage('duplicatedDirective', context.language, [headerName, directiveKey]),
+                        message: getMessage('duplicatedDirective', context.language),
                         severity: Severity.warning
                     });
 
@@ -139,13 +144,13 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             const cookieName = parsedSetCookie.name;
             const errors: ValidationMessages = [];
 
-            const noNameValueStringError = getMessage('noNameValueString', context.language, headerName);
-            const invalidNameError = getMessage('invalidName', context.language, [headerName, cookieName]);
-            const invalidValueError = getMessage('invalidValue', context.language, [headerName, cookieName]);
+            const noNameValueStringError = getMessage('noNameValueString', context.language);
+            const invalidNameError = getMessage('invalidName', context.language);
+            const invalidValueError = getMessage('invalidValue', context.language);
             const severity = Severity.error;
 
             // Check name-value-string exists and it is before the first `;`.
-            if (!cookieName || acceptedCookieAttributes.includes(cookieName)) {
+            if (!cookieName || acceptedCookieAttributes.includes(normalizeString(cookieName)!)) {
                 errors.push({ message: noNameValueStringError, severity });
 
                 return errors;
@@ -166,19 +171,19 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Validate cookie name prefixes. */
         const validatePrefixes = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
-            const cookieName = parsedSetCookie.name;
+            const normalizedCookieName = normalizeString(parsedSetCookie.name)!;
             const resource = parsedSetCookie.resource || '';
             const errors: ValidationMessages = [];
 
-            const hasPrefixHttpError = getMessage('hasPrefixHttp', context.language, headerName);
-            const noPathHasHostPrefixError = getMessage('noPathHasHostPrefix', context.language, headerName);
-            const hasDomainHostPrefixError = getMessage('hasDomainHostPrefix', context.language, headerName);
+            const hasPrefixHttpError = getMessage('hasPrefixHttp', context.language);
+            const noPathHasHostPrefixError = getMessage('noPathHasHostPrefix', context.language);
+            const hasDomainHostPrefixError = getMessage('hasDomainHostPrefix', context.language);
 
-            if ((cookieName.startsWith('__secure-') || cookieName.startsWith('__host-')) && !isHTTPS(resource)) {
+            if ((normalizedCookieName.startsWith('__secure-') || normalizedCookieName.startsWith('__host-')) && !isHTTPS(resource)) {
                 errors.push({ message: hasPrefixHttpError, severity: Severity.error });
             }
 
-            if (cookieName.startsWith('__host-')) {
+            if (normalizedCookieName.startsWith('__host-')) {
                 if (!parsedSetCookie.path || parsedSetCookie.path !== '/') {
                     errors.push({ message: noPathHasHostPrefixError, severity: Severity.error });
                 }
@@ -193,13 +198,12 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Validate `Secure` and `HttpOnly` attributes. */
         const validateSecurityAttributes = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
-            const cookieName = parsedSetCookie.name;
             const resource = parsedSetCookie.resource || '';
             const errors: ValidationMessages = [];
 
-            const hasSecureHttpError = getMessage('hasSecureHttp', context.language, resource);
-            const noSecureError = getMessage('noSecure', context.language, [headerName, cookieName]);
-            const noHttpOnlyError = getMessage('noHttpOnly', context.language, [headerName, cookieName]);
+            const hasSecureHttpError = getMessage('hasSecureHttp', context.language);
+            const noSecureError = getMessage('noSecure', context.language);
+            const noHttpOnlyError = getMessage('noHttpOnly', context.language);
 
             // Check against `Secure` directive if sites are insecure.
             if (!isHTTPS(resource) && parsedSetCookie.secure) {
@@ -223,7 +227,6 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Validate `Expire` date format. */
         const validateExpireDate = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
-            const cookieName = parsedSetCookie.name;
             const errors: ValidationMessages = [];
 
             if (!parsedSetCookie.expires) {
@@ -231,9 +234,24 @@ export default class ValidateSetCookieHeaderHint implements IHint {
             }
 
             // Ref: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Date
-            const utcTimeString = new Date(parsedSetCookie.expires).toUTCString();
-            const invalidDateError = getMessage('invalidDate', context.language, [headerName, cookieName]);
-            const invalidDateFormatError = getMessage('invalidDateFormat', context.language, [headerName, cookieName, utcTimeString]);
+            const expiresDate = new Date(parsedSetCookie.expires);
+            const expiresYear = expiresDate.getFullYear();
+
+            /*
+             * Handle Firefox bug where dates with dashes get a negative year.
+             * E.g.
+             * ```
+             * new Date("Mon, 04-Jan-2021 17:45:03 GMT").toUTCString();
+             * "Thu, 04 Jan -2021 17:45:03 GMT"
+             * ```
+             */
+            if (expiresYear < 0) {
+                expiresDate.setFullYear(Math.abs(expiresYear));
+            }
+
+            const utcTimeString = expiresDate.toUTCString();
+            const invalidDateError = getMessage('invalidDate', context.language);
+            const invalidDateFormatError = getMessage('invalidDateFormat', context.language, utcTimeString);
 
             if (utcTimeString === 'Invalid Date') {
                 errors.push({ message: invalidDateError, severity: Severity.error });
@@ -250,9 +268,8 @@ export default class ValidateSetCookieHeaderHint implements IHint {
 
         /** Validate the usage of `Max-Age` and `Expires` based on users' browser support matrix */
         const validateMaxAgeAndExpires = (parsedSetCookie: ParsedSetCookieHeader): ValidationMessages => {
-            const cookieName = parsedSetCookie.name;
             const errors: ValidationMessages = [];
-            const maxAgeCompatibilityMessage = getMessage('maxAgeCompatibility', context.language, [headerName, cookieName]);
+            const maxAgeCompatibilityMessage = getMessage('maxAgeCompatibility', context.language);
             const maxAgeAndExpireDuplicateMessage = getMessage('maxAgeAndExpireDuplicate', context.language);
 
             if (supportOlderBrowsers) {

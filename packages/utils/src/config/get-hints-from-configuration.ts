@@ -12,7 +12,7 @@ const getHintsFromExtend = (extendName: string, parentConfigs: string[] = []) =>
         const configuration = loadResource(extendName, ResourceType.configuration, parentConfigs);
 
         return {
-            ...getHintsFromExtends(configuration.extends, [extendName, ...parentConfigs]), // eslint-disable-line no-use-before-define,@typescript-eslint/no-use-before-define
+            ...getHintsFromExtends(configuration.extends, [extendName, ...parentConfigs]), // eslint-disable-line @typescript-eslint/no-use-before-define
             ...normalizeHints(configuration.hints || {})
         };
     } catch (e) /* istanbul ignore next */ { // If the configuration doesn't exists, ignore it and returns an empty object.

@@ -10,7 +10,8 @@ import {
     AnalyzerError,
     HintResources,
     IFetchOptions,
-    IFormatter
+    IFormatter,
+    FormatterOptions
 } from '../../src/lib/types';
 import { AnalyzerErrorStatus } from '../../src/lib/enums/error-status';
 import { Problem } from '@hint/utils-types';
@@ -554,6 +555,41 @@ test('format should call to all the formatters', async (t) => {
     await webhint.format([]);
 
     t.true(formatterFormatStub.calledOnce);
+});
+
+test('format should call to formatters using the Analyzer resources, if no resources provided as options', async (t) => {
+    const sandbox = t.context.sandbox;
+
+    class FakeFormatter implements IFormatter {
+        public constructor() { }
+
+        public format(problems: Problem[], options: FormatterOptions) {
+        }
+    }
+
+    const formatter = new FakeFormatter();
+
+    const { Analyzer, engine } = loadScript(t.context);
+
+    const formatterFormatStub = sandbox.stub(formatter, 'format').resolves();
+
+    sandbox.stub(engine, 'executeOn').resolves([]);
+    sandbox.stub(engine, 'close').resolves();
+
+    const resources: HintResources = {
+        connector: null,
+        formatters: [],
+        hints: [],
+        incompatible: [],
+        missing: [],
+        parsers: []
+    };
+
+    const webhint = new Analyzer({}, resources, [formatter]);
+
+    await webhint.format([]);
+
+    t.true(formatterFormatStub.calledWithMatch([], { resources }));
 });
 
 test('resources should returns all the resources', (t) => {

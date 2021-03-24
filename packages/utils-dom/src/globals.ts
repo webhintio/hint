@@ -31,6 +31,7 @@ export const populateGlobals = (context: any, document: HTMLDocument) => {
         HTMLHtmlElement,
         NamedNodeMap: Array,
         Node,
+        NodeList: Array,
         self: context,
         top: context,
         window: context

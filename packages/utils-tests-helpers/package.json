@@ -1,24 +1,26 @@
 {
   "dependencies": {
-    "@hint/utils": "^7.0.3",
-    "@hint/utils-create-server": "^3.4.3",
-    "@hint/utils-fs": "^1.0.2",
-    "@hint/utils-network": "^1.0.3",
-    "@hint/utils-types": "^1.0.1",
-    "ava": "^3.5.2"
+    "@hint/utils": "^7.0.9",
+    "@hint/utils-create-server": "^3.4.9",
+    "@hint/utils-fs": "^1.0.8",
+    "@hint/utils-network": "^1.0.9",
+    "@hint/utils-types": "^1.1.2",
+    "ava": "^3.15.0",
+    "proxyquire": "^2.1.3"
   },
   "description": "hint tests helpers",
   "devDependencies": {
-    "@types/node": "^13.9.2",
-    "@typescript-eslint/eslint-plugin": "^1.13.0",
-    "@typescript-eslint/parser": "^1.12.0",
+    "@types/node": "^14.14.31",
+    "@types/proxyquire": "^1.3.28",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.18.0",
     "cpx": "^1.5.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint": "^7.21.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^1.0.2",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "typescript": "^3.8.3"
+    "typescript": "^4.2.3"
   },
   "files": [
     "dist"
@@ -61,5 +63,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "6.1.1"
+  "version": "6.3.3"
 }

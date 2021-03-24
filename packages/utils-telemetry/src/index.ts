@@ -1,3 +1,3 @@
 export * from './activity';
-export * from './app-insights';
+export * from './telemetry-api';
 export * from './hints';

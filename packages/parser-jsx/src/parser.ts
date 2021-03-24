@@ -207,6 +207,52 @@ const addChild = (data: ElementData | TextData, parent: JSXElement, children: Ch
 };
 
 /**
+ * Is the node a list container (`<ul>/<ol>`).
+ */
+const isListNode = (node?: JSXElement | JSXAttribute): node is JSXElement => {
+    return !!(node && node.type === 'JSXElement' &&
+        node.openingElement.name.type === 'JSXIdentifier' &&
+        (node.openingElement.name.name === 'ol' || node.openingElement.name.name === 'ul'));
+};
+
+/**
+ * Create a JSXElement.
+ */
+const createJSXElement = (name: string, selfClosing: boolean = false): JSXElement => {
+    return {
+        children: [],
+        closingElement: selfClosing ? null : {
+            name: {
+                name,
+                type: 'JSXIdentifier'
+            },
+            type: 'JSXClosingElement'
+        },
+        openingElement: {
+            attributes: [],
+            name: {
+                name,
+                type: 'JSXIdentifier'
+            },
+            selfClosing,
+            type: 'JSXOpeningElement'
+        },
+        type: 'JSXElement'
+    };
+};
+
+/**
+ * Wrap the given `textData` in a list item (`<li>textData</li>).
+ */
+const wrapInListItem = (textData: TextData, parent: JSXElement, childMap: ChildMap): ElementData => {
+    const node = createJSXElement('li');
+
+    addChild(textData, node, childMap);
+
+    return mapElement(node, childMap);
+};
+
+/**
  * Generate an HTML document representing a fragment containing the
  * provided roots derived from the specified resource.
  */
@@ -252,8 +298,10 @@ export default class JSXParser extends Parser<HTMLEvents> {
                     }
                 },
                 JSXExpressionContainer(node, /* istanbul ignore next */ ancestors = []) {
-                    const data = mapExpression(node);
                     const parent = getParentAttributeOrElement(ancestors);
+                    const textData = mapExpression(node);
+                    const data = isListNode(parent) ? wrapInListItem(textData, parent, childMap) :
+                        textData;
 
                     if (parent && parent.type !== 'JSXAttribute') {
                         addChild(data, parent, childMap);

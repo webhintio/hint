@@ -5,10 +5,9 @@
 import * as Listr from 'listr';
 import { Arguments } from 'yargs';
 
-import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease, skipIfSameVersion, skipIfTestMode } from './lib/skippers';
+import { skipReasons, skipInstallation, skipIfAborted, skipIfError, skipIfForced, skipIfJustRelease, skipIfSameVersion, skipIfTestMode, skipIfSkipVsce } from './lib/skippers';
 import { taskErrorWrapper } from './lib/utils';
 import { updateChangelogs } from './tasks/update-changelogs';
-import { updateThirdPartyResources } from './lib/update-3rd-party';
 import { argv } from './lib/yargs-config';
 import { getPackages } from './tasks/get-packages';
 import { calculateChangedPackages } from './tasks/calculate-changed-packages';
@@ -18,7 +17,7 @@ import { cleanUp } from './tasks/clean-up';
 import { runTests } from './tasks/run-tests';
 import { validateChanges } from './tasks/validate-changes';
 import { validateEnvironment } from './tasks/validate-environment';
-import { confirmRelease, release, releaseForBrowser, releaseForVSCode } from './tasks/release';
+import { confirmRelease, release, releaseForBrowser, releaseForOVSX, releaseForVSCode } from './tasks/release';
 import { commitPackagesChanges } from './tasks/commit-packages-changes';
 import { authenticateGitHub } from './tasks/authenticate-github';
 import { cleanWorkspace } from './tasks/clean-workspace';
@@ -45,11 +44,6 @@ const tasks = new Listr([
         title: 'Get local packages',
         skip: skipReasons(skipIfError),
         task: taskErrorWrapper(getPackages(ignoredPackages))
-    },
-    {
-        title: 'Run 3rd party update tasks',
-        skip: skipReasons(skipIfError, skipIfJustRelease),
-        task: updateThirdPartyResources
     },
     {
         title: 'Calculating changes',
@@ -119,8 +113,13 @@ const tasks = new Listr([
     },
     {
         title: 'Publish extension on Visual Studio Marketplace',
-        skip: skipReasons(skipIfError, skipIfAborted, skipIfSameVersion('vscode-webhint'), skipIfTestMode),
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSkipVsce, skipIfSameVersion('vscode-webhint'), skipIfTestMode),
         task: releaseForVSCode
+    },
+    {
+        title: 'Publish extension on Open VSX',
+        skip: skipReasons(skipIfError, skipIfAborted, skipIfSkipVsce, skipIfSameVersion('vscode-webhint'), skipIfTestMode),
+        task: releaseForOVSX
     },
     {
         title: 'Submit extension-browser for Chrome',

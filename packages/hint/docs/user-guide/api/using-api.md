@@ -45,7 +45,7 @@ const options: CreateAnalyzerOptions
 const webhint = Analyzer.create(userConfig, options);
 
 const analysisOptions: AnalyzerOptions;
-const result: AnalyzerResult[] = await webhint.analyze('http://example.com', options);
+const results: AnalyzerResult[] = await webhint.analyze('http://example.com', options);
 ```
 
 `webhint.analyze` receive as a first parameter an `Endpoint`.

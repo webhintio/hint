@@ -8,7 +8,7 @@ import * as puppeteer from 'puppeteer-core';
 
 import { readFileAsync, writeFileAsync } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
-import { LaunchOptions } from 'puppeteer-core';
+import { BrowserOptions, ChromeArgOptions, LaunchOptions } from 'puppeteer-core';
 
 const debug: debug.IDebugger = d(__filename);
 const deleteFile = promisify(unlink);
@@ -20,7 +20,7 @@ let isLocked = false;
 const infoFile = 'browser.info';
 const TIMEOUT = 30000;
 
-export type LifecycleLaunchOptions = LaunchOptions & {
+export type LifecycleLaunchOptions = LaunchOptions & ChromeArgOptions & BrowserOptions & {
     detached: boolean;
 };
 
@@ -192,15 +192,17 @@ ${JSON.stringify(options, null, 2)}
 
 // TODO: Comments about the status
 export const launch = async (options: LifecycleLaunchOptions) => {
-    await lock();
-
     /**
      * Only try to connect to an existing browser when in detached mode,
      * otherwise the browser will be closed when one of the puppeteer
      * instances finishes.
+     *
+     * This is used mostly by the test runner, because if a new browser
+     * is open for each test, the machine can run out of resources.
      */
     /* istanbul ignore else */
     if (options.detached) {
+        await lock();
 
         const currentInfo = await getBrowserInfo();
 
@@ -222,25 +224,30 @@ export const launch = async (options: LifecycleLaunchOptions) => {
     const connection = await startBrowser(options);
     const { browser } = connection;
 
-    try {
-        await writeBrowserInfo(browser);
+    /**
+     * In detach mode, we need to store the browser information so
+     * the next call will rehuse the same browser, instead of opening
+     * a new instance.
+     */
+    if (options.detached) {
+        try {
+            await writeBrowserInfo(browser);
 
-        debug('Browser launched correctly');
+            debug('Browser launched correctly');
+        } catch (e) {
+            debug('Error launching browser');
+            debug(e);
 
-        await unlock();
-
-        return connection;
-    } catch (e) {
-        debug('Error launching browser');
-        debug(e);
-
-        await unlock();
-
-        throw e;
+            throw e;
+        } finally {
+            await unlock();
+        }
     }
+
+    return connection;
 };
 
-export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) => {
+export const close = async (browser: puppeteer.Browser, page: puppeteer.Page, options: LifecycleLaunchOptions) => {
     debug(`Closing`);
 
     if (!browser) {
@@ -249,7 +256,9 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) =>
         return;
     }
 
-    await lock();
+    if (options && options.detached) {
+        await lock();
+    }
 
     try {
         const pages = await browser.pages();
@@ -264,7 +273,9 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) =>
              * the process will still live after closing the last tab and we
              * want to properly close. Otherwise tests might not end and timeout.
              */
-            await deleteBrowserInfo();
+            if (options && options.detached) {
+                await deleteBrowserInfo();
+            }
             await browser.close();
         } else {
             await page.close();
@@ -273,6 +284,8 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page) =>
         debug(`Error closing page`);
         debug(e);
     } finally {
-        await unlock();
+        if (options && options.detached) {
+            await unlock();
+        }
     }
 };

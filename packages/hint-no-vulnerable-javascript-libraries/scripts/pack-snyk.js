@@ -47,6 +47,7 @@ const filterSnykData = (includedPackages, npm) => {
             return includedPackages.includes(vuln.packageName);
         }).map((vuln) => {
             return {
+                id: vuln.id,
                 packageManager: vuln.packageManager,
                 packageName: vuln.packageName,
                 semver: vuln.semver,

@@ -376,7 +376,7 @@ IsW9AGST1xe4XVCLy+FIoo1RVpfJyp8h9zSzDASh/F1+5DY1PUJQ
     }
 
     /** Starts listening on the given port. */
-    public start(): Promise<null> {
+    public start(): Promise<void> {
 
         return new Promise((resolve, reject) => {
             let options;

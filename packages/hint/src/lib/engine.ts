@@ -11,8 +11,13 @@
 
 import * as url from 'url';
 
+/*
+ * This require is to tell webpack to include the code necessary to
+ * pollyfill the setImmediate and clearImmediate.
+ */
+require('setimmediate');
 import * as chalk from 'chalk';
-import { EventEmitter2 as EventEmitter } from 'eventemitter2';
+import { EventEmitter2 as EventEmitter, Listener } from 'eventemitter2';
 import remove = require('lodash/remove');
 
 import * as logger from '@hint/utils/dist/src/logging';
@@ -182,6 +187,11 @@ export class Engine<E extends Events = Events> extends EventEmitter {
             debug('Loading hints');
             const id = Hint.meta.id;
 
+            // Use default ignored URLs if no overrides are specified for this hint.
+            if (Hint.meta.ignoredUrls && !this.ignoredUrls.has(id)) {
+                this.ignoredUrls.set(id, Hint.meta.ignoredUrls);
+            }
+
             const ignoreHint = (HintCtor: IHintConstructor): boolean => {
                 const ignoredConnectors: string[] = HintCtor.meta.ignoredConnectors || [];
 
@@ -338,7 +348,7 @@ export class Engine<E extends Events = Events> extends EventEmitter {
         return super.emitAsync(event, data);
     }
 
-    public on<K extends StringKeyOf<E>>(event: K, listener: (data: E[K]) => void): this {
+    public on<K extends StringKeyOf<E>>(event: K, listener: (data: E[K]) => void): this | Listener {
         return super.on(event, listener);
     }
 

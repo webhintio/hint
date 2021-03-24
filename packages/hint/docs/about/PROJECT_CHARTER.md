@@ -64,5 +64,5 @@ Section Intentionally Left Blank
 
 <!-- Link labels -->
 
-[GOVERNANCE.md]: https://github.com/webhintio/hint/blob/master/packages/hint/docs/about/GOVERNANCE.md
+[GOVERNANCE.md]: https://github.com/webhintio/hint/blob/main/packages/hint/docs/about/GOVERNANCE.md
 [OpenJS Foundation Cross-Project Council]: https://openjsf.org/about/governance/

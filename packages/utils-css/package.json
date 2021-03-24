@@ -10,17 +10,17 @@
   "dependencies": {},
   "description": "utils for CSS",
   "devDependencies": {
-    "@hint/utils-types": "^1.0.1",
-    "ava": "^3.5.2",
-    "eslint": "^6.8.0",
-    "eslint-plugin-import": "^2.18.2",
+    "@hint/utils-types": "^1.1.2",
+    "ava": "^3.15.0",
+    "eslint": "^7.21.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^1.0.2",
     "npm-run-all": "^4.1.5",
-    "nyc": "^15.0.0",
-    "postcss": "^7.0.27",
-    "postcss-safe-parser": "^4.0.2",
+    "nyc": "^15.1.0",
+    "postcss": "^8.2.8",
+    "postcss-safe-parser": "^5.0.2",
     "rimraf": "^3.0.2",
-    "typescript": "^3.8.3"
+    "typescript": "^4.2.3"
   },
   "files": [
     "dist"
@@ -57,5 +57,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.2"
+  "version": "1.0.7"
 }

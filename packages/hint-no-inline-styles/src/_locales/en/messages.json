@@ -1,0 +1,18 @@
+{
+    "elementsWithStyleAttributeFound": {
+        "description": "Message to show when an element with a style attribute is found",
+        "message": "CSS inline styles should not be used, move styles to an external CSS file"
+    },
+    "description": {
+        "description": "Metadata description",
+        "message": "Check if inline styles are used"
+    },
+    "styleElementFound": {
+        "description": "Message to show when a style element is found.",
+        "message": "CSS internal styles should not be used, move styles to an external CSS file"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "No inline CSS styles"
+    }
+}

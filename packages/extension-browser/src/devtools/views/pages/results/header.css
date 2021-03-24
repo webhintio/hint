@@ -7,13 +7,13 @@
     align-items: start;
     display: grid;
     gap: 1rem;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
 }
 
 .headerText {
     font-size: 0.875rem;
     margin: 0.5rem 0 0;
-    overflow-wrap: break-word;
+    word-break: break-all;
     width: 100%;
 }
 

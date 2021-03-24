@@ -209,8 +209,24 @@ test(`'${parseEndEventName}' event is emitted when manifest content is valid`, a
     const manifestContentParsed = {
         dir: 'auto',
         display: 'browser',
-        name: '5',
-        prefer_related_applications: false // eslint-disable-line camelcase
+        name: '5'
+    } as Manifest;
+
+    await createParseTest(t, JSON.stringify(manifestContent), parseStartEventName, parseEndEventName, (tt: ExecutionContext, result: ManifestParsed) => {
+        tt.deepEqual(result.parsedContent, manifestContentParsed);
+    });
+});
+
+test(`'${parseEndEventName}' event is emitted when valid shortcuts are included`, async (t) => {
+    const manifestContent = {
+        name: 'test',
+        shortcuts: [{name: 'Test Shortcut', url: 'https://example.com'}]
+    };
+    const manifestContentParsed = {
+        dir: 'auto',
+        display: 'browser',
+        name: 'test',
+        shortcuts: [{name: 'Test Shortcut', url: 'https://example.com'}]
     } as Manifest;
 
     await createParseTest(t, JSON.stringify(manifestContent), parseStartEventName, parseEndEventName, (tt: ExecutionContext, result: ManifestParsed) => {
@@ -245,8 +261,9 @@ test(`'${parseJSONErrorEventName}' event is emitted when manifest content is not
 test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is not valid because of an additional property`, async (t) => {
     const expectedPrettifiedErrors = [
         `'root' should NOT have additional properties. Additional property found 'additionalProperty'.`,
+        `'root' should NOT have additional properties. Additional property found 'gcm_sender_id'.`,
         `'root' should NOT have additional properties. Additional property found 'unknown_proprietary_extension'.`,
-        `'icons[0]' should NOT have additional properties. Additional property found 'density'.`
+        `'icons/0' should NOT have additional properties. Additional property found 'density'.`
     ];
 
     /* eslint-disable camelcase */
@@ -279,13 +296,17 @@ test(`'${parseErrorSchemaEventName}' event is emitted when manifest content is n
 
 test(`'${parseErrorSchemaEventName}' event includes location information`, async (t) => {
     const expectedLocations: { [message: string]: ProblemLocation } = {
-        [`'icons[0]' should NOT have additional properties. Additional property found 'density'.`]: {
+        [`'icons/0' should NOT have additional properties. Additional property found 'density'.`]: {
             column: 9,
             line: 4
         },
         [`'root' should NOT have additional properties. Additional property found 'additionalProperty'.`]: {
             column: 5,
             line: 1
+        },
+        [`'root' should NOT have additional properties. Additional property found 'gcm_sender_id'.`]: {
+            column: 5,
+            line: 2
         },
         [`'root' should NOT have additional properties. Additional property found 'unknown_proprietary_extension'.`]: {
             column: 5,
@@ -309,8 +330,12 @@ test(`'${parseErrorSchemaEventName}' event includes location information`, async
             const message = result.prettifiedErrors[i];
             const expectedLocation = expectedLocations[message];
 
-            tt.is(error.location && error.location.line, expectedLocation.line);
-            tt.is(error.location && error.location.column, expectedLocation.column);
+            if (!expectedLocation) {
+                tt.fail(`Additional error reported: ${message}`);
+            }
+
+            tt.is(error.location && error.location.line, expectedLocation.line, `Incorrect error line for: ${message}`);
+            tt.is(error.location && error.location.column, expectedLocation.column, `Incorrect error column for: ${message}`);
         });
     });
 });

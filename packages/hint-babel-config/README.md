@@ -44,5 +44,5 @@ your project.
 <!-- Link labels: -->
 
 [babel documentation]: https://babeljs.io/docs/usage/babelrc/
-[is-valid]: ./docs/is-valid.md
+[is-valid]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-babel-config/docs/is-valid.md
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

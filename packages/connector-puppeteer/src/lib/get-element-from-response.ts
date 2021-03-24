@@ -3,7 +3,7 @@ import * as puppeteer from 'puppeteer-core';
 import { getElementByUrl, HTMLElement, HTMLDocument } from '@hint/utils-dom';
 
 /** Returns the HTMLElement that initiated a request */
-export const getElementFromResponse = (source: puppeteer.Response | puppeteer.Request, dom?: HTMLDocument): HTMLElement | null => {
+export const getElementFromResponse = (source: puppeteer.HTTPResponse | puppeteer.HTTPRequest, dom?: HTMLDocument): HTMLElement | null => {
     const request = 'request' in source ?
         source.request() :
         source;

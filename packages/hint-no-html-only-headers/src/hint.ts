@@ -11,7 +11,7 @@
 
 import { debug as d } from '@hint/utils-debug';
 import { includedHeaders, isDataURI } from '@hint/utils-network';
-import { mergeIgnoreIncludeArrays, prettyPrintArray } from '@hint/utils-string';
+import { mergeIgnoreIncludeArrays } from '@hint/utils-string';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { FetchEnd, Response, IHint } from 'hint/dist/src/lib/types';
 import { Severity } from '@hint/utils-types';
@@ -124,13 +124,7 @@ export default class NoHtmlOnlyHeadersHint implements IHint {
                 const numberOfHeaders = headers.length;
 
                 if (numberOfHeaders > 0) {
-                    let message: string;
-
-                    if (numberOfHeaders === 1) {
-                        message = getMessage('unneededHeader', context.language, prettyPrintArray(headers));
-                    } else {
-                        message = getMessage('unneededHeaders', context.language, prettyPrintArray(headers));
-                    }
+                    const message = getMessage('unneededHeaders', context.language, headers.join(', '));
 
                     context.report(resource, message, { element, severity: Severity.warning });
                 }

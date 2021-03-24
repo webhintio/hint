@@ -1,3 +1,17 @@
+# 8.2.0 (February 4, 2021)
+
+## New features
+
+* [[`83699323fc`](https://github.com/webhintio/hint/commit/83699323fc0234a2b9cbe56d7f88f991b9496bd4)] - New: Add no-inline-styles hint to default configurations (by [`Bola Ahmed Buari`](https://github.com/bolah2009) / see also: [`#4257`](https://github.com/webhintio/hint/issues/4257)).
+
+
+# 8.1.0 (November 11, 2020)
+
+## New features
+
+* [[`4c2f58ce57`](https://github.com/webhintio/hint/commit/4c2f58ce577d9c301f9c6fda56b9f891c72ee148)] - New: Enable classList leading 'dot' hint (by [`Tapajyoti Bose`](https://github.com/ruppysuppy) / see also: [`#4079`](https://github.com/webhintio/hint/issues/4079)).
+
+
 # 8.0.0 (December 2, 2019)
 
 ## Breaking Changes

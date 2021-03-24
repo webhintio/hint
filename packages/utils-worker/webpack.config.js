@@ -12,18 +12,11 @@ module.exports = (env) => {
                 // Bundle `axe-core` as a raw string so it can be injected at runtime.
                 {
                     test: /axe-core/,
-                    use: 'raw-loader'
-                },
-                {
-                    test: /\.md$/,
-                    use: 'raw-loader'
+                    type: 'asset/source'
                 }
             ]
         },
-        node: {
-            __dirname: true,
-            fs: 'empty'
-        },
+        node: { __dirname: true },
         optimization: {
             minimizer: [
                 new TerserPlugin({
@@ -38,7 +31,12 @@ module.exports = (env) => {
             path: __dirname
         },
         plugins: [
-            new webpack.DefinePlugin({ 'process.env.webpack': JSON.stringify(true) })
+            new webpack.DefinePlugin({
+                'process.argv': [],
+                'process.env.NODE_DEBUG': JSON.stringify(process.env.NODE_DEBUG), // eslint-disable-line no-process-env
+                'process.env.webpack': JSON.stringify(true)
+            }),
+            new webpack.ProvidePlugin({ process: 'process/browser' })
         ],
         resolve: {
             alias: {
@@ -48,6 +46,13 @@ module.exports = (env) => {
                 'acorn-jsx-walk$': path.resolve(__dirname, 'dist/src/shims/acorn-jsx-walk.js'),
                 'axe-core': require.resolve('axe-core/axe.min.js'),
                 url$: path.resolve(__dirname, 'dist/src/shims/url.js')
+            },
+            fallback: {
+                crypto: 'crypto-browserify',
+                fs: false,
+                path: 'path-browserify',
+                setImmediate: 'setimmediate',
+                stream: 'stream-browserify'
             }
         }
     };

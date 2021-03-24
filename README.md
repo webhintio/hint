@@ -1,6 +1,6 @@
 # webhint
 
-[![Build Status](https://dev.azure.com/webhint/webhint/_apis/build/status/webhintio.hint?branchName=master)](https://dev.azure.com/webhint/webhint/_build/latest?definitionId=3&branchName=master)
+[![Build Status](https://dev.azure.com/webhint/webhint/_apis/build/status/webhintio.hint?branchName=main)](https://dev.azure.com/webhint/webhint/_build/latest?definitionId=3&branchName=main)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/webhintio/Lobby)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwebhintio%2Fhint.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwebhintio%2Fhint?ref=badge_shield)
 
@@ -13,7 +13,7 @@ code for best practices and common errors.
 It can be run from the command line (CLI), via a [browser extension][], as a
 [VS Code extension][], and from the [online service][].
 
-To use it from the from the CLI you will need to install [`Node.js`][node]
+To use it from the CLI you will need to install [`Node.js`][node]
 (v10.x or later) on your machine, and you can use [`npx`][npx] to test it.
 
 ### Testing with `npx`
@@ -115,7 +115,7 @@ The code is available under the [Apache 2.0 license][license].
 
 [browser extension]: https://webhint.io/docs/user-guide/extensions/extension-browser/
 [charter]: ./packages/hint/docs/about/PROJECT_CHARTER-draft.md
-[coc]: https://github.com/webhintio/.github/blob/master/CODE_OF_CONDUCT
+[coc]: https://github.com/webhintio/.github/blob/main/CODE_OF_CONDUCT
 [contrib browser]: ./packages/extension-browser/CONTRIBUTING.md
 [contrib vscode]: ./packages/extension-vscode/CONTRIBUTING.md
 [contributor guide]: https://webhint.io/docs/contributor-guide/

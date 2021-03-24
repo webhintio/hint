@@ -33,11 +33,10 @@ type RegistrationMap = Map<EngineKey, Map<string, Registration[]>>;
  */
 const registrationMap: RegistrationMap = new Map();
 
-const getElement = (context: HintContext, node: AxeNodeResult): HTMLElement => {
+const getElement = (context: HintContext, node: AxeNodeResult): HTMLElement | undefined | null => {
     const selector = node.target[0];
-    const elements = context.querySelectorAll(selector);
 
-    return elements[0];
+    return context.pageDOM?.querySelector(selector);
 };
 
 /** Validate if an axe check result has data associated with it. */
@@ -247,8 +246,14 @@ export const register = (context: HintContext, rules: string[], disabled: string
                     toSeverity(violation.impact) :
                     Severity[registration.options[violation.id]];
 
-
-                registration.context.report(resource, message, { element, severity });
+                registration.context.report(resource, message, {
+                    documentation: [{
+                        link: violation.helpUrl,
+                        text: getMessage('learnMore', context.language)
+                    }],
+                    element,
+                    severity
+                });
             }
         }
     });

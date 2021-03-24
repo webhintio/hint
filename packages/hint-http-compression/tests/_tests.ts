@@ -1,12 +1,7 @@
 import * as fs from 'fs';
 
-import * as mock from 'mock-require';
-
 import { HintTest } from '@hint/utils-tests-helpers';
-import * as utils from '@hint/utils';
 import { HttpHeaders, Severity } from '@hint/utils-types';
-
-const originalAsyncTry = utils.asyncTry;
 
 const uaString = 'Mozilla/5.0 Gecko';
 
@@ -254,6 +249,17 @@ const testsForBrotli: HintTest[] = [
         })
     },
     {
+        name: `Resource is not served compressed with Brotli when Brotli compression is requested but it is a very small file`,
+        reports: [{
+            message: generateCompressionMessage('Brotli', false, 'over HTTPS'),
+            severity: Severity.hint
+        }],
+        serverConfig: createBrotliServerConfig({
+            scriptFileContent: scriptSmallFile.original,
+            scriptFileHeaders: { 'Content-Encoding': null }
+        })
+    },
+    {
         name: `Resource is served compressed with Brotli and without the 'Content-Encoding' header when Brotli compression is requested`,
         reports: [{
             message: generateContentEncodingMessage('br'),
@@ -268,23 +274,20 @@ const testsForBrotli: HintTest[] = [
         })
     },
     {
-        after() {
-            (utils as any).asyncTry = originalAsyncTry;
-        },
-        before() {
-            (utils as any).asyncTry = (fetch: IFetchFunction) => {
-                return (target: string, headers: HttpHeaders) => {
-                    if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'br') {
-                        return fetch(target, headers);
-                    }
-
-                    return null;
-                };
-            };
-
-            mock('@hint/utils', utils);
-        },
         name: `If a request throws an exception, if should be managed and report an error (brotli)`,
+        overrides: {
+            '@hint/utils': {
+                asyncTry(fetch: IFetchFunction) {
+                    return (target: string, headers: HttpHeaders) => {
+                        if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'br') {
+                            return fetch(target, headers);
+                        }
+
+                        return null;
+                    };
+                }
+            }
+        },
         reports: [{
             message: `Could not be fetched when requested compressed with Brotli.`,
             severity: Severity.error
@@ -454,6 +457,29 @@ const testsForDisallowedCompressionMethods = (https: boolean = false): HintTest[
             )
         },
         {
+            name: `Compressed resource is served with disallowed 'Content-Encoding: x-compress' header but it is a very small file`,
+            reports: [
+                {
+                    message: generateDisallowedCompressionMessage('x-compress'),
+                    severity: Severity.warning
+                },
+                {
+                    message: generateCompressionMessage('gzip'),
+                    severity: Severity.hint
+                }
+            ],
+            serverConfig: createGzipZopfliServerConfig(
+                {
+                    scriptFileContent: scriptSmallFile.original,
+                    scriptFileHeaders: {
+                        'Content-Encoding': 'x-compress',
+                        vary: 'Accept-Encoding'
+                    }
+                },
+                https
+            )
+        },
+        {
             name: `Compressed resource is served with 'Get-Dictionary' header`,
             reports: [{
                 message: generateDisallowedCompressionMessage('sdch'),
@@ -485,6 +511,21 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
                 {
                     request: { headers: { 'Accept-Encoding': 'gzip' } },
                     scriptFileContent: scriptFile.original,
+                    scriptFileHeaders: { 'Content-Encoding': null }
+                },
+                https
+            )
+        },
+        {
+            name: `Resource is not served compressed with gzip when gzip compression is requested but it is a very small file`,
+            reports: [{
+                message: generateCompressionMessage('gzip'),
+                severity: Severity.hint
+            }],
+            serverConfig: createGzipZopfliServerConfig(
+                {
+                    request: { headers: { 'Accept-Encoding': 'gzip' } },
+                    scriptFileContent: scriptSmallFile.original,
                     scriptFileHeaders: { 'Content-Encoding': null }
                 },
                 https
@@ -551,23 +592,20 @@ const testsForGzipZopfli = (https: boolean = false): HintTest[] => {
             )
         },
         {
-            after() {
-                (utils as any).asyncTry = originalAsyncTry;
-            },
-            before() {
-                (utils as any).asyncTry = (fetch: IFetchFunction) => {
-                    return (target: string, headers: HttpHeaders) => {
-                        if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'gzip') {
-                            return fetch(target, headers);
-                        }
-
-                        return null;
-                    };
-                };
-
-                mock('@hint/utils', utils);
-            },
             name: `If a request throws an exception, if should be managed and report an error (Gzip)`,
+            overrides: {
+                '@hint/utils': {
+                    asyncTry(fetch: IFetchFunction) {
+                        return (target: string, headers: HttpHeaders) => {
+                            if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'gzip') {
+                                return fetch(target, headers);
+                            }
+
+                            return null;
+                        };
+                    }
+                }
+            },
             reports: [{
                 message: 'Could not be fetched when requested compressed with gzip.',
                 severity: Severity.error
@@ -793,23 +831,20 @@ const testsForNoCompression = (https: boolean = false): HintTest[] => {
             )
         },
         {
-            after() {
-                (utils as any).asyncTry = originalAsyncTry;
-            },
-            before() {
-                (utils as any).asyncTry = (fetch: IFetchFunction) => {
-                    return (target: string, headers: HttpHeaders) => {
-                        if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'identity') {
-                            return fetch(target, headers);
-                        }
-
-                        return null;
-                    };
-                };
-
-                mock('@hint/utils', utils);
-            },
             name: `If a request throws an exception, if should be managed and report an error (no compression)`,
+            overrides: {
+                '@hint/utils': {
+                    asyncTry(fetch: IFetchFunction) {
+                        return (target: string, headers: HttpHeaders) => {
+                            if (!target || !target.includes('script.js') || headers['Accept-Encoding'] !== 'identity') {
+                                return fetch(target, headers);
+                            }
+
+                            return null;
+                        };
+                    }
+                }
+            },
             reports: [{
                 message: 'Could not be fetched when requested uncompressed',
                 severity: Severity.error

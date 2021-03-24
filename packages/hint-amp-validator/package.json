@@ -8,28 +8,28 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debug": "^1.0.1",
-    "@hint/utils-fs": "^1.0.2",
-    "@hint/utils-i18n": "^1.0.2",
-    "@hint/utils-types": "^1.0.1",
-    "amphtml-validator": "^1.0.30"
+    "@hint/utils-debug": "^1.0.4",
+    "@hint/utils-fs": "^1.0.8",
+    "@hint/utils-i18n": "^1.0.7",
+    "@hint/utils-types": "^1.1.2",
+    "amphtml-validator": "^1.0.34"
   },
   "description": "hint that that validates AMP HTML pages using the AMP Validator",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^6.1.1",
+    "@hint/utils-tests-helpers": "^6.3.3",
     "@types/amphtml-validator": "^1.0.1",
-    "@types/node": "^13.9.2",
-    "@typescript-eslint/eslint-plugin": "^1.13.0",
-    "@typescript-eslint/parser": "^1.12.0",
-    "ava": "^3.5.2",
+    "@types/node": "^14.14.31",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "ava": "^3.15.0",
     "cpx": "^1.5.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint": "^7.21.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^1.0.2",
     "npm-run-all": "^4.1.5",
-    "nyc": "^15.0.0",
+    "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
-    "typescript": "^3.8.3"
+    "typescript": "^4.2.3"
   },
   "files": [
     "dist/src"
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.10.4"
+  "version": "2.10.10"
 }

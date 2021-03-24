@@ -1,6 +1,6 @@
 import { ExecutionContext } from 'ava';
 
-import { ProblemLocation, Severity } from '@hint/utils-types';
+import { ProblemLocation, Severity, ProblemDocumentation } from '@hint/utils-types';
 
 export type MatchProblemLocation = {
     /** A substring matching the location of the problem. */
@@ -10,9 +10,10 @@ export type MatchProblemLocation = {
 
 export type Report = {
     /** The message to validate */
-    message: string;
+    message: string | RegExp;
     position?: ProblemLocation | MatchProblemLocation;
     severity?: Severity;
+    documentation?: ProblemDocumentation[];
 };
 
 export type HintTest = {
@@ -22,6 +23,8 @@ export type HintTest = {
     before?(): void | Promise<void>;
     /** The name of the test. */
     name: string;
+    /** Optional list of imports to override for the hint. */
+    overrides?: { [key: string]: any };
     /** The expected results of the execution. */
     reports?: Report[];
     /** The configuration `test-server` should use. */
@@ -37,6 +40,8 @@ export type HintLocalTest = {
     after?(context?: ExecutionContext<any>): void | Promise<void>;
     /** The code to execute before creating the connector. */
     before?(context?: ExecutionContext<any>): void | Promise<void>;
+    /** Optional list of imports to override for the hint. */
+    overrides?: { [key: string]: any };
     /** Path to send to the local connector. */
     path: string;
     /** The name of the test. */

@@ -13,7 +13,7 @@ import { getCategoryName } from '@hint/utils-i18n';
 const categories = getCategories();
 
 const { version } = require('../../../manifest.json');
-let template = require('../../../../../../../.github/ISSUE_TEMPLATE/2-bug-report-browser.md').default;
+let template = require('../../../../../../../.github/ISSUE_TEMPLATE/2-bug-report-browser.md');
 
 // Remove frontMatter from template.
 template = template.replace(/---([\s\S]*)---/gm, '').trim();

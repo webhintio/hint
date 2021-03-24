@@ -103,7 +103,7 @@ export default class MetaViewportHint implements IHint {
             }
 
             for (const key of Object.keys(content.invalidValues)) {
-                const message = getMessage('metaElementInvalidValues', context.language, [content.invalidValues[key].toString(), key]);
+                const message = getMessage('metaElementInvalidValues', context.language, key);
 
                 context.report(
                     resource,

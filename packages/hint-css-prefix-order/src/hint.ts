@@ -3,12 +3,12 @@
  * before the unprefixed version.
  */
 
-import { vendor, Declaration, Rule } from 'postcss';
+import { Declaration, Rule } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
-import { getFullCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
+import { getFullCSSCodeSnippet, getCSSLocationFromNode, getUnprefixed } from '@hint/utils-css';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
 import { Severity } from '@hint/utils-types';
 
@@ -56,10 +56,10 @@ const validateRule = (rule: Rule): DeclarationPair[] => {
         }
 
         const name = decl.prop;
-        const baseName = vendor.unprefixed(name);
+        const baseName = getUnprefixed(name);
 
         const value = decl.value;
-        const baseValue = vendor.unprefixed(value);
+        const baseValue = getUnprefixed(value);
 
         if (!map.has(baseName)) {
             map.set(baseName, {});

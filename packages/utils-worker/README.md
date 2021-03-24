@@ -65,6 +65,22 @@ worker.postMessage({
 });
 ```
 
+All included hints are enabled by default. To disable all included
+hints and selectively enable only a few, change the default severity.
+
+```ts
+worker.postMessage({
+    config: {
+        defaultHintSeverity: 'off',
+        userConfig: {
+            hints: {
+                'button-type': 'default'
+            }
+        }
+    }
+});
+```
+
 ## Contributing to the worker
 
 To contribute to the worker please read the [`CONTRIBUTING.md`][contributing]
@@ -72,5 +88,5 @@ file of the package.
 
 <!-- Link labels -->
 
-[contributing]: https://github.com/webhintio/hint/blob/master/packages/utils-worker/CONTRIBUTING.md
+[contributing]: https://github.com/webhintio/hint/blob/main/packages/utils-worker/CONTRIBUTING.md
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/

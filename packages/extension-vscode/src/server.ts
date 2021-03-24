@@ -66,17 +66,22 @@ initTelemetry({
     defaultProperties,
     enabled: telemetryEnabled === 'enabled',
     post: (url, data) => {
-        return new Promise((resolve, reject) => {
+        return new Promise<number>((resolve, reject) => {
             const request = https.request(url, { method: 'POST' }, (response) => {
-                resolve(response.statusCode);
+                resolve(response.statusCode as number);
             });
 
             request.on('error', (err) => {
                 reject(err);
             });
 
-            request.write(data);
-            request.end();
+            /*
+             * Don't use request.write or request will be sent chunked.
+             * Chunked requests break in node-based v2 Azure Functions,
+             * which are used to run the webhint telemetry service.
+             * https://github.com/Azure/azure-functions-host/issues/4926
+             */
+            request.end(data);
         });
     }
 });

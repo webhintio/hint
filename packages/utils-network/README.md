@@ -33,3 +33,4 @@ is http/https if specified.
 and lowercase it.
 * `requestAsync`: Convenience wrapper for asynchronously request an URL.
 * `requestJSONAsync`: Request response in the json format from an endpoint.
+* `rxLocalhost`: RegExp to test if a resource points to localhost.

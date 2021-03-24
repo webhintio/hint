@@ -112,8 +112,9 @@ const tests: HintTest[] = [
 ### Execute code `before` or `after` collecting the results
 
 In some scenarios you need to execute some code `before` or `after`
-the actual tests (e.g.: if you need to mock a dependency). For those
-cases you can use the `before` and `after` properties of `HintTest`:
+the actual tests (e.g.: if you need to change the current
+working directory). For those cases you can use the `before`
+and `after` properties of `HintTest`:
 
 ```ts
 const tests: HintTest[] = [
@@ -134,10 +135,34 @@ const tests: HintTest[] = [
 ];
 ```
 
+### Override hint dependencies when running tests
+
+In some scenarios you need to override or mock dependencies
+to the hint being tested. For those cases you can use the
+`overrides` property of `HintTest`:
+
+```ts
+const tests: HintTest[] = [
+    {
+        name: 'Name of the tests',
+        overrides: {
+            'dependency-package-name': {
+                // Overridden helpers from dependency
+            }
+        }
+        serverUrl: 'https://example.com',
+        reports: [{
+            message: 'Message the error will have'
+        }]
+    },
+    { ... }
+];
+```
+
 An example will be if the hint integrates with another service. You don't want
 to actually connect to that service during the tests (slow down, need to force
 an specific output, etc.) so you will mock the connection to that service in
-the `before` property.
+the `overrides` property.
 [An example of hint that does this is `ssllabs`][ssllabs tests] where the call
 to the server is completely mocked to return different grades.
 
@@ -282,4 +307,4 @@ once.
 
 <!-- link labels -->
 
-[ssllabs tests]: https://github.com/webhintio/hint/blob/master/packages/hint-ssllabs/tests/tests.ts
+[ssllabs tests]: https://github.com/webhintio/hint/blob/main/packages/hint-ssllabs/tests/tests.ts

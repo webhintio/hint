@@ -32,6 +32,7 @@ export class Server {
         }
 
         const noNeedsUpdate = typeof content === 'number' ||
+            content instanceof RegExp ||
             Buffer.isBuffer(content) ||
             !content;
 

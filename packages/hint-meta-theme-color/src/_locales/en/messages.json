@@ -5,27 +5,27 @@
     },
     "metaElementDuplicated": {
         "description": "Report message when the 'theme-color' meta element is duplicated",
-        "message": "'theme-color' meta element is not needed as one was already specified."
+        "message": "A 'theme-color' meta element is not needed as one was already specified."
     },
     "metaElementInvalidContent": {
         "description": "Report message when the 'theme-color' meta element has an invalid value for 'content'",
-        "message": "'theme-color' meta element 'content' attribute should not have invalid value of '$1'."
+        "message": "The 'theme-color' meta element 'content' attribute should have a valid color value."
     },
     "metaElementInBody": {
         "description": "Report message when the 'theme-color' meta element is specified in the '<body>'",
-        "message": "'theme-color' meta element should be specified in the '<head>', not '<body>'."
+        "message": "The 'theme-color' meta element should be specified in the '<head>', not '<body>'."
     },
     "metaElementInvalidName": {
         "description": "Report message when the 'theme-color' meta element has an invalid 'name'",
-        "message": "'theme-color' meta element 'name' attribute value should be 'theme-color', not '$1'."
+        "message": "The 'theme-color' meta element 'name' attribute value should be 'theme-color'."
     },
     "metaElementNotSpecified": {
         "description": "Report message when the 'theme-color' meta element was not specified",
-        "message": "'theme-color' meta element was not specified."
+        "message": "A 'theme-color' meta element was not specified."
     },
     "metaElementUnsupported": {
         "description": "Report message when the 'theme-color' meta element has an unsupported value for 'content'",
-        "message": "'theme-color' meta element 'content' attribute should not have unsupported value of '$1'."
+        "message": "The 'theme-color' meta element 'content' attribute uses a color value not supported by all target browsers."
     },
     "name": {
         "description": "Metadata name",

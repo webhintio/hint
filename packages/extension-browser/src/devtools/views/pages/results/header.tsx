@@ -5,6 +5,7 @@ import { getMessage } from '../../../utils/i18n';
 
 import Button from '../../controls/button';
 import FeedbackLink from '../../controls/feedback-link';
+import PrintLink from '../../controls/print-link';
 import Label from '../../controls/label';
 import LabelText from '../../controls/label-text';
 import Toggle from '../../controls/toggle';
@@ -34,6 +35,7 @@ const ResultsHeader = ({ config, onConfigureClick, showPassed, setShowPassed, ur
                 <h1 className={`${styles.title} ${styles.headerText}`}>
                     {getMessage('scanResultTitle')}
                 </h1>
+                <PrintLink />
                 <FeedbackLink config={config}/>
             </div>
             <div className={styles.headerText}>

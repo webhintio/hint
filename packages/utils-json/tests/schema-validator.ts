@@ -126,9 +126,9 @@ test('validate should generate the right message for required fields', (t) => {
     const resultRequiredFields: SchemaValidationResult = validate(schemaTypeRequireAndUniqueItems, dataRequiredFields);
 
     t.is(resultRequiredFields.prettifiedErrors.length, 2);
-    t.is(resultRequiredFields.prettifiedErrors[0], `'d[0]' should have required property 'domain'`);
-    t.is(resultRequiredFields.prettifiedErrors[1], `'d[0]' should have required property 'hints'`);
-    t.is(resultRequiredFields.groupedErrors[0].message, `'d[0]' should have required properties 'domain' and 'hints'`);
+    t.is(resultRequiredFields.prettifiedErrors[0], `'d/0' should have required property 'domain'`);
+    t.is(resultRequiredFields.prettifiedErrors[1], `'d/0' should have required property 'hints'`);
+    t.is(resultRequiredFields.groupedErrors[0].message, `'d/0' should have required properties 'domain' and 'hints'`);
     t.deepEqual(resultRequiredFields.groupedErrors[0].errors, resultRequiredFields.errors);
     t.is(resultRequiredFields.errors[0].keyword, 'required');
     t.is(resultRequiredFields.errors[1].keyword, 'required');
@@ -145,8 +145,8 @@ test('validate should generate the right message for duplicate items', (t) => {
     const resultDuplicateItems: SchemaValidationResult = validate(schemaTypeRequireAndUniqueItems, dataDuplicateItems);
 
     t.is(resultDuplicateItems.prettifiedErrors.length, 1);
-    t.is(resultDuplicateItems.prettifiedErrors[0], `'d[0].hints' should NOT have duplicate items (items ## 1 and 0 are identical).`);
-    t.is(resultDuplicateItems.groupedErrors[0].message, `'d[0].hints' should NOT have duplicate items (items ## 1 and 0 are identical).`);
+    t.is(resultDuplicateItems.prettifiedErrors[0], `'d/0/hints' should NOT have duplicate items (items ## 1 and 0 are identical).`);
+    t.is(resultDuplicateItems.groupedErrors[0].message, `'d/0/hints' should NOT have duplicate items (items ## 1 and 0 are identical).`);
     t.deepEqual(resultDuplicateItems.groupedErrors[0].errors, resultDuplicateItems.errors);
     t.is(resultDuplicateItems.errors[0].keyword, 'uniqueItems');
 });
@@ -157,10 +157,10 @@ test('validate should generate the right message for required fields and duplica
     const resultDuplicateItems: SchemaValidationResult = validate(schemaTypeRequireAndUniqueItems, dataDuplicateItems);
 
     t.is(resultDuplicateItems.prettifiedErrors.length, 2);
-    t.is(resultDuplicateItems.prettifiedErrors[0], `'d[0]' should have required property 'domain'`);
-    t.is(resultDuplicateItems.prettifiedErrors[1], `'d[0].hints' should NOT have duplicate items (items ## 1 and 0 are identical).`);
-    t.is(resultDuplicateItems.groupedErrors[0].message, `'d[0]' should have required property 'domain'`);
-    t.is(resultDuplicateItems.groupedErrors[1].message, `'d[0].hints' should NOT have duplicate items (items ## 1 and 0 are identical).`);
+    t.is(resultDuplicateItems.prettifiedErrors[0], `'d/0' should have required property 'domain'`);
+    t.is(resultDuplicateItems.prettifiedErrors[1], `'d/0/hints' should NOT have duplicate items (items ## 1 and 0 are identical).`);
+    t.is(resultDuplicateItems.groupedErrors[0].message, `'d/0' should have required property 'domain'`);
+    t.is(resultDuplicateItems.groupedErrors[1].message, `'d/0/hints' should NOT have duplicate items (items ## 1 and 0 are identical).`);
     t.deepEqual(resultDuplicateItems.groupedErrors[0].errors, [resultDuplicateItems.errors[0]]);
     t.deepEqual(resultDuplicateItems.groupedErrors[1].errors, [resultDuplicateItems.errors[1]]);
     t.is(resultDuplicateItems.errors[0].keyword, 'required');

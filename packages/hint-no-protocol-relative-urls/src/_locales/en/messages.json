@@ -9,6 +9,6 @@
     },
     "noProtocolRelativeUrl": {
         "description": "Report message when a protocol relative URL is found",
-        "message": "'$1' should not be specified as a protocol-relative URL."
+        "message": "References to URLs should not be protocol-relative."
     }
 }

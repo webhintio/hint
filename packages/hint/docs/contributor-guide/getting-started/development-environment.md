@@ -6,7 +6,7 @@ environment that will let you contribute back to the project.
 1. [Install Node.js and yarn](#step-1-install-nodejs-and-yarn)
 2. [Fork and checkout your own webhint repository](#step-2-fork-and-checkout-your-own-webhint-repository)
 3. [Add the upstream source](#step-3-add-the-upstream-source)
-4. [Run the tests](#step-4-run-the-tests)
+4. [Run the build](#step-4-run-the-build)
 
 ## Step 1: Install Node.js and yarn
 
@@ -62,7 +62,7 @@ Now, the remote `upstream` points to the upstream source.
 
 ## Step 4: Run the build
 
-Run your initial build from `master` before making changes. This
+Run your initial build from `main` before making changes. This
 reduces the time for your first build by downloading pre-built assets
 instead of building them.
 

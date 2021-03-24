@@ -87,6 +87,10 @@
         "message": "Feedback",
         "description": "Label for the feedback button"
     },
+    "furtherReading": {
+        "message": "Further Reading",
+        "description": "Title for hint external documentation"
+    },
     "helpUs": {
         "message": "Help us improve webhint by sending limited usage information (no personal information or URLs will be sent).",
         "description": "Label for telemetry opt-in popup"
@@ -162,6 +166,10 @@
     "poweredByLabel": {
         "message": "Powered by",
         "description": "Label displayed before link to the webhint website."
+    },
+    "print": {
+        "message": "Print",
+        "description": "Label for button to print the result."
     },
     "recommendedSettingsLabel": {
         "message": "Recommended settings",

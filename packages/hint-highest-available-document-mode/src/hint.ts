@@ -83,7 +83,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             if (headerValue !== 'ie=edge') {
                 context.report(
                     resource,
-                    getMessage('headerValueShouldBe', context.language, !originalHeaderValue ? '' : originalHeaderValue),
+                    getMessage('headerValueShouldBe', context.language),
                     {
                         codeLanguage,
                         codeSnippet,
@@ -155,7 +155,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
             // * it has the value `ie=edge`.
 
             if (normalizeString(contentValue) !== 'ie=edge') {
-                const message = getMessage('metaElementValueShouldBe', context.language, !contentValue ? '' : contentValue);
+                const message = getMessage('metaElementValueShouldBe', context.language);
 
                 context.report(
                     resource,

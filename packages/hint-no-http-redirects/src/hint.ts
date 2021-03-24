@@ -5,7 +5,6 @@
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 // The list of types depends on the events you want to capture.
 import { IHint, FetchEnd } from 'hint/dist/src/lib/types';
-import { cutString } from '@hint/utils-string';
 import { Severity } from '@hint/utils-types';
 
 import meta from './meta';
@@ -39,13 +38,7 @@ export default class NoHttpRedirectHint implements IHint {
             const { request, response, element } = fetchEnd;
 
             if (response.hops.length > maxHops) {
-                let message: string;
-
-                if (response.hops.length === 1) {
-                    message = getMessage('redirectDectected', context.language, [response.hops.length.toString(), cutString(request.url), maxHops.toString()]);
-                } else {
-                    message = getMessage('redirectsDectected', context.language, [response.hops.length.toString(), cutString(request.url), maxHops.toString()]);
-                }
+                const message = getMessage('redirectsDectected', context.language, maxHops.toString());
 
                 context.report(request.url, message, { element, severity: Severity.warning });
             }

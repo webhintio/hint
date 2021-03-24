@@ -25,14 +25,15 @@ export const getAttributeUnsupported = (feature: AttributeQuery, browsers: strin
 
     return getCachedValue(key, browsers, () => {
         let data: Identifier | undefined;
+        let parentData: Identifier | undefined;
         let prefix = '';
         let unprefixed = '';
 
         // Search for an element-specific attribute first.
         if (feature.element) {
-            const [elementData] = getFeatureData(mdn.html.elements, feature.element);
+            [parentData] = getFeatureData(mdn.html.elements, feature.element);
 
-            [data, prefix, unprefixed] = getFeatureData(elementData, feature.attribute);
+            [data, prefix, unprefixed] = getFeatureData(parentData, feature.attribute);
         }
 
         // If no element-specific attribute was found, check for a global attribute.
@@ -50,7 +51,7 @@ export const getAttributeUnsupported = (feature: AttributeQuery, browsers: strin
             }
         }
 
-        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
+        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed, parentData);
     });
 };
 

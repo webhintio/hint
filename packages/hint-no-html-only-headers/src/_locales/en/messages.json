@@ -7,12 +7,8 @@
         "description": "Metadata name",
         "message": "Unneeded HTTP headers"
     },
-    "unneededHeader": {
-        "description": "Report message when a response includes a unneeded header",
-        "message": "Response should not include unneeded $1 header."
-    },
     "unneededHeaders": {
         "description": "Report message when a response includes multiple unneeded headers",
-        "message": "Response should not include unneeded $1 headers."
+        "message": "Response should not include unneeded headers: $1"
     }
 }

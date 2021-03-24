@@ -3,14 +3,14 @@
  */
 
 import intersection = require('lodash/intersection');
-import { vendor, AtRule, Rule, Declaration, ChildNode, ContainerBase } from 'postcss';
+import { AtRule, Container, Rule, Declaration, ChildNode } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { IHint } from 'hint/dist/src/lib/types';
 import { Severity } from '@hint/utils-types';
 import { StyleEvents } from '@hint/parser-css/dist/src/types';
 import { getUnsupportedDetails, UnsupportedBrowsers } from '@hint/utils-compat-data';
-import { getCSSCodeSnippet, getCSSLocationFromNode } from '@hint/utils-css';
+import { getCSSCodeSnippet, getCSSLocationFromNode, getUnprefixed, getVendorPrefix } from '@hint/utils-css';
 
 import { formatAlternatives } from './utils/alternatives';
 import { filterBrowsers, joinBrowsers } from './utils/browsers';
@@ -34,7 +34,7 @@ type Context = {
     browsers: string[];
     ignore: Set<string>;
     report: (data: ReportData) => void;
-    walk: (ast: ContainerBase, context: Context) => void;
+    walk: (ast: Container, context: Context) => void;
 };
 
 const validateAtSupports = (node: AtRule, context: Context): void => {
@@ -67,8 +67,12 @@ const validateAtRule = (node: AtRule, context: Context): ReportData | null => {
     return null;
 };
 
-const validateDeclValue = (node: Declaration, context: Context): ReportData | null => {
-    const unsupported = getUnsupportedDetails({ property: node.prop, value: node.value }, context.browsers);
+const validateDeclValue = (node: Declaration, context: Context, browsers: string[]): ReportData | null => {
+    if (context.ignore.has(`${node.prop}: ${node.value}`)) {
+        return null;
+    }
+
+    const unsupported = getUnsupportedDetails({ property: node.prop, value: node.value }, browsers);
 
     if (unsupported) {
         const formatFeature = (value: string) => {
@@ -94,7 +98,7 @@ const validateDecl = (node: Declaration, context: Context): ReportData | null =>
         return { feature: `${property}`, node, unsupported };
     }
 
-    return validateDeclValue(node, context);
+    return null;
 };
 
 const validateRule = (node: Rule, context: Context): void => {
@@ -148,9 +152,9 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
         const unprefixedReports = reports.filter(({ node }) => {
             switch (node.type) {
                 case 'atrule':
-                    return !vendor.prefix(node.name);
+                    return !getVendorPrefix(node.name);
                 case 'decl':
-                    return !vendor.prefix(node.prop) && !vendor.prefix(node.value);
+                    return !getVendorPrefix(node.prop) && !getVendorPrefix(node.value);
                 default:
                     return false;
             }
@@ -161,7 +165,8 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
         for (const report of finalReports) {
             const unsupported: UnsupportedBrowsers = {
                 browsers,
-                details: report.unsupported.details
+                details: report.unsupported.details,
+                mdnUrl: report.unsupported.mdnUrl
             };
 
             context.report({ ...report, unsupported });
@@ -169,7 +174,7 @@ const reportUnsupported = (reportsMap: ReportMap, context: Context): void => {
     }
 };
 
-const walk = (ast: ContainerBase, context: Context) => {
+const walk = (ast: Container, context: Context) => {
     if (!ast.nodes) {
         return;
     }
@@ -181,19 +186,36 @@ const walk = (ast: ContainerBase, context: Context) => {
      */
     const reportsMap: ReportMap = new Map();
 
+    const addToReportsMap = (key: string, report: ReportData | null) => {
+        // No report means a given feature is fully supported for this block.
+        if (!report) {
+            reportsMap.set(key, 'supported');
+
+            return;
+        }
+
+        const reports = reportsMap.get(key) || [];
+
+        // Track reports unless a feature is fully supported for this block.
+        if (reports !== 'supported') {
+            reports.push(report);
+            reportsMap.set(key, reports);
+        }
+    };
+
     for (const node of ast.nodes) {
         let key = '';
         let report: ReportData | null = null;
 
         switch (node.type) {
             case 'atrule':
-                key = `@${vendor.unprefixed(node.name)} ${node.params}`;
+                key = `@${getUnprefixed(node.name)} ${node.params}`;
                 report = validateAtRule(node, context);
                 break;
             case 'comment':
                 break; // Ignore comment nodes.
             case 'decl':
-                key = `${vendor.unprefixed(node.prop)}`;
+                key = `${getUnprefixed(node.prop)}`;
                 report = validateDecl(node, context);
                 break;
             case 'rule':
@@ -208,18 +230,22 @@ const walk = (ast: ContainerBase, context: Context) => {
             continue;
         }
 
-        // No report means a given feature is fully supported for this block.
-        if (!report) {
-            reportsMap.set(key, 'supported');
-            continue;
-        }
+        addToReportsMap(key, report);
 
-        const reports = reportsMap.get(key) || [];
+        // Declaration nodes need special treatment.
+        if (node.type === 'decl') {
+            /*
+             * The property name might be supported everywhere, or on some browsers only, in which case we need to now
+             * drill down to the property value on those browsers.
+             */
+            const supportedBrowsers = !report || !report.unsupported ? context.browsers : context.browsers.filter((browser) => {
+                return report && !report.unsupported.browsers.includes(browser);
+            });
 
-        // Track reports unless a feature is fully supported for this block.
-        if (reports !== 'supported') {
-            reports.push(report);
-            reportsMap.set(key, reports);
+            key = `${getUnprefixed(node.prop)}: ${getUnprefixed(node.value)}`;
+            report = validateDeclValue(node, context, supportedBrowsers);
+
+            addToReportsMap(key, report);
         }
     }
 
@@ -251,12 +277,18 @@ export default class CSSCompatHint implements IHint {
                 const location = getCSSLocationFromNode(node, { isValue });
                 const severity = alternatives.length ? Severity.error : Severity.warning;
 
+                const documentation = unsupported.mdnUrl ? [{
+                    link: unsupported.mdnUrl,
+                    text: getMessage('learnMoreCSS', context.language)
+                }] : undefined;
+
                 context.report(
                     resource,
                     message,
                     {
                         codeLanguage: 'css',
                         codeSnippet,
+                        documentation,
                         element,
                         location,
                         severity

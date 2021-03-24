@@ -8,7 +8,7 @@ import { debug, execa } from '../lib/utils';
 import { ListrTaskWrapper } from 'listr';
 import { getCurrentBranchRemoteInfo } from '../lib/git-helpers';
 
-const validRemoteBranches = ['master', 'servicing'];
+const validRemoteBranches = ['main', 'servicing'];
 
 const runningInRoot = () => {
     const errorMessage = 'Not running from root of project';
@@ -57,7 +57,11 @@ const authenticatedOnNpm = async () => {
     }
 };
 
-const authenticatedOnVsce = async () => {
+const authenticatedOnVsce = async (ctx: Context) => {
+    if (ctx.argv.skipVsce) {
+        return;
+    }
+
     let publishers = '';
 
     try {
@@ -73,6 +77,26 @@ const authenticatedOnVsce = async () => {
     }
 
     debug(`User logged in to vsce with webhint publish access`);
+};
+
+const authenticatedOnOvsx = async (ctx: Context) => {
+    if (ctx.argv.skipOvsx) {
+        return;
+    }
+
+    try {
+        const { stdout } = await execa('ovsx version');
+
+        debug(stdout);
+    } catch (e) {
+        throw new Error('Failed to find ovsx, run `npm install -g ovsx`');
+    }
+
+    if (!process.env.OVSX_TOKEN) { // eslint-disable-line no-process-env
+        throw new Error('No ovsx token found, log into open-vsx.org and create an access token with access to the webhint namespace');
+    }
+
+    debug(`OVSX access token found! Access granted.`);
 };
 
 const validRemote = async () => {
@@ -117,7 +141,8 @@ export const validateEnvironment = async (ctx: Context, task: ListrTaskWrapper) 
         noUncommitedChanges,
         npmVersion,
         authenticatedOnNpm,
-        authenticatedOnVsce
+        authenticatedOnVsce,
+        authenticatedOnOvsx
     ];
 
     ctx.argv = argv as Arguments<Parameters>;
@@ -131,7 +156,7 @@ export const validateEnvironment = async (ctx: Context, task: ListrTaskWrapper) 
 
     if (!ctx.argv.testMode) {
         for (const check of checks) {
-            await check();
+            await check(ctx);
         }
     }
 

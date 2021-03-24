@@ -224,30 +224,30 @@ const getFilesChanged = async () => {
      * Ensure that things work as expected for shallow clones.
      * (This is usually the case with CIs such as Travis)
      */
-    await shell.exec(`git remote set-branches origin master`);
+    await shell.exec(`git remote set-branches origin main`);
 
     // Update local data.
     await shell.exec(`git fetch`);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    // Check if any files changed compared to `origin/master`.
+    // Check if any files changed compared to `origin/main`.
 
-    // Get files changes between the current branch and `origin/master`.
+    // Get files changes between the current branch and `origin/main`.
 
-    let fileChangesComparedToMaster = [];
-    const shaLastCommitFromMaster = (await getGitOutput('git rev-parse origin/master')).split(/\s/)[0];
+    let fileChangesComparedToMain = [];
+    const shaLastCommitFromMain = (await getGitOutput('git rev-parse origin/main')).split(/\s/)[0];
 
-    if (shaLastCommitFromMaster) {
-        log('Last commit from `origin/master`', shaLastCommitFromMaster);
+    if (shaLastCommitFromMain) {
+        log('Last commit from `origin/main`', shaLastCommitFromMain);
 
-        fileChangesComparedToMaster = await getGitMultilineOutput(`git diff --name-only HEAD..${shaLastCommitFromMaster}`);
+        fileChangesComparedToMain = await getGitMultilineOutput(`git diff --name-only HEAD..${shaLastCommitFromMain}`);
 
-        if (fileChangesComparedToMaster.length !== 0) {
-            log('Commits compared to `origin/master`', (await getGitMultilineOutput(`git log --oneline HEAD...${shaLastCommitFromMaster}`)).join('\n'));
+        if (fileChangesComparedToMain.length !== 0) {
+            log('Commits compared to `origin/main`', (await getGitMultilineOutput(`git log --oneline HEAD...${shaLastCommitFromMain}`)).join('\n'));
         }
 
-        log('File changed compared to `origin/master`', fileChangesComparedToMaster.join('\n'));
+        log('File changed compared to `origin/main`', fileChangesComparedToMain.join('\n'));
     }
 
     // Get files changed locally (untracked, unstaged, and staged files).
@@ -256,7 +256,7 @@ const getFilesChanged = async () => {
     log('File changed locally', fileChangesLocally.join('\n'));
 
     fileChanges = [...(new Set([
-        ...fileChangesComparedToMaster,
+        ...fileChangesComparedToMain,
         ...fileChangesLocally
     ]))];
 
@@ -269,7 +269,7 @@ const getFilesChanged = async () => {
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     /*
-     * If nothing changed compared to `origin/master`, check what
+     * If nothing changed compared to `origin/main`, check what
      * changed since the last tag or since some number of commits
      * ago (whichever happened more recently).
      */

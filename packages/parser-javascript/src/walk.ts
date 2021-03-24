@@ -4,7 +4,9 @@ import { NodeVisitor, Walk, WalkMethods, WalkCompleteListener } from './types';
 
 const { extend } = require('acorn-jsx-walk');
 
-extend(acornWalk.base); // Add `walk` support for JSXElement, etc.
+const acornWalkBase = (acornWalk as any).base;
+
+extend(acornWalkBase); // Add `walk` support for JSXElement, etc.
 
 type Key = {
     node: Node;
@@ -12,15 +14,7 @@ type Key = {
     state?: any;
 };
 
-export const base = acornWalk.base;
-
-const getCurrentVisitorsOrCallback = (walkArray: WalkArray, node: Node, base?: NodeVisitor, state?: any) => {
-    const item = walkArray.find(([key]) => {
-        return key.node === node && key.base === base && key.state === state;
-    });
-
-    return item ? item[1] : null;
-};
+export const base = acornWalkBase;
 
 /**
  * A WalkArray is a pair of Key and a Map with
@@ -35,6 +29,14 @@ const getCurrentVisitorsOrCallback = (walkArray: WalkArray, node: Node, base?: N
  */
 type WalkArray = Array<[Key, Map<keyof NodeVisitor | 'callbacks', Function[]>]>;
 type WalkArrays = { [key in keyof WalkMethods]: WalkArray };
+
+const getCurrentVisitorsOrCallback = (walkArray: WalkArray, node: Node, base?: NodeVisitor, state?: any) => {
+    const item = walkArray.find(([key]) => {
+        return key.node === node && key.base === base && key.state === state;
+    });
+
+    return item ? item[1] : null;
+};
 
 const defaultCallbacksProperty = 'callbacks';
 
@@ -86,7 +88,7 @@ const performWalk = (walkArrays: WalkArrays) => {
                 }
             }
 
-            acornWalk[methodName](node, allVisitors, base, state);
+            (acornWalk as any)[methodName](node, allVisitors, base, state);
         });
     });
 };

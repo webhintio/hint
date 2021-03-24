@@ -1,3 +1,10 @@
+# 2.0.9 (February 4, 2021)
+
+## Chores
+
+* [[`4e1e7f5448`](https://github.com/webhintio/hint/commit/4e1e7f5448dae983ff446f42d687a85b3542b525)] - Upgrade: Bump axe-core from 4.0.2 to 4.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.0.0 (December 2, 2019)
 
 ## Breaking Changes

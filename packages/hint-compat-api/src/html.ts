@@ -74,6 +74,8 @@ export default class HTMLCompatHint implements IHint {
 
     public constructor(context: HintContext) {
         const ignore = resolveIgnore([
+            'a[rel=noopener]', // handled by hint-disown-opener
+            'autocomplete',
             'crossorigin',
             'integrity',
             'link[rel]',
@@ -86,11 +88,16 @@ export default class HTMLCompatHint implements IHint {
 
             const report = ({ feature, unsupported }: ReportData) => {
                 const message = getMessage('featureNotSupported', context.language, [feature, joinBrowsers(unsupported)]);
+                const documentation = unsupported.mdnUrl ? [{
+                    link: unsupported.mdnUrl,
+                    text: getMessage('learnMoreHTML', context.language)
+                }] : undefined;
 
                 context.report(
                     resource,
                     message,
                     {
+                        documentation,
                         element,
                         severity: Severity.warning
                     }

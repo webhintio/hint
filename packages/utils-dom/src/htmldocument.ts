@@ -2,7 +2,7 @@ import { URL } from 'url';
 
 import * as parse5 from 'parse5';
 import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
-import * as cssSelect from 'css-select';
+import cssSelect, { selectOne } from 'css-select';
 
 import { createElement } from './create-element';
 import { HTMLElement } from './htmlelement';
@@ -11,9 +11,7 @@ import { DocumentType } from './documenttype';
 import { Node } from './node';
 import { Text } from './text';
 import { DocumentData, ElementData, NodeData } from './types';
-
-// TODO: Use quick-lru so that it doesn't grow without bounds
-const CACHED_CSS_SELECTORS: Map<string, cssSelect.CompiledQuery> = new Map();
+import { getCompiledSelector } from './get-compiled-selector';
 
 /**
  * https://developer.mozilla.org/docs/Web/API/HTMLDocument
@@ -36,7 +34,7 @@ export class HTMLDocument extends Node {
         this._document = document;
         this._documentElement = this.findDocumentElement();
         this.originalDocument = originalDocument;
-        this._pageHTML = parse5.serialize(document, { treeAdapter: htmlparser2Adapter });
+        this._pageHTML = parse5.serialize(document as htmlparser2Adapter.Node, { treeAdapter: htmlparser2Adapter });
         this._base = this.getBaseUrl(finalHref);
         this._nodes.set(document, this);
     }
@@ -48,7 +46,7 @@ export class HTMLDocument extends Node {
     }
 
     private getBaseUrl(finalHref: string): string {
-        const baseElement = this.querySelectorAll('base[href]')[0];
+        const baseElement = this.querySelector('base[href]');
         const baseHref = baseElement ? baseElement.getAttribute('href') : null;
 
         if (!baseHref) {
@@ -77,7 +75,7 @@ export class HTMLDocument extends Node {
      * https://developer.mozilla.org/docs/Web/API/Document/body
      */
     public get body(): HTMLElement {
-        return this.querySelectorAll('body')[0];
+        return this.querySelector('body') as HTMLElement;
     }
 
     /**
@@ -102,7 +100,7 @@ export class HTMLDocument extends Node {
      * https://developer.mozilla.org/docs/Web/API/Document/title
      */
     public get title(): string {
-        return this.querySelectorAll('title')[0]?.textContent || '';
+        return this.querySelector('title')?.textContent || '';
     }
 
     /**
@@ -165,20 +163,21 @@ export class HTMLDocument extends Node {
     /**
      * https://developer.mozilla.org/docs/Web/API/Document/querySelector
      */
-    public querySelector(selector: string): HTMLElement {
-        return this.querySelectorAll(selector)[0];
+    public querySelector(selector: string): HTMLElement | null {
+        const data = selectOne(
+            getCompiledSelector(selector),
+            this._document.children
+        );
+
+        return data ? this.getNodeFromData(data) as HTMLElement : null;
     }
 
     /**
      * https://developer.mozilla.org/docs/Web/API/Document/querySelectorAll
      */
     public querySelectorAll(selector: string): HTMLElement[] {
-        if (!CACHED_CSS_SELECTORS.has(selector)) {
-            CACHED_CSS_SELECTORS.set(selector, cssSelect.compile(selector));
-        }
-
         const matches: any[] = cssSelect(
-            CACHED_CSS_SELECTORS.get(selector) as cssSelect.CompiledQuery,
+            getCompiledSelector(selector),
             this._document.children
         );
 

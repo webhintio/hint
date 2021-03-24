@@ -44,7 +44,7 @@
         "message": "Sizes not specifed for icon"
     },
     "validIconsNotFound": {
-        "description": "Report message when ",
+        "description": "Report message when a valid icon is not found",
         "message": "Valid icons property was not found in the web app manifest"
     }
 }

@@ -5,6 +5,7 @@
     color: var(--base-color);
     font-size: var(--font-size-sm);
     padding: 0.1875rem 0.75rem 0.3125rem; /* 3px 12px 5px */
+    width: 8.25rem; /* 132px */
 }
 
 .root:focus {

@@ -31,6 +31,16 @@
                     <code class="<%= problem.codeLanguage %>"><%= utils.cutCodeString(problem.sourceCode); %></code>
                 </div>
                 <% } %>
+                <% if (problem.documentation) { %>
+                <div class="rule-result__doc">
+                    <h4><%= getMessage('furtherReading') %></h4>
+                    <ul class="rule-result__doc--list">
+                        <% problem.documentation.forEach(function (doc) { %>
+                            <li><a href="<%= doc.link %>" target="_blank" rel="noopener noreferrer"><%= doc.text %></a></li>
+                        <% }); %>
+                    </ul>
+                </div>
+                <% } %>
             </div>
             <% if(hint.thirdPartyInfo) { %>
                 <div class="rule-result--details__footer-msg">
@@ -41,7 +51,7 @@
                     <% } %>
 
                     <a href="<%= hint.thirdPartyInfo.link %>">
-                        <img src="<%= hint.thirdPartyInfo.logo.url %>" alt="<%= hint.thirdPartyInfo.logo.alt %>" class="<%= hint.thirdPartyInfo.logo.name %>-logo">
+                        <img src="<%= isScanner ? hint.thirdPartyInfo.logo.url : getDataUri(hint.thirdPartyInfo.logo.url) %>" alt="<%= hint.thirdPartyInfo.logo.alt %>" class="<%= hint.thirdPartyInfo.logo.name %>-logo">
                     </a>
                 </div>
             <% } %>

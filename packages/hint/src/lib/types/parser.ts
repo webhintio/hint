@@ -1,10 +1,6 @@
 import { Engine } from '../engine';
 import { Events } from './events';
 
-export interface IParserConstructor {
-    new(engine: Engine): Parser;
-}
-
 /** A `Parser` that understands a file content. */
 export abstract class Parser<E extends Events = Events> {
     protected engine: Engine<E>;
@@ -15,4 +11,8 @@ export abstract class Parser<E extends Events = Events> {
         this.engine = engine;
         this.name = parseEventType;
     }
+}
+
+export interface IParserConstructor {
+    new(engine: Engine): Parser;
 }

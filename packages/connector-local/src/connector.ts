@@ -204,7 +204,7 @@ export default class LocalConnector implements IConnector {
     }
 
     private watch(targetString: string) {
-        return new Promise(async (resolve, reject) => {
+        return new Promise<void>(async (resolve, reject) => {
             const isF = isFile(targetString);
             /* istanbul ignore next */
             const target = isF ? targetString : '.';
@@ -353,13 +353,13 @@ export default class LocalConnector implements IConnector {
          * and then get the path string.
          */
         const uri = getAsUri(target);
-        const filePath: string = uri ? asPathString(uri).replace('%20', ' ') : '';
+        const filePath: string = uri ? asPathString(uri) : '';
         const rawContent: Buffer = options && options.content ? Buffer.from(options.content) : await readFileAsBuffer(filePath);
         const contentType = await getContentTypeData(null as any, filePath, null, rawContent);
         let content = '';
 
         if (isTextMediaType(contentType.mediaType || '')) {
-            content = rawContent.toString(contentType.charset || undefined);
+            content = rawContent.toString(contentType.charset as any || undefined);
         }
 
         // Need to do some magic to create a fetch::end::*
@@ -395,7 +395,7 @@ export default class LocalConnector implements IConnector {
 
         this.engine.emitAsync('scan::start', initialEvent);
 
-        const pathString = asPathString(target).replace('%20', ' ');
+        const pathString = asPathString(target);
         let files: string[];
 
         if (isFile(pathString)) {

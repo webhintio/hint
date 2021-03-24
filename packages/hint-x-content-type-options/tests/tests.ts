@@ -14,9 +14,7 @@ const pageWithStylesheet = generateHTMLPage('<link rel="stylesheet" href="test.c
 // Error messages.
 
 const noHeaderErrorMessage = `Response should include 'x-content-type-options' header.`;
-const generateInvalidValueMessage = (value: string = '') => {
-    return `'x-content-type-options' header value should be 'nosniff', not '${value}'.`;
-};
+const invalidValueMessage = `The 'x-content-type-options' header value should be 'nosniff'.`;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -82,7 +80,7 @@ const tests: HintTest[] = [
     {
         name: `Script is served with 'X-Content-Type-Options' header with invalid value`,
         reports: [{
-            message: generateInvalidValueMessage('invalid'),
+            message: invalidValueMessage,
             severity: Severity.error
         }],
         serverConfig: {

@@ -35,7 +35,7 @@ const isUniversalSupportStatement = (browserName, supportStatement) => {
         return true; // Count unknown as universal support.
     }
 
-    if (version === '1') {
+    if (version === '1' || version === '1.0') {
         return true;
     }
 
@@ -183,15 +183,10 @@ const removeFeatureData = (data) => {
     const compat = data.__compat;
     const support = data.__compat.support;
 
-    // Remove unnecessary data cross-browser.
-    if (isFeatureUniversallySupported(compat) || isFeatureUniversallyUnsupported(compat)) {
-        delete data.__compat;
-
-        return;
-    }
-
     // Description is not needed for analysis.
     delete compat.description;
+    // Status is not needed for analysis.
+    delete data.__compat.status;
 
     // Remove unnecessary data per-browser.
     for (const browserName of Object.keys(support)) {
@@ -200,9 +195,14 @@ const removeFeatureData = (data) => {
         removeSupportNotes(browserName, support);
     }
 
-    // Remove `__compat` if all browsers have been removed.
-    if (!Object.keys(support).length) {
-        delete data.__compat;
+    // Remove unnecessary data cross-browser.
+    if (isFeatureUniversallySupported(compat) || isFeatureUniversallyUnsupported(compat)) {
+        // __compat is the only property left.
+        if (Object.keys(data).length === 1) {
+            delete data.__compat;
+        } else {
+            delete data.__compat.support;
+        }
     }
 };
 

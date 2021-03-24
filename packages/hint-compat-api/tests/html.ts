@@ -20,11 +20,19 @@ testHint(hintPath,
             name: 'Reports unsupported HTML attributes',
             reports: [
                 {
+                    documentation: [{
+                        link: 'https://developer.mozilla.org/docs/Web/HTML/Element/img',
+                        text: 'Learn more about this HTML feature on MDN'
+                    }],
                     message: `'img[srcset]' is not supported by Internet Explorer.`,
                     position: { match: 'img srcset=' },
                     severity: Severity.warning
                 },
                 {
+                    documentation: [{
+                        link: 'https://developer.mozilla.org/docs/Web/HTML/Global_attributes/hidden',
+                        text: 'Learn more about this HTML feature on MDN'
+                    }],
                     message: `'div[hidden]' is not supported by Internet Explorer < 11.`,
                     position: { match: 'div hidden' },
                     severity: Severity.warning
@@ -36,11 +44,19 @@ testHint(hintPath,
             name: 'Reports unsupported HTML elements',
             reports: [
                 {
+                    documentation: [{
+                        link: 'https://developer.mozilla.org/docs/Web/HTML/Element/blink',
+                        text: 'Learn more about this HTML feature on MDN'
+                    }],
                     message: `'blink' is not supported by Chrome, Edge, Firefox 22+, Internet Explorer.`,
                     position: { match: 'blink' },
                     severity: Severity.warning
                 },
                 {
+                    documentation: [{
+                        link: 'https://developer.mozilla.org/docs/Web/HTML/Element/details',
+                        text: 'Learn more about this HTML feature on MDN'
+                    }],
                     message: `'details' is not supported by Edge < 79, Internet Explorer.`,
                     position: { match: 'details' },
                     severity: Severity.warning
@@ -57,6 +73,10 @@ testHint(hintPath,
             reports: [
                 // TODO: Include <form method="dialog"> or similar once MDN data is available
                 {
+                    documentation: [{
+                        link: 'https://developer.mozilla.org/docs/Web/HTML/Element/input/color',
+                        text: 'Learn more about this HTML feature on MDN'
+                    }],
                     message: `'input[type=color]' is not supported by Internet Explorer.`,
                     position: { match: 'input type="color"' },
                     severity: Severity.warning
@@ -74,8 +94,21 @@ testHint(hintPath,
             name: 'Reports overridden ignored HTML features',
             reports: [
                 {
+                    documentation: [{
+                        link: 'https://developer.mozilla.org/docs/Web/HTML/Element/script',
+                        text: 'Learn more about this HTML feature on MDN'
+                    }],
                     message: `'script[integrity]' is not supported by Internet Explorer.`,
                     position: { match: 'script integrity' },
+                    severity: Severity.warning
+                },
+                {
+                    documentation: [{
+                        link: 'https://developer.mozilla.org/docs/Web/HTML/Attributes/autocomplete',
+                        text: 'Learn more about this HTML feature on MDN'
+                    }],
+                    message: `'input[autocomplete]' is not supported by Internet Explorer.`,
+                    position: { match: 'input autocomplete' },
                     severity: Severity.warning
                 }
             ],
@@ -88,6 +121,6 @@ testHint(hintPath,
     ],
     {
         browserslist: targetBrowsers,
-        hintOptions: { enable: ['integrity'], ignore: ['input[type=color]'] }
+        hintOptions: { enable: ['autocomplete', 'integrity'], ignore: ['input[type=color]'] }
     }
 );

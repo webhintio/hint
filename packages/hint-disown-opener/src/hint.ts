@@ -52,10 +52,7 @@ export default class DisownOpenerHint implements IHint {
                 return;
             }
 
-            const message = getMessage('shouldHaveRel', context.language, [
-                relValueToCheckFor,
-                getMessage('keyword', context.language)
-            ]);
+            const message = getMessage('shouldHaveRel', context.language, relValueToCheckFor);
 
             context.report(
                 resource,
@@ -136,8 +133,7 @@ export default class DisownOpenerHint implements IHint {
              * also check for 'noreferrer'.
              */
 
-            // TODO: Fix `isSupported` so `element` can be `a`.
-            if (!context.targetedBrowsers.length || !isSupported({ attribute: 'rel', element: 'link', value: 'noopener' }, context.targetedBrowsers)) {
+            if (!context.targetedBrowsers.length || !isSupported({ attribute: 'rel', element: element.nodeName.toLowerCase(), value: 'noopener' }, context.targetedBrowsers)) {
                 checkForRelValue(resource, element, 'noreferrer', Severity.warning);
             }
         };

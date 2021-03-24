@@ -24,7 +24,7 @@ const tests: HintTest[] = [
     {
         name: `Button without an attribute "type" fails with hint if not in a form`,
         reports: [{
-            message: `Button type attribute has not been set`,
+            message: `Button type attribute has not been set.`,
             severity: Severity.hint
         }],
         serverConfig: generateHTMLPage('', button.buttonWithoutType)
@@ -32,7 +32,7 @@ const tests: HintTest[] = [
     {
         name: `Button without an attribute "type" fails with warning if in a form`,
         reports: [{
-            message: `Button type attribute has not been set`,
+            message: `Button type attribute has not been set.`,
             severity: Severity.warning
         }],
         serverConfig: generateHTMLPage('', button.buttonWithoutTypeInForm)
@@ -40,7 +40,7 @@ const tests: HintTest[] = [
     {
         name: `Button with an invalid attribute "type" fails`,
         reports: [{
-            message: `Invalid button type: random`,
+            message: `Button type should be 'button', 'reset', or 'submit'.`,
             severity: Severity.error
         }],
         serverConfig: generateHTMLPage('', button.buttonWithInvalidButtonType)

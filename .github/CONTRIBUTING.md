@@ -24,6 +24,6 @@ before contributing.
 <!-- Link labels -->
 
 [cla]: https://cla.js.foundation/webhintio/hint
-[coc]: https://github.com/webhintio/.github/blob/master/CODE_OF_CONDUCT
+[coc]: https://github.com/webhintio/.github/blob/main/CODE_OF_CONDUCT
 [contributor guide]: https://webhint.io/docs/contributor-guide/
 [pr process]: https://webhint.io/docs/contributor-guide/getting-started/pull-requests/

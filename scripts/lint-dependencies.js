@@ -31,6 +31,7 @@ const ignoredDependencies = new Set([
     'ava',
     'canvas',
     'cpx',
+    'crypto-browserify',
     'eslint',
     'eslint-plugin-import',
     'eslint-plugin-markdown',
@@ -38,7 +39,11 @@ const ignoredDependencies = new Set([
     'hint',
     'npm-run-all',
     'nyc',
+    'path-browserify',
     'rimraf',
+    'setimmediate',
+    'stream-browserify',
+    'style-loader',
     'typescript',
     'typed-css-modules',
     'vsce',
@@ -89,6 +94,7 @@ const getCodeContent = async (rawPkgPath) => {
         `${pkgPath}/**/*.tsx`,
         `${pkgPath}/**/*.js`,
         `${pkgPath}/**/*.jsx`,
+        `!${pkgPath}/webhint.js`,
         `!${pkgPath}/dist/**/*`,
         `!${pkgPath}/node_modules/**/*` // needed when we are inside a package like extension-vscode
     ], { gitignore: false });

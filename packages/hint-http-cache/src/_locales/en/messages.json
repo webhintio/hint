@@ -5,42 +5,42 @@
     },
     "directiveInvalid": {
         "description": "Report message when the directives are invalid",
-        "message": "The $1 $2 $3 invalid"
+        "message": "A 'cache-control' header contains invalid directives: $1"
     },
     "directiveInvalidValue": {
         "description": "Report message when the directives have invalid value",
-        "message": "The following $1 an invalid value:\n$2"
+        "message": "A 'cache-control' header contains directives with invalid values: $1"
     },
     "directiveNotRecomended": {
         "description": "Report message when a directive is not recomended",
-        "message": "The directive \"$1\" is not recommended"
+        "message": "A 'cache-control' header contains directives which are not recommended: $1"
     },
     "name": {
         "description": "Metadata name",
         "message": "HTTP cache"
     },
     "noCacheBustingPattern": {
-        "description": "Report message when a cache busting pattern is not configured",
-        "message": "No configured patterns for cache busting match $1. See docs to add a custom one."
+        "description": "Report message when a request does not match a cache busting pattern",
+        "message": "Resource should use cache busting but URL does not match configured patterns."
     },
     "noHeaderFound": {
         "description": "Report message when the header \"cache-control\" doesn't exists or is empty",
-        "message": "No \"cache-control\" header or empty value found. It should have a value"
+        "message": "A 'cache-control' header is missing or empty."
     },
     "staticNotImmutable": {
         "description": "Report message when an static resource is not using the directive 'immutable'",
-        "message": "Static resources should use the \"immutable\" directive:\nDirectives used: $1"
+        "message": "Static resources should use a 'cache-control' header with the 'immutable' directive."
     },
     "staticResourceCacheValue": {
         "description": "Report message when a static resource has an short cache value",
-        "message": "Static resources should have a long cache value ($1):\nDirectives used: $2"
+        "message": "Static resources should use a 'cache-control' header with 'max-age=$1' or more."
     },
     "targetShouldNotBeCached": {
         "description": "Report message when the target shouldn't be cached",
-        "message": "The target should not be cached, or have a small \"max-age\" value ($1):\n$2"
+        "message": "The target should not be cached or have a 'cache-control' header with 'max-age=$1' or less."
     },
     "wrongCombination": {
         "description": "Report message when the Cache-Control header is using a wrong combination of directives",
-        "message": "The following Cache-Control header is using a wrong combination of directives:\n$1"
+        "message": "The 'cache-control' header should not contain 'max-age' or 's-maxage' when 'no-cache' or 'no-store' is specified."
     }
 }

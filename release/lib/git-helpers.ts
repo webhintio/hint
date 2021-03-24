@@ -285,7 +285,7 @@ export const getCommitsSinceLastRelease = async (pkg: Package): Promise<Commit[]
 };
 
 /**
- * Returns the remote branch the local "master" is pointing at.
+ * Returns the remote branch the local "main" is pointing at.
  */
 export const getCurrentBranchRemoteInfo = async () => {
 
@@ -321,7 +321,7 @@ export const getCurrentBranchRemoteInfo = async () => {
     const [, localBranch, , remote] = results;
 
     /**
-     * `remoteBranch` has a format like `origin/master` or `origin/new/release`
+     * `remoteBranch` has a format like `origin/main` or `origin/new/release`
      * The first part is needed to know where it is pointing
      */
     const parts = remote.split('/');

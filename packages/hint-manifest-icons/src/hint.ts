@@ -226,7 +226,7 @@ export default class ManifestIconHint implements IHint {
          * @param icons array of the icons properties
          * @param hostnameWithProtocol
          */
-        const validateIcons = async (icons: ManifestImageResource[], hostnameWithProtocol: string, resource: string, getLocation: JSONLocationFunction): Promise<string[]> => {
+        const validateIconsSize = async (icons: ManifestImageResource[], hostnameWithProtocol: string, resource: string, getLocation: JSONLocationFunction): Promise<string[]> => {
             const validSizes: string[] = [];
 
             for (let index = 0; index < icons.length; index++) {
@@ -277,7 +277,7 @@ export default class ManifestIconHint implements IHint {
                 if (icons.length > 0) {
 
                     debug(`Validating if manifest-icon file exists`);
-                    const validSizes = await validateIcons(icons, hostnameWithProtocol, resource, getLocation);
+                    const validSizes = await validateIconsSize(icons, hostnameWithProtocol, resource, getLocation);
 
                     if (validSizes.length > 0) {
                         const iconlocation = getLocation('icons');

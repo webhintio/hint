@@ -1,0 +1,14 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Informs users that Internet Explorer suffers from Flexbox compatibility bugs."
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "IE Flexbox Compatibility"
+    },
+    "usingFlexWithIE": {
+        "description": "String warning users that flex is used and IE is a target browser",
+        "message": "CSS Flexbox may render differently in Internet Explorer than more recent browsers. Check this page in IE then see the documentation for workarounds if needed."
+    }
+}

@@ -147,6 +147,20 @@ test('It replaces expressions with text placeholders', async (t) => {
     t.is(div.innerHTML, '{expression}');
 });
 
+test('It wraps expression placeholder text with <li> when parented to <ul>', async (t) => {
+    const { document } = await parseJSX(`const jsx = <ul>{myText}</ul>;`);
+    const ul = document.querySelectorAll('ul')[0];
+
+    t.is(ul.innerHTML, '<li>{expression}</li>');
+});
+
+test('It wraps expression placeholder text with <li> when parented to <ol>', async (t) => {
+    const { document } = await parseJSX(`const jsx = <ol>{myText}</ol>;`);
+    const ol = document.querySelectorAll('ol')[0];
+
+    t.is(ol.innerHTML, '<li>{expression}</li>');
+});
+
 test('It translates source locations correctly', async (t) => {
     const { document } = await parseJSX(`const a = 4;\nconst jsx = <div>{myText}</div>;`);
     const div = document.querySelectorAll('div')[0];

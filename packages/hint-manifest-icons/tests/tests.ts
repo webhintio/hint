@@ -125,7 +125,7 @@ const tests: HintTest[] = [
                             "sizes": "512x512",
                             "type": "image/png"
                         }
-                        ]
+                    ]
                 }`
             }
         }
@@ -189,7 +189,7 @@ const tests: HintTest[] = [
                             "sizes": "512x512",
                             "type": "image/png"
                         }
-                        ]
+                    ]
                 }`
             }
         }
@@ -214,7 +214,7 @@ const tests: HintTest[] = [
                                 "sizes": "192x192",
                                 "type": "image/png"
                             }
-                            ]
+                        ]
                     }`
             }
         }
@@ -229,6 +229,7 @@ const tests: HintTest[] = [
                 content: `{
                     "icons": [
                         {
+                            "purpose": "maskable",
                             "src": "fixtures/icon-192x192.png",
                             "sizes": "192x192",
                             "type": "image/png"
@@ -238,7 +239,7 @@ const tests: HintTest[] = [
                             "sizes": "512x512",
                             "type": "image/png"
                         }
-                        ]
+                    ]
                 }`
             }
         }

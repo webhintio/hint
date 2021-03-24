@@ -1,3 +1,73 @@
+# 3.0.11 (February 4, 2021)
+
+## Bug fixes / Improvements
+
+* [[`47011721d4`](https://github.com/webhintio/hint/commit/47011721d40aee360a28a332ed0b2e2196aaec76)] - Fix: Remove obsoleted properties in webpack 5 (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+
+
+# 3.0.9 (November 11, 2020)
+
+## Chores
+
+* [[`2ce460c00c`](https://github.com/webhintio/hint/commit/2ce460c00c2f7154d23458da15d88e30e498629b)] - Upgrade: Bump eslint-plugin-import from 2.22.0 to 2.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a893471823`](https://github.com/webhintio/hint/commit/a893471823fb9af504161ea370846a9ef76d0803)] - Upgrade: Bump ts-loader from 8.0.4 to 8.0.10 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`be9e20f4d5`](https://github.com/webhintio/hint/commit/be9e20f4d5f5775a52a7a5185ef6d26ce5d63811)] - Upgrade: Bump sinon from 9.0.3 to 9.2.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`98e63e24fd`](https://github.com/webhintio/hint/commit/98e63e24fd87b422a3378732d7a8290ba2d63ffb)] - Upgrade: Bump @types/sinon from 9.0.5 to 9.0.8 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`484002f92c`](https://github.com/webhintio/hint/commit/484002f92c46ccfa25afa3412d0f75603365d1e9)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 5.1.0 to 5.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6a48c13c34`](https://github.com/webhintio/hint/commit/6a48c13c34af6b5291a7d8d04ee1ed45dbd27e06)] - Upgrade: Bump @types/node from 14.6.2 to 14.11.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2ff524f2ba`](https://github.com/webhintio/hint/commit/2ff524f2bae067ae749c0fbe2c4f58b37cadced0)] - Upgrade: Bump webpack from 4.44.1 to 4.44.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0e0b4ba729`](https://github.com/webhintio/hint/commit/0e0b4ba7293503f2d0fd62eb822303d5f07ee250)] - Upgrade: Bump ts-loader from 8.0.3 to 8.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`29c1e30cfa`](https://github.com/webhintio/hint/commit/29c1e30cfab0a61a6d41978f12e2eece12657342)] - Upgrade: Bump eslint from 7.8.0 to 7.8.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`efc4098c99`](https://github.com/webhintio/hint/commit/efc4098c9985fcb8096ca4cfb434316106ad4b2d)] - Upgrade: Update dependencies (#3977) (by [`Jesus David García Gomez`](https://github.com/sarvaje)).
+* [[`7f20057c58`](https://github.com/webhintio/hint/commit/7f20057c5824c1e05469cbdf44236757f8288755)] - Upgrade: Bump @types/sinon from 9.0.4 to 9.0.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 3.0.8 (August 24, 2020)
+
+## Chores
+
+* [[`55dc024ed1`](https://github.com/webhintio/hint/commit/55dc024ed1d243f2d1d5adc07e5cae2fcb58025f)] - Upgrade: Bump typescript from 3.8.3 to 3.9.7 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a888f0ae08`](https://github.com/webhintio/hint/commit/a888f0ae08781ec6ac50caad904e19077dc5704e)] - Upgrade: Bump webpack from 4.44.0 to 4.44.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`28498bbf43`](https://github.com/webhintio/hint/commit/28498bbf43efaac6342a407051b493c5f23afd1e)] - Upgrade: Bump inquirer from 7.2.0 to 7.3.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8df0336e63`](https://github.com/webhintio/hint/commit/8df0336e63a35344c2b87c6ced5d9eeaa0e85b51)] - Upgrade: Bump eslint from 6.8.0 to 7.6.0 (#3926) (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`904bf9dd4a`](https://github.com/webhintio/hint/commit/904bf9dd4ae4e04b82d303a00d8f877e5f63791b)] - Upgrade: Bump @types/inquirer from 6.0.3 to 7.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ca91ca7abb`](https://github.com/webhintio/hint/commit/ca91ca7abbfc8e3b12a6c10715026e44034d7e63)] - Upgrade: Bump @types/node from 13.13.4 to 14.0.26 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
+# 3.0.7 (July 27, 2020)
+
+## Chores
+
+* [[`9a79e0962c`](https://github.com/webhintio/hint/commit/9a79e0962cad778d4856ae9dc574c245e3d78f90)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 5.0.7 to 5.0.9.
+* [[`e631dc1a6f`](https://github.com/webhintio/hint/commit/e631dc1a6fc291b16ffb6bc5a81ae8c6a3a870ff)] - Upgrade: Bump webpack from 4.43.0 to 4.44.0.
+* [[`ac601fe07b`](https://github.com/webhintio/hint/commit/ac601fe07baacaeff82144d321ef9960ab50cb03)] - Upgrade: Bump webpack-cli from 3.3.11 to 3.3.12.
+* [[`4d003a6164`](https://github.com/webhintio/hint/commit/4d003a61641c23d1e78092afbe80c61b480fb6f5)] - Upgrade: Bump ava from 3.8.2 to 3.10.1.
+* [[`4bee6e3f72`](https://github.com/webhintio/hint/commit/4bee6e3f72850bd68537ca28aa07eb956d644ec1)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 5.0.3 to 5.0.7.
+* [[`0d90ce6ef4`](https://github.com/webhintio/hint/commit/0d90ce6ef4e334611acbd88bc97660172563a4d0)] - Upgrade: Bump ts-loader from 7.0.5 to 8.0.0.
+* [[`d2a1d51e95`](https://github.com/webhintio/hint/commit/d2a1d51e955234ea5e5eaf57a642a26eaab52f96)] - Upgrade: Bump inquirer from 7.1.0 to 7.2.0.
+* [[`cb75b4c6b1`](https://github.com/webhintio/hint/commit/cb75b4c6b1a29b97ea296d5f14da9beddef17638)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 4.1.3 to 5.0.3.
+* [[`1a4b1971e7`](https://github.com/webhintio/hint/commit/1a4b1971e76ce8044d4a67fd00232fe93da91ed2)] - Upgrade: Bump nyc from 15.0.1 to 15.1.0.
+* [[`8d21b5aad0`](https://github.com/webhintio/hint/commit/8d21b5aad0dc86a0f236e1640bfc5d1c149eb20c)] - Upgrade: Bump ts-loader from 7.0.4 to 7.0.5.
+* [[`87761f1475`](https://github.com/webhintio/hint/commit/87761f1475d5b0e49b738c4a462d90b2df39e158)] - Upgrade: Bump @types/mkdirp from 1.0.0 to 1.0.1.
+* [[`83a7172ffb`](https://github.com/webhintio/hint/commit/83a7172ffb706dc24e1bb6590de77f09f1271f10)] - Upgrade: Bump fs-extra from 8.1.0 to 9.0.1.
+* [[`c82c935042`](https://github.com/webhintio/hint/commit/c82c93504265a12b79ac9e0cde1cbb0518442f72)] - Upgrade: Bump @types/sinon from 9.0.0 to 9.0.4.
+* [[`55bc5f597d`](https://github.com/webhintio/hint/commit/55bc5f597de09a50dd43a196f3bcfb0f066ff8ce)] - Upgrade: Bump handlebars from 4.7.3 to 4.7.6.
+
+
+# 3.0.6 (May 18, 2020)
+
+## Chores
+
+* [[`955f1096f4`](https://github.com/webhintio/hint/commit/955f1096f475f4e694e6d947c23f3c31d12e07c3)] - Upgrade: Bump ts-loader from 6.2.1 to 7.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ea08bf5acc`](https://github.com/webhintio/hint/commit/ea08bf5acc5c18f221b06ef34e6dee7813d04a70)] - Upgrade: Bump ava from 3.5.2 to 3.8.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`60ed338607`](https://github.com/webhintio/hint/commit/60ed3386070101ddd8a21356947738f650fea3ac)] - Upgrade: Bump webpack from 4.42.1 to 4.43.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a65fdf46c4`](https://github.com/webhintio/hint/commit/a65fdf46c4e9edb0c714ff0dad94e6da2f98d43b)] - Upgrade: Bump nyc from 15.0.0 to 15.0.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`bd9f407ebf`](https://github.com/webhintio/hint/commit/bd9f407ebf0f4037c06b8e5637b2d882efb580ac)] - Upgrade: Bump @types/node from 13.13.2 to 13.13.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`48b4b39eae`](https://github.com/webhintio/hint/commit/48b4b39eae240045e74b39ad7060e38c27bbf38f)] - Upgrade: Bump @types/node from 13.9.2 to 13.13.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a9ed7293bb`](https://github.com/webhintio/hint/commit/a9ed7293bb380eb73495c2adbadd1cfec997ebbe)] - Upgrade: Bump @types/sinon from 7.5.1 to 9.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`85c86a0891`](https://github.com/webhintio/hint/commit/85c86a0891c36423e5c76ca05acd5ab04e84a01c)] - Upgrade: Bump sinon from 9.0.1 to 9.0.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.0.5 (April 15, 2020)
 
 ## Chores

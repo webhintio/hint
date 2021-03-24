@@ -1,16 +1,16 @@
 {
   "dependencies": {
-    "debug": "4.1.1"
+    "debug": "4.3.1"
   },
   "description": "debug messages util",
   "devDependencies": {
     "@types/debug": "^4.1.5",
-    "eslint": "^6.8.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint": "^7.21.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^1.0.2",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "typescript": "^3.8.3"
+    "typescript": "^4.2.3"
   },
   "files": [
     "dist"
@@ -46,5 +46,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.1"
+  "version": "1.0.4"
 }

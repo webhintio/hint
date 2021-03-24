@@ -41,6 +41,10 @@ const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
     const matches = await Promise.all(bgTargets.map(async (t) => {
         const page = await t.page();
 
+        if (!page) {
+            return null;
+        }
+
         // TODO: Rename `background-script.js` to make the ID more unique.
         return await page.$('script[src="background-script.js"]');
     }));
@@ -49,7 +53,7 @@ const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
         return matches[i];
     })[0];
 
-    return await bgTarget.page();
+    return await bgTarget.page() as Page;
 };
 
 /**
@@ -67,7 +71,7 @@ const findWebhintDevtoolsPanel = async (browser: Browser): Promise<Frame> => {
         return t.type() === 'other' && t.url().startsWith('chrome-devtools://');
     })[0];
 
-    const devtoolsPage = await getPageFromTarget(devtoolsTarget);
+    const devtoolsPage = await getPageFromTarget(devtoolsTarget) as Page;
 
     await delay(500);
 
@@ -89,7 +93,7 @@ const findWebhintDevtoolsPanel = async (browser: Browser): Promise<Frame> => {
             target.url().endsWith('/panel.html');
     })[0];
 
-    const webhintPanelPage = await getPageFromTarget(webhintTarget);
+    const webhintPanelPage = await getPageFromTarget(webhintTarget) as Page;
     const webhintPanelFrame = webhintPanelPage.frames()[0];
 
     return webhintPanelFrame;
@@ -194,7 +198,7 @@ test('It runs end-to-end in a page', async (t) => {
     t.true(results.categories.some((category) => {
         return category.hints.some((hint) => {
             return hint.problems.some((problem) => {
-                return problem.message === '<html> element must have a lang attribute';
+                return problem.message.startsWith('<html> element must have a lang attribute');
             });
         });
     }), 'Missing `lang` attribute was not reported');
@@ -215,7 +219,7 @@ if (!isCI) {
                 `--disable-extensions-except=${pathToExtension}`,
                 `--load-extension=${pathToExtension}`
             ],
-            defaultViewport: null,
+            defaultViewport: undefined,
             devtools: true,
             headless: false
         });
@@ -247,7 +251,7 @@ if (!isCI) {
         t.true(results.categories.some((category) => {
             return category.hints.some((hint) => {
                 return hint.problems.some((problem) => {
-                    return problem.message === '<html> element must have a lang attribute';
+                    return problem.message.startsWith('<html> element must have a lang attribute');
                 });
             });
         }), 'Missing `lang` attribute was not reported');

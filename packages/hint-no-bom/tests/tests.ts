@@ -1,13 +1,8 @@
 import * as fs from 'fs';
 
-import * as mock from 'mock-require';
-
-import * as utils from '@hint/utils';
 import { Severity } from '@hint/utils-types';
 import { generateHTMLPage } from '@hint/utils-create-server';
 import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
-
-const { asyncTry: originalAsyncTry } = utils;
 
 const hintPath = getHintPath(__filename);
 const bom = fs.readFileSync(`${__dirname}/fixtures/bom.html`); // eslint-disable-line no-sync
@@ -37,24 +32,20 @@ const tests: HintTest[] = [
         }
     },
     {
-        after() {
-            // using `as any` because if not, asyncTry is read-only
-            (utils as any).asyncTry = originalAsyncTry;
-        },
-        before() {
-            (utils as any).asyncTry = function (fetch: (target: string) => Promise<any>) {
-                return (target: string) => {
-                    if (!target.includes('styles.css')) {
-                        return fetch(target);
-                    }
-
-                    return null;
-                };
-            };
-
-            mock('@hint/utils', utils);
-        },
         name: `If a request throws and exception, it should be managed and report an error`,
+        overrides: {
+            '@hint/utils': {
+                asyncTry(fetch: (target: string) => Promise<any>) {
+                    return (target: string) => {
+                        if (!target.includes('styles.css')) {
+                            return fetch(target);
+                        }
+
+                        return null;
+                    };
+                }
+            }
+        },
         reports: [{
             message: 'Content could not be fetched.',
             severity: Severity.error

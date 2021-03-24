@@ -178,7 +178,7 @@ test('It analyzes a page', async (t) => {
     t.true(results.categories.some((category) => {
         return category.hints.some((hint) => {
             return hint.problems.some((problem) => {
-                return problem.message === '<html> element must have a lang attribute';
+                return problem.message.startsWith('<html> element must have a lang attribute');
             });
         });
     }), 'Missing `lang` attribute was not reported');
@@ -301,7 +301,7 @@ test('It returns the right position when a base tag is present', async (t) => {
     t.true(results.categories.some((category) => {
         return category.hints.some((hint) => {
             return hint.problems.some((problem) => {
-                if (problem.message === 'Images must have alternate text') {
+                if (problem.message === 'Images must have alternate text: Element has no title attribute') {
                     return problem.location.column !== -1 && problem.location.line !== -1;
                 }
 

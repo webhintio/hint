@@ -74,7 +74,7 @@ class JSONResult implements IJSONResult {
 
         // Point to the value for array items
         /* istanbul ignore if */
-        if (path.endsWith(']')) {
+        if (path.match(/(\d|\])$/)) {
             return node.offset;
         }
 
@@ -136,6 +136,15 @@ class JSONResult implements IJSONResult {
             // Strip leading dot (.) if present (ajv bug?)
             .replace(/^\./, '')
 
+            // Strip leading / if present (ajv bug?)
+            .replace(/^\//, '')
+
+            // Replace new format to index arrays i.e. icons/0.density => icons[0].density
+            .replace(/\/(\d+)(\.|$)/, '[$1]$2')
+
+            // Replace new format to point properties. i.e. compoilerOptions/lib => compilerOptions.lib
+            .replace(/\/(\w+)/, '.$1')
+
             // Ignore trailing `]` from `foo[1]`
             .replace(/]/g, '')
 
@@ -167,5 +176,5 @@ export const parseJSON = (json: string, alternatePath?: string): IJSONResult => 
         JSON.parse(json);
     }
 
-    return new JSONResult(data, root, lines, alternatePath);
+    return new JSONResult(data, root as Node, lines, alternatePath);
 };

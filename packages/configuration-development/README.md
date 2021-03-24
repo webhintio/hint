@@ -1,17 +1,23 @@
-# webhint's development configuration (`@hint/configuration-development`)
+# webhint development configuration
 
-This packages is a `webhint` configuration package to use during
-development  and it is installed automatically by webhint:
+To examine your raw source, use `@hint/configuration-development`.
+
+> **NOTE**:  To examine development and live websites, use
+> `@hint/configuration-web-recommended`.
+
+This `webhint` configuration package is installed automatically by webhint.
+
+To install `webhint`, run the command in the following code snippet.
 
 ```bash
 npm install hint --save-dev
 ```
 
-**Note:** The recommended way of running webhint is as a `devDependency` of
-your project.
+> **NOTE**:  The recommended way of running webhint is as a `devDependency` of
+> your project.
 
-The minimum required [`.hintrc`][hintrc] file to use it is
-the following:
+Copy the following code snippet and add it to your
+[.hintrc][UserGuideConfiguringWebhintSummary] file.
 
 ```json
 {
@@ -19,7 +25,7 @@ the following:
 }
 ```
 
-and it will be as if you had this:
+The following code snippet is an expanded version of the previous code snippet.
 
 ```json
 {
@@ -46,8 +52,8 @@ and it will be as if you had this:
 }
 ```
 
-If you prefer to use another formatter (or any other hint/connector,
-etc.) you can do something like:
+The following code snippet includes another formatter \(or any other
+hint or connector, and so on\).
 
 ```json
 {
@@ -56,6 +62,6 @@ etc.) you can do something like:
 }
 ```
 
-<!-- Link labels: -->
+<!-- links -->
 
-[hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[UserGuideConfiguringWebhintSummary]: https://webhint.io/docs/user-guide/configuring-webhint/summary/ "Configure webhint | webhint"

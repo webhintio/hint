@@ -8,31 +8,28 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debug": "^1.0.1",
-    "@hint/utils-fs": "^1.0.2",
-    "@hint/utils-i18n": "^1.0.2",
-    "@hint/utils-types": "^1.0.1"
+    "@hint/utils-debug": "^1.0.4",
+    "@hint/utils-i18n": "^1.0.7",
+    "@hint/utils-types": "^1.1.2"
   },
   "description": "hint thats to check the webpack configuration.",
   "devDependencies": {
-    "@hint/parser-babel-config": "^2.1.19",
-    "@hint/parser-typescript-config": "^2.4.5",
-    "@hint/parser-webpack-config": "^2.1.18",
-    "@hint/utils-tests-helpers": "^6.1.1",
-    "@types/mock-require": "^2.0.0",
-    "@types/node": "^13.9.2",
-    "@typescript-eslint/eslint-plugin": "^1.13.0",
-    "@typescript-eslint/parser": "^1.12.0",
-    "ava": "^3.5.2",
+    "@hint/parser-babel-config": "^2.1.25",
+    "@hint/parser-typescript-config": "^2.4.11",
+    "@hint/parser-webpack-config": "^2.1.24",
+    "@hint/utils-tests-helpers": "^6.3.3",
+    "@types/node": "^14.14.31",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "ava": "^3.15.0",
     "cpx": "^1.5.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint": "^7.21.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^1.0.2",
-    "mock-require": "^3.0.3",
     "npm-run-all": "^4.1.5",
-    "nyc": "^15.0.0",
+    "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
-    "typescript": "^3.8.3"
+    "typescript": "^4.2.3"
   },
   "files": [
     "dist",
@@ -81,5 +78,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.4"
+  "version": "2.4.10"
 }

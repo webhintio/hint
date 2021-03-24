@@ -3,6 +3,7 @@
  */
 
 import { URL } from 'url';
+import * as proxyquire from 'proxyquire';
 
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 
@@ -117,6 +118,13 @@ const createConfig = (id: string, connector: string, opts?: any): Configuration 
         hints[id] = 'default';
     }
 
+    // Allow all URLs in tests (to avoid localhost being ignored).
+    if (!opts.ignoredUrls) {
+        const meta = require(id).default.meta;
+
+        opts.ignoredUrls = [{ domain: '.^', hints: [meta.id] }];
+    }
+
     const config = {
         browserslist: opts && opts.browserslist || [],
         connector: {
@@ -168,7 +176,9 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
 
     if (server.port) {
         reports.forEach((report) => {
-            report.message = report.message.replace(localhostRegex, `$1://localhost:${server.port}/`);
+            if (typeof report.message === 'string') {
+                report.message = report.message.replace(localhostRegex, `$1://localhost:${server.port}/`);
+            }
         });
     }
 
@@ -181,10 +191,14 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
          * information to the report that matches the closest.
          */
 
-        const { location, message, resource, severity } = result;
+        const { documentation, location, message, resource, severity } = result;
 
         const filteredByMessage = reportsCopy.filter((report) => {
-            return report.message === message;
+            if (typeof report.message === 'string') {
+                return report.message === message;
+            }
+
+            return report.message.test(message);
         });
 
         if (filteredByMessage.length === 0) {
@@ -193,25 +207,101 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
             return;
         }
 
-        const filteredByPosition = filteredByMessage.filter((report) => {
-            if (report.position && location) {
-                let position: ProblemLocation | undefined;
-
-                if ('match' in report.position) {
-                    position = findPosition(sources.get(resource) || '', report.position);
-                } else {
-                    position = report.position;
-                }
-
-                return position.column === location.column &&
-                    position.line === location.line &&
-                    (!('range' in report.position) || (
-                        position.endLine === location.endLine &&
-                        position.endColumn === location.endColumn));
+        const filteredByDocumentationCount = filteredByMessage.filter((report) => {
+            /*
+             * If the report from the test doesn't ask for documentation,
+             * we don't need to macth it.
+             */
+            if (!report.documentation) {
+                return true;
             }
 
-            // Not all reports in the test have a location
-            return true;
+            /*
+             * If the report from the test does ask for documentation
+             * but the result doesn't provide it, then it isn't a match.
+             */
+            if (!documentation) {
+                return false;
+            }
+
+            return report.documentation.length === documentation.length;
+        });
+
+        if (filteredByDocumentationCount.length === 0) {
+            t.fail(`No report has ${documentation?.length} documentation links`);
+
+            return;
+        }
+
+        const filteredByDocumentation = filteredByMessage.filter((report) => {
+            /*
+             * If the report from the test doesn't ask for documentation,
+             * we don't need to macth it.
+             */
+            if (!report.documentation) {
+                return true;
+            }
+
+            /*
+             * If the report from the test does ask for documentation
+             * but the result doesn't provide it, then it isn't a match.
+             */
+            if (!documentation) {
+                return false;
+            }
+
+            const every = documentation.every((docResult) => {
+                const some = report.documentation?.some((docReport) => {
+                    return docReport.link === docResult.link &&
+                        docReport.text === docResult.text;
+                });
+
+                return some;
+            });
+
+            return every;
+        });
+
+        if (filteredByDocumentation.length === 0) {
+            const failStringArray = result.documentation?.map((doc) => {
+                return `No reports match documentation "${doc.text}" with link "${doc.link}"`;
+            });
+
+            t.fail(failStringArray?.join('\n'));
+
+            return;
+        }
+
+        const filteredByPosition = filteredByDocumentation.filter((report) => {
+            /*
+             * If the report from the test doesn't ask for position,
+             * we don't need to macth it.
+             */
+            if (!report.position) {
+                return true;
+            }
+
+            /*
+             * If the report from the test does ask for location
+             * but the result doesn't provide it, then it isn't a match.
+             */
+            if (!location) {
+                return false;
+            }
+
+            let position: ProblemLocation | undefined;
+
+            if ('match' in report.position) {
+                position = findPosition(sources.get(resource) || '', report.position);
+            } else {
+                position = report.position;
+            }
+
+            return position.column === location.column &&
+                position.line === location.line &&
+                (!('range' in report.position) || (
+                    position.endLine === location.endLine &&
+                    position.endColumn === location.endColumn));
         });
 
         // Check error location
@@ -285,6 +375,11 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
 
         const config = createConfig(hintId, connector, configs);
         const resources = resourceLoader.loadResources(config);
+
+        if (hintTest.overrides) {
+            resources.hints = [proxyquire(hintId, hintTest.overrides).default];
+        }
+
         const engine: Engine = new Engine(config, resources);
 
         return engine;
@@ -409,6 +504,11 @@ export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], config
 
             const hintConfig = createConfig(hintId, connector, configs);
             const resources = resourceLoader.loadResources(hintConfig);
+
+            if (hintTest.overrides) {
+                resources.hints = [proxyquire(hintId, hintTest.overrides).default];
+            }
+
             const engine = new Engine(hintConfig, resources);
 
             // Can assume `getAsUri(hintTest.path)` is not `null` since these are controlled test inputs.

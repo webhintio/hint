@@ -8,15 +8,15 @@ const generateMegaViewport = (content: string = 'WiDTh = deVicE-Width, IniTial-S
     return `<mEtA   NaMe="ViEwPort" cOnTenT="${content}">`;
 };
 
-const deviceWidthErrorMessage = `'viewport' meta element 'content' attribute value should contain 'width=device-width'.`;
-const disallowedPropertyErrorMessage = `'viewport' meta element 'content' attribute value should not contain disallowed property 'user-scalable'.`;
-const emptyContentErrorMessage = `'viewport' meta element should have non-empty 'content' attribute.`;
-const initialScaleErrorMessage = `'viewport' meta element 'content' attribute value should contain 'initial-scale=1'.`;
-const invalidPropertyErrorMessage = `'viewport' meta element 'content' attribute value should not contain invalid value 'x' for property 'height'.`;
-const metaElementNotInHeadErrorMessage = `'viewport' meta element should be specified in the '<head>', not '<body>'.`;
-const metaElementNotNeededErrorMessage = `'viewport' meta element is not needed as one was already specified.`;
-const metaElementNotSpecifiedErrorMessage = `'viewport' meta element was not specified.`;
-const unknownPropertyErrorMessage = `'viewport' meta element 'content' attribute value should not contain unknown property 'x'.`;
+const deviceWidthErrorMessage = `The 'viewport' meta element 'content' attribute value should contain 'width=device-width'.`;
+const disallowedPropertyErrorMessage = `The 'viewport' meta element 'content' attribute value should not contain 'user-scalable'.`;
+const emptyContentErrorMessage = `The 'viewport' meta element should have a non-empty 'content' attribute.`;
+const initialScaleErrorMessage = `The 'viewport' meta element 'content' attribute value should contain 'initial-scale=1'.`;
+const invalidPropertyErrorMessage = `The 'viewport' meta element 'content' attribute value should contain a valid value for 'height'.`;
+const metaElementNotInHeadErrorMessage = `The 'viewport' meta element should be specified in the '<head>', not '<body>'.`;
+const metaElementNotNeededErrorMessage = `A 'viewport' meta element is not needed as one was already specified.`;
+const metaElementNotSpecifiedErrorMessage = `A 'viewport' meta element was not specified.`;
+const unknownPropertyErrorMessage = `The 'viewport' meta element 'content' attribute value should not contain unknown property 'x'.`;
 
 const testsForDefaults: HintTest[] = [
     {

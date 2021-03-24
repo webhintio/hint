@@ -9,7 +9,11 @@
  * ------------------------------------------------------------------------------
  */
 
-import { ucs2 } from 'punycode';
+/*
+ * Importing `punycode/punycode` to avoid issues in webpack
+ * where it uses another version that doesn't have the property ucs2.
+ */
+import { ucs2 } from 'punycode/punycode';
 
 import { IHint } from 'hint/dist/src/lib/types';
 import { JSONLocationFunction } from '@hint/utils-json';

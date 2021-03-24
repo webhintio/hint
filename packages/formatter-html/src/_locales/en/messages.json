@@ -31,6 +31,10 @@
         "description": "Text for the expand all button",
         "message": "expand all"
     },
+    "furtherReading": {
+        "description": "Header for further reading in hints with external documentation",
+        "message": "Further Reading"
+    },
     "gatheringResults": {
         "description": "Text to show when the category is waiting for results",
         "message": "Gathering results"

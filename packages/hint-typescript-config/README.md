@@ -50,10 +50,10 @@ your project.
 
 <!-- Link labels: -->
 
-[import-helpers]: ./docs/import-helpers.md
-[is-valid]: ./docs/is-valid.md
-[no-comments]: ./docs/no-comments.md
+[import-helpers]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-typescript-config/docs/import-helpers.md
+[is-valid]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-typescript-config/docs/is-valid.md
+[no-comments]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-typescript-config/docs/no-comments.md
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
-[strict]: ./docs/strict.md
-[target]: ./docs/target.md
+[strict]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-typescript-config/docs/strict.md
+[target]: https://github.com/webhintio/hint/blob/HEAD/packages/hint-typescript-config/docs/target.md
 [typescript docs]: https://www.typescriptlang.org/docs/home.html

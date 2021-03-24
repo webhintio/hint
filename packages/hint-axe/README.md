@@ -47,7 +47,6 @@ that group and more information about each rule.
 * [Keyboard (axe/keyboard)][axe/keyboard]
 * [Language (axe/language)][axe/language]
 * [Name Role Value (axe/name-role-value)][axe/name-role-value]
-* [Other (axe/other)][axe/other]
 * [Parsing (axe/parsing)][axe/parsing]
 * [Semantics (axe/semantics)][axe/semantics]
 * [Sensory and Visual Cues (axe/sensory-and-visual-cues)][axe/sensory-and-visual-cues]
@@ -175,18 +174,17 @@ your project.
 [wai]: https://www.w3.org/WAI/intro/accessibility.php
 [wcag 2.1]: https://www.w3.org/TR/WCAG21/
 <!-- start hint links -->
-[axe/aria]: ./docs/aria.md
-[axe/color]: ./docs/color.md
-[axe/forms]: ./docs/forms.md
-[axe/keyboard]: ./docs/keyboard.md
-[axe/language]: ./docs/language.md
-[axe/name-role-value]: ./docs/name-role-value.md
-[axe/other]: ./docs/other.md
-[axe/parsing]: ./docs/parsing.md
-[axe/semantics]: ./docs/semantics.md
-[axe/sensory-and-visual-cues]: ./docs/sensory-and-visual-cues.md
-[axe/structure]: ./docs/structure.md
-[axe/tables]: ./docs/tables.md
-[axe/text-alternatives]: ./docs/text-alternatives.md
-[axe/time-and-media]: ./docs/time-and-media.md
+[axe/aria]: https://webhint.io/docs/user-guide/hints/hint-axe/aria/
+[axe/color]: https://webhint.io/docs/user-guide/hints/hint-axe/color/
+[axe/forms]: https://webhint.io/docs/user-guide/hints/hint-axe/forms/
+[axe/keyboard]: https://webhint.io/docs/user-guide/hints/hint-axe/keyboard/
+[axe/language]: https://webhint.io/docs/user-guide/hints/hint-axe/language/
+[axe/name-role-value]: https://webhint.io/docs/user-guide/hints/hint-axe/name-role-value/
+[axe/parsing]: https://webhint.io/docs/user-guide/hints/hint-axe/parsing/
+[axe/semantics]: https://webhint.io/docs/user-guide/hints/hint-axe/semantics/
+[axe/sensory-and-visual-cues]: https://webhint.io/docs/user-guide/hints/hint-axe/sensory-and-visual-cues/
+[axe/structure]: https://webhint.io/docs/user-guide/hints/hint-axe/structure/
+[axe/tables]: https://webhint.io/docs/user-guide/hints/hint-axe/tables/
+[axe/text-alternatives]: https://webhint.io/docs/user-guide/hints/hint-axe/text-alternatives/
+[axe/time-and-media]: https://webhint.io/docs/user-guide/hints/hint-axe/time-and-media/
 <!-- end hint links -->

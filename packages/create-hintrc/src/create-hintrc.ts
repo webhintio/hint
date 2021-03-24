@@ -77,7 +77,7 @@ const extendConfig = async (): Promise<InitUserConfig | null> => {
         return config.name !== 'all';
     });
 
-    const questions: inquirer.Questions = [{
+    const questions: inquirer.QuestionCollection = [{
         choices,
         message: 'Choose the configuration you want to extend from',
         name: 'configuration',
@@ -96,10 +96,10 @@ const extendConfig = async (): Promise<InitUserConfig | null> => {
 
 /** Prompts a series of questions to create a new configuration object based on the installed packages. */
 const customConfig = async (): Promise<InitUserConfig | null> => {
-    const connectorKeys: inquirer.ChoiceType<string>[] = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
-    const formattersKeys: inquirer.ChoiceType<string>[] = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
-    const parsersKeys: inquirer.ChoiceType<string>[] = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
-    const hintsKeys: inquirer.ChoiceType<string>[] = getInstalledResources(ResourceType.hint).concat(getCoreResources(ResourceType.hint));
+    const connectorKeys = getInstalledResources(ResourceType.connector).concat(getCoreResources(ResourceType.connector));
+    const formattersKeys = getInstalledResources(ResourceType.formatter).concat(getCoreResources(ResourceType.formatter));
+    const parsersKeys = getInstalledResources(ResourceType.parser).concat(getCoreResources(ResourceType.parser));
+    const hintsKeys = getInstalledResources(ResourceType.hint).concat(getCoreResources(ResourceType.hint));
 
     if (!anyResources(connectorKeys, ResourceType.connector) ||
         !anyResources(formattersKeys, ResourceType.formatter) ||
@@ -108,7 +108,7 @@ const customConfig = async (): Promise<InitUserConfig | null> => {
         return null;
     }
 
-    const customQuestions: inquirer.Question[] = [
+    const customQuestions: inquirer.DistinctQuestion[] = [
         {
             choices: connectorKeys,
             message: 'What connector do you want to use?',
@@ -184,7 +184,7 @@ export default async (): Promise<boolean> => {
 
     logger.log('Welcome to hint configuration generator');
 
-    const initialQuestion: inquirer.Questions = [{
+    const initialQuestion: inquirer.QuestionCollection = [{
         choices: ['predefined', 'custom'],
         default: 'predefined',
         message: 'Do you want to use a predefined configuration or create your own based on your installed packages?',

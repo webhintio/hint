@@ -34,7 +34,7 @@ const defaultTests = [
     {
         name: 'Target with long max-age fails',
         reports: [{
-            message: 'The target should not be cached, or have a small "max-age" value (180):\nmax-age=500',
+            message: `The target should not be cached or have a 'cache-control' header with 'max-age=180' or less.`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -64,7 +64,7 @@ const defaultTests = [
     {
         name: 'Asset with no "Cache-Control" header fails',
         reports: [{
-            message: `No "cache-control" header or empty value found. It should have a value`,
+            message: `A 'cache-control' header is missing or empty.`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -82,7 +82,7 @@ const defaultTests = [
     {
         name: `Asset with "Cache-Control: " header fails`,
         reports: [{
-            message: `No "cache-control" header or empty value found. It should have a value`,
+            message: `A 'cache-control' header is missing or empty.`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -100,7 +100,7 @@ const defaultTests = [
     {
         name: `Asset with "Cache-Control: invalid-directive" header fails`,
         reports: [{
-            message: `The directive invalid-directive is invalid`,
+            message: `A 'cache-control' header contains invalid directives: 'invalid-directive'`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -118,7 +118,7 @@ const defaultTests = [
     {
         name: `Asset with "Cache-Control: max-age=abcd" header fails`,
         reports: [{
-            message: `The following directive has an invalid value:\nmax-age=abcd`,
+            message: `A 'cache-control' header contains directives with invalid values: 'max-age=abcd', 'expires=abcd'`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -129,14 +129,14 @@ const defaultTests = [
             },
             '/styles.123.css': {
                 content: '',
-                headers: { 'Cache-Control': 'max-age=abcd' }
+                headers: { 'Cache-Control': 'max-age=abcd, expires=abcd' }
             }
         }
     },
     {
         name: `Asset with "Cache-Control: no-cache=10" header fails`,
         reports: [{
-            message: `The following directive has an invalid value:\nno-cache=10`,
+            message: `A 'cache-control' header contains directives with invalid values: 'no-cache=10'`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -154,7 +154,7 @@ const defaultTests = [
     {
         name: `Asset with "Cache-Control: no-cache, max-age=10" header fails`,
         reports: [{
-            message: `The following Cache-Control header is using a wrong combination of directives:\nno-cache, max-age=10`,
+            message: `The 'cache-control' header should not contain 'max-age' or 's-maxage' when 'no-cache' or 'no-store' is specified.`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -172,7 +172,7 @@ const defaultTests = [
     {
         name: `Asset with "Cache-Control: no-cache, s-maxage=10" header fails`,
         reports: [{
-            message: `The following Cache-Control header is using a wrong combination of directives:\nno-cache, s-maxage=10`,
+            message: `The 'cache-control' header should not contain 'max-age' or 's-maxage' when 'no-cache' or 'no-store' is specified.`,
             severity: Severity.error
         }],
         serverConfig: {
@@ -190,7 +190,7 @@ const defaultTests = [
     {
         name: `Asset with "Cache-Control: must-revalidate, max-age=10" header fails`,
         reports: [{
-            message: `The directive "must-revalidate" is not recommended`,
+            message: `A 'cache-control' header contains directives which are not recommended: 'must-revalidate'`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -208,7 +208,7 @@ const defaultTests = [
     {
         name: `Asset with "Cache-Control: max-age=31536000," header fails with warning for missing "immutable" directive if cache busting`,
         reports: [{
-            message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000',
+            message: `Static resources should use a 'cache-control' header with the 'immutable' directive.`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -223,11 +223,11 @@ const defaultTests = [
         name: 'JS with "Cache-Control: no-cache" fails with warning if cache busting',
         reports: [
             {
-                message: 'Static resources should have a long cache value (31536000):\nDirectives used: no-cache',
+                message: `Static resources should use a 'cache-control' header with 'max-age=31536000' or more.`,
                 severity: Severity.warning
             },
             {
-                message: 'Static resources should use the "immutable" directive:\nDirectives used: no-cache',
+                message: `Static resources should use a 'cache-control' header with the 'immutable' directive.`,
                 severity: Severity.warning
             }],
         serverConfig: {
@@ -246,11 +246,11 @@ const defaultTests = [
         name: 'JS with short max-age fails',
         reports: [
             {
-                message: 'Static resources should have a long cache value (31536000):\nDirectives used: max-age=100',
+                message: `Static resources should use a 'cache-control' header with 'max-age=31536000' or more.`,
                 severity: Severity.warning
             },
             {
-                message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=100',
+                message: `Static resources should use a 'cache-control' header with the 'immutable' directive.`,
                 severity: Severity.warning
             }],
         serverConfig: {
@@ -269,15 +269,15 @@ const defaultTests = [
         name: 'JS with short max-age fails with hints if no cache busting',
         reports: [
             {
-                message: 'Static resources should have a long cache value (31536000):\nDirectives used: max-age=100',
+                message: `Static resources should use a 'cache-control' header with 'max-age=31536000' or more.`,
                 severity: Severity.hint
             },
             {
-                message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=100',
+                message: `Static resources should use a 'cache-control' header with the 'immutable' directive.`,
                 severity: Severity.hint
             },
             {
-                message: 'No configured patterns for cache busting match http://localhost/script.js. See docs to add a custom one.',
+                message: 'Resource should use cache busting but URL does not match configured patterns.',
                 severity: Severity.warning
             }
         ],
@@ -296,7 +296,7 @@ const defaultTests = [
     {
         name: 'JS with long max-age but no immutable fails',
         reports: [{
-            message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000',
+            message: `Static resources should use a 'cache-control' header with the 'immutable' directive.`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -314,7 +314,7 @@ const defaultTests = [
     {
         name: 'JS with long max-age, immutable and no file revving fails',
         reports: [{
-            message: 'No configured patterns for cache busting match http://localhost/script.js. See docs to add a custom one.',
+            message: 'Resource should use cache busting but URL does not match configured patterns.',
             severity: Severity.warning
         }],
         serverConfig: {
@@ -444,7 +444,7 @@ const defaultTests = [
     {
         name: 'JS with long max-age, immutable and parameter file revving fails',
         reports: [{
-            message: 'No configured patterns for cache busting match http://localhost/script.js?v=123. See docs to add a custom one.',
+            message: 'Resource should use cache busting but URL does not match configured patterns.',
             severity: Severity.warning
         }],
         serverConfig: {
@@ -463,7 +463,7 @@ const defaultTests = [
     {
         name: 'CSS with max-age but no immutable fails',
         reports: [{
-            message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000',
+            message: `Static resources should use a 'cache-control' header with the 'immutable' directive.`,
             severity: Severity.warning
         }],
         serverConfig: {
@@ -481,7 +481,7 @@ const defaultTests = [
     {
         name: 'CSS with long max-age, immutable and no file revving fails',
         reports: [{
-            message: 'No configured patterns for cache busting match http://localhost/styles.css. See docs to add a custom one.',
+            message: 'Resource should use cache busting but URL does not match configured patterns.',
             severity: Severity.warning
         }],
         serverConfig: {
@@ -513,7 +513,7 @@ const defaultTests = [
     {
         name: 'CSS with long max-age, immutable and parameter file revving fails',
         reports: [{
-            message: 'No configured patterns for cache busting match http://localhost/styles.css?v=123. See docs to add a custom one.',
+            message: 'Resource should use cache busting but URL does not match configured patterns.',
             severity: Severity.warning
         }],
         serverConfig: {
@@ -534,7 +534,7 @@ const customRegexTests = [
     {
         name: 'JS with long max-age, immutable and file revving fails custom regex',
         reports: [{
-            message: 'No configured patterns for cache busting match http://localhost/script.123.js. See docs to add a custom one.',
+            message: 'Resource should use cache busting but URL does not match configured patterns.',
             severity: Severity.warning
         }],
         serverConfig: {
@@ -568,7 +568,7 @@ const customBrowsersListTests = [
     {
         name: 'JS with long max-age and no immutable fails with Hint when targetting chrome only',
         reports: [{
-            message: 'Static resources should use the "immutable" directive:\nDirectives used: max-age=31536000',
+            message: `Static resources should use a 'cache-control' header with the 'immutable' directive.`,
             severity: Severity.hint
         }],
         serverConfig: {

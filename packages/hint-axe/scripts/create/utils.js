@@ -56,6 +56,7 @@ const isRuleEnabled = (rule) => {
 
 /**
  * @param {string} packagePath
+ * @returns {Promise<void>}
  */
 const mkdir = (packagePath) => {
     const dirname = path.resolve(`${__dirname}/../../${packagePath}`);
@@ -93,6 +94,7 @@ const readFile = (packagePath) => {
 /**
  * @param {string} packagePath
  * @param {string} content
+ * @returns {Promise<void>}
  */
 const writeFile = (packagePath, content) => {
     const filename = path.resolve(`${__dirname}/../../${packagePath}`);

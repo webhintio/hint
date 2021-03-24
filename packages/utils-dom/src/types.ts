@@ -15,7 +15,6 @@ export interface INamedNodeMap {
 }
 
 export type ChildData = CommentData | DoctypeData | DocumentFragmentData | ElementData | TextData;
-export type NodeData = DocumentData | ChildData;
 export type ParentData = DocumentData | DocumentFragmentData | ElementData;
 
 type BaseData = {
@@ -50,6 +49,8 @@ export type DocumentData = {
     type: 'root';
     'x-mode': 'no-quirks' | 'quirks' | 'limited-quirks';
 };
+
+export type NodeData = DocumentData | ChildData;
 
 export type DocumentFragmentData = BaseData & {
     children: ChildData[];

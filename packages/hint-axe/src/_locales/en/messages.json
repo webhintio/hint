@@ -43,6 +43,10 @@
         "description": "Metadata name",
         "message": "Language"
     },
+    "learnMore": {
+        "description": "aXe documentation link text",
+        "message": "Learn more about this axe rule at Deque University"
+    },
     "nameRoleValue_description": {
         "description": "Metadata description",
         "message": "Rules from axe category 'name-role-value'"
