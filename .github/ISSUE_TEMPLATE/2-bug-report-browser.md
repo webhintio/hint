@@ -2,8 +2,11 @@
 name: "\U0001F41EBug report (browser extension)"
 about: Report a bug in the webhint browser extension
 title: "[Bug] Bug description"
-labels: "area:browser-extension, type:bug"
+labels: area:browser-extension, type:bug
+assignees: ''
+
 ---
+
 <!--
 
 Hi there 👋

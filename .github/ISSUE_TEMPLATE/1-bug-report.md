@@ -2,8 +2,11 @@
 name: "\U0001F41EBug report"
 about: Report a bug in webhint
 title: "[Bug] Bug description"
-labels: "type:bug"
+labels: type:bug
+assignees: ''
+
 ---
+
 <!--
 
 Hi there 👋
