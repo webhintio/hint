@@ -1,9 +1,12 @@
 ---
-name: "📚 Docs issue"
+name: "\U0001F4DA Docs issue"
 about: Report an issue in webhint's documentation
 title: "[Docs Bug] Bug description"
-labels: "area:documentation, type:bug"
+labels: area:documentation, type:bug
+assignees: ''
+
 ---
+
 <!--
 
 Hi there 👋
