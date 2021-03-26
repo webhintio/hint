@@ -66,7 +66,7 @@ The friendly names and ids for each one are as follows:
 | Chrome Android | and_chr    | chrome_android |
 | Edge         | edge         | edge |
 | Firefox      | ff           | firefox |
-| Firefox Android | and_ff    | firefox_android |
+| Firefox for Android | and_ff    | firefox_android |
 | Internet Explorer | ie      | ie |
 | Opera        | opera        | opera |
 | Opera Android | op_mobile   | opera_android |
@@ -87,7 +87,7 @@ Get the friendly name of a browser from an id.
 ```js
 import { getFriendlyName } from '@hint/utils-compat-data';
 
-console.log(getFriendlyName('and_ff')); // "Firefox Android"
+console.log(getFriendlyName('and_ff')); // "Firefox for Android"
 console.log(getFriendlyName('ie')); // "Internet Explorer"
 ```
 
