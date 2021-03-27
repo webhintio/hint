@@ -46,7 +46,7 @@
     "@hint/utils-dom": "^2.1.5",
     "@hint/utils-i18n": "^1.0.7",
     "@hint/utils-types": "^1.1.2",
-    "@types/node": "^14.14.31",
+    "@types/node": "^14.14.37",
     "@types/puppeteer": "^5.4.3",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.18.0",
