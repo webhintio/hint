@@ -591,10 +591,10 @@
     "@types/estree" "*"
     "@types/json-schema" "*"
 
-"@types/estree-jsx@^0.0.0":
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/@types/estree-jsx/-/estree-jsx-0.0.0.tgz#41447d0019a12dd43986cd23ca1b10f9a350a178"
-  integrity sha512-qbF1vq7M/ACuNkA3fbLJY0o+O+Yy4TPICtu6bUfX1IBdSOxBDms9zAdbhSfYuHTmWLakWg5zOJ64JrJae1ksdg==
+"@types/estree-jsx@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@types/estree-jsx/-/estree-jsx-0.0.1.tgz#c36d7a1afeb47a95a8ee0b7bc8bc705db38f919d"
+  integrity sha512-gcLAYiMfQklDCPjQegGn0TBAn9it05ISEsEhlKQUddIk7o2XDokOcTN7HBO8tznM0D9dGezvHEfRZBfZf6me0A==
   dependencies:
     "@types/estree" "*"
 
