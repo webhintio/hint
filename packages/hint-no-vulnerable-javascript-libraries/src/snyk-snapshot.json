@@ -4760,7 +4760,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<=1.16.3"
+            "<=1.16.4"
           ]
         },
         "severity": "medium",
@@ -4955,7 +4955,11 @@
         "disclosureTime": "2018-09-06T17:48:41Z",
         "exploit": "Not Defined",
         "fixedIn": [
-          "1.14"
+          "1.14.0",
+          "1.13.1",
+          "1.12.4",
+          "1.11.6",
+          "1.10.10"
         ],
         "functions": [],
         "functions_new": [],
@@ -4969,7 +4973,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:36:25.455396Z",
+        "modificationTime": "2021-03-22T17:01:18.212926Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -4991,7 +4995,11 @@
         ],
         "semver": {
           "vulnerable": [
-            "<1.14"
+            ">=1.14.0-pre <1.14.0",
+            ">=1.13.0 <1.13.1",
+            ">=1.12.1 <1.12.4",
+            ">=1.11.0-rc1 <1.11.6",
+            "<1.10.10"
           ]
         },
         "severity": "medium",
