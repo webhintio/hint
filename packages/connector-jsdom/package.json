@@ -22,7 +22,7 @@
   "devDependencies": {
     "@hint/parser-html": "^3.0.19",
     "@hint/utils-create-server": "^3.4.9",
-    "@types/jsdom": "^16.2.7",
+    "@types/jsdom": "^16.2.8",
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.31",
     "@types/sinon": "^9.0.10",
