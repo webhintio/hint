@@ -13,7 +13,7 @@
     "mdn-data": "^2.0.17",
     "postcss-selector-parser": "^6.0.4",
     "postcss-value-parser": "^4.1.0",
-    "semver": "^7.3.4"
+    "semver": "^7.3.5"
   },
   "description": "hint tools",
   "devDependencies": {
