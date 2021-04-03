@@ -244,10 +244,10 @@
   dependencies:
     extend "3.0.2"
 
-"@mdn/browser-compat-data@^3.2.2":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-3.2.2.tgz#0d4ca55e796d96a4d15935b8e51535ced5380573"
-  integrity sha512-W+f7ZugkxsB2xvRLb283m/weDx58yatbJTDRS8FAO9kR7igrQsZeTFaUoYogw36ywzwuOSnY6vKPFHbF6Xhd5A==
+"@mdn/browser-compat-data@^3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-3.2.3.tgz#0fb51d3363b531fd74ae68b00fe5c0f3025087a6"
+  integrity sha512-1vlKnnYAgIF5WbWpwBWSsT991ppuJrP6gdpu2RHjG24Vntx1w5c8yXpvtHuHW6RbnKVgwdGz33kpjAU0pDzIxw==
   dependencies:
     extend "3.0.2"
 
