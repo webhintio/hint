@@ -30,7 +30,8 @@ and it wasn’t served with one of the [JavaScript media types][javascript
 media types], the script will be blocked.
 
 While [modern browsers respect the header mainly for scripts and
-stylesheets][fetch spec blocking], [Chromium uses this response header on
+stylesheets][fetch spec blocking], [Chromium uses this response header on![0](https://user-images.githubusercontent.com/78496768/113517763-4e7c7b00-9582-11eb-9b31-161cdab94222.png)
+
 other resources][chromium ssca] for
 [Cross-Origin Read Blocking][chromium corb].
 
