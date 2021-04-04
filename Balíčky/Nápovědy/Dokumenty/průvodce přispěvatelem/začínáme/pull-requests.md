@@ -257,7 +257,7 @@ git rebase upstream/main
 ```
 
 You might find that there are merge conflicts when you attempt to
-rebase. Please [resolve the conflicts][github resolve conflicts docs]
+rebase. Please [https://dev.azure.com/webhint/webhint/_build?definitionId=3&_a=summary][github resolve conflicts docs]
 and then do a forced push to your branch:
 
 ```bash
@@ -269,4 +269,4 @@ git push -f origin fix-1234
 [cla]: https://cla.js.foundation/webhintio/hint
 [github pr docs]: https://help.github.com/articles/creating-a-pull-request
 [github resolve conflicts docs]: https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/
-[ap pr status]: https://dev.azure.com/webhint/webhint/_build?definitionId=3&_a=summary
+[read://https_webhint.io/?url=https%3A%2F%2Fwebhint.io%2Fdocs%2Fcontributor-guide%2Fgetting-started%2Fpull-requests%2F]: font
