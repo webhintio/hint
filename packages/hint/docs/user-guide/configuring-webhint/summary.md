@@ -21,11 +21,14 @@ hint configuration properties, which are defined in the following table.
 |:--- |:--- |
 | `connector` | How to access the resources. |
 | `formatters` | How to output the results. Multiple instances may exist. |
-| `parsers` | How to handle special files such as stylesheets, JavaScript, manifest, and so on.  Multiple instances may exist. |
-| `hints` | What to test for and the [severity][UserGuideConceptsHintsHintConfiguration] it should have. Multiple instances may exist. |
+| `parsers` | How to handle special files such as stylesheets, JavaScript,
+manifest, and so on.  Multiple instances may exist. |
+| `hints` | What to test for and the
+[severity][UserGuideConceptsHintsHintConfiguration] it should have. Multiple
+instances may exist. |
 
 For additional information about `severity` and hint configurations, go to
-[Hint configuration][UserGuideConceptsHintsHintConfiguration].
+[Hint configuration[UserGuideConceptsHintsHintConfiguration].
 
 ## Create a .hintrc file
 
@@ -138,7 +141,7 @@ directly to a `.hintrc` file.
 }
 ```
 
-> **NOTE**: If a key already exists in the `.hintrc` file, the key in the
+> [!IMPORTANT] If a key already exists in the `.hintrc` file, the key in the
 > .hintrc file is used and the environmental variable is ignored.
 
 <!-- links -->

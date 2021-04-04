@@ -1,3 +1,6 @@
+---
+date: 08/27/2020
+---
 # Documentation overview
 
 You should be familiar with the command-line tools on your machine,

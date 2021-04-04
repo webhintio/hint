@@ -1,11 +1,11 @@
 # Troubleshoot webhint installation and runtime issues
 
 This topic contains the most common issues reported by users along with
-potential fixes. If you encounter an undocumented error, please [open an
+potential fixes.  If you encounter an undocumented error, please [open an
 issue][GitHubWebhintioHintNew] on GitHub.
 
 > **NOTE**: `webhint` is supported on the most recent LTS and Current version
-> of Node.js. You should use the x64 version of webhint.
+> of Node.js.  You should use the x64 version of webhint.
 
 ## Windows Subsystem Linux
 

@@ -11,7 +11,7 @@ shell. For more information about `bash`, go to
 [Bash Guide for Beginners][TldpLdpBashBeginnersGuide].
 
 To verify that you have Node.js (version 10 or later) and `npm` installed, open
-a `bash` command-line interface and run the following command:
+a `bash`command-line interface and run the following command:
 
 ```bash
 node -v && npm -v
@@ -27,12 +27,6 @@ best practices that may be applied to your site, complete the following steps.
 
    ```bash
    npx hint https://example.com
-   ```
-
-   or
-
-   ```bash
-   npx hint ./path/to/my.html
    ```
 
 1. After the `webhint` process completes, a summary is presented in the bash
@@ -81,11 +75,11 @@ update your `package.json` file.
    npm install hint --save-dev
    ```
 
-   You have also use `i` in place of `install` and `-D` in place of
+   You have also use `-i` in place of `install` and `-D` in place of
    `--save-dev`.
 
    ```bash
-   npm i -D hint
+   npm -i -D hint
    ```
 
 1. After you install the `devDependency`, copy the script task in the

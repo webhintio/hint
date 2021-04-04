@@ -1,8 +1,8 @@
 # Hints
 
-A hint is a test that your website needs to pass. `webhint` includes several
+A hint is a test that your website needs to pass.  `webhint` includes several
 [built-in hints][HintsIndex], but you may create your own or download more
-hints from `npm`. For more information about how to create hints, go to the
+hints from `npm`.  For more information about how to create hints, go to the
 [contributor guide][ContributorGuideHowToHint].
 
 ## Installing hints
@@ -74,17 +74,26 @@ perform the following steps.
 ## Hint configuration
 
 When you run `webhint` from the command-line interface, you are always in
-control and you decide which hints are relevant to your use-case. You also
+control and you decide which hints are relevant to your use-case.  You also
 specify what `severity` a hint should have. The following table describes the
 allowed `severity` ratings.
 
 | `Severity` value | Details |
 |:--- |:--- |
-| `off` | The `hint` is not run. The same as deleting the `hint` from the `.hintrc`. |
-| `error` | If the `hint` finds a major issue that affects one or more targeted browsers. The specified content is broken and you should fix immediately. |
-| `warning` | If the `hint` finds an issue. The specified content is a problem that you should investigate and fix. The issue may not cause problems in practice. |
-| `hint` | If the `hint` finds a minor issue, such as something to fix. The specified content should be tracked and may cause problems in the future. The issue does not cause problems, but may become a `warning` in the future. |
-| `information` | The `hint` provides information. The specified content is highlighted since it is relevant to you.  The information may help identify parts of a feature or provide instances of a feature for tracking. |
+| `off` | The `hint` is not run. The same as deleting the `hint` from the
+`.hintrc`. |
+| `error` | If the `hint` finds a major issue that affects one or more
+targeted browsers. The specified content is broken and you should fix
+immediately. |
+| `warning` | If the `hint` finds an issue. The specified content is a problem
+that you should investigate and fix.  The issue may not cause problems in
+practice. |
+| `hint` | If the `hint` finds a minor issue, such as something to fix. The
+specified content should be tracked and may cause problems in the future. The
+issue does not cause problems, but may become a `warning` in the future. |
+| `information` | The `hint` provides information. The specified content is
+highlighted since it is relevant to you.  The information may help identify
+parts of a feature or provide instances of a feature for tracking. |
 
 You may configure hints using either the array or object syntax.
 
@@ -125,7 +134,7 @@ severity to `off` using the short-hand character.
 }
 ```
 
-Some hints enable further customization. The configuration with further
+Some hints enable further customization.  The configuration with further
 customization should be similar to the following code snippets.
 
 ```json
