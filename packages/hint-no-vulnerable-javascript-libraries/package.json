@@ -30,7 +30,7 @@
     "cpx": "^1.5.0",
     "eslint": "^7.23.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-markdown": "^1.0.2",
+    "eslint-plugin-markdown": "^2.0.1",
     "jquery": "2.1.4",
     "knockout": "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz",
     "moment": "^2.29.1",

@@ -71,7 +71,7 @@
     "css-loader": "^5.2.4",
     "eslint": "^7.23.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-markdown": "^1.0.2",
+    "eslint-plugin-markdown": "^2.0.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "focus-visible": "^5.2.0",
     "glob": "^7.1.6",
