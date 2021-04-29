@@ -1,0 +1,46 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "04:00"
+    timezone: America/Los_Angeles
+  open-pull-requests-limit: 99
+  ignore:
+  - dependency-name: angular
+    versions:
+    - ">= 0"
+  - dependency-name: jquery
+    versions:
+    - ">= 0"
+  - dependency-name: mime-db
+    versions:
+    - "^1.35.0"
+  - dependency-name: puppeteer
+    versions:
+    - 5.5.0
+    - 7.0.1
+    - 8.0.0
+  - dependency-name: ajv
+    versions:
+    - 7.0.3
+    - 7.0.4
+    - 7.1.0
+    - 7.1.1
+  - dependency-name: puppeteer-core
+    versions:
+    - 8.0.0
+  - dependency-name: eslint-plugin-markdown
+    versions:
+    - 2.0.0
+  - dependency-name: "@typescript-eslint/typescript-estree"
+    versions:
+    - 4.18.0
+  - dependency-name: postcss
+    versions:
+    - 8.2.7
+  - dependency-name: "@types/parse5-htmlparser2-tree-adapter"
+    versions:
+    - 6.0.0
