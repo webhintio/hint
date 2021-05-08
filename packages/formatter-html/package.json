@@ -15,7 +15,7 @@
     "@hint/utils-i18n": "^1.0.7",
     "@hint/utils-types": "^1.1.2",
     "ejs": "^3.1.6",
-    "fs-extra": "^9.1.0",
+    "fs-extra": "^10.0.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
