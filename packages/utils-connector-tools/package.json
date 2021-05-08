@@ -20,7 +20,7 @@
   "description": "hint tools for connectors",
   "devDependencies": {
     "@hint/utils-create-server": "^3.4.9",
-    "@types/node": "^14.14.37",
+    "@types/node": "^15.0.2",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.1",
     "ava": "^3.15.0",
