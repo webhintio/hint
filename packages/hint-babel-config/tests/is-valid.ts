@@ -14,7 +14,7 @@ const tests: HintLocalTest[] = [
         name: `Invalid .babelrc configuration should fail`,
         path: path.join(__dirname, 'fixtures', 'invalid-schema', '.babelrc'),
         reports: [{
-            message: `'moduleId' should be 'string'.`,
+            message: `'moduleId' must be 'string'.`,
             position: { match: 'moduleId' },
             severity: Severity.error
         }]
@@ -39,7 +39,7 @@ const tests: HintLocalTest[] = [
         name: `If package.json contains invalid "babel" property, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-invalid-babel-package-json', 'package.json'),
         reports: [{
-            message: `'moduleId' should be 'string'.`,
+            message: `'moduleId' must be 'string'.`,
             position: { match: 'moduleId' },
             severity: Severity.error
         }]
@@ -48,7 +48,7 @@ const tests: HintLocalTest[] = [
         name: `If .babelrc contains an additional property, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-additional-property', '.babelrc'),
         reports: [{
-            message: `'root' should NOT have additional properties. Additional property found 'additional'.`,
+            message: `'root' must NOT have additional properties. Additional property found 'additional'.`,
             position: { match: 'additional' },
             severity: Severity.error
         }]
@@ -57,7 +57,7 @@ const tests: HintLocalTest[] = [
         name: `If .babelrc contains an invalid value, it should fail`,
         path: path.join(__dirname, 'fixtures', 'has-invalid-enum-property', '.babelrc'),
         reports: [{
-            message: `'sourceMaps' should be equal to one of the allowed values 'both, inline, true, false'. Value found 'invalidValue'`,
+            message: `'sourceMaps' must be equal to one of the allowed values 'both, inline, true, false'. Value found 'invalidValue'`,
             position: { match: 'sourceMaps' },
             severity: Severity.error
         }]
