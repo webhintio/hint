@@ -91,7 +91,8 @@ default value is:
     "integrity",
     "link[rel]",
     "main",
-    "spellcheck"
+    "spellcheck",
+    "input[inputmode]"
 ]
 ```
 
