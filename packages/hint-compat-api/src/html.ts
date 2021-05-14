@@ -80,7 +80,8 @@ export default class HTMLCompatHint implements IHint {
             'integrity',
             'link[rel]',
             'main',
-            'spellcheck'
+            'spellcheck',
+            'input[inputmode]'
         ], context.hintOptions);
 
         context.on('element::*', ({ element, resource }) => {
