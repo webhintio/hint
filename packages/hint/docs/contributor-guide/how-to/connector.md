@@ -71,7 +71,7 @@ export interface IConnector {
     /** Evaluates the given JavaScript `code` asynchronously in the target. */
     evaluate(code: string): Promise<any>;
     /** Finds all the nodes that match the given query. */
-    querySelectorAll(query: string): HTMLElement[]
+    querySelectorAll(query: string): HTMLElement[];
 }
 ```
 

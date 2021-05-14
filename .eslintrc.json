@@ -15,6 +15,14 @@
         "@typescript-eslint"
     ],
     "extends": "plugin:markdown/recommended",
+    "overrides": [
+        {
+            "files": ["**/*.md/*.ts"],
+            "rules": {
+                "no-invalid-this": "off"
+            }
+        }
+    ],
     "reportUnusedDisableDirectives": true,
     "rules": {
         "accessor-pairs": "off",
