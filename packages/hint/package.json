@@ -17,7 +17,7 @@
     "@hint/utils-string": "^1.0.7",
     "@hint/utils-types": "^1.1.2",
     "boxen": "^5.0.1",
-    "browserslist": "^4.16.3",
+    "browserslist": "^4.16.6",
     "chalk": "^4.0.0",
     "eventemitter2": "^6.4.4",
     "globby": "^11.0.3",
