@@ -21,7 +21,7 @@
     "@types/parse5-htmlparser2-tree-adapter": "^6.0.0",
     "ava": "^3.15.0",
     "axe-core": "^4.1.2",
-    "eslint": "^7.23.0",
+    "eslint": "^7.26.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^1.0.2",
     "jsdom": "^16.5.3",
