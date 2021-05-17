@@ -37,17 +37,17 @@ const defaultTests: HintTest[] = [
         name: `Web app manifest is specified and its content does not validate agains the schema`,
         reports: [
             {
-                message: `'root' should NOT have additional properties. Additional property found 'additionalProperty'.`,
+                message: `'root' must NOT have additional properties. Additional property found 'additionalProperty'.`,
                 position: { match: 'additionalProperty' },
                 severity: Severity.error
             },
             {
-                message: `'icons/0' should NOT have additional properties. Additional property found 'density'.`,
+                message: `'icons/0' must NOT have additional properties. Additional property found 'density'.`,
                 position: { match: 'density' },
                 severity: Severity.error
             },
             {
-                message: `'name' should be 'string'.`,
+                message: `'name' must be 'string'.`,
                 position: { match: 'name' },
                 severity: Severity.error
             }
