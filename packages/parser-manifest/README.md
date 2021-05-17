@@ -88,7 +88,6 @@ export type ManifestInvalidSchema = ErrorEvent & {
     /** The errors in a more human readable format. */
     prettifiedErrors: string[];
 };
-
 ```
 
 ## Types
