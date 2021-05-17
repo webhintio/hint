@@ -77,6 +77,7 @@ export default class HTMLCompatHint implements IHint {
             'a[rel=noopener]', // handled by hint-disown-opener
             'autocomplete',
             'crossorigin',
+            'input[inputmode]',
             'integrity',
             'link[rel]',
             'main',

@@ -88,6 +88,7 @@ default value is:
     "a[rel=noopener]",
     "autocomplete",
     "crossorigin",
+    "input[inputmode]",
     "integrity",
     "link[rel]",
     "main",
