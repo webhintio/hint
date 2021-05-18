@@ -23,15 +23,19 @@ export default class CustomParser extends Parser {
     public constructor(engine: Engine) {
         super(engine, '<parser_name>');
 
-        // Replace 'resource' with the tipe you need (html, script,
-        // css, image, etc.)
+        /*
+         * Replace 'resource' with the tipe you need (html, script,
+         * css, image, etc.)
+         */
         this.engine.on('fetch::end::resource', this.onFetchEnd);
     }
 
     public async onFetchEnd(data: FetchEnd) {
-        // Your magic to detect if the parser understands the content here
-        // You probably want to check the contentType first
-        // and maybe leter use a schema if a configuration file or something else
+        /*
+         * Your magic to detect if the parser understands the content here
+         * You probably want to check the contentType first
+         * and maybe leter use a schema if a configuration file or something else
+         */
 
         // If there's something to share, do it via an event
         await this.engine.emitAsync('parse::<parser_name>::<end | error>', data);

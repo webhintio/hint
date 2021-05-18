@@ -41,7 +41,6 @@ const status = determineHintStatus(prev, next);
 const prev = { 'compat-api/css': 0, 'compat-api/html': 1 };
 const next = { 'compat-api/css': 0, 'compat-api/html': 0 };
 const status = determineHintStatus(prev, next);
-
 ```
 
 ### `getUpdatedActivity`

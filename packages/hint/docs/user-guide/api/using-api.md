@@ -30,7 +30,7 @@ To do so, you need to use the static method `create`.
 
 ```ts
 const userConfig: UserConfig;
-const options: CreateAnalyzerOptions
+const options: CreateAnalyzerOptions;
 const webhint = Analyzer.create(userConfig, options);
 ```
 
@@ -41,7 +41,7 @@ Now, you can analyze any url you need using `webhint.analyze`.
 
 ```ts
 const userConfig: UserConfig;
-const options: CreateAnalyzerOptions
+const options: CreateAnalyzerOptions;
 const webhint = Analyzer.create(userConfig, options);
 
 const analysisOptions: AnalyzerOptions;
@@ -74,6 +74,7 @@ show the problems, the users can use `webhint.format`.
 
 ```ts
 const options: FormatterOptions;
+
 await webhint.format(results[0].problems, options);
 ```
 
@@ -83,7 +84,7 @@ Or they can control what to do the problems detected (e.g. ignore hint axe probl
 results.forEach((result) => {
     result.problems.forEach((problem) => {
         // Print everything except axe hint problems.
-        if(problem.hintId !== 'axe') {
+        if (problem.hintId !== 'axe') {
             console.log(`${problem.hintId} - ${problem.resource} - ${problem.message}`);
         }
     });
@@ -120,9 +121,7 @@ Analyze website and print the results using the formatters in the configuration.
 ```ts
 import { Analyzer } from 'hint';
 
-const userConfig = {
-    extends: ['web-recommended']
-};
+const userConfig = { extends: ['web-recommended'] };
 
 const webhint = Analyzer.create(userConfig);
 

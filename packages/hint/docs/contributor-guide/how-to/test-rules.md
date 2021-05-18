@@ -84,13 +84,13 @@ possible as it is less error-prone.
 const tests: HintTest[] = [
     {
         name: 'Name of the tests',
-        serverConfig: 'HTML to use',
         reports: [{
             message: 'Error message targeting the word "HTML"',
             position: { column: 0, line: 0 }
-        }]
-    },
-    { ... }
+        }],
+        serverConfig: 'HTML to use'
+    }
+    // ...
 ];
 ```
 
@@ -99,13 +99,13 @@ const tests: HintTest[] = [
 const tests: HintTest[] = [
     {
         name: 'Name of the tests',
-        serverConfig: 'HTML to use',
         reports: [{
             message: 'Error message targeting the word "HTML"',
             position: { match: 'HTML' }
-        }]
-    },
-    { ... }
+        }],
+        serverConfig: 'HTML to use'
+    }
+    // ...
 ];
 ```
 
@@ -121,17 +121,15 @@ const tests: HintTest[] = [
     {
         after() {
             // Code to execute right before calling `connector.close` goes here.
-        }
+        },
         before() {
             // Code to execute before the creation of the engine object goes here.
         },
         name: 'Name of the tests',
-        serverUrl: 'https://example.com',
-        reports: [{
-            message: 'Message the error will have'
-        }]
-    },
-    { ... }
+        reports: [{ message: 'Message the error will have' }],
+        serverUrl: 'https://example.com'
+    }
+    // ...
 ];
 ```
 
@@ -145,17 +143,11 @@ to the hint being tested. For those cases you can use the
 const tests: HintTest[] = [
     {
         name: 'Name of the tests',
-        overrides: {
-            'dependency-package-name': {
-                // Overridden helpers from dependency
-            }
-        }
-        serverUrl: 'https://example.com',
-        reports: [{
-            message: 'Message the error will have'
-        }]
-    },
-    { ... }
+        overrides: { 'dependency-package-name': { /* Overridden helpers from dependency */ } },
+        reports: [{ message: 'Message the error will have' }],
+        serverUrl: 'https://example.com'
+    }
+    // ...
 ];
 ```
 
@@ -221,21 +213,21 @@ can return a different value depending on the content of the
 
 ```ts
 const serverConfig = {
-    '{ "request": { "headers":{ "Accept-Encoding":"gzip" }}}': {
-        '/': {
-            content: { /* content here */ },
-            headers: { /* headers here */ }
-        },
-        // ...
-    },
     '{ "request": { "headers":{ "Accept-Encoding":"br" }}}': {
         '/': {
             content: { /* content here */ },
             headers: { /* headers here */ }
-        },
+        }
+        // ...
+    },
+    '{ "request": { "headers":{ "Accept-Encoding":"gzip" }}}': {
+        '/': {
+            content: { /* content here */ },
+            headers: { /* headers here */ }
+        }
         // ...
     }
-}
+};
 ```
 
 ### Throwing an error
@@ -253,12 +245,10 @@ with a third party service) you need to use the property `serverUrl`:
 const tests: HintTest[] = [
     {
         name: 'Name of the tests',
-        reports: [{
-            message: 'Message the error will have'
-        }],
+        reports: [{ message: 'Message the error will have' }],
         serverUrl: 'https://example.com'
-    },
-    { ... }
+    }
+    // ...
 ];
 ```
 

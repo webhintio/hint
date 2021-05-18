@@ -115,9 +115,7 @@ The `create` method of your hint should be similar to the following:
 
 ```ts
 export default class MyHint implements IHint {
-    public static readonly meta: HintMetadata = {
-        id: 'my-hint'
-    }
+    public static readonly meta: HintMetadata = { id: 'my-hint' }
 
     public constructor(context: HintContext) {
         /** The promise that represents the connection to the online service. */
@@ -125,6 +123,7 @@ export default class MyHint implements IHint {
 
         const start = (data: ScanStartEvent) => {
             // Initialize promise to service here but do not return it.
+            promise = new MyService();
         };
 
         const end = (data: ScanEndEvent): Promise<any> => {
@@ -178,12 +177,8 @@ export default class ScriptSemiColonHint implements IHint {
         const errorsOnly = context.hintOptions && context.hintOptions['errors-only'] || false;
         let html;
 
-        const onParseJavascript = async (scriptParse: ScriptParse) => {
-            const results = linter.verify(scriptParse.sourceCode, {
-                hints: {
-                    semi: 2
-                }
-            });
+        const onParseJavascript = (scriptParse: ScriptParse) => {
+            const results = linter.verify(scriptParse.sourceCode, { hints: { semi: 2 } });
 
             for (const result of results) {
                 context.report(scriptParse.resource, null, result.message);
@@ -198,9 +193,7 @@ export default class ScriptSemiColonHint implements IHint {
 And when writing tests, you need to specify the parsers that you need:
 
 ```ts
-hintRunner.testHint(hintPath, tests, {
-    parsers: ['javascript']
-});
+hintRunner.testHint(hintPath, tests, { parsers: ['javascript'] });
 ```
 
 <!-- Link labels: -->
