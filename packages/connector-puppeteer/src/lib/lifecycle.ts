@@ -8,7 +8,7 @@ import * as puppeteer from 'puppeteer-core';
 
 import { readFileAsync, writeFileAsync } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
-import { BrowserOptions, ChromeArgOptions, LaunchOptions } from 'puppeteer-core';
+import { BrowserConnectOptions, BrowserLaunchArgumentOptions, LaunchOptions } from 'puppeteer-core';
 
 const debug: debug.IDebugger = d(__filename);
 const deleteFile = promisify(unlink);
@@ -20,7 +20,7 @@ let isLocked = false;
 const infoFile = 'browser.info';
 const TIMEOUT = 30000;
 
-export type LifecycleLaunchOptions = LaunchOptions & ChromeArgOptions & BrowserOptions & {
+export type LifecycleLaunchOptions = LaunchOptions & BrowserLaunchArgumentOptions & BrowserConnectOptions & {
     detached: boolean;
 };
 
