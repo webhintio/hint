@@ -90,7 +90,7 @@ const tests: HintTest[] = [
         }],
         serverConfig: 'HTML to use'
     }
-    // ,{ ... }
+    // ...
 ];
 ```
 
@@ -105,7 +105,7 @@ const tests: HintTest[] = [
         }],
         serverConfig: 'HTML to use'
     }
-    // ,{ ... }
+    // ...
 ];
 ```
 
@@ -129,7 +129,7 @@ const tests: HintTest[] = [
         reports: [{ message: 'Message the error will have' }],
         serverUrl: 'https://example.com'
     }
-    // ,{ ... }
+    // ...
 ];
 ```
 
@@ -147,7 +147,7 @@ const tests: HintTest[] = [
         reports: [{ message: 'Message the error will have' }],
         serverUrl: 'https://example.com'
     }
-    // ,{ ... }
+    // ...
 ];
 ```
 
@@ -248,7 +248,7 @@ const tests: HintTest[] = [
         reports: [{ message: 'Message the error will have' }],
         serverUrl: 'https://example.com'
     }
-    // ,{ ... }
+    // ...
 ];
 ```
 
