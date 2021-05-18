@@ -24,6 +24,7 @@ issues identified as a result.
 
 ```ts
 const worker = new Worker('webhint.js');
+
 worker.addEventListener('message', (event) => {
     if (event.data.requestConfig) {
         // Tell worker the URL of the page being analyzed.
@@ -55,9 +56,7 @@ worker.postMessage({
         userConfig: {
             browserslist: 'defaults, not IE 11',
             hints: {
-                'compat-api/css': ['error', {
-                    'ignore': ['border-radius', 'box-lines'],
-                }],
+                'compat-api/css': ['error', { ignore: ['border-radius', 'box-lines'] }],
                 'css-prefix-order': 'off'
             }
         }
@@ -72,11 +71,7 @@ hints and selectively enable only a few, change the default severity.
 worker.postMessage({
     config: {
         defaultHintSeverity: 'off',
-        userConfig: {
-            hints: {
-                'button-type': 'default'
-            }
-        }
+        userConfig: { hints: { 'button-type': 'default' } }
     }
 });
 ```
