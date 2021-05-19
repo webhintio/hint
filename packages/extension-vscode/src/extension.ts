@@ -5,7 +5,7 @@ import {
     LanguageClientOptions,
     ServerOptions,
     TransportKind
-} from 'vscode-languageclient';
+} from 'vscode-languageclient/node';
 
 import { TelemetryState } from './utils/analytics';
 import * as notifications from './utils/notifications';
