@@ -318,6 +318,7 @@ export const validate = (schema: object, json: object, getLocation?: JSONLocatio
 
     addFormats(validator);
     validator.addKeyword('regexp');
+    validator.addKeyword('markdownDescription');
 
     // We clone the incoming data because the validator can modify it.
     const data = cloneDeep(json);
