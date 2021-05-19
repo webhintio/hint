@@ -90,6 +90,8 @@ module.exports = (env) => {
                 'acorn-jsx$': path.resolve(__dirname, 'dist/src/shims/acorn-jsx.js'),
                 'acorn-jsx-walk$': path.resolve(__dirname, 'dist/src/shims/acorn-jsx-walk.js'),
                 'axe-core': require.resolve('axe-core/axe.min.js'),
+                'file-type': path.resolve(__dirname, 'dist/src/shims/file-type.js'),
+                'is-svg': path.resolve(__dirname, 'dist/src/shims/is-svg.js'),
                 url$: path.resolve(__dirname, 'dist/src/shims/url.js')
             },
             fallback: {
