@@ -28,7 +28,7 @@
     "@types/sinon": "^9.0.11",
     "ava": "^3.15.0",
     "cpx": "^1.5.0",
-    "eslint": "^7.26.0",
+    "eslint": "^7.27.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^2.1.0",
     "fork-ts-checker-webpack-plugin": "^6.2.10",
