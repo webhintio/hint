@@ -20,7 +20,7 @@
     "@hint/utils-create-server": "^3.4.9",
     "@hint/utils-dom": "^2.1.5",
     "@hint/utils-tests-helpers": "^6.3.3",
-    "@types/node": "^15.0.2",
+    "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.23.0",
     "ava": "^3.15.0",
