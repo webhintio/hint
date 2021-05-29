@@ -9,7 +9,7 @@
   },
   "description": "hint create server util",
   "devDependencies": {
-    "@types/express": "^4.17.11",
+    "@types/express": "^4.17.12",
     "@types/lodash": "^4.14.168",
     "@types/node": "^15.0.2",
     "@types/on-headers": "^1.0.0",
