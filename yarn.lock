@@ -718,10 +718,10 @@
   dependencies:
     ci-info "^3.1.0"
 
-"@types/jsdom@^16.2.8":
-  version "16.2.8"
-  resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-16.2.8.tgz#f2f06d64ccc9c3773669a26257155504bb0ebf69"
-  integrity sha512-s+Ll9m1ZYrIPzXSXUeN/j+0hGjTXD4+ecKB+xBAv2fdvEuRSv5VQJz80+Uth+V9lKvZG1fV+C23EfQpDHaRXMg==
+"@types/jsdom@^16.2.10":
+  version "16.2.10"
+  resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-16.2.10.tgz#c05ea94682d035943ae2453b79d56178496b6653"
+  integrity sha512-q3aIjp3ehhVSXSbvNyuireAfvU2umRiZ2aLumyeZewCnoNaokrRDdTu5IvaeE9pzNtWHXrUnM9lb22Vl3W08EA==
   dependencies:
     "@types/node" "*"
     "@types/parse5" "*"
