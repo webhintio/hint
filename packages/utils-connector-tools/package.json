@@ -14,7 +14,7 @@
     "@hint/utils-string": "^1.0.7",
     "@hint/utils-types": "^1.1.2",
     "data-urls": "^2.0.0",
-    "iconv-lite": "^0.6.2",
+    "iconv-lite": "^0.6.3",
     "request": "^2.88.2"
   },
   "description": "hint tools for connectors",
