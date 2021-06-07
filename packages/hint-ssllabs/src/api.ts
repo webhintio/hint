@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import got from 'got';
+import {delay} from '@hint/utils';
 import { SSLLabsOptions, SSLLabsResult } from './types';
 
 const APIURL = 'https://api.ssllabs.com/api/v3/analyze';
@@ -11,6 +12,8 @@ const analyzeWithRetry = async (options: SSLLabsOptions): Promise<SSLLabsResult>
     if (result.status === 'READY' || result.status === 'ERROR') {
         return result;
     }
+
+    await delay(1000);
 
     return analyzeWithRetry(options);
 };
