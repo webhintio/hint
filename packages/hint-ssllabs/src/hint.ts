@@ -9,13 +9,11 @@
  * ------------------------------------------------------------------------------
  */
 
-// HACK: Needed here because with TS `eslint-disable-line` doesn't work fine.
-
-import { promisify } from 'util';
-
 import { debug as d } from '@hint/utils-debug';
 import { FetchEnd, HintContext, IHint, ScanEnd } from 'hint';
 import { Severity } from '@hint/utils-types';
+
+import { analyze as ssllabs } from './api';
 import { Grades, SSLLabsEndpoint, SSLLabsOptions, SSLLabsResult } from './types';
 
 import meta from './meta';
@@ -90,7 +88,7 @@ export default class SSLLabsHint implements IHint {
                 { severity: Severity.warning });
         };
 
-        const start = async ({ resource }: FetchEnd) => {
+        const start = ({ resource }: FetchEnd) => {
             if (!resource.startsWith('https://')) {
                 const message: string = getMessage('doesNotSupportHTTPS', context.language, resource);
 
@@ -100,17 +98,14 @@ export default class SSLLabsHint implements IHint {
                 return;
             }
 
-            const ssl = await import('node-ssllabs');
-            const ssllabs: Function = promisify(ssl.scan);
-
             debug(`Starting SSL Labs scan for ${resource}`);
             scanOptions.host = resource;
 
-            promise = ssllabs(scanOptions)
-                .catch((error: any) => {
-                    failed = true;
-                    notifyError(resource, error);
-                });
+            promise = ssllabs(scanOptions);
+            promise.catch((error: any) => {
+                failed = true;
+                notifyError(resource, error);
+            });
         };
 
         const end = async ({ resource }: ScanEnd) => {

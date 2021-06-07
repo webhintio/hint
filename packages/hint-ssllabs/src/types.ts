@@ -35,4 +35,5 @@ export type SSLLabsOptions = {
 
 export type SSLLabsResult = {
     endpoints: SSLLabsEndpoint[];
+    status: 'READY' | 'ERROR' | 'IN_PROGRESS' | 'DNS';
 };
