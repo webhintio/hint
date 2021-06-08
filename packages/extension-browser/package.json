@@ -140,7 +140,7 @@
     "lint:dependencies": "node ../../scripts/lint-dependencies.js",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "prebuild": "npm-run-all prebuild:*",
-    "prebuild:assets": "copyfiles \"./src/**/*.{html,json,png}\" dist/bundle && copyfiles \"./src/*.svg\" dist/bundle && copyfiles \"./src/browser-action/*.svg\" dist/bundle/browser-action",
+    "prebuild:assets": "copyfiles -u 1 \"./src/**/*.{html,json,png}\" dist/bundle && copyfiles -f \"./src/*.svg\" dist/bundle && copyfiles -f \"./src/browser-action/*.svg\" dist/bundle/browser-action",
     "prebuild:css": "tcm src",
     "prebuild:hints": "node ./scripts/import-hints.js",
     "prebuild:i18n": "node ./scripts/create-i18n.js",
