@@ -98,6 +98,7 @@ module.exports = (env) => {
                 assert: 'assert',
                 crypto: 'crypto-browserify',
                 fs: false,
+                os: 'os-browserify',
                 path: 'path-browserify',
                 setImmediate: 'setimmediate',
                 stream: 'stream-browserify',

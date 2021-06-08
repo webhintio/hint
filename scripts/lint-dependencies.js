@@ -39,6 +39,7 @@ const ignoredDependencies = new Set([
     'hint',
     'npm-run-all',
     'nyc',
+    'os-browserify',
     'path-browserify',
     'rimraf',
     'setimmediate',
