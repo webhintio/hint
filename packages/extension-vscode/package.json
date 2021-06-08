@@ -59,7 +59,7 @@
     "@typescript-eslint/parser": "^4.26.0",
     "ava": "^3.15.0",
     "configstore": "^5.0.1",
-    "cpx": "^1.5.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^7.27.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^2.2.0",
@@ -100,7 +100,7 @@
   "scripts": {
     "build": "npm-run-all build:*",
     "build-bundle": "webpack --mode production",
-    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:assets": "copyfiles \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",

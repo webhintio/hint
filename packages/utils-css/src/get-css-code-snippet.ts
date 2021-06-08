@@ -1,4 +1,4 @@
-import { ChildNode } from 'postcss';
+import { ChildNode, Container } from 'postcss';
 
 const getNodeCodeSnippet = (node: ChildNode): string => {
     switch (node.type) {
@@ -66,7 +66,7 @@ export const getCSSCodeSnippet = (node: ChildNode): string => {
         const content = result.replace(/^/gm, '    ');
 
         result = `${getNodeCodeSnippet(parent as ChildNode)} {\n${content}\n}`;
-        parent = parent.parent;
+        parent = parent.parent as Container<ChildNode>;
     }
 
     return result;
@@ -164,7 +164,7 @@ ${getChildrenCodeSnippet(children).replace(/^/gm, '    ')}
         const content = result.trim().replace(/^/gm, '    ');
 
         result = `${getNodeCodeSnippet(parent as ChildNode)} {\n${content}\n}`;
-        parent = parent.parent;
+        parent = parent.parent as Container<ChildNode>;
     }
 
     return result;

@@ -11,7 +11,7 @@
   "dependencies": {
     "@hint/utils-debug": "^1.0.4",
     "@hint/utils-string": "^1.0.7",
-    "postcss": "^8.2.12",
+    "postcss": "^8.3.0",
     "postcss-less": "^4.0.1"
   },
   "description": "webhint parser needed to analyze LESS files",
@@ -24,7 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.26.0",
     "ava": "^3.15.0",
-    "cpx": "^1.5.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^7.27.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-markdown": "^2.2.0",
@@ -62,7 +62,7 @@
   "scripts": {
     "build": "npm-run-all build:*",
     "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
-    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:assets": "copyfiles \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
