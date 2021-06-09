@@ -8,7 +8,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-css": "^1.0.7",
+    "@hint/utils-css": "^1.0.8",
     "@mdn/browser-compat-data": "^3.3.4",
     "mdn-data": "^2.0.19",
     "postcss-selector-parser": "^6.0.6",
@@ -72,5 +72,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.1.2"
+  "version": "1.1.3"
 }

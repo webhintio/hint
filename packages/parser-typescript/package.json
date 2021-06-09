@@ -8,14 +8,14 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/parser-javascript": "^3.1.10",
-    "@hint/utils-debug": "^1.0.4",
+    "@hint/parser-javascript": "^3.1.11",
+    "@hint/utils-debug": "^1.0.5",
     "@typescript-eslint/typescript-estree": "^4.25.0"
   },
   "description": "webhint parser needed to analyze TypeScript files",
   "devDependencies": {
-    "@hint/parser-html": "^3.0.19",
-    "@hint/parser-jsx": "^1.0.11",
+    "@hint/parser-html": "^3.0.20",
+    "@hint/parser-jsx": "^1.0.12",
     "@types/node": "^15.6.1",
     "@types/proxyquire": "^1.3.28",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
@@ -77,5 +77,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.11"
+  "version": "1.0.12"
 }
