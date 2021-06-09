@@ -20,7 +20,7 @@
     ],
     "timeout": "1m"
   },
-  "bundleSize": 129000,
+  "bundleSize": 135000,
   "categories": [
     "Linters"
   ],
