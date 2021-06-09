@@ -15,7 +15,7 @@
     "@hint/utils-types": "^1.1.5",
     "chalk": "^4.1.2",
     "lodash": "^4.17.21",
-    "log-symbols": "^4.1.0",
+    "log-symbols": "^5.0.0",
     "strip-ansi": "^6.0.0",
     "text-table": "^0.2.0"
   },
