@@ -6964,7 +6964,7 @@ minizlib@^2.0.0, minizlib@^2.1.0, minizlib@^2.1.1:
     minipass "^3.0.0"
     yallist "^4.0.0"
 
-mkdirp@1.0.4, mkdirp@^1.0.3, mkdirp@^1.0.4:
+mkdirp@1.0.4, mkdirp@^1.0.0, mkdirp@^1.0.3, mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
@@ -9898,10 +9898,10 @@ type@^2.0.0:
   resolved "https://registry.yarnpkg.com/type/-/type-2.1.0.tgz#9bdc22c648cf8cf86dd23d32336a41cfb6475e3f"
   integrity sha512-G9absDWvhAWCV2gmF1zKud3OyC61nZDwWvBL2DApaVFogI07CprggiQAOOjvp2NRjYWFzPyu7vwtDrQFq8jeSA==
 
-typed-css-modules@^0.6.8:
-  version "0.6.8"
-  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.6.8.tgz#0cb1e45d3d6c1739ce1f65bcf11bb9988a20515a"
-  integrity sha512-NCDFI7bR+PZGoEwAYPnUtDAeGuy9UrgS10oDV5K74tUX6gm3LRbPT3Mwu0f92/6VG4GgWPJRWZSlYmdQU8xLOg==
+typed-css-modules@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/typed-css-modules/-/typed-css-modules-0.7.0.tgz#88b892a39ba7b8dd0ef2afb6cf728fff6c588f6c"
+  integrity sha512-eNaAHKiao0ON0tkLE8ITma9Fx9MUDQjJwL+P9iCinGAIHSt2XKFVSx0A6GWLrbX/yNQjzzUmuJFikobSymZXng==
   dependencies:
     "@types/css-modules-loader-core" "^1.1.0"
     camelcase "^5.3.1"
@@ -9910,8 +9910,8 @@ typed-css-modules@^0.6.8:
     css-modules-loader-core "^1.1.0"
     glob "^7.1.2"
     is-there "^4.4.2"
-    mkdirp "^0.5.1"
-    yargs "^15.3.1"
+    mkdirp "^1.0.0"
+    yargs "^15.4.1"
 
 typed-rest-client@^1.8.4:
   version "1.8.4"
@@ -10641,7 +10641,7 @@ yargs@16.2.0, yargs@^16.1.0, yargs@^16.2.0, yargs@~16.2.0:
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
 
-yargs@^15.0.2, yargs@^15.3.1:
+yargs@^15.0.2, yargs@^15.4.1:
   version "15.4.1"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.4.1.tgz#0d87a16de01aee9d8bec2bfbf74f67851730f4f8"
   integrity sha512-aePbxDmcYW++PaqBsJ+HYUFwCdv4LVvdnhBy78E57PIor8/OVvhMrADFFEDh8DHDFRv/O9i3lPhsENjO7QX0+A==
