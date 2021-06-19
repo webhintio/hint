@@ -636,10 +636,10 @@
   dependencies:
     chokidar "*"
 
-"@types/chrome@^0.0.141":
-  version "0.0.141"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.141.tgz#337648651a2b75a74bf3038680dc0e47ddd75d07"
-  integrity sha512-0bYsCxGKo9xdrNHiqWRjPVygDRfKA2EczhXJmKjkfBF+KQc0BFKejtdFV28ygcVH3RTjGZ+ccoJ3bb8wKFacbw==
+"@types/chrome@^0.0.145":
+  version "0.0.145"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.145.tgz#6c53ae0af5f25350b07bfd24cf459b5fe65cd9b8"
+  integrity sha512-vLvTMmfc8mvwOZzkmn2UwlWSNu0t0txBkyuIv8NgihRkvFCe6XJX65YZAgAP/RdBit3enhU2GTxCr+prn4uZmA==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
