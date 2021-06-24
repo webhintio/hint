@@ -1,13 +1,12 @@
 import * as fs from 'fs-extra';
 
-import { Octokit } from '@octokit/core';
-import { Octokit as octo } from '@octokit/rest';
+import { Octokit } from '@octokit/rest';
 import { throttling } from '@octokit/plugin-throttling';
 
 import { Tag, Commit, Package, Author, GitHubAuth } from '../@types/custom';
 import { debug, execa } from './utils';
 
-const Client = octo.plugin(throttling);
+const Client = Octokit.plugin(throttling);
 
 const octokitOptions = {
     log: {
@@ -90,19 +89,21 @@ const getResponseForCommitInfoRequest = async (commitSHA: string) => {
          * which in most cases, is wrongly set.
          */
 
-        const cachedAuthor = authors.get(commitInfo.author.login);
+        const cachedAuthor = commitInfo.author && authors.get(commitInfo.author.login);
 
         if (cachedAuthor) {
-            debug(`Reusing cached Author ${commitInfo.author.login}`);
+            debug(`Reusing cached Author ${commitInfo.author?.login}`);
 
             return cachedAuthor;
         }
 
-        debug(`Requesting info for login ${commitInfo.author.login}`);
+        debug(`Requesting info for login ${commitInfo.author?.login}`);
 
         const responseForUserInfoRequestPromise = getResponseForUserInfoRequest(commitInfo);
 
-        authors.set(commitInfo.author.login, responseForUserInfoRequestPromise);
+        if (commitInfo.author) {
+            authors.set(commitInfo.author.login, responseForUserInfoRequestPromise);
+        }
 
         return responseForUserInfoRequestPromise;
     } catch (e) {
@@ -219,7 +220,7 @@ const createOctokitFromToken = (token: string) => {
 
     const kit = new Client(options);
 
-    return kit;
+    return kit as Octokit;
 };
 
 const createOctokitFromUserPass = (auth: GitHubAuth) => {
@@ -371,7 +372,7 @@ export const push = () => {
  * Authenticates into GitHub to use their API.
  * @param auth The auth values to use
  */
-export const authenticate = async (auth: GitHubAuth) => {
+export const authenticate = (auth: GitHubAuth) => {
     if ('token' in auth) {
         debug('Using existing token');
 
@@ -380,21 +381,5 @@ export const authenticate = async (auth: GitHubAuth) => {
         return;
     }
 
-    debug('Creating new auth token in user account');
-
-    octokit = createOctokitFromUserPass(auth)!;
-
-    const result = await octokit.oauthAuthorizations.createAuthorization({
-        note: `webhint release script (${new Date()})`,
-        scopes: ['repo']
-    });
-
-    const { id, token } = result.data;
-
-    debug(`Token created successfully: ${id}`);
-
-    octokit = createOctokitFromToken(token);
-    GITHUB.userName = auth.user;
-    GITHUB.password = auth.pass;
-    GITHUB.tokenID = id;
+    throw new Error('An auth token must be provided');
 };
