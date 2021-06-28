@@ -87,6 +87,7 @@ export default class HttpCacheHint implements IHint {
             'image/gif',
             'image/jpeg',
             'image/jp2',
+            'image/jxl',
             'image/png',
             'image/svg+xml',
             'image/webp',
