@@ -1,7 +1,6 @@
 import * as url from 'url';
 import { URL } from 'url'; // this is necessary to avoid TypeScript mixes types.
 
-import * as fileUrl from 'file-url';
 import compact = require('lodash/compact'); // `require` used because `lodash/compact` exports a function
 
 import { debug as d } from '@hint/utils-debug';
@@ -46,7 +45,7 @@ export const getAsUri = (source: string): URL | null => {
      * If it does exist and it's a regular file.
      */
     if (isFile(source) || isDirectory(source)) {
-        target = new URL(fileUrl(source));
+        target = new URL(`file://${source}`);
         debug(`Adding valid target: ${url.format(target)}`);
 
         return target;
