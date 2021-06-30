@@ -21,9 +21,3 @@ jobs:
         vmImage: 'windows-latest'
         condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), not(eq(variables['Build.Reason'], 'Schedule')))
         worker: 'standard.yml'
-
-  - template: performance.yml
-    parameters:
-        name: Performance_Linux
-        pool: 'VM Scale Set'
-        condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), not(eq(variables['Build.Reason'], 'Schedule')))
