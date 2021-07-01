@@ -102,7 +102,7 @@
     "util": "^0.12.4",
     "util.promisify": "^1.1.1",
     "web-ext": "^6.2.0",
-    "webpack": "^5.39.1",
+    "webpack": "^5.41.1",
     "webpack-cli": "^4.7.2"
   },
   "files": [
