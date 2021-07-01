@@ -20,7 +20,7 @@
   "devDependencies": {
     "@types/parse5-htmlparser2-tree-adapter": "^6.0.0",
     "ava": "^3.15.0",
-    "axe-core": "^4.1.2",
+    "axe-core": "^4.2.3",
     "eslint": "^7.29.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-markdown": "^2.2.0",
