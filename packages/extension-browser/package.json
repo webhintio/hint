@@ -51,7 +51,7 @@
     "@hint/utils-telemetry": "^1.0.8",
     "@hint/utils-types": "^1.1.3",
     "@types/chrome": "^0.0.149",
-    "@types/har-format": "^1.2.5",
+    "@types/har-format": "^1.2.7",
     "@types/is-ci": "^3.0.0",
     "@types/jsdom": "^16.2.8",
     "@types/node": "^15.6.1",
