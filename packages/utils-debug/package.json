@@ -4,7 +4,7 @@
   },
   "description": "debug messages util",
   "devDependencies": {
-    "@types/debug": "^4.1.6",
+    "@types/debug": "^4.1.7",
     "eslint": "^7.29.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-markdown": "^2.2.0",
