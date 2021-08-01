@@ -800,10 +800,10 @@
   dependencies:
     ci-info "^3.1.0"
 
-"@types/jsdom@^16.2.8":
-  version "16.2.8"
-  resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-16.2.8.tgz#f2f06d64ccc9c3773669a26257155504bb0ebf69"
-  integrity sha512-s+Ll9m1ZYrIPzXSXUeN/j+0hGjTXD4+ecKB+xBAv2fdvEuRSv5VQJz80+Uth+V9lKvZG1fV+C23EfQpDHaRXMg==
+"@types/jsdom@^16.2.13":
+  version "16.2.13"
+  resolved "https://registry.yarnpkg.com/@types/jsdom/-/jsdom-16.2.13.tgz#126c8b7441b159d6234610a48de77b6066f1823f"
+  integrity sha512-8JQCjdeAidptSsOcRWk2iTm9wCcwn9l+kRG6k5bzUacrnm1ezV4forq0kWjUih/tumAeoG+OspOvQEbbRucBTw==
   dependencies:
     "@types/node" "*"
     "@types/parse5" "*"
