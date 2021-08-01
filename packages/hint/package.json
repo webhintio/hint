@@ -35,7 +35,7 @@
     "@types/lodash": "^4.14.170",
     "@types/node": "^15.6.1",
     "@types/sinon": "^9.0.11",
-    "@types/update-notifier": "^5.0.0",
+    "@types/update-notifier": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.28.1",
     "ava": "^3.15.0",
