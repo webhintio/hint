@@ -13,7 +13,7 @@
     "@hint/utils-string": "^1.0.8",
     "applicationinsights": "^2.1.1",
     "chalk": "^4.0.0",
-    "configstore": "^5.0.1",
+    "configstore": "^6.0.0",
     "content-type": "^1.0.4",
     "eventemitter2": "^6.4.4",
     "file-type": "^16.5.0",
