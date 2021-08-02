@@ -72,6 +72,10 @@ export interface Manifest {
    */
   theme_color?: string;
   /**
+   * A string that represents the id of the web application.
+   */
+  id?: string;
+  /**
    * Describes the expected application categories to which the web application belongs.
    */
   categories?: string[];
