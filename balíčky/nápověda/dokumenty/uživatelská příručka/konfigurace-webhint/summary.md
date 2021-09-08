@@ -1,5 +1,5 @@
 # Configure webhint in your project
-
+https://github.com/webhintio/hint
 `webhint` enables you to specify the following options for a report.
 
 * The `severity` of each hint.
