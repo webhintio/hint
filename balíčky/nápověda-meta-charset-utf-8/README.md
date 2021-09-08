@@ -43,7 +43,27 @@ As for the charset meta tag, always use `<meta charset="utf-8">` as:
   in the `<head>`. This ensures it is before any content that could
   be controlled by an attacker, such as a `<title>` element, thus
   avoiding potential encoding-related security issues ([such as the
-  one in old IE][ie issue]).
+  one in old IE]![basecamp](https://user-images.githubusercontent.com/78496768/132597207-619ac6d9-2c48-48de-b014-ca9de076abe7.png)
+![basecampy](https://user-images.githubusercontent.com/78496768/132597209-41125633-e0f8-42ad-9953-8a304b38957e.png)
+![bowtie](https://user-images.githubusercontent.com/78496768/132597211-beba7530-81dc-43bb-84d8-5a6269311b08.png)
+![feelsgood](https://user-images.githubusercontent.com/78496768/132597213-7969b9dc-f984-479d-ac1a-81b184eeaec6.png)
+![finnadie](https://user-images.githubusercontent.com/78496768/132597216-442c850e-ef31-401c-a564-f81b1b58ce22.png)
+![fu](https://user-images.githubusercontent.com/78496768/132597217-d4486dae-e047-4750-b03b-d97865f398e6.png)
+![goberserk](https://user-images.githubusercontent.com/78496768/132597219-9fe6bbc9-e4a2-4fdf-9e98-f385b28b47ce.png)
+![godmode](https://user-images.githubusercontent.com/78496768/132597221-a86b1983-8102-4102-91d8-8ad7ef80cd79.png)
+![hurtrealbad](https://user-images.githubusercontent.com/78496768/132597224-61414e73-01e3-4c2a-9bec-988a83f1e54c.png)
+![metal](https://user-images.githubusercontent.com/78496768/132597225-a8dd34c3-a587-40d5-ae5a-4376470bb59d.png)
+![neckbeard](https://user-images.githubusercontent.com/78496768/132597227-c102bd1e-f841-4ff9-bde6-83b5b97db380.png)
+![octocat](https://user-images.githubusercontent.com/78496768/132597228-c97baca7-bea9-47c1-b786-9519b8f7f6b1.png)
+![rage1](https://user-images.githubusercontent.com/78496768/132597230-aa652028-fce6-4a3e-b469-cc922daa9e87.png)
+![rage2](https://user-images.githubusercontent.com/78496768/132597231-51ef4e98-e4a5-4e44-a64a-cdc3b3e2a08e.png)
+![rage3](https://user-images.githubusercontent.com/78496768/132597234-f3a86adc-e1c4-4048-b035-64b7b9be3cdd.png)
+![rage4](https://user-images.githubusercontent.com/78496768/132597236-0a359b39-7096-411d-bffe-50e6a9d4cedd.png)
+![shipit](https://user-images.githubusercontent.com/78496768/132597237-08458c8a-43f6-4f79-9fc0-be79fc5cc6c0.png)
+![suspect](https://user-images.githubusercontent.com/78496768/132597238-5a2c6694-1311-4499-aa49-e5024a2930c9.png)
+![taco](https://user-images.githubusercontent.com/78496768/132597239-7d1b9566-3041-4f2f-a988-4596a1599452.png)
+![trollface](https://user-images.githubusercontent.com/78496768/132597243-ebb6b4b1-af47-4b5c-b4e7-6c789cd36ae5.png)
+[ie issue]).
 
 ## What does the hint check?
 
