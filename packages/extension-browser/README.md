@@ -3,6 +3,7 @@
 Use webhint directly from your browser DevTools to get feedback while debugging.
 
 ## DevTools integration (Edge)
+
 As of 2021, webhint is included by default in Edge DevTools. With DevTools
 open, webhint will analyze sites automatically, and results and recommended
 fixes will appear in the Issues tab. Additionally, underlines in the Elements
@@ -27,7 +28,6 @@ installation instructions.
 - [webhint browser extension for Google Chrome](https://chrome.google.com/webstore/detail/webhint/gccemnpihkbgkdmoogenkbkckppadcag)
 - [webhint browser extension for Microsoft Edge (Chromium)](https://microsoftedge.microsoft.com/insider-addons/detail/mlgfbihcfnkaenjpdcngdnhcpkdmcdee)
 - [webhint browser extension for Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/webhint/)
-
 
 Open DevTools in the browser. Once the webhint extension is installed, it will
 appear as a tab within DevTools. From here, you can customize the scan by
