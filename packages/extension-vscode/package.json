@@ -24,32 +24,9 @@
   "categories": [
     "Linters"
   ],
-  "contributes": {
-    "configuration": {
-      "title": "webhint",
-      "properties": {
-        "webhint.enableTelemetry": {
-          "type": "string",
-          "default": "ask",
-          "enum": [
-            "ask",
-            "enabled",
-            "disabled"
-          ],
-          "enumDescriptions": [
-            "Prompt to share limited usage data",
-            "Share limited usage data",
-            "Don't share limited usage data"
-          ],
-          "markdownDescription": "Controls whether to share [limited usage data](https://webhint.io/docs/user-guide/telemetry/summary/) to help improve webhint."
-        }
-      }
-    }
-  },
   "description": "Run webhint in Visual Studio Code.",
   "devDependencies": {
     "@hint/utils": "^7.0.10",
-    "@hint/utils-telemetry": "^1.0.8",
     "@hint/utils-types": "^1.1.3",
     "@types/node": "^15.6.1",
     "@types/proxyquire": "^1.3.28",

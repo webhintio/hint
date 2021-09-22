@@ -1,24 +1,15 @@
 import * as path from 'path';
 
-import boxen = require('boxen');
-import * as chalk from 'chalk';
 import * as isCI from 'is-ci';
 import * as ora from 'ora';
 import * as osLocale from 'os-locale';
 
 import {
-    appInsights,
     askQuestion,
-    configStore,
-    ConnectorConfig,
-    getHintsFromConfiguration,
-    HintsConfigObject,
-    HintSeverity,
     installPackages,
     loadHintPackage,
     logger,
     mergeEnvWithOptions,
-    normalizeHints,
     UserConfig
 } from '@hint/utils';
 import { cwd } from '@hint/utils-fs';
@@ -38,7 +29,6 @@ import { Analyzer } from '../analyzer';
 import { AnalyzerErrorStatus } from '../enums/error-status';
 
 const debug: debug.IDebugger = d(__filename);
-const alreadyRunKey: string = 'run';
 const spinner = ora({ spinner: 'line' });
 
 /*
@@ -46,128 +36,6 @@ const spinner = ora({ spinner: 'line' });
  * Private
  * ------------------------------------------------------------------------------
  */
-
-const printFrame = (message: string) => {
-    logger.log(boxen(message, {
-        align: 'center',
-        margin: 1,
-        padding: 1
-    }));
-};
-
-/**
- * Prints a message asking user to accept send telemetry data.
- */
-const showTelemetryMessage = () => {
-    const message: string = `Help us improve webhint
-by sending limited usage information
-(no personal information or URLs will be sent).
-
-To know more about what information will be sent please
-visit ${chalk.green('https://webhint.io/docs/user-guide/telemetry/summary/')}`;
-
-    printFrame(message);
-};
-
-/**
- * Prints a message asking user to configure the telemetry.
- */
-const showCITelemetryMessage = () => {
-    const message: string = `Help us improve webhint
-by sending limited usage information
-(no personal information or URLs will be sent).
-
-To know more about what information will be sent please
-visit ${chalk.green('https://webhint.io/docs/user-guide/telemetry/summary/')}
-
-Please configure it using
-the environment variable HINT_TELEMETRY to 'on' or 'off'
-or set the flag --telemetry=on|off`;
-
-    printFrame(message);
-};
-
-const getHintsForTelemetry = (hints?: HintsConfigObject | (string | any)[]) => {
-    /* istanbul ignore next */
-    if (!hints) {
-        return null;
-    }
-
-    const normalizedHints = normalizeHints(hints);
-    const result = {} as HintsConfigObject;
-
-    for (const [hintId, severity] of Object.entries(normalizedHints)) {
-        result[hintId] = typeof severity === 'string' ? severity : (severity as [HintSeverity, any])[0];
-    }
-
-    return result;
-};
-
-const pruneUserConfig = (userConfig: UserConfig) => {
-    return {
-        browserslist: userConfig.browserslist,
-        connector: userConfig.connector ? (userConfig.connector as ConnectorConfig).name || userConfig.connector : undefined,
-        extends: userConfig.extends,
-        formatters: userConfig.formatters,
-        hints: getHintsForTelemetry(getHintsFromConfiguration(userConfig)),
-        hintsTimeout: userConfig.hintsTimeout,
-        language: userConfig.language,
-        parsers: userConfig.parsers
-    };
-};
-
-const askForTelemetryConfirmation = async () => {
-    showTelemetryMessage();
-
-    const message = `Do you want to opt-in?`;
-
-    debug(`Prompting telemetry permission.`);
-
-    const telemetryEnabled = await askQuestion(message);
-
-    if (telemetryEnabled) {
-        appInsights.enable();
-    } else {
-        appInsights.disable();
-    }
-
-    return telemetryEnabled;
-};
-
-/** Ask user if he wants to activate the telemetry or not. */
-const sendTelemetryIfEnabled = async (userConfig: UserConfig) => {
-    const telemetryConfigured = appInsights.isConfigured();
-    let telemetryEnabled = appInsights.isEnabled();
-    const alreadyRun: boolean = configStore.get(alreadyRunKey);
-
-    if (!alreadyRun) {
-        configStore.set(alreadyRunKey, true);
-    }
-
-    if (!telemetryConfigured) {
-        if (isCI) {
-            showCITelemetryMessage();
-            telemetryEnabled = false;
-        } else if (alreadyRun) {
-            /* Only prompt the user about opt-intelemetry if they have run webhint before. */
-            telemetryEnabled = await askForTelemetryConfirmation();
-
-            if (telemetryEnabled) {
-                appInsights.trackEvent('cli-telemetry');
-            }
-        }
-    }
-
-    if (!telemetryEnabled) {
-        return;
-    }
-
-    appInsights.trackEvent('cli-analyze', {
-        ci: isCI,
-        previouslyRun: alreadyRun,
-        ...pruneUserConfig(userConfig)
-    });
-};
 
 /**
  * Prints a message telling the user a valid configuration couldn't be found and the
@@ -286,14 +154,6 @@ const loadUserConfig = async (actions: CLIOptions, targets: URL[]): Promise<User
 };
 
 const askToInstallPackages = async (resources: HintResources): Promise<boolean> => {
-    if (resources.missing.length > 0) {
-        appInsights.trackEvent('cli-missing', resources.missing);
-    }
-
-    if (resources.incompatible.length > 0) {
-        appInsights.trackEvent('cli-incompatible', resources.incompatible);
-    }
-
     const missingPackages = resources.missing.map((name) => {
         return `@hint/${name}`;
     });
@@ -481,8 +341,6 @@ export default async (actions: CLIOptions): Promise<boolean> => {
 
     try {
         await webhint.analyze(targets, getAnalyzeOptions());
-
-        await sendTelemetryIfEnabled(userConfig!);
     } catch (e) {
         exitCode = 1;
         endSpinner('fail');

@@ -19,17 +19,6 @@ and exception.
 * `get-hints-from-extends`: Returns all hints in a configuration, including
 hints inside the extended configurations.
 
-### appInsights
-
-* `isEnabled`: Check if Application Insights is enabled or not.
-* `enable`: Enable Application Insight.
-* `disable`: Disable Application Insights for the future.
-* `sendPendingData`: Send pending data to Application Insights.
-* `trackException`: Track an exception in Application Insights.
-* `trackEvent`: Track an event in Application Insights.
-* `getClient`: Return the Application Insights client.
-* `isConfigured`: Check if Application Insights is configured.
-
 ### compat
 
 * `getFriendlyName`: Get the friendly name of a browser from an id.

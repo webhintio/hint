@@ -76,10 +76,6 @@ const loadScript = (context: NewParserContext) => {
     const script = proxyquire('../src/new-parser', {
         '../src/handlebars-utils': context.handlebarsUtils,
         '@hint/utils': {
-            appInsights: {
-                sendPendingData() { },
-                trackEvent() { }
-            },
             isOfficial: context.isOfficial,
             normalizeStringByDelimiter: context.normalizeStringByDelimiter,
 

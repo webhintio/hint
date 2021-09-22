@@ -52,7 +52,6 @@
         { "path": "../utils-dom" },
         { "path": "../utils-fs" },
         { "path": "../utils-i18n" },
-        { "path": "../utils-telemetry" },
         { "path": "../utils-types" }
     ]
 }

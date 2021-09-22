@@ -59,10 +59,6 @@
         "message": "Different origin",
         "description": "Label for option to ignore only external resources on the page."
     },
-    "enable": {
-        "message": "Enable",
-        "description": "Label for button to enable telemetry"
-    },
     "errorDetails": {
         "message": "Error details",
         "description": "Text displayed for option to expand and show error details."
@@ -90,10 +86,6 @@
     "furtherReading": {
         "message": "Further Reading",
         "description": "Title for hint external documentation"
-    },
-    "helpUs": {
-        "message": "Help us improve webhint by sending limited usage information (no personal information or URLs will be sent).",
-        "description": "Label for telemetry opt-in popup"
     },
     "inspectElement": {
         "message": "Inspect Element",
@@ -135,10 +127,6 @@
         "message": "Learn why this is important and how to fix it",
         "description": "Label for link to additional documentation for a failed test."
     },
-    "learnMore": {
-        "message": "Learn more.",
-        "description": "Label for link to additional information about the information collected for telemetry."
-    },
     "noIssuesLabel": {
         "message": "No issues",
         "description": "Label for a hint with no issues."
@@ -146,10 +134,6 @@
     "noneLabel": {
         "message": "None",
         "description": "Label for option to not ignore any resources on the page."
-    },
-    "noThanks": {
-        "message": "No Thanks",
-        "description": "Label for button to disable telemetry."
     },
     "openAnIssue": {
         "message": "open an issue",
@@ -242,10 +226,6 @@
     "targetUrl": {
         "message": "URL: $1",
         "description": "Label for the result page with the url analyzed."
-    },
-    "telemetry": {
-        "message": "Enable telemetry",
-        "description": "Label for the setting to enable/disable telemetry."
     },
     "warningIssuesLabel": {
         "message": "Warnings: $1",
