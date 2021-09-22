@@ -115,8 +115,8 @@ import * as photon from './component.photon.css';
 const Component = () => {
     const styles = useCurrentDesignStyles({ fluent, photon });
 
-    return <div className={styles.root} />
-}
+    return <div className={styles.root} />;
+};
 ```
 
 However most differences between designs are defined in the top-level `App`
@@ -150,8 +150,8 @@ stylesheet for your component.
 import * as styles from './component.css';
 
 const Component = () => {
-    return <div className={styles.root} />
-}
+    return <div className={styles.root} />;
+};
 ```
 
 Note that `.root` here has different, scoped meanings in each stylesheet
@@ -246,19 +246,19 @@ down the file:
 
 ```ts
 import NewParser from '@hint/parser-new';
-...
-    const config: Configuration = {
-        ...
-        parsers: [..., 'new']
-    };
-...
-    const resources: HintResources = {
-        ...
-        parsers: [
-            ...
-            NewParser as any
-        ]
-    };
+// ...
+const config: Configuration = {
+    // ...
+    parsers: ['new']
+};
+// ...
+const resources: HintResources = {
+    // ...
+    parsers: [
+        // ...
+        NewParser as any
+    ]
+};
 ```
 
 <!-- Link labels -->

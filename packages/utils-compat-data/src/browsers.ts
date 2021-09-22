@@ -1,4 +1,4 @@
-import { Identifier, SimpleSupportStatement, SupportStatement } from 'mdn-browser-compat-data/types';
+import { Identifier, SimpleSupportStatement, SupportStatement } from '@mdn/browser-compat-data/types';
 const semver = require('semver/preload');
 
 import { mdn } from './browser-compat-data';

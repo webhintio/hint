@@ -126,7 +126,7 @@ test('If the file contains a valid json with an invalid schema, it should fail',
     // 3 times, the previous call, the start and the expected call.
     t.is(engineEmitAsyncSpy.callCount, 3);
     t.is(engineEmitAsyncSpy.args[2][0], 'parse::error::typescript-config::schema');
-    t.is((engineEmitAsyncSpy.args[2][1] as TypeScriptConfigInvalidSchema).errors[0].message, 'should be boolean');
+    t.is((engineEmitAsyncSpy.args[2][1] as TypeScriptConfigInvalidSchema).errors[0].message, 'must be boolean');
 });
 
 test('If we receive a valid json with a valid name, it should emit the event parse::end::typescript-config', async (t) => {

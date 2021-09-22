@@ -1,5 +1,5 @@
 const fs = require('fs');
-const mdn = require('mdn-browser-compat-data');
+const mdn = require('@mdn/browser-compat-data');
 const path = require('path');
 const filename = path.resolve(`${__dirname}/../src/browser-compat-data.ts`);
 
@@ -251,7 +251,7 @@ removeFeatures(data.css);
 removeFeatures(data.html);
 
 const code = `/* eslint-disable */
-import { Browsers, PrimaryIdentifier } from 'mdn-browser-compat-data/types';
+import { Browsers, PrimaryIdentifier } from '@mdn/browser-compat-data/types';
 
 type Data = {
     browsers: Browsers;

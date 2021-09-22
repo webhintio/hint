@@ -5,14 +5,13 @@ const hintPath = getHintPath(__filename);
 
 const ssllabsMock = (response: any) => {
     return {
-        'node-ssllabs': {
-            // Original node-ssllabs uses callback and we promisify in the hint
-            scan: (options: any, callback: Function) => {
+        './api': {
+            analyze: async (options: any) => { // eslint-disable-line require-await
                 if (response === null) {
-                    return callback('Error');
+                    throw new Error('Error');
                 }
 
-                return callback(null, response);
+                return response;
             }
         }
     };

@@ -1,3 +1,53 @@
+# 7.0.10 (June 9, 2021)
+
+## Bug fixes / Improvements
+
+* [[`27b8f12331`](https://github.com/webhintio/hint/commit/27b8f12331a2553208dbb489edddd9162677c931)] - Fix: Update dependencies to fix vulnerabilities (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#4594`](https://github.com/webhintio/hint/issues/4594)).
+
+## Chores
+
+* [[`22897feca9`](https://github.com/webhintio/hint/commit/22897feca99b78b240abb208a67b5db5f33aacd3)] - Upgrade: Bump npm-registry-fetch from 10.1.2 to 11.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`db4acdf853`](https://github.com/webhintio/hint/commit/db4acdf853671f04d939a5c7a872ce0ae2dc5665)] - Upgrade: Bump @typescript-eslint/parser from 4.23.0 to 4.26.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4e8187c0da`](https://github.com/webhintio/hint/commit/4e8187c0da48258cac7e95d1a5c9e72dbc8f5002)] - Upgrade: Bump eslint-plugin-markdown from 2.1.0 to 2.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`361545c918`](https://github.com/webhintio/hint/commit/361545c918e1cfe0f3ae5d36ccf5f72b7c39cd01)] - Upgrade: Bump applicationinsights from 1.8.10 to 2.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`427dda917a`](https://github.com/webhintio/hint/commit/427dda917aa13d7dffcf369b8631ffb83c30de55)] - Upgrade: Bump npm-registry-fetch from 10.1.1 to 10.1.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9fc0c33223`](https://github.com/webhintio/hint/commit/9fc0c33223cf5a80ec01434baa94662e117a3263)] - Upgrade: Bump eslint from 7.26.0 to 7.27.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`8c8f3fdb70`](https://github.com/webhintio/hint/commit/8c8f3fdb7054f94fcf5f6c6acda3889769f3b86e)] - Upgrade: Bump @types/semver from 7.3.4 to 7.3.6 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f3c225fc72`](https://github.com/webhintio/hint/commit/f3c225fc72ac6bc83f1e12a3dffe23b4d716970e)] - Upgrade: Bump is-svg from 4.2.2 to 4.3.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`fe2e481f6b`](https://github.com/webhintio/hint/commit/fe2e481f6b5694f25e846b79645222b75ff33b33)] - Upgrade: Bump eslint-plugin-markdown from 1.0.2 to 2.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`20343776a4`](https://github.com/webhintio/hint/commit/20343776a4bda19d9207454c291572feb09e4715)] - Upgrade: Bump @typescript-eslint/parser from 4.22.1 to 4.23.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`55faeef653`](https://github.com/webhintio/hint/commit/55faeef653c93cb123f0a7b572c6f314f16708f2)] - Upgrade: Bump npm-registry-fetch from 9.0.0 to 10.1.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b85bd445bd`](https://github.com/webhintio/hint/commit/b85bd445bd38ae59d315559ca55b9a0cfbec0efb)] - Upgrade: Bump eslint from 7.23.0 to 7.26.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`97314cf9e6`](https://github.com/webhintio/hint/commit/97314cf9e65dce207b831db1a67bbabb6b308e08)] - Upgrade: Bump @typescript-eslint/parser from 4.22.0 to 4.22.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`c23d8c4813`](https://github.com/webhintio/hint/commit/c23d8c481397e67c82efd65783cb84affe9be101)] - Upgrade: Bump file-type from 16.3.0 to 16.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b5413105ce`](https://github.com/webhintio/hint/commit/b5413105cec14c0db420bafaa2418684b72558d6)] - Upgrade: Bump @types/configstore from 4.0.0 to 5.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e026519f47`](https://github.com/webhintio/hint/commit/e026519f479300260aa89c14895eb59fdd6dda20)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.19.0 to 4.22.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7096003bd6`](https://github.com/webhintio/hint/commit/7096003bd695830e8677ccf21cf2f3417aa0a21b)] - Upgrade: Bump typescript from 4.2.3 to 4.2.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`dbf1072706`](https://github.com/webhintio/hint/commit/dbf1072706d67c518b56c26b68b941d1722431c5)] - Upgrade: Bump @typescript-eslint/parser from 4.21.0 to 4.22.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ec537a3269`](https://github.com/webhintio/hint/commit/ec537a326987402697a0d9aca02556c54ceafd5b)] - Upgrade: Bump @typescript-eslint/parser from 4.18.0 to 4.21.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`933966952a`](https://github.com/webhintio/hint/commit/933966952a7b13c394179411c8f5861ae513d147)] - Upgrade: Bump semver from 7.3.4 to 7.3.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`0ae09c445c`](https://github.com/webhintio/hint/commit/0ae09c445c3d1ee32dc0d26f0d00693fcbb07a01)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.17.0 to 4.19.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4e911c2579`](https://github.com/webhintio/hint/commit/4e911c2579dca309dbd1d2e10f2c2e878c958485)] - Upgrade: Bump eslint from 7.21.0 to 7.23.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`52cc9011fb`](https://github.com/webhintio/hint/commit/52cc9011fb14d1cc64cf5777a12ff9f47788130b)] - Upgrade: Bump globby from 11.0.2 to 11.0.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6f0d5dc810`](https://github.com/webhintio/hint/commit/6f0d5dc81038a78121593000f15b93d443f3cc8e)] - Upgrade: Bump @typescript-eslint/parser from 4.17.0 to 4.18.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`476765b726`](https://github.com/webhintio/hint/commit/476765b72688cca8ffa81c2d6f379b5f28670ebe)] - Upgrade: [Security] Bump is-svg from 4.2.1 to 4.2.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`fc978de492`](https://github.com/webhintio/hint/commit/fc978de492dfae20de0a60d824f1a7a08644db6a)] - Upgrade: Bump @typescript-eslint/parser from 4.16.1 to 4.17.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e11630ee74`](https://github.com/webhintio/hint/commit/e11630ee746c957216d53cbbe2a6cc8688d31ad4)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.15.1 to 4.17.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`6dfccc9a69`](https://github.com/webhintio/hint/commit/6dfccc9a6949508934163e584a613a2a9db1f1bf)] - Upgrade: Bump file-type from 16.2.0 to 16.3.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9b47140b1c`](https://github.com/webhintio/hint/commit/9b47140b1c8dac076bee248370fa1f0c6e933681)] - Upgrade: Bump typescript from 4.1.5 to 4.2.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`977f6a5287`](https://github.com/webhintio/hint/commit/977f6a52878a2b1808811bda77b35ab3302d9000)] - Upgrade: Bump @typescript-eslint/parser from 4.15.0 to 4.16.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`3c4e88ccc2`](https://github.com/webhintio/hint/commit/3c4e88ccc2aad4fa6bef789961b447c37b34858c)] - Upgrade: Bump eslint from 7.20.0 to 7.21.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`de5fb4ebc6`](https://github.com/webhintio/hint/commit/de5fb4ebc632364d6165ba9d27fdcfbd1d0c8933)] - Upgrade: Bump eventemitter2 from 6.4.3 to 6.4.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5023166983`](https://github.com/webhintio/hint/commit/5023166983444a4e9e7d688b000c687f16ac0df9)] - Upgrade: Bump eslint from 7.17.0 to 7.20.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f7fc841606`](https://github.com/webhintio/hint/commit/f7fc84160695aa8796ac2436a3b9dd802eb39dab)] - Upgrade: Bump lodash from 4.17.20 to 4.17.21 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`211de74110`](https://github.com/webhintio/hint/commit/211de741109ad5bb335a3b0601b46911aaacb69c)] - Upgrade: Bump typescript from 4.1.3 to 4.1.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`24dc71c6e3`](https://github.com/webhintio/hint/commit/24dc71c6e3b3e2c3b09198d80602f6b013dad4b6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.15.0 to 4.15.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`54592809ad`](https://github.com/webhintio/hint/commit/54592809adc03c170f3823f09c94767377deaf85)] - Upgrade: Bump applicationinsights from 1.8.9 to 1.8.10 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2fa8d7eaa1`](https://github.com/webhintio/hint/commit/2fa8d7eaa1850f680a7e60aa107817cb2685a335)] - Upgrade: Bump @typescript-eslint/parser from 4.14.1 to 4.15.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b6e1809a14`](https://github.com/webhintio/hint/commit/b6e1809a140e01ed5924cf4d6affb70f0e58babe)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.14.2 to 4.15.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`ced921240f`](https://github.com/webhintio/hint/commit/ced921240f3c3770ef186eb1a571a9fa3f8c84f0)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.14.1 to 4.14.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 7.0.8 (February 4, 2021)
 
 ## Chores

@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Identifier } from 'mdn-browser-compat-data/types';
+import { Identifier } from '@mdn/browser-compat-data/types';
 
 import { getUnsupportedBrowsers } from '../src/browsers';
 

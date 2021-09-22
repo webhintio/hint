@@ -1,5 +1,5 @@
 import * as https from 'https';
-import { createConnection, ProposedFeatures, TextDocuments, TextDocumentSyncKind } from 'vscode-languageserver';
+import { createConnection, ProposedFeatures, TextDocuments, TextDocumentSyncKind } from 'vscode-languageserver/node';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { initTelemetry, updateTelemetry } from '@hint/utils-telemetry';
 

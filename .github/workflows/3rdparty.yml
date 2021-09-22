@@ -3,7 +3,7 @@ name: 'Update 3rd party action'
 # Controls when the action will run.
 on:
   schedule:
-    - cron: '0 0 * * 6' # Run on Saturday
+    - cron: '0 0 2 * *' # Run the 2nd day of the month
 
 jobs:
   Update3rdParty:

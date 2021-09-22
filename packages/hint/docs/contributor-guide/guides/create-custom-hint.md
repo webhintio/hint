@@ -115,7 +115,7 @@ export default class FooterHint implements IHint {
 
     public constructor(context: HintContext) {
         const stringToBeIncluded = `(c) webhint`;
-        const validateFooter = async (elementFound: ElementFound) => {
+        const validateFooter = (elementFound: ElementFound) => {
             const { element, resource } = elementFound;
             const footerHTML = element.outerHTML;
 
@@ -192,14 +192,13 @@ export default class CopyrightHint implements IHint {
             stringToBeIncluded = (context.hintOptions && context.hintOptions.stringToBeIncluded) || `(c) webhint`;
         };
 
-        const validateFooter = async (elementFound: ElementFound) => { ... };
+        const validateFooter = async (elementFound: ElementFound) => { /* ... */ };
 
         loadHintConfigs();
 
         context.on('element::footer', validateFooter);
     }
 }
-
 ```
 
 Accordingly, when running webhint, we need to pass in the config values. We do

@@ -297,6 +297,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-mhp6-pxh8-r675"
           ]
         },
         "language": "js",
@@ -3204,7 +3207,9 @@
           "ALTERNATIVE": [
             "SNYK-JS-BRACES-10900"
           ],
-          "CVE": [],
+          "CVE": [
+            "CVE-2018-1109"
+          ],
           "CWE": [
             "CWE-185",
             "CWE-400"
@@ -4010,7 +4015,7 @@
     ],
     "d3.js": [
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H/E:H",
         "alternativeIds": [
           "SNYK-JS-D3JS-10707"
         ],
@@ -4020,7 +4025,7 @@
         ],
         "cvssScore": 8.8,
         "disclosureTime": "2017-08-02T15:47:12.070000Z",
-        "exploit": "Not Defined",
+        "exploit": "High",
         "fixedIn": [],
         "functions": [],
         "functions_new": [],
@@ -4760,7 +4765,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<=1.16.3"
+            "<=1.16.4"
           ]
         },
         "severity": "medium",
@@ -4801,7 +4806,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.198780Z",
+        "modificationTime": "2021-04-18T12:12:51.520376Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -4820,7 +4825,7 @@
         "semver": {
           "vulnerable": [
             "<1.11.10",
-            ">=1.12.0 <1.12.8",
+            ">=1.12.1 <1.12.8",
             ">=1.13.0 <1.13.7",
             ">=1.14.0 <1.14.6",
             ">=1.15.0 <1.15.3",
@@ -4955,7 +4960,11 @@
         "disclosureTime": "2018-09-06T17:48:41Z",
         "exploit": "Not Defined",
         "fixedIn": [
-          "1.14"
+          "1.14.0",
+          "1.13.1",
+          "1.12.4",
+          "1.11.6",
+          "1.10.10"
         ],
         "functions": [],
         "functions_new": [],
@@ -4969,7 +4978,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:36:25.455396Z",
+        "modificationTime": "2021-03-22T17:01:18.212926Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -4991,7 +5000,11 @@
         ],
         "semver": {
           "vulnerable": [
-            "<1.14"
+            ">=1.14.0-pre <1.14.0",
+            ">=1.13.0 <1.13.1",
+            ">=1.12.1 <1.12.4",
+            ">=1.11.0-rc1 <1.11.6",
+            "<1.10.10"
           ]
         },
         "severity": "medium",
@@ -5259,6 +5272,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-39cx-xcwj-3rc4"
           ]
         },
         "language": "js",
@@ -5584,6 +5600,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-chqj-j4fh-rw7m"
           ]
         },
         "language": "js",
@@ -5629,8 +5648,8 @@
             "GHSA-chqj-j4fh-rw7m"
           ],
           "NSP": [
-            1223,
-            1205
+            1205,
+            1223
           ]
         },
         "language": "js",
@@ -5971,6 +5990,47 @@
       }
     ],
     "dustjs-linkedin": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L/E:P/RL:U/RC:R",
+        "alternativeIds": [],
+        "creationTime": "2021-03-26T13:20:28.488477Z",
+        "credit": [
+          "baiyecha404"
+        ],
+        "cvssScore": 8.6,
+        "disclosureTime": "2021-03-26T13:19:46Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-DUSTJSLINKEDIN-1089257",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-1321"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-04-26T16:18:43.690550Z",
+        "moduleName": "dustjs-linkedin",
+        "packageManager": "npm",
+        "packageName": "dustjs-linkedin",
+        "patches": [],
+        "publicationTime": "2021-04-26T16:18:43Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/linkedin/dustjs/issues/804"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<=2.7.5"
+          ]
+        },
+        "severity": "high",
+        "title": "Prototype Pollution"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L",
         "alternativeIds": [
@@ -7620,6 +7680,51 @@
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [],
+        "creationTime": "2021-05-04T08:31:48.515713Z",
+        "credit": [
+          "Francois Lajeunesse-Robert"
+        ],
+        "cvssScore": 5.6,
+        "disclosureTime": "2021-01-08T08:30:14Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "4.7.7"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-HANDLEBARS-1279029",
+        "identifiers": {
+          "CVE": [
+            "CVE-2021-23383"
+          ],
+          "CWE": [
+            "CWE-1321"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-05-04T08:56:24.047059Z",
+        "moduleName": "handlebars",
+        "packageManager": "npm",
+        "packageName": "handlebars",
+        "patches": [],
+        "publicationTime": "2021-05-04T08:56:24.293243Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/handlebars-lang/handlebars.js/commit/f0589701698268578199be25285b2ebea1c1e427"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<4.7.7"
+          ]
+        },
+        "severity": "medium",
+        "title": "Prototype Pollution"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "alternativeIds": [],
         "creationTime": "2021-01-08T17:25:21.189033Z",
         "credit": [
           "Francois Lajeunesse-Robert"
@@ -7634,13 +7739,15 @@
         "functions_new": [],
         "id": "SNYK-JS-HANDLEBARS-1056767",
         "identifiers": {
-          "CVE": [],
+          "CVE": [
+            "CVE-2021-23369"
+          ],
           "CWE": [
             "CWE-94"
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-15T11:50:52.210306Z",
+        "modificationTime": "2021-05-04T08:31:31.225911Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -7650,10 +7757,6 @@
           {
             "title": "GitHub Commit",
             "url": "https://github.com/handlebars-lang/handlebars.js/commit/b6d3de7123eebba603e321f04afdbae608e8fea8"
-          },
-          {
-            "title": "GitHub Commit",
-            "url": "https://github.com/handlebars-lang/handlebars.js/commit/f0589701698268578199be25285b2ebea1c1e427"
           }
         ],
         "semver": {
@@ -7789,8 +7892,8 @@
             "CWE-94"
           ],
           "GHSA": [
-            "GHSA-2cf5-4w76-r9qv",
-            "GHSA-q2c6-c6pm-g3gh"
+            "GHSA-q2c6-c6pm-g3gh",
+            "GHSA-2cf5-4w76-r9qv"
           ],
           "NSP": [
             1316,
@@ -8178,8 +8281,8 @@
             "CWE-79"
           ],
           "GHSA": [
-            "GHSA-9prh-257w-9277",
-            "GHSA-fmr4-7g9q-7hc7"
+            "GHSA-fmr4-7g9q-7hc7",
+            "GHSA-9prh-257w-9277"
           ],
           "NSP": [
             61
@@ -8631,6 +8734,54 @@
     ],
     "highcharts": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:U/RL:O/RC:R",
+        "alternativeIds": [],
+        "creationTime": "2021-05-06T12:26:28.547393Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 5.4,
+        "disclosureTime": "2021-05-06T12:23:47Z",
+        "exploit": "Unproven",
+        "fixedIn": [
+          "9.0.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-HIGHCHARTS-1290057",
+        "identifiers": {
+          "CVE": [
+            "CVE-2021-29489"
+          ],
+          "CWE": [
+            "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-8j65-4pcq-xq95"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-05-06T15:41:48.813158Z",
+        "moduleName": "highcharts",
+        "packageManager": "npm",
+        "packageName": "highcharts",
+        "patches": [],
+        "publicationTime": "2021-05-06T15:41:48.568534Z",
+        "references": [
+          {
+            "title": "GitHub Advisory",
+            "url": "https://github.com/highcharts/highcharts/security/advisories/GHSA-8j65-4pcq-xq95"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<9.0.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L/E:P/RL:U/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-10-16T16:51:04.818255Z",
@@ -8766,7 +8917,8 @@
             "CWE-400"
           ],
           "GHSA": [
-            "GHSA-m45f-4828-5cv5"
+            "GHSA-m45f-4828-5cv5",
+            "GHSA-xmc8-cjfr-phx3"
           ],
           "NSP": [
             793
@@ -8925,7 +9077,7 @@
         "publicationTime": "2020-07-19T16:14:30Z",
         "references": [
           {
-            "title": "GitHub PR",
+            "title": "GitHub Commit",
             "url": "https://github.com/i18next/i18next/commit/ed6169fa21b67d8e73b20d82579aff6f9b808a69"
           },
           {
@@ -9227,7 +9379,9 @@
           "ALTERNATIVE": [
             "SNYK-JS-ISMYJSONVALID-10887"
           ],
-          "CVE": [],
+          "CVE": [
+            "CVE-2018-1107"
+          ],
           "CWE": [
             "CWE-185",
             "CWE-400"
@@ -9750,6 +9904,7 @@
             "CWE-79"
           ],
           "GHSA": [
+            "GHSA-gxr4-xjj5-5px2",
             "GHSA-v73w-r9xg-7cr9"
           ],
           "NSP": [
@@ -9846,7 +10001,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-05-11T07:50:37.649500Z",
+        "modificationTime": "2021-04-16T09:29:45.526818Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -9872,7 +10027,7 @@
         ],
         "semver": {
           "vulnerable": [
-            ">=1.0.3 <3.5.0"
+            ">=1.5.1 <3.5.0"
           ]
         },
         "severity": "medium",
@@ -10197,7 +10352,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:F",
         "alternativeIds": [
           "SNYK-JS-JQUERY-10184"
         ],
@@ -10207,9 +10362,9 @@
         ],
         "cvssScore": 5.4,
         "disclosureTime": "2012-06-19T21:00:00Z",
-        "exploit": "Not Defined",
+        "exploit": "Functional",
         "fixedIn": [
-          "1.9.0"
+          "1.9.1"
         ],
         "functions": [],
         "functions_new": [],
@@ -10233,13 +10388,17 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:24.611114Z",
+        "modificationTime": "2021-03-29T10:11:59.437319Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
         "patches": [],
         "publicationTime": "2016-10-20T14:16:53Z",
         "references": [
+          {
+            "title": "ExploitDB",
+            "url": "https://www.exploit-db.com/exploits/49708"
+          },
           {
             "title": "GitHub Commit",
             "url": "https://github.com/jquery/jquery/commit/05531fc4080ae24070930d15ae0cea7ae056457d"
@@ -10255,7 +10414,7 @@
         ],
         "semver": {
           "vulnerable": [
-            ">=1.7.1 <1.9.0"
+            "<1.9.1"
           ]
         },
         "severity": "medium",
@@ -10897,7 +11056,7 @@
     ],
     "jquery.js": [
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H/E:H",
         "alternativeIds": [
           "SNYK-JS-JQUERYJS-10712"
         ],
@@ -10907,7 +11066,7 @@
         ],
         "cvssScore": 8.8,
         "disclosureTime": "2017-08-02T15:47:13.736000Z",
-        "exploit": "Not Defined",
+        "exploit": "High",
         "fixedIn": [],
         "functions": [],
         "functions_new": [],
@@ -11893,8 +12052,8 @@
             "CWE-79"
           ],
           "GHSA": [
-            "GHSA-vcjj-xf2r-mwvc",
-            "GHSA-qfmr-6qvh-49gm"
+            "GHSA-qfmr-6qvh-49gm",
+            "GHSA-vcjj-xf2r-mwvc"
           ]
         },
         "language": "js",
@@ -12858,10 +13017,10 @@
             "CWE-400"
           ],
           "GHSA": [
-            "GHSA-2m96-9w4j-wgv7",
-            "GHSA-46fh-8fc5-xcwx",
+            "GHSA-fvqr-27wr-82fm",
             "GHSA-5947-m4fg-xhqg",
-            "GHSA-fvqr-27wr-82fm"
+            "GHSA-46fh-8fc5-xcwx",
+            "GHSA-2m96-9w4j-wgv7"
           ],
           "NSP": [
             1067,
@@ -14671,12 +14830,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-23T16:42:39.630890Z",
+        "modificationTime": "2021-02-23T16:42:39.630000Z",
         "moduleName": "merge",
         "packageManager": "npm",
         "packageName": "merge",
         "patches": [],
-        "publicationTime": "2021-02-23T16:42:39.612843Z",
+        "publicationTime": "2021-02-23T16:42:39.612000Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -18077,6 +18236,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-2fqv-h3r5-m4vf"
           ]
         },
         "language": "js",
@@ -18315,6 +18477,7 @@
             "CWE-79"
           ],
           "GHSA": [
+            "GHSA-mvjj-gqq2-p4hw",
             "GHSA-cg48-9hh2-x6mx"
           ],
           "NSP": [
@@ -18598,7 +18761,8 @@
             "CWE-400"
           ],
           "GHSA": [
-            "GHSA-4gpv-cvmq-6526"
+            "GHSA-4gpv-cvmq-6526",
+            "GHSA-762f-c2wg-m8c8"
           ],
           "NSP": [
             605
@@ -18787,6 +18951,9 @@
           ],
           "CWE": [
             "CWE-20"
+          ],
+          "GHSA": [
+            "GHSA-gqgv-6jq5-jjj9"
           ]
         },
         "language": "js",
@@ -19015,6 +19182,7 @@
             "CWE-400"
           ],
           "GHSA": [
+            "GHSA-jjv7-qpx3-h62q",
             "GHSA-gqgv-6jq5-jjj9"
           ],
           "NSP": [
@@ -19149,6 +19317,53 @@
       }
     ],
     "quill": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "alternativeIds": [],
+        "creationTime": "2021-04-13T08:11:47.089123Z",
+        "credit": [
+          "burninatorsec"
+        ],
+        "cvssScore": 5.4,
+        "disclosureTime": "2021-04-13T08:10:29Z",
+        "exploit": "Not Defined",
+        "fixedIn": [],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-QUILL-1245047",
+        "identifiers": {
+          "CVE": [
+            "CVE-2021-3163"
+          ],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-04-13T14:00:00.161969Z",
+        "moduleName": "quill",
+        "packageManager": "npm",
+        "packageName": "quill",
+        "patches": [],
+        "publicationTime": "2021-04-13T13:59:59.934933Z",
+        "references": [
+          {
+            "title": "Blog Post",
+            "url": "https://burninatorsec.blogspot.com/2021/04/cve-2021-3163-xss-slab-quill-js.html"
+          },
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/quilljs/quill/issues/3273"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<=1.3.7"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
@@ -19629,6 +19844,7 @@
             "CWE-79"
           ],
           "GHSA": [
+            "GHSA-mvjj-gqq2-p4hw",
             "GHSA-cg48-9hh2-x6mx"
           ],
           "NSP": [
@@ -21164,6 +21380,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-3j7m-hmh3-9jmp"
           ]
         },
         "language": "js",
@@ -22999,6 +23218,9 @@
             "CWE-79"
           ],
           "GHSA": [
+            "GHSA-mrx7-8hxf-f853",
+            "GHSA-p239-93f7-h6xf",
+            "GHSA-7f59-x49p-v8mq",
             "GHSA-g336-c7wv-8hp3"
           ],
           "NSP": [
@@ -23648,6 +23870,9 @@
           ],
           "CWE": [
             "CWE-400"
+          ],
+          "GHSA": [
+            "GHSA-fq6p-x6j3-cmmq"
           ]
         },
         "language": "js",
@@ -24066,7 +24291,9 @@
         "functions_new": [],
         "id": "SNYK-JS-TINYMCE-543825",
         "identifiers": {
-          "CVE": [],
+          "CVE": [
+            "CVE-2020-17480"
+          ],
           "CWE": [
             "CWE-79"
           ],
@@ -24795,6 +25022,59 @@
         "title": "Regular Expression Denial of Service (ReDoS)"
       }
     ],
+    "underscore": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:L/A:L/E:P/RL:O/RC:C",
+        "alternativeIds": [],
+        "creationTime": "2021-03-02T19:52:38.855110Z",
+        "credit": [
+          "Alessio Della Libera (@d3lla)"
+        ],
+        "cvssScore": 5.5,
+        "disclosureTime": "2021-03-02T19:51:03Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "1.13.0-2",
+          "1.12.1"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-UNDERSCORE-1080984",
+        "identifiers": {
+          "CVE": [
+            "CVE-2021-23358"
+          ],
+          "CWE": [
+            "CWE-94"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-03-29T14:54:59.415087Z",
+        "moduleName": "underscore",
+        "packageManager": "npm",
+        "packageName": "underscore",
+        "patches": [],
+        "publicationTime": "2021-03-29T14:54:59Z",
+        "references": [
+          {
+            "title": "GitHub Additional Information",
+            "url": "https://github.com/jashkenas/underscore/blob/cb5f6fc6c2400649d942f1e36f9e5191fb7a1bf1/modules/template.js%23L71"
+          },
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/jashkenas/underscore/commit/4c73526d43838ad6ab43a6134728776632adeb66"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            ">=1.13.0-0 <1.13.0-2",
+            ">=1.3.2 <1.12.1"
+          ]
+        },
+        "severity": "medium",
+        "title": "Arbitrary Code Injection"
+      }
+    ],
     "underscore.string": [
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
@@ -25517,6 +25797,194 @@
     ],
     "validator": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "alternativeIds": [],
+        "creationTime": "2021-04-05T13:15:56.238780Z",
+        "credit": [
+          "Yeting Li"
+        ],
+        "cvssScore": 5.3,
+        "disclosureTime": "2021-04-05T13:14:43Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "13.6.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-VALIDATOR-1090602",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-04-26T16:18:43.024933Z",
+        "moduleName": "validator",
+        "packageManager": "npm",
+        "packageName": "validator",
+        "patches": [],
+        "publicationTime": "2021-04-26T16:18:42.989822Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/validatorjs/validator.js/issues/1597"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/validatorjs/validator.js/pull/1651"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<13.6.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "alternativeIds": [],
+        "creationTime": "2021-04-05T13:13:17.588279Z",
+        "credit": [
+          "Yeting Li"
+        ],
+        "cvssScore": 5.3,
+        "disclosureTime": "2021-04-05T13:11:19Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "13.6.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-VALIDATOR-1090601",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-04-26T16:18:43.483071Z",
+        "moduleName": "validator",
+        "packageManager": "npm",
+        "packageName": "validator",
+        "patches": [],
+        "publicationTime": "2021-04-26T16:18:43.450928Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/validatorjs/validator.js/issues/1598"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/validatorjs/validator.js/pull/1651"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<13.6.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "alternativeIds": [],
+        "creationTime": "2021-04-05T12:59:35.520598Z",
+        "credit": [
+          "Yeting Li"
+        ],
+        "cvssScore": 5.3,
+        "disclosureTime": "2021-04-05T12:43:44Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "13.6.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-VALIDATOR-1090600",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-04-26T16:18:44.184786Z",
+        "moduleName": "validator",
+        "packageManager": "npm",
+        "packageName": "validator",
+        "patches": [],
+        "publicationTime": "2021-04-26T16:18:44.161884Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/validatorjs/validator.js/issues/1599"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/validatorjs/validator.js/pull/1603"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<13.6.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "alternativeIds": [],
+        "creationTime": "2021-04-05T12:57:03.048070Z",
+        "credit": [
+          "Yeting Li"
+        ],
+        "cvssScore": 5.3,
+        "disclosureTime": "2021-04-05T12:54:38Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "13.6.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-VALIDATOR-1090599",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-04-26T16:18:45.603232Z",
+        "moduleName": "validator",
+        "packageManager": "npm",
+        "packageName": "validator",
+        "patches": [],
+        "publicationTime": "2021-04-26T16:18:45.810326Z",
+        "references": [
+          {
+            "title": "GitHub Issue",
+            "url": "https://github.com/validatorjs/validator.js/issues/1596"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/validatorjs/validator.js/pull/1603"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<13.6.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L/E:P/RL:O/RC:C",
         "alternativeIds": [
           "SNYK-JS-VALIDATOR-10896"
@@ -25847,8 +26315,8 @@
             "CWE-79"
           ],
           "GHSA": [
-            "GHSA-79mx-88w7-8f7q",
-            "GHSA-9959-c6q6-6qp3"
+            "GHSA-9959-c6q6-6qp3",
+            "GHSA-79mx-88w7-8f7q"
           ],
           "NSP": [
             43
@@ -26241,6 +26709,7 @@
             "CWE-79"
           ],
           "GHSA": [
+            "GHSA-mvjj-gqq2-p4hw",
             "GHSA-cg48-9hh2-x6mx"
           ],
           "NSP": [
@@ -26584,6 +27053,9 @@
           ],
           "CWE": [
             "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-mj87-8xf8-fp4w"
           ]
         },
         "language": "js",

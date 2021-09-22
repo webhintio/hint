@@ -1,26 +1,26 @@
 {
   "dependencies": {
-    "@hint/utils": "^7.0.9",
-    "@hint/utils-create-server": "^3.4.9",
-    "@hint/utils-fs": "^1.0.8",
-    "@hint/utils-network": "^1.0.9",
-    "@hint/utils-types": "^1.1.2",
+    "@hint/utils": "^7.0.10",
+    "@hint/utils-create-server": "^3.4.10",
+    "@hint/utils-fs": "^1.0.9",
+    "@hint/utils-network": "^1.0.10",
+    "@hint/utils-types": "^1.1.3",
     "ava": "^3.15.0",
     "proxyquire": "^2.1.3"
   },
   "description": "hint tests helpers",
   "devDependencies": {
-    "@types/node": "^14.14.31",
+    "@types/node": "^15.6.1",
     "@types/proxyquire": "^1.3.28",
-    "@typescript-eslint/eslint-plugin": "^4.17.0",
-    "@typescript-eslint/parser": "^4.18.0",
-    "cpx": "^1.5.0",
-    "eslint": "^7.21.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-markdown": "^1.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.1",
+    "copyfiles": "^2.4.1",
+    "eslint": "^7.29.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-markdown": "^2.2.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   },
   "files": [
     "dist"
@@ -50,7 +50,7 @@
   "scripts": {
     "build": "npm-run-all build:*",
     "build-release": "npm run clean && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
-    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:assets": "copyfiles \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "lint": "npm-run-all lint:*",
@@ -63,5 +63,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "6.3.3"
+  "version": "6.3.4"
 }

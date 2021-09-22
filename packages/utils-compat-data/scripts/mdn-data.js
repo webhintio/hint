@@ -1,5 +1,5 @@
 const fs = require('fs');
-const mdn = require('mdn-browser-compat-data');
+const mdn = require('@mdn/browser-compat-data');
 const path = require('path');
 const filename = path.resolve(`${__dirname}/../src/mdn-css-types.ts`);
 
@@ -66,7 +66,7 @@ const types = props.map((key) => {
     return [
         key,
         [...new Set(getTypesForProperty(key))].filter((type) => {
-            // Exclude types not present in mdn-browser-compat-data since we won't need them.
+            // Exclude types not present in @mdn/browser-compat-data since we won't need them.
             return mdn.css.types[type];
         })
     ];

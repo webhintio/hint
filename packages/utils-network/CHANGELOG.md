@@ -1,3 +1,24 @@
+# 1.0.10 (June 9, 2021)
+
+## Bug fixes / Improvements
+
+* [[`27b8f12331`](https://github.com/webhintio/hint/commit/27b8f12331a2553208dbb489edddd9162677c931)] - Fix: Update dependencies to fix vulnerabilities (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#4594`](https://github.com/webhintio/hint/issues/4594)).
+
+## Chores
+
+* [[`4e8187c0da`](https://github.com/webhintio/hint/commit/4e8187c0da48258cac7e95d1a5c9e72dbc8f5002)] - Upgrade: Bump eslint-plugin-markdown from 2.1.0 to 2.2.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9fc0c33223`](https://github.com/webhintio/hint/commit/9fc0c33223cf5a80ec01434baa94662e117a3263)] - Upgrade: Bump eslint from 7.26.0 to 7.27.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`fe2e481f6b`](https://github.com/webhintio/hint/commit/fe2e481f6b5694f25e846b79645222b75ff33b33)] - Upgrade: Bump eslint-plugin-markdown from 1.0.2 to 2.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`b85bd445bd`](https://github.com/webhintio/hint/commit/b85bd445bd38ae59d315559ca55b9a0cfbec0efb)] - Upgrade: Bump eslint from 7.23.0 to 7.26.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7096003bd6`](https://github.com/webhintio/hint/commit/7096003bd695830e8677ccf21cf2f3417aa0a21b)] - Upgrade: Bump typescript from 4.2.3 to 4.2.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4e911c2579`](https://github.com/webhintio/hint/commit/4e911c2579dca309dbd1d2e10f2c2e878c958485)] - Upgrade: Bump eslint from 7.21.0 to 7.23.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`9b47140b1c`](https://github.com/webhintio/hint/commit/9b47140b1c8dac076bee248370fa1f0c6e933681)] - Upgrade: Bump typescript from 4.1.5 to 4.2.3 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`3c4e88ccc2`](https://github.com/webhintio/hint/commit/3c4e88ccc2aad4fa6bef789961b447c37b34858c)] - Upgrade: Bump eslint from 7.20.0 to 7.21.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`5023166983`](https://github.com/webhintio/hint/commit/5023166983444a4e9e7d688b000c687f16ac0df9)] - Upgrade: Bump eslint from 7.17.0 to 7.20.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f7fc841606`](https://github.com/webhintio/hint/commit/f7fc84160695aa8796ac2436a3b9dd802eb39dab)] - Upgrade: Bump lodash from 4.17.20 to 4.17.21 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`211de74110`](https://github.com/webhintio/hint/commit/211de741109ad5bb335a3b0601b46911aaacb69c)] - Upgrade: Bump typescript from 4.1.3 to 4.1.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.8 (February 4, 2021)
 
 ## Bug fixes / Improvements

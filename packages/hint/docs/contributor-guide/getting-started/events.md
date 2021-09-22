@@ -7,7 +7,7 @@ create them, while `parser`s and `hint`s consume them. To add new events via a
 ```ts
 // example.ts
 import { Event, Events } from 'hint/dist/src/lib/types/events';
-...
+// ...
 export type StyleParse = Event & {
     ast: Root;
     code: string;
@@ -22,9 +22,9 @@ export type StyleEvents = Events & {
 export default class CSSParser extends Parser<StyleEvents> {
     public constructor(engine: Engine<StyleEvents>) {
         super(engine, 'css');
-        ...
+        // ...
     }
-    ...
+    // ...
 }
 ```
 
@@ -72,7 +72,7 @@ Event is emitted **when** the content of a `resource` (`js`, `css`,
 **Format:**
 
 ```ts
-type FetchEnd {
+type FetchEnd = {
     /** The element that initiated the request. */
     element: HTMLElement;
     /** The URL of the target */
@@ -92,7 +92,7 @@ a `resource` was encountered.
 **Format:**
 
 ```ts
-type FetchError {
+type FetchError = {
     /** The URL of the target. */
     resource: string;
     /** The element that initiated the request. */
@@ -112,7 +112,7 @@ to start
 **Format:**
 
 ```ts
-type FetchStart {
+type FetchStart = {
     /** The URL to download */
     resource: string;
 }
@@ -126,7 +126,7 @@ events and its about to return. This is the last event to be emitted.
 **Format:**
 
 ```ts
-type ScanEnd {
+type ScanEnd = {
      /** The final URL analyzed. */
     resource: string;
 }
@@ -140,7 +140,7 @@ analysis. This is the first event to be emitted.
 **Format:**
 
 ```ts
-type ScanStart {
+type ScanStart = {
     /** The URL to analyze. */
     resource: string;
 }
@@ -161,7 +161,7 @@ is to be traversed.
 **Format:**
 
 ```ts
-type TraverseDown {
+type TraverseDown = {
     /** The parent element to be traversed. */
     element: HTMLElement;
     /** The URL of the target. */
@@ -177,7 +177,7 @@ the DOM entirely.
 **Format:**
 
 ```ts
-type TraverseEnd {
+type TraverseEnd = {
     /** The URL of the target. */
     resource: string;
 }
@@ -191,7 +191,7 @@ the DOM.
 **Format:**
 
 ```ts
-type TraverseStart {
+type TraverseStart = {
     /** The URL of the target. */
     resource: string;
 }
@@ -206,7 +206,7 @@ node that was traversed.
 **Format:**
 
 ```ts
-type TraverseUp {
+type TraverseUp = {
     /** The parent element that was traversed. */
     element: HTMLElement;
     /** The URL of the target. */
@@ -220,7 +220,7 @@ Event is emitted **when** the `connector` is ready to evaluate
 scripts.
 
 ```ts
-type CanEvaluateScript {
+type CanEvaluateScript = {
     /** The URL of the target. */
     resource: string;
 }

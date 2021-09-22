@@ -37,7 +37,7 @@ test('range', (t) => {
                 ['and_ff 66', { versionAdded: '67' }]
             ])
         }),
-        'Firefox < 67, Firefox Android < 67'
+        'Firefox < 67, Firefox for Android < 67'
     );
 });
 

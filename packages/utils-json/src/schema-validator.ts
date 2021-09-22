@@ -25,7 +25,7 @@ const generateError = (type: string, action: ((error: ajv.ErrorObject, property:
             return null;
         }
 
-        const property = error.dataPath.substr(1);
+        const property = error.instancePath.substr(1);
 
         return action(error, property, errors);
     };
@@ -67,7 +67,7 @@ const generatePatternError = generateError(ErrorKeyword.pattern, (error: ajv.Err
  * Returns a readable error for 'type' errors.
  */
 const generateTypeError = generateError(ErrorKeyword.type, (error: ajv.ErrorObject, property: string) => {
-    return `'${property}' should be '${error.params.type}'.`;
+    return `'${property}' must be '${error.params.type}'.`;
 });
 
 const generateAnyOfError = generateError(ErrorKeyword.anyOf, (error: ajv.ErrorObject, property: string, errors?: ajv.ErrorObject[]): string => {
@@ -97,15 +97,15 @@ const getEnumValues = (error: ajv.ErrorObject): string => {
 };
 
 const generateAnyOfMessageRequired = (errors: ajv.ErrorObject[]): string => {
-    return `should have required ${errors.length === 1 ? 'property' : 'properties'} ${errors.map(getRequiredProperty).join(' or ')}`;
+    return `must have required ${errors.length === 1 ? 'property' : 'properties'} ${errors.map(getRequiredProperty).join(' or ')}`;
 };
 
 const generateAnyOfMessageType = (errors: ajv.ErrorObject[]): string => {
-    return `should be ${errors.map(getTypeProperty).join(' or ')}.`;
+    return `must be ${errors.map(getTypeProperty).join(' or ')}.`;
 };
 
 const generateAnyOfMessageEnum = (errors: ajv.ErrorObject[]): string => {
-    return `should be equal to one of the allowed values ${errors.map(getEnumValues).join(' or ')}. Value found '${JSON.stringify(errors[0].data)}'.`;
+    return `must be equal to one of the allowed values ${errors.map(getEnumValues).join(' or ')}. Value found '${JSON.stringify(errors[0].data)}'.`;
 };
 
 type GenerateAnyOfGroupedMessage = {
@@ -137,19 +137,19 @@ const generate = (error: ajv.ErrorObject, errors?: ajv.ErrorObject[]): string | 
 
 /**
  * Returns a readable error for 'anyOf' and 'oneOf' errors.
- * e.g.: 'root' should have required properties 'connector' or 'extends'
+ * e.g.: 'root' must have required properties 'connector' or 'extends'
  */
 const generateAnyOfGroupedError = (error: ajv.ErrorObject, errors?: ajv.ErrorObject[]): string => {
     const otherErrors = without(errors, error);
     const grouped = groupBy(otherErrors, 'keyword');
 
     const results = reduce(grouped, (allMessages, groupedErrors, keyword) => {
-        const dataPath = error.dataPath;
+        const instancePath = error.instancePath;
 
         const messageGenerator = generateAnyOfMessage[keyword];
 
         if (messageGenerator) {
-            allMessages.push(`'${dataPath ? dataPath.substr(1) : 'root'}' ${messageGenerator(groupedErrors)}`);
+            allMessages.push(`'${instancePath ? instancePath.substr(1) : 'root'}' ${messageGenerator(groupedErrors)}`);
 
             return allMessages;
         }
@@ -175,9 +175,9 @@ const generateErrorsMessage = (errors: ajv.ErrorObject[]): string[] => {
 
     const result = reduce(grouped, (allMessages, groupedErrors, keyword) => {
         if (keyword === ErrorKeyword.required) {
-            const dataPath = groupedErrors[0].dataPath;
+            const instancePath = groupedErrors[0].instancePath;
 
-            allMessages.push(`'${dataPath ? dataPath.substr(1) : 'root'}' should have required ${groupedErrors.length === 1 ? 'property' : 'properties'} ${groupedErrors.map(getRequiredProperty).join(' and ')}`);
+            allMessages.push(`'${instancePath ? instancePath.substr(1) : 'root'}' must have required ${groupedErrors.length === 1 ? 'property' : 'properties'} ${groupedErrors.map(getRequiredProperty).join(' and ')}`);
 
             return allMessages;
         }
@@ -196,19 +196,19 @@ const generateErrorsMessage = (errors: ajv.ErrorObject[]): string[] => {
  * Group messages with the same data path.
  * e.g.:
  * * Input (only messages):
- * *   - should be equal to one of the allowed values (dataPath: ".hints['amp-validator']")
- * *   - should be number (dataPath: ".hints['amp-validator'])"
- * *   - should be equal to one of the allowed values (dataPath: ".hints['amp-validator']")
- * *   - should have required property 'connector' (dataPath: "")
- * *   - should have required property 'extends' (dataPath: "")
- * *   - should match some schema in anyOf (dataPath: "")
+ * *   - must be equal to one of the allowed values (instancePath: ".hints['amp-validator']")
+ * *   - must be number (instancePath: ".hints['amp-validator'])"
+ * *   - must be equal to one of the allowed values (instancePath: ".hints['amp-validator']")
+ * *   - must have required property 'connector' (instancePath: "")
+ * *   - must have required property 'extends' (instancePath: "")
+ * *   - must match some schema in anyOf (instancePath: "")
  *
  * * Output (only messages):
- * *   - 'hints['amp-validator']' should be equal to one of the allowed values 'off, warning, error' or '0, 1, 2'. Value found '"notvalid"'. Or 'hints['amp-validator']' should be 'number'.
- * *   - 'root' should have required properties 'connector' or 'extends'
+ * *   - 'hints['amp-validator']' must be equal to one of the allowed values 'off, warning, error' or '0, 1, 2'. Value found '"notvalid"'. Or 'hints['amp-validator']' must be 'number'.
+ * *   - 'root' must have required properties 'connector' or 'extends'
  */
 const groupMessages = (errors: ISchemaValidationError[]): GroupedError[] => {
-    const grouped = groupBy(errors, 'dataPath');
+    const grouped = groupBy(errors, 'instancePath');
 
     const result = reduce(grouped, (allErrors, groupErrors: ISchemaValidationError[]) => {
         let errors = groupErrors;
@@ -275,7 +275,7 @@ const groupMessages = (errors: ISchemaValidationError[]): GroupedError[] => {
 /* istanbul ignore next */
 const errorWithLocation = (error: ajv.ErrorObject, getLocation: JSONLocationFunction): ISchemaValidationError => {
 
-    let path = error.dataPath;
+    let path = error.instancePath;
     const additionalProperty = error.params && error.params.additionalProperty;
 
     if (additionalProperty) {
@@ -289,7 +289,7 @@ const errorWithLocation = (error: ajv.ErrorObject, getLocation: JSONLocationFunc
 };
 
 const prettify = (errors: ajv.ErrorObject[]) => {
-    const grouped = groupBy(errors, 'dataPath');
+    const grouped = groupBy(errors, 'instancePath');
 
     const result = reduce(grouped, (allMessages, groupErrors: ajv.ErrorObject[]) => {
         groupErrors.forEach((error) => {
@@ -318,10 +318,11 @@ export const validate = (schema: object, json: object, getLocation?: JSONLocatio
 
     addFormats(validator);
     validator.addKeyword('regexp');
+    validator.addKeyword('markdownDescription');
 
     // We clone the incoming data because the validator can modify it.
     const data = cloneDeep(json);
-    const validateFunction: ajv.ValidateFunction<any[]> = validator.compile(schema);
+    const validateFunction: ajv.ValidateFunction<unknown> = validator.compile(schema);
 
     const valid: boolean = validateFunction(data) as boolean;
 

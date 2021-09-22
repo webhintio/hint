@@ -21,7 +21,7 @@
     {{{dependencyVersion "@typescript-eslint/eslint-plugin"}}},
     {{{dependencyVersion "@typescript-eslint/parser"}}},
     {{{dependencyVersion "ava"}}},
-    {{{dependencyVersion "cpx"}}},
+    {{{dependencyVersion "copyfiles"}}},
     {{{dependencyVersion "eslint"}}},
     {{{dependencyVersion "eslint-plugin-markdown"}}},
     {{{dependencyVersion "npm-run-all"}}},
@@ -70,7 +70,7 @@
   "scripts": {
     "build": "{{#if official}}npm run i18n && {{/if}}npm-run-all build:*",
     "build-release": "npm run clean && {{#if official}}npm run i18n && {{/if}}npm run build:assets && tsc --inlineSourceMap false --removeComments true",
-    "build:assets": "cpx \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:assets": "copyfiles \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",{{#if official}}
     "i18n": "node ../../scripts/create-i18n.js",{{/if}}

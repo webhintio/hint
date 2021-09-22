@@ -61,11 +61,11 @@ export default class MyNewHint implements IHint {
 
         const validateFetchEnd = (fetchEnd: FetchEnd) => {
             // Code to validate the hint on the event fetch::end.
-        }
+        };
 
         const validateElement = (element: ElementFound) => {
             // Code to validate the hint on the event element::element-type.
-        }
+        };
 
         context.on('element', validateElement);
         context.on('fetch::end::*', validateFetchEnd);
@@ -95,7 +95,7 @@ with the website and report errors.
 To report an error, the hint has to do the following:
 
 ```ts
-context.report(resource, message, { element: element });
+context.report(resource, message, { element: elementToReport });
 ```
 
 * `resource` is the URL of what is being analyzed (HTML, JS, CSS, manifest,
