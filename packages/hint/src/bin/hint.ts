@@ -4,7 +4,7 @@
  * @fileoverview Main CLI that is run via the hint command. Based on ESLint.
  */
 
-/* eslint-disable no-process-exit, no-process-env */
+/* eslint-disable no-process-exit */
 
 /*
  * ------------------------------------------------------------------------------
@@ -20,13 +20,13 @@ import * as cli from '../lib/cli';
  * ------------------------------------------------------------------------------
  */
 
-process.once('uncaughtException', async (err) => {
+process.once('uncaughtException', (err) => {
     console.error(err.message);
     console.error(err.stack);
     process.exit(1);
 });
 
-process.once('unhandledRejection', async (r) => {
+process.once('unhandledRejection', (r) => {
     // TODO: remove once https://github.com/DefinitelyTyped/DefinitelyTyped/issues/33636 is fixed
     const reason = r as any;
     const source = reason && reason instanceof Error ? reason : reason.error;
