@@ -71,7 +71,7 @@ const App = (props: Props) => {
         setIsAnalyzing(false);
         setPage(Page.Results);
         setResults(results);
-    }, [config]);
+    }, []);
 
     const onStart = useCallback((newConfig: ConfigData) => {
         setConfig(newConfig);
