@@ -3,7 +3,6 @@ import * as path from 'path';
 
 const debugging = (process.argv.includes('--debug'));
 const debugTarget = process.env.DEBUG || 'hint:*';
-const analyticsDebug = process.argv.includes('--analytics-debug');
 
 /**
  * If the environment variable `DEBUG` is set, the `debug` package
@@ -18,8 +17,6 @@ import * as d from 'debug';
 
 if (debugging) {
     d.enable(debugTarget);
-} else if (analyticsDebug) {
-    d.enable('hint:utils:appinsights');
 }
 
 /** Initialize the debug messaging system. */

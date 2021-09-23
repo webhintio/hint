@@ -140,7 +140,7 @@ environment:
 {
     ...
     "scripts": {
-        "test:staging": "hint https://example-staging.azurewebsites.net --telemetry=on",
+        "test:staging": "hint https://example-staging.azurewebsites.net",
         ...
     }
 }

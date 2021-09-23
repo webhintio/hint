@@ -6,7 +6,6 @@ import * as inquirer from 'inquirer';
 import * as mkdirp from 'mkdirp';
 
 import {
-    appInsights,
     isOfficial,
     logger
 } from '@hint/utils';
@@ -14,8 +13,6 @@ import { normalizeStringByDelimiter } from '@hint/utils-string';
 import { writeFileAsync } from '@hint/utils-fs';
 
 import { escapeSafeString, compileTemplate } from './handlebars-utils';
-
-const { sendPendingData, trackEvent } = appInsights;
 
 /*
  * ------------------------------------------------------------------------------
@@ -333,9 +330,6 @@ New parser created in ${parserData.destination}
 2. Run 'npm run init' to install all the dependencies and build the project.
 3. Run 'npm run hint -- https://YourUrl' to analyze you site.`);
     }
-
-    trackEvent('new-parser');
-    await sendPendingData();
 
     return true;
 };

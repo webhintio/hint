@@ -139,63 +139,6 @@ In this case, we are telling to Travis CI to install `chrome` and `nodejs`.
 
 ## Common
 
-### Enabling telemetry
-
-**Note:** To know more about how webhint uses telemetry, please visit
-the [telemetry documentation][].
-
-You can enable telemetry by adding either a parameter or an `env` variable.
-
-1. By parameter: Add `--telemetry=on` to the script in your `package.json`
-   `package.json`
-
-    ```json
-    …
-    "scripts": {
-        …
-        "test-hint": "hint https://webhint.io --debug --telemetry=on"
-      },
-    …
-    ```
-
-    or in your `.travis.yml`:
-
-    ```yml
-    language: python
-
-    addons:
-      chrome: stable
-
-    before_install:
-    - nvm install node
-
-    script:
-       # Add the necessary steps to deploy your website.
-      - npm install hint --no-save
-      - node node_modules/hint/dist/src/bin/hint.js https://url-to-your-project --telemetry=on
-    ```
-
-2. By `env` variable: You need to configure the `env` variable `HINT_TELEMETRY` in
-   `.travis.yml`:
-
-    ```yml
-    language: node_js
-    node_js:
-    - 10.16.2
-
-    addons:
-      chrome: stable
-
-    env:
-      - HINT_TELEMETRY=on
-
-    script:
-      - npm install
-      - npm run test-hint
-    ```
-
-**Note:** Supported values for `HINT_TELEMETRY` are `on` and `off`.
-
 ## Further configuration
 
 In order to change the output, severity of the hints, etc. you will have to
@@ -205,5 +148,4 @@ for more details.
 <!-- Link labels -->
 
 [configuring webhint]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
-[telemetry documentation]: https://webhint.io/docs/user-guide/telemetry/summary/
 [travisci]: https://travis-ci.org/

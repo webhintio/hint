@@ -16,7 +16,6 @@ import * as inquirer from 'inquirer';
 
 import { utils } from 'hint';
 import {
-    appInsights,
     getOfficialPackages,
     installPackages,
     logger,
@@ -30,7 +29,6 @@ import { debug as d } from '@hint/utils-debug';
 import { generateBrowserslistConfig } from './browserslist';
 
 const { resourceLoader: { getInstalledResources, getCoreResources } } = utils;
-const { sendPendingData, trackEvent } = appInsights;
 
 const debug: debug.IDebugger = d(__filename);
 const defaultFormatter = 'summary';
@@ -215,9 +213,6 @@ export default async (): Promise<boolean> => {
 
         await installPackages(result.packages);
     }
-
-    trackEvent('new-hintrc', result.config);
-    await sendPendingData();
 
     return true;
 };

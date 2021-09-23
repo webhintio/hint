@@ -145,55 +145,6 @@ and a Chromium browser in your image.
 
 ## Common
 
-### Enabling telemetry
-
-**Note:** To know more about how webhint uses telemetry, please visit
-the [telemetry documentation][].
-
-You can enable telemetry by adding either a parameter or an `env` variable.
-
-1. By parameter: Add `--telemetry=on` to the script in your `package.json`
-
-    ```json
-    …
-    "scripts": {
-        …
-        "test-hint": "hint https://webhint.io --debug --telemetry=on"
-      },
-    …
-    ```
-
-    or in your `.circleci/config.yml`:
-
-    ```yml
-    version: 2.1
-    jobs:
-      build:
-        docker:
-          - image: circleci/python:latest-node-browsers
-        steps:
-          - checkout # check out the code in the project directory
-          # Add the necessary steps to deploy your website.
-          - run: npm install hint --no-save
-          - run: node node_modules/hint/dist/src/bin/hint.js https://url-to-your-project --telemetry=on
-    ```
-
-2. By `env` variable: You need to configure the `env` variable `HINT_TELEMETRY` in
-   `.circleci/config.yml`:
-
-    ```yml
-    version: 2.1
-    jobs:
-      build:
-        docker:
-          - image: circleci/node:lts-browsers
-        steps:
-          - checkout # check out the code in the project directory
-          - run: echo 'export HINT_TELEMETRY="on"' >> $BASH_ENV
-          - run: npm install
-          - run: npm run test-hint
-    ```
-
 ## Further configuration
 
 In order to change the output, severity of the hints, etc. you will have to
@@ -204,4 +155,3 @@ for more details.
 
 [CircleCI]: https://circleci.com/
 [configuring webhint]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
-[telemetry documentation]: https://webhint.io/docs/user-guide/telemetry/summary/

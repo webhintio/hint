@@ -58,14 +58,6 @@ type Analyzer = {
     Analyzer: () => void;
 }
 
-type AppInsight = {
-    disable: () => void;
-    enable: () => void;
-    isConfigured: () => boolean;
-    isEnabled: () => boolean;
-    trackEvent: (event: string, data: any) => void;
-};
-
 type ConfigStore = {
     get: (key: string) => any;
     set: (key: string, value: any) => void;
@@ -73,7 +65,6 @@ type ConfigStore = {
 
 type AnalyzeContext = {
     analyzer: Analyzer;
-    appInsight: AppInsight;
     askQuestion: AskQuestion;
     configStore: ConfigStore;
     errorSpy: sinon.SinonSpy<[string]>;
@@ -132,17 +123,6 @@ const initContext = (t: ExecutionContext<AnalyzeContext>) => {
     (t.context.analyzer.Analyzer as any).getUserConfig = (filePath?: string): UserConfig | null => {
         return null;
     };
-    t.context.appInsight = {
-        disable() { },
-        enable() { },
-        isConfigured() {
-            return false;
-        },
-        isEnabled() {
-            return false;
-        },
-        trackEvent(event: string, data: any) { }
-    };
     t.context.configStore = {
         get(key: string) {
             return false;
@@ -158,7 +138,6 @@ const loadScript = (context: AnalyzeContext, isCi: boolean = false) => {
             getUserConfig: (context.analyzer.Analyzer as any).getUserConfig
         },
         '@hint/utils': {
-            appInsights: context.appInsight,
             askQuestion: context.askQuestion,
             configStore: utils.configStore,
             getHintsFromConfiguration: context.getHintsFromConfiguration,
@@ -427,142 +406,9 @@ test('updateCallback should write a message in the spinner', async (t) => {
     t.is(t.context.spinner.text, 'Downloading http://localhost/');
 });
 
-test('If there is missing or incompatible packages, they should be tracked', async (t) => {
-    const sandbox = t.context.sandbox;
-    const fakeAnalyzer = new FakeAnalyzer();
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'create').throws(new AnalyzerError('error', AnalyzerErrorStatus.ResourceError, { connector: null, formatters: [], hints: [], incompatible: ['hint2'], missing: ['hint1'], parsers: [] }));
-    sandbox.stub(fakeAnalyzer, 'analyze').callsFake(async (targets: Endpoint | Endpoint[], options?: AnalyzeOptions) => {
-        await options!.updateCallback!({
-            message: 'Downloading http://localhost/',
-            url: 'http://example.com'
-        });
-
-        return [];
-    });
-    sandbox.stub(t.context, 'askQuestion').resolves(false);
-
-    const appInsightTrackEventSpy = sandbox.spy(t.context.appInsight, 'trackEvent');
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns({});
-
-    const analyze = loadScript(t.context);
-
-    try {
-        await analyze(actions);
-    } catch {
-        // empty
-    }
-
-    t.true(appInsightTrackEventSpy.calledTwice);
-    t.is(appInsightTrackEventSpy.args[0][0], 'cli-missing');
-    t.deepEqual(appInsightTrackEventSpy.args[0][1], ['hint1']);
-    t.is(appInsightTrackEventSpy.args[1][0], 'cli-incompatible');
-    t.deepEqual(appInsightTrackEventSpy.args[1][1], ['hint2']);
-});
-
 test('If no sites are defined, it should return false', async (t) => {
     const analyze = loadScript(t.context);
     const result = await analyze({ _: [] } as any);
 
     t.false(result);
-});
-
-test('If there is no errors analyzing the url, webhint was previously run, and the user confirm telemetry, the payload should indicate it', async (t) => {
-    const sandbox = t.context.sandbox;
-    const fakeAnalyzer = new FakeAnalyzer();
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
-    sandbox.stub(fakeAnalyzer, 'analyze').resolves();
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns({ connector: { name: 'puppeteer' } });
-    sandbox.stub(t.context.appInsight, 'isConfigured').returns(false);
-    sandbox.stub(t.context.configStore, 'get').returns(true);
-    sandbox.stub(t.context, 'askQuestion').resolves(true);
-
-    const appInsightEnableSpy = sandbox.spy(t.context.appInsight, 'enable');
-    const appInsightTrackEventSpy = sandbox.spy(t.context.appInsight, 'trackEvent');
-
-    const analyze = loadScript(t.context);
-
-    await analyze(actions);
-
-    const args = appInsightTrackEventSpy.args;
-
-    t.true(appInsightEnableSpy.calledOnce);
-    t.true(appInsightTrackEventSpy.calledTwice);
-    t.is(args[0][0], 'cli-telemetry');
-    t.is(args[1][0], 'cli-analyze');
-    t.true(args[1][1].previouslyRun);
-});
-
-test('Telemetry should trim options from a connector', async (t) => {
-    const sandbox = t.context.sandbox;
-    const fakeAnalyzer = new FakeAnalyzer();
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
-    sandbox.stub(t.context.appInsight, 'isConfigured').returns(true);
-    sandbox.stub(t.context.appInsight, 'isEnabled').returns(true);
-    sandbox.stub(t.context.configStore, 'get').returns(true);
-
-    sandbox.stub(fakeAnalyzer, 'analyze').resolves();
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns({
-        connector: {
-            name: 'puppeteer',
-            options: {
-                auth: {
-                    password: 'passwordInput',
-                    submit: 'submitButton',
-                    user: 'userInput'
-                }
-            }
-        }
-    });
-
-    const appInsightTrackEventSpy = sandbox.spy(t.context.appInsight, 'trackEvent');
-
-    const analyze = loadScript(t.context);
-
-    await analyze(actions);
-
-    t.true(appInsightTrackEventSpy.calledOnce);
-    t.falsy(appInsightTrackEventSpy.args[0][1].connector.options);
-});
-
-test('Telemetry should remove properties from rules and send the "cli-telemetry" when opting-in', async (t) => {
-    const sandbox = t.context.sandbox;
-    const fakeAnalyzer = new FakeAnalyzer();
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'create').returns(fakeAnalyzer);
-    sandbox.stub(fakeAnalyzer, 'analyze').resolves();
-
-    sandbox.stub(t.context.analyzer.Analyzer as any, 'getUserConfig').returns({
-        connector: { name: 'puppeteer' },
-        hints: {}
-    });
-
-    sandbox.stub(t.context, 'getHintsFromConfiguration').returns({
-        hint1: ['error', {
-            options1: 'value1',
-            options2: 'value2'
-        }],
-        hint2: ['warning', { option: false }]
-    });
-    sandbox.stub(t.context.appInsight, 'isConfigured').returns(false);
-    sandbox.stub(t.context.configStore, 'get').returns(true);
-    sandbox.stub(t.context, 'askQuestion').resolves(true);
-
-    const appInsightTrackEventSpy = sandbox.spy(t.context.appInsight, 'trackEvent');
-
-    const analyze = loadScript(t.context);
-
-    await analyze(actions);
-
-
-    const hints = appInsightTrackEventSpy.args[1][1].hints;
-
-    t.is(appInsightTrackEventSpy.args[0][0], 'cli-telemetry');
-    t.is(hints.hint1, 'error');
-    t.is(hints.hint2, 'warning');
 });

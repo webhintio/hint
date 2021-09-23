@@ -1,7 +1,6 @@
 import { URL } from 'url';
 import { TextDocument, PublishDiagnosticsParams, Connection } from 'vscode-languageserver';
 
-import { trackResult } from './analytics';
 import { getUserConfig } from './config';
 import * as notifications from './notifications';
 import { loadWebhint } from './webhint-packages';
@@ -9,7 +8,7 @@ import { problemToDiagnostic } from './problems';
 import { promptRetry } from './prompts';
 
 const analyze = async (textDocument: TextDocument, webhint: import('hint').Analyzer): Promise<PublishDiagnosticsParams> => {
-    const { languageId, uri } = textDocument;
+    const { uri } = textDocument;
     const content = textDocument.getText();
 
     // In VSCode on Windows, the `:` is escaped after the drive letter in `textDocument.uri`.
@@ -17,11 +16,6 @@ const analyze = async (textDocument: TextDocument, webhint: import('hint').Analy
 
     // Pass content directly to validate unsaved changes.
     const results = await webhint.analyze({ content, url });
-
-    trackResult(uri, languageId, {
-        hints: webhint.resources.hints,
-        problems: results.length > 0 ? results[0].problems : []
-    });
 
     return {
         diagnostics: results.length > 0 ? results[0].problems.map(problemToDiagnostic) : [],

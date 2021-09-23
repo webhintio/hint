@@ -121,7 +121,6 @@
         { "path": "packages/utils-json" },
         { "path": "packages/utils-network" },
         { "path": "packages/utils-string" },
-        { "path": "packages/utils-telemetry" },
         { "path": "packages/utils-tests-helpers" },
         { "path": "packages/utils-types" },
         { "path": "packages/utils-worker" }

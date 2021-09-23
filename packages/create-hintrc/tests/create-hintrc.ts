@@ -82,10 +82,6 @@ const loadScript = (context: CreateHintRCContext): () => Promise<boolean> => {
     const initHintrc = proxyquire('../src/create-hintrc', {
         './browserslist': context.stubBrowserslistObject,
         '@hint/utils': {
-            appInsights: {
-                sendPendingData() { },
-                trackEvent() { }
-            },
             getOfficialPackages: context.npm.getOfficialPackages,
             installPackages: context.npm.installPackages,
             logger: context.logger
