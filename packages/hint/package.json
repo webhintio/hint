@@ -72,6 +72,8 @@
   "main": "./dist/src/lib/index.js",
   "name": "hint",
   "nyc": {
+    "branches": 75,
+    "functions": 75,
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
