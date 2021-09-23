@@ -60,7 +60,6 @@
   "main": "./dist/src/index.js",
   "name": "@hint/utils",
   "nyc": {
-    "branches": 75,
     "extends": "../../.nycrc"
   },
   "peerDependencies": {},
