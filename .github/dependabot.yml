@@ -1,0 +1,14 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 99
+  ignore:
+  - dependency-name: angular
+    versions:
+    - ">= 0"
+  - dependency-name: jquery
+    versions:
+    - ">= 0"

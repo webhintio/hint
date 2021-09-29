@@ -4,7 +4,7 @@ import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 import { Severity } from '@hint/utils-types';
 
 const hintPath = getHintPath(__filename);
-const exampleUrl = 'https://empty.webhint.io/';
+const exampleUrl = 'http://localhost/';
 const validatorError = 'error';
 const defaultValidator = 'https://validator.w3.org/nu/';
 const configValidator = 'https://html5.validator.nu';
@@ -99,8 +99,7 @@ const htmlCheckerMock = (response: any) => {
 const testsForDefaults: HintTest[] = [
     {
         name: 'No reports if HTML checker returns no messages',
-        overrides: htmlCheckerMock({ pass: true }),
-        serverUrl: exampleUrl
+        overrides: htmlCheckerMock({ pass: true })
     },
     {
         name: `Resource is not an HTML document`,
@@ -109,7 +108,6 @@ const testsForDefaults: HintTest[] = [
     {
         name: 'Reports warnings/errors if the HTML checker returns messages (default)',
         overrides: htmlCheckerMock({ error: true }),
-        serverUrl: exampleUrl,
         reports: [{
             message: defaultCheckerMessages.messages[0].message,
             position: {
@@ -132,7 +130,6 @@ const testsForIgnoreStringConfigs: HintTest[] = [
     {
         name: 'Ignore selected message(string) from the report',
         overrides: htmlCheckerMock({ error: true }),
-        serverUrl: exampleUrl,
         reports: [{
             message: defaultCheckerMessages.messages[0].message,
             position: {
@@ -147,8 +144,7 @@ const testsForIgnoreStringConfigs: HintTest[] = [
 const testsForIgnoreArrayConfigs: HintTest[] = [
     {
         name: 'Ignore selected messages(array) from the report',
-        overrides: htmlCheckerMock({ error: true }),
-        serverUrl: exampleUrl
+        overrides: htmlCheckerMock({ error: true })
     }
 ];
 
@@ -156,7 +152,6 @@ const testsForValidatorConfig: HintTest[] = [
     {
         name: 'Use configed validator service other than the default',
         overrides: htmlCheckerMock({ error: true }),
-        serverUrl: exampleUrl,
         reports: [{
             message: configCheckerMessages.messages[0].message,
             position: {
@@ -170,13 +165,11 @@ const testsForValidatorConfig: HintTest[] = [
 const testsForDetailsConfig: HintTest[] = [
     {
         name: 'Configure to show complete list of errors/warnings',
-        overrides: htmlCheckerMock({ pass: true }),
-        serverUrl: exampleUrl
+        overrides: htmlCheckerMock({ pass: true })
     },
     {
         name: 'Reports warnings/errors if the HTML checker returns messages (details config)',
         overrides: htmlCheckerMock({ error: true }),
-        serverUrl: exampleUrl,
         reports: [{
             message: defaultCheckerMessages.messages[0].message,
             position: {
@@ -206,7 +199,6 @@ const testsForErrors: HintTest[] = [
     {
         name: 'Reports error when not able to get result from the HTML Checker',
         overrides: htmlCheckerMock({ reject: true }),
-        serverUrl: exampleUrl,
         reports: [{ message: `Could not get results from HTML checker for '${exampleUrl}'. Error: '${validatorError}'.` }]
     }
 ];
