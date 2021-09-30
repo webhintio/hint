@@ -51,7 +51,7 @@
     "vscode-languageclient": "^7.0.0",
     "vscode-languageserver": "^7.0.0",
     "vscode-languageserver-textdocument": "^1.0.1",
-    "webpack": "^5.41.1",
+    "webpack": "^5.55.1",
     "webpack-cli": "^4.8.0"
   },
   "displayName": "webhint",
