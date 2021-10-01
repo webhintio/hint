@@ -23,7 +23,7 @@
     "globby": "^11.0.4",
     "husky": "^6.0.0",
     "json-schema-to-typescript": "^10.1.5",
-    "latest-version": "^5.1.0",
+    "latest-version": "^6.0.0",
     "listr": "^0.14.2",
     "listr-inquirer": "^0.1.0",
     "markdown-link-validator": "^1.0.1",
