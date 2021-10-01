@@ -3946,10 +3946,10 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     md5.js "^1.3.4"
     safe-buffer "^5.1.1"
 
-exceljs@4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-4.2.1.tgz#49d74babfcae74f61bcfc8e9964f0feca084d91b"
-  integrity sha512-EogoTdXH1X1PxqD9sV8caYd1RIfXN3PVlCV+mA/87CgdO2h4X5xAEbr7CaiP8tffz7L4aBFwsdMbjfMXi29NjA==
+exceljs@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/exceljs/-/exceljs-4.3.0.tgz#939bc0d4c59c200acadb7051be34d25c109853c4"
+  integrity sha512-hTAeo5b5TPvf8Z02I2sKIT4kSfCnOO2bCxYX8ABqODCdAjppI3gI9VYiGCQQYVcBaBSKlFDMKlAQRqC+kV9O8w==
   dependencies:
     archiver "^5.0.0"
     dayjs "^1.8.34"
