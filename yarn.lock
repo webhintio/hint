@@ -816,10 +816,10 @@
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
-"@types/parse5-htmlparser2-tree-adapter@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@types/parse5-htmlparser2-tree-adapter/-/parse5-htmlparser2-tree-adapter-6.0.0.tgz#9a5dbc3369cabaabf34fd35a337cd9850c8c9207"
-  integrity sha512-9bD1QGcuH8a9NbrrwlgOC2SmgtF5F5hV4n6lC2a+ql/96BkhrVPEkTvj1W0vqCS8uqUbZAD7XucHqjc2GGv3Ew==
+"@types/parse5-htmlparser2-tree-adapter@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@types/parse5-htmlparser2-tree-adapter/-/parse5-htmlparser2-tree-adapter-6.0.1.tgz#f8820db94fe98f9f3890a01086f2cad09b868661"
+  integrity sha512-4/HRViCNVy+0oGXiyJ0jb6+PUXcP5WDM+Todg/UCYb5gPjLnppBflan4QH+TizZMlVX3smOvRp2qHA5pOqf+Gw==
   dependencies:
     "@types/parse5" "*"
 
