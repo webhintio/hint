@@ -762,10 +762,10 @@
   dependencies:
     "@types/unist" "*"
 
-"@types/mime-db@^1.43.0":
-  version "1.43.0"
-  resolved "https://registry.yarnpkg.com/@types/mime-db/-/mime-db-1.43.0.tgz#c91a4fcae0d6cfe19f2452b3b3e9fc2b95aa9a52"
-  integrity sha512-nCqnKWfvDzTVRh8NS9Zn+rnZYs5+iw5hx3G0nFgKM/R2mJQwPChin4DQ4zXlXnxTtc/3Ys5FnWweKW6NW+d2aw==
+"@types/mime-db@^1.43.1":
+  version "1.43.1"
+  resolved "https://registry.yarnpkg.com/@types/mime-db/-/mime-db-1.43.1.tgz#c2a0522453bb9b6e84ee48b7eef765d19bcd519e"
+  integrity sha512-kGZJY+R+WnR5Rk+RPHUMERtb2qBRViIHCBdtUrY+NmwuGb8pQdfTqQiCKPrxpdoycl8KWm2DLdkpoSdt479XoQ==
 
 "@types/mime@*":
   version "2.0.1"
