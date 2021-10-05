@@ -257,10 +257,10 @@
   resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-3.3.7.tgz#7774291e98a07dd30aaed766587227cd95c3adbd"
   integrity sha512-X42YckpwhdWwWVWR3UpEUB21oIpYoKGMuswZb34yPcsMCySNwLqHnoE972q/UD8VwtpnmO69fsTFiRT2s1gjfA==
 
-"@mdn/browser-compat-data@^3.3.4":
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-3.3.4.tgz#27704e32b997db5bdf9cacdb331694f09629fe83"
-  integrity sha512-J8vDIdqtOv0O9IzZrOJgUPHlncNePoLfr0/Hsb4x5IMFtn1xlLbaOfD+moFYhHGhXBd/6FfTKgD+DvDSI3zhYA==
+"@mdn/browser-compat-data@^4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-4.0.5.tgz#21905dcc1520f095631a0d72a9f15605039ac7ff"
+  integrity sha512-KPSNaHUl5aikqsQU7LpBntFzaPbhm5OJxD88Wv00OKDc4wudyid2wDFqLeb7VcYT9x5bND8PPFloWdK5DY0pHA==
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
