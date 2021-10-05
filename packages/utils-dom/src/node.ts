@@ -124,7 +124,7 @@ export class Node {
     /**
      * https://developer.mozilla.org/docs/Web/API/Node/parentNode
      */
-    public get parentNode() {
+    public get parentNode(): Node | null {
         if ('parent' in this._node && this._node.parent) {
             return this._owner.getNodeFromData(this._node.parent);
         }

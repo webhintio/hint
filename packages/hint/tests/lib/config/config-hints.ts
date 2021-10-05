@@ -107,7 +107,7 @@ test('getSeverity with an array should return the right value', (t) => {
         [([2, {}] as HintConfig), 2],
         [([3, {}] as HintConfig), 3],
         [([4, {}] as HintConfig), 4],
-        [([-1, {}] as HintConfig), null]
+        [([-1, {}] as unknown as HintConfig), null]
     ]);
 
     for (const [key, value] of data) {
