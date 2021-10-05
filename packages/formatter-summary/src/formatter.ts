@@ -12,7 +12,7 @@ import * as chalk from 'chalk';
 import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
 import * as table from 'text-table';
-import * as logSymbols from 'log-symbols';
+import logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
 import { logger, severityToColor, occurencesToColor } from '@hint/utils';
