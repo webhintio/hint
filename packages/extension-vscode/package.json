@@ -57,7 +57,7 @@
   "displayName": "webhint",
   "engines": {
     "node": ">=8.0.0",
-    "vscode": "^1.54.0"
+    "vscode": "^1.60.0"
   },
   "homepage": "https://webhint.io/",
   "icon": "icon.png",
