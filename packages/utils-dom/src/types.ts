@@ -58,6 +58,15 @@ export type DocumentFragmentData = BaseData & {
     type: 'root';
 };
 
+export type Rects = {
+    clientRect: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    };
+};
+
 export type ElementData = BaseData & {
     attribs: { [name: string]: string };
     children: ChildData[];
@@ -68,6 +77,7 @@ export type ElementData = BaseData & {
     'x-attribsNamespace': { [name: string]: string };
     'x-attribsPrefix': { [name: string]: string };
     'x-styles'?: { [name: string]: string };
+    'x-rects'?: Rects;
 };
 
 export type TextData = BaseData & {
