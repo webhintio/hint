@@ -1,8 +1,12 @@
 import { readFileSync } from 'fs';
 
-import stripBom = require('strip-bom'); // `require` used because `strip-bom` exports a function
-
 /** Convenience wrapper for synchronously reading file contents. */
 export const readFile = (filePath: string): string => {
-    return stripBom(readFileSync(filePath, 'utf8'));
+    const content = readFileSync(filePath, 'utf8');
+
+    if (content[0] === '\uFEFF') {
+        return content.substr(1);
+    }
+
+    return content;
 };
