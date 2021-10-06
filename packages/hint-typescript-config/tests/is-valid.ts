@@ -41,7 +41,7 @@ const tests: HintLocalTest[] = [
         path: path.join(__dirname, 'fixtures', 'invalidschemapattern'),
         reports: [
             {
-                message: `'compilerOptions/target' must be equal to one of the allowed values 'ES3, ES5, ES6, ES2015, ES2016, ES2017, ES2018, ES2019, ES2020, ESNext'. Value found '"invalid"'. Or 'compilerOptions/target' must match pattern '^([Ee][Ss]([356]|(20(1[56789]|20))|[Nn][Ee][Xx][Tt]))$'. Value found 'invalid'`,
+                message: /^'compilerOptions\/target' must be equal to one of the allowed values .+Value found 'invalid'$/,
                 position: { match: 'target' },
                 severity: Severity.error
             }
