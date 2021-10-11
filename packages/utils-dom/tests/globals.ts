@@ -27,6 +27,61 @@ test('getComputedStyle', (t) => {
     t.is(context.getComputedStyle(doc.body).getPropertyValue('display'), 'none');
 });
 
+test('getBoundingClientRect', (t) => {
+    const context: any = {};
+    const dom = parse5.parse('<body>Test</body>', {
+        sourceCodeLocationInfo: false,
+        treeAdapter: htmlparser2Adapter
+    }) as DocumentData;
+
+    const bodyData = (dom.children[0] as ElementData).children[1] as ElementData;
+
+    bodyData['x-rects'] = {
+        clientRect: {
+            height: 50,
+            width: 100,
+            x: 10,
+            y: 5
+        }
+    };
+
+    const doc = new HTMLDocument(dom, 'https://localhost');
+
+    populateGlobals(context, doc);
+
+    t.truthy(context.getComputedStyle);
+    t.is(doc.body.getBoundingClientRect().x, 10);
+    t.is(doc.body.getBoundingClientRect().y, 5);
+    t.is(doc.body.getBoundingClientRect().width, 100);
+    t.is(doc.body.getBoundingClientRect().height, 50);
+    t.is(doc.body.getBoundingClientRect().top, 5);
+    t.is(doc.body.getBoundingClientRect().left, 10);
+    t.is(doc.body.getBoundingClientRect().right, 110);
+    t.is(doc.body.getBoundingClientRect().bottom, 55);
+});
+
+test('getBoundingClientRect by deafult', (t) => {
+    const context: any = {};
+    const dom = parse5.parse('<body>Test</body>', {
+        sourceCodeLocationInfo: false,
+        treeAdapter: htmlparser2Adapter
+    }) as DocumentData;
+
+    const doc = new HTMLDocument(dom, 'https://localhost');
+
+    populateGlobals(context, doc);
+
+    t.truthy(context.getComputedStyle);
+    t.is(doc.body.getBoundingClientRect().x, 0);
+    t.is(doc.body.getBoundingClientRect().y, 0);
+    t.is(doc.body.getBoundingClientRect().width, 0);
+    t.is(doc.body.getBoundingClientRect().height, 0);
+    t.is(doc.body.getBoundingClientRect().top, 0);
+    t.is(doc.body.getBoundingClientRect().left, 0);
+    t.is(doc.body.getBoundingClientRect().right, 0);
+    t.is(doc.body.getBoundingClientRect().bottom, 0);
+});
+
 test('instanceof', (t) => {
     const context: any = {};
     const doc = createHTMLDocument('test', 'http://localhost/');
