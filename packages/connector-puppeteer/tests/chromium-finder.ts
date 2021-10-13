@@ -213,3 +213,13 @@ test(`Unsupported platform throws an Error`, (t) => {
 
     t.is(error.message, `Unsupported platform: "unsupported"`);
 });
+
+test(`No installation found throws an Error`, (t) => {
+    const chromiumFinder = loadDependency(t.context);
+
+    const error = t.throws(() => {
+        chromiumFinder.getInstallationPath();
+    });
+
+    t.is(error.message, 'No installation found for: "Any supported browsers"');
+});

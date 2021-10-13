@@ -400,9 +400,10 @@ export const getInstallationPath = (options?: { browser?: Browser; browserPath?:
         }
     }
 
-
     if (!browserFound) {
-        throw new Error(ERRORS.NoInstallationFound`${browserFound}`);
+        const message = 'Any supported browsers';
+
+        throw new Error(ERRORS.NoInstallationFound`${message}`);
     }
 
     return browserFound;
