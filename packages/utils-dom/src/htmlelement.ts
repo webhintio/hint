@@ -17,6 +17,19 @@ import { getCompiledSelector } from './get-compiled-selector';
 export class HTMLElement extends Node {
     private _element: ElementData;
     private _computedStyles: CSSStyleDeclaration;
+    private _domRect = {
+        bottom: 0,
+        height: 0,
+        left: 0,
+        right: 0,
+        toJSON() {
+            return this;
+        },
+        top: 0,
+        width: 0,
+        x: 0,
+        y: 0
+    };
 
     /**
      * Non-standard. Used internally by utils-dom to create HTMLElement instances.
@@ -25,6 +38,16 @@ export class HTMLElement extends Node {
         super(element, ownerDocument);
         this._element = element;
         this._computedStyles = new CSSStyleDeclaration(element['x-styles']);
+        if (element['x-rects']) {
+            this._domRect.x = element['x-rects'].clientRect.x;
+            this._domRect.y = element['x-rects'].clientRect.y;
+            this._domRect.left = element['x-rects'].clientRect.x;
+            this._domRect.top = element['x-rects'].clientRect.y;
+            this._domRect.width = element['x-rects'].clientRect.width;
+            this._domRect.height = element['x-rects'].clientRect.height;
+            this._domRect.right = this._domRect.x + this._domRect.width;
+            this._domRect.bottom = this._domRect.y + this._domRect.height;
+        }
     }
 
     /**
@@ -98,6 +121,13 @@ export class HTMLElement extends Node {
         const value = typeof attrib !== 'undefined' ? attrib : null;
 
         return value;
+    }
+
+    /**
+     * https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
+     */
+    public getBoundingClientRect(): DOMRect {
+        return this._domRect;
     }
 
     /**

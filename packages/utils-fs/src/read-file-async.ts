@@ -1,8 +1,6 @@
 import { promisify } from 'util';
 import { readFile } from 'fs';
 
-import stripBom = require('strip-bom'); // `require` used because `strip-bom` exports a function
-
 declare const __webpack_require__: Function; // eslint-disable-line
 
 /** Convenience wrapper for asynchronously reading file contents. */
@@ -15,5 +13,9 @@ export const readFileAsync = async (filePath: string): Promise<string> => {
 
     const content: string = await promisify(readFile)(filePath, 'utf8');
 
-    return stripBom(content);
+    if (content[0] === '\uFEFF') {
+        return content.substr(1);
+    }
+
+    return content;
 };

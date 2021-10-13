@@ -2,16 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { startCase } = require('lodash');
 
-/**
- * @typedef {{
- *     id: string;
- *     metadata: {
- *         description: string;
- *         help: string;
- *     },
- *     tags: string[]
- * }} RuleMeta
- */
+/** @typedef {import('axe-core').RuleMetadata} RuleMeta */
 
 /**
  * @param {string} str

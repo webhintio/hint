@@ -1,6 +1,6 @@
 const { categoryId, escapeKey, isRuleDisabled, rulesIn, writeFile } = require('./utils');
 
-/** @typedef {import('./utils').RuleMeta} RuleMeta */
+/** @typedef {import('axe-core').RuleMetadata} RuleMeta */
 
 /**
  * @param {string} category
@@ -10,12 +10,12 @@ const createHint = async (category, rules) => {
     const id = categoryId(category);
 
     const ruleIds = rules.map((rule) => {
-        return `'${rule.id}'`;
+        return `'${rule.ruleId}'`;
     }).join(', ');
 
     const disabledRules = rules.filter(isRuleDisabled);
     const disabledIds = disabledRules.map((rule) => {
-        return `'${rule.id}'`;
+        return `'${rule.ruleId}'`;
     }).join(', ');
 
     if (ruleIds.length === disabledIds.length) {

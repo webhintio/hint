@@ -1,11 +1,10 @@
-const globby = require('globby');
 const { createConfig } = require('./create/create-config');
 const { createDocs } = require('./create/create-docs');
 const { createHints } = require('./create/create-hints');
 const { createLocales } = require('./create/create-locales');
 const { createMetas } = require('./create/create-metas');
 
-/** @typedef {import('./create/utils').RuleMeta} RuleMeta */
+/** @typedef {import('axe-core').RuleMetadata} RuleMeta */
 
 /**
  * @param {RuleMeta[]} rules
@@ -25,7 +24,7 @@ const getCategories = (rules) => {
         }
 
         // TODO: Fix in `axe-core`
-        if (category === 'cat.other' && rule.id.startsWith('aria-')) {
+        if (category === 'cat.other' && rule.ruleId.startsWith('aria-')) {
             category = 'cat.aria';
             rule.tags.push(category);
         }
@@ -34,21 +33,18 @@ const getCategories = (rules) => {
     });
 };
 
-const main = async () => {
-    const axePath = require.resolve('axe-core').replace(/axe.js$/, '');
-    const axePackage = require('axe-core/package.json');
-    const rulePaths = await globby(`${axePath.replace(/\\/g, '/')}lib/rules/*.json`);
+const main = () => {
+    const axeCore = require('axe-core');
+    const rules = axeCore.getRules();
 
-    const rules = rulePaths.map((rulePath) => {
-        return /** @type {RuleMeta} */ (require(rulePath));
-    }).sort((r1, r2) => {
-        return r1.id.localeCompare(r2.id);
+    rules.sort((r1, r2) => {
+        return r1.ruleId.localeCompare(r2.ruleId);
     });
 
     const categories = [...new Set(getCategories(rules))].sort();
 
     createConfig(categories);
-    createDocs(categories, rules, axePackage.version);
+    createDocs(categories, rules, axeCore.version);
     createHints(categories, rules);
     createLocales(categories);
     createMetas(categories, rules);
