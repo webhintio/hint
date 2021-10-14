@@ -113,9 +113,14 @@ because you have the correct default permissions.
 
 ## hint-cli Missing Browser Error
 
-If you receive an error related to a missing browser you may not have a suitable Chromium based browser installed.
+If you receive an error related to a missing browser you may not have a
+suitable Chromium based browser installed.
 
-`hint-cli` will check for an installation of [Chrome](https://www.google.com/chrome/), [Chromium](https://www.chromium.org/getting-involved/download-chromium), or [Edge](https://www.microsoft.com/edge), in that order, dependent on your operating system, to run the tests.
+`hint-cli` will check for an installation of
+[Chrome](https://www.google.com/chrome/),
+[Chromium](https://www.chromium.org/getting-involved/download-chromium),
+or [Edge](https://www.microsoft.com/edge), in that order, dependent on your
+operating system, to run the tests.
 
 <!-- links -->
 
