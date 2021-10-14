@@ -38,7 +38,7 @@ const ERRORS = {
  * Variables used to find installers sorted by priority:
  * - Chrome: Canary, Stable
  * - Chromium: Only one install
- * - Edge: Canary, Dev (no current beta or stable channels)
+ * - Edge: Canary, Stable
  */
 const browserVariables = new Map([
     ['darwin', new Map([
@@ -55,7 +55,8 @@ const browserVariables = new Map([
         ],
         [
             Browser.Edge, [
-                '/Contents/MacOS/Microsoft Edge Canary'
+                '/Contents/MacOS/Microsoft Edge Canary',
+                '/Contents/MacOS/Microsoft Edge'
             ]
         ]
     ])],
@@ -340,8 +341,7 @@ const resolveChromiumPath = () => {
 
 /**
  * Searchs for a valid Chromium browser from the ones supported. The current priority list is:
- * `Puppeteer`, `Chrome Canary`, `Chrome`, `Chromium`, `Edge Canary`, `Edge Dev` (`Edge` only
- * on `win32 platforms).
+ * `Puppeteer`, `Chrome Canary`, `Chrome`, `Chromium`, `Edge Canary`, `Edge`.
  *
  * A user can also pass the browser to use (`Chrome`, `Chromium`, `Edge`) via the `options` parameter
  * or a `path` to the executable to use (`getInstallationPath` will only verify it exists, not if
@@ -400,9 +400,10 @@ export const getInstallationPath = (options?: { browser?: Browser; browserPath?:
         }
     }
 
-
     if (!browserFound) {
-        throw new Error(ERRORS.NoInstallationFound`${browserFound}`);
+        const message = 'Any supported browsers';
+
+        throw new Error(ERRORS.NoInstallationFound`${message}`);
     }
 
     return browserFound;

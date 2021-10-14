@@ -22,6 +22,9 @@ node -v && npm -v
 To get started using `webhint` to improve your site performance and learn about
 best practices that may be applied to your site, complete the following steps.
 
+1. Ensure you have [Chrome](https://www.google.com/chrome/),
+   [Chromium](https://www.chromium.org/getting-involved/download-chromium),
+   or [Edge](https://www.microsoft.com/edge) installed.
 1. Run the command in the following code snippet.  The following code snippet
    uses `npx` to run the `npm` package without installing it.
 
