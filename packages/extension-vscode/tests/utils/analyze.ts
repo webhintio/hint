@@ -70,7 +70,7 @@ test('It notifies if loading the configuration fails', async (t) => {
     const createAnalyzerStub = sandbox.stub(stubs.hint, 'createAnalyzer').throws('Test error');
     const connection = stubConnection();
     const showErrorMessageStub = sandbox.stub(connection.window, 'showErrorMessage').resolves();
-    const analyzer = new module.Analyzer('', connection);
+    const analyzer = new module.Analyzer('', connection, 'webhint');
 
     await analyzer.validateTextDocument(stubTextDocument(), '');
 
@@ -86,7 +86,7 @@ test('It processes multiple files serially', async (t) => {
     const { module } = stubContext();
     const connection = stubConnection();
     const sendDiagnosticsSpy = sandbox.spy(connection, 'sendDiagnostics');
-    const analyzer = new module.Analyzer('', connection);
+    const analyzer = new module.Analyzer('', connection, 'webhint');
 
     const uri1 = 'file:///test/uri/1';
     const uri2 = 'file:///test/uri/2';
@@ -108,7 +108,7 @@ test('It reloads webhint after configuration changes', async (t) => {
     const { module, stubs } = stubContext();
     const connection = stubConnection();
     const loadWebhintSpy = sandbox.spy(stubs['./webhint-packages'], 'loadWebhint');
-    const analyzer = new module.Analyzer('', connection);
+    const analyzer = new module.Analyzer('', connection, 'webhint');
 
     await analyzer.validateTextDocument(stubTextDocument(), '');
 

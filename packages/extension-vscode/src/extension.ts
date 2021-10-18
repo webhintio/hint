@@ -1,4 +1,4 @@
-import { workspace, ExtensionContext } from 'vscode';
+import { window, workspace, ExtensionContext } from 'vscode';
 
 import {
     LanguageClient,
@@ -21,7 +21,7 @@ const supportedDocuments = activationEvents.map((event: string) => {
 let client: LanguageClient;
 
 export const activate = (context: ExtensionContext) => {
-    const args = [context.globalStoragePath];
+    const args = [context.globalStoragePath, 'webhint'];
     const module = context.asAbsolutePath('dist/src/server.js');
     const transport = TransportKind.ipc;
 
@@ -51,6 +51,12 @@ export const activate = (context: ExtensionContext) => {
     client = new LanguageClient('webhint', serverOptions, clientOptions);
 
     client.onReady().then(() => {
+        // Listen for notification that the webhint install failed.
+        client.onNotification(notifications.installFailed, () => {
+            const message = 'Ensure `node` and `npm` are installed to enable webhint to analyze source files.';
+
+            window.showInformationMessage(message, 'OK');
+        });
         // Listen for requests to show the output panel for this extension.
         client.onNotification(notifications.showOutput, () => {
             client.outputChannel.clear();

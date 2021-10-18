@@ -34,13 +34,16 @@ export const problemToDiagnostic = (problem: Problem): Diagnostic => {
         endLine = line;
     }
 
+    const docHref = problem.documentation?.length ? problem.documentation[0].link : `https://webhint.io/docs/user-guide/hints/hint-${problem.hintId}/`;
+
     return {
-        message: `${problem.message}\n(${problem.hintId})`,
+        code: problem.hintId,
+        codeDescription: { href: docHref },
+        message: `${problem.message}`,
         range: {
             end: { character: endColumn, line: endLine },
             start: { character, line }
         },
-        severity: webhintToDiagnosticServerity(problem.severity),
-        source: 'webhint'
+        severity: webhintToDiagnosticServerity(problem.severity)
     };
 };

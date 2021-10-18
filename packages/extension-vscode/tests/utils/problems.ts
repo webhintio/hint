@@ -22,9 +22,8 @@ test('It translates a basic problem correctly', (t) => {
 
     const diagnostic = problemToDiagnostic(problem);
 
-    t.is(diagnostic.source, 'webhint');
-    t.true(diagnostic.message.indexOf(problem.message || '') !== -1);
-    t.true(diagnostic.message.indexOf(problem.hintId || '') !== -1);
+    t.is(diagnostic.message, problem.message);
+    t.is(diagnostic.code, problem.hintId);
     t.is(diagnostic.severity, DiagnosticSeverity.Warning);
     t.is(diagnostic.range.start.line, location.line);
     t.is(diagnostic.range.start.character, location.column);
@@ -67,9 +66,8 @@ test('It translates missing endColumn and endLine properties correctly', (t) => 
 
     const diagnostic = problemToDiagnostic(problem);
 
-    t.is(diagnostic.source, 'webhint');
-    t.true(diagnostic.message.indexOf(problem.message || '') !== -1);
-    t.true(diagnostic.message.indexOf(problem.hintId || '') !== -1);
+    t.is(diagnostic.message, problem.message);
+    t.is(diagnostic.code, problem.hintId);
     t.is(diagnostic.severity, DiagnosticSeverity.Hint);
     t.is(diagnostic.range.start.line, location.line);
     t.is(diagnostic.range.start.character, location.column);
