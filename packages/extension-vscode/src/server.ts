@@ -3,9 +3,9 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { Analyzer } from './utils/analyze';
 
-const [,, globalStoragePath] = process.argv;
+const [,, globalStoragePath, sourceName] = process.argv;
 const connection = createConnection(ProposedFeatures.all);
-const analyzer = new Analyzer(globalStoragePath, connection);
+const analyzer = new Analyzer(globalStoragePath, connection, sourceName);
 const documents = new TextDocuments(TextDocument);
 
 let workspace = '';

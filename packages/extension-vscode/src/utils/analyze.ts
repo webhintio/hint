@@ -27,13 +27,15 @@ export class Analyzer {
     private connection: Connection;
     private globalStoragePath: string;
     private loaded = false;
+    private sourceName: string;
     private validating = false;
     private validationQueue: TextDocument[] = [];
     private webhint: import('hint').Analyzer | null = null;
 
-    public constructor(_globalStoragePath: string, _connection: Connection) {
+    public constructor(_globalStoragePath: string, _connection: Connection, _sourceName: string) {
         this.connection = _connection;
         this.globalStoragePath = _globalStoragePath;
+        this.sourceName = _sourceName;
     }
 
     /**
@@ -45,6 +47,8 @@ export class Analyzer {
 
         /* istanbul ignore if */
         if (!hintModule) {
+            this.connection.sendNotification(notifications.installFailed);
+
             return null;
         }
 
@@ -110,6 +114,9 @@ export class Analyzer {
 
             const diagnostics = await analyze(textDocument, this.webhint);
 
+            diagnostics.diagnostics.forEach((d) => {
+                d.source = this.sourceName;
+            });
             this.connection.sendDiagnostics(diagnostics);
 
         } finally {
