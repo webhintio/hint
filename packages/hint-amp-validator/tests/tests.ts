@@ -35,4 +35,4 @@ const defaultTests: HintTest[] = [
     }
 ];
 
-testHint(hintPath, defaultTests);
+testHint(hintPath, defaultTests, { ignoredConnectors: ['jsdom'] });
