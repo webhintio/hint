@@ -1,3 +1,28 @@
+# 6.1.5 (October 21, 2021)
+
+## Bug fixes / Improvements
+
+* [[`e855caa492`](https://github.com/webhintio/hint/commit/e855caa4926edb3c5e5831f9dce97f863fa385cf)] - Fix: Add Edge stable to discovered browsers on macOS (by [`Tom de Bruin`](https://github.com/deadlyhifi) / see also: [`#3970`](https://github.com/webhintio/hint/issues/3970)).
+* [[`245987307b`](https://github.com/webhintio/hint/commit/245987307bfcd93c60f90796ae2a2d682e314d08)] - Fix: Remove telemetry (by [`Tony Ross`](https://github.com/antross) / see also: [`#4734`](https://github.com/webhintio/hint/issues/4734)).
+
+## Chores
+
+* [[`abfad76278`](https://github.com/webhintio/hint/commit/abfad7627816be975d1f7ac2ebf621a78cce8b0f)] - Upgrade: Bump browserslist from 4.16.6 to 4.17.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#4818`](https://github.com/webhintio/hint/issues/4818)).
+* [[`2d60bc97ad`](https://github.com/webhintio/hint/commit/2d60bc97adb2ccbd608247d7083c2a3486832895)] - Upgrade: Bump typescript from 4.2.4 to 4.3.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#4675`](https://github.com/webhintio/hint/issues/4675)).
+* [[`112d41e236`](https://github.com/webhintio/hint/commit/112d41e236eed569bdca6c1d1f0eb9cf605f844f)] - Upgrade: Bump chalk from 4.1.1 to 4.1.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`abb4a0e8f5`](https://github.com/webhintio/hint/commit/abb4a0e8f50cf176e02a6f6f15d5881848415b0c)] - Upgrade: Bump @types/sinon from 9.0.11 to 10.0.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`3923e6cc84`](https://github.com/webhintio/hint/commit/3923e6cc84dfdfa5120cf1b877be8257e068e0a7)] - Upgrade: Bump eslint-plugin-markdown from 2.2.0 to 2.2.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`b6de11489f`](https://github.com/webhintio/hint/commit/b6de11489ff80da41d1ea97c098225c1e1b02c39)] - Upgrade: Bump @types/lodash from 4.14.170 to 4.14.175 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`2ec2cef414`](https://github.com/webhintio/hint/commit/2ec2cef414ab42fcbaa54e8671e65e58780fe8e0)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.27.0 to 4.28.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`f3a1187544`](https://github.com/webhintio/hint/commit/f3a11875444ad05679dc67dcebe93aaf94b5c600)] - Upgrade: Bump @types/update-notifier from 5.0.0 to 5.1.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e9b2e3f423`](https://github.com/webhintio/hint/commit/e9b2e3f4232f50d1c9dba44f250629f878b13f4f)] - Upgrade: Bump eslint-plugin-import from 2.22.1 to 2.23.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`366c065fea`](https://github.com/webhintio/hint/commit/366c065feab829eb96dd14b48362b1464cabf627)] - Upgrade: Bump @typescript-eslint/parser from 4.26.0 to 4.28.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`064d5bf919`](https://github.com/webhintio/hint/commit/064d5bf919d9084eec1bee7de702c12326bdb355)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.22.0 to 4.27.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2b8ce4e4aa`](https://github.com/webhintio/hint/commit/2b8ce4e4aac6c3802643606be8973c9e01a573af)] - Upgrade: Bump eslint from 7.27.0 to 7.29.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4f15da2d04`](https://github.com/webhintio/hint/commit/4f15da2d0403fc7c63af1e71c5f1663421b9d557)] - Upgrade: Bump globby from 11.0.3 to 11.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`3d3377c04c`](https://github.com/webhintio/hint/commit/3d3377c04cbaa2bbb9655cff5e9062de4f7e736c)] - Upgrade: Bump ora from 5.4.0 to 5.4.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 6.1.4 (June 9, 2021)
 
 ## Bug fixes / Improvements

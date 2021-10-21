@@ -1,3 +1,21 @@
+# 3.1.12 (October 21, 2021)
+
+## Chores
+
+* [[`2d60bc97ad`](https://github.com/webhintio/hint/commit/2d60bc97adb2ccbd608247d7083c2a3486832895)] - Upgrade: Bump typescript from 4.2.4 to 4.3.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#4675`](https://github.com/webhintio/hint/issues/4675)).
+* [[`a50881290e`](https://github.com/webhintio/hint/commit/a50881290ea76774c6fb294d7d38fa67bd983898)] - Upgrade: Bump acorn-walk from 8.1.0 to 8.2.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`afd85db02a`](https://github.com/webhintio/hint/commit/afd85db02ac438d1cf52116d228634c656a1b202)] - Upgrade: Bump acorn-jsx from 5.3.1 to 5.3.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`abb4a0e8f5`](https://github.com/webhintio/hint/commit/abb4a0e8f50cf176e02a6f6f15d5881848415b0c)] - Upgrade: Bump @types/sinon from 9.0.11 to 10.0.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`aa66d681c2`](https://github.com/webhintio/hint/commit/aa66d681c21f99f2c58b3fb5b9b62f609990bb3b)] - Upgrade: Bump acorn from 8.4.1 to 8.5.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`3923e6cc84`](https://github.com/webhintio/hint/commit/3923e6cc84dfdfa5120cf1b877be8257e068e0a7)] - Upgrade: Bump eslint-plugin-markdown from 2.2.0 to 2.2.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`9c6021e697`](https://github.com/webhintio/hint/commit/9c6021e697e41303b9c96ff4d3ff2ba15e5a4d39)] - Upgrade: Bump @types/acorn from 4.0.5 to 4.0.6 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`2ec2cef414`](https://github.com/webhintio/hint/commit/2ec2cef414ab42fcbaa54e8671e65e58780fe8e0)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.27.0 to 4.28.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e9b2e3f423`](https://github.com/webhintio/hint/commit/e9b2e3f4232f50d1c9dba44f250629f878b13f4f)] - Upgrade: Bump eslint-plugin-import from 2.22.1 to 2.23.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`366c065fea`](https://github.com/webhintio/hint/commit/366c065feab829eb96dd14b48362b1464cabf627)] - Upgrade: Bump @typescript-eslint/parser from 4.26.0 to 4.28.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`064d5bf919`](https://github.com/webhintio/hint/commit/064d5bf919d9084eec1bee7de702c12326bdb355)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.22.0 to 4.27.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`7616337cea`](https://github.com/webhintio/hint/commit/7616337ceab77ab924299af0ccd1bc85cd6bfcb3)] - Upgrade: Bump acorn from 8.2.4 to 8.4.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 3.1.11 (June 9, 2021)
 
 ## Bug fixes / Improvements

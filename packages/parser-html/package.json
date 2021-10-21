@@ -8,7 +8,7 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-dom": "^2.1.6"
+    "@hint/utils-dom": "^2.1.7"
   },
   "description": "webhint parser needed to analyze HTML files",
   "devDependencies": {
@@ -69,5 +69,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.20"
+  "version": "3.0.21"
 }

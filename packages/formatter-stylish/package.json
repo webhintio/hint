@@ -9,12 +9,12 @@
   },
   "description": "webhint formatter that prints the results using the stylish style",
   "dependencies": {
-    "@hint/utils": "^7.0.10",
-    "@hint/utils-debug": "^1.0.5",
-    "@hint/utils-fs": "^1.0.9",
-    "@hint/utils-i18n": "^1.0.8",
-    "@hint/utils-string": "^1.0.8",
-    "@hint/utils-types": "^1.1.3",
+    "@hint/utils": "^7.0.11",
+    "@hint/utils-debug": "^1.0.6",
+    "@hint/utils-fs": "^1.0.10",
+    "@hint/utils-i18n": "^1.0.9",
+    "@hint/utils-string": "^1.0.9",
+    "@hint/utils-types": "^1.1.4",
     "chalk": "^4.1.2",
     "lodash": "^4.17.21",
     "log-symbols": "^4.1.0",
@@ -83,5 +83,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.22"
+  "version": "3.1.23"
 }

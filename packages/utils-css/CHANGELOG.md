@@ -1,3 +1,16 @@
+# 1.0.9 (October 21, 2021)
+
+## Chores
+
+* [[`2d60bc97ad`](https://github.com/webhintio/hint/commit/2d60bc97adb2ccbd608247d7083c2a3486832895)] - Upgrade: Bump typescript from 4.2.4 to 4.3.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#4675`](https://github.com/webhintio/hint/issues/4675)).
+* [[`3923e6cc84`](https://github.com/webhintio/hint/commit/3923e6cc84dfdfa5120cf1b877be8257e068e0a7)] - Upgrade: Bump eslint-plugin-markdown from 2.2.0 to 2.2.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`2e5e01584b`](https://github.com/webhintio/hint/commit/2e5e01584b2eb26c2e1078d4d42e0650319892c6)] - Upgrade: Bump postcss from 8.3.5 to 8.3.8 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`e9b2e3f423`](https://github.com/webhintio/hint/commit/e9b2e3f4232f50d1c9dba44f250629f878b13f4f)] - Upgrade: Bump eslint-plugin-import from 2.22.1 to 2.23.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`020c09a80f`](https://github.com/webhintio/hint/commit/020c09a80f5771bdb09f632a55bf92b61d3a725b)] - Upgrade: Bump postcss from 8.3.2 to 8.3.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2b8ce4e4aa`](https://github.com/webhintio/hint/commit/2b8ce4e4aac6c3802643606be8973c9e01a573af)] - Upgrade: Bump eslint from 7.27.0 to 7.29.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`a3537f1be8`](https://github.com/webhintio/hint/commit/a3537f1be83f8d3a915ddeb27c708ce3eff5405b)] - Upgrade: Bump postcss-safe-parser from 5.0.2 to 6.0.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.8 (June 9, 2021)
 
 ## Bug fixes / Improvements
