@@ -1,3 +1,10 @@
+# 6.1.6 (October 21, 2021)
+
+## Bug fixes / Improvements
+
+* [[`5d47f759c4`](https://github.com/webhintio/hint/commit/5d47f759c4f107a4c210ba316592d775903afc94)] - Fix: Allow obsolete --telemetry flag to be passed but ignored (by [`Tony Ross`](https://github.com/antross) / see also: [`#4830`](https://github.com/webhintio/hint/issues/4830)).
+
+
 # 6.1.5 (October 21, 2021)
 
 ## Bug fixes / Improvements
