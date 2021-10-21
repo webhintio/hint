@@ -567,10 +567,10 @@
   dependencies:
     chokidar "*"
 
-"@types/chrome@^0.0.149":
-  version "0.0.149"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.149.tgz#da90f63ffab5571dad871db75f02a26fc7b3542d"
-  integrity sha512-JDhaXtMXqkRAzXbj4pOTciZytHSXmIOvlDDVLQdb++UdGP8fKCN4OZ0HgAq+ycFeIxzUiwlRaGmFD9mSiZRMnA==
+"@types/chrome@^0.0.159":
+  version "0.0.159"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.159.tgz#0c1125fbb6d1fd64713e35de9aafbfd5a1b7a33a"
+  integrity sha512-WZBkNJGAwZuRgv/an94DANdzFtJK0TvlO/evMpJD/TYnkjIxynIAU6RM7M78e8tyig/vD6weQ9T1Ba7v8nYjXQ==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
