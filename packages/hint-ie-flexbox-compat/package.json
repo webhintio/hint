@@ -16,8 +16,8 @@
   },
   "description": "hint that informs about potential flexbox compatibility bugs with Internet Explorer",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.11",
-    "@hint/utils-tests-helpers": "^6.3.5",
+    "@hint/utils-create-server": "^3.4.12",
+    "@hint/utils-tests-helpers": "^6.3.6",
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.1",

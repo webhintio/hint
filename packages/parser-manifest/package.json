@@ -8,8 +8,8 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-json": "^1.0.12",
-    "@hint/utils-network": "^1.0.11",
+    "@hint/utils-json": "^1.0.13",
+    "@hint/utils-network": "^1.0.12",
     "@hint/utils-string": "^1.0.9",
     "@hint/utils-types": "^1.1.4"
   },
@@ -73,5 +73,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.3"
+  "version": "2.3.4"
 }

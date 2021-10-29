@@ -1,3 +1,10 @@
+# 4.4.6 (October 29, 2021)
+
+## Bug fixes / Improvements
+
+* [[`0acfe0865b`](https://github.com/webhintio/hint/commit/0acfe0865b65f1455ffae70aad11bc545ed59711)] - Fix: Handle multiple selectors from axe-core (by [`Tony Ross`](https://github.com/antross) / see also: [`#4834`](https://github.com/webhintio/hint/issues/4834)).
+
+
 # 4.4.5 (October 21, 2021)
 
 ## Chores

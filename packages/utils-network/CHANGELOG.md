@@ -1,3 +1,10 @@
+# 1.0.12 (October 29, 2021)
+
+## Bug fixes / Improvements
+
+* [[`2bb34e188a`](https://github.com/webhintio/hint/commit/2bb34e188aa7fa4666f1ab3c758fb0e56ec7a3eb)] - Fix: Restore handling relative file paths in getAsUri (by [`Tony Ross`](https://github.com/antross) / see also: [`#4836`](https://github.com/webhintio/hint/issues/4836)).
+
+
 # 1.0.11 (October 21, 2021)
 
 ## Chores

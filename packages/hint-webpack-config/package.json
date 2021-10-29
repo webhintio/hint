@@ -14,10 +14,10 @@
   },
   "description": "hint thats to check the webpack configuration.",
   "devDependencies": {
-    "@hint/parser-babel-config": "^2.1.27",
-    "@hint/parser-typescript-config": "^2.4.13",
-    "@hint/parser-webpack-config": "^2.1.26",
-    "@hint/utils-tests-helpers": "^6.3.5",
+    "@hint/parser-babel-config": "^2.1.28",
+    "@hint/parser-typescript-config": "^2.4.14",
+    "@hint/parser-webpack-config": "^2.1.27",
+    "@hint/utils-tests-helpers": "^6.3.6",
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.1",
@@ -78,5 +78,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.12"
+  "version": "2.4.13"
 }

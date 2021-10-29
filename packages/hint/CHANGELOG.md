@@ -1,3 +1,6 @@
+# 6.1.7 (October 29, 2021)
+
+
 # 6.1.6 (October 21, 2021)
 
 ## Bug fixes / Improvements
