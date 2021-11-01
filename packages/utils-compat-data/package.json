@@ -10,7 +10,7 @@
   "dependencies": {
     "@hint/utils-css": "^1.0.9",
     "@mdn/browser-compat-data": "^4.0.5",
-    "mdn-data": "^2.0.19",
+    "mdn-data": "^2.0.22",
     "postcss-selector-parser": "^6.0.6",
     "postcss-value-parser": "^4.1.0",
     "semver": "^7.3.5"
