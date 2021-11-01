@@ -6588,10 +6588,10 @@ mdast-util-to-string@^2.0.0:
   resolved "https://registry.yarnpkg.com/mdast-util-to-string/-/mdast-util-to-string-2.0.0.tgz#b8cfe6a713e1091cb5b728fc48885a4767f8b97b"
   integrity sha512-AW4DRS3QbBayY/jJmD8437V1Gombjf8RSOUCMFBuo5iHi58AGEgVCKQ+ezHkZZDpAQS75hcBMpLqjpJTjtUL7w==
 
-mdn-data@^2.0.19:
-  version "2.0.19"
-  resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.19.tgz#ad5cd771640fed63e52c70b6df1add8d5bef6d47"
-  integrity sha512-3K+WtlBYu4U9Ul7Q/bxZHCg7xZLGWgoFppjJJGO6t69AQnShC2LwmtUju4bUIybuO2GGUeju8z8qMVsFK7fI6g==
+mdn-data@^2.0.22:
+  version "2.0.22"
+  resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.22.tgz#16eb79b0b603897e40236625d95018674e7ae5d4"
+  integrity sha512-qDYKNxdP1636yemoyfNsEYUgfdlsTscouOZamt0e7QmN91cmpXDWd+iRADtT9m94jYtYH2QWrraDW+83UlzTwQ==
 
 mdurl@^1.0.1:
   version "1.0.1"
