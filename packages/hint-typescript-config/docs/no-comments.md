@@ -3,6 +3,10 @@
 `typescript-config/no-comments` checks that the property `removeComments`
 is enabled in your TypeScript configuration file (i.e. `tsconfig.json`).
 
+**Note:** This hint is no longer enabled by default. Removing comments as
+part of a separate minification step is recommended instead. See
+[this webhint issue][no-comments issue] for more details.
+
 ## Why is this important?
 
 Removing the comments will make your final JavaScript files smaller. If you
@@ -59,3 +63,4 @@ Also setting the value to `false` will fail:
 * [TypeScript Documentation][typescript docs]
 
 [typescript docs]: https://www.typescriptlang.org/docs/home.html
+[no-comments issue]: https://github.com/webhintio/hint/issues/4839

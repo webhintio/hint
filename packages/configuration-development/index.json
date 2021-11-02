@@ -29,7 +29,6 @@
         "typescript-config/consistent-casing",
         "typescript-config/import-helpers",
         "typescript-config/is-valid",
-        "typescript-config/no-comments",
         "typescript-config/strict",
         "typescript-config/target"
     ],
