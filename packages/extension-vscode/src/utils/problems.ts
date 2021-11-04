@@ -36,7 +36,7 @@ export const problemToDiagnostic = (problem: Problem, textDocument: TextDocument
 
         let count = offset + 1;
 
-        while (content[count]?.match(/\w|\d/)) {
+        while (content[count]?.match(/\w|\d|-/)) {
             count++;
         }
 

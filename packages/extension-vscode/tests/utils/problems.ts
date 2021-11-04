@@ -135,3 +135,33 @@ test('It translates missing endColumn and endLine properties correctly in a mult
     t.is(diagnostic.range.end.character, location.column + 5);
     t.is(diagnostic.range.end.line, location.line);
 });
+
+test('It translates missing endColumn and endLine properties correctly when the caracter - is present', (t) => {
+    const textDocument = TextDocument.create('document', 'text', 1, `
+
+
+    This is an "error-with-dashes" message
+`);
+
+    const location = {
+        column: 16,
+        line: 3
+    };
+
+    const problem = {
+        hintId: 'test-id-1',
+        location,
+        message: 'Test Message 1',
+        severity: Severity.hint
+    } as Problem;
+
+    const diagnostic = problemToDiagnostic(problem, textDocument);
+
+    t.is(diagnostic.message, problem.message);
+    t.is(diagnostic.code, problem.hintId);
+    t.is(diagnostic.severity, DiagnosticSeverity.Hint);
+    t.is(diagnostic.range.start.line, location.line);
+    t.is(diagnostic.range.start.character, location.column);
+    t.is(diagnostic.range.end.character, location.column + 17);
+    t.is(diagnostic.range.end.line, location.line);
+});
