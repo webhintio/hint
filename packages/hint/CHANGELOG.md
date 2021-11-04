@@ -1,3 +1,12 @@
+# 6.1.8 (November 4, 2021)
+
+## Chores
+
+* [[`dc3a3a621c`](https://github.com/webhintio/hint/commit/dc3a3a621c1e87b9cb73835601f9d5964baccfc3)] - Upgrade: Bump @types/lodash from 4.14.175 to 4.14.176 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`d86d218cdd`](https://github.com/webhintio/hint/commit/d86d218cdd528adbab34b9e4bea1d11c7cf93da3)] - Upgrade: Bump browserslist from 4.17.3 to 4.17.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 6.1.7 (October 29, 2021)
 
 

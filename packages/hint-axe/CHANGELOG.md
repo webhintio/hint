@@ -1,3 +1,10 @@
+# 4.4.7 (November 4, 2021)
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 4.4.6 (October 29, 2021)
 
 ## Bug fixes / Improvements

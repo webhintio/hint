@@ -1,3 +1,11 @@
+# 1.1.5 (November 4, 2021)
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`2909442ab9`](https://github.com/webhintio/hint/commit/2909442ab92e9eee8ce677dc894319d56ca4b63d)] - Upgrade: Bump mdn-data from 2.0.19 to 2.0.22 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.1.4 (October 21, 2021)
 
 ## New features

@@ -8,19 +8,19 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-compat-data": "^1.1.4",
-    "@hint/utils-i18n": "^1.0.9",
-    "@hint/utils-string": "^1.0.9",
-    "@hint/utils-types": "^1.1.4",
+    "@hint/utils-compat-data": "^1.1.5",
+    "@hint/utils-i18n": "^1.0.10",
+    "@hint/utils-string": "^1.0.10",
+    "@hint/utils-types": "^1.1.5",
     "bcp47": "^1.1.2",
     "color-string": "^1.5.5"
   },
   "description": "hint that that checks if the web app manifest file is valid",
   "devDependencies": {
-    "@hint/parser-manifest": "^2.3.4",
-    "@hint/utils-create-server": "^3.4.12",
-    "@hint/utils-json": "^1.0.13",
-    "@hint/utils-tests-helpers": "^6.3.6",
+    "@hint/parser-manifest": "^2.3.5",
+    "@hint/utils-create-server": "^3.4.13",
+    "@hint/utils-json": "^1.0.14",
+    "@hint/utils-tests-helpers": "^6.3.7",
     "@types/color-string": "^1.5.0",
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
@@ -80,5 +80,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.4.4"
+  "version": "3.4.5"
 }

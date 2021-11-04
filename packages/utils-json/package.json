@@ -8,9 +8,9 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-fs": "^1.0.10",
-    "@hint/utils-network": "^1.0.12",
-    "@hint/utils-types": "^1.1.4",
+    "@hint/utils-fs": "^1.0.11",
+    "@hint/utils-network": "^1.0.13",
+    "@hint/utils-types": "^1.1.5",
     "ajv": "^8.6.3",
     "ajv-formats": "^2.1.1",
     "jsonc-parser": "^3.0.0",
@@ -64,5 +64,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.13"
+  "version": "1.0.14"
 }

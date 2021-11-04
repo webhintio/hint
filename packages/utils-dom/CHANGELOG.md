@@ -1,3 +1,11 @@
+# 2.1.8 (November 4, 2021)
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`9e41f1e046`](https://github.com/webhintio/hint/commit/9e41f1e04603923c6ab8aa729e52360981426427)] - Upgrade: Bump @types/parse5 from 6.0.1 to 6.0.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.1.7 (October 21, 2021)
 
 ## Chores

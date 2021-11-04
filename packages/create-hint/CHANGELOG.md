@@ -1,3 +1,11 @@
+# 4.0.16 (November 4, 2021)
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`095dc2e6a3`](https://github.com/webhintio/hint/commit/095dc2e6a355f120876bc5798a9aff7c53c0d6f2)] - Upgrade: Bump webpack-cli from 4.8.0 to 4.9.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 4.0.13 (October 21, 2021)
 
 ## Chores

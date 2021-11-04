@@ -8,15 +8,15 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-debug": "^1.0.6",
-    "@hint/utils-dom": "^2.1.7",
+    "@hint/utils-debug": "^1.0.7",
+    "@hint/utils-dom": "^2.1.8",
     "parse5": "^6.0.1",
     "parse5-htmlparser2-tree-adapter": "^6.0.1"
   },
   "description": "webhint parser needed to analyze HTML elements in JSX",
   "devDependencies": {
-    "@hint/parser-html": "^3.0.21",
-    "@hint/parser-javascript": "^3.1.12",
+    "@hint/parser-html": "^3.0.22",
+    "@hint/parser-javascript": "^3.1.13",
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.1",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.13"
+  "version": "1.0.14"
 }

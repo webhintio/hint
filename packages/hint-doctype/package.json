@@ -8,13 +8,13 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-i18n": "^1.0.9",
-    "@hint/utils-types": "^1.1.4"
+    "@hint/utils-i18n": "^1.0.10",
+    "@hint/utils-types": "^1.1.5"
   },
   "description": "this hint checks if the HTML is using the most modern DOCTYPE.",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^6.3.6",
-    "@hint/parser-html": "^3.0.21",
+    "@hint/utils-tests-helpers": "^6.3.7",
+    "@hint/parser-html": "^3.0.22",
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.1",
@@ -71,5 +71,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.3.12"
+  "version": "3.3.13"
 }

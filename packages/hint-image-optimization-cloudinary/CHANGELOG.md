@@ -1,3 +1,11 @@
+# 3.2.13 (November 4, 2021)
+
+## Chores
+
+* [[`1438167cc8`](https://github.com/webhintio/hint/commit/1438167cc887a5bce7b6f0d88c2aba8ab56c9125)] - Upgrade: Bump cloudinary from 1.27.0 to 1.27.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 3.2.11 (October 21, 2021)
 
 ## Chores

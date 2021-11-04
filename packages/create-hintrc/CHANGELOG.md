@@ -1,3 +1,13 @@
+# 3.0.16 (November 4, 2021)
+
+## Chores
+
+* [[`dc3a3a621c`](https://github.com/webhintio/hint/commit/dc3a3a621c1e87b9cb73835601f9d5964baccfc3)] - Upgrade: Bump @types/lodash from 4.14.175 to 4.14.176 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`095dc2e6a3`](https://github.com/webhintio/hint/commit/095dc2e6a355f120876bc5798a9aff7c53c0d6f2)] - Upgrade: Bump webpack-cli from 4.8.0 to 4.9.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`d86d218cdd`](https://github.com/webhintio/hint/commit/d86d218cdd528adbab34b9e4bea1d11c7cf93da3)] - Upgrade: Bump browserslist from 4.17.3 to 4.17.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 3.0.13 (October 21, 2021)
 
 ## Bug fixes / Improvements

@@ -1,3 +1,14 @@
+# 2.3.6 (November 4, 2021)
+
+## Chores
+
+* [[`fd6508cd15`](https://github.com/webhintio/hint/commit/fd6508cd153398b62be46f91ca0f86e91d8dfd08)] - Upgrade: Bump @types/har-format from 1.2.7 to 1.2.8 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`dd0b866b80`](https://github.com/webhintio/hint/commit/dd0b866b804bc3aadbead40ca0b2c782b0154d20)] - Upgrade: Bump @types/react-dom from 17.0.9 to 17.0.10 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`095dc2e6a3`](https://github.com/webhintio/hint/commit/095dc2e6a355f120876bc5798a9aff7c53c0d6f2)] - Upgrade: Bump webpack-cli from 4.8.0 to 4.9.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`d86d218cdd`](https://github.com/webhintio/hint/commit/d86d218cdd528adbab34b9e4bea1d11c7cf93da3)] - Upgrade: Bump browserslist from 4.17.3 to 4.17.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.3.3 (October 21, 2021)
 
 ## Bug fixes / Improvements

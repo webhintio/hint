@@ -1,3 +1,14 @@
+# 2.10.14 (November 4, 2021)
+
+## New features
+
+* [[`802e6532c1`](https://github.com/webhintio/hint/commit/802e6532c1b1c40dd8f046d382d54a5dfdbedd90)] - Update: Update 3rd party data (by [`GitHub`](https://github.com/actions-user)).
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.10.12 (October 21, 2021)
 
 ## New features

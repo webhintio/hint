@@ -1,3 +1,14 @@
+# 2.5.0 (November 4, 2021)
+
+## New features
+
+* [[`a66668de7f`](https://github.com/webhintio/hint/commit/a66668de7fb38ee218d517f12dc38ce348ab8bd0)] - New: Disable typescript-config/no-comments by default (by [`Tony Ross`](https://github.com/antross) / see also: [`#4839`](https://github.com/webhintio/hint/issues/4839)).
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.4.12 (October 21, 2021)
 
 ## New features

@@ -1,3 +1,11 @@
+# 1.0.19 (November 4, 2021)
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`93b175ca92`](https://github.com/webhintio/hint/commit/93b175ca928c8ddd8c76fa5ff97acdba10b525ca)] - Upgrade: Bump postcss from 8.3.8 to 8.3.11 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.0.18 (October 21, 2021)
 
 ## Chores

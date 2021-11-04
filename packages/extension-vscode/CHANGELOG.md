@@ -1,3 +1,16 @@
+# 1.6.3 (November 4, 2021)
+
+## Bug fixes / Improvements
+
+* [[`a804c6b032`](https://github.com/webhintio/hint/commit/a804c6b0328bcdf20af24c44f3e3e389c1bc5563)] - Fix: Squiggles for reported hints in VS Code Insider builds (by [`Jesus David García Gomez`](https://github.com/sarvaje) / see also: [`#4840`](https://github.com/webhintio/hint/issues/4840)).
+
+## Chores
+
+* [[`534ac3bcb8`](https://github.com/webhintio/hint/commit/534ac3bcb86d93dd14d3d13cf9fd16628fb0c741)] - Upgrade: Bump vsce from 1.100.1 to 1.100.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`095dc2e6a3`](https://github.com/webhintio/hint/commit/095dc2e6a355f120876bc5798a9aff7c53c0d6f2)] - Upgrade: Bump webpack-cli from 4.8.0 to 4.9.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.6.0 (October 21, 2021)
 
 ## New features

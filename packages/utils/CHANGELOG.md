@@ -1,3 +1,11 @@
+# 7.0.12 (November 4, 2021)
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`3c4f158dd2`](https://github.com/webhintio/hint/commit/3c4f158dd253f14759f0503ea51aa4b2503b0aa5)] - Upgrade: Bump @types/semver from 7.3.8 to 7.3.9 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 7.0.11 (October 21, 2021)
 
 ## Bug fixes / Improvements
