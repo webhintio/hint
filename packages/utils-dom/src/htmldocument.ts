@@ -12,6 +12,7 @@ import { Node } from './node';
 import { Text } from './text';
 import { DocumentData, ElementData, NodeData } from './types';
 import { getCompiledSelector } from './get-compiled-selector';
+import { ensureExpectedParentNodes } from './utils';
 
 /**
  * https://developer.mozilla.org/docs/Web/API/HTMLDocument
@@ -34,6 +35,11 @@ export class HTMLDocument extends Node {
         this._document = document;
         this._documentElement = this.findDocumentElement();
         this.originalDocument = originalDocument;
+
+        if (this.isFragment) {
+            ensureExpectedParentNodes(document);
+        }
+
         this._pageHTML = parse5.serialize(document as htmlparser2Adapter.Node, { treeAdapter: htmlparser2Adapter });
         this._base = this.getBaseUrl(finalHref);
         this._nodes.set(document, this);

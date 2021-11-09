@@ -22,7 +22,7 @@ test('contains', (t) => {
 });
 
 test('nodeName', (t) => {
-    const doc = createHTMLDocument('<!doctype html><!--comment--><body>text<script>test</script><style>test</style></body>', 'http://localhost/');
+    const doc = createHTMLDocument('<!doctype html><!--comment--><html><body>text<script>test</script><style>test</style></body></html>', 'http://localhost/');
 
     t.is(doc.nodeName, '#document');
     t.is(doc.childNodes[0].nodeName, 'html');
@@ -34,7 +34,7 @@ test('nodeName', (t) => {
 });
 
 test('nodeType', (t) => {
-    const doc = createHTMLDocument('<!doctype html><!--comment--><body>text</body>', 'http://localhost/');
+    const doc = createHTMLDocument('<!doctype html><!--comment--><html><body>text</body></html>', 'http://localhost/');
 
     t.is(doc.nodeType, 9);
     t.is(doc.childNodes[0].nodeType, 10);
@@ -44,7 +44,7 @@ test('nodeType', (t) => {
 });
 
 test('nodeValue', (t) => {
-    const doc = createHTMLDocument('<!doctype html><!--comment--><body>text</body>', 'http://localhost/');
+    const doc = createHTMLDocument('<!doctype html><!--comment--><html><body>text</body></html>', 'http://localhost/');
 
     t.is(doc.nodeValue, null);
     t.is(doc.childNodes[0].nodeValue, null);

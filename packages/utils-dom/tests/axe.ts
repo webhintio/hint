@@ -127,7 +127,7 @@ test.serial('list', async (t) => {
 
 test.serial('listitem', async (t) => {
     await testAxe(t, {
-        fail: '<li>test</li>',
+        fail: '<html><li>test</li></html>',
         pass: '<ul><li>test</li></ul>'
     });
 });

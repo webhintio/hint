@@ -30,3 +30,29 @@ test('querySelector', (t) => {
     t.is(doc.querySelector('div')?.textContent, 'div1');
     t.is(doc.querySelector('not-div'), null);
 });
+
+test('do not create required parents in full documents', (t) => {
+    const doc = createHTMLDocument('<html><li>item</li></html>', 'http://localhost/');
+
+    t.is(doc.querySelector('li')?.parentElement?.nodeName, 'BODY');
+});
+
+test('create required parents in fragments', (t) => {
+    const doc = createHTMLDocument('<li>item</li>', 'http://localhost/');
+
+    t.is(doc.querySelector('li')?.parentElement?.nodeName, 'UL');
+});
+
+test('merge common required parents in fragments', (t) => {
+    const doc = createHTMLDocument('<dt>term</dt><dd>def</dd>', 'http://localhost/');
+
+    t.is(doc.querySelector('dt')?.parentElement?.nodeName, 'DL');
+    t.is(doc.querySelector('dt')?.parentElement, doc.querySelector('dd')?.parentElement);
+});
+
+test('recursively create required parents in fragments', (t) => {
+    const doc = createHTMLDocument('<td>item</td>', 'http://localhost/');
+
+    t.is(doc.querySelector('td')?.parentElement?.nodeName, 'TR');
+    t.is(doc.querySelector('tr')?.parentElement?.nodeName, 'TABLE');
+});
