@@ -147,18 +147,25 @@ test('It replaces expressions with text placeholders', async (t) => {
     t.is(div.innerHTML, '{expression}');
 });
 
-test('It wraps expression placeholder text with <li> when parented to <ul>', async (t) => {
-    const { document } = await parseJSX(`const jsx = <ul>{myText}</ul>;`);
+test('It drops expression placeholder text when parented to <ul>', async (t) => {
+    const { document } = await parseJSX(`const jsx = <ul>{myItems}</ul>;`);
     const ul = document.querySelectorAll('ul')[0];
 
-    t.is(ul.innerHTML, '<li>{expression}</li>');
+    t.is(ul.innerHTML, '');
 });
 
-test('It wraps expression placeholder text with <li> when parented to <ol>', async (t) => {
-    const { document } = await parseJSX(`const jsx = <ol>{myText}</ol>;`);
+test('It drops expression placeholder text when parented to <ol>', async (t) => {
+    const { document } = await parseJSX(`const jsx = <ol>{items.map(item=>(<li>{item}</li>))}</ol>;`);
     const ol = document.querySelectorAll('ol')[0];
 
     t.is(ol.innerHTML, '<li>{expression}</li>');
+});
+
+test('It drops expression placeholder text when parented to <dl>', async (t) => {
+    const { document } = await parseJSX(`const jsx = <dl>{myText}<dt>Term</dt><dd>Def</dd></dl>;`);
+    const ul = document.querySelectorAll('dl')[0];
+
+    t.is(ul.innerHTML, '<dt>Term</dt><dd>Def</dd>');
 });
 
 test('It translates source locations correctly', async (t) => {
