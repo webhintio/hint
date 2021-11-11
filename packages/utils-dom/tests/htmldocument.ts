@@ -12,6 +12,16 @@ test('title', (t) => {
     t.is(doc3.title, 'test');
 });
 
+test('isFragment', (t) => {
+    const doc1 = createHTMLDocument('<p>test</p>', 'http://localhost/');
+    const doc2 = createHTMLDocument('<html>test</html>', 'http://localhost/');
+    const doc3 = createHTMLDocument('<!doctype html>test', 'http://localhost/');
+
+    t.true(doc1.isFragment);
+    t.false(doc2.isFragment);
+    t.false(doc3.isFragment);
+});
+
 test('querySelectorAll', (t) => {
     const doc = createHTMLDocument('<div id="d1">div1</div><div id="d2">div2</div>', 'http://localhost/');
 

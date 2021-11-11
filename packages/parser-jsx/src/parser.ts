@@ -237,12 +237,8 @@ const allowsTextChildren = (node: JSXElement): boolean => {
  * provided roots derived from the specified resource.
  */
 const createHTMLFragment = (roots: RootMap, resource: string) => {
-    const dom = parse5.parse(
-        `<!doctype html><html data-webhint-fragment></html>`,
-        { treeAdapter: htmlparser2Adapter }
-    ) as DocumentData;
-
-    const body = (dom.children[1] as ElementData).children[1] as ElementData;
+    const dom = parse5.parse('', { treeAdapter: htmlparser2Adapter }) as DocumentData;
+    const body = (dom.children[0] as ElementData).children[1] as ElementData;
 
     roots.forEach((root) => {
         body.children.push(root);
@@ -250,7 +246,7 @@ const createHTMLFragment = (roots: RootMap, resource: string) => {
 
     restoreReferences(dom);
 
-    return new HTMLDocument(dom, resource);
+    return new HTMLDocument(dom, resource, undefined, true);
 };
 
 export default class JSXParser extends Parser<HTMLEvents> {
@@ -303,7 +299,7 @@ export default class JSXParser extends Parser<HTMLEvents> {
                 await this.engine.emitAsync(`parse::start::html`, { resource });
 
                 const document = createHTMLFragment(roots, resource);
-                const html = `<!doctype html>\n${document.documentElement.outerHTML}`;
+                const html = document.documentElement.outerHTML;
 
                 debug('Generated HTML from JSX:', html);
 

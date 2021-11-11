@@ -56,7 +56,7 @@ test('It translates basic JSX to HTML', async (t) => {
     const { html } = await emitFetchEndJSX(engine, `const jsx = <div>Test</div>;`);
 
     t.true(receivedStart);
-    t.is(html, `<!doctype html>\n<html data-webhint-fragment=""><head></head><body><div>Test</div></body></html>`);
+    t.is(html, `<html><head></head><body><div>Test</div></body></html>`);
 });
 
 test('It does not emit HTML events if no JSX is present', async (t) => {

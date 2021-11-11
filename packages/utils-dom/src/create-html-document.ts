@@ -10,7 +10,7 @@ import { HTMLDocument } from './htmldocument';
  * @param originalDocument - Previous snatshop of the html.
  */
 export const createHTMLDocument = (html: string, finalHref: string, originalDocument?: HTMLDocument): HTMLDocument => {
-    const isFragment = !(/<html\b/).test(html);
+    const isFragment = !(/(<!doctype|<html\b)/i).test(html);
     const dom = parse5.parse(isFragment ? '' : html, {
         sourceCodeLocationInfo: !originalDocument,
         treeAdapter: htmlparser2Adapter
@@ -30,5 +30,5 @@ export const createHTMLDocument = (html: string, finalHref: string, originalDocu
         }
     }
 
-    return new HTMLDocument(dom, finalHref, originalDocument);
+    return new HTMLDocument(dom, finalHref, originalDocument, isFragment);
 };
