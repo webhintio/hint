@@ -12,6 +12,7 @@ import { Node } from './node';
 import { Text } from './text';
 import { DocumentData, ElementData, NodeData } from './types';
 import { getCompiledSelector } from './get-compiled-selector';
+import { ensureExpectedParentNodes } from './utils';
 
 /**
  * https://developer.mozilla.org/docs/Web/API/HTMLDocument
@@ -19,6 +20,7 @@ import { getCompiledSelector } from './get-compiled-selector';
 export class HTMLDocument extends Node {
     private _document: DocumentData;
     private _documentElement: ElementData;
+    private _isFragment: boolean;
     private _nodes = new Map<NodeData, Node>();
     private _pageHTML = '';
     private _base: string;
@@ -29,11 +31,17 @@ export class HTMLDocument extends Node {
     /**
      * Non-standard. Used internally by utils-dom to create HTMLDocument instances.
      */
-    public constructor(document: DocumentData, finalHref: string, originalDocument?: HTMLDocument) {
+    public constructor(document: DocumentData, finalHref: string, originalDocument?: HTMLDocument, isFragment = false) {
         super(document, null as any);
         this._document = document;
         this._documentElement = this.findDocumentElement();
+        this._isFragment = isFragment;
         this.originalDocument = originalDocument;
+
+        if (isFragment) {
+            ensureExpectedParentNodes(document);
+        }
+
         this._pageHTML = parse5.serialize(document as htmlparser2Adapter.Node, { treeAdapter: htmlparser2Adapter });
         this._base = this.getBaseUrl(finalHref);
         this._nodes.set(document, this);
@@ -92,8 +100,7 @@ export class HTMLDocument extends Node {
      * Check if this represents a template fragment as opposed to a full document.
      */
     public get isFragment(): boolean {
-        // Document is a fragment if `<html>` wasn't part of the original source.
-        return !this.originalDocument && !this._documentElement.sourceCodeLocation;
+        return this._isFragment;
     }
 
     /**
