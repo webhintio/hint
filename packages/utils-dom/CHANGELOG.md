@@ -1,3 +1,14 @@
+# 2.1.9 (November 15, 2021)
+
+## Bug fixes / Improvements
+
+* [[`bb01807edc`](https://github.com/webhintio/hint/commit/bb01807edc979efa7dd0529deca60bb64e7a1f33)] - Fix: Assume expected parents in template fragments (by [`Tony Ross`](https://github.com/antross) / see also: [`#4868`](https://github.com/webhintio/hint/issues/4868)).
+
+## Chores
+
+* [[`96cb2cf97f`](https://github.com/webhintio/hint/commit/96cb2cf97f57430de63c66ee8811416054b2fca9)] - Upgrade: Bump eventemitter2 from 6.4.4 to 6.4.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.1.8 (November 4, 2021)
 
 ## Chores

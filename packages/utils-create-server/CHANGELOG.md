@@ -1,3 +1,11 @@
+# 3.4.14 (November 15, 2021)
+
+## Chores
+
+* [[`b640ee5f89`](https://github.com/webhintio/hint/commit/b640ee5f890750f542fdfc879c2742e1852800c3)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.28.5 to 4.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`d94cbf0e4c`](https://github.com/webhintio/hint/commit/d94cbf0e4c3a3b5dd6a296ad5e0339bd4e296cf9)] - Upgrade: Bump is-ci from 3.0.0 to 3.0.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 3.4.13 (November 4, 2021)
 
 ## Chores

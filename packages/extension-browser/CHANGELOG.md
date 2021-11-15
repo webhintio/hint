@@ -1,3 +1,13 @@
+# 2.3.7 (November 15, 2021)
+
+## Chores
+
+* [[`b640ee5f89`](https://github.com/webhintio/hint/commit/b640ee5f890750f542fdfc879c2742e1852800c3)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.28.5 to 4.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`8ad0802f6a`](https://github.com/webhintio/hint/commit/8ad0802f6a3cfc55b3710636aac804022402a68e)] - Upgrade: Bump web-ext from 6.4.0 to 6.5.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`b7670171cb`](https://github.com/webhintio/hint/commit/b7670171cb84bd739db3baaba454cb435937a5a9)] - Upgrade: Bump style-loader from 2.0.0 to 3.3.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`d94cbf0e4c`](https://github.com/webhintio/hint/commit/d94cbf0e4c3a3b5dd6a296ad5e0339bd4e296cf9)] - Upgrade: Bump is-ci from 3.0.0 to 3.0.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.3.6 (November 4, 2021)
 
 ## Chores

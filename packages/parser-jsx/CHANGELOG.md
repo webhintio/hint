@@ -1,3 +1,16 @@
+# 1.0.15 (November 15, 2021)
+
+## Bug fixes / Improvements
+
+* [[`bb01807edc`](https://github.com/webhintio/hint/commit/bb01807edc979efa7dd0529deca60bb64e7a1f33)] - Fix: Assume expected parents in template fragments (by [`Tony Ross`](https://github.com/antross) / see also: [`#4868`](https://github.com/webhintio/hint/issues/4868)).
+* [[`0c2e2a9b1c`](https://github.com/webhintio/hint/commit/0c2e2a9b1ca01b8f7aeed6e7c54eff5a14a6ae40)] - Fix: Omit JSX expressions in non-text HTML parents (by [`Tony Ross`](https://github.com/antross) / see also: [`#4878`](https://github.com/webhintio/hint/issues/4878)).
+
+## Chores
+
+* [[`b640ee5f89`](https://github.com/webhintio/hint/commit/b640ee5f890750f542fdfc879c2742e1852800c3)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.28.5 to 4.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`96cb2cf97f`](https://github.com/webhintio/hint/commit/96cb2cf97f57430de63c66ee8811416054b2fca9)] - Upgrade: Bump eventemitter2 from 6.4.4 to 6.4.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.0.14 (November 4, 2021)
 
 ## Chores

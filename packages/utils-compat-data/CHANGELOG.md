@@ -1,3 +1,11 @@
+# 1.1.6 (November 15, 2021)
+
+## Chores
+
+* [[`b640ee5f89`](https://github.com/webhintio/hint/commit/b640ee5f890750f542fdfc879c2742e1852800c3)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.28.5 to 4.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`5195d92631`](https://github.com/webhintio/hint/commit/5195d9263130eb9485eb3a5a8c24f0d80443ff73)] - Upgrade: Bump @mdn/browser-compat-data from 4.0.5 to 4.0.9 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.1.5 (November 4, 2021)
 
 ## Chores

@@ -1,3 +1,11 @@
+# 4.0.10 (November 15, 2021)
+
+## Chores
+
+* [[`b640ee5f89`](https://github.com/webhintio/hint/commit/b640ee5f890750f542fdfc879c2742e1852800c3)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.28.5 to 4.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`3085d340f0`](https://github.com/webhintio/hint/commit/3085d340f0728f38aeffebc6f5d3a0a4b942cada)] - Upgrade: Bump color-string from 1.5.5 to 1.6.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 4.0.9 (November 4, 2021)
 
 ## Chores

@@ -1,3 +1,12 @@
+# 6.1.9 (November 15, 2021)
+
+## Chores
+
+* [[`b640ee5f89`](https://github.com/webhintio/hint/commit/b640ee5f890750f542fdfc879c2742e1852800c3)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.28.5 to 4.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`d94cbf0e4c`](https://github.com/webhintio/hint/commit/d94cbf0e4c3a3b5dd6a296ad5e0339bd4e296cf9)] - Upgrade: Bump is-ci from 3.0.0 to 3.0.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`96cb2cf97f`](https://github.com/webhintio/hint/commit/96cb2cf97f57430de63c66ee8811416054b2fca9)] - Upgrade: Bump eventemitter2 from 6.4.4 to 6.4.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 6.1.8 (November 4, 2021)
 
 ## Chores

@@ -17,10 +17,10 @@
   },
   "description": "Ensure vendor-prefixed versions of a CSS property are listed before the unprefixed version.",
   "devDependencies": {
-    "@hint/parser-css": "^3.0.27",
-    "@hint/parser-sass": "^1.0.19",
-    "@hint/utils-create-server": "^3.4.13",
-    "@hint/utils-tests-helpers": "^6.3.7",
+    "@hint/parser-css": "^3.0.28",
+    "@hint/parser-sass": "^1.0.20",
+    "@hint/utils-create-server": "^3.4.14",
+    "@hint/utils-tests-helpers": "^6.3.8",
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.28.1",
@@ -79,5 +79,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.4.13"
+  "version": "1.4.14"
 }
