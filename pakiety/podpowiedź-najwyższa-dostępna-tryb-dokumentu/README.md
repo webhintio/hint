@@ -43,6 +43,7 @@ Notes:
 * Appending `chrome=1` to the value of the HTTP response header or
   the meta tag is not recommended as [`Chrome Frame` has been
   deprecated][chrome frame] for quite some time.
+[README.md](https://github.com/webhintio/hint/files/7605453/README.md)
 
 ## What does the hint check?
 
