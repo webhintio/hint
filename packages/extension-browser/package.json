@@ -93,7 +93,7 @@
     "setimmediate": "^1.0.5",
     "sinon": "^12.0.1",
     "stream-browserify": "^3.0.0",
-    "style-loader": "^3.3.0",
+    "style-loader": "^3.3.1",
     "svg-url-loader": "^7.1.1",
     "terser-webpack-plugin": "^5.2.4",
     "typed-css-modules": "^0.7.0",
