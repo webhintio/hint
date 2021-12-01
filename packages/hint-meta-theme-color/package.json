@@ -12,7 +12,7 @@
     "@hint/utils-i18n": "^1.0.10",
     "@hint/utils-string": "^1.0.10",
     "@hint/utils-types": "^1.1.5",
-    "color-string": "^1.6.0"
+    "color-string": "^1.8.2"
   },
   "description": "hint for best practices related to the 'theme-color' meta tag",
   "devDependencies": {
