@@ -7792,13 +7792,13 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:H/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2021-01-08T17:25:21.189033Z",
         "credit": [
           "Francois Lajeunesse-Robert"
         ],
-        "cvssScore": 5.6,
+        "cvssScore": 7.0,
         "disclosureTime": "2021-01-08T17:08:45Z",
         "exploit": "Proof of Concept",
         "fixedIn": [
@@ -7836,7 +7836,7 @@
             "<4.7.7"
           ]
         },
-        "severity": "medium",
+        "severity": "high",
         "title": "Remote Code Execution (RCE)"
       },
       {
@@ -10985,7 +10985,7 @@
         "packageManager": "npm",
         "packageName": "jquery-ui",
         "patches": [],
-        "publicationTime": "2021-10-27T16:55:16.651847Z",
+        "publicationTime": "2021-10-27T16:55:16Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -24550,6 +24550,56 @@
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
         "alternativeIds": [],
+        "creationTime": "2021-11-03T12:50:27.770795Z",
+        "credit": [
+          "Yakir6"
+        ],
+        "cvssScore": 6.1,
+        "disclosureTime": "2021-11-02T15:42:52Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "5.10.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-TINYMCE-1910225",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-r8hm-w5f7-wj39"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2021-11-03T16:34:30.307781Z",
+        "moduleName": "tinymce",
+        "packageManager": "npm",
+        "packageName": "tinymce",
+        "patches": [],
+        "publicationTime": "2021-11-03T16:34:29.621228Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/tinymce/tinymce/commit/4b3b0ddfe915a266432acfe23c3653c98b60edfb%23diff-5b33cb2dbd28b63194e7b666bbcf9b6367a177fe3b88898d746bacbb5049bfe7"
+          },
+          {
+            "title": "Tiny Releases",
+            "url": "https://www.tiny.cloud/docs/release-notes/release-notes510/%23securityfixes"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<5.10.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "alternativeIds": [],
         "creationTime": "2021-10-24T13:27:39.964755Z",
         "credit": [
           "William Bowling"
@@ -26545,24 +26595,26 @@
         "disclosureTime": "2021-04-05T12:43:44Z",
         "exploit": "Proof of Concept",
         "fixedIn": [
-          "13.6.0"
+          "13.7.0"
         ],
         "functions": [],
         "functions_new": [],
         "id": "SNYK-JS-VALIDATOR-1090600",
         "identifiers": {
-          "CVE": [],
+          "CVE": [
+            "CVE-2021-3765"
+          ],
           "CWE": [
             "CWE-400"
           ]
         },
         "language": "js",
-        "modificationTime": "2021-04-26T16:18:44.184786Z",
+        "modificationTime": "2021-11-04T13:35:41.043684Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
         "patches": [],
-        "publicationTime": "2021-04-26T16:18:44.161884Z",
+        "publicationTime": "2021-04-26T16:18:44Z",
         "references": [
           {
             "title": "GitHub Issue",
@@ -26571,11 +26623,15 @@
           {
             "title": "GitHub PR",
             "url": "https://github.com/validatorjs/validator.js/pull/1603"
+          },
+          {
+            "title": "GitHub PR #2",
+            "url": "https://github.com/validatorjs/validator.js/pull/1738"
           }
         ],
         "semver": {
           "vulnerable": [
-            "<13.6.0"
+            "<13.7.0"
           ]
         },
         "severity": "medium",
@@ -26609,14 +26665,22 @@
         "packageManager": "npm",
         "packageName": "validator",
         "patches": [],
-        "publicationTime": "2021-04-26T16:18:45.810326Z",
+        "publicationTime": "2021-04-26T16:18:45Z",
         "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/tux-tn/validator.js/commit/b21879cf45c05ee11b2d79e612b651bf7b2d93b7%23diff-f41087599986e29c3c0dc15b62f1bf96d8aba16fe41f3730e315c84c2c4cb311"
+          },
           {
             "title": "GitHub Issue",
             "url": "https://github.com/validatorjs/validator.js/issues/1596"
           },
           {
-            "title": "GitHub PR",
+            "title": "GitHubPR - Actual fix",
+            "url": "https://github.com/validatorjs/validator.js/pull/1738"
+          },
+          {
+            "title": "GitHub PR - Initial fix",
             "url": "https://github.com/validatorjs/validator.js/pull/1603"
           }
         ],
