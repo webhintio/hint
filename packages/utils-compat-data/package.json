@@ -12,7 +12,7 @@
     "@mdn/browser-compat-data": "^4.0.12",
     "mdn-data": "^2.0.22",
     "postcss-selector-parser": "^6.0.6",
-    "postcss-value-parser": "^4.1.0",
+    "postcss-value-parser": "^4.2.0",
     "semver": "^7.3.5"
   },
   "description": "hint tools",
