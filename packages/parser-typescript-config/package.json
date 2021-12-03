@@ -15,7 +15,7 @@
   },
   "description": "webhint parser needed to analyze TypeScript config files",
   "devDependencies": {
-    "@types/node": "^15.6.1",
+    "@types/node": "^16.11.11",
     "@types/proxyquire": "^1.3.28",
     "@types/sinon": "^10.0.4",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
