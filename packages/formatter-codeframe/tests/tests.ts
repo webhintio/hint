@@ -2,12 +2,11 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as chalk from 'chalk';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
-import logSymbols from 'log-symbols';
-const stripAnsi = require('strip-ansi');
 
 import * as problems from './fixtures/list-of-problems';
 import { severityToColor } from '@hint/utils';
 import { Severity } from '@hint/utils-types';
+import { symbols } from '@hint/utils-symbols';
 
 type Logging = {
     log: () => void;
@@ -112,7 +111,7 @@ ${sourceCode[2].substr(8)}
 ${sourceCode[3]}
 …
 
-${severityToColor(Severity.error).bold(`${logSymbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`)}`;
+${severityToColor(Severity.error).bold(`${symbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`)}`;
 
     return expectedLogResult;
 };
@@ -174,7 +173,7 @@ ${sourceCode[2].substr(8)}
 ${sourceCode[3]}
 …
 
-${stripAnsi(logSymbols.error)} Found a total of 1 error, 2 warnings, 1 hint and 1 information`;
+${symbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`;
 
     return expectedLogResult;
 };

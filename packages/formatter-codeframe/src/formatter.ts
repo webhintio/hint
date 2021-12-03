@@ -15,7 +15,6 @@ import * as chalk from 'chalk';
 import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
 import sortBy = require('lodash/sortBy');
-import logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
 import { logger, severityToColor, occurencesToColor } from '@hint/utils';
@@ -25,6 +24,7 @@ import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, IFormatter } from 'hint';
 import { Problem, ProblemLocation, Severity } from '@hint/utils-types';
 import { getMessage, MessageName } from './i18n.import';
+import { symbols } from '@hint/utils-symbols';
 
 const _ = {
     groupBy,
@@ -192,7 +192,7 @@ export default class CodeframeFormatter implements IFormatter {
             totals[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
         ]);
 
-        result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);
+        result += color.bold(`${symbols.error} ${foundTotalMessage}`);
 
         if (!options.output) {
             logger.log(result);

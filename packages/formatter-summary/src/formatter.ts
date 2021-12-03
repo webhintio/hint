@@ -12,7 +12,6 @@ import * as chalk from 'chalk';
 import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
 import * as table from 'text-table';
-import logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
 import { logger, severityToColor, occurencesToColor } from '@hint/utils';
@@ -20,6 +19,7 @@ import { writeFileAsync } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, IFormatter } from 'hint';
 import { Problem, Severity } from '@hint/utils-types';
+import { symbols } from '@hint/utils-symbols';
 
 import { getMessage } from './i18n.import';
 
@@ -111,7 +111,7 @@ export default class SummaryFormatter implements IFormatter {
         ]);
 
         const result = `${table(tableData)}
-${color.bold(`${logSymbols.error} ${foundTotalMessage}`)}`;
+${color.bold(`${symbols.error} ${foundTotalMessage}`)}`;
 
         if (!options.output) {
             logger.log(result);

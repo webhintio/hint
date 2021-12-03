@@ -19,6 +19,7 @@
         { "path": "../utils-fs" },
         { "path": "../utils-i18n" },
         { "path": "../utils-string" },
+        { "path": "../utils-symbols" },
         { "path": "../utils-types" }
     ]
 }

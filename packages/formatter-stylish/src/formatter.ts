@@ -15,7 +15,6 @@ import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
 import sortBy = require('lodash/sortBy');
-import logSymbols from 'log-symbols';
 import * as table from 'text-table';
 const stripAnsi = require('strip-ansi');
 
@@ -25,6 +24,7 @@ import { writeFileAsync } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, IFormatter } from 'hint';
 import { Problem, Severity } from '@hint/utils-types';
+import { symbols } from '@hint/utils-symbols';
 
 import { getMessage, MessageName } from './i18n.import';
 
@@ -128,7 +128,7 @@ export default class StylishFormatter implements IFormatter {
                 partials[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
             ]);
 
-            partialResult += color.bold(`${logSymbols.error} ${foundMessage}`);
+            partialResult += color.bold(`${symbols.error} ${foundMessage}`);
             partialResult += '\n\n';
 
             return total + partialResult;
@@ -146,7 +146,7 @@ export default class StylishFormatter implements IFormatter {
             totals[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
         ]);
 
-        result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);
+        result += color.bold(`${symbols.error} ${foundTotalMessage}`);
 
         if (!options.output) {
             logger.log(result);
