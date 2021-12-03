@@ -47,7 +47,7 @@
     "@hint/utils-i18n": "^1.0.10",
     "@hint/utils-types": "^1.1.5",
     "@types/node": "^15.6.1",
-    "@types/puppeteer": "^5.4.3",
+    "@types/puppeteer": "^5.4.4",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.28.1",
     "ava": "^3.15.0",
