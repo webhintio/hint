@@ -27,7 +27,7 @@
     "@types/lockfile": "^1.0.2",
     "@types/lodash": "^4.14.176",
     "@types/node": "^15.6.1",
-    "@types/puppeteer": "^5.4.3",
+    "@types/puppeteer": "^5.4.4",
     "@types/puppeteer-core": "^5.4.0",
     "@types/sinon": "^10.0.4",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
