@@ -24,7 +24,6 @@ import { writeFileAsync } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, IFormatter } from 'hint';
 import { Problem, Severity } from '@hint/utils-types';
-import { symbols } from '@hint/utils-symbols';
 
 import { getMessage, MessageName } from './i18n.import';
 
@@ -128,7 +127,7 @@ export default class StylishFormatter implements IFormatter {
                 partials[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
             ]);
 
-            partialResult += color.bold(`${symbols.error} ${foundMessage}`);
+            partialResult += color.bold(`× ${foundMessage}`);
             partialResult += '\n\n';
 
             return total + partialResult;
@@ -146,7 +145,7 @@ export default class StylishFormatter implements IFormatter {
             totals[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
         ]);
 
-        result += color.bold(`${symbols.error} ${foundTotalMessage}`);
+        result += color.bold(`× ${foundTotalMessage}`);
 
         if (!options.output) {
             logger.log(result);

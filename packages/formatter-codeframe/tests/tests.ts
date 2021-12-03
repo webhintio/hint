@@ -6,7 +6,6 @@ import * as proxyquire from 'proxyquire';
 import * as problems from './fixtures/list-of-problems';
 import { severityToColor } from '@hint/utils';
 import { Severity } from '@hint/utils-types';
-import { symbols } from '@hint/utils-symbols';
 
 type Logging = {
     log: () => void;
@@ -111,7 +110,7 @@ ${sourceCode[2].substr(8)}
 ${sourceCode[3]}
 …
 
-${severityToColor(Severity.error).bold(`${symbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`)}`;
+${severityToColor(Severity.error).bold(`× Found a total of 1 error, 2 warnings, 1 hint and 1 information`)}`;
 
     return expectedLogResult;
 };
@@ -173,7 +172,7 @@ ${sourceCode[2].substr(8)}
 ${sourceCode[3]}
 …
 
-${symbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`;
+× Found a total of 1 error, 2 warnings, 1 hint and 1 information`;
 
     return expectedLogResult;
 };

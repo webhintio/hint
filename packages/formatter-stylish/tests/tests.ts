@@ -8,7 +8,6 @@ const stripAnsi = require('strip-ansi');
 import * as problems from './fixtures/list-of-problems';
 import { severityToColor } from '@hint/utils';
 import { Severity } from '@hint/utils-types';
-import { symbols } from '@hint/utils-symbols';
 
 type Logging = {
     log: () => void;
@@ -55,7 +54,7 @@ const getExpectedLogResult = () => {
 
     let expectedLogResult = `${chalk.cyan('http://myresource.com/')}
 ${tableString}
-${severityToColor(Severity.warning).bold(`${symbols.error} Found 0 errors, 2 warnings, 0 hints and 1 information`)}
+${severityToColor(Severity.warning).bold(`× Found 0 errors, 2 warnings, 0 hints and 1 information`)}
 
 ${chalk.cyan('http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.jpg')}`;
 
@@ -68,9 +67,9 @@ ${chalk.cyan('http://myresource2.com/this/resource/i … /resources/image/imagew
 
     expectedLogResult += `
 ${tableString}
-${severityToColor(Severity.error).bold(`${symbols.error} Found 1 error, 0 warnings, 1 hint and 0 informations`)}
+${severityToColor(Severity.error).bold(`× Found 1 error, 0 warnings, 1 hint and 0 informations`)}
 
-${severityToColor(Severity.error).bold(`${symbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`)}`;
+${severityToColor(Severity.error).bold(`× Found a total of 1 error, 2 warnings, 1 hint and 1 information`)}`;
 
     return expectedLogResult;
 };
@@ -89,7 +88,7 @@ const getExpectedOutputResult = () => {
 
     let expectedLogResult = `http://myresource.com/
 ${tableString}
-${symbols.error} Found 0 errors, 2 warnings, 0 hints and 1 information
+× Found 0 errors, 2 warnings, 0 hints and 1 information
 
 http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.jpg`;
 
@@ -102,9 +101,9 @@ http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.j
 
     expectedLogResult += `
 ${tableString}
-${symbols.error} Found 1 error, 0 warnings, 1 hint and 0 informations
+× Found 1 error, 0 warnings, 1 hint and 0 informations
 
-${symbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`;
+× Found a total of 1 error, 2 warnings, 1 hint and 1 information`;
 
     return stripAnsi(expectedLogResult);
 };

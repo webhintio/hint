@@ -19,7 +19,6 @@ import { writeFileAsync } from '@hint/utils-fs';
 import { debug as d } from '@hint/utils-debug';
 import { FormatterOptions, IFormatter } from 'hint';
 import { Problem, Severity } from '@hint/utils-types';
-import { symbols } from '@hint/utils-symbols';
 
 import { getMessage } from './i18n.import';
 
@@ -111,7 +110,7 @@ export default class SummaryFormatter implements IFormatter {
         ]);
 
         const result = `${table(tableData)}
-${color.bold(`${symbols.error} ${foundTotalMessage}`)}`;
+${color.bold(`× ${foundTotalMessage}`)}`;
 
         if (!options.output) {
             logger.log(result);
