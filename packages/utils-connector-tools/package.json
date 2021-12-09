@@ -13,7 +13,7 @@
     "@hint/utils-network": "^1.0.14",
     "@hint/utils-string": "^1.0.10",
     "@hint/utils-types": "^1.1.5",
-    "data-urls": "^2.0.0",
+    "data-urls": "^3.0.1",
     "iconv-lite": "^0.6.3",
     "request": "^2.88.2"
   },
