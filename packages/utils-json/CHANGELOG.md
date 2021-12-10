@@ -1,3 +1,23 @@
+# 1.0.14 (November 4, 2021)
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
+# 1.0.12 (October 21, 2021)
+
+## Chores
+
+* [[`2d60bc97ad`](https://github.com/webhintio/hint/commit/2d60bc97adb2ccbd608247d7083c2a3486832895)] - Upgrade: Bump typescript from 4.2.4 to 4.3.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#4675`](https://github.com/webhintio/hint/issues/4675)).
+* [[`3923e6cc84`](https://github.com/webhintio/hint/commit/3923e6cc84dfdfa5120cf1b877be8257e068e0a7)] - Upgrade: Bump eslint-plugin-markdown from 2.2.0 to 2.2.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`73a901b6cb`](https://github.com/webhintio/hint/commit/73a901b6cbeb2a6a3b9178e306405221302fa6fd)] - Upgrade: Bump ajv-formats from 2.1.0 to 2.1.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`3081bfe582`](https://github.com/webhintio/hint/commit/3081bfe58232a8ed4c5bb07c0675aaaf00c27789)] - Upgrade: Bump ajv from 8.6.0 to 8.6.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`e9b2e3f423`](https://github.com/webhintio/hint/commit/e9b2e3f4232f50d1c9dba44f250629f878b13f4f)] - Upgrade: Bump eslint-plugin-import from 2.22.1 to 2.23.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2b8ce4e4aa`](https://github.com/webhintio/hint/commit/2b8ce4e4aac6c3802643606be8973c9e01a573af)] - Upgrade: Bump eslint from 7.27.0 to 7.29.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e48632ff8b`](https://github.com/webhintio/hint/commit/e48632ff8b9961a8abb5e0ff185d0249cc9cac56)] - Upgrade: Bump ajv from 8.5.0 to 8.6.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.11 (June 9, 2021)
 
 ## New features

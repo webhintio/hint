@@ -1,3 +1,36 @@
+# 2.1.9 (November 15, 2021)
+
+## Bug fixes / Improvements
+
+* [[`bb01807edc`](https://github.com/webhintio/hint/commit/bb01807edc979efa7dd0529deca60bb64e7a1f33)] - Fix: Assume expected parents in template fragments (by [`Tony Ross`](https://github.com/antross) / see also: [`#4868`](https://github.com/webhintio/hint/issues/4868)).
+
+## Chores
+
+* [[`96cb2cf97f`](https://github.com/webhintio/hint/commit/96cb2cf97f57430de63c66ee8811416054b2fca9)] - Upgrade: Bump eventemitter2 from 6.4.4 to 6.4.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
+# 2.1.8 (November 4, 2021)
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`9e41f1e046`](https://github.com/webhintio/hint/commit/9e41f1e04603923c6ab8aa729e52360981426427)] - Upgrade: Bump @types/parse5 from 6.0.1 to 6.0.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
+# 2.1.7 (October 21, 2021)
+
+## Chores
+
+* [[`a35030e199`](https://github.com/webhintio/hint/commit/a35030e199b482e76786b67e1f35d87d7e2bcd4c)] - Upgrade: Bump axe-core from 4.1.2 to 4.3.3 (#4764) (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`2d60bc97ad`](https://github.com/webhintio/hint/commit/2d60bc97adb2ccbd608247d7083c2a3486832895)] - Upgrade: Bump typescript from 4.2.4 to 4.3.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#4675`](https://github.com/webhintio/hint/issues/4675)).
+* [[`35a46de541`](https://github.com/webhintio/hint/commit/35a46de541ae3705628225b4ae509bfde00d584c)] - Upgrade: Bump @types/parse5-htmlparser2-tree-adapter from 6.0.0 to 6.0.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`3923e6cc84`](https://github.com/webhintio/hint/commit/3923e6cc84dfdfa5120cf1b877be8257e068e0a7)] - Upgrade: Bump eslint-plugin-markdown from 2.2.0 to 2.2.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`9237c1c1cb`](https://github.com/webhintio/hint/commit/9237c1c1cb8e9641f5fdc34043e1b32f9797a982)] - Upgrade: Bump @types/parse5 from 6.0.0 to 6.0.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`e9b2e3f423`](https://github.com/webhintio/hint/commit/e9b2e3f4232f50d1c9dba44f250629f878b13f4f)] - Upgrade: Bump eslint-plugin-import from 2.22.1 to 2.23.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`420afeeb09`](https://github.com/webhintio/hint/commit/420afeeb09087c87f323901d77651e05fc77e653)] - Upgrade: Bump jsdom from 16.5.3 to 16.6.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2b8ce4e4aa`](https://github.com/webhintio/hint/commit/2b8ce4e4aac6c3802643606be8973c9e01a573af)] - Upgrade: Bump eslint from 7.27.0 to 7.29.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 2.1.6 (June 9, 2021)
 
 ## Bug fixes / Improvements

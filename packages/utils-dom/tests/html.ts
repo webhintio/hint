@@ -33,10 +33,10 @@ test('HTMLDocument.compatMode should return "CSS1Compat" if standards', (t) => {
 });
 
 test('HTMLDocument.compatMode should return "BackCompat" if not standards', (t) => {
-    const document = createHTMLDocument(`<table border="1">
+    const document = createHTMLDocument(`<html><table border="1">
     <tr><td>one</td><td>two</td></tr>
     <tr><td>three</td><td bgcolor="yellow"></td></tr>
-   </table>`, 'http://example.com');
+   </table></html>`, 'http://example.com');
 
     t.is(document.compatMode, 'BackCompat');
 });

@@ -1,3 +1,28 @@
+# 1.0.13 (November 4, 2021)
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
+# 1.0.12 (October 29, 2021)
+
+## Bug fixes / Improvements
+
+* [[`2bb34e188a`](https://github.com/webhintio/hint/commit/2bb34e188aa7fa4666f1ab3c758fb0e56ec7a3eb)] - Fix: Restore handling relative file paths in getAsUri (by [`Tony Ross`](https://github.com/antross) / see also: [`#4836`](https://github.com/webhintio/hint/issues/4836)).
+
+
+# 1.0.11 (October 21, 2021)
+
+## Chores
+
+* [[`2d60bc97ad`](https://github.com/webhintio/hint/commit/2d60bc97adb2ccbd608247d7083c2a3486832895)] - Upgrade: Bump typescript from 4.2.4 to 4.3.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#4675`](https://github.com/webhintio/hint/issues/4675)).
+* [[`3923e6cc84`](https://github.com/webhintio/hint/commit/3923e6cc84dfdfa5120cf1b877be8257e068e0a7)] - Upgrade: Bump eslint-plugin-markdown from 2.2.0 to 2.2.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`e9b2e3f423`](https://github.com/webhintio/hint/commit/e9b2e3f4232f50d1c9dba44f250629f878b13f4f)] - Upgrade: Bump eslint-plugin-import from 2.22.1 to 2.23.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`d64010c7f5`](https://github.com/webhintio/hint/commit/d64010c7f53c45b11bf02e704baaf1cc61b5ed28)] - Chore: Remove file-url in favor of simpler inline logic (by [`Tony Ross`](https://github.com/antross) / see also: [`#4469`](https://github.com/webhintio/hint/issues/4469)).
+* [[`2b8ce4e4aa`](https://github.com/webhintio/hint/commit/2b8ce4e4aac6c3802643606be8973c9e01a573af)] - Upgrade: Bump eslint from 7.27.0 to 7.29.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.0.10 (June 9, 2021)
 
 ## Bug fixes / Improvements

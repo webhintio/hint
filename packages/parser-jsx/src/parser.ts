@@ -13,6 +13,24 @@ import { JSXAttribute, JSXElement, JSXExpressionContainer, JSXText, Node, Script
 type ChildMap = Map<JSXElement, Array<ElementData | TextData>>;
 type RootMap = Map<Node, ElementData>;
 
+// Per the content model defined for each element in https://html.spec.whatwg.org/
+const HTML_ELEMENTS_WITH_ONLY_NON_TEXT_CHILDREN = [
+    'colgroup',
+    'dl',
+    'hgroup',
+    'menu',
+    'ol',
+    'optgroup',
+    'picture',
+    'select',
+    'table',
+    'tbody',
+    'thead',
+    'tfoot',
+    'tr',
+    'ul'
+];
+
 const debug = d(__filename);
 
 /**
@@ -207,49 +225,11 @@ const addChild = (data: ElementData | TextData, parent: JSXElement, children: Ch
 };
 
 /**
- * Is the node a list container (`<ul>/<ol>`).
+ * Whether the element allows text nodes as direct children.
  */
-const isListNode = (node?: JSXElement | JSXAttribute): node is JSXElement => {
-    return !!(node && node.type === 'JSXElement' &&
-        node.openingElement.name.type === 'JSXIdentifier' &&
-        (node.openingElement.name.name === 'ol' || node.openingElement.name.name === 'ul'));
-};
-
-/**
- * Create a JSXElement.
- */
-const createJSXElement = (name: string, selfClosing: boolean = false): JSXElement => {
-    return {
-        children: [],
-        closingElement: selfClosing ? null : {
-            name: {
-                name,
-                type: 'JSXIdentifier'
-            },
-            type: 'JSXClosingElement'
-        },
-        openingElement: {
-            attributes: [],
-            name: {
-                name,
-                type: 'JSXIdentifier'
-            },
-            selfClosing,
-            type: 'JSXOpeningElement'
-        },
-        type: 'JSXElement'
-    };
-};
-
-/**
- * Wrap the given `textData` in a list item (`<li>textData</li>).
- */
-const wrapInListItem = (textData: TextData, parent: JSXElement, childMap: ChildMap): ElementData => {
-    const node = createJSXElement('li');
-
-    addChild(textData, node, childMap);
-
-    return mapElement(node, childMap);
+const allowsTextChildren = (node: JSXElement): boolean => {
+    return node.openingElement.name.type === 'JSXIdentifier' &&
+        !HTML_ELEMENTS_WITH_ONLY_NON_TEXT_CHILDREN.includes(node.openingElement.name.name);
 };
 
 /**
@@ -257,12 +237,8 @@ const wrapInListItem = (textData: TextData, parent: JSXElement, childMap: ChildM
  * provided roots derived from the specified resource.
  */
 const createHTMLFragment = (roots: RootMap, resource: string) => {
-    const dom = parse5.parse(
-        `<!doctype html><html data-webhint-fragment></html>`,
-        { treeAdapter: htmlparser2Adapter }
-    ) as DocumentData;
-
-    const body = (dom.children[1] as ElementData).children[1] as ElementData;
+    const dom = parse5.parse('', { treeAdapter: htmlparser2Adapter }) as DocumentData;
+    const body = (dom.children[0] as ElementData).children[1] as ElementData;
 
     roots.forEach((root) => {
         body.children.push(root);
@@ -270,7 +246,7 @@ const createHTMLFragment = (roots: RootMap, resource: string) => {
 
     restoreReferences(dom);
 
-    return new HTMLDocument(dom, resource);
+    return new HTMLDocument(dom, resource, undefined, true);
 };
 
 export default class JSXParser extends Parser<HTMLEvents> {
@@ -298,12 +274,10 @@ export default class JSXParser extends Parser<HTMLEvents> {
                     }
                 },
                 JSXExpressionContainer(node, /* istanbul ignore next */ ancestors = []) {
+                    const data = mapExpression(node);
                     const parent = getParentAttributeOrElement(ancestors);
-                    const textData = mapExpression(node);
-                    const data = isListNode(parent) ? wrapInListItem(textData, parent, childMap) :
-                        textData;
 
-                    if (parent && parent.type !== 'JSXAttribute') {
+                    if (parent && parent.type !== 'JSXAttribute' && allowsTextChildren(parent)) {
                         addChild(data, parent, childMap);
                     }
                 },
@@ -325,7 +299,7 @@ export default class JSXParser extends Parser<HTMLEvents> {
                 await this.engine.emitAsync(`parse::start::html`, { resource });
 
                 const document = createHTMLFragment(roots, resource);
-                const html = `<!doctype html>\n${document.documentElement.outerHTML}`;
+                const html = document.documentElement.outerHTML;
 
                 debug('Generated HTML from JSX:', html);
 

@@ -1,3 +1,43 @@
+# 1.3.7 (November 15, 2021)
+
+## Chores
+
+* [[`b640ee5f89`](https://github.com/webhintio/hint/commit/b640ee5f890750f542fdfc879c2742e1852800c3)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.28.5 to 4.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
+# 1.3.6 (November 4, 2021)
+
+## Chores
+
+* [[`7173d6721d`](https://github.com/webhintio/hint/commit/7173d6721d1cbca66347a5040c0b81db8b01f993)] - Upgrade: Bump eslint-plugin-import from 2.23.4 to 2.25.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`095dc2e6a3`](https://github.com/webhintio/hint/commit/095dc2e6a355f120876bc5798a9aff7c53c0d6f2)] - Upgrade: Bump webpack-cli from 4.8.0 to 4.9.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`d86d218cdd`](https://github.com/webhintio/hint/commit/d86d218cdd528adbab34b9e4bea1d11c7cf93da3)] - Upgrade: Bump browserslist from 4.17.3 to 4.17.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
+# 1.3.3 (October 21, 2021)
+
+## Chores
+
+* [[`a35030e199`](https://github.com/webhintio/hint/commit/a35030e199b482e76786b67e1f35d87d7e2bcd4c)] - Upgrade: Bump axe-core from 4.1.2 to 4.3.3 (#4764) (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`abfad76278`](https://github.com/webhintio/hint/commit/abfad7627816be975d1f7ac2ebf621a78cce8b0f)] - Upgrade: Bump browserslist from 4.16.6 to 4.17.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#4818`](https://github.com/webhintio/hint/issues/4818)).
+* [[`2d60bc97ad`](https://github.com/webhintio/hint/commit/2d60bc97adb2ccbd608247d7083c2a3486832895)] - Upgrade: Bump typescript from 4.2.4 to 4.3.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview) / see also: [`#4675`](https://github.com/webhintio/hint/issues/4675)).
+* [[`de27b78be9`](https://github.com/webhintio/hint/commit/de27b78be9d2d3830b5d85311a2099905be5a798)] - Upgrade: Bump webpack from 5.41.1 to 5.56.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`35ea7e04fe`](https://github.com/webhintio/hint/commit/35ea7e04fe5ec107782b45b8de850058cf96f56a)] - Upgrade: Bump webpack-cli from 4.7.2 to 4.8.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`3923e6cc84`](https://github.com/webhintio/hint/commit/3923e6cc84dfdfa5120cf1b877be8257e068e0a7)] - Upgrade: Bump eslint-plugin-markdown from 2.2.0 to 2.2.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`75e22e2ea8`](https://github.com/webhintio/hint/commit/75e22e2ea83ee4c18f525444ba55eb8a00272357)] - Upgrade: Bump puppeteer from 10.0.0 to 10.4.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`f115a21c0e`](https://github.com/webhintio/hint/commit/f115a21c0eed6031c6db946dc0a85a0713b7e908)] - Upgrade: Bump terser-webpack-plugin from 5.1.4 to 5.2.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`2ec2cef414`](https://github.com/webhintio/hint/commit/2ec2cef414ab42fcbaa54e8671e65e58780fe8e0)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.27.0 to 4.28.5 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`e9b2e3f423`](https://github.com/webhintio/hint/commit/e9b2e3f4232f50d1c9dba44f250629f878b13f4f)] - Upgrade: Bump eslint-plugin-import from 2.22.1 to 2.23.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`fa57e32a7b`](https://github.com/webhintio/hint/commit/fa57e32a7b108d9dc7c5858fbd53be8fabbc2bdd)] - Upgrade: Bump webpack from 5.39.1 to 5.41.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`1d9681bf36`](https://github.com/webhintio/hint/commit/1d9681bf36fd2629f95e513d721efa69632681b6)] - Upgrade: Bump terser-webpack-plugin from 5.1.2 to 5.1.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`366c065fea`](https://github.com/webhintio/hint/commit/366c065feab829eb96dd14b48362b1464cabf627)] - Upgrade: Bump @typescript-eslint/parser from 4.26.0 to 4.28.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`064d5bf919`](https://github.com/webhintio/hint/commit/064d5bf919d9084eec1bee7de702c12326bdb355)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.22.0 to 4.27.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`2b8ce4e4aa`](https://github.com/webhintio/hint/commit/2b8ce4e4aac6c3802643606be8973c9e01a573af)] - Upgrade: Bump eslint from 7.27.0 to 7.29.0 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`4f15da2d04`](https://github.com/webhintio/hint/commit/4f15da2d0403fc7c63af1e71c5f1663421b9d557)] - Upgrade: Bump globby from 11.0.3 to 11.0.4 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`40b2852623`](https://github.com/webhintio/hint/commit/40b28526239c2c4811f5a119fa4f3e25330beb24)] - Upgrade: Bump webpack from 5.38.1 to 5.39.1 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+* [[`768851afd8`](https://github.com/webhintio/hint/commit/768851afd8055ec0b8034ddf7639505bc62db54b)] - Upgrade: Bump webpack-cli from 4.7.0 to 4.7.2 (by [`dependabot-preview[bot]`](https://github.com/apps/dependabot-preview)).
+
+
 # 1.3.2 (June 9, 2021)
 
 ## Bug fixes / Improvements

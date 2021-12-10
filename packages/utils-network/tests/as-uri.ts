@@ -43,3 +43,9 @@ test('getAsUris drops invalid URLs', (t) => {
 
     t.is(uris.length, 1, `getAsUris didn't return the expected number of URIs`);
 });
+
+test('getAsUri resolves relative file paths', (t) => {
+    const uri = getAsUri('.');
+
+    t.is(uri?.hostname, '', `getAsUri didn't resolve relative path to an absolute path`);
+});

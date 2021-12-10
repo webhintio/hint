@@ -34,7 +34,12 @@ type RegistrationMap = Map<EngineKey, Map<string, Registration[]>>;
 const registrationMap: RegistrationMap = new Map();
 
 const getElement = (context: HintContext, node: AxeNodeResult): HTMLElement | undefined | null => {
-    const selector = node.target[0];
+    let selector = node.target[0];
+
+    // Contrary to types, axe-core can return an array of strings. Take the first.
+    if (Array.isArray(selector)) {
+        selector = selector[0];
+    }
 
     return context.pageDOM?.querySelector(selector);
 };

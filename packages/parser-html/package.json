@@ -8,23 +8,23 @@
     "timeout": "1m"
   },
   "dependencies": {
-    "@hint/utils-dom": "^2.1.6"
+    "@hint/utils-dom": "^2.1.9"
   },
   "description": "webhint parser needed to analyze HTML files",
   "devDependencies": {
     "@types/node": "^16.4.10",
     "@types/sinon": "^10.0.4",
-    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.28.1",
     "ava": "^3.15.0",
     "copyfiles": "^2.4.1",
-    "eslint": "^7.29.0",
+    "eslint": "^7.32.0",
     "eslint-plugin-markdown": "^2.2.1",
-    "eventemitter2": "^6.4.4",
+    "eventemitter2": "^6.4.5",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
-    "sinon": "^9.2.4",
+    "sinon": "^12.0.1",
     "typescript": "^4.3.5"
   },
   "files": [
@@ -69,5 +69,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.20"
+  "version": "3.0.23"
 }

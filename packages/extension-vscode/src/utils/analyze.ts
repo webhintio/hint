@@ -1,11 +1,13 @@
 import { URL } from 'url';
-import { TextDocument, PublishDiagnosticsParams, Connection } from 'vscode-languageserver';
+import { PublishDiagnosticsParams, Connection } from 'vscode-languageserver';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { getUserConfig } from './config';
 import * as notifications from './notifications';
 import { loadWebhint } from './webhint-packages';
 import { problemToDiagnostic } from './problems';
 import { promptRetry } from './prompts';
+import { Problem } from '@hint/utils-types';
 
 const analyze = async (textDocument: TextDocument, webhint: import('hint').Analyzer): Promise<PublishDiagnosticsParams> => {
     const { uri } = textDocument;
@@ -18,7 +20,9 @@ const analyze = async (textDocument: TextDocument, webhint: import('hint').Analy
     const results = await webhint.analyze({ content, url });
 
     return {
-        diagnostics: results.length > 0 ? results[0].problems.map(problemToDiagnostic) : [],
+        diagnostics: results.length > 0 ? results[0].problems.map((problem: Problem) => {
+            return problemToDiagnostic(problem, textDocument);
+        }) : [],
         uri
     };
 };
@@ -27,13 +31,15 @@ export class Analyzer {
     private connection: Connection;
     private globalStoragePath: string;
     private loaded = false;
+    private sourceName: string;
     private validating = false;
     private validationQueue: TextDocument[] = [];
     private webhint: import('hint').Analyzer | null = null;
 
-    public constructor(_globalStoragePath: string, _connection: Connection) {
+    public constructor(_globalStoragePath: string, _connection: Connection, _sourceName: string) {
         this.connection = _connection;
         this.globalStoragePath = _globalStoragePath;
+        this.sourceName = _sourceName;
     }
 
     /**
@@ -45,6 +51,8 @@ export class Analyzer {
 
         /* istanbul ignore if */
         if (!hintModule) {
+            this.connection.sendNotification(notifications.installFailed);
+
             return null;
         }
 
@@ -110,6 +118,9 @@ export class Analyzer {
 
             const diagnostics = await analyze(textDocument, this.webhint);
 
+            diagnostics.diagnostics.forEach((d) => {
+                d.source = this.sourceName;
+            });
             this.connection.sendDiagnostics(diagnostics);
 
         } finally {

@@ -73,6 +73,14 @@ export const options = optionator({
             type: 'String'
         },
         {
+            alias: 't',
+            default: 'off',
+            description: 'DEPRECATED: Explicitly specify if enable telemetry or not',
+            enum: ['on', 'off'],
+            option: 'telemetry',
+            type: 'String'
+        },
+        {
             alias: 'o',
             description: `Save the formatter output to a file, in case of 'html' or 'excel' formatter, save the result with the name specified`,
             option: 'output',

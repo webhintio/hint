@@ -12,6 +12,16 @@ test('title', (t) => {
     t.is(doc3.title, 'test');
 });
 
+test('isFragment', (t) => {
+    const doc1 = createHTMLDocument('<p>test</p>', 'http://localhost/');
+    const doc2 = createHTMLDocument('<html>test</html>', 'http://localhost/');
+    const doc3 = createHTMLDocument('<!doctype html>test', 'http://localhost/');
+
+    t.true(doc1.isFragment);
+    t.false(doc2.isFragment);
+    t.false(doc3.isFragment);
+});
+
 test('querySelectorAll', (t) => {
     const doc = createHTMLDocument('<div id="d1">div1</div><div id="d2">div2</div>', 'http://localhost/');
 
@@ -29,4 +39,30 @@ test('querySelector', (t) => {
 
     t.is(doc.querySelector('div')?.textContent, 'div1');
     t.is(doc.querySelector('not-div'), null);
+});
+
+test('do not create required parents in full documents', (t) => {
+    const doc = createHTMLDocument('<html><li>item</li></html>', 'http://localhost/');
+
+    t.is(doc.querySelector('li')?.parentElement?.nodeName, 'BODY');
+});
+
+test('create required parents in fragments', (t) => {
+    const doc = createHTMLDocument('<li>item</li>', 'http://localhost/');
+
+    t.is(doc.querySelector('li')?.parentElement?.nodeName, 'UL');
+});
+
+test('merge common required parents in fragments', (t) => {
+    const doc = createHTMLDocument('<dt>term</dt><dd>def</dd>', 'http://localhost/');
+
+    t.is(doc.querySelector('dt')?.parentElement?.nodeName, 'DL');
+    t.is(doc.querySelector('dt')?.parentElement, doc.querySelector('dd')?.parentElement);
+});
+
+test('recursively create required parents in fragments', (t) => {
+    const doc = createHTMLDocument('<td>item</td>', 'http://localhost/');
+
+    t.is(doc.querySelector('td')?.parentElement?.nodeName, 'TR');
+    t.is(doc.querySelector('tr')?.parentElement?.nodeName, 'TABLE');
 });

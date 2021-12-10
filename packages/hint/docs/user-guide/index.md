@@ -84,7 +84,7 @@ update your `package.json` file.
    npm install hint --save-dev
    ```
 
-   You have also use `i` in place of `install` and `-D` in place of
+   You can also use `i` in place of `install` and `-D` in place of
    `--save-dev`.
 
    ```bash

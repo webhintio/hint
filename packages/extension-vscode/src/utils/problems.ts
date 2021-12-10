@@ -1,4 +1,5 @@
 import { Diagnostic, DiagnosticSeverity } from 'vscode-languageserver';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { Problem, Severity } from '@hint/utils-types';
 
@@ -19,7 +20,7 @@ const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity =>
 };
 
 // Translate a webhint problem into the VSCode diagnostic format.
-export const problemToDiagnostic = (problem: Problem): Diagnostic => {
+export const problemToDiagnostic = (problem: Problem, textDocument: TextDocument): Diagnostic => {
 
     let { column: character, endColumn, endLine, line } = problem.location;
 
@@ -29,18 +30,33 @@ export const problemToDiagnostic = (problem: Problem): Diagnostic => {
         line = 0;
     }
 
-    if (!endColumn || !endLine) {
-        endColumn = character;
+    if (endColumn === undefined) {
+        const offset = textDocument.offsetAt({ character, line });
+        const content = textDocument.getText();
+
+        let count = offset + 1;
+
+        while (content[count]?.match(/\w|\d|-/)) {
+            count++;
+        }
+
+        endColumn = character + count - offset;
+    }
+
+    if (!endLine) {
         endLine = line;
     }
 
+    const docHref = problem.documentation?.length ? problem.documentation[0].link : `https://webhint.io/docs/user-guide/hints/hint-${problem.hintId}/`;
+
     return {
-        message: `${problem.message}\n(${problem.hintId})`,
+        code: problem.hintId,
+        codeDescription: { href: docHref },
+        message: `${problem.message}`,
         range: {
             end: { character: endColumn, line: endLine },
             start: { character, line }
         },
-        severity: webhintToDiagnosticServerity(problem.severity),
-        source: 'webhint'
+        severity: webhintToDiagnosticServerity(problem.severity)
     };
 };

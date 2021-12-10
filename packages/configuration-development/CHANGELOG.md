@@ -1,3 +1,10 @@
+# 8.3.0 (November 4, 2021)
+
+## New features
+
+* [[`a66668de7f`](https://github.com/webhintio/hint/commit/a66668de7fb38ee218d517f12dc38ce348ab8bd0)] - New: Disable typescript-config/no-comments by default (by [`Tony Ross`](https://github.com/antross) / see also: [`#4839`](https://github.com/webhintio/hint/issues/4839)).
+
+
 # 8.2.0 (February 4, 2021)
 
 ## New features
