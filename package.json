@@ -20,7 +20,7 @@
     "eslint-plugin-markdown": "^2.2.1",
     "execa": "^5.1.1",
     "fs-extra": "^10.0.0",
-    "globby": "^11.0.4",
+    "globby": "^12.0.2",
     "husky": "^6.0.0",
     "json-schema-to-typescript": "^10.1.5",
     "latest-version": "^5.1.0",
