@@ -265,7 +265,7 @@ your project.
 [gpu rasterization]: https://www.chromium.org/developers/design-documents/chromium-graphics/how-to-get-gpu-rasterization
 [ios 10 interaction behaviors]: https://webkit.org/blog/7367/new-interaction-behaviors-in-ios-10/
 [ios orientation change scaling]: https://www.quirksmode.org/blog/archives/2013/10/more_about_scal.html
-[mdn viewport meta tag]: https://developer.mozilla.org/en/docs/Mozilla/Mobile/Viewport_meta_tag
+[mdn viewport meta tag]: https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag
 [ppk article 1]: https://www.quirksmode.org/mobile/viewports.html
 [ppk article 2]: https://www.quirksmode.org/mobile/viewports2.html
 [ppk initial-scale]: https://www.quirksmode.org/mobile/metaviewport/#link15
@@ -274,5 +274,5 @@ your project.
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
 [spec]: https://drafts.csswg.org/css-device-adapt/#viewport-meta
 [tap delay]: https://developers.google.com/web/updates/2013/12/300ms-tap-delay-gone-away
-[viewport meta tag on mdn]: https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag
+[viewport meta tag on mdn]: https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag
 [browser configuration]: https://webhint.io/docs/user-guide/configuring-webhint/browser-context/
