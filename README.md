@@ -114,12 +114,12 @@ The code is available under the [Apache 2.0 license][license].
 <!-- Link labels: -->
 
 [browser extension]: https://webhint.io/docs/user-guide/extensions/extension-browser/
-[charter]: ./packages/hint/docs/about/PROJECT_CHARTER-draft.md
+[charter]: ./packages/hint/docs/about/PROJECT_CHARTER.md
 [coc]: https://github.com/webhintio/.github/blob/main/CODE_OF_CONDUCT
 [contrib browser]: ./packages/extension-browser/CONTRIBUTING.md
 [contrib vscode]: ./packages/extension-vscode/CONTRIBUTING.md
 [contributor guide]: https://webhint.io/docs/contributor-guide/
-[Governance]: ./packages/hint/docs/about/GOVERNANCE-draft.md
+[Governance]: ./packages/hint/docs/about/GOVERNANCE.md
 [license]: LICENSE.txt
 [local contributor guide]: ./packages/hint/docs/contributor-guide/index.md
 [local user guide]: ./packages/hint/docs/user-guide/index.md
