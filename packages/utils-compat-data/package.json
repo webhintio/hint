@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@hint/utils-css": "^1.0.10",
-    "@mdn/browser-compat-data": "^4.0.12",
+    "@mdn/browser-compat-data": "^4.1.6",
     "mdn-data": "^2.0.26",
     "postcss-selector-parser": "^6.0.8",
     "postcss-value-parser": "^4.2.0",
