@@ -2,7 +2,7 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as chalk from 'chalk';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
-import * as logSymbols from 'log-symbols';
+import logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
 import * as problems from './fixtures/list-of-problems';

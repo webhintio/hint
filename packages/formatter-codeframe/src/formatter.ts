@@ -15,7 +15,7 @@ import * as chalk from 'chalk';
 import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
 import sortBy = require('lodash/sortBy');
-import * as logSymbols from 'log-symbols';
+import logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
 import { logger, severityToColor, occurencesToColor } from '@hint/utils';
