@@ -6,7 +6,7 @@ import {
 } from '@hint/utils';
 import { getElementByUrl, HTMLDocument } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
-import { ResourceLoader, FetchOptions } from 'jsdom';
+import { ResourceLoader, FetchOptions, AbortablePromise } from 'jsdom';
 
 import { FetchEnd, FetchError, NetworkData } from 'hint';
 
@@ -25,14 +25,14 @@ export default class CustomResourceLoader extends ResourceLoader {
         this._HTMLDocument = htmlDocument;
     }
 
-    public async fetch(url: string, options: FetchOptions): Promise<Buffer> {
+    public fetch(url: string, options: FetchOptions): AbortablePromise<Buffer> {
         /* istanbul ignore if */
         if (!url) {
             const promise = Promise.resolve(null as any);
 
             (promise as any).abort = () => { };
 
-            return await promise;
+            return promise as AbortablePromise<any>;
         }
 
         /*
@@ -118,6 +118,6 @@ export default class CustomResourceLoader extends ResourceLoader {
             abort(error);
         };
 
-        return promise;
+        return promise as AbortablePromise<any>;
     }
 }
