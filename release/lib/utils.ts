@@ -142,7 +142,7 @@ export const taskErrorWrapper = (f: CustomTask) => {
         try {
             result = f(ctx, task);
         } catch (error) {
-            ctx.error = error;
+            ctx.error = error as Error;
 
             throw error;
         }
@@ -170,7 +170,7 @@ export const packageTask = (action: (pkg: Package, observable: Subscriber<{}>, c
             try {
                 await action(pkg, observable, ctx);
             } catch (e) {
-                ctx.error = e;
+                ctx.error = e as Error;
 
                 debug(`Error executing task "${task.title}" for "${pkg.name}"`);
                 debug(JSON.stringify(ctx.error, Object.getOwnPropertyNames(ctx.error), 2));
