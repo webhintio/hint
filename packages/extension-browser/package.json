@@ -49,7 +49,7 @@
     "@hint/utils-fs": "^1.0.11",
     "@hint/utils-i18n": "^1.0.10",
     "@hint/utils-types": "^1.1.5",
-    "@types/chrome": "^0.0.149",
+    "@types/chrome": "^0.0.174",
     "@types/har-format": "^1.2.8",
     "@types/is-ci": "^3.0.0",
     "@types/jsdom": "^16.2.8",

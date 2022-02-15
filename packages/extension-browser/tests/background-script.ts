@@ -169,7 +169,7 @@ test('It passes provided configuration to the content script.', async (t) => {
 
     t.true(sendMessageSpy.calledOnce);
     t.is(sendMessageSpy.firstCall.args[0], tabId);
-    t.is(sendMessageSpy.firstCall.args[1].config, config);
+    t.is((sendMessageSpy.firstCall.args[1] as any).config, config);
 
     sandbox.restore();
 });
@@ -200,9 +200,9 @@ test('It forwards `fetch::*` events from the devtools panel.', async (t) => {
 
     t.true(sendMessageSpy.calledTwice);
     t.is(sendMessageSpy.firstCall.args[0], tabId);
-    t.is(sendMessageSpy.firstCall.args[1].fetchStart, fetchStart);
+    t.is((sendMessageSpy.firstCall.args[1] as any).fetchStart, fetchStart);
     t.is(sendMessageSpy.secondCall.args[0], tabId);
-    t.is(sendMessageSpy.secondCall.args[1].fetchEnd, fetchEnd);
+    t.is((sendMessageSpy.secondCall.args[1] as any).fetchEnd, fetchEnd);
 
     sandbox.restore();
 });
@@ -231,7 +231,7 @@ test('It sends queued events in response to `ready`.', async (t) => {
 
     t.true(sendMessageSpy.calledOnce, 'Queued events were not sent');
     t.is(sendMessageSpy.firstCall.args[0], tabId);
-    t.is(sendMessageSpy.firstCall.args[1].fetchStart, fetchStart);
+    t.is((sendMessageSpy.firstCall.args[1] as any).fetchStart, fetchStart);
 
     sandbox.restore();
 });
