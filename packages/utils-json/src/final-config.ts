@@ -53,10 +53,11 @@ export const finalConfig = <T extends ExtendableConfiguration> (config: T, resou
             finalConfigJSON = merge({}, extendedConfig, finalConfigJSON);
         } catch (err) {
             const lastPathUri = getAsUri(lastPath);
+            const error = err as IParsingError;
 
-            err.resource = lastPathUri && lastPathUri.toString() || lastPath;
+            error.resource = lastPathUri && lastPathUri.toString() || lastPath;
 
-            return err;
+            return error;
         }
     }
 

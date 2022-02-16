@@ -152,7 +152,7 @@ export default class ManifestParser extends Parser<ManifestEvents> {
         } catch (e) {
 
             await this.engine.emitAsync(this.parseJSONErrorEventName, {
-                error: e,
+                error: e as Error,
                 resource
             });
 

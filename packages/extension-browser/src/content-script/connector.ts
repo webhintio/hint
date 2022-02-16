@@ -79,7 +79,7 @@ export default class WebExtensionConnector implements IConnector {
                 }
                 // TODO: Trigger 'fetch::start::target'.
             } catch (err) /* istanbul ignore next */ {
-                this._onComplete(err);
+                this._onComplete(err as Error);
             }
         });
 
@@ -114,7 +114,7 @@ export default class WebExtensionConnector implements IConnector {
                     this._onComplete(null, resource);
 
                 } catch (err) /* istanbul ignore next */ {
-                    this._onComplete(err);
+                    this._onComplete(err as Error);
                 }
             }, this._options.waitFor);
         };

@@ -101,7 +101,7 @@ export default class TypeScriptConfigParser extends Parser<TypeScriptConfigEvent
             });
         } catch (err) {
             await this.engine.emitAsync(`parse::error::typescript-config::json`, {
-                error: err,
+                error: err as Error,
                 resource
             });
         }

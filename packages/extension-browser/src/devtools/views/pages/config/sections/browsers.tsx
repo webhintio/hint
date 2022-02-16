@@ -33,7 +33,7 @@ const validate = (value?: string): string => {
          * Report errors, stripping suffix about "old" browserslist since the user won't have control over that.
          * E.g. "Unknown browser query `IE `. Maybe you are using old Browserslist or made typo in query."
          */
-        return e.message.replace(' Maybe you are using old Browserslist or made typo in query.', '');
+        return (e as Error).message.replace(' Maybe you are using old Browserslist or made typo in query.', '');
     }
 };
 

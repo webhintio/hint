@@ -68,7 +68,7 @@ export const execute = async (args: string | string[] | Object): Promise<number>
     try {
         currentOptions = options.parse(args);
     } catch (e) {
-        logger.error(e.message);
+        logger.error((e as Error).message);
 
         return 1;
     }

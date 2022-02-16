@@ -75,7 +75,7 @@ export default class WebpackConfigParser extends Parser<WebpackConfigEvents> {
             });
         } catch (err) {
             await this.engine.emitAsync('parse::error::webpack-config::configuration', {
-                error: err,
+                error: err as Error,
                 resource
             });
         }

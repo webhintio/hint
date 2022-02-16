@@ -98,7 +98,7 @@ export class Analyzer {
         try {
             configuration = Configuration.fromConfig(userConfiguration, options);
         } catch (e) {
-            throw new AnalyzerError(`Invalid configuration. ${e.message}.`, AnalyzerErrorStatus.ConfigurationError);
+            throw new AnalyzerError(`Invalid configuration. ${(e as Error).message}.`, AnalyzerErrorStatus.ConfigurationError);
         }
 
         const resources = loadResources(configuration!);
@@ -232,7 +232,7 @@ export class Analyzer {
                 }
                 problems = await this.engine.executeOn(url, { content: target.content });
             } catch (e) {
-                throw new AnalyzerError(e, AnalyzerErrorStatus.AnalyzeError);
+                throw new AnalyzerError(e as Error, AnalyzerErrorStatus.AnalyzeError);
             } finally {
                 await this.engine.close();
             }

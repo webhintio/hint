@@ -57,7 +57,7 @@ export const generateBrowserslistConfig = (): Promise<string[]> => {
             return customQueries;
         } catch (err) {
             // The query format is invalid.
-            logger.log(`${err.message}.`);
+            logger.log(`${(err as Error).message}.`);
             logger.log('Please try again.');
 
             return askAndValidate();

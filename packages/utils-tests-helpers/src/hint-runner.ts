@@ -424,7 +424,9 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
 
             return validateResults(t, sources, results, Server.updateLocalhost(reports, server.port));
         } catch (e) {
-            console.error(e);
+            const err = e as Error;
+
+            console.error(err);
 
             if (server) {
                 await server.stop();
@@ -434,7 +436,7 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
                 await engine.close();
             }
 
-            return t.fail(`${hintTest.name} throwed an exception:\n${e.message}\n${e.stack}`);
+            return t.fail(`${hintTest.name} throwed an exception:\n${err.message}\n${err.stack}`);
         }
     };
 
@@ -531,9 +533,11 @@ export const testLocalHint = (hintId: string, hintTests: HintLocalTest[], config
 
             return validateResults(t, sources, results, hintTest.reports);
         } catch (e) {
-            console.error(e);
+            const err = e as Error;
 
-            return t.fail(`${hintTest.name} throwed an exception:\n${e.message}\n${e.stack}`);
+            console.error(err);
+
+            return t.fail(`${hintTest.name} throwed an exception:\n${err.message}\n${err.stack}`);
         }
     };
 

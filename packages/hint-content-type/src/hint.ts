@@ -118,7 +118,7 @@ export default class ContentTypeHint implements IHint {
             } catch (e) {
                 context.report(
                     resource,
-                    getMessage('contentTypeValueInvalid', context.language, e.message),
+                    getMessage('contentTypeValueInvalid', context.language, (e as Error).message),
                     { codeLanguage, codeSnippet, severity }
                 );
 

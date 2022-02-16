@@ -109,7 +109,7 @@ export default class BabelConfigParser extends Parser<BabelConfigEvents> {
             });
         } catch (err) {
             await this.engine.emitAsync('parse::error::babel-config::json', {
-                error: err,
+                error: err as Error,
                 resource
             });
         }

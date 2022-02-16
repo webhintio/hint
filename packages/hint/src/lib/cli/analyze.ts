@@ -223,7 +223,7 @@ const getAnalyzer = async (userConfig: UserConfig, options: CreateAnalyzerOption
          * If the error is not an AnalyzerErrorStatus
          * bubble up the exception.
          */
-        logger.error(e.message, e);
+        logger.error((e as Error).message, e);
 
         throw e;
     }

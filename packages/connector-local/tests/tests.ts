@@ -577,6 +577,6 @@ test('If target is a not a file, it should throw and exception', async (t) => {
     try {
         await connector.collect(new URL('https://example.com'));
     } catch (err) {
-        t.is(err.message, 'Connector local only works with local files or directories');
+        t.is((err as Error).message, 'Connector local only works with local files or directories');
     }
 });

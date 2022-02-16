@@ -214,7 +214,7 @@ export default class ExcelFormatter implements IFormatter {
             { // eslint-disable-line
                 logger.error(getMessage('errorSaving', language));
 
-                if (e.message.includes('EBUSY')) {
+                if ((e as Error).message.includes('EBUSY')) {
                     logger.error(getMessage('maybeIsOpened', language));
                 }
             }
