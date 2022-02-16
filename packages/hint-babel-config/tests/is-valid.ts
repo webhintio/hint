@@ -70,15 +70,6 @@ const tests: HintLocalTest[] = [
             position: { match: '"../circular-2/.babelrc"' },
             severity: Severity.error
         }]
-    },
-    {
-        name: 'If .babelrc contains an invalid extends, it should fail',
-        path: path.join(__dirname, 'fixtures', 'invalid-extends'),
-        reports: [{
-            message: `Unexpected token ' in JSON at position 191`,
-            position: { match: '"../invalid/.babelrc"' },
-            severity: Severity.error
-        }]
     }
 ];
 

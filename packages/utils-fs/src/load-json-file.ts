@@ -1,10 +1,9 @@
-import stripComments = require('strip-json-comments');
 import { parse, parseTree } from 'jsonc-parser';
 import { readFile } from './read-file';
 
 /** Loads a JSON a file. */
 export const loadJSONFile = (filePath: string) => {
-    const jsonStr = stripComments(readFile(filePath));
+    const jsonStr = readFile(filePath);
     const data = parse(jsonStr);
     const root = parseTree(jsonStr);
 
