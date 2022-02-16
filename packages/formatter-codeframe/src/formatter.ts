@@ -15,7 +15,6 @@ import * as chalk from 'chalk';
 import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
 import sortBy = require('lodash/sortBy');
-import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
 import { logger, severityToColor, occurencesToColor } from '@hint/utils';
@@ -192,7 +191,7 @@ export default class CodeframeFormatter implements IFormatter {
             totals[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
         ]);
 
-        result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);
+        result += color.bold(`× ${foundTotalMessage}`);
 
         if (!options.output) {
             logger.log(result);
