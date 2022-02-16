@@ -13,3 +13,4 @@ export * from './request-async';
 export * from './request-json-async';
 export * from './rx-localhost';
 export * from './capitalize-header-name';
+export * from './rx-local-file';
