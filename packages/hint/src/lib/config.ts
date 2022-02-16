@@ -66,10 +66,10 @@ const loadPackageJSONConfigFile = (filePath: string): UserConfig => {
         return loadJSONFile(filePath).hintConfig || null;
     } catch (e) {
         debug(`Error reading package.json file: ${filePath}`);
-        let errorMessage = (e as Error).message;
+        const err = e as Error;
 
-        errorMessage = `Cannot read config file: ${filePath}\nError: ${errorMessage}`;
-        throw errorMessage;
+        err.message = `Cannot read config file: ${filePath}\nError: ${err.message}`;
+        throw err;
     }
 };
 
