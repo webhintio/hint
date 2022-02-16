@@ -15,7 +15,6 @@ import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
 import reduce = require('lodash/reduce');
 import sortBy = require('lodash/sortBy');
-import * as logSymbols from 'log-symbols';
 import * as table from 'text-table';
 const stripAnsi = require('strip-ansi');
 
@@ -128,7 +127,7 @@ export default class StylishFormatter implements IFormatter {
                 partials[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
             ]);
 
-            partialResult += color.bold(`${logSymbols.error} ${foundMessage}`);
+            partialResult += color.bold(`× ${foundMessage}`);
             partialResult += '\n\n';
 
             return total + partialResult;
@@ -146,7 +145,7 @@ export default class StylishFormatter implements IFormatter {
             totals[Severity.information] === 1 ? getMessage('information', language) : getMessage('informations', language)
         ]);
 
-        result += color.bold(`${logSymbols.error} ${foundTotalMessage}`);
+        result += color.bold(`× ${foundTotalMessage}`);
 
         if (!options.output) {
             logger.log(result);

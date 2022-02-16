@@ -1,6 +1,5 @@
 import anyTest, { TestInterface, ExecutionContext } from 'ava';
 import * as chalk from 'chalk';
-import * as logSymbols from 'log-symbols';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import * as table from 'text-table';
@@ -55,7 +54,7 @@ const getExpectedLogResult = () => {
 
     let expectedLogResult = `${chalk.cyan('http://myresource.com/')}
 ${tableString}
-${severityToColor(Severity.warning).bold(`${logSymbols.error} Found 0 errors, 2 warnings, 0 hints and 1 information`)}
+${severityToColor(Severity.warning).bold(`× Found 0 errors, 2 warnings, 0 hints and 1 information`)}
 
 ${chalk.cyan('http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.jpg')}`;
 
@@ -68,9 +67,9 @@ ${chalk.cyan('http://myresource2.com/this/resource/i … /resources/image/imagew
 
     expectedLogResult += `
 ${tableString}
-${severityToColor(Severity.error).bold(`${logSymbols.error} Found 1 error, 0 warnings, 1 hint and 0 informations`)}
+${severityToColor(Severity.error).bold(`× Found 1 error, 0 warnings, 1 hint and 0 informations`)}
 
-${severityToColor(Severity.error).bold(`${logSymbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`)}`;
+${severityToColor(Severity.error).bold(`× Found a total of 1 error, 2 warnings, 1 hint and 1 information`)}`;
 
     return expectedLogResult;
 };
@@ -89,7 +88,7 @@ const getExpectedOutputResult = () => {
 
     let expectedLogResult = `http://myresource.com/
 ${tableString}
-${logSymbols.error} Found 0 errors, 2 warnings, 0 hints and 1 information
+× Found 0 errors, 2 warnings, 0 hints and 1 information
 
 http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.jpg`;
 
@@ -102,9 +101,9 @@ http://myresource2.com/this/resource/i … /resources/image/imagewithalongname.j
 
     expectedLogResult += `
 ${tableString}
-${logSymbols.error} Found 1 error, 0 warnings, 1 hint and 0 informations
+× Found 1 error, 0 warnings, 1 hint and 0 informations
 
-${logSymbols.error} Found a total of 1 error, 2 warnings, 1 hint and 1 information`;
+× Found a total of 1 error, 2 warnings, 1 hint and 1 information`;
 
     return stripAnsi(expectedLogResult);
 };

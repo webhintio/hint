@@ -34,3 +34,4 @@ and lowercase it.
 * `requestAsync`: Convenience wrapper for asynchronously request an URL.
 * `requestJSONAsync`: Request response in the json format from an endpoint.
 * `rxLocalhost`: RegExp to test if a resource points to localhost.
+* `rxLocalFile`: RegExp to test if a resource is loaded from a local file.

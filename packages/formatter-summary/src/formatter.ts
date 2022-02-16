@@ -12,7 +12,6 @@ import * as chalk from 'chalk';
 import forEach = require('lodash/forEach');
 import groupBy = require('lodash/groupBy');
 import * as table from 'text-table';
-import * as logSymbols from 'log-symbols';
 const stripAnsi = require('strip-ansi');
 
 import { logger, severityToColor, occurencesToColor } from '@hint/utils';
@@ -111,7 +110,7 @@ export default class SummaryFormatter implements IFormatter {
         ]);
 
         const result = `${table(tableData)}
-${color.bold(`${logSymbols.error} ${foundTotalMessage}`)}`;
+${color.bold(`× ${foundTotalMessage}`)}`;
 
         if (!options.output) {
             logger.log(result);
