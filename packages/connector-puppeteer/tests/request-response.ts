@@ -48,7 +48,7 @@ test(`[${name}] requestResponse`, async (t) => {
     const engineEmitAsyncSpy = sinon.spy(engine, 'emitAsync');
     const engineEmitSpy = sinon.spy(engine, 'emit');
 
-    const connector: IConnector = new Connector(engine, { detached: true });
+    const connector: IConnector = new Connector(engine, { detached: true, headless: true });
     const server = await Server.create();
 
     const html = Server.updateLocalhost(sourceHtml, server.port);
