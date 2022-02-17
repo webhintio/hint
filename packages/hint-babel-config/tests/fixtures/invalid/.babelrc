@@ -9,7 +9,7 @@
     }]
   ],
   "plugins": [
-    'syntax-dynamic-import',
+    syntax-dynamic-import,
     "transform-object-rest-spread"
   ],
   "env": {
