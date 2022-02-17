@@ -63,7 +63,7 @@ fs.readFile(require.resolve('js-library-detector'), 'utf8', (err, data) => {
 
     filterSnykData(getDetectablePackages(data), snyk.npm);
 
-    const dirname = path.resolve(__dirname, '../dist/src')
+    const dirname = path.resolve(__dirname, '../dist/src');
     const filename = path.resolve(dirname, 'snyk-snapshot.json');
 
     fs.mkdir(dirname, { recursive: true }, (err) => {
