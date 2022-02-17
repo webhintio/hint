@@ -75,7 +75,7 @@ const tests: HintLocalTest[] = [
         name: 'If .babelrc contains an invalid extends, it should fail',
         path: path.join(__dirname, 'fixtures', 'invalid-extends'),
         reports: [{
-            message: `Unexpected token ' in JSON at position 191`,
+            message: `Unexpected token i in JSON at position 1`,
             position: { match: '"../invalid/.babelrc"' },
             severity: Severity.error
         }]

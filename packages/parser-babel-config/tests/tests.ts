@@ -270,7 +270,7 @@ test('If we receive a json with an extends with a loop, it should emit the event
     sandbox.restore();
 });
 
-test('If we receive a json with an extends with an invalid json, it should emit the event parse::error::typescript-config::extends', async (t) => {
+test('If we receive a json with an extends with an invalid json, it should emit the event parse::error::babel-config::extends', async (t) => {
     const sandbox = sinon.createSandbox();
     const engine: Engine<BabelConfigEvents> = new EventEmitter2({
         delimiter: '::',
