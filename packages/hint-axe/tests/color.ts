@@ -18,6 +18,15 @@ const tests: HintTest[] = [
                 message: 'Elements must have sufficient color contrast: Element has insufficient color contrast of 1.16 (foreground color: #eeeeee, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1',
                 position: { match: 'div id="text"' },
                 severity: Severity.warning
+            },
+            {
+                documentation: [{
+                    link: `https://dequeuniversity.com/rules/axe/${axeCoreVersion}/color-contrast-enhanced?application=axeAPI`,
+                    text: 'Learn more about this axe rule at Deque University'
+                }],
+                message: 'Elements must have sufficient color contrast: Element has insufficient color contrast of 1.16 (foreground color: #eeeeee, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 7:1',
+                position: { match: 'div id="text"' },
+                severity: Severity.warning
             }
         ],
         serverConfig: generateHTMLPage(

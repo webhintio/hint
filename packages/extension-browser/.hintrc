@@ -17,6 +17,7 @@
         "ssllabs": "off",
         "strict-transport-security": "off",
         "validate-set-cookie-header": "off",
-        "x-content-type-options": "off"
+        "x-content-type-options": "off",
+        "axe/color": ["default", {"color-contrast-enhanced": "off"}]
     }
 }
