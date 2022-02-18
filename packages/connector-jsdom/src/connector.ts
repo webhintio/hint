@@ -186,10 +186,11 @@ export default class JSDOMConnector implements IConnector {
             try {
                 this._targetNetworkData = await this.fetchContent(target);
             } catch (err) /* istanbul ignore next */ {
-                const hops: string[] = this.request.getRedirects(err.uri);
+                const e = err as any;
+                const hops: string[] = this.request.getRedirects(e.uri);
                 const fetchError: FetchError = {
                     element: null as any,
-                    error: err.error ? err.error : err,
+                    error: e.error ? e.error : e,
                     hops,
                     resource: href
                 };

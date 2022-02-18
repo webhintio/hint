@@ -68,7 +68,7 @@ export default class PackageJsonParser extends Parser<PackageJsonEvents> {
             });
         } catch (err) {
             await this.engine.emitAsync('parse::error::package-json::json', {
-                error: err,
+                error: err as Error,
                 resource
             });
         }

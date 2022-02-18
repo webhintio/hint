@@ -80,7 +80,7 @@ const run = async (data: { options: any; source: string }) => {
 
                 result.evaluate = evaluteResult;
             } catch (err) {
-                result.error = err;
+                result.error = err as Error;
             }
 
             process.send!(result);

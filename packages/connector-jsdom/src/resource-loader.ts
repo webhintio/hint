@@ -92,13 +92,14 @@ export default class CustomResourceLoader extends ResourceLoader {
 
                 return resolve(resourceNetworkData.response.body.rawContent);
             } catch (err) {
-                const hops: string[] = this._connector.request.getRedirects(err.uri);
+                const error = err as any;
+                const hops: string[] = this._connector.request.getRedirects(error.uri);
                 const fetchError: FetchError = {
                     element: element!,
-                    error: err.error,
+                    error: error.error,
                     hops,
                     /* istanbul ignore next */
-                    resource: err.uri || resourceUrl
+                    resource: error.uri || resourceUrl
                 };
 
                 await this._connector.server.emitAsync('fetch::error', fetchError);

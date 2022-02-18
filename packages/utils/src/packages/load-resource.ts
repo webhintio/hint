@@ -71,12 +71,12 @@ export const tryToLoadFrom = (resourcePath: string): any => {
         debug(`Can't require ${resourcePath}`);
 
         /* istanbul ignore else */
-        if (e.code === 'MODULE_NOT_FOUND') {
+        if ((e as any).code === 'MODULE_NOT_FOUND') {
             /*
              * This get the name of the missed module
              * e.g: Cannot find module 'iltorb'
              */
-            const exec = moduleNameRegex.exec(e.message);
+            const exec = moduleNameRegex.exec((e as Error).message);
             const moduleName = exec ? exec[1] : null;
 
             /*
@@ -93,7 +93,7 @@ export const tryToLoadFrom = (resourcePath: string): any => {
             throw new ResourceError(errorMessage, ResourceErrorStatus.DependencyError);
         }
 
-        throw new ResourceError(e, ResourceErrorStatus.Unknown);
+        throw new ResourceError((e as Error), ResourceErrorStatus.Unknown);
     }
 
     return builder;

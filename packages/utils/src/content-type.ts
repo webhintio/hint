@@ -369,7 +369,7 @@ const parseContentTypeHeader = (headers: HttpHeaders | null): MediaType | null =
 
         contentType = parse(contentTypeHeaderValue);
     } catch (e) {
-        debug(`'content-type' header value is invalid (${e.message})`);
+        debug(`'content-type' header value is invalid (${(e as Error).message})`);
 
         return null;
     }

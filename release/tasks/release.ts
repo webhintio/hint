@@ -48,7 +48,7 @@ export const release = () => {
 
                 debug(stdout);
             } catch (e) {
-                debug(e);
+                debug((e as Error).message);
             }
         } else {
             debug(`Skipping ${pkg.name} from publishing, published version "${pkg.publishedVersion}" matches local one`);

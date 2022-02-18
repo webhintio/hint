@@ -15,7 +15,7 @@ const findMatches = (document: HTMLDocument, query: string, test?: Predicate): H
     try {
         matches = document.querySelectorAll(query);
     } catch (e) {
-        debug(`Selector is invalid (${query}): ${e.message}`);
+        debug(`Selector is invalid (${query}): ${(e as Error).message}`);
     }
 
     if (test) {

@@ -104,7 +104,7 @@ export const getPackages = (ignoredPackages: string[]) => {
             try {
                 pkg.publishedVersion = await latest(pkg.name);
             } catch (e) {
-                debug(e);
+                debug((e as Error).message);
                 debug(`Package ${pkg.name} is not published on npm`);
                 pkg.publishedVersion = '';
             }

@@ -32,7 +32,7 @@ export const group = (actions: ActionConfig[] = []): UserActions => {
         try {
             loadedAction = require(pathToUserAction);
         } catch (e) {
-            throw new Error(`Couldn't load user action in "${pathToUserAction}". ${e.message}`);
+            throw new Error(`Couldn't load user action in "${pathToUserAction}". ${(e as Error).message}`);
         }
 
         if (typeof loadedAction.action !== 'function') {

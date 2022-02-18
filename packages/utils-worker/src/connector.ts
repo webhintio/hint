@@ -61,7 +61,7 @@ export default class WebWorkerConnector implements IConnector {
                 await this._engine.emitAsync('scan::end', { resource });
 
             } catch (err) /* istanbul ignore next */ {
-                this._onComplete(err);
+                this._onComplete(err as Error);
             }
         };
 
@@ -84,7 +84,7 @@ export default class WebWorkerConnector implements IConnector {
                 await this._engine.notify(this._resource);
                 this._engine.clear();
             } catch (err) /* istanbul ignore next */ {
-                this._onComplete(err);
+                this._onComplete(err as Error);
             }
         });
     }

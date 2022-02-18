@@ -224,7 +224,7 @@ test(`Throws an error if number of hops exceeds the redirect limit`, async (t) =
     try {
         await maxRedirectsRequester.get(`http://localhost:${server.port}/hop301`);
     } catch (e) {
-        t.is(e.message, 'The number of redirects(5) exceeds the limit(4).');
+        t.is((e as Error).message, 'The number of redirects(5) exceeds the limit(4).');
     }
 
     await server.stop();
@@ -239,10 +239,10 @@ test(`Aborts the request if it exceeds the time limit to get response`, async (t
     t.plan(2);
 
     try {
-        await timeoutRequester.get(`http://localhost:${server.port}/timeout`);
+        await timeoutRequester.get(`http://localhost:${server.port}/timeout`) as NetworkData;
     } catch (e) {
-        t.is(e.error.code, 'ESOCKETTIMEDOUT');
-        t.is(e.uri, `http://localhost:${server.port}/timeout`);
+        t.is((e as any).error.code, 'ESOCKETTIMEDOUT');
+        t.is((e as any).uri, `http://localhost:${server.port}/timeout`);
     }
 
     await server.stop();
@@ -258,7 +258,7 @@ test(`Requester returns and exception if a loop is detected`, async (t) => {
     try {
         await requester.get(`http://localhost:${server.port}/hop301`) as NetworkData; // eslint-disable-line no-unused-expressions
     } catch (e) {
-        t.is(e.message, `'http://localhost:${server.port}/hop301' could not be fetched using GET method (redirect loop detected).`);
+        t.is((e as Error).message, `'http://localhost:${server.port}/hop301' could not be fetched using GET method (redirect loop detected).`);
     }
 
     await server.stop();
@@ -274,7 +274,7 @@ test(`Requester returns and exception if a loop is detected after few redirects`
     try {
         await requester.get(`http://localhost:${server.port}/hop301`) as NetworkData; // eslint-disable-line no-unused-expressions
     } catch (e) {
-        t.is(e.message, `'http://localhost:${server.port}/hop303' could not be fetched using GET method (redirect loop detected).`);
+        t.is((e as Error).message, `'http://localhost:${server.port}/hop303' could not be fetched using GET method (redirect loop detected).`);
     }
 
     await server.stop();

@@ -45,7 +45,7 @@ const validate = (value?: string): string => {
 
         return '';
     } catch (e) {
-        return e.message;
+        return (e as Error).message;
     }
 };
 

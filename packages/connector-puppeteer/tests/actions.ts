@@ -34,7 +34,7 @@ test(`[${name}] Connector throws an exception if action is not found`, (t) => {
 
         connector.close();
     } catch (e) {
-        t.true((e.message as string).startsWith(`Couldn't load user action in "`));
+        t.true(((e as Error).message).startsWith(`Couldn't load user action in "`));
     }
 });
 
@@ -71,7 +71,7 @@ test(`[${name}] Connector loads an action and throws if it does not have the rig
 
         connector.close();
     } catch (e) {
-        t.is(e.message, `User action "${actionPath}" doesn't export a member "action".`);
+        t.is((e as Error).message, `User action "${actionPath}" doesn't export a member "action".`);
     }
 });
 
@@ -109,6 +109,6 @@ test(`[${name}] Connector loads an action and doesn't throw if it has the right 
 
         connector.close();
     } catch (e) {
-        t.fail(e.message);
+        t.fail((e as Error).message);
     }
 });

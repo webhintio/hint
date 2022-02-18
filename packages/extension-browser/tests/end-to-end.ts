@@ -1,5 +1,5 @@
 import * as isCI from 'is-ci';
-import { launch, Browser, Frame, Page, Target } from 'puppeteer';
+import * as puppeteer from 'puppeteer';
 import test from 'ava';
 
 import { delay } from '@hint/utils';
@@ -10,7 +10,7 @@ import { readFixture } from './helpers/fixtures';
 
 const pathToExtension = `${__dirname}/../bundle`;
 
-const getPageFromTarget = async (target: Target) => {
+const getPageFromTarget = async (target: puppeteer.Target) => {
     /*
      * TODO: Replace this hack with something more stable.
      * See https://github.com/GoogleChrome/puppeteer/issues/4247
@@ -32,7 +32,7 @@ const getPageFromTarget = async (target: Target) => {
  * @param browser The Puppeteer `Browser` instance to search.
  * @returns The found page for the background script.
  */
-const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
+const findBackgroundScriptPage = async (browser: puppeteer.Browser): Promise<puppeteer.Page> => {
     const targets = await browser.targets();
     const bgTargets = targets.filter((t) => {
         return t.type() === 'background_page';
@@ -53,7 +53,7 @@ const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
         return matches[i];
     })[0];
 
-    return await bgTarget.page() as Page;
+    return await bgTarget.page() as puppeteer.Page;
 };
 
 /**
@@ -65,13 +65,13 @@ const findBackgroundScriptPage = async (browser: Browser): Promise<Page> => {
  * @param browser The Puppeteer `Browser` instance to search.
  * @returns The found devtools panel for the extension.
  */
-const findWebhintDevtoolsPanel = async (browser: Browser): Promise<Frame> => {
+const findWebhintDevtoolsPanel = async (browser: puppeteer.Browser): Promise<puppeteer.Frame> => {
     const targets = await browser.targets();
     const devtoolsTarget = targets.filter((t) => {
         return t.type() === 'other' && t.url().startsWith('chrome-devtools://');
     })[0];
 
-    const devtoolsPage = await getPageFromTarget(devtoolsTarget) as Page;
+    const devtoolsPage = await getPageFromTarget(devtoolsTarget) as puppeteer.Page;
 
     await delay(500);
 
@@ -93,7 +93,7 @@ const findWebhintDevtoolsPanel = async (browser: Browser): Promise<Frame> => {
             target.url().endsWith('/panel.html');
     })[0];
 
-    const webhintPanelPage = await getPageFromTarget(webhintTarget) as Page;
+    const webhintPanelPage = await getPageFromTarget(webhintTarget) as puppeteer.Page;
     const webhintPanelFrame = webhintPanelPage.frames()[0];
 
     return webhintPanelFrame;
@@ -105,7 +105,7 @@ test('It runs end-to-end in a page', async (t) => {
 
     const url = `http://localhost:${server.port}/`;
 
-    const browser = await launch();
+    const browser = await puppeteer.launch();
     const page = (await browser.pages())[0];
 
     await page.goto(url);
@@ -214,7 +214,7 @@ if (!isCI) {
 
         const url = `http://localhost:${server.port}/`;
 
-        const browser = await launch({
+        const browser = await puppeteer.launch({
             args: [
                 `--disable-extensions-except=${pathToExtension}`,
                 `--load-extension=${pathToExtension}`

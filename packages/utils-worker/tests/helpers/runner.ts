@@ -1,4 +1,4 @@
-import { launch, Page } from 'puppeteer';
+import * as puppeteer from 'puppeteer';
 
 import { FetchEnd } from 'hint';
 import { Server } from '@hint/utils-create-server';
@@ -13,7 +13,7 @@ declare const __webhint: {
     snapshotDocument(document: Document): DocumentData;
 };
 
-const runWorker = async (page: Page, config: Partial<Config>, test: Test) => {
+const runWorker = async (page: puppeteer.Page, config: Partial<Config>, test: Test) => {
     return await page.evaluate((config: Partial<Config>, test: Test) => {
         const testUrl = 'https://example.com/';
 
@@ -188,7 +188,7 @@ export const getResults = async (config: Partial<Config>, test: Test, log: typeo
     });
 
     const url = `http://localhost:${server.port}/`;
-    const browser = await launch();
+    const browser = await puppeteer.launch();
     const page = (await browser.pages())[0];
 
     await page.goto(url);

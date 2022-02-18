@@ -234,11 +234,12 @@ export default class NoVulnerableJavascriptLibrariesHint implements IHint {
                 detectedLibraries = (await context.evaluate(script)) as Library[];
             } catch (e) {
                 let message: string;
+                const err = e as Error;
 
-                if (e.message.includes('evaluation exceeded')) {
+                if (err.message.includes('evaluation exceeded')) {
                     message = getMessage('notFastEnough', context.language);
                 } else {
-                    message = getMessage('errorExecuting', context.language, e.message);
+                    message = getMessage('errorExecuting', context.language, err.message);
                 }
 
                 message = getMessage('tryAgainLater', context.language, message);

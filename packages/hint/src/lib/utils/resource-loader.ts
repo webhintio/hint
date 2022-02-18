@@ -22,6 +22,7 @@ import {
     isFullPackageName,
     loadResource,
     requirePackage,
+    ResourceError,
     ResourceErrorStatus,
     ResourceType
 } from '@hint/utils';
@@ -126,13 +127,14 @@ const loadListOfResources = (list: string[] | Object = [], type: ResourceType, c
             loaded.push(resource);
         } catch (e) /* istanbul ignore next */ {
             const name = isFullPackageName(resourceId, type) ? resourceId : `${type}-${resourceId}`;
+            const error = e as ResourceError;
 
-            if (e.status === ResourceErrorStatus.NotCompatible) {
+            if (error.status === ResourceErrorStatus.NotCompatible) {
                 incompatible.push(name);
-            } else if (e.status === ResourceErrorStatus.NotFound) {
+            } else if (error.status === ResourceErrorStatus.NotFound) {
                 missing.push(name);
             } else {
-                throw e;
+                throw error;
             }
         }
 
@@ -165,7 +167,7 @@ export const loadResources = (config: Configuration): HintResources => {
     } catch (e) /* istanbul ignore next */ {
         debug(e);
 
-        if (e.status === ResourceErrorStatus.DependencyError) {
+        if ((e as ResourceError).status === ResourceErrorStatus.DependencyError) {
             throw e;
         }
     }
