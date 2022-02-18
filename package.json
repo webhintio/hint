@@ -11,7 +11,7 @@
     "@types/shelljs": "^0.8.10",
     "@types/yargs": "^17.0.8",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.28.1",
+    "@typescript-eslint/parser": "^4.33.0",
     "builtin-modules": "^3.2.0",
     "chalk": "^4.1.2",
     "copyfiles": "^2.4.1",
