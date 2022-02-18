@@ -24,7 +24,7 @@
     "@types/lodash": "^4.14.178",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.28.1",
+    "@typescript-eslint/parser": "^4.33.0",
     "ava": "^3.15.0",
     "copyfiles": "^2.4.1",
     "eslint": "^7.32.0",
