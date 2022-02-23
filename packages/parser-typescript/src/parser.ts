@@ -20,8 +20,8 @@ try {
 if (TypeScriptESTree) {
     // Extend `walk` to skip over most TS-specific nodes.
     for (const type of Object.keys(TypeScriptESTree.AST_NODE_TYPES)) {
-        // Ensure `value` of `ClassProperty` instances is walked.
-        if (type === 'ClassProperty') {
+        // Ensure `value` of `PropertyDefinition` instances is walked.
+        if (type === TypeScriptESTree.AST_NODE_TYPES.PropertyDefinition) {
             base[type] = (node: any, st: any, c: any) => {
                 if (node.value) {
                     c(node.value, st);
