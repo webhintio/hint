@@ -10,7 +10,7 @@
   "dependencies": {},
   "description": "utils for strings",
   "devDependencies": {
-    "ava": "^3.15.0",
+    "ava": "^4.0.1",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-markdown": "^2.2.1",
