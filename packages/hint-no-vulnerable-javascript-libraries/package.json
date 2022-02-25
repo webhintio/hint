@@ -67,7 +67,7 @@
   "scripts": {
     "build": "npm run i18n && npm run prebuild && npm-run-all build:*",
     "build-release": "npm run clean && npm run i18n && npm run prebuild && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
-    "build:assets": "copyfiles \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:assets": "copyfiles -e \"./src/snyk-snapshot.json\" \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
     "build:ts": "tsc -b",
     "clean": "rimraf dist",
     "i18n": "node ../../scripts/create-i18n.js",

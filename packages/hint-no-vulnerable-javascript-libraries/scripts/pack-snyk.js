@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const snykSnapshotPath = require.resolve('../src/snyk-snapshot.json');
-const snyk = require(snykSnapshotPath);
+const snyk = require('../src/snyk-snapshot.json');
 
 /**
  * @typedef { import('../src/types').Vulnerability } Vulnerability
@@ -64,13 +63,20 @@ fs.readFile(require.resolve('js-library-detector'), 'utf8', (err, data) => {
 
     filterSnykData(getDetectablePackages(data), snyk.npm);
 
-    const filename = path.resolve(snykSnapshotPath);
+    const dirname = path.resolve(__dirname, '../dist/src');
+    const filename = path.resolve(dirname, 'snyk-snapshot.json');
 
-    fs.writeFile(filename, JSON.stringify(snyk), (err) => {
+    fs.mkdir(dirname, { recursive: true }, (err) => {
         if (err) {
             throw err;
         }
 
-        console.log(`Created: ${filename} (packed)`);
+        fs.writeFile(filename, JSON.stringify(snyk), (err) => {
+            if (err) {
+                throw err;
+            }
+
+            console.log(`Created: ${filename} (packed)`);
+        });
     });
 });
