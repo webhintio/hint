@@ -17,7 +17,7 @@
     "@hint/utils-types": "^1.1.5",
     "is-ci": "^3.0.1",
     "lockfile": "^1.0.4",
-    "puppeteer-core": "^13.3.2"
+    "puppeteer-core": "^13.1.2"
   },
   "description": "hint connector for browsers supported by Puppeteer",
   "devDependencies": {
