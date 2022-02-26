@@ -677,6 +677,7 @@ export default class HttpCompressionHint implements IHint {
                 'font/sfnt',
                 'font/ttf',
                 'image/bmp',
+                'image/vnd.microsoft.icon',
                 'image/x-icon',
                 'x-shader/x-fragment',
                 'x-shader/x-vertex'
