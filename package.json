@@ -21,7 +21,6 @@
     "execa": "^5.1.1",
     "fs-extra": "^10.0.0",
     "globby": "^11.0.4",
-    "husky": "^6.0.0",
     "json-schema-to-typescript": "^10.1.5",
     "latest-version": "^5.1.0",
     "listr": "^0.14.2",
@@ -41,12 +40,6 @@
   },
   "engines": {
     "node": ">=10.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "node scripts/check-commit-message.js",
-      "prepare-commit-msg": "node scripts/prepare-commit-message.js"
-    }
   },
   "name": "@hint/monorepo",
   "private": true,
@@ -73,8 +66,7 @@
     "update:references": "npm run build:scripts && node dist/scripts/update-tsconfig-references.js",
     "watch:scripts": "npm run clean && npm-run-all --continue-on-error --parallel watch:scripts:*",
     "watch:scripts:non-ts": "npm run build:scripts:non-ts && npm run build:scripts:non-ts -- --watch --no-initial",
-    "watch:scripts:ts": "npm run build:scripts:ts -- --watch",
-    "postinstall": "husky install"
+    "watch:scripts:ts": "npm run build:scripts:ts -- --watch"
   },
   "workspaces": {
     "nohoist": [
