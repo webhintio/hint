@@ -29,7 +29,7 @@
     "@types/node": "^17.0.14",
     "@types/puppeteer": "^5.4.4",
     "@types/puppeteer-core": "^5.4.0",
-    "@types/sinon": "^10.0.9",
+    "@types/sinon": "^10.0.11",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "ava": "^3.15.0",
