@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 
 import { createHTMLDocument, HTMLDocument } from '../src';
 
@@ -9,7 +9,7 @@ type HTMLContext = {
     document: HTMLDocument;
 };
 
-const test = anyTest as TestInterface<HTMLContext>;
+const test = anyTest as TestFn<HTMLContext>;
 
 const html = fs.readFileSync(path.join(__dirname, 'fixtures', 'test-html.html'), 'utf-8'); // eslint-disable-line no-sync
 const serializedHTML = fs.readFileSync(path.join(__dirname, 'fixtures', 'serialized-test-html.html'), 'utf-8'); // eslint-disable-line no-sync

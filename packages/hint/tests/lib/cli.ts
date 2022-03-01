@@ -1,7 +1,7 @@
 import * as chalk from 'chalk';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import { NotifyOptions, UpdateInfo } from 'update-notifier';
 
 type Package = {
@@ -34,7 +34,7 @@ type ConfigTestContext = {
     updateNotifier: UpdateNotifier;
 };
 
-const test = anyTest as TestInterface<ConfigTestContext>;
+const test = anyTest as TestFn<ConfigTestContext>;
 
 const initContext = (t: ExecutionContext<ConfigTestContext>) => {
     t.context.cliActions = [];

@@ -1,4 +1,4 @@
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as chalk from 'chalk';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
@@ -21,7 +21,7 @@ type SummaryContext = {
     writeFileAsyncDefaultStub: sinon.SinonStub<any, void>;
 };
 
-const test = anyTest as TestInterface<SummaryContext>;
+const test = anyTest as TestFn<SummaryContext>;
 
 const initContext = (t: ExecutionContext<SummaryContext>) => {
     t.context.logging = { log() { } };

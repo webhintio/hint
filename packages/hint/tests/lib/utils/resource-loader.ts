@@ -4,7 +4,7 @@
  */
 import * as path from 'path';
 
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import * as sinon from 'sinon';
 import * as globby from 'globby';
 import * as proxyquire from 'proxyquire';
@@ -27,7 +27,7 @@ type ResourceLoaderContext = {
     loadResource: LoadResource;
 }
 
-const test = anyTest as TestInterface<ResourceLoaderContext>;
+const test = anyTest as TestFn<ResourceLoaderContext>;
 
 const loadScript = (context: ResourceLoaderContext) => {
     return proxyquire('../../../src/lib/utils/resource-loader', {
@@ -62,7 +62,7 @@ test('loadHint calls loadResource with the right parameters', (t) => {
     });
 
     t.is(loadResourceStub.firstCall.args[0], 'fake-hint', `The name of the hint isn't correctly passed`);
-    t.is(loadResourceStub.firstCall.args[1], 'hint', `The type "hint" isn't used`);
+    t.is(loadResourceStub.firstCall.args[1], ResourceType.hint, `The type "hint" isn't used`);
     t.is(typeof loadResourceStub.firstCall.args[2], 'undefined', `loadHint should ignore the version`);
 });
 
@@ -76,7 +76,7 @@ test('loadConfiguration calls loadResource with the right parameters', (t) => {
     });
 
     t.is(loadResourceStub.firstCall.args[0], 'fake-configuration', `The name of the configuration isn't correctly passed`);
-    t.is(loadResourceStub.firstCall.args[1], 'configuration', `The type "configuration" isn't used`);
+    t.is(loadResourceStub.firstCall.args[1], ResourceType.configuration, `The type "configuration" isn't used`);
     t.is(typeof loadResourceStub.firstCall.args[2], 'undefined', `loadConfiguration should ignore the version`);
 });
 

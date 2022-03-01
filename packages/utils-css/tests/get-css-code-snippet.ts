@@ -3,7 +3,7 @@ const postcss = require('postcss');
 import * as fs from 'fs';
 import * as path from 'path';
 
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 
 import { getCSSCodeSnippet, getFullCSSCodeSnippet } from '../src/get-css-code-snippet';
 
@@ -19,7 +19,7 @@ type Context = {
     ast: Root;
 }
 
-const test = anyTest as TestInterface<Context>;
+const test = anyTest as TestFn<Context>;
 
 test.before(async (t) => {
     const parsedCSS = await postcss().process(css, { from: 'report.css', parser: safe });

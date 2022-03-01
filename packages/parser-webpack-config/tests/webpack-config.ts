@@ -1,7 +1,7 @@
 import * as path from 'path';
 
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 import * as proxyquire from 'proxyquire';
 import { Engine, ErrorEvent, FetchEnd, ScanEnd } from 'hint';
@@ -13,7 +13,7 @@ type SandboxContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<SandboxContext>;
+const test = anyTest as TestFn<SandboxContext>;
 
 const mockContext = (context: SandboxContext) => {
     const engine = new EventEmitter2({

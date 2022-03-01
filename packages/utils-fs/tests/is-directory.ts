@@ -1,4 +1,4 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
@@ -16,7 +16,7 @@ type IsDirectoryContext = {
     sandbox: sinon.SinonSandbox;
 }
 
-const test = anyTest as TestInterface<IsDirectoryContext>;
+const test = anyTest as TestFn<IsDirectoryContext>;
 
 const loadScript = (context: IsDirectoryContext): typeof import('../src/is-directory') => {
     return proxyquire('../src/is-directory', { fs: context.fs });

@@ -3,7 +3,7 @@ import { Stream } from 'stream';
 
 import * as Chokidar from 'chokidar';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import * as proxyquire from 'proxyquire';
 import { EventEmitter2 } from 'eventemitter2';
 
@@ -20,7 +20,7 @@ type SandboxContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<SandboxContext>;
+const test = anyTest as TestFn<SandboxContext>;
 
 const mockContext = (context: SandboxContext) => {
     const engine = new EventEmitter2({

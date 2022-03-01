@@ -1,4 +1,4 @@
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as chalk from 'chalk';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
@@ -20,7 +20,7 @@ type CodeframeContext = {
     writeFileAsyncDefaultStub: sinon.SinonStub<any, void>;
 };
 
-const test = anyTest as TestInterface<CodeframeContext>;
+const test = anyTest as TestFn<CodeframeContext>;
 
 const initContext = (t: ExecutionContext<CodeframeContext>) => {
     t.context.logging = { log() { } };

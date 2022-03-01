@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import { Category } from '@hint/utils-types';
@@ -23,7 +23,7 @@ type HTMLContext = {
     fsExtra: FsExtra;
 };
 
-const test = anyTest as TestInterface<HTMLContext>;
+const test = anyTest as TestFn<HTMLContext>;
 
 const initContext = (t: ExecutionContext<HTMLContext>) => {
     t.context.fsExtra = {

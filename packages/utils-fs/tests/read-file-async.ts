@@ -2,7 +2,7 @@
 
 import * as path from 'path';
 
-import anyTest, { Macro, TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 
 import { readFileAsync } from '../src';
 
@@ -29,15 +29,15 @@ type ReadFileAsyncContext = {
     content: string;
 };
 
-const test = anyTest as TestInterface<ReadFileAsyncContext>;
+const test = anyTest as TestFn<ReadFileAsyncContext>;
 
 /** AVA macro for readFileAsync regular tests */
-const readFileAsyncMacro: Macro<[ReadFileAsyncContext], ReadFileAsyncContext> = async (t: ExecutionContext<ReadFileAsyncContext>, context: ReadFileAsyncContext) => {
+const readFileAsyncMacro = test.macro(async (t: ExecutionContext<ReadFileAsyncContext>, context: ReadFileAsyncContext) => {
     const location = path.join(__dirname, `./fixtures/${context.file}`);
     const content = await readFileAsync(location);
 
     t.is(content, context.content);
-};
+});
 
 testContext.forEach((context) => {
     test(`${context.name} - async`, readFileAsyncMacro, context);

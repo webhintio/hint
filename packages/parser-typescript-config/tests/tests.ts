@@ -3,7 +3,7 @@ import * as url from 'url';
 
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
 import * as utilsFs from '@hint/utils-fs';
@@ -19,7 +19,7 @@ type SandboxContext = {
 };
 
 
-const test = anyTest as TestInterface<SandboxContext>;
+const test = anyTest as TestFn<SandboxContext>;
 
 const schema = JSON.parse(readFile(path.join(__dirname, 'fixtures', 'schema.json')));
 

@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
@@ -24,7 +24,7 @@ type ConfigTestContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest.serial as TestInterface<ConfigTestContext>;
+const test = anyTest.serial as TestFn<ConfigTestContext>;
 
 const initContext = (t: ExecutionContext<ConfigTestContext>) => {
     const os = {
@@ -103,7 +103,7 @@ test(`if package.json is an invalid JSON, it should return an exception`, (t) =>
         config.Configuration.loadConfigFile(path.join(__dirname, './fixtures/exception/package.json'), null);
     });
 
-    t.true(error.message.startsWith('Cannot read config file: '));
+    t.true(error?.message.startsWith('Cannot read config file: '));
 });
 
 test(`if the config file doesn't have an extension, it should be parsed as JSON file`, (t) => {
@@ -323,7 +323,7 @@ test(`if the configuration file contains an invalid extends property, returns an
         config.Configuration.fromConfig(userConfig, { watch: false });
     });
 
-    t.is(err.message, 'Configuration package "basics" is not valid');
+    t.is(err?.message, 'Configuration package "basics" is not valid');
 });
 
 test(`if a Hint has an invalid configuration, it should tell which ones are invalid`, (t) => {

@@ -1,4 +1,4 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
@@ -11,7 +11,7 @@ type LoadResourceContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<LoadResourceContext>;
+const test = anyTest as TestFn<LoadResourceContext>;
 
 const loadScript = (options?: any) => {
     if (!options) {
@@ -47,7 +47,7 @@ test.serial('loadResource throws an error if the resource is not found', (t) => 
     const resourceLoader = loadScript();
     const { message } = t.throws(() => {
         resourceLoader.loadResource('another-fake-resource', ResourceType.formatter);
-    });
+    }) || {};
 
     t.is(message, 'Resource another-fake-resource not found', 'Received a different exception');
 });
@@ -64,7 +64,7 @@ test.serial('tryToLoadFrom throws an error if a dependency is missing', (t) => {
 
     const { message } = t.throws(() => {
         resourceLoader.tryToLoadFrom('hint');
-    });
+    }) || {};
 
     t.is(message, 'Module iltorb not found when loading hint');
 });
@@ -151,7 +151,7 @@ test.serial('loadResource throws an error if the version is incompatible when us
 
     const { message } = t.throws(() => {
         resourceLoader.loadResource('another-fake-resource', ResourceType.formatter, [], true);
-    });
+    }) || {};
 
     t.is(message, `Resource another-fake-resource isn't compatible with current hint version`, 'Received a different exception');
 });
@@ -196,7 +196,7 @@ test.serial('loadResource throws an error if the hint is loaded from the current
 
     const { message } = t.throws(() => {
         resourceLoader.loadResource('another-fake-resource', ResourceType.hint);
-    });
+    }) || {};
 
     t.is(message, 'Resource another-fake-resource not found', 'Received a different exception');
 

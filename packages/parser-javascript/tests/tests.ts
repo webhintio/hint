@@ -1,6 +1,6 @@
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
 import { ElementFound, Engine, FetchEnd } from 'hint';
@@ -34,7 +34,7 @@ type ParseJavascriptContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<ParseJavascriptContext>;
+const test = anyTest as TestFn<ParseJavascriptContext>;
 
 const initContext = (t: ExecutionContext<ParseJavascriptContext>) => {
     t.context.parser = {

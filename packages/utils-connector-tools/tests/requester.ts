@@ -2,7 +2,7 @@ import { promisify } from 'util';
 import * as zlib from 'zlib';
 
 import * as iconv from 'iconv-lite';
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import { Server } from '@hint/utils-create-server';
 import { NetworkData } from 'hint';
 
@@ -12,7 +12,7 @@ type RequesterContext = {
     requester: Requester;
 };
 
-const test = anyTest as TestInterface<RequesterContext>;
+const test = anyTest as TestFn<RequesterContext>;
 
 const compressGzip: Function = promisify(zlib.gzip) as any;
 const compressBrotli: Function = promisify(zlib.brotliCompress) as any;
@@ -141,7 +141,7 @@ const testBinaries = async (t: ExecutionContext<RequesterContext>, binType: stri
     t.deepEqual(body.rawContent, content);
 
     // Body should be null
-    t.is(body.content, null);
+    t.is(body.content, '');
 
     await server.stop();
 };

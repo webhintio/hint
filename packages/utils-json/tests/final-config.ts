@@ -1,4 +1,4 @@
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
@@ -25,7 +25,7 @@ type ParserContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<ParserContext>;
+const test = anyTest as TestFn<ParserContext>;
 
 const asUri = { getAsUri() { } };
 
