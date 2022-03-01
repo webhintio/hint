@@ -15,7 +15,7 @@
     "configstore": "^5.0.1",
     "content-type": "^1.0.4",
     "eventemitter2": "^6.4.5",
-    "file-type": "^16.5.3",
+    "file-type": "^17.1.1",
     "globby": "^11.0.4",
     "is-svg": "^4.3.2",
     "is-wsl": "^2.2.0",
