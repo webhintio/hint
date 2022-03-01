@@ -99,7 +99,7 @@ const createMissingTest = async (t: ExecutionContext, relAttribute: string = 'ma
     sandbox.restore();
 };
 
-const createParseTest = async (t: ExecutionContext, manifestContent: string, expectedStartEventName: string, expectedEndEventName: string, verifyResult: Function) => {
+const createParseTest = async (t: ExecutionContext, manifestContent: string, expectedStartEventName: keyof ManifestEvents, expectedEndEventName: keyof ManifestEvents, verifyResult: Function) => {
     const elementEventValue = getElementLinkEventValue();
     const sandbox = sinon.createSandbox();
     const engine = getEngine();
