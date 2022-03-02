@@ -148,13 +148,19 @@ export default class ContentTypeHint implements IHint {
             const allowApplicationJavaScript = mediaType === 'text/javascript' && originalMediaType === 'application/javascript';
 
             /*
+             * Allow `image/vnd.microsoft.icon` for .ico resources.
+             * See https://stackoverflow.com/questions/13827325/correct-mime-type-for-favicon-ico
+             */
+            const allowImageVndMicrosoftIcon = mediaType === 'image/x-icon' && originalMediaType === 'image/vnd.microsoft.icon';
+
+            /*
              * Check if the determined values differ
              * from the ones from the `Content-Type` header.
              */
 
             // * media type
 
-            if (mediaType && mediaType !== originalMediaType && !allowApplicationJavaScript) {
+            if (mediaType && mediaType !== originalMediaType && !allowApplicationJavaScript && !allowImageVndMicrosoftIcon) {
                 context.report(
                     resource,
                     getMessage('contentTypeValueShoudBeNot', context.language, [mediaType, originalMediaType]),
