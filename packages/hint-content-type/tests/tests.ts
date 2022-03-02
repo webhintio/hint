@@ -233,7 +233,6 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `Icon is served with 'Content-Type: image/vnd.microsoft.icon' header`,
-        reports: [],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.ico">')),
             '/test.ico': { headers: { 'Content-Type': 'image/vnd.microsoft.icon' } }
@@ -241,7 +240,6 @@ const testsForDefaults: HintTest[] = [
     },
     {
         name: `Icon is served with 'Content-Type: image/x-icon' header`,
-        reports: [],
         serverConfig: {
             '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.ico">')),
             '/test.ico': { headers: { 'Content-Type': 'image/x-icon' } }
