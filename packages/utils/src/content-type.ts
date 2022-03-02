@@ -319,7 +319,7 @@ const determineMediaTypeBasedOnFileType = async (rawContent: Buffer) => {
         }
 
         // Use the media types from `mime-db`, not `file-type`.
-        return getMediaTypeBasedOnFileExtension(detectedFileType.ext);
+        return determineMediaTypeBasedOnFileExtension(detectedFileType.ext);
     }
 
     return null;

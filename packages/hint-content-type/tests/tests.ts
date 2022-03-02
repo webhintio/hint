@@ -232,6 +232,20 @@ const testsForDefaults: HintTest[] = [
         }
     },
     {
+        name: `Icon is served with 'Content-Type: image/vnd.microsoft.icon' header`,
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.ico">')),
+            '/test.ico': { headers: { 'Content-Type': 'image/vnd.microsoft.icon' } }
+        }
+    },
+    {
+        name: `Icon is served with 'Content-Type: image/x-icon' header`,
+        serverConfig: {
+            '/': generateHTMLPageData(generateHTMLPage(undefined, '<img src="test.ico">')),
+            '/test.ico': { headers: { 'Content-Type': 'image/x-icon' } }
+        }
+    },
+    {
         name: `Script is served with 'Content-Type' header with the wrong media type (has empty 'type' attribute)`,
         reports: [{
             message: generateIncorrectMediaTypeErrorMessage('text/javascript', 'text/plain'),
