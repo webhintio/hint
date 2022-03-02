@@ -5,7 +5,8 @@
       "dist/tests/**/*.js",
       "!dist/tests/**/fixtures/**/*.js"
     ],
-    "timeout": "1m"
+    "timeout": "1m",
+    "workerThreads": false
   },
   "description": "Scoped SVG Styles checks if SVG styles affect any other elements outside the svg.",
   "dependencies": {

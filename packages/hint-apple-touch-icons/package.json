@@ -4,7 +4,8 @@
     "files": [
       "dist/tests/*.js"
     ],
-    "timeout": "1m"
+    "timeout": "1m",
+    "workerThreads": false
   },
   "dependencies": {
     "@hint/utils-debug": "^1.0.7",

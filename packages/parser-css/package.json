@@ -6,7 +6,8 @@
       "!dist/tests/**/fixtures/**/*.js",
       "!dist/tests/helpers/*.js"
     ],
-    "timeout": "1m"
+    "timeout": "1m",
+    "workerThreads": false
   },
   "dependencies": {
     "@hint/utils": "^7.0.13",

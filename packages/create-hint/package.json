@@ -5,7 +5,8 @@
       "dist/tests/**/*.js",
       "!dist/tests/**/fixtures/**/*.js"
     ],
-    "timeout": "1m"
+    "timeout": "1m",
+    "workerThreads": false
   },
   "bin": {
     "create-hint": "./dist/src/create-hint.js"

@@ -5,7 +5,8 @@
       "dist/tests/**/*.js",
       "!dist/tests/**/fixtures/**/*.js"
     ],
-    "timeout": "1m"
+    "timeout": "1m",
+    "workerThreads": false
   },
   "dependencies": {
     "@types/parse5": "^6.0.3",

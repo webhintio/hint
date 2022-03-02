@@ -5,7 +5,8 @@
       "dist/tests/**/*.js",
       "!dist/tests/**/fixtures/**/*.js"
     ],
-    "timeout": "1m"
+    "timeout": "1m",
+    "workerThreads": false
   },
   "dependencies": {
     "@hint/parser-javascript": "^3.1.14",

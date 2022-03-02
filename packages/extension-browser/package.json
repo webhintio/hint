@@ -6,7 +6,8 @@
       "!dist/tests/**/fixtures/**/*.js",
       "!dist/tests/helpers/**/*.js"
     ],
-    "timeout": "1m"
+    "timeout": "1m",
+    "workerThreads": false
   },
   "browserslist": "last 2 chrome versions, last 2 firefox versions",
   "bundleSize": 735000,

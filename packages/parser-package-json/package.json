@@ -5,7 +5,8 @@
       "dist/tests/**/*.js",
       "!dist/tests/**/fixtures/**/*.js"
     ],
-    "timeout": "1m"
+    "timeout": "1m",
+    "workerThreads": false
   },
   "description": "webhint parser to analyze the package.json file",
   "dependencies": {
