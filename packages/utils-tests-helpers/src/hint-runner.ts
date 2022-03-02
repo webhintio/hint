@@ -163,7 +163,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
     }
 
     if (results.length === 0) {
-        t.fail( `No results found, should be ${reports.length}`);
+        t.fail(`No results found, should be ${reports.length}`);
 
         return;
     }
