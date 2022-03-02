@@ -1,9 +1,10 @@
 const path = require('path');
 const fs = require('fs');
 
-const execa = require('execa');
 const request = require('request');
 const unzipper = require('unzipper');
+
+const { exec } = require('../utils/exec');
 
 // Files that can be updated via the prebuild step but are safe to ignore in the build process
 const thirdPartyFiles = [
@@ -12,7 +13,7 @@ const thirdPartyFiles = [
 ];
 
 const getCurrentCommitHash = async () => {
-    const { stdout: hash } = await execa('git', ['rev-parse', '--verify', 'HEAD']);
+    const { stdout: hash } = await exec('git rev-parse --verify HEAD');
 
     return hash;
 };
@@ -34,7 +35,7 @@ const isThirdPartyFile = (line) => {
 };
 
 const repoClean = async () => {
-    const { stdout } = await execa('git', ['status', '--short']);
+    const { stdout } = await exec('git status --short');
 
     if (stdout !== '') {
         const lines = stdout.trim().split('\n');

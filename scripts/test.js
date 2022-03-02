@@ -1,9 +1,8 @@
-const spawn = require('child_process').spawn;
-
 const chalk = require('chalk');
-const pRetry = require('p-retry');
 const shell = require('shelljs');
 const yargs = require('yargs');
+
+const { exec, execWithRetry } = require('./utils/exec');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -20,7 +19,6 @@ const TEST_SCRIPT_NAMES = {
     testOnly: 'test-only',
     testRoot: 'build:scripts'
 };
-const TEST_RETRIES = 2; // Will retry 2 times on top of the regular one
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -40,28 +38,6 @@ const cleanUpProjectData = (projectData) => {
     }
 
     return projectData;
-};
-
-const exec = (cmd) => {
-    return new Promise((resolve, reject) => {
-        const command = spawn(cmd, [], {
-            shell: true,
-            stdio: 'inherit'
-        });
-
-        command.on('error', (err) => {
-            return reject(err);
-        });
-
-        command.on('exit', (code) => {
-            if (code !== 0) {
-                return reject(new Error('NoExitCodeZero'));
-            }
-
-            return resolve(true);
-        });
-
-    });
 };
 
 const buildDependencies = async (dependencies) => {
@@ -549,19 +525,6 @@ const includeDeepDependencies = (projectData) => {
     }
 
     return projectData;
-};
-
-const execWithRetry = (command) => {
-    const fn = () => {
-        return exec(command);
-    };
-
-    return pRetry(fn, {
-        onFailedAttempt: (error) => {
-            console.error(`Failed executing "${command}". Retries left: ${error.retriesLeft}.`);
-        },
-        retries: TEST_RETRIES
-    });
 };
 
 const runTests = async (projectData) => {
