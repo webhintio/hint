@@ -12,7 +12,7 @@
     "@hint/utils-debug": "^1.0.7",
     "@hint/utils-fs": "^1.0.11",
     "@hint/utils-string": "^1.0.10",
-    "chalk": "^4.1.2",
+    "chalk": "^5.0.0",
     "configstore": "^5.0.1",
     "content-type": "^1.0.4",
     "eventemitter2": "^6.4.5",
