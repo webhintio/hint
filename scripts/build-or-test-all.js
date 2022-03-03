@@ -1,13 +1,11 @@
-const spawn = require('child_process').spawn;
 const path = require('path');
 
 const chalk = require('chalk');
-const pRetry = require('p-retry');
 
 const { downloadBuild } = require('./dist-management/download-dist');
+const { execWithRetry } = require('./utils/exec');
 
 const ALREADY_BUILD_DEPENDENCIES = new Set();
-const TEST_RETRIES = 2; // Will retry 2 times on top of the regular one
 
 const action = process.argv[2] === 'build' ?
     'build' :
@@ -24,44 +22,6 @@ const loadReferences = (route) => {
         [];
 
     return references;
-};
-
-/** Execute the `cmd` in a new process. */
-const exec = (cmd) => {
-    return new Promise((resolve, reject) => {
-        console.log(chalk.green(`  ${cmd}`));
-        const command = spawn(cmd, [], {
-            shell: true,
-            stdio: 'inherit'
-        });
-
-        command.on('error', (err) => {
-            return reject(err);
-        });
-
-        command.on('exit', (code) => {
-            if (code !== 0) {
-                return reject(new Error('NoExitCodeZero'));
-            }
-
-            return resolve(true);
-        });
-
-    });
-};
-
-/** Execute a `command` retrying if `exitCode` is different than 0. */
-const execWithRetry = (command) => {
-    const fn = () => {
-        return exec(command);
-    };
-
-    return pRetry(fn, {
-        onFailedAttempt: (error) => {
-            console.error(`Failed executing "${command}". Retries left: ${error.retriesLeft}.`);
-        },
-        retries: TEST_RETRIES
-    });
 };
 
 /** Format a duration in ms to `mm:ss`. */
