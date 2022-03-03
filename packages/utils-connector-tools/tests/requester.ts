@@ -141,7 +141,7 @@ const testBinaries = async (t: ExecutionContext<RequesterContext>, binType: stri
     t.deepEqual(body.rawContent, content);
 
     // Body should be null
-    t.is(body.content, '');
+    t.is(body.content, null as unknown as string);
 
     await server.stop();
 };
