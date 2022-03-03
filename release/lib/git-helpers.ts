@@ -81,6 +81,12 @@ const getResponseForCommitInfoRequest = async (commitSHA: string) => {
 
         const commitInfo = result.data;
 
+        if (!commitInfo.author) {
+            debug(`No GitHub author found for commit ${commitSHA}`);
+
+            return null;
+        }
+
         /*
          * Get commit author related info.
          *
@@ -89,21 +95,19 @@ const getResponseForCommitInfoRequest = async (commitSHA: string) => {
          * which in most cases, is wrongly set.
          */
 
-        const cachedAuthor = commitInfo.author && authors.get(commitInfo.author.login);
+        const cachedAuthor = authors.get(commitInfo.author.login);
 
         if (cachedAuthor) {
-            debug(`Reusing cached Author ${commitInfo.author?.login}`);
+            debug(`Reusing cached Author ${commitInfo.author.login}`);
 
             return cachedAuthor;
         }
 
-        debug(`Requesting info for login ${commitInfo.author?.login}`);
+        debug(`Requesting info for login ${commitInfo.author.login}`);
 
         const responseForUserInfoRequestPromise = getResponseForUserInfoRequest(commitInfo);
 
-        if (commitInfo.author) {
-            authors.set(commitInfo.author.login, responseForUserInfoRequestPromise);
-        }
+        authors.set(commitInfo.author.login, responseForUserInfoRequestPromise);
 
         return responseForUserInfoRequestPromise;
     } catch (e) {
