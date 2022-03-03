@@ -21,22 +21,27 @@ const exec = (cmd, options = {}) => {
             ...options
         });
 
-        command.stdout?.on('data', (data) => {
-            stdout += data;
-        });
+        if (command.stdout) {
+            command.stdout.on('data', (data) => {
+                stdout += data;
+            });
+
+            command.stdout.on('close', () => {
+                resolve({ stdout: stdout.trimEnd() });
+            });
+        }
 
         command.on('error', (err) => {
-            return reject(err);
+            reject(err);
         });
 
         command.on('exit', (code) => {
-            if (code !== 0) {
-                return reject(new Error('NoExitCodeZero'));
+            if (code) {
+                reject(new Error(`Exit Code: ${code}\n${stdout}`));
+            } else if (!command.stdout) {
+                resolve({ stdout: '' });
             }
-
-            return resolve({ stdout: stdout.trimEnd() });
         });
-
     });
 };
 
