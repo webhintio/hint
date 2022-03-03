@@ -1,6 +1,6 @@
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 
 type Inquirer = {
     prompt: () => Promise<any>;
@@ -16,7 +16,7 @@ type BrowserslistContext = {
     logger: Logger;
 };
 
-const test = anyTest as TestInterface<BrowserslistContext>;
+const test = anyTest as TestFn<BrowserslistContext>;
 
 const defaultOption = { targetBy: 'default' };
 const multipleQueries = {

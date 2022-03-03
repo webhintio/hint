@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
@@ -21,7 +21,7 @@ type JSONContext = {
     writeFileAsyncDefaultStub: sinon.SinonStub<any, void>;
 };
 
-const test = anyTest as TestInterface<JSONContext>;
+const test = anyTest as TestFn<JSONContext>;
 
 const initContext = (t: ExecutionContext<JSONContext>) => {
     t.context.logging = { log() { } };

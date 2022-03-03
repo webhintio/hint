@@ -5,7 +5,7 @@
 import { URL } from 'url';
 import * as proxyquire from 'proxyquire';
 
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 
 import { IServer, Server } from '@hint/utils-create-server';
 import { readFileAsync } from '@hint/utils-fs';
@@ -26,7 +26,7 @@ type HintRunnerContext = {
     server: IServer;
 };
 
-const test = anyTest as TestInterface<HintRunnerContext>;
+const test = anyTest as TestFn<HintRunnerContext>;
 
 // Regex to replace all scenarios: `http(s)://localhost/`, `http(s)://localhost:3000/`
 const localhostRegex = /(http|https):\/\/localhost[:]*[0-9]*\//g;

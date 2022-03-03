@@ -1,6 +1,6 @@
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 
 import * as utils from '@hint/utils';
 import { HintsConfigObject, UserConfig } from '@hint/utils';
@@ -79,7 +79,7 @@ type AnalyzeContext = {
     succeedSpy: sinon.SinonSpy<[]>;
 };
 
-const test = anyTest.serial as TestInterface<AnalyzeContext>;
+const test = anyTest.serial as TestFn<AnalyzeContext>;
 
 const initContext = (t: ExecutionContext<AnalyzeContext>) => {
     const sandbox = sinon.createSandbox();

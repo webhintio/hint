@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 
 import * as utilsFs from '@hint/utils-fs';
 
@@ -38,7 +38,7 @@ type CreateHintContext = {
     writeFileAsyncModule: WriteFileAsyncModule;
 }
 
-const test = anyTest as TestInterface<CreateHintContext>;
+const test = anyTest as TestFn<CreateHintContext>;
 
 const initContext = (t: ExecutionContext<CreateHintContext>) => {
     t.context.cwd = (): string => {

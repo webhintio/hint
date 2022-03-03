@@ -1,4 +1,4 @@
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import * as fsUtils from '@hint/utils-fs';
@@ -55,7 +55,7 @@ const loadDependency = (context: ChromiumFinderContext) => {
     });
 };
 
-const test = anyTest as TestInterface<ChromiumFinderContext>;
+const test = anyTest as TestFn<ChromiumFinderContext>;
 
 test.beforeEach(initContext);
 
@@ -123,7 +123,7 @@ test(`Invalid custom path throws an exception`, (t) => {
         chromiumFinder.getInstallationPath({ browserPath: 'invalid' });
     });
 
-    t.is(error.message, 'The provided path is not accessible: "invalid"', `Error message is not the expected one`);
+    t.is(error?.message, 'The provided path is not accessible: "invalid"', `Error message is not the expected one`);
 });
 
 test(`Searches with the right priorities and throws an exception when nothing is found`, (t) => {
@@ -195,7 +195,7 @@ test(`(Linux) Does not have any information for Edge`, (t) => {
         chromiumFinder.getInstallationPath({ browser: 'Edge' });
     });
 
-    t.is(error.message, 'The provided browser ("Edge") is not supported in this platform');
+    t.is(error?.message, 'The provided browser ("Edge") is not supported in this platform');
 });
 
 test(`Unsupported platform throws an Error`, (t) => {
@@ -211,7 +211,7 @@ test(`Unsupported platform throws an Error`, (t) => {
         chromiumFinder.getInstallationPath({ browser: 'Chrome' });
     });
 
-    t.is(error.message, `Unsupported platform: "unsupported"`);
+    t.is(error?.message, `Unsupported platform: "unsupported"`);
 });
 
 test(`No installation found throws an Error`, (t) => {
@@ -221,5 +221,5 @@ test(`No installation found throws an Error`, (t) => {
         chromiumFinder.getInstallationPath();
     });
 
-    t.is(error.message, 'No installation found for: "Any supported browsers"');
+    t.is(error?.message, 'No installation found for: "Any supported browsers"');
 });

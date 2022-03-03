@@ -1,6 +1,6 @@
 import { URL } from 'url';
 
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
@@ -46,7 +46,7 @@ type AnalyzerContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<AnalyzerContext>;
+const test = anyTest as TestFn<AnalyzerContext>;
 
 const loadScript = (context: AnalyzerContext) => {
     const engine = {
@@ -127,7 +127,7 @@ test(`If userConfig not defined, it should return an error with the status 'Conf
         Analyzer.create();
     });
 
-    t.is(error.status, AnalyzerErrorStatus.ConfigurationError);
+    t.is(error?.status, AnalyzerErrorStatus.ConfigurationError);
 });
 
 test(`If there is an error loading the configuration, it should return an error with the status 'ConfigurationError'`, (t) => {
@@ -141,7 +141,7 @@ test(`If there is an error loading the configuration, it should return an error 
     });
 
     t.true(fromConfigStub.calledOnce);
-    t.is(error.status, AnalyzerErrorStatus.ConfigurationError);
+    t.is(error?.status, AnalyzerErrorStatus.ConfigurationError);
 });
 
 test(`If there is any missing or incompatible resource, it should return an error with the status 'ResourceError'`, (t) => {
@@ -164,7 +164,7 @@ test(`If there is any missing or incompatible resource, it should return an erro
 
     t.true(resourceLoaderStub.calledOnce);
     t.true(fromConfigStub.calledOnce);
-    t.is(error.status, AnalyzerErrorStatus.ResourceError);
+    t.is(error?.status, AnalyzerErrorStatus.ResourceError);
 });
 
 test(`If the connector is not configured correctly, it should return an error with the status 'ConnectorError'`, (t) => {
@@ -189,7 +189,7 @@ test(`If the connector is not configured correctly, it should return an error wi
     t.true(validateConnectorConfigStub.calledOnce);
     t.true(resourceLoaderStub.calledOnce);
     t.true(fromConfigStub.calledOnce);
-    t.is(error.status, AnalyzerErrorStatus.ConnectorError);
+    t.is(error?.status, AnalyzerErrorStatus.ConnectorError);
 });
 
 test(`If there is any invalid hint, it should return an error with the status 'HintError'`, (t) => {
@@ -217,7 +217,7 @@ test(`If there is any invalid hint, it should return an error with the status 'H
     t.true(validateHintsConfigStub.calledOnce);
     t.true(resourceLoaderStub.calledOnce);
     t.true(fromConfigStub.calledOnce);
-    t.is(error.status, AnalyzerErrorStatus.HintError);
+    t.is(error?.status, AnalyzerErrorStatus.HintError);
 });
 
 test('If everything is valid, it will create an instance of the class Analyzer', (t) => {
@@ -450,14 +450,14 @@ test(`If target.content is defined and the connector is not the local connector,
     const engineCloseSpy = sandbox.spy(engine, 'close');
     const webhint = new Analyzer({ connector: { name: 'notLocal' } }, {}, []);
 
-    const error: AnalyzerError = await t.throwsAsync(async () => {
+    const error: AnalyzerError|undefined = await t.throwsAsync(async () => {
         await webhint.analyze({ content: '<html></html>', url: 'https://example.com/' });
     });
 
     t.false(engineCloseSpy.called);
     t.false(engineExecuteOnSpy.called);
 
-    t.is(error.status, AnalyzerErrorStatus.AnalyzeError);
+    t.is(error?.status, AnalyzerErrorStatus.AnalyzeError);
 });
 
 test('If options includes a targetStartCallback, it will be call before engine.executeOn', async (t) => {

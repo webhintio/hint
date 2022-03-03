@@ -1,4 +1,4 @@
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
@@ -16,7 +16,7 @@ type HelpContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<HelpContext>;
+const test = anyTest as TestFn<HelpContext>;
 
 const initContext = (t: ExecutionContext<HelpContext>) => {
     const sandbox = sinon.createSandbox();

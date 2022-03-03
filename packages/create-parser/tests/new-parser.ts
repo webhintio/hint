@@ -1,7 +1,7 @@
 /* eslint-disable */
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as InquirerTypes from 'inquirer';
 
 import * as handlebarsUtils from '../src/handlebars-utils';
@@ -42,7 +42,7 @@ type NewParserContext = {
     writeFileAsyncDefaultStub: sinon.SinonStub<[], void>;
 };
 
-const test = anyTest as TestInterface<NewParserContext>;
+const test = anyTest as TestFn<NewParserContext>;
 
 const initContext = (t: ExecutionContext<NewParserContext>) => {
     const sandbox = sinon.createSandbox();

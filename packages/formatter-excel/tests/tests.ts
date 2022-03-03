@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import * as Excel from 'exceljs';
 import * as fs from 'fs-extra';
 import * as proxyquire from 'proxyquire';
@@ -14,7 +14,7 @@ type ExcelContext = {
     spy: sinon.SinonSpy<any, any>;
 };
 
-const test = anyTest as TestInterface<ExcelContext>;
+const test = anyTest as TestFn<ExcelContext>;
 
 test.beforeEach(async (t) => {
     const { groupBy } = await import('lodash');

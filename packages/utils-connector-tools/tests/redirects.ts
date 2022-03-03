@@ -1,4 +1,4 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 
 import { RedirectManager } from '../src/redirects';
 
@@ -6,7 +6,7 @@ type RedirectsContext = {
     redirects: RedirectManager;
 };
 
-const test = anyTest as TestInterface<RedirectsContext>;
+const test = anyTest as TestFn<RedirectsContext>;
 
 test.beforeEach((t) => {
     t.context.redirects = new RedirectManager();

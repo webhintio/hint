@@ -5,14 +5,15 @@
       "dist/tests/**/*.js",
       "!dist/tests/**/fixtures/**/*.js"
     ],
-    "timeout": "1m"
+    "timeout": "1m",
+    "workerThreads": false
   },
   "dependencies": {
     "jsonc-parser": "^3.0.0"
   },
   "description": "utils for filesystem",
   "devDependencies": {
-    "ava": "^3.15.0",
+    "ava": "^4.0.1",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-markdown": "^2.2.1",

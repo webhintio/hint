@@ -1,5 +1,5 @@
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import { Engine, Events } from 'hint';
 
 import { LifecycleLaunchOptions } from '../src/lib/lifecycle';
@@ -15,7 +15,7 @@ type ConfigurationContext = {
     launch: sinon.SinonSpy<[LifecycleLaunchOptions], never>;
 };
 
-const test = anyTest as TestInterface<SandboxContext>;
+const test = anyTest as TestFn<SandboxContext>;
 
 const mockContext = (context: SandboxContext): ConfigurationContext => {
 

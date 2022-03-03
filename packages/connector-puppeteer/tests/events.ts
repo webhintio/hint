@@ -11,7 +11,7 @@ import { URL } from 'url';
 
 import groupBy = require('lodash/groupBy');
 import * as sinon from 'sinon';
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import { Server } from '@hint/utils-create-server';
 import { Engine, Events, IConnector } from 'hint';
 
@@ -25,7 +25,7 @@ type EventsContext = {
     engineEmitAsyncSpy: sinon.SinonSpy<any, any>;
 };
 
-const test = anyTest as TestInterface<EventsContext>;
+const test = anyTest as TestFn<EventsContext>;
 
 const name = 'puppeteer';
 

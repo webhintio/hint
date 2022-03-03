@@ -1,6 +1,6 @@
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import { EventEmitter2 } from 'eventemitter2';
 
 import { ElementFound, Engine, FetchEnd } from 'hint';
@@ -34,7 +34,7 @@ type ParseJavascriptContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<ParseJavascriptContext>;
+const test = anyTest as TestFn<ParseJavascriptContext>;
 
 const initContext = (t: ExecutionContext<ParseJavascriptContext>) => {
     t.context.parser = {
@@ -177,6 +177,7 @@ test('If an script tag is an internal javascript, then we should parse the code 
     t.is(args[0], 'parse::end::javascript');
     t.is(data.element, t.context.element);
     t.is(data.resource, resource);
+    // @ts-ignore
     t.is(data.ast, parseObject);
     t.is(data.tokens[0], tokenList[0]);
 });
@@ -215,6 +216,7 @@ test('If fetch::end::script is received, then we should parse the code and emit 
 
     t.is(args[0], 'parse::end::javascript');
     t.is(data.element, null);
+    // @ts-ignore
     t.is(data.ast, parseObject);
     t.is(data.resource, 'script.js');
     t.is(data.tokens[0], tokenList[0]);
@@ -255,6 +257,7 @@ test('If fetch::end::script is received for text/jsx, we should use the jsx pars
 
     t.is(args[0], 'parse::end::javascript');
     t.is(data.element, null);
+    // @ts-ignore
     t.is(data.ast, parseObject);
     t.is(data.resource, 'script.js');
     t.is(data.tokens[0], tokenList[0]);

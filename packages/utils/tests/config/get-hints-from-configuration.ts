@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import testAny, { TestInterface } from 'ava';
+import testAny, { TestFn } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
@@ -20,7 +20,7 @@ type GetHintsContext = {
     loadResource: (name: string, type: ResourceType, configurations: string[]) => any;
 }
 
-const test = testAny as TestInterface<GetHintsContext>;
+const test = testAny as TestFn<GetHintsContext>;
 
 const loadScript = (context: GetHintsContext) => {
     return proxyquire('../../src/config/get-hints-from-configuration', { '../packages/load-resource': { loadResource: context.loadResource } })

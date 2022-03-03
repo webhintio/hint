@@ -1,4 +1,4 @@
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 import { EventEmitter2 as EventEmitter } from 'eventemitter2';
@@ -45,7 +45,7 @@ type NPMContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<NPMContext>;
+const test = anyTest as TestFn<NPMContext>;
 const devDependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dev-package.json`));
 const dependencyJson = JSON.parse(readFile(`${__dirname}/fixtures/dep-package.json`));
 

@@ -3,7 +3,7 @@ import * as url from 'url';
 
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 
 import { delay } from '@hint/utils';
 
@@ -22,7 +22,7 @@ type EngineContext = {
     eventemitter: EventEmitter2;
 };
 
-const test = anyTest as TestInterface<EngineContext>;
+const test = anyTest as TestFn<EngineContext>;
 
 
 // import { Engine } from '../../src/lib/engine';

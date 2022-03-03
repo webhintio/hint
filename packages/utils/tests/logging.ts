@@ -1,4 +1,4 @@
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 import * as sinon from 'sinon';
 
 import { logger } from '../src';
@@ -9,7 +9,7 @@ type LoggingContext = {
     consoleWarnSpy: sinon.SinonSpy<[any?, ...any[]], void>;
 };
 
-const test = anyTest as TestInterface<LoggingContext>;
+const test = anyTest as TestFn<LoggingContext>;
 
 test.beforeEach((t) => {
     t.context.consoleLogSpy = sinon.spy(console, 'log');

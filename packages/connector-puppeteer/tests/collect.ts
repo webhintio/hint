@@ -5,7 +5,7 @@ import * as path from 'path';
 import { URL } from 'url';
 
 import * as sinon from 'sinon';
-import anyTest, { TestInterface, ExecutionContext } from 'ava';
+import anyTest, { TestFn, ExecutionContext } from 'ava';
 
 import { generateHTMLPage, Server, ServerConfiguration } from '@hint/utils-create-server';
 import { Engine, Events, IConnectorConstructor } from 'hint';
@@ -20,7 +20,7 @@ type CollectContext = {
     engineEmitAsyncSpy: sinon.SinonSpy<any, any>;
 };
 
-const test = anyTest as TestInterface<CollectContext>;
+const test = anyTest as TestFn<CollectContext>;
 
 test.beforeEach((t) => {
     const engine: Engine<Events> = {

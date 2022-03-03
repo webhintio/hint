@@ -4,7 +4,7 @@ import * as url from 'url';
 import * as sinon from 'sinon';
 import { EventEmitter2 } from 'eventemitter2';
 import * as proxyquire from 'proxyquire';
-import anyTest, { TestInterface } from 'ava';
+import anyTest, { TestFn } from 'ava';
 
 import { loadJSONFile } from '@hint/utils-fs';
 import { getAsUri } from '@hint/utils-network';
@@ -16,7 +16,7 @@ type SandboxContext = {
     sandbox: sinon.SinonSandbox;
 };
 
-const test = anyTest as TestInterface<SandboxContext>;
+const test = anyTest as TestFn<SandboxContext>;
 
 const validPath = path.join(__dirname, 'fixtures', 'valid', 'package.json');
 const validJSON = loadJSONFile(validPath);
