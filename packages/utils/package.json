@@ -81,6 +81,7 @@
     "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
     "lint:md": "node ../../scripts/lint-markdown.js",
     "prebuild": "npm-run-all prebuild:*",
+    "prebuild:import-esm": "copyfiles \"./src/import-esm.d.ts\" dist",
     "prebuild:mime-db": "node ./scripts/mime-db.js",
     "test": "npm run prebuild && npm run lint && npm run build && npm run test-only",
     "test-only": "nyc ava",

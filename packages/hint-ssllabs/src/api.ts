@@ -1,12 +1,12 @@
 /* istanbul ignore file */
 
-import got from 'got';
-import {delay} from '@hint/utils';
+import { delay, importESM } from '@hint/utils';
 import { SSLLabsOptions, SSLLabsResult } from './types';
 
 const APIURL = 'https://api.ssllabs.com/api/v3/analyze';
 
 const analyzeWithRetry = async (options: SSLLabsOptions): Promise<SSLLabsResult> => {
+    const got = (await importESM<typeof import('got')>('got')).default;
     const result = await got(APIURL, { searchParams: options }).json<SSLLabsResult>();
 
     if (result.status === 'READY' || result.status === 'ERROR') {

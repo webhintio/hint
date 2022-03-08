@@ -3,6 +3,7 @@ import * as loggingUtils from './logging';
 
 export * from './async-wrapper';
 export * from './content-type';
+export * from './import-esm';
 export * from './misc';
 export * from './npm';
 export * from './packages';
