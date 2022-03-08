@@ -5,6 +5,20 @@ const { startCase } = require('lodash');
 /** @typedef {import('axe-core').RuleMetadata} RuleMeta */
 
 /**
+ * Additional rules which are disabled by default.
+ * Typically these are added because the rule doesn't
+ * work correctly in some or all webhint contexts.
+ */
+const disabledRules = new Set([
+    /**
+     * Disabled due to false-positives in jsdom contexts.
+     * Occurs because jsdom reports `display: none` for `<svg><title>`.
+     * See https://github.com/webhintio/hint/issues/5030.
+     */
+    'svg-img-alt'
+]);
+
+/**
  * @param {string} str
  */
 const capitalize = (str) => {
@@ -33,7 +47,7 @@ const escapeKey = (id) => {
  * @param {RuleMeta} rule
  */
 const isRuleDisabled = (rule) => {
-    return rule.tags.includes('experimental') || rule.tags.every((tag) => {
+    return disabledRules.has(rule.ruleId) || rule.tags.includes('experimental') || rule.tags.every((tag) => {
         return !tag.startsWith('wcag');
     });
 };
