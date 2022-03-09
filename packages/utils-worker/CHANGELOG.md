@@ -1,3 +1,27 @@
+# 1.3.8 (March 9, 2022)
+
+## Chores
+
+* [[`682dd7e533`](https://github.com/webhintio/hint/commit/682dd7e5333459ad7a0331cc86316c41f2042323)] - Upgrade: Bump ava from 3.15.0 to 4.0.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5001`](https://github.com/webhintio/hint/issues/5001)).
+* [[`f47e064e97`](https://github.com/webhintio/hint/commit/f47e064e970930a4052b93f08498b6660dc09ef9)] - Upgrade: Bump webpack from 5.65.0 to 5.69.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`46851101b1`](https://github.com/webhintio/hint/commit/46851101b119e2600f13bfb9a00d2ab8667626f5)] - Upgrade: Bump browserslist from 4.19.1 to 4.19.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`d9e179382c`](https://github.com/webhintio/hint/commit/d9e179382c8f4ffd60cf35f8b962a29a76b0b72f)] - Upgrade: Bump @typescript-eslint/parser from 4.28.1 to 4.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`de1ef98436`](https://github.com/webhintio/hint/commit/de1ef9843660c912f6a4e05ee741d25c6eddd01e)] - Upgrade: Bump typescript from 4.3.5 to 4.5.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#4996`](https://github.com/webhintio/hint/issues/4996)).
+* [[`f10d1957b7`](https://github.com/webhintio/hint/commit/f10d1957b77ca1aabd63fe896e637808cd6f0908)] - Upgrade: Bump axe-core from 4.3.5 to 4.4.0 (#5006) (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`f7ecc6c9c9`](https://github.com/webhintio/hint/commit/f7ecc6c9c98206688fdc203912afe98d713f3777)] - Upgrade: Bump @types/node from 15.6.1 to 17.0.14 (#5021) (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`c95b2bb7f7`](https://github.com/webhintio/hint/commit/c95b2bb7f711c94945c50c8dc4465fe5ceec57c4)] - Upgrade: Bump eslint-plugin-import from 2.25.3 to 2.25.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`f3c04dde60`](https://github.com/webhintio/hint/commit/f3c04dde60213c870460b19dde196060cbb57897)] - Upgrade: Bump browserslist from 4.18.1 to 4.19.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`daac4356ea`](https://github.com/webhintio/hint/commit/daac4356ea6cf197727981aeb846c324124985e9)] - Upgrade: Bump webpack from 5.56.1 to 5.65.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`eb94592c64`](https://github.com/webhintio/hint/commit/eb94592c64329107a0de20c3ec3cb61420b2a638)] - Upgrade: Bump terser-webpack-plugin from 5.2.5 to 5.3.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`717613bbfd`](https://github.com/webhintio/hint/commit/717613bbfdd1289e9a3273a566a483d090619886)] - Upgrade: Bump axe-core from 4.3.3 to 4.3.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`2ff7ec03a3`](https://github.com/webhintio/hint/commit/2ff7ec03a391ba24e565b28017da69b40ec4461f)] - Upgrade: Bump @types/puppeteer from 5.4.3 to 5.4.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`d9817ad66e`](https://github.com/webhintio/hint/commit/d9817ad66e9f3ef78c912123b5ffef560ac794c2)] - Upgrade: Bump terser-webpack-plugin from 5.2.4 to 5.2.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`7dfef85ed6`](https://github.com/webhintio/hint/commit/7dfef85ed680b533d7f9b099effcbf528fb1f072)] - Upgrade: Bump eslint-plugin-import from 2.25.2 to 2.25.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`8ef9e7510f`](https://github.com/webhintio/hint/commit/8ef9e7510fc0d373a5939fcabfe52305bc3423ba)] - Upgrade: Bump webpack from 5.56.1 to 5.64.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`4532207c09`](https://github.com/webhintio/hint/commit/4532207c0961aed1c8bef9d1e2a9efab2c0806cf)] - Upgrade: Bump browserslist from 4.17.5 to 4.18.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`6324037022`](https://github.com/webhintio/hint/commit/6324037022ef35767571bfb5aaa9c17384231ebc)] - Upgrade: Bump eslint from 7.29.0 to 7.32.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.3.7 (November 15, 2021)
 
 ## Chores

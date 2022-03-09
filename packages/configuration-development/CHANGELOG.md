@@ -1,3 +1,10 @@
+# 8.3.2 (March 9, 2022)
+
+## Bug fixes / Improvements
+
+* [[`addc5fc30a`](https://github.com/webhintio/hint/commit/addc5fc30a24a5c8183db6b625c4a937225de569)] - Fix: Disable typescript-config/import-helpers by default (by [`Tony Ross`](https://github.com/antross) / see also: [`#4526`](https://github.com/webhintio/hint/issues/4526)).
+
+
 # 8.3.0 (November 4, 2021)
 
 ## New features

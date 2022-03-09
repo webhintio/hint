@@ -9,9 +9,9 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils-fs": "^1.0.11",
-    "@hint/utils-network": "^1.0.14",
-    "@hint/utils-types": "^1.1.5",
+    "@hint/utils-fs": "^1.0.12",
+    "@hint/utils-network": "^1.0.15",
+    "@hint/utils-types": "^1.1.6",
     "ajv": "^8.10.0",
     "ajv-formats": "^2.1.1",
     "jsonc-parser": "^3.0.0",
@@ -65,5 +65,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.15"
+  "version": "1.0.16"
 }

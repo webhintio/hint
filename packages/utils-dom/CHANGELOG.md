@@ -1,3 +1,21 @@
+# 2.1.10 (March 9, 2022)
+
+## Chores
+
+* [[`682dd7e533`](https://github.com/webhintio/hint/commit/682dd7e5333459ad7a0331cc86316c41f2042323)] - Upgrade: Bump ava from 3.15.0 to 4.0.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5001`](https://github.com/webhintio/hint/issues/5001)).
+* [[`de1ef98436`](https://github.com/webhintio/hint/commit/de1ef9843660c912f6a4e05ee741d25c6eddd01e)] - Upgrade: Bump typescript from 4.3.5 to 4.5.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#4996`](https://github.com/webhintio/hint/issues/4996)).
+* [[`f10d1957b7`](https://github.com/webhintio/hint/commit/f10d1957b77ca1aabd63fe896e637808cd6f0908)] - Upgrade: Bump axe-core from 4.3.5 to 4.4.0 (#5006) (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`c95b2bb7f7`](https://github.com/webhintio/hint/commit/c95b2bb7f711c94945c50c8dc4465fe5ceec57c4)] - Upgrade: Bump eslint-plugin-import from 2.25.3 to 2.25.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`1cc9a06510`](https://github.com/webhintio/hint/commit/1cc9a06510a414edcc272fc2bc89bb438d936dde)] - Upgrade: Bump css-select from 4.1.3 to 4.2.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`339522b134`](https://github.com/webhintio/hint/commit/339522b1349a5a23b53546a19cf0cd1aa25d70d9)] - Upgrade: Bump jsdom from 18.1.1 to 19.0.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`717613bbfd`](https://github.com/webhintio/hint/commit/717613bbfdd1289e9a3273a566a483d090619886)] - Upgrade: Bump axe-core from 4.3.3 to 4.3.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`7dfef85ed6`](https://github.com/webhintio/hint/commit/7dfef85ed680b533d7f9b099effcbf528fb1f072)] - Upgrade: Bump eslint-plugin-import from 2.25.2 to 2.25.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`b5849d34f1`](https://github.com/webhintio/hint/commit/b5849d34f17bc73c4f94bd070c58b3549fd62f49)] - Upgrade: Bump jsdom from 18.1.0 to 18.1.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`ac3bd75e92`](https://github.com/webhintio/hint/commit/ac3bd75e92e8719e64badf79c5ca5b102e738a55)] - Upgrade: Bump @types/parse5 from 6.0.2 to 6.0.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`6324037022`](https://github.com/webhintio/hint/commit/6324037022ef35767571bfb5aaa9c17384231ebc)] - Upgrade: Bump eslint from 7.29.0 to 7.32.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`fde8b6cf84`](https://github.com/webhintio/hint/commit/fde8b6cf8451b24c94d44e29321b7828ea1cae8e)] - Upgrade: Bump jsdom from 16.6.0 to 18.1.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.1.9 (November 15, 2021)
 
 ## Bug fixes / Improvements

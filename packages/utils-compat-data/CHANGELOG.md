@@ -1,3 +1,24 @@
+# 1.1.7 (March 9, 2022)
+
+## Chores
+
+* [[`99ad46d5d7`](https://github.com/webhintio/hint/commit/99ad46d5d7cfbf9ac575aa66888602a5423cb486)] - Upgrade: Bump @mdn/browser-compat-data from 4.1.6 to 4.1.10 (by [`Tony Ross`](https://github.com/antross) / see also: [`#5074`](https://github.com/webhintio/hint/issues/5074)).
+* [[`682dd7e533`](https://github.com/webhintio/hint/commit/682dd7e5333459ad7a0331cc86316c41f2042323)] - Upgrade: Bump ava from 3.15.0 to 4.0.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5001`](https://github.com/webhintio/hint/issues/5001)).
+* [[`f545a7f7ab`](https://github.com/webhintio/hint/commit/f545a7f7ab0b55c4d1a093620de290533b5d09ed)] - Upgrade: Bump mdn-data from 2.0.26 to 2.0.27 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`b91178ef7c`](https://github.com/webhintio/hint/commit/b91178ef7cd5f6e99e8b41e13a625bb47428d5ad)] - Upgrade: Bump @mdn/browser-compat-data from 4.0.12 to 4.1.6 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`d9e179382c`](https://github.com/webhintio/hint/commit/d9e179382c8f4ffd60cf35f8b962a29a76b0b72f)] - Upgrade: Bump @typescript-eslint/parser from 4.28.1 to 4.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`de1ef98436`](https://github.com/webhintio/hint/commit/de1ef9843660c912f6a4e05ee741d25c6eddd01e)] - Upgrade: Bump typescript from 4.3.5 to 4.5.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#4996`](https://github.com/webhintio/hint/issues/4996)).
+* [[`c95b2bb7f7`](https://github.com/webhintio/hint/commit/c95b2bb7f711c94945c50c8dc4465fe5ceec57c4)] - Upgrade: Bump eslint-plugin-import from 2.25.3 to 2.25.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`c6846ecf1e`](https://github.com/webhintio/hint/commit/c6846ecf1ec4d6f3c05d10ec8e91467ae22beb4e)] - Upgrade: Bump mdn-data from 2.0.25 to 2.0.26 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`2f3080c2bc`](https://github.com/webhintio/hint/commit/2f3080c2bc3c090624c458d67f3c2a2713fe1453)] - Upgrade: Bump mdn-data from 2.0.23 to 2.0.25 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`dc7c30021a`](https://github.com/webhintio/hint/commit/dc7c30021a44e4bfda961bd044e2ab8de902b104)] - Upgrade: Bump postcss-selector-parser from 6.0.6 to 6.0.8 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`083f63a629`](https://github.com/webhintio/hint/commit/083f63a629a5cb77482adefc95e6f046f2ce910e)] - Upgrade: Bump mdn-data from 2.0.22 to 2.0.23 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`7dfef85ed6`](https://github.com/webhintio/hint/commit/7dfef85ed680b533d7f9b099effcbf528fb1f072)] - Upgrade: Bump eslint-plugin-import from 2.25.2 to 2.25.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`ca473f1f88`](https://github.com/webhintio/hint/commit/ca473f1f88372d7af26cd8ad4eb808b6a1c99076)] - Upgrade: Bump postcss-value-parser from 4.1.0 to 4.2.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`159393824e`](https://github.com/webhintio/hint/commit/159393824ee3ccb746026bbe4ef5cb5951c98053)] - Upgrade: Bump @mdn/browser-compat-data from 4.0.9 to 4.0.12 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`6324037022`](https://github.com/webhintio/hint/commit/6324037022ef35767571bfb5aaa9c17384231ebc)] - Upgrade: Bump eslint from 7.29.0 to 7.32.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.1.6 (November 15, 2021)
 
 ## Chores

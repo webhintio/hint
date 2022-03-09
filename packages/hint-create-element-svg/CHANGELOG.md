@@ -1,3 +1,14 @@
+# 1.3.15 (March 9, 2022)
+
+## Chores
+
+* [[`682dd7e533`](https://github.com/webhintio/hint/commit/682dd7e5333459ad7a0331cc86316c41f2042323)] - Upgrade: Bump ava from 3.15.0 to 4.0.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5001`](https://github.com/webhintio/hint/issues/5001)).
+* [[`d9e179382c`](https://github.com/webhintio/hint/commit/d9e179382c8f4ffd60cf35f8b962a29a76b0b72f)] - Upgrade: Bump @typescript-eslint/parser from 4.28.1 to 4.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`de1ef98436`](https://github.com/webhintio/hint/commit/de1ef9843660c912f6a4e05ee741d25c6eddd01e)] - Upgrade: Bump typescript from 4.3.5 to 4.5.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#4996`](https://github.com/webhintio/hint/issues/4996)).
+* [[`f7ecc6c9c9`](https://github.com/webhintio/hint/commit/f7ecc6c9c98206688fdc203912afe98d713f3777)] - Upgrade: Bump @types/node from 15.6.1 to 17.0.14 (#5021) (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`6324037022`](https://github.com/webhintio/hint/commit/6324037022ef35767571bfb5aaa9c17384231ebc)] - Upgrade: Bump eslint from 7.29.0 to 7.32.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.3.14 (November 15, 2021)
 
 ## Chores
