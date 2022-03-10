@@ -13,6 +13,7 @@ const delay = (ms) => {
  */
 const exec = (cmd, options = {}) => {
     return new Promise((resolve, reject) => {
+        let stderr = '';
         let stdout = '';
 
         const command = spawn(cmd, [], {
@@ -21,25 +22,33 @@ const exec = (cmd, options = {}) => {
             ...options
         });
 
-        if (command.stdout) {
-            command.stdout.on('data', (data) => {
-                stdout += data;
-            });
+        const stderrClosed = !command.stderr ? Promise.resolve() : new Promise((resolve) => {
+            command.stderr.on('close', resolve);
+        });
 
-            command.stdout.on('close', () => {
-                resolve({ stdout: stdout.trimEnd() });
-            });
-        }
+        const stdoutClosed = !command.stdout ? Promise.resolve() : new Promise((resolve) => {
+            command.stdout.on('close', resolve);
+        });
+
+        command.stderr?.on('data', (data) => {
+            stderr += data;
+        });
+
+        command.stdout?.on('data', (data) => {
+            stdout += data;
+        });
 
         command.on('error', (err) => {
             reject(err);
         });
 
-        command.on('exit', (code) => {
+        command.on('exit', async (code) => {
+            await Promise.all([stderrClosed, stdoutClosed]);
+
             if (code) {
-                reject(new Error(`Exit Code: ${code}\n${stdout}`));
-            } else if (!command.stdout) {
-                resolve({ stdout: '' });
+                reject(new Error(`Exit Code: ${code}\n${stderr}`));
+            } else {
+                resolve({ stderr: stderr.trimEnd(), stdout: stdout.trimEnd() });
             }
         });
     });
