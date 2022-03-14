@@ -345,6 +345,136 @@
                 "additionalProperties": false
             },
             "minItems": 0
+        },
+        "share_target": {
+            "description": "Declares the application to be a web share target, and describes how it receives share data.",
+            "type": "object",
+            "properties": {
+                "action": {
+                    "description": "The URL for the web share target.",
+                    "type": "string"
+                },
+                "method": {
+                    "description": "The HTTP request method for the web share target.",
+                    "type": "string",
+                    "enum": [
+                        "GET",
+                        "POST",
+                        "get",
+                        "post"
+                    ],
+                    "default": "GET"
+                },
+                "enctype": {
+                    "description": "This member specifies the encoding in the share request.",
+                    "type": "string",
+                    "enum": [
+                        "application/x-www-form-urlencoded",
+                        "multipart/form-data",
+                        "APPLICATION/X-WWW-FORM-URLENCODED",
+                        "MULTIPART/FORM-DATA"
+                    ],
+                    "default": "application/x-www-form-urlencoded"
+                },
+                "params": {
+                    "description": "Specifies what data gets shared in the request.",
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "description": "The name of the query parameter used for the title of the document being shared.",
+                            "type": "string"
+                        },
+                        "text": {
+                            "description": "The name of the query parameter used for the message body, made of arbitrary text.",
+                            "type": "string"
+                        },
+                        "url": {
+                            "description": "The name of the query parameter used for the URL string referring to a resource being shared.",
+                            "type": "string"
+                        },
+                        "files": {
+                            "description": "Description of how the application receives files from share requests.",
+                            "oneOf": [
+                                {
+                                    "type": "object",
+                                    "description": "Description of how the application receives files from share requests.",
+                                    "properties": {
+                                        "name": {
+                                            "description": "The name of the form field used to share the files.",
+                                            "type": "string"
+                                        },
+                                        "accept": {
+                                            "description": "Sequence of accepted MIME types or file extensions can be shared to the application.",
+                                            "oneOf": [
+                                                {
+                                                    "type": "string",
+                                                    "pattern": "^((\\..*)|(.*/.*))$"
+                                                },
+                                                {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "pattern": "^((\\..*)|(.*/.*))$"
+                                                    },
+                                                    "minItems": 0
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "name",
+                                        "accept"
+                                    ],
+                                    "additionalProperties": false
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "description": "Description of how the application receives files from share requests.",
+                                        "properties": {
+                                            "name": {
+                                                "description": "The name of the form field used to share the files.",
+                                                "type": "string"
+                                            },
+                                            "accept": {
+                                                "description": "Sequence of accepted MIME types or file extensions can be shared to the application.",
+                                                "oneOf": [
+                                                    {
+                                                        "type": "string",
+                                                        "pattern": "^((\\..*)|(.*/.*))$"
+                                                    },
+                                                    {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "pattern": "^((\\..*)|(.*/.*))$"
+                                                        },
+                                                        "minItems": 0
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "name",
+                                            "accept"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "minItems": 0
+                                }
+                            ]
+                        }
+                    },
+                    "additionalProperties": false,
+                    "required": []
+                }
+            },
+            "required": [
+                "action",
+                "params"
+            ],
+            "additionalProperties": false
         }
     },
     "definitions": {
@@ -532,6 +662,261 @@
             "required": [
                 "name",
                 "url"
+            ],
+            "additionalProperties": false
+        },
+        "share_target": {
+            "type": "object",
+            "description": "Describes how the application receives share data.",
+            "properties": {
+                "action": {
+                    "description": "The URL for the web share target.",
+                    "type": "string"
+                },
+                "method": {
+                    "description": "The HTTP request method for the web share target.",
+                    "type": "string",
+                    "enum": [
+                        "GET",
+                        "POST",
+                        "get",
+                        "post"
+                    ],
+                    "default": "GET"
+                },
+                "enctype": {
+                    "description": "This member specifies the encoding in the share request.",
+                    "type": "string",
+                    "enum": [
+                        "application/x-www-form-urlencoded",
+                        "multipart/form-data",
+                        "APPLICATION/X-WWW-FORM-URLENCODED",
+                        "MULTIPART/FORM-DATA"
+                    ],
+                    "default": "application/x-www-form-urlencoded"
+                },
+                "params": {
+                    "description": "Specifies what data gets shared in the request.",
+                    "type": "object",
+                    "properties": {
+                        "title": {
+                            "description": "The name of the query parameter used for the title of the document being shared.",
+                            "type": "string"
+                        },
+                        "text": {
+                            "description": "The name of the query parameter used for the message body, made of arbitrary text.",
+                            "type": "string"
+                        },
+                        "url": {
+                            "description": "The name of the query parameter used for the URL string referring to a resource being shared.",
+                            "type": "string"
+                        },
+                        "files": {
+                            "description": "Description of how the application receives files from share requests.",
+                            "oneOf": [
+                                {
+                                    "type": "object",
+                                    "description": "Description of how the application receives files from share requests.",
+                                    "properties": {
+                                        "name": {
+                                            "description": "The name of the form field used to share the files.",
+                                            "type": "string"
+                                        },
+                                        "accept": {
+                                            "description": "Sequence of accepted MIME types or file extensions can be shared to the application.",
+                                            "oneOf": [
+                                                {
+                                                    "type": "string",
+                                                    "pattern": "^((\\..*)|(.*/.*))$"
+                                                },
+                                                {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "pattern": "^((\\..*)|(.*/.*))$"
+                                                    },
+                                                    "minItems": 0
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "name",
+                                        "accept"
+                                    ],
+                                    "additionalProperties": false
+                                },
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "description": "Description of how the application receives files from share requests.",
+                                        "properties": {
+                                            "name": {
+                                                "description": "The name of the form field used to share the files.",
+                                                "type": "string"
+                                            },
+                                            "accept": {
+                                                "description": "Sequence of accepted MIME types or file extensions can be shared to the application.",
+                                                "oneOf": [
+                                                    {
+                                                        "type": "string",
+                                                        "pattern": "^((\\..*)|(.*/.*))$"
+                                                    },
+                                                    {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "pattern": "^((\\..*)|(.*/.*))$"
+                                                        },
+                                                        "minItems": 0
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "name",
+                                            "accept"
+                                        ],
+                                        "additionalProperties": false
+                                    },
+                                    "minItems": 0
+                                }
+                            ]
+                        }
+                    },
+                    "additionalProperties": false,
+                    "required": []
+                }
+            },
+            "required": [
+                "action",
+                "params"
+            ],
+            "additionalProperties": false
+        },
+        "share_target_params": {
+            "type": "object",
+            "description": "Specifies what data gets shared in the request.",
+            "properties": {
+                "title": {
+                    "description": "The name of the query parameter used for the title of the document being shared.",
+                    "type": "string"
+                },
+                "text": {
+                    "description": "The name of the query parameter used for the message body, made of arbitrary text.",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "The name of the query parameter used for the URL string referring to a resource being shared.",
+                    "type": "string"
+                },
+                "files": {
+                    "description": "Description of how the application receives files from share requests.",
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "description": "Description of how the application receives files from share requests.",
+                            "properties": {
+                                "name": {
+                                    "description": "The name of the form field used to share the files.",
+                                    "type": "string"
+                                },
+                                "accept": {
+                                    "description": "Sequence of accepted MIME types or file extensions can be shared to the application.",
+                                    "oneOf": [
+                                        {
+                                            "type": "string",
+                                            "pattern": "^((\\..*)|(.*/.*))$"
+                                        },
+                                        {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "pattern": "^((\\..*)|(.*/.*))$"
+                                            },
+                                            "minItems": 0
+                                        }
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "accept"
+                            ],
+                            "additionalProperties": false
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "description": "Description of how the application receives files from share requests.",
+                                "properties": {
+                                    "name": {
+                                        "description": "The name of the form field used to share the files.",
+                                        "type": "string"
+                                    },
+                                    "accept": {
+                                        "description": "Sequence of accepted MIME types or file extensions can be shared to the application.",
+                                        "oneOf": [
+                                            {
+                                                "type": "string",
+                                                "pattern": "^((\\..*)|(.*/.*))$"
+                                            },
+                                            {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "pattern": "^((\\..*)|(.*/.*))$"
+                                                },
+                                                "minItems": 0
+                                            }
+                                        ]
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "accept"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "minItems": 0
+                        }
+                    ]
+                }
+            },
+            "additionalProperties": false,
+            "required": []
+        },
+        "share_target_files": {
+            "type": "object",
+            "description": "Description of how the application receives files from share requests.",
+            "properties": {
+                "name": {
+                    "description": "The name of the form field used to share the files.",
+                    "type": "string"
+                },
+                "accept": {
+                    "description": "Sequence of accepted MIME types or file extensions can be shared to the application.",
+                    "oneOf": [
+                        {
+                            "type": "string",
+                            "pattern": "^((\\..*)|(.*/.*))$"
+                        },
+                        {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "pattern": "^((\\..*)|(.*/.*))$"
+                            },
+                            "minItems": 0
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "accept"
             ],
             "additionalProperties": false
         }
