@@ -91,6 +91,48 @@ export interface Manifest {
    * The screenshots member is an array of image objects represent the web application in common usage scenarios.
    */
   screenshots?: ManifestImageResource[];
+  /**
+   * Declares the application to be a web share target, and describes how it receives share data.
+   */
+  share_target?: {
+    /**
+     * The URL for the web share target.
+     */
+    action: string;
+    /**
+     * The HTTP request method for the web share target.
+     */
+    method?: "GET" | "POST" | "get" | "post";
+    /**
+     * This member specifies the encoding in the share request.
+     */
+    enctype?:
+      | "application/x-www-form-urlencoded"
+      | "multipart/form-data"
+      | "APPLICATION/X-WWW-FORM-URLENCODED"
+      | "MULTIPART/FORM-DATA";
+    /**
+     * Specifies what data gets shared in the request.
+     */
+    params: {
+      /**
+       * The name of the query parameter used for the title of the document being shared.
+       */
+      title?: string;
+      /**
+       * The name of the query parameter used for the message body, made of arbitrary text.
+       */
+      text?: string;
+      /**
+       * The name of the query parameter used for the URL string referring to a resource being shared.
+       */
+      url?: string;
+      /**
+       * Description of how the application receives files from share requests.
+       */
+      files?: ShareTargetFiles | ShareTargetFiles[];
+    };
+  };
 }
 export interface ManifestImageResource {
   /**
@@ -171,4 +213,17 @@ export interface ShortcutItem {
    * The icons member of a shortcut item serves as iconic representations of the shortcut in various contexts.
    */
   icons?: ManifestImageResource[];
+}
+/**
+ * Description of how the application receives files from share requests.
+ */
+export interface ShareTargetFiles {
+  /**
+   * The name of the form field used to share the files.
+   */
+  name: string;
+  /**
+   * Sequence of accepted MIME types or file extensions can be shared to the application.
+   */
+  accept: string | string[];
 }
