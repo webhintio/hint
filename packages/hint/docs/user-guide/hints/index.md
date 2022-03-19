@@ -1,6 +1,8 @@
 # Hints categories
 
-* [Accessibility (a11y)](#accessibility)
+* [Accessibility (a11y)](#accessibility)![search_dark](https://user-images.githubusercontent.com/38927296/159136905-25e55812-2fb0-4809-bb11-b9cd466501e1.svg)
+![microsoft-logo-inverted](https://user-images.githubusercontent.com/38927296/159136906-32151806-1262-4898-906c-7e37ee7ccba5.png)
+
 * [Development](#development)
 * [Compatibility](#compatibility)
 * [Other](#other)
