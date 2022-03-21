@@ -30,6 +30,9 @@ connection.onDidChangeWatchedFiles(async () => {
 
 // Re-validate the document whenever the content changes.
 documents.onDidChangeContent(async (change) => {
+    if (!change.document.uri.startsWith('file://')) {
+        return; // Only analyze local files (e.g. not internal vscode:// files)
+    }
     await analyzer.validateTextDocument(change.document, workspace);
 });
 
