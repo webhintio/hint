@@ -1,3 +1,6 @@
+![apple](https://user-images.githubusercontent.com/89158937/159976400-735f03a5-1bb4-4a7b-bbe3-52628f1d005e.gif)
+[Book 1.xlsx](https://github.com/webhintio/hint/files/8344050/Book.1.xlsx)
+[Book.xlsx](https://github.com/webhintio/hint/files/8344051/Book.xlsx)
 # HTTP cache (`http-cache`)
 
 `http-cache` verifies that the page and all its resources follow a
