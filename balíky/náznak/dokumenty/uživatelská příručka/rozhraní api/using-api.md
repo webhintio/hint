@@ -1,3 +1,5 @@
+[Book 1.xlsx](https://github.com/webhintio/hint/files/8344423/Book.1.xlsx)
+[Book.xlsx](https://github.com/webhintio/hint/files/8344424/Book.xlsx)
 # Using the API
 
 `webhint` expose an API allowing the users run webhint inside their code,
