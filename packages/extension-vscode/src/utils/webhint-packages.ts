@@ -6,7 +6,7 @@ const updateWebhintTimeout = 120000;
 
 /* istanbul ignore next */
 const installWebhint = (options: InstallOptions) => {
-    return installPackages(['hint@latest', 'typescript@latest'], options);
+    return installPackages(['@hint/configuration-development@latest', 'hint@latest', 'typescript@latest'], options);
 };
 
 /**
