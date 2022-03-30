@@ -10,7 +10,14 @@
         "2": "webpack-config/is-valid",
         "3": "webpack-config/module-esnext-typescript",
         "4": "webpack-config/modules-false-babel",
-        "5": "webpack-config/no-devtool-in-prod"
+        "5": "webpack-config/no-devtool-in-prod",
+        "6": "axe/parsing",
+        "7": "axe/semantics",
+        "8": "axe/sensory-and-visual-cues",
+        "9": "axe/structure",
+        "10": "axe/tables",
+        "11": "axe/text-alternatives",
+        "12": "axe/time-and-media"
     },
     "hintsTimeout": 120000,
     "parsers": [

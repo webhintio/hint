@@ -1,3 +1,10 @@
+# 2.3.8 (March 30, 2022)
+
+## New features
+
+* [[`fbd4d09694`](https://github.com/webhintio/hint/commit/fbd4d09694a22bcd313d05b8da1726823d1bdbe7)] - Update: Update 3rd party data (by [`Tony Ross`](https://github.com/antross) / see also: [`#5080`](https://github.com/webhintio/hint/issues/5080)).
+
+
 # 2.3.7 (March 9, 2022)
 
 ## Chores

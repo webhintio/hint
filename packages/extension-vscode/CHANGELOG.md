@@ -1,3 +1,11 @@
+# 1.6.6 (March 30, 2022)
+
+## Bug fixes / Improvements
+
+* [[`2c980a09f5`](https://github.com/webhintio/hint/commit/2c980a09f530b565335327c5196b39eb385ef6d0)] - Fix: Ensure development configuration is installed (by [`Tony Ross`](https://github.com/antross) / see also: [`#5087`](https://github.com/webhintio/hint/issues/5087)).
+* [[`ac8efef478`](https://github.com/webhintio/hint/commit/ac8efef478c468c3e319e0ff73d01ecbd8f1d750)] - Fix: Ignore internal VS Code files (by [`Tony Ross`](https://github.com/antross) / see also: [`#5084`](https://github.com/webhintio/hint/issues/5084)).
+
+
 # 1.6.5 (March 9, 2022)
 
 ## Chores

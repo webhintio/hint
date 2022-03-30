@@ -29,7 +29,7 @@
     "@hint/hint-no-http-redirects": "^3.0.11",
     "@hint/hint-no-inline-styles": "^1.0.7",
     "@hint/hint-no-protocol-relative-urls": "^3.0.11",
-    "@hint/hint-no-vulnerable-javascript-libraries": "^2.12.9",
+    "@hint/hint-no-vulnerable-javascript-libraries": "^2.12.10",
     "@hint/hint-scoped-svg-styles": "^1.3.15",
     "@hint/hint-sri": "^4.0.11",
     "@hint/hint-ssllabs": "^2.4.15",
@@ -67,5 +67,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "8.2.7"
+  "version": "8.2.8"
 }

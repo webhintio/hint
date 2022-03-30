@@ -5,11 +5,11 @@
     "@hint/formatter-html": "^4.3.7",
     "@hint/formatter-summary": "^3.0.29",
     "@hint/hint-apple-touch-icons": "^4.0.11",
-    "@hint/hint-manifest-app-name": "^2.4.16",
-    "@hint/hint-manifest-exists": "^2.4.16",
-    "@hint/hint-manifest-file-extension": "^3.0.11",
-    "@hint/hint-manifest-is-valid": "^3.4.7",
-    "@hint/parser-manifest": "^2.3.7"
+    "@hint/hint-manifest-app-name": "^2.4.17",
+    "@hint/hint-manifest-exists": "^2.4.17",
+    "@hint/hint-manifest-file-extension": "^3.0.12",
+    "@hint/hint-manifest-is-valid": "^3.4.8",
+    "@hint/parser-manifest": "^2.3.8"
   },
   "description": "webhint's recommended hints configuration for progressive web apps (PWAs)",
   "files": [
@@ -33,5 +33,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "7.0.16"
+  "version": "7.0.17"
 }
