@@ -13,7 +13,7 @@
     "eventemitter2": "^6.4.5",
     "@hint/utils-debug": "^1.0.8",
     "@hint/utils-types": "^1.1.6",
-    "css-select": "^4.2.1",
+    "css-select": "^4.3.0",
     "parse5": "^6.0.1",
     "parse5-htmlparser2-tree-adapter": "^6.0.1"
   },
