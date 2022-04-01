@@ -13,7 +13,7 @@
     "@hint/utils-network": "^1.0.15",
     "@hint/utils-string": "^1.0.11",
     "@hint/utils-types": "^1.1.6",
-    "image-size": "^1.0.0"
+    "image-size": "^1.0.1"
   },
   "description": "hint for best practices related to the apple-touch-icons",
   "devDependencies": {
