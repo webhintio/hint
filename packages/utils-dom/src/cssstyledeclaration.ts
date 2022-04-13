@@ -15,6 +15,6 @@ export class CSSStyleDeclaration {
      * https://developer.mozilla.org/docs/Web/API/CSSStyleDeclaration/getPropertyValue
      */
     public getPropertyValue(name: string) {
-        return this._styles[name];
+        return this._styles[name] || '';
     }
 }

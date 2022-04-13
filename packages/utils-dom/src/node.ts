@@ -9,6 +9,19 @@ export class Node {
     private _node: NodeData;
 
     /**
+     * https://developer.mozilla.org/docs/Web/API/Node/nodeType
+     */
+    public static ELEMENT_NODE = 1;
+    public static ATTRIBUTE_NODE = 2;
+    public static TEXT_NODE = 3;
+    public static CDATA_SECTION_NODE = 4;
+    public static PROCESSING_INSTRUCTION_NODE = 7;
+    public static COMMENT_NODE = 8;
+    public static DOCUMENT_NODE = 9;
+    public static DOCUMENT_TYPE_NODE = 10;
+    public static DOCUMENT_FRAGMENT_NODE = 11;
+
+    /**
      * https://developer.mozilla.org/docs/Web/API/Node/ownerDocument
      */
     public ownerDocument: HTMLDocument;
@@ -77,17 +90,17 @@ export class Node {
     public get nodeType(): number {
         switch (this._node.type) {
             case 'comment':
-                return 8;
+                return Node.COMMENT_NODE;
             case 'directive':
-                return 10;
+                return Node.DOCUMENT_TYPE_NODE;
             case 'root':
-                return 9;
+                return Node.DOCUMENT_NODE;
             case 'script':
             case 'style':
             case 'tag':
-                return 1;
+                return Node.ELEMENT_NODE;
             case 'text':
-                return 3;
+                return Node.TEXT_NODE;
             /* istanbul ignore next */
             default:
                 throw new Error(`Unrecognized node type ${(this._node as any).type}`);
