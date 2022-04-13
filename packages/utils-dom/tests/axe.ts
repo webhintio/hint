@@ -59,7 +59,8 @@ const testAxe = async (t: ExecutionContext, { pass, fail }: TestOptions) => {
         }
 
         t.is(results.violations.length, 1, 'One rule should fail');
-        t.is(results.violations[0].id, rule, 'No rules should be incomplete');
+        t.is(results.violations[0].id, rule, 'The failed rule id should match the test');
+        t.is(results.incomplete.length, 0, 'No rules should be incomplete');
     }
 };
 
