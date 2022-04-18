@@ -32,13 +32,16 @@ export const updateSharedWebhint = async (globalStoragePath: string) => {
             await createPackageJson(globalStoragePath);
         }
 
-        // Throttle updates to no more than once a day.
         const lastUpdateFile = path.resolve(`${globalStoragePath}/last-update.txt`);
+
+        // Throttle updates to no more than once a day.
         if (await hasFile(lastUpdateFile)) {
             const lastUpdate = await fs.promises.readFile(lastUpdateFile, { encoding: 'utf-8' });
             const oneDayInMs = 24 * 60 * 60 * 1000;
+
             if (parseInt(lastUpdate) > Date.now() - oneDayInMs) {
                 console.log('Last check for "hint" updates was less than 24 hours ago, skipping');
+
                 return;
             }
         }
