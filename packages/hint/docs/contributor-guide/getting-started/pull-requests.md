@@ -42,7 +42,7 @@ and generally follows the same pattern each time:
 4. [Run the tests](#step-4-run-the-tests)
 5. [Double check your submission](#step-5-double-check-your-submission)
 6. [Push your changes](#step-6-push-your-changes)
-7. [Submit the pull request](#step-7-submit-the-pull-request)
+7. [Submit the pull request](#step-7-submit-the-pull-request) 
 
 ### Step 1: Create a new branch
 
