@@ -25,10 +25,9 @@ no need to create an issue, and you can make the pull request.
 ## Getting started
 
 If you’d like to work on a pull request, and you’ve never submitted
-code before, follow these steps:
+code before:
 
-1. Sign our [Contributor License Agreement][cla].
-2. Set up a [development environment](development-environment.md).
+1. Set up a [development environment](development-environment.md).
 
 After that, you’re ready to start working on code.
 
@@ -266,7 +265,6 @@ git push -f origin fix-1234
 
 <!-- Link labels: -->
 
-[cla]: https://cla.js.foundation/webhintio/hint
 [github pr docs]: https://help.github.com/articles/creating-a-pull-request
 [github resolve conflicts docs]: https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/
 [ap pr status]: https://dev.azure.com/webhint/webhint/_build?definitionId=3&_a=summary
