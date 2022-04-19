@@ -12,7 +12,7 @@
     "@hint/utils-fs": "^1.0.12",
     "@hint/utils-network": "^1.0.15",
     "@hint/utils-types": "^1.1.6",
-    "ajv": "^8.10.0",
+    "ajv": "^8.11.0",
     "ajv-formats": "^2.1.1",
     "jsonc-parser": "^3.0.0",
     "lodash": "^4.17.21"
