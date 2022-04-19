@@ -266,7 +266,7 @@ git push -f origin fix-1234
 
 <!-- Link labels: -->
 
-[cla]: https://cla.js.foundation/webhintio/hint
+[cla]: https://api.easycla.lfx.linuxfoundation.org/v2/repository-provider/github/sign/19772768/82211360/5038/#/?version=2
 [github pr docs]: https://help.github.com/articles/creating-a-pull-request
 [github resolve conflicts docs]: https://help.github.com/articles/resolving-merge-conflicts-after-a-git-rebase/
 [ap pr status]: https://dev.azure.com/webhint/webhint/_build?definitionId=3&_a=summary
