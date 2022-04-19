@@ -14,7 +14,7 @@
     "@hint/utils-fs": "^1.0.12",
     "@hint/utils-i18n": "^1.0.11",
     "@hint/utils-network": "^1.0.15",
-    "chokidar": "^3.5.2",
+    "chokidar": "^3.5.3",
     "globby": "^11.0.4",
     "jsdom": "^19.0.0"
   },
