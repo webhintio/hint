@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "debug": "4.3.3"
+    "debug": "4.3.4"
   },
   "description": "debug messages util",
   "devDependencies": {
