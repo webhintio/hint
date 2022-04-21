@@ -261,6 +261,13 @@ export class HTMLElement extends Node {
     }
 
     /**
+     * https://developer.mozilla.org/en-US/docs/Web/API/Element/querySelectorAll
+     */
+    public querySelectorAll(selectors: string): HTMLElement[] {
+        return this.ownerDocument.querySelectorAll(selectors);
+    }
+
+    /**
      * https://developer.mozilla.org/en-US/docs/Web/API/Element/matches
      */
     public matches(selector: string): boolean {

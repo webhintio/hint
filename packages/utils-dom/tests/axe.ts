@@ -32,13 +32,23 @@ const runAxe = async (html: string, rule: string) => {
 
 type TestOptions = {
     pass: string | string[];
-    fail: string | string[];
+    fail?: string | string[];
+    incomplete?: string | string[];
 }
 
-const testAxe = async (t: ExecutionContext, { pass, fail }: TestOptions) => {
+const testAxe = async (t: ExecutionContext, { pass, fail, incomplete }: TestOptions) => {
     const rule = t.title;
     const passTests = Array.isArray(pass) ? pass : [pass];
-    const failTests = Array.isArray(fail) ? fail : [fail];
+    let incompleteTests: string[] = [];
+    let failTests: string[] = [];
+
+    if (incomplete) {
+        incompleteTests = Array.isArray(incomplete) ? incomplete : [incomplete];
+    }
+
+    if (fail) {
+        failTests = Array.isArray(fail) ? fail : [fail];
+    }
 
     for (const p of passTests) {
         const results = await runAxe(p, rule);
@@ -62,12 +72,31 @@ const testAxe = async (t: ExecutionContext, { pass, fail }: TestOptions) => {
         t.is(results.violations[0].id, rule, 'The failed rule id should match the test');
         t.is(results.incomplete.length, 0, 'No rules should be incomplete');
     }
+
+    for (const i of incompleteTests) {
+        const results = await runAxe(i, rule);
+
+        if (!results.incomplete.length || results.violations.length) {
+            t.log(results);
+        }
+
+        t.is(results.incomplete.length, 1, 'One rule should be marked as incomplete');
+        t.is(results.incomplete[0].id, rule, 'The incomplete rule id should match the test');
+        t.is(results.violations.length, 0, 'No rules should fail');
+    }
 };
 
 test.serial('aria-hidden-focus', async (t) => {
     await testAxe(t, {
         fail: '<p tabindex="0" aria-hidden="true">test</p>',
         pass: '<p aria-hidden="true">test</p>'
+    });
+});
+
+test.serial('form-field-multiple-labels', async (t) => {
+    await testAxe(t, {
+        incomplete: '<label for="test">Hi</label><label for="test">Foo</label><input type="text" id="test" />',
+        pass: '<label for="test">One</label><input id="test">'
     });
 });
 
