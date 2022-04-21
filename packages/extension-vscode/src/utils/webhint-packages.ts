@@ -1,3 +1,6 @@
+import * as fs from 'fs';
+import * as path from 'path';
+
 import { hasFile, mkdir } from './fs';
 import { createPackageJson, installPackages, loadPackage, InstallOptions } from './packages';
 
@@ -29,7 +32,22 @@ export const updateSharedWebhint = async (globalStoragePath: string) => {
             await createPackageJson(globalStoragePath);
         }
 
+        const lastUpdateFile = path.resolve(`${globalStoragePath}/last-update.txt`);
+
+        // Throttle updates to no more than once a day.
+        if (await hasFile(lastUpdateFile)) {
+            const lastUpdate = await fs.promises.readFile(lastUpdateFile, { encoding: 'utf-8' });
+            const oneDayInMs = 24 * 60 * 60 * 1000;
+
+            if (parseInt(lastUpdate) > Date.now() - oneDayInMs) {
+                console.log('Last check for "hint" updates was less than 24 hours ago, skipping');
+
+                return;
+            }
+        }
+
         await installWebhint({ cwd: globalStoragePath });
+        await fs.promises.writeFile(lastUpdateFile, `${Date.now()}`, { encoding: 'utf-8' });
     } catch (err) {
         console.warn('Unable to install shared webhint instance', err);
     }
@@ -46,11 +64,11 @@ const loadSharedWebhint = async (globalStoragePath: string): Promise<typeof impo
 
         /**
          * The shared package has been loaded successfully but it could be outdated.
-         * The update process kicks off after a few seconds to allow everything to
+         * The update process kicks off after a few minutes to allow everything to
          * get started first.
          */
         setTimeout(() => {
-            console.log(`Updating shared version of "hint"`);
+            console.log(`Checking if shared version of "hint" needs updated`);
 
             updateSharedWebhint(globalStoragePath);
         }, updateWebhintTimeout);
