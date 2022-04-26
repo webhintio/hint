@@ -42,25 +42,29 @@ const testAxe = async (t: ExecutionContext, { pass, fail }: TestOptions) => {
 
     for (const p of passTests) {
         const results = await runAxe(p, rule);
+        const errors = results.incomplete.filter((v) => {
+            return (v as any).error;
+        });
 
-        if (results.violations.length || results.incomplete.length) {
+        if (results.violations.length || errors.length) {
             t.log(results);
         }
-
         t.is(results.violations.length, 0, 'All rules should pass');
-        t.is(results.incomplete.length, 0, 'No rules should be incomplete');
+        t.is(errors.length, 0, 'No rules should be incomplete due to an error');
     }
 
     for (const f of failTests) {
         const results = await runAxe(f, rule);
+        const errors = results.incomplete.filter((v) => {
+            return (v as any).error;
+        });
 
-        if (!results.violations.length || results.incomplete.length) {
+        if (!results.violations.length || errors.length) {
             t.log(results);
         }
-
         t.is(results.violations.length, 1, 'One rule should fail');
         t.is(results.violations[0].id, rule, 'The failed rule id should match the test');
-        t.is(results.incomplete.length, 0, 'No rules should be incomplete');
+        t.is(errors.length, 0, 'No rules should be incomplete due to an error');
     }
 };
 
@@ -68,6 +72,16 @@ test.serial('aria-hidden-focus', async (t) => {
     await testAxe(t, {
         fail: '<p tabindex="0" aria-hidden="true">test</p>',
         pass: '<p aria-hidden="true">test</p>'
+    });
+});
+
+test.serial('form-field-multiple-labels', async (t) => {
+    await testAxe(t, {
+        fail: [],
+        pass: [
+            '<label for="test">One</label><input id="test">',
+            '<label for="test">Hi</label><label for="test">Foo</label><input type="text" id="test" />'
+        ]
     });
 });
 

@@ -1,5 +1,6 @@
 import * as parse5 from 'parse5';
 import * as htmlparser2Adapter from 'parse5-htmlparser2-tree-adapter';
+import cssSelect, { selectOne } from 'css-select';
 
 import { ProblemLocation } from '@hint/utils-types';
 
@@ -258,6 +259,34 @@ export class HTMLElement extends Node {
      */
     public get innerHTML(): string {
         return parse5.serialize(this._element as htmlparser2Adapter.Node, { treeAdapter: htmlparser2Adapter });
+    }
+
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/querySelector
+     */
+    public querySelector(selector: string): HTMLElement | null {
+        const data = selectOne(
+            getCompiledSelector(selector),
+            this._element
+        );
+
+        return data ? this.ownerDocument.getNodeFromData(data) as HTMLElement : null;
+    }
+
+    /**
+     * https://developer.mozilla.org/docs/Web/API/Element/querySelectorAll
+     */
+    public querySelectorAll(selector: string): HTMLElement[] {
+        const matches: any[] = cssSelect(
+            getCompiledSelector(selector),
+            this._element
+        );
+
+        const result = matches.map((element) => {
+            return this.ownerDocument.getNodeFromData(element);
+        });
+
+        return result as HTMLElement[];
     }
 
     /**
