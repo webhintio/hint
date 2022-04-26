@@ -267,7 +267,7 @@ export class HTMLElement extends Node {
     public querySelector(selector: string): HTMLElement | null {
         const data = selectOne(
             getCompiledSelector(selector),
-            this._element.children
+            this._element
         );
 
         return data ? this.ownerDocument.getNodeFromData(data) as HTMLElement : null;
@@ -279,7 +279,7 @@ export class HTMLElement extends Node {
     public querySelectorAll(selector: string): HTMLElement[] {
         const matches: any[] = cssSelect(
             getCompiledSelector(selector),
-            this._element.children
+            this._element
         );
 
         const result = matches.map((element) => {
