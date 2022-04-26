@@ -32,23 +32,13 @@ const runAxe = async (html: string, rule: string) => {
 
 type TestOptions = {
     pass: string | string[];
-    fail?: string | string[];
-    incomplete?: string | string[];
+    fail: string | string[];
 }
 
-const testAxe = async (t: ExecutionContext, { pass, fail, incomplete }: TestOptions) => {
+const testAxe = async (t: ExecutionContext, { pass, fail }: TestOptions) => {
     const rule = t.title;
     const passTests = Array.isArray(pass) ? pass : [pass];
-    let incompleteTests: string[] = [];
-    let failTests: string[] = [];
-
-    if (incomplete) {
-        incompleteTests = Array.isArray(incomplete) ? incomplete : [incomplete];
-    }
-
-    if (fail) {
-        failTests = Array.isArray(fail) ? fail : [fail];
-    }
+    const failTests = Array.isArray(fail) ? fail : [fail];
 
     for (const p of passTests) {
         const results = await runAxe(p, rule);
@@ -56,7 +46,6 @@ const testAxe = async (t: ExecutionContext, { pass, fail, incomplete }: TestOpti
         if (results.violations.length || results.incomplete.length) {
             t.log(results);
         }
-
         t.is(results.violations.length, 0, 'All rules should pass');
         t.is(results.incomplete.length, 0, 'No rules should be incomplete');
     }
@@ -64,25 +53,22 @@ const testAxe = async (t: ExecutionContext, { pass, fail, incomplete }: TestOpti
     for (const f of failTests) {
         const results = await runAxe(f, rule);
 
+        // --- Start special cases --- //
+
+        // form-field-multiple-labels is reported by axe-core as incomplete.
+        if (rule === 'form-field-multiple-labels' && results.incomplete.length === 1 &&
+            !JSON.stringify(results.incomplete).match('[e|E]xception')) {
+            results.violations.push(results.incomplete[0]);
+        }
+
+        // --- Start special cases --- //
+
         if (!results.violations.length || results.incomplete.length) {
             t.log(results);
         }
-
         t.is(results.violations.length, 1, 'One rule should fail');
         t.is(results.violations[0].id, rule, 'The failed rule id should match the test');
         t.is(results.incomplete.length, 0, 'No rules should be incomplete');
-    }
-
-    for (const i of incompleteTests) {
-        const results = await runAxe(i, rule);
-
-        if (!results.incomplete.length || results.violations.length) {
-            t.log(results);
-        }
-
-        t.is(results.incomplete.length, 1, 'One rule should be marked as incomplete');
-        t.is(results.incomplete[0].id, rule, 'The incomplete rule id should match the test');
-        t.is(results.violations.length, 0, 'No rules should fail');
     }
 };
 
@@ -95,7 +81,7 @@ test.serial('aria-hidden-focus', async (t) => {
 
 test.serial('form-field-multiple-labels', async (t) => {
     await testAxe(t, {
-        incomplete: '<label for="test">Hi</label><label for="test">Foo</label><input type="text" id="test" />',
+        fail: '<label for="test">Hi</label><label for="test">Foo</label><input type="text" id="test" />',
         pass: '<label for="test">One</label><input id="test">'
     });
 });
