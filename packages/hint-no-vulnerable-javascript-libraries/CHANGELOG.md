@@ -1,3 +1,10 @@
+# 2.12.11 (April 26, 2022)
+
+## Chores
+
+* [[`678c295572`](https://github.com/webhintio/hint/commit/678c29557250e84f102bf51a32e62952ba0d0ce6)] - Upgrade: Bump moment from 2.29.1 to 2.29.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.12.10 (March 30, 2022)
 
 ## New features

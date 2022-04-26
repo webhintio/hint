@@ -1,3 +1,11 @@
+# 2.5.14 (April 26, 2022)
+
+## Chores
+
+* [[`bf80245148`](https://github.com/webhintio/hint/commit/bf802451483a1b8928640475911d94a4d23da142)] - Upgrade: Bump @types/puppeteer from 5.4.4 to 5.4.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`6cc0759300`](https://github.com/webhintio/hint/commit/6cc07593004752d69f22d8b505ce50452394f976)] - Upgrade: Bump @types/lodash from 4.14.178 to 4.14.181 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.5.13 (March 9, 2022)
 
 ## Chores

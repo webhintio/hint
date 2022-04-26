@@ -1,3 +1,10 @@
+# 3.2.17 (April 26, 2022)
+
+## Chores
+
+* [[`ea7f7bca40`](https://github.com/webhintio/hint/commit/ea7f7bca405cb117c95fe085e8e0498aad7cb408)] - Upgrade: Bump chokidar from 3.5.2 to 3.5.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 3.2.16 (March 9, 2022)
 
 ## Chores

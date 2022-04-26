@@ -1,3 +1,16 @@
+# 2.3.10 (April 26, 2022)
+
+## Chores
+
+* [[`2e942a8880`](https://github.com/webhintio/hint/commit/2e942a8880c6250aca70630af7c098ba51556553)] - Upgrade: Bump web-ext from 6.7.0 to 6.8.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`2e095b7106`](https://github.com/webhintio/hint/commit/2e095b71069e0828a881f01bdf774caa73a1955e)] - Upgrade: Bump react-syntax-highlighter from 15.4.5 to 15.5.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`4292bfabcd`](https://github.com/webhintio/hint/commit/4292bfabcdff3c36509be4508e2795eb80723a42)] - Upgrade: Bump css-loader from 6.6.0 to 6.7.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`bf80245148`](https://github.com/webhintio/hint/commit/bf802451483a1b8928640475911d94a4d23da142)] - Upgrade: Bump @types/puppeteer from 5.4.4 to 5.4.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`55f45e8037`](https://github.com/webhintio/hint/commit/55f45e80371e339d6393fc22452367e1e58774fc)] - Upgrade: Bump @types/chrome from 0.0.174 to 0.0.180 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`77a3d33b15`](https://github.com/webhintio/hint/commit/77a3d33b158f51f3a43d66d20141b5a719ddaa2d)] - Upgrade: Bump webpack from 5.69.1 to 5.70.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`220b3f1a5c`](https://github.com/webhintio/hint/commit/220b3f1a5caf527a2f003be5b865db0b86cbec50)] - Upgrade: Bump terser-webpack-plugin from 5.3.0 to 5.3.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.3.8 (March 9, 2022)
 
 ## Chores

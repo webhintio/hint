@@ -1,3 +1,14 @@
+# 6.1.12 (April 26, 2022)
+
+## Bug fixes / Improvements
+
+* [[`6f29dba6c6`](https://github.com/webhintio/hint/commit/6f29dba6c673d3e02ad0b20005a46f92d02839aa)] - Docs: Remove outdated CLA link (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5121`](https://github.com/webhintio/hint/issues/5121)).
+
+## Chores
+
+* [[`6cc0759300`](https://github.com/webhintio/hint/commit/6cc07593004752d69f22d8b505ce50452394f976)] - Upgrade: Bump @types/lodash from 4.14.178 to 4.14.181 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 6.1.10 (March 9, 2022)
 
 ## Chores

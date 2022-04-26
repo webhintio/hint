@@ -1,3 +1,12 @@
+# 1.3.10 (April 26, 2022)
+
+## Chores
+
+* [[`bf80245148`](https://github.com/webhintio/hint/commit/bf802451483a1b8928640475911d94a4d23da142)] - Upgrade: Bump @types/puppeteer from 5.4.4 to 5.4.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`77a3d33b15`](https://github.com/webhintio/hint/commit/77a3d33b158f51f3a43d66d20141b5a719ddaa2d)] - Upgrade: Bump webpack from 5.69.1 to 5.70.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`220b3f1a5c`](https://github.com/webhintio/hint/commit/220b3f1a5caf527a2f003be5b865db0b86cbec50)] - Upgrade: Bump terser-webpack-plugin from 5.3.0 to 5.3.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.3.8 (March 9, 2022)
 
 ## Chores

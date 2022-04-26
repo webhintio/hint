@@ -9,14 +9,14 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils-debug": "^1.0.8",
+    "@hint/utils-debug": "^1.0.9",
     "@hint/utils-i18n": "^1.0.11",
     "@hint/utils-types": "^1.1.6"
   },
   "description": "hint that that checks if the Babel configuration is valid.",
   "devDependencies": {
-    "@hint/parser-babel-config": "^2.1.31",
-    "@hint/utils-tests-helpers": "^6.3.9",
+    "@hint/parser-babel-config": "^2.1.32",
+    "@hint/utils-tests-helpers": "^6.3.10",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.16"
+  "version": "2.4.17"
 }

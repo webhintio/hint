@@ -1,3 +1,13 @@
+# 3.0.20 (April 26, 2022)
+
+## Chores
+
+* [[`45164bbde6`](https://github.com/webhintio/hint/commit/45164bbde62e28370d00ac0c33a1a3ecdf621705)] - Upgrade: Bump ts-loader from 9.2.6 to 9.2.8 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`25cff8f2ec`](https://github.com/webhintio/hint/commit/25cff8f2ec71a20d15bfa27ab9b32fd3661f9359)] - Upgrade: Bump inquirer from 8.2.0 to 8.2.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`77a3d33b15`](https://github.com/webhintio/hint/commit/77a3d33b158f51f3a43d66d20141b5a719ddaa2d)] - Upgrade: Bump webpack from 5.69.1 to 5.70.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`6cc0759300`](https://github.com/webhintio/hint/commit/6cc07593004752d69f22d8b505ce50452394f976)] - Upgrade: Bump @types/lodash from 4.14.178 to 4.14.181 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 3.0.18 (March 9, 2022)
 
 ## Chores

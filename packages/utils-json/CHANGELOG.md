@@ -1,3 +1,10 @@
+# 1.0.17 (April 26, 2022)
+
+## Chores
+
+* [[`a34d0ca4b3`](https://github.com/webhintio/hint/commit/a34d0ca4b3000e4dcfd65e4cc1a7592f70441405)] - Upgrade: Bump ajv from 8.10.0 to 8.11.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.0.16 (March 9, 2022)
 
 ## Chores

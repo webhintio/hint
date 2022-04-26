@@ -1,3 +1,10 @@
+# 7.0.15 (April 26, 2022)
+
+## Chores
+
+* [[`91bafabd52`](https://github.com/webhintio/hint/commit/91bafabd52538f40040f8860a8ee3fc5b9cdd937)] - Upgrade: Bump npm-registry-fetch from 13.0.0 to 13.1.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5125`](https://github.com/webhintio/hint/issues/5125)).
+
+
 # 7.0.14 (March 9, 2022)
 
 ## Chores

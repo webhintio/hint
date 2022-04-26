@@ -1,3 +1,10 @@
+# 1.0.17 (April 26, 2022)
+
+## Chores
+
+* [[`66e0b3798b`](https://github.com/webhintio/hint/commit/66e0b3798bf3b04ec04e62867a406cc9c37952bb)] - Upgrade: Bump @typescript-eslint/typescript-estree from 5.13.0 to 5.17.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.0.16 (March 9, 2022)
 
 ## Chores

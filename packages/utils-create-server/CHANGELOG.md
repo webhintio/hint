@@ -1,3 +1,11 @@
+# 3.4.16 (April 26, 2022)
+
+## Chores
+
+* [[`537c22ecf7`](https://github.com/webhintio/hint/commit/537c22ecf760657d5edf7fa4bb48a64f205bebcd)] - Upgrade: Bump express from 4.17.2 to 4.17.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`6cc0759300`](https://github.com/webhintio/hint/commit/6cc07593004752d69f22d8b505ce50452394f976)] - Upgrade: Bump @types/lodash from 4.14.178 to 4.14.181 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 3.4.15 (March 9, 2022)
 
 ## Chores

@@ -1,3 +1,10 @@
+# 1.0.9 (April 26, 2022)
+
+## Chores
+
+* [[`832e11b0ff`](https://github.com/webhintio/hint/commit/832e11b0ff442fe672c0f7a75c52f76fd0428192)] - Upgrade: Bump debug from 4.3.3 to 4.3.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.0.8 (March 9, 2022)
 
 ## Chores

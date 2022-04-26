@@ -1,3 +1,15 @@
+# 2.1.11 (April 26, 2022)
+
+## Bug fixes / Improvements
+
+* [[`fb20884335`](https://github.com/webhintio/hint/commit/fb20884335585b99bc9628737e1dbc8a003c832c)] - Fix: Requirements for form-field-multiple-labels rule from axe-core (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5130`](https://github.com/webhintio/hint/issues/5130)).
+* [[`cfc57a8a6b`](https://github.com/webhintio/hint/commit/cfc57a8a6bfa1fc1e18a8edc893eace75632ae00)] - Fix: Add Node enums required by axe-core (by [`Tony Ross`](https://github.com/antross) / see also: [`#5117`](https://github.com/webhintio/hint/issues/5117)).
+
+## Chores
+
+* [[`1f4002e7be`](https://github.com/webhintio/hint/commit/1f4002e7be5bbc0c69722c258eeeaf1747774687)] - Upgrade: Bump css-select from 4.2.1 to 4.3.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.1.10 (March 9, 2022)
 
 ## Chores

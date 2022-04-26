@@ -1,3 +1,16 @@
+# 1.6.7 (April 26, 2022)
+
+## Bug fixes / Improvements
+
+* [[`bff54174a9`](https://github.com/webhintio/hint/commit/bff54174a9088b19f8eaec7bc07898b3d08085c0)] - Fix: Hide console when updating hint on Windows (by [`Tony Ross`](https://github.com/antross) / see also: [`#5119`](https://github.com/webhintio/hint/issues/5119)).
+
+## Chores
+
+* [[`5866cd3d7c`](https://github.com/webhintio/hint/commit/5866cd3d7c69a48928248e896b853f7b8f389d91)] - Chore: Throttle 'hint' update checks to once a day (by [`Tony Ross`](https://github.com/antross) / see also: [`#5120`](https://github.com/webhintio/hint/issues/5120)).
+* [[`45164bbde6`](https://github.com/webhintio/hint/commit/45164bbde62e28370d00ac0c33a1a3ecdf621705)] - Upgrade: Bump ts-loader from 9.2.6 to 9.2.8 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`77a3d33b15`](https://github.com/webhintio/hint/commit/77a3d33b158f51f3a43d66d20141b5a719ddaa2d)] - Upgrade: Bump webpack from 5.69.1 to 5.70.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.6.6 (March 30, 2022)
 
 ## Bug fixes / Improvements
