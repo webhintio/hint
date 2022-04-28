@@ -54,6 +54,14 @@ whenever you want.
 To add the upstream source for `webhint`, run the following in your
 repository:
 
+For *HTTPS* (recommended) use:
+
+```bash
+git remote add upstream https://github.com/webhintio/hint.git
+```
+
+Or for *SSH* use:
+
 ```bash
 git remote add upstream git@github.com:webhintio/hint.git
 ```
