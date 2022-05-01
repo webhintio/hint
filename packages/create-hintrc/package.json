@@ -30,7 +30,7 @@
     "ava": "^4.0.1",
     "copyfiles": "^2.4.1",
     "eslint": "^7.32.0",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-markdown": "^2.2.1",
     "fork-ts-checker-webpack-plugin": "^7.2.1",
     "hint": "^6.1.12",
