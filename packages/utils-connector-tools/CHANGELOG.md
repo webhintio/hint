@@ -1,3 +1,11 @@
+# 4.0.32 (May 3, 2022)
+
+## Chores
+
+* [[`8cee4e7046`](https://github.com/webhintio/hint/commit/8cee4e704645bacc0a6608e253b1f2538f14ec2e)] - Upgrade: Bump data-urls from 3.0.1 to 3.0.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5150`](https://github.com/webhintio/hint/issues/5150)).
+* [[`8789e1e673`](https://github.com/webhintio/hint/commit/8789e1e67334c34290065b30b676f0125f288ad4)] - Upgrade: Bump eslint-plugin-import from 2.25.4 to 2.26.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5140`](https://github.com/webhintio/hint/issues/5140)).
+
+
 # 4.0.30 (March 9, 2022)
 
 ## Chores

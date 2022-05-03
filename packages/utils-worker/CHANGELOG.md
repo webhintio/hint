@@ -1,3 +1,15 @@
+# 1.4.0 (May 3, 2022)
+
+## New features
+
+* [[`661e1d5e4e`](https://github.com/webhintio/hint/commit/661e1d5e4e4c37a031308b54f7d0965688d4b1ed)] - New: Exclude IE from default browsers (by [`Tony Ross`](https://github.com/antross) / see also: [`#5136`](https://github.com/webhintio/hint/issues/5136)).
+
+## Chores
+
+* [[`8789e1e673`](https://github.com/webhintio/hint/commit/8789e1e67334c34290065b30b676f0125f288ad4)] - Upgrade: Bump eslint-plugin-import from 2.25.4 to 2.26.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5140`](https://github.com/webhintio/hint/issues/5140)).
+* [[`b186983b23`](https://github.com/webhintio/hint/commit/b186983b239cb9aeb2d3db9ec173823c5e127767)] - Upgrade: Bump axe-core from 4.4.0 to 4.4.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5138`](https://github.com/webhintio/hint/issues/5138)).
+
+
 # 1.3.10 (April 26, 2022)
 
 ## Chores

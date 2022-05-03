@@ -1,3 +1,10 @@
+# 1.4.17 (May 3, 2022)
+
+## Chores
+
+* [[`626f71e964`](https://github.com/webhintio/hint/commit/626f71e9647054ba62dfc6de2d14823a7e97503e)] - Upgrade: Bump postcss from 8.4.12 to 8.4.13 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5137`](https://github.com/webhintio/hint/issues/5137)).
+
+
 # 1.4.15 (March 9, 2022)
 
 ## Chores

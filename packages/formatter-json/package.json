@@ -10,11 +10,11 @@
   },
   "description": "webhint formatter that prints the JSON object of the results",
   "dependencies": {
-    "@hint/utils": "^7.0.15",
-    "@hint/utils-debug": "^1.0.9",
-    "@hint/utils-fs": "^1.0.12",
-    "@hint/utils-i18n": "^1.0.11",
-    "@hint/utils-types": "^1.1.6",
+    "@hint/utils": "^7.0.16",
+    "@hint/utils-debug": "^1.0.10",
+    "@hint/utils-fs": "^1.0.13",
+    "@hint/utils-i18n": "^1.0.12",
+    "@hint/utils-types": "^1.1.7",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
@@ -78,5 +78,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.27"
+  "version": "3.1.28"
 }
