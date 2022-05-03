@@ -14,7 +14,7 @@
     "@hint/utils-network": "^1.0.16",
     "@hint/utils-string": "^1.0.11",
     "@hint/utils-types": "^1.1.6",
-    "data-urls": "^3.0.1",
+    "data-urls": "^3.0.2",
     "iconv-lite": "^0.6.3",
     "request": "^2.88.2"
   },
