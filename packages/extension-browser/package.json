@@ -64,7 +64,7 @@
     "@typescript-eslint/parser": "^4.33.0",
     "assert": "^2.0.0",
     "ava": "^4.0.1",
-    "axe-core": "4.4.0",
+    "axe-core": "4.4.1",
     "browserslist": "^4.19.3",
     "copyfiles": "^2.4.1",
     "crypto-browserify": "^3.12.0",
