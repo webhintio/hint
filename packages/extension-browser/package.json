@@ -50,7 +50,7 @@
     "@hint/utils-fs": "^1.0.12",
     "@hint/utils-i18n": "^1.0.11",
     "@hint/utils-types": "^1.1.6",
-    "@types/chrome": "^0.0.180",
+    "@types/chrome": "^0.0.183",
     "@types/har-format": "^1.2.8",
     "@types/is-ci": "^3.0.0",
     "@types/jsdom": "^16.2.8",
