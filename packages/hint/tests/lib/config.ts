@@ -450,3 +450,31 @@ test('If both hints and formatters options are specified in the options, fromCon
     t.is(result.hints.hasOwnProperty('html-checker'), true);
     t.is(result.hints.hasOwnProperty('apple-touch-icons'), false);
 });
+
+test('IE is excluded from the default browsers list', (t) => {
+    const userConfig = {
+        connector: { name: 'puppeteer' },
+        hints: { 'apple-touch-icons': 'warning' }
+    };
+    const config = loadScript(t.context);
+    const result = config.Configuration.fromConfig(userConfig);
+    const ie = result.browserslist.filter((b: string) => {
+        return b.startsWith('ie ');
+    });
+
+    t.is(ie.length, 0, `No versions of IE should be present. Found: ${ie.join(', ')}`);
+});
+
+test('IE is included if requested', (t) => {
+    const userConfig = {
+        browserslist: ['defaults', 'IE 11'],
+        connector: { name: 'puppeteer' },
+        hints: { 'apple-touch-icons': 'warning' }
+    };
+    const config = loadScript(t.context);
+    const result = config.Configuration.fromConfig(userConfig);
+
+    t.true(result.browserslist.some((b: string) => {
+        return b === 'ie 11';
+    }), 'Requested version of IE should be present');
+});

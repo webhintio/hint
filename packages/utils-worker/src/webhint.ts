@@ -42,7 +42,7 @@ const main = async ({ defaultHintSeverity = 'default', resource, userConfig = {}
     }, {} as HintsConfigObject);
 
     const config: Configuration = {
-        browserslist: browserslist(userConfig.browserslist || 'defaults'),
+        browserslist: browserslist(userConfig.browserslist || ['defaults', 'not IE 11']),
         connector: { name: 'web-worker' },
         extends: [],
         formatters: [],

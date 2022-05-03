@@ -305,7 +305,8 @@ export class Configuration {
             userConfig.formatters = [userConfig.formatters];
         }
 
-        const browsers = browserslist(config.browserslist);
+        const browserslistConfig = config.browserslist ?? browserslist.loadConfig({ path: path.resolve('.') });
+        const browsers = browserslist(browserslistConfig ?? ['defaults', 'not IE 11']);
         const ignoredUrls = loadIgnoredUrls(userConfig);
         const hints = Configuration.cleanHints(normalizeHints(userConfig.hints!)); // `userConfig.hints` should not be `null` due to `validateConfig` check above
 

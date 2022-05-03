@@ -41,7 +41,7 @@ const determineBrowserslist = (list?: string) => {
         }
     }
 
-    return browserslist('defaults');
+    return browserslist(['defaults', 'not IE 11']);
 };
 
 /** Build a `RegExp` to ignore all hints on the specified URLs (if provided). */
