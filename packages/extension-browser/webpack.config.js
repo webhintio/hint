@@ -14,11 +14,6 @@ module.exports = (env) => {
         mode: env && env.release ? 'production' : 'none',
         module: {
             rules: [
-                // Bundle `axe-core` as a raw string so it can be injected at runtime.
-                {
-                    test: /axe-core/,
-                    type: 'asset/source'
-                },
                 // Bundle `js-library-detector as a raw string so it can be injected at runtime.
                 {
                     test: /js-library-detector/,
@@ -89,7 +84,6 @@ module.exports = (env) => {
                 './request-async$': path.resolve(__dirname, 'dist/src/shims/request-async.js'),
                 'acorn-jsx$': path.resolve(__dirname, 'dist/src/shims/acorn-jsx.js'),
                 'acorn-jsx-walk$': path.resolve(__dirname, 'dist/src/shims/acorn-jsx-walk.js'),
-                'axe-core': require.resolve('axe-core/axe.min.js'),
                 'file-type': path.resolve(__dirname, 'dist/src/shims/file-type.js'),
                 'is-svg': path.resolve(__dirname, 'dist/src/shims/is-svg.js'),
                 url$: path.resolve(__dirname, 'dist/src/shims/url.js')

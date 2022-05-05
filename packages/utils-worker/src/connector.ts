@@ -46,18 +46,10 @@ export default class WebWorkerConnector implements IConnector {
 
                 this._document = new HTMLDocument(snapshot, this._resource, this._originalDocument);
 
+                populateGlobals(self, this._document);
+
                 await traverse(this._document, this._engine, resource);
 
-                /*
-                 * Evaluate after the traversing, just in case something goes wrong
-                 * in any of the evaluation and some scripts are left in the DOM.
-                 */
-                const event = {
-                    document: this._document,
-                    resource
-                };
-
-                await this._engine.emitAsync('can-evaluate::script', event);
                 await this._engine.emitAsync('scan::end', { resource });
 
             } catch (err) /* istanbul ignore next */ {
@@ -127,14 +119,8 @@ export default class WebWorkerConnector implements IConnector {
         });
     }
 
-    public async evaluate(source: string): Promise<any> {
-        if (!this._document) {
-            throw new Error('No execution context is available');
-        }
-
-        populateGlobals(self, this._document);
-
-        return await eval(source); // eslint-disable-line no-eval
+    public evaluate(source: string): Promise<any> {
+        throw new Error('Not implemented');
     }
 
     public querySelectorAll(selector: string): HTMLElement[] {

@@ -130,7 +130,8 @@ const resolvePackage = (modulePath: string): string => {
 
     /* istanbul ignore if */
     if (process.env.webpack) { // eslint-disable-line no-process-env
-        pkgPath = eval(`require.resolve("${modulePath}")`); // eslint-disable-line no-eval
+        // @ts-ignore
+        pkgPath = __non_webpack_require__.resolve(modulePath);
     } else {
         pkgPath = require.resolve(modulePath);
     }
