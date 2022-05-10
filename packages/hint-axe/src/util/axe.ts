@@ -143,7 +143,7 @@ const evaluateAxe = async (context: HintContext, event: CanEvaluateScript, rules
             'document.body' :
             'document';
 
-        return await context.evaluate(`(function() {
+        return await context.evaluate(`(function(module) {
             ${source}
             var target = ${target};
             return window.axe.run(target, {
@@ -157,6 +157,8 @@ const evaluateAxe = async (context: HintContext, event: CanEvaluateScript, rules
 
         const err = e as Error;
         let message: string;
+
+        console.error(`Running axe-core failed: ${err.message}\n${err.stack}`);
 
         if (err.message.includes('evaluation exceeded')) {
             message = getMessage('notFastEnough', context.language);

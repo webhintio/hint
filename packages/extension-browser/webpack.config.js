@@ -4,6 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env) => {
     return {
+        amd: false,
         context: __dirname,
         entry: {
             'background-script': './dist/src/background-script.js',
