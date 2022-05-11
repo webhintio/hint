@@ -131,7 +131,7 @@ const resolvePackage = (modulePath: string): string => {
     /* istanbul ignore if */
     if (process.env.webpack) { // eslint-disable-line no-process-env
         // @ts-ignore
-        pkgPath = __non_webpack_require__.resolve(modulePath);
+        pkgPath = __non_webpack_require__.resolve(modulePath); // eslint-disable-line camelcase
     } else {
         pkgPath = require.resolve(modulePath);
     }
