@@ -43,17 +43,20 @@ export class QuickFixActionProvider {
                     return;
                 }
 
+                // default title
                 let title = currentDiagnostic.code?.toString() || '';
 
+                // if it is a problem (not a hint) use the problem as a title instead
                 if (key.includes('-problem-')) {
                     const problemName = getProblemNameFromDiagnostic(currentDiagnostic);
 
                     title = problemName ? problemName : title;
                 }
 
+                // create custom codeActions and associating custom commands.
                 const customCommand: Command = { command: key, title };
 
-                customCommand.arguments = [currentDiagnostic, title, currentDiagnostic.code];
+                customCommand.arguments = [title, currentDiagnostic.code];
                 const customCodeAction = CodeAction.create(value(title), customCommand, CodeActionKind.QuickFix);
 
                 customCodeAction.diagnostics = [currentDiagnostic];
