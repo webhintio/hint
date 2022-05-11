@@ -29,7 +29,8 @@ connection.onInitialize((params) => {
             'vscode-webhint/ignore-category-project',
             'vscode-webhint/ignore-category-global',
             'vscode-webhint/ignore-hint-project',
-            'vscode-webhint/ignore-hint-global'
+            'vscode-webhint/ignore-hint-global',
+            'vscode.openWith'
         ]
     };
 
@@ -38,7 +39,6 @@ connection.onInitialize((params) => {
 
 connection.onNotification(notifications.reloadAllProjectsConfig, async () => {
     const message = `Reloading .hintrc file from:\n ${globalStoragePath}`;
-
 
     console.log(message);
     analyzer.onConfigurationChanged();

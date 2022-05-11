@@ -52,8 +52,13 @@ export class QuickFixActionProvider {
             });
         });
 
-        results.push(CodeAction.create('Edit .hintrc for current project', CodeActionKind.QuickFix));
-        results.push(CodeAction.create('Edit .hintrc for all projects', CodeActionKind.QuickFix));
+        const editCurrentProjectConfigTitle = 'Edit .hintrc for current project';
+        const editGlobalProjectConfigTitle = 'Edit .hintrc for all projects';
+        const editCurrentProjectConfig: Command = { command: 'vscode-webhint/edit-hintrc-project', title: editCurrentProjectConfigTitle };
+        const editGlobalProjectConfig: Command = { command: 'vscode-webhint/edit-hintrc-global', title: editGlobalProjectConfigTitle };
+
+        results.push(CodeAction.create(editCurrentProjectConfigTitle, editCurrentProjectConfig, CodeActionKind.QuickFix));
+        results.push(CodeAction.create(editGlobalProjectConfigTitle, editGlobalProjectConfig, CodeActionKind.QuickFix));
 
         return results;
     }
