@@ -12,7 +12,7 @@ import { readFileAsync } from '@hint/utils-fs';
 import { asPathString, getAsUri, requestAsync } from '@hint/utils-network';
 import { HintsConfigObject } from '@hint/utils';
 import { Configuration, Engine, IHintConstructor, utils } from 'hint';
-import { Problem, ProblemLocation } from '@hint/utils-types';
+import { Problem, ProblemLocation, Severity } from '@hint/utils-types';
 
 import { HintTest, HintLocalTest, Report, MatchProblemLocation } from './hint-test-type';
 
@@ -111,11 +111,12 @@ const requestSource = async (url: string, connector: string): Promise<string> =>
 /* istanbul ignore next */
 const createConfig = (id: string, connector: string, opts?: any): Configuration => {
     const hints: HintsConfigObject = {};
+    const severity: Severity = opts?.severity ?? 'default';
 
     if (opts && opts.hintOptions) {
-        hints[id] = ['default', opts.hintOptions];
+        hints[id] = [severity, opts.hintOptions];
     } else {
-        hints[id] = 'default';
+        hints[id] = severity;
     }
 
     // Allow all URLs in tests (to avoid localhost being ignored).
