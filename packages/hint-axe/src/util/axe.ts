@@ -248,9 +248,11 @@ export const register = (context: HintContext, rules: string[], disabled: string
                 const message = summary ? `${violation.help}: ${summary}` : violation.help;
                 const registration = ruleToRegistration.get(violation.id)!;
                 const element = getElement(context, node);
-                const severity = Severity[registration.options[violation.id]] === Severity.default ?
+                const ruleSeverity = Severity[registration.options[violation.id]] ?? Severity.default;
+                const forceSeverity = ruleSeverity !== Severity.default;
+                const severity = !forceSeverity ?
                     toSeverity(violation.impact) :
-                    Severity[registration.options[violation.id]];
+                    ruleSeverity;
 
                 registration.context.report(resource, message, {
                     documentation: [{
@@ -258,6 +260,7 @@ export const register = (context: HintContext, rules: string[], disabled: string
                         text: getMessage('learnMore', context.language)
                     }],
                     element,
+                    forceSeverity,
                     severity
                 });
             }
