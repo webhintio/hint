@@ -36,6 +36,11 @@ export type ReportOptions = {
     location?: ProblemLocation | null;
     /** The `Severity` to report the issue as. */
     severity: Severity;
+    /**
+     * Use the specified Severity regardless of hint-level configuration.
+     * Supports overrides from hint-specific configuration (e.g. for rules in axe-core).
+     */
+    forceSeverity?: boolean;
     /** Indicate the language of the codeSnippet. */
     codeLanguage?: CodeLanguage;
 };
@@ -141,7 +146,7 @@ export class HintContext<E extends Events = Events> {
          * decide the severity of each report unless it's overriden by the
          * user.
          */
-        const finalSeverity = this.severity !== Severity.default ?
+        const finalSeverity = this.severity !== Severity.default && !options.forceSeverity ?
             this.severity :
             severity;
 
