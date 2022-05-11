@@ -26,11 +26,12 @@ connection.onInitialize((params) => {
     resultObject.capabilities.codeActionProvider = true;
     resultObject.capabilities.executeCommandProvider = {
         commands: [
-            'vscode-webhint/ignore-category-project',
-            'vscode-webhint/ignore-category-global',
             'vscode-webhint/ignore-hint-project',
             'vscode-webhint/ignore-hint-global',
-            'vscode.openWith'
+            'vscode-webhint/ignore-problem-project',
+            'vscode-webhint/ignore-problem-global',
+            'vscode-webhint/edit-hintrc-project',
+            'vscode-webhint/edit-hintrc-global'
         ]
     };
 
