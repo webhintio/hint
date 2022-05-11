@@ -34,8 +34,8 @@ export class QuickFixActionProvider {
 
         const results: CodeAction[] = [];
 
-        this.quickFixActionsTemplates.forEach((value, key) => {
-            params.context.diagnostics.forEach((currentDiagnostic) => {
+        params.context.diagnostics.forEach((currentDiagnostic) => {
+            this.quickFixActionsTemplates.forEach((value, key) => {
 
                 // only respond to Microsoft Edge Tools requests.
                 if (!currentDiagnostic.source || currentDiagnostic.source !== this.sourceName) {
@@ -51,6 +51,9 @@ export class QuickFixActionProvider {
                 results.push(customCodeAction);
             });
         });
+
+        results.push(CodeAction.create('Edit .hintrc for current project', CodeActionKind.QuickFix));
+        results.push(CodeAction.create('Edit .hintrc for all projects', CodeActionKind.QuickFix));
 
         return results;
     }
