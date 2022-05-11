@@ -14,7 +14,7 @@ It can be run from the command line (CLI), via a [browser extension][], as a
 [VS Code extension][], and from the [online service][].
 
 To use it from the CLI you will need to install [`Node.js`][node]
-(v10.x or later) on your machine, and you can use [`npx`][npx] to test it.
+(v14.x or later) on your machine, and you can use [`npx`][npx] to test it.
 
 ### Testing with `npx`
 
