@@ -4,7 +4,7 @@ import { Problem, Severity } from '@hint/utils-types';
 import { DiagnosticSeverity } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
-import { problemToDiagnostic } from '../../src/utils/problems';
+import { getProblemNameFromDiagnostic, problemToDiagnostic } from '../../src/utils/problems';
 
 test('It translates a basic problem correctly', (t) => {
     const textDocument = TextDocument.create('document', 'text', 1, '');
@@ -164,4 +164,56 @@ test('It translates missing endColumn and endLine properties correctly when the 
     t.is(diagnostic.range.start.character, location.column);
     t.is(diagnostic.range.end.character, location.column + 17);
     t.is(diagnostic.range.end.line, location.line);
+});
+
+test.only('It correctly gets the name from a message', (t) => {
+
+    const textDocument = TextDocument.create('document', 'text', 1, `
+
+
+    This is an "error-with-dashes" message
+`);
+
+    const location = {
+        column: 16,
+        line: 3
+    };
+
+    const problem = {
+        hintId: 'test-id-1',
+        location,
+        message: `'box-flex' is not supported by Chrome, Chrome Android, Edge, Firefox, Firefox for Android, Opera, Safari, Safari on iOS, Samsung Internet. Add '-webkit-box-flex' to support Chrome, Chrome Android 18+, Edge 12+, Opera 15+, Safari 3+, Safari on iOS, Samsung Internet. Add '-moz-box-flex' to support Firefox, Firefox for Android 4+`,
+        severity: Severity.hint
+    } as Problem;
+
+    const diagnostic = problemToDiagnostic(problem, textDocument);
+    const problemName = getProblemNameFromDiagnostic(diagnostic);
+
+    t.is(problemName, 'box-flex');
+});
+
+test('It correctly handles the case were no problem was found in the message', (t) => {
+
+    const textDocument = TextDocument.create('document', 'text', 1, `
+
+
+    This is an "error-with-dashes" message
+`);
+
+    const location = {
+        column: 16,
+        line: 3
+    };
+
+    const problem = {
+        hintId: 'test-id-1',
+        location,
+        message: `This message does not contain the problem in an accepted format.`,
+        severity: Severity.hint
+    } as Problem;
+
+    const diagnostic = problemToDiagnostic(problem, textDocument);
+    const problemName = getProblemNameFromDiagnostic(diagnostic);
+
+    t.is(problemName, null);
 });

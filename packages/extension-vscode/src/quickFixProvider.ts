@@ -1,22 +1,23 @@
 import { CodeAction, CodeActionKind, CodeActionParams, Command, TextDocuments } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
+import { getProblemNameFromDiagnostic } from './utils/problems';
 
 export class QuickFixActionProvider {
     private documents: TextDocuments<TextDocument>;
     private sourceName: string;
 
     private quickFixActionsTemplates = new Map([
-        ['vscode-webhint/ignore-category-project', (category: string) => {
-            return `Ignore '${category}' in this project`;
+        ['vscode-webhint/ignore-hint-project', (category: string) => {
+            return `Ignore hint '${category}' in this project`;
         }],
-        ['vscode-webhint/ignore-category-global', (category: string) => {
-            return `Ignore '${category}' in all projects`;
+        ['vscode-webhint/ignore-hint-global', (category: string) => {
+            return `Ignore hint '${category}' in all projects`;
         }],
-        ['vscode-webhint/ignore-hint-project', (name: string) => {
-            return `Ignore rule'${name}' in this project`;
+        ['vscode-webhint/ignore-problem-project', (name: string) => {
+            return `Ignore problem '${name}' in this project`;
         }],
-        ['vscode-webhint/ignore-hint-global', (name: string) => {
-            return `Ignore rule '${name}' in this project`;
+        ['vscode-webhint/ignore-problem-global', (name: string) => {
+            return `Ignore problem '${name}' in all projects`;
         }]
     ]);
 
@@ -42,18 +43,34 @@ export class QuickFixActionProvider {
                     return;
                 }
 
-                const customCommand: Command = { command: key, title: value(`${currentDiagnostic.code}` || currentDiagnostic.message) };
+                // default title
+                let title = currentDiagnostic.code?.toString() || '';
 
-                customCommand.arguments = [currentDiagnostic, textDocument];
-                const customCodeAction = CodeAction.create(value(`${currentDiagnostic.code}` || currentDiagnostic.message), customCommand, CodeActionKind.QuickFix);
+                // if it is a problem (not a hint) use the problem as a title instead
+                if (key.includes('-problem-')) {
+                    const problemName = getProblemNameFromDiagnostic(currentDiagnostic);
+
+                    title = problemName ? problemName : title;
+                }
+
+                // create custom codeActions and associating custom commands.
+                const customCommand: Command = { command: key, title };
+
+                customCommand.arguments = [title, currentDiagnostic.code];
+                const customCodeAction = CodeAction.create(value(title), customCommand, CodeActionKind.QuickFix);
 
                 customCodeAction.diagnostics = [currentDiagnostic];
                 results.push(customCodeAction);
             });
         });
 
-        results.push(CodeAction.create('Edit .hintrc for current project', CodeActionKind.QuickFix));
-        results.push(CodeAction.create('Edit .hintrc for all projects', CodeActionKind.QuickFix));
+        const editCurrentProjectConfigTitle = 'Edit .hintrc for current project';
+        const editGlobalProjectConfigTitle = 'Edit .hintrc for all projects';
+        const editCurrentProjectConfig: Command = { command: 'vscode-webhint/edit-hintrc-project', title: editCurrentProjectConfigTitle };
+        const editGlobalProjectConfig: Command = { command: 'vscode-webhint/edit-hintrc-global', title: editGlobalProjectConfigTitle };
+
+        results.push(CodeAction.create(editCurrentProjectConfigTitle, editCurrentProjectConfig, CodeActionKind.QuickFix));
+        results.push(CodeAction.create(editGlobalProjectConfigTitle, editGlobalProjectConfig, CodeActionKind.QuickFix));
 
         return results;
     }
