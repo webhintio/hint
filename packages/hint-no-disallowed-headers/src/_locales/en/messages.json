@@ -27,10 +27,6 @@
         "description": "Report message when the response includes the Pragma header",
         "message": "The 'Pragma' header should not be used, it is deprecated and is a request header only."
     },
-    "disallowedViaHeader": {
-        "description": "Report message when the response includes the Via header",
-        "message": "The 'Via' header should not be used, it is a request header only."
-    },
     "disallowedXFrameOptionsHeader": {
         "description": "Report message when the response includes the X-Frame-Options header",
         "message": "The 'X-Frame-Options' header should not be used. A similar effect, with more consistent support and stronger checks, can be achieved with the 'Content-Security-Policy' header and 'frame-ancestors' directive."

@@ -106,7 +106,6 @@ export default class NoDisallowedHeadersHint implements IHint {
             host: 'disallowedHostHeader',
             p3p: 'disallowedP3PHeader',
             pragma: 'disallowedPragmaHeader',
-            via: 'disallowedViaHeader',
             'x-frame-options': 'disallowedXFrameOptionsHeader'
         };
 
