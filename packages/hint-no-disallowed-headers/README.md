@@ -39,7 +39,6 @@ HTTP headers:
 * `Pragma`
 * `Public-Key-Pins`
 * `Public-Key-Pins-Report-Only`
-* `Via`
 * `X-AspNet-Version`
 * `X-AspNetMvc-version`
 * `X-Frame-Options`
