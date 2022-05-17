@@ -25,7 +25,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-10T14:30:32.983288Z",
+        "modificationTime": "2021-03-19T14:43:52.945601Z",
         "moduleName": "@angular/core",
         "packageManager": "npm",
         "packageName": "@angular/core",
@@ -84,7 +84,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:22.722429Z",
+        "modificationTime": "2020-12-14T14:41:18.259642Z",
         "moduleName": "ag-grid",
         "packageManager": "npm",
         "packageName": "ag-grid",
@@ -136,7 +136,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:02.094429Z",
+        "modificationTime": "2020-12-14T14:41:38.433042Z",
         "moduleName": "ag-grid",
         "packageManager": "npm",
         "packageName": "ag-grid",
@@ -195,11 +195,11 @@
             "GHSA-wfw3-rgfr-6g67"
           ],
           "NSP": [
-            327
+            "327"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-07T15:48:07.685921Z",
+        "modificationTime": "2020-12-22T17:02:10.159010Z",
         "moduleName": "ag-grid",
         "packageManager": "npm",
         "packageName": "ag-grid",
@@ -230,6 +230,49 @@
     ],
     "angular": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L/E:F",
+        "alternativeIds": [],
+        "creationTime": "2022-04-21T08:49:49.691711Z",
+        "credit": [
+          "Michael Prentice"
+        ],
+        "cvssScore": 5.3,
+        "disclosureTime": "2022-04-21T08:37:28Z",
+        "exploit": "Functional",
+        "fixedIn": [],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-ANGULAR-2772735",
+        "identifiers": {
+          "CVE": [
+            "CVE-2022-25844"
+          ],
+          "CWE": [
+            "CWE-1333"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2022-04-26T11:42:17.380921Z",
+        "moduleName": "angular",
+        "packageManager": "npm",
+        "packageName": "angular",
+        "patches": [],
+        "publicationTime": "2022-04-21T08:56:51Z",
+        "references": [
+          {
+            "title": "PoC",
+            "url": "https://stackblitz.com/edit/angularjs-material-blank-zvtdvb"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            ">1.7.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:H/I:H/A:N/E:P/RL:O",
         "alternativeIds": [],
         "creationTime": "2020-06-11T15:24:03.552151Z",
@@ -255,7 +298,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-26T14:41:02.000771Z",
+        "modificationTime": "2021-08-16T14:45:37.974126Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -303,7 +346,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-07T15:15:04.074972Z",
+        "modificationTime": "2021-08-16T14:45:54.130447Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -350,7 +393,7 @@
             "GHSA-89mq-4x47-5v83"
           ],
           "NSP": [
-            1343
+            "1343"
           ]
         },
         "language": "js",
@@ -397,7 +440,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:41:54.260693Z",
+        "modificationTime": "2020-12-14T14:41:00.619683Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -444,7 +487,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.091912Z",
+        "modificationTime": "2020-12-14T14:41:00.614345Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -490,7 +533,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:00.836150Z",
+        "modificationTime": "2021-02-25T13:25:09.982692Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -542,7 +585,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:54.008914Z",
+        "modificationTime": "2021-09-01T16:07:18.848581Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -598,7 +641,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:23.534831Z",
+        "modificationTime": "2021-09-01T16:05:46.467449Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -654,7 +697,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:44.396115Z",
+        "modificationTime": "2021-09-01T16:05:58.803100Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -710,7 +753,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:25.352044Z",
+        "modificationTime": "2021-09-01T16:08:19.016631Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -766,7 +809,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.336528Z",
+        "modificationTime": "2021-09-01T16:06:45.532968Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -826,7 +869,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:54.005310Z",
+        "modificationTime": "2021-09-01T16:06:13.382558Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -882,7 +925,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-09-01T12:46:30.756637Z",
+        "modificationTime": "2021-09-01T16:08:13.055147Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -934,7 +977,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.330946Z",
+        "modificationTime": "2021-09-01T16:06:18.473969Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -986,7 +1029,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:11.030792Z",
+        "modificationTime": "2021-09-01T16:08:24.160309Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1038,7 +1081,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:26.873746Z",
+        "modificationTime": "2021-09-01T16:08:30.540879Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1090,7 +1133,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.994256Z",
+        "modificationTime": "2021-09-01T16:08:07.257474Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1142,7 +1185,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:10.289596Z",
+        "modificationTime": "2020-12-14T14:41:16.455921Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1194,7 +1237,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.983649Z",
+        "modificationTime": "2021-09-01T16:06:23.648097Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1250,11 +1293,11 @@
             "GHSA-r5fx-8r73-v86c"
           ],
           "NSP": [
-            1453
+            "1453"
           ]
         },
         "language": "js",
-        "modificationTime": "2021-09-01T12:50:04.111067Z",
+        "modificationTime": "2021-09-01T16:07:24.584960Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1306,7 +1349,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:44.352943Z",
+        "modificationTime": "2021-09-01T16:05:38.161504Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1362,7 +1405,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:02.855299Z",
+        "modificationTime": "2021-09-01T16:06:52.977483Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1416,7 +1459,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.980250Z",
+        "modificationTime": "2021-09-01T16:06:07.725176Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1468,7 +1511,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:29.064491Z",
+        "modificationTime": "2020-12-14T14:41:02.586211Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1520,7 +1563,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-09-01T12:48:57.025966Z",
+        "modificationTime": "2021-09-01T16:07:31.357455Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1573,7 +1616,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.997897Z",
+        "modificationTime": "2020-12-14T14:41:20.335952Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -1631,7 +1674,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:09.538993Z",
+        "modificationTime": "2020-12-14T14:41:15.616094Z",
         "moduleName": "angular-gettext",
         "packageManager": "npm",
         "packageName": "angular-gettext",
@@ -1687,7 +1730,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.845148Z",
+        "modificationTime": "2020-12-14T14:41:27.716534Z",
         "moduleName": "angular-jwt",
         "packageManager": "npm",
         "packageName": "angular-jwt",
@@ -1737,7 +1780,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:51.817504Z",
+        "modificationTime": "2020-12-14T14:41:17.732013Z",
         "moduleName": "angular-redactor",
         "packageManager": "npm",
         "packageName": "angular-redactor",
@@ -1789,11 +1832,11 @@
             "GHSA-c2v2-7rcg-2ch7"
           ],
           "NSP": [
-            51
+            "51"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:40.277800Z",
+        "modificationTime": "2020-12-22T17:02:08.299407Z",
         "moduleName": "ansi2html",
         "packageManager": "npm",
         "packageName": "ansi2html",
@@ -1844,11 +1887,11 @@
             "GHSA-9hqj-38j2-5jgm"
           ],
           "NSP": [
-            727
+            "727"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-02-12T10:28:59.338232Z",
+        "modificationTime": "2020-12-14T14:41:50.903875Z",
         "moduleName": "ascii-art",
         "packageManager": "npm",
         "packageName": "ascii-art",
@@ -1942,11 +1985,11 @@
             "GHSA-66rh-8fw6-59q6"
           ],
           "NSP": [
-            1014
+            "1014"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:58.593555Z",
+        "modificationTime": "2020-12-22T17:02:13.105071Z",
         "moduleName": "assign-deep",
         "packageManager": "npm",
         "packageName": "assign-deep",
@@ -1999,11 +2042,11 @@
             "GHSA-xcvv-84j5-jw9h"
           ],
           "NSP": [
-            579
+            "579"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:32.891787Z",
+        "modificationTime": "2021-08-08T13:56:54.710651Z",
         "moduleName": "assign-deep",
         "packageManager": "npm",
         "packageName": "assign-deep",
@@ -2054,7 +2097,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.695912Z",
+        "modificationTime": "2020-12-14T14:41:49.813504Z",
         "moduleName": "astronomia",
         "packageManager": "npm",
         "packageName": "astronomia",
@@ -2108,11 +2151,11 @@
             "GHSA-8w4h-3cm3-2pm2"
           ],
           "NSP": [
-            646
+            "646"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-09-07T12:03:17.240564Z",
+        "modificationTime": "2020-12-22T17:02:12.195661Z",
         "moduleName": "atob",
         "packageManager": "npm",
         "packageName": "atob",
@@ -2161,7 +2204,7 @@
             "GHSA-jr3j-whm4-9wwm"
           ],
           "NSP": [
-            1750
+            "1750"
           ]
         },
         "language": "js",
@@ -2263,7 +2306,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:50.933522Z",
+        "modificationTime": "2020-12-14T14:41:01.495683Z",
         "moduleName": "auth0-lock",
         "packageManager": "npm",
         "packageName": "auth0-lock",
@@ -2313,7 +2356,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:30.849495Z",
+        "modificationTime": "2020-12-14T14:41:20.065715Z",
         "moduleName": "auth0-lock",
         "packageManager": "npm",
         "packageName": "auth0-lock",
@@ -2367,11 +2410,11 @@
             "GHSA-j6p2-cx3w-6jcp"
           ],
           "NSP": [
-            108
+            "108"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:35.874239Z",
+        "modificationTime": "2020-12-22T17:02:08.680486Z",
         "moduleName": "backbone",
         "packageManager": "npm",
         "packageName": "backbone",
@@ -2421,7 +2464,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:40.049922Z",
+        "modificationTime": "2020-12-14T14:41:17.540456Z",
         "moduleName": "backbone",
         "packageManager": "npm",
         "packageName": "backbone",
@@ -2485,11 +2528,11 @@
             "GHSA-j4mr-9xw3-c9jx"
           ],
           "NSP": [
-            660
+            "660"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:14:06.300542Z",
+        "modificationTime": "2020-12-14T14:41:12.771185Z",
         "moduleName": "base64-url",
         "packageManager": "npm",
         "packageName": "base64-url",
@@ -2536,7 +2579,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:39.909905Z",
+        "modificationTime": "2022-02-22T15:25:00.897787Z",
         "moduleName": "blueimp-file-upload",
         "packageManager": "npm",
         "packageName": "blueimp-file-upload",
@@ -2602,11 +2645,11 @@
             "GHSA-9v3m-8fp8-mj99"
           ],
           "NSP": [
-            891
+            "891"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:05.534360Z",
+        "modificationTime": "2020-12-22T17:02:12.908715Z",
         "moduleName": "bootstrap",
         "packageManager": "npm",
         "packageName": "bootstrap",
@@ -2671,7 +2714,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:36.592600Z",
+        "modificationTime": "2021-07-06T14:09:25.652775Z",
         "moduleName": "bootstrap",
         "packageManager": "npm",
         "packageName": "bootstrap",
@@ -2748,7 +2791,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.820887Z",
+        "modificationTime": "2021-09-24T13:25:49.540636Z",
         "moduleName": "bootstrap",
         "packageManager": "npm",
         "packageName": "bootstrap",
@@ -2805,7 +2848,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:58.233501Z",
+        "modificationTime": "2020-12-14T14:41:11.152542Z",
         "moduleName": "bootstrap",
         "packageManager": "npm",
         "packageName": "bootstrap",
@@ -2868,7 +2911,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-01-21T08:10:15.702072Z",
+        "modificationTime": "2021-07-06T14:09:26.251264Z",
         "moduleName": "bootstrap",
         "packageManager": "npm",
         "packageName": "bootstrap",
@@ -2956,7 +2999,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-01-23T17:10:03.493127Z",
+        "modificationTime": "2020-12-14T14:40:54.409334Z",
         "moduleName": "bootstrap",
         "packageManager": "npm",
         "packageName": "bootstrap",
@@ -3025,7 +3068,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:32.073619Z",
+        "modificationTime": "2021-08-08T13:56:54.696025Z",
         "moduleName": "bootstrap",
         "packageManager": "npm",
         "packageName": "bootstrap",
@@ -3077,7 +3120,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:41.076225Z",
+        "modificationTime": "2020-12-14T14:41:15.291337Z",
         "moduleName": "bootstrap-markdown",
         "packageManager": "npm",
         "packageName": "bootstrap-markdown",
@@ -3129,11 +3172,11 @@
             "GHSA-v2jq-9475-r5g8"
           ],
           "NSP": [
-            124
+            "124"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-09-07T12:01:45.227776Z",
+        "modificationTime": "2020-12-14T14:41:07.288247Z",
         "moduleName": "bootstrap-tagsinput",
         "packageManager": "npm",
         "packageName": "bootstrap-tagsinput",
@@ -3187,11 +3230,11 @@
             "GHSA-832h-xg76-4gv6"
           ],
           "NSP": [
-            338
+            "338"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:13.321868Z",
+        "modificationTime": "2020-12-22T17:02:10.322314Z",
         "moduleName": "brace-expansion",
         "packageManager": "npm",
         "packageName": "brace-expansion",
@@ -3275,11 +3318,11 @@
             "GHSA-g95f-p29q-9xw4"
           ],
           "NSP": [
-            786
+            "786"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.785771Z",
+        "modificationTime": "2021-03-30T08:27:12.427637Z",
         "moduleName": "braces",
         "packageManager": "npm",
         "packageName": "braces",
@@ -3330,7 +3373,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:02.649274Z",
+        "modificationTime": "2021-07-06T14:08:22.313184Z",
         "moduleName": "bson",
         "packageManager": "npm",
         "packageName": "bson",
@@ -3406,7 +3449,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.818046Z",
+        "modificationTime": "2020-12-14T14:41:49.882677Z",
         "moduleName": "bson",
         "packageManager": "npm",
         "packageName": "bson",
@@ -3451,7 +3494,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-17T06:58:23.016611Z",
+        "modificationTime": "2020-09-19T20:03:51.688794Z",
         "moduleName": "buefy",
         "packageManager": "npm",
         "packageName": "buefy",
@@ -3494,7 +3537,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-05-11T15:36:11.108863Z",
+        "modificationTime": "2020-05-31T12:03:11.958920Z",
         "moduleName": "buefy",
         "packageManager": "npm",
         "packageName": "buefy",
@@ -3543,11 +3586,11 @@
             "GHSA-xwqw-rf2q-xmhf"
           ],
           "NSP": [
-            747
+            "747"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-03-19T22:27:05.124559Z",
+        "modificationTime": "2020-12-14T14:41:16.320403Z",
         "moduleName": "buefy",
         "packageManager": "npm",
         "packageName": "buefy",
@@ -3605,11 +3648,11 @@
             "GHSA-gvg7-pp82-cff3"
           ],
           "NSP": [
-            138
+            "138"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:37.362750Z",
+        "modificationTime": "2020-12-14T14:41:01.221225Z",
         "moduleName": "c3",
         "packageManager": "npm",
         "packageName": "c3",
@@ -3662,7 +3705,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.201103Z",
+        "modificationTime": "2020-12-14T14:41:49.471122Z",
         "moduleName": "checkit",
         "packageManager": "npm",
         "packageName": "checkit",
@@ -3713,7 +3756,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.741572Z",
+        "modificationTime": "2020-12-14T14:41:49.839908Z",
         "moduleName": "citeproc",
         "packageManager": "npm",
         "packageName": "citeproc",
@@ -3760,7 +3803,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-19T16:15:47.453365Z",
+        "modificationTime": "2020-12-14T14:41:15.488467Z",
         "moduleName": "ckeditor",
         "packageManager": "npm",
         "packageName": "ckeditor",
@@ -3810,7 +3853,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:19:02.580518Z",
+        "modificationTime": "2020-12-14T14:41:12.148813Z",
         "moduleName": "clusterize.js",
         "packageManager": "npm",
         "packageName": "clusterize.js",
@@ -3865,7 +3908,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.652276Z",
+        "modificationTime": "2020-12-14T14:41:49.770264Z",
         "moduleName": "compromise",
         "packageManager": "npm",
         "packageName": "compromise",
@@ -3919,11 +3962,11 @@
             "GHSA-q52j-4q2q-hcj6"
           ],
           "NSP": [
-            90
+            "90"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:44.336688Z",
+        "modificationTime": "2020-12-22T17:02:08.613909Z",
         "moduleName": "console-io",
         "packageManager": "npm",
         "packageName": "console-io",
@@ -3975,7 +4018,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-08-20T13:38:47.663644Z",
+        "modificationTime": "2021-08-20T13:49:32.364149Z",
         "moduleName": "content-type-parser",
         "packageManager": "npm",
         "packageName": "content-type-parser",
@@ -4050,7 +4093,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-02-19T11:16:01.292053Z",
+        "modificationTime": "2020-12-14T14:41:34.258135Z",
         "moduleName": "crypto-browserify",
         "packageManager": "npm",
         "packageName": "crypto-browserify",
@@ -4102,11 +4145,11 @@
             "GHSA-qmjg-g86h-6rc9"
           ],
           "NSP": [
-            497
+            "497"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:41.399407Z",
+        "modificationTime": "2021-05-13T10:08:34.921676Z",
         "moduleName": "d3.js",
         "packageManager": "npm",
         "packageName": "d3.js",
@@ -4160,7 +4203,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:00.597772Z",
+        "modificationTime": "2020-12-14T14:41:16.783869Z",
         "moduleName": "datatables",
         "packageManager": "npm",
         "packageName": "datatables",
@@ -4212,11 +4255,11 @@
             "GHSA-4mv4-gmmf-q382"
           ],
           "NSP": [
-            5
+            "5"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:34.058958Z",
+        "modificationTime": "2020-12-22T17:02:08.255781Z",
         "moduleName": "datatables",
         "packageManager": "npm",
         "packageName": "datatables",
@@ -4278,11 +4321,11 @@
             "GHSA-xrmp-99wj-p6jc"
           ],
           "NSP": [
-            611
+            "611"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:44.644948Z",
+        "modificationTime": "2021-08-08T13:56:54.716872Z",
         "moduleName": "deap",
         "packageManager": "npm",
         "packageName": "deap",
@@ -4336,11 +4379,11 @@
             "GHSA-q5c4-39f5-m68j"
           ],
           "NSP": [
-            308
+            "308"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:09.592532Z",
+        "modificationTime": "2020-12-22T17:02:10.290301Z",
         "moduleName": "decamelize",
         "packageManager": "npm",
         "packageName": "decamelize",
@@ -4495,11 +4538,11 @@
             "GHSA-hr2v-3952-633q"
           ],
           "NSP": [
-            612
+            "612"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:41.582307Z",
+        "modificationTime": "2021-08-08T13:56:54.719693Z",
         "moduleName": "deep-extend",
         "packageManager": "npm",
         "packageName": "deep-extend",
@@ -4558,11 +4601,11 @@
             "GHSA-pjxw-22xf-6pwc"
           ],
           "NSP": [
-            778
+            "778"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.128822Z",
+        "modificationTime": "2021-08-08T13:56:54.743793Z",
         "moduleName": "defaults-deep",
         "packageManager": "npm",
         "packageName": "defaults-deep",
@@ -4618,11 +4661,11 @@
             "GHSA-cqp5-m4pq-gfgp"
           ],
           "NSP": [
-            581
+            "581"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:41.571727Z",
+        "modificationTime": "2021-08-08T13:56:54.707885Z",
         "moduleName": "defaults-deep",
         "packageManager": "npm",
         "packageName": "defaults-deep",
@@ -4697,7 +4740,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.716362Z",
+        "modificationTime": "2020-12-14T14:41:49.821134Z",
         "moduleName": "diff",
         "packageManager": "npm",
         "packageName": "diff",
@@ -4752,7 +4795,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-16T15:58:32.484246Z",
+        "modificationTime": "2020-06-16T15:58:32.686950Z",
         "moduleName": "dijit",
         "packageManager": "npm",
         "packageName": "dijit",
@@ -4807,7 +4850,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-02-21T14:44:10.048779Z",
+        "modificationTime": "2022-02-21T14:44:10.081858Z",
         "moduleName": "dijit",
         "packageManager": "npm",
         "packageName": "dijit",
@@ -4935,7 +4978,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-04-18T12:12:51.520376Z",
+        "modificationTime": "2021-09-07T09:45:54.610317Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -4995,11 +5038,11 @@
             "GHSA-536q-8gxx-m782"
           ],
           "NSP": [
-            972
+            "972"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:47.198294Z",
+        "modificationTime": "2020-12-22T17:02:13.060648Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -5054,11 +5097,11 @@
             "GHSA-p82g-2xpp-m5r3"
           ],
           "NSP": [
-            973
+            "973"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:46.434847Z",
+        "modificationTime": "2020-12-22T17:02:13.053447Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -5172,7 +5215,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:34:41.790214Z",
+        "modificationTime": "2020-12-14T14:41:15.832941Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -5233,11 +5276,11 @@
             "GHSA-39cx-xcwj-3rc4"
           ],
           "NSP": [
-            107
+            "107"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-07-17T15:58:07.147913Z",
+        "modificationTime": "2020-12-22T17:02:08.661735Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -5289,7 +5332,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:39.289378Z",
+        "modificationTime": "2020-12-14T14:41:12.128934Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -5407,7 +5450,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-07-17T15:58:07.147913Z",
+        "modificationTime": "2021-05-02T13:22:22.352382Z",
         "moduleName": "dojo",
         "packageManager": "npm",
         "packageName": "dojo",
@@ -5518,7 +5561,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:04.806332Z",
+        "modificationTime": "2020-07-13T09:51:35.017788Z",
         "moduleName": "dojox",
         "packageManager": "npm",
         "packageName": "dojox",
@@ -5580,7 +5623,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:29:46.854544Z",
+        "modificationTime": "2020-12-14T14:41:15.791068Z",
         "moduleName": "dojox",
         "packageManager": "npm",
         "packageName": "dojox",
@@ -5632,7 +5675,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-11-03T16:51:44.302104Z",
+        "modificationTime": "2020-12-23T12:43:18.965176Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
@@ -5679,11 +5722,11 @@
             "GHSA-63q7-h895-m982"
           ],
           "NSP": [
-            1591
+            "1591"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-10-08T16:37:48.618155Z",
+        "modificationTime": "2020-12-23T13:31:15.907244Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
@@ -5733,7 +5776,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-07-10T14:14:23.955012Z",
+        "modificationTime": "2021-05-02T13:22:00.734600Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
@@ -5775,12 +5818,12 @@
             "GHSA-chqj-j4fh-rw7m"
           ],
           "NSP": [
-            1223,
-            1205
+            "1223",
+            "1205"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:55.854910Z",
+        "modificationTime": "2020-12-14T14:41:50.935592Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
@@ -5836,7 +5879,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:33.588066Z",
+        "modificationTime": "2020-12-14T14:41:17.646075Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
@@ -5888,7 +5931,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:12.572279Z",
+        "modificationTime": "2020-12-14T14:41:12.157601Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
@@ -5936,7 +5979,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:11.834465Z",
+        "modificationTime": "2020-12-14T14:41:18.324535Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
@@ -5988,7 +6031,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:10.335744Z",
+        "modificationTime": "2020-12-14T14:41:17.755562Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
@@ -6040,7 +6083,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:11.091555Z",
+        "modificationTime": "2020-12-14T14:41:18.308347Z",
         "moduleName": "dompurify",
         "packageManager": "npm",
         "packageName": "dompurify",
@@ -6095,7 +6138,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.738990Z",
+        "modificationTime": "2020-12-14T14:41:26.295089Z",
         "moduleName": "ducktype",
         "packageManager": "npm",
         "packageName": "ducktype",
@@ -6196,7 +6239,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:54.001097Z",
+        "modificationTime": "2020-12-14T14:40:58.977005Z",
         "moduleName": "dustjs-linkedin",
         "packageManager": "npm",
         "packageName": "dustjs-linkedin",
@@ -6260,7 +6303,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:15.575154Z",
+        "modificationTime": "2020-12-14T14:41:16.812917Z",
         "moduleName": "easyxdm",
         "packageManager": "npm",
         "packageName": "easyxdm",
@@ -6321,7 +6364,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:37.037753Z",
+        "modificationTime": "2020-12-14T14:41:39.355942Z",
         "moduleName": "ember",
         "packageManager": "npm",
         "packageName": "ember",
@@ -6378,7 +6421,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-24T12:17:26.755253Z",
+        "modificationTime": "2020-12-14T14:41:18.263533Z",
         "moduleName": "ember",
         "packageManager": "npm",
         "packageName": "ember",
@@ -6434,7 +6477,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-04-06T16:45:13.204193Z",
+        "modificationTime": "2020-12-14T14:41:39.332584Z",
         "moduleName": "ember",
         "packageManager": "npm",
         "packageName": "ember",
@@ -6493,11 +6536,11 @@
             "GHSA-46m8-42hm-wvvw"
           ],
           "NSP": [
-            129
+            "129"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-09-07T12:00:47.104594Z",
+        "modificationTime": "2020-12-14T14:41:07.271293Z",
         "moduleName": "emojione",
         "packageManager": "npm",
         "packageName": "emojione",
@@ -6554,7 +6597,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-01-12T12:49:31.092939Z",
+        "modificationTime": "2022-01-19T14:52:51.905387Z",
         "moduleName": "engine.io",
         "packageManager": "npm",
         "packageName": "engine.io",
@@ -6669,7 +6712,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:15.514145Z",
+        "modificationTime": "2020-12-14T14:41:35.347615Z",
         "moduleName": "engine.io",
         "packageManager": "npm",
         "packageName": "engine.io",
@@ -6728,11 +6771,11 @@
             "GHSA-4r4m-hjwj-43p8"
           ],
           "NSP": [
-            99
+            "99"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:43.777573Z",
+        "modificationTime": "2020-12-22T17:02:08.621515Z",
         "moduleName": "engine.io-client",
         "packageManager": "npm",
         "packageName": "engine.io-client",
@@ -6809,11 +6852,11 @@
             "GHSA-2j2j-8rrv-264g"
           ],
           "NSP": [
-            733
+            "733"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:55:33.486758Z",
+        "modificationTime": "2020-12-22T17:02:11.904473Z",
         "moduleName": "exceljs",
         "packageManager": "npm",
         "packageName": "exceljs",
@@ -6903,7 +6946,7 @@
             "GHSA-qrmc-fj45-qfc2"
           ],
           "NSP": [
-            996
+            "996"
           ]
         },
         "language": "js",
@@ -6976,7 +7019,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:48:15.156731Z",
+        "modificationTime": "2020-12-14T14:41:17.586768Z",
         "moduleName": "favico.js",
         "packageManager": "npm",
         "packageName": "favico.js",
@@ -7132,7 +7175,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:06.602040Z",
+        "modificationTime": "2021-12-02T15:25:00.653093Z",
         "moduleName": "faye",
         "packageManager": "npm",
         "packageName": "faye",
@@ -7194,7 +7237,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:19:00.416930Z",
+        "modificationTime": "2020-12-14T14:41:27.284382Z",
         "moduleName": "fernet",
         "packageManager": "npm",
         "packageName": "fernet",
@@ -7248,7 +7291,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:17.843250Z",
+        "modificationTime": "2020-12-14T14:41:38.958000Z",
         "moduleName": "foundation-sites",
         "packageManager": "npm",
         "packageName": "foundation-sites",
@@ -7291,7 +7334,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:53.862837Z",
+        "modificationTime": "2020-12-14T14:41:38.962080Z",
         "moduleName": "foundation-sites",
         "packageManager": "npm",
         "packageName": "foundation-sites",
@@ -7347,7 +7390,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-03-02T14:14:04.551339Z",
+        "modificationTime": "2020-12-14T14:41:38.953809Z",
         "moduleName": "foundation-sites",
         "packageManager": "npm",
         "packageName": "foundation-sites",
@@ -7405,11 +7448,11 @@
             "GHSA-fwcw-5qw2-87mp"
           ],
           "NSP": [
-            133
+            "133"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.904105Z",
+        "modificationTime": "2020-12-14T14:41:36.882687Z",
         "moduleName": "fuelux",
         "packageManager": "npm",
         "packageName": "fuelux",
@@ -7431,6 +7474,100 @@
       }
     ],
     "fullpage.js": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "alternativeIds": [],
+        "creationTime": "2022-04-13T12:50:58.148743Z",
+        "credit": [
+          "ranjit-git"
+        ],
+        "cvssScore": 5.4,
+        "disclosureTime": "2022-04-13T12:47:45Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "4.0.5"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-FULLPAGEJS-2635971",
+        "identifiers": {
+          "CVE": [
+            "CVE-2022-1330"
+          ],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2022-04-13T17:03:43.076820Z",
+        "moduleName": "fullpage.js",
+        "packageManager": "npm",
+        "packageName": "fullpage.js",
+        "patches": [],
+        "publicationTime": "2022-04-13T17:03:43.075044Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/alvarotrigo/fullpage.js/commit/e7a5db42711700c8a584e61b5e532a64039fe92b"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/alvarotrigo/fullPage.js/pull/4360"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<4.0.5"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L/E:P",
+        "alternativeIds": [],
+        "creationTime": "2022-04-11T13:44:48.721126Z",
+        "credit": [
+          "Rohan Sharma"
+        ],
+        "cvssScore": 7.3,
+        "disclosureTime": "2022-04-11T12:34:04Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "4.0.2"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-FULLPAGEJS-2606972",
+        "identifiers": {
+          "CVE": [
+            "CVE-2022-1295"
+          ],
+          "CWE": [
+            "CWE-1321"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2022-04-11T16:03:04.316032Z",
+        "moduleName": "fullpage.js",
+        "packageManager": "npm",
+        "packageName": "fullpage.js",
+        "patches": [],
+        "publicationTime": "2022-04-11T16:03:04.314060Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/alvarotrigo/fullPage.js/commit/902c448afa827c5474f42cb3ee50a039d472e787"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<4.0.2"
+          ]
+        },
+        "severity": "high",
+        "title": "Prototype Pollution"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
         "alternativeIds": [
@@ -7459,7 +7596,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:02.834361Z",
+        "modificationTime": "2020-12-14T14:41:16.502964Z",
         "moduleName": "fullpage.js",
         "packageManager": "npm",
         "packageName": "fullpage.js",
@@ -7519,7 +7656,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.599802Z",
+        "modificationTime": "2020-12-14T14:41:49.707444Z",
         "moduleName": "getstats",
         "packageManager": "npm",
         "packageName": "getstats",
@@ -7570,7 +7707,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.588300Z",
+        "modificationTime": "2020-12-14T14:41:49.687801Z",
         "moduleName": "git-username",
         "packageManager": "npm",
         "packageName": "git-username",
@@ -7625,7 +7762,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.661015Z",
+        "modificationTime": "2020-12-14T14:41:49.781779Z",
         "moduleName": "github-url-to-object",
         "packageManager": "npm",
         "packageName": "github-url-to-object",
@@ -7683,11 +7820,11 @@
             "GHSA-c7pp-g2v2-2766"
           ],
           "NSP": [
-            125
+            "125"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:13:12.798057Z",
+        "modificationTime": "2020-12-22T17:02:08.704691Z",
         "moduleName": "gmail-js",
         "packageManager": "npm",
         "packageName": "gmail-js",
@@ -7745,7 +7882,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:01.638754Z",
+        "modificationTime": "2021-07-06T14:08:21.998962Z",
         "moduleName": "google-closure-library",
         "packageManager": "npm",
         "packageName": "google-closure-library",
@@ -7794,11 +7931,11 @@
             "GHSA-r9q4-w3fm-wrm2"
           ],
           "NSP": [
-            878
+            "878"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:41.392147Z",
+        "modificationTime": "2020-12-14T14:40:54.613760Z",
         "moduleName": "google-closure-library",
         "packageManager": "npm",
         "packageName": "google-closure-library",
@@ -7852,7 +7989,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-01-19T16:02:35.672625Z",
+        "modificationTime": "2021-08-08T13:56:54.988331Z",
         "moduleName": "gsap",
         "packageManager": "npm",
         "packageName": "gsap",
@@ -7903,7 +8040,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-05-04T08:56:24.047059Z",
+        "modificationTime": "2021-05-04T08:56:24.296344Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -7951,7 +8088,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-05-04T08:31:31.225911Z",
+        "modificationTime": "2021-11-11T10:55:55.623956Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -7994,7 +8131,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:04.769831Z",
+        "modificationTime": "2021-02-07T10:35:00.642664Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -8044,11 +8181,11 @@
             "GHSA-g9r4-xpmj-mj65"
           ],
           "NSP": [
-            1325
+            "1325"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-02-27T09:35:22.610611Z",
+        "modificationTime": "2021-02-07T10:34:40.084216Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -8102,12 +8239,12 @@
             "GHSA-q2c6-c6pm-g3gh"
           ],
           "NSP": [
-            1316,
-            1324
+            "1316",
+            "1324"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.589231Z",
+        "modificationTime": "2022-02-11T12:35:29.725892Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -8159,11 +8296,11 @@
             "GHSA-f52g-6jhx-586p"
           ],
           "NSP": [
-            1300
+            "1300"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:55.577532Z",
+        "modificationTime": "2022-02-11T09:51:32.219466Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -8203,7 +8340,7 @@
         "exploit": "Not Defined",
         "fixedIn": [
           "4.3.0",
-          "3.8.0"
+          "3.0.8"
         ],
         "functions": [],
         "functions_new": [],
@@ -8219,11 +8356,11 @@
             "GHSA-w457-6q6x-cgp9"
           ],
           "NSP": [
-            1164
+            "1164"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-02-27T09:38:25.232243Z",
+        "modificationTime": "2022-04-27T09:42:38.558363Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -8232,11 +8369,11 @@
         "references": [
           {
             "title": "GitHub Commit",
-            "url": "https://github.com/wycats/handlebars.js/commit/213c0bbe3c4bd83a534d67384e5afa0000347ff6"
+            "url": "https://github.com/handlebars-lang/handlebars.js/commit/156061eb7707575293613d7fdf90e2bdaac029ee"
           },
           {
             "title": "GitHub Commit",
-            "url": "https://github.com/wycats/handlebars.js/commit/7b67a29a8c926b38af265c727ff6551fbb277111"
+            "url": "https://github.com/wycats/handlebars.js/commit/213c0bbe3c4bd83a534d67384e5afa0000347ff6"
           },
           {
             "title": "GitHub Issue",
@@ -8254,7 +8391,7 @@
         "semver": {
           "vulnerable": [
             ">=4.0.0 <4.3.0",
-            "<3.8.0"
+            "<3.0.8"
           ]
         },
         "severity": "high",
@@ -8309,7 +8446,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.054230Z",
+        "modificationTime": "2021-02-07T10:35:57.706044Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -8406,11 +8543,11 @@
             "GHSA-6r5x-hmgg-7h53"
           ],
           "NSP": [
-            755
+            "755"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:56.040863Z",
+        "modificationTime": "2020-12-14T14:40:53.284737Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -8493,11 +8630,11 @@
             "GHSA-fmr4-7g9q-7hc7"
           ],
           "NSP": [
-            61
+            "61"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-02-14T17:52:40.408079Z",
+        "modificationTime": "2020-12-22T17:02:08.379421Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -8553,7 +8690,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:52.100258Z",
+        "modificationTime": "2020-12-14T14:41:16.192721Z",
         "moduleName": "handlebars",
         "packageManager": "npm",
         "packageName": "handlebars",
@@ -8612,7 +8749,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:43.985934Z",
+        "modificationTime": "2020-12-14T14:41:01.979104Z",
         "moduleName": "haraka",
         "packageManager": "npm",
         "packageName": "haraka",
@@ -8664,7 +8801,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:37.327748Z",
+        "modificationTime": "2020-12-14T14:41:34.755983Z",
         "moduleName": "haraka",
         "packageManager": "npm",
         "packageName": "haraka",
@@ -8717,7 +8854,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.594805Z",
+        "modificationTime": "2020-12-14T14:41:49.699658Z",
         "moduleName": "harb",
         "packageManager": "npm",
         "packageName": "harb",
@@ -8739,6 +8876,56 @@
       }
     ],
     "hawk": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:N/I:N/A:H",
+        "alternativeIds": [],
+        "creationTime": "2022-05-06T06:28:14.300336Z",
+        "credit": [
+          "JFrog"
+        ],
+        "cvssScore": 7.4,
+        "disclosureTime": "2022-05-06T06:18:15Z",
+        "exploit": "Not Defined",
+        "fixedIn": [],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-HAWK-2808852",
+        "identifiers": {
+          "CVE": [
+            "CVE-2022-29167"
+          ],
+          "CWE": [
+            "CWE-1333"
+          ],
+          "GHSA": [
+            "GHSA-44pw-h2cw-w3vq"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2022-05-06T14:22:54.793799Z",
+        "moduleName": "hawk",
+        "packageManager": "npm",
+        "packageName": "hawk",
+        "patches": [],
+        "publicationTime": "2022-05-06T14:22:54.791846Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/mozilla/hawk/pull/286/commits/ade134119bf1fdc4909d00f5a952c966f0075ad3"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/mozilla/hawk/pull/286"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<=9.0.1"
+          ]
+        },
+        "severity": "high",
+        "title": "Regular Expression Denial of Service (ReDoS)"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
@@ -8873,11 +9060,11 @@
             "GHSA-jcpv-g9rr-qxrc"
           ],
           "NSP": [
-            77
+            "77"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-29T17:06:31.778992Z",
+        "modificationTime": "2020-12-22T17:02:08.476041Z",
         "moduleName": "hawk",
         "packageManager": "npm",
         "packageName": "hawk",
@@ -9062,11 +9249,11 @@
             "GHSA-gr4j-r575-g665"
           ],
           "NSP": [
-            1227
+            "1227"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-25T16:26:37.492587Z",
+        "modificationTime": "2020-08-26T08:50:49.915705Z",
         "moduleName": "highcharts",
         "packageManager": "npm",
         "packageName": "highcharts",
@@ -9129,11 +9316,11 @@
             "GHSA-m45f-4828-5cv5"
           ],
           "NSP": [
-            793
+            "793"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.944814Z",
+        "modificationTime": "2021-05-02T13:21:59.440996Z",
         "moduleName": "highcharts",
         "packageManager": "npm",
         "packageName": "highcharts",
@@ -9184,7 +9371,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.705578Z",
+        "modificationTime": "2020-12-14T14:41:26.694148Z",
         "moduleName": "html-dom-parser",
         "packageManager": "npm",
         "packageName": "html-dom-parser",
@@ -9277,7 +9464,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-10-25T11:21:37.639753Z",
+        "modificationTime": "2021-09-07T14:31:38.880179Z",
         "moduleName": "i18next",
         "packageManager": "npm",
         "packageName": "i18next",
@@ -9380,11 +9567,11 @@
             "GHSA-cmh5-qc8w-xvcq"
           ],
           "NSP": [
-            326
+            "326"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:39:47.811510Z",
+        "modificationTime": "2020-12-22T17:02:10.091820Z",
         "moduleName": "i18next",
         "packageManager": "npm",
         "packageName": "i18next",
@@ -9440,11 +9627,11 @@
             "GHSA-f89g-whpf-6q9m"
           ],
           "NSP": [
-            325
+            "325"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:42:27.631848Z",
+        "modificationTime": "2020-12-22T17:02:10.082795Z",
         "moduleName": "i18next",
         "packageManager": "npm",
         "packageName": "i18next",
@@ -9598,11 +9785,11 @@
             "GHSA-4x7c-cx64-49w8"
           ],
           "NSP": [
-            572
+            "572"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.620384Z",
+        "modificationTime": "2021-03-30T07:39:45.665767Z",
         "moduleName": "is-my-json-valid",
         "packageManager": "npm",
         "packageName": "is-my-json-valid",
@@ -9663,11 +9850,11 @@
             "GHSA-f522-ffg8-j8r6"
           ],
           "NSP": [
-            76
+            "76"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-07-29T12:46:59.131459Z",
+        "modificationTime": "2020-12-22T17:02:08.468299Z",
         "moduleName": "is-my-json-valid",
         "packageManager": "npm",
         "packageName": "is-my-json-valid",
@@ -9758,7 +9945,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.251598Z",
+        "modificationTime": "2020-12-14T14:40:50.138928Z",
         "moduleName": "is-url",
         "packageManager": "npm",
         "packageName": "is-url",
@@ -9803,7 +9990,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-12-16T14:51:35.260688Z",
+        "modificationTime": "2020-12-14T14:41:35.512404Z",
         "moduleName": "ismobilejs",
         "packageManager": "npm",
         "packageName": "ismobilejs",
@@ -9859,7 +10046,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:29.546622Z",
+        "modificationTime": "2020-12-14T14:41:16.637330Z",
         "moduleName": "jplayer",
         "packageManager": "npm",
         "packageName": "jplayer",
@@ -9909,7 +10096,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:28.805086Z",
+        "modificationTime": "2020-12-14T14:41:18.446932Z",
         "moduleName": "jplayer",
         "packageManager": "npm",
         "packageName": "jplayer",
@@ -9963,7 +10150,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:34.386609Z",
+        "modificationTime": "2020-12-14T14:41:16.939211Z",
         "moduleName": "jplayer",
         "packageManager": "npm",
         "packageName": "jplayer",
@@ -10017,11 +10204,11 @@
             "GHSA-gjhx-gxwx-jx9j"
           ],
           "NSP": [
-            132
+            "132"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-09-07T11:59:25.698291Z",
+        "modificationTime": "2020-12-14T14:41:50.879535Z",
         "moduleName": "jqtree",
         "packageManager": "npm",
         "packageName": "jqtree",
@@ -10068,7 +10255,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-05-19T16:10:02.557171Z",
+        "modificationTime": "2020-05-26T09:43:44.869040Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10116,11 +10303,11 @@
             "GHSA-v73w-r9xg-7cr9"
           ],
           "NSP": [
-            1518
+            "1518"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-05-05T06:44:17.559695Z",
+        "modificationTime": "2022-05-11T15:17:22.930849Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10154,7 +10341,7 @@
         ],
         "semver": {
           "vulnerable": [
-            ">=1.2.0 <3.5.0"
+            ">=1.5.1 <3.5.0"
           ]
         },
         "severity": "medium",
@@ -10209,7 +10396,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-04-16T09:29:45.526818Z",
+        "modificationTime": "2022-05-11T15:16:35.103947Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10328,11 +10515,11 @@
             "GHSA-wv67-q8rr-grjp"
           ],
           "NSP": [
-            796
+            "796"
           ]
         },
         "language": "js",
-        "modificationTime": "2021-01-07T17:30:33.860835Z",
+        "modificationTime": "2021-11-17T15:25:25.303045Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10400,11 +10587,11 @@
             "GHSA-mhpp-875w-9cpv"
           ],
           "NSP": [
-            330
+            "330"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:18.167230Z",
+        "modificationTime": "2020-12-22T17:02:08.830462Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10445,9 +10632,8 @@
         "disclosureTime": "2015-06-26T21:00:00Z",
         "exploit": "Not Defined",
         "fixedIn": [
-          "1.12.2",
-          "2.2.0",
-          "3.0.0"
+          "1.12.0",
+          "3.0.0-beta1"
         ],
         "functions": [],
         "functions_new": [],
@@ -10467,11 +10653,11 @@
             "GHSA-rmxg-73gg-4p98"
           ],
           "NSP": [
-            328
+            "328"
           ]
         },
         "language": "js",
-        "modificationTime": "2021-12-09T15:54:52.488054Z",
+        "modificationTime": "2022-05-08T09:55:22.507317Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10497,9 +10683,8 @@
         ],
         "semver": {
           "vulnerable": [
-            "<1.12.2",
-            ">=1.12.3 <2.2.0",
-            ">=2.2.3 <3.0.0"
+            "<1.12.0",
+            ">=1.12.3 <3.0.0-beta1"
           ]
         },
         "severity": "medium",
@@ -10535,7 +10720,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:22.392941Z",
+        "modificationTime": "2020-12-14T14:41:00.847927Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10592,11 +10777,11 @@
             "GHSA-2pqj-h3vj-pqgw"
           ],
           "NSP": [
-            329
+            "329"
           ]
         },
         "language": "js",
-        "modificationTime": "2021-03-29T10:11:59.437319Z",
+        "modificationTime": "2021-03-29T10:12:16.779162Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10658,7 +10843,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:29.902621Z",
+        "modificationTime": "2020-12-14T14:41:02.107738Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10718,7 +10903,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-11T14:48:03.911792Z",
+        "modificationTime": "2020-12-14T14:40:59.687404Z",
         "moduleName": "jquery-colorbox",
         "packageManager": "npm",
         "packageName": "jquery-colorbox",
@@ -10767,7 +10952,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-02-27T16:24:57.396152Z",
+        "modificationTime": "2022-02-27T16:24:57.536451Z",
         "moduleName": "jquery-file-upload",
         "packageManager": "npm",
         "packageName": "jquery-file-upload",
@@ -10810,7 +10995,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-22T16:37:04.272552Z",
+        "modificationTime": "2020-12-14T14:41:19.750424Z",
         "moduleName": "jquery-file-upload",
         "packageManager": "npm",
         "packageName": "jquery-file-upload",
@@ -10860,7 +11045,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:46.831255Z",
+        "modificationTime": "2020-12-14T14:40:59.713325Z",
         "moduleName": "jquery-migrate",
         "packageManager": "npm",
         "packageName": "jquery-migrate",
@@ -10917,11 +11102,11 @@
             "GHSA-fj93-7wm4-8x2g"
           ],
           "NSP": [
-            883
+            "883"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:01.106578Z",
+        "modificationTime": "2020-12-14T14:40:55.464417Z",
         "moduleName": "jquery-mobile",
         "packageManager": "npm",
         "packageName": "jquery-mobile",
@@ -10989,7 +11174,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:55.890436Z",
+        "modificationTime": "2020-12-14T14:40:59.677740Z",
         "moduleName": "jquery-mobile",
         "packageManager": "npm",
         "packageName": "jquery-mobile",
@@ -11047,7 +11232,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-10-27T16:55:15.406898Z",
+        "modificationTime": "2021-10-27T16:55:15.565199Z",
         "moduleName": "jquery-ui",
         "packageManager": "npm",
         "packageName": "jquery-ui",
@@ -11103,7 +11288,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-10-27T16:55:17.539389Z",
+        "modificationTime": "2021-10-27T16:55:17.707937Z",
         "moduleName": "jquery-ui",
         "packageManager": "npm",
         "packageName": "jquery-ui",
@@ -11159,7 +11344,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-10-27T16:55:16.491887Z",
+        "modificationTime": "2021-11-02T17:35:51.530537Z",
         "moduleName": "jquery-ui",
         "packageManager": "npm",
         "packageName": "jquery-ui",
@@ -11210,7 +11395,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-01T14:41:51.846255Z",
+        "modificationTime": "2021-02-01T14:42:14.211579Z",
         "moduleName": "jquery-ui",
         "packageManager": "npm",
         "packageName": "jquery-ui",
@@ -11268,7 +11453,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:11.779603Z",
+        "modificationTime": "2020-12-14T14:41:39.274671Z",
         "moduleName": "jquery-ui",
         "packageManager": "npm",
         "packageName": "jquery-ui",
@@ -11322,7 +11507,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:23.121637Z",
+        "modificationTime": "2020-12-14T14:40:59.761365Z",
         "moduleName": "jquery-ui",
         "packageManager": "npm",
         "packageName": "jquery-ui",
@@ -11382,11 +11567,11 @@
             "GHSA-hpcf-8vf9-q4gj"
           ],
           "NSP": [
-            127
+            "127"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:31.396318Z",
+        "modificationTime": "2020-12-22T17:02:08.712752Z",
         "moduleName": "jquery-ui",
         "packageManager": "npm",
         "packageName": "jquery-ui",
@@ -11444,11 +11629,11 @@
             "GHSA-6qqj-rx4w-r3cj"
           ],
           "NSP": [
-            15
+            "15"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-07-07T12:03:14.379291Z",
+        "modificationTime": "2020-12-14T14:41:49.930834Z",
         "moduleName": "jquery-ujs",
         "packageManager": "npm",
         "packageName": "jquery-ujs",
@@ -11504,11 +11689,11 @@
             "GHSA-jp27-cwp2-5qqr"
           ],
           "NSP": [
-            496
+            "496"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:41.408938Z",
+        "modificationTime": "2021-05-13T10:08:34.939067Z",
         "moduleName": "jquery.js",
         "packageManager": "npm",
         "packageName": "jquery.js",
@@ -11562,7 +11747,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:51:19.186224Z",
+        "modificationTime": "2020-12-14T14:41:35.408003Z",
         "moduleName": "js-quantities",
         "packageManager": "npm",
         "packageName": "js-quantities",
@@ -11618,7 +11803,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:34:17.839578Z",
+        "modificationTime": "2020-12-14T14:41:23.201669Z",
         "moduleName": "js-quantities",
         "packageManager": "npm",
         "packageName": "js-quantities",
@@ -11713,11 +11898,11 @@
             "GHSA-8j8c-7jfh-h6hx"
           ],
           "NSP": [
-            813
+            "813"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:01.431138Z",
+        "modificationTime": "2020-12-14T14:41:35.880966Z",
         "moduleName": "js-yaml",
         "packageManager": "npm",
         "packageName": "js-yaml",
@@ -11768,7 +11953,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:00.941979Z",
+        "modificationTime": "2020-12-14T14:41:35.730923Z",
         "moduleName": "js-yaml",
         "packageManager": "npm",
         "packageName": "js-yaml",
@@ -11839,11 +12024,11 @@
             "GHSA-2pr6-76vf-7546"
           ],
           "NSP": [
-            788
+            "788"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:55.564388Z",
+        "modificationTime": "2020-12-14T14:41:10.940959Z",
         "moduleName": "js-yaml",
         "packageManager": "npm",
         "packageName": "js-yaml",
@@ -11899,11 +12084,11 @@
             "GHSA-xxvw-45rp-3mj2"
           ],
           "NSP": [
-            16
+            "16"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:12.825706Z",
+        "modificationTime": "2020-12-22T17:02:07.968746Z",
         "moduleName": "js-yaml",
         "packageManager": "npm",
         "packageName": "js-yaml",
@@ -11959,11 +12144,11 @@
             "GHSA-xj62-87pg-vcv3"
           ],
           "NSP": [
-            53
+            "53"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:40.303935Z",
+        "modificationTime": "2020-12-22T17:02:08.434271Z",
         "moduleName": "jshamcrest",
         "packageManager": "npm",
         "packageName": "jshamcrest",
@@ -12013,7 +12198,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-03-09T15:16:10.090542Z",
+        "modificationTime": "2021-11-07T15:01:18.772789Z",
         "moduleName": "jspdf",
         "packageManager": "npm",
         "packageName": "jspdf",
@@ -12065,7 +12250,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-11T14:11:35.489344Z",
+        "modificationTime": "2021-11-07T14:28:19.837493Z",
         "moduleName": "jspdf",
         "packageManager": "npm",
         "packageName": "jspdf",
@@ -12117,7 +12302,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-11T14:11:22.139349Z",
+        "modificationTime": "2021-11-14T14:02:07.678146Z",
         "moduleName": "jspdf",
         "packageManager": "npm",
         "packageName": "jspdf",
@@ -12160,7 +12345,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:05.856871Z",
+        "modificationTime": "2021-11-14T14:03:35.873740Z",
         "moduleName": "jspdf",
         "packageManager": "npm",
         "packageName": "jspdf",
@@ -12212,11 +12397,11 @@
             "GHSA-r87w-47m8-22w3"
           ],
           "NSP": [
-            97
+            "97"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:40.340019Z",
+        "modificationTime": "2020-12-22T17:02:08.559914Z",
         "moduleName": "jsrender",
         "packageManager": "npm",
         "packageName": "jsrender",
@@ -12261,7 +12446,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-12-16T14:47:36.703999Z",
+        "modificationTime": "2020-12-14T14:41:05.774827Z",
         "moduleName": "jstree",
         "packageManager": "npm",
         "packageName": "jstree",
@@ -12313,7 +12498,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:17.080313Z",
+        "modificationTime": "2020-12-14T14:41:17.830305Z",
         "moduleName": "jstree",
         "packageManager": "npm",
         "packageName": "jstree",
@@ -12368,7 +12553,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:49.563281Z",
+        "modificationTime": "2020-12-14T14:41:37.291112Z",
         "moduleName": "knex",
         "packageManager": "npm",
         "packageName": "knex",
@@ -12421,7 +12606,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:38.097712Z",
+        "modificationTime": "2020-12-14T14:41:31.787075Z",
         "moduleName": "knex",
         "packageManager": "npm",
         "packageName": "knex",
@@ -12482,7 +12667,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.909637Z",
+        "modificationTime": "2021-01-24T09:51:48.458184Z",
         "moduleName": "knockout",
         "packageManager": "npm",
         "packageName": "knockout",
@@ -12538,7 +12723,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T14:07:51.129645Z",
+        "modificationTime": "2020-12-14T14:41:17.881763Z",
         "moduleName": "knockout",
         "packageManager": "npm",
         "packageName": "knockout",
@@ -12592,7 +12777,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-22T09:58:04.543992Z",
+        "modificationTime": "2022-04-05T12:28:18.096614Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -12641,7 +12826,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-22T09:58:41.562106Z",
+        "modificationTime": "2022-04-05T12:26:11.286253Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -12688,7 +12873,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-27T16:44:20.914177Z",
+        "modificationTime": "2022-04-05T12:28:03.402499Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -12709,18 +12894,16 @@
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H",
         "alternativeIds": [],
         "creationTime": "2020-07-24T12:05:01.916784Z",
         "credit": [
           "reeser"
         ],
-        "cvssScore": 9.8,
+        "cvssScore": 8.2,
         "disclosureTime": "2020-07-24T12:00:52Z",
         "exploit": "Not Defined",
-        "fixedIn": [
-          "4.17.20"
-        ],
+        "fixedIn": [],
         "functions": [],
         "functions_new": [],
         "id": "SNYK-JS-LODASH-590103",
@@ -12731,7 +12914,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-16T12:11:40.402299Z",
+        "modificationTime": "2022-03-27T10:08:55.051504Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -12741,28 +12924,32 @@
           {
             "title": "GitHub Issue",
             "url": "https://github.com/lodash/lodash/issues/4874"
+          },
+          {
+            "title": "GitHuub PR",
+            "url": "https://github.com/lodash/lodash/pull/4759"
           }
         ],
         "semver": {
           "vulnerable": [
-            "<4.17.20"
+            "<0.0.0"
           ]
         },
-        "severity": "critical",
+        "severity": "high",
         "title": "Prototype Pollution"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L/E:P/RL:U/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H/E:P/RL:U/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-04-28T14:32:13.683154Z",
         "credit": [
           "posix"
         ],
-        "cvssScore": 6.3,
+        "cvssScore": 8.2,
         "disclosureTime": "2020-04-27T22:14:18Z",
         "exploit": "Proof of Concept",
         "fixedIn": [
-          "4.17.16"
+          "4.17.20"
         ],
         "functions": [],
         "functions_new": [],
@@ -12778,11 +12965,11 @@
             "GHSA-p6mc-m468-83gw"
           ],
           "NSP": [
-            1523
+            "1523"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-07-09T08:34:04.944267Z",
+        "modificationTime": "2022-04-05T12:28:33.431814Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -12800,20 +12987,20 @@
         "publicationTime": "2020-04-28T14:59:14Z",
         "references": [
           {
-            "title": "GitHub PR",
-            "url": "https://github.com/lodash/lodash/pull/4759"
+            "title": "GitHub Commit",
+            "url": "https://github.com/lodash/lodash/commit/c84fe82760fb2d3e03a63379b297a1cc1a2fce12"
           },
           {
-            "title": "HackerOne Report",
-            "url": "https://hackerone.com/reports/712065"
+            "title": "GitHub PR",
+            "url": "https://github.com/lodash/lodash/pull/4759"
           }
         ],
         "semver": {
           "vulnerable": [
-            "<4.17.16"
+            "<4.17.20"
           ]
         },
-        "severity": "medium",
+        "severity": "high",
         "title": "Prototype Pollution"
       },
       {
@@ -12864,11 +13051,11 @@
             "GHSA-jf85-cpcp-j695"
           ],
           "NSP": [
-            1065
+            "1065"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-24T08:59:58.227467Z",
+        "modificationTime": "2022-04-05T12:25:20.940478Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -12964,7 +13151,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:57.941198Z",
+        "modificationTime": "2022-04-05T12:27:32.267901Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -13230,14 +13417,14 @@
             "GHSA-4xc9-xhrj-v574"
           ],
           "NSP": [
-            1066,
-            1068,
-            1071,
-            782
+            "1066",
+            "1068",
+            "1071",
+            "782"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-24T08:59:09.185738Z",
+        "modificationTime": "2022-04-05T12:27:17.510305Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -13451,14 +13638,14 @@
             "GHSA-fvqr-27wr-82fm"
           ],
           "NSP": [
-            1067,
-            1069,
-            1070,
-            577
+            "1067",
+            "1069",
+            "1070",
+            "577"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-25T09:41:03.189638Z",
+        "modificationTime": "2022-04-05T12:26:34.848392Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -13543,11 +13730,11 @@
             "GHSA-q69p-5h74-w36f"
           ],
           "NSP": [
-            74
+            "74"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-11-08T11:07:10.302744Z",
+        "modificationTime": "2020-12-22T17:02:08.452205Z",
         "moduleName": "mapbox.js",
         "packageManager": "npm",
         "packageName": "mapbox.js",
@@ -13605,11 +13792,11 @@
             "GHSA-qr28-7j6p-9hmv"
           ],
           "NSP": [
-            49
+            "49"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-05T08:51:38.657289Z",
+        "modificationTime": "2020-11-08T10:59:23.532392Z",
         "moduleName": "mapbox.js",
         "packageManager": "npm",
         "packageName": "mapbox.js",
@@ -13673,7 +13860,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-01-09T15:54:45.846273Z",
+        "modificationTime": "2022-01-11T11:44:58.462314Z",
         "moduleName": "markdown-it",
         "packageManager": "npm",
         "packageName": "markdown-it",
@@ -13716,7 +13903,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-10-09T16:37:38.402825Z",
+        "modificationTime": "2020-12-14T14:41:05.787932Z",
         "moduleName": "markdown-it",
         "packageManager": "npm",
         "packageName": "markdown-it",
@@ -13768,7 +13955,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:41.839079Z",
+        "modificationTime": "2020-12-14T14:41:16.161832Z",
         "moduleName": "markdown-it",
         "packageManager": "npm",
         "packageName": "markdown-it",
@@ -13820,7 +14007,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:34.333987Z",
+        "modificationTime": "2020-12-14T14:41:39.313060Z",
         "moduleName": "markdown-it",
         "packageManager": "npm",
         "packageName": "markdown-it",
@@ -13888,7 +14075,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-01-16T15:23:59.103924Z",
+        "modificationTime": "2022-01-16T15:23:59.302316Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -13988,11 +14175,11 @@
             "GHSA-4r62-v4vq-hr96"
           ],
           "NSP": [
-            1623
+            "1623"
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-09T16:34:47.564935Z",
+        "modificationTime": "2022-05-16T13:14:28.201863Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14014,7 +14201,7 @@
         ],
         "semver": {
           "vulnerable": [
-            ">=1.1.2 <2.0.0"
+            ">=1.1.1 <2.0.0"
           ]
         },
         "severity": "high",
@@ -14043,7 +14230,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-07-27T15:44:10.510833Z",
+        "modificationTime": "2021-09-23T16:58:42.707391Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14087,7 +14274,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:56.167484Z",
+        "modificationTime": "2020-12-14T14:40:50.051801Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14136,11 +14323,11 @@
             "GHSA-ch52-vgq2-943f"
           ],
           "NSP": [
-            1076
+            "1076"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:41:06.018662Z",
+        "modificationTime": "2020-12-22T17:02:13.756982Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14198,11 +14385,11 @@
             "CWE-400"
           ],
           "NSP": [
-            812
+            "812"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:55.625666Z",
+        "modificationTime": "2020-12-14T14:40:53.174353Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14257,7 +14444,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:55.916974Z",
+        "modificationTime": "2020-12-14T14:40:51.819311Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14321,7 +14508,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.804831Z",
+        "modificationTime": "2020-12-14T14:41:40.590404Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14376,7 +14563,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.855775Z",
+        "modificationTime": "2020-12-14T14:41:09.478113Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14435,7 +14622,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.990650Z",
+        "modificationTime": "2020-12-14T14:41:09.243977Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14495,11 +14682,11 @@
             "GHSA-x5pg-88wf-qq4p"
           ],
           "NSP": [
-            531
+            "531"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:50:47.952681Z",
+        "modificationTime": "2020-12-22T17:02:11.656103Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14584,7 +14771,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.828450Z",
+        "modificationTime": "2020-12-14T14:41:49.371497Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14667,11 +14854,11 @@
             "GHSA-vfvf-mqq8-rwqc"
           ],
           "NSP": [
-            101
+            "101"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.987227Z",
+        "modificationTime": "2020-12-22T17:02:08.598700Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14758,11 +14945,11 @@
             "GHSA-9cw2-jqp5-7x39"
           ],
           "NSP": [
-            22
+            "22"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-20T10:10:11.005775Z",
+        "modificationTime": "2020-12-22T17:02:08.017754Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14810,11 +14997,11 @@
             "GHSA-hjcp-j389-59ff"
           ],
           "NSP": [
-            23
+            "23"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:29.145044Z",
+        "modificationTime": "2020-12-22T17:02:08.009935Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14882,11 +15069,11 @@
             "GHSA-cfjh-p3g4-3q2f"
           ],
           "NSP": [
-            24
+            "24"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:44.331380Z",
+        "modificationTime": "2020-12-14T14:41:50.294828Z",
         "moduleName": "marked",
         "packageManager": "npm",
         "packageName": "marked",
@@ -14956,7 +15143,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-10-13T14:27:36.684312Z",
+        "modificationTime": "2021-07-06T14:08:28.030809Z",
         "moduleName": "mathjs",
         "packageManager": "npm",
         "packageName": "mathjs",
@@ -15010,7 +15197,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:09:57.458673Z",
+        "modificationTime": "2020-12-14T14:41:19.615144Z",
         "moduleName": "mathjs",
         "packageManager": "npm",
         "packageName": "mathjs",
@@ -15071,7 +15258,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:09:56.746684Z",
+        "modificationTime": "2020-12-14T14:41:18.809802Z",
         "moduleName": "mathjs",
         "packageManager": "npm",
         "packageName": "mathjs",
@@ -15123,7 +15310,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:09:56.028578Z",
+        "modificationTime": "2020-12-14T14:41:19.169387Z",
         "moduleName": "mathjs",
         "packageManager": "npm",
         "packageName": "mathjs",
@@ -15179,11 +15366,11 @@
             "GHSA-pv8x-p9hq-j328"
           ],
           "NSP": [
-            551
+            "551"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:09:42.422875Z",
+        "modificationTime": "2020-12-22T17:02:11.811061Z",
         "moduleName": "mathjs",
         "packageManager": "npm",
         "packageName": "mathjs",
@@ -15239,11 +15426,11 @@
             "GHSA-vx5c-87qx-cv6c"
           ],
           "NSP": [
-            552
+            "552"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:51:40.369099Z",
+        "modificationTime": "2020-12-22T17:02:11.803647Z",
         "moduleName": "mathjs",
         "packageManager": "npm",
         "packageName": "mathjs",
@@ -15297,7 +15484,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T12:52:42.192906Z",
+        "modificationTime": "2020-12-14T14:41:16.026215Z",
         "moduleName": "mediaelement",
         "packageManager": "npm",
         "packageName": "mediaelement",
@@ -15347,7 +15534,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.858560Z",
+        "modificationTime": "2020-12-14T14:41:15.406183Z",
         "moduleName": "mediaelement",
         "packageManager": "npm",
         "packageName": "mediaelement",
@@ -15409,7 +15596,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-23T16:42:39.630000Z",
+        "modificationTime": "2021-07-06T14:08:07.366296Z",
         "moduleName": "merge",
         "packageManager": "npm",
         "packageName": "merge",
@@ -15459,7 +15646,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-11-16T16:28:37.921959Z",
+        "modificationTime": "2021-01-07T08:27:14.285738Z",
         "moduleName": "merge",
         "packageManager": "npm",
         "packageName": "merge",
@@ -15527,11 +15714,11 @@
             "GHSA-f9cm-qmx5-m98h"
           ],
           "NSP": [
-            722
+            "722"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-03-05T12:12:48.517944Z",
+        "modificationTime": "2020-12-22T17:02:12.765936Z",
         "moduleName": "merge",
         "packageManager": "npm",
         "packageName": "merge",
@@ -15589,7 +15776,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-05T14:18:19.009751Z",
+        "modificationTime": "2021-07-06T14:08:59.474406Z",
         "moduleName": "merge-deep",
         "packageManager": "npm",
         "packageName": "merge-deep",
@@ -15641,11 +15828,11 @@
             "GHSA-9g9w-hmvj-5h57"
           ],
           "NSP": [
-            580
+            "580"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:26:41.296039Z",
+        "modificationTime": "2021-08-08T13:56:54.714028Z",
         "moduleName": "merge-deep",
         "packageManager": "npm",
         "packageName": "merge-deep",
@@ -15701,11 +15888,11 @@
             "GHSA-992f-wf4w-x36v"
           ],
           "NSP": [
-            716
+            "716"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:41.577037Z",
+        "modificationTime": "2021-08-08T13:56:54.722318Z",
         "moduleName": "merge-objects",
         "packageManager": "npm",
         "packageName": "merge-objects",
@@ -15759,11 +15946,11 @@
             "GHSA-qw93-45r3-p66p"
           ],
           "NSP": [
-            717
+            "717"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:41.568964Z",
+        "modificationTime": "2021-08-08T13:56:54.727454Z",
         "moduleName": "merge-options",
         "packageManager": "npm",
         "packageName": "merge-options",
@@ -15819,11 +16006,11 @@
             "GHSA-cvxm-f295-x957"
           ],
           "NSP": [
-            715
+            "715"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:41.574473Z",
+        "modificationTime": "2021-08-08T13:56:54.724901Z",
         "moduleName": "merge-recursive",
         "packageManager": "npm",
         "packageName": "merge-recursive",
@@ -15873,7 +16060,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:37:11.439364Z",
+        "modificationTime": "2020-12-14T14:41:36.890427Z",
         "moduleName": "mergely",
         "packageManager": "npm",
         "packageName": "mergely",
@@ -15931,11 +16118,11 @@
             "GHSA-3fx5-fwvr-xrjg"
           ],
           "NSP": [
-            59
+            "59"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:13:00.597572Z",
+        "modificationTime": "2020-12-22T17:02:08.349667Z",
         "moduleName": "millisecond",
         "packageManager": "npm",
         "packageName": "millisecond",
@@ -16000,7 +16187,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.690725Z",
+        "modificationTime": "2020-12-14T14:41:49.805472Z",
         "moduleName": "mimer",
         "packageManager": "npm",
         "packageName": "mimer",
@@ -16113,11 +16300,11 @@
             "GHSA-fhjf-83wg-r2j9"
           ],
           "NSP": [
-            1013
+            "1013"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:00.759386Z",
+        "modificationTime": "2020-12-22T17:02:13.112544Z",
         "moduleName": "mixin-deep",
         "packageManager": "npm",
         "packageName": "mixin-deep",
@@ -16170,11 +16357,11 @@
             "GHSA-3mpr-hq3p-49h9"
           ],
           "NSP": [
-            578
+            "578"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-14T11:27:50.379598Z",
+        "modificationTime": "2020-12-22T17:02:11.973162Z",
         "moduleName": "mixin-deep",
         "packageManager": "npm",
         "packageName": "mixin-deep",
@@ -16224,7 +16411,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:38:17.451341Z",
+        "modificationTime": "2020-12-14T14:41:36.905989Z",
         "moduleName": "mobile-detect",
         "packageManager": "npm",
         "packageName": "mobile-detect",
@@ -16279,7 +16466,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.654958Z",
+        "modificationTime": "2020-12-14T14:41:49.774238Z",
         "moduleName": "moddle-xml",
         "packageManager": "npm",
         "packageName": "moddle-xml",
@@ -16331,7 +16518,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:30.133184Z",
+        "modificationTime": "2020-12-14T14:41:19.018627Z",
         "moduleName": "mol-proto",
         "packageManager": "npm",
         "packageName": "mol-proto",
@@ -16365,6 +16552,54 @@
       }
     ],
     "moment": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+        "alternativeIds": [],
+        "creationTime": "2022-04-05T08:46:07.677588Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 7.5,
+        "disclosureTime": "2022-04-05T08:39:23Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "2.29.2"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-MOMENT-2440688",
+        "identifiers": {
+          "CVE": [
+            "CVE-2022-24785"
+          ],
+          "CWE": [
+            "CWE-22"
+          ],
+          "GHSA": [
+            "GHSA-8hfj-j24r-96c4"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2022-04-05T12:30:50.880408Z",
+        "moduleName": "moment",
+        "packageManager": "npm",
+        "packageName": "moment",
+        "patches": [],
+        "publicationTime": "2022-04-05T12:30:50.878091Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/moment/moment/commit/4211bfc8f15746be4019bba557e29a7ba83d54c5"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<2.29.2"
+          ]
+        },
+        "severity": "high",
+        "title": "Directory Traversal"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
         "alternativeIds": [
@@ -16494,11 +16729,11 @@
             "GHSA-446m-mv8f-q348"
           ],
           "NSP": [
-            532
+            "532"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:45.510184Z",
+        "modificationTime": "2020-12-22T17:02:11.796592Z",
         "moduleName": "moment",
         "packageManager": "npm",
         "packageName": "moment",
@@ -16560,7 +16795,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.808353Z",
+        "modificationTime": "2020-12-14T14:41:49.306035Z",
         "moduleName": "moment",
         "packageManager": "npm",
         "packageName": "moment",
@@ -16635,11 +16870,11 @@
             "GHSA-87vv-r9j6-g5qv"
           ],
           "NSP": [
-            55
+            "55"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-26T23:34:49.979996Z",
+        "modificationTime": "2020-12-22T17:02:08.502158Z",
         "moduleName": "moment",
         "packageManager": "npm",
         "packageName": "moment",
@@ -16745,11 +16980,11 @@
             "GHSA-fwx5-5fqj-jv98"
           ],
           "NSP": [
-            307
+            "307"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:40.980093Z",
+        "modificationTime": "2020-12-22T17:02:10.207417Z",
         "moduleName": "morris.js",
         "packageManager": "npm",
         "packageName": "morris.js",
@@ -16809,11 +17044,11 @@
             "GHSA-h9mj-fghc-664w"
           ],
           "NSP": [
-            555
+            "555"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-28T08:18:19.756775Z",
+        "modificationTime": "2020-12-22T17:02:11.825697Z",
         "moduleName": "mqtt",
         "packageManager": "npm",
         "packageName": "mqtt",
@@ -16877,11 +17112,11 @@
             "GHSA-hg78-c92r-hvwr"
           ],
           "NSP": [
-            140
+            "140"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:28.376080Z",
+        "modificationTime": "2020-12-14T14:41:50.828326Z",
         "moduleName": "mqtt",
         "packageManager": "npm",
         "packageName": "mqtt",
@@ -16952,7 +17187,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.833759Z",
+        "modificationTime": "2022-05-16T13:04:13.342145Z",
         "moduleName": "ms",
         "packageManager": "npm",
         "packageName": "ms",
@@ -16998,7 +17233,7 @@
         ],
         "semver": {
           "vulnerable": [
-            ">=0.7.1 <2.0.0"
+            "<2.0.0"
           ]
         },
         "severity": "low",
@@ -17076,11 +17311,11 @@
             "GHSA-3fx5-fwvr-xrjg"
           ],
           "NSP": [
-            46
+            "46"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-23T07:46:17.408630Z",
+        "modificationTime": "2020-12-22T17:02:08.336788Z",
         "moduleName": "ms",
         "packageManager": "npm",
         "packageName": "ms",
@@ -17197,11 +17432,11 @@
             "GHSA-w3w8-37jv-2c58"
           ],
           "NSP": [
-            62
+            "62"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-07-31T11:58:14.879604Z",
+        "modificationTime": "2020-12-22T17:02:08.359173Z",
         "moduleName": "mustache",
         "packageManager": "npm",
         "packageName": "mustache",
@@ -17259,7 +17494,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:36.290007Z",
+        "modificationTime": "2020-12-14T14:41:15.340987Z",
         "moduleName": "mustache",
         "packageManager": "npm",
         "packageName": "mustache",
@@ -17306,7 +17541,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-07-17T10:39:39.781483Z",
+        "modificationTime": "2020-12-14T14:41:39.987679Z",
         "moduleName": "mxgraph",
         "packageManager": "npm",
         "packageName": "mxgraph",
@@ -17364,7 +17599,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.135065Z",
+        "modificationTime": "2020-12-14T14:41:14.443099Z",
         "moduleName": "mxgraph",
         "packageManager": "npm",
         "packageName": "mxgraph",
@@ -17418,7 +17653,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-02-18T15:33:51.846723Z",
+        "modificationTime": "2022-02-18T15:33:51.997202Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -17470,7 +17705,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-01-30T16:31:08.989159Z",
+        "modificationTime": "2022-01-30T16:31:09.128963Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -17523,7 +17758,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-12-08T17:04:22.982897Z",
+        "modificationTime": "2021-12-08T17:04:23.120716Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -17584,7 +17819,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-08-31T14:38:50.693931Z",
+        "modificationTime": "2021-08-31T14:38:50.907398Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -17632,7 +17867,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-08-12T14:53:24.873717Z",
+        "modificationTime": "2021-08-12T14:53:25.126288Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -17727,7 +17962,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-10T13:42:49.186936Z",
+        "modificationTime": "2020-06-10T13:42:49.420059Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -17779,7 +18014,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-03-31T15:17:46.906798Z",
+        "modificationTime": "2020-05-26T10:51:14.290039Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -17832,7 +18067,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-07T15:26:12.939271Z",
+        "modificationTime": "2020-12-14T14:41:01.515696Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -17883,7 +18118,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:39.872597Z",
+        "modificationTime": "2020-12-14T14:41:17.803056Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -17933,7 +18168,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-07T08:08:19.726160Z",
+        "modificationTime": "2020-12-14T14:41:14.837361Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -17985,7 +18220,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-07T08:08:19.719029Z",
+        "modificationTime": "2020-12-14T14:41:16.475268Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -18038,7 +18273,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-07T08:08:19.711590Z",
+        "modificationTime": "2020-12-14T14:41:14.919490Z",
         "moduleName": "next",
         "packageManager": "npm",
         "packageName": "next",
@@ -18095,7 +18330,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:21.649971Z",
+        "modificationTime": "2020-12-14T14:40:56.845100Z",
         "moduleName": "ng-dialog",
         "packageManager": "npm",
         "packageName": "ng-dialog",
@@ -18149,11 +18384,11 @@
             "GHSA-ff6r-5jwm-8292"
           ],
           "NSP": [
-            524
+            "524"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:18.601543Z",
+        "modificationTime": "2020-12-22T17:02:11.594773Z",
         "moduleName": "no-case",
         "packageManager": "npm",
         "packageName": "no-case",
@@ -18201,7 +18436,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:42.244507Z",
+        "modificationTime": "2020-12-14T14:41:35.123466Z",
         "moduleName": "node-htmlparser-classic",
         "packageManager": "npm",
         "packageName": "node-htmlparser-classic",
@@ -18253,7 +18488,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:25.804248Z",
+        "modificationTime": "2022-03-25T15:25:01.249289Z",
         "moduleName": "node-jose",
         "packageManager": "npm",
         "packageName": "node-jose",
@@ -18318,11 +18553,11 @@
             "GHSA-rvj9-8cvx-3vq9"
           ],
           "NSP": [
-            324
+            "324"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:59.084236Z",
+        "modificationTime": "2020-12-22T17:02:10.149584Z",
         "moduleName": "node-jose",
         "packageManager": "npm",
         "packageName": "node-jose",
@@ -18387,11 +18622,11 @@
             "GHSA-8w65-xjc5-9w79"
           ],
           "NSP": [
-            1456
+            "1456"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.858785Z",
+        "modificationTime": "2020-12-22T17:02:13.625459Z",
         "moduleName": "node-red",
         "packageManager": "npm",
         "packageName": "node-red",
@@ -18442,11 +18677,11 @@
             "CWE-79"
           ],
           "NSP": [
-            993
+            "993"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:14:17.215602Z",
+        "modificationTime": "2020-12-14T14:41:15.968597Z",
         "moduleName": "node-red",
         "packageManager": "npm",
         "packageName": "node-red",
@@ -18502,11 +18737,11 @@
             "GHSA-q4v7-4rhw-9hqm"
           ],
           "NSP": [
-            311
+            "311"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:40.856566Z",
+        "modificationTime": "2022-05-01T15:25:00.823271Z",
         "moduleName": "node-serialize",
         "packageManager": "npm",
         "packageName": "node-serialize",
@@ -18568,7 +18803,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:23.135201Z",
+        "modificationTime": "2020-12-14T14:41:34.820922Z",
         "moduleName": "node-uuid",
         "packageManager": "npm",
         "packageName": "node-uuid",
@@ -18620,11 +18855,11 @@
             "GHSA-265q-28rp-chq5"
           ],
           "NSP": [
-            93
+            "93"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:43.034395Z",
+        "modificationTime": "2020-12-14T14:41:03.328254Z",
         "moduleName": "node-uuid",
         "packageManager": "npm",
         "packageName": "node-uuid",
@@ -18739,11 +18974,11 @@
             "GHSA-f7ph-p5rv-phw2"
           ],
           "NSP": [
-            147
+            "147"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:13:17.963761Z",
+        "modificationTime": "2020-12-22T17:02:08.758721Z",
         "moduleName": "nunjucks",
         "packageManager": "npm",
         "packageName": "nunjucks",
@@ -18805,7 +19040,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.791268Z",
+        "modificationTime": "2020-12-14T14:41:19.805987Z",
         "moduleName": "nwmatcher",
         "packageManager": "npm",
         "packageName": "nwmatcher",
@@ -18857,11 +19092,11 @@
             "GHSA-53mj-mc38-q894"
           ],
           "NSP": [
-            600
+            "600"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:51:17.051982Z",
+        "modificationTime": "2020-12-14T14:41:50.943258Z",
         "moduleName": "openwhisk",
         "packageManager": "npm",
         "packageName": "openwhisk",
@@ -18917,11 +19152,11 @@
             "GHSA-q75g-2496-mxpp"
           ],
           "NSP": [
-            528
+            "528"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-05T11:04:05.758397Z",
+        "modificationTime": "2020-12-22T17:02:11.648776Z",
         "moduleName": "parsejson",
         "packageManager": "npm",
         "packageName": "parsejson",
@@ -18975,11 +19210,11 @@
             "GHSA-cjj8-wfrx-jqcf"
           ],
           "NSP": [
-            139
+            "139"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:45.274396Z",
+        "modificationTime": "2020-12-14T14:41:50.820672Z",
         "moduleName": "pivottable",
         "packageManager": "npm",
         "packageName": "pivottable",
@@ -19026,7 +19261,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-02-18T15:33:53.459197Z",
+        "modificationTime": "2022-02-18T15:33:53.595925Z",
         "moduleName": "plist",
         "packageManager": "npm",
         "packageName": "plist",
@@ -19075,7 +19310,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.227236Z",
+        "modificationTime": "2020-12-14T14:41:49.474777Z",
         "moduleName": "plist",
         "packageManager": "npm",
         "packageName": "plist",
@@ -19131,7 +19366,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-07-28T14:23:53.674669Z",
+        "modificationTime": "2021-05-02T13:22:01.406591Z",
         "moduleName": "plotly.js",
         "packageManager": "npm",
         "packageName": "plotly.js",
@@ -19184,7 +19419,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:52.349547Z",
+        "modificationTime": "2020-11-30T17:04:14.247446Z",
         "moduleName": "plotly.js",
         "packageManager": "npm",
         "packageName": "plotly.js",
@@ -19236,7 +19471,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-07-28T14:17:48.250427Z",
+        "modificationTime": "2020-11-30T17:03:30.152600Z",
         "moduleName": "plotly.js",
         "packageManager": "npm",
         "packageName": "plotly.js",
@@ -19299,11 +19534,11 @@
             "CWE-79"
           ],
           "NSP": [
-            145
+            "145"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:01.202363Z",
+        "modificationTime": "2020-11-30T17:04:35.828229Z",
         "moduleName": "plotly.js",
         "packageManager": "npm",
         "packageName": "plotly.js",
@@ -19370,11 +19605,11 @@
             "GHSA-cg48-9hh2-x6mx"
           ],
           "NSP": [
-            1421
+            "1421"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:38.763957Z",
+        "modificationTime": "2021-05-02T13:22:53.477733Z",
         "moduleName": "preact-render-to-string",
         "packageManager": "npm",
         "packageName": "preact-render-to-string",
@@ -19654,11 +19889,11 @@
             "GHSA-4gpv-cvmq-6526"
           ],
           "NSP": [
-            605
+            "605"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.779327Z",
+        "modificationTime": "2021-05-02T13:21:58.522891Z",
         "moduleName": "protobufjs",
         "packageManager": "npm",
         "packageName": "protobufjs",
@@ -19719,7 +19954,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:08.823772Z",
+        "modificationTime": "2020-12-14T14:41:32.757100Z",
         "moduleName": "pym.js",
         "packageManager": "npm",
         "packageName": "pym.js",
@@ -19846,7 +20081,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.880024Z",
+        "modificationTime": "2021-05-02T13:22:22.094839Z",
         "moduleName": "qs",
         "packageManager": "npm",
         "packageName": "qs",
@@ -19978,11 +20213,11 @@
             "GHSA-f9cm-p3w6-xvr3"
           ],
           "NSP": [
-            28
+            "28"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:44.334026Z",
+        "modificationTime": "2020-12-22T17:02:08.092297Z",
         "moduleName": "qs",
         "packageManager": "npm",
         "packageName": "qs",
@@ -20075,11 +20310,11 @@
             "GHSA-gqgv-6jq5-jjj9"
           ],
           "NSP": [
-            29
+            "29"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-02-18T08:28:59.375824Z",
+        "modificationTime": "2021-05-02T13:22:04.257078Z",
         "moduleName": "qs",
         "packageManager": "npm",
         "packageName": "qs",
@@ -20180,7 +20415,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:45.507446Z",
+        "modificationTime": "2020-12-14T14:41:22.251979Z",
         "moduleName": "querystringify",
         "packageManager": "npm",
         "packageName": "querystringify",
@@ -20278,11 +20513,11 @@
             "CWE-1022"
           ],
           "NSP": [
-            1039
+            "1039"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:59.852156Z",
+        "modificationTime": "2020-12-14T14:41:10.903349Z",
         "moduleName": "quill",
         "packageManager": "npm",
         "packageName": "quill",
@@ -20333,7 +20568,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-09-10T09:24:31.585981Z",
+        "modificationTime": "2020-12-14T14:41:05.559731Z",
         "moduleName": "quill",
         "packageManager": "npm",
         "packageName": "quill",
@@ -20389,7 +20624,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-07-08T13:21:10.205308Z",
+        "modificationTime": "2020-12-14T14:41:19.259391Z",
         "moduleName": "quill",
         "packageManager": "npm",
         "packageName": "quill",
@@ -20451,7 +20686,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:24.296649Z",
+        "modificationTime": "2020-12-14T14:41:34.619605Z",
         "moduleName": "ractive",
         "packageManager": "npm",
         "packageName": "ractive",
@@ -20504,11 +20739,11 @@
             "CWE-79"
           ],
           "NSP": [
-            1347
+            "1347"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:14.012669Z",
+        "modificationTime": "2020-12-14T14:41:36.792096Z",
         "moduleName": "react",
         "packageManager": "npm",
         "packageName": "react",
@@ -20570,11 +20805,11 @@
             "GHSA-g53w-52xc-2j85"
           ],
           "NSP": [
-            1420
+            "1420"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:13.270652Z",
+        "modificationTime": "2020-12-22T17:02:08.840736Z",
         "moduleName": "react",
         "packageManager": "npm",
         "packageName": "react",
@@ -20740,11 +20975,11 @@
             "GHSA-cg48-9hh2-x6mx"
           ],
           "NSP": [
-            1421
+            "1421"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:04.266322Z",
+        "modificationTime": "2021-05-02T13:22:53.477733Z",
         "moduleName": "react-dom",
         "packageManager": "npm",
         "packageName": "react-dom",
@@ -20830,11 +21065,11 @@
             "GHSA-m7qm-r2r5-f77q"
           ],
           "NSP": [
-            668
+            "668"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:42.257553Z",
+        "modificationTime": "2020-12-14T14:41:50.923200Z",
         "moduleName": "react-marked-markdown",
         "packageManager": "npm",
         "packageName": "react-marked-markdown",
@@ -20890,11 +21125,11 @@
             "GHSA-8xqr-4cpm-wx7g"
           ],
           "NSP": [
-            648
+            "648"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.955118Z",
+        "modificationTime": "2020-12-14T14:40:56.889121Z",
         "moduleName": "react-svg",
         "packageManager": "npm",
         "packageName": "react-svg",
@@ -20939,7 +21174,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T16:00:59.491541Z",
+        "modificationTime": "2020-12-14T14:41:41.379457Z",
         "moduleName": "react-tooltip",
         "packageManager": "npm",
         "packageName": "react-tooltip",
@@ -20997,11 +21232,11 @@
             "GHSA-4662-j96g-mv46"
           ],
           "NSP": [
-            144
+            "144"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:56.627767Z",
+        "modificationTime": "2020-12-22T17:02:08.767755Z",
         "moduleName": "reduce-css-calc",
         "packageManager": "npm",
         "packageName": "reduce-css-calc",
@@ -21073,7 +21308,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:02.689100Z",
+        "modificationTime": "2020-12-14T14:41:20.747300Z",
         "moduleName": "remarkable",
         "packageManager": "npm",
         "packageName": "remarkable",
@@ -21118,7 +21353,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:55.864750Z",
+        "modificationTime": "2020-12-14T14:40:55.741674Z",
         "moduleName": "remarkable",
         "packageManager": "npm",
         "packageName": "remarkable",
@@ -21178,11 +21413,11 @@
             "GHSA-mrmf-qwxg-7c3h"
           ],
           "NSP": [
-            319
+            "319"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.877354Z",
+        "modificationTime": "2020-12-22T17:02:10.140757Z",
         "moduleName": "remarkable",
         "packageManager": "npm",
         "packageName": "remarkable",
@@ -21242,11 +21477,11 @@
             "GHSA-f9vc-q3hh-qhfv"
           ],
           "NSP": [
-            30
+            "30"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.874444Z",
+        "modificationTime": "2020-12-22T17:02:08.162074Z",
         "moduleName": "remarkable",
         "packageManager": "npm",
         "packageName": "remarkable",
@@ -21296,7 +21531,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:50:30.867293Z",
+        "modificationTime": "2020-12-14T14:41:17.599001Z",
         "moduleName": "rendr",
         "packageManager": "npm",
         "packageName": "rendr",
@@ -21348,7 +21583,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:48:25.180367Z",
+        "modificationTime": "2020-12-14T14:41:15.875517Z",
         "moduleName": "rendr",
         "packageManager": "npm",
         "packageName": "rendr",
@@ -21404,7 +21639,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:18:59.688045Z",
+        "modificationTime": "2020-12-14T14:41:12.137159Z",
         "moduleName": "rendr",
         "packageManager": "npm",
         "packageName": "rendr",
@@ -21456,11 +21691,11 @@
             "GHSA-v5hp-35hw-cw5x"
           ],
           "NSP": [
-            128
+            "128"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-09-02T16:13:45.188973Z",
+        "modificationTime": "2020-12-14T14:41:50.875581Z",
         "moduleName": "rendr",
         "packageManager": "npm",
         "packageName": "rendr",
@@ -21514,7 +21749,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:51:04.137850Z",
+        "modificationTime": "2020-12-14T14:41:15.747756Z",
         "moduleName": "rendr-handlebars",
         "packageManager": "npm",
         "packageName": "rendr-handlebars",
@@ -21569,7 +21804,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-02-28T12:22:01.103229Z",
+        "modificationTime": "2022-02-28T12:22:01.304928Z",
         "moduleName": "reveal.js",
         "packageManager": "npm",
         "packageName": "reveal.js",
@@ -21625,7 +21860,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:00.903599Z",
+        "modificationTime": "2021-07-06T14:08:26.490540Z",
         "moduleName": "reveal.js",
         "packageManager": "npm",
         "packageName": "reveal.js",
@@ -21676,7 +21911,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:05.266961Z",
+        "modificationTime": "2020-12-14T14:41:41.562963Z",
         "moduleName": "reveal.js",
         "packageManager": "npm",
         "packageName": "reveal.js",
@@ -21728,7 +21963,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:58.137735Z",
+        "modificationTime": "2020-12-14T14:41:15.568814Z",
         "moduleName": "reveal.js",
         "packageManager": "npm",
         "packageName": "reveal.js",
@@ -21780,11 +22015,11 @@
             "GHSA-65p8-3hm4-h9h8"
           ],
           "NSP": [
-            647
+            "647"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:13:59.904700Z",
+        "modificationTime": "2020-12-14T14:41:39.914690Z",
         "moduleName": "rgb2hex",
         "packageManager": "npm",
         "packageName": "rgb2hex",
@@ -21834,7 +22069,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:05.080234Z",
+        "modificationTime": "2020-12-14T14:41:15.922484Z",
         "moduleName": "riot",
         "packageManager": "npm",
         "packageName": "riot",
@@ -21904,7 +22139,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:55.223564Z",
+        "modificationTime": "2020-12-14T14:40:51.924731Z",
         "moduleName": "rrule",
         "packageManager": "npm",
         "packageName": "rrule",
@@ -21955,7 +22190,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:56.302810Z",
+        "modificationTime": "2020-12-14T14:40:51.944106Z",
         "moduleName": "rrule",
         "packageManager": "npm",
         "packageName": "rrule",
@@ -22014,7 +22249,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-09T16:34:49.051805Z",
+        "modificationTime": "2021-10-13T13:44:46.998835Z",
         "moduleName": "sanitize-html",
         "packageManager": "npm",
         "packageName": "sanitize-html",
@@ -22063,7 +22298,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-09T16:34:45.899077Z",
+        "modificationTime": "2021-09-24T13:25:49.434343Z",
         "moduleName": "sanitize-html",
         "packageManager": "npm",
         "packageName": "sanitize-html",
@@ -22166,11 +22401,11 @@
             "GHSA-wg96-3933-j2w5"
           ],
           "NSP": [
-            155
+            "155"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:08.852964Z",
+        "modificationTime": "2020-12-22T17:02:10.221835Z",
         "moduleName": "sanitize-html",
         "packageManager": "npm",
         "packageName": "sanitize-html",
@@ -22230,11 +22465,11 @@
             "GHSA-xc6g-ggrc-qq4r"
           ],
           "NSP": [
-            154
+            "154"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:07.352424Z",
+        "modificationTime": "2020-12-22T17:02:10.177364Z",
         "moduleName": "sanitize-html",
         "packageManager": "npm",
         "packageName": "sanitize-html",
@@ -22283,11 +22518,11 @@
             "CWE-79"
           ],
           "NSP": [
-            135
+            "135"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:40.402417Z",
+        "modificationTime": "2020-12-14T14:41:17.951016Z",
         "moduleName": "sanitize-html",
         "packageManager": "npm",
         "packageName": "sanitize-html",
@@ -22344,7 +22579,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-04-16T09:38:43.588321Z",
+        "modificationTime": "2021-05-02T13:22:06.966093Z",
         "moduleName": "sanitize-html",
         "packageManager": "npm",
         "packageName": "sanitize-html",
@@ -22406,11 +22641,11 @@
             "GHSA-h9x2-5rm7-x4gm"
           ],
           "NSP": [
-            50
+            "50"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-11-01T13:34:01.649700Z",
+        "modificationTime": "2020-12-14T14:40:57.611430Z",
         "moduleName": "secure-compare",
         "packageManager": "npm",
         "packageName": "secure-compare",
@@ -22469,7 +22704,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.402815Z",
+        "modificationTime": "2021-02-28T15:59:00.127216Z",
         "moduleName": "select2",
         "packageManager": "npm",
         "packageName": "select2",
@@ -22585,12 +22820,12 @@
             "CWE-79"
           ],
           "NSP": [
-            885,
-            760
+            "885",
+            "760"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:43.393154Z",
+        "modificationTime": "2020-11-16T16:47:31.008082Z",
         "moduleName": "semantic-ui",
         "packageManager": "npm",
         "packageName": "semantic-ui",
@@ -22650,7 +22885,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:16.651726Z",
+        "modificationTime": "2020-12-14T14:41:16.328250Z",
         "moduleName": "semantic-ui",
         "packageManager": "npm",
         "packageName": "semantic-ui",
@@ -22698,7 +22933,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:17.400375Z",
+        "modificationTime": "2020-12-14T14:41:17.614993Z",
         "moduleName": "semantic-ui",
         "packageManager": "npm",
         "packageName": "semantic-ui",
@@ -22753,12 +22988,12 @@
             "GHSA-3fjq-93xj-3f3f"
           ],
           "NSP": [
-            1426,
-            1429
+            "1426",
+            "1429"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.143567Z",
+        "modificationTime": "2020-11-23T16:15:40.166912Z",
         "moduleName": "serialize-to-js",
         "packageManager": "npm",
         "packageName": "serialize-to-js",
@@ -22804,11 +23039,11 @@
             "CWE-400"
           ],
           "NSP": [
-            790
+            "790"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:00.947330Z",
+        "modificationTime": "2021-08-08T13:56:54.810026Z",
         "moduleName": "serialize-to-js",
         "packageManager": "npm",
         "packageName": "serialize-to-js",
@@ -22868,11 +23103,11 @@
             "GHSA-mm62-wxc8-cf7m"
           ],
           "NSP": [
-            313
+            "313"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:57.371598Z",
+        "modificationTime": "2020-12-22T17:02:10.121848Z",
         "moduleName": "serialize-to-js",
         "packageManager": "npm",
         "packageName": "serialize-to-js",
@@ -22935,7 +23170,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.775534Z",
+        "modificationTime": "2020-12-14T14:41:49.890076Z",
         "moduleName": "shaka-player",
         "packageManager": "npm",
         "packageName": "shaka-player",
@@ -22982,7 +23217,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-10-22T14:42:50.164571Z",
+        "modificationTime": "2021-10-22T14:42:50.337477Z",
         "moduleName": "shell-quote",
         "packageManager": "npm",
         "packageName": "shell-quote",
@@ -23039,11 +23274,11 @@
             "GHSA-qg8p-v9q4-gh34"
           ],
           "NSP": [
-            117
+            "117"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:42.716094Z",
+        "modificationTime": "2020-12-22T17:02:08.645450Z",
         "moduleName": "shell-quote",
         "packageManager": "npm",
         "packageName": "shell-quote",
@@ -23103,7 +23338,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:09:52.440215Z",
+        "modificationTime": "2020-12-14T14:41:15.295145Z",
         "moduleName": "showdown-xss-filter",
         "packageManager": "npm",
         "packageName": "showdown-xss-filter",
@@ -23156,11 +23391,11 @@
             "GHSA-8v67-x8q5-3x3g"
           ],
           "NSP": [
-            884
+            "884"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:02.564189Z",
+        "modificationTime": "2020-12-22T17:02:13.045963Z",
         "moduleName": "simditor",
         "packageManager": "npm",
         "packageName": "simditor",
@@ -23218,7 +23453,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:44.342219Z",
+        "modificationTime": "2020-12-14T14:41:16.979171Z",
         "moduleName": "simditor",
         "packageManager": "npm",
         "packageName": "simditor",
@@ -23276,7 +23511,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-10-12T21:57:41.648577Z",
+        "modificationTime": "2021-08-08T13:56:54.918383Z",
         "moduleName": "simpl-schema",
         "packageManager": "npm",
         "packageName": "simpl-schema",
@@ -23325,7 +23560,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.708477Z",
+        "modificationTime": "2020-12-14T14:41:49.832458Z",
         "moduleName": "simpl-schema",
         "packageManager": "npm",
         "packageName": "simpl-schema",
@@ -23370,7 +23605,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:40.112656Z",
+        "modificationTime": "2020-12-14T14:41:15.778240Z",
         "moduleName": "simplemde",
         "packageManager": "npm",
         "packageName": "simplemde",
@@ -23424,11 +23659,11 @@
             "GHSA-jxqq-cqm6-pfq9"
           ],
           "NSP": [
-            537
+            "537"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:39.675608Z",
+        "modificationTime": "2020-12-22T17:02:11.663482Z",
         "moduleName": "slug",
         "packageManager": "npm",
         "packageName": "slug",
@@ -23486,7 +23721,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:39.484635Z",
+        "modificationTime": "2020-12-14T14:41:35.452980Z",
         "moduleName": "slugify",
         "packageManager": "npm",
         "packageName": "slugify",
@@ -23540,7 +23775,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-01-07T16:40:36.503041Z",
+        "modificationTime": "2021-04-20T12:46:40.998850Z",
         "moduleName": "socket.io",
         "packageManager": "npm",
         "packageName": "socket.io",
@@ -23592,7 +23827,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:49.355893Z",
+        "modificationTime": "2020-12-14T14:41:17.424737Z",
         "moduleName": "socket.io",
         "packageManager": "npm",
         "packageName": "socket.io",
@@ -23652,11 +23887,11 @@
             "GHSA-qv2v-m59f-v5fw"
           ],
           "NSP": [
-            321
+            "321"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:50.099694Z",
+        "modificationTime": "2020-12-22T17:02:10.100884Z",
         "moduleName": "socket.io",
         "packageManager": "npm",
         "packageName": "socket.io",
@@ -23722,11 +23957,11 @@
             "GHSA-4qhx-g9wp-g9m6"
           ],
           "NSP": [
-            575
+            "575"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:42.218527Z",
+        "modificationTime": "2020-12-14T14:40:55.364829Z",
         "moduleName": "squel",
         "packageManager": "npm",
         "packageName": "squel",
@@ -23776,7 +24011,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:48:20.874818Z",
+        "modificationTime": "2020-12-14T14:41:17.897229Z",
         "moduleName": "squire-rte",
         "packageManager": "npm",
         "packageName": "squire-rte",
@@ -23828,11 +24063,11 @@
             "GHSA-g36h-6r4f-3mqp"
           ],
           "NSP": [
-            536
+            "536"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-22T10:10:10.842859Z",
+        "modificationTime": "2020-12-22T17:02:11.670723Z",
         "moduleName": "string",
         "packageManager": "npm",
         "packageName": "string",
@@ -23882,7 +24117,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.893456Z",
+        "modificationTime": "2020-12-14T14:41:30.731652Z",
         "moduleName": "superagent",
         "packageManager": "npm",
         "packageName": "superagent",
@@ -23978,11 +24213,11 @@
             "GHSA-8225-6cvr-8pqp"
           ],
           "NSP": [
-            479
+            "479"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:53.888095Z",
+        "modificationTime": "2020-12-22T17:02:11.692805Z",
         "moduleName": "superagent",
         "packageManager": "npm",
         "packageName": "superagent",
@@ -24022,7 +24257,8 @@
         "id": "SNYK-JS-SWAGGERUI-2314885",
         "identifiers": {
           "CVE": [
-            "CVE-2018-25031"
+            "CVE-2018-25031",
+            "CVE-2021-46708"
           ],
           "CWE": [
             "CWE-451"
@@ -24032,7 +24268,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-12-12T14:39:29.551630Z",
+        "modificationTime": "2022-03-18T12:14:12.621700Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24127,7 +24363,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.389243Z",
+        "modificationTime": "2022-04-27T15:25:00.681819Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24182,7 +24418,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:01.116978Z",
+        "modificationTime": "2020-12-14T14:41:02.102197Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24228,11 +24464,11 @@
             "CWE-79"
           ],
           "NSP": [
-            985
+            "985"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:55.416277Z",
+        "modificationTime": "2021-08-08T13:56:54.803534Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24289,13 +24525,13 @@
             "GHSA-g336-c7wv-8hp3"
           ],
           "NSP": [
-            988,
-            987,
-            986
+            "988",
+            "987",
+            "986"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:56.373858Z",
+        "modificationTime": "2021-05-02T13:22:51.692861Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24373,11 +24609,11 @@
             "CWE-79"
           ],
           "NSP": [
-            976
+            "976"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:55.882334Z",
+        "modificationTime": "2021-09-24T08:33:11.477180Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24426,11 +24662,11 @@
             "GHSA-x9p2-fxq6-2m5f"
           ],
           "NSP": [
-            975
+            "975"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.397472Z",
+        "modificationTime": "2020-12-14T14:41:01.268887Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24486,7 +24722,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.245666Z",
+        "modificationTime": "2020-12-14T14:41:00.174271Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24542,7 +24778,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-13T10:15:40.438653Z",
+        "modificationTime": "2020-12-14T14:41:00.195460Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24593,11 +24829,11 @@
             "CWE-80"
           ],
           "NSP": [
-            137
+            "137"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:30.653769Z",
+        "modificationTime": "2020-12-14T14:41:00.183583Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24652,11 +24888,11 @@
             "CWE-79"
           ],
           "NSP": [
-            131
+            "131"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-13T10:17:11.719826Z",
+        "modificationTime": "2020-12-14T14:41:00.219772Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24709,11 +24945,11 @@
             "CWE-79"
           ],
           "NSP": [
-            126
+            "126"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:42.604785Z",
+        "modificationTime": "2020-12-14T14:41:02.125811Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24768,11 +25004,11 @@
             "CWE-79"
           ],
           "NSP": [
-            123
+            "123"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:42.712692Z",
+        "modificationTime": "2020-12-14T14:41:00.223674Z",
         "moduleName": "swagger-ui",
         "packageManager": "npm",
         "packageName": "swagger-ui",
@@ -24830,7 +25066,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:51.598998Z",
+        "modificationTime": "2020-12-14T14:41:15.673631Z",
         "moduleName": "textangular",
         "packageManager": "npm",
         "packageName": "textangular",
@@ -24886,7 +25122,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:48.601640Z",
+        "modificationTime": "2020-12-14T14:41:15.863963Z",
         "moduleName": "textangular",
         "packageManager": "npm",
         "packageName": "textangular",
@@ -24988,7 +25224,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-01-29T16:01:22.464010Z",
+        "modificationTime": "2021-08-08T13:56:55.004854Z",
         "moduleName": "three",
         "packageManager": "npm",
         "packageName": "three",
@@ -25148,11 +25384,11 @@
             "GHSA-f523-2f5j-gfcg"
           ],
           "NSP": [
-            533
+            "533"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-03-07T14:29:49.070184Z",
+        "modificationTime": "2020-12-22T17:02:11.678243Z",
         "moduleName": "timespan",
         "packageManager": "npm",
         "packageName": "timespan",
@@ -25208,7 +25444,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:39.956146Z",
+        "modificationTime": "2020-12-14T14:41:24.171013Z",
         "moduleName": "tiny-json-http",
         "packageManager": "npm",
         "packageName": "tiny-json-http",
@@ -25410,7 +25646,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-01-07T16:40:31.635900Z",
+        "modificationTime": "2021-01-11T10:26:15.260753Z",
         "moduleName": "tinymce",
         "packageManager": "npm",
         "packageName": "tinymce",
@@ -25460,7 +25696,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-08-12T10:53:14.352152Z",
+        "modificationTime": "2021-01-20T15:25:04.883085Z",
         "moduleName": "tinymce",
         "packageManager": "npm",
         "packageName": "tinymce",
@@ -25510,7 +25746,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-05-12T15:14:06.604729Z",
+        "modificationTime": "2020-09-19T20:05:17.804853Z",
         "moduleName": "tinymce",
         "packageManager": "npm",
         "packageName": "tinymce",
@@ -25564,7 +25800,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:54.814775Z",
+        "modificationTime": "2021-05-07T16:16:59.290605Z",
         "moduleName": "tinymce",
         "packageManager": "npm",
         "packageName": "tinymce",
@@ -25626,7 +25862,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-07-02T12:49:21.897271Z",
+        "modificationTime": "2020-12-14T14:41:04.309731Z",
         "moduleName": "tinymce",
         "packageManager": "npm",
         "packageName": "tinymce",
@@ -25679,7 +25915,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:36.616123Z",
+        "modificationTime": "2020-12-14T14:41:18.364183Z",
         "moduleName": "tinymce",
         "packageManager": "npm",
         "packageName": "tinymce",
@@ -25727,7 +25963,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:40.338207Z",
+        "modificationTime": "2020-12-14T14:41:18.232833Z",
         "moduleName": "tinymce",
         "packageManager": "npm",
         "packageName": "tinymce",
@@ -25775,7 +26011,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:05.785942Z",
+        "modificationTime": "2020-12-14T14:41:16.870872Z",
         "moduleName": "tinymce",
         "packageManager": "npm",
         "packageName": "tinymce",
@@ -25826,7 +26062,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.644114Z",
+        "modificationTime": "2020-12-14T14:41:49.761893Z",
         "moduleName": "truncate",
         "packageManager": "npm",
         "packageName": "truncate",
@@ -25882,11 +26118,11 @@
             "GHSA-pmg9-p9r2-6q87"
           ],
           "NSP": [
-            316
+            "316"
           ]
         },
         "language": "js",
-        "modificationTime": "2018-11-18T11:50:41.472653Z",
+        "modificationTime": "2020-12-22T17:02:11.571462Z",
         "moduleName": "ua-parser",
         "packageManager": "npm",
         "packageName": "ua-parser",
@@ -25986,7 +26222,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-12T16:09:39.945049Z",
+        "modificationTime": "2021-09-24T13:25:49.071846Z",
         "moduleName": "ua-parser-js",
         "packageManager": "npm",
         "packageName": "ua-parser-js",
@@ -26036,7 +26272,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-12-13T15:57:49.646472Z",
+        "modificationTime": "2021-06-21T19:28:47.413445Z",
         "moduleName": "ua-parser-js",
         "packageManager": "npm",
         "packageName": "ua-parser-js",
@@ -26084,7 +26320,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-10-16T12:34:52.646928Z",
+        "modificationTime": "2021-07-06T14:08:20.507448Z",
         "moduleName": "ua-parser-js",
         "packageManager": "npm",
         "packageName": "ua-parser-js",
@@ -26192,7 +26428,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.516722Z",
+        "modificationTime": "2020-12-14T14:41:24.659274Z",
         "moduleName": "ua-parser-js",
         "packageManager": "npm",
         "packageName": "ua-parser-js",
@@ -26269,7 +26505,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:02.717672Z",
+        "modificationTime": "2020-12-14T14:41:35.341025Z",
         "moduleName": "ua-parser-js",
         "packageManager": "npm",
         "packageName": "ua-parser-js",
@@ -26323,7 +26559,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-23T15:15:57.572104Z",
+        "modificationTime": "2020-12-14T14:40:53.524365Z",
         "moduleName": "uikit",
         "packageManager": "npm",
         "packageName": "uikit",
@@ -26374,7 +26610,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-03-29T14:54:59.415087Z",
+        "modificationTime": "2021-07-12T15:25:03.116440Z",
         "moduleName": "underscore",
         "packageManager": "npm",
         "packageName": "underscore",
@@ -26452,11 +26688,11 @@
             "GHSA-v2p6-4mp7-3r9v"
           ],
           "NSP": [
-            745
+            "745"
           ]
         },
         "language": "js",
-        "modificationTime": "2022-01-25T12:34:17.626077Z",
+        "modificationTime": "2022-05-16T13:08:55.548162Z",
         "moduleName": "underscore.string",
         "packageManager": "npm",
         "packageName": "underscore.string",
@@ -26522,11 +26758,11 @@
             "GHSA-333w-rxj3-f55r"
           ],
           "NSP": [
-            100
+            "100"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:40:08.106307Z",
+        "modificationTime": "2020-12-22T17:02:10.240631Z",
         "moduleName": "uri-js",
         "packageManager": "npm",
         "packageName": "uri-js",
@@ -26581,7 +26817,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-02-24T16:08:31.368378Z",
+        "modificationTime": "2022-02-24T16:08:31.527221Z",
         "moduleName": "url-parse",
         "packageManager": "npm",
         "packageName": "url-parse",
@@ -26606,15 +26842,15 @@
         "title": "Authorization Bypass Through User-Controlled Key"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N/E:P",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [],
         "creationTime": "2022-02-21T12:56:54.006952Z",
         "credit": [
           "haxatron"
         ],
-        "cvssScore": 6.5,
+        "cvssScore": 8.1,
         "disclosureTime": "2022-02-21T12:49:06Z",
-        "exploit": "Proof of Concept",
+        "exploit": "Not Defined",
         "fixedIn": [
           "1.5.9"
         ],
@@ -26626,16 +26862,16 @@
             "CVE-2022-0691"
           ],
           "CWE": [
-            "CWE-639"
+            "CWE-20"
           ]
         },
         "language": "js",
-        "modificationTime": "2022-02-21T16:02:45.264637Z",
+        "modificationTime": "2022-03-23T07:45:56.572496Z",
         "moduleName": "url-parse",
         "packageManager": "npm",
         "packageName": "url-parse",
         "patches": [],
-        "publicationTime": "2022-02-21T16:02:45.414326Z",
+        "publicationTime": "2022-02-21T16:02:45Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -26647,8 +26883,8 @@
             "<1.5.9"
           ]
         },
-        "severity": "medium",
-        "title": "Authorization Bypass"
+        "severity": "high",
+        "title": "Improper Input Validation"
       },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:L/I:L/A:N/E:P",
@@ -26675,7 +26911,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-02-21T16:02:44.913063Z",
+        "modificationTime": "2022-02-21T16:02:45.057937Z",
         "moduleName": "url-parse",
         "packageManager": "npm",
         "packageName": "url-parse",
@@ -26720,7 +26956,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-02-15T13:06:08.310527Z",
+        "modificationTime": "2022-02-15T15:27:36.795014Z",
         "moduleName": "url-parse",
         "packageManager": "npm",
         "packageName": "url-parse",
@@ -26769,7 +27005,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-07-26T15:23:40.945466Z",
+        "modificationTime": "2021-07-26T15:23:41.208720Z",
         "moduleName": "url-parse",
         "packageManager": "npm",
         "packageName": "url-parse",
@@ -26825,7 +27061,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-22T15:56:01.541988Z",
+        "modificationTime": "2021-07-06T14:08:11.382662Z",
         "moduleName": "url-parse",
         "packageManager": "npm",
         "packageName": "url-parse",
@@ -26850,13 +27086,13 @@
         "title": "Improper Input Validation"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:U/C:H/I:H/A:N/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N/E:P/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-01-27T10:37:31.297521Z",
         "credit": [
           "ronperris"
         ],
-        "cvssScore": 7.3,
+        "cvssScore": 8.1,
         "disclosureTime": "2020-01-27T09:10:53Z",
         "exploit": "Proof of Concept",
         "fixedIn": [
@@ -26874,7 +27110,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:37:03.818269Z",
+        "modificationTime": "2022-03-23T08:01:54.709820Z",
         "moduleName": "url-parse",
         "packageManager": "npm",
         "packageName": "url-parse",
@@ -26947,11 +27183,11 @@
             "GHSA-pv4c-p2j5-38j4"
           ],
           "NSP": [
-            678
+            "678"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:18.592299Z",
+        "modificationTime": "2020-12-22T17:02:12.331056Z",
         "moduleName": "url-parse",
         "packageManager": "npm",
         "packageName": "url-parse",
@@ -27104,7 +27340,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-19T10:50:02.327726Z",
+        "modificationTime": "2020-12-14T14:41:35.247155Z",
         "moduleName": "useragent",
         "packageManager": "npm",
         "packageName": "useragent",
@@ -27156,11 +27392,11 @@
             "GHSA-pjmx-9xr3-82qr"
           ],
           "NSP": [
-            312
+            "312"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-19T10:50:02.320124Z",
+        "modificationTime": "2020-12-22T17:02:10.274418Z",
         "moduleName": "useragent",
         "packageManager": "npm",
         "packageName": "useragent",
@@ -27248,7 +27484,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-21T08:15:11.559382Z",
+        "modificationTime": "2020-12-14T14:41:28.499395Z",
         "moduleName": "utile",
         "packageManager": "npm",
         "packageName": "utile",
@@ -27298,7 +27534,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:24.640655Z",
+        "modificationTime": "2020-12-14T14:41:34.262218Z",
         "moduleName": "uuid",
         "packageManager": "npm",
         "packageName": "uuid",
@@ -27349,7 +27585,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.635385Z",
+        "modificationTime": "2020-12-14T14:41:49.742283Z",
         "moduleName": "valid-data-url",
         "packageManager": "npm",
         "packageName": "valid-data-url",
@@ -27394,7 +27630,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-04-26T16:18:43.024933Z",
+        "modificationTime": "2021-08-08T13:56:55.044794Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -27441,7 +27677,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-04-26T16:18:43.483071Z",
+        "modificationTime": "2021-08-08T13:56:55.041865Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -27490,7 +27726,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-11-04T13:35:41.043684Z",
+        "modificationTime": "2021-11-04T16:13:50.818043Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -27541,7 +27777,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-04-26T16:18:45.603232Z",
+        "modificationTime": "2021-11-02T09:54:37.437536Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -27642,7 +27878,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:46.799441Z",
+        "modificationTime": "2020-12-14T14:41:49.722647Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -27695,7 +27931,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-04-30T14:17:25.773876Z",
+        "modificationTime": "2020-12-14T14:41:36.216080Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -27755,7 +27991,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:26.553565Z",
+        "modificationTime": "2020-12-14T14:41:15.596365Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -27847,11 +28083,11 @@
             "GHSA-f5w6-r7rg-mcgq"
           ],
           "NSP": [
-            42
+            "42"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:49.081687Z",
+        "modificationTime": "2020-12-22T17:02:08.149582Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -27908,11 +28144,11 @@
             "GHSA-9959-c6q6-6qp3"
           ],
           "NSP": [
-            43
+            "43"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:50.604657Z",
+        "modificationTime": "2020-12-22T17:02:08.140533Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -27978,11 +28214,11 @@
             "GHSA-q4qq-fm7q-cwp5"
           ],
           "NSP": [
-            41
+            "41"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:48.332307Z",
+        "modificationTime": "2020-12-22T17:02:07.986752Z",
         "moduleName": "validator",
         "packageManager": "npm",
         "packageName": "validator",
@@ -28036,7 +28272,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-12-31T16:00:44.895585Z",
+        "modificationTime": "2021-01-03T15:24:43.603131Z",
         "moduleName": "vega",
         "packageManager": "npm",
         "packageName": "vega",
@@ -28087,7 +28323,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-12-31T13:12:34.340495Z",
+        "modificationTime": "2021-01-03T15:24:58.767531Z",
         "moduleName": "vega",
         "packageManager": "npm",
         "packageName": "vega",
@@ -28139,7 +28375,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:57.581588Z",
+        "modificationTime": "2020-12-14T14:41:16.185079Z",
         "moduleName": "vega",
         "packageManager": "npm",
         "packageName": "vega",
@@ -28197,7 +28433,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-06-02T07:10:48.027016Z",
+        "modificationTime": "2020-12-14T14:41:16.367645Z",
         "moduleName": "vue",
         "packageManager": "npm",
         "packageName": "vue",
@@ -28245,7 +28481,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:25.050609Z",
+        "modificationTime": "2020-12-14T14:41:16.142230Z",
         "moduleName": "vue",
         "packageManager": "npm",
         "packageName": "vue",
@@ -28302,11 +28538,11 @@
             "GHSA-cg48-9hh2-x6mx"
           ],
           "NSP": [
-            1421
+            "1421"
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-12T14:36:45.513034Z",
+        "modificationTime": "2021-05-02T13:22:53.477733Z",
         "moduleName": "vue",
         "packageManager": "npm",
         "packageName": "vue",
@@ -28387,7 +28623,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.626630Z",
+        "modificationTime": "2020-12-14T14:41:49.886336Z",
         "moduleName": "vue",
         "packageManager": "npm",
         "packageName": "vue",
@@ -28438,7 +28674,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.777499Z",
+        "modificationTime": "2020-12-14T14:41:49.894205Z",
         "moduleName": "wicket",
         "packageManager": "npm",
         "packageName": "wicket",
@@ -28492,7 +28728,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:56.081072Z",
+        "modificationTime": "2020-12-14T14:41:17.958339Z",
         "moduleName": "wysihtml",
         "packageManager": "npm",
         "packageName": "wysihtml",
@@ -28588,7 +28824,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-06-17T16:10:35.615652Z",
+        "modificationTime": "2021-06-17T16:10:35.851354Z",
         "moduleName": "xlsx",
         "packageManager": "npm",
         "packageName": "xlsx",
@@ -28686,7 +28922,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-07-17T15:55:44.271232Z",
+        "modificationTime": "2020-09-25T14:02:54.496552Z",
         "moduleName": "xlsx",
         "packageManager": "npm",
         "packageName": "xlsx",
@@ -28739,7 +28975,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-06-09T09:57:45.398613Z",
+        "modificationTime": "2020-12-14T14:41:49.898203Z",
         "moduleName": "xlsx",
         "packageManager": "npm",
         "packageName": "xlsx",
@@ -28795,7 +29031,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-04-06T16:45:16.761354Z",
+        "modificationTime": "2021-05-02T13:22:56.129658Z",
         "moduleName": "yui",
         "packageManager": "npm",
         "packageName": "yui",
@@ -28854,11 +29090,11 @@
             "CWE-79"
           ],
           "NSP": [
-            332
+            "332"
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:48:00.268806Z",
+        "modificationTime": "2020-12-14T14:41:17.618699Z",
         "moduleName": "yui",
         "packageManager": "npm",
         "packageName": "yui",
@@ -28914,7 +29150,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:47:59.566607Z",
+        "modificationTime": "2020-12-14T14:41:15.393947Z",
         "moduleName": "yui",
         "packageManager": "npm",
         "packageName": "yui",
@@ -28962,7 +29198,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:42.601602Z",
+        "modificationTime": "2020-12-14T14:41:17.703955Z",
         "moduleName": "yui",
         "packageManager": "npm",
         "packageName": "yui",
@@ -29016,7 +29252,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-05-30T14:47:58.142372Z",
+        "modificationTime": "2020-12-14T14:41:16.975001Z",
         "moduleName": "yui",
         "packageManager": "npm",
         "packageName": "yui",
@@ -29068,7 +29304,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:38:28.058625Z",
+        "modificationTime": "2020-12-14T14:41:15.755197Z",
         "moduleName": "zeroclipboard",
         "packageManager": "npm",
         "packageName": "zeroclipboard",
@@ -29126,7 +29362,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-01-10T15:42:10.298760Z",
+        "modificationTime": "2020-12-14T14:40:51.313716Z",
         "moduleName": "zeroclipboard",
         "packageManager": "npm",
         "packageName": "zeroclipboard",
@@ -29180,7 +29416,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2019-12-02T14:39:59.842090Z",
+        "modificationTime": "2020-12-14T14:41:16.824436Z",
         "moduleName": "zeroclipboard",
         "packageManager": "npm",
         "packageName": "zeroclipboard",
