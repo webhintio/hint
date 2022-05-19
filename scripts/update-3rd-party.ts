@@ -114,7 +114,7 @@ const resources = new Map([
     ['packages/hint-no-vulnerable-javascript-libraries/src/snyk-snapshot.json', 'https://snyk.io/partners/api/v2/vulndb/clientside.json'],
     ['packages/parser-manifest/src/schema.json', 'https://json.schemastore.org/web-manifest-combined'],
     ['packages/parser-typescript-config/src/schema.json', 'https://json.schemastore.org/tsconfig'],
-    ['packages/hint-amp-validator/src/validator', 'https://cdn.ampproject.org/v0/validator.js']
+    ['packages/hint-amp-validator/src/validator', 'https://cdn.ampproject.org/v0/validator_wasm.js']
 ]);
 
 // AJV uses draft-07 and otherwise tests break
