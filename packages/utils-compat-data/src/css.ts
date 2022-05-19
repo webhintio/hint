@@ -7,7 +7,7 @@ import { getUnsupportedBrowsers, UnsupportedBrowsers } from './browsers';
 import { getCachedValue } from './cache';
 import { getFeatureData } from './helpers';
 import { types } from './mdn-css-types';
-import { MatchesCompatStatement } from './matches';
+import { IMatchesCompatStatement } from './matches';
 
 const selectorParser = require('postcss-selector-parser');
 const valueParser = require('postcss-value-parser');
@@ -62,7 +62,7 @@ const getTokens = (nodes: any[]): [string, string][] => {
  */
 const getValueMatchesUnsupported = (context: Identifier, featureSupport: Identifier, value: ParsedValue, browsers: string[]): UnsupportedBrowsers | null => {
     const { prefix, tokens, unprefixedValue } = value;
-    const matches = featureSupport.__compat && (featureSupport.__compat as MatchesCompatStatement).matches;
+    const matches = featureSupport.__compat && (featureSupport.__compat as IMatchesCompatStatement).matches;
 
     if (!matches) {
         return null;
