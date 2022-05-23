@@ -293,10 +293,8 @@ export default class JSXParser extends Parser<HTMLEvents> {
             const roots: RootMap = new Map();
             const childMap: ChildMap = new Map();
 
-            debugger; // eslint-disable-line
             walk.ancestor(ast, {
                 JSXElement(node, /* istanbul ignore next */ ancestors = []) {
-                    debugger; // eslint-disable-line
                     if (!isNativeElement(node)) {
                         return;
                     }
