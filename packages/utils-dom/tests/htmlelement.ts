@@ -65,6 +65,13 @@ test('hasAttributes', (t) => {
     t.false(doc.body.hasAttributes());
 });
 
+test('hasAttributeSpread', (t) => {
+    const doc = createHTMLDocument('<input {...spread}/><input type="text"/>', 'http://localhost/');
+
+    t.true(doc.body.children[0].hasAttributeSpread());
+    t.false(doc.body.children[1].hasAttributeSpread());
+});
+
 test('isAttributeAnExpression', (t) => {
     const doc = createHTMLDocument('<div id={id} class="foo">{value}</div>', 'http://localhost/');
 

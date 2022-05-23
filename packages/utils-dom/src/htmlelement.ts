@@ -161,6 +161,15 @@ export class HTMLElement extends Node {
 
     /**
      * Non-standard.
+     * Check if additional attributes were provided via spread notation,
+     * meaning the exact set of provided attributes is unknown.
+     */
+    public hasAttributeSpread(): boolean {
+        return this.hasAttribute('{...spread}');
+    }
+
+    /**
+     * Non-standard.
      * Check if the value of an attribute was provided as a template
      * expression, meaning the exact value of the attribute is unknown.
      */
