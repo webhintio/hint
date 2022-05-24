@@ -47,7 +47,6 @@
         { "path": "packages/formatter-stylish" },
         { "path": "packages/formatter-summary" },
         { "path": "packages/hint" },
-        { "path": "packages/hint-amp-validator" },
         { "path": "packages/hint-apple-touch-icons" },
         { "path": "packages/hint-axe" },
         { "path": "packages/hint-babel-config" },

@@ -36,7 +36,6 @@
 
 ## Performance
 
-* [`amp-validator`](../../../../hint-amp-validator/README.md)
 * [`http-cache`](../../../../hint-http-cache/README.md)
 * [`http-compression`](../../../../hint-http-compression/README.md)
 * [`image-optimization-cloudinary`](../../../../hint-image-optimization-cloudinary/README.md)

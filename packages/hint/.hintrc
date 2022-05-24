@@ -7,7 +7,6 @@
     },
     "hintsTimeout": 120000,
     "hints": {
-        "amp-validator": "off",
         "apple-touch-icons": "warning",
         "button-type": "warning",
         "content-type": "warning",
