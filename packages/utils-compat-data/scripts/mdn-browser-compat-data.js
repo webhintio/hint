@@ -1,14 +1,40 @@
 const fs = require('fs');
 const mdn = require('@mdn/browser-compat-data');
 const path = require('path');
+const extraData = require('./extra-data');
 const filename = path.resolve(`${__dirname}/../src/browser-compat-data.ts`);
+
+/**
+ * @typedef {import('@mdn/browser-compat-data/types').Browsers} Browsers
+ * @typedef {import('@mdn/browser-compat-data/types').CompatStatement} CompatStatement
+ * @typedef {import('@mdn/browser-compat-data/types').Identifier} Identifier
+ * @typedef {import('@mdn/browser-compat-data/types').SimpleSupportStatement} SimpleSupportStatement
+ * @typedef {import('@mdn/browser-compat-data/types').SupportBlock} SupportBlock
+ */
+
+/**
+ * @param {any} target
+ * @param {any} source
+ */
+const merge = (target, source, path = '') => {
+    for (const [key, value] of Object.entries(source)) {
+        if (target[key] && value && typeof value === 'object' && !Array.isArray(value)) {
+            merge(target[key], value, `${path}${key}.`);
+        } else if (!target[key] && !path.includes('__compat')) {
+            // values outside of a '__compat' block are expected to align with actual MDN data.
+            throw new Error(`No match for ${key} in MDN data at ${path}`);
+        } else {
+            target[key] = value;
+        }
+    }
+};
 
 /**
  * Determine if a given support statement qualifies as "always supported" by
  * the specified browser.
  *
  * @param {string} browserName
- * @param {bcd.SimpleSupportStatement} supportStatement
+ * @param {SimpleSupportStatement} supportStatement
  * @returns {boolean}
  */
 const isUniversalSupportStatement = (browserName, supportStatement) => {
@@ -76,8 +102,8 @@ const isUniversalSupportStatement = (browserName, supportStatement) => {
  * Used to disambiguate between different data representations.
  *
  * @param {string} browserName
- * @param {bcd.SupportBlock} support
- * @returns {bcd.SimpleSupportStatement[]}
+ * @param {SupportBlock} support
+ * @returns {SimpleSupportStatement[]}
  */
 const getSupportStatements = (browserName, support) => {
     const browserData = support[browserName] || [];
@@ -88,7 +114,7 @@ const getSupportStatements = (browserName, support) => {
 /**
  * Determine if a feature is supported by all min-browsers.
  *
- * @param {bcd.CompatStatement} compat
+ * @param {CompatStatement} compat
  * @returns {boolean}
  */
 const isFeatureUniversallySupported = (compat) => {
@@ -106,7 +132,7 @@ const isFeatureUniversallySupported = (compat) => {
 /**
  * Determine if a feature is *not* supported anywhere.
  *
- * @param {bcd.CompatStatement} compat
+ * @param {CompatStatement} compat
  */
 const isFeatureUniversallyUnsupported = (compat) => {
     for (const browserName of Object.keys(compat.support)) {
@@ -127,7 +153,7 @@ const isFeatureUniversallyUnsupported = (compat) => {
  * to infer lack of support).
  *
  * @param {string} browserName
- * @param {bcd.SupportBlock} support
+ * @param {SupportBlock} support
  */
 const removeFlaggedSupport = (browserName, support) => {
     const supportStatements = getSupportStatements(browserName, support);
@@ -146,7 +172,7 @@ const removeFlaggedSupport = (browserName, support) => {
  * Remove all notes as they are not useful for analysis.
  *
  * @param {string} browserName
- * @param {bcd.SupportBlock} support
+ * @param {SupportBlock} support
  */
 const removeSupportNotes = (browserName, support) => {
     for (const supportStatement of getSupportStatements(browserName, support)) {
@@ -158,7 +184,7 @@ const removeSupportNotes = (browserName, support) => {
  * Remove all support statements which indicate universal support.
  *
  * @param {string} browserName
- * @param {bcd.SupportBlock} support
+ * @param {SupportBlock} support
  */
 const removeUniversalSupport = (browserName, support) => {
     for (const supportStatement of getSupportStatements(browserName, support)) {
@@ -173,7 +199,7 @@ const removeUniversalSupport = (browserName, support) => {
 /**
  * Remove all data about a feature which is unnecessary for analysis.
  *
- * @param {bcd.Identifier} data
+ * @param {Identifier} data
  */
 const removeFeatureData = (data) => {
     if (!data.__compat) {
@@ -201,7 +227,7 @@ const removeFeatureData = (data) => {
         if (Object.keys(data).length === 1) {
             delete data.__compat;
         } else {
-            delete data.__compat.support;
+            delete /** @type {any} */(data.__compat).support;
         }
     }
 };
@@ -210,7 +236,7 @@ const removeFeatureData = (data) => {
  * Remove all features and data which are unnecessary for analysis.
  * E.g. feature is universally supported or universally unsupported.
  *
- * @param {bcd.Identifier} data
+ * @param {Identifier} data
  */
 const removeFeatures = (data) => {
     for (const key of Object.keys(data)) {
@@ -229,7 +255,7 @@ const removeFeatures = (data) => {
 /**
  * Strip browser details down to name only.
  *
- * @param {bcd.Browsers} browsers
+ * @param {Browsers} browsers
  */
 const removeBrowserDetails = (browsers) => {
     for (const browserName of Object.keys(browsers)) {
@@ -244,6 +270,9 @@ const data = {
     css: mdn.css,
     html: mdn.html
 };
+
+// Copy extra data
+merge(data, extraData);
 
 // TODO: drop `browsers` after `hint-compat-api` uses new util methods.
 removeBrowserDetails(data.browsers);
