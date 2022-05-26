@@ -16,6 +16,8 @@
   },
   "description": "hint that that checks using axe for accessibility related best practices",
   "devDependencies": {
+    "@hint/parser-javascript": "^3.1.17",
+    "@hint/parser-jsx": "^1.0.18",
     "@hint/utils-create-server": "^3.4.17",
     "@hint/utils-dom": "^2.1.12",
     "@hint/utils-tests-helpers": "^6.3.11",
