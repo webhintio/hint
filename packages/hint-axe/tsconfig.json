@@ -18,7 +18,6 @@
         { "path": "../parser-jsx" },
         { "path": "../utils-create-server" },
         { "path": "../utils-dom" },
-        { "path": "../utils-fs" },
         { "path": "../utils-i18n" },
         { "path": "../utils-tests-helpers" },
         { "path": "../utils-types" }

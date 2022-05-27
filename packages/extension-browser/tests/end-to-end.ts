@@ -114,6 +114,10 @@ test('It runs end-to-end in a page', async (t) => {
         console.log('Page Error: ', e);
     });
 
+    page.on('console', (e) => {
+        console.log(e.type(), e.text());
+    });
+
     const resultsPromise = page.evaluate((content: string, url: string) => {
         return new Promise<Results>((resolve) => {
             const listeners: (((events: Events) => void))[] = [];

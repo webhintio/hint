@@ -36,9 +36,7 @@ const traverseAndNotify = async (element: HTMLElement, document: HTMLDocument, e
 export const traverse = async (document: HTMLDocument, engine: EventEmitter2, resource: string): Promise<void> => {
     const documentElement = document.documentElement;
 
-    const event = { resource };
-
-    await engine.emitAsync('traverse::start', event);
+    await engine.emitAsync('traverse::start', { resource });
     await traverseAndNotify(documentElement, document, engine, resource);
-    await engine.emitAsync('traverse::end', event);
+    await engine.emitAsync('traverse::end', { document, resource });
 };

@@ -45,7 +45,9 @@ export type FetchStart = Event;
 export type TraverseStart = Event;
 
 /** The object emitted by a connector on `traverse::end` */
-export type TraverseEnd = Event;
+export type TraverseEnd = Event & {
+    document: HTMLDocument;
+};
 
 /** The object emitted by a connector on `traverse::up` */
 export type TraverseUp = Event & {
