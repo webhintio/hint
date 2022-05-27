@@ -13,14 +13,14 @@ export const createHTMLDocument = (html: string, finalHref: string, originalDocu
     const isFragment = !(/(<!doctype|<html\b)/i).test(html);
     const dom = parse5.parse(isFragment ? '' : html, {
         sourceCodeLocationInfo: !originalDocument,
-        treeAdapter: htmlparser2Adapter
+        treeAdapter: htmlparser2Adapter.adapter
     }) as DocumentData;
 
     if (isFragment) {
         const body = (dom.children[0] as ElementData).children[1] as ElementData;
         const fragment = parse5.parseFragment(html, {
             sourceCodeLocationInfo: !originalDocument,
-            treeAdapter: htmlparser2Adapter
+            treeAdapter: htmlparser2Adapter.adapter
         }) as DocumentFragmentData;
 
         body.children = fragment.children;

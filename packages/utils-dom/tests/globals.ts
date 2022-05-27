@@ -12,7 +12,7 @@ test('getComputedStyle', (t) => {
     const context: any = {};
     const dom = parse5.parse('<body>Test</body>', {
         sourceCodeLocationInfo: false,
-        treeAdapter: htmlparser2Adapter
+        treeAdapter: htmlparser2Adapter.adapter
     }) as DocumentData;
 
     const bodyData = (dom.children[0] as ElementData).children[1] as ElementData;
@@ -31,7 +31,7 @@ test('getBoundingClientRect', (t) => {
     const context: any = {};
     const dom = parse5.parse('<body>Test</body>', {
         sourceCodeLocationInfo: false,
-        treeAdapter: htmlparser2Adapter
+        treeAdapter: htmlparser2Adapter.adapter
     }) as DocumentData;
 
     const bodyData = (dom.children[0] as ElementData).children[1] as ElementData;
@@ -64,7 +64,7 @@ test('getBoundingClientRect by deafult', (t) => {
     const context: any = {};
     const dom = parse5.parse('<body>Test</body>', {
         sourceCodeLocationInfo: false,
-        treeAdapter: htmlparser2Adapter
+        treeAdapter: htmlparser2Adapter.adapter
     }) as DocumentData;
 
     const doc = new HTMLDocument(dom, 'https://localhost');

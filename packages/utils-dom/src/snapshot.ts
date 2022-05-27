@@ -1,4 +1,4 @@
-import { ElementLocation } from 'parse5';
+import { Token } from 'parse5';
 
 import { ChildData, DocumentData, ParentData } from './types';
 
@@ -36,7 +36,7 @@ export const createHelpers = () => {
     /**
      * Retrieve the source code location for the provided node (if available).
      */
-    const getLocation = (node: Node): ElementLocation | null => {
+    const getLocation = (node: Node): Token.ElementLocation | null => {
         const __webhint = (window as any).__webhint;
 
         if (__webhint && __webhint.nodeLocation) {
@@ -149,7 +149,6 @@ export const createHelpers = () => {
             return {
                 children: Array.from(node.childNodes).map(snapshot),
                 id,
-                name: 'root',
                 next: null,
                 parent: null,
                 prev: null,
@@ -203,7 +202,6 @@ export const createHelpers = () => {
     const snapshotDocument = (doc = document): DocumentData => {
         return {
             children: Array.from(doc.childNodes).map(snapshot),
-            name: 'root',
             type: 'root',
             'x-mode': document.compatMode === 'BackCompat' ? 'quirks' : 'no-quirks'
         };

@@ -1,4 +1,4 @@
-import { ElementLocation, Location } from 'parse5';
+import { Token } from 'parse5';
 
 export type HTMLAttribute = {
     /** Attribute name of the element */
@@ -26,7 +26,7 @@ type BaseData = {
 
 export type CommentData = BaseData & {
     data: string;
-    sourceCodeLocation?: Location | null;
+    sourceCodeLocation?: Token.Location | null;
     type: 'comment';
 };
 
@@ -35,7 +35,7 @@ export type DoctypeData = BaseData & {
     name: '!doctype';
     nodeName?: string;
     publicId?: string;
-    sourceCodeLocation?: Location | null;
+    sourceCodeLocation?: Token.Location | null;
     systemId?: string;
     type: 'directive';
     'x-name'?: string;
@@ -45,7 +45,6 @@ export type DoctypeData = BaseData & {
 
 export type DocumentData = {
     children: ChildData[];
-    name: 'root';
     type: 'root';
     'x-mode': 'no-quirks' | 'quirks' | 'limited-quirks';
 };
@@ -54,7 +53,6 @@ export type NodeData = DocumentData | ChildData;
 
 export type DocumentFragmentData = BaseData & {
     children: ChildData[];
-    name: 'root';
     type: 'root';
 };
 
@@ -72,7 +70,7 @@ export type ElementData = BaseData & {
     children: ChildData[];
     name: string;
     namespace?: string | null;
-    sourceCodeLocation?: ElementLocation | null;
+    sourceCodeLocation?: Token.ElementLocation | null;
     type: 'script' | 'style' | 'tag';
     'x-attribsNamespace': { [name: string]: string };
     'x-attribsPrefix': { [name: string]: string };
@@ -82,6 +80,6 @@ export type ElementData = BaseData & {
 
 export type TextData = BaseData & {
     data: string;
-    sourceCodeLocation?: Location | null;
+    sourceCodeLocation?: Token.Location | null;
     type: 'text';
 };
