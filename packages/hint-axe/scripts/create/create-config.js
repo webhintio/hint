@@ -10,12 +10,12 @@ const createConfig = async (categories) => {
     const filename = '../configuration-accessibility/index.json';
     const configPackage = JSON.parse(await readFile(filename));
 
-    configPackage.hints = {};
+    configPackage.hints = [];
 
     for (const category of categories) {
         const id = `axe/${categoryId(category)}`;
 
-        configPackage.hints[id] = 'error';
+        configPackage.hints.push(id);
     }
 
     const json = JSON.stringify(configPackage, null, 4);
