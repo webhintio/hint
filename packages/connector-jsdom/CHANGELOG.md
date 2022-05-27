@@ -1,3 +1,11 @@
+# 4.1.18 (May 3, 2022)
+
+## Chores
+
+* [[`1336d057f9`](https://github.com/webhintio/hint/commit/1336d057f967994ab41580ee2e598b50cbcb47f0)] - Upgrade: Bump canvas from 2.9.0 to 2.9.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5148`](https://github.com/webhintio/hint/issues/5148)).
+* [[`8789e1e673`](https://github.com/webhintio/hint/commit/8789e1e67334c34290065b30b676f0125f288ad4)] - Upgrade: Bump eslint-plugin-import from 2.25.4 to 2.26.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5140`](https://github.com/webhintio/hint/issues/5140)).
+
+
 # 4.1.17 (April 26, 2022)
 
 ## Chores

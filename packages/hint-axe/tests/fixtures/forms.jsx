@@ -1,0 +1,4 @@
+
+function Test() {
+    return <input />;
+}

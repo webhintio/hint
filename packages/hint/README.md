@@ -3,7 +3,7 @@
 ## Quick start user guide
 
 If you want to have an idea of what `webhint` does and you
-have an updated version of `npm` (v5.2.0) and [Node.js LTS (v8.9.2)
+have an updated version of `npm` (v6.x) and [Node.js LTS (v14.x)
 or later, x64 version recommended](https://nodejs.org/en/download/current/)
 you can use the following command:
 

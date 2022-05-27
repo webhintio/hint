@@ -4,21 +4,21 @@
         "html",
         "summary"
     ],
-    "hints": {
-        "axe/aria": "error",
-        "axe/color": "error",
-        "axe/forms": "error",
-        "axe/keyboard": "error",
-        "axe/language": "error",
-        "axe/name-role-value": "error",
-        "axe/parsing": "error",
-        "axe/semantics": "error",
-        "axe/sensory-and-visual-cues": "error",
-        "axe/structure": "error",
-        "axe/tables": "error",
-        "axe/text-alternatives": "error",
-        "axe/time-and-media": "error"
-    },
+    "hints": [
+        "axe/aria",
+        "axe/color",
+        "axe/forms",
+        "axe/keyboard",
+        "axe/language",
+        "axe/name-role-value",
+        "axe/parsing",
+        "axe/semantics",
+        "axe/sensory-and-visual-cues",
+        "axe/structure",
+        "axe/tables",
+        "axe/text-alternatives",
+        "axe/time-and-media"
+    ],
     "hintsTimeout": 120000,
     "parsers": []
 }

@@ -196,15 +196,15 @@ const generateErrorsMessage = (errors: ajv.ErrorObject[]): string[] => {
  * Group messages with the same data path.
  * e.g.:
  * * Input (only messages):
- * *   - must be equal to one of the allowed values (instancePath: ".hints['amp-validator']")
- * *   - must be number (instancePath: ".hints['amp-validator'])"
- * *   - must be equal to one of the allowed values (instancePath: ".hints['amp-validator']")
+ * *   - must be equal to one of the allowed values (instancePath: ".hints['axe']")
+ * *   - must be number (instancePath: ".hints['axe'])"
+ * *   - must be equal to one of the allowed values (instancePath: ".hints['axe']")
  * *   - must have required property 'connector' (instancePath: "")
  * *   - must have required property 'extends' (instancePath: "")
  * *   - must match some schema in anyOf (instancePath: "")
  *
  * * Output (only messages):
- * *   - 'hints['amp-validator']' must be equal to one of the allowed values 'off, warning, error' or '0, 1, 2'. Value found '"notvalid"'. Or 'hints['amp-validator']' must be 'number'.
+ * *   - 'hints['axe']' must be equal to one of the allowed values 'off, warning, error' or '0, 1, 2'. Value found '"notvalid"'. Or 'hints['axe']' must be 'number'.
  * *   - 'root' must have required properties 'connector' or 'extends'
  */
 const groupMessages = (errors: ISchemaValidationError[]): GroupedError[] => {

@@ -36,4 +36,32 @@ const tests: HintTest[] = [
     }
 ];
 
+const testsWithHintSeverity = tests.map((test) => {
+    return {
+        ...test,
+        name: `${test.name} (hint-severity)`,
+        reports: test.reports?.map((report) => {
+            return {
+                ...report,
+                severity: Severity.error
+            };
+        })
+    };
+});
+
+const testsWithRuleSeverity = tests.map((test) => {
+    return {
+        ...test,
+        name: `${test.name} (rule-severity)`,
+        reports: test.reports?.map((report) => {
+            return {
+                ...report,
+                severity: Severity.hint
+            };
+        })
+    };
+});
+
 testHint(hintPath, tests, { ignoredConnectors: ['jsdom'] });
+testHint(hintPath, testsWithHintSeverity, { ignoredConnectors: ['jsdom'], severity: 'error' });
+testHint(hintPath, testsWithRuleSeverity, { hintOptions: { 'color-contrast': 'hint', 'color-contrast-enhanced': 'hint' }, ignoredConnectors: ['jsdom'], severity: 'error' });

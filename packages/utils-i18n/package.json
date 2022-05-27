@@ -9,7 +9,7 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils-types": "^1.1.6"
+    "@hint/utils-types": "^1.1.7"
   },
   "description": "util for i18n",
   "devDependencies": {
@@ -60,5 +60,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.11"
+  "version": "1.0.12"
 }

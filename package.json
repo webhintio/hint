@@ -36,7 +36,7 @@
     "yargs": "^17.4.1"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=14.0.0"
   },
   "name": "@hint/monorepo",
   "private": true,

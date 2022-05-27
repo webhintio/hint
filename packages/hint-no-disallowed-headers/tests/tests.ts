@@ -207,10 +207,6 @@ const testForSpecialHeaders: HintTest[] = [
     },
     {
         name: `HTML page is served with disallowed Via header`,
-        reports: [{
-            message: 'The \'Via\' header should not be used, it is a request header only.',
-            severity: Severity.warning
-        }],
         serverConfig: { '/': { headers: { Via: '1.1 varnish, 1.1 squid' } } }
     },
     {
@@ -233,7 +229,6 @@ const testForIgnoredSpecialHeaders: HintTest[] = [
                     Host: 'example.com',
                     P3P: 'cp="this is not a p3p policy"',
                     Pragma: 'no-cache',
-                    Via: '1.1 varnish, 1.1 squid',
                     'X-Frame-Options': 'SAMEORIGIN'
                 }
             }
@@ -259,7 +254,6 @@ testHint(hintPath, testForIgnoredSpecialHeaders, {
             'Host',
             'P3P',
             'Pragma',
-            'Via',
             'X-Frame-Options'
         ]
     }

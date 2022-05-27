@@ -12,9 +12,9 @@
     "create-hintrc": "./dist/src/create-hintrc.js"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.15",
-    "@hint/utils-debug": "^1.0.9",
-    "@hint/utils-fs": "^1.0.12",
+    "@hint/utils": "^7.0.16",
+    "@hint/utils-debug": "^1.0.10",
+    "@hint/utils-fs": "^1.0.13",
     "browserslist": "^4.19.3",
     "inquirer": "^8.2.2"
   },
@@ -48,7 +48,7 @@
     "webpack-cli": "^4.9.1"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=14.0.0"
   },
   "files": [
     "dist/src"
@@ -90,5 +90,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "3.0.20"
+  "version": "3.0.21"
 }

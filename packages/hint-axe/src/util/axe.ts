@@ -1,14 +1,11 @@
-import { CheckResult, AxeResults, ImpactValue, NodeResult as AxeNodeResult } from 'axe-core';
+import { CheckResult, AxeResults, ImpactValue, NodeResult as AxeNodeResult, run, source, ElementContext } from 'axe-core';
 
-import { HTMLDocument, HTMLElement } from '@hint/utils-dom';
-import { readFileAsync } from '@hint/utils-fs';
+import { HTMLElement } from '@hint/utils-dom';
 import { CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { Severity } from '@hint/utils-types';
 
 import { getMessage } from '../i18n.import';
-
-const axeCorePromise = readFileAsync(require.resolve('axe-core'));
 
 type EngineKey = object;
 
@@ -37,6 +34,7 @@ const getElement = (context: HintContext, node: AxeNodeResult): HTMLElement | un
     let selector = node.target[0];
 
     // Contrary to types, axe-core can return an array of strings. Take the first.
+    /* istanbul ignore next */
     if (Array.isArray(selector)) {
         selector = selector[0];
     }
@@ -100,6 +98,7 @@ const useRegistrations = (engineKey: EngineKey, resource: string, map: Registrat
 
     const registrations = registrationsByResource.get(resource);
 
+    /* istanbul ignore next */
     if (!registrations) {
         return null;
     }
@@ -135,8 +134,7 @@ const withQuotes = (ruleId: string) => {
     return `'${ruleId}'`;
 };
 
-const run = async (context: HintContext, event: CanEvaluateScript, rules: string[]): Promise<AxeResults | null> => {
-    const axeCoreSource = await axeCorePromise;
+const evaluateAxe = async (context: HintContext, event: CanEvaluateScript, rules: string[]): Promise<AxeResults | null> => {
     const { document, resource } = event;
 
     /* istanbul ignore next */
@@ -145,8 +143,8 @@ const run = async (context: HintContext, event: CanEvaluateScript, rules: string
             'document.body' :
             'document';
 
-        return await context.evaluate(`(function() {
-            ${axeCoreSource}
+        return await context.evaluate(`(function(module) {
+            ${source}
             var target = ${target};
             return window.axe.run(target, {
                 runOnly: {
@@ -159,6 +157,8 @@ const run = async (context: HintContext, event: CanEvaluateScript, rules: string
 
         const err = e as Error;
         let message: string;
+
+        console.error(`Running axe-core failed: ${err.message}\n${err.stack}`);
 
         if (err.message.includes('evaluation exceeded')) {
             message = getMessage('notFastEnough', context.language);
@@ -208,10 +208,11 @@ export const register = (context: HintContext, rules: string[], disabled: string
         return !disabled.includes(rule);
     });
 
-    context.on('can-evaluate::script', (event) => {
+    context.on('traverse::end', (event) => {
         queueRegistration({ context, enabledRules, event, options }, registrationMap);
     });
 
+    // Used when we have to evaluate axe in a different context (e.g. connector-puppeteer and nearly everything else).
     context.on('scan::end', async ({ resource }) => {
         const registrations = useRegistrations(engineKey, resource, registrationMap);
 
@@ -219,23 +220,33 @@ export const register = (context: HintContext, rules: string[], disabled: string
             return;
         }
 
-        // TS doesn't detect we are assigning during `reduce`
-        let document!: HTMLDocument;
+        const ruleToRegistration = new Map<string, Registration>();
 
-        const ruleToRegistration = registrations.reduce((map, registration) => {
+        for (const registration of registrations) {
+            for (const rule of registration.enabledRules) {
+                ruleToRegistration.set(rule, registration);
+            }
+        }
 
-            // `document` should be the same for all registrations of the same `resource`.
-            document = document || registration.event.document;
-
-            registration.enabledRules.forEach((rule) => {
-                map.set(rule, registration);
-            });
-
-            return map;
-        }, new Map<string, Registration>());
-
+        const document = registrations[0].event.document;
         const rules = Array.from(ruleToRegistration.keys());
-        const result = await run(context, { document, resource }, rules);
+
+        let result: AxeResults | null = null;
+
+        if (document.defaultView) {
+            // If we're in the same context as the document, run axe directly (e.g. utils-worker).
+            const target = document.isFragment ? document.body : document.documentElement;
+
+            result = await run(target as ElementContext, {
+                runOnly: {
+                    type: 'rule',
+                    values: rules
+                }
+            });
+        } else {
+            // Otherwise evaluate axe in the provided context (e.g. connector-puppeter, everything else).
+            result = await evaluateAxe(context, { document, resource }, rules);
+        }
 
         /* istanbul ignore next */
         if (!result || !Array.isArray(result.violations)) {
@@ -248,9 +259,11 @@ export const register = (context: HintContext, rules: string[], disabled: string
                 const message = summary ? `${violation.help}: ${summary}` : violation.help;
                 const registration = ruleToRegistration.get(violation.id)!;
                 const element = getElement(context, node);
-                const severity = Severity[registration.options[violation.id]] === Severity.default ?
+                const ruleSeverity = Severity[registration.options[violation.id]] ?? Severity.default;
+                const forceSeverity = ruleSeverity !== Severity.default;
+                const severity = !forceSeverity ?
                     toSeverity(violation.impact) :
-                    Severity[registration.options[violation.id]];
+                    ruleSeverity;
 
                 registration.context.report(resource, message, {
                     documentation: [{
@@ -258,6 +271,7 @@ export const register = (context: HintContext, rules: string[], disabled: string
                         text: getMessage('learnMore', context.language)
                     }],
                     element,
+                    forceSeverity,
                     severity
                 });
             }

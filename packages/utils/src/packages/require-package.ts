@@ -5,7 +5,8 @@ export const requirePackage = (modulePath: string): any => {
 
     /* istanbul ignore if */
     if (process.env.webpack) { // eslint-disable-line no-process-env
-        pkg = eval(`require("${modulePath}")`); // eslint-disable-line no-eval
+        // @ts-ignore
+        pkg = __non_webpack_require__(modulePath);
     } else {
         pkg = require(modulePath);
     }

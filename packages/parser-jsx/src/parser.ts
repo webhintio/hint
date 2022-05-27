@@ -31,7 +31,34 @@ const HTML_ELEMENTS_WITH_ONLY_NON_TEXT_CHILDREN = [
     'ul'
 ];
 
+/**
+ * Attributes assumed to be provided by {...spread} if not otherwise specified.
+ * Entries under "*" apply to all elements. Others apply only to specific tags.
+ */
+const EXPECTED_SPREAD_ATTRIBUTES = new Map([
+    ['*', ['title']]
+]);
+
 const debug = d(__filename);
+
+/**
+ * Add attributes we assume to be included in a spread to avoid false-positives.
+ * Most notably this includes "title" to assume a label was provided.
+ *
+ * @param tagName The name of the element being augmented.
+ * @param attribs The attributes collection to augment.
+ */
+const addExpectedSpreadAttributes = (tagName: string, attribs: { [name: string]: string }): void => {
+    const localExpectedAttributes = EXPECTED_SPREAD_ATTRIBUTES.get(tagName) ?? [];
+    const globalExpectedAttributes = EXPECTED_SPREAD_ATTRIBUTES.get('*') ?? [];
+    const expectedAttributes = [...localExpectedAttributes, ...globalExpectedAttributes];
+
+    for (const expectedAttribute of expectedAttributes) {
+        if (!attribs[expectedAttribute]) {
+            attribs[expectedAttribute] = '{expression}';
+        }
+    }
+};
 
 /**
  * Check if the provided `Node` is a native HTML element in JSX.
@@ -95,13 +122,17 @@ const mapAttributeName = (name: string) => {
 /**
  * Translate collections of `JSXAttribute`s to their HTML AST equivalent.
  */
-const mapAttributes = (node: JSXElement) => {
+const mapAttributes = (node: JSXElement, tagName: string) => {
     const attribs: { [name: string]: string } = {};
     const locations: parse5.AttributesLocation = {};
 
+    let hasSpread = false;
+
     for (const attribute of node.openingElement.attributes) {
-        if (attribute.type !== 'JSXAttribute') {
-            continue; // TODO: Do something useful with JSXSpreadAttribute instances.
+        if (attribute.type === 'JSXSpreadAttribute') {
+            attribs['{...spread}'] = '';
+            hasSpread = true;
+            continue;
         }
         /* istanbul ignore if */
         if (attribute.name.type !== 'JSXIdentifier') {
@@ -125,6 +156,10 @@ const mapAttributes = (node: JSXElement) => {
         locations[name] = mapLocation(attribute);
     }
 
+    if (hasSpread) {
+        addExpectedSpreadAttributes(tagName, attribs);
+    }
+
     return {
         attribs,
         attrs: locations,
@@ -143,7 +178,7 @@ const mapElement = (node: JSXElement, childMap: ChildMap): ElementData => {
     }
 
     const { name } = node.openingElement.name;
-    const { attrs, ...attribs } = mapAttributes(node);
+    const { attrs, ...attribs } = mapAttributes(node, name);
     const children = childMap.get(node) || [];
 
     return {
