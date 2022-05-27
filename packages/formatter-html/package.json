@@ -15,7 +15,7 @@
     "@hint/utils-fs": "^1.0.13",
     "@hint/utils-i18n": "^1.0.12",
     "@hint/utils-types": "^1.1.7",
-    "ejs": "^3.1.6",
+    "ejs": "^3.1.7",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21"
   },
