@@ -96,11 +96,25 @@ test('It serializes attributes', async (t) => {
     t.is(button.outerHTML, '<button type="button">Test</button>');
 });
 
-test('It ignores spread attributes', async (t) => {
-    const { document } = await parseJSX(`const jsx = <button type="button" {...foo}>Test</button>;`);
+test('It replaces spread attributes with a placeholder', async (t) => {
+    const { document } = await parseJSX(`const jsx = <button type="button" title="test" {...foo}>Test</button>;`);
     const button = document.querySelectorAll('button')[0];
 
-    t.is(button.outerHTML, '<button type="button">Test</button>');
+    t.is(button.outerHTML, '<button type="button" title="test" {...spread}="">Test</button>');
+});
+
+test('It synthesizes a title attribute when spread notation is used', async (t) => {
+    const { document } = await parseJSX(`const jsx = <input {...props}/>;`);
+    const button = document.querySelectorAll('input')[0];
+
+    t.is(button.getAttribute('title'), '{expression}');
+});
+
+test('It keeps an existing title attribute when spread notation is used', async (t) => {
+    const { document } = await parseJSX(`const jsx = <input title="Name" {...props}/>;`);
+    const button = document.querySelectorAll('input')[0];
+
+    t.is(button.getAttribute('title'), 'Name');
 });
 
 test('It handles boolean attributes', async (t) => {

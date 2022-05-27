@@ -50,8 +50,14 @@ export default class ButtonTypeHint implements IHint {
             const elementType = element.getAttribute('type');
 
             if (element.isAttributeAnExpression('type')) {
-                // Assume template expressions will map to a valid value.
-            } else if (elementType === null || elementType === '') {
+                return; // Assume template expressions will map to a valid value.
+            }
+
+            if (!element.hasAttribute('type') && element.hasAttributeSpread()) {
+                return; // Assume missing attributes were provided via {...spread}, if present.
+            }
+
+            if (elementType === null || elementType === '') {
                 const severity = inAForm(element) ?
                     Severity.warning :
                     Severity.hint;
