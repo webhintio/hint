@@ -269,7 +269,7 @@ const allowsTextChildren = (node: JSXElement): boolean => {
  * provided roots derived from the specified resource.
  */
 const createHTMLFragment = (roots: RootMap, resource: string) => {
-    const dom = parse5.parse('', { treeAdapter: htmlparser2Adapter.adapter }) as unknown as DocumentData;
+    const dom = parse5.parse('', { treeAdapter: htmlparser2Adapter.adapter }) as DocumentData;
     const body = (dom.children[0] as ElementData).children[1] as ElementData;
 
     roots.forEach((root) => {

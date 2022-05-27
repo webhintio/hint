@@ -45,7 +45,6 @@ export type DoctypeData = BaseData & {
 
 export type DocumentData = {
     children: ChildData[];
-    name: 'root';
     type: 'root';
     'x-mode': 'no-quirks' | 'quirks' | 'limited-quirks';
 };
@@ -54,7 +53,6 @@ export type NodeData = DocumentData | ChildData;
 
 export type DocumentFragmentData = BaseData & {
     children: ChildData[];
-    name: 'root';
     type: 'root';
 };
 

@@ -149,7 +149,6 @@ export const createHelpers = () => {
             return {
                 children: Array.from(node.childNodes).map(snapshot),
                 id,
-                name: 'root',
                 next: null,
                 parent: null,
                 prev: null,
@@ -203,7 +202,6 @@ export const createHelpers = () => {
     const snapshotDocument = (doc = document): DocumentData => {
         return {
             children: Array.from(doc.childNodes).map(snapshot),
-            name: 'root',
             type: 'root',
             'x-mode': document.compatMode === 'BackCompat' ? 'quirks' : 'no-quirks'
         };
