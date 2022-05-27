@@ -92,7 +92,7 @@ const isAttributeOrNativeElement = (node: Node) => {
 /**
  * Translate JS AST locations to HTML AST locations.
  */
-const mapLocation = (node: Node, { startColumnOffset = 0 } = {}): parse5.Location => {
+const mapLocation = (node: Node, { startColumnOffset = 0 } = {}): parse5.Token.Location => {
     // TODO: Remove `columnOffset` once `Problem` supports a range.
     return {
         endCol: node.loc && (node.loc.end.column) || -1,
@@ -124,7 +124,7 @@ const mapAttributeName = (name: string) => {
  */
 const mapAttributes = (node: JSXElement, tagName: string) => {
     const attribs: { [name: string]: string } = {};
-    const locations: parse5.AttributesLocation = {};
+    const locations: {[attributeName: string]: parse5.Token.Location} = {};
 
     let hasSpread = false;
 
@@ -191,10 +191,7 @@ const mapElement = (node: JSXElement, childMap: ChildMap): ElementData => {
         sourceCodeLocation: {
             attrs,
             endTag: node.closingElement ? mapLocation(node.closingElement) : undefined as any, // TODO: Fix types to allow undefined (matches parse5 behavior)
-            startTag: {
-                attrs,
-                ...mapLocation(node.openingElement, { startColumnOffset: 1 })
-            },
+            startTag: {...mapLocation(node.openingElement, { startColumnOffset: 1 })},
             ...mapLocation(node, { startColumnOffset: 1 })
         },
         type: 'tag'
@@ -272,7 +269,7 @@ const allowsTextChildren = (node: JSXElement): boolean => {
  * provided roots derived from the specified resource.
  */
 const createHTMLFragment = (roots: RootMap, resource: string) => {
-    const dom = parse5.parse('', { treeAdapter: htmlparser2Adapter }) as DocumentData;
+    const dom = parse5.parse('', { treeAdapter: htmlparser2Adapter.adapter }) as unknown as DocumentData;
     const body = (dom.children[0] as ElementData).children[1] as ElementData;
 
     roots.forEach((root) => {

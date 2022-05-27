@@ -185,7 +185,7 @@ export class HTMLElement extends Node {
      * original fetched document a similar element and use the location
      * of that element instead.
      */
-    private _getOriginalLocation(): parse5.ElementLocation | null {
+    private _getOriginalLocation(): parse5.Token.ElementLocation | null {
         const location = this._element.sourceCodeLocation;
 
         // Use direct location information when available.
@@ -231,7 +231,7 @@ export class HTMLElement extends Node {
     public getContentLocation(offset: ProblemLocation): ProblemLocation | null {
         const location = this._getOriginalLocation();
 
-        if (!location) {
+        if (!location || !location.startTag) {
             return null;
         }
 
@@ -267,7 +267,7 @@ export class HTMLElement extends Node {
      * https://developer.mozilla.org/docs/Web/API/Element/innerHTML
      */
     public get innerHTML(): string {
-        return parse5.serialize(this._element as htmlparser2Adapter.Node, { treeAdapter: htmlparser2Adapter });
+        return parse5.serialize(this._element as htmlparser2Adapter.Node, { treeAdapter: htmlparser2Adapter.adapter });
     }
 
     /**
@@ -319,12 +319,12 @@ export class HTMLElement extends Node {
          * parentElement and parentNode of the element, so we
          * need to restore it before return the outerHTML.
          */
-        const fragment = htmlparser2Adapter.createDocumentFragment();
+        const fragment = htmlparser2Adapter.adapter.createDocumentFragment();
         const { parent, next, prev } = this._element;
 
-        htmlparser2Adapter.appendChild(fragment, this._element as htmlparser2Adapter.Node);
+        htmlparser2Adapter.adapter.appendChild(fragment, this._element as htmlparser2Adapter.Node);
 
-        const result = parse5.serialize(fragment, { treeAdapter: htmlparser2Adapter });
+        const result = parse5.serialize(fragment, { treeAdapter: htmlparser2Adapter.adapter });
 
         this._element.parent = parent;
         this._element.next = next;

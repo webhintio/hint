@@ -9,17 +9,15 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@types/parse5": "^6.0.3",
     "eventemitter2": "^6.4.5",
     "@hint/utils-debug": "^1.0.10",
     "@hint/utils-types": "^1.1.7",
     "css-select": "^4.3.0",
     "parse5": "^7.0.0",
-    "parse5-htmlparser2-tree-adapter": "^6.0.1"
+    "parse5-htmlparser2-tree-adapter": "^7.0.0"
   },
   "description": "utils for DOM",
   "devDependencies": {
-    "@types/parse5-htmlparser2-tree-adapter": "^6.0.1",
     "ava": "^4.0.1",
     "axe-core": "^4.4.1",
     "eslint": "^7.32.0",

@@ -42,7 +42,7 @@ export class HTMLDocument extends Node {
             ensureExpectedParentNodes(document);
         }
 
-        this._pageHTML = parse5.serialize(document as htmlparser2Adapter.Node, { treeAdapter: htmlparser2Adapter });
+        this._pageHTML = parse5.serialize(document as htmlparser2Adapter.Node, { treeAdapter: htmlparser2Adapter.adapter });
         this._base = this.getBaseUrl(finalHref);
         this._nodes.set(document, this);
     }
