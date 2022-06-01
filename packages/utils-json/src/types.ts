@@ -40,6 +40,10 @@ export type ExtendableConfiguration = {
     extends?: string;
 };
 
+export interface IFilePathError extends Error {
+    code: string;
+}
+
 export interface IParsingError extends Error {
     resource: string;
 }

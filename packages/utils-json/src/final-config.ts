@@ -5,9 +5,10 @@ import merge = require('lodash/merge');
 import { asPathString, getAsUri } from '@hint/utils-network';
 import { loadJSONFile } from '@hint/utils-fs';
 
-import { ExtendableConfiguration, IParsingError } from './types';
+import { importedRequire } from './export-require';
+import { ExtendableConfiguration, IFilePathError, IParsingError } from './types';
 
-export const finalConfig = <T extends ExtendableConfiguration> (config: T, resource: string): T | IParsingError => {
+export const finalConfig = <T extends ExtendableConfiguration> (config: T, resource: string): T | IParsingError | IFilePathError => {
     if (!config.extends) {
         return config;
     }
@@ -31,7 +32,17 @@ export const finalConfig = <T extends ExtendableConfiguration> (config: T, resou
         const lastPath = configPath;
         const configDir = path.dirname(configPath);
 
-        configPath = path.resolve(configDir, finalConfigJSON.extends);
+        try {
+            configPath = importedRequire.resolve(finalConfigJSON.extends, { paths: [configDir] });
+        } catch (error) {
+            const castedError = error as IFilePathError;
+
+            if (castedError && castedError.code === 'MODULE_NOT_FOUND') {
+                return castedError;
+            }
+
+            throw error;
+        }
 
         if (configIncludes.includes(configPath)) {
 
