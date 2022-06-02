@@ -2,7 +2,7 @@ import anyTest, { TestFn, ExecutionContext } from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { IParsingError, IFilePathError } from '../src/types';
+import { IParsingError } from '../src/types';
 
 const baseConfig = {
     compilerOptions: {
@@ -107,7 +107,7 @@ test('If one of the extended files is not a valid JSON, it should return an inst
 });
 
 test(`If one of the extended files is not a valid JSON location, it should return a MODULE_NOT_FOUND error`, (t) => {
-    const customError = new Error('customError') as IFilePathError;
+    const customError = new Error('customError') as IParsingError;
 
     customError.code = 'MODULE_NOT_FOUND';
 
@@ -118,7 +118,7 @@ test(`If one of the extended files is not a valid JSON location, it should retur
     const finalConfig = loadScript(t.context);
     const result = finalConfig(config, 'resource');
 
-    t.true(result && (result as IFilePathError).code === 'MODULE_NOT_FOUND');
+    t.true(result && (result as IParsingError).code === 'MODULE_NOT_FOUND');
 });
 
 test(`If one of the extended files is a JSON module, it should inherit from it`, (t) => {

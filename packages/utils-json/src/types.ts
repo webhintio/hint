@@ -40,12 +40,10 @@ export type ExtendableConfiguration = {
     extends?: string;
 };
 
-export interface IFilePathError extends Error {
-    code: string;
-}
-
 export interface IParsingError extends Error {
+    innerException: string;
     resource: string;
+    code?: string;
 }
 
 export interface ISchemaValidationError extends ajv.ErrorObject {
