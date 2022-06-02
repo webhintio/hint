@@ -1,0 +1,3 @@
+{
+  "extends": "@tsconfig/strictest/tsconfig.json"
+}

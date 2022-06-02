@@ -5,7 +5,6 @@ import merge = require('lodash/merge');
 import { asPathString, getAsUri } from '@hint/utils-network';
 import { loadJSONFile } from '@hint/utils-fs';
 
-import { importedRequire } from './export-require';
 import { ExtendableConfiguration, IParsingError } from './types';
 
 const getParsingError = (errorMsg: string, resource: string, innerException?: any, code?: string) => {
@@ -43,7 +42,7 @@ export const finalConfig = <T extends ExtendableConfiguration> (config: T, resou
         const configDir = path.dirname(configPath);
 
         try {
-            configPath = importedRequire.resolve(finalConfigJSON.extends, { paths: [configDir] });
+            configPath = require.resolve(finalConfigJSON.extends, { paths: [configDir] });
         } catch (error) {
             const castedError = error as IParsingError;
 
