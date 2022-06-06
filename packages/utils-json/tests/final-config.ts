@@ -1,4 +1,7 @@
 import anyTest, { TestFn, ExecutionContext } from 'ava';
+
+import * as fs from 'fs';
+import * as path from 'path';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
@@ -9,19 +12,13 @@ type FileModule = {
     name: string;
 };
 
-type LoadJSONFileModule = () => FileModule | null;
+type LoadJSONFileModule = () => FileModule | string | null;
 
 type AsPathString = () => string;
-
-type Path = {
-    dirname: () => string;
-    resolve: () => string;
-};
 
 type ParserContext = {
     asPathString: AsPathString;
     loadJSONFileModule: LoadJSONFileModule;
-    path: Path;
     sandbox: sinon.SinonSandbox;
 };
 
@@ -38,14 +35,6 @@ const initContext = (t: ExecutionContext<ParserContext>) => {
         return '';
     };
 
-    t.context.path = {
-        dirname(): string {
-            return '';
-        },
-        resolve(): string {
-            return '';
-        }
-    };
     t.context.sandbox = sinon.createSandbox();
 };
 
@@ -55,8 +44,7 @@ const loadScript = (context: ParserContext) => {
         '@hint/utils-network': {
             asPathString: context.asPathString,
             asUri
-        },
-        path: context.path
+        }
     });
 
     return script.finalConfig;
@@ -80,23 +68,23 @@ test(`If config doesn't have an extends property, it should return the same obje
 test('If there is a circular reference, it should return an instance of an Error', (t) => {
     const sandbox = t.context.sandbox;
 
-    sandbox.stub(t.context, 'asPathString').returns('circularReference');
-    sandbox.stub(t.context.path, 'resolve').returns('circularReference');
+    const baseConfigPath = path.join(__dirname, 'fixtures', 'baseConfigCircular.json');
+
+    sandbox.stub(t.context, 'asPathString').returns(baseConfigPath);
 
     const finalConfig = loadScript(t.context);
-    const config = { extends: 'circularReference' };
+    const config = JSON.parse(fs.readFileSync(baseConfigPath).toString()); // eslint-disable-line no-sync
 
     const result = finalConfig(config, 'circularReference') as IParsingError;
 
     t.true(result instanceof Error);
-    t.is(result.message, 'Circular reference found in file circularReference');
+    t.is(result.message, `Circular reference found in file ${baseConfigPath}`);
 });
 
-test('If one of the extended files is no a valid JSON, it should return an instance of an Error', (t) => {
+test('If one of the extended files is not a valid JSON, it should return an instance of an Error', (t) => {
     const sandbox = t.context.sandbox;
 
     sandbox.stub(t.context, 'asPathString').returns('valid-with-invalid-extends');
-    sandbox.stub(t.context.path, 'resolve').returns('invalid-extends');
     sandbox.stub(t.context, 'loadJSONFileModule').throws(new Error('InvalidJSON'));
 
     const finalConfig = loadScript(t.context);
@@ -108,37 +96,78 @@ test('If one of the extended files is no a valid JSON, it should return an insta
     t.true(result instanceof Error);
 });
 
-test('If everything is ok, it should merge all the extended configurations', (t) => {
+test(`If one of the extended files is not a valid JSON location, it should return a MODULE_NOT_FOUND error`, (t) => {
+    const customError = new Error('customError') as IParsingError;
+
+    customError.code = 'MODULE_NOT_FOUND';
+
+    const baseConfigPath = path.join(__dirname, 'fixtures', 'baseConfig.json');
+    const config = JSON.parse(fs.readFileSync(baseConfigPath).toString()); // eslint-disable-line no-sync
+
+    const finalConfig = loadScript(t.context);
+    const result = finalConfig(config, 'incorrect_path');
+
+    t.true(result && (result as IParsingError).code === 'MODULE_NOT_FOUND');
+});
+
+test(`If one of the extended files is a JSON module, it should inherit from it`, (t) => {
     const sandbox = t.context.sandbox;
+    const baseConfigPath = path.join(__dirname, 'fixtures', 'baseConfig.json');
+    const config = JSON.parse(fs.readFileSync(baseConfigPath).toString()); // eslint-disable-line no-sync
+    const data = fs.readFileSync(path.join(__dirname, 'fixtures', 'node_modules', config.extends)); // eslint-disable-line no-sync
+    const parsedBaseConfig = JSON.parse(data.toString());
 
-    sandbox.stub(t.context, 'asPathString').returns('valid-with-extends');
-    sandbox.stub(t.context.path, 'resolve')
-        .onFirstCall()
-        .returns('valid-extends')
-        .onSecondCall()
-        .returns('valid-extends-2');
-
-    const miscStub = sandbox.stub(t.context, 'loadJSONFileModule')
-        .onFirstCall()
-        .returns({
-            extends: 'valid-extends-2',
-            name: 'valid-extends'
-        })
-        .onSecondCall()
-        .returns({
-            extends: null,
-            name: 'valid-extends-2'
-        });
+    sandbox.stub(t.context, 'loadJSONFileModule').returns(parsedBaseConfig);
+    sandbox.stub(t.context, 'asPathString').returns(baseConfigPath);
 
     const finalConfig = loadScript(t.context);
 
-    const config = {
-        extends: 'valid-extends',
-        name: 'valid'
-    };
+    const result = finalConfig(config, baseConfigPath);
 
-    const result = finalConfig(config, 'valid-with-extends');
+    const baseConfig = JSON.parse(data.toString());
 
-    t.true(miscStub.calledTwice);
-    t.is(result && result.name, 'valid');
+    t.true((result as unknown as typeof baseConfig).compilerOptions.noImplicitAny ===
+        baseConfig.compilerOptions.noImplicitAny);
+    t.true((result as unknown as typeof baseConfig).compilerOptions.E2ETestingValue);
+});
+
+test(`If everything is ok, it should merge all the extended configurations`, (t) => {
+    const sandbox = t.context.sandbox;
+    const baseConfigPath = path.join(__dirname, 'fixtures', 'baseConfig.json');
+    const config = JSON.parse(fs.readFileSync(baseConfigPath).toString()); // eslint-disable-line no-sync
+
+    config.checkJS = true;
+
+    const data = fs.readFileSync(path.join(__dirname, 'fixtures', 'node_modules', config.extends)); // eslint-disable-line no-sync
+    const parsedBaseConfig = JSON.parse(data.toString());
+
+    sandbox.stub(t.context, 'loadJSONFileModule').returns(parsedBaseConfig);
+    sandbox.stub(t.context, 'asPathString').returns(baseConfigPath);
+
+    const finalConfig = loadScript(t.context);
+
+    const result = finalConfig(config, baseConfigPath);
+
+    const baseConfig = JSON.parse(data.toString());
+
+    t.true((result as unknown as typeof baseConfig).compilerOptions.noImplicitAny ===
+        baseConfig.compilerOptions.noImplicitAny);
+    t.true((result as unknown as typeof baseConfig).compilerOptions.E2ETestingValue);
+    t.true((result as unknown as typeof baseConfig).checkJS);
+});
+
+test(`If an error occurs while loading the configuration file it should throw an error`, (t) => {
+    const sandbox = t.context.sandbox;
+    const baseConfigPath = path.join(__dirname, 'fixtures', 'baseConfig.json');
+    const config = JSON.parse(fs.readFileSync(baseConfigPath).toString()); // eslint-disable-line no-sync
+
+    sandbox.stub(t.context, 'loadJSONFileModule').throws('text_exception');
+    sandbox.stub(t.context, 'asPathString').returns(baseConfigPath);
+
+    const finalConfig = loadScript(t.context);
+    const result = finalConfig(config, baseConfigPath);
+
+    t.true(result instanceof Error);
+    t.is(result.name, `text_exception`);
+    t.true(result.resource.includes('baseConfig.json'));
 });

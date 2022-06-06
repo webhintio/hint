@@ -41,7 +41,9 @@ export type ExtendableConfiguration = {
 };
 
 export interface IParsingError extends Error {
+    innerException: string;
     resource: string;
+    code?: string;
 }
 
 export interface ISchemaValidationError extends ajv.ErrorObject {
