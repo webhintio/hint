@@ -1,3 +1,10 @@
+# 2.1.33 (June 6, 2022)
+
+## Chores
+
+* [[`4140786a4a`](https://github.com/webhintio/hint/commit/4140786a4a81899b82574c04719ffd68cad8985b)] - Upgrade: Bump webpack from 5.70.0 to 5.72.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 2.1.32 (May 3, 2022)
 
 ## Chores

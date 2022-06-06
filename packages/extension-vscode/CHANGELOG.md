@@ -1,3 +1,14 @@
+# 2.0.0 (June 6, 2022)
+
+## Breaking Changes
+
+* [[`a6264d5aed`](https://github.com/webhintio/hint/commit/a6264d5aedd1c18dc031c9b039b87fc5c195a4e2)] - Breaking: Raise min required node version to 14 (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`4140786a4a`](https://github.com/webhintio/hint/commit/4140786a4a81899b82574c04719ffd68cad8985b)] - Upgrade: Bump webpack from 5.70.0 to 5.72.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.6.8 (May 3, 2022)
 
 ## Chores

@@ -1,3 +1,10 @@
+# 3.1.13 (June 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`de30248446`](https://github.com/webhintio/hint/commit/de302484466dc77510e436ef093e481df6f6a076)] - Fix: Remove reports for Via HTTP Header (#5168) (by [`Olivia Flynn`](https://github.com/flynnolivia)).
+
+
 # 3.1.12 (May 3, 2022)
 
 ## Chores

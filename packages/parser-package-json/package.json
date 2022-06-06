@@ -10,9 +10,9 @@
   },
   "description": "webhint parser to analyze the package.json file",
   "dependencies": {
-    "@hint/utils-json": "^1.0.18",
-    "@hint/utils-fs": "^1.0.13",
-    "@hint/utils-network": "^1.0.17"
+    "@hint/utils-json": "^1.0.19",
+    "@hint/utils-fs": "^1.0.14",
+    "@hint/utils-network": "^1.0.18"
   },
   "devDependencies": {
     "@types/node": "^17.0.14",
@@ -49,7 +49,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^6.0.0"
+    "hint": "^7.0.0"
   },
   "repository": {
     "directory": "packages/parser-package-json",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.1.33"
+  "version": "1.1.34"
 }

@@ -1,3 +1,10 @@
+# 6.4.0 (June 6, 2022)
+
+## New features
+
+* [[`df003215d9`](https://github.com/webhintio/hint/commit/df003215d9f8deb16934fce932642b778e0e4d00)] - New: Allow hint tests to override severity (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 6.3.11 (May 3, 2022)
 
 ## Chores

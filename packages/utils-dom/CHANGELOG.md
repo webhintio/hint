@@ -1,3 +1,14 @@
+# 2.1.13 (June 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`6c568b5cf6`](https://github.com/webhintio/hint/commit/6c568b5cf6035ae2abe889856446d5f822a51923)] - Fix: Avoid false positives when using {...spread} in JSX (by [`Tony Ross`](https://github.com/antross) / see also: [`#5166`](https://github.com/webhintio/hint/issues/5166), and [`#5175`](https://github.com/webhintio/hint/issues/5175)).
+
+## Chores
+
+* [[`222b566dd9`](https://github.com/webhintio/hint/commit/222b566dd9258864e6b885fb6fe76dabf373d0d8)] - Chore: Remove usage of eval from utils-worker (by [`Tony Ross`](https://github.com/antross) / see also: [`#5156`](https://github.com/webhintio/hint/issues/5156)).
+
+
 # 2.1.12 (May 3, 2022)
 
 ## Chores

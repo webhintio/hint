@@ -1,3 +1,11 @@
+# 1.4.1 (June 6, 2022)
+
+## Chores
+
+* [[`4140786a4a`](https://github.com/webhintio/hint/commit/4140786a4a81899b82574c04719ffd68cad8985b)] - Upgrade: Bump webpack from 5.70.0 to 5.72.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`222b566dd9`](https://github.com/webhintio/hint/commit/222b566dd9258864e6b885fb6fe76dabf373d0d8)] - Chore: Remove usage of eval from utils-worker (by [`Tony Ross`](https://github.com/antross) / see also: [`#5156`](https://github.com/webhintio/hint/issues/5156)).
+
+
 # 1.4.0 (May 3, 2022)
 
 ## New features

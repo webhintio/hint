@@ -9,9 +9,9 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.16",
+    "@hint/utils": "^7.0.17",
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-fs": "^1.0.13",
+    "@hint/utils-fs": "^1.0.14",
     "@hint/utils-i18n": "^1.0.12",
     "@hint/utils-types": "^1.1.7",
     "chalk": "^4.1.2",
@@ -54,7 +54,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^6.0.0"
+    "hint": "^7.0.0"
   },
   "repository": {
     "directory": "packages/formatter-summary",
@@ -80,5 +80,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.31"
+  "version": "3.0.32"
 }

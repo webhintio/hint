@@ -1,3 +1,11 @@
+# 1.0.19 (June 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`5509baa91a`](https://github.com/webhintio/hint/commit/5509baa91a9741ca23339af9ed9b39f61579dac6)] - Fix: Allow Node.js style resolution in config (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5169`](https://github.com/webhintio/hint/issues/5169)).
+* [[`3e9d0cbc49`](https://github.com/webhintio/hint/commit/3e9d0cbc4994986d85c55dad5d63f672c77ab7f9)] - Docs: Replace amp-validator references in comments (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 1.0.18 (May 3, 2022)
 
 ## Chores

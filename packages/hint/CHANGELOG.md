@@ -1,3 +1,23 @@
+# 7.0.0 (June 6, 2022)
+
+## Breaking Changes
+
+* [[`bd0f4e2ae0`](https://github.com/webhintio/hint/commit/bd0f4e2ae0a5d111ba8b687d320a5fa5ec8600d8)] - Breaking: Remove hint-amp-validator (by [`Tony Ross`](https://github.com/antross)).
+* [[`f836e819de`](https://github.com/webhintio/hint/commit/f836e819ded63b5a6b524692bfcd17269fd21b23)] - Breaking: Raise min required node version to 14 (by [`Tony Ross`](https://github.com/antross)).
+
+## New features
+
+* [[`b8d1979802`](https://github.com/webhintio/hint/commit/b8d19798024ecb767b78ee9ee1f691653c38a455)] - New: Allow hints to force severity overrides (by [`Tony Ross`](https://github.com/antross)).
+
+## Bug fixes / Improvements
+
+* [[`8394e44992`](https://github.com/webhintio/hint/commit/8394e44992b7e9fec1891557e7307550038419f3)] - Docs: Update required Node version to 14+ (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`222b566dd9`](https://github.com/webhintio/hint/commit/222b566dd9258864e6b885fb6fe76dabf373d0d8)] - Chore: Remove usage of eval from utils-worker (by [`Tony Ross`](https://github.com/antross) / see also: [`#5156`](https://github.com/webhintio/hint/issues/5156)).
+
+
 # 6.2.0 (May 3, 2022)
 
 ## New features
