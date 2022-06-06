@@ -50,7 +50,7 @@ export const finalConfig = <T extends ExtendableConfiguration> (config: T, resou
                 return getParsingError('Parent configuration missing', resource, error, 'MODULE_NOT_FOUND');
             }
 
-            throw error;
+            return getParsingError('Unknown error while parsing configuration', resource, error);
         }
 
         if (configIncludes.includes(configPath)) {
