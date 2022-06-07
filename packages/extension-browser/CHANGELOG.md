@@ -1,3 +1,10 @@
+# 2.4.2 (June 7, 2022)
+
+## Bug fixes / Improvements
+
+* [[`a613bce280`](https://github.com/webhintio/hint/commit/a613bce28024de95e70b86e5aa53c433bdcd237f)] - Fix: axe-core incorrect init when minified.
+
+
 # 2.4.1 (June 6, 2022)
 
 ## Chores
