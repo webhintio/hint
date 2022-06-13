@@ -15,9 +15,9 @@
   },
   "description": "Check if button has type attribute set",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.18",
+    "@hint/utils-create-server": "^3.4.19",
     "@hint/utils-dom": "^2.1.13",
-    "@hint/utils-tests-helpers": "^6.4.0",
+    "@hint/utils-tests-helpers": "^6.4.1",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.14"
+  "version": "3.0.15"
 }
