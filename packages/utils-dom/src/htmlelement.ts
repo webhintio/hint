@@ -208,6 +208,26 @@ export class HTMLElement extends Node {
 
     /**
      * Non-standard.
+     * Zero-based location of the specified attribute in original source code.
+     *
+     * @param name The name of the attribute to get the location for.
+     */
+    public getAttributeLocation(name: string): ProblemLocation {
+        const elementLocation = this._getOriginalLocation();
+        const location = elementLocation?.attrs?.[name];
+
+        return {
+            column: location ? location.startCol : -1,
+            endColumn: location ? location.endCol : -1,
+            endLine: location ? location.endLine - 1 : -1,
+            endOffset: location ? location.endOffset : -1,
+            line: location ? location.startLine - 1 : -1,
+            startOffset: location ? location.startOffset : -1
+        };
+    }
+
+    /**
+     * Non-standard.
      * Zero-based location of the element in original source code.
      */
     public getLocation(): ProblemLocation {
@@ -217,6 +237,8 @@ export class HTMLElement extends Node {
         return {
             column: location ? location.startCol : -1,
             elementId: this._element.id,
+            endColumn: location ? location.endCol : -1,
+            endLine: location ? location.endLine - 1 : -1,
             endOffset: location ? location.endOffset : -1,
             line: location ? location.startLine - 1 : -1,
             startOffset: location ? location.startOffset : -1
