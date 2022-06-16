@@ -83,7 +83,7 @@ test('hintContext.report() should extract location from elements', (t) => {
         report(p: Problem) {
             problem = p;
         }
-    } as unknown as Engine;
+    } as Partial<Engine> as Engine;
     const context = new HintContext('elm-loc', engine, Severity.default, null, null as unknown as HintMetadata, []);
     const element = createHTMLDocument('<div id="test">Test</div>', 'http://localhost').body.children[0];
 
@@ -99,18 +99,18 @@ test('hintContext.report() should extract location from attributes', (t) => {
         report(p: Problem) {
             problem = p;
         }
-    } as unknown as Engine;
+    } as Partial<Engine> as Engine;
     const context = new HintContext('attr-loc', engine, Severity.default, null, null as unknown as HintMetadata, []);
     const element = createHTMLDocument('<div id="test">Test</div>', 'http://localhost').body.children[0];
 
     context.report('http://localhost', 'Test Location', { attribute: 'id', element, severity: Severity.error });
 
     t.is(problem?.location?.line, 0, 'Start line');
-    t.is(problem?.location?.column, 6, 'Start column');
+    t.is(problem?.location?.column, 5, 'Start column');
 });
 
 test('hintContext.report() rejects attributes without an element', (t) => {
-    const engine = {} as unknown as Engine;
+    const engine = {} as Partial<Engine> as Engine;
     const context = new HintContext('attr-no-elm', engine, Severity.default, null, null as unknown as HintMetadata, []);
 
     t.throws(() => {
