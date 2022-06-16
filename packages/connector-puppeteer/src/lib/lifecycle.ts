@@ -276,11 +276,14 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page, op
             if (options && options.detached) {
                 await deleteBrowserInfo();
             }
+            await page.close();
             void browser.close();
         } else {
             await page.close();
         }
     } catch (e) /* istanbul ignore next */ {
+        console.error(`Error closing page`);
+        console.error(e);
         debug(`Error closing page`);
         debug(e);
     } finally {
