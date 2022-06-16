@@ -57,9 +57,9 @@ test('getAttributeLocation', (t) => {
     const typeAttributeLocation = button.getAttributeLocation('type');
 
     t.is(typeAttributeLocation.line, 1, 'Start line');
-    t.is(typeAttributeLocation.column, 9, 'Start column');
+    t.is(typeAttributeLocation.column, 8, 'Start column');
     t.is(typeAttributeLocation.endLine, 1, 'End line');
-    t.is(typeAttributeLocation.endColumn, 22, 'End column');
+    t.is(typeAttributeLocation.endColumn, 21, 'End column');
     t.is(typeAttributeLocation.startOffset, 14, 'Start offset');
     t.is(typeAttributeLocation.endOffset, 27, 'End offset');
 });
@@ -86,7 +86,7 @@ test('getLocation', (t) => {
     t.is(location.line, 1, 'Start line');
     t.is(location.column, 1, 'Start column');
     t.is(location.endLine, 3, 'End line');
-    t.is(location.endColumn, 8, 'End column');
+    t.is(location.endColumn, 7, 'End column');
     t.is(location.startOffset, 6, 'Start offset');
     t.is(location.endOffset, 25, 'End offset');
 });
