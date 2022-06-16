@@ -52,7 +52,7 @@ test('If `fetch::end::html` is received, then the code should be parsed and the 
     t.is(div.nodeName.toLowerCase(), 'div');
     t.is(div.getAttribute('id'), 'test');
     t.is(location && location.line, 0);
-    t.is(location && location.column, 16);
+    t.is(location && location.column, 15);
     t.is(id && id.value, 'test');
     t.true(div.isSame(div2));
 
