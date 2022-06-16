@@ -88,7 +88,7 @@ test('HTMLElement.getLocation() should return the element location', (t) => {
     const location = item.getLocation();
 
     t.is(location && location.line, 6);
-    t.is(location && location.column, 9);
+    t.is(location && location.column, 8);
 });
 
 test('HTMLElement.isSame() should return if an item is the same or not', (t) => {

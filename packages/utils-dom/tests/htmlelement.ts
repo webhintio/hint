@@ -84,7 +84,7 @@ test('getLocation', (t) => {
     const location = span.getLocation();
 
     t.is(location.line, 1, 'Start line');
-    t.is(location.column, 1, 'Start column');
+    t.is(location.column, 0, 'Start column');
     t.is(location.endLine, 3, 'End line');
     t.is(location.endColumn, 7, 'End column');
     t.is(location.startOffset, 6, 'Start offset');

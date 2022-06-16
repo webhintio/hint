@@ -233,9 +233,8 @@ export class HTMLElement extends Node {
     public getLocation(): ProblemLocation {
         const location = this._getOriginalLocation();
 
-        // Column is zero-based, but pointing to the tag name, not the character <
         return {
-            column: location ? location.startCol : -1,
+            column: location ? location.startCol - 1 : -1,
             elementId: this._element.id,
             endColumn: location ? location.endCol - 1 : -1,
             endLine: location ? location.endLine - 1 : -1,
