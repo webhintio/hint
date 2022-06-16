@@ -276,7 +276,7 @@ export const close = async (browser: puppeteer.Browser, page: puppeteer.Page, op
             if (options && options.detached) {
                 await deleteBrowserInfo();
             }
-            await browser.close();
+            void browser.close();
         } else {
             await page.close();
         }
