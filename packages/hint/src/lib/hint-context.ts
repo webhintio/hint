@@ -21,6 +21,11 @@ import {
 export type CodeLanguage = 'css' | 'html' | 'http' | 'javascript';
 
 export type ReportOptions = {
+    /**
+     * The name of the HTML attribute where the issue was found.
+     * Used with `element` to get a more targeted `ProblemLocation`.
+     */
+    attribute?: string;
     /** The source code to display (defaults to the `outerHTML` of `element`). */
     codeSnippet?: string;
     /** The text within `element` where the issue was found (used to refine a `ProblemLocation`). */
@@ -121,7 +126,11 @@ export class HintContext<E extends Events = Events> {
     }
 
     /** Finds the approximative location in the page's HTML for a match in an element. */
-    public findProblemLocation(element: HTMLElement, offset: ProblemLocation | null): ProblemLocation | null {
+    public findProblemLocation(element: HTMLElement, offset: ProblemLocation | null, attribute?: string): ProblemLocation | null {
+        if (attribute) {
+            return element.getAttributeLocation(attribute);
+        }
+
         if (offset) {
             return element.getContentLocation(offset);
         }
@@ -131,13 +140,17 @@ export class HintContext<E extends Events = Events> {
 
     /** Reports a problem with the resource. */
     public report(resource: string, message: string, options: ReportOptions) {
-        const { codeSnippet, element, severity = Severity.warning } = options;
+        const { attribute, codeSnippet, element, severity = Severity.warning } = options;
         let sourceCode: string | null = null;
         let position = options.location || null;
 
+        if (attribute && !element) {
+            throw new Error('The `element` option must be specified when `attribute` is provided.');
+        }
+
         if (element) {
             // When element is provided, position is an offset in the content.
-            position = this.findProblemLocation(element, position);
+            position = this.findProblemLocation(element, position, attribute);
             sourceCode = getHTMLCodeSnippet(element);
         }
 
