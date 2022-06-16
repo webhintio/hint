@@ -72,6 +72,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
         };
 
         context.on('element::a', validate);
+        context.on('element::img', validate);
         context.on('element::link', validate);
         context.on('element::script', validate);
     }
