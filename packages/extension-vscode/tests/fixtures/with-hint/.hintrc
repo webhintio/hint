@@ -1,0 +1,7 @@
+{
+  "browserslist": ["ie 11"],
+  "parsers": ["css", "html"],
+  "hints": {
+    "compat-api/css": "error"
+  }
+}

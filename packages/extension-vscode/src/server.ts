@@ -1,12 +1,17 @@
-import { createConnection, ProposedFeatures, TextDocuments, TextDocumentSyncKind } from 'vscode-languageserver/node';
+import { createConnection, InitializeResult, ProposedFeatures, TextDocuments, TextDocumentSyncKind } from 'vscode-languageserver/node';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { Analyzer } from './utils/analyze';
+import { QuickFixActionProvider } from './quickfix-provider';
+import {WebhintConfiguratorParser} from './utils/webhint-utils';
+
+import * as path from 'path';
 
 const [,, globalStoragePath, sourceName] = process.argv;
 const connection = createConnection(ProposedFeatures.all);
 const analyzer = new Analyzer(globalStoragePath, connection, sourceName);
 const documents = new TextDocuments(TextDocument);
+const quickFixActionProvider = new QuickFixActionProvider(documents, sourceName);
 
 let workspace = '';
 
@@ -17,15 +22,60 @@ connection.onInitialize((params) => {
      */
     workspace = params.rootPath || '';
 
-    return { capabilities: { textDocumentSync: TextDocumentSyncKind.Full } };
+    const resultObject: InitializeResult = {capabilities: {textDocumentSync: TextDocumentSyncKind.Full}};
+
+    resultObject.capabilities.codeActionProvider = true;
+    resultObject.capabilities.executeCommandProvider = {
+        commands: [
+            'vscode-webhint/ignore-hint-project',
+            'vscode-webhint/ignore-problem-project',
+            'vscode-webhint/edit-hintrc-project'
+        ]
+    };
+
+    return resultObject;
 });
 
-// A watched .hintrc has changed. Reload the engine and re-validate documents.
-connection.onDidChangeWatchedFiles(async () => {
+const updateConfiguration = async function () {
     analyzer.onConfigurationChanged();
     await Promise.all(documents.all().map((doc) => {
         return analyzer.validateTextDocument(doc, workspace);
     }));
+};
+
+// A watched .hintrc has changed. Reload the engine and re-validate documents.
+connection.onDidChangeWatchedFiles(() => {
+    return updateConfiguration();
+});
+
+connection.onCodeAction(quickFixActionProvider.provideCodeActions.bind(quickFixActionProvider));
+
+connection.onExecuteCommand(async (params) => {
+    const args = params.arguments ?? [];
+    const problemName = args[0] as string;
+    const hintName = args[1] as string;
+    const configurationParser = new WebhintConfiguratorParser();
+    const configFilePath = path.join(workspace, '.hintrc');
+
+    await configurationParser.initialize(configFilePath);
+
+    switch (params.command) {
+        case 'vscode-webhint/ignore-hint-project': {
+            await configurationParser.ignoreHintPerProject(hintName);
+            break;
+        }
+        case 'vscode-webhint/ignore-problem-project': {
+            await configurationParser.addProblemToIgnoredHintsConfig(hintName, problemName);
+            break;
+        }
+        case 'vscode-webhint/edit-hintrc-project': {
+            connection.window.showDocument({ uri: configFilePath });
+            break;
+        }
+        default: {
+            break;
+        }
+    }
 });
 
 // Re-validate the document whenever the content changes.
