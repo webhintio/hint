@@ -45,7 +45,9 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
              * browser already adds http(s):// so we cannot verify.
              */
 
-            const url: string = (element.getAttribute('src') || element.getAttribute('href') || '').trim();
+            const src = element.getAttribute('src');
+            const href = element.getAttribute('href');
+            const url: string = (src || href || '').trim();
             const rel = element.getAttribute('rel') || '';
 
             if (url.startsWith('//') && rel !== 'dns-prefetch') {
@@ -61,6 +63,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
                     resource,
                     message,
                     {
+                        attribute: src ? 'src' : 'href',
                         content: url,
                         element,
                         severity
@@ -69,6 +72,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
         };
 
         context.on('element::a', validate);
+        context.on('element::img', validate);
         context.on('element::link', validate);
         context.on('element::script', validate);
     }
