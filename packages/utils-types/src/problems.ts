@@ -26,5 +26,6 @@ export type Problem = {
     codeLanguage?: string;
     /** The link to the documentation in the 3rd party package */
     documentation?: ProblemDocumentation[];
+    /** The source edits to fix a Problem */
     fixes?: CodeFix[];
 };

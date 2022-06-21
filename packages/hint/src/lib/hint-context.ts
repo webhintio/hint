@@ -179,13 +179,13 @@ export class HintContext<E extends Events = Events> {
             category: (this.meta && this.meta.docs && this.meta.docs.category) ? this.meta.docs.category : Category.other,
             codeLanguage: options.codeLanguage,
             documentation: options.documentation,
+            fixes,
             hintId: this.id,
             location: position || { column: -1, line: -1 },
             message,
             resource,
             severity: finalSeverity,
-            sourceCode: codeSnippet || sourceCode || '',
-            fixes,
+            sourceCode: codeSnippet || sourceCode || ''
         });
     }
 
