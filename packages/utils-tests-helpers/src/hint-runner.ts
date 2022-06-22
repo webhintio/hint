@@ -192,7 +192,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
          * information to the report that matches the closest.
          */
 
-        const { documentation, location, message, resource, severity } = result;
+        const { documentation, fixes, location, message, resource, severity } = result;
 
         const filteredByMessage = reportsCopy.filter((report) => {
             if (typeof report.message === 'string') {
@@ -358,6 +358,39 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
         } else {
             t.fail(`The severity "${severity}" does not match any report for "${message}"`);
         }
+
+        const filteredByFixes = filteredByDocumentation.filter((report) => {
+            /*
+             * If the report from the test doesn't ask for fixes,
+             * we don't need to macth it.
+             */
+            if (!report.fixes) {
+                return true;
+            }
+
+            /*
+             * If the report from the test does ask for fixes
+             * but the result doesn't provide it, then it isn't a match.
+             */
+            if (!fixes) {
+                return false;
+            }
+
+            let fixPosition: ProblemLocation | undefined;
+            let fixText: string | undefined;
+
+            if ('match' in report.position) {
+                position = findPosition(sources.get(resource) || '', report.position);
+            } else {
+                position = report.position;
+            }
+
+            return position.column === location.column &&
+                position.line === location.line &&
+                (!('range' in report.position) || (
+                    position.endLine === location.endLine &&
+                    position.endColumn === location.endColumn));
+        });
     });
 };
 

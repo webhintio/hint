@@ -59,7 +59,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
                 const fixedUrl = url.replace('//', 'https://');
                 const replacementText = `${attribute}="${fixedUrl}"`;
 
-                const codeFix = [
+                const fixes = [
                     {
                         location: attributeLocation,
                         text: replacementText
@@ -77,7 +77,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
                         attribute,
                         content: url,
                         element,
-                        fixes: codeFix,
+                        fixes,
                         severity
                     });
             }

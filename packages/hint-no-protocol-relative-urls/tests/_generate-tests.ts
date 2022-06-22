@@ -22,8 +22,12 @@ const getTests = (severity: Severity) => {
         {
             name: `'link' with initial // fails the hint`,
             reports: [{
+                fixes: [{
+                    location: {column: 3, line: 3},
+                    text: 'replacementText'
+                }],
                 message: errorMessage,
-                position: { match: 'href="//site.webmanifest"' },
+                position: { match: 'href="//site.webmanifesdt"' },
                 severity
             }],
             serverConfig: generateHTMLPage('<link rel="manifest" href="//site.webmanifest">')
