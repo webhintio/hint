@@ -2,15 +2,13 @@ import * as fs from 'fs';
 
 import { hasFile } from './fs';
 import type { UserConfig as WebhintUserConfig } from '@hint/utils';
-import { type IJSONResult, parseJSON } from '@hint/utils-json';
 
 export class WebhintConfiguratorParser {
 
-    private originalParsedJson: IJSONResult | undefined;
     private userConfig: WebhintUserConfig = {};
     private configFilePath: string | undefined;
 
-    public async initialize(path: string): Promise<IJSONResult | null> {
+    public async initialize(path: string): Promise<WebhintUserConfig | null> {
         this.configFilePath = path;
         const fileExists = await hasFile(this.configFilePath);
 
@@ -24,10 +22,9 @@ export class WebhintConfiguratorParser {
         // user config file is guaranteed to exist at this point, now read it.
         const rawUserConfig = await fs.promises.readFile(this.configFilePath, 'utf-8');
 
-        this.originalParsedJson = parseJSON(rawUserConfig.toString()) as IJSONResult;
-        this.userConfig = this.originalParsedJson.data;
+        this.userConfig = JSON.parse(rawUserConfig.toString());
 
-        return this.originalParsedJson;
+        return this.userConfig;
     }
 
     public async addProblemToIgnoredHintsConfig(hintName: string, problemName: string): Promise<void> {
@@ -82,11 +79,11 @@ export class WebhintConfiguratorParser {
     }
 
     public isInitialized() {
-        return !!this.originalParsedJson;
+        return !!this.userConfig;
     }
 
     private async saveConfiguration() {
-        const result = JSON.stringify(this.originalParsedJson?.data, null, 2);
+        const result = JSON.stringify(this.userConfig, null, 2);
 
         if (this.configFilePath) {
             await fs.promises.writeFile(this.configFilePath, result, 'utf-8');

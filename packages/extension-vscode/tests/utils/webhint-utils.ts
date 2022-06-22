@@ -56,7 +56,7 @@ test.serial('It returns the config file if it does exists in the given path', as
 
     t.not(result, null);
     t.not(result, undefined);
-    t.deepEqual(result?.data, JSON.parse(expectedFileContents.toString()));
+    t.deepEqual(result, JSON.parse(expectedFileContents.toString()));
     t.is(writeFileStub.callCount, 0);
     t.is(readFileStub.callCount, 1);
 });

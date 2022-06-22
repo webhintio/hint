@@ -1,6 +1,7 @@
 import { createConnection, InitializeResult, ProposedFeatures, TextDocuments, TextDocumentSyncKind } from 'vscode-languageserver/node';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
+import { pathToFileURL } from 'node:url';
 import { Analyzer } from './utils/analyze';
 import { QuickFixActionProvider } from './quickfix-provider';
 import {WebhintConfiguratorParser} from './utils/webhint-utils';
@@ -69,7 +70,7 @@ connection.onExecuteCommand(async (params) => {
             break;
         }
         case 'vscode-webhint/edit-hintrc-project': {
-            connection.window.showDocument({ uri: configFilePath });
+            await connection.window.showDocument({ uri: pathToFileURL(configFilePath).toString() });
             break;
         }
         default: {
