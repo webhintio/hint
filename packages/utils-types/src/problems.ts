@@ -2,6 +2,7 @@ import { ProblemDocumentation } from './problem-documentation';
 import { ProblemLocation } from './problem-location';
 import { Category } from './category';
 import { Severity } from './severity';
+import { CodeFix } from './fix';
 
 export { ProblemLocation };
 
@@ -25,4 +26,6 @@ export type Problem = {
     codeLanguage?: string;
     /** The link to the documentation in the 3rd party package */
     documentation?: ProblemDocumentation[];
+    /** The source edits to fix a Problem */
+    fixes?: CodeFix[];
 };

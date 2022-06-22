@@ -6,7 +6,7 @@
  */
 import { URL } from 'url';
 
-import { ProblemLocation, Severity } from '@hint/utils-types';
+import { ProblemLocation, Severity, CodeFix } from '@hint/utils-types';
 import { Category, ProblemDocumentation } from '@hint/utils-types';
 import { getHTMLCodeSnippet, HTMLElement } from '@hint/utils-dom';
 
@@ -48,6 +48,7 @@ export type ReportOptions = {
     forceSeverity?: boolean;
     /** Indicate the language of the codeSnippet. */
     codeLanguage?: CodeLanguage;
+    fixes?: CodeFix[];
 };
 
 /** Acts as an abstraction layer between hints and the main hint object. */
@@ -146,7 +147,7 @@ export class HintContext<E extends Events = Events> {
 
     /** Reports a problem with the resource. */
     public report(resource: string, message: string, options: ReportOptions) {
-        const { attribute, codeSnippet, element, severity = Severity.warning } = options;
+        const { attribute, codeSnippet, element, severity = Severity.warning, fixes } = options;
         let sourceCode: string | null = null;
         let position = options.location || null;
 
@@ -178,6 +179,7 @@ export class HintContext<E extends Events = Events> {
             category: (this.meta && this.meta.docs && this.meta.docs.category) ? this.meta.docs.category : Category.other,
             codeLanguage: options.codeLanguage,
             documentation: options.documentation,
+            fixes,
             hintId: this.id,
             location: position || { column: -1, line: -1 },
             message,
