@@ -30,13 +30,12 @@ export class QuickFixActionProvider {
         const results: CodeAction[] = [];
 
         params.context.diagnostics.forEach((currentDiagnostic) => {
+            // only respond to requests for specified source.
+            if (!currentDiagnostic.source || currentDiagnostic.source !== this.sourceName) {
+                return;
+            }
+
             this.quickFixActionsTemplates.forEach((value, key) => {
-
-                // only respond to requests for specified source.
-                if (!currentDiagnostic.source || currentDiagnostic.source !== this.sourceName) {
-                    return;
-                }
-
                 // default title
                 let title = currentDiagnostic.code?.toString() || '';
 
@@ -58,10 +57,12 @@ export class QuickFixActionProvider {
             });
         });
 
-        const editCurrentProjectConfigTitle = 'Edit .hintrc for current project';
-        const editCurrentProjectConfig: Command = { command: 'vscode-webhint/edit-hintrc-project', title: editCurrentProjectConfigTitle };
-
-        results.push(CodeAction.create(editCurrentProjectConfigTitle, editCurrentProjectConfig, CodeActionKind.QuickFix));
+        if(results.length > 0) {
+            const editCurrentProjectConfigTitle = 'Edit .hintrc for current project';
+            const editCurrentProjectConfig: Command = { command: 'vscode-webhint/edit-hintrc-project', title: editCurrentProjectConfigTitle };
+    
+            results.push(CodeAction.create(editCurrentProjectConfigTitle, editCurrentProjectConfig, CodeActionKind.QuickFix));
+        }
 
         return results;
     }
