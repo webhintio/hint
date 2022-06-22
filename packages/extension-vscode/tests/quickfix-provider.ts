@@ -48,7 +48,7 @@ test('It handles an empty document', (t) => {
     t.is(results, null);
 });
 
-test('It returns only one elements for empty diagnostics', (t) => {
+test('It returns zero elements for empty diagnostics', (t) => {
     const {documents, fakeCodeActions} = mockContext(t.context);
 
     fakeCodeActions.context.diagnostics = [];
@@ -57,13 +57,7 @@ test('It returns only one elements for empty diagnostics', (t) => {
     const results = quickFixActionProvider.provideCodeActions(fakeCodeActions);
 
     t.not(results, null);
-    t.is(results?.length, 1);
-
-    if (results){
-        t.is(results[0].title, 'Edit .hintrc for current project');
-    } else {
-        t.fail('Expected code actions but none received');
-    }
+    t.is(results?.length, 0);
 });
 
 test('It correctly returns expected quick fixes for a single diagnostic with the right source set', (t) => {
@@ -199,11 +193,5 @@ test('It correctly filters messages with the wrong source set', (t) => {
     const results = quickFixActionProvider.provideCodeActions(fakeCodeActions);
 
     t.not(results, null);
-    t.is(results?.length, 1);
-
-    if (results){
-        t.is(results[0].title, 'Edit .hintrc for current project');
-    } else {
-        t.fail('Expected code actions but none received');
-    }
+    t.is(results?.length, 0);
 });
