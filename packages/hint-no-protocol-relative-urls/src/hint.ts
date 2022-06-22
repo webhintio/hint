@@ -54,6 +54,22 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
                 debug('Protocol relative URL found');
 
                 const message = getMessage('noProtocolRelativeUrl', context.language);
+                const tagString = src ? 'src' : 'href';
+                const attributePosition = element.getAttributeLocation(tagString);
+                const fixedUrl = url.replace('//', 'https://');
+                const replacementText = `${tagString}="${fixedUrl}"`;
+
+                const codeFix = [
+                    {
+                        location: {
+                            column: attributePosition.column,
+                            endColumn: attributePosition.endColumn,
+                            endLine: attributePosition.endLine,
+                            line: attributePosition.line
+                        },
+                        text: replacementText
+                    }
+                ];
 
                 const severity = isHTTPS(resource) ?
                     Severity.hint :
@@ -63,9 +79,10 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
                     resource,
                     message,
                     {
-                        attribute: src ? 'src' : 'href',
+                        attribute: tagString,
                         content: url,
                         element,
+                        fixes: codeFix,
                         severity
                     });
             }
