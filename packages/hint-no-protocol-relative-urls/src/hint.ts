@@ -54,19 +54,14 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
                 debug('Protocol relative URL found');
 
                 const message = getMessage('noProtocolRelativeUrl', context.language);
-                const tagString = src ? 'src' : 'href';
-                const attributePosition = element.getAttributeLocation(tagString);
+                const attribute = src ? 'src' : 'href';
+                const attributeLocation = element.getAttributeLocation(attribute);
                 const fixedUrl = url.replace('//', 'https://');
-                const replacementText = `${tagString}="${fixedUrl}"`;
+                const replacementText = `${attribute}="${fixedUrl}"`;
 
                 const codeFix = [
                     {
-                        location: {
-                            column: attributePosition.column,
-                            endColumn: attributePosition.endColumn,
-                            endLine: attributePosition.endLine,
-                            line: attributePosition.line
-                        },
+                        location: attributeLocation,
                         text: replacementText
                     }
                 ];
@@ -79,7 +74,7 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
                     resource,
                     message,
                     {
-                        attribute: tagString,
+                        attribute,
                         content: url,
                         element,
                         fixes: codeFix,
