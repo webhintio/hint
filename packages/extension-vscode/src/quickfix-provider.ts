@@ -57,10 +57,10 @@ export class QuickFixActionProvider {
             });
         });
 
-        if(results.length > 0) {
+        if (results.length > 0) {
             const editCurrentProjectConfigTitle = 'Edit .hintrc for current project';
             const editCurrentProjectConfig: Command = { command: 'vscode-webhint/edit-hintrc-project', title: editCurrentProjectConfigTitle };
-    
+
             results.push(CodeAction.create(editCurrentProjectConfigTitle, editCurrentProjectConfig, CodeActionKind.QuickFix));
         }
 
