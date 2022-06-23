@@ -80,6 +80,26 @@ const findPosition = (source: string, position: MatchProblemLocation): ProblemLo
 };
 
 /**
+ * Compares two location to see if they have the same start/end values
+ */
+const comparePositions = (position1: ProblemLocation, position2: ProblemLocation): boolean => {
+    if (position1.line !== position2.line) {
+        return false;
+    }
+    if (position1.column !== position2.column) {
+        return false;
+    }
+    if (position1.endLine !== position2.endLine) {
+        return false;
+    }
+    if (position1.endColumn !== position2.endColumn) {
+        return false;
+    }
+
+    return true;
+};
+
+/**
  * Get the source code for the provided resource.
  * Returns the empty string if resource was invalid.
  */
@@ -330,7 +350,46 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
             return;
         }
 
-        const filteredBySeverity = filteredByPosition.filter((report) => {
+        const filteredByFixes = filteredByPosition.filter((report) => {
+            /*
+             * If the report from the test doesn't ask for fixes,
+             * we don't need to macth it.
+             */
+            if (!report.fixes) {
+                return true;
+            }
+
+            /*
+             * If the report from the test does ask for fixes
+             * but the result doesn't provide it, then it isn't a match.
+             */
+            if (!fixes) {
+                return false;
+            }
+
+            if (report.fixes.length !== fixes.length) {
+                return false;
+            }
+
+            for (let i = 0; i < fixes.length; i++) {
+                const curLocation = fixes[i].location;
+                const curText = fixes[i].text;
+                const targetLocation = report.fixes[i].location;
+                const targetText = report.fixes[i].text;
+
+                if (curText !== targetText || !comparePositions(curLocation, targetLocation)) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+
+        if (filteredByFixes.length === 0) {
+            t.fail(`The fix ${JSON.stringify(fixes)} does not match any report for "${message}"`);
+        }
+
+        const filteredBySeverity = filteredByFixes.filter((report) => {
             // Not all reports in the test have a severity
             if (typeof report.severity === 'undefined') {
                 return true;
@@ -358,39 +417,6 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
         } else {
             t.fail(`The severity "${severity}" does not match any report for "${message}"`);
         }
-
-        const filteredByFixes = filteredByDocumentation.filter((report) => {
-            /*
-             * If the report from the test doesn't ask for fixes,
-             * we don't need to macth it.
-             */
-            if (!report.fixes) {
-                return true;
-            }
-
-            /*
-             * If the report from the test does ask for fixes
-             * but the result doesn't provide it, then it isn't a match.
-             */
-            if (!fixes) {
-                return false;
-            }
-
-            let fixPosition: ProblemLocation | undefined;
-            let fixText: string | undefined;
-
-            if ('match' in report.position) {
-                position = findPosition(sources.get(resource) || '', report.position);
-            } else {
-                position = report.position;
-            }
-
-            return position.column === location.column &&
-                position.line === location.line &&
-                (!('range' in report.position) || (
-                    position.endLine === location.endLine &&
-                    position.endColumn === location.endColumn));
-        });
     });
 };
 
