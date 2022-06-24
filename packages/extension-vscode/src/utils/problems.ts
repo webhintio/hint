@@ -61,7 +61,7 @@ export const problemToDiagnostic = (problem: Problem, textDocument: TextDocument
     };
 };
 
-export const getProblemNameFromDiagnostic = (diagnostic: Diagnostic) => {
+export const getFeatureNameFromDiagnostic = (diagnostic: Diagnostic) => {
     const matches = diagnostic.message.match(/(.*?)'(.*?)'(.*?)/);
 
     if (matches && matches.length > 1) {

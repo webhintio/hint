@@ -1,6 +1,6 @@
 import { CodeAction, CodeActionKind, CodeActionParams, Command, Diagnostic, TextDocuments } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
-import { getProblemNameFromDiagnostic as getFeatureNameFromDiagnostic } from './utils/problems';
+import { getFeatureNameFromDiagnostic } from './utils/problems';
 
 export class QuickFixActionProvider {
     private documents: TextDocuments<TextDocument>;
