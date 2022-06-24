@@ -1,4 +1,4 @@
-import { createConnection, InitializeResult, ProposedFeatures, TextDocuments, TextDocumentSyncKind } from 'vscode-languageserver/node';
+import { createConnection, ProposedFeatures, TextDocuments, TextDocumentSyncKind } from 'vscode-languageserver/node';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { pathToFileURL } from 'node:url';
@@ -23,33 +23,32 @@ connection.onInitialize((params) => {
      */
     workspace = params.rootPath || '';
 
-    const resultObject: InitializeResult = {capabilities: {textDocumentSync: TextDocumentSyncKind.Full}};
-
-    resultObject.capabilities.codeActionProvider = true;
-    resultObject.capabilities.executeCommandProvider = {
-        commands: [
-            'vscode-webhint/ignore-hint-project',
-            'vscode-webhint/ignore-problem-project',
-            'vscode-webhint/edit-hintrc-project'
-        ]
+    return {
+        capabilities: {
+            codeActionProvider: true,
+            executeCommandProvider: {
+                commands: [
+                    'vscode-webhint/ignore-hint-project',
+                    'vscode-webhint/ignore-feature-project',
+                    'vscode-webhint/edit-hintrc-project'
+                ]
+            },
+            textDocumentSync: TextDocumentSyncKind.Full
+        }
     };
-
-    return resultObject;
 });
 
-const updateConfiguration = async function () {
+// A watched .hintrc has changed. Reload the engine and re-validate documents.
+connection.onDidChangeWatchedFiles(async () => {
     analyzer.onConfigurationChanged();
     await Promise.all(documents.all().map((doc) => {
         return analyzer.validateTextDocument(doc, workspace);
     }));
-};
-
-// A watched .hintrc has changed. Reload the engine and re-validate documents.
-connection.onDidChangeWatchedFiles(() => {
-    return updateConfiguration();
 });
 
-connection.onCodeAction(quickFixActionProvider.provideCodeActions.bind(quickFixActionProvider));
+connection.onCodeAction((params) => {
+    return quickFixActionProvider.provideCodeActions(params);
+});
 
 connection.onExecuteCommand(async (params) => {
     const args = params.arguments ?? [];
@@ -65,8 +64,8 @@ connection.onExecuteCommand(async (params) => {
             await configurationParser.ignoreHintPerProject(hintName);
             break;
         }
-        case 'vscode-webhint/ignore-problem-project': {
-            await configurationParser.addProblemToIgnoredHintsConfig(hintName, problemName);
+        case 'vscode-webhint/ignore-feature-project': {
+            await configurationParser.addFeatureToIgnoredHintsConfig(hintName, problemName);
             break;
         }
         case 'vscode-webhint/edit-hintrc-project': {

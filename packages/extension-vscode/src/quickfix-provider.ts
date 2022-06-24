@@ -1,23 +1,54 @@
-import { CodeAction, CodeActionKind, CodeActionParams, Command, TextDocuments } from 'vscode-languageserver';
+import { CodeAction, CodeActionKind, CodeActionParams, Command, Diagnostic, TextDocuments } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
-import { getProblemNameFromDiagnostic } from './utils/problems';
+import { getProblemNameFromDiagnostic as getFeatureNameFromDiagnostic } from './utils/problems';
 
 export class QuickFixActionProvider {
     private documents: TextDocuments<TextDocument>;
     private sourceName: string;
 
-    private quickFixActionsTemplates = new Map([
-        ['vscode-webhint/ignore-hint-project', (hintName: string) => {
-            return `Ignore hint '${hintName}' in this project`;
-        }],
-        ['vscode-webhint/ignore-problem-project', (hintProblem: string) => {
-            return `Ignore problem '${hintProblem}' in this project`;
-        }]
-    ]);
-
     public constructor(documents: TextDocuments<TextDocument>, sourceName: string) {
         this.documents = documents;
         this.sourceName = sourceName;
+    }
+
+    private createIgnoreFeatureAction(hintName: string, diagnostic: Diagnostic): CodeAction {
+        const command = 'vscode-webhint/ignore-feature-project';
+        const featureName = getFeatureNameFromDiagnostic(diagnostic);
+
+        if (!featureName) {
+            throw new Error('Unable to determine which HTML/CSS feature to ignore');
+        }
+
+        const action = CodeAction.create(
+            `Ignore '${featureName}' in this project`,
+            {
+                arguments: [featureName, hintName],
+                command,
+                title: featureName
+            },
+            CodeActionKind.QuickFix
+        );
+
+        action.diagnostics = [diagnostic];
+
+        return action;
+    }
+
+    private createIgnoreHintAction(hintName: string, diagnostic: Diagnostic): CodeAction {
+        const command = 'vscode-webhint/ignore-hint-project';
+        const action = CodeAction.create(
+            `Disable '${hintName}' hints in this project`,
+            {
+                arguments: [hintName, hintName],
+                command,
+                title: hintName
+            },
+            CodeActionKind.QuickFix
+        );
+
+        action.diagnostics = [diagnostic];
+
+        return action;
     }
 
     public provideCodeActions(params: CodeActionParams): CodeAction[] | null {
@@ -35,26 +66,15 @@ export class QuickFixActionProvider {
                 return;
             }
 
-            this.quickFixActionsTemplates.forEach((value, key) => {
-                // default title
-                let title = currentDiagnostic.code?.toString() || '';
+            const hintName = `${currentDiagnostic.code}`;
 
-                // if it is a problem (not a hint) use the problem as a title instead
-                if (key.includes('-problem-')) {
-                    const problemName = getProblemNameFromDiagnostic(currentDiagnostic);
+            if (hintName.startsWith('compat-api/')) {
+                // Prefer ignoring specific HTML/CSS features when possible.
+                results.push(this.createIgnoreFeatureAction(hintName, currentDiagnostic));
+            }
 
-                    title = problemName ? problemName : title;
-                }
-
-                // create custom codeActions and associating custom commands.
-                const customCommand: Command = { command: key, title };
-
-                customCommand.arguments = [title, currentDiagnostic.code];
-                const customCodeAction = CodeAction.create(value(title), customCommand, CodeActionKind.QuickFix);
-
-                customCodeAction.diagnostics = [currentDiagnostic];
-                results.push(customCodeAction);
-            });
+            // Offer to disable the entire hint.
+            results.push(this.createIgnoreHintAction(hintName, currentDiagnostic));
         });
 
         if (results.length > 0) {

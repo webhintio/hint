@@ -90,7 +90,7 @@ test.serial('It correctly ignores a problem in an existing configuration file wi
 
     readFileStub.resolves(sampleFileContents);
     await configParser.initialize(expectedPath);
-    configParser.addProblemToIgnoredHintsConfig('compat-api/css', 'grid-column');
+    configParser.addFeatureToIgnoredHintsConfig('compat-api/css', 'grid-column');
 
     t.is(writeFileStub.callCount, 1);
     t.is(readFileStub.callCount, 1);
@@ -114,7 +114,7 @@ test.serial('It correctly ignores a problem in an existing configuration file wi
 
     readFileStub.resolves(sampleFileContents);
     await configParser.initialize(expectedPath);
-    configParser.addProblemToIgnoredHintsConfig('compat-api/css', 'grid-column');
+    configParser.addFeatureToIgnoredHintsConfig('compat-api/css', 'grid-column');
 
     t.is(writeFileStub.callCount, 1);
     t.is(readFileStub.callCount, 1);
@@ -137,7 +137,7 @@ test.serial('It correctly ignores a problem in an existing configuration file wi
 
     readFileStub.resolves(sampleFileContents);
     await configParser.initialize(expectedPath);
-    configParser.addProblemToIgnoredHintsConfig('compat-api/css', 'grid-column');
+    configParser.addFeatureToIgnoredHintsConfig('compat-api/css', 'grid-column');
 
     t.is(writeFileStub.callCount, 1);
     t.is(readFileStub.callCount, 1);
@@ -161,7 +161,7 @@ test.serial('It correctly ignores a problem in a new configuration file with a p
 
     readFileStub.resolves(sampleFileContents);
     await configParser.initialize(expectedPath);
-    configParser.addProblemToIgnoredHintsConfig('compat-api/css', 'grid-column');
+    configParser.addFeatureToIgnoredHintsConfig('compat-api/css', 'grid-column');
 
     t.is(writeFileStub.callCount, 2);
     t.is(readFileStub.callCount, 1);
@@ -184,7 +184,7 @@ test.serial('It correctly ignores a problem in an existing configuration file wi
 
     readFileStub.resolves(sampleFileContents);
     await configParser.initialize(expectedPath);
-    configParser.addProblemToIgnoredHintsConfig('compat-api/css', 'grid-column');
+    configParser.addFeatureToIgnoredHintsConfig('compat-api/css', 'grid-column');
 
     t.is(writeFileStub.callCount, 1);
     t.is(readFileStub.callCount, 1);
@@ -204,7 +204,7 @@ test.serial('It handles adding an empty hint in an existing configuration file w
 
     readFileStub.resolves(sampleFileContents);
     await configParser.initialize(expectedPath);
-    configParser.addProblemToIgnoredHintsConfig('compat-api/css', '');
+    configParser.addFeatureToIgnoredHintsConfig('compat-api/css', '');
 
     t.is(writeFileStub.callCount, 0);
     t.is(readFileStub.callCount, 1);
@@ -224,7 +224,7 @@ test.serial('It correctly ignores a problem in an existing configuration file wi
 
     readFileStub.resolves(sampleFileContents);
     await configParser.initialize(expectedPath);
-    configParser.addProblemToIgnoredHintsConfig('compat-api/css', 'grid-column');
+    configParser.addFeatureToIgnoredHintsConfig('compat-api/css', 'grid-column');
 
     t.is(writeFileStub.callCount, 1);
     t.is(readFileStub.callCount, 1);

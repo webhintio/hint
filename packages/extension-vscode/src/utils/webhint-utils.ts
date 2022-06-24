@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 import { hasFile } from './fs';
-import type { UserConfig as WebhintUserConfig } from '@hint/utils';
+import type { HintConfig, UserConfig as WebhintUserConfig } from '@hint/utils';
 
 export class WebhintConfiguratorParser {
 
@@ -27,8 +27,8 @@ export class WebhintConfiguratorParser {
         return this.userConfig;
     }
 
-    public async addProblemToIgnoredHintsConfig(hintName: string, problemName: string): Promise<void> {
-        if (!this.isInitialized() || (!hintName || !problemName)) {
+    public async addFeatureToIgnoredHintsConfig(hintName: string, featureName: string): Promise<void> {
+        if (!this.isInitialized() || (!hintName || !featureName)) {
             return;
         }
 
@@ -42,8 +42,8 @@ export class WebhintConfiguratorParser {
         }
 
         const hint = this.userConfig.hints[hintName];
-        const ignore = { ignore: [problemName] };
-        const defaultObject = ['default', ignore];
+        const ignore = { ignore: [featureName] };
+        const defaultObject: HintConfig = ['default', ignore];
 
         if (hint) {
             // hint value is a configuration array e.g "hints": { "compat-api/css": [] }
@@ -57,10 +57,10 @@ export class WebhintConfiguratorParser {
 
                     if (ignoreProperty && Array.isArray(ignoreProperty)) {
 
-                        // a list of ignored properties was found, use that one.
+                        // a list of ignored features was found, use that one.
                         ignore.ignore = ignoreProperty as [];
                         defaultObject[0] = hint[i - 1];
-                        ignore.ignore.push(problemName);
+                        ignore.ignore.push(featureName);
                         break;
                     }
                 }
@@ -69,11 +69,7 @@ export class WebhintConfiguratorParser {
             }
         }
 
-        Object.defineProperty(this.userConfig.hints, hintName, {
-            enumerable: true,
-            value: defaultObject,
-            writable: true
-        });
+        this.userConfig.hints[hintName] = defaultObject;
 
         await this.saveConfiguration();
     }
@@ -83,6 +79,7 @@ export class WebhintConfiguratorParser {
     }
 
     private async saveConfiguration() {
+        // TODO: preserve original formatting
         const result = JSON.stringify(this.userConfig, null, 2);
 
         if (this.configFilePath) {
@@ -90,30 +87,30 @@ export class WebhintConfiguratorParser {
         }
     }
 
-    private async ignoreHint(hintName: string | undefined, configFilePath: string) {
+    private async ignoreHint(hintName: string | undefined) {
         if (!this.userConfig || !hintName) {
             return;
+        }
+
+        // TODO: support array syntax
+        if (Array.isArray(this.userConfig.hints)) {
+            throw new Error('Cannot alter hints collection written as an array.');
         }
 
         if (!this.userConfig.hints) {
             this.userConfig.hints = {};
         }
 
-        this.userConfig.hints = Object.defineProperty(this.userConfig.hints, hintName, {
-            enumerable: true,
-            value: 'off',
-            writable: true
-        });
+        this.userConfig.hints[hintName] = 'off';
 
         await this.saveConfiguration();
     }
 
     public async ignoreHintPerProject(hintName: string): Promise<void> {
-
         if (!this.configFilePath) {
             return;
         }
 
-        await this.ignoreHint(hintName, this.configFilePath);
+        await this.ignoreHint(hintName);
     }
 }

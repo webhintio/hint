@@ -69,7 +69,7 @@ test('It correctly returns expected quick fixes for a single diagnostic with the
     };
 
     const problem = {
-        hintId: 'hint-test-1',
+        hintId: 'compat-api/hint-test-1',
         location,
         message: `'fake-problem' is reported in here`,
         severity: Severity.error
@@ -96,8 +96,8 @@ test('It correctly returns expected quick fixes for a single diagnostic with the
     t.is(results?.length, 3);
 
     if (results){
-        t.is(results[0].title.includes('hint-test-1'), true);
-        t.is(results[1].title.includes('fake-problem'), true);
+        t.is(results[0].title.includes('fake-problem'), true);
+        t.is(results[1].title.includes('hint-test-1'), true);
         t.is(results[2].title, 'Edit .hintrc for current project');
     } else {
         t.fail('Expected code actions but none received');
@@ -113,14 +113,14 @@ test('It correctly returns expected quick fixes for a several diagnostic with th
     };
 
     const problem = {
-        hintId: 'hint-test-1',
+        hintId: 'compat-api/hint-test-1',
         location,
         message: `'fake-problem' is reported in here`,
         severity: Severity.error
     } as Problem;
 
     const problem2 = {
-        hintId: 'hint-test-2',
+        hintId: 'compat-api/hint-test-2',
         location,
         message: `just changing the 'second-fake-problem' order to keep it 'interesting'`,
         severity: Severity.error
@@ -150,10 +150,10 @@ test('It correctly returns expected quick fixes for a several diagnostic with th
     t.is(results?.length, 5);
 
     if (results){
-        t.is(results[0].title.includes('hint-test-1'), true);
-        t.is(results[1].title.includes('fake-problem'), true);
-        t.is(results[2].title.includes('hint-test-2'), true);
-        t.is(results[3].title.includes('second-fake-problem'), true);
+        t.is(results[0].title.includes('fake-problem'), true);
+        t.is(results[1].title.includes('hint-test-1'), true);
+        t.is(results[2].title.includes('second-fake-problem'), true);
+        t.is(results[3].title.includes('hint-test-2'), true);
         t.is(results[4].title, 'Edit .hintrc for current project');
     } else {
         t.fail('Expected code actions but none received');
