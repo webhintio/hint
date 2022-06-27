@@ -60,3 +60,13 @@ export const problemToDiagnostic = (problem: Problem, textDocument: TextDocument
         severity: webhintToDiagnosticServerity(problem.severity)
     };
 };
+
+export const getFeatureNameFromDiagnostic = (diagnostic: Diagnostic) => {
+    const matches = diagnostic.message.match(/(.*?)'(.*?)'(.*?)/);
+
+    if (matches && matches.length > 1) {
+        return matches[2];
+    }
+
+    return null;
+};
