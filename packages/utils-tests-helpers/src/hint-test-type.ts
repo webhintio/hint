@@ -14,7 +14,7 @@ export type Report = {
     position?: ProblemLocation | MatchProblemLocation;
     severity?: Severity;
     documentation?: ProblemDocumentation[];
-    fixes?: CodeFix[];
+    fixes?: CodeFix[] | { match: string };
 };
 
 export type HintTest = {

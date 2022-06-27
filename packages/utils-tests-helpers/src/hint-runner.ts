@@ -100,6 +100,37 @@ const comparePositions = (position1: ProblemLocation, position2: ProblemLocation
 };
 
 /**
+ * Translates line and column start and end values to offset values.
+ */
+const positionToOffset = (position: ProblemLocation, document: string): number[] => {
+    let startOffset = -1;
+    let endOffset = -1;
+
+    const {column, endColumn, endLine, line} = position;
+
+    if (!endLine || !endColumn) {
+        return [-1, -1];
+    }
+
+    const regex = /(\r\n|\r|\n)/gm;
+
+    for (let i = 0; i < endLine; i++) {
+        // We want to add 1 to the resulting index to account for the newline char. If the resulting index is undefined, we set curLineOffset to 0.
+        const curLineOffset = (regex.exec(document)?.index || -1) + 1;
+
+        if (i === line - 1) {
+            startOffset = curLineOffset + column;
+        }
+
+        if (i === endLine - 1) {
+            endOffset = curLineOffset + endColumn;
+        }
+    }
+
+    return [startOffset, endOffset];
+};
+
+/**
  * Get the source code for the provided resource.
  * Returns the empty string if resource was invalid.
  */
@@ -367,22 +398,53 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
                 return false;
             }
 
-            if (report.fixes.length !== fixes.length) {
-                return false;
-            }
-
-            for (let i = 0; i < fixes.length; i++) {
-                const curLocation = fixes[i].location;
-                const curText = fixes[i].text;
-                const targetLocation = report.fixes[i].location;
-                const targetText = report.fixes[i].text;
-
-                if (curText !== targetText || !comparePositions(curLocation, targetLocation)) {
+            if (Array.isArray(report.fixes)) {
+                if (report.fixes.length !== fixes.length) {
                     return false;
                 }
+
+                for (let i = 0; i < fixes.length; i++) {
+                    const curLocation = fixes[i].location;
+                    const curText = fixes[i].text;
+                    const targetLocation = report.fixes[i].location;
+                    const targetText = report.fixes[i].text;
+
+                    if (curText !== targetText || !comparePositions(curLocation, targetLocation)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            } else if (report.fixes.match) {
+                let sourceCopy = sources.get(resource);
+
+                if (!sourceCopy) {
+                    return false;
+                }
+
+                /**
+                 *  We want to sort fixes starting from the end of the document moving upwards to avoid one fix changing the offset of a subsequent fix.
+                 */
+                fixes.sort((a, b) => {
+                    const lineDiff = b.location.line - a.location.line;
+
+                    if (lineDiff === 0) {
+                        return b.location.column - a.location.column;
+                    }
+
+                    return lineDiff;
+                });
+
+                for (const fix of fixes) {
+                    const [startOffset, endOffset] = positionToOffset(fix.location, sources.get(resource) || '');
+
+                    sourceCopy = sourceCopy.substring(0, startOffset) + fix.text + sourceCopy.substring(endOffset);
+                }
+
+                return sourceCopy === report.fixes.match;
             }
 
-            return true;
+            return false;
         });
 
         if (filteredByFixes.length === 0) {
