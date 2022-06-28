@@ -185,8 +185,7 @@ export class HintContext<E extends Events = Events> {
             message,
             resource,
             severity: finalSeverity,
-            sourceCode: codeSnippet || sourceCode || '',
-            fixes,
+            sourceCode: codeSnippet || sourceCode || ''
         });
     }
 
