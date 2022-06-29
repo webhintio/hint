@@ -82,7 +82,7 @@ const findPosition = (source: string, position: MatchProblemLocation): ProblemLo
 /**
  * Compares two location to see if they have the same start/end values
  */
-const comparePositions = (position1: ProblemLocation, position2: ProblemLocation): boolean => {
+export const comparePositions = (position1: ProblemLocation, position2: ProblemLocation): boolean => {
     if (position1.line !== position2.line) {
         return false;
     }
