@@ -28,6 +28,7 @@ export class WebhintConfiguratorParser {
     }
 
     public async addAxeRuleToIgnoredHintsConfig(hintName: string, ruleName: string): Promise<void> {
+        /* istanbul ignore next */
         if (!this.isInitialized() || (!hintName || !ruleName)) {
             return;
         }
@@ -37,12 +38,13 @@ export class WebhintConfiguratorParser {
         }
 
         // TODO: support array syntax
+        /* istanbul ignore next */
         if (Array.isArray(this.userConfig.hints)) {
             throw new Error('Cannot alter hints collection written as an array');
         }
 
         const hint = this.userConfig.hints[hintName];
-        let config: [HintSeverity, any] = ['default', {}];
+        const config: [HintSeverity, any] = ['default', {}];
 
         if (typeof hint === 'string' || typeof hint === 'number') {
             config[0] = hint;
@@ -53,6 +55,7 @@ export class WebhintConfiguratorParser {
 
         const rulesConfig = config[1];
 
+        /* istanbul ignore next */
         if (Array.isArray(rulesConfig)) {
             throw new Error('Cannot alter axe-core rules collection written as an array');
         }

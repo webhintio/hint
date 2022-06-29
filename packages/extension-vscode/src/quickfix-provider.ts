@@ -16,6 +16,7 @@ export class QuickFixActionProvider {
         const url = diagnostic.codeDescription?.href;
         const ruleName = url && url.substring(url.lastIndexOf('/') + 1, url.indexOf('?'));
 
+        /* istanbul ignore next */
         if (!ruleName) {
             throw new Error('Unable to determine which axe-core rule to ignore');
         }
@@ -30,8 +31,10 @@ export class QuickFixActionProvider {
             CodeActionKind.QuickFix
         );
 
-        // TODO: link to diagnostic once https://github.com/microsoft/vscode/issues/126393 is fixed
-        //action.diagnostics = [diagnostic];
+        /*
+         * TODO: link to diagnostic once https://github.com/microsoft/vscode/issues/126393 is fixed
+         * action.diagnostics = [diagnostic];
+         */
 
         return action;
     }
@@ -40,6 +43,7 @@ export class QuickFixActionProvider {
         const command = 'vscode-webhint/ignore-feature-project';
         const featureName = getFeatureNameFromDiagnostic(diagnostic);
 
+        /* istanbul ignore next */
         if (!featureName) {
             throw new Error('Unable to determine which HTML/CSS feature to ignore');
         }
@@ -54,8 +58,10 @@ export class QuickFixActionProvider {
             CodeActionKind.QuickFix
         );
 
-        // TODO: link to diagnostic once https://github.com/microsoft/vscode/issues/126393 is fixed
-        //action.diagnostics = [diagnostic];
+        /*
+         * TODO: link to diagnostic once https://github.com/microsoft/vscode/issues/126393 is fixed
+         * action.diagnostics = [diagnostic];
+         */
 
         return action;
     }
@@ -72,8 +78,10 @@ export class QuickFixActionProvider {
             CodeActionKind.QuickFix
         );
 
-        // TODO: link to diagnostic once https://github.com/microsoft/vscode/issues/126393 is fixed
-        //action.diagnostics = [diagnostic];
+        /*
+         * TODO: link to diagnostic once https://github.com/microsoft/vscode/issues/126393 is fixed
+         * action.diagnostics = [diagnostic];
+         */
 
         return action;
     }
