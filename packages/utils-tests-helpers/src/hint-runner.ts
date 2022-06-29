@@ -102,21 +102,19 @@ const comparePositions = (position1: ProblemLocation, position2: ProblemLocation
 /**
  * Translates line and column start and end values to offset values.
  */
-const positionToOffset = (position: ProblemLocation, document: string): number[] => {
-    let startOffset = -1;
-    let endOffset = -1;
-
+export const positionToOffset = (position: ProblemLocation, document: string): number[] => {
     const {column, endColumn, endLine, line} = position;
 
-    if (!endLine || !endColumn) {
+    if (typeof endLine !== 'number' || typeof endColumn !== 'number') {
         return [-1, -1];
     }
+    let startOffset = column;
+    let endOffset = endColumn;
 
     const regex = /(\r\n|\r|\n)/gm;
 
-    for (let i = 0; i < endLine; i++) {
-        // We want to add 1 to the resulting index to account for the newline char. If the resulting index is undefined, we set curLineOffset to 0.
-        const curLineOffset = (regex.exec(document)?.index || -1) + 1;
+    for (let i = 0; i < endLine && regex.exec(document); i++) {
+        const curLineOffset = regex.lastIndex || -1;
 
         if (i === line - 1) {
             startOffset = curLineOffset + column;
@@ -262,7 +260,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
         const filteredByDocumentationCount = filteredByMessage.filter((report) => {
             /*
              * If the report from the test doesn't ask for documentation,
-             * we don't need to macth it.
+             * we don't need to match it.
              */
             if (!report.documentation) {
                 return true;
@@ -384,7 +382,7 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
         const filteredByFixes = filteredByPosition.filter((report) => {
             /*
              * If the report from the test doesn't ask for fixes,
-             * we don't need to macth it.
+             * we don't need to match it.
              */
             if (!report.fixes) {
                 return true;
@@ -436,10 +434,26 @@ const validateResults = (t: ExecutionContext<HintRunnerContext>, sources: Map<st
                 });
 
                 for (const fix of fixes) {
-                    const [startOffset, endOffset] = positionToOffset(fix.location, sources.get(resource) || '');
+                    let startOffset = fix.location.startOffset;
+                    let endOffset = fix.location.endOffset;
+
+
+                    if (!startOffset || !endOffset) {
+                        const document = sources.get(resource);
+
+                        if (document) {
+                            [startOffset, endOffset] = positionToOffset(fix.location, document);
+                            if (startOffset < 0 || endOffset < 0) {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    }
 
                     sourceCopy = sourceCopy.substring(0, startOffset) + fix.text + sourceCopy.substring(endOffset);
                 }
+                t.is(sourceCopy, report.fixes.match);
 
                 return sourceCopy === report.fixes.match;
             }
