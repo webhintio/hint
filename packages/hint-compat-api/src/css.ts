@@ -286,6 +286,7 @@ export default class CSSCompatHint implements IHint {
                     resource,
                     message,
                     {
+                        browsers: unsupported.browsers,
                         codeLanguage: 'css',
                         codeSnippet,
                         documentation,

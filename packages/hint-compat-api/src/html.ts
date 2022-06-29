@@ -98,6 +98,7 @@ export default class HTMLCompatHint implements IHint {
                     resource,
                     message,
                     {
+                        browsers: unsupported.browsers,
                         documentation,
                         element,
                         severity: Severity.warning

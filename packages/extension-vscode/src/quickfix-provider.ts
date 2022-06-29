@@ -82,6 +82,32 @@ export class QuickFixActionProvider {
         return action;
     }
 
+    private createIgnoreBrowsersAction(hintName: string, diagnostic: Diagnostic, problem: Problem): CodeAction {
+        const command = 'vscode-webhint/ignore-browsers-project';
+        const browsers = problem.browsers;
+
+        if (!browsers) {
+            throw new Error('Unable to determine which browsers to ignore');
+        }
+
+        const action = CodeAction.create(
+            `Ignore affected browsers in this project`,
+            {
+                arguments: ['browsers', hintName, problem],
+                command,
+                title: 'browsers'
+            },
+            CodeActionKind.QuickFix
+        );
+
+        /*
+         * TODO: link to diagnostic once https://github.com/microsoft/vscode/issues/126393 is fixed
+         * action.diagnostics = [diagnostic];
+         */
+
+        return action;
+    }
+
     private createIgnoreFeatureAction(hintName: string, diagnostic: Diagnostic): CodeAction {
         const command = 'vscode-webhint/ignore-feature-project';
         const featureName = getFeatureNameFromDiagnostic(diagnostic);
@@ -157,8 +183,12 @@ export class QuickFixActionProvider {
 
             if (hintName.startsWith('axe/')) {
                 results.push(this.createIgnoreAxeRuleAction(hintName, diagnostic));
-            } else if (hintName.startsWith('compat-api/')) {
+            }
+            if (hintName.startsWith('compat-api/')) {
                 results.push(this.createIgnoreFeatureAction(hintName, diagnostic));
+            }
+            if (data.problem.browsers) {
+                results.push(this.createIgnoreBrowsersAction(hintName, diagnostic, data.problem));
             }
         });
 

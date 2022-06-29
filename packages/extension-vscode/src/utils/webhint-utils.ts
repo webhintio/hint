@@ -1,5 +1,7 @@
 import * as fs from 'fs';
 
+import type { Problem } from '@hint/utils-types';
+
 import { hasFile } from './fs';
 import type { HintConfig, HintSeverity, UserConfig as WebhintUserConfig } from '@hint/utils';
 
@@ -63,6 +65,43 @@ export class WebhintConfiguratorParser {
         rulesConfig[ruleName as keyof typeof rulesConfig] = 'off';
 
         this.userConfig.hints[hintName] = config;
+
+        await this.saveConfiguration();
+    }
+
+    public async addBrowsersToIgnoredHintsConfig(hintName: string, problem: Problem): Promise<void> {
+        /* istanbul ignore next */
+        if (!this.isInitialized() || (!hintName || !problem || !problem.browsers)) {
+            return;
+        }
+
+        if (!this.userConfig.browserslist) {
+            this.userConfig.browserslist = ['defaults', 'not IE 11'];
+        }
+
+        if (typeof this.userConfig.browserslist === 'string') {
+            this.userConfig.browserslist = [this.userConfig.browserslist];
+        }
+
+        const browsers = new Map<string, number>();
+
+        // Keep only the highest version number to ignore per browser
+        for (const browser of problem.browsers) {
+            const [name, versions] = browser.split(' ');
+            const maxVersion = parseFloat(versions.split('-').pop() || '1');
+
+            if (maxVersion > (browsers.get(name) ?? 1)) {
+                browsers.set(name, maxVersion);
+            }
+        }
+
+        // Ignore everything below the highest target version number per browser
+        const ignoredBrowsers = Array.from(browsers.entries()).map(([name, version]) => {
+            return `not ${name} <= ${version}`;
+        });
+
+        // TODO: remove unnecessary entries (e.g. if both 'ie <= 9' and 'ie <= 11' are present).
+        this.userConfig.browserslist = [...this.userConfig.browserslist, ...ignoredBrowsers];
 
         await this.saveConfiguration();
     }
