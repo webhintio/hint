@@ -52,6 +52,9 @@ export const problemToDiagnostic = (problem: Problem, textDocument: TextDocument
     return {
         code: problem.hintId,
         codeDescription: { href: docHref },
+        data: {
+            fixes: problem.fixes
+        },
         message: `${problem.message}`,
         range: {
             end: { character: endColumn, line: endLine },

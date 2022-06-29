@@ -51,6 +51,22 @@ export class QuickFixActionProvider {
         return action;
     }
 
+    private applyCodeFix(hintName: string, diagnostic: Diagnostic): CodeAction {
+        const action = CodeAction.create(
+            `Apply code fix for: '${hintName}`,
+            {
+                arguments: [hintName, hintName],
+                command: 'vscode-webhint/apply-code-fix',
+                title: hintName
+            },
+            CodeActionKind.QuickFix
+        );
+
+        action.diagnostics = [diagnostic];
+
+        return action;
+    }
+
     public provideCodeActions(params: CodeActionParams): CodeAction[] | null {
         const textDocument = this.documents.get(params.textDocument.uri);
 
@@ -71,6 +87,10 @@ export class QuickFixActionProvider {
             if (hintName.startsWith('compat-api/')) {
                 // Prefer ignoring specific HTML/CSS features when possible.
                 results.push(this.createIgnoreFeatureAction(hintName, currentDiagnostic));
+            }
+
+            if (currentDiagnostic.data) {
+                results.push(this.applyCodeFix(hintName, currentDiagnostic));
             }
 
             // Offer to disable the entire hint.

@@ -7,6 +7,7 @@ import { QuickFixActionProvider } from './quickfix-provider';
 import {WebhintConfiguratorParser} from './utils/webhint-utils';
 
 import * as path from 'path';
+import { applyCodeFix } from './utils/codefix-utils';
 
 const [,, globalStoragePath, sourceName] = process.argv;
 const connection = createConnection(ProposedFeatures.all);
@@ -30,7 +31,8 @@ connection.onInitialize((params) => {
                 commands: [
                     'vscode-webhint/ignore-hint-project',
                     'vscode-webhint/ignore-feature-project',
-                    'vscode-webhint/edit-hintrc-project'
+                    'vscode-webhint/edit-hintrc-project',
+                    'vscode-webhint/apply-code-fix'
                 ]
             },
             textDocumentSync: TextDocumentSyncKind.Full
@@ -70,6 +72,11 @@ connection.onExecuteCommand(async (params) => {
         }
         case 'vscode-webhint/edit-hintrc-project': {
             await connection.window.showDocument({ uri: pathToFileURL(configFilePath).toString() });
+            break;
+        }
+        case 'vscode-webhint/apply-code-fix': {
+            // need to get code action here somehow?
+            applyCodeFix(problemName);
             break;
         }
         default: {
