@@ -22,6 +22,7 @@ const getTests = (severity: Severity) => {
         {
             name: `'link' with initial // fails the hint`,
             reports: [{
+                fixes: { match: generateHTMLPage('<link rel="manifest" href="https://site.webmanifest">')},
                 message: errorMessage,
                 position: { match: 'href="//site.webmanifest"' },
                 severity
@@ -47,6 +48,7 @@ const getTests = (severity: Severity) => {
         {
             name: `'script' with initial // fails the hint`,
             reports: [{
+                fixes: { match: generateHTMLPage(undefined, '<script src="https://script.js"></script>')},
                 message: errorMessage,
                 position: { match: 'src="//script.js"' },
                 severity
@@ -68,6 +70,7 @@ const getTests = (severity: Severity) => {
         {
             name: `'a' with initial // fails the hint`,
             reports: [{
+                fixes: { match: generateHTMLPage(undefined, '<a href="https://home">home</a>')},
                 message: errorMessage,
                 position: { match: 'href="//home"' },
                 severity
