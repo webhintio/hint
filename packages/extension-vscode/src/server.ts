@@ -29,6 +29,7 @@ connection.onInitialize((params) => {
             executeCommandProvider: {
                 commands: [
                     'vscode-webhint/ignore-hint-project',
+                    'vscode-webhint/ignore-axe-rule-project',
                     'vscode-webhint/ignore-feature-project',
                     'vscode-webhint/edit-hintrc-project'
                 ]
@@ -62,6 +63,10 @@ connection.onExecuteCommand(async (params) => {
     switch (params.command) {
         case 'vscode-webhint/ignore-hint-project': {
             await configurationParser.ignoreHintPerProject(hintName);
+            break;
+        }
+        case 'vscode-webhint/ignore-axe-rule-project': {
+            await configurationParser.addAxeRuleToIgnoredHintsConfig(hintName, problemName);
             break;
         }
         case 'vscode-webhint/ignore-feature-project': {
