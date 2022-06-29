@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 import { hasFile } from './fs';
-import type { HintConfig, UserConfig as WebhintUserConfig } from '@hint/utils';
+import type { HintConfig, HintSeverity, UserConfig as WebhintUserConfig } from '@hint/utils';
 
 export class WebhintConfiguratorParser {
 
@@ -25,6 +25,43 @@ export class WebhintConfiguratorParser {
         this.userConfig = JSON.parse(rawUserConfig.toString());
 
         return this.userConfig;
+    }
+
+    public async addAxeRuleToIgnoredHintsConfig(hintName: string, ruleName: string): Promise<void> {
+        if (!this.isInitialized() || (!hintName || !ruleName)) {
+            return;
+        }
+
+        if (!this.userConfig.hints) {
+            this.userConfig.hints = {};
+        }
+
+        // TODO: support array syntax
+        if (Array.isArray(this.userConfig.hints)) {
+            throw new Error('Cannot alter hints collection written as an array');
+        }
+
+        const hint = this.userConfig.hints[hintName];
+        let config: [HintSeverity, any] = ['default', {}];
+
+        if (typeof hint === 'string' || typeof hint === 'number') {
+            config[0] = hint;
+        } else if (Array.isArray(hint)) {
+            config[0] = hint[0];
+            config[1] = hint[1] || {};
+        }
+
+        const rulesConfig = config[1];
+
+        if (Array.isArray(rulesConfig)) {
+            throw new Error('Cannot alter axe-core rules collection written as an array');
+        }
+
+        rulesConfig[ruleName as keyof typeof rulesConfig] = 'off';
+
+        this.userConfig.hints[hintName] = config;
+
+        await this.saveConfiguration();
     }
 
     public async addFeatureToIgnoredHintsConfig(hintName: string, featureName: string): Promise<void> {
