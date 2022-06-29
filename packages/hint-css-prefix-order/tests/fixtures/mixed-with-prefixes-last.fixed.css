@@ -1,0 +1,6 @@
+.example {
+    -webkit-appearance: none; /* Report */
+    background-color: #fff;
+    -moz-appearance: none;
+    appearance: none;
+}

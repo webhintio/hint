@@ -33,6 +33,10 @@ const generateConfig = (fileName: string) => {
     };
 };
 
+const getFixedContent = (fileName: string): string => {
+    return readFile(`${__dirname}/fixtures/${fileName}.fixed.css`);
+};
+
 const tests: HintTest[] = [
     {
         name: 'Prefixed properties in isolation across blocks pass',
@@ -41,6 +45,7 @@ const tests: HintTest[] = [
     {
         name: `Some prefixed properties listed first, but others last fail`,
         reports: [{
+            fixes: { match: getFixedContent('interleaved-prefixes') },
             message: `'appearance' should be listed after '-webkit-appearance'.`,
             position: { match: 'appearance: none; /* Report */', range: 'appearance' },
             severity: Severity.warning
@@ -48,12 +53,23 @@ const tests: HintTest[] = [
         serverConfig: generateConfig('interleaved-prefixes')
     },
     {
+        name: `Prefixes listed last with unrelated unprefixed properties after fail`,
+        reports: [{
+            fixes: { match: getFixedContent('different-property-at-end') },
+            message: `'appearance' should be listed after '-webkit-appearance'.`,
+            position: { match: 'appearance: none; /* Report */', range: 'appearance' },
+            severity: Severity.warning
+        }],
+        serverConfig: generateConfig('different-property-at-end')
+    },
+    {
         name: `Prefixed properties listed first with other properties mixed in pass`,
         serverConfig: generateConfig('mixed-with-prefixes-first')
     },
     {
-        name: 'Prefixed properties listed last with other properties mixed in pass',
+        name: 'Prefixed properties listed last with other properties mixed in fail',
         reports: [{
+            fixes: { match: getFixedContent('mixed-with-prefixes-last') },
             message: `'appearance' should be listed after '-webkit-appearance'.`,
             position: { match: 'appearance: none; /* Report */', range: 'appearance' },
             severity: Severity.warning
@@ -103,6 +119,7 @@ const tests: HintTest[] = [
     {
         name: 'Prefixed values listed last fail',
         reports: [{
+            fixes: { match: getFixedContent('prefixed-values-last') },
             message: `'display: grid' should be listed after 'display: -ms-grid'.`,
             position: { match: 'grid; /* Report */', range: 'grid' },
             severity: Severity.warning
@@ -129,6 +146,7 @@ const tests: HintTest[] = [
     {
         name: 'Prefixed properties listed last on same line fail',
         reports: [{
+            fixes: { match: getFixedContent('prefixes-last-same-line') },
             message: `'appearance' should be listed after '-webkit-appearance'.`,
             position: { match: 'appearance: none; /* Report */', range: 'appearance' },
             severity: Severity.warning
