@@ -28,6 +28,7 @@ connection.onInitialize((params) => {
             codeActionProvider: true,
             executeCommandProvider: {
                 commands: [
+                    'vscode-webhint/apply-code-fix',
                     'vscode-webhint/ignore-hint-project',
                     'vscode-webhint/ignore-axe-rule-project',
                     'vscode-webhint/ignore-feature-project',
