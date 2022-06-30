@@ -92,13 +92,13 @@ const isAttributeOrNativeElement = (node: Node) => {
 /**
  * Translate JS AST locations to HTML AST locations.
  */
-const mapLocation = (node: Node, { startColumnOffset = 0 } = {}): parse5.Location => {
+const mapLocation = (node: Node): parse5.Location => {
     // TODO: Remove `columnOffset` once `Problem` supports a range.
     return {
-        endCol: node.loc && (node.loc.end.column) || -1,
+        endCol: node.loc && (node.loc.end.column + 1) || -1,
         endLine: node.loc && node.loc.end.line || -1,
         endOffset: node.range && node.range[1] || -1,
-        startCol: node.loc && (node.loc.start.column + startColumnOffset) || -1,
+        startCol: node.loc && (node.loc.start.column + 1) || -1,
         startLine: node.loc && node.loc.start.line || -1,
         startOffset: node.range && node.range[0] || -1
     };
@@ -193,9 +193,9 @@ const mapElement = (node: JSXElement, childMap: ChildMap): ElementData => {
             endTag: node.closingElement ? mapLocation(node.closingElement) : undefined as any, // TODO: Fix types to allow undefined (matches parse5 behavior)
             startTag: {
                 attrs,
-                ...mapLocation(node.openingElement, { startColumnOffset: 1 })
+                ...mapLocation(node.openingElement)
             },
-            ...mapLocation(node, { startColumnOffset: 1 })
+            ...mapLocation(node)
         },
         type: 'tag'
     };
