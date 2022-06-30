@@ -1,5 +1,5 @@
 /**
- * @fileoverview Abstraction over [`request`](https://github.com/request/request)
+ * @fileoverview Custom `request` implementation
  * that allow us to handle certain cumbersome scenarios such us:
  * - Count redirects
  * - Decode responses that are not `utf-8`
@@ -11,7 +11,7 @@ import * as url from 'url';
 import { promisify } from 'util';
 import * as zlib from 'zlib';
 
-import * as request from 'request';
+import fetch, {RequestInit} from 'node-fetch';
 import * as iconv from 'iconv-lite';
 import parseDataURL = require('data-urls'); // Using `require` as `data-urls` exports a function.
 
@@ -23,6 +23,7 @@ import { toLowerCaseKeys } from '@hint/utils-string';
 
 import { NetworkData } from 'hint';
 import { RedirectManager } from './redirects';
+import { IRequestOptions } from './requesterOptions';
 
 interface IDecompressor { (content: Buffer): Promise<Buffer> }
 
@@ -51,33 +52,29 @@ const identity = (buff: Buffer): Promise<Buffer> => {
     return Promise.resolve(Buffer.from(buff));
 };
 
-const defaults = {
-    encoding: null,
-    followRedirect: false,
+const defaults: RequestInit = {
+    compress: false,
     headers: {
         'Accept-Encoding': 'gzip, deflate, br',
         'Accept-Language': 'en-US,en;q=0.8,es;q=0.6,fr;q=0.4',
         'Cache-Control': 'no-cache',
-        DNT: 1,
+        DNT: '1',
         Pragma: 'no-cache',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36'
     },
-    jar: true,
-    time: true,
+    redirect: 'manual',
     timeout: 30000
 };
 
 export class Requester {
     /** The valid status codes for redirects we follow. */
     private static validRedirects = [301, 302, 303, 307, 308]
-    /** Internal `request` object. */
-    private _request: request.RequestAPI<request.Request, request.CoreOptions, request.RequiredUriUrl>;
     /** Internal `redirectManager`. */
     private _redirects: RedirectManager = new RedirectManager();
     /** Maximum number of redirects */
     private _maxRedirects: number = 10;
     /** Internal options for request */
-    private _options: request.CoreOptions;
+    private _options: RequestInit;
 
     /** Tries to decompress the given `Buffer` `content` using the given `decompressor` */
     private async tryToDecompress(decompressor: IDecompressor, content: Buffer): Promise<Buffer | null> {
@@ -160,11 +157,12 @@ export class Requester {
         return rawBody;
     }
 
-    public constructor(customOptions?: request.CoreOptions) {
+    public constructor(customOptions?: IRequestOptions) {
         if (customOptions) {
-            customOptions.followRedirect = false;
-            customOptions.rejectUnauthorized = false;
-            this._maxRedirects = customOptions.maxRedirects || this._maxRedirects;
+            customOptions.redirect = 'manual';
+            if (customOptions.follow && customOptions.follow >= 0) {
+                this._maxRedirects = customOptions.follow;
+            }
 
             if (customOptions.headers) {
                 /*
@@ -179,14 +177,12 @@ export class Requester {
             }
         }
 
-        const options: request.CoreOptions = {
+        const options: RequestInit = {
             ...defaults,
             ...customOptions
         };
 
         this._options = options;
-
-        this._request = request.defaults(options);
     }
 
     /** Return the redirects for a given `uri`. */
@@ -237,105 +233,89 @@ export class Requester {
 
         const requestedUrls: Set<string> = new Set();
 
-        const getUri = (uriString: string): Promise<NetworkData> => {
+        const getUri = async (uriString: string): Promise<NetworkData> => {
+            let rawBodyResponse: Buffer;
+
             requestedUrls.add(uriString);
+            try {
+                const response = await fetch(uriString, this._options);
 
-            return new Promise((resolve: Function, reject: Function) => {
-                const byteChunks: Buffer[] = [];
-                let rawBodyResponse: Buffer;
+                rawBodyResponse = await response.buffer();
 
-                this._request({ uri: uriString }, async (err, response) => {
-                    if (err) {
-                        debug(`Request for ${uriString} failed\n${err}`);
-
-                        return reject({
-                            error: err,
-                            uri: uriString
-                        });
+                // We check if we need to redirect and call ourselves again with the new target
+                if (Requester.validRedirects.includes(response.status)) {
+                    if (!response.headers.get('location')) {
+                        throw new Error('Redirect location undefined');
                     }
 
-                    // We check if we need to redirect and call ourselves again with the new target
-                    if (Requester.validRedirects.includes(response.statusCode)) {
-                        if (!response.headers.location) {
-                            return reject({
-                                error: new Error('Redirect location undefined'),
-                                uri: uriString
-                            });
-                        }
+                    const newUri = url.resolve(uriString, response.headers.get('location') as string);
 
-                        const newUri = url.resolve(uriString, response.headers.location as string);
-
-                        if (requestedUrls.has(newUri)) {
-                            return reject(new Error(`'${uriString}' could not be fetched using ${this._options.method || 'GET'} method (redirect loop detected).`));
-                        }
-
-                        this._redirects.add(newUri, uriString);
-
-                        const currentRedirectNumber = this._redirects.calculate(newUri).length;
-
-                        if (currentRedirectNumber > this._maxRedirects) {
-                            return reject(new Error(`The number of redirects(${currentRedirectNumber}) exceeds the limit(${this._maxRedirects}).`));
-                        }
-
-                        try {
-                            debug(`Redirect found for ${uriString}`);
-                            const results = await getUri(newUri);
-
-                            return resolve(results);
-                        } catch (e) {
-                            return reject(e);
-                        }
+                    if (requestedUrls.has(newUri)) {
+                        throw (new Error(`'${uriString}' could not be fetched using ${this._options.method || 'GET'} method (redirect loop detected).`));
                     }
 
-                    const contentEncoding: string | null = normalizeHeaderValue(response.headers as HttpHeaders, 'content-encoding');
-                    const rawBody: Buffer | null = await this.decompressResponse(contentEncoding, rawBodyResponse);
-                    const contentTypeData = await getContentTypeData(null, uri, response.headers as HttpHeaders, rawBody as Buffer);
-                    const charset = contentTypeData.charset || '';
-                    const mediaType = contentTypeData.mediaType || '';
-                    const hops: string[] = this._redirects.calculate(uriString);
-                    const body: string | null = rawBody && iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
+                    this._redirects.add(newUri, uriString);
+                    console.log(`redirects`, newUri);
 
-                    const networkData: NetworkData = {
-                        request: {
-                            headers: response.request.headers,
-                            url: hops[0] || uriString
+                    const currentRedirectNumber = this._redirects.calculate(newUri).length;
+
+                    console.log(`currentRedirectNumber`, currentRedirectNumber);
+
+                    if (currentRedirectNumber > this._maxRedirects) {
+                        throw new Error(`The number of redirects(${currentRedirectNumber}) exceeds the limit(${this._maxRedirects}).`);
+                    }
+
+                    debug(`Redirect found for ${uriString}`);
+                    const results = await getUri(newUri);
+
+                    return results;
+                }
+
+                const responseHeaders: HttpHeaders = {};
+
+                Array.from(response.headers, ([name, value]) => {
+                    responseHeaders[name] = value;
+
+                    return {name, value};
+                });
+
+                const contentEncoding: string | null = normalizeHeaderValue(responseHeaders, 'content-encoding');
+                const rawBody: Buffer | null = await this.decompressResponse(contentEncoding, rawBodyResponse);
+                const contentTypeData = await getContentTypeData(null, uri, responseHeaders, rawBody as Buffer);
+                const charset = contentTypeData.charset || '';
+                const mediaType = contentTypeData.mediaType || '';
+                const hops: string[] = this._redirects.calculate(uriString);
+                const body: string | null = rawBody && iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
+
+                const networkData: NetworkData = {
+                    request: {
+                        headers: response.headers as unknown as HttpHeaders,
+                        url: hops[0] || uriString
+                    },
+                    response: {
+                        body: {
+                            content: body as string,
+                            rawContent: rawBody as Buffer,
+                            rawResponse: () => {
+                                return Promise.resolve(rawBodyResponse);
+                            }
                         },
-                        response: {
-                            body: {
-                                content: body as string,
-                                rawContent: rawBody as Buffer,
-                                rawResponse: () => {
-                                    return Promise.resolve(rawBodyResponse);
-                                }
-                            },
-                            charset,
-                            headers: response.headers as HttpHeaders,
-                            hops,
-                            mediaType,
-                            statusCode: response.statusCode,
-                            url: uriString
-                        }
-                    };
+                        charset,
+                        headers: response.headers as unknown as HttpHeaders,
+                        hops,
+                        mediaType,
+                        statusCode: response.status,
+                        url: uriString
+                    }
+                };
 
-                    return resolve(networkData);
-                })
-                    /*
-                     * Somehow the Buffer body from `callback(err, resp, body)` is different than the one we get
-                     * if we do this method. Even though both output the same result after decompressing,
-                     * the real bytes sent over the wire for the content are these ones.
-                     *
-                     * See: https://github.com/request/request/tree/6f286c81586a90e6a9d97055f131fdc68e523120#examples.
-                     */
-                    .on('response', (response) => {
-                        response
-                            .on('data', (data: Buffer) => {
-                                byteChunks.push(data);
-                            })
-                            .on('end', () => {
-                                rawBodyResponse = Buffer.concat(byteChunks);
-                            });
-                    });
-            });
+                return networkData;
+            } catch (err) {
+                const errorMessage = `Request for ${uri} failed\n${err}`;
+
+                debug(errorMessage);
+                throw err;
+            }
         };
 
         return getUri(uri);
