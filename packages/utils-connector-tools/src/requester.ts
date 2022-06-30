@@ -23,7 +23,6 @@ import { toLowerCaseKeys } from '@hint/utils-string';
 
 import { NetworkData } from 'hint';
 import { RedirectManager } from './redirects';
-import { IRequestOptions } from './requesterOptions';
 
 interface IDecompressor { (content: Buffer): Promise<Buffer> }
 
@@ -157,7 +156,7 @@ export class Requester {
         return rawBody;
     }
 
-    public constructor(customOptions?: IRequestOptions) {
+    public constructor(customOptions?: RequestInit) {
         if (customOptions) {
             customOptions.redirect = 'manual';
             if (customOptions.follow && customOptions.follow >= 0) {
