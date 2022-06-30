@@ -1,15 +1,12 @@
-import * as request from 'request';
+import fetch, { RequestInit } from 'node-fetch';
 
 /** Convenience wrapper for asynchronously request an URL. */
-export const requestAsync = (options: string | request.Options): Promise<any> => {
-    return new Promise((resolve, reject) => {
-        // `as any` because typescript complains about the type of options.
-        request(options as any, (error: any, res: any, body: any) => {
-            if (error) {
-                return reject(error);
-            }
+export const requestAsync = async (options: string | RequestInit): Promise<any> => {
+    try {
+        const response = await fetch(options as any);
 
-            return resolve(body);
-        });
-    });
+        return response.body;
+    } catch (err) {
+        throw err;
+    }
 };
