@@ -1,6 +1,9 @@
 import { CodeAction, CodeActionKind, CodeActionParams, Command, Diagnostic, TextDocuments } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
-import { getFeatureNameFromDiagnostic } from './utils/problems';
+
+import type { Problem } from '@hint/utils-types';
+
+import { getFeatureNameFromDiagnostic, WebhintDiagnosticData } from './utils/problems';
 
 export class QuickFixActionProvider {
     private documents: TextDocuments<TextDocument>;
@@ -9,6 +12,46 @@ export class QuickFixActionProvider {
     public constructor(documents: TextDocuments<TextDocument>, sourceName: string) {
         this.documents = documents;
         this.sourceName = sourceName;
+    }
+
+    private createCodeFixAction(hintName: string, diagnostic: Diagnostic, problem: Problem): CodeAction {
+        if (!problem.fixes) {
+            throw new Error('Unable to determine which fixes to apply');
+        }
+
+        const action = CodeAction.create(
+            `Fix '${hintName}' issue`,
+            {
+                arguments: [hintName, hintName],
+                command: 'vscode-webhint/apply-code-fix',
+                title: hintName
+            },
+            CodeActionKind.QuickFix
+        );
+
+        action.diagnostics = [diagnostic];
+
+        action.edit = {
+            changes: {
+                [problem.resource]: problem.fixes.map((fix) => {
+                    return {
+                        newText: fix.text,
+                        range: {
+                            end: {
+                                character: fix.location.endColumn ?? 0,
+                                line: fix.location.endLine ?? 0
+                            },
+                            start: {
+                                character: fix.location.column,
+                                line: fix.location.line
+                            }
+                        }
+                    };
+                })
+            }
+        };
+
+        return action;
     }
 
     private createIgnoreAxeRuleAction(hintName: string, diagnostic: Diagnostic): CodeAction {
@@ -94,7 +137,7 @@ export class QuickFixActionProvider {
         }
 
         const webhintDiagnostics = params.context.diagnostics.filter((diagnostic) => {
-            return diagnostic.source && diagnostic.source === this.sourceName;
+            return diagnostic.data && diagnostic.source && diagnostic.source === this.sourceName;
         });
 
         if (webhintDiagnostics.length === 0) {
@@ -106,6 +149,11 @@ export class QuickFixActionProvider {
         // First add options to ignore reported diagnostics (if available).
         webhintDiagnostics.forEach((diagnostic) => {
             const hintName = `${diagnostic.code}`;
+            const data = diagnostic.data as WebhintDiagnosticData;
+
+            if (data.problem.fixes?.length) {
+                results.push(this.createCodeFixAction(hintName, diagnostic, data.problem));
+            }
 
             if (hintName.startsWith('axe/')) {
                 results.push(this.createIgnoreAxeRuleAction(hintName, diagnostic));

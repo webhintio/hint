@@ -228,3 +228,70 @@ test('It correctly returns expected quick fixes for ignoring axe-core rules', (t
         t.fail('Expected code actions but none received');
     }
 });
+
+test('It correctly returns an edit for issue with a fix', (t) => {
+    const location = {
+        column: 5,
+        endColumn: 10,
+        endLine: 8,
+        line: 7
+    };
+
+    const problem = {
+        fixes: [
+            {
+                location: {
+                    column: 0,
+                    endColumn: 0,
+                    endLine: 0,
+                    line: 0
+                },
+                text: 'fixed!'
+            }
+        ],
+        hintId: 'test-hint',
+        location,
+        message: `'fake-problem' is reported in here`,
+        resource: 'test.html',
+        severity: Severity.error
+    } as Problem;
+
+    const {documents, fakeCodeActions} = mockContext();
+
+    const currentDocument = documents.get('any');
+
+    if (currentDocument) {
+        const diagnostic = problemToDiagnostic(problem, currentDocument);
+
+        diagnostic.source = 'test_environment';
+        fakeCodeActions.context.diagnostics = [diagnostic];
+    } else {
+        t.fail('Expected code actions but none received');
+    }
+
+    const quickFixActionProvider = new QuickFixActionProvider(documents, 'test_environment');
+
+    const results = quickFixActionProvider.provideCodeActions(fakeCodeActions);
+
+    t.not(results, null);
+
+    t.is(results?.[0].command?.command, 'vscode-webhint/apply-code-fix');
+
+    t.deepEqual(results?.[0].edit, {
+        changes: {
+            'test.html': [{
+                newText: 'fixed!',
+                range: {
+                    end: {
+                        character: 0,
+                        line: 0
+                    },
+                    start: {
+                        character: 0,
+                        line: 0
+                    }
+                }
+            }]
+        }
+    });
+});
