@@ -86,12 +86,16 @@ export class QuickFixActionProvider {
         const command = 'vscode-webhint/ignore-browsers-project';
         const browsers = problem.browsers;
 
-        if (!browsers) {
+        // TODO: Consider passing the friendly browser names in the problem to avoid i18n issues.
+        const [, firstBrowser, separator] = diagnostic.message.match(/ by (.+?)(,|\. |\.$)/) || [];
+        const hasMore = separator === ',';
+
+        if (!browsers || !firstBrowser) {
             throw new Error('Unable to determine which browsers to ignore');
         }
 
         const action = CodeAction.create(
-            `Ignore affected browsers in this project`,
+            `Ignore '${firstBrowser}${hasMore ? ', \u2026' : ''}' compatibility in this project`,
             {
                 arguments: ['browsers', hintName, problem],
                 command,

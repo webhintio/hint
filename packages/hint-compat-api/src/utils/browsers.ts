@@ -67,7 +67,7 @@ export const formatUnsupported = (browser: string, versionAdded?: string, versio
  * Serialize summarized support ranges for provided browsers.
  *
  * ```js
- * joinBrowsers({ browsers: ['edge 15'], browserDetails: new Map([['edge 15', { versionAdded: '18' }]]));
+ * joinBrowsers({ browsers: ['edge 15'], details: new Map([['edge 15', { versionAdded: '18' }]]) });
  * // returns 'Edge < 18';
  * ```
  */
@@ -76,7 +76,7 @@ export const joinBrowsers = (unsupported: UnsupportedBrowsers): string => {
         const details = unsupported.details.get(browser);
 
         if (!details) {
-            throw new Error(`No details provided for browser: ${name}`);
+            throw new Error(`No details provided for browser: ${browser}`);
         }
 
         return formatUnsupported(browser, details.versionAdded, details.versionRemoved);

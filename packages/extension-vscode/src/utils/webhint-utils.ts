@@ -16,9 +16,9 @@ export class WebhintConfiguratorParser {
 
         if (!fileExists) {
             // .hintrc does not exists so create one with the default config
-            const defaultConfig = { extends: ['development'] };
+            this.userConfig = { extends: ['development'] };
 
-            await fs.promises.writeFile(this.configFilePath, JSON.stringify(defaultConfig), 'utf-8');
+            await this.saveConfiguration();
         }
 
         // user config file is guaranteed to exist at this point, now read it.
