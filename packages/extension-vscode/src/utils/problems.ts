@@ -3,6 +3,10 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { Problem, Severity } from '@hint/utils-types';
 
+export type WebhintDiagnosticData = {
+    problem: Problem;
+};
+
 // Translate a webhint severity into the VSCode DiagnosticSeverity format.
 const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity => {
     switch (severity) {
@@ -52,7 +56,7 @@ export const problemToDiagnostic = (problem: Problem, textDocument: TextDocument
     return {
         code: problem.hintId,
         codeDescription: { href: docHref },
-        data: problem,
+        data: { problem } as WebhintDiagnosticData,
         message: `${problem.message}`,
         range: {
             end: { character: endColumn, line: endLine },

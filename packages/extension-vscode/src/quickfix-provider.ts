@@ -3,7 +3,7 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import type { Problem } from '@hint/utils-types';
 
-import { getFeatureNameFromDiagnostic } from './utils/problems';
+import { getFeatureNameFromDiagnostic, WebhintDiagnosticData } from './utils/problems';
 
 export class QuickFixActionProvider {
     private documents: TextDocuments<TextDocument>;
@@ -149,10 +149,10 @@ export class QuickFixActionProvider {
         // First add options to ignore reported diagnostics (if available).
         webhintDiagnostics.forEach((diagnostic) => {
             const hintName = `${diagnostic.code}`;
-            const problem = diagnostic.data as Problem;
+            const data = diagnostic.data as WebhintDiagnosticData;
 
-            if (problem.fixes?.length) {
-                results.push(this.createCodeFixAction(hintName, diagnostic, problem));
+            if (data.problem.fixes?.length) {
+                results.push(this.createCodeFixAction(hintName, diagnostic, data.problem));
             }
 
             if (hintName.startsWith('axe/')) {
