@@ -46,7 +46,7 @@ export class QuickFixActionProvider {
                                 line: fix.location.line
                             }
                         }
-                    }
+                    };
                 })
             }
         };
@@ -152,7 +152,7 @@ export class QuickFixActionProvider {
             const problem = diagnostic.data as Problem;
 
             if (problem.fixes?.length) {
-                results.push(this.createCodeFixAction(hintName, diagnostic, problem));    
+                results.push(this.createCodeFixAction(hintName, diagnostic, problem));
             }
 
             if (hintName.startsWith('axe/')) {
