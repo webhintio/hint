@@ -265,6 +265,8 @@ export class HTMLElement extends Node {
         if (offset.line === 0) {
             return {
                 column: column + offset.column,
+                endColumn: offset.endColumn && (offset.endLine === 0 ? column + offset.endColumn : offset.endColumn),
+                endLine: offset.endLine && (line + offset.endLine),
                 line
             };
         }
@@ -272,6 +274,8 @@ export class HTMLElement extends Node {
         // Otherwise adjust just the resulting line.
         return {
             column: offset.column,
+            endColumn: offset.endColumn,
+            endLine: offset.endLine && (line + offset.endLine),
             line: line + offset.line
         };
     }
