@@ -26,6 +26,11 @@ export type ReportOptions = {
      * Used with `element` to get a more targeted `ProblemLocation`.
      */
     attribute?: string;
+    /**
+     * The target browsers that caused this problem to be reported (if compatibility related).
+     * Browser identifiers are in the `browserslist` format (e.g. `['ie 11', 'chrome 100']`).
+     */
+    browsers?: string[];
     /** The source code to display (defaults to the `outerHTML` of `element`). */
     codeSnippet?: string;
     /** The text within `element` where the issue was found (used to refine a `ProblemLocation`). */
@@ -48,6 +53,7 @@ export type ReportOptions = {
     forceSeverity?: boolean;
     /** Indicate the language of the codeSnippet. */
     codeLanguage?: CodeLanguage;
+    /** A collection of edits that resolve the reported problem. */
     fixes?: CodeFix[];
 };
 
@@ -176,6 +182,7 @@ export class HintContext<E extends Events = Events> {
          */
 
         this.engine.report({
+            browsers: options.browsers,
             category: (this.meta && this.meta.docs && this.meta.docs.category) ? this.meta.docs.category : Category.other,
             codeLanguage: options.codeLanguage,
             documentation: options.documentation,

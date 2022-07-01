@@ -82,6 +82,37 @@ export class QuickFixActionProvider {
         return action;
     }
 
+    private createIgnoreBrowsersAction(hintName: string, diagnostic: Diagnostic, problem: Problem): CodeAction {
+        const command = 'vscode-webhint/ignore-browsers-project';
+        const browsers = problem.browsers;
+
+        // TODO: Consider passing the friendly browser names in the problem to avoid i18n issues.
+        const [, firstBrowser, separator] = diagnostic.message.match(/ by (.+?)(,|\. |\.$)/) || [];
+        const hasMore = separator === ',';
+
+        /* istanbul ignore next */
+        if (!browsers || !firstBrowser) {
+            throw new Error('Unable to determine which browsers to ignore');
+        }
+
+        const action = CodeAction.create(
+            `Ignore '${firstBrowser}${hasMore ? ', \u2026' : ''}' compatibility in this project`,
+            {
+                arguments: ['browsers', hintName, problem],
+                command,
+                title: 'browsers'
+            },
+            CodeActionKind.QuickFix
+        );
+
+        /*
+         * TODO: link to diagnostic once https://github.com/microsoft/vscode/issues/126393 is fixed
+         * action.diagnostics = [diagnostic];
+         */
+
+        return action;
+    }
+
     private createIgnoreFeatureAction(hintName: string, diagnostic: Diagnostic): CodeAction {
         const command = 'vscode-webhint/ignore-feature-project';
         const featureName = getFeatureNameFromDiagnostic(diagnostic);
@@ -157,8 +188,12 @@ export class QuickFixActionProvider {
 
             if (hintName.startsWith('axe/')) {
                 results.push(this.createIgnoreAxeRuleAction(hintName, diagnostic));
-            } else if (hintName.startsWith('compat-api/')) {
+            }
+            if (hintName.startsWith('compat-api/')) {
                 results.push(this.createIgnoreFeatureAction(hintName, diagnostic));
+            }
+            if (data.problem.browsers) {
+                results.push(this.createIgnoreBrowsersAction(hintName, diagnostic, data.problem));
             }
         });
 

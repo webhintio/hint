@@ -229,6 +229,48 @@ test('It correctly returns expected quick fixes for ignoring axe-core rules', (t
     }
 });
 
+test('It correctly returns expected quick fixes for ignoring browsers', (t) => {
+    const location = {
+        column: 5,
+        endColumn: 10,
+        endLine: 8,
+        line: 7
+    };
+
+    const problem = {
+        browsers: ['ie 9', 'ie 10'],
+        hintId: 'test-hint',
+        location,
+        message: `'fake-problem' is not supported by Internet Explorer < 11.`,
+        severity: Severity.error
+    } as Problem;
+
+    const {documents, fakeCodeActions} = mockContext();
+
+    const currentDocument = documents.get('any');
+
+    if (currentDocument) {
+        const diagnostic = problemToDiagnostic(problem, currentDocument);
+
+        diagnostic.source = 'test_environment';
+        fakeCodeActions.context.diagnostics = [diagnostic];
+    } else {
+        t.fail('Expected code actions but none received');
+    }
+
+    const quickFixActionProvider = new QuickFixActionProvider(documents, 'test_environment');
+
+    const results = quickFixActionProvider.provideCodeActions(fakeCodeActions);
+
+    t.not(results, null);
+
+    if (results) {
+        t.is(results[0].title.includes('Internet Explorer < 11'), true);
+    } else {
+        t.fail('Expected code actions but none received');
+    }
+});
+
 test('It correctly returns an edit for issue with a fix', (t) => {
     const location = {
         column: 5,

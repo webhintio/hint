@@ -22,6 +22,11 @@ export type Problem = {
     category: Category;
     /** The severity of the hint based on the actual configuration */
     severity: Severity;
+    /**
+     * The target browsers that caused this problem to be reported (if compatibility related).
+     * Browser identifiers are in the `browserslist` format (e.g. `['ie 11', 'chrome 100']`).
+     */
+    browsers?: string[];
     /** Indicate the language of the sourceCode */
     codeLanguage?: string;
     /** The link to the documentation in the 3rd party package */

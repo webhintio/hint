@@ -1,0 +1,4 @@
+{
+    "extends": ["development"],
+    "browserslist": "defaults"
+}
