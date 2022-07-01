@@ -90,6 +90,7 @@ export class QuickFixActionProvider {
         const [, firstBrowser, separator] = diagnostic.message.match(/ by (.+?)(,|\. |\.$)/) || [];
         const hasMore = separator === ',';
 
+        /* istanbul ignore next */
         if (!browsers || !firstBrowser) {
             throw new Error('Unable to determine which browsers to ignore');
         }

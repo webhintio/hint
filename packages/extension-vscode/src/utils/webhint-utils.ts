@@ -76,7 +76,7 @@ export class WebhintConfiguratorParser {
         }
 
         if (!this.userConfig.browserslist) {
-            this.userConfig.browserslist = ['defaults', 'not IE 11'];
+            this.userConfig.browserslist = ['defaults', 'not ie 11'];
         }
 
         if (typeof this.userConfig.browserslist === 'string') {
