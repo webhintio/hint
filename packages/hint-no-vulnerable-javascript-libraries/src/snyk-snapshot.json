@@ -19,13 +19,15 @@
         "functions_new": [],
         "id": "SNYK-JS-ANGULARCORE-1070902",
         "identifiers": {
-          "CVE": [],
+          "CVE": [
+            "CVE-2021-4231"
+          ],
           "CWE": [
             "CWE-79"
           ]
         },
         "language": "js",
-        "modificationTime": "2021-03-19T14:43:52.945601Z",
+        "modificationTime": "2022-05-26T13:56:40.369610Z",
         "moduleName": "@angular/core",
         "packageManager": "npm",
         "packageName": "@angular/core",
@@ -252,7 +254,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-04-26T11:42:17.380921Z",
+        "modificationTime": "2022-06-28T07:03:07.291331Z",
         "moduleName": "angular",
         "packageManager": "npm",
         "packageName": "angular",
@@ -2178,6 +2180,54 @@
     ],
     "auth0-lock": [
       {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "alternativeIds": [],
+        "creationTime": "2022-05-25T14:56:00.084172Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 6.1,
+        "disclosureTime": "2022-05-24T20:49:20Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "11.33.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-AUTH0LOCK-2847911",
+        "identifiers": {
+          "CVE": [
+            "CVE-2022-29172"
+          ],
+          "CWE": [
+            "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-7ww6-75fj-jcj7"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2022-05-25T15:15:00.778756Z",
+        "moduleName": "auth0-lock",
+        "packageManager": "npm",
+        "packageName": "auth0-lock",
+        "patches": [],
+        "publicationTime": "2022-05-25T15:15:00.776677Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/auth0/lock/commit/79ae557d331274b114848150f19832ae341771b1"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<11.33.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [],
         "creationTime": "2021-06-06T06:56:27.068492Z",
@@ -2579,7 +2629,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-02-22T15:25:00.897787Z",
+        "modificationTime": "2022-06-15T12:10:56.145845Z",
         "moduleName": "blueimp-file-upload",
         "packageManager": "npm",
         "packageName": "blueimp-file-upload",
@@ -5655,6 +5705,57 @@
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
         "alternativeIds": [],
+        "creationTime": "2022-06-08T14:54:28.100940Z",
+        "credit": [
+          "PewGrand"
+        ],
+        "cvssScore": 6.5,
+        "disclosureTime": "2022-06-08T14:53:31Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "2.2.3"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-DOMPURIFY-2863266",
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-79"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2022-06-08T15:31:20.536648Z",
+        "moduleName": "dompurify",
+        "packageManager": "npm",
+        "packageName": "dompurify",
+        "patches": [],
+        "publicationTime": "2022-06-08T15:31:20.534786Z",
+        "references": [
+          {
+            "title": "Blog",
+            "url": "https://www.vidocsecurity.com/blog/hacking-swagger-ui-from-xss-to-account-takeovers/"
+          },
+          {
+            "title": "Github Commit",
+            "url": "https://github.com/cure53/DOMPurify/commit/0c2edeaef6aefe6cbf5c51a0164235e6953afa16"
+          },
+          {
+            "title": "Github Releases",
+            "url": "https://github.com/cure53/DOMPurify/releases/tag/2.2.3"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<2.2.3"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "alternativeIds": [],
         "creationTime": "2020-11-03T16:24:10.541266Z",
         "credit": [
           "bananabr"
@@ -6571,7 +6672,7 @@
     ],
     "engine.io": [
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:P",
         "alternativeIds": [],
         "creationTime": "2022-01-12T11:13:03.610962Z",
         "credit": [
@@ -6579,7 +6680,7 @@
         ],
         "cvssScore": 7.5,
         "disclosureTime": "2022-01-12T11:06:30Z",
-        "exploit": "Not Defined",
+        "exploit": "Proof of Concept",
         "fixedIn": [
           "4.1.2",
           "5.2.1",
@@ -6597,7 +6698,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-01-19T14:52:51.905387Z",
+        "modificationTime": "2022-06-09T15:17:36.741710Z",
         "moduleName": "engine.io",
         "packageManager": "npm",
         "packageName": "engine.io",
@@ -8749,7 +8850,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-12-14T14:41:01.979104Z",
+        "modificationTime": "2022-06-15T12:10:57.418566Z",
         "moduleName": "haraka",
         "packageManager": "npm",
         "packageName": "haraka",
@@ -8886,7 +8987,9 @@
         "cvssScore": 7.4,
         "disclosureTime": "2022-05-06T06:18:15Z",
         "exploit": "Not Defined",
-        "fixedIn": [],
+        "fixedIn": [
+          "9.0.1"
+        ],
         "functions": [],
         "functions_new": [],
         "id": "SNYK-JS-HAWK-2808852",
@@ -8902,12 +9005,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-05-06T14:22:54.793799Z",
+        "modificationTime": "2022-06-29T09:18:02.372396Z",
         "moduleName": "hawk",
         "packageManager": "npm",
         "packageName": "hawk",
         "patches": [],
-        "publicationTime": "2022-05-06T14:22:54.791846Z",
+        "publicationTime": "2022-05-06T14:22:54Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -8920,7 +9023,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<=9.0.1"
+            "<9.0.1"
           ]
         },
         "severity": "high",
@@ -10231,7 +10334,7 @@
     ],
     "jquery": [
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:U/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N/E:P",
         "alternativeIds": [],
         "creationTime": "2020-05-19T11:29:29.873826Z",
         "credit": [
@@ -10239,9 +10342,9 @@
         ],
         "cvssScore": 5.4,
         "disclosureTime": "2020-05-19T11:26:48Z",
-        "exploit": "Unproven",
+        "exploit": "Proof of Concept",
         "fixedIn": [
-          "1.9.0"
+          "1.9.1"
         ],
         "functions": [],
         "functions_new": [],
@@ -10255,7 +10358,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-05-26T09:43:44.869040Z",
+        "modificationTime": "2022-06-06T12:00:45.232885Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10269,14 +10372,14 @@
         ],
         "semver": {
           "vulnerable": [
-            "<1.9.0"
+            "<1.9.1"
           ]
         },
         "severity": "medium",
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:P/RL:O/RC:R",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N/E:F/RL:O/RC:R",
         "alternativeIds": [],
         "creationTime": "2020-04-30T12:29:39.885866Z",
         "credit": [
@@ -10284,7 +10387,7 @@
         ],
         "cvssScore": 6.5,
         "disclosureTime": "2020-04-29T23:02:09Z",
-        "exploit": "Proof of Concept",
+        "exploit": "Functional",
         "fixedIn": [
           "3.5.0"
         ],
@@ -10307,7 +10410,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-05-11T15:17:22.930849Z",
+        "modificationTime": "2022-06-15T04:10:12.306091Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10337,6 +10440,10 @@
           {
             "title": "Security Blog",
             "url": "https://mksben.l0.cm/2020/05/jquery3.5.0-xss.html"
+          },
+          {
+            "title": "Exploit DB",
+            "url": "https://www.exploit-db.com/exploits/49766"
           }
         ],
         "semver": {
@@ -10348,7 +10455,7 @@
         "title": "Cross-site Scripting (XSS)"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L/E:P/RL:O/RC:C",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:L/E:F/RL:O/RC:C",
         "alternativeIds": [],
         "creationTime": "2020-04-13T07:16:49.518552Z",
         "credit": [
@@ -10356,7 +10463,7 @@
         ],
         "cvssScore": 6.3,
         "disclosureTime": "2020-04-10T00:00:00Z",
-        "exploit": "Proof of Concept",
+        "exploit": "Functional",
         "fixedIn": [
           "3.5.0"
         ],
@@ -10396,7 +10503,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-05-11T15:16:35.103947Z",
+        "modificationTime": "2022-06-15T04:10:12.351042Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -10519,7 +10626,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-11-17T15:25:25.303045Z",
+        "modificationTime": "2022-06-13T15:25:02.850308Z",
         "moduleName": "jquery",
         "packageManager": "npm",
         "packageName": "jquery",
@@ -11395,7 +11502,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-02-01T14:42:14.211579Z",
+        "modificationTime": "2022-06-14T04:10:05.099619Z",
         "moduleName": "jquery-ui",
         "packageManager": "npm",
         "packageName": "jquery-ui",
@@ -12088,7 +12195,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-12-22T17:02:07.968746Z",
+        "modificationTime": "2022-06-15T12:10:56.730903Z",
         "moduleName": "js-yaml",
         "packageManager": "npm",
         "packageName": "js-yaml",
@@ -12102,6 +12209,10 @@
           {
             "title": "Exploit DB",
             "url": "https://exploit-db.com/exploits/28655"
+          },
+          {
+            "title": "Exploit DB",
+            "url": "https://www.exploit-db.com/exploits/28655"
           }
         ],
         "semver": {
@@ -12873,7 +12984,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-04-05T12:28:03.402499Z",
+        "modificationTime": "2022-05-25T11:18:25.335427Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -16187,7 +16298,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-12-14T14:41:49.805472Z",
+        "modificationTime": "2022-06-26T16:24:08.587205Z",
         "moduleName": "mimer",
         "packageManager": "npm",
         "packageName": "mimer",
@@ -16960,9 +17071,11 @@
           "Jelte Fennema"
         ],
         "cvssScore": 6.5,
-        "disclosureTime": "2014-07-17T07:00:20.146000Z",
+        "disclosureTime": "2014-07-17T07:00:20Z",
         "exploit": "Not Defined",
-        "fixedIn": [],
+        "fixedIn": [
+          "0.5.0"
+        ],
         "functions": [],
         "functions_new": [],
         "id": "npm:morris.js:20140717",
@@ -16984,12 +17097,12 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-12-22T17:02:10.207417Z",
+        "modificationTime": "2022-06-26T14:21:00.615943Z",
         "moduleName": "morris.js",
         "packageManager": "npm",
         "packageName": "morris.js",
         "patches": [],
-        "publicationTime": "2017-04-16T07:00:20.146000Z",
+        "publicationTime": "2017-04-16T07:00:20Z",
         "references": [
           {
             "title": "GitHub Commit",
@@ -17002,7 +17115,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "<=0.5.0"
+            "<0.5.0"
           ]
         },
         "severity": "medium",
@@ -17479,7 +17592,7 @@
         "disclosureTime": "2015-11-06T02:09:36.180000Z",
         "exploit": "Not Defined",
         "fixedIn": [
-          "0.3.1"
+          "0.4.0"
         ],
         "functions": [],
         "functions_new": [],
@@ -17494,7 +17607,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-12-14T14:41:15.340987Z",
+        "modificationTime": "2022-06-27T10:33:20.656705Z",
         "moduleName": "mustache",
         "packageManager": "npm",
         "packageName": "mustache",
@@ -17508,7 +17621,7 @@
         ],
         "semver": {
           "vulnerable": [
-            "< 0.3.1"
+            "<0.4.0"
           ]
         },
         "severity": "medium",
@@ -18488,7 +18601,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-03-25T15:25:01.249289Z",
+        "modificationTime": "2022-06-15T12:10:57.224336Z",
         "moduleName": "node-jose",
         "packageManager": "npm",
         "packageName": "node-jose",
@@ -18741,7 +18854,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-05-01T15:25:00.823271Z",
+        "modificationTime": "2022-06-15T12:10:57.436123Z",
         "moduleName": "node-serialize",
         "packageManager": "npm",
         "packageName": "node-serialize",
@@ -19663,6 +19776,59 @@
       }
     ],
     "protobufjs": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:L/E:P",
+        "alternativeIds": [],
+        "creationTime": "2022-04-06T10:16:44.649174Z",
+        "credit": [
+          "Alessio Della Libera from Snyk"
+        ],
+        "cvssScore": 8.2,
+        "disclosureTime": "2022-04-06T09:47:52Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "6.11.3"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-PROTOBUFJS-2441248",
+        "identifiers": {
+          "CVE": [
+            "CVE-2022-25878"
+          ],
+          "CWE": [
+            "CWE-1321"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2022-05-23T13:17:16.063818Z",
+        "moduleName": "protobufjs",
+        "packageManager": "npm",
+        "packageName": "protobufjs",
+        "patches": [],
+        "publicationTime": "2022-05-23T13:17:16.061955Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/protobufjs/protobuf.js/commit/b5f1391dff5515894830a6570e6d73f5511b2e8f"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/protobufjs/protobuf.js/pull/1731"
+          },
+          {
+            "title": "Vulnerable Code",
+            "url": "https://github.com/protobufjs/protobuf.js/blob/d13d5d5688052e366aa2e9169f50dfca376b32cf/src/util.js%23L176-L197"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<6.11.3"
+          ]
+        },
+        "severity": "high",
+        "title": "Prototype Pollution"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:F/RL:O/RC:C",
         "alternativeIds": [
@@ -23217,7 +23383,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2021-10-22T14:42:50.337477Z",
+        "modificationTime": "2022-06-23T09:36:55.477345Z",
         "moduleName": "shell-quote",
         "packageManager": "npm",
         "packageName": "shell-quote",
@@ -23242,7 +23408,7 @@
         "title": "Remote Code Execution (RCE)"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "CVSSv3": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:P",
         "alternativeIds": [
           "SNYK-JS-SHELLQUOTE-10106"
         ],
@@ -23253,7 +23419,7 @@
         ],
         "cvssScore": 8.4,
         "disclosureTime": "2016-06-21T17:40:40Z",
-        "exploit": "Not Defined",
+        "exploit": "Proof of Concept",
         "fixedIn": [
           "1.6.1"
         ],
@@ -23278,7 +23444,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2020-12-22T17:02:08.645450Z",
+        "modificationTime": "2022-06-09T15:20:12.783015Z",
         "moduleName": "shell-quote",
         "packageManager": "npm",
         "packageName": "shell-quote",
@@ -26842,7 +27008,7 @@
         "title": "Authorization Bypass Through User-Controlled Key"
       },
       {
-        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N",
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N/E:P",
         "alternativeIds": [],
         "creationTime": "2022-02-21T12:56:54.006952Z",
         "credit": [
@@ -26850,7 +27016,7 @@
         ],
         "cvssScore": 8.1,
         "disclosureTime": "2022-02-21T12:49:06Z",
-        "exploit": "Not Defined",
+        "exploit": "Proof of Concept",
         "fixedIn": [
           "1.5.9"
         ],
@@ -26866,7 +27032,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-03-23T07:45:56.572496Z",
+        "modificationTime": "2022-06-09T15:13:29.620707Z",
         "moduleName": "url-parse",
         "packageManager": "npm",
         "packageName": "url-parse",
