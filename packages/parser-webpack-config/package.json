@@ -9,8 +9,8 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.17",
-    "@hint/utils-network": "^1.0.19"
+    "@hint/utils": "^7.0.18",
+    "@hint/utils-network": "^1.0.20"
   },
   "description": "webhint parser needed to analyze webpack config files",
   "devDependencies": {
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.1.34"
+  "version": "2.1.35"
 }

@@ -9,19 +9,19 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.17",
-    "@hint/utils-i18n": "^1.0.12",
+    "@hint/utils": "^7.0.18",
+    "@hint/utils-i18n": "^1.0.13",
     "@hint/utils-string": "^1.0.12",
-    "@hint/utils-types": "^1.1.7",
+    "@hint/utils-types": "^1.2.0",
     "cloudinary": "^1.28.1",
     "fs-extra": "^10.1.0",
     "image-size": "^1.0.1"
   },
   "description": "hint that that checks using Cloudinary's API if images are optimized",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.19",
-    "@hint/utils-dom": "^2.1.13",
-    "@hint/utils-tests-helpers": "^6.4.1",
+    "@hint/utils-create-server": "^3.4.20",
+    "@hint/utils-dom": "^2.2.0",
+    "@hint/utils-tests-helpers": "^6.5.0",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -78,5 +78,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.2.19"
+  "version": "3.2.20"
 }

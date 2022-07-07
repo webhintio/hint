@@ -1,3 +1,11 @@
+# 3.1.0 (July 7, 2022)
+
+## New features
+
+* [[`2614112065`](https://github.com/webhintio/hint/commit/26141120658fd337aa081cfbf9e6cd1f8ce8f699)] - New: Code fix test infra + no-protocol-relative-urls fix (by [`Michael Liao`](https://github.com/mliao95) / see also: [`#5214`](https://github.com/webhintio/hint/issues/5214)).
+* [[`92d72970f0`](https://github.com/webhintio/hint/commit/92d72970f01e11f7911471e4870600426b5955ed)] - New: Add getAttributeLocation to elements (by [`Tony Ross`](https://github.com/antross) / see also: [`#5215`](https://github.com/webhintio/hint/issues/5215)).
+
+
 # 3.0.13 (May 3, 2022)
 
 ## Chores

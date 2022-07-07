@@ -10,15 +10,15 @@
   },
   "dependencies": {
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-i18n": "^1.0.12",
-    "@hint/utils-network": "^1.0.19",
+    "@hint/utils-i18n": "^1.0.13",
+    "@hint/utils-network": "^1.0.20",
     "@hint/utils-string": "^1.0.12",
-    "@hint/utils-types": "^1.1.7"
+    "@hint/utils-types": "^1.2.0"
   },
   "description": "hint that that checks if HTML document only response headers are sent for other resources",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.19",
-    "@hint/utils-tests-helpers": "^6.4.1",
+    "@hint/utils-create-server": "^3.4.20",
+    "@hint/utils-tests-helpers": "^6.5.0",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.15"
+  "version": "3.0.16"
 }
