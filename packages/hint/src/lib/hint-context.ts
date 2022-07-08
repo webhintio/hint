@@ -132,6 +132,20 @@ export class HintContext<E extends Events = Events> {
         return this.engine.querySelectorAll(selector);
     }
 
+    /** Ensures fixes in embedded sections (e.g. CSS in HTML) are correctly offset. */
+    private adjustFixLocations(element: HTMLElement, fixes?: CodeFix[]): CodeFix[] | undefined {
+        if (!fixes) {
+            return fixes;
+        }
+
+        return fixes.map((fix) => {
+            return {
+                ...fix,
+                location: element.getContentLocation(fix.location) ?? fix.location
+            };
+        });
+    }
+
     /** Finds the approximative location in the page's HTML for a match in an element. */
     public findProblemLocation(element: HTMLElement, offset: ProblemLocation | null, attribute?: string): ProblemLocation | null {
         if (attribute) {
@@ -156,6 +170,7 @@ export class HintContext<E extends Events = Events> {
         const { attribute, codeSnippet, element, severity = Severity.warning, fixes } = options;
         let sourceCode: string | null = null;
         let position = options.location || null;
+        let adjustedFixes = fixes;
 
         if (attribute && !element) {
             throw new Error('The `element` option must be specified when `attribute` is provided.');
@@ -165,6 +180,11 @@ export class HintContext<E extends Events = Events> {
             // When element is provided, position is an offset in the content.
             position = this.findProblemLocation(element, position, attribute);
             sourceCode = getHTMLCodeSnippet(element);
+        }
+
+        if (element && options.codeLanguage && options.codeLanguage !== 'html') {
+            // When element is provided and language is embedded (e.g. CSS or JS), fix locations need adjusted.
+            adjustedFixes = this.adjustFixLocations(element, fixes);
         }
 
         /**
@@ -186,7 +206,7 @@ export class HintContext<E extends Events = Events> {
             category: (this.meta && this.meta.docs && this.meta.docs.category) ? this.meta.docs.category : Category.other,
             codeLanguage: options.codeLanguage,
             documentation: options.documentation,
-            fixes,
+            fixes: adjustedFixes,
             hintId: this.id,
             location: position || { column: -1, line: -1 },
             message,

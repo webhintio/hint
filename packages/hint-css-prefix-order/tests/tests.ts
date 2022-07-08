@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import { generateHTMLPage } from '@hint/utils-create-server';
 import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 import { readFile } from '@hint/utils-fs';
@@ -34,7 +36,9 @@ const generateConfig = (fileName: string) => {
 };
 
 const getFixedContent = (fileName: string): string => {
-    return readFile(`${__dirname}/fixtures/${fileName}.fixed.css`);
+    const {name, ext} = path.parse(fileName);
+
+    return readFile(`${__dirname}/fixtures/${name}.fixed${ext || '.css'}`);
 };
 
 const tests: HintTest[] = [
@@ -177,6 +181,7 @@ const tests: HintTest[] = [
     {
         name: 'Prefixed properties listed last fail in HTML (webkit)',
         reports: [{
+            fixes: { match: getFixedContent('prefixes-last-webkit.html') },
             message: `'appearance' should be listed after '-webkit-appearance'.`,
             position: {
                 column: 16,
