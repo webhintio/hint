@@ -53,7 +53,6 @@ export default class implements IHint {
                         for (const letter of doctypeText) {
                             if (letter === '\n' || letter === '\r\n') {
                                 endLine++;
-                                console.log(lines[i]);
                                 endColumn = 0;
                             } else {
                                 endColumn++;
@@ -190,8 +189,6 @@ export default class implements IHint {
             if (!matchInfo.matches || matchInfo.matches.length < 2) {
                 return;
             }
-
-            console.log(matchInfo);
 
             const fixes: {location: ProblemLocation; text: string}[] = [];
 
