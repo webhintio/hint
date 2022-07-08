@@ -1,3 +1,4 @@
+/* eslint-disable multiline-comment-style */
 /**
  * @fileoverview Hint to validate if the doctype is correct
  */
@@ -41,8 +42,29 @@ export default class implements IHint {
                 const matched = doctypeRegExp.exec(line);
 
                 if (matched) {
+                    let endLine, endColumn;
+
+                    const doctypeText = matched[1];
+
+                    if (doctypeText) {
+                        endColumn = matched.index;
+                        endLine = i;
+
+                        for (const letter of doctypeText) {
+                            if (letter === '\n' || letter === '\r\n') {
+                                endLine++;
+                                console.log(lines[i]);
+                                endColumn = 0;
+                            } else {
+                                endColumn++;
+                            }
+                        }
+                    }
+
                     locations.push({
                         column: matched.index,
+                        endColumn,
+                        endLine,
                         line: i
                     });
                 }
@@ -64,10 +86,23 @@ export default class implements IHint {
             }
 
             if (!doctypeFlexibleRegExp.exec(content)) {
+                const fixes: {location: ProblemLocation; text: string}[] = [
+                    {
+                        location: {
+                            column: 0,
+                            endColumn: 0,
+                            endLine: 0,
+                            line: 0
+                        },
+                        text: `<!doctype html>${os.EOL}`
+                    }
+                ];
+
                 context.report(
                     resource,
                     getMessage('doctypeNotSpecified', context.language),
                     {
+                        fixes,
                         location: defaultProblemLocation,
                         severity: Severity.error
                     }
@@ -78,10 +113,23 @@ export default class implements IHint {
 
             const severity = standards ? Severity.warning : Severity.error;
 
+            const fixes: {location: ProblemLocation; text: string}[] = [
+                {
+                    location: {
+                        column: 0,
+                        endColumn: doctypeFlexibleRegExp.lastIndex,
+                        endLine: 0,
+                        line: 0
+                    },
+                    text: '<!doctype html>'
+                }
+            ];
+
             context.report(
                 resource,
                 getMessage('doctypeSpecifiedAs', context.language),
                 {
+                    fixes,
                     location: defaultProblemLocation,
                     severity
                 }
@@ -97,10 +145,41 @@ export default class implements IHint {
                 return;
             }
 
+            const doctypeText = matchInfo.matches && matchInfo.matches[0] || '<!doctype html>';
+
+            if (!doctypeText) {
+                return;
+            }
+
+            const fixes: {location: ProblemLocation; text: string}[] = [
+                {
+                    location: {
+                        column: 0,
+                        endColumn: 0,
+                        endLine: 0,
+                        line: 0
+                    },
+                    text: `${doctypeText}${os.EOL}`
+                }
+            ];
+
+            for (const problemLocation of matchInfo.locations) {
+                if (problemLocation.endColumn === undefined|| problemLocation.endLine === undefined) {
+                    continue;
+                }
+                const fix = {
+                    location: problemLocation,
+                    text: ''
+                };
+
+                fixes.unshift(fix);
+            }
+
             context.report(
                 resource,
                 getMessage('doctypeSpecifiedBefore', context.language),
                 {
+                    fixes,
                     location: matchInfo.locations[0],
                     severity
                 }
@@ -112,10 +191,24 @@ export default class implements IHint {
                 return;
             }
 
+            console.log(matchInfo);
+
+            const fixes: {location: ProblemLocation; text: string}[] = [];
+
+            for (let i = matchInfo.locations.length - 1; i > 0; i--) {
+                const fix = {
+                    location: matchInfo.locations[i],
+                    text: ''
+                };
+
+                fixes.push(fix);
+            }
+
             context.report(
                 resource,
                 getMessage('doctypeNotDuplicated', context.language),
                 {
+                    fixes,
                     location: matchInfo.locations[matchInfo.locations.length - 1],
                     severity: Severity.warning
                 }

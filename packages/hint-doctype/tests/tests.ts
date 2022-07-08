@@ -12,6 +12,12 @@ const tests: HintTest[] = [
     {
         name: `'doctype' is not in the first line should fail`,
         reports: [{
+            fixes: {
+                match: normalizeEOL(`<!DOCTYPE html>\n<p><span></span>
+                <head></head>
+                
+                `)
+            },
             message: `'doctype' should be specified before anything else.`,
             position: { match: '<!DOCTYPE html>' },
             severity: Severity.error
@@ -40,6 +46,13 @@ const tests: HintTest[] = [
     {
         name: `'doctype' found more than once should fail`,
         reports: [{
+            fixes: {
+                match: normalizeEOL(`<!DOCTYPE html>
+                <p><span></span>
+                <head></head>
+                <!-- Report -->
+                `)
+            },
             message: `'doctype' is not needed as one was already specified.`,
             position: { match: '<!DOCTYPE html><!-- Report -->' },
             severity: Severity.warning
@@ -58,6 +71,13 @@ const tests: HintTest[] = [
     {
         name: `'doctype' not found should fail`,
         reports: [{
+            fixes: {
+                match: `<!doctype html>${os.EOL}<head>
+
+                </head>
+                <body></body>
+                `
+            },
             message: `'doctype' was not specified.`,
             severity: Severity.error
         }],
@@ -93,6 +113,12 @@ const tests: HintTest[] = [
     {
         name: `'doctype' not valid should fail`,
         reports: [{
+            fixes: {
+                match: `<!doctype html>
+                <head></head>
+                <body></body>
+                `
+            },
             message: `'doctype' should be specified as '<!doctype html>'.`,
             severity: Severity.error
         }],
@@ -109,6 +135,12 @@ const tests: HintTest[] = [
     {
         name: `'doctype' regular with no space between terms should fail`,
         reports: [{
+            fixes: {
+                match: `<!doctype html>
+                <head></head>
+                <body></body>
+                `
+            },
             message: `'doctype' should be specified as '<!doctype html>'.`,
             severity: Severity.warning
         }],
@@ -125,6 +157,12 @@ const tests: HintTest[] = [
     {
         name: `'doctype' with legacy-compat should fail`,
         reports: [{
+            fixes: {
+                match: `<!doctype html>
+                <head></head>
+                <body></body>
+                `
+            },
             message: `'doctype' should be specified as '<!doctype html>'.`,
             severity: Severity.warning
         }],
