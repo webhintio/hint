@@ -1,4 +1,3 @@
-/* eslint-disable multiline-comment-style */
 /**
  * @fileoverview Hint to validate if the doctype is correct
  */
