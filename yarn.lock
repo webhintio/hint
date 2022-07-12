@@ -8107,10 +8107,10 @@ postcss-sass@^0.5.0:
     gonzales-pe "^4.3.0"
     postcss "^8.2.14"
 
-postcss-scss@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/postcss-scss/-/postcss-scss-4.0.3.tgz#36c23c19a804274e722e83a54d20b838ab4767ac"
-  integrity sha512-j4KxzWovfdHsyxwl1BxkUal/O4uirvHgdzMKS1aWJBAV0qh2qj5qAZqpeBfVUYGWv+4iK9Az7SPyZ4fyNju1uA==
+postcss-scss@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/postcss-scss/-/postcss-scss-4.0.4.tgz#aa8f60e19ee18259bc193db9e4b96edfce3f3b1f"
+  integrity sha512-aBBbVyzA8b3hUL0MGrpydxxXKXFZc5Eqva0Q3V9qsBOLEMsjb6w49WfpsoWzpEgcqJGW4t7Rio8WXVU9Gd8vWg==
 
 postcss-selector-parser@^6.0.2, postcss-selector-parser@^6.0.4, postcss-selector-parser@^6.0.8:
   version "6.0.8"
