@@ -5,6 +5,8 @@ import * as path from 'path';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
+import type { Problem } from '@hint/utils-types';
+
 type SandboxContext = {
     sandbox: sinon.SinonSandbox;
 };
@@ -119,6 +121,90 @@ test.serial('It correctly ignores a problem in an existing configuration file wi
     t.is(writeFileStub.callCount, 1);
     t.is(readFileStub.callCount, 1);
     t.is((writeFileStub.getCall(0).args as unknown as Array<string>)[0], expectedPath);
+    const result = JSON.parse((writeFileStub.getCall(0).args as unknown as Array<string>)[1]);
+
+    t.deepEqual(result, expectedResults);
+});
+
+test.serial('It correctly ignores an axe-core rule in an existing configuration file without a previous hint section', async (t) => {
+    const expectedPath = path.join(__dirname, '../fixtures/no-hint-property/.hintrc');
+    const sampleFileContents = await fs.promises.readFile(expectedPath);
+    const expectedResults = JSON.parse(sampleFileContents.toString());
+
+    expectedResults.hints = {};
+    expectedResults.hints['axe/language'] = JSON.parse('["default", {"html-has-lang":"off"}]');
+
+    const { MockWebhintConfiguratorParser, readFileStub, writeFileStub } = mockContext(t.context);
+
+    const configParser = new MockWebhintConfiguratorParser();
+
+    readFileStub.resolves(sampleFileContents);
+    await configParser.initialize(expectedPath);
+    configParser.addAxeRuleToIgnoredHintsConfig('axe/language', 'html-has-lang');
+
+    t.is(writeFileStub.callCount, 1);
+    t.is(readFileStub.callCount, 1);
+    t.is((writeFileStub.getCall(0).args as unknown as Array<string>)[0], expectedPath);
+    const result = JSON.parse((writeFileStub.getCall(0).args as unknown as Array<string>)[1]);
+
+    t.deepEqual(result, expectedResults);
+});
+
+test.serial('It correctly ignores browsers in an existing configuration file', async (t) => {
+    const expectedPath = path.join(__dirname, '../fixtures/browsers/.hintrc');
+    const sampleFileContents = await fs.promises.readFile(expectedPath);
+    const expectedResults = JSON.parse(sampleFileContents.toString());
+
+    expectedResults.browserslist.push('not ie <= 10');
+
+    const { MockWebhintConfiguratorParser, readFileStub, writeFileStub } = mockContext(t.context);
+
+    const configParser = new MockWebhintConfiguratorParser();
+
+    readFileStub.resolves(sampleFileContents);
+    await configParser.initialize(expectedPath);
+    configParser.addBrowsersToIgnoredHintsConfig('test-hint', { browsers: ['ie 9', 'ie 10'] } as Problem);
+
+    const result = JSON.parse((writeFileStub.getCall(0).args as unknown as Array<string>)[1]);
+
+    t.deepEqual(result, expectedResults);
+});
+
+test.serial('It correctly ignores browsers in an existing configuration file with no browserslist', async (t) => {
+    const expectedPath = path.join(__dirname, '../fixtures/no-browsers/.hintrc');
+    const sampleFileContents = await fs.promises.readFile(expectedPath);
+    const expectedResults = JSON.parse(sampleFileContents.toString());
+
+    expectedResults.browserslist = ['defaults', 'not ie 11', 'not firefox <= 100'];
+
+    const { MockWebhintConfiguratorParser, readFileStub, writeFileStub } = mockContext(t.context);
+
+    const configParser = new MockWebhintConfiguratorParser();
+
+    readFileStub.resolves(sampleFileContents);
+    await configParser.initialize(expectedPath);
+    configParser.addBrowsersToIgnoredHintsConfig('test-hint', { browsers: ['firefox 100'] } as Problem);
+
+    const result = JSON.parse((writeFileStub.getCall(0).args as unknown as Array<string>)[1]);
+
+    t.deepEqual(result, expectedResults);
+});
+
+test.serial('It correctly ignores browsers in an existing configuration file with a string browserslist', async (t) => {
+    const expectedPath = path.join(__dirname, '../fixtures/string-browsers/.hintrc');
+    const sampleFileContents = await fs.promises.readFile(expectedPath);
+    const expectedResults = JSON.parse(sampleFileContents.toString());
+
+    expectedResults.browserslist = ['defaults', 'not safari <= 13'];
+
+    const { MockWebhintConfiguratorParser, readFileStub, writeFileStub } = mockContext(t.context);
+
+    const configParser = new MockWebhintConfiguratorParser();
+
+    readFileStub.resolves(sampleFileContents);
+    await configParser.initialize(expectedPath);
+    configParser.addBrowsersToIgnoredHintsConfig('test-hint', { browsers: ['safari 13'] } as Problem);
+
     const result = JSON.parse((writeFileStub.getCall(0).args as unknown as Array<string>)[1]);
 
     t.deepEqual(result, expectedResults);

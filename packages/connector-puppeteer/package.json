@@ -9,21 +9,21 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.17",
-    "@hint/utils-connector-tools": "^4.0.34",
+    "@hint/utils": "^7.0.18",
+    "@hint/utils-connector-tools": "^4.0.35",
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-dom": "^2.1.13",
+    "@hint/utils-dom": "^2.2.0",
     "@hint/utils-fs": "^1.0.14",
-    "@hint/utils-network": "^1.0.19",
-    "@hint/utils-types": "^1.1.7",
+    "@hint/utils-network": "^1.0.20",
+    "@hint/utils-types": "^1.2.0",
     "is-ci": "^3.0.1",
     "lockfile": "^1.0.4",
     "puppeteer-core": "^13.0.1"
   },
   "description": "hint connector for browsers supported by Puppeteer",
   "devDependencies": {
-    "@hint/parser-html": "^3.0.27",
-    "@hint/utils-create-server": "^3.4.19",
+    "@hint/parser-html": "^3.1.0",
+    "@hint/utils-create-server": "^3.4.20",
     "@types/is-ci": "^3.0.0",
     "@types/lockfile": "^1.0.2",
     "@types/lodash": "^4.14.181",
@@ -93,5 +93,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.5.17"
+  "version": "2.5.18"
 }

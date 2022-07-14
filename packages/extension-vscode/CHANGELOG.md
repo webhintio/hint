@@ -1,3 +1,13 @@
+# 2.1.0 (July 7, 2022)
+
+## New features
+
+* [[`3c2da91256`](https://github.com/webhintio/hint/commit/3c2da91256df6562184b2df68986aa5125730bae)] - New: Add option to ignore browsers (by [`Tony Ross`](https://github.com/antross) / see also: [`#5226`](https://github.com/webhintio/hint/issues/5226)).
+* [[`a489a07676`](https://github.com/webhintio/hint/commit/a489a07676a226541ca030c550a0df025a7bc6b9)] - New: Pass code fixes to VS Code (by [`Tony Ross`](https://github.com/antross) / see also: [`#5227`](https://github.com/webhintio/hint/issues/5227)).
+* [[`564ecefa63`](https://github.com/webhintio/hint/commit/564ecefa6363a70a9fa94b9743361a850ce52fd7)] - New: Add options to ignore axe-core rules (by [`Tony Ross`](https://github.com/antross) / see also: [`#5224`](https://github.com/webhintio/hint/issues/5224)).
+* [[`4542cc156c`](https://github.com/webhintio/hint/commit/4542cc156c29346382951c9b07646e78e99a93e6)] - New: Quick-fixes for vscode-extension package (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5219`](https://github.com/webhintio/hint/issues/5219)).
+
+
 # 2.0.0 (June 6, 2022)
 
 ## Breaking Changes

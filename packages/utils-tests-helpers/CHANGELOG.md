@@ -1,3 +1,10 @@
+# 6.5.0 (July 7, 2022)
+
+## New features
+
+* [[`2614112065`](https://github.com/webhintio/hint/commit/26141120658fd337aa081cfbf9e6cd1f8ce8f699)] - New: Code fix test infra + no-protocol-relative-urls fix (by [`Michael Liao`](https://github.com/mliao95) / see also: [`#5214`](https://github.com/webhintio/hint/issues/5214)).
+
+
 # 6.4.0 (June 6, 2022)
 
 ## New features

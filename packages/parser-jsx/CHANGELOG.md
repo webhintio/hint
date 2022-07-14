@@ -1,3 +1,14 @@
+# 1.1.0 (July 7, 2022)
+
+## New features
+
+* [[`92d72970f0`](https://github.com/webhintio/hint/commit/92d72970f01e11f7911471e4870600426b5955ed)] - New: Add getAttributeLocation to elements (by [`Tony Ross`](https://github.com/antross) / see also: [`#5215`](https://github.com/webhintio/hint/issues/5215)).
+
+## Bug fixes / Improvements
+
+* [[`153015c985`](https://github.com/webhintio/hint/commit/153015c985bd80f0df6c29cf09c8ec9b16d6895a)] - Fix: Off-by-one issue with JSX column locations (#5228) (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 1.0.19 (June 6, 2022)
 
 ## Bug fixes / Improvements

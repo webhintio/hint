@@ -10,7 +10,7 @@ import { IHint } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
 import { getFullCSSCodeSnippet, getCSSLocationFromNode, getUnprefixed } from '@hint/utils-css';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
-import { Severity } from '@hint/utils-types';
+import { CodeFix, Severity } from '@hint/utils-types';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -20,6 +20,39 @@ const debug: debug.IDebugger = d(__filename);
 type DeclarationPair = {
     lastPrefixed: Declaration;
     unprefixed: Declaration;
+};
+
+/** Return edits to fix a report by swapping the name and value of the last prefixed property with the unprefixed property. */
+const generateFixes = (pair: DeclarationPair): CodeFix[] | undefined => {
+    const lastPrefixedStart = pair.lastPrefixed.source?.start;
+    const lastPrefixedEnd = pair.lastPrefixed.source?.end;
+    const unprefixedStart = pair.unprefixed.source?.start;
+    const unprefixedEnd = pair.unprefixed.source?.end;
+
+    if (!lastPrefixedStart || !lastPrefixedEnd || !unprefixedStart || !unprefixedEnd) {
+        return undefined;
+    }
+
+    return [
+        {
+            location: {
+                column: lastPrefixedStart.column - 1,
+                endColumn: lastPrefixedEnd.column - 1,
+                endLine: lastPrefixedEnd.line - 1,
+                line: lastPrefixedStart.line - 1
+            },
+            text: pair.unprefixed.toString()
+        },
+        {
+            location: {
+                column: unprefixedStart.column - 1,
+                endColumn: unprefixedEnd.column - 1,
+                endLine: unprefixedEnd.line - 1,
+                line: unprefixedStart.line - 1
+            },
+            text: pair.lastPrefixed.toString()
+        }
+    ];
 };
 
 /** Determine if the order of a prefixed/unprefixed pair is valid. */
@@ -117,7 +150,14 @@ export default class CssPrefixOrderHint implements IHint {
                     context.report(
                         resource,
                         message,
-                        { codeLanguage: 'css', codeSnippet, element, location, severity });
+                        {
+                            codeLanguage: 'css',
+                            codeSnippet,
+                            element,
+                            fixes: generateFixes(invalidPair),
+                            location,
+                            severity
+                        });
                 }
             });
         });

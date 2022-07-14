@@ -1,7 +1,9 @@
 import * as fs from 'fs';
 
+import type { Problem } from '@hint/utils-types';
+
 import { hasFile } from './fs';
-import type { HintConfig, UserConfig as WebhintUserConfig } from '@hint/utils';
+import type { HintConfig, HintSeverity, UserConfig as WebhintUserConfig } from '@hint/utils';
 
 export class WebhintConfiguratorParser {
 
@@ -14,9 +16,9 @@ export class WebhintConfiguratorParser {
 
         if (!fileExists) {
             // .hintrc does not exists so create one with the default config
-            const defaultConfig = { extends: ['development'] };
+            this.userConfig = { extends: ['development'] };
 
-            await fs.promises.writeFile(this.configFilePath, JSON.stringify(defaultConfig), 'utf-8');
+            await this.saveConfiguration();
         }
 
         // user config file is guaranteed to exist at this point, now read it.
@@ -25,6 +27,83 @@ export class WebhintConfiguratorParser {
         this.userConfig = JSON.parse(rawUserConfig.toString());
 
         return this.userConfig;
+    }
+
+    public async addAxeRuleToIgnoredHintsConfig(hintName: string, ruleName: string): Promise<void> {
+        /* istanbul ignore next */
+        if (!this.isInitialized() || (!hintName || !ruleName)) {
+            return;
+        }
+
+        if (!this.userConfig.hints) {
+            this.userConfig.hints = {};
+        }
+
+        // TODO: support array syntax
+        /* istanbul ignore next */
+        if (Array.isArray(this.userConfig.hints)) {
+            throw new Error('Cannot alter hints collection written as an array');
+        }
+
+        const hint = this.userConfig.hints[hintName];
+        const config: [HintSeverity, any] = ['default', {}];
+
+        if (typeof hint === 'string' || typeof hint === 'number') {
+            config[0] = hint;
+        } else if (Array.isArray(hint)) {
+            config[0] = hint[0];
+            config[1] = hint[1] || {};
+        }
+
+        const rulesConfig = config[1];
+
+        /* istanbul ignore next */
+        if (Array.isArray(rulesConfig)) {
+            throw new Error('Cannot alter axe-core rules collection written as an array');
+        }
+
+        rulesConfig[ruleName as keyof typeof rulesConfig] = 'off';
+
+        this.userConfig.hints[hintName] = config;
+
+        await this.saveConfiguration();
+    }
+
+    public async addBrowsersToIgnoredHintsConfig(hintName: string, problem: Problem): Promise<void> {
+        /* istanbul ignore next */
+        if (!this.isInitialized() || (!hintName || !problem || !problem.browsers)) {
+            return;
+        }
+
+        if (!this.userConfig.browserslist) {
+            this.userConfig.browserslist = ['defaults', 'not ie 11'];
+        }
+
+        if (typeof this.userConfig.browserslist === 'string') {
+            this.userConfig.browserslist = [this.userConfig.browserslist];
+        }
+
+        const browsers = new Map<string, number>();
+
+        // Keep only the highest version number to ignore per browser
+        for (const browser of problem.browsers) {
+            const [name, versions] = browser.split(' ');
+            const maxVersion = parseFloat(versions.split('-').pop() || '1');
+
+            if (maxVersion > (browsers.get(name) ?? 1)) {
+                browsers.set(name, maxVersion);
+            }
+        }
+
+        // Ignore everything below the highest target version number per browser
+        const ignoredBrowsers = Array.from(browsers.entries()).map(([name, version]) => {
+            return `not ${name} <= ${version}`;
+        });
+
+        // TODO: remove unnecessary entries (e.g. if both 'ie <= 9' and 'ie <= 11' are present).
+        this.userConfig.browserslist = [...this.userConfig.browserslist, ...ignoredBrowsers];
+
+        await this.saveConfiguration();
     }
 
     public async addFeatureToIgnoredHintsConfig(hintName: string, featureName: string): Promise<void> {

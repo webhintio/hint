@@ -1,0 +1,5 @@
+.example {
+    -webkit-appearance: none; /* Report */
+    appearance: none;
+    background-size: cover;
+}
