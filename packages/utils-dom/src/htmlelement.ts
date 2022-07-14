@@ -411,12 +411,21 @@ export class HTMLElement extends Node {
      * This method is used to help create insertion CodeFix objects.
      */
     public prependChildOuterHtml(child: string, removeExistingInstance?: boolean): string {
-        const tag = `<${this._element.name}>`;
+        const openingTagRegex = /<[^>]+>/;
         const childIndent = this.getChildIndent();
         const outerHTML = removeExistingInstance ? this.outerHTML.replace(child, '') : this.outerHTML;
-        const childInsertionInd = outerHTML.indexOf(tag) + tag.length;
-        const newLineWithIndent = childIndent?.newlineType && childIndent?.indent ? `${childIndent?.newlineType}${childIndent?.indent}` : '';
 
-        return outerHTML.substring(0, childInsertionInd) + newLineWithIndent + child + outerHTML.substring(childInsertionInd);
+        console.log(this);
+
+        const tagMatch = outerHTML.match(openingTagRegex);
+
+        if (tagMatch) {
+            const childInsertionInd = tagMatch[0].length;
+            const newLineWithIndent = childIndent?.newlineType && childIndent?.indent ? `${childIndent?.newlineType}${childIndent?.indent}` : '';
+
+            return outerHTML.substring(0, childInsertionInd) + newLineWithIndent + child + outerHTML.substring(childInsertionInd);
+        }
+
+        return this.outerHTML;
     }
 }

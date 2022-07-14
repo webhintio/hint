@@ -138,3 +138,63 @@ test('matches', (t) => {
 
     t.true(doc.body.children[0].matches('#match-me'));
 });
+
+test('getChildIndent (one line)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me"></div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+
+    const indentObj = matchElement.getChildIndent();
+
+    t.is(indentObj.indent, '');
+    t.is(indentObj.newlineType, '');
+});
+
+test('getChildIndent (two line)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me">\n</div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+
+    const indentObj = matchElement.getChildIndent();
+
+    t.is(indentObj.indent, '  ');
+    t.is(indentObj.newlineType, '\n');
+});
+
+test('getChildIndent (three line)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me">\n    <div></div>\r\n</div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+
+    const indentObj = matchElement.getChildIndent();
+
+    t.is(indentObj.indent, '    ');
+    t.is(indentObj.newlineType, '\n');
+});
+
+test('prependChildOuterHtml (one line)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me"></div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+    const newOuterHTML = matchElement.prependChildOuterHtml('<span></span>');
+
+    t.is(newOuterHTML, '<div id="match-me"><span></span></div>');
+});
+
+test('prependChildOuterHtml (two lines)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me">\n</div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+    const newOuterHTML = matchElement.prependChildOuterHtml('<span></span>');
+
+    t.is(newOuterHTML, '<div id="match-me">\n  <span></span>\n</div>');
+});
+
+test('prependChildOuterHtml (three lines)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me">\n  <div></div>\n</div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+    const newOuterHTML = matchElement.prependChildOuterHtml('<span></span>');
+
+    t.is(newOuterHTML, '<div id="match-me">\n  <span></span>\n  <div></div>\n</div>');
+});
