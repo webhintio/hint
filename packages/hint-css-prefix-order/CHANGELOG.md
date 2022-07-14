@@ -1,3 +1,10 @@
+# 1.5.0 (July 7, 2022)
+
+## New features
+
+* [[`660d5a7b7f`](https://github.com/webhintio/hint/commit/660d5a7b7f551cb25fde1839d1ab224207277a50)] - New: Add fix to correctly reorder prefixed properties (by [`Tony Ross`](https://github.com/antross) / see also: [`#5223`](https://github.com/webhintio/hint/issues/5223)).
+
+
 # 1.4.17 (May 3, 2022)
 
 ## Chores

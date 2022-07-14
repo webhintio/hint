@@ -12,7 +12,7 @@
     "@types/parse5": "^6.0.3",
     "eventemitter2": "^6.4.5",
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-types": "^1.1.7",
+    "@hint/utils-types": "^1.2.0",
     "css-select": "^4.3.0",
     "parse5": "^6.0.1",
     "parse5-htmlparser2-tree-adapter": "^6.0.1"
@@ -67,5 +67,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.1.13"
+  "version": "2.2.0"
 }

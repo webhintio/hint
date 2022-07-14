@@ -1,10 +1,12 @@
 import { createConnection, ProposedFeatures, TextDocuments, TextDocumentSyncKind } from 'vscode-languageserver/node';
 import { TextDocument } from 'vscode-languageserver-textdocument';
-
 import { pathToFileURL } from 'node:url';
+
+import type { Problem } from '@hint/utils-types';
+
 import { Analyzer } from './utils/analyze';
 import { QuickFixActionProvider } from './quickfix-provider';
-import {WebhintConfiguratorParser} from './utils/webhint-utils';
+import { WebhintConfiguratorParser } from './utils/webhint-utils';
 
 import * as path from 'path';
 
@@ -28,7 +30,10 @@ connection.onInitialize((params) => {
             codeActionProvider: true,
             executeCommandProvider: {
                 commands: [
+                    'vscode-webhint/apply-code-fix',
                     'vscode-webhint/ignore-hint-project',
+                    'vscode-webhint/ignore-axe-rule-project',
+                    'vscode-webhint/ignore-browsers-project',
                     'vscode-webhint/ignore-feature-project',
                     'vscode-webhint/edit-hintrc-project'
                 ]
@@ -54,6 +59,7 @@ connection.onExecuteCommand(async (params) => {
     const args = params.arguments ?? [];
     const problemName = args[0] as string;
     const hintName = args[1] as string;
+    const problem = args[2] as Problem;
     const configurationParser = new WebhintConfiguratorParser();
     const configFilePath = path.join(workspace, '.hintrc');
 
@@ -62,6 +68,14 @@ connection.onExecuteCommand(async (params) => {
     switch (params.command) {
         case 'vscode-webhint/ignore-hint-project': {
             await configurationParser.ignoreHintPerProject(hintName);
+            break;
+        }
+        case 'vscode-webhint/ignore-axe-rule-project': {
+            await configurationParser.addAxeRuleToIgnoredHintsConfig(hintName, problemName);
+            break;
+        }
+        case 'vscode-webhint/ignore-browsers-project': {
+            await configurationParser.addBrowsersToIgnoredHintsConfig(hintName, problem);
             break;
         }
         case 'vscode-webhint/ignore-feature-project': {
