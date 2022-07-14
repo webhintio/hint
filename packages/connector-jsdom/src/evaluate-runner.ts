@@ -16,7 +16,6 @@ const run = async (data: { options: any; source: string }) => {
     const { options = {}, source } = data;
     const requesterOptions = {
         rejectUnauthorized: !options.ignoreHTTPSErrors,
-        strictSSL: !options.ignoreHTTPSErrors,
         ...options.requestOptions
     };
 

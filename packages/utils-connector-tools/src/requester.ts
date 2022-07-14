@@ -352,7 +352,7 @@ export class Requester {
                     return resolve(networkData);
                 } catch (err) {
                     const error = {
-                        error: new Error('Redirect location undefined'),
+                        error: err,
                         uri: uriString
                     };
 

@@ -131,8 +131,10 @@ export default class JSDOMConnector implements IConnector {
         }
 
         const r: Requester = new Requester({
-            // TODO: Can be strong typed with IRequesterOptions once package has
-            // been published.
+            /*
+             * TODO: Can be strong typed with IRequesterOptions once package has
+             * been published.
+             */
             headers: customHeaders as any,
             rejectUnauthorized: !this._options.ignoreHTTPSErrors
         });
