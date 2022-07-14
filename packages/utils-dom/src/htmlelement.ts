@@ -375,4 +375,48 @@ export class HTMLElement extends Node {
     public resolveUrl(url: string) {
         return this.ownerDocument.resolveUrl(url);
     }
+
+    /**
+     * Non-standard.
+     * Retrieves the newline type (\n, \r\n) of the element and the indent level of its child element
+     * Elements that exist only on one line will have empty strings for newlineType and indent.
+     */
+    public getChildIndent(): {indent: string; newlineType: string} {
+        const newlineType = this.outerHTML.indexOf('\r\n') === -1 ? '\n' : '\r\n';
+        const splitByLine = this.outerHTML.split(newlineType);
+
+        if (splitByLine.length === 1) {
+            return {indent: '', newlineType: ''};
+        }
+
+        if (splitByLine.length === 2) {
+            const lastLine = splitByLine[splitByLine.length - 1];
+            const nonSpaceInd = lastLine.search(/[^ ]/);
+            // Add two spaces for child indent.
+            const indent = `${lastLine.substring(0, nonSpaceInd)}  `;
+
+            return {indent, newlineType};
+        }
+        const childLine = splitByLine[1];
+        const nonSpaceInd = childLine.search(/[^ ]/);
+
+        return {indent: childLine.substring(0, nonSpaceInd), newlineType};
+    }
+
+    /**
+     * Non-standard.
+     * This helper method takes in a string (presumably representing an HTML element) and returns the resulting outerHTML text
+     * after inserting it as the first child element.
+     * removeExistingInstance is an optional boolean used if the inserted element exists as a child and we want to move it to the first child spot.
+     * This method is used to help create insertion CodeFix objects.
+     */
+    public prependChildOuterHtml(child: string, removeExistingInstance?: boolean): string {
+        const tag = `<${this._element.name}>`;
+        const childIndent = this.getChildIndent();
+        const outerHTML = removeExistingInstance ? this.outerHTML.replace(child, '') : this.outerHTML;
+        const childInsertionInd = outerHTML.indexOf(tag) + tag.length;
+        const newLineWithIndent = childIndent?.newlineType && childIndent?.indent ? `${childIndent?.newlineType}${childIndent?.indent}` : '';
+
+        return outerHTML.substring(0, childInsertionInd) + newLineWithIndent + child + outerHTML.substring(childInsertionInd);
+    }
 }
