@@ -16,6 +16,7 @@
     "@hint/utils-fs": "^1.0.14",
     "@hint/utils-network": "^1.0.19",
     "@hint/utils-types": "^1.1.7",
+    "https": "^1.0.0",
     "jsdom": "^19.0.0",
     "mutationobserver-shim": "^0.3.7"
   },
