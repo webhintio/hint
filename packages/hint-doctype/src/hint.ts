@@ -5,7 +5,7 @@
 import * as os from 'os';
 
 import { HintContext, IHint } from 'hint';
-import { ProblemLocation, Severity } from '@hint/utils-types';
+import { CodeFix, ProblemLocation, Severity } from '@hint/utils-types';
 import { HTMLEvents, HTMLParse } from '@hint/parser-html';
 
 import { MatchInformation } from './types';
@@ -41,14 +41,11 @@ export default class implements IHint {
                 const matched = doctypeRegExp.exec(line);
 
                 if (matched) {
-                    let endLine, endColumn;
-
                     const doctypeText = matched[1];
+                    let endLine = i;
+                    let endColumn = matched.index;
 
                     if (doctypeText) {
-                        endColumn = matched.index;
-                        endLine = i;
-
                         for (const letter of doctypeText) {
                             if (letter === '\n' || letter === '\r\n') {
                                 endLine++;
@@ -84,7 +81,7 @@ export default class implements IHint {
             }
 
             if (!doctypeFlexibleRegExp.exec(content)) {
-                const fixes: {location: ProblemLocation; text: string}[] = [
+                const fixes: CodeFix[] = [
                     {
                         location: {
                             column: 0,
@@ -111,7 +108,7 @@ export default class implements IHint {
 
             const severity = standards ? Severity.warning : Severity.error;
 
-            const fixes: {location: ProblemLocation; text: string}[] = [
+            const fixes: CodeFix[] = [
                 {
                     location: {
                         column: 0,
@@ -149,7 +146,7 @@ export default class implements IHint {
                 return;
             }
 
-            const fixes: {location: ProblemLocation; text: string}[] = [
+            const fixes: CodeFix[] = [
                 {
                     location: {
                         column: 0,
@@ -188,8 +185,7 @@ export default class implements IHint {
             if (!matchInfo.matches || matchInfo.matches.length < 2) {
                 return;
             }
-
-            const fixes: {location: ProblemLocation; text: string}[] = [];
+            const fixes: CodeFix[] = [];
 
             for (let i = matchInfo.locations.length - 1; i > 0; i--) {
                 const fix = {
