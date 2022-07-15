@@ -75,7 +75,7 @@ const configCheckerMessages = {
 const htmlCheckerMock = (response: any) => {
     return {
         '@hint/utils-network': {
-            requestAsync(scanOptions: any) {
+            requestAsync(url: string, scanOptions: any) {
                 let responseMessages;
 
                 if (response.pass) { // No errors/warnings are detected in the target html
@@ -83,7 +83,7 @@ const htmlCheckerMock = (response: any) => {
                 }
 
                 if (response.error) { // Errors/warnings are detected in the target html
-                    const isDefaultChecker = scanOptions.url === defaultValidator;
+                    const isDefaultChecker = url === defaultValidator;
 
                     responseMessages = isDefaultChecker ? defaultCheckerMessages : configCheckerMessages;
 

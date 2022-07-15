@@ -4,9 +4,8 @@ import { requestAsync } from './request-async';
 export const requestJSONAsync = (uri: string, options: object): Promise<any> => {
     const params = {
         headers: { 'Content-Type': 'application/json' },
-        uri,
         ...options
     };
 
-    return requestAsync(params);
+    return requestAsync(uri, params);
 };

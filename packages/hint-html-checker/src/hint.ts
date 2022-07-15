@@ -145,7 +145,7 @@ export default class HtmlCheckerHint implements IHint {
             const delay = (await import('@hint/utils')).delay;
 
             try {
-                return await requestAsync(options);
+                return await requestAsync(options.url.toString(), options);
             } catch (e) {
                 if (retries === 0) {
                     throw e;
