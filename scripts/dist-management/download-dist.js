@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const request = require('request');
+const fetch = require('node-fetch');
 const unzipper = require('unzipper');
 
 const { exec } = require('../utils/exec');
@@ -52,23 +52,23 @@ const download = (fileName) => {
     const file = fs.createWriteStream(fileName);
 
     return new Promise((resolve, reject) => {
-
-        request(`https://github.com/webhintio/hint/releases/download/dist/${fileName}`, (err, res) => {
-            if (err) {
-                reject(err);
-
-                return;
-            }
-
+        try {
+            const res = await fetch(`https://github.com/webhintio/hint/releases/download/dist/${fileName}`);
+            // [vidorteg] validate this pipe.
+            res.pipe(file);
+            resolve();
             if (res.statusCode !== 200) {
                 reject(new Error(`Artifacts for ${fileName} aren't available`));
 
                 return;
             }
-        })
-            .pipe(file)
-            .on('finish', resolve)
-            .on('error', reject);
+
+
+        } catch(err) {
+            reject(err);
+
+            return;
+        }
     });
 };
 
