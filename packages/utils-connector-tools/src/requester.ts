@@ -242,23 +242,30 @@ export class Requester {
             requestedUrls.add(uriString);
             return new Promise(async (resolve: Function, reject: Function) => {
                 try {
-                    if (this._options.strictSSL) {
+
+                    // [vidorteg] Still deciding if it should be here or on the caller.
+                    let isHTTPS = false;
+                    if (uriString.startsWith('https')) {
+                        isHTTPS = true;
+                    }
+
+                    if (this._options.strictSSL || isHTTPS) {
                         let httpsAgentOptions;
-    
+
+                        // This might be set explicitely to false, so we need to validate only if it has a value.
                         if (this._options.rejectUnauthorized !== undefined) {
                             httpsAgentOptions = {rejectUnauthorized: this._options.rejectUnauthorized};
-                            delete this._options.rejectUnauthorized;
                         }
-    
+
                         const httpsAgent = new https.Agent(httpsAgentOptions);
-    
+
                         this._options.agent = httpsAgent;
                     }
-    
+
                     const response = await fetch(uriString, this._options);
-    
+
                     rawBodyResponse = await response.buffer();
-    
+
                     // We check if we need to redirect and call ourselves again with the new target
                     if (Requester.validRedirects.includes(response.status)) {
                         if (!response.headers.get('location')) {
@@ -266,29 +273,29 @@ export class Requester {
                                 error: new Error('Redirect location undefined'),
                                 uri: uriString
                             };
-    
+
                             return reject(error);
                         }
-    
+
                         const newUri = url.resolve(uriString, response.headers.get('location') as string);
-    
+
                         if (requestedUrls.has(newUri)) {
                             return reject(new Error(`'${uriString}' could not be fetched using ${this._options.method || 'GET'} method (redirect loop detected).`));
                         }
-    
+
                         this._redirects.add(newUri, uriString);
                         console.log(`redirects`, newUri);
-    
+
                         const currentRedirectNumber = this._redirects.calculate(newUri).length;
-    
+
                         console.log(`currentRedirectNumber`, currentRedirectNumber);
-    
+
                         if (currentRedirectNumber > this._maxRedirects) {
                             return reject(new Error(`The number of redirects(${currentRedirectNumber}) exceeds the limit(${this._maxRedirects}).`));
                         }
-    
+
                         debug(`Redirect found for ${uriString}`);
-    
+
                         try{
                             const results = await getUri(newUri);
                             return resolve(results);
@@ -296,16 +303,16 @@ export class Requester {
                             return reject(e);
                         }
                     }
-    
+
                     const responseHeaders: HttpHeaders = {};
                     let requestHeaders: HttpHeaders = {};
-    
+
                     Array.from(response.headers, ([name, value]) => {
                         responseHeaders[name] = value;
-    
+
                         return {name, value};
                     });
-    
+
                     if (this._options.headers) {
                         if (this._options.headers.entries) {
                             let castedHeaders = (this._options.headers.entries as Function)();
@@ -318,7 +325,7 @@ export class Requester {
                             requestHeaders = this._options.headers as HttpHeaders;
                         }
                     }
-    
+
                     const contentEncoding: string | null = normalizeHeaderValue(responseHeaders, 'content-encoding');
                     const rawBody: Buffer | null = await this.decompressResponse(contentEncoding, rawBodyResponse);
                     const contentTypeData = await getContentTypeData(null, uri, responseHeaders, rawBody as Buffer);
@@ -326,7 +333,7 @@ export class Requester {
                     const mediaType = contentTypeData.mediaType || '';
                     const hops: string[] = this._redirects.calculate(uriString);
                     const body: string | null = rawBody && iconv.encodingExists(charset) ? iconv.decode(rawBody, charset) : null;
-    
+
                     const networkData: NetworkData = {
                         request: {
                             headers: requestHeaders,
@@ -348,7 +355,7 @@ export class Requester {
                             url: uriString
                         }
                     };
-    
+
                     return resolve(networkData);
                 } catch (err) {
                     const error = {

@@ -30,7 +30,7 @@ test('requestAsync should works if the request works', async (t) => {
 
     t.plan(1);
     try {
-        const result = await requestAsync({ url: 'https://example.com' });
+        const result = await requestAsync('https://example.com');
 
         t.is(result, 'result');
     } catch (err) {

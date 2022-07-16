@@ -1,8 +1,6 @@
 import * as path from 'path';
-import { promisify } from 'util';
 import * as fs from 'fs';
-
-import * as req from 'request';
+import fetch from 'node-fetch';
 
 import { compile } from 'json-schema-to-typescript';
 
@@ -10,8 +8,6 @@ type Transform = {
     pattern: string;
     replacement: string;
 } | ((content: string, location: string) => Promise<string> | string);
-
-const request = promisify(req) as (options: req.OptionsWithUrl) => Promise<req.Response>;
 
 const cleanSchemaObject = (obj: any) => {
     if (!obj || typeof obj !== 'object') {
@@ -38,13 +34,15 @@ const cleanSchemaObject = (obj: any) => {
 const inlineRemoteRefs = async (json: any): Promise<void> => {
     for (const entry of json.allOf) {
         if (entry.$ref && entry.$ref.startsWith('https://')) {
-            const res = await request({ url: entry.$ref }) as req.Response;
+            const res = await fetch(entry.$ref);
 
-            if (res.body.message) {
-                throw new Error(res.body.message);
-            }
-
-            const refJson = JSON.parse(res.body);
+            /**
+             * [vidorteg] validate if this is needed
+             * if (res.body.message) {
+             *      throw new Error(res.body.message);
+             * }
+             */
+            const refJson = await res.json();
 
             json.properties = { ...json.properties, ...refJson.properties };
             json.definitions = { ...json.definitions, ...refJson.definitions };
@@ -90,13 +88,16 @@ const replaceId = (content: string, location: string): string => {
 };
 
 const downloadFile = async (downloadURL: string, downloadLocation: string, transforms: Transform[] = []) => {
-    const res = await request({ url: downloadURL }) as req.Response;
+    const res = await fetch(downloadURL);
 
-    if (res.body.message) {
-        throw new Error(res.body.message);
-    }
+    /**
+     * [vidorteg] validate if this is needed
+     * if (res.body.message) {
+     *      throw new Error(res.body.message);
+     * }
+     */
 
-    let body = res.body as string;
+    let body = await res.text();
 
     for (const transform of transforms) {
         if (typeof transform === 'function') {

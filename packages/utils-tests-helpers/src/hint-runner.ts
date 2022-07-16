@@ -544,6 +544,9 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
             const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
 
             engine = await createConnector(t, hintTest, connector);
+
+
+            // [vidorteg] if config.https is true this should be passing isStricSSL as an option.
             const results = await engine.executeOn(new URL(target));
 
             const sources = new Map<string, string>();

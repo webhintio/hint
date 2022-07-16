@@ -14,8 +14,7 @@ import { Severity } from '@hint/utils-types';
 import { isRegularProtocol } from '@hint/utils-network';
 import { HTMLElement } from '@hint/utils-dom';
 import { debug as d } from '@hint/utils-debug';
-import { Requester } from '@hint/utils-connector-tools';
-import { CoreOptions } from 'request';
+import { IRequestOptions, Requester } from '@hint/utils-connector-tools';
 
 import meta from './meta';
 import { getMessage } from './i18n.import';
@@ -33,7 +32,7 @@ export default class NoBrokenLinksHint implements IHint {
 
     public constructor(context: HintContext) {
 
-        const options: CoreOptions = { method: context.hintOptions && context.hintOptions.method ? context.hintOptions.method : 'GET' };
+        const options: IRequestOptions = { method: context.hintOptions && context.hintOptions.method ? context.hintOptions.method : 'GET' };
         const requester = new Requester(options);
         const brokenStatusCodes = [404, 410, 500, 503];
 
