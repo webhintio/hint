@@ -2,7 +2,7 @@ import test from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-test('requestAsync should fails if the request fails', async (t) => {
+test.only('requestAsync should fails if the request fails', async (t) => {
 
     const fetchStub = sinon.stub();
     const { requestAsync } = proxyquire('../src/request-async', {'node-fetch': { default: fetchStub }});
@@ -14,7 +14,7 @@ test('requestAsync should fails if the request fails', async (t) => {
 
     t.plan(1);
     try {
-        await requestAsync();
+        await requestAsync('https://example.com');
     } catch (err) {
         t.is(err, expectedError);
     }

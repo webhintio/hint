@@ -16,6 +16,7 @@
     "@hint/utils-types": "^1.2.0",
     "content-type": "^1.0.4",
     "lodash": "^4.17.21",
+    "https": "^1.0.0",
     "node-fetch": "2"
   },
   "description": "utils for network",

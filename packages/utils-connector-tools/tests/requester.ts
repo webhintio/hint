@@ -2,6 +2,7 @@ import { promisify } from 'util';
 import * as zlib from 'zlib';
 
 import * as iconv from 'iconv-lite';
+import * as proxyquire from 'proxyquire';
 import anyTest, { TestFn, ExecutionContext } from 'ava';
 import { Server } from '@hint/utils-create-server';
 import { NetworkData } from 'hint';
@@ -241,8 +242,8 @@ test(`Aborts the request if it exceeds the time limit to get response`, async (t
     try {
         await timeoutRequester.get(`http://localhost:${server.port}/timeout`) as NetworkData;
     } catch (e) {
-        t.is((e as any).type, 'request-timeout');
-        t.is((e as any).message, `network timeout at: http://localhost:${server.port}/timeout`);
+        t.is((e as any).error.type, 'request-timeout');
+        t.is((e as any).error.message, `network timeout at: http://localhost:${server.port}/timeout`);
     }
 
     await server.stop();
@@ -276,6 +277,45 @@ test(`Requester returns and exception if a loop is detected after few redirects`
     } catch (e) {
         t.is((e as Error).message, `'http://localhost:${server.port}/hop303' could not be fetched using GET method (redirect loop detected).`);
     }
+
+    await server.stop();
+});
+
+test(`Requester fails if an invalid protocol is used in the config`, async (t) => {
+    const requester = new Requester({ rejectUnauthorized: false, strictSSL: true });
+    const server = await Server.create({ configuration: hopsServerConfig });
+
+    try {
+        await requester.get(`http://localhost:${server.port}/hop301`) as NetworkData;
+    } catch (e) {
+        t.is((e as any).error.code, `ERR_INVALID_PROTOCOL`);
+    }
+
+    await server.stop();
+});
+
+test(`Requester data request are sucessfully processed`, async (t) => {
+    const server = await Server.create({ configuration: hopsServerConfig });
+
+    const script = proxyquire('../src/requester', {
+        'data-urls': () => {
+            return {
+                body: 'test',
+                mimeType: {
+                    parameters: {
+                        get: () => {
+                            '';
+                        }
+                    }
+                }
+            };
+        }
+    });
+
+    const requester = new script.Requester();
+    const result = await requester.get(`data://fa.il`) as NetworkData;
+
+    t.is(result.response.body.content, 'test');
 
     await server.stop();
 });

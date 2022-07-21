@@ -162,7 +162,6 @@ export class Requester {
     public constructor(customOptions?: IRequestOptions) {
         if (customOptions) {
             customOptions.redirect = 'manual';
-            customOptions.rejectUnauthorized = false;
             if (customOptions.follow && customOptions.follow >= 0) {
                 this._maxRedirects = customOptions.follow;
             }
@@ -236,15 +235,15 @@ export class Requester {
 
         const requestedUrls: Set<string> = new Set();
 
-        const getUri = async (uriString: string): Promise<NetworkData> => {
+        const getUri = (uriString: string): Promise<NetworkData> => {
             let rawBodyResponse: Buffer;
 
             requestedUrls.add(uriString);
+
             return new Promise(async (resolve: Function, reject: Function) => {
                 try {
-
-                    // [vidorteg] Still deciding if it should be here or on the caller.
                     let isHTTPS = false;
+
                     if (uriString.startsWith('https')) {
                         isHTTPS = true;
                     }
@@ -296,10 +295,11 @@ export class Requester {
 
                         debug(`Redirect found for ${uriString}`);
 
-                        try{
+                        try {
                             const results = await getUri(newUri);
+
                             return resolve(results);
-                        } catch(e){
+                        } catch (e){
                             return reject(e);
                         }
                     }
@@ -315,7 +315,8 @@ export class Requester {
 
                     if (this._options.headers) {
                         if (this._options.headers.entries) {
-                            let castedHeaders = (this._options.headers.entries as Function)();
+                            const castedHeaders = (this._options.headers.entries as Function)();
+
                             for (const [key, value] of castedHeaders) {
                                 if (typeof value === 'string') {
                                     requestHeaders[key] = value;

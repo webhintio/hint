@@ -54,6 +54,7 @@ const download = (fileName) => {
     return new Promise((resolve, reject) => {
         try {
             const res = await fetch(`https://github.com/webhintio/hint/releases/download/dist/${fileName}`);
+
             // [vidorteg] validate this pipe.
             res.pipe(file);
             resolve();
@@ -62,9 +63,7 @@ const download = (fileName) => {
 
                 return;
             }
-
-
-        } catch(err) {
+        } catch (err) {
             reject(err);
 
             return;
