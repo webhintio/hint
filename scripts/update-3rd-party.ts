@@ -89,7 +89,7 @@ const downloadFile = async (downloadURL: string, downloadLocation: string, trans
     const res = await fetch(downloadURL);
 
     if (res.body && (res.body as any).message) {
-      throw new Error((res.body as any).message);
+        throw new Error((res.body as any).message);
     }
 
     let body = await res.text();
