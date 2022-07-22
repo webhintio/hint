@@ -36,12 +36,10 @@ const inlineRemoteRefs = async (json: any): Promise<void> => {
         if (entry.$ref && entry.$ref.startsWith('https://')) {
             const res = await fetch(entry.$ref);
 
-            /**
-             * [vidorteg] validate if this is needed
-             * if (res.body.message) {
-             *      throw new Error(res.body.message);
-             * }
-             */
+            if (res.body && (res.body as any).message) {
+                throw new Error((res.body as any).message);
+            }
+
             const refJson = await res.json();
 
             json.properties = { ...json.properties, ...refJson.properties };
@@ -90,12 +88,9 @@ const replaceId = (content: string, location: string): string => {
 const downloadFile = async (downloadURL: string, downloadLocation: string, transforms: Transform[] = []) => {
     const res = await fetch(downloadURL);
 
-    /**
-     * [vidorteg] validate if this is needed
-     * if (res.body.message) {
-     *      throw new Error(res.body.message);
-     * }
-     */
+    if (res.body && (res.body as any).message) {
+      throw new Error((res.body as any).message);
+    }
 
     let body = await res.text();
 
