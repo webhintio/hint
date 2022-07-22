@@ -18,10 +18,10 @@
   },
   "description": "hint to validate if the HTML, CSS, and JavaScript APIs of the project are deprecated or not broadly supported",
   "devDependencies": {
-    "@hint/parser-css": "^3.0.33",
-    "@hint/utils-create-server": "^3.4.20",
+    "@hint/parser-css": "^3.0.34",
+    "@hint/utils-create-server": "^3.4.21",
     "@hint/utils-dom": "^2.2.0",
-    "@hint/utils-tests-helpers": "^6.5.0",
+    "@hint/utils-tests-helpers": "^6.5.1",
     "@types/lodash": "^4.14.181",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -81,5 +81,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.5.0"
+  "version": "4.5.1"
 }

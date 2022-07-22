@@ -1,3 +1,10 @@
+# 1.0.26 (July 22, 2022)
+
+## Chores
+
+* [[`28faa1f672`](https://github.com/webhintio/hint/commit/28faa1f672fa9aeb937dddbf05e1676fa7331650)] - Upgrade: Bump postcss-scss from 4.0.3 to 4.0.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5238`](https://github.com/webhintio/hint/issues/5238)).
+
+
 # 1.0.23 (May 3, 2022)
 
 ## Chores

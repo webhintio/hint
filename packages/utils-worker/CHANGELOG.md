@@ -1,3 +1,10 @@
+# 1.4.4 (July 22, 2022)
+
+## Chores
+
+* [[`d50679a075`](https://github.com/webhintio/hint/commit/d50679a075d5e866e3c1947b08fbd50f12c2deb1)] - Upgrade: Bump terser-webpack-plugin from 5.3.1 to 5.3.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5240`](https://github.com/webhintio/hint/issues/5240)).
+
+
 # 1.4.1 (June 6, 2022)
 
 ## Chores

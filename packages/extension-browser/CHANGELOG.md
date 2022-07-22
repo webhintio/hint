@@ -1,3 +1,12 @@
+# 2.4.5 (July 22, 2022)
+
+## Chores
+
+* [[`d50679a075`](https://github.com/webhintio/hint/commit/d50679a075d5e866e3c1947b08fbd50f12c2deb1)] - Upgrade: Bump terser-webpack-plugin from 5.3.1 to 5.3.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5240`](https://github.com/webhintio/hint/issues/5240)).
+* [[`132fe7c00d`](https://github.com/webhintio/hint/commit/132fe7c00dd856c5029c9e8c8d9d60fe1b2bf59d)] - Upgrade: Bump typed-css-modules from 0.7.0 to 0.7.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5237`](https://github.com/webhintio/hint/issues/5237)).
+* [[`6a70de2283`](https://github.com/webhintio/hint/commit/6a70de2283b67b3a81b864c7087d81fe752b1150)] - Upgrade: Bump react-dom and @types/react-dom (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5234`](https://github.com/webhintio/hint/issues/5234)).
+
+
 # 2.4.2 (June 7, 2022)
 
 ## Bug fixes / Improvements

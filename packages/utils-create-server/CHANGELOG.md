@@ -1,3 +1,10 @@
+# 3.4.21 (July 22, 2022)
+
+## Chores
+
+* [[`cded682a5b`](https://github.com/webhintio/hint/commit/cded682a5b5a8a91d485593a48dfcd394f2f3fc3)] - Upgrade: Bump express from 4.17.3 to 4.18.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5233`](https://github.com/webhintio/hint/issues/5233)).
+
+
 # 3.4.17 (May 3, 2022)
 
 ## Chores

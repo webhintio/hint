@@ -10,7 +10,7 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.18",
+    "@hint/utils": "^7.0.19",
     "@hint/utils-string": "^1.0.12",
     "postcss": "^8.4.13",
     "postcss-safe-parser": "^6.0.0"
@@ -77,5 +77,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.33"
+  "version": "3.0.34"
 }

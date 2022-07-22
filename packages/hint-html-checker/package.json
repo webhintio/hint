@@ -9,17 +9,17 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.18",
+    "@hint/utils": "^7.0.19",
     "@hint/utils-debug": "^1.0.10",
     "@hint/utils-i18n": "^1.0.13",
-    "@hint/utils-network": "^1.0.20",
+    "@hint/utils-network": "^1.0.21",
     "@hint/utils-types": "^1.2.0",
     "lodash": "^4.17.21"
   },
   "description": "hint that that validates HTML pages using the Nu HTML checker",
   "devDependencies": {
     "@hint/parser-html": "^3.1.0",
-    "@hint/utils-tests-helpers": "^6.5.0",
+    "@hint/utils-tests-helpers": "^6.5.1",
     "@types/node": "^17.0.14",
     "@types/request": "^2.48.8",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -78,5 +78,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.3.20"
+  "version": "3.3.21"
 }

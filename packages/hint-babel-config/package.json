@@ -15,8 +15,8 @@
   },
   "description": "hint that that checks if the Babel configuration is valid.",
   "devDependencies": {
-    "@hint/parser-babel-config": "^2.1.36",
-    "@hint/utils-tests-helpers": "^6.5.0",
+    "@hint/parser-babel-config": "^2.1.37",
+    "@hint/utils-tests-helpers": "^6.5.1",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.21"
+  "version": "2.4.22"
 }
