@@ -51,7 +51,7 @@ const repoClean = async () => {
 const download = (fileName) => {
     const file = fs.createWriteStream(fileName);
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             const res = await fetch(`https://github.com/webhintio/hint/releases/download/dist/${fileName}`);
 
