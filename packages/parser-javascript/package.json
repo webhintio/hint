@@ -9,7 +9,7 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.18",
+    "@hint/utils": "^7.0.19",
     "@hint/utils-debug": "^1.0.10",
     "@types/estree-jsx": "^0.0.1",
     "acorn": "^8.7.1",
@@ -79,5 +79,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.19"
+  "version": "3.1.20"
 }

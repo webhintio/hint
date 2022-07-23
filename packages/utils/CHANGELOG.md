@@ -1,3 +1,10 @@
+# 7.0.19 (July 22, 2022)
+
+## Chores
+
+* [[`ea2f3d810b`](https://github.com/webhintio/hint/commit/ea2f3d810b2f3fb303174b2a59174bea7eb2b667)] - Upgrade: Bump @types/semver from 7.3.9 to 7.3.10 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5241`](https://github.com/webhintio/hint/issues/5241)).
+
+
 # 7.0.17 (June 6, 2022)
 
 ## Chores

@@ -1,3 +1,10 @@
+# 2.1.1 (July 22, 2022)
+
+## Chores
+
+* [[`e7f3be8dd8`](https://github.com/webhintio/hint/commit/e7f3be8dd8a5f2b5a948483f4f88d02bec4ea312)] - Upgrade: Bump vscode-languageserver-textdocument from 1.0.4 to 1.0.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5239`](https://github.com/webhintio/hint/issues/5239)).
+
+
 # 2.1.0 (July 7, 2022)
 
 ## New features
