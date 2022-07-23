@@ -1,3 +1,10 @@
+# 2.1.2 (July 22, 2022)
+
+## Bug fixes / Improvements
+
+* [[`6a9e67a288`](https://github.com/webhintio/hint/commit/6a9e67a288c66ba2a8a6794ec77b436b3f763b39)] - Fix: Fixes an issue were dist folder was being ignored by npm pack. (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5262`](https://github.com/webhintio/hint/issues/5262)).
+
+
 # 2.1.1 (July 22, 2022)
 
 ## Chores

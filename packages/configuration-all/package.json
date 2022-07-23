@@ -8,7 +8,7 @@
     "@hint/connector-local": "^3.2.22",
     "@hint/connector-puppeteer": "^2.5.19",
     "@hint/extension-browser": "^2.4.5",
-    "vscode-webhint": "^2.1.1",
+    "vscode-webhint": "^2.1.2",
     "@hint/formatter-codeframe": "^3.1.31",
     "@hint/formatter-excel": "^3.1.31",
     "@hint/formatter-html": "^4.3.12",
@@ -93,5 +93,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "3.0.4"
+  "version": "3.0.5"
 }
