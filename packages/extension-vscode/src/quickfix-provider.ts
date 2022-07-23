@@ -78,7 +78,6 @@ export class QuickFixActionProvider {
          * TODO: link to diagnostic once https://github.com/microsoft/vscode/issues/126393 is fixed
          * action.diagnostics = [diagnostic];
          */
-
         return action;
     }
 
