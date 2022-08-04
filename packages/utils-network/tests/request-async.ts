@@ -2,31 +2,38 @@ import test from 'ava';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-test('requestAsync should fails if the request fails', async (t) => {
-    const requestStub = sinon.stub();
-    const { requestAsync } = proxyquire('../src/request-async', { request: requestStub });
+test.only('requestAsync should fails if the request fails', async (t) => {
 
-    requestStub.callsFake((options, callback) => {
-        callback('error');
+    const fetchStub = sinon.stub();
+    const { requestAsync } = proxyquire('../src/request-async', {'node-fetch': { default: fetchStub }});
+    const expectedError = new Error('expected error');
+
+    fetchStub.callsFake((options) => {
+        throw expectedError;
     });
 
     t.plan(1);
     try {
-        await requestAsync();
+        await requestAsync('https://example.com');
     } catch (err) {
-        t.is(err, 'error');
+        t.is(err, expectedError);
     }
 });
 
 test('requestAsync should works if the request works', async (t) => {
-    const requestStub = sinon.stub();
-    const { requestAsync } = proxyquire('../src/request-async', { request: requestStub });
+    const fetchStub = sinon.stub();
+    const { requestAsync } = proxyquire('../src/request-async', {'node-fetch': { default: fetchStub }});
 
-    requestStub.callsFake((options, callback) => {
-        callback(null, null, 'result');
+    fetchStub.callsFake((options) => {
+        return { body: 'result' };
     });
 
-    const result = await requestAsync({ url: 'https://example.com' });
+    t.plan(1);
+    try {
+        const result = await requestAsync('https://example.com');
 
-    t.is(result, 'result');
+        t.is(result, 'result');
+    } catch (err) {
+        t.fail(`Not expecting an exception: ${err}`);
+    }
 });

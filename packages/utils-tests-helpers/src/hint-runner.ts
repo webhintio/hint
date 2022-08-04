@@ -143,10 +143,9 @@ const requestSource = async (url: string, connector: string): Promise<string> =>
          * Allow us to use our self-signed cert for testing.
          * https://github.com/request/request/issues/418#issuecomment-23058601
          */
-        return await requestAsync({
+        return await requestAsync(url, {
             rejectUnauthorized: false,
-            strictSSL: false,
-            url
+            strictSSL: false
         });
     } catch (e) {
         // Some tests deliberately use invalid URLs (e.g. `test:`).
@@ -545,6 +544,7 @@ export const testHint = (hintId: string, hintTests: HintTest[], configs: { [key:
             const target = serverUrl ? serverUrl : `${configs.https ? 'https' : 'http'}://localhost:${server.port}/`;
 
             engine = await createConnector(t, hintTest, connector);
+
             const results = await engine.executeOn(new URL(target));
 
             const sources = new Map<string, string>();

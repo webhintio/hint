@@ -415,11 +415,10 @@ export default class SRIHint implements IHint {
         }
 
         try {
-            response.body.content = await requestAsync({
-                gzip: true,
+            response.body.content = await requestAsync(resource, {
+                headers: {'content-encoding': 'gzip'},
                 method: 'GET',
-                rejectUnauthorized: false,
-                url: resource
+                rejectUnauthorized: false
             });
 
             return true;

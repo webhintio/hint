@@ -54,6 +54,7 @@ const debug: debug.IDebugger = d(__filename);
 
 const defaultOptions = {
     ignoreHTTPSErrors: false,
+    strictSSL: false,
     waitFor: 5000
 };
 
@@ -90,9 +91,12 @@ export default class JSDOMConnector implements IConnector {
 
         const requesterOptions = {
             rejectUnauthorized: !this._options.ignoreHTTPSErrors,
-            strictSSL: !this._options.ignoreHTTPSErrors,
             ...this._options.requestOptions || {}
         };
+
+        if (this._options.strictSSL && this._options.ignoreHTTPSErrors) {
+            this._options.strictSSL = false;
+        }
 
         this.request = new Requester(requesterOptions);
         this.server = server;
@@ -127,9 +131,12 @@ export default class JSDOMConnector implements IConnector {
         }
 
         const r: Requester = new Requester({
-            headers: customHeaders,
-            rejectUnauthorized: !this._options.ignoreHTTPSErrors,
-            strictSSL: !this._options.ignoreHTTPSErrors
+            /*
+             * TODO: Can be strong typed with IRequesterOptions once package has
+             * been published.
+             */
+            headers: customHeaders as any,
+            rejectUnauthorized: !this._options.ignoreHTTPSErrors
         });
 
         return r.get(uri);
