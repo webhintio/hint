@@ -4,6 +4,7 @@ import { HTMLElement } from '@hint/utils-dom';
 import { CanEvaluateScript } from 'hint/dist/src/lib/types';
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 import { Severity } from '@hint/utils-types';
+import { getAsUri } from '@hint/utils-network';
 
 import { getMessage } from '../i18n.import';
 
@@ -137,6 +138,20 @@ const withQuotes = (ruleId: string) => {
 const evaluateAxe = async (context: HintContext, event: CanEvaluateScript, rules: string[]): Promise<AxeResults | null> => {
     const { document, resource } = event;
 
+    /**
+     * iframes scan is ignored for local files due to error:
+     * 'allowedOrigins value "null" is not a valid origin'
+     *
+     * This is caused by an axe-core bug which is currently tracked here:
+     * https://github.com/dequelabs/axe-core/issues/3002
+     */
+    let shouldScanIframes = true;
+    const uri = getAsUri(resource);
+
+    if (uri && uri.protocol.includes('file')) {
+        shouldScanIframes = false;
+    }
+
     /* istanbul ignore next */
     try {
         const target = document.isFragment ?
@@ -147,6 +162,7 @@ const evaluateAxe = async (context: HintContext, event: CanEvaluateScript, rules
             ${source}
             var target = ${target};
             return window.axe.run(target, {
+                iframes: ${shouldScanIframes},
                 runOnly: {
                     type: 'rule',
                     values: [${rules.map(withQuotes).join(',')}]
