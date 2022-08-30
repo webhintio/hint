@@ -14,7 +14,7 @@
     "@hint/utils-i18n": "^1.0.13",
     "@hint/utils-network": "^1.0.21",
     "@hint/utils-types": "^1.2.0",
-    "got": "^11.8.3"
+    "got": "^11.8.5"
   },
   "description": "hint that that checks using SSL Labs for best practices related to the website's SSL configuration",
   "devDependencies": {
