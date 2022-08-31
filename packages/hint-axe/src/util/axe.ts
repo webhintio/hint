@@ -145,12 +145,8 @@ const evaluateAxe = async (context: HintContext, event: CanEvaluateScript, rules
      * This is caused by an axe-core bug which is currently tracked here:
      * https://github.com/dequelabs/axe-core/issues/3002
      */
-    let shouldScanIframes = true;
     const uri = getAsUri(resource);
-
-    if (uri && uri.protocol.includes('file')) {
-        shouldScanIframes = false;
-    }
+    const shouldScanIframes = !(uri && uri.protocol.includes('file'));
 
     /* istanbul ignore next */
     try {

@@ -10,7 +10,7 @@
     "timeout": "1m",
     "workerThreads": false
   },
-  "bundleSize": 2600000,
+  "bundleSize": 2560000,
   "description": "webhint web worker",
   "devDependencies": {
     "@hint/hint-axe": "^4.4.15",
