@@ -19,13 +19,15 @@
         "functions_new": [],
         "id": "SNYK-JS-ANGULARCORE-1070902",
         "identifiers": {
-          "CVE": [],
+          "CVE": [
+            "CVE-2021-4231"
+          ],
           "CWE": [
             "CWE-79"
           ]
         },
         "language": "js",
-        "modificationTime": "2021-03-19T14:43:52.945601Z",
+        "modificationTime": "2022-05-26T13:56:40.369610Z",
         "moduleName": "@angular/core",
         "packageManager": "npm",
         "packageName": "@angular/core",
@@ -2177,6 +2179,54 @@
       }
     ],
     "auth0-lock": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "alternativeIds": [],
+        "creationTime": "2022-05-25T14:56:00.084172Z",
+        "credit": [
+          "Unknown"
+        ],
+        "cvssScore": 6.1,
+        "disclosureTime": "2022-05-24T20:49:20Z",
+        "exploit": "Not Defined",
+        "fixedIn": [
+          "11.33.0"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-AUTH0LOCK-2847911",
+        "identifiers": {
+          "CVE": [
+            "CVE-2022-29172"
+          ],
+          "CWE": [
+            "CWE-79"
+          ],
+          "GHSA": [
+            "GHSA-7ww6-75fj-jcj7"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2022-05-25T15:15:00.778756Z",
+        "moduleName": "auth0-lock",
+        "packageManager": "npm",
+        "packageName": "auth0-lock",
+        "patches": [],
+        "publicationTime": "2022-05-25T15:15:00.776677Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/auth0/lock/commit/79ae557d331274b114848150f19832ae341771b1"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<11.33.0"
+          ]
+        },
+        "severity": "medium",
+        "title": "Cross-site Scripting (XSS)"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:N",
         "alternativeIds": [],
@@ -12873,7 +12923,7 @@
           ]
         },
         "language": "js",
-        "modificationTime": "2022-04-05T12:28:03.402499Z",
+        "modificationTime": "2022-05-25T11:18:25.335427Z",
         "moduleName": "lodash",
         "packageManager": "npm",
         "packageName": "lodash",
@@ -19663,6 +19713,59 @@
       }
     ],
     "protobufjs": [
+      {
+        "CVSSv3": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:L/E:P",
+        "alternativeIds": [],
+        "creationTime": "2022-04-06T10:16:44.649174Z",
+        "credit": [
+          "Alessio Della Libera from Snyk"
+        ],
+        "cvssScore": 8.2,
+        "disclosureTime": "2022-04-06T09:47:52Z",
+        "exploit": "Proof of Concept",
+        "fixedIn": [
+          "6.11.3"
+        ],
+        "functions": [],
+        "functions_new": [],
+        "id": "SNYK-JS-PROTOBUFJS-2441248",
+        "identifiers": {
+          "CVE": [
+            "CVE-2022-25878"
+          ],
+          "CWE": [
+            "CWE-1321"
+          ]
+        },
+        "language": "js",
+        "modificationTime": "2022-05-23T13:17:16.063818Z",
+        "moduleName": "protobufjs",
+        "packageManager": "npm",
+        "packageName": "protobufjs",
+        "patches": [],
+        "publicationTime": "2022-05-23T13:17:16.061955Z",
+        "references": [
+          {
+            "title": "GitHub Commit",
+            "url": "https://github.com/protobufjs/protobuf.js/commit/b5f1391dff5515894830a6570e6d73f5511b2e8f"
+          },
+          {
+            "title": "GitHub PR",
+            "url": "https://github.com/protobufjs/protobuf.js/pull/1731"
+          },
+          {
+            "title": "Vulnerable Code",
+            "url": "https://github.com/protobufjs/protobuf.js/blob/d13d5d5688052e366aa2e9169f50dfca376b32cf/src/util.js%23L176-L197"
+          }
+        ],
+        "semver": {
+          "vulnerable": [
+            "<6.11.3"
+          ]
+        },
+        "severity": "high",
+        "title": "Prototype Pollution"
+      },
       {
         "CVSSv3": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:H/A:L/E:F/RL:O/RC:C",
         "alternativeIds": [
