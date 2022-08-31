@@ -1,5 +1,6 @@
+import * as path from 'path';
 import { generateHTMLPage } from '@hint/utils-create-server';
-import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
+import { getHintPath, HintTest, HintLocalTest, testHint, testLocalHint } from '@hint/utils-tests-helpers';
 import { Severity } from '@hint/utils-types';
 
 import { axeCoreVersion } from './_utils';
@@ -55,5 +56,13 @@ const testsWithCustomConfiguration: HintTest[] = [
     }
 ];
 
+const localConnectorDefaultCspIframe: HintLocalTest[] = [
+    {
+        name: `A local html file with iframes should not throw exceptions`,
+        path: path.join(__dirname, 'fixtures', 'local-default-iframe.html')
+    }
+];
+
 testHint(hintPath, tests);
 testHint(hintPath, testsWithCustomConfiguration, { hintOptions: { 'html-has-lang': 'off' } });
+testLocalHint(hintPath, localConnectorDefaultCspIframe, { parsers: ['html'] });
