@@ -1,3 +1,10 @@
+# 2.4.21 (June 6, 2022)
+
+## New features
+
+* [[`afedd1a858`](https://github.com/webhintio/hint/commit/afedd1a858c9b492ffb2e93e4b0cac585d03c6ea)] - Update: Bump 3rd party dependencies (by [`Jake McLeman`](https://github.com/jamclema) / see also: [`#5171`](https://github.com/webhintio/hint/issues/5171)).
+
+
 # 2.4.20 (May 3, 2022)
 
 ## Chores

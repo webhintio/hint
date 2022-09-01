@@ -1,3 +1,22 @@
+# 1.1.0 (July 7, 2022)
+
+## New features
+
+* [[`92d72970f0`](https://github.com/webhintio/hint/commit/92d72970f01e11f7911471e4870600426b5955ed)] - New: Add getAttributeLocation to elements (by [`Tony Ross`](https://github.com/antross) / see also: [`#5215`](https://github.com/webhintio/hint/issues/5215)).
+
+## Bug fixes / Improvements
+
+* [[`153015c985`](https://github.com/webhintio/hint/commit/153015c985bd80f0df6c29cf09c8ec9b16d6895a)] - Fix: Off-by-one issue with JSX column locations (#5228) (by [`Tony Ross`](https://github.com/antross)).
+
+
+# 1.0.19 (June 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`6c568b5cf6`](https://github.com/webhintio/hint/commit/6c568b5cf6035ae2abe889856446d5f822a51923)] - Fix: Avoid false positives when using {...spread} in JSX (by [`Tony Ross`](https://github.com/antross) / see also: [`#5166`](https://github.com/webhintio/hint/issues/5166), and [`#5175`](https://github.com/webhintio/hint/issues/5175)).
+* [[`ab624c0e18`](https://github.com/webhintio/hint/commit/ab624c0e187ad392cc79f461805218af2a87f17b)] - Fix: Remove unnecessary 'engines' field (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 1.0.18 (May 3, 2022)
 
 ## Chores

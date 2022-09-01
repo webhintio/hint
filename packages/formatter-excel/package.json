@@ -10,11 +10,11 @@
   },
   "description": "webhint formatter that outputs the result in an Excel file (xlsx)",
   "dependencies": {
-    "@hint/utils": "^7.0.16",
+    "@hint/utils": "^7.0.19",
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-fs": "^1.0.13",
-    "@hint/utils-i18n": "^1.0.12",
-    "@hint/utils-types": "^1.1.7",
+    "@hint/utils-fs": "^1.0.14",
+    "@hint/utils-i18n": "^1.0.13",
+    "@hint/utils-types": "^1.2.0",
     "exceljs": "4.3.0",
     "fs-extra": "^10.1.0",
     "lodash": "^4.17.21"
@@ -56,7 +56,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^6.0.0"
+    "hint": "^7.0.0"
   },
   "repository": {
     "directory": "packages/formatter-excel",
@@ -82,5 +82,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.28"
+  "version": "3.1.31"
 }

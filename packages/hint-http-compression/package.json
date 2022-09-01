@@ -9,16 +9,16 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.16",
-    "@hint/utils-i18n": "^1.0.12",
-    "@hint/utils-network": "^1.0.17",
+    "@hint/utils": "^7.0.19",
+    "@hint/utils-i18n": "^1.0.13",
+    "@hint/utils-network": "^1.0.21",
     "@hint/utils-string": "^1.0.12",
-    "@hint/utils-types": "^1.1.7"
+    "@hint/utils-types": "^1.2.0"
   },
   "description": "hint for HTTP compression related best practices",
   "devDependencies": {
-    "@hint/utils-dom": "^2.1.12",
-    "@hint/utils-tests-helpers": "^6.3.11",
+    "@hint/utils-dom": "^2.2.0",
+    "@hint/utils-tests-helpers": "^6.5.1",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -50,7 +50,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^6.0.0"
+    "hint": "^7.0.0"
   },
   "repository": {
     "directory": "packages/hint-http-compression",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "5.2.17"
+  "version": "5.2.21"
 }

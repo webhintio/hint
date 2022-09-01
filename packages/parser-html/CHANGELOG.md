@@ -1,3 +1,10 @@
+# 3.1.0 (July 7, 2022)
+
+## New features
+
+* [[`92d72970f0`](https://github.com/webhintio/hint/commit/92d72970f01e11f7911471e4870600426b5955ed)] - New: Add getAttributeLocation to elements (by [`Tony Ross`](https://github.com/antross) / see also: [`#5215`](https://github.com/webhintio/hint/issues/5215)).
+
+
 # 3.0.24 (March 9, 2022)
 
 ## Chores

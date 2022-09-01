@@ -1,3 +1,30 @@
+# 2.4.5 (July 22, 2022)
+
+## Chores
+
+* [[`d50679a075`](https://github.com/webhintio/hint/commit/d50679a075d5e866e3c1947b08fbd50f12c2deb1)] - Upgrade: Bump terser-webpack-plugin from 5.3.1 to 5.3.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5240`](https://github.com/webhintio/hint/issues/5240)).
+* [[`132fe7c00d`](https://github.com/webhintio/hint/commit/132fe7c00dd856c5029c9e8c8d9d60fe1b2bf59d)] - Upgrade: Bump typed-css-modules from 0.7.0 to 0.7.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5237`](https://github.com/webhintio/hint/issues/5237)).
+* [[`6a70de2283`](https://github.com/webhintio/hint/commit/6a70de2283b67b3a81b864c7087d81fe752b1150)] - Upgrade: Bump react-dom and @types/react-dom (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5234`](https://github.com/webhintio/hint/issues/5234)).
+
+
+# 2.4.2 (June 7, 2022)
+
+## Bug fixes / Improvements
+
+* [[`a613bce280`](https://github.com/webhintio/hint/commit/a613bce28024de95e70b86e5aa53c433bdcd237f)] - Fix: axe-core incorrect init when minified.
+
+
+# 2.4.1 (June 6, 2022)
+
+## Chores
+
+* [[`eb5db5ed2c`](https://github.com/webhintio/hint/commit/eb5db5ed2c5cad914e62dc8e3abc30957a8edb46)] - Upgrade: Bump react, react-dom and @types/react (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`4140786a4a`](https://github.com/webhintio/hint/commit/4140786a4a81899b82574c04719ffd68cad8985b)] - Upgrade: Bump webpack from 5.70.0 to 5.72.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`613ed8fc13`](https://github.com/webhintio/hint/commit/613ed8fc13ba17cba6b4c45fc5a3ba2618eff3fe)] - Upgrade: Bump react and react-dom (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`b9eed1c137`](https://github.com/webhintio/hint/commit/b9eed1c1376277ee87e227a75dac6606904d8fd5)] - Upgrade: Bump @types/react from 17.0.38 to 18.0.8 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`222b566dd9`](https://github.com/webhintio/hint/commit/222b566dd9258864e6b885fb6fe76dabf373d0d8)] - Chore: Remove usage of eval from utils-worker (by [`Tony Ross`](https://github.com/antross) / see also: [`#5156`](https://github.com/webhintio/hint/issues/5156)).
+
+
 # 2.4.0 (May 3, 2022)
 
 ## New features

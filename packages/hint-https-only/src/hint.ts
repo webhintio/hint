@@ -4,7 +4,7 @@
 
 import * as URL from 'url';
 
-import { ElementFound, FetchEnd, HintContext, IHint, Response } from 'hint';
+import { ElementFound, FetchEnd, FetchError, HintContext, IHint, Response } from 'hint';
 import { isDataURI, isHTTPS } from '@hint/utils-network';
 import { debug as d } from '@hint/utils-debug';
 
@@ -105,6 +105,30 @@ export default class HttpsOnlyHint implements IHint {
             }
         };
 
+        const validateFetchError = (fetchError: FetchError) => {
+            const resource = fetchError.resource;
+
+            if (!reportedUrls.has(resource) && !isDataURI(resource) &&
+                fetchError.error && fetchError.error.code &&
+                fetchError.error.code === 'ERR_INVALID_PROTOCOL') {
+                reportedUrls.add(resource);
+
+                if (fetchError.hops && fetchError.hops.length > 0) {
+                    context.report(
+                        resource,
+                        getMessage('shouldNotBeRedirected', context.language),
+                        { severity: Severity.error }
+                    );
+                } else {
+                    context.report(
+                        resource,
+                        getMessage('shouldBeHTTPS', context.language),
+                        { severity: Severity.error }
+                    );
+                }
+            }
+        };
+
         /** Returns an array with all the URLs in the given `srcset` attribute or an empty string if none. */
         const parseSrcSet = (srcset: string | null): string[] => {
             if (!srcset) {
@@ -193,6 +217,7 @@ export default class HttpsOnlyHint implements IHint {
         };
 
         context.on('fetch::end::*', validateFetchEnd);
+        context.on('fetch::error', validateFetchError);
         context.on('element::img', validateElementSrcs);
         context.on('element::audio', validateElementSrcs);
         context.on('element::video', validateElementSrcs);

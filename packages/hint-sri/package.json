@@ -10,16 +10,16 @@
   },
   "dependencies": {
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-fs": "^1.0.13",
-    "@hint/utils-i18n": "^1.0.12",
-    "@hint/utils-network": "^1.0.17",
+    "@hint/utils-fs": "^1.0.14",
+    "@hint/utils-i18n": "^1.0.13",
+    "@hint/utils-network": "^1.0.21",
     "@hint/utils-string": "^1.0.12",
-    "@hint/utils-types": "^1.1.7"
+    "@hint/utils-types": "^1.2.0"
   },
   "description": "Require scripts and styles to use Subresource Integrity",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.17",
-    "@hint/utils-tests-helpers": "^6.3.11",
+    "@hint/utils-create-server": "^3.4.21",
+    "@hint/utils-tests-helpers": "^6.5.1",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -50,7 +50,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^6.0.0"
+    "hint": "^7.0.0"
   },
   "repository": {
     "directory": "packages/hint-sri",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.13"
+  "version": "4.0.17"
 }

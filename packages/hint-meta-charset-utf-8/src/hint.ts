@@ -62,12 +62,44 @@ export default class MetaCharsetUTF8Hint implements IHint {
              */
 
             const charsetMetaElements = document.querySelectorAll('meta[charset], meta[http-equiv="content-type" i]');
+            const headElement = document.querySelectorAll('head')[0];
 
             if (charsetMetaElements.length === 0) {
+                const fixes = [];
+                const headElementLocation = headElement.getLocation();
+
+                // if the headElement is not in the original document, the line, col will be set to -1
+                if (headElementLocation.line !== -1) {
+                    const text = headElement.prependChildOuterHtml('<meta charset="utf-8">');
+                    const fix = {
+                        location: headElement.getLocation(),
+                        text
+                    };
+
+                    fixes.push(fix);
+                } else {
+                    const htmlElement = document.querySelectorAll('html')[0];
+                    const htmlElementLocation = htmlElement.getLocation();
+
+                    // No-op if there is no htmlElement. Another hint will prompt the user to create an html element.
+                    if (htmlElementLocation.line !== -1) {
+                        const text = htmlElement.prependChildOuterHtml('<head><meta charset="utf-8"></head>');
+                        const fix = {
+                            location: htmlElement.getLocation(),
+                            text
+                        };
+
+                        fixes.push(fix);
+                    }
+                }
+
                 context.report(
                     resource,
                     getMessage('metaElementNotSpecified', context.language),
-                    { severity: Severity.warning }
+                    {
+                        fixes,
+                        severity: Severity.warning
+                    }
                 );
 
                 return;
@@ -88,13 +120,18 @@ export default class MetaCharsetUTF8Hint implements IHint {
                     getMessage('metaElementShorter', context.language),
                     {
                         element: charsetMetaElement,
+                        fixes: [
+                            {
+                                location: charsetMetaElement.getLocation(),
+                                text: '<meta charset="utf-8">'
+                            }
+                        ],
                         severity: Severity.warning
                     });
             } else {
                 const metaValue = normalizeString(charsetMetaElement.getAttribute('charset'));
 
                 if (metaValue !== 'utf-8') {
-
                     const severity = metaValue === 'utf8' ?
                         Severity.warning :
                         Severity.error;
@@ -104,6 +141,12 @@ export default class MetaCharsetUTF8Hint implements IHint {
                         getMessage('metaElementWrongValue', context.language),
                         {
                             element: charsetMetaElement,
+                            fixes: [
+                                {
+                                    location: charsetMetaElement.getAttributeLocation('charset'),
+                                    text: 'charset="utf-8"'
+                                }
+                            ],
                             severity
                         });
                 }
@@ -119,11 +162,37 @@ export default class MetaCharsetUTF8Hint implements IHint {
 
             const firstHeadElement = document.querySelectorAll('head :first-child')[0];
             const isCharsetMetaFirstHeadElement = charsetMetaElement && firstHeadElement && charsetMetaElement.isSame(firstHeadElement);
-
             const headElementContent = document.querySelectorAll('head')[0].outerHTML;
             const isMetaElementFirstHeadContent = (/^<head[^>]*>\s*<meta/).test(headElementContent);
 
+            const prependMetaInHeadFix = {
+                location: headElement.getLocation(),
+                text: headElement.prependChildOuterHtml(charsetMetaElement.outerHTML, /* removeExistingInstance= */ true)
+            };
+
+            const removeMetaElementFix = {
+                location: charsetMetaElement.getLocation(),
+                text: ''
+            };
+
             if (!isCharsetMetaFirstHeadElement || !isMetaElementFirstHeadContent) {
+                const fixes = [prependMetaInHeadFix];
+                let isMetaWithinHead = false;
+                let checkParent = charsetMetaElement.parentElement;
+
+                // Check if the meta element is within the head tag. If it is, prependMetaInHeadFix will handle the deletion.
+                while (checkParent) {
+                    if (headElement.isSame(checkParent)) {
+                        isMetaWithinHead = true;
+                        break;
+                    }
+                    checkParent = checkParent.parentElement;
+                }
+
+                // If the meta element is not in the head, we need to insert another fix to remove it.
+                if (!isMetaWithinHead) {
+                    fixes.unshift(removeMetaElementFix);
+                }
 
                 const severity = (firstHeadElement?.getLocation().endOffset || 0) <= 1024 ?
                     Severity.hint :
@@ -134,6 +203,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
                     getMessage('metaElementFirstThing', context.language),
                     {
                         element: charsetMetaElement,
+                        fixes,
                         severity
                     });
             }
@@ -143,11 +213,17 @@ export default class MetaCharsetUTF8Hint implements IHint {
             const bodyMetaElements = document.querySelectorAll('body meta[charset], body meta[http-equiv="content-type" i]');
 
             if (bodyMetaElements[0] && bodyMetaElements[0].isSame(charsetMetaElement)) {
+                const fixes = [
+                    removeMetaElementFix,
+                    prependMetaInHeadFix
+                ];
+
                 context.report(
                     resource,
                     getMessage('metaElementInBody', context.language),
                     {
                         element: charsetMetaElement,
+                        fixes,
                         severity: Severity.error
                     });
 
@@ -160,11 +236,19 @@ export default class MetaCharsetUTF8Hint implements IHint {
                 const metaElements = charsetMetaElements.slice(1);
 
                 for (const metaElement of metaElements) {
+                    const fixes = [
+                        {
+                            location: metaElement.getLocation(),
+                            text: ''
+                        }
+                    ];
+
                     context.report(
                         resource,
                         getMessage('metaElementDuplicated', context.language),
                         {
                             element: metaElement,
+                            fixes,
                             severity: Severity.warning
                         }
                     );

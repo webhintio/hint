@@ -45,13 +45,26 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
              * browser already adds http(s):// so we cannot verify.
              */
 
-            const url: string = (element.getAttribute('src') || element.getAttribute('href') || '').trim();
+            const src = element.getAttribute('src');
+            const href = element.getAttribute('href');
+            const url: string = (src || href || '').trim();
             const rel = element.getAttribute('rel') || '';
 
             if (url.startsWith('//') && rel !== 'dns-prefetch') {
                 debug('Protocol relative URL found');
 
                 const message = getMessage('noProtocolRelativeUrl', context.language);
+                const attribute = src ? 'src' : 'href';
+                const attributeLocation = element.getAttributeLocation(attribute);
+                const fixedUrl = url.replace('//', 'https://');
+                const replacementText = `${attribute}="${fixedUrl}"`;
+
+                const fixes = [
+                    {
+                        location: attributeLocation,
+                        text: replacementText
+                    }
+                ];
 
                 const severity = isHTTPS(resource) ?
                     Severity.hint :
@@ -61,14 +74,17 @@ export default class NoProtocolRelativeUrlsHint implements IHint {
                     resource,
                     message,
                     {
+                        attribute,
                         content: url,
                         element,
+                        fixes,
                         severity
                     });
             }
         };
 
         context.on('element::a', validate);
+        context.on('element::img', validate);
         context.on('element::link', validate);
         context.on('element::script', validate);
     }

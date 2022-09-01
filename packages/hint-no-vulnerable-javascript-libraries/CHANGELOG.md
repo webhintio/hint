@@ -1,3 +1,18 @@
+# 2.12.16 (July 22, 2022)
+
+## Chores
+
+* [[`8a719171dd`](https://github.com/webhintio/hint/commit/8a719171ddee81dab338360ba7c9087458c03c80)] - Upgrade: Bump js-library-detector from 6.4.0 to 6.5.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5232`](https://github.com/webhintio/hint/issues/5232)).
+* [[`15ab3e3acb`](https://github.com/webhintio/hint/commit/15ab3e3acb6de6fe40fba1d4fb788b01259069b6)] - Upgrade: Bump moment from 2.29.3 to 2.29.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5247`](https://github.com/webhintio/hint/issues/5247)).
+
+
+# 2.12.13 (June 6, 2022)
+
+## New features
+
+* [[`afedd1a858`](https://github.com/webhintio/hint/commit/afedd1a858c9b492ffb2e93e4b0cac585d03c6ea)] - Update: Bump 3rd party dependencies (by [`Jake McLeman`](https://github.com/jamclema) / see also: [`#5171`](https://github.com/webhintio/hint/issues/5171)).
+
+
 # 2.12.12 (May 3, 2022)
 
 ## Chores

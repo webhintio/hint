@@ -16,6 +16,7 @@
         { "path": "../hint" },
         { "path": "../parser-html" },
         { "path": "../utils" },
+        { "path": "../utils-connector-tools" },
         { "path": "../utils-debug" },
         { "path": "../utils-i18n" },
         { "path": "../utils-network" },

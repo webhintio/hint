@@ -72,15 +72,15 @@ const bodyWithMailTo = `<div>
 </div>`;
 
 const bodyWithInvalidUrl = `<div>
-<a href='http://'>About</a>
+<a href='https://'>About</a>
 </div>`;
 
 const bodyWithBrokenDnsPrefetchLinkTag = `<div>
-<link rel="dns-prefetch" href="http://localhost/404">
+<link rel="dns-prefetch" href="https://localhost/404">
 </div>`;
 
 const bodyWithBrokenPreconnectLinkTag = `<div>
-<link rel="preconnect" href="http://localhost/404">
+<link rel="preconnect" href="https://localhost/404">
 </div>`;
 
 const bodyWithInvalidDomainDnsPrefetchLinkTag = `<div>
@@ -291,7 +291,7 @@ const tests: HintTest[] = [
         name: `This test should fail as it has a loop`,
         reports: [
             {
-                message: `'http://localhost/1.mp4' could not be fetched using GET method (redirect loop detected).`,
+                message: `'https://localhost/1.mp4' could not be fetched using GET method (redirect loop detected).`,
                 severity: Severity.error
             },
             {
@@ -323,4 +323,4 @@ const tests: HintTest[] = [
     }
 ];
 
-testHint(hintPath, tests);
+testHint(hintPath, tests, {https: true});

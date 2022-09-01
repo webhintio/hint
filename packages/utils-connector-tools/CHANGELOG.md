@@ -1,3 +1,10 @@
+# 4.0.34 (June 13, 2022)
+
+## New features
+
+* [[`9474a768e9`](https://github.com/webhintio/hint/commit/9474a768e97d08eb92a92f2659efafdfcfe08e1e)] - Update: Forcing json-schema to be ^0.4.0 (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+
 # 4.0.32 (May 3, 2022)
 
 ## Chores

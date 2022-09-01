@@ -187,7 +187,7 @@ test('It translates source locations correctly', async (t) => {
     const div = document.querySelectorAll('div')[0];
     const { column, line } = div.getLocation();
 
-    t.is(column, 13);
+    t.is(column, 12);
     t.is(line, 1);
 });
 

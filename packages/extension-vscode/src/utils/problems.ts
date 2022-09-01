@@ -3,6 +3,10 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 
 import { Problem, Severity } from '@hint/utils-types';
 
+export type WebhintDiagnosticData = {
+    problem: Problem;
+};
+
 // Translate a webhint severity into the VSCode DiagnosticSeverity format.
 const webhintToDiagnosticServerity = (severity: Severity): DiagnosticSeverity => {
     switch (severity) {
@@ -52,6 +56,7 @@ export const problemToDiagnostic = (problem: Problem, textDocument: TextDocument
     return {
         code: problem.hintId,
         codeDescription: { href: docHref },
+        data: { problem } as WebhintDiagnosticData,
         message: `${problem.message}`,
         range: {
             end: { character: endColumn, line: endLine },
@@ -59,4 +64,14 @@ export const problemToDiagnostic = (problem: Problem, textDocument: TextDocument
         },
         severity: webhintToDiagnosticServerity(problem.severity)
     };
+};
+
+export const getFeatureNameFromDiagnostic = (diagnostic: Diagnostic) => {
+    const matches = diagnostic.message.match(/(.*?)'(.*?)'(.*?)/);
+
+    if (matches && matches.length > 1) {
+        return matches[2];
+    }
+
+    return null;
 };

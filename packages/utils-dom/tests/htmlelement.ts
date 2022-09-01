@@ -51,6 +51,60 @@ test('getAttribute', (t) => {
     t.is(doc.body.children[0].getAttribute('class'), null);
 });
 
+test('getAttributeLocation', (t) => {
+    const doc = createHTMLDocument('<div>\n<button type="button">\nTest\n</button>\n</div>', 'http://localhost');
+    const button = doc.body.children[0].children[0];
+    const typeAttributeLocation = button.getAttributeLocation('type');
+
+    t.is(typeAttributeLocation.line, 1, 'Start line');
+    t.is(typeAttributeLocation.column, 8, 'Start column');
+    t.is(typeAttributeLocation.endLine, 1, 'End line');
+    t.is(typeAttributeLocation.endColumn, 21, 'End column');
+    t.is(typeAttributeLocation.startOffset, 14, 'Start offset');
+    t.is(typeAttributeLocation.endOffset, 27, 'End offset');
+});
+
+test('getAttributeLocation (not found)', (t) => {
+    const baseDoc = createHTMLDocument('<div>Test</div>', 'http://localhost');
+    const doc = createHTMLDocument('<div>\n<button type="button">\nTest\n</button>\n</div>', 'http://localhost', baseDoc);
+    const button = doc.body.children[0].children[0];
+    const typeAttributeLocation = button.getAttributeLocation('type');
+
+    t.is(typeAttributeLocation.line, -1, 'Start line');
+    t.is(typeAttributeLocation.column, -1, 'Start column');
+    t.is(typeAttributeLocation.endLine, -1, 'End line');
+    t.is(typeAttributeLocation.endColumn, -1, 'End column');
+    t.is(typeAttributeLocation.startOffset, -1, 'Start offset');
+    t.is(typeAttributeLocation.endOffset, -1, 'End offset');
+});
+
+test('getLocation', (t) => {
+    const doc = createHTMLDocument('<div>\n<span>\nTest\n</span>\n</div>', 'http://localhost');
+    const span = doc.body.children[0].children[0];
+    const location = span.getLocation();
+
+    t.is(location.line, 1, 'Start line');
+    t.is(location.column, 0, 'Start column');
+    t.is(location.endLine, 3, 'End line');
+    t.is(location.endColumn, 7, 'End column');
+    t.is(location.startOffset, 6, 'Start offset');
+    t.is(location.endOffset, 25, 'End offset');
+});
+
+test('getLocation (not found)', (t) => {
+    const baseDoc = createHTMLDocument('<div>Test</div>', 'http://localhost');
+    const doc = createHTMLDocument('<div>\n<span>\nTest\n</span>\n</div>', 'http://localhost', baseDoc);
+    const span = doc.body.children[0].children[0];
+    const location = span.getLocation();
+
+    t.is(location.line, -1, 'Start line');
+    t.is(location.column, -1, 'Start column');
+    t.is(location.endLine, -1, 'End line');
+    t.is(location.endColumn, -1, 'End column');
+    t.is(location.startOffset, -1, 'Start offset');
+    t.is(location.endOffset, -1, 'End offset');
+});
+
 test('hasAttribute', (t) => {
     const doc = createHTMLDocument('<div id="foo">test</div>', 'http://localhost/');
 
@@ -83,4 +137,64 @@ test('matches', (t) => {
     const doc = createHTMLDocument('<div id="match-me"></div>', 'http://localhost/');
 
     t.true(doc.body.children[0].matches('#match-me'));
+});
+
+test('getChildIndent (one line)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me"></div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+
+    const indentObj = matchElement.getChildIndent();
+
+    t.is(indentObj.indent, '');
+    t.is(indentObj.newlineType, '');
+});
+
+test('getChildIndent (two line)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me">\n</div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+
+    const indentObj = matchElement.getChildIndent();
+
+    t.is(indentObj.indent, '  ');
+    t.is(indentObj.newlineType, '\n');
+});
+
+test('getChildIndent (three line)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me">\n    <div></div>\r\n</div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+
+    const indentObj = matchElement.getChildIndent();
+
+    t.is(indentObj.indent, '    ');
+    t.is(indentObj.newlineType, '\n');
+});
+
+test('prependChildOuterHtml (one line)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me"></div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+    const newOuterHTML = matchElement.prependChildOuterHtml('<span></span>');
+
+    t.is(newOuterHTML, '<div id="match-me"><span></span></div>');
+});
+
+test('prependChildOuterHtml (two lines)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me">\n</div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+    const newOuterHTML = matchElement.prependChildOuterHtml('<span></span>');
+
+    t.is(newOuterHTML, '<div id="match-me">\n  <span></span>\n</div>');
+});
+
+test('prependChildOuterHtml (three lines)', (t) => {
+    const doc = createHTMLDocument('<div id="match-me">\n  <div></div>\n</div>', 'http://localhost/');
+
+    const matchElement = doc.body.children[0];
+    const newOuterHTML = matchElement.prependChildOuterHtml('<span></span>');
+
+    t.is(newOuterHTML, '<div id="match-me">\n  <span></span>\n  <div></div>\n</div>');
 });

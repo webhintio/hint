@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@hint/utils-types';
 
-/** Normalize all keys of an `HttpHeader` to lowercase. */
+// Normalize all keys of an `HttpHeader` to lowercase.
 export const normalizeHeaders = (headers?: HttpHeaders | null) => {
     if (headers) {
         return Object.keys(headers).reduce((result, key) => {

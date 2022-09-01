@@ -1,3 +1,10 @@
+# 2.0.19 (June 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`f7672eb93d`](https://github.com/webhintio/hint/commit/f7672eb93db31b399236efbd93bd41473649344c)] - Fix: Respect default severity for a11y hints (by [`Tony Ross`](https://github.com/antross) / see also: [`#5179`](https://github.com/webhintio/hint/issues/5179)).
+
+
 # 2.0.9 (February 4, 2021)
 
 ## Chores

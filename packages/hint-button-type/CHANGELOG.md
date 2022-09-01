@@ -1,3 +1,10 @@
+# 3.0.14 (June 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`6c568b5cf6`](https://github.com/webhintio/hint/commit/6c568b5cf6035ae2abe889856446d5f822a51923)] - Fix: Avoid false positives when using {...spread} in JSX (by [`Tony Ross`](https://github.com/antross) / see also: [`#5166`](https://github.com/webhintio/hint/issues/5166), and [`#5175`](https://github.com/webhintio/hint/issues/5175)).
+
+
 # 3.0.11 (March 9, 2022)
 
 ## Chores

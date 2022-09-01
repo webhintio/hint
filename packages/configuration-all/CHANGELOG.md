@@ -1,3 +1,10 @@
+# 3.0.0 (June 6, 2022)
+
+## Breaking Changes
+
+* [[`bd0f4e2ae0`](https://github.com/webhintio/hint/commit/bd0f4e2ae0a5d111ba8b687d320a5fa5ec8600d8)] - Breaking: Remove hint-amp-validator (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 2.0.1 (December 3, 2019)
 
 

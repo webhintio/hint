@@ -1,3 +1,38 @@
+# 2.1.2 (July 22, 2022)
+
+## Bug fixes / Improvements
+
+* [[`6a9e67a288`](https://github.com/webhintio/hint/commit/6a9e67a288c66ba2a8a6794ec77b436b3f763b39)] - Fix: Fixes an issue were dist folder was being ignored by npm pack. (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5262`](https://github.com/webhintio/hint/issues/5262)).
+
+
+# 2.1.1 (July 22, 2022)
+
+## Chores
+
+* [[`e7f3be8dd8`](https://github.com/webhintio/hint/commit/e7f3be8dd8a5f2b5a948483f4f88d02bec4ea312)] - Upgrade: Bump vscode-languageserver-textdocument from 1.0.4 to 1.0.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5239`](https://github.com/webhintio/hint/issues/5239)).
+
+
+# 2.1.0 (July 7, 2022)
+
+## New features
+
+* [[`3c2da91256`](https://github.com/webhintio/hint/commit/3c2da91256df6562184b2df68986aa5125730bae)] - New: Add option to ignore browsers (by [`Tony Ross`](https://github.com/antross) / see also: [`#5226`](https://github.com/webhintio/hint/issues/5226)).
+* [[`a489a07676`](https://github.com/webhintio/hint/commit/a489a07676a226541ca030c550a0df025a7bc6b9)] - New: Pass code fixes to VS Code (by [`Tony Ross`](https://github.com/antross) / see also: [`#5227`](https://github.com/webhintio/hint/issues/5227)).
+* [[`564ecefa63`](https://github.com/webhintio/hint/commit/564ecefa6363a70a9fa94b9743361a850ce52fd7)] - New: Add options to ignore axe-core rules (by [`Tony Ross`](https://github.com/antross) / see also: [`#5224`](https://github.com/webhintio/hint/issues/5224)).
+* [[`4542cc156c`](https://github.com/webhintio/hint/commit/4542cc156c29346382951c9b07646e78e99a93e6)] - New: Quick-fixes for vscode-extension package (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5219`](https://github.com/webhintio/hint/issues/5219)).
+
+
+# 2.0.0 (June 6, 2022)
+
+## Breaking Changes
+
+* [[`a6264d5aed`](https://github.com/webhintio/hint/commit/a6264d5aedd1c18dc031c9b039b87fc5c195a4e2)] - Breaking: Raise min required node version to 14 (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`4140786a4a`](https://github.com/webhintio/hint/commit/4140786a4a81899b82574c04719ffd68cad8985b)] - Upgrade: Bump webpack from 5.70.0 to 5.72.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 1.6.8 (May 3, 2022)
 
 ## Chores

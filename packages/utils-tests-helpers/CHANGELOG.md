@@ -1,3 +1,17 @@
+# 6.5.0 (July 7, 2022)
+
+## New features
+
+* [[`2614112065`](https://github.com/webhintio/hint/commit/26141120658fd337aa081cfbf9e6cd1f8ce8f699)] - New: Code fix test infra + no-protocol-relative-urls fix (by [`Michael Liao`](https://github.com/mliao95) / see also: [`#5214`](https://github.com/webhintio/hint/issues/5214)).
+
+
+# 6.4.0 (June 6, 2022)
+
+## New features
+
+* [[`df003215d9`](https://github.com/webhintio/hint/commit/df003215d9f8deb16934fce932642b778e0e4d00)] - New: Allow hint tests to override severity (by [`Tony Ross`](https://github.com/antross)).
+
+
 # 6.3.11 (May 3, 2022)
 
 ## Chores

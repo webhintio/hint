@@ -1,3 +1,17 @@
+# 4.4.12 (June 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`f7672eb93d`](https://github.com/webhintio/hint/commit/f7672eb93db31b399236efbd93bd41473649344c)] - Fix: Respect default severity for a11y hints (by [`Tony Ross`](https://github.com/antross) / see also: [`#5179`](https://github.com/webhintio/hint/issues/5179)).
+* [[`6c568b5cf6`](https://github.com/webhintio/hint/commit/6c568b5cf6035ae2abe889856446d5f822a51923)] - Fix: Avoid false positives when using {...spread} in JSX (by [`Tony Ross`](https://github.com/antross) / see also: [`#5166`](https://github.com/webhintio/hint/issues/5166), and [`#5175`](https://github.com/webhintio/hint/issues/5175)).
+* [[`38c0052a01`](https://github.com/webhintio/hint/commit/38c0052a01b4ebbf571e8a83647bb9f5b7851876)] - Fix: Prefer custom rule severity over hint (by [`Tony Ross`](https://github.com/antross)).
+* [[`5fdb69bec8`](https://github.com/webhintio/hint/commit/5fdb69bec8b280ae128d02d843026b8337c47a81)] - Fix: Allow all severities in per-rule configs (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`222b566dd9`](https://github.com/webhintio/hint/commit/222b566dd9258864e6b885fb6fe76dabf373d0d8)] - Chore: Remove usage of eval from utils-worker (by [`Tony Ross`](https://github.com/antross) / see also: [`#5156`](https://github.com/webhintio/hint/issues/5156)).
+
+
 # 4.4.11 (May 3, 2022)
 
 ## Chores

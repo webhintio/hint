@@ -1,3 +1,10 @@
+# 1.1.9 (June 6, 2022)
+
+## Chores
+
+* [[`39fdb4d1ee`](https://github.com/webhintio/hint/commit/39fdb4d1eea3871cdca7fcf7005443d4c64f472c)] - Chore: Migrate 'matches' data from MDN (by [`Tony Ross`](https://github.com/antross) / see also: [`#5126`](https://github.com/webhintio/hint/issues/5126)).
+
+
 # 1.1.8 (May 3, 2022)
 
 ## Chores

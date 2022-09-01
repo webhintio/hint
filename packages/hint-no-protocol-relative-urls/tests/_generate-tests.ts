@@ -22,8 +22,9 @@ const getTests = (severity: Severity) => {
         {
             name: `'link' with initial // fails the hint`,
             reports: [{
+                fixes: { match: generateHTMLPage('<link rel="manifest" href="https://site.webmanifest">')},
                 message: errorMessage,
-                position: { match: 'link rel="manifest" href="//site.webmanifest"' },
+                position: { match: 'href="//site.webmanifest"' },
                 severity
             }],
             serverConfig: generateHTMLPage('<link rel="manifest" href="//site.webmanifest">')
@@ -47,8 +48,9 @@ const getTests = (severity: Severity) => {
         {
             name: `'script' with initial // fails the hint`,
             reports: [{
+                fixes: { match: generateHTMLPage(undefined, '<script src="https://script.js"></script>')},
                 message: errorMessage,
-                position: { match: 'script src="//script.js"' },
+                position: { match: 'src="//script.js"' },
                 severity
             }],
             serverConfig: generateHTMLPage(undefined, '<script src="//script.js"></script>')
@@ -68,8 +70,9 @@ const getTests = (severity: Severity) => {
         {
             name: `'a' with initial // fails the hint`,
             reports: [{
+                fixes: { match: generateHTMLPage(undefined, '<a href="https://home">home</a>')},
                 message: errorMessage,
-                position: { match: 'a href="//home"' },
+                position: { match: 'href="//home"' },
                 severity
             }],
             serverConfig: generateHTMLPage(undefined, '<a href="//home">home</a>')

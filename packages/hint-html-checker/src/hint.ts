@@ -10,11 +10,11 @@
  */
 
 import uniqBy = require('lodash/uniqBy');
-import { OptionsWithUrl } from 'request';
 
 import { debug as d } from '@hint/utils-debug';
 import { HintContext, IHint } from 'hint';
 import { ProblemLocation, Severity } from '@hint/utils-types';
+import type { IRequestOptions } from '@hint/utils-connector-tools';
 
 import { HTMLEvents, HTMLParse } from '@hint/parser-html';
 
@@ -140,12 +140,12 @@ export default class HtmlCheckerHint implements IHint {
                 { severity: Severity.warning });
         };
 
-        const requestRetry = async (options: OptionsWithUrl, retries: number = 3): Promise<any> => {
+        const requestRetry = async (url: string, options: IRequestOptions, retries: number = 3): Promise<any> => {
             const requestAsync = (await import('@hint/utils-network')).requestAsync;
             const delay = (await import('@hint/utils')).delay;
 
             try {
-                return await requestAsync(options);
+                return await requestAsync(url, options);
             } catch (e) {
                 if (retries === 0) {
                     throw e;
@@ -153,7 +153,7 @@ export default class HtmlCheckerHint implements IHint {
 
                 await delay(500);
 
-                return await requestRetry(options, retries - 1);
+                return await requestRetry(url, options, retries - 1);
             }
         };
 
@@ -166,7 +166,7 @@ export default class HtmlCheckerHint implements IHint {
             return {
                 event: data,
                 failed: false,
-                promise: options.body ? requestRetry(options) : Promise.resolve({ messages: [] })
+                promise: options.body ? requestRetry(options.url, options) : Promise.resolve({ messages: [] })
             };
         };
 

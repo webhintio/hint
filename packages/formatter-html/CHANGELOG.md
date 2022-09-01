@@ -1,3 +1,17 @@
+# 4.3.12 (July 22, 2022)
+
+## Chores
+
+* [[`a180cb71e4`](https://github.com/webhintio/hint/commit/a180cb71e4f40778fb2340306125591f2c53da68)] - Upgrade: Bump ejs and @types/ejs (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5235`](https://github.com/webhintio/hint/issues/5235)).
+
+
+# 4.3.10 (June 6, 2022)
+
+## Chores
+
+* [[`760f66c7ad`](https://github.com/webhintio/hint/commit/760f66c7ad4c221563aadb80ad01054db6772511)] - Upgrade: Bump ejs from 3.1.6 to 3.1.7 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 4.3.9 (May 3, 2022)
 
 ## Chores

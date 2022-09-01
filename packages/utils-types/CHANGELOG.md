@@ -1,3 +1,11 @@
+# 1.2.0 (July 7, 2022)
+
+## New features
+
+* [[`3c2da91256`](https://github.com/webhintio/hint/commit/3c2da91256df6562184b2df68986aa5125730bae)] - New: Add option to ignore browsers (by [`Tony Ross`](https://github.com/antross) / see also: [`#5226`](https://github.com/webhintio/hint/issues/5226)).
+* [[`f677d78faa`](https://github.com/webhintio/hint/commit/f677d78faa61b322f00a76d63ac31e9daedea51d)] - New: Update context.report to support code fixes (by [`Kalon`](https://github.com/hkal) / see also: [`#5216`](https://github.com/webhintio/hint/issues/5216)).
+
+
 # 1.1.7 (May 3, 2022)
 
 ## Chores

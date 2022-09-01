@@ -6,7 +6,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/listr": "^0.14.4",
     "@types/node": "^17.0.14",
-    "@types/semver": "^7.3.9",
+    "@types/semver": "^7.3.10",
     "@types/shelljs": "^0.8.11",
     "@types/yargs": "^17.0.10",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -19,7 +19,7 @@
     "eslint-plugin-markdown": "^2.2.1",
     "fs-extra": "^10.1.0",
     "globby": "^11.0.4",
-    "json-schema-to-typescript": "^10.1.5",
+    "json-schema-to-typescript": "^11.0.2",
     "latest-version": "^5.1.0",
     "listr": "^0.14.2",
     "listr-inquirer": "^0.1.0",
@@ -27,7 +27,7 @@
     "markdownlint": "^0.25.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.5.2",
+    "rxjs": "^7.5.6",
     "semver": "^7.3.5",
     "shelljs": "^0.8.5",
     "tsort": "^0.0.1",
@@ -40,6 +40,9 @@
   },
   "name": "@hint/monorepo",
   "private": true,
+  "resolutions": {
+    "json-schema": "^0.4.0"
+  },
   "scripts": {
     "build": "yarn clean && yarn update:references && node scripts/build-or-test-all.js build",
     "build:scripts": "npm run clean:root && npm run lint:scripts && npm-run-all --parallel build:scripts:*",

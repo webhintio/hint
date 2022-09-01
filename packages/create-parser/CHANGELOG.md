@@ -1,3 +1,15 @@
+# 4.0.0 (June 6, 2022)
+
+## Breaking Changes
+
+* [[`b4b519b34f`](https://github.com/webhintio/hint/commit/b4b519b34ff1b5df637d6afc517d19d03604aac0)] - Breaking: Raise min required node version to 14 (by [`Tony Ross`](https://github.com/antross)).
+
+## Chores
+
+* [[`4140786a4a`](https://github.com/webhintio/hint/commit/4140786a4a81899b82574c04719ffd68cad8985b)] - Upgrade: Bump webpack from 5.70.0 to 5.72.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`7c67445c00`](https://github.com/webhintio/hint/commit/7c67445c00c1ace5ac46188180b85699e0f4417f)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 7.2.1 to 7.2.9 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+
+
 # 3.0.22 (May 3, 2022)
 
 ## Chores

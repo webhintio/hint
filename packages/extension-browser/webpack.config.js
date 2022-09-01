@@ -58,12 +58,23 @@ module.exports = (env) => {
         node: { __dirname: true },
         optimization: {
             minimizer: [
-                /*
-                 * Fix handling of non-ASCII characters in minified content script
-                 * when running in Chrome by forcing them to be escaped.
-                 */
-                // eslint-disable-next-line camelcase
-                new TerserPlugin({ terserOptions: { output: { ascii_only: true } } })
+                new TerserPlugin({
+                    terserOptions: {
+
+                        /**
+                         * Terser is minifying the variable name 'module' inside axe-core which causes axe-core
+                         * to fail the initialization. References: hint-axe/axe.ts:evaluateAxe
+                         */
+                        mangle: { reserved: ['module'] },
+
+                        /*
+                         * Fix handling of non-ASCII characters in minified content script
+                         * when running in Chrome by forcing them to be escaped.
+                         */
+                        // eslint-disable-next-line camelcase
+                        output: { ascii_only: true }
+                    }
+                })
             ]
         },
         output: {

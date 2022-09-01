@@ -10,27 +10,27 @@
   },
   "dependencies": {
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-fs": "^1.0.13",
+    "@hint/utils-fs": "^1.0.14",
     "@hint/utils-string": "^1.0.12",
     "chalk": "^4.1.2",
     "configstore": "^5.0.1",
     "content-type": "^1.0.4",
     "eventemitter2": "^6.4.5",
-    "file-type": "^16.5.3",
+    "file-type": "^16.5.4",
     "globby": "^11.0.4",
     "is-svg": "^4.3.2",
     "is-wsl": "^2.2.0",
     "lodash": "^4.17.21",
-    "npm-registry-fetch": "^13.1.1",
+    "npm-registry-fetch": "^13.3.0",
     "semver": "^7.3.5"
   },
   "description": "hint tools",
   "devDependencies": {
-    "@hint/utils-dom": "^2.1.12",
-    "@hint/utils-types": "^1.1.7",
+    "@hint/utils-dom": "^2.2.0",
+    "@hint/utils-types": "^1.2.0",
     "@types/configstore": "^5.0.1",
     "@types/mime-db": "^1.43.1",
-    "@types/semver": "^7.3.9",
+    "@types/semver": "^7.3.10",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "ava": "^4.0.1",
@@ -88,5 +88,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "7.0.16"
+  "version": "7.0.19"
 }

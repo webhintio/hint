@@ -1,3 +1,10 @@
+# 3.1.20 (July 22, 2022)
+
+## Chores
+
+* [[`528c069f39`](https://github.com/webhintio/hint/commit/528c069f395b85fb0da247a88816f7e27b47f9ec)] - Upgrade: Bump acorn from 8.7.0 to 8.7.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5186`](https://github.com/webhintio/hint/issues/5186)).
+
+
 # 3.1.17 (May 3, 2022)
 
 ## Chores

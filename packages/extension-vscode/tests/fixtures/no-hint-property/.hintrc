@@ -1,0 +1,4 @@
+{
+  "browserslist": ["ie 11"],
+  "parsers": ["css", "html"]
+}

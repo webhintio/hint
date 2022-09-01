@@ -9,8 +9,8 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.16",
-    "@hint/utils-network": "^1.0.17"
+    "@hint/utils": "^7.0.19",
+    "@hint/utils-network": "^1.0.21"
   },
   "description": "webhint parser needed to analyze webpack config files",
   "devDependencies": {
@@ -49,7 +49,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^6.0.0"
+    "hint": "^7.0.0"
   },
   "repository": {
     "directory": "packages/parser-webpack-config",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.1.32"
+  "version": "2.1.36"
 }

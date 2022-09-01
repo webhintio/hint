@@ -10,15 +10,15 @@
   },
   "dependencies": {
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-i18n": "^1.0.12",
-    "@hint/utils-network": "^1.0.17",
+    "@hint/utils-i18n": "^1.0.13",
+    "@hint/utils-network": "^1.0.21",
     "@hint/utils-string": "^1.0.12",
-    "@hint/utils-types": "^1.1.7"
+    "@hint/utils-types": "^1.2.0"
   },
   "description": "hint that that warns against using P3P",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.17",
-    "@hint/utils-tests-helpers": "^6.3.11",
+    "@hint/utils-create-server": "^3.4.21",
+    "@hint/utils-tests-helpers": "^6.5.1",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -48,7 +48,7 @@
     "extends": "../../.nycrc"
   },
   "peerDependencies": {
-    "hint": "^6.0.0"
+    "hint": "^7.0.0"
   },
   "repository": {
     "directory": "packages/hint-no-p3p",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.3.17"
+  "version": "3.3.21"
 }
