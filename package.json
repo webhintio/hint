@@ -41,7 +41,9 @@
   "name": "@hint/monorepo",
   "private": true,
   "resolutions": {
-    "json-schema": "^0.4.0"
+    "json-schema": "^0.4.0",
+    "node-fetch": "^2.6.7"
+
   },
   "scripts": {
     "build": "yarn clean && yarn update:references && node scripts/build-or-test-all.js build",
