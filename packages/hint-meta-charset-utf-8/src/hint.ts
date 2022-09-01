@@ -194,7 +194,7 @@ export default class MetaCharsetUTF8Hint implements IHint {
                     fixes.unshift(removeMetaElementFix);
                 }
 
-                const severity = (firstHeadElement.getLocation().endOffset || 0) <= 1024 ?
+                const severity = (firstHeadElement?.getLocation().endOffset || 0) <= 1024 ?
                     Severity.hint :
                     Severity.error;
 

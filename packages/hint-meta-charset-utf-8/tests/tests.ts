@@ -1,4 +1,6 @@
 /* eslint-disable multiline-comment-style */
+import * as fs from 'fs';
+import * as path from 'path';
 import { generateHTMLPage } from '@hint/utils-create-server';
 import { getHintPath, HintTest, testHint } from '@hint/utils-tests-helpers';
 import { Severity } from '@hint/utils-types';
@@ -149,6 +151,14 @@ const tests: HintTest[] = [
     {
         name: `Resource is not an HTML document`,
         serverConfig: { '/': { headers: { 'Content-Type': 'image/png' } } }
+    },
+    {
+        name: `Gracefully handles empty <head> tag`,
+        reports: [{
+            message: metaElementNotSpecifiedErrorMessage,
+            severity: Severity.warning
+        }],
+        serverConfig: fs.readFileSync(path.join(__dirname, 'fixtures', 'repro.html'), 'utf-8') // eslint-disable-line
     }
 ];
 
