@@ -42,6 +42,7 @@
   "private": true,
   "resolutions": {
     "json-schema": "^0.4.0",
+    "node-fetch": "^2.6.7",
     "thenify": "^3.3.1"
   },
   "scripts": {
