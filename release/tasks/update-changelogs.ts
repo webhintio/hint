@@ -68,7 +68,7 @@ const generateChangelogSection = async (title: string, tags: string[], commits: 
     let result = '';
 
     for (const commit of commits) {
-        if (tags.includes(commit.tag)) {
+        if (tags.includes(commit.tag.trim())) {
             result += `${await prettyPrintCommit(commit)}\n`;
         }
     }
