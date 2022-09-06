@@ -1,3 +1,10 @@
+# 4.4.16 (September 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`e31c1c20ba`](https://github.com/webhintio/hint/commit/e31c1c20bac5937e45d03bb1645b2f8ff824f0db)] - Fix: Axe-core throws errors with local iframes (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5286`](https://github.com/webhintio/hint/issues/5286)).
+
+
 # 4.4.12 (June 6, 2022)
 
 ## Bug fixes / Improvements

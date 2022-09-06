@@ -1,3 +1,10 @@
+# 2.1.3 (September 6, 2022)
+
+## Chores
+
+* [[`3610fbe720`](https://github.com/webhintio/hint/commit/3610fbe7208dad07b4e866442b30d4572f1e5043)] - Upgrade: Bump ts-loader from 9.2.8 to 9.3.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5268`](https://github.com/webhintio/hint/issues/5268)).
+
+
 # 2.1.2 (July 22, 2022)
 
 ## Bug fixes / Improvements

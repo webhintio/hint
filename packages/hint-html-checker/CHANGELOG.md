@@ -1,3 +1,10 @@
+# 3.3.22 (September 6, 2022)
+
+## Breaking Changes
+
+* [[`3b71aaa5b8`](https://github.com/webhintio/hint/commit/3b71aaa5b8bae23ea0597912b5328a5785ab377c)] - Breaking : Remove 'request' dependency (#5243) (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+
 # 3.3.17 (May 3, 2022)
 
 ## Chores

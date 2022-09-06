@@ -1,3 +1,10 @@
+# 2.4.22 (September 6, 2022)
+
+## New features
+
+* [[`c74adf4875`](https://github.com/webhintio/hint/commit/c74adf48757eafd9ab65ff50e4a084df156554cc)] - Update: Updating got to 11.8.5 (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5288`](https://github.com/webhintio/hint/issues/5288)).
+
+
 # 2.4.17 (May 3, 2022)
 
 ## Chores

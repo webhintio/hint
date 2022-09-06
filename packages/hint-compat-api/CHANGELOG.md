@@ -1,3 +1,10 @@
+# 4.5.2 (September 6, 2022)
+
+## Chores
+
+* [[`05bf97c3df`](https://github.com/webhintio/hint/commit/05bf97c3df929f188a1468405d64d29889134904)] - Upgrade: Bump @types/lodash from 4.14.181 to 4.14.182 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5276`](https://github.com/webhintio/hint/issues/5276)).
+
+
 # 4.5.0 (July 7, 2022)
 
 ## New features

@@ -1,3 +1,10 @@
+# 3.2.23 (September 6, 2022)
+
+## Chores
+
+* [[`c603d40b62`](https://github.com/webhintio/hint/commit/c603d40b621a4564b4aeb24bc1ab43c2dd2d4a1d)] - Upgrade: Bump jsdom and @types/jsdom (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5293`](https://github.com/webhintio/hint/issues/5293)).
+
+
 # 3.2.18 (May 3, 2022)
 
 ## Chores

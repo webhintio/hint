@@ -1,3 +1,18 @@
+# 2.5.20 (September 6, 2022)
+
+## Breaking Changes
+
+* [[`3b71aaa5b8`](https://github.com/webhintio/hint/commit/3b71aaa5b8bae23ea0597912b5328a5785ab377c)] - Breaking : Remove 'request' dependency (#5243) (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+## New features
+
+* [[`941e2e0192`](https://github.com/webhintio/hint/commit/941e2e0192b6ea70abb481594c3ab177771f81f3)] - Update: Bumps node-fetch version and dependencies (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5300`](https://github.com/webhintio/hint/issues/5300)).
+
+## Chores
+
+* [[`05bf97c3df`](https://github.com/webhintio/hint/commit/05bf97c3df929f188a1468405d64d29889134904)] - Upgrade: Bump @types/lodash from 4.14.181 to 4.14.182 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5276`](https://github.com/webhintio/hint/issues/5276)).
+
+
 # 2.5.15 (May 3, 2022)
 
 ## Chores

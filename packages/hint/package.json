@@ -10,11 +10,11 @@
   },
   "bin": "./dist/src/bin/hint.js",
   "dependencies": {
-    "@hint/utils": "^7.0.19",
+    "@hint/utils": "^7.0.20",
     "@hint/utils-debug": "^1.0.10",
     "@hint/utils-fs": "^1.0.14",
-    "@hint/utils-json": "^1.0.22",
-    "@hint/utils-network": "^1.0.21",
+    "@hint/utils-json": "^1.0.23",
+    "@hint/utils-network": "^1.0.22",
     "@hint/utils-string": "^1.0.12",
     "@hint/utils-types": "^1.2.0",
     "browserslist": "^4.19.3",
@@ -31,7 +31,7 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
-    "@hint/utils-dom": "^2.2.0",
+    "@hint/utils-dom": "^2.2.1",
     "@types/lodash": "^4.14.182",
     "@types/node": "^17.0.14",
     "@types/sinon": "^10.0.11",
@@ -76,8 +76,8 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
-    "@hint/configuration-development": "^8.3.9",
-    "@hint/configuration-web-recommended": "^8.2.14"
+    "@hint/configuration-development": "^8.3.10",
+    "@hint/configuration-web-recommended": "^8.2.15"
   },
   "repository": {
     "directory": "packages/hint",
@@ -105,5 +105,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "7.1.1"
+  "version": "7.1.2"
 }

@@ -1,3 +1,10 @@
+# 2.12.17 (September 6, 2022)
+
+## New features
+
+* [[`649803d9e7`](https://github.com/webhintio/hint/commit/649803d9e72cef7666fe92b6a6c6cb92c60b0633)] - Update: Bumping 3rd party dependencies (#5302) (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+
 # 2.12.16 (July 22, 2022)
 
 ## Chores

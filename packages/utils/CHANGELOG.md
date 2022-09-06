@@ -1,3 +1,11 @@
+# 7.0.20 (September 6, 2022)
+
+## Chores
+
+* [[`b0628bc5c2`](https://github.com/webhintio/hint/commit/b0628bc5c2ce0d1369b33d1b69b99da41589701d)] - Upgrade: Bump file-type from 16.5.3 to 16.5.4 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5261`](https://github.com/webhintio/hint/issues/5261)).
+* [[`4cf339ff5c`](https://github.com/webhintio/hint/commit/4cf339ff5c648c1249c2c749a699bddff91eb88a)] - Upgrade: Bump npm-registry-fetch from 13.1.1 to 13.3.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5277`](https://github.com/webhintio/hint/issues/5277)).
+
+
 # 7.0.19 (July 22, 2022)
 
 ## Chores

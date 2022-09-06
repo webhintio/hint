@@ -1,3 +1,15 @@
+# 4.1.23 (September 6, 2022)
+
+## Breaking Changes
+
+* [[`3b71aaa5b8`](https://github.com/webhintio/hint/commit/3b71aaa5b8bae23ea0597912b5328a5785ab377c)] - Breaking : Remove 'request' dependency (#5243) (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+## Chores
+
+* [[`c603d40b62`](https://github.com/webhintio/hint/commit/c603d40b621a4564b4aeb24bc1ab43c2dd2d4a1d)] - Upgrade: Bump jsdom and @types/jsdom (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5293`](https://github.com/webhintio/hint/issues/5293)).
+* [[`05bf97c3df`](https://github.com/webhintio/hint/commit/05bf97c3df929f188a1468405d64d29889134904)] - Upgrade: Bump @types/lodash from 4.14.181 to 4.14.182 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5276`](https://github.com/webhintio/hint/issues/5276)).
+
+
 # 4.1.18 (May 3, 2022)
 
 ## Chores

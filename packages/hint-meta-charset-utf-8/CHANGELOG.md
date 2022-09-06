@@ -1,3 +1,10 @@
+# 4.0.18 (September 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`9530f79173`](https://github.com/webhintio/hint/commit/9530f79173beb1a1920192192b33c56c36021979)] - Fix: Gracefully handle empty <head> tag (by [`Tony Ross`](https://github.com/antross) / see also: [`#5197`](https://github.com/webhintio/hint/issues/5197)).
+
+
 # 4.0.13 (May 3, 2022)
 
 ## Chores

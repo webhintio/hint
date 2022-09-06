@@ -1,3 +1,18 @@
+# 4.0.37 (September 6, 2022)
+
+## Breaking Changes
+
+* [[`3b71aaa5b8`](https://github.com/webhintio/hint/commit/3b71aaa5b8bae23ea0597912b5328a5785ab377c)] - Breaking : Remove 'request' dependency (#5243) (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+## New features
+
+* [[`941e2e0192`](https://github.com/webhintio/hint/commit/941e2e0192b6ea70abb481594c3ab177771f81f3)] - Update: Bumps node-fetch version and dependencies (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5300`](https://github.com/webhintio/hint/issues/5300)).
+
+## Bug fixes / Improvements
+
+* [[`5d9d617375`](https://github.com/webhintio/hint/commit/5d9d617375fd8cd332889144e71d2305dfea45dc)] - Fix: Updating the user-agent in the requester. (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5287`](https://github.com/webhintio/hint/issues/5287)).
+
+
 # 4.0.34 (June 13, 2022)
 
 ## New features

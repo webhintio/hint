@@ -1,3 +1,10 @@
+# 3.2.22 (September 6, 2022)
+
+## Chores
+
+* [[`5fc94acf91`](https://github.com/webhintio/hint/commit/5fc94acf91ba78e1aeb38f84572e33e330bd6bcc)] - Upgrade: Bump image-size from 1.0.1 to 1.0.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5271`](https://github.com/webhintio/hint/issues/5271)).
+
+
 # 3.2.17 (May 3, 2022)
 
 ## Chores

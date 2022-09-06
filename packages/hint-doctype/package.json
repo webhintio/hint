@@ -14,8 +14,8 @@
   },
   "description": "this hint checks if the HTML is using the most modern DOCTYPE.",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^6.5.1",
-    "@hint/parser-html": "^3.1.0",
+    "@hint/utils-tests-helpers": "^6.5.2",
+    "@hint/parser-html": "^3.1.1",
     "@types/node": "^17.0.14",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -72,5 +72,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.3.21"
+  "version": "3.3.22"
 }

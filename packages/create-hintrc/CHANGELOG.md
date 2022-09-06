@@ -1,3 +1,12 @@
+# 4.0.4 (September 6, 2022)
+
+## Chores
+
+* [[`3610fbe720`](https://github.com/webhintio/hint/commit/3610fbe7208dad07b4e866442b30d4572f1e5043)] - Upgrade: Bump ts-loader from 9.2.8 to 9.3.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5268`](https://github.com/webhintio/hint/issues/5268)).
+* [[`d5a773f0d6`](https://github.com/webhintio/hint/commit/d5a773f0d6dd30bdaa55690b035d778cf947edfe)] - Upgrade: Bump fork-ts-checker-webpack-plugin from 7.2.9 to 7.2.13 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5267`](https://github.com/webhintio/hint/issues/5267)).
+* [[`05bf97c3df`](https://github.com/webhintio/hint/commit/05bf97c3df929f188a1468405d64d29889134904)] - Upgrade: Bump @types/lodash from 4.14.181 to 4.14.182 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5276`](https://github.com/webhintio/hint/issues/5276)).
+
+
 # 4.0.0 (June 6, 2022)
 
 ## Breaking Changes

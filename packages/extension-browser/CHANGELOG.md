@@ -1,3 +1,11 @@
+# 2.4.6 (September 6, 2022)
+
+## Chores
+
+* [[`c603d40b62`](https://github.com/webhintio/hint/commit/c603d40b621a4564b4aeb24bc1ab43c2dd2d4a1d)] - Upgrade: Bump jsdom and @types/jsdom (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5293`](https://github.com/webhintio/hint/issues/5293)).
+* [[`c2a6340fcc`](https://github.com/webhintio/hint/commit/c2a6340fcc76201def3967226e73e20e138a9357)] - Upgrade: Bump eslint-plugin-react-hooks from 4.3.0 to 4.6.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5270`](https://github.com/webhintio/hint/issues/5270)).
+
+
 # 2.4.5 (July 22, 2022)
 
 ## Chores
