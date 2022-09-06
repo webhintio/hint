@@ -15,7 +15,7 @@
     "@hint/utils": "^7.0.20",
     "@hint/utils-debug": "^1.0.10",
     "@hint/utils-fs": "^1.0.14",
-    "browserslist": "^4.19.3",
+    "browserslist": "^4.21.3",
     "inquirer": "^8.2.2"
   },
   "description": "webhint's configuration file initializer package",
