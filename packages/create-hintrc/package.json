@@ -16,11 +16,11 @@
     "@hint/utils-debug": "^1.0.10",
     "@hint/utils-fs": "^1.0.14",
     "browserslist": "^4.19.3",
-    "inquirer": "^8.2.2"
+    "inquirer": "^9.1.1"
   },
   "description": "webhint's configuration file initializer package",
   "devDependencies": {
-    "@types/inquirer": "^8.2.0",
+    "@types/inquirer": "^9.0.1",
     "@types/lodash": "^4.14.182",
     "@types/node": "^17.0.14",
     "@types/proxyquire": "^1.3.28",
@@ -34,7 +34,7 @@
     "eslint-plugin-markdown": "^2.2.1",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "hint": "^7.1.2",
-    "inquirer": "^8.2.2",
+    "inquirer": "^9.1.1",
     "lodash": "^4.17.21",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
