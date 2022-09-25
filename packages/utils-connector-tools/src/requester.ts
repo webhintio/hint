@@ -284,11 +284,8 @@ export class Requester {
                         }
 
                         this._redirects.add(newUri, uriString);
-                        console.log(`redirects`, newUri);
 
                         const currentRedirectNumber = this._redirects.calculate(newUri).length;
-
-                        console.log(`currentRedirectNumber`, currentRedirectNumber);
 
                         if (currentRedirectNumber > this._maxRedirects) {
                             return reject(new Error(`The number of redirects(${currentRedirectNumber}) exceeds the limit(${this._maxRedirects}).`));
