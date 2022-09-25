@@ -249,6 +249,8 @@ export class Requester {
                         isHTTPS = true;
                     }
 
+                    let agent;
+
                     if (this._options.strictSSL || isHTTPS) {
                         let httpsAgentOptions;
 
@@ -259,10 +261,10 @@ export class Requester {
 
                         const httpsAgent = new https.Agent(httpsAgentOptions);
 
-                        this._options.agent = httpsAgent;
+                        agent = httpsAgent;
                     }
 
-                    const response = await fetch(uriString, this._options);
+                    const response = await fetch(uriString, {...this._options, agent});
 
                     rawBodyResponse = await response.buffer();
 
