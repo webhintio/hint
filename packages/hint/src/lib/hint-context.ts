@@ -149,10 +149,10 @@ export class HintContext<E extends Events = Events> {
     /** Finds the approximative location in the page's HTML for a match in an element. */
     public findProblemLocation(element: HTMLElement, offset: ProblemLocation | null, attribute?: string): ProblemLocation | null {
         if (attribute) {
-            const { column, elementId, line, startOffset } = element.getAttributeLocation(attribute);
+            const { column, line, startOffset } = element.getAttributeLocation(attribute);
 
             // Point to the just start of the attribute name (helps editors underline just the name).
-            return { column, elementId, line, startOffset };
+            return { column, line, startOffset };
         }
 
         if (offset) {
