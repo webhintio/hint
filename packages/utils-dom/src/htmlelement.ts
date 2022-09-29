@@ -218,6 +218,7 @@ export class HTMLElement extends Node {
 
         return {
             column: location ? location.startCol - 1 : -1,
+            elementId: this._element.id,
             endColumn: location ? location.endCol - 1 : -1,
             endLine: location ? location.endLine - 1 : -1,
             endOffset: location ? location.endOffset : -1,
