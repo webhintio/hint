@@ -82,3 +82,18 @@ test('It allows disabling hints by default', async (t) => {
     // Validate `compat-api/html` was configured
     t.is(compatHtmlResults.length, 1);
 });
+
+test.only('Reported problems should have an elementId', async (t) => {
+    const data = { html: await readFile('fixtures/basic-hints.html') };
+    const results = await getResults({
+        defaultHintSeverity: 'off',
+        userConfig: {
+            hints: { 'compat-api/html': 'default' },
+            language: 'en-us'
+        }
+    }, data, t.log);
+
+    for (const problem of results.problems) {
+        t.not(problem.location.elementId, undefined);
+    }
+});

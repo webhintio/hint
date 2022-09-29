@@ -159,10 +159,10 @@ export class HintContext<E extends Events = Events> {
             return element.getContentLocation(offset);
         }
 
-        const { column, line, startOffset } = element.getLocation();
+        const { column, elementId, line, startOffset } = element.getLocation();
 
         // Point to the start of the element name (skipping '<', helps editors undeline just the name).
-        return { column: column + 1, line, startOffset };
+        return { column: column + 1, elementId, line, startOffset };
     }
 
     /** Reports a problem with the resource. */
