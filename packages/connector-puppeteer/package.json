@@ -30,7 +30,7 @@
     "@types/is-ci": "^3.0.0",
     "@types/lockfile": "^1.0.2",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^17.0.14",
+    "@types/node": "^18.7.23",
     "@types/puppeteer": "^5.4.5",
     "@types/puppeteer-core": "^5.4.0",
     "@types/sinon": "^10.0.11",
