@@ -415,8 +415,6 @@ export class HTMLElement extends Node {
         const childIndent = this.getChildIndent();
         const outerHTML = removeExistingInstance ? this.outerHTML.replace(child, '') : this.outerHTML;
 
-        console.log(this);
-
         const tagMatch = outerHTML.match(openingTagRegex);
 
         if (tagMatch) {
