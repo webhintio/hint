@@ -323,4 +323,15 @@ const tests: HintTest[] = [
     }
 ];
 
+const httpTests: HintTest[] = [
+    {
+        name: `This test should pass as it has valid links (hosted on http to https links) `,
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithValidLinks) },
+            '/about': { content: 'My about page content' }
+        }
+    }
+];
+
+testHint(hintPath, httpTests, {https: false});
 testHint(hintPath, tests, {https: true});
