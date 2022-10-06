@@ -15,7 +15,7 @@
     "@hint/utils-i18n": "^1.0.14",
     "@hint/utils-types": "^1.2.0",
     "image-size": "^1.0.2",
-    "image-type": "^4.1.0"
+    "image-type": "^5.1.0"
   },
   "devDependencies": {
     "@hint/parser-manifest": "^2.3.16",
