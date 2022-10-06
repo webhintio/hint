@@ -13,7 +13,7 @@
     "@hint/utils-debug": "^1.0.10",
     "@hint/utils-string": "^1.0.13",
     "postcss": "^8.4.13",
-    "postcss-less": "^5.0.0"
+    "postcss-less": "^6.0.0"
   },
   "description": "webhint parser needed to analyze LESS files",
   "devDependencies": {
