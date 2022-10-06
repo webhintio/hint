@@ -1,3 +1,11 @@
+# 4.2.23 (October 6, 2022)
+
+## Chores
+
+* [[`8bf96875d4`](https://github.com/webhintio/hint/commit/8bf96875d40ce9d7b341d58c9706873cf40a44ce)] - Chore: Test for regressed broken-links-package. (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5331`](https://github.com/webhintio/hint/issues/5331)).
+* [[`005e962584`](https://github.com/webhintio/hint/commit/005e9625841970bdd80d3a3780721220e9e0dfa7)] - Upgrade: Bump ava from 4.0.1 to 4.3.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5310`](https://github.com/webhintio/hint/issues/5310)).
+
+
 # 4.2.22 (September 6, 2022)
 
 ## Breaking Changes

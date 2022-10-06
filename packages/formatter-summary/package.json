@@ -9,10 +9,10 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.20",
+    "@hint/utils": "^7.0.21",
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-fs": "^1.0.14",
-    "@hint/utils-i18n": "^1.0.13",
+    "@hint/utils-fs": "^1.0.15",
+    "@hint/utils-i18n": "^1.0.14",
     "@hint/utils-types": "^1.2.0",
     "chalk": "^4.1.2",
     "lodash": "^4.17.21",
@@ -80,5 +80,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.35"
+  "version": "3.0.36"
 }

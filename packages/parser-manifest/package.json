@@ -9,9 +9,9 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils-json": "^1.0.23",
-    "@hint/utils-network": "^1.0.22",
-    "@hint/utils-string": "^1.0.12",
+    "@hint/utils-json": "^1.0.24",
+    "@hint/utils-network": "^1.0.23",
+    "@hint/utils-string": "^1.0.13",
     "@hint/utils-types": "^1.2.0"
   },
   "description": "webhint parser for web app manifest files",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.15"
+  "version": "2.3.16"
 }

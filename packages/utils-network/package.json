@@ -9,10 +9,10 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.20",
+    "@hint/utils": "^7.0.21",
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-fs": "^1.0.14",
-    "@hint/utils-string": "^1.0.12",
+    "@hint/utils-fs": "^1.0.15",
+    "@hint/utils-string": "^1.0.13",
     "@hint/utils-types": "^1.2.0",
     "content-type": "^1.0.4",
     "lodash": "^4.17.21",
@@ -68,5 +68,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.22"
+  "version": "1.0.23"
 }

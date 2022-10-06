@@ -1,3 +1,14 @@
+# 1.4.6 (October 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`44b28e4b00`](https://github.com/webhintio/hint/commit/44b28e4b00351fab87642deeabcda8faf0c23af4)] - Fix: Re-adding elementId to location(hint-context) (#5328) (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+## Chores
+
+* [[`005e962584`](https://github.com/webhintio/hint/commit/005e9625841970bdd80d3a3780721220e9e0dfa7)] - Upgrade: Bump ava from 4.0.1 to 4.3.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5310`](https://github.com/webhintio/hint/issues/5310)).
+
+
 # 1.4.5 (September 6, 2022)
 
 ## Bug fixes / Improvements

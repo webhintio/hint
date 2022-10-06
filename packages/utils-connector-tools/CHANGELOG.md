@@ -1,3 +1,15 @@
+# 4.0.38 (October 6, 2022)
+
+## Bug fixes / Improvements
+
+* [[`f5da66784d`](https://github.com/webhintio/hint/commit/f5da66784dfae8a88fd4ad4475b0b6a0c38d0ce9)] - Fix: Requester breaking when mixing http and https (by [`Kuba Orlik`](https://github.com/kuba-orlik) / see also: [`#5317`](https://github.com/webhintio/hint/issues/5317)).
+* [[`d2125cf491`](https://github.com/webhintio/hint/commit/d2125cf4915e630a883aaf5798b5cf7ec35faf24)] - Fix: Remove console.logs in requester.ts (by [`Kuba Orlik`](https://github.com/kuba-orlik) / see also: [`#5316`](https://github.com/webhintio/hint/issues/5316)).
+
+## Chores
+
+* [[`005e962584`](https://github.com/webhintio/hint/commit/005e9625841970bdd80d3a3780721220e9e0dfa7)] - Upgrade: Bump ava from 4.0.1 to 4.3.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5310`](https://github.com/webhintio/hint/issues/5310)).
+
+
 # 4.0.37 (September 6, 2022)
 
 ## Breaking Changes
