@@ -59,7 +59,7 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
-    "canvas": "^2.9.1"
+    "canvas": "^2.10.2"
   },
   "peerDependencies": {
     "hint": "^7.0.0"
