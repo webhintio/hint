@@ -22,7 +22,7 @@
     "is-wsl": "^2.2.0",
     "lodash": "^4.17.21",
     "npm-registry-fetch": "^13.3.0",
-    "semver": "^7.3.5"
+    "semver": "^7.3.8"
   },
   "description": "hint tools",
   "devDependencies": {
@@ -30,7 +30,7 @@
     "@hint/utils-types": "^1.2.0",
     "@types/configstore": "^5.0.1",
     "@types/mime-db": "^1.43.1",
-    "@types/semver": "^7.3.10",
+    "@types/semver": "^7.3.13",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "ava": "^4.3.3",
