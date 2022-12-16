@@ -6837,7 +6837,7 @@ loader-runner@^4.2.0:
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-4.2.0.tgz#d7022380d66d14c5fb1d496b89864ebcfd478384"
   integrity sha512-92+huvxMvYlMzMt0iIOukcwYBFpkYJdpl2xsZ7LrlayO7E8SOv+JJUEK17B/dJIHAOLMfh2dZZ/Y18WgmGtYNw==
 
-loader-utils@^2.0.0, loader-utils@~2.0.0:
+loader-utils@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-2.0.4.tgz#8b5cb38b5c34a9a018ee1fc0e6a066d1dfcc528c"
   integrity sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==
@@ -10224,13 +10224,12 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-svg-url-loader@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/svg-url-loader/-/svg-url-loader-7.1.1.tgz#0cbdb30beb8679cb060c12eaf30085747fa7591f"
-  integrity sha512-NlsMCePODm7FQhU9aEZyGLPx5Xe1QRI1cSEUE6vTq5LJc9l9pStagvXoEIyZ9O3r00w6G3+Wbkimb+SC3DI/Aw==
+svg-url-loader@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/svg-url-loader/-/svg-url-loader-8.0.0.tgz#05d57af5b19d7caa39624a88e3cd535243634991"
+  integrity sha512-5doSXvl18hY1fGsRLdhWAU5jgzgxJ06/gc/26cpuDnN0xOz1HmmfhkpL29SSrdIvhtxQ1UwGzmk7wTT/l48mKw==
   dependencies:
     file-loader "~6.2.0"
-    loader-utils "~2.0.0"
 
 symbol-observable@1.0.1:
   version "1.0.1"
