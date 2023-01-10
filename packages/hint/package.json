@@ -24,7 +24,7 @@
     "is-ci": "^3.0.1",
     "lodash": "^4.17.21",
     "optionator": "^0.9.1",
-    "ora": "^5.4.1",
+    "ora": "^6.1.2",
     "os-locale": "^5.0.0",
     "setimmediate": "^1.0.5",
     "update-notifier": "^5.1.0"
