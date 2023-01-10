@@ -43,7 +43,8 @@
   "resolutions": {
     "json-schema": "^0.4.0",
     "node-fetch": "^2.6.7",
-    "thenify": "^3.3.1"
+    "thenify": "^3.3.1",
+    "tsconfig-paths": "^4.1.2"
   },
   "scripts": {
     "build": "yarn clean && yarn update:references && node scripts/build-or-test-all.js build",
