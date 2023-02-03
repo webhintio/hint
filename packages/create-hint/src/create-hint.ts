@@ -189,7 +189,9 @@ class HintPackage {
  * ------------------------------------------------------------------------------
  */
 
-const mkdirpAsync = (dir: string) => {fs.mkdir(dir, {recursive: true})};
+const mkdirpAsync = (dir: string) => {
+    fs.mkdir(dir, {recursive: true});
+};
 /** Name of the package to use as a template. */
 const TEMPLATE_PATH = './templates';
 const SHARED_TEMPLATE_PATH = './shared-templates';
@@ -405,8 +407,8 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
         await writeFileAsync(metaIndexPath, metaIndexContent);
     }
 
-    let mkDirPromiseArray = [];
-    let writeFilePromiseArray = [];
+    const mkDirPromiseArray = [];
+    const writeFilePromiseArray = [];
 
     for (const hint of data.hints) {
         const [hintContent, testContent, metaContent] = await Promise.all([
@@ -426,13 +428,13 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
                 testPath: join(testFile.destination, `tests.ts`)
             };
 
-            mkDirPromiseArray.push(mkdirpAsync(dirname(hintPath)));
-            mkDirPromiseArray.push(mkdirpAsync(dirname(testPath)));
-            mkDirPromiseArray.push(mkdirpAsync(dirname(metaPath)));
+        mkDirPromiseArray.push(mkdirpAsync(dirname(hintPath)));
+        mkDirPromiseArray.push(mkdirpAsync(dirname(testPath)));
+        mkDirPromiseArray.push(mkdirpAsync(dirname(metaPath)));
 
-            writeFilePromiseArray.push(writeFileAsync(hintPath, hintContent));
-            writeFilePromiseArray.push(writeFileAsync(testPath, testContent));
-            writeFilePromiseArray.push(writeFileAsync(metaPath, metaContent));
+        writeFilePromiseArray.push(writeFileAsync(hintPath, hintContent));
+        writeFilePromiseArray.push(writeFileAsync(testPath, testContent));
+        writeFilePromiseArray.push(writeFileAsync(metaPath, metaContent));
 
         if (data.isMulti) {
             const docContent = await compileTemplate(docFile.path, hint);
