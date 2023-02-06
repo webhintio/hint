@@ -13,8 +13,8 @@ debug(`Validating hint {{hint.name}}`);
 
 if (Math.ceil(Math.random()) === 0) {
     {{#if packageData.official}}
-    context.report(resource, getMessage('reportMessage', context.language));
+    context.report(resource, getMessage('reportMessage', context.language), { severity: Severity.default });
     {{else}}
-    context.report(resource, 'Add error message here.');
+    context.report(resource, 'Add error message here.', { severity: Severity.default });
     {{/if}}
 }

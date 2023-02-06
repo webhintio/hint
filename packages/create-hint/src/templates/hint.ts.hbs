@@ -6,6 +6,7 @@ import { HintContext } from 'hint/dist/src/lib/hint-context';
 // The list of types depends on the events you want to capture.
 import { IHint, {{hint.events}} } from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
+import { Severity } from '@hint/utils-types';
 
 import meta from './meta{{#if hint.parentName}}/{{hint.normalizedName}}{{/if}}';
 {{#if packageData.official}}
