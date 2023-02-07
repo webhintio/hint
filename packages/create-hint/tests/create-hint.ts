@@ -27,6 +27,10 @@ type HandlebarsUtils = {
     compileTemplate: (filePath: string, data: any) => Promise<string>;
 };
 
+type fsPromisesType = {
+        mkdir: (dir: string, options: any) => Promise<string | undefined>;
+};
+
 type CreateHintContext = {
     cwd: CWD;
     inquirer: Inquirer;
@@ -36,6 +40,7 @@ type CreateHintContext = {
     mkdirp: Mkdirp;
     sandbox: sinon.SinonSandbox;
     writeFileAsyncModule: WriteFileAsyncModule;
+    fsPromises: fsPromisesType;
 }
 
 const test = anyTest as TestFn<CreateHintContext>;
@@ -64,6 +69,11 @@ const initContext = (t: ExecutionContext<CreateHintContext>) => {
     };
     t.context.sandbox = sinon.createSandbox();
     t.context.writeFileAsyncModule = () => { };
+    t.context.fsPromises = {
+        mkdir(dir: string) {
+            return Promise.resolve(dir);
+        }
+    };
 };
 
 const loadScript = (context: CreateHintContext) => {
@@ -76,6 +86,7 @@ const loadScript = (context: CreateHintContext) => {
             writeFileAsync: context.writeFileAsyncModule
         },
         'fs-extra': context.fsExtra,
+        'fs/promises': context.fsPromises,
         inquirer: context.inquirer,
         mkdirp: context.mkdirp
     });
@@ -105,6 +116,7 @@ test('It creates a hint if the option multiple hints is false', async (t) => {
     const handlebarsCompileTemplateStub = sandbox.stub(t.context.handlebarsUtils, 'compileTemplate').resolves('');
 
     sandbox.stub(t.context, 'isOfficialModule').resolves(true);
+    sandbox.stub(t.context.fsPromises, 'mkdir').resolves();
     sandbox.stub(t.context, 'cwd').returns(root);
     sandbox.stub(t.context.inquirer, 'prompt').resolves(results);
 
