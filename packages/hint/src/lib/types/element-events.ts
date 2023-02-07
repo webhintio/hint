@@ -134,6 +134,7 @@ export type ElementEvents = {
     'element::sub': ElementFound;
     'element::summary': ElementFound;
     'element::sup': ElementFound;
+    'element::svg': ElementFound;
     'element::table': ElementFound;
     'element::tbody': ElementFound;
     'element::td': ElementFound;

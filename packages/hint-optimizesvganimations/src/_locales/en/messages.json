@@ -1,0 +1,14 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Hint that detects more performant ways of animate an SVG"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "optimizesvganimations"
+    },
+    "reportMessage": {
+        "description": "Metadata reportMessage",
+        "message": "Using CSS to animate SVGs can be more performant than using 'animate' element."
+    }
+}
