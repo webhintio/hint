@@ -190,7 +190,7 @@ class HintPackage {
  */
 
 const mkdirpAsync = (dir: string) => {
-    fs.mkdir(dir, {recursive: true});
+    return fs.mkdir(dir, {recursive: true});
 };
 /** Name of the package to use as a template. */
 const TEMPLATE_PATH = './templates';
