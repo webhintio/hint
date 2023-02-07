@@ -16,8 +16,6 @@ type FsExtra = {
     copy: (orig: string, dest: string) => void;
 };
 
-type Mkdirp = (dir: string, callback: Function) => void;
-
 type WriteFileAsyncModule = () => void;
 type IsOfficialModule = () => Promise<boolean>;
 type CWD = () => string;
@@ -37,7 +35,6 @@ type CreateHintContext = {
     isOfficialModule: IsOfficialModule;
     fsExtra: FsExtra;
     handlebarsUtils: HandlebarsUtils;
-    mkdirp: Mkdirp;
     sandbox: sinon.SinonSandbox;
     writeFileAsyncModule: WriteFileAsyncModule;
     fsPromises: fsPromisesType;
@@ -64,9 +61,6 @@ const initContext = (t: ExecutionContext<CreateHintContext>) => {
     t.context.isOfficialModule = () => {
         return Promise.resolve(false);
     };
-    t.context.mkdirp = (dir: string, callback: Function) => {
-        callback();
-    };
     t.context.sandbox = sinon.createSandbox();
     t.context.writeFileAsyncModule = () => { };
     t.context.fsPromises = {
@@ -87,8 +81,7 @@ const loadScript = (context: CreateHintContext) => {
         },
         'fs-extra': context.fsExtra,
         'fs/promises': context.fsPromises,
-        inquirer: context.inquirer,
-        mkdirp: context.mkdirp
+        inquirer: context.inquirer
     });
 
     return script.default;
