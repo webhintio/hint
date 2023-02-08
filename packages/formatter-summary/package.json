@@ -16,7 +16,7 @@
     "@hint/utils-types": "^1.2.0",
     "chalk": "^4.1.2",
     "lodash": "^4.17.21",
-    "strip-ansi": "^6.0.0",
+    "strip-ansi": "^7.0.1",
     "text-table": "^0.2.0"
   },
   "description": "",
