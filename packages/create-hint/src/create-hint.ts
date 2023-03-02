@@ -1,9 +1,8 @@
 import { dirname, join } from 'path';
-import { promisify } from 'util';
 
 import { copy } from 'fs-extra';
 import * as inquirer from 'inquirer';
-import * as mkdirp from 'mkdirp';
+import * as fs from 'fs/promises';
 
 import {
     logger,
@@ -190,7 +189,9 @@ class HintPackage {
  * ------------------------------------------------------------------------------
  */
 
-const mkdirpAsync = promisify(mkdirp) as (dir: string) => Promise<void>;
+const mkdirpAsync = (dir: string) => {
+    return fs.mkdir(dir, {recursive: true});
+};
 /** Name of the package to use as a template. */
 const TEMPLATE_PATH = './templates';
 const SHARED_TEMPLATE_PATH = './shared-templates';
@@ -406,6 +407,9 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
         await writeFileAsync(metaIndexPath, metaIndexContent);
     }
 
+    const mkDirPromiseArray = [];
+    const writeFilePromiseArray = [];
+
     for (const hint of data.hints) {
         const [hintContent, testContent, metaContent] = await Promise.all([
             compileTemplate(hintFile.path, { hint, packageData: data }),
@@ -424,9 +428,13 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
                 testPath: join(testFile.destination, `tests.ts`)
             };
 
-        await Promise.all([mkdirpAsync(dirname(hintPath)), mkdirpAsync(dirname(testPath)), mkdirpAsync(dirname(metaPath))]);
+        mkDirPromiseArray.push(mkdirpAsync(dirname(hintPath)));
+        mkDirPromiseArray.push(mkdirpAsync(dirname(testPath)));
+        mkDirPromiseArray.push(mkdirpAsync(dirname(metaPath)));
 
-        await Promise.all([writeFileAsync(hintPath, hintContent), writeFileAsync(testPath, testContent), writeFileAsync(metaPath, metaContent)]);
+        writeFilePromiseArray.push(writeFileAsync(hintPath, hintContent));
+        writeFilePromiseArray.push(writeFileAsync(testPath, testContent));
+        writeFilePromiseArray.push(writeFileAsync(metaPath, metaContent));
 
         if (data.isMulti) {
             const docContent = await compileTemplate(docFile.path, hint);
@@ -438,6 +446,9 @@ const generateHintFiles = async (destination: string, data: HintPackage) => {
             await writeFileAsync(docPath, docContent);
         }
     }
+
+    await Promise.all(mkDirPromiseArray);
+    await Promise.all(writeFilePromiseArray);
 
     // Create `_locales` directory
     if (data.official) {
