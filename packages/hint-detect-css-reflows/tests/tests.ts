@@ -35,4 +35,4 @@ const tests: HintTest[] = [
     }
 ];
 
-testHint(hintPath, tests, { parsers: ['css'] });
+testHint(hintPath, tests, { parsers: ['css', 'sass'] });
