@@ -25,13 +25,31 @@ const generateConfig = (fileName: string) => {
  */
 const tests: HintTest[] = [
     {
-        name: 'Hints should be reported for two css rules',
-        reports: [{
-            message: `'appearance' should be listed after '-webkit-appearance'.`,
-            position: { match: 'appearance: none; /* Report */', range: 'appearance' },
-            severity: Severity.hint
-        }],
+        name: 'Hints should  be reported for properties in the CSSReflow.json file',
+        reports: [
+            {
+                message: `Changes to 'accent-color' will trigger: 'Composite'. Which can impact performance.`,
+                position: { column: 4, endColumn: 16, endLine: 1, line: 1 },
+                severity: Severity.hint
+            },
+            {
+                message: `Changes to 'align-content' will trigger: 'Composite, Layout, Paint'. Which can impact performance.`,
+                position: { column: 4, endColumn: 16, endLine: 5, line: 5 },
+                severity: Severity.hint
+            }
+        ],
         serverConfig: generateConfig('layout-triggers')
+    },
+    {
+        name: 'Hints should not be reported for malformed properties in specific rules',
+        reports: [
+            {
+                message: `Changes to 'accent-color' will trigger: 'Composite'. Which can impact performance.`,
+                position: { column: 4, endColumn: 16, endLine: 1, line: 1 },
+                severity: Severity.hint
+            }
+        ],
+        serverConfig: generateConfig('malformed-layout-triggers')
     }
 ];
 

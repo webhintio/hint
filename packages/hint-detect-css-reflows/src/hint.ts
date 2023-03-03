@@ -40,7 +40,7 @@ export default class DetectCssReflowsHint implements IHint {
             const results = new Set<Declaration>();
 
             rule.each((decl) => {
-                if (!('prop' in decl)) {
+                if (!('prop' in decl) || (decl.toString() ==='not valid')) {
                     return;
                 }
 
@@ -57,7 +57,21 @@ export default class DetectCssReflowsHint implements IHint {
         };
 
         const formatMessage = (declaration: Declaration): string => {
-            return getMessage('willTriggerLayout', context.language, [declaration.value]);
+            const propertyName = declaration.prop;
+            const affectedTriggers = cssPropertiesObject[propertyName];
+            const cssDeclarationTrigger = Object.getOwnPropertyNames(affectedTriggers).map((item) => {
+                if (item && affectedTriggers[item]) {
+                    return `${item.charAt(0).toLocaleUpperCase()}${item.slice(1).toLowerCase()}`;
+                }
+
+                return null;
+            });
+
+            const triggeredCSSChangesArray = cssDeclarationTrigger.filter((item) => {
+                return item !== null;
+            }).join(', ');
+
+            return getMessage('willTriggerLayout', context.language, [propertyName, triggeredCSSChangesArray]);
         };
 
         context.on('parse::end::css', ({ ast, element, resource }: StyleParse) => {

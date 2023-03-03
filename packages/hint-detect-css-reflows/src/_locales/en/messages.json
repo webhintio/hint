@@ -9,6 +9,6 @@
     },
     "willTriggerLayout": {
         "description": "Report message to show when the validation fails",
-        "message": "Changes to this property will trigger: '$1'."
+        "message": "Changes to '$1' will trigger: '$2'. Which can impact performance."
     }
 }
