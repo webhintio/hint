@@ -19,7 +19,7 @@ const meta: HintMetadata = {
     getName(language: string) {
         return getMessage('name', language);
     },
-    id: 'css-prefix-order',
+    id: 'detect-css-reflows',
     schema: [],
     scope: HintScope.any
 };
