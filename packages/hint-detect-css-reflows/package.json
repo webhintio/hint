@@ -1,0 +1,88 @@
+{
+  "ava": {
+    "failFast": false,
+    "files": [
+      "dist/tests/**/*.js",
+      "!dist/tests/**/fixtures/**/*.js"
+    ],
+    "timeout": "1m"
+  },
+  "dependencies": {
+    "@hint/utils-css": "^1.0.14",
+    "@hint/utils-debug": "^1.0.10",
+    "@hint/utils-fs": "^1.0.15",
+    "@hint/utils-i18n": "^1.0.14",
+    "@hint/utils-types": "^1.2.0",
+    "postcss": "^8.4.13"
+  },
+  "description": "Let the developers know of what operations will be triggered by changes on the css properties",
+  "devDependencies": {
+    "@hint/parser-css": "^3.0.36",
+    "@hint/utils": "^7.0.21",
+    "@hint/utils-create-server": "^3.4.23",
+    "@hint/utils-tests-helpers": "^6.5.3",
+    "@types/node": "^18.13.0",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "ava": "^4.3.3",
+    "copyfiles": "^2.4.1",
+    "eslint": "^7.32.0",
+    "eslint-plugin-markdown": "^2.2.1",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^15.1.0",
+    "postcss": "^8.4.13",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.5.5"
+  },
+  "files": [
+    "dist/src"
+  ],
+  "homepage": "",
+  "keywords": [
+    "hint",
+    "detect-css-reflows",
+    "detect-css-reflows-hint"
+  ],
+  "license": "Apache-2.0",
+  "main": "dist/src/hint.js",
+  "name": "hint-detect-css-reflows",
+  "nyc": {
+    "branches": 85,
+    "cache": true,
+    "check-coverage": true,
+    "functions": 80,
+    "instrument": true,
+    "lines": 85,
+    "reporter": [
+        "lcov",
+        "text"
+    ],
+    "sourceMap": true,
+    "statements": 85
+  },
+  "peerDependencies": {
+   "@hint/parser-css": "^3.0.0",
+   "hint": "^7.0.0"
+  },
+  "private": true,
+  "repository": "",
+  "scripts": {
+    "build": "npm run i18n && npm-run-all build:*",
+    "build-release": "npm run clean && npm run i18n && npm run build:assets && tsc --inlineSourceMap false --removeComments true",
+    "build:assets": "copyfiles \"./{src,tests}/**/{!(*.ts),.!(ts)}\" dist",
+    "build:ts": "tsc -b",
+    "clean": "rimraf dist",
+    "i18n": "node ../../scripts/create-i18n.js",
+    "lint": "npm-run-all lint:*",
+    "lint:js": "eslint . --cache --ext .js,.md,.ts --ignore-path ../../.eslintignore",
+    "lint:md": "node ../../scripts/lint-markdown.js",
+    "test": "npm run i18n && npm run lint && npm run build && npm run test-only",
+    "test-only": "nyc ava",
+    "init": "npm install && npm run build",
+    "watch": "npm run build && npm-run-all --parallel -c watch:*",
+    "watch:assets": "npm run build:assets -- -w --no-initial",
+    "watch:test": "ava --watch",
+    "watch:ts": "npm run build:ts -- --watch"
+  },
+  "version": "0.0.1"
+}

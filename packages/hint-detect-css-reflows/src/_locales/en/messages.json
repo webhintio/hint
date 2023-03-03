@@ -1,0 +1,14 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Let the developers know of what operations will be triggered by changes on the css properties"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "Detect CSS reflows"
+    },
+    "willTriggerLayout": {
+        "description": "Report message to show when the validation fails",
+        "message": "Changes to this property will trigger: '$1'."
+    }
+}
