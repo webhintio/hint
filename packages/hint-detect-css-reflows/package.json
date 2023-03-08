@@ -38,15 +38,15 @@
   "files": [
     "dist/src"
   ],
-  "homepage": "",
+  "homepage": "https://webhint.io/",
   "keywords": [
     "hint",
     "detect-css-reflows",
     "detect-css-reflows-hint"
   ],
   "license": "Apache-2.0",
-  "main": "dist/src/hint.js",
-  "name": "@hint/hint-detect-css-reflows",
+  "main": "dist/src/index.js",
+  "name": "@hint/detect-css-reflows",
   "nyc": {
     "extends": "../../.nycrc"
   },

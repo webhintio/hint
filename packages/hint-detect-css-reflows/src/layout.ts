@@ -15,8 +15,9 @@ import { loadJSONFile } from '@hint/utils-fs';
 import { getCSSLocationFromNode, getUnprefixed } from '@hint/utils-css';
 const cssPropertiesObject = loadJSONFile(path.join(__dirname, 'assets', 'CSSReflow.json')) || {};
 
-import meta from './meta';
 import { getMessage } from './i18n.import';
+
+import meta from './meta/layout';
 
 const debug: debug.IDebugger = d(__filename);
 
@@ -26,7 +27,7 @@ const debug: debug.IDebugger = d(__filename);
  * ------------------------------------------------------------------------------
  */
 
-export default class DetectCssReflowsHint implements IHint {
+export default class DetectCssLayoutHint implements IHint {
 
     public static readonly meta = meta;
 
@@ -48,7 +49,7 @@ export default class DetectCssReflowsHint implements IHint {
                 const baseName = getUnprefixed(name);
                 const propertyName = cssPropertiesObject[baseName];
 
-                if (propertyName) {
+                if (propertyName && propertyName.layout) {
                     results.add(decl);
                 }
             });
@@ -60,7 +61,7 @@ export default class DetectCssReflowsHint implements IHint {
             const propertyName = declaration.prop;
             const affectedTriggers = cssPropertiesObject[propertyName];
             const cssDeclarationTrigger = Object.getOwnPropertyNames(affectedTriggers).map((item) => {
-                if (item && affectedTriggers[item]) {
+                if (item === 'layout' && affectedTriggers[item]) {
                     return `${item.charAt(0).toLocaleUpperCase()}${item.slice(1).toLowerCase()}`;
                 }
 

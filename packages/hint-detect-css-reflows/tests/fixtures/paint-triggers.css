@@ -5,3 +5,7 @@
 .example2 {
    padding-left: 10%;
 }
+
+.example2 {
+    appearance: textfield;
+ }

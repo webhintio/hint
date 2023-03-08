@@ -3,5 +3,5 @@
 }
 
 .example2 {
-  : not valid;
+    align-content: last center;
 }

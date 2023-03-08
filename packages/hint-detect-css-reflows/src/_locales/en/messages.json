@@ -1,11 +1,27 @@
 {
-    "description": {
+    "composite_description": {
         "description": "Metadata description",
-        "message": "Let the developers know of what operations will be triggered by changes on the css properties"
+        "message": "Let the developers if changes to the CSS properties will trigger a composite operation"
     },
-    "name": {
+    "composite_name": {
         "description": "Metadata name",
-        "message": "Detect CSS reflows"
+        "message": "Detect CSS Composite Operations"
+    },
+    "layout_description": {
+        "description": "Metadata description",
+        "message": "Let the developers if changes to the CSS properties will trigger a layout operation"
+    },
+    "layout_name": {
+        "description": "Metadata name",
+        "message": "Detect CSS Layout Operations"
+    },
+    "paint_description": {
+        "description": "Metadata description",
+        "message": "Let the developers if changes to the CSS properties will trigger a paint operation"
+    },
+    "paint_name": {
+        "description": "PaintMetadata name",
+        "message": "Detect CSS Paint Operations"
     },
     "willTriggerLayout": {
         "description": "Report message to show when the validation fails",
