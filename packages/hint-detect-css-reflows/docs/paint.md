@@ -1,7 +1,7 @@
-# detect-css-reflows (`hint-detect-css-reflows`)
+# detect-css-reflows/paint (`hint-detect-css-reflows/paint`)
 
 Let the developers know if changes to a specific CSS property will trigger
-changes on the Layout, Composite or Paint rendering pipeline.
+changes on the Paint rendering pipeline.
 
 ## Why is this important?
 
@@ -22,8 +22,7 @@ It's good to put some edge cases in here.
 ### Examples that **pass** the hint
 
 In the following example, this hint will warn user that making changes to
-the `padding-left` property will trigger changes on the `Layout` and `Paint`
-pipeline.
+the `padding-left` property will trigger changes on the `Paint` pipeline.
 
 ```css
 .example {
@@ -36,9 +35,7 @@ pipeline.
 You can decide the granularity and severity of your reports up to the
 following categories:
 
-- hint-detect-css-reflows/composite
 - hint-detect-css-reflows/layout
-- hint-detect-css-reflows/paint
 
 ## How to use this hint?
 
