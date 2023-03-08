@@ -32,8 +32,7 @@
     "typescript": "^4.5.5"
   },
   "files": [
-    "dist/src",
-    "docs"
+    "dist/src"
   ],
   "homepage": "https://webhint.io/",
   "keywords": [
