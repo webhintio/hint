@@ -5,7 +5,14 @@ const packageJSON = require('../package.json');
 
 const folder = process.argv[2];
 
-glob(`${path.resolve(__dirname, '..', folder)}/webhint-*.zip`, (err, files) => {
+let extensionPath = path.resolve(__dirname, '..', folder);
+
+extensionPath = path.join(extensionPath, 'webhint-*.zip');
+
+// starting on v8 glob expects all paths to be forward slash
+extensionPath = extensionPath.replace(/\\/g, '/');
+
+glob(extensionPath, (err, files) => {
     if (err) {
         throw new Error(`Validating bundle size failed: ${err}`);
     }
