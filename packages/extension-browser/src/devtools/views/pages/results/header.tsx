@@ -7,7 +7,6 @@ import Button from '../../controls/button';
 import FeedbackLink from '../../controls/feedback-link';
 import PrintLink from '../../controls/print-link';
 import Label from '../../controls/label';
-import LabelText from '../../controls/label-text';
 import Toggle from '../../controls/toggle';
 import { Config } from '../../../../shared/types';
 
@@ -50,9 +49,9 @@ const ResultsHeader = ({ config, onConfigureClick, showPassed, setShowPassed, ur
                 </Button>
                 <Label className={styles.showPassedHints}>
                     <Toggle checked={showPassed} onChange={onShowPassedChange} />
-                    <LabelText className={styles.showPassedHintsLabel}>
+                    <span className={styles.showPassedHintsLabel}>
                         {getMessage('showPassedHintsLabel')}
-                    </LabelText>
+                    </span>
                 </Label>
             </div>
         </header>

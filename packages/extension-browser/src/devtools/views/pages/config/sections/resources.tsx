@@ -7,7 +7,6 @@ import { useUniqueId } from '../../../../utils/ids';
 import { evaluate } from '../../../../utils/inject';
 
 import ExternalLink from '../../../controls/external-link';
-import LabelText from '../../../controls/label-text';
 import Radio from '../../../controls/radio';
 import ValidInput from '../../../controls/valid-input';
 
@@ -107,9 +106,9 @@ const ResourcesSection = ({ className, query, onChange }: Props) => {
                     checked={!query}
                     onChange={onDefaultSelected}
                 />
-                <LabelText id={noneLabelId}>
+                <span id={noneLabelId}>
                     {getMessage('noneLabel')}
-                </LabelText>
+                </span>
             </ConfigLabel>
             <ConfigLabel>
                 <Radio
@@ -118,9 +117,9 @@ const ResourcesSection = ({ className, query, onChange }: Props) => {
                     name="resources"
                     onChange={onThirdPartySelected}
                 />
-                <LabelText id={originLabelId}>
+                <span id={originLabelId}>
                     {getMessage('differentOriginLabel')}
-                </LabelText>
+                </span>
             </ConfigLabel>
             <ConfigLabel>
                 <span id={customLabelId} hidden>

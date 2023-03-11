@@ -1,4 +1,7 @@
-.root input:first-of-type {
-    margin-right: 0.375rem; /* 6px */
-    vertical-align: middle;
+.root {
+    align-items: center;
+    display: grid;
+    column-gap: 0.375rem; /* 6px */
+    grid-template-columns: auto 1fr;
+    justify-items: start;
 }
