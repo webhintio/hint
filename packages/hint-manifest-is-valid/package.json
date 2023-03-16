@@ -18,10 +18,10 @@
   },
   "description": "hint that that checks if the web app manifest file is valid",
   "devDependencies": {
-    "@hint/parser-manifest": "^2.3.16",
-    "@hint/utils-create-server": "^3.4.23",
-    "@hint/utils-json": "^1.0.24",
-    "@hint/utils-tests-helpers": "^6.5.3",
+    "@hint/parser-manifest": "^2.3.17",
+    "@hint/utils-create-server": "^3.4.24",
+    "@hint/utils-json": "^1.0.25",
+    "@hint/utils-tests-helpers": "^6.5.4",
     "@types/color-string": "^1.5.2",
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -81,5 +81,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.4.16"
+  "version": "3.4.17"
 }

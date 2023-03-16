@@ -1,3 +1,13 @@
+# 3.2.24 (March 16, 2023)
+
+## Chores
+
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+* [[`db769e126d`](https://github.com/webhintio/hint/commit/db769e126d2d6ded643dbb81aef3ca8d1b3d328a)] - Upgrade: Bump cloudinary from 1.32.0 to 1.33.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5414`](https://github.com/webhintio/hint/issues/5414)).
+* [[`766bafb0f1`](https://github.com/webhintio/hint/commit/766bafb0f1827eb7426f395a36b6c2cc0466641d)] - Upgrade: Bump fs-extra from 10.1.0 to 11.1.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5394`](https://github.com/webhintio/hint/issues/5394)).
+* [[`11103554d0`](https://github.com/webhintio/hint/commit/11103554d048f26428337a02b282290f567d9661)] - Upgrade: Bump cloudinary from 1.28.1 to 1.32.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5344`](https://github.com/webhintio/hint/issues/5344)).
+
+
 # 3.2.23 (October 6, 2022)
 
 ## Chores

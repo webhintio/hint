@@ -13,12 +13,12 @@
     "@hint/utils-types": "^1.2.0",
     "@hint/utils-fs": "^1.0.15",
     "@hint/utils-css": "^1.0.14",
-    "@hint/parser-css": "^3.0.36"
+    "@hint/parser-css": "^3.0.37"
   },
   "description": "hint that informs about potential flexbox compatibility bugs with Internet Explorer",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.23",
-    "@hint/utils-tests-helpers": "^6.5.3",
+    "@hint/utils-create-server": "^3.4.24",
+    "@hint/utils-tests-helpers": "^6.5.4",
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",

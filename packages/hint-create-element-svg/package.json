@@ -16,9 +16,9 @@
   },
   "description": "Infrom users that they need to use createElementNS to create SVG elements instead of createElement",
   "devDependencies": {
-    "@hint/parser-javascript": "^3.1.22",
-    "@hint/utils-create-server": "^3.4.23",
-    "@hint/utils-tests-helpers": "^6.5.3",
+    "@hint/parser-javascript": "^3.1.23",
+    "@hint/utils-create-server": "^3.4.24",
+    "@hint/utils-tests-helpers": "^6.5.4",
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.3.23"
+  "version": "1.3.24"
 }

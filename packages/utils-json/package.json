@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hint/utils-fs": "^1.0.15",
-    "@hint/utils-network": "^1.0.23",
+    "@hint/utils-network": "^1.0.24",
     "@hint/utils-types": "^1.2.0",
     "ajv": "^8.11.0",
     "ajv-formats": "^2.1.1",
@@ -65,5 +65,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.24"
+  "version": "1.0.25"
 }

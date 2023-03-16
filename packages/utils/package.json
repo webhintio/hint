@@ -26,7 +26,7 @@
   },
   "description": "hint tools",
   "devDependencies": {
-    "@hint/utils-dom": "^2.2.2",
+    "@hint/utils-dom": "^2.2.3",
     "@hint/utils-types": "^1.2.0",
     "@types/configstore": "^5.0.1",
     "@types/mime-db": "^1.43.1",
@@ -88,5 +88,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "7.0.21"
+  "version": "7.0.22"
 }

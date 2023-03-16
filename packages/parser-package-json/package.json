@@ -10,9 +10,9 @@
   },
   "description": "webhint parser to analyze the package.json file",
   "dependencies": {
-    "@hint/utils-json": "^1.0.24",
+    "@hint/utils-json": "^1.0.25",
     "@hint/utils-fs": "^1.0.15",
-    "@hint/utils-network": "^1.0.23"
+    "@hint/utils-network": "^1.0.24"
   },
   "devDependencies": {
     "@types/node": "^18.13.0",
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.1.39"
+  "version": "1.1.40"
 }

@@ -9,16 +9,16 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.21",
+    "@hint/utils": "^7.0.22",
     "@hint/utils-debug": "^1.0.10",
     "@hint/utils-i18n": "^1.0.14",
-    "@hint/utils-network": "^1.0.23",
+    "@hint/utils-network": "^1.0.24",
     "@hint/utils-types": "^1.2.0",
     "got": "^11.8.5"
   },
   "description": "hint that that checks using SSL Labs for best practices related to the website's SSL configuration",
   "devDependencies": {
-    "@hint/utils-tests-helpers": "^6.5.3",
+    "@hint/utils-tests-helpers": "^6.5.4",
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.23"
+  "version": "2.4.24"
 }

@@ -9,9 +9,9 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.21",
+    "@hint/utils": "^7.0.22",
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-network": "^1.0.23",
+    "@hint/utils-network": "^1.0.24",
     "@hint/utils-string": "^1.0.13",
     "@hint/utils-types": "^1.2.0",
     "data-urls": "^3.0.2",
@@ -21,7 +21,7 @@
   },
   "description": "hint tools for connectors",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.23",
+    "@hint/utils-create-server": "^3.4.24",
     "@types/node": "^18.13.0",
     "@types/node-fetch": "^2.x",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -77,5 +77,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.38"
+  "version": "4.0.39"
 }

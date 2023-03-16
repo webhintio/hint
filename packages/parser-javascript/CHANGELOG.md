@@ -1,3 +1,12 @@
+# 3.1.23 (March 16, 2023)
+
+## Chores
+
+* [[`5b5c751ac1`](https://github.com/webhintio/hint/commit/5b5c751ac144cac4411b589ae91b536fd58843f3)] - Upgrade: Bump acorn from 8.8.1 to 8.8.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5445`](https://github.com/webhintio/hint/issues/5445)).
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+* [[`ef46b3e9af`](https://github.com/webhintio/hint/commit/ef46b3e9afa1df05e0e6ce4612c91feb40af4a57)] - Upgrade: Bump acorn from 8.8.0 to 8.8.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5356`](https://github.com/webhintio/hint/issues/5356)).
+
+
 # 3.1.22 (October 6, 2022)
 
 ## Chores

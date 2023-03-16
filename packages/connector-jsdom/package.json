@@ -9,20 +9,20 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.21",
-    "@hint/utils-connector-tools": "^4.0.38",
+    "@hint/utils": "^7.0.22",
+    "@hint/utils-connector-tools": "^4.0.39",
     "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-dom": "^2.2.2",
+    "@hint/utils-dom": "^2.2.3",
     "@hint/utils-fs": "^1.0.15",
-    "@hint/utils-network": "^1.0.23",
+    "@hint/utils-network": "^1.0.24",
     "@hint/utils-types": "^1.2.0",
     "jsdom": "^21.1.0",
     "mutationobserver-shim": "^0.3.7"
   },
   "description": "hint connector for JSDOM",
   "devDependencies": {
-    "@hint/parser-html": "^3.1.2",
-    "@hint/utils-create-server": "^3.4.23",
+    "@hint/parser-html": "^3.1.3",
+    "@hint/utils-create-server": "^3.4.24",
     "@types/jsdom": "^20.0.1",
     "@types/lodash": "^4.14.187",
     "@types/node": "^18.13.0",
@@ -85,5 +85,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.24"
+  "version": "4.1.25"
 }

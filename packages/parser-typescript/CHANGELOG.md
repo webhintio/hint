@@ -1,3 +1,12 @@
+# 1.0.24 (March 16, 2023)
+
+## Chores
+
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+* [[`f707a228ad`](https://github.com/webhintio/hint/commit/f707a228ada95aaf6ac84bb49a0d5a9efbb770d8)] - Upgrade: Bump @typescript-eslint/typescript-estree from 5.45.0 to 5.50.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5412`](https://github.com/webhintio/hint/issues/5412)).
+* [[`3653829680`](https://github.com/webhintio/hint/commit/36538296805d8d2e9f7a033e46afd43997d437b2)] - Upgrade: Bump @typescript-eslint/typescript-estree from 5.17.0 to 5.45.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5375`](https://github.com/webhintio/hint/issues/5375)).
+
+
 # 1.0.23 (October 6, 2022)
 
 ## Chores

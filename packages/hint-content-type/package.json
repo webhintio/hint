@@ -9,18 +9,18 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.21",
+    "@hint/utils": "^7.0.22",
     "@hint/utils-debug": "^1.0.10",
     "@hint/utils-i18n": "^1.0.14",
-    "@hint/utils-network": "^1.0.23",
+    "@hint/utils-network": "^1.0.24",
     "@hint/utils-string": "^1.0.13",
     "content-type": "^1.0.4",
     "@hint/utils-types": "^1.2.0"
   },
   "description": "hint for media types (f.k.a. MIME types) related best practices",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.23",
-    "@hint/utils-tests-helpers": "^6.5.3",
+    "@hint/utils-create-server": "^3.4.24",
+    "@hint/utils-tests-helpers": "^6.5.4",
     "@types/content-type": "^1.1.5",
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -79,5 +79,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.2.23"
+  "version": "4.2.24"
 }

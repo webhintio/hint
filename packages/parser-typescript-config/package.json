@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@hint/utils-fs": "^1.0.15",
-    "@hint/utils-json": "^1.0.24",
-    "@hint/utils-network": "^1.0.23",
+    "@hint/utils-json": "^1.0.25",
+    "@hint/utils-network": "^1.0.24",
     "lodash": "^4.17.21"
   },
   "description": "webhint parser needed to analyze TypeScript config files",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.26"
+  "version": "2.4.27"
 }

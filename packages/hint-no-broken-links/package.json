@@ -10,16 +10,16 @@
   },
   "description": "Verify that all links and resources the page uses are available online.",
   "dependencies": {
-    "@hint/utils-connector-tools": "^4.0.38",
+    "@hint/utils-connector-tools": "^4.0.39",
     "@hint/utils-debug": "^1.0.10",
     "@hint/utils-i18n": "^1.0.14",
-    "@hint/utils-network": "^1.0.23",
+    "@hint/utils-network": "^1.0.24",
     "@hint/utils-types": "^1.2.0"
   },
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.23",
-    "@hint/utils-dom": "^2.2.2",
-    "@hint/utils-tests-helpers": "^6.5.3",
+    "@hint/utils-create-server": "^3.4.24",
+    "@hint/utils-dom": "^2.2.3",
+    "@hint/utils-tests-helpers": "^6.5.4",
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -76,5 +76,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.2.23"
+  "version": "4.2.24"
 }

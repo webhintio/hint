@@ -1,3 +1,27 @@
+# 2.4.8 (March 16, 2023)
+
+## Bug fixes / Improvements
+
+* [[`7f0ca21524`](https://github.com/webhintio/hint/commit/7f0ca215246763f5ed7d541f3d026851208f613b)] - Fix: Issue with glob latest version and windows (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+## Chores
+
+* [[`1ce9bf0b40`](https://github.com/webhintio/hint/commit/1ce9bf0b40088f77647134918c4d4623e5778d32)] - Upgrade: Bump webpack from 5.72.1 to 5.76.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5457`](https://github.com/webhintio/hint/issues/5457)).
+* [[`ae0d57b053`](https://github.com/webhintio/hint/commit/ae0d57b05320dafb6d610e67ae10575b903bf36e)] - Chore: Refactor Label control to use CSS grid (by [`Jack Robards`](https://github.com/JackRobards) / see also: [`#2589`](https://github.com/webhintio/hint/issues/2589)).
+* [[`9caa02c52c`](https://github.com/webhintio/hint/commit/9caa02c52c4ff68ff337aa7ffbb428bc806f3738)] - Upgrade: Bump @types/har-format from 1.2.8 to 1.2.10 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5437`](https://github.com/webhintio/hint/issues/5437)).
+* [[`1adc2b207b`](https://github.com/webhintio/hint/commit/1adc2b207b1101858e7f97236a04623a553b4892)] - Upgrade: Bump @types/react-dom from 18.0.9 to 18.0.11 (by [`dependabot[bot]`](https://github.com/apps/dependabot)).
+* [[`0f728ff48d`](https://github.com/webhintio/hint/commit/0f728ff48dc79d9a887704cd600802186e1c3248)] - Upgrade: Bump glob from 7.2.0 to 8.1.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5422`](https://github.com/webhintio/hint/issues/5422)).
+* [[`dea2ae22e3`](https://github.com/webhintio/hint/commit/dea2ae22e370926666db968eda77fca7c7c543eb)] - Upgrade: Bump web-ext from 7.2.0 to 7.4.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5388`](https://github.com/webhintio/hint/issues/5388)).
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+* [[`5ee0536263`](https://github.com/webhintio/hint/commit/5ee05362636aac7e03af9a7fcb0f8dcc32909c82)] - Upgrade: Bump jsdom from 20.0.3 to 21.1.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5409`](https://github.com/webhintio/hint/issues/5409)).
+* [[`eec0148f06`](https://github.com/webhintio/hint/commit/eec0148f063cd193713f3e4136b3a40d4dfb0f77)] - Upgrade: Bump svg-url-loader from 7.1.1 to 8.0.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5371`](https://github.com/webhintio/hint/issues/5371)).
+* [[`6ec8f12ea0`](https://github.com/webhintio/hint/commit/6ec8f12ea057b0899fc808111588cdb79d14bc3a)] - Upgrade: Bump css-loader from 6.7.2 to 6.7.3 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5393`](https://github.com/webhintio/hint/issues/5393)).
+* [[`38589f7afe`](https://github.com/webhintio/hint/commit/38589f7afec38da0d148874c9cde895fcdfc24f4)] - Upgrade: Bump jsdom and @types/jsdom (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5389`](https://github.com/webhintio/hint/issues/5389)).
+* [[`6216eaa0db`](https://github.com/webhintio/hint/commit/6216eaa0db472ef408766f96c1fb2d1d1556257b)] - Upgrade: Bump terser-webpack-plugin from 5.3.3 to 5.3.6 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5337`](https://github.com/webhintio/hint/issues/5337)).
+* [[`3f3ce64fad`](https://github.com/webhintio/hint/commit/3f3ce64fadacaa1a2aa92146ed0defb474c6551b)] - Upgrade: Bump css-loader from 6.7.1 to 6.7.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5370`](https://github.com/webhintio/hint/issues/5370)).
+* [[`aac5306ee3`](https://github.com/webhintio/hint/commit/aac5306ee33897281327f8104e8dbfd88bea1454)] - Upgrade: Bump @types/react-dom from 18.0.5 to 18.0.9 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5377`](https://github.com/webhintio/hint/issues/5377)).
+
+
 # 2.4.7 (October 6, 2022)
 
 ## Chores

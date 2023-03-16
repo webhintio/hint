@@ -10,7 +10,7 @@
   },
   "description": "hint formatter that prints the results using the codeframe style",
   "dependencies": {
-    "@hint/utils": "^7.0.21",
+    "@hint/utils": "^7.0.22",
     "@hint/utils-debug": "^1.0.10",
     "@hint/utils-fs": "^1.0.15",
     "@hint/utils-i18n": "^1.0.14",
@@ -81,5 +81,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.33"
+  "version": "3.1.34"
 }

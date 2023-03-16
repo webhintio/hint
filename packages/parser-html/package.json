@@ -9,7 +9,7 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils-dom": "^2.2.2"
+    "@hint/utils-dom": "^2.2.3"
   },
   "description": "webhint parser needed to analyze HTML files",
   "devDependencies": {
@@ -70,5 +70,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.1.2"
+  "version": "3.1.3"
 }
