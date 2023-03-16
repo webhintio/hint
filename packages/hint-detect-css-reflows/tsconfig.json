@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "strict": true
+    },
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
+    "extends": "../../tsconfig.json",
+    "include": [
+        "src/**/*.ts",
+        "tests/**/*.ts"
+    ],
+    "references": [
+        { "path": "../hint" },
+        { "path": "../parser-css" },
+        { "path": "../parser-sass" },
+        { "path": "../utils-create-server" },
+        { "path": "../utils-css" },
+        { "path": "../utils-debug" },
+        { "path": "../utils-fs" },
+        { "path": "../utils-i18n" },
+        { "path": "../utils-tests-helpers" },
+        { "path": "../utils-types" }
+    ]
+}

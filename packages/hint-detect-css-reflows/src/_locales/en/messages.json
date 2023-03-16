@@ -1,0 +1,30 @@
+{
+    "composite_description": {
+        "description": "Metadata description",
+        "message": "Let the developers if changes to the CSS properties will trigger a composite operation"
+    },
+    "composite_name": {
+        "description": "Metadata name",
+        "message": "Detect CSS Composite Operations"
+    },
+    "layout_description": {
+        "description": "Metadata description",
+        "message": "Let the developers if changes to the CSS properties will trigger a layout operation"
+    },
+    "layout_name": {
+        "description": "Metadata name",
+        "message": "Detect CSS Layout Operations"
+    },
+    "paint_description": {
+        "description": "Metadata description",
+        "message": "Let the developers if changes to the CSS properties will trigger a paint operation"
+    },
+    "paint_name": {
+        "description": "PaintMetadata name",
+        "message": "Detect CSS Paint Operations"
+    },
+    "willTriggerLayout": {
+        "description": "Report message to show when the validation fails",
+        "message": "Changes to '$1' will trigger: '$2'. Which can impact performance."
+    }
+}
