@@ -6763,9 +6763,9 @@ kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
 
-"knockout@https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz":
+"knockout@https://codeload.github.com/knockout/knockout/tar.gz/refs/tags/v3.4.0-rc":
   version "3.4.0-rc"
-  resolved "https://github.com/knockout/knockout/archive/v3.4.0-rc.tar.gz#9cfd26d3c03af4481d6c6b72f2e6e06de8f2a1e7"
+  resolved "https://codeload.github.com/knockout/knockout/tar.gz/refs/tags/v3.4.0-rc#9cfd26d3c03af4481d6c6b72f2e6e06de8f2a1e7"
 
 latest-version@^5.1.0:
   version "5.1.0"
