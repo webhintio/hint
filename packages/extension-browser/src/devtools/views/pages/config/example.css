@@ -1,5 +1,5 @@
 .root {
     color: var(--example-color);
     font-size: var(--font-size-xs);
-    margin-left: 1.325rem; /* 22 px */
+    grid-column: 2 / 2;
 }

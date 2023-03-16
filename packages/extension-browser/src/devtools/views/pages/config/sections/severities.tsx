@@ -4,7 +4,6 @@ import { useCallback } from 'react';
 import { getMessage } from '../../../../utils/i18n';
 import { useUniqueId } from '../../../../utils/ids';
 
-import LabelText from '../../../controls/label-text';
 import Radio from '../../../controls/radio';
 
 import ConfigLabel from '../label';
@@ -52,9 +51,9 @@ const SeveritySection = ({ className, query, onChange }: Props) => {
                     checked={query === Severity.error.toString()}
                     onChange={onErrorSelected}
                 />
-                <LabelText id={errorLabelId}>
+                <span id={errorLabelId}>
                     {getMessage('errorLabel')}
-                </LabelText>
+                </span>
             </ConfigLabel>
             <ConfigLabel>
                 <Radio
@@ -63,9 +62,9 @@ const SeveritySection = ({ className, query, onChange }: Props) => {
                     name="severity"
                     onChange={onWarningSelected}
                 />
-                <LabelText id={warningLabelId}>
+                <span id={warningLabelId}>
                     {getMessage('warningLabel')}
-                </LabelText>
+                </span>
             </ConfigLabel>
             <ConfigLabel>
                 <Radio
@@ -74,9 +73,9 @@ const SeveritySection = ({ className, query, onChange }: Props) => {
                     name="severity"
                     onChange={onHintSelected}
                 />
-                <LabelText id={hintLabelId}>
+                <span id={hintLabelId}>
                     {getMessage('hintLabel')}
-                </LabelText>
+                </span>
             </ConfigLabel>
             <ConfigLabel>
                 <Radio
@@ -85,9 +84,9 @@ const SeveritySection = ({ className, query, onChange }: Props) => {
                     name="severity"
                     onChange={onInformationSelected}
                 />
-                <LabelText id={informationLabelId}>
+                <span id={informationLabelId}>
                     {getMessage('informationLabel')}
-                </LabelText>
+                </span>
             </ConfigLabel>
         </ConfigSection>
     );
