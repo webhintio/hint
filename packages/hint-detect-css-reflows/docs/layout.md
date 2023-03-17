@@ -1,4 +1,4 @@
-# detect-css-reflows/layout (`hint-detect-css-reflows/layout`)
+# hint-detect-css-reflows/layout (`hint-detect-css-reflows/layout`)
 
 Let the developers know if changes to a specific CSS property will trigger
 changes on the Layout rendering pipeline.
@@ -59,7 +59,7 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "hints": {
-        "detect-css-reflows": "error"
+        "hint-detect-css-reflows/layout": "error"
     },
     ...
 }

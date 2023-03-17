@@ -4,7 +4,7 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 
 import { getMessage } from '../i18n.import';
 
-const schema = require('./detect-css-reflows-schema.json');
+const schema = require('./hint-detect-css-reflows-schema.json');
 
 const meta: HintMetadata = {
     docs: {
@@ -20,7 +20,7 @@ const meta: HintMetadata = {
     getName(language: string) {
         return getMessage('paint_name', language);
     },
-    id: 'detect-css-reflows/paint',
+    id: 'hint-detect-css-reflows/paint',
     schema: [schema],
     scope: HintScope.any
 };

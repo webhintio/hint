@@ -4,7 +4,7 @@ import { HintMetadata } from 'hint/dist/src/lib/types';
 
 import { getMessage } from '../i18n.import';
 
-const schema = require('./detect-css-reflows-schema.json');
+const schema = require('./hint-detect-css-reflows-schema.json');
 
 const meta: HintMetadata = {
     docs: {

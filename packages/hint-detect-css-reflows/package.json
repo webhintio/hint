@@ -47,7 +47,7 @@
   ],
   "license": "Apache-2.0",
   "main": "dist/src/index.js",
-  "name": "@hint/detect-css-reflows",
+  "name": "@hint/hint-detect-css-reflows",
   "nyc": {
     "extends": "../../.nycrc"
   },

@@ -1,4 +1,4 @@
-# detect-css-reflows (`hint-detect-css-reflows`)
+# hint-detect-css-reflows (`hint-detect-css-reflows`)
 
 Let the developers know if changes to a specific CSS property will trigger
 changes on the Layout, Composite or Paint rendering pipeline.
@@ -62,7 +62,9 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "hints": {
-        "detect-css-reflows": "error"
+        "hint-detect-css-reflows/composite": "off",
+        "hint-detect-css-reflows/layout": "hint",
+        "hint-detect-css-reflows/paint": "off"
     },
     ...
 }
