@@ -1,3 +1,10 @@
+# 2.4.9 (March 17, 2023)
+
+## Bug fixes / Improvements
+
+* [[`95d152f06f`](https://github.com/webhintio/hint/commit/95d152f06f988473bdf24d8fc51e089ffa2a3929)] - Fix: Issue on the extension-browser hintrc (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+
 # 2.4.8 (March 16, 2023)
 
 ## Bug fixes / Improvements

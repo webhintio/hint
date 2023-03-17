@@ -1,3 +1,10 @@
+# 3.0.9 (March 17, 2023)
+
+## Bug fixes / Improvements
+
+* [[`b67edd8443`](https://github.com/webhintio/hint/commit/b67edd8443f500439e7c75c804aed7d40ffe8198)] - Fix: Fixing the right dependency (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+
 # 3.0.0 (June 6, 2022)
 
 ## Breaking Changes
