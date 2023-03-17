@@ -4,7 +4,7 @@
     "@hint/connector-puppeteer": "^2.5.22",
     "@hint/connector-jsdom": "^4.1.25",
     "@hint/connector-local": "^3.2.25",
-    "@hint/detect-css-reflows": "^1.0.0",
+    "@hint/hint-detect-css-reflows": "^1.0.0",
     "@hint/formatter-html": "^4.3.15",
     "@hint/formatter-json": "^3.1.34",
     "@hint/formatter-stylish": "^3.1.34",

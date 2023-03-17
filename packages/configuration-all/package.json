@@ -23,7 +23,7 @@
     "@hint/hint-content-type": "^4.2.24",
     "@hint/hint-create-element-svg": "^1.3.24",
     "@hint/hint-css-prefix-order": "^1.5.4",
-    "@hint/detect-css-reflows": "^1.0.0",
+    "@hint/hint-detect-css-reflows": "^1.0.0",
     "@hint/hint-disown-opener": "^4.0.20",
     "@hint/hint-doctype": "^3.3.24",
     "@hint/hint-highest-available-document-mode": "^5.0.20",
