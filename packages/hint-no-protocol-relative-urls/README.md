@@ -30,10 +30,6 @@ when using protocol relative URLs include:
       such as Brotli compression and HTTP/2 that are only supported
       by browsers over HTTPS.
 
-  * [Internet Explorer 7 and 8 will download a stylesheet twice if
-    protocol-relative URLs are used for `<link>`s or `@import`s][ie
-    issue].
-
 * Security
 
   If protocol-relative URLs are used for CDN links, their
