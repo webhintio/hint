@@ -20,7 +20,7 @@
     "fs-extra": "^11.1.0",
     "globby": "^11.0.4",
     "json-schema-to-typescript": "^11.0.3",
-    "latest-version": "^5.1.0",
+    "latest-version": "^7.0.0",
     "listr": "^0.14.2",
     "listr-inquirer": "^0.1.0",
     "markdown-link-validator": "^1.0.1",
@@ -50,7 +50,7 @@
     "build": "yarn clean && yarn update:references && node scripts/build-or-test-all.js build",
     "build:scripts": "npm run clean:root && npm run lint:scripts && npm-run-all --parallel build:scripts:*",
     "build:scripts:non-ts": "copyfiles \"./scripts/**/{!(*.ts),.!(ts)}\" dist",
-    "build:scripts:ts": "tsc",
+    "build:scripts:ts": "tsc && node scripts/adapt-cjs-to-esm.js",
     "build:ts": "tsc -b",
     "cache": "node scripts/ava-cache.js",
     "clean": "npm-run-all clean:*",
@@ -85,5 +85,8 @@
     "packages": [
       "packages/*"
     ]
+  },
+  "dependencies": {
+    "@hint/utils-types": "^1.2.0"
   }
 }
