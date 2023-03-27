@@ -19,6 +19,7 @@
         { "path": "../hint-content-type" },
         { "path": "../hint-create-element-svg" },
         { "path": "../hint-css-prefix-order" },
+        { "path": "../hint-detect-css-reflows" },
         { "path": "../hint-disown-opener" },
         { "path": "../hint-highest-available-document-mode" },
         { "path": "../hint-http-cache" },
