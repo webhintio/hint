@@ -90,9 +90,9 @@ export default class DetectCssPaintHint implements IHint {
                         message,
                         {
                             codeLanguage: 'css',
+                            codeSnippet,
                             element,
                             location,
-                            codeSnippet,
                             severity
                         });
                 }

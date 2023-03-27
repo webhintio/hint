@@ -90,9 +90,9 @@ export default class DetectCssLayoutHint implements IHint {
                         message,
                         {
                             codeLanguage: 'css',
+                            codeSnippet,
                             element,
                             location,
-                            codeSnippet,
                             severity
                         });
                 }
