@@ -20,7 +20,7 @@ const meta: HintMetadata = {
     getName(language: string) {
         return getMessage('layout_name', language);
     },
-    id: 'detect-css-reflows/layout',
+    id: 'hint-detect-css-reflows/layout',
     schema: [schema],
     scope: HintScope.any
 };
