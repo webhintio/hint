@@ -1,3 +1,10 @@
+# 1.0.2 (March 27, 2023)
+
+## Bug fixes / Improvements
+
+* [[`01619c10fd`](https://github.com/webhintio/hint/commit/01619c10fd33e57a7963c218290624b8fe65dd8e)] - Fix: correct name in `hint-detect-css-reflows/layout` (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5473`](https://github.com/webhintio/hint/issues/5473)).
+
+
 # 1.0.1 (March 17, 2023)
 
 ## Bug fixes / Improvements
