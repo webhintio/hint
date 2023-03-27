@@ -20,7 +20,11 @@ const resolve = (module: any): IHintConstructor => {
 const hints = [
 ${
     hintModules.map((name) => {
-        return `    ...Object.values(require('${name}')).map(resolve)`;
+        if(name.includes('detect-css-reflow')){
+            return `    ...Object.values(require('../../../../hint-detect-css-reflows')).map(resolve)`;
+        } else {
+            return `    ...Object.values(require('${name}')).map(resolve)`;
+        }
     }).join(',\n')
 }
 ];

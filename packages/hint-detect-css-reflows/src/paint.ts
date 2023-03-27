@@ -2,7 +2,6 @@
  * @fileoverview Let the developers know of what operations will be triggered by changes on the css properties
  */
 
-import * as path from 'path';
 import { Declaration, Rule } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
@@ -11,9 +10,8 @@ import { IHint} from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
 import { Severity } from '@hint/utils-types';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
-import { loadJSONFile } from '@hint/utils-fs';
-import { getCSSLocationFromNode, getUnprefixed } from '@hint/utils-css';
-const cssPropertiesObject = loadJSONFile(path.join(__dirname, 'assets', 'CSSReflow.json')) || {};
+import { getCSSLocationFromNode, getFullCSSCodeSnippet, getUnprefixed } from '@hint/utils-css';
+const cssPropertiesObject = require('./assets/CSSReflow.json') || {};
 
 import { getMessage } from './i18n.import';
 
@@ -72,7 +70,7 @@ export default class DetectCssPaintHint implements IHint {
                 return item !== null;
             }).join(', ');
 
-            return getMessage('willTriggerLayout', context.language, [propertyName, triggeredCSSChangesArray]);
+            return getMessage('issueMessage', context.language, [propertyName, triggeredCSSChangesArray]);
         };
 
         context.on('parse::end::css', ({ ast, element, resource }: StyleParse) => {
@@ -85,6 +83,7 @@ export default class DetectCssPaintHint implements IHint {
                     const location = getCSSLocationFromNode(declaration, { isValue: false });
                     const severity = Severity.hint;
                     const message = formatMessage(declaration);
+                    const codeSnippet = getFullCSSCodeSnippet(declaration);
 
                     context.report(
                         resource,
@@ -93,6 +92,7 @@ export default class DetectCssPaintHint implements IHint {
                             codeLanguage: 'css',
                             element,
                             location,
+                            codeSnippet,
                             severity
                         });
                 }
