@@ -45,9 +45,17 @@ export const getAttributeUnsupported = (feature: AttributeQuery, browsers: strin
         if (feature.value) {
             [data, prefix, unprefixed] = getFeatureData(data, feature.value);
 
-            // Handle oddly stored input type data (mdn.html.elements.input['input-' + typeValue]).
+            /**
+             * Handle oddly stored input type data:
+             * (mdn.html.elements.input['input-' + typeValue])
+             * (mdn.html.elements.input['type_' + typeValue])
+             */
             if (!data && feature.element === 'input' && feature.attribute === 'type') {
                 [data, prefix, unprefixed] = getFeatureData(mdn.html.elements.input, `input-${feature.value}`);
+
+                if (!data) {
+                    [data, prefix, unprefixed] = getFeatureData(mdn.html.elements.input, `type_${feature.value}`);
+                }
             }
         }
 
