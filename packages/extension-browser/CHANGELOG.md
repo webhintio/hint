@@ -1,3 +1,10 @@
+# 2.4.11 (March 28, 2023)
+
+## Chores
+
+* [[`3f47808f49`](https://github.com/webhintio/hint/commit/3f47808f49f9265ec7bb2a0e97315a46da9841c7)] - Chore: Adding `hint-detect-css-reflows` to `utils-worker` (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5476`](https://github.com/webhintio/hint/issues/5476)).
+
+
 # 2.4.9 (March 17, 2023)
 
 ## Bug fixes / Improvements
