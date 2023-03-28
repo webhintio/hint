@@ -22,7 +22,7 @@ const tests: HintTest[] = [
         name: 'Hints should  be reported for properties in the CSSReflow.json file',
         reports: [
             {
-                message: `Changes to 'padding-left' will trigger: 'Layout'. Which can impact performance.`,
+                message: `'padding-left' changes to this property will trigger: 'Layout', which can impact performance.`,
                 position: { column: 3, endColumn: 15, endLine: 5, line: 5 },
                 severity: Severity.hint
             }

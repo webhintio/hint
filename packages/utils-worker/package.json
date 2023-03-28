@@ -10,7 +10,7 @@
     "timeout": "1m",
     "workerThreads": false
   },
-  "bundleSize": 2560000,
+  "bundleSize": 2590000,
   "description": "webhint web worker",
   "devDependencies": {
     "@hint/hint-axe": "^4.4.18",
@@ -19,6 +19,7 @@
     "@hint/hint-content-type": "^4.2.24",
     "@hint/hint-create-element-svg": "^1.3.24",
     "@hint/hint-css-prefix-order": "^1.5.4",
+    "@hint/hint-detect-css-reflows": "^1.0.2",
     "@hint/hint-disown-opener": "^4.0.20",
     "@hint/hint-highest-available-document-mode": "^5.0.20",
     "@hint/hint-http-cache": "^4.0.20",
