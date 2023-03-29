@@ -1,4 +1,4 @@
-# hint-detect-css-reflows/layout (`hint-detect-css-reflows/layout`)
+# Detect CSS Reflows - Layout (`detect-css-reflows/layout`)
 
 Let the developers know if changes to a specific CSS property will trigger
 changes on the Layout rendering pipeline.
@@ -35,14 +35,14 @@ the `padding-left` property will trigger changes on the `Layout` pipeline.
 You can decide the granularity and severity of your reports up to the
 following categories:
 
-- hint-detect-css-reflows/layout
+- detect-css-reflows/layout
 
 ## How to use this hint?
 
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install hint-detect-css-reflows
+npm install hint --save-dev
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -59,7 +59,7 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "hints": {
-        "hint-detect-css-reflows/layout": "error"
+        "detect-css-reflows/layout": "error"
     },
     ...
 }

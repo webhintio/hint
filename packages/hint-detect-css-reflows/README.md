@@ -1,4 +1,4 @@
-# hint-detect-css-reflows (`hint-detect-css-reflows`)
+# Detect CSS Reflows (`detect-css-reflows`)
 
 Let the developers know if changes to a specific CSS property will trigger
 changes on the Layout, Composite or Paint rendering pipeline.
@@ -36,16 +36,16 @@ pipeline.
 You can decide the granularity and severity of your reports up to the
 following categories:
 
-- hint-detect-css-reflows/composite
-- hint-detect-css-reflows/layout
-- hint-detect-css-reflows/paint
+- detect-css-reflows/composite
+- detect-css-reflows/layout
+- detect-css-reflows/paint
 
 ## How to use this hint?
 
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install hint-detect-css-reflows
+npm install hint --save-dev
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -62,9 +62,9 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "hints": {
-        "hint-detect-css-reflows/composite": "off",
-        "hint-detect-css-reflows/layout": "hint",
-        "hint-detect-css-reflows/paint": "off"
+        "detect-css-reflows/composite": "off",
+        "detect-css-reflows/layout": "hint",
+        "detect-css-reflows/paint": "off"
     },
     ...
 }

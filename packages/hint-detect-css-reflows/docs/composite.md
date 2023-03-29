@@ -1,4 +1,4 @@
-# hint-detect-css-reflows/composite (`hint-detect-css-reflows/composite`)
+# Detect CSS Reflows - Composite (`detect-css-reflows/composite`)
 
 Let the developers know if changes to a specific CSS property will trigger
 changes on the Composite rendering pipeline.
@@ -35,14 +35,14 @@ the `accent-color` property will trigger changes on the `Composite` pipeline.
 You can decide the granularity and severity of your reports up to the
 following categories:
 
-- hint-detect-css-reflows/composite
+- detect-css-reflows/composite
 
 ## How to use this hint?
 
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install hint-detect-css-reflows
+npm install hint --save-dev
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -59,7 +59,7 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "hints": {
-        "hint-detect-css-reflows/composite": "error"
+        "detect-css-reflows/composite": "error"
     },
     ...
 }
