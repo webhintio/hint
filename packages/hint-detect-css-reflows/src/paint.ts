@@ -35,7 +35,7 @@ export default class DetectCssPaintHint implements IHint {
         const validateRule = (rule: Rule) => {
             // Code to validate the hint on the event when an element is visited.
 
-            debug(`Validating hint-detect-css-reflows`);
+            debug(`Validating detect-css-reflows`);
             const results = new Set<Declaration>();
 
             rule.each((decl) => {
@@ -74,7 +74,7 @@ export default class DetectCssPaintHint implements IHint {
         };
 
         context.on('parse::end::css', ({ ast, element, resource }: StyleParse) => {
-            debug('Validating hint-detect-css-reflows');
+            debug('Validating detect-css-reflows');
 
             ast.walkRules((rule) => {
                 const results = validateRule(rule);
