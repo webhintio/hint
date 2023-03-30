@@ -1,3 +1,10 @@
+# 1.0.4 (March 30, 2023)
+
+## Chores
+
+* [[`3e78c0f7bd`](https://github.com/webhintio/hint/commit/3e78c0f7bd50789594837e65bd7f9bc714bde270)] - Chore: fixing the name of detect-css-reflows (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5479`](https://github.com/webhintio/hint/issues/5479)).
+
+
 # 1.0.3 (March 28, 2023)
 
 ## Chores

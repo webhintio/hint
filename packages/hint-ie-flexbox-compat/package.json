@@ -13,7 +13,7 @@
     "@hint/utils-types": "^1.2.0",
     "@hint/utils-fs": "^1.0.15",
     "@hint/utils-css": "^1.0.14",
-    "@hint/parser-css": "^3.0.37"
+    "@hint/parser-css": "^3.0.38"
   },
   "description": "hint that informs about potential flexbox compatibility bugs with Internet Explorer",
   "devDependencies": {

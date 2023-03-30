@@ -18,8 +18,8 @@
   },
   "description": "Let the developers know of what operations will be triggered by changes on the css properties",
   "devDependencies": {
-    "@hint/parser-css": "^3.0.37",
-    "@hint/parser-sass": "^1.0.29",
+    "@hint/parser-css": "^3.0.38",
+    "@hint/parser-sass": "^1.0.30",
     "@hint/utils-create-server": "^3.4.24",
     "@hint/utils-tests-helpers": "^6.5.4",
     "@types/node": "^18.13.0",
@@ -81,5 +81,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.3"
+  "version": "1.0.4"
 }

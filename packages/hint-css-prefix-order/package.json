@@ -18,8 +18,8 @@
   },
   "description": "Ensure vendor-prefixed versions of a CSS property are listed before the unprefixed version.",
   "devDependencies": {
-    "@hint/parser-css": "^3.0.37",
-    "@hint/parser-sass": "^1.0.29",
+    "@hint/parser-css": "^3.0.38",
+    "@hint/parser-sass": "^1.0.30",
     "@hint/utils-create-server": "^3.4.24",
     "@hint/utils-tests-helpers": "^6.5.4",
     "@types/node": "^18.13.0",
@@ -80,5 +80,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.5.4"
+  "version": "1.5.5"
 }
