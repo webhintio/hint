@@ -1,4 +1,4 @@
-# hint-detect-css-reflows/paint (`hint-detect-css-reflows/paint`)
+# Detect CSS Reflows - Paint (`detect-css-reflows/paint`)
 
 Let the developers know if changes to a specific CSS property will trigger
 changes on the Paint rendering pipeline.
@@ -35,14 +35,14 @@ the `padding-left` property will trigger changes on the `Paint` pipeline.
 You can decide the granularity and severity of your reports up to the
 following categories:
 
-- hint-detect-css-reflows/layout
+- detect-css-reflows/layout
 
 ## How to use this hint?
 
 To use it you will have to install it via `npm`:
 
 ```bash
-npm install hint-detect-css-reflows
+npm install hint --save-dev
 ```
 
 Note: You can make `npm` install it as a `devDependency` using the `--save-dev`
@@ -59,7 +59,7 @@ configuration file:
     "formatters": [...],
     "parsers": [...],
     "hints": {
-        "hint-detect-css-reflows/paint": "error"
+        "detect-css-reflows/paint": "error"
     },
     ...
 }

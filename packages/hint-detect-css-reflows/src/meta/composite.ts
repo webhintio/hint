@@ -20,7 +20,7 @@ const meta: HintMetadata = {
     getName(language: string) {
         return getMessage('composite_name', language);
     },
-    id: 'hint-detect-css-reflows/composite',
+    id: 'detect-css-reflows/composite',
     schema: [schema],
     scope: HintScope.any
 };
