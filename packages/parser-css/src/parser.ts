@@ -1,7 +1,7 @@
 const safe = require('postcss-safe-parser');
 const postcss = require('postcss');
 
-import * as logger from '@hint/utils/dist/src/logging';
+import { debug as d } from '@hint/utils-debug';
 import { normalizeString } from '@hint/utils-string';
 import { HTMLElement } from '@hint/utils-dom';
 import { ElementFound, FetchEnd, Parser } from 'hint/dist/src/lib/types';
@@ -9,6 +9,8 @@ import { StyleEvents } from './types';
 import { Engine } from 'hint';
 
 export * from './types';
+
+const debug = d(__filename);
 
 export default class CSSParser extends Parser<StyleEvents> {
     public constructor(engine: Engine<StyleEvents>) {
@@ -34,7 +36,10 @@ export default class CSSParser extends Parser<StyleEvents> {
             });
 
         } catch (err) /* istanbul ignore next */ {
-            logger.error(`Error parsing CSS code: ${code} - ${err}`);
+            const errorContext =
+            `{ parser: parser-css, code_length:${code ? code.length : 0},element:${element}, resource: ${resource} }`;
+
+            debug(`Error parsing CSS with context: ${errorContext}`);
         }
     }
 
