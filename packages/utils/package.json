@@ -13,7 +13,7 @@
     "@hint/utils-fs": "^1.0.15",
     "@hint/utils-string": "^1.0.13",
     "chalk": "^4.1.2",
-    "configstore": "^5.0.1",
+    "configstore": "^6.0.0",
     "content-type": "^1.0.4",
     "eventemitter2": "^6.4.5",
     "file-type": "^16.5.4",
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@hint/utils-dom": "^2.2.3",
     "@hint/utils-types": "^1.2.0",
-    "@types/configstore": "^5.0.1",
+    "@types/configstore": "^6.0.0",
     "@types/mime-db": "^1.43.1",
     "@types/semver": "^7.3.10",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
