@@ -20,7 +20,7 @@
   "devDependencies": {
     "@hint/utils-create-server": "^3.4.24",
     "@hint/utils-tests-helpers": "^6.5.4",
-    "@types/node": "^18.13.0",
+    "@types/node": "^18.15.11",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "ava": "^4.3.3",
