@@ -22,7 +22,7 @@
     "@hint/utils-create-server": "^3.4.24",
     "@hint/utils-dom": "^2.2.3",
     "@hint/utils-tests-helpers": "^6.5.4",
-    "@types/lodash": "^4.14.187",
+    "@types/lodash": "^4.14.192",
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
