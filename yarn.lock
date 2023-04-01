@@ -2969,10 +2969,10 @@ cloudinary-core@^2.10.2:
   resolved "https://registry.yarnpkg.com/cloudinary-core/-/cloudinary-core-2.11.2.tgz#01950e7c1e7c373d7a8141c18b7ddfc54374b75d"
   integrity sha512-Dl545+AzPRGjx58cXB9gznXtA1dol0pmDqTxHos1hRcdbUcpUcuVzPkBnJjNO3F4K6BfZ5kSda9kzD+Qu7Yhgg==
 
-cloudinary@^1.33.0:
-  version "1.33.0"
-  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-1.33.0.tgz#e5c2bd7faa9e03d69e08c5fedb8f2813fd00b2c4"
-  integrity sha512-pdqOgd2QAMCFWujdYw1yhZ+lHPTzc6YIfg4WIvbRyoojIbSd/YgnHT8OSnk/OM4Q1WPFD5FM9EEom+4ehG80IA==
+cloudinary@^1.35.0:
+  version "1.35.0"
+  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-1.35.0.tgz#37a061342fd5b810aa3165d68c2e6933f3d4829f"
+  integrity sha512-0aRLVOaVsoiqDCNkSzlPGR/oYOlE3AGrtwFTPx7xlZCPyKNzqeD9t9ENmPwzHn3yn/afAvy4h1sqb2yPyJOAow==
   dependencies:
     cloudinary-core "^2.10.2"
     core-js "^3.6.5"
@@ -10692,9 +10692,9 @@ ts-loader@^9.3.1:
     semver "^7.3.4"
 
 tsconfig-paths@^3.14.1, tsconfig-paths@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-4.1.2.tgz#4819f861eef82e6da52fb4af1e8c930a39ed979a"
-  integrity sha512-uhxiMgnXQp1IR622dUXI+9Ehnws7i/y6xvpZB9IbUVOPy0muvdvgXeZOn88UcGPiT98Vp3rJPTa8bFoalZ3Qhw==
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-4.2.0.tgz#ef78e19039133446d244beac0fd6a1632e2d107c"
+  integrity sha512-NoZ4roiN7LnbKn9QqE1amc9DJfzvZXxF4xDavcOWt1BPkdx+m+0gJuPM+S0vCe7zTJMYUP0R8pO2XMr+Y8oLIg==
   dependencies:
     json5 "^2.2.2"
     minimist "^1.2.6"
