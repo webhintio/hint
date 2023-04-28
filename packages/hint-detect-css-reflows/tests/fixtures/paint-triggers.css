@@ -16,6 +16,10 @@
         padding-left: 16%;
     }
 
+    test {
+        not valid:{}
+    }
+
     75% {
         appearance: textfield;
     }

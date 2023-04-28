@@ -28,7 +28,7 @@ const tests: HintTest[] = [
             },
             {
                 message: `'appearance' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.`,
-                position: { column: 8, endColumn: 18, endLine: 19, line: 19 },
+                position: { column: 8, endColumn: 18, endLine: 23, line: 23 },
                 severity: Severity.hint
             }
         ],

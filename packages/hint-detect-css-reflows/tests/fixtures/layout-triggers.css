@@ -11,4 +11,8 @@
         accent-color: blue;
         padding-left: 16%;
     }
+
+    test {
+        not valid:{}
+    }
 }

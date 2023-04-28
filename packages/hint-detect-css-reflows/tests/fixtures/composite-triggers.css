@@ -14,5 +14,9 @@
     100% {
         align-content: last center;
     }
+
+    test {
+        not valid:{}
+    }
 }
 
