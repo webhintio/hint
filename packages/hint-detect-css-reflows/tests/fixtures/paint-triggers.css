@@ -9,3 +9,18 @@
 .example2 {
     appearance: textfield;
  }
+
+ @keyframes test {
+    50% {
+        accent-color: blue;
+        padding-left: 16%;
+    }
+
+    test {
+        not valid:{}
+    }
+
+    75% {
+        appearance: textfield;
+    }
+}
