@@ -31,7 +31,6 @@ export default class DetectCssPaintHint implements IHint {
 
     public constructor(context: HintContext<StyleEvents>) {
 
-        // Your code here.
         const validateRule = (rule: Rule) => {
             // Code to validate the hint on the event when an element is visited.
 
