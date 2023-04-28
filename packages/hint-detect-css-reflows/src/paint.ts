@@ -2,7 +2,7 @@
  * @fileoverview Let the developers know of what operations will be triggered by changes on the css properties
  */
 
-import { Declaration, Rule } from 'postcss';
+import { Declaration, AtRule, Rule } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 // The list of types depends on the events you want to capture.
@@ -31,7 +31,6 @@ export default class DetectCssPaintHint implements IHint {
 
     public constructor(context: HintContext<StyleEvents>) {
 
-        // Your code here.
         const validateRule = (rule: Rule) => {
             // Code to validate the hint on the event when an element is visited.
 
@@ -51,6 +50,29 @@ export default class DetectCssPaintHint implements IHint {
                     results.add(decl);
                 }
             });
+
+            return results;
+        };
+
+        const validateAtRule = (rule: AtRule) => {
+
+            let results = new Set<Declaration>();
+
+            if (rule.name === 'keyframes') {
+
+                // only care about css animations
+                rule.each((decl) => {
+                    switch (decl.type) {
+                        case 'rule': {
+                            results = new Set([...results, ...validateRule(decl)]);
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                    }
+                });
+            }
 
             return results;
         };
@@ -76,27 +98,35 @@ export default class DetectCssPaintHint implements IHint {
         context.on('parse::end::css', ({ ast, element, resource }: StyleParse) => {
             debug('Validating detect-css-reflows');
 
-            ast.walkRules((rule) => {
-                const results = validateRule(rule);
+            for (const node of ast.nodes) {
+                switch (node.type) {
+                    case 'atrule': {
+                        const results = validateAtRule(node);
 
-                for (const declaration of results) {
-                    const location = getCSSLocationFromNode(declaration, { isValue: false });
-                    const severity = Severity.hint;
-                    const message = formatMessage(declaration);
-                    const codeSnippet = getFullCSSCodeSnippet(declaration);
+                        for (const declaration of results) {
+                            const location = getCSSLocationFromNode(declaration, { isValue: false });
+                            const severity = Severity.hint;
+                            const message = formatMessage(declaration);
+                            const codeSnippet = getFullCSSCodeSnippet(declaration);
 
-                    context.report(
-                        resource,
-                        message,
-                        {
-                            codeLanguage: 'css',
-                            codeSnippet,
-                            element,
-                            location,
-                            severity
-                        });
+                            context.report(
+                                resource,
+                                message,
+                                {
+                                    codeLanguage: 'css',
+                                    codeSnippet,
+                                    element,
+                                    location,
+                                    severity
+                                });
+                        }
+                        break;
+                    }
+                    default:
+                        // only care about at rules
+                        break;
                 }
-            });
+            }
         });
         // As many events as you need
     }

@@ -23,12 +23,12 @@ const tests: HintTest[] = [
         reports: [
             {
                 message: `'accent-color' changes to this property will trigger: 'Composite', which can impact performance.`,
-                position: { column: 4, endColumn: 16, endLine: 1, line: 1 },
+                position: { column: 8, endColumn: 20, endLine: 10, line: 10 },
                 severity: Severity.hint
             },
             {
                 message: `'align-content' changes to this property will trigger: 'Composite', which can impact performance.`,
-                position: { column: 4, endColumn: 16, endLine: 5, line: 5 },
+                position: { column: 8, endColumn: 21, endLine: 14, line: 14 },
                 severity: Severity.hint
             }
         ],
