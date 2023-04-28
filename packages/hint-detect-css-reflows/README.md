@@ -1,33 +1,51 @@
 # Detect CSS Reflows (`detect-css-reflows`)
 
-Let the developers know if changes to a specific CSS property will trigger
-changes on the Layout, Composite or Paint rendering pipeline.
+Let the developers know if changes to a specific CSS property inside @keyframes
+will trigger changes on the Layout, Composite or Paint rendering pipeline.
 
 ## Why is this important?
 
 Understanding what rendering pipeline operations will be triggered by changes
 on specific CSS properties can prevent users from introducing unintentional
-performance hits.
+performance hits. `Paint` and `Layout` operations should be minimized or avoided
+when combined with animations.
 
 ## What does the hint check?
 
-It scans the css properties against a defined properties and associated
-rendering triggers.
+It scans the css properties inside @keyframes property against a defined
+set of properties and associated rendering triggers.
 
 ### Examples that **trigger** the hint
 
-A list of code examples that will fail this hint.
-It's good to put some edge cases in here.
+`left` property triggers a `Layout` operation its use should be minimized inside
+`@keyframes` to avoid jankiness or slow animations.
+
+```css
+@keyframes performance-with-layout-trigger {
+    0% {
+        left: 0;
+
+    }
+    100% {
+        left: 400px;
+    }
+}
+```
 
 ### Examples that **pass** the hint
 
-In the following example, this hint will warn user that making changes to
-the `padding-left` property will trigger changes on the `Layout` and `Paint`
-pipeline.
+A better approach is to use `translate` which will trigger only once, at the
+end of the animation.
 
 ```css
-.example {
-    padding-left: auto;
+@keyframes performance-without-layout-trigger {
+    0% {
+        transform: translateX(0);
+
+    }
+    100% {
+        transform: translateX(400px);
+    }
 }
 ```
 

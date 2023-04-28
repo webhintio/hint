@@ -22,12 +22,12 @@ const tests: HintTest[] = [
         name: 'Hints should  be reported for properties in the CSSReflow.json file',
         reports: [
             {
-                message: `'accent-color' changes to this property will trigger: 'Composite', which can impact performance.`,
+                message: `'accent-color' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.`,
                 position: { column: 8, endColumn: 20, endLine: 10, line: 10 },
                 severity: Severity.hint
             },
             {
-                message: `'align-content' changes to this property will trigger: 'Composite', which can impact performance.`,
+                message: `'align-content' changes to this property will trigger: 'Composite', which can impact performance when used inside @keyframes.`,
                 position: { column: 8, endColumn: 21, endLine: 14, line: 14 },
                 severity: Severity.hint
             }

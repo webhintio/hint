@@ -22,12 +22,12 @@ const tests: HintTest[] = [
         name: 'Hints should  be reported for properties in the CSSReflow.json file',
         reports: [
             {
-                message: `'padding-left' changes to this property will trigger: 'Paint', which can impact performance.`,
+                message: `'padding-left' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.`,
                 position: { column: 8, endColumn: 20, endLine: 15, line: 15 },
                 severity: Severity.hint
             },
             {
-                message: `'appearance' changes to this property will trigger: 'Paint', which can impact performance.`,
+                message: `'appearance' changes to this property will trigger: 'Paint', which can impact performance when used inside @keyframes.`,
                 position: { column: 8, endColumn: 18, endLine: 19, line: 19 },
                 severity: Severity.hint
             }
