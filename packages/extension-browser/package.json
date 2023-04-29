@@ -70,7 +70,7 @@
     "css-loader": "^6.7.3",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-markdown": "^2.2.1",
+    "eslint-plugin-markdown": "^3.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "focus-visible": "^5.2.0",
     "glob": "^8.1.0",
