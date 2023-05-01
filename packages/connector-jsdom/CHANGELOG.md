@@ -1,3 +1,14 @@
+# 4.1.25 (March 16, 2023)
+
+## Chores
+
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+* [[`5ee0536263`](https://github.com/webhintio/hint/commit/5ee05362636aac7e03af9a7fcb0f8dcc32909c82)] - Upgrade: Bump jsdom from 20.0.3 to 21.1.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5409`](https://github.com/webhintio/hint/issues/5409)).
+* [[`38589f7afe`](https://github.com/webhintio/hint/commit/38589f7afec38da0d148874c9cde895fcdfc24f4)] - Upgrade: Bump jsdom and @types/jsdom (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5389`](https://github.com/webhintio/hint/issues/5389)).
+* [[`6b170284b6`](https://github.com/webhintio/hint/commit/6b170284b64275fcab28b0f2b10ab3c4d549803e)] - Upgrade: Bump @types/lodash from 4.14.182 to 4.14.187 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5350`](https://github.com/webhintio/hint/issues/5350)).
+* [[`b86a9f07f7`](https://github.com/webhintio/hint/commit/b86a9f07f72da58d0eb2d74e12d7b57c8e0b593f)] - Upgrade: Bump canvas from 2.9.1 to 2.10.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5373`](https://github.com/webhintio/hint/issues/5373)).
+
+
 # 4.1.24 (October 6, 2022)
 
 ## Chores

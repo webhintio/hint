@@ -1,3 +1,11 @@
+# 7.1.4 (March 16, 2023)
+
+## Chores
+
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+* [[`6b170284b6`](https://github.com/webhintio/hint/commit/6b170284b64275fcab28b0f2b10ab3c4d549803e)] - Upgrade: Bump @types/lodash from 4.14.182 to 4.14.187 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5350`](https://github.com/webhintio/hint/issues/5350)).
+
+
 # 7.1.3 (October 6, 2022)
 
 ## Bug fixes / Improvements

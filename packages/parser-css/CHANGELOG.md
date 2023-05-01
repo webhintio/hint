@@ -1,3 +1,17 @@
+# 3.0.38 (March 30, 2023)
+
+## Chores
+
+* [[`38847f983c`](https://github.com/webhintio/hint/commit/38847f983c05d40178caa7965683c32a542e58e6)] - Chore: makes `parser-css` verbose on debug only () (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5480`](https://github.com/webhintio/hint/issues/5480)).
+
+
+# 3.0.37 (March 16, 2023)
+
+## Chores
+
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+
+
 # 3.0.36 (October 6, 2022)
 
 ## Chores

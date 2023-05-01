@@ -1,3 +1,14 @@
+# 2.12.19 (March 16, 2023)
+
+## Bug fixes / Improvements
+
+* [[`9a2aa5746b`](https://github.com/webhintio/hint/commit/9a2aa5746b2de3dd65e2bdc99ef48e43b38584bf)] - Fix: Replacing url for a knockout dependency (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5458`](https://github.com/webhintio/hint/issues/5458)).
+
+## Chores
+
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+
+
 # 2.12.18 (October 6, 2022)
 
 ## Chores

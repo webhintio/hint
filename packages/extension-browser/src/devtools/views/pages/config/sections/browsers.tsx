@@ -6,7 +6,6 @@ import { getMessage } from '../../../../utils/i18n';
 import { useUniqueId } from '../../../../utils/ids';
 
 import ExternalLink from '../../../controls/external-link';
-import LabelText from '../../../controls/label-text';
 import Radio from '../../../controls/radio';
 import ValidInput from '../../../controls/valid-input';
 
@@ -76,9 +75,9 @@ const BrowsersSection = ({ className, query, onChange }: Props) => {
                     name="browsers"
                     onChange={onDefaultSelected}
                 />
-                <LabelText id={defaultLabelId}>
+                <span id={defaultLabelId}>
                     {getMessage('recommendedSettingsLabel')}
-                </LabelText>
+                </span>
                 <ConfigExample id={defaultDescId}>
                     &gt; 0.5%, last 2 versions, Firefox ESR, not dead
                 </ConfigExample>

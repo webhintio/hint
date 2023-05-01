@@ -7,7 +7,6 @@ import { getMessage } from '../../../../utils/i18n';
 import { getCategories } from '../../../../utils/categories';
 
 import Checkbox from '../../../controls/checkbox';
-import LabelText from '../../../controls/label-text';
 
 import ConfigLabel from '../label';
 import ConfigSection from '../section';
@@ -52,9 +51,9 @@ const CategoriesSection = ({ className, disabled, onChange }: Props) => {
         return (
             <ConfigLabel key={category}>
                 <Checkbox value={category} checked={!isDisabled} onChange={onCategoryChange} />
-                <LabelText className={styles.label} data-icon={category}>
+                <span className={styles.label} data-icon={category}>
                     {getCategoryName(category)}
-                </LabelText>
+                </span>
             </ConfigLabel>
         );
     });

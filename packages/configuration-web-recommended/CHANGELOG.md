@@ -1,3 +1,14 @@
+# 8.2.18 (March 17, 2023)
+
+## Bug fixes / Improvements
+
+* [[`b67edd8443`](https://github.com/webhintio/hint/commit/b67edd8443f500439e7c75c804aed7d40ffe8198)] - Fix: Fixing the right dependency (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+## Chores
+
+* [[`a5499c3973`](https://github.com/webhintio/hint/commit/a5499c3973aa9afe767df3c1aa6b58d2f8622626)] - Chore: Adding detect-css-reflows to some configs (#5466) (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+
 # 8.2.0 (February 4, 2021)
 
 ## New features

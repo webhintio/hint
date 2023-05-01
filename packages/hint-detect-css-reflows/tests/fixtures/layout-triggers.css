@@ -1,0 +1,18 @@
+.example1 {
+    accent-color: red;
+}
+
+.example2 {
+    padding-left: 10%;
+}
+
+@keyframes test {
+    50% {
+        accent-color: blue;
+        padding-left: 16%;
+    }
+
+    test {
+        not valid:{}
+    }
+}

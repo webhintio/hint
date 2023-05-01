@@ -1,0 +1,22 @@
+.example1 {
+    accent-color: red;
+}
+
+.example2 {
+    align-content: last center;
+}
+
+@keyframes test {
+    50% {
+        accent-color: blue;
+    }
+
+    100% {
+        align-content: last center;
+    }
+
+    test {
+        not valid:{}
+    }
+}
+

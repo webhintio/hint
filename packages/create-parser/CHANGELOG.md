@@ -1,3 +1,12 @@
+# 4.0.6 (March 16, 2023)
+
+## Chores
+
+* [[`1ce9bf0b40`](https://github.com/webhintio/hint/commit/1ce9bf0b40088f77647134918c4d4623e5778d32)] - Upgrade: Bump webpack from 5.72.1 to 5.76.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5457`](https://github.com/webhintio/hint/issues/5457)).
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+* [[`766bafb0f1`](https://github.com/webhintio/hint/commit/766bafb0f1827eb7426f395a36b6c2cc0466641d)] - Upgrade: Bump fs-extra from 10.1.0 to 11.1.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5394`](https://github.com/webhintio/hint/issues/5394)).
+
+
 # 4.0.5 (October 6, 2022)
 
 ## Chores

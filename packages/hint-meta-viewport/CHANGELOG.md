@@ -1,3 +1,11 @@
+# 5.0.20 (March 16, 2023)
+
+## Chores
+
+* [[`5a8aa558f3`](https://github.com/webhintio/hint/commit/5a8aa558f3608f017e6d9b18c163c2d28440c345)] - Upgrade: Bump metaviewport-parser from 0.2.0 to 0.3.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5439`](https://github.com/webhintio/hint/issues/5439)).
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+
+
 # 5.0.19 (October 6, 2022)
 
 ## Chores

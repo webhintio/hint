@@ -1,3 +1,11 @@
+# 2.4.26 (March 16, 2023)
+
+## Chores
+
+* [[`c76a0cdfcc`](https://github.com/webhintio/hint/commit/c76a0cdfcc062ae73076c0d985b20addfbcc83d5)] - Upgrade: Bump punycode from 2.1.1 to 2.3.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5406`](https://github.com/webhintio/hint/issues/5406)).
+* [[`9a70e414f0`](https://github.com/webhintio/hint/commit/9a70e414f04fed9ddd86073641415c0ddc0841eb)] - Upgrade: Bump @types/node from 17.0.14 to 18.13.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5425`](https://github.com/webhintio/hint/issues/5425)).
+
+
 # 2.4.25 (October 6, 2022)
 
 ## Chores
