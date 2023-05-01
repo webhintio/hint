@@ -16,7 +16,7 @@
     "postcss-selector-parser": "^6.0.8"
   },
   "devDependencies": {
-    "@hint/parser-css": "^3.0.37",
+    "@hint/parser-css": "^3.0.38",
     "@hint/utils-create-server": "^3.4.24",
     "@hint/utils-tests-helpers": "^6.5.4",
     "@types/node": "^18.13.0",

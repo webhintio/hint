@@ -14,7 +14,7 @@
     "@hint/utils-string": "^1.0.13",
     "@hint/utils-types": "^1.2.0",
     "bcp47": "^1.1.2",
-    "color-string": "^1.9.0"
+    "color-string": "^1.9.1"
   },
   "description": "hint that that checks if the web app manifest file is valid",
   "devDependencies": {

@@ -2,8 +2,7 @@
  * @fileoverview Let the developers know of what operations will be triggered by changes on the css properties
  */
 
-import * as path from 'path';
-import { Declaration, Rule } from 'postcss';
+import { Declaration, AtRule, Rule } from 'postcss';
 
 import { HintContext } from 'hint/dist/src/lib/hint-context';
 // The list of types depends on the events you want to capture.
@@ -11,9 +10,8 @@ import { IHint} from 'hint/dist/src/lib/types';
 import { debug as d } from '@hint/utils-debug';
 import { Severity } from '@hint/utils-types';
 import { StyleEvents, StyleParse } from '@hint/parser-css';
-import { loadJSONFile } from '@hint/utils-fs';
-import { getCSSLocationFromNode, getUnprefixed } from '@hint/utils-css';
-const cssPropertiesObject = loadJSONFile(path.join(__dirname, 'assets', 'CSSReflow.json')) || {};
+import { getCSSLocationFromNode, getFullCSSCodeSnippet, getUnprefixed } from '@hint/utils-css';
+const cssPropertiesObject = require('./assets/CSSReflow.json') || {};
 
 import { getMessage } from './i18n.import';
 
@@ -33,11 +31,10 @@ export default class DetectCssCompositeHint implements IHint {
 
     public constructor(context: HintContext<StyleEvents>) {
 
-        // Your code here.
         const validateRule = (rule: Rule) => {
             // Code to validate the hint on the event when an element is visited.
 
-            debug(`Validating hint detect-css-reflows`);
+            debug(`Validating detect-css-reflows`);
             const results = new Set<Declaration>();
 
             rule.each((decl) => {
@@ -57,6 +54,29 @@ export default class DetectCssCompositeHint implements IHint {
             return results;
         };
 
+        const validateAtRule = (rule: AtRule) => {
+
+            let results = new Set<Declaration>();
+
+            if (rule.name === 'keyframes') {
+
+                // only care about css animations
+                rule.each((decl) => {
+                    switch (decl.type) {
+                        case 'rule': {
+                            results = new Set([...results, ...validateRule(decl)]);
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                    }
+                });
+            }
+
+            return results;
+        };
+
         const formatMessage = (declaration: Declaration): string => {
             const propertyName = declaration.prop;
             const affectedTriggers = cssPropertiesObject[propertyName];
@@ -72,31 +92,41 @@ export default class DetectCssCompositeHint implements IHint {
                 return item !== null;
             }).join(', ');
 
-            return getMessage('willTriggerLayout', context.language, [propertyName, triggeredCSSChangesArray]);
+            return getMessage('issueMessage', context.language, [propertyName, triggeredCSSChangesArray]);
         };
 
         context.on('parse::end::css', ({ ast, element, resource }: StyleParse) => {
-            debug('Validating hint-detect-css-reflows');
+            debug('Validating detect-css-reflows');
 
-            ast.walkRules((rule) => {
-                const results = validateRule(rule);
+            for (const node of ast.nodes) {
+                switch (node.type) {
+                    case 'atrule': {
+                        const results = validateAtRule(node);
 
-                for (const declaration of results) {
-                    const location = getCSSLocationFromNode(declaration, { isValue: false });
-                    const severity = Severity.hint;
-                    const message = formatMessage(declaration);
+                        for (const declaration of results) {
+                            const location = getCSSLocationFromNode(declaration, { isValue: false });
+                            const severity = Severity.hint;
+                            const message = formatMessage(declaration);
+                            const codeSnippet = getFullCSSCodeSnippet(declaration);
 
-                    context.report(
-                        resource,
-                        message,
-                        {
-                            codeLanguage: 'css',
-                            element,
-                            location,
-                            severity
-                        });
+                            context.report(
+                                resource,
+                                message,
+                                {
+                                    codeLanguage: 'css',
+                                    codeSnippet,
+                                    element,
+                                    location,
+                                    severity
+                                });
+                        }
+                        break;
+                    }
+                    default:
+                        // only care about at rules
+                        break;
                 }
-            });
+            }
         });
         // As many events as you need
     }

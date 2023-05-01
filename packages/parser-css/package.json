@@ -10,9 +10,9 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.22",
+    "@hint/utils-debug": "^1.0.10",
     "@hint/utils-string": "^1.0.13",
-    "postcss": "^8.4.13",
+    "postcss": "^8.4.21",
     "postcss-safe-parser": "^6.0.0"
   },
   "description": "webhint parser needed to analyze CSS files",
@@ -77,5 +77,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.0.37"
+  "version": "3.0.38"
 }

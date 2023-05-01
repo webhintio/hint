@@ -1,3 +1,10 @@
+# 3.0.38 (March 30, 2023)
+
+## Chores
+
+* [[`38847f983c`](https://github.com/webhintio/hint/commit/38847f983c05d40178caa7965683c32a542e58e6)] - Chore: makes `parser-css` verbose on debug only () (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5480`](https://github.com/webhintio/hint/issues/5480)).
+
+
 # 3.0.37 (March 16, 2023)
 
 ## Chores
