@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
+const svgToMiniDataURI = require('mini-svg-data-uri');
 
 module.exports = (env) => {
     return {
@@ -43,11 +44,13 @@ module.exports = (env) => {
                     ]
                 },
                 {
+                    generator: {
+                        dataUrl: (content) => {
+                            return svgToMiniDataURI(content.toString());
+                        }
+                    },
                     test: /\.svg$/,
-                    use: {
-                        loader: 'svg-url-loader',
-                        options: { noquotes: true }
-                    }
+                    type: 'asset/inline'
                 },
                 {
                     test: /\.md$/,
