@@ -13,7 +13,7 @@
     "@types/lodash": "^4.14.187",
     "@types/node": "^18.13.0",
     "@types/on-headers": "^1.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^4.33.0",
     "ava": "^4.3.3",
     "copyfiles": "^2.4.1",
