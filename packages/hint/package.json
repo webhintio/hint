@@ -27,7 +27,7 @@
     "ora": "^5.4.1",
     "os-locale": "^5.0.0",
     "setimmediate": "^1.0.5",
-    "update-notifier": "^5.1.0"
+    "update-notifier": "^6.0.2"
   },
   "description": "The linting tool for the web",
   "devDependencies": {
@@ -35,7 +35,7 @@
     "@types/lodash": "^4.14.187",
     "@types/node": "^18.13.0",
     "@types/sinon": "^10.0.11",
-    "@types/update-notifier": "^5.1.0",
+    "@types/update-notifier": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "ava": "^4.3.3",
