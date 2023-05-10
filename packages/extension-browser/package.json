@@ -92,7 +92,7 @@
     "react-syntax-highlighter": "^15.5.0",
     "rimraf": "^5.0.0",
     "setimmediate": "^1.0.5",
-    "sinon": "^13.0.1",
+    "sinon": "^15.0.4",
     "stream-browserify": "^3.0.0",
     "style-loader": "^3.3.2",
     "terser-webpack-plugin": "^5.3.6",
