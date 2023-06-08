@@ -9,20 +9,20 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.22",
-    "@hint/utils-connector-tools": "^4.0.39",
-    "@hint/utils-debug": "^1.0.10",
-    "@hint/utils-dom": "^2.2.3",
-    "@hint/utils-fs": "^1.0.15",
-    "@hint/utils-network": "^1.0.24",
-    "@hint/utils-types": "^1.2.0",
+    "@hint/utils": "^7.0.23",
+    "@hint/utils-connector-tools": "^4.0.40",
+    "@hint/utils-debug": "^1.0.11",
+    "@hint/utils-dom": "^2.2.4",
+    "@hint/utils-fs": "^1.0.16",
+    "@hint/utils-network": "^1.0.25",
+    "@hint/utils-types": "^1.2.1",
     "jsdom": "^21.1.0",
     "mutationobserver-shim": "^0.3.7"
   },
   "description": "hint connector for JSDOM",
   "devDependencies": {
-    "@hint/parser-html": "^3.1.3",
-    "@hint/utils-create-server": "^3.4.24",
+    "@hint/parser-html": "^3.1.4",
+    "@hint/utils-create-server": "^3.4.25",
     "@types/jsdom": "^20.0.1",
     "@types/lodash": "^4.14.194",
     "@types/node": "^20.1.1",
@@ -85,5 +85,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.1.25"
+  "version": "4.1.26"
 }

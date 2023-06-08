@@ -1,3 +1,12 @@
+# 1.0.26 (June 8, 2023)
+
+## Chores
+
+* [[`5a59bb5d7b`](https://github.com/webhintio/hint/commit/5a59bb5d7b513be97b68e94a87f06415f8e6c771)] - Upgrade: Bump ajv from 8.11.0 to 8.12.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5544`](https://github.com/webhintio/hint/issues/5544)).
+* [[`a44ec65bd0`](https://github.com/webhintio/hint/commit/a44ec65bd02078e7d6110ebe0e6ee1b107529c87)] - Upgrade: Bump eslint-plugin-import from 2.26.0 to 2.27.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5481`](https://github.com/webhintio/hint/issues/5481)).
+* [[`5f2e5c418b`](https://github.com/webhintio/hint/commit/5f2e5c418b8d7d61e07d7e3e9655cc5ccb094979)] - Upgrade: Bump rimraf from 3.0.2 to 5.0.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5550`](https://github.com/webhintio/hint/issues/5550)).
+
+
 # 1.0.24 (October 6, 2022)
 
 ## Chores

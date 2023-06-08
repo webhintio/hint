@@ -1,3 +1,12 @@
+# 2.2.4 (June 8, 2023)
+
+## Chores
+
+* [[`a44ec65bd0`](https://github.com/webhintio/hint/commit/a44ec65bd02078e7d6110ebe0e6ee1b107529c87)] - Upgrade: Bump eslint-plugin-import from 2.26.0 to 2.27.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5481`](https://github.com/webhintio/hint/issues/5481)).
+* [[`5f2e5c418b`](https://github.com/webhintio/hint/commit/5f2e5c418b8d7d61e07d7e3e9655cc5ccb094979)] - Upgrade: Bump rimraf from 3.0.2 to 5.0.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5550`](https://github.com/webhintio/hint/issues/5550)).
+* [[`4693c62338`](https://github.com/webhintio/hint/commit/4693c62338e2850e101a6c6d66fee47f1d5d5b4e)] - Upgrade: Bump eventemitter2 from 6.4.5 to 6.4.9 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5546`](https://github.com/webhintio/hint/issues/5546)).
+
+
 # 2.2.3 (March 16, 2023)
 
 ## Chores

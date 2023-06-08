@@ -1,3 +1,20 @@
+# 2.4.13 (June 8, 2023)
+
+## Bug fixes / Improvements
+
+* [[`3e0b5ffdae`](https://github.com/webhintio/hint/commit/3e0b5ffdae84b4fcc1d1bddba7dc6454dd4ed1ec)] - Fix: Replace SVG Loader for Webpack 5 (by [`Jack Robards`](https://github.com/JackRobards) / see also: [`#5347`](https://github.com/webhintio/hint/issues/5347)).
+
+## Chores
+
+* [[`3854a43f65`](https://github.com/webhintio/hint/commit/3854a43f65a2039bc602bfc0bbb42021adce4249)] - Upgrade: Bump @types/node from 18.13.0 to 20.1.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5557`](https://github.com/webhintio/hint/issues/5557)).
+* [[`90788a3a04`](https://github.com/webhintio/hint/commit/90788a3a04bd43366346b84e1272ab6cd5bbf6a6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.33.0 to 5.59.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5551`](https://github.com/webhintio/hint/issues/5551)).
+* [[`a44ec65bd0`](https://github.com/webhintio/hint/commit/a44ec65bd02078e7d6110ebe0e6ee1b107529c87)] - Upgrade: Bump eslint-plugin-import from 2.26.0 to 2.27.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5481`](https://github.com/webhintio/hint/issues/5481)).
+* [[`ce6b06e503`](https://github.com/webhintio/hint/commit/ce6b06e503c7e64991bb591875e3f737fe7f64ac)] - Upgrade: Bump browserslist from 4.19.3 to 4.21.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5441`](https://github.com/webhintio/hint/issues/5441)).
+* [[`5f2e5c418b`](https://github.com/webhintio/hint/commit/5f2e5c418b8d7d61e07d7e3e9655cc5ccb094979)] - Upgrade: Bump rimraf from 3.0.2 to 5.0.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5550`](https://github.com/webhintio/hint/issues/5550)).
+* [[`c2980e3579`](https://github.com/webhintio/hint/commit/c2980e3579263640fda75a42b897eb7076e2a7c9)] - Upgrade: Bump util from 0.12.4 to 0.12.5 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5443`](https://github.com/webhintio/hint/issues/5443)).
+* [[`6c99fa0da0`](https://github.com/webhintio/hint/commit/6c99fa0da0e48ca39f329493b96905ca2bc0166c)] - Upgrade: Bump style-loader from 3.3.1 to 3.3.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5488`](https://github.com/webhintio/hint/issues/5488)).
+
+
 # 2.4.11 (March 28, 2023)
 
 ## Chores

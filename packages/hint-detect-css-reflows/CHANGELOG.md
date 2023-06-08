@@ -1,3 +1,18 @@
+# 1.0.5 (June 8, 2023)
+
+## Bug fixes / Improvements
+
+* [[`83212772f9`](https://github.com/webhintio/hint/commit/83212772f94a4ac56937b8f4b01ddc223fdf27a9)] - Fix: Scoping `detect-css-reflows` to animations (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5518`](https://github.com/webhintio/hint/issues/5518)).
+
+## Chores
+
+* [[`3854a43f65`](https://github.com/webhintio/hint/commit/3854a43f65a2039bc602bfc0bbb42021adce4249)] - Upgrade: Bump @types/node from 18.13.0 to 20.1.1 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5557`](https://github.com/webhintio/hint/issues/5557)).
+* [[`3a828ee2dc`](https://github.com/webhintio/hint/commit/3a828ee2dc0fcaf1457a7902f34bb37228f56385)] - Upgrade: Bump postcss from 8.4.21 to 8.4.23 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5538`](https://github.com/webhintio/hint/issues/5538)).
+* [[`90788a3a04`](https://github.com/webhintio/hint/commit/90788a3a04bd43366346b84e1272ab6cd5bbf6a6)] - Upgrade: Bump @typescript-eslint/eslint-plugin from 4.33.0 to 5.59.2 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5551`](https://github.com/webhintio/hint/issues/5551)).
+* [[`5f2e5c418b`](https://github.com/webhintio/hint/commit/5f2e5c418b8d7d61e07d7e3e9655cc5ccb094979)] - Upgrade: Bump rimraf from 3.0.2 to 5.0.0 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5550`](https://github.com/webhintio/hint/issues/5550)).
+* [[`f2b8017891`](https://github.com/webhintio/hint/commit/f2b801789157a4913d5478758d6547bec9b4de70)] - Upgrade: Bump postcss from 8.4.20 to 8.4.21 (by [`dependabot[bot]`](https://github.com/apps/dependabot) / see also: [`#5487`](https://github.com/webhintio/hint/issues/5487)).
+
+
 # 1.0.4 (March 30, 2023)
 
 ## Chores
