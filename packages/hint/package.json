@@ -20,7 +20,7 @@
     "browserslist": "^4.21.5",
     "chalk": "^4.1.2",
     "eventemitter2": "^6.4.9",
-    "globby": "^11.0.4",
+    "globby": "^13.1.4",
     "is-ci": "^3.0.1",
     "lodash": "^4.17.21",
     "optionator": "^0.9.1",
