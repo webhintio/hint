@@ -20,7 +20,7 @@
     "@hint/parser-webpack-config": "^2.1.40",
     "@hint/utils-tests-helpers": "^6.5.5",
     "@types/node": "^20.1.1",
-    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/eslint-plugin": "^5.59.9",
     "@typescript-eslint/parser": "^4.33.0",
     "ava": "^4.3.3",
     "copyfiles": "^2.4.1",
