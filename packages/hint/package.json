@@ -12,6 +12,7 @@
   "dependencies": {
     "@hint/utils": "^7.0.23",
     "@hint/utils-debug": "^1.0.11",
+    "@hint/utils-dom": "^2.2.4",
     "@hint/utils-fs": "^1.0.16",
     "@hint/utils-json": "^1.0.26",
     "@hint/utils-network": "^1.0.25",
@@ -31,7 +32,6 @@
   },
   "description": "The linting tool for the web",
   "devDependencies": {
-    "@hint/utils-dom": "^2.2.4",
     "@types/lodash": "^4.14.194",
     "@types/node": "^20.1.1",
     "@types/sinon": "^10.0.11",
