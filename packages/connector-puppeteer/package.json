@@ -21,7 +21,7 @@
     "puppeteer-core": "^13.0.1"
   },
   "resolutions": {
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.x"
   },
   "description": "hint connector for browsers supported by Puppeteer",
   "devDependencies": {
