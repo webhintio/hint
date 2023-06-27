@@ -42,7 +42,7 @@
   "private": true,
   "resolutions": {
     "json-schema": "^0.4.0",
-    "node-fetch": "^2.6.7",
+    "node-fetch": "^2.x",
     "thenify": "^3.3.1",
     "tsconfig-paths": "^4.1.2"
   },
