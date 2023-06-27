@@ -9,8 +9,8 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils-json": "^1.0.26",
-    "@hint/utils-network": "^1.0.25",
+    "@hint/utils-json": "^1.0.27",
+    "@hint/utils-network": "^1.0.26",
     "@hint/utils-string": "^1.0.14",
     "@hint/utils-types": "^1.2.1"
   },
@@ -74,5 +74,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.3.18"
+  "version": "2.3.19"
 }

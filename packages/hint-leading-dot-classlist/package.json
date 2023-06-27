@@ -17,8 +17,8 @@
   "description": "Inform users about classList.add or classList.remove with leading '.' in the argument pitfall",
   "devDependencies": {
     "@hint/parser-javascript": "^3.1.24",
-    "@hint/utils-create-server": "^3.4.25",
-    "@hint/utils-tests-helpers": "^6.5.5",
+    "@hint/utils-create-server": "^3.4.26",
+    "@hint/utils-tests-helpers": "^6.5.6",
     "@types/node": "^20.1.1",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^4.33.0",
@@ -75,5 +75,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.18"
+  "version": "1.0.19"
 }

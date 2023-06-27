@@ -1,3 +1,10 @@
+# 1.0.26 (June 27, 2023)
+
+## Bug fixes / Improvements
+
+* [[`ee526dee46`](https://github.com/webhintio/hint/commit/ee526dee4628f7acb300176171e910c149160c71)] - Fix: Reverting node-fetch to v2 (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5618`](https://github.com/webhintio/hint/issues/5618)).
+
+
 # 1.0.25 (June 8, 2023)
 
 ## Chores

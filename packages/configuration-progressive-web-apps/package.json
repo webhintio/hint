@@ -1,15 +1,15 @@
 {
   "dependencies": {
-    "@hint/connector-puppeteer": "^2.5.23",
-    "@hint/connector-jsdom": "^4.1.26",
+    "@hint/connector-puppeteer": "^2.5.24",
+    "@hint/connector-jsdom": "^4.1.27",
     "@hint/formatter-html": "^4.3.16",
     "@hint/formatter-summary": "^3.0.38",
-    "@hint/hint-apple-touch-icons": "^4.0.21",
-    "@hint/hint-manifest-app-name": "^2.4.27",
-    "@hint/hint-manifest-exists": "^2.4.27",
-    "@hint/hint-manifest-file-extension": "^3.0.22",
-    "@hint/hint-manifest-is-valid": "^3.4.18",
-    "@hint/parser-manifest": "^2.3.18"
+    "@hint/hint-apple-touch-icons": "^4.0.22",
+    "@hint/hint-manifest-app-name": "^2.4.28",
+    "@hint/hint-manifest-exists": "^2.4.28",
+    "@hint/hint-manifest-file-extension": "^3.0.23",
+    "@hint/hint-manifest-is-valid": "^3.4.19",
+    "@hint/parser-manifest": "^2.3.19"
   },
   "description": "webhint's recommended hints configuration for progressive web apps (PWAs)",
   "files": [
@@ -33,5 +33,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "7.0.27"
+  "version": "7.0.28"
 }

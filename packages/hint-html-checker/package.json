@@ -12,15 +12,15 @@
     "@hint/utils": "^7.0.23",
     "@hint/utils-debug": "^1.0.11",
     "@hint/utils-i18n": "^1.0.15",
-    "@hint/utils-network": "^1.0.25",
+    "@hint/utils-network": "^1.0.26",
     "@hint/utils-types": "^1.2.1",
     "lodash": "^4.17.21"
   },
   "description": "hint that that validates HTML pages using the Nu HTML checker",
   "devDependencies": {
     "@hint/parser-html": "^3.1.4",
-    "@hint/utils-connector-tools": "^4.0.40",
-    "@hint/utils-tests-helpers": "^6.5.5",
+    "@hint/utils-connector-tools": "^4.0.41",
+    "@hint/utils-tests-helpers": "^6.5.6",
     "@types/node": "^20.1.1",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^4.33.0",
@@ -78,5 +78,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "3.3.25"
+  "version": "3.3.26"
 }

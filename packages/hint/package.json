@@ -13,8 +13,8 @@
     "@hint/utils": "^7.0.23",
     "@hint/utils-debug": "^1.0.11",
     "@hint/utils-fs": "^1.0.16",
-    "@hint/utils-json": "^1.0.26",
-    "@hint/utils-network": "^1.0.25",
+    "@hint/utils-json": "^1.0.27",
+    "@hint/utils-network": "^1.0.26",
     "@hint/utils-string": "^1.0.14",
     "@hint/utils-types": "^1.2.1",
     "browserslist": "^4.21.5",
@@ -76,8 +76,8 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
-    "@hint/configuration-development": "^8.3.17",
-    "@hint/configuration-web-recommended": "^8.2.22"
+    "@hint/configuration-development": "^8.3.18",
+    "@hint/configuration-web-recommended": "^8.2.23"
   },
   "repository": {
     "directory": "packages/hint",
@@ -105,5 +105,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "7.1.9"
+  "version": "7.1.10"
 }

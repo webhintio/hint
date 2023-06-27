@@ -1,9 +1,9 @@
 {
   "dependencies": {
-    "@hint/connector-puppeteer": "^2.5.23",
+    "@hint/connector-puppeteer": "^2.5.24",
     "@hint/formatter-html": "^4.3.16",
     "@hint/formatter-summary": "^3.0.38",
-    "@hint/hint-axe": "^4.4.19"
+    "@hint/hint-axe": "^4.4.20"
   },
   "description": "webhint's axe-based accessibility configuration for WCAG 2.1 Level A and Level AA requirements",
   "files": [
@@ -26,5 +26,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "2.0.26"
+  "version": "2.0.27"
 }

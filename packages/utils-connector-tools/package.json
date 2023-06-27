@@ -11,7 +11,7 @@
   "dependencies": {
     "@hint/utils": "^7.0.23",
     "@hint/utils-debug": "^1.0.11",
-    "@hint/utils-network": "^1.0.25",
+    "@hint/utils-network": "^1.0.26",
     "@hint/utils-string": "^1.0.14",
     "@hint/utils-types": "^1.2.1",
     "data-urls": "^3.0.2",
@@ -21,7 +21,7 @@
   },
   "description": "hint tools for connectors",
   "devDependencies": {
-    "@hint/utils-create-server": "^3.4.25",
+    "@hint/utils-create-server": "^3.4.26",
     "@types/node": "^20.1.1",
     "@types/node-fetch": "^2.x",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
@@ -77,5 +77,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "4.0.40"
+  "version": "4.0.41"
 }
