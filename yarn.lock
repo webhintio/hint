@@ -1231,10 +1231,10 @@
     "@types/configstore" "*"
     boxen "^4.2.0"
 
-"@types/vscode@^1.64.0":
-  version "1.64.0"
-  resolved "https://registry.yarnpkg.com/@types/vscode/-/vscode-1.64.0.tgz#bfd82c8d92dc7824c1be084be1ab46ce20d7fb55"
-  integrity sha512-bSlAWz5WtcSL3cO9tAT/KpEH9rv5OBnm93OIIFwdCshaAiqr2bp1AUyEwW9MWeCvZBHEXc3V0fTYVdVyzDNwHA==
+"@types/vscode@^1.79.1":
+  version "1.79.1"
+  resolved "https://registry.yarnpkg.com/@types/vscode/-/vscode-1.79.1.tgz#ab568315f9c844a8f4fa8f168b2d6dbf1f58dd02"
+  integrity sha512-Ikwc4YbHABzqthrWfeAvItaAIfX9mdjMWxqNgTpGjhgOu0TMRq9LzyZ2yBK0JhYqoSjEubEPawf6zJgnl6Egtw==
 
 "@types/webpack@^5.28.0":
   version "5.28.0"
