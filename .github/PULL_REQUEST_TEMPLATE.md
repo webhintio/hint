@@ -12,7 +12,7 @@ For the following items put an "x" between the square brackets
 
 Make sure you:
 
-- [ ] Signed the Contributor License Agreement (after creating PR)
+- [ ] Signed the [Contributor License Agreement](https://openjsf.org/cla) (after creating PR)
 - [ ] Followed the [commit message guidelines](https://webhint.io/docs/contributor-guide/getting-started/pull-requests/#commit-messages)
 
 For non-trivial changes, please make sure you also:

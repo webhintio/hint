@@ -23,7 +23,7 @@ before contributing.
 
 <!-- Link labels -->
 
-[cla]: https://cla.js.foundation/webhintio/hint
+[cla]: https://openjsf.org/cla
 [coc]: https://github.com/webhintio/.github/blob/main/CODE_OF_CONDUCT
 [contributor guide]: https://webhint.io/docs/contributor-guide/
 [pr process]: https://webhint.io/docs/contributor-guide/getting-started/pull-requests/
