@@ -56,15 +56,6 @@ currently available. It utilizes the [Language Server Protocol][lsp]
 which makes it suitable for porting to other editors if there's
 community interest.
 
-## Is there an online service?
-
-Yes! You can scan an online website in [here][scanner].
-
-If you have any feedback on the results page, please open an
-issue in the [website repository][scanner-issues]. If the issue is
-related to the results themselves, then open an issue in the [webhint
-repository][webhint-issues].
-
 ## What is the logo?
 
 Our logo is Nellie the narwhal. Narwhals are not only [awesome][narwhal
@@ -97,7 +88,4 @@ telling us what you think can be improved.
 [narwhal echolocation]: http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0162069
 [narwhal song]: https://www.youtube.com/watch?v=ykwqXuMPsoc
 [new issue]: https://github.com/webhintio/hint/issues/new
-[scanner]: https://webhint.io/scanner/
-[scanner-issues]: https://github.com/webhintio/webhint.io/issues/new
-[webhint-issues]: https://github.com/webhintio/hint/issues/new
 [ssllabs]: https://www.ssllabs.com/ssltest/
