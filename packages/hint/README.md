@@ -63,7 +63,7 @@ version](https://github.com/webhintio/hint/blob/HEAD/packages/hint/docs/contribu
 ## Code of Conduct
 
 This project adheres to the JS Foundation’s [code of
-conduct](https://js.foundation/community/code-of-conduct).
+conduct](https://code-of-conduct.openjsf.org/).
 By participating in this project you agree to abide by its terms.
 
 ## License

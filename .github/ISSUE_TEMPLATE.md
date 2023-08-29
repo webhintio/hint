@@ -19,7 +19,7 @@ see below:
       to close the issue.
 
     * webhint adheres to the JS Foundation Code of Conduct
-      https://js.foundation/community/code-of-conduct.
+      https://code-of-conduct.openjsf.org/
 
 -->
 
