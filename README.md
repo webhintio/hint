@@ -81,7 +81,7 @@ yarn build
 This can take a bit so please be patient.
 
 To learn more about the internals of `webhint`, the structure of the
-project, how to create new hints, parsers, formatters, etc, take
+project, how to create new hints, parsers, formatters, etc, and take
 a look at the online [contributor guide][contributor guide] (or the
 [local version][local contributor guide]).
 
