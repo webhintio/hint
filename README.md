@@ -10,8 +10,8 @@ webhint is a customizable linting tool that helps you improve your site's
 accessibility, speed, cross-browser compatibility, and more by checking your
 code for best practices and common errors.
 
-It can be run from the command line (CLI), via a [browser extension][], as a
-[VS Code extension][], and from the [online service][].
+It can be run from the command line (CLI), via a [browser extension][], and as
+a [VS Code extension][].
 
 To use it from the CLI you will need to install [`Node.js`][node]
 (v14.x or later) on your machine, and you can use [`npx`][npx] to test it.
@@ -125,8 +125,7 @@ The code is available under the [Apache 2.0 license][license].
 [local user guide]: ./packages/hint/docs/user-guide/index.md
 [node]: https://nodejs.org/en/download/current/
 [npx]: https://github.com/zkat/npx
-[ojs coc]: https://github.com/openjs-foundation/cross-project-council/blob/master/CODE_OF_CONDUCT.md
-[online service]: https://webhint.io/scanner/
+[ojs coc]: https://code-of-conduct.openjsf.org/
 [user guide]: https://webhint.io/docs/user-guide/
 [VS Code extension]: https://webhint.io/docs/user-guide/extensions/vscode-webhint/
 [yarn]: http://yarnpkg.com/
