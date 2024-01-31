@@ -158,10 +158,12 @@ const tasks = new Listr([
  * this way.
  */
 if (!(argv as Arguments<Parameters>).help) {
-    tasks.run()
+    const runTask = tasks.run()
         .catch((e) => {
             console.error('There was an error in the process. Check the logs for more information.');
 
             process.exitCode = 1;
         });
+
+runTask
 }
