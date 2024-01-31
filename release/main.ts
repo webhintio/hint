@@ -33,7 +33,7 @@ const ignoredPackages: string[] = [];
 const tasks = new Listr([
     {
         title: 'Validate and configure environment',
-        task: taskErrorWrapper(validateEnvironment)
+        task: validateEnvironment
     },
     {
         title: 'Authenticate in GitHub',
@@ -68,7 +68,7 @@ const tasks = new Listr([
     {
         title: 'Cleanup workspace',
         skip: skipReasons(skipIfError, skipIfAborted, skipInstallation),
-        task: cleanWorkspace()
+        task: cleanWorkspace
     },
     /**
      * Cross-deps should be updated by now and we need to make sure to commit
@@ -84,7 +84,7 @@ const tasks = new Listr([
     {
         title: 'Update changelogs',
         skip: skipReasons(skipIfError, skipIfJustRelease),
-        task: updateChangelogs()
+        task: updateChangelogs
     },
     {
         title: 'Commit changes',
@@ -99,7 +99,7 @@ const tasks = new Listr([
     {
         title: 'Build and test',
         skip: skipReasons(skipIfError, skipIfAborted, skipIfJustRelease, skipIfTestMode),
-        task: runTests()
+        task: runTests
     },
     {
         title: 'Confirm npm publishing',
@@ -109,7 +109,7 @@ const tasks = new Listr([
     {
         title: 'Publish on npm',
         skip: skipReasons(skipIfError, skipIfAborted, skipIfTestMode),
-        task: release()
+        task: release
     },
     {
         title: 'Publish extension on Visual Studio Marketplace',
