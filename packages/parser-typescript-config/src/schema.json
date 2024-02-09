@@ -355,14 +355,16 @@
                             "anyOf": [
                                 {
                                     "enum": [
+                                        "Bundler",
                                         "Classic",
                                         "Node",
+                                        "Node10",
                                         "Node16",
                                         "NodeNext"
                                     ]
                                 },
                                 {
-                                    "pattern": "^(([Nn]ode)|([Nn]ode16)|([Nn]ode[Nn]ext)|([Cc]lassic))$"
+                                    "pattern": "^(([Bb]undler)|([Nn]ode)|([Nn]ode10)|([Nn]ode16)|([Nn]ode[Nn]ext)|([Cc]lassic))$"
                                 }
                             ],
                             "default": "classic",
