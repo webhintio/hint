@@ -358,11 +358,12 @@
                                         "Classic",
                                         "Node",
                                         "Node16",
-                                        "NodeNext"
+                                        "NodeNext",
+                                        "Bundler"
                                     ]
                                 },
                                 {
-                                    "pattern": "^(([Nn]ode)|([Nn]ode16)|([Nn]ode[Nn]ext)|([Cc]lassic))$"
+                                    "pattern": "^(([Nn]ode)|([Nn]ode16)|([Nn]ode[Nn]ext)|([Cc]lassic)|([Bb]undler))$"
                                 }
                             ],
                             "default": "classic",
