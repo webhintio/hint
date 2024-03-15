@@ -10,7 +10,7 @@ The examples provided on webhint.io are written with the `bash` command-line
 shell. For more information about `bash`, go to
 [Bash Guide for Beginners][TldpLdpBashBeginnersGuide].
 
-To verify that you have Node.js (version 10 or later) and `npm` installed, open
+To verify that you have Node.js (version 14 or later) and `npm` installed, open
 a `bash` command-line interface and run the following command:
 
 ```bash
