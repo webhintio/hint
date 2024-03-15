@@ -141,8 +141,8 @@ export default class HttpCacheHint implements IHint {
         const parseCacheControlHeader = (cacheControlHeader: string): ParsedDirectives => {
             // https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9
             const directives = ['must-revalidate', 'no-cache', 'no-store', 'no-transform', 'public', 'private', 'proxy-revalidate'];
-            const valueDirectives = ['max-age', 's-maxage'];
             const extensionDirectives = ['immutable', 'stale-while-revalidate', 'stale-if-error'];
+            const valueDirectives = ['max-age', 's-maxage', 'stale-while-revalidate', 'stale-if-error'];
 
             const usedDirectives = cacheControlHeader.split(',').map((value) => {
                 return value.trim();
