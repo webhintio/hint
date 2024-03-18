@@ -47,6 +47,7 @@ const ignoredDependencies = new Set([
     'style-loader',
     'typescript',
     'typed-css-modules',
+    'vm-browserify',
     'vsce',
     'vscode-languageclient',
     'web-ext',
