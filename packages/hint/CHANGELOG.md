@@ -1,3 +1,12 @@
+# 7.1.11 (March 18, 2024)
+
+## Bug fixes / Improvements
+
+* [[`da59800798`](https://github.com/webhintio/hint/commit/da5980079827078f732537c03117141d06f1e828)] - Docs: Update minimum node version to 14.
+* [[`f1b2f4f708`](https://github.com/webhintio/hint/commit/f1b2f4f708be40c284afaef491c4bedd85d431c1)] - Docs: Remove references to retired online scanner (see also: [`#5690`](https://github.com/webhintio/hint/issues/5690)).
+* [[`25483c2f99`](https://github.com/webhintio/hint/commit/25483c2f99ade8667e79f796603a93a5ca321136)] - Docs: Update links to OpenJS Foundation CoC.
+
+
 # 7.1.9 (June 8, 2023)
 
 ## Chores

@@ -16,7 +16,7 @@
   "description": "hint thats to check the webpack configuration.",
   "devDependencies": {
     "@hint/parser-babel-config": "^2.1.42",
-    "@hint/parser-typescript-config": "^2.4.29",
+    "@hint/parser-typescript-config": "^2.4.30",
     "@hint/parser-webpack-config": "^2.1.41",
     "@hint/utils-tests-helpers": "^6.5.6",
     "@types/node": "^20.1.1",
@@ -79,5 +79,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.4.28"
+  "version": "2.4.29"
 }

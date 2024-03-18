@@ -1,14 +1,14 @@
 {
   "dependencies": {
     "@hint/configuration-accessibility": "^2.0.27",
-    "@hint/configuration-development": "^8.3.18",
+    "@hint/configuration-development": "^8.3.19",
     "@hint/configuration-progressive-web-apps": "^7.0.28",
     "@hint/configuration-web-recommended": "^8.2.23",
     "@hint/connector-jsdom": "^4.1.27",
     "@hint/connector-local": "^3.2.27",
     "@hint/connector-puppeteer": "^2.5.24",
-    "@hint/extension-browser": "^2.4.14",
-    "vscode-webhint": "^2.1.11",
+    "@hint/extension-browser": "^2.4.15",
+    "vscode-webhint": "^2.1.12",
     "@hint/formatter-codeframe": "^3.1.35",
     "@hint/formatter-excel": "^3.1.35",
     "@hint/formatter-html": "^4.3.16",
@@ -57,9 +57,9 @@
     "@hint/hint-ssllabs": "^2.4.26",
     "@hint/hint-strict-transport-security": "^3.0.22",
     "@hint/hint-stylesheet-limits": "^3.3.26",
-    "@hint/hint-typescript-config": "^2.5.14",
+    "@hint/hint-typescript-config": "^2.5.15",
     "@hint/hint-validate-set-cookie-header": "^3.0.22",
-    "@hint/hint-webpack-config": "^2.4.28",
+    "@hint/hint-webpack-config": "^2.4.29",
     "@hint/hint-x-content-type-options": "^4.0.22",
     "@hint/parser-babel-config": "^2.1.42",
     "@hint/parser-css": "^3.0.39",
@@ -71,7 +71,7 @@
     "@hint/parser-package-json": "^1.1.42",
     "@hint/parser-sass": "^1.0.31",
     "@hint/parser-typescript": "^1.0.25",
-    "@hint/parser-typescript-config": "^2.4.29",
+    "@hint/parser-typescript-config": "^2.4.30",
     "@hint/parser-webpack-config": "^2.1.41"
   },
   "description": "webhint's configuration that includes all the published packages",
@@ -94,5 +94,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "3.0.14"
+  "version": "3.0.15"
 }

@@ -1,3 +1,14 @@
+# 1.4.14 (March 18, 2024)
+
+## Bug fixes / Improvements
+
+* [[`8338856f94`](https://github.com/webhintio/hint/commit/8338856f942c488a40631b134358441bf295f3ee)] - Fix: Fixes a warning in utils-worker package for missing vm module.
+
+## Chores
+
+* [[`6ff70107a6`](https://github.com/webhintio/hint/commit/6ff70107a671366c0077790ea4e5f4573050a5c5)] - Chore: Incresing size limit for package files for the browser extension.
+
+
 # 1.4.12 (June 8, 2023)
 
 ## Chores

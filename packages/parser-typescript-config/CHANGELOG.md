@@ -1,3 +1,10 @@
+# 2.4.30 (March 18, 2024)
+
+## Bug fixes / Improvements
+
+* [[`21dcbd2a1c`](https://github.com/webhintio/hint/commit/21dcbd2a1cbf74170dfae22a8fd85b939702c88f)] - Fix: Add moduleResolution strategy to parser schema (see also: [`#5720`](https://github.com/webhintio/hint/issues/5720)).
+
+
 # 2.4.28 (June 8, 2023)
 
 ## Chores

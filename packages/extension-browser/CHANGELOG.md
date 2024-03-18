@@ -1,3 +1,11 @@
+# 2.4.15 (March 18, 2024)
+
+## Chores
+
+* [[`6ff70107a6`](https://github.com/webhintio/hint/commit/6ff70107a671366c0077790ea4e5f4573050a5c5)] - Chore: Incresing size limit for package files for the browser extension.
+* [[`8ed78f8e58`](https://github.com/webhintio/hint/commit/8ed78f8e5806cc230e5dcb822bfb3bd14b94adec)] - Upgrade: Bump @types/chrome from 0.0.183 to 0.0.242.
+
+
 # 2.4.13 (June 8, 2023)
 
 ## Bug fixes / Improvements
