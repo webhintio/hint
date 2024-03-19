@@ -16,7 +16,7 @@
   },
   "description": "hint that that checks if the TypeScript configuration is valid.",
   "devDependencies": {
-    "@hint/parser-typescript-config": "^2.4.29",
+    "@hint/parser-typescript-config": "^2.4.30",
     "@hint/utils-json": "^1.0.27",
     "@hint/utils-tests-helpers": "^6.5.6",
     "@types/node": "^20.1.1",
@@ -77,5 +77,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "2.5.14"
+  "version": "2.5.15"
 }

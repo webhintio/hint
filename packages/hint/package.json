@@ -76,7 +76,7 @@
     "extends": "../../.nycrc"
   },
   "optionalDependencies": {
-    "@hint/configuration-development": "^8.3.18",
+    "@hint/configuration-development": "^8.3.19",
     "@hint/configuration-web-recommended": "^8.2.23"
   },
   "repository": {
@@ -105,5 +105,5 @@
     "watch:test": "ava --watch",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "7.1.10"
+  "version": "7.1.11"
 }
