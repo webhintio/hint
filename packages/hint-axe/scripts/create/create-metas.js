@@ -8,6 +8,7 @@ const { categoryId, escapeKey, mkdir, rulesIn, writeFile } = require('./utils');
 /** @typedef {import('axe-core').RuleMetadata} RuleMeta */
 
 const dependencyMap = new Map();
+
 dependencyMap.set('@hint/utils-types', '../../**/packages/utils-types/package.json');
 
 /** Execute the `cmd` in a new process. */
@@ -45,10 +46,13 @@ const getPackages = async () => {
      */
     const packagesToBuildPromise = [];
     const result = [];
+
     dependencyMap.forEach(async (value, key) => {
-        // We only need to build the packages that has not been build yet,
-        // so we require them and if it fails we build them. This also
-        // guarantees we build them only once.
+        /**
+         * We only need to build the packages that has not been build yet,
+         * so we require them and if it fails we build them. This also
+         * guarantees we build them only once.
+         */
         try {
             await require(key);
         } catch (e) {
@@ -56,9 +60,10 @@ const getPackages = async () => {
         }
     });
 
-    const flattenedArray = (await Promise.all(packagesToBuildPromise)).flat()
-    for (let packagePath of flattenedArray) {
-        result.push({packagePath})
+    const flattenedArray = (await Promise.all(packagesToBuildPromise)).flat();
+
+    for (const packagePath of flattenedArray) {
+        result.push({packagePath});
     }
 
     return result;
