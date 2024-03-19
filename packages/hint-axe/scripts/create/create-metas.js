@@ -7,6 +7,9 @@ const { categoryId, escapeKey, mkdir, rulesIn, writeFile } = require('./utils');
 
 /** @typedef {import('axe-core').RuleMetadata} RuleMeta */
 
+const dependencyMap = new Map();
+dependencyMap.set('@hint/utils-types', '../../**/packages/utils-types/package.json');
+
 /** Execute the `cmd` in a new process. */
 const exec = (cmd) => {
     return new Promise((resolve, reject) => {
@@ -33,32 +36,32 @@ const exec = (cmd) => {
 
 /**
  * Searches 'packages/utils-types' and returns
- * an array with the path and the content of the result.
- * @returns { {packagePath: string, content: string}[] } The packages information
+ * an array with the path.
+ * @returns { {packagePath: string}[] } The packages information
  */
 const getPackages = async () => {
-    const packagesPaths = await globby([
-        `../../**/packages/utils-types/package.json`
-    ], { absolute: true});
-
-    const packages = packagesPaths.map((packagePath) => {
+    /**
+     * @type {Promise<string[]>[]}
+     */
+    const packagesToBuildPromise = [];
+    const result = [];
+    dependencyMap.forEach(async (value, key) => {
+        // We only need to build the packages that has not been build yet,
+        // so we require them and if it fails we build them. This also
+        // guarantees we build them only once.
         try {
-            const content = require(packagePath);
-
-            return {
-                content,
-                packagePath
-            };
+            await require(key);
         } catch (e) {
-            // This happens if we are creating a new package and switching branches. We can ignore
-            return {
-                content: '',
-                packagePath
-            };
+            packagesToBuildPromise.push(globby([value], { absolute: true}));
         }
     });
 
-    return packages;
+    const flattenedArray = (await Promise.all(packagesToBuildPromise)).flat()
+    for (let packagePath of flattenedArray) {
+        result.push({packagePath})
+    }
+
+    return result;
 };
 
 /**
@@ -68,8 +71,7 @@ const getPackages = async () => {
  * or if the package does not have that script.
  */
 const prebuildPackage = async (pkg) => {
-    if (pkg.content
-    ) {
+    if (pkg.packagePath) {
         console.log(chalk.green(`\tPrebuilding...`));
         const cwd = pkg.packagePath.replace('package.json', '');
 
