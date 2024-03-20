@@ -46,7 +46,7 @@ module.exports = (env) => {
                 path: 'path-browserify',
                 setImmediate: 'setimmediate',
                 stream: 'stream-browserify',
-                vm: 'vm-browserify'
+                vm: false
             }
         }
     };
