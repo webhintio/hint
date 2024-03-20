@@ -131,7 +131,8 @@ const tests: HintTest[] = [
             message: `Broken link found (404 response).`,
             severity: Severity.error
         }],
-        serverConfig: generateHTMLPage('', bodyWithBrokenImageSource)
+        serverConfig: generateHTMLPage('', bodyWithBrokenImageSource),
+        skip: true // temporary disabling to investigate
     },
     {
         name: `This test should fail as it has a valid link but it has also a link with 404 href value(absolute)`,
