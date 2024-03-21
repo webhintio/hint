@@ -123,5 +123,5 @@
     "webpack": "webpack",
     "webpack-stats": "webpack --json > stats.json"
   },
-  "version": "1.4.14"
+  "version": "1.4.15"
 }

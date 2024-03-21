@@ -1,3 +1,10 @@
+# 1.4.15 (March 21, 2024)
+
+## Bug fixes / Improvements
+
+* [[`6ef9b7cd0c`](https://github.com/webhintio/hint/commit/6ef9b7cd0c9129ca5a53f30ef51812622ad3d459)] - Fix: Fixing error Declaration emit for this file requires using private name 'Context' (#5752).
+
+
 # 1.4.14 (March 18, 2024)
 
 ## Bug fixes / Improvements
