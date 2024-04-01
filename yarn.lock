@@ -10758,10 +10758,10 @@ strtok3@^6.2.4:
     "@tokenizer/token" "^0.3.0"
     peek-readable "^4.0.1"
 
-style-loader@^3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-3.3.2.tgz#eaebca714d9e462c19aa1e3599057bc363924899"
-  integrity sha512-RHs/vcrKdQK8wZliteNK4NKzxvLBzpuHMqYmUVWeKa6MkaIQ97ZTOS0b+zapZhy6GcrgWnvWYCMHRirC3FsUmw==
+style-loader@^3.3.4:
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-3.3.4.tgz#f30f786c36db03a45cbd55b6a70d930c479090e7"
+  integrity sha512-0WqXzrsMTyb8yjZJHDqwmnwRJvhALK9LfRtRc6B4UTWe8AijYLZYZ9thuJTZc2VfQWINADW/j+LiJnfy2RoC1w==
 
 supertap@^3.0.1:
   version "3.0.1"
