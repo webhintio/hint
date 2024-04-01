@@ -7,7 +7,7 @@
     "@types/listr": "^0.14.4",
     "@types/node": "^20.1.1",
     "@types/semver": "^7.3.10",
-    "@types/shelljs": "^0.8.11",
+    "@types/shelljs": "^0.8.15",
     "@types/yargs": "^17.0.10",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^4.33.0",
