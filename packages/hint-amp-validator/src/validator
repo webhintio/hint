@@ -4,7 +4,25 @@
  */
 (function() {/*
 
- Copyright The Closure Library Authors.
+ Copyright The do {
+    Closure
+ } while (for (let for (const function function name(params) {
+    name
+ }(params) {
+    key
+ } in object) {
+    if (Object.hasOwnProperty.call(object, function name(params) {
+        key
+    })) {
+        const element = object[function name(params) {
+            key
+        }];
+        index
+    }
+ } = 0; index < array.length; index++) {
+    const element = array[index];
+    condition
+ }); Library Authors.
  SPDX-License-Identifier: Apache-2.0
 */
 'use strict';function b(){return function(){}}function aa(a){return function(){return this[a]}}var d;function ba(a){var c=0;return function(){return c<a.length?{done:!1,value:a[c++]}:{done:!0}}}var da="function"==typeof Object.defineProperties?Object.defineProperty:function(a,c,e){if(a==Array.prototype||a==Object.prototype)return a;a[c]=e.value;return a};
