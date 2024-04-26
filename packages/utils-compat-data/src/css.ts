@@ -62,7 +62,12 @@ const getTokens = (nodes: any[]): [string, string][] => {
  */
 const getValueMatchesUnsupported = (context: Identifier & {__compat?: CompatStatement}, featureSupport: Identifier & {__compat?: CompatStatement}, value: ParsedValue, browsers: string[]): UnsupportedBrowsers | null => {
     const { prefix, tokens, unprefixedValue } = value;
-    const matches = featureSupport.__compat && (featureSupport.__compat as IMatchesCompatStatement).matches;
+    let matches = featureSupport.__compat && (featureSupport.__compat as IMatchesCompatStatement).matches;
+
+    // Matches Block property could be available either as matches or match.
+    if (!matches) {
+        matches = featureSupport.__compat && (featureSupport.__compat as IMatchesCompatStatement).match;
+    }
 
     if (!matches) {
         return null;
