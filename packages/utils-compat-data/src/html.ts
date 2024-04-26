@@ -1,5 +1,5 @@
 import { mdn } from './browser-compat-data';
-import { Identifier } from '@mdn/browser-compat-data/types';
+import { CompatStatement, Identifier } from '@mdn/browser-compat-data/types';
 
 import { getUnsupportedBrowsers, UnsupportedBrowsers } from './browsers';
 import { getCachedValue } from './cache';
@@ -24,8 +24,8 @@ export const getAttributeUnsupported = (feature: AttributeQuery, browsers: strin
     const key = `html-attribute:${feature.element || ''}|${feature.attribute}|${feature.value || ''}`;
 
     return getCachedValue(key, browsers, () => {
-        let data: Identifier | undefined;
-        let parentData: Identifier | undefined;
+        let data: (Identifier & {__compat?: CompatStatement}) | undefined;
+        let parentData: (Identifier & {__compat?: CompatStatement}) | undefined;
         let prefix = '';
         let unprefixed = '';
 
@@ -47,7 +47,7 @@ export const getAttributeUnsupported = (feature: AttributeQuery, browsers: strin
 
             // Handle oddly stored input type data (mdn.html.elements.input['input-' + typeValue]).
             if (!data && feature.element === 'input' && feature.attribute === 'type') {
-                [data, prefix, unprefixed] = getFeatureData(mdn.html.elements.input, `input-${feature.value}`);
+                [data, prefix, unprefixed] = getFeatureData(mdn.html.elements.input, `type_${feature.value}`);
             }
         }
 

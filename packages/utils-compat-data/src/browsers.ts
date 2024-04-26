@@ -1,4 +1,4 @@
-import { Identifier, SimpleSupportStatement, SupportStatement } from '@mdn/browser-compat-data/types';
+import { BrowserName, CompatStatement, Identifier, SimpleSupportStatement, SupportStatement } from '@mdn/browser-compat-data/types';
 const semver = require('semver/preload');
 
 import { mdn } from './browser-compat-data';
@@ -55,7 +55,7 @@ const coerce = (version: string): string | import('semver').SemVer => {
 };
 
 const normalizeBrowserName = (name: string) => {
-    return browserToMDN.get(name) || name;
+    return (browserToMDN.get(name) || name) as BrowserName;
 };
 
 /**
@@ -204,7 +204,7 @@ export const getFriendlyName = (browser: string): string => {
  * @param feature An MDN feature `Identifier` with `__compat` data.
  * @param browsers A list of target browsers (e.g. `['chrome 74', 'ie 11']`).
  */
-export const getUnsupportedBrowsers = (feature: Identifier | undefined, prefix: string, browsers: string[], unprefixed: string, parent?: Identifier): UnsupportedBrowsers | null => {
+export const getUnsupportedBrowsers = (feature: (Identifier & {__compat?: CompatStatement}) | undefined, prefix: string, browsers: string[], unprefixed: string, parent?: Identifier & {__compat?: CompatStatement}): UnsupportedBrowsers | null => {
     if (!feature || !feature.__compat || !feature.__compat.support) {
         return null; // Assume support if no matching feature was provided.
     }

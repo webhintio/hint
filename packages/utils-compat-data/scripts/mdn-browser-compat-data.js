@@ -280,12 +280,12 @@ removeFeatures(data.css);
 removeFeatures(data.html);
 
 const code = `/* eslint-disable */
-import { Browsers, PrimaryIdentifier } from '@mdn/browser-compat-data/types';
+import { Browsers, Identifier, CompatStatement } from '@mdn/browser-compat-data/types';
 
 type Data = {
     browsers: Browsers;
-    css: PrimaryIdentifier;
-    html: PrimaryIdentifier;
+    css: Identifier & {__compat?: CompatStatement};
+    html: Identifier & {__compat?: CompatStatement};
 }
 
 export const mdn: Data = ${JSON.stringify(data, null, 4)} as any;

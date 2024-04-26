@@ -1,10 +1,10 @@
 import test from 'ava';
-import { Identifier } from '@mdn/browser-compat-data/types';
+import { CompatStatement, Identifier } from '@mdn/browser-compat-data/types';
 
 import { getUnsupportedBrowsers } from '../src/browsers';
 
 /* eslint-disable */
-const keyframes: Identifier = {
+const keyframes: Identifier & {__compat?: CompatStatement} = {
     __compat: {
         mdn_url: 'https://developer.mozilla.org/docs/Web/CSS/@keyframes',
         support: {
@@ -30,7 +30,7 @@ const keyframes: Identifier = {
     }
 } as any;
 
-const maxContent: Identifier = {
+const maxContent: Identifier & {__compat?: CompatStatement} = {
     __compat: {
         support: {
             firefox: [
@@ -44,7 +44,7 @@ const maxContent: Identifier = {
     }
 } as any;
 
-const width: Identifier = {
+const width: Identifier & {__compat?: CompatStatement} = {
     __compat: {
         mdn_url: 'https://developer.mozilla.org/docs/Web/CSS/width'
     }
@@ -84,7 +84,7 @@ test('Handles supported prefix', (t) => {
 
 test('Handles unsupported prefix', (t) => {
     /* eslint-disable */
-    const appearance: Identifier = {
+    const appearance: Identifier & {__compat?: CompatStatement} = {
         __compat: {
             support: {
                 firefox: {
@@ -103,7 +103,7 @@ test('Handles unsupported prefix', (t) => {
 
 test('Handles multiple supported prefixes', (t) => {
     /* eslint-disable */
-    const boxFlex: Identifier = {
+    const boxFlex: Identifier & {__compat?: CompatStatement} = {
         __compat: {
             support: {
                 firefox: [
@@ -132,7 +132,7 @@ test('Handles multiple supported prefixes', (t) => {
 
 test('Handles removed features', (t) => {
     /* eslint-disable */
-    const boxLines: Identifier = {
+    const boxLines: Identifier & {__compat?: CompatStatement} = {
         __compat: {
             support: {
                 chrome: {
@@ -152,7 +152,7 @@ test('Handles removed features', (t) => {
 
 test('Includes accurate details', (t) => {
     /* eslint-disable */
-    const keyframes: Identifier = {
+    const keyframes: Identifier & {__compat?: CompatStatement} = {
         __compat: {
             support: {
                 opera: [
