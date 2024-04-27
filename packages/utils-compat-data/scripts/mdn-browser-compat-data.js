@@ -213,6 +213,10 @@ const removeFeatureData = (data) => {
     delete compat.description;
     // Status is not needed for analysis.
     delete data.__compat.status;
+    // Source file is not needed for analysis
+    delete data.__compat.source_file;
+    // Tags not needed for analysis
+    delete data.__compat.tags;
 
     // Remove unnecessary data per-browser.
     for (const browserName of Object.keys(support)) {
