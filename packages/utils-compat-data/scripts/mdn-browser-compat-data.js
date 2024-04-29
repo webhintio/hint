@@ -217,6 +217,10 @@ const removeFeatureData = (data) => {
     delete data.__compat.source_file;
     // Tags not needed for analysis
     delete data.__compat.tags;
+    // delete non-desktop or mobile browser to reduce size of bundle.
+    delete support.oculus;
+    // Spec url is not needed for analysis.
+    delete data.__compat.spec_url;
 
     // Remove unnecessary data per-browser.
     for (const browserName of Object.keys(support)) {
