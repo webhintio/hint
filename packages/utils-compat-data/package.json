@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@hint/utils-css": "^1.0.15",
-    "@mdn/browser-compat-data": "^4.1.10",
-    "mdn-data": "^2.0.27",
+    "@mdn/browser-compat-data": "^5.5.23",
+    "mdn-data": "^2.6.1",
     "postcss-selector-parser": "^6.0.8",
     "postcss-value-parser": "^4.2.0",
     "semver": "^7.3.5"

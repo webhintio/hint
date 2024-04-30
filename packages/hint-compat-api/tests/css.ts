@@ -94,7 +94,7 @@ testHint(hintPath,
                         link: 'https://developer.mozilla.org/docs/Web/CSS/appearance',
                         text: 'Learn more about this CSS feature on MDN'
                     }],
-                    message: `'appearance' is not supported by Chrome < 84, Edge < 84, Firefox < 80, Internet Explorer. Add '-webkit-appearance' to support Chrome, Edge 12+. Add '-moz-appearance' to support Firefox.`,
+                    message: `'appearance' is not supported by Chrome < 84, Edge < 84, Firefox < 80, Internet Explorer. Add '-webkit-appearance' to support Chrome, Edge 12+, Firefox 64+. Add '-moz-appearance' to support Firefox.`,
                     position: { match: 'appearance: button; /* Report 6 */', range: 'appearance' },
                     severity: Severity.error
                 }
@@ -243,7 +243,7 @@ testHint(hintPath,
                         link: 'https://developer.mozilla.org/docs/Web/CSS/CSS_Grid_Layout/Subgrid',
                         text: 'Learn more about this CSS feature on MDN'
                     }],
-                    message: `'grid-template-rows: subgrid' is not supported by Edge.`,
+                    message: `'grid-template-rows: subgrid' is not supported by Edge < 117.`,
                     position: { match: 'subgrid;', range: 'subgrid' },
                     severity: Severity.warning
                 }

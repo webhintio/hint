@@ -45,11 +45,11 @@ testHint(hintPath,
             reports: [
                 {
                     documentation: [{
-                        link: 'https://developer.mozilla.org/docs/Web/HTML/Element/blink',
+                        link: 'https://developer.mozilla.org/docs/Web/HTML/Element/search',
                         text: 'Learn more about this HTML feature on MDN'
                     }],
-                    message: `'blink' is not supported by Chrome, Edge, Firefox 22+, Internet Explorer.`,
-                    position: { match: 'blink' },
+                    message: `'search' is not supported by Chrome < 118, Edge < 118, Firefox < 118, Internet Explorer.`,
+                    position: { match: 'search' },
                     severity: Severity.warning
                 },
                 {

@@ -31,14 +31,16 @@ const extraData = {
                         }
                     }
                 }
-            }
+            },
         },
         types: {
             color: {
-                alpha_hexadecimal_notation: {
-                    __compat: {
-                        match: {
-                            regex_token: '^#[0-9a-fA-F]{4}(?:[0-9a-fA-F]{4})?$'
+                rgb_hexadecimal_notation: {
+                    alpha_hexadecimal_notation: {
+                        __compat: {
+                            match: {
+                                regex_token: '^#[0-9a-fA-F]{4}(?:[0-9a-fA-F]{4})?$'
+                            }
                         }
                     }
                 }

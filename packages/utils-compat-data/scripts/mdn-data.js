@@ -14,6 +14,10 @@ const propertyRef = /<'([a-z-]+)'>/gi;
 /** Match a reference to a CSS type, e.g. `<color>` */
 const typeRef = /<([a-z-]+)>/gi;
 
+const problematicIds = new Set([
+    'white-space-trim' // not present in mdn-data/css/properties.json
+]);
+
 /**
  * Helper for `[].flatMap` until we move to Node 11+.
  * @param {any[]} arr
@@ -48,11 +52,15 @@ const matchAll = (str, regex) => {
  * @returns {string[]} A flattened array of all referenced types.
  */
 const getTypesForProperty = (name) => {
+    if (problematicIds.has(name)){
+        return [name, ''];
+    }
+
     const { syntax } = properties[name];
     const typeRefs = [...matchAll(syntax, typeRef)].map((m) => {
         return m[1];
     });
-    /** @type {string[]} */
+        /** @type {string[]} */
     const propertyRefs = flatMap([...matchAll(syntax, propertyRef)], (m) => {
         return getTypesForProperty(m[1]);
     });

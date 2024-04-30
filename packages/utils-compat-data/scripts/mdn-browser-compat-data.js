@@ -213,6 +213,14 @@ const removeFeatureData = (data) => {
     delete compat.description;
     // Status is not needed for analysis.
     delete data.__compat.status;
+    // Source file is not needed for analysis
+    delete data.__compat.source_file;
+    // Tags not needed for analysis
+    delete data.__compat.tags;
+    // delete non-desktop or mobile browser to reduce size of bundle.
+    delete support.oculus;
+    // Spec url is not needed for analysis.
+    delete data.__compat.spec_url;
 
     // Remove unnecessary data per-browser.
     for (const browserName of Object.keys(support)) {
@@ -280,12 +288,12 @@ removeFeatures(data.css);
 removeFeatures(data.html);
 
 const code = `/* eslint-disable */
-import { Browsers, PrimaryIdentifier } from '@mdn/browser-compat-data/types';
+import { Browsers, Identifier, CompatStatement } from '@mdn/browser-compat-data/types';
 
 type Data = {
     browsers: Browsers;
-    css: PrimaryIdentifier;
-    html: PrimaryIdentifier;
+    css: Identifier & {__compat?: CompatStatement};
+    html: Identifier & {__compat?: CompatStatement};
 }
 
 export const mdn: Data = ${JSON.stringify(data, null, 4)} as any;

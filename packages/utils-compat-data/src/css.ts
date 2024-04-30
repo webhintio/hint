@@ -1,4 +1,4 @@
-import { Identifier } from '@mdn/browser-compat-data/types';
+import { CompatStatement, Identifier } from '@mdn/browser-compat-data/types';
 import { getUnprefixed, getVendorPrefix } from '@hint/utils-css';
 
 import { mdn } from './browser-compat-data';
@@ -60,9 +60,14 @@ const getTokens = (nodes: any[]): [string, string][] => {
  * Check if any parts of a value align with an MDN feature's matches clause.
  * If so, return browser support based on that feature's data.
  */
-const getValueMatchesUnsupported = (context: Identifier, featureSupport: Identifier, value: ParsedValue, browsers: string[]): UnsupportedBrowsers | null => {
+const getValueMatchesUnsupported = (context: Identifier & {__compat?: CompatStatement}, featureSupport: Identifier & {__compat?: CompatStatement}, value: ParsedValue, browsers: string[]): UnsupportedBrowsers | null => {
     const { prefix, tokens, unprefixedValue } = value;
-    const matches = featureSupport.__compat && (featureSupport.__compat as IMatchesCompatStatement).matches;
+    let matches = featureSupport.__compat && (featureSupport.__compat as IMatchesCompatStatement).matches;
+
+    // Matches Block property could be available either as matches or match.
+    if (!matches) {
+        matches = featureSupport.__compat && (featureSupport.__compat as IMatchesCompatStatement).match;
+    }
 
     if (!matches) {
         return null;
@@ -97,7 +102,7 @@ const getValueMatchesUnsupported = (context: Identifier, featureSupport: Identif
  * Check if any parts of a value align with an MDN feature's name.
  * If so, return browser support based on that feature's data.
  */
-const getValueTokenUnsupported = (context: Identifier, featureName: string, featureSupport: Identifier, value: ParsedValue, browsers: string[]): UnsupportedBrowsers | null => {
+const getValueTokenUnsupported = (context: Identifier & {__compat?: CompatStatement}, featureName: string, featureSupport: Identifier & {__compat?: CompatStatement}, value: ParsedValue, browsers: string[]): UnsupportedBrowsers | null => {
     for (const [tokenPrefix, tokenValue] of value.tokens) {
         if (featureName === tokenValue) {
             return getUnsupportedBrowsers(featureSupport, tokenPrefix, browsers, tokenValue, context);
@@ -112,15 +117,15 @@ const getValueTokenUnsupported = (context: Identifier, featureName: string, feat
  * sub-features in the provided context, using keys and `matches` data
  * to test each tokenized string from the value.
  */
-const getPartialValueUnsupported = (context: Identifier, value: ParsedValue, browsers: string[]): UnsupportedBrowsers | null => {
+const getPartialValueUnsupported = (context: Identifier & {__compat?: CompatStatement}, value: ParsedValue, browsers: string[]): UnsupportedBrowsers | null => {
     for (const [featureName, featureSupport] of Object.entries(context)) {
         if (featureName === '__compat') {
             continue;
         }
 
-        const unsupported = getValueMatchesUnsupported(context, featureSupport, value, browsers) ||
-            getValueTokenUnsupported(context, featureName, featureSupport, value, browsers) ||
-            getPartialValueUnsupported(featureSupport, value, browsers);
+        const unsupported = getValueMatchesUnsupported(context, featureSupport as Identifier & {__compat?: CompatStatement}, value, browsers) ||
+            getValueTokenUnsupported(context, featureName, featureSupport as Identifier & {__compat?: CompatStatement}, value, browsers) ||
+            getPartialValueUnsupported(featureSupport as Identifier & {__compat?: CompatStatement}, value, browsers);
 
         if (unsupported) {
             return unsupported;
@@ -138,11 +143,11 @@ const getPartialValueUnsupported = (context: Identifier, value: ParsedValue, bro
  * (to reduce bundle size), but referenced CSS types with partial support may
  * still exist (e.g. "color" and alpha_hex_value).
  */
-const getValueUnsupported = (context: Identifier | undefined, property: string, value: string, browsers: string[]): UnsupportedBrowsers | null => {
+const getValueUnsupported = (context: (Identifier & {__compat?: CompatStatement}) | undefined, property: string, value: string, browsers: string[]): UnsupportedBrowsers | null => {
     const [data, prefix, unprefixedValue] = getFeatureData(context, value);
 
     if (data) {
-        return getUnsupportedBrowsers(data, prefix, browsers, unprefixedValue, data.__compat?.mdn_url ? undefined : context);
+        return getUnsupportedBrowsers(data as (Identifier & {__compat?: CompatStatement}), prefix, browsers, unprefixedValue, (data as (Identifier & {__compat?: CompatStatement})).__compat?.mdn_url ? undefined : context);
     }
 
     const parsedValue: ParsedValue = {
@@ -154,7 +159,7 @@ const getValueUnsupported = (context: Identifier | undefined, property: string, 
     // Check browser support for each CSS type associated with the property (if any).
     if (types.has(property)) {
         for (const type of types.get(property)!) {
-            const typeContext = mdn.css.types[type];
+            const typeContext: Identifier & {__compat?: CompatStatement} = mdn.css.types[type] as (Identifier & {__compat?: CompatStatement});
             const result = typeContext && getPartialValueUnsupported(typeContext, parsedValue, browsers);
 
             if (result) {
@@ -174,13 +179,13 @@ export const getDeclarationUnsupported = (feature: DeclarationQuery, browsers: s
     const key = `css-declaration:${feature.property}|${feature.value || ''}`;
 
     return getCachedValue(key, browsers, () => {
-        const [data, prefix, unprefixed] = getFeatureData(mdn.css.properties, feature.property);
+        const [data, prefix, unprefixed] = getFeatureData(mdn.css.properties as (Identifier & {__compat?: CompatStatement}), feature.property);
 
         if (feature.value) {
-            return getValueUnsupported(data, unprefixed, feature.value, browsers);
+            return getValueUnsupported(data as (Identifier & {__compat?: CompatStatement}), unprefixed, feature.value, browsers);
         }
 
-        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
+        return getUnsupportedBrowsers(data as (Identifier & {__compat?: CompatStatement}), prefix, browsers, unprefixed);
     });
 };
 
@@ -189,9 +194,9 @@ export const getDeclarationUnsupported = (feature: DeclarationQuery, browsers: s
  */
 export const getRuleUnsupported = (feature: RuleQuery, browsers: string[]): UnsupportedBrowsers | null => {
     return getCachedValue(`css-rule:${feature.rule}`, browsers, () => {
-        const [data, prefix, unprefixed] = getFeatureData(mdn.css['at-rules'], feature.rule);
+        const [data, prefix, unprefixed] = getFeatureData(mdn.css['at-rules'] as (Identifier & {__compat?: CompatStatement}), feature.rule);
 
-        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
+        return getUnsupportedBrowsers(data as (Identifier & {__compat?: CompatStatement}), prefix, browsers, unprefixed);
     });
 };
 
@@ -199,9 +204,9 @@ const getPseudoSelectorUnsupported = (value: string, browsers: string[]): Unsupp
     const name = value.replace(/^::?/, ''); // Strip leading `:` or `::`.
 
     return getCachedValue(`css-pseudo-selector:${name}`, browsers, () => {
-        const [data, prefix, unprefixed] = getFeatureData(mdn.css.selectors, name);
+        const [data, prefix, unprefixed] = getFeatureData(mdn.css.selectors as (Identifier & {__compat?: CompatStatement}), name);
 
-        return getUnsupportedBrowsers(data, prefix, browsers, unprefixed);
+        return getUnsupportedBrowsers(data as (Identifier & {__compat?: CompatStatement}), prefix, browsers, unprefixed);
     });
 };
 

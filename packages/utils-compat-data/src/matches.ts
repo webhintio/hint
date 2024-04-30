@@ -2,6 +2,7 @@ import { CompatStatement } from '@mdn/browser-compat-data/types';
 
 export interface IMatchesCompatStatement extends CompatStatement {
     matches?: IMatchesBlock;
+    match?: IMatchesBlock;
 }
 
 export interface IMatchesBlock {
