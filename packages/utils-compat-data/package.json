@@ -14,7 +14,7 @@
     "mdn-data": "^2.6.1",
     "postcss-selector-parser": "^6.0.8",
     "postcss-value-parser": "^4.2.0",
-    "semver": "^7.3.5"
+    "semver": "^7.6.0"
   },
   "description": "hint tools",
   "devDependencies": {
