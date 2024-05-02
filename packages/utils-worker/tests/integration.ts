@@ -3,9 +3,15 @@ import test from 'ava';
 import { getResults } from './helpers/runner';
 import { readFile } from './helpers/fixtures';
 
+// NOTE: The tests will timeout if no issue is found.
 test('It runs in a real web worker', async (t) => {
     const data = { html: await readFile('fixtures/basic-hints.html') };
-    const results = await getResults({ userConfig: { language: 'en-us' } }, data, t.log);
+    const results = await getResults({
+        userConfig: {
+            browserslist: ['Edge < 70'],
+            language: 'en-us'
+        }
+    }, data, t.log);
     const problems = results.problems;
 
     const xContentTypeOptionsResults = problems.filter((problem) => {
@@ -34,6 +40,7 @@ test('It respects provided configuration', async (t) => {
     const data = { html: await readFile('fixtures/basic-hints.html') };
     const results = await getResults({
         userConfig: {
+            browserslist: ['Edge < 70'],
             hints: {
                 'axe/language': 'off',
                 'compat-api/html': ['default', { ignore: ['dialog'] }]
@@ -63,6 +70,7 @@ test('It allows disabling hints by default', async (t) => {
     const results = await getResults({
         defaultHintSeverity: 'off',
         userConfig: {
+            browserslist: ['Edge < 70'],
             hints: { 'compat-api/html': 'default' },
             language: 'en-us'
         }
@@ -83,11 +91,12 @@ test('It allows disabling hints by default', async (t) => {
     t.is(compatHtmlResults.length, 1);
 });
 
-test.only('Reported problems should have an elementId', async (t) => {
+test('Reported problems should have an elementId', async (t) => {
     const data = { html: await readFile('fixtures/basic-hints.html') };
     const results = await getResults({
         defaultHintSeverity: 'off',
         userConfig: {
+            browserslist: ['Edge < 70'],
             hints: { 'compat-api/html': 'default' },
             language: 'en-us'
         }
