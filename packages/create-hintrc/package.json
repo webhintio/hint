@@ -32,7 +32,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-markdown": "^2.2.1",
-    "fork-ts-checker-webpack-plugin": "^7.2.13",
+    "fork-ts-checker-webpack-plugin": "^9.0.2",
     "hint": "^7.1.11",
     "inquirer": "^8.2.2",
     "lodash": "^4.17.21",
