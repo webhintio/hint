@@ -284,7 +284,9 @@ export const register = (context: HintContext, rules: string[], disabled: string
                     }],
                     element,
                     forceSeverity,
-                    severity
+                    severity,
+                    codeSnippet: node.html,
+                    codeLanguge: "html"
                 });
             }
         }
