@@ -286,7 +286,7 @@ export const register = (context: HintContext, rules: string[], disabled: string
                     forceSeverity,
                     severity,
                     codeSnippet: node.html,
-                    codeLanguge: "html"
+                    codeLanguage: "html"
                 });
             }
         }
