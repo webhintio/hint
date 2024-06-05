@@ -14,7 +14,7 @@
     "@hint/utils-types": "^1.2.1",
     "ajv": "^8.12.0",
     "ajv-formats": "^2.1.1",
-    "jsonc-parser": "^3.0.0",
+    "jsonc-parser": "^3.2.1",
     "lodash": "^4.17.21"
   },
   "description": "utils for JSON",
