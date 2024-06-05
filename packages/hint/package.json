@@ -25,7 +25,7 @@
     "lodash": "^4.17.21",
     "optionator": "^0.9.1",
     "ora": "^5.4.1",
-    "os-locale": "^5.0.0",
+    "os-locale": "^6.0.2",
     "setimmediate": "^1.0.5",
     "update-notifier": "^5.1.0"
   },
