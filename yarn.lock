@@ -1086,10 +1086,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/listr@^0.14.4":
-  version "0.14.4"
-  resolved "https://registry.yarnpkg.com/@types/listr/-/listr-0.14.4.tgz#6ba2a4206615cf80d79d10f9ba9701c303cd57b6"
-  integrity sha512-+MWvidNujBUgJsi4yMVwEQQwaHe6oHedPSy+dwk3akGEeuIbvhWkK+TGsXSwbFup7Y0cCBb+wzzdD+yGKp7sOg==
+"@types/listr@^0.14.9":
+  version "0.14.9"
+  resolved "https://registry.yarnpkg.com/@types/listr/-/listr-0.14.9.tgz#736581cfdfcdb821bace0a3e5b05e91182e00c85"
+  integrity sha512-Ncsy/jtO/HZYrupLGcnp1BOswZVsNvggjIjnf2EZ1xECfU4hxcQ3FWvFEyR+/DXssz0HDm74Op/tEsyrB3eV5w==
   dependencies:
     "@types/node" "*"
     rxjs "^6.5.1"
