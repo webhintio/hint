@@ -7,10 +7,10 @@
     "@hint/connector-jsdom": "^4.1.27",
     "@hint/connector-puppeteer": "^2.5.24",
     "@hint/connector-local": "^3.2.27",
-    "@hint/formatter-codeframe": "^3.1.35",
+    "@hint/extension-browser": "^2.4.16",
+    "vscode-webhint": "^2.1.13",
     "@hint/formatter-excel": "^3.1.35",
-    "@hint/extension-browser": "^2.4.15",
-    "vscode-webhint": "^2.1.12",
+    "@hint/formatter-codeframe": "^3.1.35",
     "@hint/formatter-html": "^4.3.16",
     "@hint/formatter-json": "^3.1.35",
     "@hint/formatter-stylish": "^3.1.35",
@@ -94,5 +94,5 @@
     "type": "git",
     "url": "https://github.com/webhintio/hint.git"
   },
-  "version": "3.0.15"
+  "version": "3.0.16"
 }

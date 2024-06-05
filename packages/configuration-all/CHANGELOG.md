@@ -1,3 +1,10 @@
+# 3.0.16 (June 5, 2024)
+
+## Chores
+
+* [[`b79ae9b83f`](https://github.com/webhintio/hint/commit/b79ae9b83ff16af1c36a1adbf9a8a2236e22e2c9)] - Chore: Update dependencies and package version (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+
 # 3.0.9 (March 17, 2023)
 
 ## Bug fixes / Improvements

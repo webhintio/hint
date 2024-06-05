@@ -1,3 +1,10 @@
+# 7.1.12 (June 5, 2024)
+
+## New features
+
+* [[`149b5ec560`](https://github.com/webhintio/hint/commit/149b5ec560b6a9873db3e5faf04836c466ce9898)] - Update: Browserlist and caniuse to latest versions (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+
 # 7.1.11 (March 18, 2024)
 
 ## Bug fixes / Improvements

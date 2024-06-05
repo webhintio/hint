@@ -1,3 +1,14 @@
+# 1.4.16 (June 5, 2024)
+
+## New features
+
+* [[`149b5ec560`](https://github.com/webhintio/hint/commit/149b5ec560b6a9873db3e5faf04836c466ce9898)] - Update: Browserlist and caniuse to latest versions (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+## Chores
+
+* [[`dac7399bfd`](https://github.com/webhintio/hint/commit/dac7399bfda302d768665d7e779d32c4aef4f5d5)] - Upgrade: Bump @mdn/browser-compat-data from 4.1.10 to 5.5.23 (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5834`](https://github.com/webhintio/hint/issues/5834)).
+
+
 # 1.4.15 (March 21, 2024)
 
 ## Bug fixes / Improvements
