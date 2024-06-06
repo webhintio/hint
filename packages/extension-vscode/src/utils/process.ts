@@ -16,7 +16,8 @@ export const run = (command: string, options?: SpawnOptions) => {
         });
 
         child.on('exit', (code) => {
-            if (code) {
+            // Explicitly check for 0 as code can also be null (if the process was killed, etc.)
+            if (code !== 0) {
                 reject(new Error('NoExitCodeZero'));
             } else {
                 resolve();
