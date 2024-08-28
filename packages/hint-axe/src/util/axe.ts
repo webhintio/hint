@@ -278,6 +278,8 @@ export const register = (context: HintContext, rules: string[], disabled: string
                     ruleSeverity;
 
                 registration.context.report(resource, message, {
+                    codeLanguage: 'html',
+                    codeSnippet: node.html,
                     documentation: [{
                         link: violation.helpUrl,
                         text: getMessage('learnMore', context.language)
