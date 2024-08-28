@@ -138,12 +138,12 @@ test('Nested property value type query works', (t) => {
 
 test('At-rule query works', (t) => {
     const unsupported = getUnsupported(
-        { rule: 'supports' },
-        ['edge 12', 'ie 11']
+        { rule: 'scope' },
+        ['edge 117']
     );
 
     t.is(unsupported && unsupported.length, 1);
-    t.is(unsupported && unsupported[0], 'ie 11');
+    t.is(unsupported && unsupported[0], 'edge 117');
 });
 
 test('Selector query works', (t) => {

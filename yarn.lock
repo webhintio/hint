@@ -483,12 +483,7 @@
     semver "^7.3.4"
     tar "^6.1.0"
 
-"@mdn/browser-compat-data@5.2.17":
-  version "5.2.17"
-  resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.2.17.tgz#2aae9599f17793730af298da0dc5dcfa4a4b8d0f"
-  integrity sha512-aA+rFHhXmq14GVIcEWNk8OntLEOQFwEZk9ZgG5VcDquz+pQhIjJPXacR+rwL9Z0Elfg909EcRRHC96p06/CNUg==
-
-"@mdn/browser-compat-data@^5.5.23":
+"@mdn/browser-compat-data@5.2.17", "@mdn/browser-compat-data@^5.5.23":
   version "5.5.23"
   resolved "https://registry.yarnpkg.com/@mdn/browser-compat-data/-/browser-compat-data-5.5.23.tgz#14b8f80118b5ab5e5cb2e40f07e0e70b23bf107a"
   integrity sha512-nIy38qL3nfNcGOz5J2BJQpBXa7vM9QO1+wbyvqqS89lgNTWE8Q10whLsmE0sTVBooXiEaRc4fVME5IXjCYiHAw==
