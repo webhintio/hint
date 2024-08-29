@@ -1,3 +1,10 @@
+# 3.2.27 (August 29, 2024)
+
+## Chores
+
+* [[`36be2210a1`](https://github.com/webhintio/hint/commit/36be2210a1e9c34582ddfafd6d24e4fed1385ee0)] - Upgrade: Bump Cloudinary to version 2.2.0 (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5892`](https://github.com/webhintio/hint/issues/5892)).
+
+
 # 3.2.25 (June 8, 2023)
 
 ## Chores

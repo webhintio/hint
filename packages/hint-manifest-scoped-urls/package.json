@@ -15,9 +15,9 @@
   },
   "description": "Checks if urls in the manifest are in scope and accessible",
   "devDependencies": {
-    "@hint/parser-manifest": "^2.3.19",
-    "@hint/utils-create-server": "^3.4.26",
-    "@hint/utils-tests-helpers": "^6.5.6",
+    "@hint/parser-manifest": "^2.3.20",
+    "@hint/utils-create-server": "^3.4.27",
+    "@hint/utils-tests-helpers": "^6.5.7",
     "@types/node": "^20.1.1",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^4.33.0",

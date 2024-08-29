@@ -12,7 +12,7 @@
     "create-hintrc": "./dist/src/create-hintrc.js"
   },
   "dependencies": {
-    "@hint/utils": "^7.0.23",
+    "@hint/utils": "^7.0.24",
     "@hint/utils-debug": "^1.0.11",
     "@hint/utils-fs": "^1.0.16",
     "browserslist": "^4.23.0",
@@ -33,7 +33,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-markdown": "^2.2.1",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
-    "hint": "^7.1.12",
+    "hint": "^7.1.13",
     "inquirer": "^8.2.2",
     "lodash": "^4.17.21",
     "npm-run-all": "^4.1.5",
@@ -90,5 +90,5 @@
     "watch:ts": "npm run build:ts -- --watch",
     "webpack": "webpack"
   },
-  "version": "4.0.14"
+  "version": "4.0.15"
 }

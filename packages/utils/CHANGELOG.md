@@ -1,3 +1,11 @@
+# 7.0.24 (August 29, 2024)
+
+## Chores
+
+* [[`028ef17d2f`](https://github.com/webhintio/hint/commit/028ef17d2ff3af70043eac6ea5510ead2106dabf)] - Upgrade: Bump Semver to version 7.5.2 (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5893`](https://github.com/webhintio/hint/issues/5893)).
+* [[`f6cde85552`](https://github.com/webhintio/hint/commit/f6cde85552b4c0420f8d75f325c439cd3a5eb11d)] - Upgrade: Bump fast-xml-parser to 4.1.3 (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+
 # 7.0.23 (June 8, 2023)
 
 ## Chores

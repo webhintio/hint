@@ -9,7 +9,7 @@
     "workerThreads": false
   },
   "dependencies": {
-    "@hint/utils": "^7.0.23",
+    "@hint/utils": "^7.0.24",
     "@hint/utils-debug": "^1.0.11",
     "@hint/utils-fs": "^1.0.16",
     "@hint/utils-string": "^1.0.14",
@@ -68,5 +68,5 @@
     "watch": "npm run build && npm-run-all --parallel -c watch:*",
     "watch:ts": "npm run build:ts -- --watch"
   },
-  "version": "1.0.26"
+  "version": "1.0.27"
 }

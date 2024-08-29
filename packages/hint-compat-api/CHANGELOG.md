@@ -1,3 +1,10 @@
+# 4.5.8 (August 29, 2024)
+
+## Chores
+
+* [[`dac7399bfd`](https://github.com/webhintio/hint/commit/dac7399bfda302d768665d7e779d32c4aef4f5d5)] - Upgrade: Bump @mdn/browser-compat-data from 4.1.10 to 5.5.23 (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5834`](https://github.com/webhintio/hint/issues/5834)).
+
+
 # 4.5.6 (June 8, 2023)
 
 ## Chores

@@ -1,3 +1,10 @@
+# 4.4.21 (August 29, 2024)
+
+## Bug fixes / Improvements
+
+* [[`6bbb14d1f2`](https://github.com/webhintio/hint/commit/6bbb14d1f2113bb04c90ebcc6e6a4827c5c22837)] - Fix: AXE would not provide an html snippet (by [`Kuba Orlik`](https://github.com/kuba-orlik) / see also: [`#5835`](https://github.com/webhintio/hint/issues/5835)).
+
+
 # 4.4.19 (June 8, 2023)
 
 ## Chores

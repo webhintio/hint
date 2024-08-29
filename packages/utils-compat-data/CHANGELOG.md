@@ -1,3 +1,15 @@
+# 1.1.13 (August 29, 2024)
+
+## Bug fixes / Improvements
+
+* [[`ca45db6cca`](https://github.com/webhintio/hint/commit/ca45db6ccab2c44e84c4bff3d4d63c60ba7e0e09)] - Fix: Forcing resolution of mdn/browser-compat-data on package.json (by [`Vidal Ortega`](https://github.com/vidorteg)).
+
+## Chores
+
+* [[`028ef17d2f`](https://github.com/webhintio/hint/commit/028ef17d2ff3af70043eac6ea5510ead2106dabf)] - Upgrade: Bump Semver to version 7.5.2 (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5893`](https://github.com/webhintio/hint/issues/5893)).
+* [[`dac7399bfd`](https://github.com/webhintio/hint/commit/dac7399bfda302d768665d7e779d32c4aef4f5d5)] - Upgrade: Bump @mdn/browser-compat-data from 4.1.10 to 5.5.23 (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5834`](https://github.com/webhintio/hint/issues/5834)).
+
+
 # 1.1.12 (June 8, 2023)
 
 ## Chores
