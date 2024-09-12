@@ -8,8 +8,8 @@
             "name": "Launch Client",
             "runtimeExecutable": "${execPath}",
             "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
-            "stopOnEntry": false,
             "sourceMaps": true,
+            "autoAttachChildProcesses": true,
             "outFiles": ["${workspaceRoot}/dist/src/**/*.js"],
         },
         {
@@ -17,7 +17,6 @@
             "request": "attach",
             "name": "Attach to Server",
             "address": "localhost",
-            "protocol": "inspector",
             "port": 6009,
             "skipFiles": [
                 "<node_internals>/**/*.js"

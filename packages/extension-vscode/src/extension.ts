@@ -21,7 +21,7 @@ const supportedDocuments = activationEvents.map((event: string) => {
 let client: LanguageClient;
 
 export const activate = (context: ExtensionContext) => {
-    const args = [context.globalStoragePath, 'webhint'];
+    const args = [context.globalStorageUri.fsPath, 'webhint'];
     const module = context.asAbsolutePath('dist/src/server.js');
     const transport = TransportKind.ipc;
 
