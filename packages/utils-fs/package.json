@@ -9,7 +9,7 @@
     "workerThreads": false
   },
   "dependencies": {
-    "jsonc-parser": "^3.0.0"
+    "jsonc-parser": "^3.3.1"
   },
   "description": "utils for filesystem",
   "devDependencies": {
