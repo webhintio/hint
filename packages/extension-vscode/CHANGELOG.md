@@ -1,3 +1,15 @@
+# 2.1.15 (September 13, 2024)
+
+## Bug fixes / Improvements
+
+* [[`f447863bb6`](https://github.com/webhintio/hint/commit/f447863bb6d5cb174bab718498d904fd5680d184)] - Fix: Passes missing arguments to comply with CVE (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5923`](https://github.com/webhintio/hint/issues/5923)).
+
+## Chores
+
+* [[`35f6349368`](https://github.com/webhintio/hint/commit/35f6349368b9a7d128b484c848a1dde6e21e78ca)] - Upgrade: Bumping version of vscode-languageserver* and client to 9.0.1 (#5927) (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5927`](https://github.com/webhintio/hint/issues/5927)).
+* [[`2ef7cae542`](https://github.com/webhintio/hint/commit/2ef7cae5429bb055801dc09af369d0d11b015e4a)] - Upgrade: Bump vsce to version 2.15.0 (by [`Vidal Ortega`](https://github.com/vidorteg) / see also: [`#5924`](https://github.com/webhintio/hint/issues/5924)).
+
+
 # 2.1.10 (June 8, 2023)
 
 ## Chores
