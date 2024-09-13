@@ -1,0 +1,28 @@
+name: Microsoft Security DevOps
+# https://github.com/microsoft/security-devops-action
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  RunScan:
+    # Note: Currently only windows-latest vms are supported.
+    # https://github.com/microsoft/security-devops-action#limitations
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run Microsoft Security DevOps
+        uses: microsoft/security-devops-action@preview
+        id: msdo
+        with:
+          tools: eslint
+
+      - name: Upload results to Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: ${{ steps.msdo.outputs.sarifFile }}
