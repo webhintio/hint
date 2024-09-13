@@ -90,7 +90,7 @@
     "react": "^18.1.0",
     "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0",
-    "rimraf": "^5.0.0",
+    "rimraf": "^6.0.1",
     "setimmediate": "^1.0.5",
     "sinon": "^13.0.1",
     "stream-browserify": "^3.0.0",
