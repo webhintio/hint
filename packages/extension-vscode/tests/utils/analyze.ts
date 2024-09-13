@@ -9,8 +9,12 @@ import * as _packages from '../../src/utils/webhint-packages';
 
 const stubConnection = () => {
     return {
-        sendDiagnostics() {},
-        sendNotification() {},
+        sendDiagnostics() {
+            return Promise.resolve();
+        },
+        sendNotification() {
+            return Promise.resolve();
+        },
         window: {
             showErrorMessage() {
                 return Promise.resolve();

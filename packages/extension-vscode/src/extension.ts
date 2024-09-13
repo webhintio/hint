@@ -20,7 +20,7 @@ const supportedDocuments = activationEvents.map((event: string) => {
 // Keep a reference to the client to stop it when deactivating.
 let client: LanguageClient;
 
-export const activate = (context: ExtensionContext) => {
+export const activate = async (context: ExtensionContext) => {
     const args = [context.globalStorageUri.fsPath, 'webhint'];
     const module = context.asAbsolutePath('dist/src/server.js');
     const transport = TransportKind.ipc;
@@ -49,22 +49,19 @@ export const activate = (context: ExtensionContext) => {
 
     // Create and start the client (also starts the server).
     client = new LanguageClient('webhint', serverOptions, clientOptions);
+    // Listen for notification that the webhint install failed.
+    client.onNotification(notifications.installFailed, () => {
+        const message = 'Ensure `node` and `npm` are installed to enable webhint to analyze source files.';
 
-    client.onReady().then(() => {
-        // Listen for notification that the webhint install failed.
-        client.onNotification(notifications.installFailed, () => {
-            const message = 'Ensure `node` and `npm` are installed to enable webhint to analyze source files.';
-
-            window.showInformationMessage(message, 'OK');
-        });
-        // Listen for requests to show the output panel for this extension.
-        client.onNotification(notifications.showOutput, () => {
-            client.outputChannel.clear();
-            client.outputChannel.show(true);
-        });
+        window.showInformationMessage(message, 'OK');
+    });
+    // Listen for requests to show the output panel for this extension.
+    client.onNotification(notifications.showOutput, () => {
+        client.outputChannel.clear();
+        client.outputChannel.show(true);
     });
 
-    client.start();
+    await client.start();
 };
 
 export const deactivate = (): Thenable<void> => {

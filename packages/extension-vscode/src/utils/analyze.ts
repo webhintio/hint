@@ -51,7 +51,7 @@ export class Analyzer {
 
         /* istanbul ignore if */
         if (!hintModule) {
-            this.connection.sendNotification(notifications.installFailed);
+            await this.connection.sendNotification(notifications.installFailed);
 
             return null;
         }
@@ -64,8 +64,8 @@ export class Analyzer {
             // Instantiating webhint failed, log the error to the webhint output panel to aid debugging.
             console.error(e);
 
-            return await promptRetry(this.connection.window, /* istanbul ignore next */() => {
-                this.connection.sendNotification(notifications.showOutput);
+            return await promptRetry(this.connection.window, /* istanbul ignore next */async () => {
+                await this.connection.sendNotification(notifications.showOutput);
 
                 // We retry with the shared version as it is more likely to not be broken 🤞
                 return this.initWebhint();
@@ -121,7 +121,7 @@ export class Analyzer {
             diagnostics.diagnostics.forEach((d) => {
                 d.source = this.sourceName;
             });
-            this.connection.sendDiagnostics(diagnostics);
+            await this.connection.sendDiagnostics(diagnostics);
 
         } finally {
             this.validating = false;
