@@ -869,10 +869,10 @@
   dependencies:
     chokidar "*"
 
-"@types/chrome@^0.0.242":
-  version "0.0.242"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.242.tgz#bb1199fb885ff6d3e8d30dd81fe97e23bd9d6ecd"
-  integrity sha512-SeMXBSfcAGX9ezTz7Pro7n/AiNdIH3cetkdbM+Kfg3zD24jmbnm0IAEIxzx8ccqrnJenLCfD7fR+4WIYAbeQHw==
+"@types/chrome@^0.0.273":
+  version "0.0.273"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.273.tgz#986f5090de34cdd8ca467431e9f9c3c12e951407"
+  integrity sha512-6Wp4GO07GLvti13Rf/RpYG+0COSJDOLE4iq3g1+whn1SNGUVnv6vbXqSa/WFbuVpvN1lcBLiZ40+gSeWmKb+eA==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
