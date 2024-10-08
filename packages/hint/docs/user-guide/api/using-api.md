@@ -1,17 +1,4 @@
-# Using the API
-
-`webhint` expose an API allowing the users run webhint inside their code,
-without using the CLI.
-
-With this API, the users have more control in what to analyze, when, and
-what to do with the results.
-
-## How to use the API
-
-To use the API, the first thing you need to do is import the class `Analyzer`.
-
-```js
-import { Analyzer } from 'hint';
+;
 ```
 
 This example is using TypeScript, so you will also need to import some type
