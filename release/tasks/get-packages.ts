@@ -1,7 +1,6 @@
 import * as path from 'path';
 
 import * as globby from 'globby';
-import latest from 'latest-version';
 
 import { Context, Reference } from '../@types/custom';
 import { debug } from '../lib/utils';
@@ -96,6 +95,8 @@ export const getPackages = (ignoredPackages: string[]) => {
          * them later via `ctx.packages`.
          * Get the latest published version if any.
          */
+        const { default: latest } = await import('latest-version');
+
         for (const [, pkg] of ctx.packages) {
             pkg.references = pkg.references.map((reference) => {
                 return pathToName.get(reference)!;
