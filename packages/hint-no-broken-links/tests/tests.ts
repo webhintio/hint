@@ -91,6 +91,30 @@ const bodyWithInvalidDomainPreconnectLinkTag = `<div>
 <link rel="preconnect" href="https://invalid.domain/">
 </div>`;
 
+// Snippets for nofollow tests
+const bodyWithNoFollowBrokenLink = `<div>
+<a href='/404' rel='nofollow'>Broken NoFollow</a>
+</div>`;
+
+const bodyWithNoFollowValidLink = `<div>
+<a href='/valid' rel='nofollow'>Valid NoFollow</a>
+</div>`;
+
+const bodyWithNoFollowMultipleRel = `<div>
+<a href='/404' rel='noopener nofollow'>Broken NoFollow Multiple</a>
+</div>`;
+
+const bodyWithMixedLinks = `<div>
+<a href='/404-nofollow' rel='nofollow'>Broken NoFollow</a>
+<a href='/404-regular'>Broken Regular</a>
+</div>`;
+
+const bodyWithNoFollowAndRegularBroken = `<div>
+<a href='/404-anchor' rel='nofollow'>Broken Anchor NoFollow</a>
+<img src='/404.png'>
+</div>`;
+
+
 const tests: HintTest[] = [
     {
         name: `This test should pass as it has links with valid href value`,
@@ -288,6 +312,58 @@ const tests: HintTest[] = [
         }],
         serverConfig: generateHTMLPage('', bodyWithInvalidDomainPreconnectLinkTag)
     },
+    // New tests for rel="nofollow"
+    {
+        name: `Anchor with rel="nofollow" pointing to a 404 should not report an error`,
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithNoFollowBrokenLink) },
+            '/404': { status: 404 }
+        }
+        // No reports expected
+    },
+    {
+        name: `Anchor with rel="nofollow" pointing to a valid resource should not report an error`,
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithNoFollowValidLink) },
+            '/valid': { content: 'Valid page' }
+        }
+        // No reports expected
+    },
+    {
+        name: `Anchor with multiple rel values including "nofollow" pointing to a 404 should not report an error`,
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithNoFollowMultipleRel) },
+            '/404': { status: 404 }
+        }
+        // No reports expected
+    },
+    {
+        name: `Mixed content: Regular broken link should report, nofollow broken link should not`,
+        reports: [{
+            message: `Broken link found (404 response).`,
+            severity: Severity.error,
+            location: { column: 50, line: 2 } // Location of the regular link
+        }],
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithMixedLinks) },
+            '/404-nofollow': { status: 404 },
+            '/404-regular': { status: 404 }
+        }
+    },
+    {
+        name: `Mixed content: Broken image should report, nofollow broken anchor should not`,
+        reports: [{
+            message: `Broken link found (404 response).`,
+            severity: Severity.error,
+            location: { column: 8, line: 3 } // Location of the image tag
+        }],
+        serverConfig: {
+            '/': { content: generateHTMLPage('', bodyWithNoFollowAndRegularBroken) },
+            '/404-anchor': { status: 404 },
+            '/404.png': { status: 404 }
+        }
+    },
+    // End of new tests for rel="nofollow"
     {
         name: `This test should fail as it has a loop`,
         reports: [

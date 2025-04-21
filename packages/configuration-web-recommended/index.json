@@ -28,6 +28,7 @@
         "meta-charset-utf-8",
         "meta-viewport",
         "no-bom",
+        "no-broken-links",
         "no-disallowed-headers",
         "no-friendly-error-pages",
         "no-html-only-headers",
