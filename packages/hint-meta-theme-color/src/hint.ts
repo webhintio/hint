@@ -38,14 +38,14 @@ export default class MetaThemeColorHint implements IHint {
     public constructor(context: HintContext) {
 
         let bodyElementWasReached: boolean = false;
-        let firstThemeColorMetaElement: HTMLElement;
+        let themeColorElementsAndMedia: Map<string, HTMLElement> = new Map();
 
         const checkIfThemeColorMetaElementWasSpecified = (event: TraverseEnd) => {
             const pageDOM = context.pageDOM as HTMLDocument;
             const { resource } = event;
             const linksToManifest = pageDOM.querySelectorAll('link[rel="manifest"]').length > 0;
 
-            if (!firstThemeColorMetaElement && linksToManifest) {
+            if (themeColorElementsAndMedia.size === 0 && linksToManifest) {
                 context.report(
                     resource,
                     getMessage('metaElementNotSpecified', context.language),
@@ -150,16 +150,21 @@ export default class MetaThemeColorHint implements IHint {
             }
 
             /*
-             * Check if a `theme-color` meta element was already specified.
+             * Check if a `theme-color` meta element with the same media attribute was already specified.
              *
-             * From  https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color
+             * Multiple theme-color meta elements are allowed if they have different media attributes.
+             * From MDN: "Most meta properties can be used only once. However, theme-color can be
+             * used multiple times if unique media values are provided."
              *
-             *  " There must not be more than one meta element with its
-             *    name attribute value set to an ASCII case-insensitive
-             *    match for theme-color per document. "
+             * References:
+             * - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name/theme-color
+             * - https://html.spec.whatwg.org/multipage/semantics.html#meta-theme-color
              */
 
-            if (firstThemeColorMetaElement) {
+            const mediaAttributeValue = normalizeString(element.getAttribute('media'), '');
+            const mediaKey = mediaAttributeValue || 'default'; // Use 'default' for elements without media attribute
+
+            if (themeColorElementsAndMedia.has(mediaKey)) {
                 context.report(
                     resource,
                     getMessage('metaElementDuplicated', context.language),
@@ -171,7 +176,7 @@ export default class MetaThemeColorHint implements IHint {
                 return;
             }
 
-            firstThemeColorMetaElement = element;
+            themeColorElementsAndMedia.set(mediaKey, element);
 
             // Check if the `theme-color` meta element:
 
