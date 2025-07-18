@@ -34,8 +34,9 @@ const validColorValues = [
     'transparent'
 ];
 
-const generateThemeColorMetaElement = (contentValue = '#f00', nameValue = 'theme-color') => {
-    return `<meta name="${nameValue}" content="${contentValue}">`;
+const generateThemeColorMetaElement = (contentValue = '#f00', nameValue = 'theme-color', mediaValue?: string) => {
+    const mediaAttr = mediaValue ? ` media="${mediaValue}"` : '';
+    return `<meta name="${nameValue}" content="${contentValue}"${mediaAttr}>`;
 };
 
 const generateTest = (colorValues: string[], valueType = 'valid', reason?: string) => {
@@ -112,9 +113,51 @@ const defaultTests: HintTest[] = [
     }
 ];
 
+// New tests for multiple theme-color elements with media attributes
+const mediaAttributeTests: HintTest[] = [
+    {
+        name: `Multiple 'theme-color' elements with different media attributes should pass`,
+        serverConfig: generateHTMLPage(`${generateThemeColorMetaElement('#f00', 'theme-color', '(prefers-color-scheme: light)')}${generateThemeColorMetaElement('#333', 'theme-color', '(prefers-color-scheme: dark)')}`)
+    },
+    {
+        name: `Multiple 'theme-color' elements with same media attribute should fail`,
+        reports: [{
+            message: metaElementIsNotNeededErrorMessage,
+            severity: Severity.warning
+        }],
+        serverConfig: generateHTMLPage(`${generateThemeColorMetaElement('#f00', 'theme-color', '(prefers-color-scheme: light)')}${generateThemeColorMetaElement('#333', 'theme-color', '(prefers-color-scheme: light)')}`)
+    },
+    {
+        name: `One 'theme-color' without media and one with media should pass`,
+        serverConfig: generateHTMLPage(`${generateThemeColorMetaElement('#f00')}${generateThemeColorMetaElement('#333', 'theme-color', '(prefers-color-scheme: dark)')}`)
+    },
+    {
+        name: `Multiple 'theme-color' elements without media attributes should fail`,
+        reports: [{
+            message: metaElementIsNotNeededErrorMessage,
+            severity: Severity.warning
+        }],
+        serverConfig: generateHTMLPage(`${generateThemeColorMetaElement('#f00')}${generateThemeColorMetaElement('#333')}`)
+    },
+    {
+        name: `Multiple 'theme-color' elements with various different media attributes should pass`,
+        serverConfig: generateHTMLPage(`${generateThemeColorMetaElement('#f00', 'theme-color', '(prefers-color-scheme: light)')}${generateThemeColorMetaElement('#333', 'theme-color', '(prefers-color-scheme: dark)')}${generateThemeColorMetaElement('#666', 'theme-color', '(prefers-contrast: high)')}`)
+    },
+    {
+        name: `Issue #6001 scenario: theme-color with prefers-color-scheme dark and light should pass`,
+        serverConfig: generateHTMLPage(`${generateThemeColorMetaElement('#13171a', 'theme-color', '(prefers-color-scheme: dark)')}${generateThemeColorMetaElement('#f8f4f0', 'theme-color', '(prefers-color-scheme: light)')}`)
+    }
+];
+
 const testForNoSupportForHexWithAlpha: HintTest[] = [...generateTest(notAlwaysSupportedColorValues, 'unsupported', 'because of the targeted browsers')];
 
 testHint(hintPath, defaultTests, {
+    browserslist: [
+        'chrome 65',
+        'firefox 60'
+    ]
+});
+testHint(hintPath, mediaAttributeTests, {
     browserslist: [
         'chrome 65',
         'firefox 60'
