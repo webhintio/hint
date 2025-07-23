@@ -32,6 +32,8 @@ Install webhint as a `devDependency` of your project:
 
 ```bash
 npm install hint --save-dev
+
+> **Note**: Although the tool is called *webhint*, the npm package name is `hint`.
 ```
 
 And then add a script task to your `package.json`:
