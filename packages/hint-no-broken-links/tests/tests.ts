@@ -132,7 +132,7 @@ const tests: HintTest[] = [
             severity: Severity.error
         }],
         serverConfig: generateHTMLPage('', bodyWithBrokenImageSource),
-        skip: true // temporary disabling to investigate
+        skip: true // TODO: Fix test - expecting domain not found instead of 404 response due to network behavior changes
     },
     {
         name: `This test should fail as it has a valid link but it has also a link with 404 href value(absolute)`,
