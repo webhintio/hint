@@ -129,3 +129,5 @@ The code is available under the [Apache 2.0 license][license].
 [user guide]: https://webhint.io/docs/user-guide/
 [VS Code extension]: https://webhint.io/docs/user-guide/extensions/vscode-webhint/
 [yarn]: http://yarnpkg.com/
+
+<!-- Minor edit for contribution by IdoY12 -->
