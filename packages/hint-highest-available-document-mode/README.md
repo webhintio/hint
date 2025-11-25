@@ -50,6 +50,8 @@ By default, the hint checks if the `X-UA-Compatible` response header
 is sent with the value of `IE=edge`, and that the `meta` tag isn’t
 used.
 
+**Note:** The value check is case-sensitive. The hint specifically looks for the lowercase value `ie=edge`. If you use `IE=edge` (with uppercase letters), the hint will report an error. However, you can configure the hint to accept different values including case variations (see the configuration section below).
+
 ### Examples that **trigger** the hint for defaults
 
 `X-UA-Compatible` response header is not sent:
