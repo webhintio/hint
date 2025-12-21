@@ -268,6 +268,41 @@ const allowsTextChildren = (node: JSXElement): boolean => {
 };
 
 /**
+ * Check if the node contains any JSX elements in its descendants.
+ * This is used to determine if an expression will render JSX content
+ * rather than plain text.
+ */
+const containsJSXElement = (node: Node): boolean => {
+    if (!node || typeof node !== 'object') {
+        return false;
+    }
+
+    if (node.type === 'JSXElement') {
+        return true;
+    }
+
+    for (const key of Object.keys(node)) {
+        if (key === 'loc' || key === 'range' || key === 'parent') {
+            continue; // Skip location info and parent references to avoid infinite loops
+        }
+
+        const value = (node as any)[key];
+
+        if (Array.isArray(value)) {
+            for (const item of value) {
+                if (item && typeof item === 'object' && containsJSXElement(item as Node)) {
+                    return true;
+                }
+            }
+        } else if (value && typeof value === 'object' && containsJSXElement(value as Node)) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+/**
  * Generate an HTML document representing a fragment containing the
  * provided roots derived from the specified resource.
  */
@@ -309,8 +344,18 @@ export default class JSXParser extends Parser<HTMLEvents> {
                     }
                 },
                 JSXExpressionContainer(node, /* istanbul ignore next */ ancestors = []) {
-                    const data = mapExpression(node);
                     const parent = getParentAttributeOrElement(ancestors);
+
+                    /*
+                     * Skip if this expression contains JSX elements, since those elements
+                     * will be processed separately and adding a text placeholder would be misleading.
+                     * See: https://github.com/webhintio/hint/issues/4624
+                     */
+                    if (containsJSXElement(node.expression)) {
+                        return;
+                    }
+
+                    const data = mapExpression(node);
 
                     if (parent && parent.type !== 'JSXAttribute' && allowsTextChildren(parent)) {
                         addChild(data, parent, childMap);

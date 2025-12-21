@@ -198,3 +198,42 @@ test('It translates JSX attributes to HTML attributes', async (t) => {
     t.is(label.getAttribute('class'), 'foo');
     t.is(label.getAttribute('for'), 'bar');
 });
+
+/*
+ * Issue #4624: Doesn't recognize div inside function
+ * https://github.com/webhintio/hint/issues/4624
+ */
+test('It omits expression placeholder when expression contains JSX (dl with map)', async (t) => {
+    const { document } = await parseJSX(`const jsx = <dl>{data?.nodes?.map((item) => (<div><dt>{item.name}</dt><dd>{item.value}</dd></div>))}</dl>;`);
+    const dl = document.querySelectorAll('dl')[0];
+
+    /* The outer expression should not produce a text node, only the inner JSX elements. */
+    t.is(dl.innerHTML, '<div><dt>{expression}</dt><dd>{expression}</dd></div>');
+});
+
+test('It omits expression placeholder when expression contains JSX (conditional)', async (t) => {
+    const { document } = await parseJSX(`const jsx = <dl>{condition ? <div><dt>Term</dt></div> : null}</dl>;`);
+    const dl = document.querySelectorAll('dl')[0];
+
+    /* The conditional expression should not produce a text node. */
+    t.is(dl.innerHTML, '<div><dt>Term</dt></div>');
+});
+
+test('It omits expression placeholder in div when expression contains JSX', async (t) => {
+    const { document } = await parseJSX(`const jsx = <div>{items.map(item => <span>{item}</span>)}</div>;`);
+    const div = document.querySelectorAll('div')[0];
+
+    /*
+     * Even in elements that allow text children, expressions containing JSX
+     * should not produce a text placeholder (only the JSX elements).
+     */
+    t.is(div.innerHTML, '<span>{expression}</span>');
+});
+
+test('It keeps expression placeholder when expression does not contain JSX', async (t) => {
+    const { document } = await parseJSX(`const jsx = <div>{getText()}</div>;`);
+    const div = document.querySelectorAll('div')[0];
+
+    /* Simple function calls that don't contain JSX should still get the placeholder. */
+    t.is(div.innerHTML, '{expression}');
+});
