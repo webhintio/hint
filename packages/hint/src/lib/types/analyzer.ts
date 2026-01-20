@@ -1,12 +1,19 @@
 import { Problem } from '@hint/utils-types';
 
 export type { UserConfig } from '@hint/utils';
+export type FormatterConfig =
+    | string
+    | {
+        name: string;
+        options?: Record<string, unknown>;
+    };
 
 export type CreateAnalyzerOptions = {
-    formatters?: string[];
+    formatters?: FormatterConfig[];
     hints?: string[];
     watch?: boolean;
 }
+
 
 export type Target = {
     url: string | URL;

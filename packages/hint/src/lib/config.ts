@@ -176,7 +176,9 @@ const updateConfigWithOptionsValues = (config: UserConfig, options: CreateAnalyz
 
     // If formatters are provided, use them
     if (options.formatters) {
-        config.formatters = options.formatters;
+       config.formatters = options.formatters?.map((f) =>
+    typeof f === 'string' ? f : f.name
+);
         debug(`Using formatters option provided from Analyzer options: ${options.formatters.join(', ')}`);
     }
 

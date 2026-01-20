@@ -235,8 +235,8 @@ const actionsToOptions = (actions: CLIOptions): CreateAnalyzerOptions => {
     const options: CreateAnalyzerOptions = {
         formatters: actions.formatters ? actions.formatters.split(',') : undefined,
         hints: actions.hints ? actions.hints.split(',') : undefined,
-        watch: actions.watch
-    };
+            watch: actions.watch
+        };
 
     return options;
 };
