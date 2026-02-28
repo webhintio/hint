@@ -3,7 +3,7 @@
 Ensure vendor-prefixed versions of a CSS property are listed before the
 standardized, unprefixed version.
 
-## Why is this important?
+- ## Why is this important?
 
 When multiple versions of the same CSS property are specified, the last
 *supported* one will be used due to how browsers handle
