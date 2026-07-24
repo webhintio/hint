@@ -78,7 +78,7 @@ yarn
 yarn build
 ```
 
-This can take a bit so please be patient.
+This can take some time, please be patient.
 
 To learn more about the internals of `webhint`, the structure of the
 project, how to create new hints, parsers, formatters, etc, take
