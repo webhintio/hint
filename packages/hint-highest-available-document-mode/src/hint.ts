@@ -80,7 +80,7 @@ export default class HighestAvailableDocumentModeHint implements IHint {
                 return;
             }
 
-            if (headerValue !== 'ie=edge') {
+            if (headerValue?.trim().toLowerCase() !== 'ie=edge') {
                 context.report(
                     resource,
                     getMessage('headerValueShouldBe', context.language),

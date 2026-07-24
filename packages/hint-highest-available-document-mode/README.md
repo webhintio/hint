@@ -46,10 +46,23 @@ Notes:
 
 ## What does the hint check?
 
-By default, the hint checks if the `X-UA-Compatible` response header
-is sent with the value of `IE=edge`, and that the `meta` tag isn’t
-used.
+### Important note about case-sensitivity
 
+The `X-UA-Compatible` header is defined as case-insensitive according to Microsoft's specification.
+
+The hint now correctly performs a **case-insensitive comparison** of the value.
+This means the following are all treated as valid:
+
+    X-UA-Compatible: IE=edge
+    X-UA-Compatible: Ie=EdGe
+    x-ua-compatible: ie=edge
+
+Only values that are not equal to `ie=edge` (ignoring case and spacing)
+will trigger an error.
+
+```text
+X-UA-Compatible: IE=edge
+```
 ### Examples that **trigger** the hint for defaults
 
 `X-UA-Compatible` response header is not sent:
