@@ -17,7 +17,7 @@
     "content-type": "^1.0.5",
     "eventemitter2": "^6.4.9",
     "file-type": "^16.5.4",
-    "globby": "^11.0.4",
+    "globby": "^14.0.2",
     "is-svg": "^4.4.0",
     "is-wsl": "^2.2.0",
     "lodash": "^4.17.21",
