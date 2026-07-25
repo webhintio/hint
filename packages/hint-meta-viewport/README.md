@@ -73,7 +73,7 @@ Notes:
     * This is mostly needed to [work around the orientation change bug
       from Safari for iOS < 9][ios orientation change scaling].
 
-    * Using values different then `1` (or `1.0`) are
+    * Using values different than `1` (or `1.0`) are
       [problematic](https://www.quirksmode.org/mobile/metaviewport/#link15).
 
 * `user-scalable`, `maximum-scale`, and `minimum-scale` properties
