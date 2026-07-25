@@ -1,4 +1,4 @@
-# Correct viewport (`meta-viewport`)
+dark # Correct viewport (`meta-viewport`)
 
 `meta-viewport` warns against not having a single `viewport` meta
 tag in the `<head>` with the proper value.
