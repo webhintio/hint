@@ -31,23 +31,33 @@ const cleanSchemaObject = (obj: any) => {
  * Flatten remotely referenced schemas into a single, combined schema.
  * Handles merging `properties` and `definitions` from a root `allOf`.
  */
-const inlineRemoteRefs = async (json: any): Promise<void> => {
-    for (const entry of json.allOf) {
-        if (entry.$ref && entry.$ref.startsWith('https://')) {
-            const res = await fetch(entry.$ref);
+const inlineRemoteRefs = async (json: any, seenRefs = new Set<string>()) => {
+    if (json.allOf) {
+        for (const entry of json.allOf) {
+            if (entry.$ref && entry.$ref.startsWith('https://')) {
+                if (seenRefs.has(entry.$ref)) {
+                    throw new Error(`Cyclic reference detected: ${entry.$ref}`);
+                }
+                seenRefs.add(entry.$ref);
 
-            if (res.body && (res.body as any).message) {
-                throw new Error((res.body as any).message);
+                try {
+                    const res = await fetch(entry.$ref);
+                    if (!res.ok) {
+                        throw new Error(`Failed to fetch ${entry.$ref}: ${res.statusText}`);
+                    }
+
+                    const refJson = await res.json();
+
+                    json.properties = { ...json.properties, ...refJson.properties };
+                    json.definitions = { ...json.definitions, ...refJson.definitions };
+                } catch (err) {
+                    throw new Error(`Error fetching or parsing ${entry.$ref}: ${err.message}`);
+                }
             }
-
-            const refJson = await res.json();
-
-            json.properties = { ...json.properties, ...refJson.properties };
-            json.definitions = { ...json.definitions, ...refJson.definitions };
         }
-    }
 
-    delete json.allOf;
+        delete json.allOf;
+    }
 };
 
 /**
