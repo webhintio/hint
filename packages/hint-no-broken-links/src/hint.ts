@@ -218,6 +218,16 @@ export default class NoBrokenLinksHint implements IHint {
             const requests: Promise<void>[] = [];
 
             for (const url of urls) {
+                // Skip anchor links with rel="nofollow".
+                if (element.nodeName === 'A') {
+                    const rel = element.getAttribute('rel');
+
+                    if (rel && rel.toLowerCase().includes('nofollow')) {
+                        debug(`Skipping URL ${url} due to rel="nofollow"`);
+                        continue;
+                    }
+                }
+
                 /*
                  * If the URL is not HTTP or HTTPS (e.g. `mailto:`),
                  * there is no need to validate.
