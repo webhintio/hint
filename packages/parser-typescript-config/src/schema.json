@@ -546,6 +546,8 @@
                             "anyOf": [
                                 {
                                     "enum": [
+
+
                                         "ES3",
                                         "ES5",
                                         "ES6",
@@ -557,7 +559,10 @@
                                         "ES2020",
                                         "ES2021",
                                         "ES2022",
+                                        "ES2023",
+                                        "ES2024",
                                         "ESNext"
+
                                     ]
                                 },
                                 {
@@ -608,6 +613,8 @@
                                 "useFsEventsOnParentDirectory",
                                 "fixedChunkSizePolling"
                             ],
+
+
                             "default": "useFsEvents"
                         },
                         "experimentalDecorators": {
@@ -867,6 +874,12 @@
                                     },
                                     {
                                         "pattern": "^[Ee][Ss]2022(\\.([Aa][Rr][Rr][Aa][Yy]|[Ee][Rr][Rr][Oo][Rr]|[Ii][Nn][Tt][Ll]|[Oo][Bb][Jj][Ee][Cc][Tt]|[Ss][Tt][Rr][Ii][Nn][Gg]))?$"
+                                    },
+                                     {
+                                        "pattern": "^[Ee][Ss]2023(\\.([Aa][Rr][Rr][Aa][Yy]|[Ee][Rr][Rr][Oo][Rr]|[Ii][Nn][Tt][Ll]|[Oo][Bb][Jj][Ee][Cc][Tt]|[Ss][Tt][Rr][Ii][Nn][Gg]))?$"
+                                    },
+                                     {
+                                        "pattern": "^[Ee][Ss]2024(\\.([Aa][Rr][Rr][Aa][Yy]|[Ee][Rr][Rr][Oo][Rr]|[Ii][Nn][Tt][Ll]|[Oo][Bb][Jj][Ee][Cc][Tt]|[Ss][Tt][Rr][Ii][Nn][Gg]))?$"
                                     },
                                     {
                                         "pattern": "^[Ee][Ss][Nn][Ee][Xx][Tt](\\.([Aa][Rr][Rr][Aa][Yy]|[Aa][Ss][Yy][Nn][Cc][Ii][Tt][Ee][Rr][Aa][Bb][Ll][Ee]|[Bb][Ii][Gg][Ii][Nn][Tt]|[Ii][Nn][Tt][Ll]|[Pp][Rr][Oo][Mm][Ii][Ss][Ee]|[Ss][Tt][Rr][Ii][Nn][Gg]|[Ss][Yy][Mm][Bb][Oo][Ll]|[Ww][Ee][Aa][Kk][Rr][Ee][Ff]))?$"
