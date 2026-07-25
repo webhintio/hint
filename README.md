@@ -105,6 +105,7 @@ which adheres to the [OpenJS Foundation Code of Conduct][ojs coc].
 * [Charter][]
 * [Governance][]
 
+## > ✅ Updated docs with improved formatting or extra info.
 ## License
 
 The code is available under the [Apache 2.0 license][license].
