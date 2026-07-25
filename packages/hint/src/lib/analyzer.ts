@@ -15,7 +15,7 @@ import {
 } from './types';
 import { Engine } from './engine';
 import { AnalyzerErrorStatus } from './enums/error-status';
-import { IFormatterConstructor } from './types/formatters';
+
 import { loadResources } from './utils/resource-loader';
 
 import { logger, UserConfig } from '@hint/utils';
@@ -26,13 +26,7 @@ import {
 } from '@hint/utils-fs';
 import { Problem } from '@hint/utils-types';
 
-const initFormatters = (formatters: IFormatterConstructor[]): IFormatter[] => {
-    const result = formatters.map((FormatterConstructor) => {
-        return new FormatterConstructor();
-    });
 
-    return result;
-};
 
 const validateResources = (resources: HintResources) => {
     if (resources.missing.length > 0 || resources.incompatible.length > 0) {
@@ -59,11 +53,23 @@ const validateConnector = (configuration: Configuration) => {
 /**
  * Node API.
  */
+const normalizeFormatterConfigs = (formatters: CreateAnalyzerOptions['formatters'] = []) => {
+    return formatters.map((f) =>
+        typeof f === 'string'
+            ? { name: f, options: {} }
+            : { name: f.name, options: f.options ?? {} }
+    );
+};
+
 export class Analyzer {
     private configuration: Configuration;
     private engine?: Engine;
     private _resources: HintResources;
-    private formatters: IFormatter[];
+    //added this formatEntries
+     private formatterEntries!: Array<{
+        formatter: IFormatter;
+        options: FormatterOptions;
+    }>;
     private watch: boolean | undefined;
     private messages: { [name: string]: string } = {
         'fetch::end': '%url% downloaded',
@@ -76,10 +82,11 @@ export class Analyzer {
         'traverse::up': 'Traversing the DOM'
     }
 
-    private constructor(configuration: Configuration, resources: HintResources, formatters: IFormatter[]) {
+
+    private constructor(configuration: Configuration, resources: HintResources) {
         this.configuration = configuration;
         this._resources = resources;
-        this.formatters = formatters;
+
         this.watch = this.configuration.connector && this.configuration.connector.options && this.configuration.connector.options.watch;
     }
 
@@ -88,28 +95,52 @@ export class Analyzer {
      * @param userConfiguration User configuration to load.
      * @param options Options used to initialize the configuration.
      */
-    public static create(userConfiguration: UserConfig, options: CreateAnalyzerOptions = {}) {
-        let configuration: Configuration;
 
-        if (!userConfiguration) {
-            throw new AnalyzerError('Missed configuration', AnalyzerErrorStatus.ConfigurationError);
-        }
 
-        try {
-            configuration = Configuration.fromConfig(userConfiguration, options);
-        } catch (e) {
-            throw new AnalyzerError(`Invalid configuration. ${(e as Error).message}.`, AnalyzerErrorStatus.ConfigurationError);
-        }
 
-        const resources = loadResources(configuration!);
-        const formatters = initFormatters(resources.formatters);
+   public static create(userConfiguration: UserConfig, options: CreateAnalyzerOptions = {}) {
+    let configuration: Configuration;
 
-        validateResources(resources);
-        validateConnector(configuration);
-        validateHints(configuration);
-
-        return new Analyzer(configuration, resources, formatters);
+    if (!userConfiguration) {
+        throw new AnalyzerError('Missed configuration', AnalyzerErrorStatus.ConfigurationError);
     }
+
+    try {
+        configuration = Configuration.fromConfig(userConfiguration, options);
+    } catch (e) {
+        throw new AnalyzerError(`Invalid configuration. ${(e as Error).message}.`, AnalyzerErrorStatus.ConfigurationError);
+    }
+
+    const normalizedFormatterConfigs = normalizeFormatterConfigs(options.formatters);
+
+    const resources = loadResources(configuration);
+
+
+    const formatterMap = new Map<string, IFormatter>();
+
+
+    const formatterEntries = normalizedFormatterConfigs.map(({ name, options }) => {
+        const formatter = formatterMap.get(name);
+
+        if (!formatter) {
+            throw new AnalyzerError(
+                `Formatter '${name}' was not found.`,
+                AnalyzerErrorStatus.ConfigurationError
+            );
+        }
+
+        return { formatter, options };
+    });
+
+    validateResources(resources);
+    validateConnector(configuration);
+    validateHints(configuration);
+
+    const analyzer = new Analyzer(configuration, resources);
+    analyzer.formatterEntries = formatterEntries;
+
+    return analyzer;
+}
 
     /**
      * Get the configuration file in a given directory.
@@ -262,14 +293,17 @@ export class Analyzer {
      * @param {Problem[]} problems Problems to format.
      * @param {FormatterOptions} options Options for the formatters.
      */
-    public async format(problems: Problem[], options: FormatterOptions = {}): Promise<void> {
-        options.language = options.language || this.configuration.language;
-        options.resources = options.resources || this.resources;
+   public async format(problems: Problem[], options: FormatterOptions = {}): Promise<void> {
+    options.language = options.language || this.configuration.language;
+    options.resources = options.resources || this.resources;
 
-        for (const formatter of this.formatters) {
-            await formatter.format(problems, options);
-        }
+    for (const entry of this.formatterEntries) {
+        await entry.formatter.format(problems, {
+            ...options,
+            ...entry.options
+        });
     }
+}
 
     /**
      * Close the engine if a scan is still in progress.
