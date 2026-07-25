@@ -1,0 +1,18 @@
+{
+    "description": {
+        "description": "Metadata description",
+        "message": "Inform users about improper use of for loop (for..in with an Array/Iterable or for..of with an Object)"
+    },
+    "name": {
+        "description": "Metadata name",
+        "message": "classList.add/remove with leading '.'"
+    },
+    "forOfError": {
+        "description": "Report message when a for..of loop is found in conjunction with an object with enumerable properties",
+        "message": "for..of cannot be used with an object with enumerable properties"
+    },
+    "forOnWarning": {
+        "description": "Report message when a for..in loop is found in conjunction with as array-like object",
+        "message": "for..in with array-like object return the indices of the object, use with caution"
+    }
+}
