@@ -38,6 +38,14 @@ grouped into hints based on their assigned category within `axe-core`.
 See each contained hint for the specific list of enabled rules within
 that group and more information about each rule.
 
+Automated checks do not replace manual testing. For a
+[modal dialog][modal dialog pattern], check that opening it moves focus
+into the dialog, Tab and Shift+Tab do not reach background page content,
+Escape closes it, and closing it returns focus to the trigger or a logical
+next step. With a screen reader, also check the announced dialog name.
+The free [modal accessibility incident overview and evidence][modal incident]
+on FrontendAtlas offers a supplementary example of focus-management failures.
+
 ## Hints
 
 <!-- start hints -->
@@ -170,6 +178,8 @@ your project.
 [axe rules]: https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 [axe.run]: https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#api-name-axerun
 [hintrc]: https://webhint.io/docs/user-guide/configuring-webhint/summary/
+[modal dialog pattern]: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+[modal incident]: https://frontendatlas.com/incidents/modal-screen-reader-failure
 [wai soc]: https://www.w3.org/WAI/bcase/soc
 [wai]: https://www.w3.org/WAI/intro/accessibility.php
 [wcag 2.1]: https://www.w3.org/TR/WCAG21/
