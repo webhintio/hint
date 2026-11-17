@@ -36,9 +36,9 @@ The following sites were used to create this table:
 
 <!-- markdownlint-disable MD034-->
 
-* http://kangax.github.io/compat-table/es5/
-* http://kangax.github.io/compat-table/es6/
-* http://kangax.github.io/compat-table/es2016plus/
+* https://compat-table.github.io/compat-table/es5/
+* https://compat-table.github.io/compat-table/es6/
+* https://compat-table.github.io/compat-table/es2016plus/
 * https://www.chromestatus.com/features#ES6
 * http://2ality.com/2011/02/es5-shim-use-ecmascript-5-in-older.html
 * https://www.chromestatus.com/features#ES6https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/ECMAScript_2015_support_in_Mozilla
